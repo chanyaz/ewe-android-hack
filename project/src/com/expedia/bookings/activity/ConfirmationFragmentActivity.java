@@ -2,7 +2,7 @@ package com.expedia.bookings.activity;
 
 import org.json.JSONObject;
 
-import android.app.ActionBar;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,12 +20,14 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirmationFragmentListener;
+import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.utils.ConfirmationFragmentActivityActionBarHelper;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.mobiata.android.Log;
-import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 
 public class ConfirmationFragmentActivity extends FragmentMapActivity implements BookingConfirmationFragmentListener {
@@ -37,6 +39,10 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
+
+		if (AndroidUtils.isTablet(this)) {
+            setTheme(R.style.Theme_Tablet);
+		}
 
 		if (savedInstanceState == null) {
 			if (ConfirmationUtils.hasSavedConfirmationData(this)) {
@@ -53,14 +59,18 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 				// Start a background thread to save this data to the disk
 				new Thread(new Runnable() {
 					public void run() {
+						Rate discountRate = null;
+						if (Db.getCreateTripResponse() != null) {
+							discountRate = Db.getCreateTripResponse().getNewRate();
+						}
 						ConfirmationUtils.saveConfirmationData(mContext, Db.getSearchParams(),
 								Db.getSelectedProperty(), Db.getSelectedRate(), Db.getBillingInfo(),
-								Db.getBookingResponse());
+								Db.getBookingResponse(), discountRate);
 					}
 				}).start();
 			}
 		}
-		
+
 		// #13365: If the Db expired, finish out of this activity
 		if (Db.getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
@@ -89,12 +99,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 	protected void onStart() {
 		super.onStart();
 
-		// Configure the ActionBar
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
+		configureActionBar();
 	}
 
 	@Override
@@ -103,16 +108,15 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 
 		if (isFinishing()) {
 			Db.setBookingResponse(null);
+			Db.setCouponDiscountRate(null);
 		}
 	}
 
-	@Override
-	public void onBackPressed() {
-		finish();
-		Intent i = new Intent(this, SearchFragmentActivity.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		i.putExtra(Codes.EXTRA_FINISH, true);
-		startActivity(i);
+	@TargetApi(11)
+	private void configureActionBar() {
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			new ConfirmationFragmentActivityActionBarHelper(this).configure();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -122,10 +126,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setHomeButtonEnabled(false);
+		configureActionBar();
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
@@ -176,17 +177,14 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 	//////////////////////////////////////////////////////////////////////////
 	// Actions
 
-	public void newSearch() {
-		Tracker.trackNewSearch(this);
-
-		// Ensure we can't come back here again
-		ConfirmationUtils.deleteSavedConfirmationData(mContext);
-
-		Intent intent = new Intent(mContext, SearchFragmentActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
-		startActivity(intent);
-		finish();
+	/**
+	 * Create an intent to start this activity. It should be started with
+	 * FLAG_ACTIVITY_CLEAR_TASK and FLAG_ACTIVITY_NEW_TASK, so this makes it easy.
+	 */
+	public static Intent createIntent(Context context) {
+		Intent intent = new Intent(context, ConfirmationFragmentActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		return intent;
 	}
 
 	public void showSucceededWithErrorsDialog() {
@@ -197,7 +195,7 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 			String message = getString(R.string.error_booking_succeeded_with_errors, Db.getBookingResponse()
 					.gatherErrorMessage(this));
 
-			SimpleDialogFragment.newInstance(title, message).show(getFragmentManager(), dialogTag);
+			SimpleSupportDialogFragment.newInstance(title, message).show(getSupportFragmentManager(), dialogTag);
 		}
 	}
 
@@ -206,7 +204,29 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 
 	@Override
 	public void onNewSearch() {
-		newSearch();
+		Tracker.trackNewSearch(this);
+
+		// Ensure we can't come back here again
+		ConfirmationUtils.deleteSavedConfirmationData(mContext);
+
+		Intent intent = new Intent(mContext, SearchActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
+		startActivity(intent);
+		finish();
+	}
+
+	@Override
+	public void onShareBooking() {
+		String contactText = ConfirmationUtils.determineContactText(this);
+		ConfirmationUtils.share(this, Db.getSearchParams(), Db.getSelectedProperty(), Db.getBookingResponse(),
+				Db.getBillingInfo(), Db.getSelectedRate(), Db.getCouponDiscountRate(), contactText);
+	}
+
+	@Override
+	public void onShowOnMap() {
+		Tracker.trackViewOnMap(this);
+		startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(Db.getSelectedProperty()));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

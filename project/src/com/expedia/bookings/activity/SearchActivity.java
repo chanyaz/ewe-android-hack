@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.ConfirmationUtils;
+import com.mobiata.android.BackgroundDownloader;
 
 /**
  * This is a routing Activity that points users towards either the phone or
@@ -25,20 +25,31 @@ public class SearchActivity extends Activity {
 
 		// Track the app loading
 		Tracker.trackAppLoading(this);
+		Amobee.trackLaunch();
+
+		// Determine where to route the app
+		Class<? extends Activity> routingTarget;
 
 		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
 		//        then we should forward the user to the ConfirmationActivity
-		boolean hasSavedConfirmationData = ConfirmationUtils.hasSavedConfirmationData(this);
-
-		// Determine where to route the app
-		// #11076 - for Android 3.0, we still use the phone version of the app due to crippling bugs.
-		Class<? extends Activity> routingTarget;
-		if (ExpediaBookingApp.useTabletInterface(this)) {
-			routingTarget = (hasSavedConfirmationData) ? ConfirmationFragmentActivity.class
-					: SearchFragmentActivity.class;
+		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
+			routingTarget = ConfirmationFragmentActivity.class;
 		}
+
+		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
+		else if (BackgroundDownloader.getInstance().isDownloading(BookingInfoActivity.BOOKING_DOWNLOAD_KEY)) {
+			routingTarget = BookingInfoActivity.class;
+		}
+
+		// 13820: Check if a booking is in process at this moment (in case BookingFragmentActivity died)
+		else if (BackgroundDownloader.getInstance().isDownloading(BookingFragmentActivity.BOOKING_DOWNLOAD_KEY)) {
+			routingTarget = BookingFragmentActivity.class;
+		}
+
 		else {
-			routingTarget = (hasSavedConfirmationData) ? ConfirmationActivity.class : PhoneSearchActivity.class;
+			// #11076 - for Android 3.0, we still use the phone version of the app due to crippling bugs.
+			routingTarget = ExpediaBookingApp.useTabletInterface(this) ? SearchFragmentActivity.class
+					: PhoneSearchActivity.class;
 		}
 
 		Intent intent = new Intent(this, routingTarget);

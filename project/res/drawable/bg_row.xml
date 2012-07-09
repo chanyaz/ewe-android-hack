@@ -10,5 +10,5 @@
                 android:endColor="#e3e4e5"
                 android:startColor="#f4f5f5" />
         </shape>
-	</item>
+    </item>
 </selector>

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.SparseIntArray;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -56,7 +57,7 @@ public class LocaleUtils {
 		}
 	};
 
-	private static final Map<Integer, Integer> POINT_OF_SALE_COUNTRY = new HashMap<Integer, Integer>() {
+	private static final SparseIntArray POINT_OF_SALE_COUNTRY = new SparseIntArray() {
 		{
 			put(R.string.point_of_sale_us, R.string.country_us);
 			put(R.string.point_of_sale_uk, R.string.country_gb);
@@ -339,5 +340,14 @@ public class LocaleUtils {
 			Locale loc = new Locale("", ccode);
 			return loc.getISO3Country();
 		}
+	}
+
+	public static boolean shouldDisplayMandatoryFees(Context context) {
+		String pos = getPointOfSale(context);
+		if (pos == null) {
+			return false;
+		}
+		return pos.equals(context.getString(R.string.point_of_sale_it))
+				|| pos.equals(context.getString(R.string.point_of_sale_de));
 	}
 }

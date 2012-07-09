@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -25,6 +26,7 @@ public class GuestsPickerUtils {
 	public static final int MIN_CHILD_AGE = 0;
 	public static final int MAX_CHILD_AGE = 17;
 
+	@TargetApi(11)
 	public static void configureDisplayedValues(Context context, android.widget.NumberPicker adultsNumberPicker,
 			android.widget.NumberPicker childrenNumberPicker) {
 		adultsNumberPicker.setDisplayedValues(getAdultsDisplayedValues(context));
@@ -50,6 +52,7 @@ public class GuestsPickerUtils {
 	}
 
 	// Handles updates to which values are valid in NumberPicker setups
+	@TargetApi(11)
 	public static void updateNumberPickerRanges(android.widget.NumberPicker adultsNumberPicker,
 			android.widget.NumberPicker childrenNumberPicker) {
 		adultsNumberPicker.setMinValue(MIN_ADULTS);

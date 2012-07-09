@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.location.Address;
@@ -31,6 +32,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView.OnSuggestionListener;
@@ -78,6 +81,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
 import com.expedia.bookings.widget.SummarizedRoomRates;
@@ -92,6 +96,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.omniture.AppMeasurement;
 
+@TargetApi(11)
 public class SearchResultsFragmentActivity extends FragmentMapActivity implements LocationListener,
 		OnFilterChangedListener, SortDialogFragmentListener, CalendarDialogFragmentListener,
 		GeocodeDisambiguationDialogFragmentListener, GuestsDialogFragmentListener, HotelDetailsFragmentListener,
@@ -227,7 +232,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 
-		mSearchView = new SearchView(this);
+		mSearchView = new CustomSearchView(this);
 		actionBar.setCustomView(mSearchView);
 		actionBar.setDisplayShowCustomEnabled(true);
 
@@ -263,6 +268,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 				if (hasFocus) {
 					String currQuery = mSearchView.getQuery().toString();
+
 					if (currQuery.equals(getString(R.string.current_location))) {
 						mSearchView.setQuery("", false);
 					}
@@ -271,6 +277,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 						// an autocomplete query.  By doing resetting the query to the blank string, we invoke an 
 						// autocomplete query (even though it seems like this call is completely redundant).
 						mSearchView.setQuery("", false);
+					}
+					else {
+						mSearchView.getQueryTextView().setSelection(currQuery.length());
+						//TODO: mSearchView.getQueryTextView().showDropDown();
 					}
 				}
 				else {
@@ -314,7 +324,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		// onResume() for the compatibility library (otherwise we get state loss errors).
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_GEOCODE)) {
-			bd.registerDownloadCallback(KEY_SEARCH, mGeocodeCallback);
+			bd.registerDownloadCallback(KEY_GEOCODE, mGeocodeCallback);
 		}
 		else if (bd.isDownloading(KEY_SEARCH)) {
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
@@ -389,6 +399,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			// when we get to onResume().
 			clearSearch();
 		}
+		else if (requestCode == REQUEST_CODE_SETTINGS
+				&& resultCode == ExpediaBookingPreferenceActivity.RESULT_POS_CHANGED) {
+			Db.getFilter().addOnFilterChangedListener(this);
+		}
 	}
 
 	@Override
@@ -409,7 +423,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
-	private SearchView mSearchView;
+	private CustomSearchView mSearchView;
 	private MenuItem mGuestsMenuItem;
 	private MenuItem mDatesMenuItem;
 	private MenuItem mFilterMenuItem;
@@ -441,12 +455,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		mFilterMenuItem = menu.findItem(R.id.menu_filter);
 
 		// Use a condensed ActionBar if the screen width is not large enough
-		if (AndroidUtils.getSdkVersion() >= 13) {
-			mUseCondensedActionBar = mResources.getConfiguration().screenWidthDp <= 800;
-		}
-		else {
-			mUseCondensedActionBar = mResources.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-		}
+		mUseCondensedActionBar = LayoutUtils.isScreenNarrow(this);
 
 		if (mUseCondensedActionBar) {
 			mFilterMenuItem.setTitle(R.string.filter);
@@ -651,9 +660,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
 		if (AndroidUtils.getSdkVersion() >= 13) {
-			ft.setCustomAnimations(R.anim.fragment_mini_details_slide_enter,
-					R.anim.fragment_mini_details_slide_exit, R.anim.fragment_mini_details_slide_enter,
-					R.anim.fragment_mini_details_slide_exit);
+			ft.setCustomAnimations(R.anim.fragment_mini_details_slide_enter, R.anim.fragment_mini_details_slide_exit,
+					R.anim.fragment_mini_details_slide_enter, R.anim.fragment_mini_details_slide_exit);
 		}
 		ft.add(R.id.fragment_mini_details, mMiniDetailsFragment, getString(R.string.tag_mini_details));
 		ft.addToBackStack(MINI_DETAILS_PUSH);
@@ -698,8 +706,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	private void showCalendarDialog() {
 		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_calendar_dialog)) == null) {
-			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getSearchParams().getCheckInDate(),
-					Db.getSearchParams().getCheckOutDate());
+			DialogFragment newFragment = CalendarDialogFragment.newInstance(Db.getSearchParams().getCheckInDate(), Db
+					.getSearchParams().getCheckOutDate());
 			newFragment.show(getSupportFragmentManager(), getString(R.string.tag_calendar_dialog));
 		}
 	}
@@ -713,10 +721,12 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	}
 
 	private void showFilterDialog() {
-		FragmentManager fm = getSupportFragmentManager();
-		if (fm.findFragmentByTag(getString(R.string.tag_filter_dialog)) == null) {
-			mFilterDialogFragment = FilterDialogFragment.newInstance();
-			mFilterDialogFragment.show(getSupportFragmentManager(), getString(R.string.tag_filter_dialog));
+		if (Db.getSearchResponse() != null) {
+			FragmentManager fm = getSupportFragmentManager();
+			if (fm.findFragmentByTag(getString(R.string.tag_filter_dialog)) == null) {
+				mFilterDialogFragment = FilterDialogFragment.newInstance();
+				mFilterDialogFragment.show(getSupportFragmentManager(), getString(R.string.tag_filter_dialog));
+			}
 		}
 	}
 
@@ -817,10 +827,12 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		}
 
 		// Determine search type, conduct search
-		switch (Db.getSearchParams().getSearchType()) {
+		SearchParams params = Db.getSearchParams();
+		switch (params.getSearchType()) {
 		case FREEFORM:
-			if (Db.getSearchParams().hasEnoughToSearch()) {
-				setShowDistances(Db.getSearchParams().hasSearchLatLon());
+			if (params.hasEnoughToSearch()) {
+				Search.add(this, params);
+				setShowDistances(params.hasSearchLatLon());
 				startSearchDownloader();
 			}
 			else {
@@ -884,7 +896,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	};
 
 	public void onGeocodeSuccess(Address address) {
-		Db.getSearchParams().setFreeformLocation(address);
+		String formattedAddress = StrUtils.removeUSAFromAddress(address);
+		Db.getSearchParams().setFreeformLocation(formattedAddress);
 		invalidateOptionsMenu();
 
 		setLatLng(address.getLatitude(), address.getLongitude());
@@ -914,11 +927,6 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		// This method essentially signifies that we've found the location to search;
 		// take this opportunity to notify handlers that we know where we're looking.
 		notifySearchLocationFound();
-
-		// Save this as a "recent search" if it is a freeform search
-		if (Db.getSearchParams().getSearchType() == SearchType.FREEFORM) {
-			Search.add(this, Db.getSearchParams());
-		}
 
 		BackgroundDownloader.getInstance().startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
@@ -951,6 +959,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			}
 			else {
 				response.setFilter(Db.getFilter());
+
+				if (initialLoad) {
+					onSortChanged(Sort.DISTANCE);
+				}
 
 				Property[] properties = response.getFilteredAndSortedProperties();
 				if (properties != null && properties.length <= 10) {
@@ -1168,15 +1180,76 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		}
 	};
 
+	/**
+	 * We use the SearchView in this activity to both display the search
+	 * location as well as allow the user to enter a new one. The default
+	 * behavior when calling setQuery is for it to setSelection() on the
+	 * text that we just set (which moves the cursor to the end). In that
+	 * case, the user will usually see the least interesting parts of
+	 * his query (like ..."cisco, California, USA"). We'd rather show the
+	 * beginning of the query instead (like "San Francisco, Califo...").
+	 * But the default SearchView makes this difficult. So we'll just do
+	 * some trickery here to make it possible.
+	 * Related Redmine ticket: #13769
+	 */
+	public class CustomSearchView extends SearchView {
+		private AutoCompleteTextView mQueryTextView = null;
+
+		public CustomSearchView(Context context) {
+			super(context);
+		}
+
+		@Override
+		public void setQuery(CharSequence query, boolean submit) {
+			super.setQuery(query, submit);
+			getQueryTextView();
+			if (mQueryTextView != null) {
+				mQueryTextView.setSelection(0);
+			}
+		}
+
+		// We have to do some trickery here to find the AutoCompleteTextView,
+		// since it's not exposed by the SearchView object. Walk the View
+		// hierarchy, starting with this object, until we find the
+		// AutoCompleteTextView. We know you're there, don't be coy.
+		public AutoCompleteTextView getQueryTextView() {
+			if (mQueryTextView != null) {
+				return mQueryTextView;
+			}
+
+			Queue<View> views = new LinkedList<View>();
+			views.add(this);
+
+			while (!views.isEmpty()) {
+				View v = views.poll();
+				if (v instanceof AutoCompleteTextView) {
+					mQueryTextView = (AutoCompleteTextView) v;
+					return mQueryTextView;
+				}
+				else if (v instanceof ViewGroup) {
+					for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) {
+						views.add(((ViewGroup) v).getChildAt(i));
+					}
+				}
+			}
+
+			return null;
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// OnFilterChangedListener implementation
 
 	@Override
 	public void onFilterChanged() {
-		mHotelListFragment.notifyFilterChanged();
-		mHotelMapFragment.notifyFilterChanged();
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifyFilterChanged();
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifyFilterChanged();
+		}
 
-		if (mFilterDialogFragment != null) {
+		if (mFilterDialogFragment != null && mFilterDialogFragment.isAdded()) {
 			mFilterDialogFragment.notifyFilterChanged();
 		}
 
@@ -1189,28 +1262,48 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	private void setShowDistances(boolean showDistances) {
 		mShowDistances = showDistances;
 
-		mHotelListFragment.setShowDistances(showDistances);
-		mHotelMapFragment.setShowDistances(showDistances);
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.setShowDistances(showDistances);
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.setShowDistances(showDistances);
+		}
 	}
 
 	private void notifySearchStarted() {
-		mHotelListFragment.notifySearchStarted();
-		mHotelMapFragment.notifySearchStarted();
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifySearchStarted();
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifySearchStarted();
+		}
 	}
 
 	private void notifySearchLocationFound() {
-		mHotelMapFragment.notifySearchLocationFound();
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifySearchLocationFound();
+		}
+
+		// TODO: Update autocomplete cursor
+		Search.add(this, Db.getSearchParams());
 	}
 
 	private void notifySearchComplete() {
-		mHotelListFragment.notifySearchComplete();
-		mHotelMapFragment.notifySearchComplete();
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifySearchComplete();
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifySearchComplete();
+		}
 	}
 
 	private void notifyPropertySelected() {
-		mHotelListFragment.notifyPropertySelected();
-		mHotelMapFragment.notifyPropertySelected();
-
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifyPropertySelected();
+		}
+		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifyPropertySelected();
+		}
 		if (mMiniDetailsFragment != null && mMiniDetailsFragment.isAdded()) {
 			mMiniDetailsFragment.notifyPropertySelected();
 		}

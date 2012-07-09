@@ -10,6 +10,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -66,6 +67,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 
+@TargetApi(11)
 public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
 	private static final int NUM_SUGGESTIONS = 5;
@@ -86,13 +88,9 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	private TextView mSuggestionErrorTextView;
 	private TextView mSelectChildAgeTextView;
 	private View mChildAgesLayout;
-	private Button mChildAgesButton;
+	private TextView mChildAgesButton;
 
 	private SearchParamsFragmentListener mListener;
-
-	// #10978: Tracks when an autocomplete row was just clicked, so that we don't
-	// automatically start a new autocomplete query.
-	private boolean mAutocompleteItemClicked = false;
 
 	// #11237: When you register a connectivity receiver, it necessarily fires a
 	// response once.  We only want to listen when connectivity changes *after*
@@ -148,7 +146,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		mSuggestionErrorTextView = (TextView) view.findViewById(R.id.suggestion_error_text_view);
 		mSelectChildAgeTextView = (TextView) view.findViewById(R.id.label_select_each_childs_age);
 		mChildAgesLayout = view.findViewById(R.id.child_ages_layout);
-		mChildAgesButton = (Button) view.findViewById(R.id.child_ages_button);
+		mChildAgesButton = (TextView) view.findViewById(R.id.child_ages_button);
 		mChildAgesButton.addOnLayoutChangeListener(mChildAgesButtonLayoutChangeListener);
 
 		// Need to set temporary max values for number pickers, or updateViews() won't work (since a picker value
@@ -239,8 +237,8 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		// Configure the number pickers
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
-		mAdultsNumberPicker.setOnValueChangedListener(mPersonCountChangeListener);
-		mChildrenNumberPicker.setOnValueChangedListener(mPersonCountChangeListener);
+		mAdultsNumberPicker.setOnValueChangedListener(mAdultCountChangeListener);
+		mChildrenNumberPicker.setOnValueChangedListener(mChildCountChangeListener);
 
 		// Block NumberPickers from being editable
 		mAdultsNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -402,13 +400,24 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	};
 
 	// Configure number pickers to dynamically change the layout on value changes
-	private final OnValueChangeListener mPersonCountChangeListener = new OnValueChangeListener() {
+	private final OnValueChangeListener mAdultCountChangeListener = new OnValueChangeListener() {
+
+		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+			if (!isHidden()) {
+				SearchParams searchParams = Db.getSearchParams();
+				searchParams.setNumAdults(mAdultsNumberPicker.getValue());
+			}
+
+			GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
+		}
+	};
+
+	private final OnValueChangeListener mChildCountChangeListener = new OnValueChangeListener() {
 
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 			if (!isHidden()) {
 				SearchParams searchParams = Db.getSearchParams();
 				List<Integer> children = searchParams.getChildren();
-				searchParams.setNumAdults(mAdultsNumberPicker.getValue());
 				Activity activity = getActivity();
 				GuestsPickerUtils.resizeChildrenList(activity, children, mChildrenNumberPicker.getValue());
 
@@ -416,12 +425,18 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 						searchParams.getNumChildren());
 				mSelectChildAgeTextView.setText(labelSelectEachChildsAge);
 				mChildAgesButton.setText(labelSelectEachChildsAge);
+				mChildAgesButton.requestLayout();
 
 				GuestsPickerUtils.showOrHideChildAgeSpinners(activity, children, mChildAgesLayout,
 						mChildAgeSelectedListener);
 
-				if (children.size() != 0 && mChildAgesButton.getAlpha() == 0) {
-					showChildAgesButton(true);
+				if (children.size() != 0) {
+					if (mChildAgesButton.getAlpha() == 0) {
+						showChildAgesButton(true);
+					}
+					else if (!isChildAgesPopupVisible()) {
+						showChildAgesPopup(true);
+					}
 				}
 				else if (children.size() == 0 && mChildAgesButton.getAlpha() > 0) {
 					hideChildAgesButton(true);
@@ -521,7 +536,6 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			layout.height = height;
 			mChildAgesButton.setLayoutParams(layout);
 			mChildAgesButton.setAlpha(1f);
-			showChildAgesPopup(animated);
 		}
 	}
 
@@ -645,13 +659,12 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		private OnClickListener createRowOnClickListener(final String suggestion, final Search search) {
 			return new OnClickListener() {
 				public void onClick(View v) {
-					mAutocompleteItemClicked = true;
-
-					mLocationEditText.setText(suggestion);
-					mLocationEditText.clearFocus();
+					Db.getSearchParams().setFreeformLocation(suggestion);
 					if (search != null) {
 						Db.getSearchParams().fillFromSearch(search);
 					}
+					mLocationEditText.setText(suggestion);
+					mLocationEditText.clearFocus();
 
 					// Hide the IME
 					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
@@ -767,7 +780,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 				// If we have a query string, kick off a suggestions request
 				// Do it on a delay though - we don't want to update suggestions every time user is edits a single
 				// char on the text. 
-				if (mHasFocusedSearchField && !mAutocompleteItemClicked) {
+				if (mHasFocusedSearchField) {
 					mHandler.removeMessages(WHAT_AUTOCOMPLETE);
 					Message msg = new Message();
 					msg.obj = location;

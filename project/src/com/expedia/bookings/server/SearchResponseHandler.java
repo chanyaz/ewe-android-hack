@@ -246,6 +246,12 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				lowestRate.setNumberOfNights(mNumNights);
 				property.setLowestRate(lowestRate);
 			}
+			else if (name.equals("roomsLeftAtThisRate")) {
+				property.setRoomsLeftAtThisRate(parser.getValueAsInt());
+			}
+			else if (name.equals("isDiscountRestrictedToCurrentSourceType")) {
+				property.setIsLowestRateMobileExclusive(parser.getValueAsBoolean());
+			}
 			else {
 				parser.skipChildren();
 			}

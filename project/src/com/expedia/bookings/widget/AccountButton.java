@@ -2,9 +2,11 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -12,26 +14,37 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
 
-public class AccountButton {
+public class AccountButton extends LinearLayout {
 	private Context mContext;
 	private AccountButtonClickListener mListener;
 
 	private View mAccountLoadingContainer;
 	private View mLoginContainer;
 	private View mLogoutContainer;
-	private View mLoadingSpinner;
+	private View mErrorContainer;
 
-	public AccountButton (Context context, AccountButtonClickListener listener, View rootView) {
+	public AccountButton (Context context, AttributeSet attrs) {
+		super(context, attrs);
 		mContext = context;
-		mListener = listener;
-		mAccountLoadingContainer = rootView.findViewById(R.id.account_loading_container);
-		mLoginContainer = rootView.findViewById(R.id.account_login_container);
-		mLogoutContainer = rootView.findViewById(R.id.account_logout_container);
-		mLoadingSpinner = mAccountLoadingContainer.findViewById(R.id.loading_progress_bar);
+	}
+
+	public AccountButton (Context context) {
+		super(context);
+		mContext = context;
+	}
+
+	@Override
+	protected void onFinishInflate() {
+		mAccountLoadingContainer = findViewById(R.id.account_loading_container);
+		mLoginContainer = findViewById(R.id.account_login_container);
+		mLogoutContainer = findViewById(R.id.account_logout_container);
+		mErrorContainer = findViewById(R.id.error_container);
 
 		final OnClickListener clickListener = new OnClickListener() {
 			public void onClick(View v) {
-				mListener.accountLoginClicked();
+				if (mListener != null) {
+					mListener.accountLoginClicked();
+				}
 			}
 		};
 		View loginButton = (View) mLoginContainer.findViewById(R.id.expedia_account_login);
@@ -42,12 +55,14 @@ public class AccountButton {
 			loginButton.setOnClickListener(clickListener);
 		}
 
-		View logoutButton = mLogoutContainer.findViewById(R.id.logout_button);
-		View loadingLogoutButton = mAccountLoadingContainer.findViewById(R.id.logout_button);
+		View logoutButton = mLogoutContainer.findViewById(R.id.account_logout_logout_button);
+		View loadingLogoutButton = mAccountLoadingContainer.findViewById(R.id.account_loading_logout_button);
 
 		OnClickListener logoutListener = new OnClickListener() {
 			public void onClick(View v) {
-				mListener.accountLogoutClicked();
+				if (mListener != null) {
+					mListener.accountLogoutClicked();
+				}
 			}
 		};
 
@@ -55,18 +70,18 @@ public class AccountButton {
 		loadingLogoutButton.setOnClickListener(logoutListener);
 	}
 
-	public void update(boolean isLoading) {
+	public void setListener(AccountButtonClickListener listener) {
+		mListener = listener;
+	}
+
+	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
+		mErrorContainer.setVisibility(View.GONE);
 		if (isLoading) {
 			mAccountLoadingContainer.setVisibility(View.VISIBLE);
-			mLoadingSpinner.setVisibility(View.VISIBLE);
-			TextView text = (TextView) mAccountLoadingContainer.findViewById(R.id.loading_textview);
-			text.setText(mContext.getString(R.string.logging_in));
-			text.setTextColor(mContext.getResources().getColor(R.color.text_dark));
 			mLoginContainer.setVisibility(View.GONE);
 			mLogoutContainer.setVisibility(View.GONE);
 		}
-		else if (ExpediaServices.isLoggedIn(mContext)) {
-			User u = Db.getUser();
+		else if (isLoggedIn) {
 			ImageView card = (ImageView) mLogoutContainer.findViewById(R.id.card_icon);
 			TextView top = (TextView) mLogoutContainer.findViewById(R.id.account_top_textview);
 			TextView bottom = (TextView) mLogoutContainer.findViewById(R.id.account_bottom_textview);
@@ -94,14 +109,12 @@ public class AccountButton {
 	}
 
 	public void error() {
-		mAccountLoadingContainer.setVisibility(View.VISIBLE);
-		mLoginContainer.setVisibility(View.GONE);
+		mAccountLoadingContainer.setVisibility(View.GONE);
 		mLogoutContainer.setVisibility(View.GONE);
 
-		TextView text = (TextView) mAccountLoadingContainer.findViewById(R.id.loading_textview);
-		text.setText(mContext.getString(R.string.login_failed));
-		text.setTextColor(mContext.getResources().getColor(R.color.holo_red_light));
-		mLoadingSpinner.setVisibility(View.GONE);
+		// Show error and let user re-login easily
+		mErrorContainer.setVisibility(View.VISIBLE);
+		mLoginContainer.setVisibility(View.VISIBLE);
 	}
 
 	public interface AccountButtonClickListener {

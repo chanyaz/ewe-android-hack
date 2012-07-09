@@ -20,6 +20,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
@@ -643,7 +644,7 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 		// Find moment of inertia using I = (1/3) * m * L^2  (this is the moment of inertia equation for a rod of length L and mass m, with the axis of rotation at the end of the rod)
 		mInertia = MASS * LENGTH * LENGTH / 3;
-		mMagnitude = Math.sqrt(mAccelX * mAccelX + mAccelY * mAccelY);
+		mMagnitude = FloatMath.sqrt(mAccelX * mAccelX + mAccelY * mAccelY);
 
 		// Find angle between Position vector and force vector
 		// atan2 produces an angle that is positive for counter-clockwise angles (upper half-plane, y > 0), and negative for clockwise angles (lower half-plane, y < 0)

@@ -1,8 +1,8 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-
-import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -10,16 +10,17 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
@@ -27,26 +28,33 @@ import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.validation.ValidationError;
 
 public class BookingInfoActivity extends FragmentActivity implements BookingFormFragmentListener,
 		SignInFragmentListener {
 
-	private static final String DOWNLOAD_KEY = "com.expedia.bookings.booking";
+	public static final String BOOKING_DOWNLOAD_KEY = BookingInfoActivity.class.getName() + ".BOOKING";
 
 	private static final int DIALOG_CLEAR_PRIVATE_DATA = 4;
+
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 
 	private Context mContext;
 
 	private BookingFormFragment mBookingFragment;
+
+	private long mLastResumeTime = -1;
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -79,10 +87,24 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 	protected void onResume() {
 		super.onResume();
 
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return;
+		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
 		// If we were booking, re-hook the download 
 		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
-		if (downloader.isDownloading(DOWNLOAD_KEY)) {
-			downloader.registerDownloadCallback(DOWNLOAD_KEY, mCheckoutCallback);
+		if (downloader.isDownloading(BOOKING_DOWNLOAD_KEY)) {
+			downloader.registerDownloadCallback(BOOKING_DOWNLOAD_KEY, mCheckoutCallback);
+			showDialog(BookingInfoUtils.DIALOG_BOOKING_PROGRESS);
 		}
 	}
 
@@ -90,7 +112,16 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 	protected void onPause() {
 		super.onPause();
 
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(BOOKING_DOWNLOAD_KEY);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (isFinishing()) {
+			Db.setCreateTripResponse(null);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -134,6 +165,16 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 			ProgressDialog pd = new ProgressDialog(this);
 			pd.setMessage(getString(R.string.booking_loading));
 			pd.setCancelable(false);
+			pd.setOnKeyListener(new OnKeyListener() {
+				@Override
+				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_SEARCH && event.getRepeatCount() == 0) {
+						return true;
+					}
+					return false;
+				}
+			});
+
 			return pd;
 		}
 		case BookingInfoUtils.DIALOG_BOOKING_NULL: {
@@ -186,8 +227,21 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 		@Override
 		public BookingResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
+			String tripId = null;
+			String userId = null;
+			Long tuid = null;
+
+			if (Db.getCreateTripResponse() != null) {
+				tripId = Db.getCreateTripResponse().getTripId();
+				userId = Db.getCreateTripResponse().getUserId();
+			}
+
+			if (Db.getUser() != null) {
+				tuid = Db.getUser().getTuid();
+			}
+
 			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),
-					Db.getBillingInfo());
+					Db.getBillingInfo(), tripId, userId, tuid);
 		}
 	};
 
@@ -208,7 +262,8 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 				showDialog(BookingInfoUtils.DIALOG_BOOKING_ERROR);
 
 				// Highlight erroneous fields, if that exists
-				List<ValidationError> errors = response.checkForInvalidFields(getWindow());
+				List<ValidationError> errors = response.checkForInvalidFields(getWindow(), Db.getBillingInfo()
+						.getStoredCard() != null);
 				if (errors != null && errors.size() > 0) {
 					mBookingFragment.handleFormErrors(errors);
 				}
@@ -217,19 +272,20 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 				return;
 			}
 
-			// TODO: Have ConfirmationActivity rely on Db, instead of filling this intent with everything it needs
-			Intent intent = new Intent(mContext, ConfirmationActivity.class);
-			intent.putExtra(Codes.PROPERTY, Db.getSelectedProperty().toJson().toString());
-			intent.putExtra(Codes.SEARCH_PARAMS, Db.getSearchParams().toJson().toString());
-			intent.putExtra(Codes.RATE, Db.getSelectedRate().toJson().toString());
-			intent.putExtra(Codes.BOOKING_RESPONSE, response.toJson().toString());
+			// Track successful booking with Amobee
+			final String currency = Db.getSelectedRate().getDisplayRate().getCurrency();
+			final Integer duration = Db.getSearchParams().getStayDuration();
+			final Double totalPrice = Db.getSelectedRate().getTotalAmountAfterTax().getAmount();
+			final Integer daysRemaining = (int) ((Db.getSearchParams().getCheckInDate().getTime().getTime() - new Date()
+					.getTime()) / (24 * 60 * 60 * 1000));
 
-			// Create a BillingInfo that lacks the user's security code (for safety)
-			JSONObject billingJson = Db.getBillingInfo().toJson();
-			billingJson.remove("securityCode");
-			intent.putExtra(Codes.BILLING_INFO, billingJson.toString());
+			Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
 
-			startActivity(intent);
+			if (Db.getCreateTripResponse() != null) {
+				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
+			}
+
+			startActivity(ConfirmationFragmentActivity.createIntent(mContext));
 		}
 	};
 
@@ -239,7 +295,7 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 	@Override
 	public void onCheckout() {
 		showDialog(BookingInfoUtils.DIALOG_BOOKING_PROGRESS);
-		BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mCheckoutDownload, mCheckoutCallback);
+		BackgroundDownloader.getInstance().startDownload(BOOKING_DOWNLOAD_KEY, mCheckoutDownload, mCheckoutCallback);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

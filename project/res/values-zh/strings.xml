@@ -1,1039 +1,1070 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<string name="app_name">Expedia</string>
+    <string name="app_name">Expedia</string>
 
-	<!-- Search Fragment -->
-	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">输入搜索位置...</string>
-	<!-- Hint for "search location" field -->
-	<string name="hint_search_location">搜索位置</string>
-	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">正在加载建议...</string>
-	<!-- Label for recent searches user has made -->
-	<string name="recent_searches">最近的搜索</string>
-	<!-- Label for searches that the user can make that are featured -->
-	<string name="featured_destinations">精选目的地</string>
-	<!-- Label for button that starts search -->
-	<string name="search_for_hotels">搜索酒店</string>
-	<!--  Label for picking search location -->
-	<string name="where_are_you_going">您要去&lt;b&gt;哪里&lt;/b&gt;？</string>
-	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;拖动&lt;/b&gt;以延长您的住宿天数。</string>
-	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">有&lt;b&gt;谁&lt;/b&gt;会去呢？</string>
-	<!-- Child age dialog button -->
-	<string name="button_done">完成</string>
-	<!--  Label for child age selection prompt -->
-	<plurals name="select_each_childs_age">
-	    <item quantity="one">选择儿童年龄</item>
-	    <item quantity="two">选择每个儿童的年龄</item>
-	    <item quantity="many">选择每个儿童的年龄</item>
-	    <item quantity="other">选择每个儿童的年龄</item>
-	</plurals>
-	<!--  Title of "select child age" spinner dialog box -->
-	<string name="prompt_select_child_age">选择儿童年龄（%1$s - %2$s）</string>
-	<!--  Text for child's age on search refinements and in spinner -->
-	<plurals name="child_age">
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 岁</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 岁</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 岁</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 岁</item>
-	</plurals>
-	<!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-	<string name="child_age_less_than_one">&lt;b&gt;不到 1&lt;/b&gt; 岁</string>
-	
-	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-	<!-- Suggestion to search Times Square -->
-	<string name="suggestion_times_square">纽约时代广场</string>
-	<string name="suggestion_boston">马萨诸塞州波士顿</string>
-	<string name="suggestion_los_angeles">加利福尼亚州洛杉矶</string>
-	<string name="suggestion_venice">加利福尼亚州威尼斯海滩公园</string>
-	<string name="suggestion_miami">佛罗里达州迈阿密</string>
-	<string name="suggestion_london">英国伦敦</string>
-	<string name="suggestion_las_vegas">内华达州拉斯维加斯</string>
-	<string name="suggestion_paris">法国巴黎</string>
-	<string name="suggestion_minneapolis">明尼苏达州明尼阿波利斯</string>
-	<string name="suggestion_san_francisco">加利福尼亚州旧金山</string>
+    <!-- General -->
+    <!-- Connectivity -->
+    <!-- Dialog Message tell the user that their device has no internet connection -->
+    <string name="dialog_message_no_connection">互联网连接似乎已断开。</string>
 
-	<!-- Search Activity -->
-	<!-- Label for "start search" button -->
-	<string name="search">搜索</string>
-	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
-	    1$ - The search address
-	    2$ - The check-in date
-	    3$ - The check-out date
-	    The dates may include year, if we cross a year boundary 
-	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; 到 &lt;b&gt;%3$s&lt;/b&gt;</string>
-	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
-	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
-	</plurals>
-	<!-- Hint for filtering results by hotel name -->
-	<string name="filter_hotel_name_hint">按酒店名称筛选</string>
-	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">抱歉，没有酒店符合您当前的筛选条件。</string>
-	<!-- Label indicating that geolocation failed -->
-	<string name="geolocation_failed">无法确定搜索位置。</string>
-	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-	<string name="NoGeocodingResults">无法找到位置：%s。 </string>
-	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">您的意思是...</string>
-	<!-- Button label for upgrading the app -->
-	<string name="upgrade">升级</string>
-	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">搜索地图</string>
-	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">正在加载之前的搜索结果...</string>
-	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">“排序：”</string>
-	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;排序方式&lt;/b&gt;：%s</string>
-	<!-- Label for filter hotels button in bottom bar -->
-	<string name="filter_hotels">筛选酒店</string>
-	<!-- A number of results -->
-	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
-	</plurals>
+    <!-- Search Fragment -->
+    <!-- Initial hint for the search location field - invites the user to enter information here -->
+    <string name="enter_search_location">输入搜索位置…</string>
+    <!-- Hint for "search location" field -->
+    <string name="hint_search_location">搜索位置</string>
+    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+    <string name="loading_suggestions">正在加载建议…</string>
+    <!-- Label for recent searches user has made -->
+    <string name="recent_searches">最近的搜索</string>
+    <!-- Label for searches that the user can make that are featured -->
+    <string name="featured_destinations">精选目的地</string>
+    <!-- Label for button that starts search -->
+    <string name="search_for_hotels">搜索酒店</string>
+    <!--  Label for picking search location -->
+    <string name="where_are_you_going">您要去&lt;b&gt;哪里&lt;/b&gt;？</string>
+    <!--  Label for picking checkin/checkout dates -->
+    <string name="drag_to_extend_your_stay">&lt;b&gt;拖动&lt;/b&gt;以延长您的住宿天数。</string>
+    <!--  Label for picking guests for hotel booking -->
+    <string name="who_is_going">有&lt;b&gt;谁&lt;/b&gt;会去呢？</string>
+    <!-- Child age dialog button -->
+    <string name="button_done">完成</string>
+    <!--  Label for child age selection prompt -->
+    <plurals name="select_each_childs_age">
+        <item quantity="one">选择儿童年龄</item>
+        <item quantity="two">选择每个儿童的年龄</item>
+        <item quantity="many">选择每个儿童的年龄</item>
+        <item quantity="other">选择每个儿童的年龄</item>
+    </plurals>
+    <!--  Title of "select child age" spinner dialog box -->
+    <string name="prompt_select_child_age">选择儿童年龄 (%1$s – %2$s)</string>
+    <!--  Text for child's age on search refinements and in spinner -->
+    <plurals name="child_age">
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; 岁</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; 岁</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; 岁</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; 岁</item>
+    </plurals>
+    <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
+    <string name="child_age_less_than_one">&lt;b&gt;不到 1&lt;/b&gt; 岁</string>
 
-	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">若要使用“我的位置”，您必须先在“设置”中开启“位置”服务来源。\n立即进入“设置”并将其开启吗？</string>
-	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">您的位置服务提供商已被禁用。请将其重新启用以搜索您的位置。</string>
-	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">您的位置服务提供商没有服务。请稍后重试。</string>
-	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">您的位置服务提供商暂停服务。请在数分钟后重试。</string>
+    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
+    <!-- Suggestion to search Times Square -->
+    <string name="suggestion_times_square">纽约时代广场</string>
+    <string name="suggestion_boston">马萨诸塞州波士顿</string>
+    <string name="suggestion_los_angeles">加利福尼亚州洛杉矶</string>
+    <string name="suggestion_venice">加利福尼亚州威尼斯海滩公园</string>
+    <string name="suggestion_miami">佛罗里达州迈阿密</string>
+    <string name="suggestion_london">英国伦敦</string>
+    <string name="suggestion_las_vegas">内华达州拉斯维加斯</string>
+    <string name="suggestion_paris">法国巴黎</string>
+    <string name="suggestion_minneapolis">明尼苏达州明尼阿波利斯</string>
+    <string name="suggestion_san_francisco">加利福尼亚州旧金山</string>
 
-	<!-- Sort descriptions, e.g. Sorted by "description" -->
-	<!-- Sort by distance label -->
-	<string name="sort_description_distance">距离</string>
-	<!-- Sort by popularity label -->
-	<string name="sort_description_popular">名气</string>
-	<!-- Sort by price label -->
-	<string name="sort_description_price">价格</string>
-	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">用户评分</string>
-	
-	<!-- Filter option for "show all" -->
-	<string name="all">全部</string>
-	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_cheap">$</string>
-	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_moderate">$$</string>
-	<!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_expensive">$$$</string>
-	<!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_three">3+</string>
-	<!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_four">4+</string>
-	<!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
-	<string name="filter_stars_five">5</string>
-	<!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-	<string name="filter_distance_miles_template">%s 英里</string>
-	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-	<string name="filter_distance_kilometers_template">%s 公里</string>
+    <!-- Search Activity -->
+    <!-- Label for "start search" button -->
+    <string name="search">搜索</string>
+    <!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
+        1$ - The search address
+        2$ - The check-in date
+        3$ - The check-out date
+        The dates may include year, if we cross a year boundary
+    -->
+    <string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; 到 &lt;b&gt;%3$s&lt;/b&gt;</string>
+    <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
+    <plurals name="number_of_matching_hotels">
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; 家酒店符合筛选条件</item>
+    </plurals>
+    <!-- Hint for filtering results by hotel name -->
+    <string name="filter_hotel_name_hint">按酒店名称筛选</string>
+    <!-- Label indicating that there are no results matching their current filter -->
+    <string name="no_filter_results">抱歉，没有酒店符合您当前的筛选条件。</string>
+    <!-- Label indicating that geolocation failed -->
+    <string name="geolocation_failed">无法确定搜索位置。</string>
+    <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
+    <string name="NoGeocodingResults">无法找到位置：%s。 </string>
+    <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
+    <string name="ChooseLocation">您的意思是…</string>
+    <!-- Button label for upgrading the app -->
+    <string name="upgrade">升级</string>
+    <!-- Button label for searching the visible map area -->
+    <string name="map_search_button">搜索地图</string>
+    <!-- Message when app is loading saved search results -->
+    <string name="loading_previous">正在加载之前的搜索结果…</string>
+    <!-- Label for sort hotels button in bottom bar -->
+    <string name="sort_hotels">“排序：”</string>
+    <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
+    <string name="sort_hotels_template">&lt;b&gt;排序方式&lt;/b&gt;：%s</string>
+    <!-- Label for filter hotels button in bottom bar -->
+    <string name="filter_hotels">筛选酒店</string>
+    <!-- A number of results -->
+    <plurals name="number_of_results">
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; 个搜索结果</item>
+    </plurals>
 
-	<!-- Progress messages -->	
-	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">正在查找当前位置...</string>
-	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">正在搜索酒店...</string>
-	<!-- Message displayed when search comes up with zero results -->
-	<string name="progress_search_failed">找不到任何酒店</string>
-	
-	<!-- Suggestion adapter -->
-	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-	<string name="current_location">当前位置</string>
-	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">可见地图区域</string>
+    <!-- Dialog message asking user if they want to enable a location provider. -->
+    <string name="EnableLocationSettings">若要使用“我的位置”，您必须先在“设置”中开启“位置”服务来源。\n立即进入“设置”并将其开启吗？</string>
+    <!-- Message displayed when user has disabled finding the device's location. -->
+    <string name="ProviderDisabled">您的位置服务提供商已被禁用。请将其重新启用以搜索您的位置。</string>
+    <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
+    <string name="ProviderOutOfService">您的位置服务提供商没有服务。请稍后重试。</string>
+    <!-- Message displayed when the location provider is temporarily unavailable. -->
+    <string name="ProviderTemporarilyUnavailable">您的位置服务提供商暂停服务。请在数分钟后重试。</string>
 
-	<!-- Search list adapter -->
-	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">起始价</string>
-	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">起价 &lt;strike&gt;%s&lt;/strike&gt;</string>
-	<!-- The label for price per night - "from $120/night", for example -->
-	<string name="per_night">/晚</string>
-	<!-- Label shown when a hotel has no user ratings -->
-	<string name="not_rated">没有评分</string>
-	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f%% 折扣</string>
+    <!-- Sort descriptions, e.g. Sorted by "description" -->
+    <!-- Sort by distance label -->
+    <string name="sort_description_distance">距离</string>
+    <!-- Sort by popularity label -->
+    <string name="sort_description_popular">名气</string>
+    <!-- Sort by price label -->
+    <string name="sort_description_price">价格</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_rating">用户评分</string>
 
-	<!-- Filter results action bar label -->
-	<string name="filter_results">筛选搜索结果</string>
-	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
-	<string name="filter">筛选</string>
+    <!-- Filter option for "show all" -->
+    <string name="all">全部</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap">$</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate">$$</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_three">3+</string>
+    <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_four">4+</string>
+    <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
+    <string name="filter_stars_five">5</string>
+    <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
+    <string name="filter_distance_miles_template">%s 英里</string>
+    <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
+    <string name="filter_distance_kilometers_template">%s 公里</string>
 
-	<!-- Map -->
-	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">起始价 %s</string>
+    <!-- Progress messages -->
+    <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
+    <string name="progress_finding_location">正在查找当前位置…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels">正在搜索酒店…</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="progress_search_failed">找不到任何酒店</string>
 
-	<!-- Mini-details fragment -->
-	<!-- Label for "see details" button on the mini details fragment -->
-	<string name="see_details">查看详细信息</string>
+    <!-- Suggestion adapter -->
+    <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <string name="current_location">当前位置</string>
+    <!-- Suggestion to search the currently visible map area on the screen -->
+    <string name="visible_map_area">可见地图区域</string>
 
-	<!-- Widget -->
-	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">正在加载酒店...</string>
-	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">节省%2.0f%%</string>
-	<!--  Indicator to user to tap the widget to cause it to refresh -->
-	<string name="refresh_widget">点击刷新</string>
-	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions">点击并按住主屏幕以添加 Hotel Radar 小工具。</string>
-	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">没有网络连接</string>
-	<!--  Widget Branding title -->
-	<string name="hotel_radar">Hotel Radar</string>
-	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">预订今晚的房间。</string>
-	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">添加 Hotel Radar 小工具。</string>
-	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">获取在您附近的酒店每晚优惠信息！</string>
+    <!-- Search list adapter -->
+    <!-- The label for how much hotels cost - "from $120/night", for example -->
+    <string name="from">起始价</string>
+    <!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
+    <string name="from_template">起价 &lt;strike&gt;%s&lt;/strike&gt;</string>
+    <!-- The label for price per night - "from $120/night", for example -->
+    <string name="per_night">/晚</string>
+    <!-- Label shown when a hotel has no user ratings -->
+    <string name="not_rated">没有评分</string>
+    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+    <string name="percent_off_template">%2.0f%% 折扣</string>
 
-	<!-- Hotel Activity -->
-	<!-- Label for button to book the hotel -->
-	<string name="book_now">立即预订</string>
-	<!-- Label for the hotel's star rating -->
-	<string name="star_rating">星级</string>
-	<!--  Title for star rating in hotel description section -->
-	<string name="star_rating_title">星级：</string>
-	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="user_rating">用户评分</string>
-	<!-- Label for the address section of the description  -->
-	<string name="address">地址</string>
-	<!-- Bullet point for list items  -->
-	<string name="bullet_point">•</string>
-	
-	<!--  Hotel Details Fragment -->
-	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">起始价 %s</string>
-	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 起价</string>
-	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">在 %2$d 位宾客中有 %1$d 位推荐此酒店</string>
-	<!--  Title for the amenities section in the hotel details fragment -->
-	<string name="amenities">设施</string>
-	<!--  Label for button to see all reviews as a modal dialog -->
-	<string name="see_all_reviews">查看所有评价</string>
-	<!-- Label for button that brings users to the room selection page -->
-	<string name="select_room">选择房间</string>
+    <!-- Filter results action bar label -->
+    <string name="filter_results">筛选搜索结果</string>
+    <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+    <string name="filter">筛选</string>
 
-	<!-- Amenity strings -->
-	<!-- Text that indicates no amenities at this property -->
-	<string name="AmenityNone">没有提供便利设施</string>
-	<!-- Business center amenity -->
-	<string name="AmenityBusinessCenter">商务中心</string>
-	<!-- Fitness center amenity -->
-	<string name="AmenityFitnessCenter">健身房</string>
-	<!-- Hot tub on-site amenity -->
-	<string name="AmenityHotTub">热浴缸</string>
-	<!-- Internet access amenity -->
-	<string name="AmenityInternet">互联网</string>
-	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">孩童活动</string>
-	<!-- Kitchen/kitchenette amenity -->
-	<string name="AmenityKitchen">厨房</string>
-	<!-- Pets allowed amenity -->
-	<string name="AmenityPetsAllowed">宠物</string>
-	<!-- Pool amenity -->
-	<string name="AmenityPool">泳池</string>
-	<!-- Restaurant on-site amenity -->
-	<string name="AmenityRestaurant">用餐</string>
-	<!-- Spa on-site amenity -->
-	<string name="AmenitySpa">Spa</string>
-	<!-- Whirlpool bath amenity -->
-	<string name="AmenityWhirlpoolBath">漩涡浴</string>
-	<!-- Breakfast amenity -->
-	<string name="AmenityBreakfast">早餐</string>
-	<!-- Babysitting amenity -->
-	<string name="AmenityBabysitting">保姆服务</string>
-	<!-- Jacuzzi amenity -->
-	<string name="AmenityJacuzzi">按摩浴池</string>
-	<!-- Parking amenity -->
-	<string name="AmenityParking">停车处</string>
-	<!-- Room service amenity -->
-	<string name="AmenityRoomService">客房服务</string>
-	<!-- Accessible path of travel amenity -->
-	<string name="AmenityAccessiblePaths">无障碍走道</string>
-	<!-- Accessible bathroom amenity -->
-	<string name="AmenityAccessibleBathroom">无障碍浴室</string>
-	<!-- Roll-in shower amenity -->
-	<string name="AmenityRollInShower">无障碍淋浴间</string>
-	<!-- Handicapped parking amenity -->
-	<string name="AmenityHandicappedParking">无障碍停车位</string>
-	<!-- In-room accessibility amenity -->
-	<string name="AmenityInRoomAccessibility">无障碍客房</string>
-	<!-- Accessibility equipment for the deaf amenity -->
-	<string name="AmenityDeafAccessibilityEquipment">聋人专用设备</string>
-	<!-- Braille or raised signage amenity -->
-	<string name="AmenityBrailleSignage">盲文标志</string>
-	<!-- Free airport shuttle amenity -->
-	<string name="AmenityFreeAirportShuttle">机场接送</string>
-	<!-- Indoor pool amenity -->
-	<string name="AmenityPoolIndoor">室内泳池</string>
-	<!-- Outdoor pool amenity -->
-	<string name="AmenityPoolOutdoor">室外泳池</string>
-	<!-- Extended parking amenity -->
-	<string name="AmenityExtendedParking">延长停车时间</string>
-	<!-- Free parking amenity -->
-	<string name="AmenityFreeParking">免费停车</string>
+    <!-- Map -->
+    <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
+    <string name="map_snippet_price_template">起始价 %s</string>
 
-	<!-- User Reviews list strings -->
-	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">正在加载用户评价...</string>
-	<!-- Header for reviews of the non-native language -->
-	<string name="user_review_other_languages_title">其他语言的评价</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_recent">最近</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_favorable">赞</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">贬</string>
-	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">正在加载更多评价...</string>
-	<!-- Read more of the review -->
-	<string name="user_review_read_more">阅读更多内容</string>
-	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-		1$ represents the number of guests that recommend this hotel
-		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">给予评价的 &lt;b&gt;%2$d&lt;/b&gt; 位宾客中有 &lt;b&gt;%1$d&lt;/b&gt; 位推荐此酒店。 </string>
-	<!-- A number of reviews -->
-	<plurals name="number_of_reviews">
-		<item quantity="zero">%d 条评论</item>
-		<item quantity="one">%d 条评论</item>
-		<item quantity="two">%d 条评论</item>
-		<item quantity="many">%d 条评论</item>
-		<item quantity="other">%d 条评论</item>
-	</plurals>
-	<!-- User review name and place review signature eg (John from San Diego, CA)
-		1$ is the user name
-		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$s来自%2$s</string>
-	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">没有对此酒店的恶评</string>
-	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">没有对此酒店的好评</string>
-	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">最近没有对此酒店的评价</string>
-	<!-- User reviews server/parsing error -->
-	<string name="user_review_unavailable">暂时无法进行评价</string>
-	
-	<!-- Room and rates list -->
-	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-	<plurals name="staying_nights">
-		<item quantity="zero">住宿 %d 晚</item>
-		<item quantity="one">住宿 %d 晚</item>
-		<item quantity="two">住宿 %d 晚</item>
-		<item quantity="many">住宿 %d 晚</item>
-		<item quantity="other">住宿 %d 晚</item>
-	</plurals>
-	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">正在查找空房...</string>
-	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">无法下载客房与价格信息。请检查您的网络连接情况并重试。</string>
-	<!-- Rate price displayed "per night" -->
-	<string name="rate_per_night">每晚</string>
-	<!-- Rate price displayed "average per night" -->
-	<string name="rate_avg_per_night">每晚平均价</string>
-	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-	<plurals name="number_of_rooms_left">
-		<item quantity="zero">没房了！</item>
-		<item quantity="one">只剩 1 间房了！</item>
-		<item quantity="two">只剩 %d 间房了！</item>
-		<item quantity="many">只剩 %d 间房了！</item>
-		<item quantity="other">只剩 %d 间房了！</item>
-	</plurals>
+    <!-- Mini-details fragment -->
+    <!-- Label for "see details" button on the mini details fragment -->
+    <string name="see_details">查看详细信息</string>
+
+    <!-- Widget -->
+    <!--  Default Loading message for widget -->
+    <string name="loading_hotels">正在加载酒店…</string>
+    <!--  Template for sale element in widget. The parameter is for the sale % -->
+    <string name="widget_savings_template">节省%2.0f%%</string>
+    <!--  Indicator to user to tap the widget to cause it to refresh -->
+    <string name="refresh_widget">点击刷新</string>
+    <!--  Instructions on how to add widget to home screen -->
+    <string name="widget_add_instructions">点击并按住主屏幕以添加 Hotel Radar 小工具。</string>
+    <!--  Error string for widget when internet connection is unavailable -->
+    <string name="widget_error_no_internet">没有网络连接</string>
+    <!--  Widget Branding title -->
+    <string name="hotel_radar">Hotel Radar</string>
+    <!--  Widget Branding description -->
+    <string name="book_a_room_tonight">预订今晚的房间。</string>
+    <!--  First string for widget upsell within app as a notification in the top bar -->
+    <string name="widget_upsell_short_1">添加 Hotel Radar 小工具。</string>
+    <!--  Second string for widget upsell within app as a notification in the app bar -->
+    <string name="widget_upsell_short_2">获取在您附近的酒店每晚优惠信息！</string>
+
+    <!-- Hotel Activity -->
+    <!-- Label for button to book the hotel -->
+    <string name="book_now">立即预订</string>
+    <!-- Label for the hotel's star rating -->
+    <string name="star_rating">星级</string>
+    <!--  Title for star rating in hotel description section -->
+    <string name="star_rating_title">星级：</string>
+    <!-- Label for the hotel's trip advisor rating  -->
+    <string name="user_rating">用户评分</string>
+    <!-- Label for the address section of the description  -->
+    <string name="address">地址</string>
+    <!-- Bullet point for list items  -->
+    <string name="bullet_point">•</string>
+
+    <!--  Hotel Details Fragment -->
+    <!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
+    <string name="min_room_price_template">起始价 %s</string>
+    <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
+    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 起价</string>
+    <!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel -->
+    <string name="reviews_recommended_template">在 %2$d 位宾客中有 %1$d 位推荐此酒店</string>
+    <!--  Title for the amenities section in the hotel details fragment -->
+    <string name="amenities">设施</string>
+    <!--  Label for button to see all reviews as a modal dialog -->
+    <string name="see_all_reviews">查看所有评价</string>
+    <!-- Label for button that brings users to the room selection page -->
+    <string name="select_room">选择房间</string>
+
+    <!-- Amenity strings -->
+    <!-- Text that indicates no amenities at this property -->
+    <string name="AmenityNone">没有提供便利设施</string>
+    <!-- Business center amenity -->
+    <string name="AmenityBusinessCenter">商务中心</string>
+    <!-- Fitness center amenity -->
+    <string name="AmenityFitnessCenter">健身房</string>
+    <!-- Hot tub on-site amenity -->
+    <string name="AmenityHotTub">热浴缸</string>
+    <!-- Internet access amenity -->
+    <string name="AmenityInternet">互联网</string>
+    <!-- Kids' activities amenity -->
+    <string name="AmenityKidsActivities">孩童活动</string>
+    <!-- Kitchen/kitchenette amenity -->
+    <string name="AmenityKitchen">厨房</string>
+    <!-- Pets allowed amenity -->
+    <string name="AmenityPetsAllowed">宠物</string>
+    <!-- Pool amenity -->
+    <string name="AmenityPool">泳池</string>
+    <!-- Restaurant on-site amenity -->
+    <string name="AmenityRestaurant">用餐</string>
+    <!-- Spa on-site amenity -->
+    <string name="AmenitySpa">Spa</string>
+    <!-- Whirlpool bath amenity -->
+    <string name="AmenityWhirlpoolBath">漩涡浴</string>
+    <!-- Breakfast amenity -->
+    <string name="AmenityBreakfast">早餐</string>
+    <!-- Babysitting amenity -->
+    <string name="AmenityBabysitting">保姆服务</string>
+    <!-- Jacuzzi amenity -->
+    <string name="AmenityJacuzzi">按摩浴池</string>
+    <!-- Parking amenity -->
+    <string name="AmenityParking">停车处</string>
+    <!-- Room service amenity -->
+    <string name="AmenityRoomService">客房服务</string>
+    <!-- Accessible path of travel amenity -->
+    <string name="AmenityAccessiblePaths">无障碍走道</string>
+    <!-- Accessible bathroom amenity -->
+    <string name="AmenityAccessibleBathroom">无障碍浴室</string>
+    <!-- Roll-in shower amenity -->
+    <string name="AmenityRollInShower">无障碍淋浴间</string>
+    <!-- Handicapped parking amenity -->
+    <string name="AmenityHandicappedParking">无障碍停车位</string>
+    <!-- In-room accessibility amenity -->
+    <string name="AmenityInRoomAccessibility">无障碍客房</string>
+    <!-- Accessibility equipment for the deaf amenity -->
+    <string name="AmenityDeafAccessibilityEquipment">聋人专用设备</string>
+    <!-- Braille or raised signage amenity -->
+    <string name="AmenityBrailleSignage">盲文标志</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="AmenityFreeAirportShuttle">机场接送</string>
+    <!-- Indoor pool amenity -->
+    <string name="AmenityPoolIndoor">室内泳池</string>
+    <!-- Outdoor pool amenity -->
+    <string name="AmenityPoolOutdoor">室外泳池</string>
+    <!-- Extended parking amenity -->
+    <string name="AmenityExtendedParking">延长停车时间</string>
+    <!-- Free parking amenity -->
+    <string name="AmenityFreeParking">免费停车</string>
+
+    <!-- User Reviews list strings -->
+    <!-- Loading text prompt -->
+    <string name="user_review_loading_text">正在加载用户评价…</string>
+    <!-- Header for reviews of the non-native language -->
+    <string name="user_review_other_languages_title">其他语言的评价</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_recent">最近</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_favorable">赞</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_critical">贬</string>
+    <!-- Loading more reviews -->
+    <string name="user_review_loading_more_reviews">正在加载更多评价…</string>
+    <!-- Read more of the review -->
+    <string name="user_review_read_more">阅读更多内容</string>
+    <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
+        1$ represents the number of guests that recommend this hotel
+        2$ represents the total number of guests  -->
+    <string name="user_review_recommendation_tag_text">给予评价的 &lt;b&gt;%2$d&lt;/b&gt; 位宾客中有 &lt;b&gt;%1$d&lt;/b&gt; 位推荐此酒店。 </string>
+    <!-- A number of reviews -->
+    <plurals name="number_of_reviews">
+        <item quantity="zero">%d 条评论</item>
+        <item quantity="one">%d 条评论</item>
+        <item quantity="two">%d 条评论</item>
+        <item quantity="many">%d 条评论</item>
+        <item quantity="other">%d 条评论</item>
+    </plurals>
+    <!-- User review name and place review signature eg (John from San Diego, CA)
+        1$ is the user name
+        2$ is the place they are from -->
+    <string name="user_review_name_and_location_signature">%1$s来自%2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">没有对此酒店的恶评</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">没有对此酒店的好评</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">最近没有对此酒店的评价</string>
+    <!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">暂时无法进行评价</string>
+
+    <!-- Room and rates list -->
+    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+    <plurals name="staying_nights">
+        <item quantity="zero">住宿 %d 晚</item>
+        <item quantity="one">住宿 %d 晚</item>
+        <item quantity="two">住宿 %d 晚</item>
+        <item quantity="many">住宿 %d 晚</item>
+        <item quantity="other">住宿 %d 晚</item>
+    </plurals>
+    <!-- Loading message for rooms & rates -->
+    <string name="room_rates_loading">正在查找空房…</string>
+    <!-- Error message (no response) for not being able to download room and rates information -->
+    <string name="error_no_response_room_rates">无法下载客房与价格信息。请检查您的网络连接情况并重试。</string>
+    <!-- Rate price displayed "per night" -->
+    <string name="rate_per_night">每晚</string>
+    <!-- Rate price displayed "average per night" -->
+    <string name="rate_avg_per_night">每晚平均价</string>
+    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
+    <plurals name="number_of_rooms_left">
+        <item quantity="zero">没房了！</item>
+        <item quantity="one">只剩 1 间房了！</item>
+        <item quantity="two">只剩 %d 间房了！</item>
+        <item quantity="many">只剩 %d 间房了！</item>
+        <item quantity="other">只剩 %d 间房了！</item>
+    </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">不可退款</string>
-	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">节省\n %2.0f%%</string>
-	<!-- Label for free nights -->
-	<string name="free">免费！</string>
-	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-	<string name="value_add_template">包含%s</string>
-	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">所有客房包含%s</string>
-	<!--  Instruction as the header of the list to select a room from the list -->
-	<string name="select_a_room_instruction">选择一间房</string>
-	
-	<!-- Gallery -->
-	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-	<string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt;的照片</string>
-	    
-	<!-- Booking info -->
-	<!-- edit label -->
-	<string name="edit">编辑</string>
-	<!-- Label for room type -->
-	<string name="room_type">客房类型</string>
-	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">很抱歉，我们无法加载客房详情，请检查您的网络连接情况并重试。</string>
-	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">很抱歉，我们无法找到此客房的其他详细说明。</string>
-	<!-- Label for bed type -->
-	<string name="bed_type">床铺类型</string>
-	<!-- Label for length of stay -->
-	<string name="stay_duration">住宿天数</string>
-	<!-- Quantity for the length of stay -->
-	<plurals name="length_of_stay">
-		<item quantity="one">1 晚</item>
-		<item quantity="other">%d 晚</item>
-	</plurals>
-	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-	<string name="room_rate_template">客房价格 %s</string>
-	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">加人费用</string>
-	<!-- Label for total cost of hotel stay -->
-	<string name="total_cost">总额</string>
-	<!-- Label for "guest info" form field section -->
-	<string name="guest_info">宾客信息</string>
-	<!-- The "first name" booking info field.  -->
-	<string name="FirstName">名</string>
-	<!-- The "last name" booking info field.  -->
-	<string name="LastName">姓</string>
-	<!-- Hint for "telephone country code" field (e.g., "+44") -->
-	<string name="hint_telephone_country_code">##</string>
-	<!-- The "telephone" booking info field.  -->
-	<string name="Telephone">电话</string>
-	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">确认电子邮件</string>
-	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">帐单信息</string>
-	<!-- Address line 1 form field hint -->
-	<string name="hint_address1">地址 1</string>
-	<!-- Address line 2 form field hint -->
-	<string name="hint_address2">地址 2（可选）</string>
-	<!-- The "city" booking info field.  -->
-	<string name="City">城市</string>
-	<!-- The "postal code" booking info field.  -->
-	<string name="PostalCode">邮政编码</string>
-	<!-- State code hint -->
-	<string name="hint_state_code">省</string>
-	<!-- Label for "credit card info" form field section -->
-	<string name="credit_card_info">信用卡信息</string>
-	<!-- Label for credit card selection box -->
-	<string name="saved_cards">已保存的信用卡</string>
-	<!-- Label for entering new credit card information -->
-	<string name="enter_a_new_card">输入新信用卡</string>
-	<!-- Card number form field hint -->
-	<string name="hint_card_number">卡号</string>
-	<!-- Card expiration month form field hint -->
-	<string name="hint_expiration_month">月</string>
-	<!-- Card expiration year form field hint -->
-	<string name="hint_expiration_year">年</string>
-	<!-- Security code label -->
-	<string name="security_code">安全验证码</string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_front">请查看信用卡正面</string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_back">请查看信用卡背面</string>
-	<!-- Rules & restrictions section header -->
-	<string name="rules_restrictions">规则与限制</string>
-	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">如果您具有 Expedia Rewards 帐户，请使用相同的电子邮件地址进行预订，在您住宿后，您的积分将自动过帐。请注意，可能最多需要 30 天才能显示您的积分。</string>
-	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">输入预订信息</string>
-	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">您的信用卡将被支取 %s</string>
-	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">确认并预订</string>
-	<!-- Label for clearing private data -->
-	<string name="clear_private_data">清除隐私数据</string>
-	<!-- Title for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_title">清除隐私数据吗？</string>
-	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">系统会删除保存的所有帐单信息和联系信息。</string>
-	<!-- Title for dialog after private data has been cleared -->
-	<string name="toast_private_data_cleared">隐私数据已清除</string>
-	<!-- Error message if field was required but not entered -->
-	<string name="required_field">请在此字段中输入一个值。</string>
-	<!-- Error message if field had data entered but was invalid -->
-	<string name="invalid_field">请在此字段中输入一个有效值。</string>
-	<!-- Error if an invalid card number was entered -->
-	<string name="invalid_card_number">您输入的信用卡号无效，请重试。</string>
-	<!-- Error if an invalid credit card type was entered -->
-	<string name="invalid_card_type">我们无法检测到您的信用卡类型，请输入有效的信用卡。</string>
-	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">请输入 1 至 12 之间的值</string>
-	<!-- Error if an invalid year was entered -->
-	<string name="invalid_expiration_year">请输入尚未过去的年份</string>
-	<!-- Error if an invalid security code was entered -->
-	<string name="invalid_security_code">请输入 3 位数或 4 位数的安全验证码</string>
-	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">抱歉，American Express 不支持使用此货币（%s）的付费。请使用其他信用卡。</string>
-	<!-- Error if user agreement needs to be checked but is not -->
-	<string name="error_no_user_agreement">您必须接受预订条款</string>
-	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">正在预订...</string>
-	<!-- Title for error dialog when booking fails -->
-	<string name="error_booking_title">错误</string>
-	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">无法连接到 Expedia 服务器。请检查您的网络连接情况并重试。</string>
-	<!-- Error message when booking completed with errors -->
-	<string name="error_booking_succeeded_with_errors">您的酒店客房已被预订并保留。然而，出现以下错误：%s</string>
-	<!-- Error message when booking completed with errors - specifically if email was not sent -->
-	<string name="error_unable_to_send_email">我们无法发送确认电子邮件。</string>
-	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s，%2$s</string>
-	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
-	<string name="enter_booking_info">输入预订信息</string>
-	<!--  Title for action bar when the user is on the booking info screen -->
-	<string name="booking_information_title">预订信息</string>
-	<!-- Title for dialog where the user is prompted to enter booking booking information -->
-	<string name="booking_information_dialog_title">完成您的预订</string>
-	
-	<!-- Confirmation activity -->
-	<!-- Format for a first/last name -->
-	<string name="name_template">%1$s %2$s</string>
-	<!-- Reservation summary label -->
-	<string name="reservation_summary">预订概要</string>
-	<!-- Confirmation number label -->
-	<string name="confirmation_number">确认号码</string>
-	<!-- Itinerary number label -->
-	<string name="itinerary_number">行程编号</string>
-	<!-- Confirmation email label -->
-	<string name="confirmation_email">确认电子邮件</string>
-	<!-- Label for starting a new search -->
-	<string name="new_search">新的搜索</string>
-	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">如果您对预订有任何问题，请致电 %s 与 Expedia 联系。</string>
+    <!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
+    <string name="savings_template">节省\n %2.0f%%</string>
+    <!-- Label for free nights -->
+    <string name="free">免费！</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">包含%s</string>
+    <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
+    <string name="common_value_add_template">所有客房包含%s</string>
+    <!--  Instruction as the header of the list to select a room from the list -->
+    <string name="select_a_room_instruction">选择一间房</string>
 
-	<!--  Confirmation Fragment -->
-	<!-- Label to share booking information after a booking confirmation -->
-	<string name="share_booking_info">分享预订信息</string>
-	<!-- Label to start a new search from a confirmation screen  -->
-	<string name="start_new_search">开始新的搜索</string>
-	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-	<string name="show_on_map">在地图上查看</string>
-	
-	<!-- Rate template strings -->
-	<!-- Label for the number of guests the booking is for. -->
-	<string name="GuestsLabel">宾客</string>
-	<!-- Label for the taxes & fees for this booking. -->
-	<string name="TaxesAndFees">税款与服务费</string>
-	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
-	<string name="MandatoryFees">酒店费用（在酒店付款）</string>
-	<!-- Label for the rate per room per night. -->
-	<string name="RatePerRoomPerNight">每间房的每晚价格</string>
-	<!-- Label for the total cost of the booking. -->
-	<string name="Total">总额</string>
-	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-	<string name="PayToExpedia">付款给 Expedia</string>
-	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
-	<string name="CheckIn">入住</string>
-	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-	<string name="CheckOut">退房</string>
+    <!-- Gallery -->
+    <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+    <string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt;的照片</string>
 
-	<!-- Expedia policy strings -->
-	<!-- Policy displayed to user when an immediate charge is required -->
-	<string name="PolicyImmediateChargeRequired">在预订时，将从您的信用卡中立即扣除预订的全额费用。</string>
-	<!-- Policy displayed to user when the room is non-refundable -->
-	<string name="PolicyNonRefundable">我们正提供此酒店的特低客房价格。为了这么做，我们必须将此预订规定为不可退款。如果您选择取消此预订，您将不会获得所付费用的任何退款。</string>
-	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">将从您的信用卡中扣除预订押金。当您确定预订时，酒店将直接从您的信用卡中扣除金额。</string>
-	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">我们需要您的信用卡信息以保证您的预订。将不会从您的信用卡中扣除费用，直到您抵达酒店后或取消截止日期已过。</string>
-	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">继续此预订，表示您同意接受所有条款和条件，包括取消政策和所有在用户协议中包含的条款和条件。\n\n您同意支付预订所需费用。如果您不支付这笔欠款，而需通过收帐公司、律师或任何其他法律途径追收这笔款项，您同意支付所有合理的费用，包括由此收帐程序所产生的律师费和诉讼费。</string>
-	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">您正预订一家无折扣的酒店。所有显示的价格按每晚计算，并根据每间房两人入住的费用，除非另有说明。请仔细检查客房描述和价格条规，以确保您选择的客房可容纳您的所有同行者。一些价格可能需要特别的身份证明才能享有。我们的预订费用、税款和其他由酒店收取的附加费不包含在内。任何超过客房所列入住人数的额外成人或儿童宾客可能需要支付额外费用，由酒店方面决定。\n\n对于两人以上或超过您所选价格指定人数的入住要求，我们将转达给酒店，但不保证结果。如果酒店方面接受要求，酒店有权决定是否收取额外费用。</string>
+    <!-- Booking info -->
+    <!-- edit label -->
+    <string name="edit">编辑</string>
+    <!-- Label for room type -->
+    <string name="room_type">客房类型</string>
+    <!-- Error if we couldn't load the room type details -->
+    <string name="error_room_type_load">很抱歉，我们无法加载客房详情，请检查您的网络连接情况并重试。</string>
+    <!-- Error if we couldn't find the room type details -->
+    <string name="error_room_type_nonexistant">很抱歉，我们无法找到此客房的其他详细说明。</string>
+    <!-- Label for bed type -->
+    <string name="bed_type">床铺类型</string>
+    <!-- Label for length of stay -->
+    <string name="stay_duration">住宿天数</string>
+    <!-- Quantity for the length of stay -->
+    <plurals name="length_of_stay">
+        <item quantity="one">1 晚</item>
+        <item quantity="other">%d 晚</item>
+    </plurals>
+    <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
+    <string name="room_rate_template">客房价格 %s</string>
+    <!-- Label for the extra guest charge -->
+    <string name="extra_guest_charge">加人费用</string>
+    <!-- Label for total cost of hotel stay -->
+    <string name="total_cost">总额</string>
+    <!-- Label for "guest info" form field section -->
+    <string name="guest_info">宾客信息</string>
+    <!-- The "first name" booking info field.  -->
+    <string name="FirstName">名</string>
+    <!-- The "last name" booking info field.  -->
+    <string name="LastName">姓</string>
+    <!-- Hint for "telephone country code" field (e.g., "+44") -->
+    <string name="hint_telephone_country_code">##</string>
+    <!-- The "telephone" booking info field.  -->
+    <string name="Telephone">电话</string>
+    <!-- The "email for booking confirmation" booking info field.  -->
+    <string name="EmailForConf">确认电子邮件</string>
+    <!-- Label for "billing info" form field section -->
+    <string name="billing_info">帐单信息</string>
+    <!-- Address line 1 form field hint -->
+    <string name="hint_address1">地址 1</string>
+    <!-- Address line 2 form field hint -->
+    <string name="hint_address2">地址 2（可选）</string>
+    <!-- The "city" booking info field.  -->
+    <string name="City">城市</string>
+    <!-- The "postal code" booking info field.  -->
+    <string name="PostalCode">邮政编码</string>
+    <!-- State code hint -->
+    <string name="hint_state_code">省</string>
+    <!-- Label for "credit card info" form field section -->
+    <string name="credit_card_info">信用卡信息</string>
+    <!-- Label for credit card selection box -->
+    <string name="saved_cards">已保存的信用卡</string>
+    <!-- Label for entering new credit card information -->
+    <string name="enter_a_new_card">输入新信用卡</string>
+    <!-- Card number form field hint -->
+    <string name="hint_card_number">卡号</string>
+    <!-- Card expiration month form field hint -->
+    <string name="hint_expiration_month">月</string>
+    <!-- Card expiration year form field hint -->
+    <string name="hint_expiration_year">年</string>
+    <!-- Security code label -->
+    <string name="security_code">安全验证码</string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_front">请查看信用卡正面</string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_back">请查看信用卡背面</string>
+    <!-- Rules & restrictions section header -->
+    <string name="rules_restrictions">规则与限制</string>
+    <!-- Disclaimer about how to earn expedia points -->
+    <string name="disclaimer_expedia_points">如果您具有 Expedia Rewards 帐户，请使用相同的电子邮件地址进行预订，在您住宿后，您的积分将自动过帐。请注意，可能最多需要 30 天才能显示您的积分。</string>
+    <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
+    <string name="EnterBookingInfo">输入预订信息</string>
+    <!-- Message at the bottom of the booking screen with how much you will be charged -->
+    <string name="charge_details_template">您的信用卡将被支取 %s</string>
+    <!-- Button label for confirming your booking -->
+    <string name="confirm_book">确认并预订</string>
+    <!-- Label for clearing private data -->
+    <string name="clear_private_data">清除隐私数据</string>
+    <!-- Title for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_title">清除隐私数据吗？</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_msg">系统会删除保存的所有帐单信息和联系信息。</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_log_out_and_clear_private_data_msg">此操作将退出账户并删除所有以保存的付费和联系信息。</string>
+    <!-- Title for dialog after private data has been cleared -->
+    <string name="toast_private_data_cleared">隐私数据已清除</string>
+    <!-- Error message if field was required but not entered -->
+    <string name="required_field">请在此字段中输入一个值。</string>
+    <!-- Error message if field had data entered but was invalid -->
+    <string name="invalid_field">请在此字段中输入一个有效值。</string>
+    <!-- Error if an invalid card number was entered -->
+    <string name="invalid_card_number">您输入的信用卡号无效，请重试。</string>
+    <!-- Error if an invalid credit card type was entered -->
+    <string name="invalid_card_type">我们无法检测到您的信用卡类型，请输入有效的信用卡。</string>
+    <!-- Error if an invalid month (not 1-12) was entered -->
+    <string name="invalid_month">请输入 1 至 12 之间的值</string>
+    <!-- Error if an invalid year was entered -->
+    <string name="invalid_expiration_year">请输入尚未过去的年份</string>
+    <!-- Error if an invalid security code was entered -->
+    <string name="invalid_security_code">请输入 3 位数或 4 位数的安全验证码</string>
+    <!-- Error if an invalid currency code is being used with American Express -->
+    <string name="invalid_currency_for_amex">抱歉，American Express 不支持使用此货币（%s）的付费。请使用其他信用卡。</string>
+    <!-- Error if user agreement needs to be checked but is not -->
+    <string name="error_no_user_agreement">您必须接受预订条款</string>
+    <!-- Message to display to user while booking is in progress -->
+    <string name="booking_loading">正在预订…</string>
+    <!-- Title for error dialog when booking fails -->
+    <string name="error_booking_title">错误</string>
+    <!-- Error message when we couldn't get a response -->
+    <string name="error_booking_null">无法连接到 Expedia 服务器。请检查您的网络连接情况并重试。</string>
+    <!-- Error message when booking completed with errors -->
+    <string name="error_booking_succeeded_with_errors">您的酒店客房已被预订并保留。然而，出现以下错误：%s</string>
+    <!-- Error message when booking completed with errors - specifically if email was not sent -->
+    <string name="error_unable_to_send_email">我们无法发送确认电子邮件。</string>
+    <!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
+    <string name="check_in_out_time_template">%1$s，%2$s</string>
+    <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
+    <string name="enter_booking_info">输入预订信息</string>
+    <!--  Title for action bar when the user is on the booking info screen -->
+    <string name="booking_information_title">预订信息</string>
+    <!-- Title for dialog where the user is prompted to enter booking booking information -->
+    <string name="booking_information_dialog_title">完成您的预订</string>
 
-	<!-- Expedia Accounts -->
-	<!-- Label for menu item to log into account -->
-	<string name="log_in_to_expedia">登录 Expedia</string>
-	<!-- Hint for user to enter password into a field -->
-	<string name="hint_password">密码</string>
-	<!-- Progress dialog text when we are logging the user into Expedia -->
-	<string name="logging_in">正在登录...</string>
-	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">成功！现在您已经登录。</string>
-	<!-- Label for login widget button -->
-	<string name="account_login">账户登录</string>
-	<!-- Label for login widget additional text -->
-	<string name="log_in_for_faster_booking">登录后可加快预订速度。</string>
-	<!-- Label for account status -->
-	<string name="enrolled_in_expedia_rewards">参加 Expedia Rewards 计划\u2122</string>
-	<!-- Label for account name -->
-	<string name="logged_in_as">登录身份</string>
-	<!-- Label for account name -->
+    <!-- Confirmation activity -->
+    <!-- Format for a first/last name -->
+    <string name="name_template">%1$s %2$s</string>
+    <!-- Reservation summary label -->
+    <string name="reservation_summary">预订概要</string>
+    <!-- Confirmation number label -->
+    <string name="confirmation_number">确认号码</string>
+    <!-- Itinerary number label -->
+    <string name="itinerary_number">行程编号</string>
+    <!-- Confirmation email label -->
+    <string name="confirmation_email">确认电子邮件</string>
+    <!-- Label for starting a new search -->
+    <string name="new_search">新的搜索</string>
+    <!-- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template">如果您对预订有任何问题，请致电 %s 与 Expedia 联系。</string>
+
+    <!--  Confirmation Fragment -->
+    <!-- Label to share booking information after a booking confirmation -->
+    <string name="share_booking_info">分享预订信息</string>
+    <!-- Label to start a new search from a confirmation screen  -->
+    <string name="start_new_search">开始新的搜索</string>
+    <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
+    <string name="show_on_map">在地图上查看</string>
+
+    <!-- Rate template strings -->
+    <!-- Label for the number of guests the booking is for. -->
+    <string name="GuestsLabel">宾客</string>
+    <!-- Label for the taxes & fees for this booking. -->
+    <string name="TaxesAndFees">税款与服务费</string>
+    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <string name="MandatoryFees">酒店费用（在酒店付款）</string>
+    <!-- Label for the rate per room per night. -->
+    <string name="RatePerRoomPerNight">每间房的每晚价格</string>
+    <!-- Label for the total cost of the booking. -->
+    <string name="Total">总额</string>
+    <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+    <string name="PayToExpedia">付款给 Expedia</string>
+    <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
+    <string name="CheckIn">入住</string>
+    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
+    <string name="CheckOut">退房</string>
+    <!-- Label to display the amount you save after applying a coupon code in the receipt -->
+    <string name="discount">折扣</string>
+
+    <!-- Expedia policy strings -->
+    <!-- Policy displayed to user when an immediate charge is required -->
+    <string name="PolicyImmediateChargeRequired">在预订时，将从您的信用卡中立即扣除预订的全额费用。</string>
+    <!-- Policy displayed to user when the room is non-refundable -->
+    <string name="PolicyNonRefundable">我们正提供此酒店的特低客房价格。为了这么做，我们必须将此预订规定为不可退款。如果您选择取消此预订，您将不会获得所付费用的任何退款。</string>
+    <!-- Policy displayed to user when a deposit is required -->
+    <string name="PolicyDepositRequired">将从您的信用卡中扣除预订押金。当您确定预订时，酒店将直接从您的信用卡中扣除金额。</string>
+    <!-- Policy displayed to user when a guarantee is required -->
+    <string name="PolicyGuaranteeRequired">我们需要您的信用卡信息以保证您的预订。将不会从您的信用卡中扣除费用，直到您抵达酒店后或取消截止日期已过。</string>
+    <!-- Expedia merchant hotel policies -->
+    <string name="PolicyExpediaMerchant">继续此预订，表示您同意接受所有条款和条件，包括取消政策和所有在用户协议中包含的条款和条件。\n\n您同意支付预订所需费用。如果您不支付这笔欠款，而需通过收帐公司、律师或任何其他法律途径追收这笔款项，您同意支付所有合理的费用，包括由此收帐程序所产生的律师费和诉讼费。</string>
+    <!-- Expedia agent hotel policies -->
+    <string name="PolicyExpediaAgent">您正预订一家无折扣的酒店。所有显示的价格按每晚计算，并根据每间房两人入住的费用，除非另有说明。请仔细检查客房描述和价格条规，以确保您选择的客房可容纳您的所有同行者。一些价格可能需要特别的身份证明才能享有。我们的预订费用、税款和其他由酒店收取的附加费不包含在内。任何超过客房所列入住人数的额外成人或儿童宾客可能需要支付额外费用，由酒店方面决定。\n\n对于两人以上或超过您所选价格指定人数的入住要求，我们将转达给酒店，但不保证结果。如果酒店方面接受要求，酒店有权决定是否收取额外费用。</string>
+
+    <!-- Expedia Accounts -->
+    <!-- Label for menu item to log into account -->
+    <string name="log_in">登录</string>
+    <!-- Label for menu item to log into account -->
+    <string name="log_in_to_expedia">登录 Expedia</string>
+    <!-- Hint for user to enter password into a field -->
+    <string name="hint_password">密码</string>
+    <!-- Progress dialog text when we are logging the user into Expedia -->
+    <string name="logging_in">正在登录…</string>
+    <!-- Message that tells user they successfully logged in -->
+    <string name="login_success">成功！现在您已经登录。</string>
+    <!-- Message that tells user they failed to log in -->
+    <string name="login_failed">登录失败</string>
+    <!-- Label for login widget button -->
+    <string name="account_login">账户登录</string>
+    <!-- Label for login widget additional text -->
+    <string name="log_in_for_faster_booking">登录后可加快预订速度。</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_rewards">参加 Expedia Rewards 计划\u2122</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as">登录身份</string>
+    <!-- Label for account name -->
     <string name="logged_in_as_template">登录身份&lt;b&gt;%s&lt;/b&gt;</string>
-	<!-- Label for signin screen -->
-	<string name="expedia_account">Expedia 账户</string>
-	<!-- Label for loading user profile from expedia.com -->
-	<string name="loading_expedia_account">正在加载 Expedia 账户</string>
+    <!-- Label for signin screen -->
+    <string name="expedia_account">Expedia 账户</string>
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">正在加载 Expedia 账户</string>
     <!-- Label for password recovery -->
-	<string name="forgot_your_password">忘记密码？</string>
+    <string name="forgot_your_password">忘记密码？</string>
     <!-- Label for coupon code area of booking form -->
-	<string name="coupon_code">优惠券代码</string>
+    <string name="coupon_code">优惠券代码</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">可选</string>
     <!-- Label applying a coupon -->
-	<string name="apply">应用</string>
+    <string name="apply">应用</string>
     <!-- Label for new price after applying coupon -->
-	<string name="new_total">新总价：</string>
+    <string name="new_total">新总价：</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">使用信用卡</string>
+    <string name="use_card">使用信用卡</string>
+    <!-- Label for when a user has entered an invalid coupon -->
+    <string name="invalid_coupon">优惠券无效</string>
+    <!-- Label for when a user has entered a coupon which is expired -->
+    <string name="expired_coupon">优惠券过期</string>
+    <!-- Label for when a user has entered a coupon and the server fails -->
+    <string name="coupon_error">优惠券错误</string>
 
-	<!-- Sharing bookings via email -->
-	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Expedia 行程概要 - %1$s (%2$s - %3$s)</string>
-	<!-- Preset at the top of the share body message -->
-	<string name="share_body_start">这是我的酒店预订信息：</string>
-	<!-- Name of user -->
-	<string name="name">姓名</string>
-	<!-- Number of adults label -->
-	<string name="adults">成人人数</string>
-	<!-- Number of children label -->
-	<string name="children">儿童人数</string>
-	<!-- Subtotal label -->
-	<string name="subtotal">小计</string>
-	<!-- Cancellation policy label -->
-	<string name="cancellation_policy">取消政策</string>
-	
-	<!-- About activity -->
-	<!-- Label for "contact Expedia" button in info page -->
-	<string name="contact_expedia">联系 Expedia</string>
-	<!-- Extra description for "contact Expedia" button, when space allows -->
-	<string name="contact_expedia_description">我们全天 24 小时为您服务。</string>
-	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">通过以下方式联系 Expedia...</string>
-	<!-- Contact Expedia via phone -->
-	<string name="contact_expedia_phone">电话</string>
-	<!-- Contact Expedia via email -->
-	<string name="contact_expedia_email">电子邮件</string>
-	<!-- Contact Expedia via email subject -->
-	<string name="contact_expedia_email_subject">Expedia 预订支持</string>
-	<!-- Contact Expedia via website -->
-	<string name="contact_expedia_website">网站</string>
-	<!-- Label for "Expedia website" button in info page -->
-	<string name="expedia_website">Expedia 网站</string>
-	<!-- Extra description for "Expedia website" button, when space allows -->
-	<string name="expedia_website_description">浏览网站以预订航班、车辆、配套和其他项目。</string>
-	<!-- Extra description for "app feedback" button, when space allows -->
-	<string name="app_feedback_description">让我们知道您对本应用程序的看法。</string>
-	<!-- Label for "app support" button in info page -->
-	<string name="app_support">应用程序支持</string>
-	<!-- Extra description for "app support" button, when space allows -->
-	<string name="app_support_description">写封短信给我们，我们会尽快回复您。</string>
-	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">喜欢我们提供的超值酒店优惠吗？请向您的朋友推荐本应用程序。</string>
-	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">精明旅游</string>
-	<!-- Subject line for "tell a friend" feature -->
-	<string name="tell_a_friend_subject">Expedia Hotels</string>
-	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">您好！\n\n请试试适用于 iPhone 和 Android 手机（移动设备）的 Expedia Hotels 应用程序。这是免费的！您可通过它轻松搜索并预订全世界超过 130,000 家酒店的客房。它是通过手机（移动设备）预订酒店客房最便捷的工具。\n\nhttp://www.expedia.com/app</string>
-	<!-- Label for link to terms and conditions -->
-	<string name="info_label_terms_conditions">条款和条件</string>
-	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">隐私政策</string>
-	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nAll rights reserved.</string>
-	
-	<!--  App Feedback Activity -->
-	<!-- Text within submit button in header -->
-	<string name="send_feedback">发送反馈</string>
-	<!-- Header title -->
-	<string name="app_feedback">应用程序反馈</string>
-	<!-- Section header for rating (1-5 stars) -->
-	<string name="oosdk_rating_overall_header">请给予我们评分</string>
-	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">由 Opinion Lab 提供支持 <a href="http://mobile.opinionlab.com/static/privacy.html">隐私政策</a></string>
-	<!-- Hint to type in email address -->
-	<string name="email_address">电子邮件地址</string>
-	<!-- Hint to type in comments -->
-	<string name="feedback_hint">我们怎样才能做得更好呢？</string>
-	<!-- Message displayed to users after they submit feedback -->
-	<string name="oosdk_thanks_txt">感谢提交您的意见。我们十分重视客户的反馈。</string>
-	
-	<!-- Preferences -->
-	<!-- Category name for general preferences -->
-	<string name="preference_category_general">一般信息</string>
-	<!-- Title for point of sale setting -->
-	<string name="preference_point_of_sale_title">国家/地区</string>
-	<!-- Template for default point of sale -->
-	<string name="default_point_of_sale_template">默认（%s）</string>
+    <!-- Sharing bookings via email -->
+    <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
+    <string name="share_subject_template">Expedia 行程概要 - %1$s (%2$s - %3$s)</string>
+    <!-- Preset at the top of the share body message -->
+    <string name="share_body_start">这是我的酒店预订信息：</string>
+    <!-- Name of user -->
+    <string name="name">姓名</string>
+    <!-- Number of adults label -->
+    <string name="adults">成人人数</string>
+    <!-- Number of children label -->
+    <string name="children">儿童人数</string>
+    <!-- Subtotal label -->
+    <string name="subtotal">小计</string>
+    <!-- Cancellation policy label -->
+    <string name="cancellation_policy">取消政策</string>
 
-	<!-- Strings used a lot of places -->
-	<!-- A number of adults -->
-	<plurals name="number_of_adults">
-		<item quantity="zero">%d 成人人数</item>
-		<item quantity="one">%d 位成人</item>
-		<item quantity="two">%d 成人人数</item>
-		<item quantity="many">%d 成人人数</item>
-		<item quantity="other">%d 成人人数</item>
-	</plurals>
-	<!-- A number of children -->
-	<plurals name="number_of_children">
-		<item quantity="zero">%d 儿童人数</item>
-		<item quantity="one">%d 名儿童</item>
-		<item quantity="two">%d 儿童人数</item>
-		<item quantity="many">%d 儿童人数</item>
-		<item quantity="other">%d 儿童人数</item>
-	</plurals>
-	<!-- A number of guests -->
-	<plurals name="number_of_guests">
-		<item quantity="zero">%d 宾客</item>
-		<item quantity="one">%d 位宾客</item>
-		<item quantity="two">%d 宾客</item>
-		<item quantity="many">%d 宾客</item>
-		<item quantity="other">%d 宾客</item>
-	</plurals>
-	<!-- A number of nights (as in stay duration).  Capitalized -->
-	<plurals name="number_of_nights">
-		<item quantity="zero">%d 晚</item>
-		<item quantity="one">%d 晚</item>
-		<item quantity="two">%d 晚</item>
-		<item quantity="many">%d 晚</item>
-		<item quantity="other">%d 晚</item>
-	</plurals>
+    <!-- About activity -->
+    <!-- Label for "contact Expedia" button in info page -->
+    <string name="contact_expedia">联系 Expedia</string>
+    <!-- Extra description for "contact Expedia" button, when space allows -->
+    <string name="contact_expedia_description">我们全天 24 小时为您服务。</string>
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_expedia_via">联系 Expedia…</string>
+    <!-- Contact Expedia via phone -->
+    <string name="contact_expedia_phone">电话</string>
+    <!-- Contact Expedia via email -->
+    <string name="contact_expedia_email">电子邮件</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_expedia_email_subject">Expedia 预订支持</string>
+    <!-- Contact Expedia via website -->
+    <string name="contact_expedia_website">网站</string>
+    <!-- Label for "Expedia website" button in info page -->
+    <string name="expedia_website">Expedia 网站</string>
+    <!-- Extra description for "Expedia website" button, when space allows -->
+    <string name="expedia_website_description">浏览网站以预订航班、车辆、配套和其他项目。</string>
+    <!-- Extra description for "app feedback" button, when space allows -->
+    <string name="app_feedback_description">让我们知道您对本应用程序的看法。</string>
+    <!-- Label for "app support" button in info page -->
+    <string name="app_support">应用程序支持</string>
+    <!-- Extra description for "app support" button, when space allows -->
+    <string name="app_support_description">写封短信给我们，我们会尽快回复您。</string>
+    <!-- Extra description for "tell a friend" button, when space allows -->
+    <string name="tell_a_friend_description">喜欢我们提供的超值酒店优惠吗？请向您的朋友推荐本应用程序。</string>
+    <!-- Section header for other apps by Mobiata -->
+    <string name="travel_smart">精明旅游</string>
+    <!-- Subject line for "tell a friend" feature -->
+    <string name="tell_a_friend_subject">Expedia Hotels</string>
+    <!-- Message body for "tell a friend" feature -->
+    <string name="tell_a_friend_body">您好！\n\n请试试适用于 iPhone 和 Android 手机（移动设备）的 Expedia Hotels 应用程序。这是免费的！您可通过它轻松搜索并预订全世界超过 140,000 家酒店的客房。它是通过手机（移动设备）预订酒店客房最便捷的工具。\n\nhttp://www.expedia.com/app</string>
+    <!-- Label for link to terms and conditions -->
+    <string name="info_label_terms_conditions">条款和条件</string>
+    <!-- Label for link to privacy policy -->
+    <string name="info_label_privacy_policy">隐私政策</string>
+    <!-- Copyright information -->
+    <string name="copyright">© 版权所有 2011–2012 Expedia, Inc.\n 保留所有权利。</string>
+    <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
+    <string name="dialog_title_log_out_and_clear_private_data">退出并清除数据？</string>
+    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_title_logged_out_and_cleared_private_data">已退出账户并清除数据</string>
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data">您已退出 Expedia 账户，所有保存的账单和联系信息都已删除。</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
+    <string name="dialog_message_launch_expedia_mobile_site">启动 Expedia 移动网站？</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
+    <string name="dialog_message_launch_expedia_support_site">是否要浏览 Expedia 支持服务网站？</string>
 
-	<!-- Distance strings -->
-	<!-- Abbreviated miles (used in distance_template) -->
-	<string name="unit_miles">英里</string>
-	<!-- Abbreviated kilometers (used in distance_template) -->
-	<string name="unit_kilometers">公里</string>
-	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">%1$s%2$s外</string>
-	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-	<string name="distance_template_short">%1$s %2$s</string>
+    <!--  App Feedback Activity -->
+    <!-- Text within submit button in header -->
+    <string name="send_feedback">发送反馈</string>
+    <!-- Header title -->
+    <string name="app_feedback">应用程序反馈</string>
+    <!-- Section header for rating (1-5 stars) -->
+    <string name="oosdk_rating_overall_header">请给予我们评分</string>
+    <!-- Footer for the view -->
+    <string name="powered_by_opinion_lab">由 Opinion Lab 提供支持 <a href="http://mobile.opinionlab.com/static/privacy.html">隐私政策</a></string>
+    <!-- Hint to type in email address -->
+    <string name="email_address">电子邮件地址</string>
+    <!-- Hint to type in comments -->
+    <string name="feedback_hint">我们怎样才能做得更好呢？</string>
+    <!-- Message displayed to users after they submit feedback -->
+    <string name="oosdk_thanks_txt">感谢提交您的意见。我们十分重视客户的反馈。</string>
 
-	<!-- Menu strings -->
-	<!-- Label for "settings" menu item. -->
-	<string name="Settings">设定</string>
-	<!-- Label for "about this app" menu item. -->
-	<string name="About">关于</string>
+    <!-- Preferences -->
+    <!-- Category name for general preferences -->
+    <string name="preference_category_general">一般信息</string>
+    <!-- Title for point of sale setting -->
+    <string name="preference_point_of_sale_title">国家/地区</string>
+    <!-- Template for default point of sale -->
+    <string name="default_point_of_sale_template">默认（%s）</string>
 
-	<!-- Preferences strings -->
-	<!-- String for default preference setting (for any given preference) -->
-	<string name="Default">默认</string>
-	
-	<!-- Error strings - replacements for default EAN errors -->
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_no_results">抱歉，我们在这段时间无法找到任何还有空房的酒店。请尝试不同的日期或另一个地点。</string>
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_connect_unavailable">无法连接到所选的酒店以查找空房。</string>
-	<!-- Error message displayed when the phone number sent via booking is invalid -->
-	<string name="ean_error_invalid_phone_number">请输入有效的电话号码</string>
-	
-	<!-- Checkout API method -->
-	<!-- The hotel booking failed -->
-	<string name="e3_error_checkout_booking_failed">遇到错误，无法完成您的预订。请重试。</string>
-	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-	<string name="e3_error_checkout_booking_succeeded_with_errors">您已成功预订酒店！如果您需要立即处理您的行程，请致电 Expedia 客户支持部门。</string>
-	<!-- The hotel room is no longer available -->
-	<string name="e3_error_checkout_hotel_room_unavailable">很抱歉，您申请的客房不再提供预定。</string>
-	<!-- There is invalid input in the hotel booking form. Please fix it. -->
-	<string name="e3_error_checkout_invalid_input">请更正无效信息。</string>
-	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-	<string name="e3_error_checkout_payment_failed">很抱歉，我们无法处理您的付款。请验证您输入的信息是否正确。</string>
-	
-	<!-- SearchResults API method -->
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_hotel_service_failure">很抱歉，我们无法完成您的搜索。请重试。</string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input">很抱歉，我们无法返回符合您的搜索词的结果。请重试。</string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input_unknown">很抱歉，我们无法返回符合您的搜索词的结果。请重试。</string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_unknown_error">很抱歉，我们无法完成您的搜索。请重试。</string>
-	
-	<!-- HotelOffers API method -->
-	<!-- The hotel offer is no longer available -->
-	<string name="e3_error_hotel_offers_hotel_offer_unavailable">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
-	
-	<string name="e3_error_hotel_offers_hotel_room_unavailable">很抱歉，您申请的客房不再提供预定。</string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_hotel_offers_hotel_service_failure">很抱歉，我们无法连接至 Expedia。请重试。</string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_invalid_input">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_unknown_error">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
-	
-	<!-- HotelProduct API method -->
-	<string name="e3_error_hotel_product_unknown_error">出现未知错误。</string>
-	<string name="e3_error_hotel_product_invalid_input">出现未知错误。</string>
-	
-	<!-- HotelInformation API method -->
-	<string name="e3_error_hotel_information_hotel_service_failure">出现未知错误。</string>
-	<string name="e3_error_hotel_information_unknown_error">出现未知错误。</string>
-	<string name="e3_error_hotel_information_invalid_input">出现未知错误。</string>
+    <!-- Strings used a lot of places -->
+    <!-- A number of adults -->
+    <plurals name="number_of_adults">
+        <item quantity="zero">%d 成人人数</item>
+        <item quantity="one">%d 位成人</item>
+        <item quantity="two">%d 成人人数</item>
+        <item quantity="many">%d 成人人数</item>
+        <item quantity="other">%d 成人人数</item>
+    </plurals>
+    <!-- A number of children -->
+    <plurals name="number_of_children">
+        <item quantity="zero">%d 儿童人数</item>
+        <item quantity="one">%d 名儿童</item>
+        <item quantity="two">%d 儿童人数</item>
+        <item quantity="many">%d 儿童人数</item>
+        <item quantity="other">%d 儿童人数</item>
+    </plurals>
+    <!-- A number of guests -->
+    <plurals name="number_of_guests">
+        <item quantity="zero">%d 宾客</item>
+        <item quantity="one">%d 位宾客</item>
+        <item quantity="two">%d 宾客</item>
+        <item quantity="many">%d 宾客</item>
+        <item quantity="other">%d 宾客</item>
+    </plurals>
+    <!-- A number of nights (as in stay duration).  Capitalized -->
+    <plurals name="number_of_nights">
+        <item quantity="zero">%d 晚</item>
+        <item quantity="one">%d 晚</item>
+        <item quantity="two">%d 晚</item>
+        <item quantity="many">%d 晚</item>
+        <item quantity="other">%d 晚</item>
+    </plurals>
 
-	<!-- Currency names -->
-	<string name="currency_aud">澳元</string>
-	<string name="currency_brl">巴西雷亚尔</string>
-	<string name="currency_gbp">英镑</string>
-	<string name="currency_cad">加元</string>
-	<string name="currency_cny">中国人民币</string>
-	<string name="currency_dkk">丹麦克朗</string>
-	<string name="currency_eur">欧元</string>
-	<string name="currency_hkd">港元</string>
-	<string name="currency_inr">印度卢比</string>
-	<string name="currency_ils">以色列新谢克尔 </string>
-	<string name="currency_jpy">日元</string>
-	<string name="currency_krw">韩元</string>
-	<string name="currency_mxn">墨西哥比索</string>
-	<string name="currency_nzd">新西兰元</string>
-	<string name="currency_nok">挪威克郎</string>
-	<string name="currency_rub">俄罗斯卢布</string>
-	<string name="currency_sgd">新元</string>
-	<string name="currency_sek">瑞典克朗</string>
-	<string name="currency_chf">瑞士法郎</string>
-	<string name="currency_usd">美元</string>
+    <!-- Distance strings -->
+    <!-- Abbreviated miles (used in distance_template) -->
+    <string name="unit_miles">英里</string>
+    <!-- Abbreviated kilometers (used in distance_template) -->
+    <string name="unit_kilometers">公里</string>
+    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
+    <string name="distance_template">%1$s%2$s外</string>
+    <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+    <string name="distance_template_short">%1$s %2$s</string>
 
-	<!-- Country names -->
-	<string name="country_af">阿富汗</string>
-	<string name="country_al">阿尔巴尼亚</string>
-	<string name="country_dz">阿尔及利亚</string>
-	<string name="country_as">美属萨摩亚</string>
-	<string name="country_ad">安道尔</string>
-	<string name="country_ao">安哥拉</string>
-	<string name="country_ai">安圭拉</string>
-	<string name="country_aq">南极洲</string>
-	<string name="country_ag">安提瓜和巴布达</string>
-	<string name="country_ar">阿根廷</string>
-	<string name="country_am">亚美尼亚</string>
-	<string name="country_aw">阿鲁巴</string>
-	<string name="country_au">澳大利亚</string>
-	<string name="country_at">奥地利</string>
-	<string name="country_az">阿塞拜疆</string>
-	<string name="country_bs">巴哈马</string>
-	<string name="country_bh">巴林</string>
-	<string name="country_bd">孟加拉国</string>
-	<string name="country_bb">巴巴多斯</string>
-	<string name="country_by">白俄罗斯</string>
-	<string name="country_be">比利时</string>
-	<string name="country_bz">伯利兹</string>
-	<string name="country_bj">贝宁</string>
-	<string name="country_bm">百慕大</string>
-	<string name="country_bt">不丹</string>
-	<string name="country_bo">玻利维亚</string>
-	<string name="country_ba">波斯尼亚和黑塞哥维纳</string>
-	<string name="country_bw">博茨瓦纳</string>
-	<string name="country_bv">布维岛</string>
-	<string name="country_br">巴西</string>
-	<string name="country_io">英属印度洋领地</string>
-	<string name="country_bn">文莱</string>
-	<string name="country_bg">保加利亚</string>
-	<string name="country_bf">布基纳法索</string>
-	<string name="country_bi">布隆迪</string>
-	<string name="country_kh">柬埔寨</string>
-	<string name="country_cm">喀麦隆</string>
-	<string name="country_ca">加拿大</string>
-	<string name="country_cv">佛得角</string>
-	<string name="country_ky">开曼群岛</string>
-	<string name="country_cf">中非共和国</string>
-	<string name="country_td">乍得</string>
-	<string name="country_cl">智利</string>
-	<string name="country_cn">中国</string>
-	<string name="country_cx">圣诞岛</string>
-	<string name="country_cc">科科斯（基林）群岛</string>
-	<string name="country_co">哥伦比亚</string>
-	<string name="country_km">科摩罗</string>
-	<string name="country_cg">刚果</string>
-	<string name="country_cd">刚果民主共和国</string>
-	<string name="country_ck">库克群岛</string>
-	<string name="country_cr">哥斯达黎加</string>
-	<string name="country_hr">克罗地亚</string>
-	<string name="country_cu">古巴</string>
-	<string name="country_cy">塞浦路斯</string>
-	<string name="country_cz">捷克共和国</string>
-	<string name="country_ci">科特迪瓦</string>
-	<string name="country_dk">丹麦</string>
-	<string name="country_dj">吉布提</string>
-	<string name="country_dm">多米尼加</string>
-	<string name="country_do">多米尼加共和国</string>
-	<string name="country_ec">厄瓜多尔</string>
-	<string name="country_eg">埃及</string>
-	<string name="country_sv">萨尔瓦多</string>
-	<string name="country_gq">赤道几内亚</string>
-	<string name="country_er">厄立特里亚</string>
-	<string name="country_ee">爱沙尼亚</string>
-	<string name="country_et">埃塞俄比亚</string>
-	<string name="country_fk">福克兰群岛（马尔维纳斯）</string>
-	<string name="country_fo">法罗群岛</string>
-	<string name="country_fj">斐济</string>
-	<string name="country_fi">芬兰</string>
-	<string name="country_fr">法国</string>
-	<string name="country_gf">法属圭亚那</string>
-	<string name="country_pf">法属波利尼西亚</string>
-	<string name="country_tf">法属南部领土</string>
-	<string name="country_ga">加蓬</string>
-	<string name="country_gm">冈比亚</string>
-	<string name="country_ge">格鲁吉亚</string>
-	<string name="country_de">德国</string>
-	<string name="country_gh">加纳</string>
-	<string name="country_gi">直布罗陀</string>
-	<string name="country_gr">希腊</string>
-	<string name="country_gl">格陵兰</string>
-	<string name="country_gd">格林纳达</string>
-	<string name="country_gp">瓜德罗普</string>
-	<string name="country_gu">关岛</string>
-	<string name="country_gt">危地马拉</string>
-	<string name="country_gg">根西岛</string>
-	<string name="country_gn">几内亚</string>
-	<string name="country_gw">几内亚比绍</string>
-	<string name="country_gy">圭亚那</string>
-	<string name="country_ht">海地</string>
-	<string name="country_hm">赫德岛和麦当劳群岛</string>
-	<string name="country_va">罗马教廷（梵蒂冈城国）</string>
-	<string name="country_hn">洪都拉斯</string>
-	<string name="country_hk">香港</string>
-	<string name="country_hu">匈牙利</string>
-	<string name="country_is">冰岛</string>
-	<string name="country_in">印度</string>
-	<string name="country_id">印度尼西亚</string>
-	<string name="country_ir">伊朗（伊斯兰共和国）</string>
-	<string name="country_iq">伊拉克</string>
-	<string name="country_ie">爱尔兰</string>
-	<string name="country_im">马恩岛</string>
-	<string name="country_il">以色列</string>
-	<string name="country_it">意大利</string>
-	<string name="country_jm">牙买加</string>
-	<string name="country_jp">日本</string>
-	<string name="country_je">泽西岛</string>
-	<string name="country_jo">约旦</string>
-	<string name="country_kz">哈萨克斯坦</string>
-	<string name="country_ke">肯尼亚</string>
-	<string name="country_ki">基里巴斯</string>
-	<string name="country_kp">朝鲜民主主义人民共和国</string>
-	<string name="country_kr">韩国</string>
-	<string name="country_kw">科威特</string>
-	<string name="country_kg">吉尔吉斯斯坦</string>
-	<string name="country_la">老挝人民民主共和国</string>
-	<string name="country_lv">拉脱维亚</string>
-	<string name="country_lb">黎巴嫩</string>
-	<string name="country_ls">莱索托</string>
-	<string name="country_lr">利比里亚</string>
-	<string name="country_ly">阿拉伯利比亚民众国</string>
-	<string name="country_li">列支敦士登</string>
-	<string name="country_lt">立陶宛</string>
-	<string name="country_lu">卢森堡</string>
-	<string name="country_mo">澳门</string>
-	<string name="country_mk">前南斯拉夫马其顿共和国</string>
-	<string name="country_mg">马达加斯加</string>
-	<string name="country_mw">马拉维</string>
-	<string name="country_my">马来西亚</string>
-	<string name="country_mv">马尔代夫</string>
-	<string name="country_ml">马里</string>
-	<string name="country_mt">马耳他</string>
-	<string name="country_mh">马绍尔群岛</string>
-	<string name="country_mq">马提尼克</string>
-	<string name="country_mr">毛里塔尼亚</string>
-	<string name="country_mu">毛里求斯</string>
-	<string name="country_yt">马约特</string>
-	<string name="country_mx">墨西哥</string>
-	<string name="country_fm">密克罗尼西亚联邦</string>
-	<string name="country_md">摩尔多瓦共和国</string>
-	<string name="country_mc">摩纳哥</string>
-	<string name="country_mn">蒙古</string>
-	<string name="country_me">黑山</string>
-	<string name="country_ms">蒙特塞拉特</string>
-	<string name="country_ma">摩洛哥</string>
-	<string name="country_mz">莫桑比克</string>
-	<string name="country_mm">缅甸</string>
-	<string name="country_na">纳米比亚</string>
-	<string name="country_nr">瑙鲁</string>
-	<string name="country_np">尼泊尔</string>
-	<string name="country_nl">荷兰</string>
-	<string name="country_an">荷属安的列斯</string>
-	<string name="country_nc">新喀里多尼亚</string>
-	<string name="country_nz">新西兰</string>
-	<string name="country_ni">尼加拉瓜</string>
-	<string name="country_ne">尼日尔</string>
-	<string name="country_ng">尼日利亚</string>
-	<string name="country_nu">纽埃</string>
-	<string name="country_nf">诺福克岛</string>
-	<string name="country_mp">北马里亚纳群岛</string>
-	<string name="country_no">挪威</string>
-	<string name="country_om">阿曼</string>
-	<string name="country_pk">巴基斯坦</string>
-	<string name="country_pw">帕劳</string>
-	<string name="country_ps">巴勒斯坦被占领土</string>
-	<string name="country_pa">巴拿马</string>
-	<string name="country_pg">巴布亚新几内亚</string>
-	<string name="country_py">巴拉圭</string>
-	<string name="country_pe">秘鲁</string>
-	<string name="country_ph">菲律宾</string>
-	<string name="country_pn">皮特凯恩</string>
-	<string name="country_pl">波兰</string>
-	<string name="country_pt">葡萄牙</string>
-	<string name="country_pr">波多黎各</string>
-	<string name="country_qa">卡塔尔</string>
-	<string name="country_ro">罗马尼亚</string>
-	<string name="country_ru">俄罗斯联邦</string>
-	<string name="country_rw">卢旺达</string>
-	<string name="country_re">留尼旺岛</string>
-	<string name="country_bl">圣巴特岛</string>
-	<string name="country_sh">圣赫勒拿</string>
-	<string name="country_kn">圣基茨和尼维斯</string>
-	<string name="country_lc">圣卢西亚</string>
-	<string name="country_mf">圣马丁（法属部分)</string>
-	<string name="country_pm">圣皮埃尔和密克隆</string>
-	<string name="country_vc">圣文森特和格林纳丁斯</string>
-	<string name="country_ws">萨摩亚</string>
-	<string name="country_sm">圣马力诺</string>
-	<string name="country_st">圣多美和普林西比</string>
-	<string name="country_sa">沙特阿拉伯</string>
-	<string name="country_sn">塞内加尔</string>
-	<string name="country_rs">塞尔维亚</string>
-	<string name="country_sc">塞舌尔</string>
-	<string name="country_sl">塞拉利昂</string>
-	<string name="country_sg">新加坡</string>
-	<string name="country_sk">斯洛伐克</string>
-	<string name="country_si">斯洛文尼亚</string>
-	<string name="country_sb">所罗门群岛</string>
-	<string name="country_so">索马里</string>
-	<string name="country_za">南非</string>
-	<string name="country_gs">南乔治亚岛和南桑德韦奇岛</string>
-	<string name="country_es">西班牙</string>
-	<string name="country_lk">斯里兰卡</string>
-	<string name="country_sd">苏丹</string>
-	<string name="country_sr">苏里南</string>
-	<string name="country_sj">斯瓦尔巴岛和扬马延岛</string>
-	<string name="country_sz">斯威士兰</string>
-	<string name="country_se">瑞典</string>
-	<string name="country_ch">瑞士</string>
-	<string name="country_sy">阿拉伯叙利亚共和国</string>
-	<string name="country_tw">台湾</string>
-	<string name="country_tj">塔吉克斯坦</string>
-	<string name="country_tz">坦桑尼亚联合共和国</string>
-	<string name="country_th">泰国</string>
-	<string name="country_tl">东帝汶</string>
-	<string name="country_tg">多哥</string>
-	<string name="country_tk">托克劳</string>
-	<string name="country_to">汤加</string>
-	<string name="country_tt">特立尼达和多巴哥</string>
-	<string name="country_tn">突尼斯</string>
-	<string name="country_tr">土耳其</string>
-	<string name="country_tm">土库曼斯坦</string>
-	<string name="country_tc">特克斯和凯科斯群岛</string>
-	<string name="country_tv">图瓦卢</string>
-	<string name="country_ug">乌干达</string>
-	<string name="country_ua">乌克兰</string>
-	<string name="country_ae">阿拉伯联合酋长国</string>
-	<string name="country_gb">英国</string>
-	<string name="country_us">美国</string>
-	<string name="country_um">美国本土外小岛屿</string>
-	<string name="country_uy">乌拉圭</string>
-	<string name="country_uz">乌兹别克斯坦</string>
-	<string name="country_vu">瓦努阿图</string>
-	<string name="country_ve">委内瑞拉</string>
-	<string name="country_vn">越南</string>
-	<string name="country_vg">维尔京群岛（英属）</string>
-	<string name="country_vi">维尔京群岛（美属）</string>
-	<string name="country_wf">瓦利斯和富图纳群岛</string>
-	<string name="country_eh">西撒哈拉</string>
-	<string name="country_ye">也门</string>
-	<string name="country_zm">赞比亚</string>
-	<string name="country_zw">津巴布韦</string>
-	<string name="country_ax">奥兰群岛</string>
+    <!-- Menu strings -->
+    <!-- Label for "settings" menu item. -->
+    <string name="Settings">设定</string>
+    <!-- Label for "about this app" menu item. -->
+    <string name="About">关于</string>
+
+    <!-- Preferences strings -->
+    <!-- String for default preference setting (for any given preference) -->
+    <string name="Default">默认</string>
+
+    <!-- Error strings - replacements for default EAN errors -->
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_no_results">抱歉，我们在这段时间无法找到任何还有空房的酒店。请尝试不同的日期或另一个地点。</string>
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_connect_unavailable">无法连接到所选的酒店以查找空房。</string>
+    <!-- Error message displayed when the phone number sent via booking is invalid -->
+    <string name="ean_error_invalid_phone_number">请输入有效的电话号码</string>
+
+    <!-- Checkout API method -->
+    <!-- The hotel booking failed -->
+    <string name="e3_error_checkout_booking_failed">遇到错误，无法完成您的预订。请重试。</string>
+    <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
+    <string name="e3_error_checkout_booking_succeeded_with_errors">您已成功预订酒店！如果您需要立即处理您的行程，请致电 Expedia 客户支持部门。</string>
+    <!-- The hotel room is no longer available -->
+    <string name="e3_error_checkout_hotel_room_unavailable">很抱歉，您申请的客房不再提供预定。</string>
+    <!-- There is invalid input in the hotel booking form. Please fix it. -->
+    <string name="e3_error_checkout_invalid_input">请更正无效信息。</string>
+    <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
+    <string name="e3_error_checkout_payment_failed">很抱歉，我们无法处理您的付款。请验证您输入的信息是否正确。</string>
+
+    <!-- SearchResults API method -->
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_hotel_service_failure">很抱歉，我们无法完成您的搜索。请重试。</string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input">很抱歉，我们无法返回符合您的搜索词的结果。请重试。</string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input_unknown">很抱歉，我们无法返回符合您的搜索词的结果。请重试。</string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_unknown_error">很抱歉，我们无法完成您的搜索。请重试。</string>
+
+    <!-- HotelOffers API method -->
+    <!-- The hotel offer is no longer available -->
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
+
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">很抱歉，您申请的客房不再提供预定。</string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure">很抱歉，我们无法连接至 Expedia。请重试。</string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_invalid_input">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_unknown_error">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
+
+    <!-- HotelProduct API method -->
+    <string name="e3_error_hotel_product_unknown_error">出现未知错误。</string>
+    <string name="e3_error_hotel_product_invalid_input">出现未知错误。</string>
+
+    <!-- HotelInformation API method -->
+    <string name="e3_error_hotel_information_hotel_service_failure">出现未知错误。</string>
+    <string name="e3_error_hotel_information_unknown_error">出现未知错误。</string>
+    <string name="e3_error_hotel_information_invalid_input">出现未知错误。</string>
+
+    <!-- Currency names -->
+    <string name="currency_aud">澳元</string>
+    <string name="currency_brl">巴西雷亚尔</string>
+    <string name="currency_gbp">英镑</string>
+    <string name="currency_cad">加元</string>
+    <string name="currency_cny">中国人民币</string>
+    <string name="currency_dkk">丹麦克朗</string>
+    <string name="currency_eur">欧元</string>
+    <string name="currency_hkd">港元</string>
+    <string name="currency_inr">印度卢比</string>
+    <string name="currency_ils">以色列新谢克尔 </string>
+    <string name="currency_jpy">日元</string>
+    <string name="currency_krw">韩元</string>
+    <string name="currency_mxn">墨西哥比索</string>
+    <string name="currency_nzd">新西兰元</string>
+    <string name="currency_nok">挪威克郎</string>
+    <string name="currency_rub">俄罗斯卢布</string>
+    <string name="currency_sgd">新元</string>
+    <string name="currency_sek">瑞典克朗</string>
+    <string name="currency_chf">瑞士法郎</string>
+    <string name="currency_usd">美元</string>
+
+    <!-- Country names -->
+    <string name="country_af">阿富汗</string>
+    <string name="country_al">阿尔巴尼亚</string>
+    <string name="country_dz">阿尔及利亚</string>
+    <string name="country_as">美属萨摩亚</string>
+    <string name="country_ad">安道尔</string>
+    <string name="country_ao">安哥拉</string>
+    <string name="country_ai">安圭拉</string>
+    <string name="country_aq">南极洲</string>
+    <string name="country_ag">安提瓜和巴布达</string>
+    <string name="country_ar">阿根廷</string>
+    <string name="country_am">亚美尼亚</string>
+    <string name="country_aw">阿鲁巴</string>
+    <string name="country_au">澳大利亚</string>
+    <string name="country_at">奥地利</string>
+    <string name="country_az">阿塞拜疆</string>
+    <string name="country_bs">巴哈马</string>
+    <string name="country_bh">巴林</string>
+    <string name="country_bd">孟加拉国</string>
+    <string name="country_bb">巴巴多斯</string>
+    <string name="country_by">白俄罗斯</string>
+    <string name="country_be">比利时</string>
+    <string name="country_bz">伯利兹</string>
+    <string name="country_bj">贝宁</string>
+    <string name="country_bm">百慕大</string>
+    <string name="country_bt">不丹</string>
+    <string name="country_bo">玻利维亚</string>
+    <string name="country_ba">波斯尼亚和黑塞哥维纳</string>
+    <string name="country_bw">博茨瓦纳</string>
+    <string name="country_bv">布维岛</string>
+    <string name="country_br">巴西</string>
+    <string name="country_io">英属印度洋领地</string>
+    <string name="country_bn">文莱</string>
+    <string name="country_bg">保加利亚</string>
+    <string name="country_bf">布基纳法索</string>
+    <string name="country_bi">布隆迪</string>
+    <string name="country_kh">柬埔寨</string>
+    <string name="country_cm">喀麦隆</string>
+    <string name="country_ca">加拿大</string>
+    <string name="country_cv">佛得角</string>
+    <string name="country_ky">开曼群岛</string>
+    <string name="country_cf">中非共和国</string>
+    <string name="country_td">乍得</string>
+    <string name="country_cl">智利</string>
+    <string name="country_cn">中国</string>
+    <string name="country_cx">圣诞岛</string>
+    <string name="country_cc">科科斯（基林）群岛</string>
+    <string name="country_co">哥伦比亚</string>
+    <string name="country_km">科摩罗</string>
+    <string name="country_cg">刚果</string>
+    <string name="country_cd">刚果民主共和国</string>
+    <string name="country_ck">库克群岛</string>
+    <string name="country_cr">哥斯达黎加</string>
+    <string name="country_hr">克罗地亚</string>
+    <string name="country_cu">古巴</string>
+    <string name="country_cy">塞浦路斯</string>
+    <string name="country_cz">捷克共和国</string>
+    <string name="country_ci">科特迪瓦</string>
+    <string name="country_dk">丹麦</string>
+    <string name="country_dj">吉布提</string>
+    <string name="country_dm">多米尼加</string>
+    <string name="country_do">多米尼加共和国</string>
+    <string name="country_ec">厄瓜多尔</string>
+    <string name="country_eg">埃及</string>
+    <string name="country_sv">萨尔瓦多</string>
+    <string name="country_gq">赤道几内亚</string>
+    <string name="country_er">厄立特里亚</string>
+    <string name="country_ee">爱沙尼亚</string>
+    <string name="country_et">埃塞俄比亚</string>
+    <string name="country_fk">福克兰群岛（马尔维纳斯）</string>
+    <string name="country_fo">法罗群岛</string>
+    <string name="country_fj">斐济</string>
+    <string name="country_fi">芬兰</string>
+    <string name="country_fr">法国</string>
+    <string name="country_gf">法属圭亚那</string>
+    <string name="country_pf">法属波利尼西亚</string>
+    <string name="country_tf">法属南部领土</string>
+    <string name="country_ga">加蓬</string>
+    <string name="country_gm">冈比亚</string>
+    <string name="country_ge">格鲁吉亚</string>
+    <string name="country_de">德国</string>
+    <string name="country_gh">加纳</string>
+    <string name="country_gi">直布罗陀</string>
+    <string name="country_gr">希腊</string>
+    <string name="country_gl">格陵兰</string>
+    <string name="country_gd">格林纳达</string>
+    <string name="country_gp">瓜德罗普</string>
+    <string name="country_gu">关岛</string>
+    <string name="country_gt">危地马拉</string>
+    <string name="country_gg">根西岛</string>
+    <string name="country_gn">几内亚</string>
+    <string name="country_gw">几内亚比绍</string>
+    <string name="country_gy">圭亚那</string>
+    <string name="country_ht">海地</string>
+    <string name="country_hm">赫德岛和麦当劳群岛</string>
+    <string name="country_va">罗马教廷（梵蒂冈城国）</string>
+    <string name="country_hn">洪都拉斯</string>
+    <string name="country_hk">香港</string>
+    <string name="country_hu">匈牙利</string>
+    <string name="country_is">冰岛</string>
+    <string name="country_in">印度</string>
+    <string name="country_id">印度尼西亚</string>
+    <string name="country_ir">伊朗（伊斯兰共和国）</string>
+    <string name="country_iq">伊拉克</string>
+    <string name="country_ie">爱尔兰</string>
+    <string name="country_im">马恩岛</string>
+    <string name="country_il">以色列</string>
+    <string name="country_it">意大利</string>
+    <string name="country_jm">牙买加</string>
+    <string name="country_jp">日本</string>
+    <string name="country_je">泽西岛</string>
+    <string name="country_jo">约旦</string>
+    <string name="country_kz">哈萨克斯坦</string>
+    <string name="country_ke">肯尼亚</string>
+    <string name="country_ki">基里巴斯</string>
+    <string name="country_kp">朝鲜民主主义人民共和国</string>
+    <string name="country_kr">韩国</string>
+    <string name="country_kw">科威特</string>
+    <string name="country_kg">吉尔吉斯斯坦</string>
+    <string name="country_la">老挝人民民主共和国</string>
+    <string name="country_lv">拉脱维亚</string>
+    <string name="country_lb">黎巴嫩</string>
+    <string name="country_ls">莱索托</string>
+    <string name="country_lr">利比里亚</string>
+    <string name="country_ly">阿拉伯利比亚民众国</string>
+    <string name="country_li">列支敦士登</string>
+    <string name="country_lt">立陶宛</string>
+    <string name="country_lu">卢森堡</string>
+    <string name="country_mo">澳门</string>
+    <string name="country_mk">前南斯拉夫马其顿共和国</string>
+    <string name="country_mg">马达加斯加</string>
+    <string name="country_mw">马拉维</string>
+    <string name="country_my">马来西亚</string>
+    <string name="country_mv">马尔代夫</string>
+    <string name="country_ml">马里</string>
+    <string name="country_mt">马耳他</string>
+    <string name="country_mh">马绍尔群岛</string>
+    <string name="country_mq">马提尼克</string>
+    <string name="country_mr">毛里塔尼亚</string>
+    <string name="country_mu">毛里求斯</string>
+    <string name="country_yt">马约特</string>
+    <string name="country_mx">墨西哥</string>
+    <string name="country_fm">密克罗尼西亚联邦</string>
+    <string name="country_md">摩尔多瓦共和国</string>
+    <string name="country_mc">摩纳哥</string>
+    <string name="country_mn">蒙古</string>
+    <string name="country_me">黑山</string>
+    <string name="country_ms">蒙特塞拉特</string>
+    <string name="country_ma">摩洛哥</string>
+    <string name="country_mz">莫桑比克</string>
+    <string name="country_mm">缅甸</string>
+    <string name="country_na">纳米比亚</string>
+    <string name="country_nr">瑙鲁</string>
+    <string name="country_np">尼泊尔</string>
+    <string name="country_nl">荷兰</string>
+    <string name="country_an">荷属安的列斯</string>
+    <string name="country_nc">新喀里多尼亚</string>
+    <string name="country_nz">新西兰</string>
+    <string name="country_ni">尼加拉瓜</string>
+    <string name="country_ne">尼日尔</string>
+    <string name="country_ng">尼日利亚</string>
+    <string name="country_nu">纽埃</string>
+    <string name="country_nf">诺福克岛</string>
+    <string name="country_mp">北马里亚纳群岛</string>
+    <string name="country_no">挪威</string>
+    <string name="country_om">阿曼</string>
+    <string name="country_pk">巴基斯坦</string>
+    <string name="country_pw">帕劳</string>
+    <string name="country_ps">巴勒斯坦被占领土</string>
+    <string name="country_pa">巴拿马</string>
+    <string name="country_pg">巴布亚新几内亚</string>
+    <string name="country_py">巴拉圭</string>
+    <string name="country_pe">秘鲁</string>
+    <string name="country_ph">菲律宾</string>
+    <string name="country_pn">皮特凯恩</string>
+    <string name="country_pl">波兰</string>
+    <string name="country_pt">葡萄牙</string>
+    <string name="country_pr">波多黎各</string>
+    <string name="country_qa">卡塔尔</string>
+    <string name="country_ro">罗马尼亚</string>
+    <string name="country_ru">俄罗斯联邦</string>
+    <string name="country_rw">卢旺达</string>
+    <string name="country_re">留尼旺岛</string>
+    <string name="country_bl">圣巴特岛</string>
+    <string name="country_sh">圣赫勒拿</string>
+    <string name="country_kn">圣基茨和尼维斯</string>
+    <string name="country_lc">圣卢西亚</string>
+    <string name="country_mf">圣马丁（法属部分)</string>
+    <string name="country_pm">圣皮埃尔和密克隆</string>
+    <string name="country_vc">圣文森特和格林纳丁斯</string>
+    <string name="country_ws">萨摩亚</string>
+    <string name="country_sm">圣马力诺</string>
+    <string name="country_st">圣多美和普林西比</string>
+    <string name="country_sa">沙特阿拉伯</string>
+    <string name="country_sn">塞内加尔</string>
+    <string name="country_rs">塞尔维亚</string>
+    <string name="country_sc">塞舌尔</string>
+    <string name="country_sl">塞拉利昂</string>
+    <string name="country_sg">新加坡</string>
+    <string name="country_sk">斯洛伐克</string>
+    <string name="country_si">斯洛文尼亚</string>
+    <string name="country_sb">所罗门群岛</string>
+    <string name="country_so">索马里</string>
+    <string name="country_za">南非</string>
+    <string name="country_gs">南乔治亚岛和南桑德韦奇岛</string>
+    <string name="country_es">西班牙</string>
+    <string name="country_lk">斯里兰卡</string>
+    <string name="country_sd">苏丹</string>
+    <string name="country_sr">苏里南</string>
+    <string name="country_sj">斯瓦尔巴岛和扬马延岛</string>
+    <string name="country_sz">斯威士兰</string>
+    <string name="country_se">瑞典</string>
+    <string name="country_ch">瑞士</string>
+    <string name="country_sy">阿拉伯叙利亚共和国</string>
+    <string name="country_tw">台湾</string>
+    <string name="country_tj">塔吉克斯坦</string>
+    <string name="country_tz">坦桑尼亚联合共和国</string>
+    <string name="country_th">泰国</string>
+    <string name="country_tl">东帝汶</string>
+    <string name="country_tg">多哥</string>
+    <string name="country_tk">托克劳</string>
+    <string name="country_to">汤加</string>
+    <string name="country_tt">特立尼达和多巴哥</string>
+    <string name="country_tn">突尼斯</string>
+    <string name="country_tr">土耳其</string>
+    <string name="country_tm">土库曼斯坦</string>
+    <string name="country_tc">特克斯和凯科斯群岛</string>
+    <string name="country_tv">图瓦卢</string>
+    <string name="country_ug">乌干达</string>
+    <string name="country_ua">乌克兰</string>
+    <string name="country_ae">阿拉伯联合酋长国</string>
+    <string name="country_gb">英国</string>
+    <string name="country_us">美国</string>
+    <string name="country_um">美国本土外小岛屿</string>
+    <string name="country_uy">乌拉圭</string>
+    <string name="country_uz">乌兹别克斯坦</string>
+    <string name="country_vu">瓦努阿图</string>
+    <string name="country_ve">委内瑞拉</string>
+    <string name="country_vn">越南</string>
+    <string name="country_vg">维尔京群岛（英属）</string>
+    <string name="country_vi">维尔京群岛（美属）</string>
+    <string name="country_wf">瓦利斯和富图纳群岛</string>
+    <string name="country_eh">西撒哈拉</string>
+    <string name="country_ye">也门</string>
+    <string name="country_zm">赞比亚</string>
+    <string name="country_zw">津巴布韦</string>
+    <string name="country_ax">奥兰群岛</string>
 </resources>

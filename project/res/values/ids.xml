@@ -4,6 +4,7 @@
   <item type="id" name="check_out_time" />
   <item type="id" name="sort_popular_button"/>
   <item type="id" name="sort_price_button"/>
+  <item type="id" name="sort_deals_button"/>
   <item type="id" name="sort_distance_button"/>
   <item type="id" name="sort_reviews_button"/>
 

@@ -11,6 +11,7 @@ import android.content.Context;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.model.Search;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
@@ -49,6 +50,8 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 			try {
 				JSONObject responseSuggestion = responseSuggestions.getJSONObject(i);
 				String locationName = responseSuggestion.getString("f");
+				locationName = StrUtils.removeUSAFromAddress(locationName);
+
 				//String cityName = responseSuggestion.getString("s");
 				//String countryName = responseSuggestion.getString("c");
 				String regionId = responseSuggestion.getString("id");

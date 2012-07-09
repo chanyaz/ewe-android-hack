@@ -1,45 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/saved_billing_info_layout"
     style="@style/BookingSection"
-	android:padding="@dimen/booking_form_saved_section_padding"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:padding="@dimen/booking_form_saved_section_padding" >
 
     <TextView
         android:id="@+id/address_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/booking_form_saved_field_text_size"
-        android:textColor="#545454" />
+        android:textColor="#545454"
+        android:textSize="@dimen/booking_form_saved_field_text_size" />
 
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:drawableLeft="@drawable/ic_edit"
+        android:drawablePadding="3dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"/>
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="@string/edit"
-            android:textSize="@dimen/booking_form_saved_field_text_size"
-            android:textColor="#545454"
-			android:shadowColor="@android:color/white"
-			android:shadowRadius="0.1"
-            android:shadowDx="0"
-            android:shadowDy="1" />
-
-        
-        </LinearLayout>
+        android:shadowColor="@android:color/white"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius="0.1"
+        android:text="@string/edit"
+        android:textColor="#545454"
+        android:textSize="@dimen/booking_form_saved_field_text_size" />
 
 </RelativeLayout>

@@ -13,6 +13,7 @@ import android.text.StaticLayout;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.FloatMath;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -508,7 +509,7 @@ public class CustomEditText extends EditText {
 		/*
 		 * Now set the popup size to be big enough for the text plus the border.
 		 */
-		pop.setWidth(wid + (int) Math.ceil(max));
+		pop.setWidth(wid + (int) FloatMath.ceil(max));
 		pop.setHeight(ht + l.getHeight());
 	}
 

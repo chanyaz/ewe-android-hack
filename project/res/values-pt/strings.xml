@@ -1,1039 +1,1070 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<string name="app_name">Expedia</string>
+    <string name="app_name">Expedia</string>
 
-	<!-- Search Fragment -->
-	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Inserir a posição de pesquisa...</string>
-	<!-- Hint for "search location" field -->
-	<string name="hint_search_location">Pesquisar posição</string>
-	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">Carregando sugestões...</string>
-	<!-- Label for recent searches user has made -->
-	<string name="recent_searches">Pesquisas recentes</string>
-	<!-- Label for searches that the user can make that are featured -->
-	<string name="featured_destinations">Destinos em destaque</string>
-	<!-- Label for button that starts search -->
-	<string name="search_for_hotels">Procurar hotéis</string>
-	<!--  Label for picking search location -->
-	<string name="where_are_you_going">&lt;b&gt;Para onde&lt;/b&gt; você vai?</string>
-	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;Arraste&lt;/b&gt; para aumentar sua estadia.</string>
-	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">&lt;b&gt;Quem&lt;/b&gt; vai?</string>
-	<!-- Child age dialog button -->
-	<string name="button_done">Concluído</string>
-	<!--  Label for child age selection prompt -->
-	<plurals name="select_each_childs_age">
-	    <item quantity="one">Selecione a idade da criança</item>
-	    <item quantity="two">Selecione a idade de cada criança</item>
-	    <item quantity="many">Selecione a idade de cada criança</item>
-	    <item quantity="other">Selecione a idade de cada criança</item>
-	</plurals>
-	<!--  Title of "select child age" spinner dialog box -->
-	<string name="prompt_select_child_age">Selecione a idade da criança (%1$s - %2$s)</string>
-	<!--  Text for child's age on search refinements and in spinner -->
-	<plurals name="child_age">
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; ano</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; anos</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; anos</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; anos</item>
-	</plurals>
-	<!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-	<string name="child_age_less_than_one">&lt;b&gt;Menos de 1&lt;/b&gt; ano</string>
-	
-	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-	<!-- Suggestion to search Times Square -->
-	<string name="suggestion_times_square">Times Square, Nova York, NY</string>
-	<string name="suggestion_boston">Boston, MA</string>
-	<string name="suggestion_los_angeles">Los Angeles, CA</string>
-	<string name="suggestion_venice">Venice Beach Park, Venice, CA</string>
-	<string name="suggestion_miami">Miami, FL</string>
-	<string name="suggestion_london">Londres, UK</string>
-	<string name="suggestion_las_vegas">Las Vegas, NV</string>
-	<string name="suggestion_paris">Paris, França</string>
-	<string name="suggestion_minneapolis">Minneapolis, MN</string>
-	<string name="suggestion_san_francisco">São Francisco, CA</string>
+    <!-- General -->
+    <!-- Connectivity -->
+    <!-- Dialog Message tell the user that their device has no internet connection -->
+    <string name="dialog_message_no_connection">Parece que você está conectado à internet no momento.</string>
 
-	<!-- Search Activity -->
-	<!-- Label for "start search" button -->
-	<string name="search">Pesquisar</string>
-	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
-	    1$ - The search address
-	    2$ - The check-in date
-	    3$ - The check-out date
-	    The dates may include year, if we cross a year boundary 
-	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; a &lt;b&gt;%3$s&lt;/b&gt;</string>
-	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
-	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
-	</plurals>
-	<!-- Hint for filtering results by hotel name -->
-	<string name="filter_hotel_name_hint">Filtrar pelo nome do hotel</string>
-	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">Desculpe, mas nenhum hotel corresponde aos seus filtros atuais.</string>
-	<!-- Label indicating that geolocation failed -->
-	<string name="geolocation_failed">Não foi possível determinar a posição de pesquisa.</string>
-	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-	<string name="NoGeocodingResults">Não foi possível determinar o local de %s.</string>
-	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">Você quis dizer...</string>
-	<!-- Button label for upgrading the app -->
-	<string name="upgrade">Nova versão</string>
-	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">Pesquisar no mapa</string>
-	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">Carregando os resultados da pesquisa anterior...</string>
-	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">&quot;Ordenar por:&quot;</string>
-	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;Ordenar&lt;/b&gt;: %s</string>
-	<!-- Label for filter hotels button in bottom bar -->
-	<string name="filter_hotels">Filtrar hotéis</string>
-	<!-- A number of results -->
-	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultado</item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultado</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultados</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultados</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultados</item>
-	</plurals>
+    <!-- Search Fragment -->
+    <!-- Initial hint for the search location field - invites the user to enter information here -->
+    <string name="enter_search_location">Insira o local da busca</string>
+    <!-- Hint for "search location" field -->
+    <string name="hint_search_location">Pesquisar posição</string>
+    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+    <string name="loading_suggestions">Carregando sugestões…</string>
+    <!-- Label for recent searches user has made -->
+    <string name="recent_searches">Pesquisas recentes</string>
+    <!-- Label for searches that the user can make that are featured -->
+    <string name="featured_destinations">Destinos em destaque</string>
+    <!-- Label for button that starts search -->
+    <string name="search_for_hotels">Procurar hotéis</string>
+    <!--  Label for picking search location -->
+    <string name="where_are_you_going">&lt;b&gt;Para onde&lt;/b&gt; você vai?</string>
+    <!--  Label for picking checkin/checkout dates -->
+    <string name="drag_to_extend_your_stay">&lt;b&gt;Arraste&lt;/b&gt; para aumentar sua estadia.</string>
+    <!--  Label for picking guests for hotel booking -->
+    <string name="who_is_going">&lt;b&gt;Quem&lt;/b&gt; vai?</string>
+    <!-- Child age dialog button -->
+    <string name="button_done">Concluído</string>
+    <!--  Label for child age selection prompt -->
+    <plurals name="select_each_childs_age">
+        <item quantity="one">Selecione a idade da criança</item>
+        <item quantity="two">Selecione a idade de cada criança</item>
+        <item quantity="many">Selecione a idade de cada criança</item>
+        <item quantity="other">Selecione a idade de cada criança</item>
+    </plurals>
+    <!--  Title of "select child age" spinner dialog box -->
+    <string name="prompt_select_child_age">Selecione a idade da criança (%1$s - %2$s)</string>
+    <!--  Text for child's age on search refinements and in spinner -->
+    <plurals name="child_age">
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; ano</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; anos</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; anos</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; anos</item>
+    </plurals>
+    <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
+    <string name="child_age_less_than_one">&lt;b&gt;Menos de 1&lt;/b&gt; ano</string>
 
-	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Para usar Minha posição, é necessário primeiro ativar uma origem de Local em Configurações.\nIr para Configurações e ativá-la agora?</string>
-	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">Seu provedor de local foi desabilitado. Reabilite-o para pesquisar em seu local.</string>
-	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">Seu provedor de local está fora de serviço. Tente novamente mais tarde.</string>
-	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Seu provedor de local está temporariamente indisponível.  Tente novamente em alguns minutos.</string>
+    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
+    <!-- Suggestion to search Times Square -->
+    <string name="suggestion_times_square">Times Square, Nova York, NY</string>
+    <string name="suggestion_boston">Boston, MA</string>
+    <string name="suggestion_los_angeles">Los Angeles, CA</string>
+    <string name="suggestion_venice">Venice Beach Park, Venice, CA</string>
+    <string name="suggestion_miami">Miami, FL</string>
+    <string name="suggestion_london">Londres, UK</string>
+    <string name="suggestion_las_vegas">Las Vegas, NV</string>
+    <string name="suggestion_paris">Paris, França</string>
+    <string name="suggestion_minneapolis">Minneapolis, MN</string>
+    <string name="suggestion_san_francisco">São Francisco, CA</string>
 
-	<!-- Sort descriptions, e.g. Sorted by "description" -->
-	<!-- Sort by distance label -->
-	<string name="sort_description_distance">Distância</string>
-	<!-- Sort by popularity label -->
-	<string name="sort_description_popular">Popularidade</string>
-	<!-- Sort by price label -->
-	<string name="sort_description_price">Preço</string>
-	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Avaliação do usuário</string>
-	
-	<!-- Filter option for "show all" -->
-	<string name="all">Todos</string>
-	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_cheap">$</string>
-	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_moderate">$$</string>
-	<!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_expensive">$$$</string>
-	<!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_three">3+</string>
-	<!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_four">4+</string>
-	<!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
-	<string name="filter_stars_five">5</string>
-	<!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-	<string name="filter_distance_miles_template">%smi</string>
-	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-	<string name="filter_distance_kilometers_template">%s km</string>
+    <!-- Search Activity -->
+    <!-- Label for "start search" button -->
+    <string name="search">Pesquisar</string>
+    <!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
+        1$ - The search address
+        2$ - The check-in date
+        3$ - The check-out date
+        The dates may include year, if we cross a year boundary
+    -->
+    <string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; a &lt;b&gt;%3$s&lt;/b&gt;</string>
+    <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
+    <plurals name="number_of_matching_hotels">
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
+    </plurals>
+    <!-- Hint for filtering results by hotel name -->
+    <string name="filter_hotel_name_hint">Filtrar pelo nome do hotel</string>
+    <!-- Label indicating that there are no results matching their current filter -->
+    <string name="no_filter_results">Desculpe, mas nenhum hotel corresponde aos seus filtros atuais.</string>
+    <!-- Label indicating that geolocation failed -->
+    <string name="geolocation_failed">Não foi possível determinar a posição de pesquisa.</string>
+    <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
+    <string name="NoGeocodingResults">Não foi possível determinar o local de %s.</string>
+    <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
+    <string name="ChooseLocation">Você quis dizer…</string>
+    <!-- Button label for upgrading the app -->
+    <string name="upgrade">Nova versão</string>
+    <!-- Button label for searching the visible map area -->
+    <string name="map_search_button">Pesquisar no mapa</string>
+    <!-- Message when app is loading saved search results -->
+    <string name="loading_previous">Carregando resultados da pesquisa anterior…</string>
+    <!-- Label for sort hotels button in bottom bar -->
+    <string name="sort_hotels">&quot;Ordenar por:&quot;</string>
+    <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
+    <string name="sort_hotels_template">&lt;b&gt;Ordenar&lt;/b&gt;: %s</string>
+    <!-- Label for filter hotels button in bottom bar -->
+    <string name="filter_hotels">Filtrar hotéis</string>
+    <!-- A number of results -->
+    <plurals name="number_of_results">
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultado</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultado</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultados</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultados</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultados</item>
+    </plurals>
 
-	<!-- Progress messages -->	
-	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Procurando a posição atual...</string>
-	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Procurando hotéis...</string>
-	<!-- Message displayed when search comes up with zero results -->
-	<string name="progress_search_failed">Nenhum hotel encontrado</string>
-	
-	<!-- Suggestion adapter -->
-	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-	<string name="current_location">Posição atual</string>
-	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">Mapa</string>
+    <!-- Dialog message asking user if they want to enable a location provider. -->
+    <string name="EnableLocationSettings">Para usar Minha posição, é necessário primeiro ativar uma origem de Local em Configurações.\nIr para Configurações e ativá-la agora?</string>
+    <!-- Message displayed when user has disabled finding the device's location. -->
+    <string name="ProviderDisabled">Seu provedor de local foi desabilitado. Reabilite-o para pesquisar em seu local.</string>
+    <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
+    <string name="ProviderOutOfService">Seu provedor de local está fora de serviço. Tente novamente mais tarde.</string>
+    <!-- Message displayed when the location provider is temporarily unavailable. -->
+    <string name="ProviderTemporarilyUnavailable">Seu provedor de local está temporariamente indisponível.  Tente novamente em alguns minutos.</string>
 
-	<!-- Search list adapter -->
-	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">A partir de</string>
-	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">De &lt;strike&gt;%s&lt;/strike&gt;</string>
-	<!-- The label for price per night - "from $120/night", for example -->
-	<string name="per_night">/noite</string>
-	<!-- Label shown when a hotel has no user ratings -->
-	<string name="not_rated">Não avaliado</string>
-	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f%% OFF</string>
+    <!-- Sort descriptions, e.g. Sorted by "description" -->
+    <!-- Sort by distance label -->
+    <string name="sort_description_distance">Distância</string>
+    <!-- Sort by popularity label -->
+    <string name="sort_description_popular">Popularidade</string>
+    <!-- Sort by price label -->
+    <string name="sort_description_price">Preço</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_rating">Avaliação do usuário</string>
 
-	<!-- Filter results action bar label -->
-	<string name="filter_results">Filtrar resultados</string>
-	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
-	<string name="filter">Filtrar</string>
+    <!-- Filter option for "show all" -->
+    <string name="all">Todos</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap">$</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate">$$</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_three">3+</string>
+    <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_four">4+</string>
+    <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
+    <string name="filter_stars_five">5</string>
+    <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
+    <string name="filter_distance_miles_template">%smi</string>
+    <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
+    <string name="filter_distance_kilometers_template">%s km</string>
 
-	<!-- Map -->
-	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">A partir de %s</string>
+    <!-- Progress messages -->
+    <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
+    <string name="progress_finding_location">Procurando posição atual</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels">Pesquisando hotéis</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="progress_search_failed">Nenhum hotel encontrado</string>
 
-	<!-- Mini-details fragment -->
-	<!-- Label for "see details" button on the mini details fragment -->
-	<string name="see_details">Ver detalhes</string>
+    <!-- Suggestion adapter -->
+    <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <string name="current_location">Posição atual</string>
+    <!-- Suggestion to search the currently visible map area on the screen -->
+    <string name="visible_map_area">Mapa</string>
 
-	<!-- Widget -->
-	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">Carregando hotéis...</string>
-	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Economize %2.0f%%</string>
-	<!--  Indicator to user to tap the widget to cause it to refresh -->
-	<string name="refresh_widget">Toque para atualizar</string>
-	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions">Toque e mantenha o dedo na tela inicial para adicionar o widget Hotel Radar.</string>
-	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Sem conexão à internet</string>
-	<!--  Widget Branding title -->
-	<string name="hotel_radar">Hotel Radar</string>
-	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">Reserve um hotel esta noite.</string>
-	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">Adicionar Widget Hotel Radar.</string>
-	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">Receba, todas as noites, as ofertas perto de você!</string>
+    <!-- Search list adapter -->
+    <!-- The label for how much hotels cost - "from $120/night", for example -->
+    <string name="from">A partir de</string>
+    <!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
+    <string name="from_template">De &lt;strike&gt;%s&lt;/strike&gt;</string>
+    <!-- The label for price per night - "from $120/night", for example -->
+    <string name="per_night">/noite</string>
+    <!-- Label shown when a hotel has no user ratings -->
+    <string name="not_rated">Não avaliado</string>
+    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+    <string name="percent_off_template">%2.0f%% OFF</string>
 
-	<!-- Hotel Activity -->
-	<!-- Label for button to book the hotel -->
-	<string name="book_now">Reserve!</string>
-	<!-- Label for the hotel's star rating -->
-	<string name="star_rating">Classificação por estrelas</string>
-	<!--  Title for star rating in hotel description section -->
-	<string name="star_rating_title">Classificação por estrelas:</string>
-	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="user_rating">Avaliação do usuário</string>
-	<!-- Label for the address section of the description  -->
-	<string name="address">Endereço</string>
-	<!-- Bullet point for list items  -->
-	<string name="bullet_point">•</string>
-	
-	<!--  Hotel Details Fragment -->
-	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">A partir de %s</string>
-	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; de</string>
-	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">Recomendado por %1$d de %2$d hóspedes</string>
-	<!--  Title for the amenities section in the hotel details fragment -->
-	<string name="amenities">Comodidades</string>
-	<!--  Label for button to see all reviews as a modal dialog -->
-	<string name="see_all_reviews">Ver todas as avaliações</string>
-	<!-- Label for button that brings users to the room selection page -->
-	<string name="select_room">Selecionar quarto</string>
+    <!-- Filter results action bar label -->
+    <string name="filter_results">Filtrar resultados</string>
+    <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+    <string name="filter">Filtrar</string>
 
-	<!-- Amenity strings -->
-	<!-- Text that indicates no amenities at this property -->
-	<string name="AmenityNone">Nenhuma comodidade oferecida</string>
-	<!-- Business center amenity -->
-	<string name="AmenityBusinessCenter">Business Center</string>
-	<!-- Fitness center amenity -->
-	<string name="AmenityFitnessCenter">Academia</string>
-	<!-- Hot tub on-site amenity -->
-	<string name="AmenityHotTub">Banheira de hidromassagem</string>
-	<!-- Internet access amenity -->
-	<string name="AmenityInternet">Internet</string>
-	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">Atividades infantis</string>
-	<!-- Kitchen/kitchenette amenity -->
-	<string name="AmenityKitchen">Cozinha</string>
-	<!-- Pets allowed amenity -->
-	<string name="AmenityPetsAllowed">Animais de estimação</string>
-	<!-- Pool amenity -->
-	<string name="AmenityPool">Piscina</string>
-	<!-- Restaurant on-site amenity -->
-	<string name="AmenityRestaurant">Restaurante</string>
-	<!-- Spa on-site amenity -->
-	<string name="AmenitySpa">Spa</string>
-	<!-- Whirlpool bath amenity -->
-	<string name="AmenityWhirlpoolBath">Hidromassagem</string>
-	<!-- Breakfast amenity -->
-	<string name="AmenityBreakfast">Café da manhã</string>
-	<!-- Babysitting amenity -->
-	<string name="AmenityBabysitting">Serviço de babá</string>
-	<!-- Jacuzzi amenity -->
-	<string name="AmenityJacuzzi">Jacuzzi</string>
-	<!-- Parking amenity -->
-	<string name="AmenityParking">Estacionamento</string>
-	<!-- Room service amenity -->
-	<string name="AmenityRoomService">Serviço de quarto</string>
-	<!-- Accessible path of travel amenity -->
-	<string name="AmenityAccessiblePaths">Acesso p/ def. físicos</string>
-	<!-- Accessible bathroom amenity -->
-	<string name="AmenityAccessibleBathroom">Banheiro acessível</string>
-	<!-- Roll-in shower amenity -->
-	<string name="AmenityRollInShower">Ducha acessível</string>
-	<!-- Handicapped parking amenity -->
-	<string name="AmenityHandicappedParking">Estacionamento acessível</string>
-	<!-- In-room accessibility amenity -->
-	<string name="AmenityInRoomAccessibility">Quarto acessível</string>
-	<!-- Accessibility equipment for the deaf amenity -->
-	<string name="AmenityDeafAccessibilityEquipment">Acessível p/ def. auditivos</string>
-	<!-- Braille or raised signage amenity -->
-	<string name="AmenityBrailleSignage">Sinalização em braille</string>
-	<!-- Free airport shuttle amenity -->
-	<string name="AmenityFreeAirportShuttle">Traslado de/para o aeroporto</string>
-	<!-- Indoor pool amenity -->
-	<string name="AmenityPoolIndoor">Piscina coberta</string>
-	<!-- Outdoor pool amenity -->
-	<string name="AmenityPoolOutdoor">Piscina externa</string>
-	<!-- Extended parking amenity -->
-	<string name="AmenityExtendedParking">Estacionamento prolongado</string>
-	<!-- Free parking amenity -->
-	<string name="AmenityFreeParking">Estacionamento grátis</string>
+    <!-- Map -->
+    <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
+    <string name="map_snippet_price_template">A partir de %s</string>
 
-	<!-- User Reviews list strings -->
-	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">Carregando avaliações dos usuários...</string>
-	<!-- Header for reviews of the non-native language -->
-	<string name="user_review_other_languages_title">Avaliações em outros idiomas</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_recent">Recente</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_favorable">Favorável</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">Crítico</string>
-	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Carregando mais avaliações...</string>
-	<!-- Read more of the review -->
-	<string name="user_review_read_more">Leia mais</string>
-	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-		1$ represents the number of guests that recommend this hotel
-		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; de &lt;b&gt;%2$d&lt;/b&gt; hóspedes recomendam este hotel.</string>
-	<!-- A number of reviews -->
-	<plurals name="number_of_reviews">
-		<item quantity="zero">%d avaliação</item>
-		<item quantity="one">%d avaliação</item>
-		<item quantity="two">%d avaliações</item>
-		<item quantity="many">%d avaliações</item>
-		<item quantity="other">%d avaliações</item>
-	</plurals>
-	<!-- User review name and place review signature eg (John from San Diego, CA)
-		1$ is the user name
-		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$s de %2$s</string>
-	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">Não há avaliações críticas para este hotel</string>
-	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Não há avaliações favoráveis para este hotel</string>
-	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">Não há avaliações recentes para este hotel</string>
-	<!-- User reviews server/parsing error -->
-	<string name="user_review_unavailable">As avaliações não estão disponíveis no momento</string>
-	
-	<!-- Room and rates list -->
-	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-	<plurals name="staying_nights">
-		<item quantity="zero">Estadia de %d noite</item>
-		<item quantity="one">Estadia de %d noite</item>
-		<item quantity="two">Estadia de %d noites</item>
-		<item quantity="many">Estadia de %d noites</item>
-		<item quantity="other">Estadia de %d noites</item>
-	</plurals>
-	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Procurando quartos disponíveis...</string>
-	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Não foi possível baixar as informações sobre quartos e tarifas.  Verifique sua conexão e tente novamente.</string>
-	<!-- Rate price displayed "per night" -->
-	<string name="rate_per_night">por noite</string>
-	<!-- Rate price displayed "average per night" -->
-	<string name="rate_avg_per_night">méd./noite</string>
-	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-	<plurals name="number_of_rooms_left">
-		<item quantity="zero">Nenhum quarto restante!</item>
-		<item quantity="one">Resta apenas 1 quarto!</item>
-		<item quantity="two">Restam apenas %d quartos!</item>
-		<item quantity="many">Restam apenas %d quartos!</item>
-		<item quantity="other">Restam apenas %d quartos!</item>
-	</plurals>
+    <!-- Mini-details fragment -->
+    <!-- Label for "see details" button on the mini details fragment -->
+    <string name="see_details">Ver detalhes</string>
+
+    <!-- Widget -->
+    <!--  Default Loading message for widget -->
+    <string name="loading_hotels">Carregando hotéis…</string>
+    <!--  Template for sale element in widget. The parameter is for the sale % -->
+    <string name="widget_savings_template">Economize %2.0f%%</string>
+    <!--  Indicator to user to tap the widget to cause it to refresh -->
+    <string name="refresh_widget">Toque para atualizar</string>
+    <!--  Instructions on how to add widget to home screen -->
+    <string name="widget_add_instructions">Toque e mantenha o dedo na tela inicial para adicionar o widget Hotel Radar.</string>
+    <!--  Error string for widget when internet connection is unavailable -->
+    <string name="widget_error_no_internet">Sem conexão à internet</string>
+    <!--  Widget Branding title -->
+    <string name="hotel_radar">Hotel Radar</string>
+    <!--  Widget Branding description -->
+    <string name="book_a_room_tonight">Reserve um hotel esta noite.</string>
+    <!--  First string for widget upsell within app as a notification in the top bar -->
+    <string name="widget_upsell_short_1">Adicionar Widget Hotel Radar.</string>
+    <!--  Second string for widget upsell within app as a notification in the app bar -->
+    <string name="widget_upsell_short_2">Receba, todas as noites, as ofertas perto de você!</string>
+
+    <!-- Hotel Activity -->
+    <!-- Label for button to book the hotel -->
+    <string name="book_now">Reserve!</string>
+    <!-- Label for the hotel's star rating -->
+    <string name="star_rating">Classificação por estrelas</string>
+    <!--  Title for star rating in hotel description section -->
+    <string name="star_rating_title">Classificação por estrelas:</string>
+    <!-- Label for the hotel's trip advisor rating  -->
+    <string name="user_rating">Avaliação do usuário</string>
+    <!-- Label for the address section of the description  -->
+    <string name="address">Endereço</string>
+    <!-- Bullet point for list items  -->
+    <string name="bullet_point">•</string>
+
+    <!--  Hotel Details Fragment -->
+    <!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
+    <string name="min_room_price_template">A partir de %s</string>
+    <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
+    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; de</string>
+    <!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel -->
+    <string name="reviews_recommended_template">Recomendado por %1$d de %2$d hóspedes</string>
+    <!--  Title for the amenities section in the hotel details fragment -->
+    <string name="amenities">Comodidades</string>
+    <!--  Label for button to see all reviews as a modal dialog -->
+    <string name="see_all_reviews">Ver todas as avaliações</string>
+    <!-- Label for button that brings users to the room selection page -->
+    <string name="select_room">Selecionar quarto</string>
+
+    <!-- Amenity strings -->
+    <!-- Text that indicates no amenities at this property -->
+    <string name="AmenityNone">Nenhuma comodidade oferecida</string>
+    <!-- Business center amenity -->
+    <string name="AmenityBusinessCenter">Business Center</string>
+    <!-- Fitness center amenity -->
+    <string name="AmenityFitnessCenter">Academia</string>
+    <!-- Hot tub on-site amenity -->
+    <string name="AmenityHotTub">Banheira de hidromassagem</string>
+    <!-- Internet access amenity -->
+    <string name="AmenityInternet">Internet</string>
+    <!-- Kids' activities amenity -->
+    <string name="AmenityKidsActivities">Atividades infantis</string>
+    <!-- Kitchen/kitchenette amenity -->
+    <string name="AmenityKitchen">Cozinha</string>
+    <!-- Pets allowed amenity -->
+    <string name="AmenityPetsAllowed">Animais de estimação</string>
+    <!-- Pool amenity -->
+    <string name="AmenityPool">Piscina</string>
+    <!-- Restaurant on-site amenity -->
+    <string name="AmenityRestaurant">Restaurante</string>
+    <!-- Spa on-site amenity -->
+    <string name="AmenitySpa">Spa</string>
+    <!-- Whirlpool bath amenity -->
+    <string name="AmenityWhirlpoolBath">Hidromassagem</string>
+    <!-- Breakfast amenity -->
+    <string name="AmenityBreakfast">Café da manhã</string>
+    <!-- Babysitting amenity -->
+    <string name="AmenityBabysitting">Serviço de babá</string>
+    <!-- Jacuzzi amenity -->
+    <string name="AmenityJacuzzi">Jacuzzi</string>
+    <!-- Parking amenity -->
+    <string name="AmenityParking">Estacionamento</string>
+    <!-- Room service amenity -->
+    <string name="AmenityRoomService">Serviço de quarto</string>
+    <!-- Accessible path of travel amenity -->
+    <string name="AmenityAccessiblePaths">Acesso p/ def. físicos</string>
+    <!-- Accessible bathroom amenity -->
+    <string name="AmenityAccessibleBathroom">Banheiro acessível</string>
+    <!-- Roll-in shower amenity -->
+    <string name="AmenityRollInShower">Ducha acessível</string>
+    <!-- Handicapped parking amenity -->
+    <string name="AmenityHandicappedParking">Estacionamento acessível</string>
+    <!-- In-room accessibility amenity -->
+    <string name="AmenityInRoomAccessibility">Quarto acessível</string>
+    <!-- Accessibility equipment for the deaf amenity -->
+    <string name="AmenityDeafAccessibilityEquipment">Acessível p/ def. auditivos</string>
+    <!-- Braille or raised signage amenity -->
+    <string name="AmenityBrailleSignage">Sinalização em braille</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="AmenityFreeAirportShuttle">Traslado de/para o aeroporto</string>
+    <!-- Indoor pool amenity -->
+    <string name="AmenityPoolIndoor">Piscina coberta</string>
+    <!-- Outdoor pool amenity -->
+    <string name="AmenityPoolOutdoor">Piscina externa</string>
+    <!-- Extended parking amenity -->
+    <string name="AmenityExtendedParking">Estacionamento prolongado</string>
+    <!-- Free parking amenity -->
+    <string name="AmenityFreeParking">Estacionamento grátis</string>
+
+    <!-- User Reviews list strings -->
+    <!-- Loading text prompt -->
+    <string name="user_review_loading_text">Carregando avaliações de usuários</string>
+    <!-- Header for reviews of the non-native language -->
+    <string name="user_review_other_languages_title">Avaliações em outros idiomas</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_recent">Recente</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_favorable">Favorável</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_critical">Crítico</string>
+    <!-- Loading more reviews -->
+    <string name="user_review_loading_more_reviews">Carregando mais avaliações…</string>
+    <!-- Read more of the review -->
+    <string name="user_review_read_more">Leia mais</string>
+    <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
+        1$ represents the number of guests that recommend this hotel
+        2$ represents the total number of guests  -->
+    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; de &lt;b&gt;%2$d&lt;/b&gt; hóspedes recomendam este hotel.</string>
+    <!-- A number of reviews -->
+    <plurals name="number_of_reviews">
+        <item quantity="zero">%d avaliação</item>
+        <item quantity="one">%d avaliação</item>
+        <item quantity="two">%d avaliações</item>
+        <item quantity="many">%d avaliações</item>
+        <item quantity="other">%d avaliações</item>
+    </plurals>
+    <!-- User review name and place review signature eg (John from San Diego, CA)
+        1$ is the user name
+        2$ is the place they are from -->
+    <string name="user_review_name_and_location_signature">%1$s de %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Não há avaliações críticas para este hotel</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Não há avaliações favoráveis para este hotel</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Não há avaliações recentes para este hotel</string>
+    <!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">As avaliações não estão disponíveis no momento</string>
+
+    <!-- Room and rates list -->
+    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+    <plurals name="staying_nights">
+        <item quantity="zero">Estadia de %d noite</item>
+        <item quantity="one">Estadia de %d noite</item>
+        <item quantity="two">Estadia de %d noites</item>
+        <item quantity="many">Estadia de %d noites</item>
+        <item quantity="other">Estadia de %d noite</item>
+    </plurals>
+    <!-- Loading message for rooms & rates -->
+    <string name="room_rates_loading">Buscando quartos disponíveis…</string>
+    <!-- Error message (no response) for not being able to download room and rates information -->
+    <string name="error_no_response_room_rates">Não foi possível baixar as informações sobre quartos e tarifas.  Verifique sua conexão e tente novamente.</string>
+    <!-- Rate price displayed "per night" -->
+    <string name="rate_per_night">por noite</string>
+    <!-- Rate price displayed "average per night" -->
+    <string name="rate_avg_per_night">méd./noite</string>
+    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
+    <plurals name="number_of_rooms_left">
+        <item quantity="zero">Nenhum quarto restante!</item>
+        <item quantity="one">Resta apenas 1 quarto!</item>
+        <item quantity="two">Restam apenas %d quartos!</item>
+        <item quantity="many">Restam apenas %d quartos!</item>
+        <item quantity="other">Restam apenas %d quartos!</item>
+    </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Não-reembolsável</string>
-	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">Economize\n %2.0f%%</string>
-	<!-- Label for free nights -->
-	<string name="free">GRÁTIS!</string>
-	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-	<string name="value_add_template">Inclui %s</string>
-	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">Todos os quartos oferecem %s</string>
-	<!--  Instruction as the header of the list to select a room from the list -->
-	<string name="select_a_room_instruction">Selecione um quarto</string>
-	
-	<!-- Gallery -->
-	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-	<string name="gallery_title_template">Fotos de &lt;b&gt;%1$s&lt;/b&gt;</string>
-	    
-	<!-- Booking info -->
-	<!-- edit label -->
-	<string name="edit">Editar</string>
-	<!-- Label for room type -->
-	<string name="room_type">Tipo de quarto</string>
-	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Não foi possível carregar os detalhes do quarto.  Verifique sua conexão à internet e tente novamente.</string>
-	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">Não foi possível encontrar mais informações para este quarto.</string>
-	<!-- Label for bed type -->
-	<string name="bed_type">Tipo de cama</string>
-	<!-- Label for length of stay -->
-	<string name="stay_duration">Duração da estadia</string>
-	<!-- Quantity for the length of stay -->
-	<plurals name="length_of_stay">
-		<item quantity="one">1 noite</item>
-		<item quantity="other">%d noites</item>
-	</plurals>
-	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-	<string name="room_rate_template">Tarifa do quarto %s</string>
-	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">Cobrança por hóspede extra</string>
-	<!-- Label for total cost of hotel stay -->
-	<string name="total_cost">Custo total</string>
-	<!-- Label for "guest info" form field section -->
-	<string name="guest_info">Informações sobre o hóspede</string>
-	<!-- The "first name" booking info field.  -->
-	<string name="FirstName">Nome</string>
-	<!-- The "last name" booking info field.  -->
-	<string name="LastName">Sobrenome</string>
-	<!-- Hint for "telephone country code" field (e.g., "+44") -->
-	<string name="hint_telephone_country_code">##</string>
-	<!-- The "telephone" booking info field.  -->
-	<string name="Telephone">Telefone</string>
-	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">E-mail para confirmação</string>
-	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">Informações para cobrança</string>
-	<!-- Address line 1 form field hint -->
-	<string name="hint_address1">Endereço 1</string>
-	<!-- Address line 2 form field hint -->
-	<string name="hint_address2">Endereço 2 (opcional)</string>
-	<!-- The "city" booking info field.  -->
-	<string name="City">Cidade</string>
-	<!-- The "postal code" booking info field.  -->
-	<string name="PostalCode">CEP</string>
-	<!-- State code hint -->
-	<string name="hint_state_code">Estado</string>
-	<!-- Label for "credit card info" form field section -->
-	<string name="credit_card_info">Informações do cartão de crédito</string>
-	<!-- Label for credit card selection box -->
-	<string name="saved_cards">Cartões salvos</string>
-	<!-- Label for entering new credit card information -->
-	<string name="enter_a_new_card">Inserir um novo cartão</string>
-	<!-- Card number form field hint -->
-	<string name="hint_card_number">Número do cartão</string>
-	<!-- Card expiration month form field hint -->
-	<string name="hint_expiration_month">m</string>
-	<!-- Card expiration year form field hint -->
-	<string name="hint_expiration_year">aa</string>
-	<!-- Security code label -->
-	<string name="security_code">Código de segurança</string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_front">Ver a frente do cartão</string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_back">Ver o verso do cartão</string>
-	<!-- Rules & restrictions section header -->
-	<string name="rules_restrictions">Regras e restrições</string>
-	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Se você possui uma conta Expedia Rewards, faça sua reserva com o mesmo endereço de e-mail e seus pontos serão automaticamente acreditados após sua estadia. Porém, pode levar até mais de 30 dias para que os pontos apareçam na sua conta.</string>
-	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">Info da reserva</string>
-	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">O valor de %s será cobrado em seu cartão de crédito</string>
-	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">Confirmar e reservar</string>
-	<!-- Label for clearing private data -->
-	<string name="clear_private_data">Apagar dados privados</string>
-	<!-- Title for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_title">Apagar dados privados?</string>
-	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">Remove todas as informações salvas relativas à fatura e ao contato.</string>
-	<!-- Title for dialog after private data has been cleared -->
-	<string name="toast_private_data_cleared">Dados privados apagados</string>
-	<!-- Error message if field was required but not entered -->
-	<string name="required_field">Insira um valor neste campo.</string>
-	<!-- Error message if field had data entered but was invalid -->
-	<string name="invalid_field">Insira um valor válido neste campo.</string>
-	<!-- Error if an invalid card number was entered -->
-	<string name="invalid_card_number">O número de cartão de crédito que você inseriu não é válido. Tente novamente.</string>
-	<!-- Error if an invalid credit card type was entered -->
-	<string name="invalid_card_type">Não foi possível identificar o tipo do seu cartão de crédito. Insira um cartão de crédito válido.</string>
-	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">Insira um valor entre 1 e 12</string>
-	<!-- Error if an invalid year was entered -->
-	<string name="invalid_expiration_year">Insira um ano que não tenha passado</string>
-	<!-- Error if an invalid security code was entered -->
-	<string name="invalid_security_code">Insira o código de segurança de três ou quatro dígitos</string>
-	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">Pagamentos nesta moeda (%s) não são aceitos pela American Express. Use outro cartão de crédito.</string>
-	<!-- Error if user agreement needs to be checked but is not -->
-	<string name="error_no_user_agreement">Você precisa aceitar os termos para fazer a reserva</string>
-	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">Reservando...</string>
-	<!-- Title for error dialog when booking fails -->
-	<string name="error_booking_title">Erro</string>
-	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Não foi possível conectar aos servidores da Expedia.  Verifique sua conexão e tente novamente.</string>
-	<!-- Error message when booking completed with errors -->
-	<string name="error_booking_succeeded_with_errors">Seu hotel foi reservado.  No entanto, os seguintes erros foram encontrados: %s</string>
-	<!-- Error message when booking completed with errors - specifically if email was not sent -->
-	<string name="error_unable_to_send_email">Não pudemos enviar um e-mail de confirmação.</string>
-	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s em %2$s</string>
-	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
-	<string name="enter_booking_info">Inserir informações de reserva</string>
-	<!--  Title for action bar when the user is on the booking info screen -->
-	<string name="booking_information_title">Informações de reserva</string>
-	<!-- Title for dialog where the user is prompted to enter booking booking information -->
-	<string name="booking_information_dialog_title">Conclua sua reserva</string>
-	
-	<!-- Confirmation activity -->
-	<!-- Format for a first/last name -->
-	<string name="name_template">%1$s %2$s</string>
-	<!-- Reservation summary label -->
-	<string name="reservation_summary">Resumo da reserva</string>
-	<!-- Confirmation number label -->
-	<string name="confirmation_number">No. de confirmação</string>
-	<!-- Itinerary number label -->
-	<string name="itinerary_number">No. do itinerário</string>
-	<!-- Confirmation email label -->
-	<string name="confirmation_email">E-mail de confirmação</string>
-	<!-- Label for starting a new search -->
-	<string name="new_search">Nova pesquisa</string>
-	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">Se tiver dúvidas sobre sua reserva, entre em contato com a Expedia em %s.</string>
+    <!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
+    <string name="savings_template">Economize\n %2.0f%%</string>
+    <!-- Label for free nights -->
+    <string name="free">GRÁTIS!</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">Inclui %s</string>
+    <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
+    <string name="common_value_add_template">Todos os quartos oferecem %s</string>
+    <!--  Instruction as the header of the list to select a room from the list -->
+    <string name="select_a_room_instruction">Selecione um quarto</string>
 
-	<!--  Confirmation Fragment -->
-	<!-- Label to share booking information after a booking confirmation -->
-	<string name="share_booking_info">Compartilhe as informações de reserva</string>
-	<!-- Label to start a new search from a confirmation screen  -->
-	<string name="start_new_search">Inicie uma nova pesquisa</string>
-	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-	<string name="show_on_map">Mostrar no mapa</string>
-	
-	<!-- Rate template strings -->
-	<!-- Label for the number of guests the booking is for. -->
-	<string name="GuestsLabel">Hóspedes</string>
-	<!-- Label for the taxes & fees for this booking. -->
-	<string name="TaxesAndFees">Impostos e taxas</string>
-	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
-	<string name="MandatoryFees">Tarifas do hotel (pagas no hotel)</string>
-	<!-- Label for the rate per room per night. -->
-	<string name="RatePerRoomPerNight">Tarifa diária por quarto</string>
-	<!-- Label for the total cost of the booking. -->
-	<string name="Total">Total</string>
-	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-	<string name="PayToExpedia">Pagar à Expedia</string>
-	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
-	<string name="CheckIn">Entrada</string>
-	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-	<string name="CheckOut">Saída</string>
+    <!-- Gallery -->
+    <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+    <string name="gallery_title_template">Fotos de &lt;b&gt;%1$s&lt;/b&gt;</string>
 
-	<!-- Expedia policy strings -->
-	<!-- Policy displayed to user when an immediate charge is required -->
-	<string name="PolicyImmediateChargeRequired">O valor total da reserva será cobrado imediatamente no seu cartão crédito mediante reserva.</string>
-	<!-- Policy displayed to user when the room is non-refundable -->
-	<string name="PolicyNonRefundable">Estamos oferecendo uma tarifa incrivelmente baixa para este estabelecimento. Para fazer isso, a tarifa não pode ser reembolsável. Se precisar cancelar esta reserva, você não receberá nenhum reembolso do pagamento.</string>
-	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">Um depósito de garantia será cobrado do seu cartão de crédito para a reserva. O hotel cobrará diretamente do seu cartão de crédito, quando sua reserva for confirmada.</string>
-	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">As informações do cartão de crédito são necessárias para garantir sua reserva. Nenhum valor será cobrado do seu cartão de crédito até o momento de sua chegada ao hotel ou até após o término do prazo de cancelamento.</string>
-	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">Ao prosseguir com esta reserva, você aceita todos os termos e condições, incluindo a Política de cancelamento e todos os termos e condições que fazem parte do Acordo do usuário.\n\nVocê concorda em pagar o preço de sua reserva. Caso não pague esta dívida e ela for cobrada por meio de uma empresa de cobrança, advogado ou através de outros procedimentos legais, você concorda em pagar todos os custos e taxas cabíveis, incluindo os honorários do advogado e os custos judiciais relacionados a essa tentativa de cobrança.</string>
-	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Você está reservando um estabelecimento sem desconto. Todas as tarifas exibidas são relativas a uma diária e com base em 2 hóspedes por quarto, a menos que especificado de outra maneira. Reveja com atenção a descrição do quarto e as regras de tarifa para garantir que o quarto selecionado possa acomodar todo o seu grupo. Algumas tarifas podem exigir identificação especial. Não estão incluídas a nossa taxa de reserva, impostos e outras sobretaxas impostas pelo hotel. Qualquer adulto ou criança extra acima da ocupação indicada para o quarto estará sujeito a cobranças adicionais a critério do estabelecimento.\n\nSolicitações para mais de 2 pessoas, ou para mais ocupantes do que indicado pela taxa selecionada, serão enviadas para o hotel mas não são garantidas. Se aceitas, estarão sujeitos a cobranças adicionais por parte do estabelecimento.</string>
+    <!-- Booking info -->
+    <!-- edit label -->
+    <string name="edit">Editar</string>
+    <!-- Label for room type -->
+    <string name="room_type">Tipo de quarto</string>
+    <!-- Error if we couldn't load the room type details -->
+    <string name="error_room_type_load">Não foi possível carregar os detalhes do quarto.  Verifique sua conexão à internet e tente novamente.</string>
+    <!-- Error if we couldn't find the room type details -->
+    <string name="error_room_type_nonexistant">Não foi possível encontrar mais informações para este quarto.</string>
+    <!-- Label for bed type -->
+    <string name="bed_type">Tipo de cama</string>
+    <!-- Label for length of stay -->
+    <string name="stay_duration">Duração da estadia</string>
+    <!-- Quantity for the length of stay -->
+    <plurals name="length_of_stay">
+        <item quantity="one">1 noite</item>
+        <item quantity="other">%d noites</item>
+    </plurals>
+    <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
+    <string name="room_rate_template">Tarifa do quarto %s</string>
+    <!-- Label for the extra guest charge -->
+    <string name="extra_guest_charge">Cobrança por hóspede extra</string>
+    <!-- Label for total cost of hotel stay -->
+    <string name="total_cost">Custo total</string>
+    <!-- Label for "guest info" form field section -->
+    <string name="guest_info">Informações sobre o hóspede</string>
+    <!-- The "first name" booking info field.  -->
+    <string name="FirstName">Nome</string>
+    <!-- The "last name" booking info field.  -->
+    <string name="LastName">Sobrenome</string>
+    <!-- Hint for "telephone country code" field (e.g., "+44") -->
+    <string name="hint_telephone_country_code">##</string>
+    <!-- The "telephone" booking info field.  -->
+    <string name="Telephone">Telefone</string>
+    <!-- The "email for booking confirmation" booking info field.  -->
+    <string name="EmailForConf">E-mail para confirmação</string>
+    <!-- Label for "billing info" form field section -->
+    <string name="billing_info">Informações para cobrança</string>
+    <!-- Address line 1 form field hint -->
+    <string name="hint_address1">Endereço 1</string>
+    <!-- Address line 2 form field hint -->
+    <string name="hint_address2">Endereço 2 (opcional)</string>
+    <!-- The "city" booking info field.  -->
+    <string name="City">Cidade</string>
+    <!-- The "postal code" booking info field.  -->
+    <string name="PostalCode">CEP</string>
+    <!-- State code hint -->
+    <string name="hint_state_code">Estado</string>
+    <!-- Label for "credit card info" form field section -->
+    <string name="credit_card_info">Informações do cartão de crédito</string>
+    <!-- Label for credit card selection box -->
+    <string name="saved_cards">Cartões salvos</string>
+    <!-- Label for entering new credit card information -->
+    <string name="enter_a_new_card">Inserir um novo cartão</string>
+    <!-- Card number form field hint -->
+    <string name="hint_card_number">Número do cartão</string>
+    <!-- Card expiration month form field hint -->
+    <string name="hint_expiration_month">m</string>
+    <!-- Card expiration year form field hint -->
+    <string name="hint_expiration_year">aa</string>
+    <!-- Security code label -->
+    <string name="security_code">Código de segurança</string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_front">Ver a frente do cartão</string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_back">Ver o verso do cartão</string>
+    <!-- Rules & restrictions section header -->
+    <string name="rules_restrictions">Regras e restrições</string>
+    <!-- Disclaimer about how to earn expedia points -->
+    <string name="disclaimer_expedia_points">Se você possui uma conta Expedia Rewards, faça sua reserva com o mesmo endereço de e-mail e seus pontos serão automaticamente acreditados após sua estadia. Porém, pode levar até mais de 30 dias para que os pontos apareçam na sua conta.</string>
+    <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
+    <string name="EnterBookingInfo">Info da reserva</string>
+    <!-- Message at the bottom of the booking screen with how much you will be charged -->
+    <string name="charge_details_template">O valor de %s será cobrado em seu cartão de crédito</string>
+    <!-- Button label for confirming your booking -->
+    <string name="confirm_book">Confirmar e reservar</string>
+    <!-- Label for clearing private data -->
+    <string name="clear_private_data">Apagar dados privados</string>
+    <!-- Title for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_title">Apagar dados privados?</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_msg">Remove todas as informações salvas relativas à fatura e ao contato.</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_log_out_and_clear_private_data_msg">Isso irá desconectá-lo e remover todas as informações de contato e cobrança.</string>
+    <!-- Title for dialog after private data has been cleared -->
+    <string name="toast_private_data_cleared">Dados privados apagados</string>
+    <!-- Error message if field was required but not entered -->
+    <string name="required_field">Insira um valor neste campo.</string>
+    <!-- Error message if field had data entered but was invalid -->
+    <string name="invalid_field">Insira um valor válido neste campo.</string>
+    <!-- Error if an invalid card number was entered -->
+    <string name="invalid_card_number">O número de cartão de crédito que você inseriu não é válido. Tente novamente.</string>
+    <!-- Error if an invalid credit card type was entered -->
+    <string name="invalid_card_type">Não foi possível identificar o tipo do seu cartão de crédito. Insira um cartão de crédito válido.</string>
+    <!-- Error if an invalid month (not 1-12) was entered -->
+    <string name="invalid_month">Insira um valor entre 1 e 12</string>
+    <!-- Error if an invalid year was entered -->
+    <string name="invalid_expiration_year">Insira um ano que não tenha passado</string>
+    <!-- Error if an invalid security code was entered -->
+    <string name="invalid_security_code">Insira o código de segurança de três ou quatro dígitos</string>
+    <!-- Error if an invalid currency code is being used with American Express -->
+    <string name="invalid_currency_for_amex">Pagamentos nesta moeda (%s) não são aceitos pela American Express. Use outro cartão de crédito.</string>
+    <!-- Error if user agreement needs to be checked but is not -->
+    <string name="error_no_user_agreement">Você precisa aceitar os termos para fazer a reserva</string>
+    <!-- Message to display to user while booking is in progress -->
+    <string name="booking_loading">Fazendo a reserva…</string>
+    <!-- Title for error dialog when booking fails -->
+    <string name="error_booking_title">Erro</string>
+    <!-- Error message when we couldn't get a response -->
+    <string name="error_booking_null">Não foi possível conectar aos servidores da Expedia.  Verifique sua conexão e tente novamente.</string>
+    <!-- Error message when booking completed with errors -->
+    <string name="error_booking_succeeded_with_errors">Seu hotel foi reservado.  No entanto, os seguintes erros foram encontrados: %s</string>
+    <!-- Error message when booking completed with errors - specifically if email was not sent -->
+    <string name="error_unable_to_send_email">Não pudemos enviar um e-mail de confirmação.</string>
+    <!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
+    <string name="check_in_out_time_template">%1$s em %2$s</string>
+    <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
+    <string name="enter_booking_info">Inserir informações de reserva</string>
+    <!--  Title for action bar when the user is on the booking info screen -->
+    <string name="booking_information_title">Informações de reserva</string>
+    <!-- Title for dialog where the user is prompted to enter booking booking information -->
+    <string name="booking_information_dialog_title">Conclua sua reserva</string>
 
-	<!-- Expedia Accounts -->
-	<!-- Label for menu item to log into account -->
-	<string name="log_in_to_expedia">Conecte-se à Expedia</string>
-	<!-- Hint for user to enter password into a field -->
-	<string name="hint_password">Senha</string>
-	<!-- Progress dialog text when we are logging the user into Expedia -->
-	<string name="logging_in">Conectando...</string>
-	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">Sucesso!  Agora você está conectado.</string>
-	<!-- Label for login widget button -->
-	<string name="account_login">Conectar-se à conta</string>
-	<!-- Label for login widget additional text -->
-	<string name="log_in_for_faster_booking">Conecte-se para reservas mais rápidas.</string>
-	<!-- Label for account status -->
-	<string name="enrolled_in_expedia_rewards">Inscrito no Expedia Rewards\u2122</string>
-	<!-- Label for account name -->
-	<string name="logged_in_as">Conectado como</string>
-	<!-- Label for account name -->
+    <!-- Confirmation activity -->
+    <!-- Format for a first/last name -->
+    <string name="name_template">%1$s %2$s</string>
+    <!-- Reservation summary label -->
+    <string name="reservation_summary">Resumo da reserva</string>
+    <!-- Confirmation number label -->
+    <string name="confirmation_number">No. de confirmação</string>
+    <!-- Itinerary number label -->
+    <string name="itinerary_number">No. do itinerário</string>
+    <!-- Confirmation email label -->
+    <string name="confirmation_email">E-mail de confirmação</string>
+    <!-- Label for starting a new search -->
+    <string name="new_search">Nova pesquisa</string>
+    <!-- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template">Se tiver dúvidas sobre sua reserva, entre em contato com a Expedia em %s.</string>
+
+    <!--  Confirmation Fragment -->
+    <!-- Label to share booking information after a booking confirmation -->
+    <string name="share_booking_info">Compartilhe as informações de reserva</string>
+    <!-- Label to start a new search from a confirmation screen  -->
+    <string name="start_new_search">Inicie uma nova pesquisa</string>
+    <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
+    <string name="show_on_map">Mostrar no mapa</string>
+
+    <!-- Rate template strings -->
+    <!-- Label for the number of guests the booking is for. -->
+    <string name="GuestsLabel">Hóspedes</string>
+    <!-- Label for the taxes & fees for this booking. -->
+    <string name="TaxesAndFees">Impostos e taxas</string>
+    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <string name="MandatoryFees">Tarifas do hotel (pagas no hotel)</string>
+    <!-- Label for the rate per room per night. -->
+    <string name="RatePerRoomPerNight">Tarifa diária por quarto</string>
+    <!-- Label for the total cost of the booking. -->
+    <string name="Total">Total</string>
+    <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+    <string name="PayToExpedia">Pagar à Expedia</string>
+    <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
+    <string name="CheckIn">Entrada</string>
+    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
+    <string name="CheckOut">Saída</string>
+    <!-- Label to display the amount you save after applying a coupon code in the receipt -->
+    <string name="discount">Desconto</string>
+
+    <!-- Expedia policy strings -->
+    <!-- Policy displayed to user when an immediate charge is required -->
+    <string name="PolicyImmediateChargeRequired">O valor total da reserva será cobrado imediatamente no seu cartão crédito mediante reserva.</string>
+    <!-- Policy displayed to user when the room is non-refundable -->
+    <string name="PolicyNonRefundable">Estamos oferecendo uma tarifa incrivelmente baixa para este estabelecimento. Para fazer isso, a tarifa não pode ser reembolsável. Se precisar cancelar esta reserva, você não receberá nenhum reembolso do pagamento.</string>
+    <!-- Policy displayed to user when a deposit is required -->
+    <string name="PolicyDepositRequired">Um depósito de garantia será cobrado do seu cartão de crédito para a reserva. O hotel cobrará diretamente do seu cartão de crédito, quando sua reserva for confirmada.</string>
+    <!-- Policy displayed to user when a guarantee is required -->
+    <string name="PolicyGuaranteeRequired">As informações do cartão de crédito são necessárias para garantir sua reserva. Nenhum valor será cobrado do seu cartão de crédito até o momento de sua chegada ao hotel ou até após o término do prazo de cancelamento.</string>
+    <!-- Expedia merchant hotel policies -->
+    <string name="PolicyExpediaMerchant">Ao prosseguir com esta reserva, você aceita todos os termos e condições, incluindo a Política de cancelamento e todos os termos e condições que fazem parte do Acordo do usuário.\n\nVocê concorda em pagar o preço de sua reserva. Caso não pague esta dívida e ela for cobrada por meio de uma empresa de cobrança, advogado ou através de outros procedimentos legais, você concorda em pagar todos os custos e taxas cabíveis, incluindo os honorários do advogado e os custos judiciais relacionados a essa tentativa de cobrança.</string>
+    <!-- Expedia agent hotel policies -->
+    <string name="PolicyExpediaAgent">Você está reservando um estabelecimento sem desconto. Todas as tarifas exibidas são relativas a uma diária e com base em 2 hóspedes por quarto, a menos que especificado de outra maneira. Reveja com atenção a descrição do quarto e as regras de tarifa para garantir que o quarto selecionado possa acomodar todo o seu grupo. Algumas tarifas podem exigir identificação especial. Não estão incluídas a nossa taxa de reserva, impostos e outras sobretaxas impostas pelo hotel. Qualquer adulto ou criança extra acima da ocupação indicada para o quarto estará sujeito a cobranças adicionais a critério do estabelecimento.\n\nSolicitações para mais de 2 pessoas, ou para mais ocupantes do que indicado pela taxa selecionada, serão enviadas para o hotel mas não são garantidas. Se aceitas, estarão sujeitos a cobranças adicionais por parte do estabelecimento.</string>
+
+    <!-- Expedia Accounts -->
+    <!-- Label for menu item to log into account -->
+    <string name="log_in">Conectar</string>
+    <!-- Label for menu item to log into account -->
+    <string name="log_in_to_expedia">Conecte-se à Expedia</string>
+    <!-- Hint for user to enter password into a field -->
+    <string name="hint_password">Senha</string>
+    <!-- Progress dialog text when we are logging the user into Expedia -->
+    <string name="logging_in">Conectando…</string>
+    <!-- Message that tells user they successfully logged in -->
+    <string name="login_success">Sucesso!  Agora você está conectado.</string>
+    <!-- Message that tells user they failed to log in -->
+    <string name="login_failed">Falha ao colectar</string>
+    <!-- Label for login widget button -->
+    <string name="account_login">Conectar-se à conta</string>
+    <!-- Label for login widget additional text -->
+    <string name="log_in_for_faster_booking">Conecte-se para reservas mais rápidas.</string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_rewards">Inscrito no Expedia Rewards\u2122</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as">Conectado como</string>
+    <!-- Label for account name -->
     <string name="logged_in_as_template">Conectado como &lt;b&gt;%s&lt;/b&gt;</string>
-	<!-- Label for signin screen -->
-	<string name="expedia_account">Conta da Expedia</string>
-	<!-- Label for loading user profile from expedia.com -->
-	<string name="loading_expedia_account">Carregando conta da Expedia</string>
+    <!-- Label for signin screen -->
+    <string name="expedia_account">Conta da Expedia</string>
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">Carregando conta da Expedia</string>
     <!-- Label for password recovery -->
-	<string name="forgot_your_password">Esqueceu sua senha?</string>
+    <string name="forgot_your_password">Esqueceu sua senha?</string>
     <!-- Label for coupon code area of booking form -->
-	<string name="coupon_code">Código de cupom</string>
+    <string name="coupon_code">Código de cupom</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Opcional</string>
     <!-- Label applying a coupon -->
-	<string name="apply">Solicitar</string>
+    <string name="apply">Solicitar</string>
     <!-- Label for new price after applying coupon -->
-	<string name="new_total">Novo total:</string>
+    <string name="new_total">Novo total:</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">Usar cartão:</string>
+    <string name="use_card">Usar cartão:</string>
+    <!-- Label for when a user has entered an invalid coupon -->
+    <string name="invalid_coupon">Cupom inválido</string>
+    <!-- Label for when a user has entered a coupon which is expired -->
+    <string name="expired_coupon">Cupom expirado</string>
+    <!-- Label for when a user has entered a coupon and the server fails -->
+    <string name="coupon_error">Erro de cupom</string>
 
-	<!-- Sharing bookings via email -->
-	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Itinerário da Expedia: %1$s (%2$s - %3$s)</string>
-	<!-- Preset at the top of the share body message -->
-	<string name="share_body_start">Informações sobre a minha reserva de hotel:</string>
-	<!-- Name of user -->
-	<string name="name">Nome</string>
-	<!-- Number of adults label -->
-	<string name="adults">Adultos</string>
-	<!-- Number of children label -->
-	<string name="children">Crianças</string>
-	<!-- Subtotal label -->
-	<string name="subtotal">Subtotal</string>
-	<!-- Cancellation policy label -->
-	<string name="cancellation_policy">Política de cancelamento</string>
-	
-	<!-- About activity -->
-	<!-- Label for "contact Expedia" button in info page -->
-	<string name="contact_expedia">Entre em contato com a Expedia</string>
-	<!-- Extra description for "contact Expedia" button, when space allows -->
-	<string name="contact_expedia_description">Estamos à sua disposição 24 horas por dia.</string>
-	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">Entre em contato com a Expedia via...</string>
-	<!-- Contact Expedia via phone -->
-	<string name="contact_expedia_phone">Telefone</string>
-	<!-- Contact Expedia via email -->
-	<string name="contact_expedia_email">E-mail</string>
-	<!-- Contact Expedia via email subject -->
-	<string name="contact_expedia_email_subject">Atendimento para reservas da Expedia</string>
-	<!-- Contact Expedia via website -->
-	<string name="contact_expedia_website">Website</string>
-	<!-- Label for "Expedia website" button in info page -->
-	<string name="expedia_website">Website da Expedia</string>
-	<!-- Extra description for "Expedia website" button, when space allows -->
-	<string name="expedia_website_description">Visite o website para reservar voos, carros, pacotes e muito mais.</string>
-	<!-- Extra description for "app feedback" button, when space allows -->
-	<string name="app_feedback_description">Dê sua opinião sobre o app.</string>
-	<!-- Label for "app support" button in info page -->
-	<string name="app_support">Assistência para o app</string>
-	<!-- Extra description for "app support" button, when space allows -->
-	<string name="app_support_description">Escreva para nós e responderemos sem demora.</string>
-	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">Gosta das fantásticas ofertas de hotéis? Diga a um amigo.</string>
-	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Travel smart</string>
-	<!-- Subject line for "tell a friend" feature -->
-	<string name="tell_a_friend_subject">Expedia Hoteis</string>
-	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Olá \n\n! Dê uma olhada no Expedia Hoteis para o iPhone e para dispositivos com Android. É GRÁTIS e você pode pesquisar e fazer reservas com facilidade em mais de 130.000 hotéis no mundo todo. É a maneira mais fácil de reservar hotéis no seu dispositivo.\n\nhttp://www.expedia.com/app</string>
-	<!-- Label for link to terms and conditions -->
-	<string name="info_label_terms_conditions">Termos e condições</string>
-	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">Política de privacidade</string>
-	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nTodos os direitos reservados.</string>
-	
-	<!--  App Feedback Activity -->
-	<!-- Text within submit button in header -->
-	<string name="send_feedback">Enviar comentários</string>
-	<!-- Header title -->
-	<string name="app_feedback">Comentários sobre o app</string>
-	<!-- Section header for rating (1-5 stars) -->
-	<string name="oosdk_rating_overall_header">Avalie nosso app!</string>
-	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Política de privacidade</a></string>
-	<!-- Hint to type in email address -->
-	<string name="email_address">Endereço de e-mail</string>
-	<!-- Hint to type in comments -->
-	<string name="feedback_hint">Onde poderíamos melhorar?</string>
-	<!-- Message displayed to users after they submit feedback -->
-	<string name="oosdk_thanks_txt">Obrigado por enviar sua opinião! Consideramos todos os comentários de nossos clientes.</string>
-	
-	<!-- Preferences -->
-	<!-- Category name for general preferences -->
-	<string name="preference_category_general">Geral</string>
-	<!-- Title for point of sale setting -->
-	<string name="preference_point_of_sale_title">País</string>
-	<!-- Template for default point of sale -->
-	<string name="default_point_of_sale_template">Padrão (%s)</string>
+    <!-- Sharing bookings via email -->
+    <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
+    <string name="share_subject_template">Itinerário da Expedia: %1$s (%2$s - %3$s)</string>
+    <!-- Preset at the top of the share body message -->
+    <string name="share_body_start">Informações sobre a minha reserva de hotel:</string>
+    <!-- Name of user -->
+    <string name="name">Nome</string>
+    <!-- Number of adults label -->
+    <string name="adults">Adultos</string>
+    <!-- Number of children label -->
+    <string name="children">Crianças</string>
+    <!-- Subtotal label -->
+    <string name="subtotal">Subtotal</string>
+    <!-- Cancellation policy label -->
+    <string name="cancellation_policy">Política de cancelamento</string>
 
-	<!-- Strings used a lot of places -->
-	<!-- A number of adults -->
-	<plurals name="number_of_adults">
-		<item quantity="zero">%d adulto</item>
-		<item quantity="one">%d adulto</item>
-		<item quantity="two">%d adultos</item>
-		<item quantity="many">%d adultos</item>
-		<item quantity="other">%d adultos</item>
-	</plurals>
-	<!-- A number of children -->
-	<plurals name="number_of_children">
-		<item quantity="zero">%d criança</item>
-		<item quantity="one">%d criança</item>
-		<item quantity="two">%d crianças</item>
-		<item quantity="many">%d crianças</item>
-		<item quantity="other">%d crianças</item>
-	</plurals>
-	<!-- A number of guests -->
-	<plurals name="number_of_guests">
-		<item quantity="zero">%d hóspede</item>
-		<item quantity="one">%d hóspede</item>
-		<item quantity="two">%d hóspedes</item>
-		<item quantity="many">%d hóspedes</item>
-		<item quantity="other">%d hóspedes</item>
-	</plurals>
-	<!-- A number of nights (as in stay duration).  Capitalized -->
-	<plurals name="number_of_nights">
-		<item quantity="zero">%d noite</item>
-		<item quantity="one">%d noite</item>
-		<item quantity="two">%d noites</item>
-		<item quantity="many">%d noites</item>
-		<item quantity="other">%d noites</item>
-	</plurals>
+    <!-- About activity -->
+    <!-- Label for "contact Expedia" button in info page -->
+    <string name="contact_expedia">Entre em contato com a Expedia</string>
+    <!-- Extra description for "contact Expedia" button, when space allows -->
+    <string name="contact_expedia_description">Estamos à sua disposição 24 horas por dia.</string>
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_expedia_via">Contatar a Expedia por</string>
+    <!-- Contact Expedia via phone -->
+    <string name="contact_expedia_phone">Telefone</string>
+    <!-- Contact Expedia via email -->
+    <string name="contact_expedia_email">E-mail</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_expedia_email_subject">Atendimento para reservas da Expedia</string>
+    <!-- Contact Expedia via website -->
+    <string name="contact_expedia_website">Website</string>
+    <!-- Label for "Expedia website" button in info page -->
+    <string name="expedia_website">Website da Expedia</string>
+    <!-- Extra description for "Expedia website" button, when space allows -->
+    <string name="expedia_website_description">Visite o website para reservar voos, carros, pacotes e muito mais.</string>
+    <!-- Extra description for "app feedback" button, when space allows -->
+    <string name="app_feedback_description">Dê sua opinião sobre o app.</string>
+    <!-- Label for "app support" button in info page -->
+    <string name="app_support">Assistência para o app</string>
+    <!-- Extra description for "app support" button, when space allows -->
+    <string name="app_support_description">Escreva para nós e responderemos sem demora.</string>
+    <!-- Extra description for "tell a friend" button, when space allows -->
+    <string name="tell_a_friend_description">Gosta das fantásticas ofertas de hotéis? Diga a um amigo.</string>
+    <!-- Section header for other apps by Mobiata -->
+    <string name="travel_smart">Travel smart</string>
+    <!-- Subject line for "tell a friend" feature -->
+    <string name="tell_a_friend_subject">Expedia Hoteis</string>
+    <!-- Message body for "tell a friend" feature -->
+    <string name="tell_a_friend_body">Olá \n\n! Dê uma olhada no Expedia Hoteis para o iPhone e para dispositivos com Android. É GRÁTIS e você pode pesquisar e fazer reservas com facilidade em mais de 140,000 hotéis no mundo todo. É a maneira mais fácil de reservar hotéis no seu dispositivo.\n\nhttp://www.expedia.com/app</string>
+    <!-- Label for link to terms and conditions -->
+    <string name="info_label_terms_conditions">Termos e condições</string>
+    <!-- Label for link to privacy policy -->
+    <string name="info_label_privacy_policy">Política de privacidade</string>
+    <!-- Copyright information -->
+    <string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nTodos os direitos reservados.</string>
+    <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
+    <string name="dialog_title_log_out_and_clear_private_data">Desconectar e apagar os dados?</string>
+    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_title_logged_out_and_cleared_private_data">Desconectado e dados apagados</string>
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data">Você se desconectou de sua conta da Expedia e todas as informações de contato e cobrança salvas foram removidas.</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
+    <string name="dialog_message_launch_expedia_mobile_site">Abrir o site móvel da Expedia?</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
+    <string name="dialog_message_launch_expedia_support_site">Visitar o website de atendimento da Expedia?</string>
 
-	<!-- Distance strings -->
-	<!-- Abbreviated miles (used in distance_template) -->
-	<string name="unit_miles">mi</string>
-	<!-- Abbreviated kilometers (used in distance_template) -->
-	<string name="unit_kilometers">km</string>
-	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">%1$s %2$s de distância</string>
-	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-	<string name="distance_template_short">%1$s %2$s</string>
+    <!--  App Feedback Activity -->
+    <!-- Text within submit button in header -->
+    <string name="send_feedback">Enviar comentários</string>
+    <!-- Header title -->
+    <string name="app_feedback">Comentários sobre o app</string>
+    <!-- Section header for rating (1-5 stars) -->
+    <string name="oosdk_rating_overall_header">Avalie nosso app!</string>
+    <!-- Footer for the view -->
+    <string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Política de privacidade</a></string>
+    <!-- Hint to type in email address -->
+    <string name="email_address">Endereço de e-mail</string>
+    <!-- Hint to type in comments -->
+    <string name="feedback_hint">Onde poderíamos melhorar?</string>
+    <!-- Message displayed to users after they submit feedback -->
+    <string name="oosdk_thanks_txt">Obrigado por enviar sua opinião! Consideramos todos os comentários de nossos clientes.</string>
 
-	<!-- Menu strings -->
-	<!-- Label for "settings" menu item. -->
-	<string name="Settings">Configurações</string>
-	<!-- Label for "about this app" menu item. -->
-	<string name="About">Sobre</string>
+    <!-- Preferences -->
+    <!-- Category name for general preferences -->
+    <string name="preference_category_general">Geral</string>
+    <!-- Title for point of sale setting -->
+    <string name="preference_point_of_sale_title">País</string>
+    <!-- Template for default point of sale -->
+    <string name="default_point_of_sale_template">Padrão (%s)</string>
 
-	<!-- Preferences strings -->
-	<!-- String for default preference setting (for any given preference) -->
-	<string name="Default">Padrão</string>
-	
-	<!-- Error strings - replacements for default EAN errors -->
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_no_results">Não foi possível encontrar nenhum hotel disponível. Tente inserir datas diferentes ou outro local.</string>
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_connect_unavailable">Impossível conectar ao hotel selecionado para pesquisar os quartos disponíveis.</string>
-	<!-- Error message displayed when the phone number sent via booking is invalid -->
-	<string name="ean_error_invalid_phone_number">Insira um número de telefone válido</string>
-	
-	<!-- Checkout API method -->
-	<!-- The hotel booking failed -->
-	<string name="e3_error_checkout_booking_failed">Ocorreu um erro que impediu a conclusão de sua reserva. Tente novamente.</string>
-	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-	<string name="e3_error_checkout_booking_succeeded_with_errors">Você concluiu a reserva do hotel! Se precisar de um itinerário imediatamente, entre em contato com o Serviço de atendimento ao cliente da Expedia.</string>
-	<!-- The hotel room is no longer available -->
-	<string name="e3_error_checkout_hotel_room_unavailable">O quarto solicitado não está mais disponível.</string>
-	<!-- There is invalid input in the hotel booking form. Please fix it. -->
-	<string name="e3_error_checkout_invalid_input">Corrija as informações incorretas.</string>
-	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-	<string name="e3_error_checkout_payment_failed">Não foi possível processar seu pagamento. Verifique se as informações inseridas estão corretas.</string>
-	
-	<!-- SearchResults API method -->
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_hotel_service_failure">Não foi possível concluir sua pesquisa. Tente novamente.</string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input">Nenhum resultado foi retornado para seus termos de pesquisa. Tente novamente.</string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input_unknown">Nenhum resultado foi retornado para seus termos de pesquisa. Tente novamente.</string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_unknown_error">Não foi possível concluir sua pesquisa. Tente novamente.</string>
-	
-	<!-- HotelOffers API method -->
-	<!-- The hotel offer is no longer available -->
-	<string name="e3_error_hotel_offers_hotel_offer_unavailable">Desculpe! As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
-	
-	<string name="e3_error_hotel_offers_hotel_room_unavailable">O quarto solicitado não está mais disponível.</string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_hotel_offers_hotel_service_failure">Não foi possível estabelecer conexão com a Expedia. Tente novamente.</string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_invalid_input">Desculpe! As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_unknown_error">Desculpe! As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
-	
-	<!-- HotelProduct API method -->
-	<string name="e3_error_hotel_product_unknown_error">Ocorreu um erro desconhecido.</string>
-	<string name="e3_error_hotel_product_invalid_input">Ocorreu um erro desconhecido.</string>
-	
-	<!-- HotelInformation API method -->
-	<string name="e3_error_hotel_information_hotel_service_failure">Ocorreu um erro desconhecido.</string>
-	<string name="e3_error_hotel_information_unknown_error">Ocorreu um erro desconhecido.</string>
-	<string name="e3_error_hotel_information_invalid_input">Ocorreu um erro desconhecido.</string>
+    <!-- Strings used a lot of places -->
+    <!-- A number of adults -->
+    <plurals name="number_of_adults">
+        <item quantity="zero">%d adulto</item>
+        <item quantity="one">%d adulto</item>
+        <item quantity="two">%d adultos</item>
+        <item quantity="many">%d adultos</item>
+        <item quantity="other">%d adultos</item>
+    </plurals>
+    <!-- A number of children -->
+    <plurals name="number_of_children">
+        <item quantity="zero">%d criança</item>
+        <item quantity="one">%d criança</item>
+        <item quantity="two">%d crianças</item>
+        <item quantity="many">%d crianças</item>
+        <item quantity="other">%d crianças</item>
+    </plurals>
+    <!-- A number of guests -->
+    <plurals name="number_of_guests">
+        <item quantity="zero">%d hóspede</item>
+        <item quantity="one">%d hóspede</item>
+        <item quantity="two">%d hóspedes</item>
+        <item quantity="many">%d hóspedes</item>
+        <item quantity="other">%d hóspedes</item>
+    </plurals>
+    <!-- A number of nights (as in stay duration).  Capitalized -->
+    <plurals name="number_of_nights">
+        <item quantity="zero">%d noite</item>
+        <item quantity="one">%d noite</item>
+        <item quantity="two">%d noites</item>
+        <item quantity="many">%d noites</item>
+        <item quantity="other">%d noites</item>
+    </plurals>
 
-	<!-- Currency names -->
-	<string name="currency_aud">Dólar australiano</string>
-	<string name="currency_brl">Real brasileiro</string>
-	<string name="currency_gbp">Libra esterlina</string>
-	<string name="currency_cad">Dólar canadense</string>
-	<string name="currency_cny">Yuan da China</string>
-	<string name="currency_dkk">Coroa dinamarquesa</string>
-	<string name="currency_eur">Euro</string>
-	<string name="currency_hkd">Dólar de Hong Kong</string>
-	<string name="currency_inr">Rupias indianas</string>
-	<string name="currency_ils">Novo shekel israelense </string>
-	<string name="currency_jpy">Ienes japoneses</string>
-	<string name="currency_krw">Won coreano</string>
-	<string name="currency_mxn">Peso mexicano</string>
-	<string name="currency_nzd">Dólares neozelandeses</string>
-	<string name="currency_nok">Coroa norueguesa</string>
-	<string name="currency_rub">Rublos russos</string>
-	<string name="currency_sgd">Dólares de Cingapura</string>
-	<string name="currency_sek">Coroa sueca</string>
-	<string name="currency_chf">Francos suíços</string>
-	<string name="currency_usd">Dólares americanos</string>
+    <!-- Distance strings -->
+    <!-- Abbreviated miles (used in distance_template) -->
+    <string name="unit_miles">mi</string>
+    <!-- Abbreviated kilometers (used in distance_template) -->
+    <string name="unit_kilometers">km</string>
+    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
+    <string name="distance_template">%1$s %2$s de distância</string>
+    <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+    <string name="distance_template_short">%1$s %2$s</string>
 
-	<!-- Country names -->
-	<string name="country_af">Afeganistão</string>
-	<string name="country_al">Albânia</string>
-	<string name="country_dz">Argélia</string>
-	<string name="country_as">Samoa Americana</string>
-	<string name="country_ad">Andorra</string>
-	<string name="country_ao">Angola</string>
-	<string name="country_ai">Anguilla</string>
-	<string name="country_aq">Antártica</string>
-	<string name="country_ag">Antígua e Barbuda</string>
-	<string name="country_ar">Argentina</string>
-	<string name="country_am">Armênia</string>
-	<string name="country_aw">Aruba</string>
-	<string name="country_au">Austrália</string>
-	<string name="country_at">Áustria</string>
-	<string name="country_az">Azerbaijão</string>
-	<string name="country_bs">Bahamas</string>
-	<string name="country_bh">Bahrain</string>
-	<string name="country_bd">Bangladesh</string>
-	<string name="country_bb">Barbados</string>
-	<string name="country_by">Bielorrússia</string>
-	<string name="country_be">Bélgica</string>
-	<string name="country_bz">Belize</string>
-	<string name="country_bj">Benim</string>
-	<string name="country_bm">Bermuda</string>
-	<string name="country_bt">Butão</string>
-	<string name="country_bo">Bolívia, Estado Plurinacional da</string>
-	<string name="country_ba">Bósnia e Herzegovina</string>
-	<string name="country_bw">Botsuana</string>
-	<string name="country_bv">Ilha Bouvet</string>
-	<string name="country_br">Brasil</string>
-	<string name="country_io">Território Britânico do Oceano Índico</string>
-	<string name="country_bn">Brunei Darussalam</string>
-	<string name="country_bg">Bulgária</string>
-	<string name="country_bf">Burkina Faso</string>
-	<string name="country_bi">Burundi</string>
-	<string name="country_kh">Camboja</string>
-	<string name="country_cm">Camarões</string>
-	<string name="country_ca">Canadá</string>
-	<string name="country_cv">Cabo Verde</string>
-	<string name="country_ky">Ilhas Cayman</string>
-	<string name="country_cf">República Centro-Africana</string>
-	<string name="country_td">Chade</string>
-	<string name="country_cl">Chile</string>
-	<string name="country_cn">China</string>
-	<string name="country_cx">Ilhas Christmas</string>
-	<string name="country_cc">Ilhas Cocos (Keeling)</string>
-	<string name="country_co">Colômbia</string>
-	<string name="country_km">Ilhas Comores</string>
-	<string name="country_cg">Congo</string>
-	<string name="country_cd">Congo, República Democrática do</string>
-	<string name="country_ck">Ilhas Cook</string>
-	<string name="country_cr">Costa Rica</string>
-	<string name="country_hr">Croácia</string>
-	<string name="country_cu">Cuba</string>
-	<string name="country_cy">Chipre</string>
-	<string name="country_cz">República Tcheca</string>
-	<string name="country_ci">Costa do Marfim</string>
-	<string name="country_dk">Dinamarca</string>
-	<string name="country_dj">Djibuti</string>
-	<string name="country_dm">Dominica</string>
-	<string name="country_do">República Dominicana</string>
-	<string name="country_ec">Equador</string>
-	<string name="country_eg">Egito</string>
-	<string name="country_sv">El Salvador</string>
-	<string name="country_gq">Guiné Equatorial</string>
-	<string name="country_er">Eritréia</string>
-	<string name="country_ee">Estônia</string>
-	<string name="country_et">Etiópia</string>
-	<string name="country_fk">Ilhas Malvinas</string>
-	<string name="country_fo">Ilhas Faroé</string>
-	<string name="country_fj">Fiji</string>
-	<string name="country_fi">Finlândia</string>
-	<string name="country_fr">França</string>
-	<string name="country_gf">Guiana Francesa</string>
-	<string name="country_pf">Polinésia Francesa</string>
-	<string name="country_tf">Territórios Franceses do Sul</string>
-	<string name="country_ga">Gabão</string>
-	<string name="country_gm">Gâmbia</string>
-	<string name="country_ge">Geórgia</string>
-	<string name="country_de">Alemanha</string>
-	<string name="country_gh">Gana</string>
-	<string name="country_gi">Gibraltar</string>
-	<string name="country_gr">Grécia</string>
-	<string name="country_gl">Groelândia</string>
-	<string name="country_gd">Granada</string>
-	<string name="country_gp">Guadalupe</string>
-	<string name="country_gu">Guam</string>
-	<string name="country_gt">Guatemala</string>
-	<string name="country_gg">Guernsey</string>
-	<string name="country_gn">Guiné</string>
-	<string name="country_gw">Guiné-Bissau</string>
-	<string name="country_gy">Guiana</string>
-	<string name="country_ht">Haiti</string>
-	<string name="country_hm">Ilha Heard e Ilhas McDonald</string>
-	<string name="country_va">Santa Sé (Cidade-Estado do Vaticano)</string>
-	<string name="country_hn">Honduras</string>
-	<string name="country_hk">Hong Kong</string>
-	<string name="country_hu">Hungria</string>
-	<string name="country_is">Islândia</string>
-	<string name="country_in">Índia</string>
-	<string name="country_id">Indonésia</string>
-	<string name="country_ir">Irã, República Islâmica do</string>
-	<string name="country_iq">Iraque</string>
-	<string name="country_ie">Irlanda</string>
-	<string name="country_im">Ilha de Man</string>
-	<string name="country_il">Israel</string>
-	<string name="country_it">Itália</string>
-	<string name="country_jm">Jamaica</string>
-	<string name="country_jp">Japão</string>
-	<string name="country_je">Jérsei</string>
-	<string name="country_jo">Jordânia</string>
-	<string name="country_kz">Cazaquistão</string>
-	<string name="country_ke">Quênia</string>
-	<string name="country_ki">Kiribati</string>
-	<string name="country_kp">Coreia, República Popular Democrática da</string>
-	<string name="country_kr">Coreia</string>
-	<string name="country_kw">Kuwait</string>
-	<string name="country_kg">Quirguistão</string>
-	<string name="country_la">Laos, República Popular Democrática do</string>
-	<string name="country_lv">Letônia</string>
-	<string name="country_lb">Líbano</string>
-	<string name="country_ls">Lesoto</string>
-	<string name="country_lr">Libéria</string>
-	<string name="country_ly">Líbia, Jamahiriya Árabe da</string>
-	<string name="country_li">Liechtenstein</string>
-	<string name="country_lt">Lituânia</string>
-	<string name="country_lu">Luxemburgo</string>
-	<string name="country_mo">Macau</string>
-	<string name="country_mk">Macedônia, República da</string>
-	<string name="country_mg">Madagascar</string>
-	<string name="country_mw">Malavi</string>
-	<string name="country_my">Malásia</string>
-	<string name="country_mv">Maldivas</string>
-	<string name="country_ml">Mali</string>
-	<string name="country_mt">Malta</string>
-	<string name="country_mh">Ilhas Marshal</string>
-	<string name="country_mq">Martinica</string>
-	<string name="country_mr">Mauritânia</string>
-	<string name="country_mu">Maurício</string>
-	<string name="country_yt">Mayotte</string>
-	<string name="country_mx">México</string>
-	<string name="country_fm">Micronésia, Estados Federados da</string>
-	<string name="country_md">Moldávia, República da</string>
-	<string name="country_mc">Mônaco</string>
-	<string name="country_mn">Mongólia</string>
-	<string name="country_me">Montenegro</string>
-	<string name="country_ms">Montserrat</string>
-	<string name="country_ma">Marrocos</string>
-	<string name="country_mz">Moçambique</string>
-	<string name="country_mm">Mianmar</string>
-	<string name="country_na">Namíbia</string>
-	<string name="country_nr">Nauru</string>
-	<string name="country_np">Nepal</string>
-	<string name="country_nl">Países Baixos</string>
-	<string name="country_an">Antilhas Holandesas</string>
-	<string name="country_nc">Nova Caledônia</string>
-	<string name="country_nz">Nova Zelândia</string>
-	<string name="country_ni">Nicarágua</string>
-	<string name="country_ne">Níger</string>
-	<string name="country_ng">Nigéria</string>
-	<string name="country_nu">Niue</string>
-	<string name="country_nf">Ilha Norfolk</string>
-	<string name="country_mp">Ilhas Marianas do Norte</string>
-	<string name="country_no">Noruega</string>
-	<string name="country_om">Omã</string>
-	<string name="country_pk">Paquistão</string>
-	<string name="country_pw">Palau</string>
-	<string name="country_ps">Palestina, Território Ocupado da</string>
-	<string name="country_pa">Panamá</string>
-	<string name="country_pg">Papua Nova Guiné</string>
-	<string name="country_py">Paraguai</string>
-	<string name="country_pe">Peru</string>
-	<string name="country_ph">Filipinas</string>
-	<string name="country_pn">Pitcairn</string>
-	<string name="country_pl">Polônia</string>
-	<string name="country_pt">Portugal</string>
-	<string name="country_pr">Porto Rico</string>
-	<string name="country_qa">Catar</string>
-	<string name="country_ro">Romênia</string>
-	<string name="country_ru">Federação Russa</string>
-	<string name="country_rw">Ruanda</string>
-	<string name="country_re">Réunion</string>
-	<string name="country_bl">Saint Barthélemy</string>
-	<string name="country_sh">Santa Helena</string>
-	<string name="country_kn">São Cristóvão e Nevis</string>
-	<string name="country_lc">Santa Lúcia</string>
-	<string name="country_mf">São Martim (parte francesa)</string>
-	<string name="country_pm">Saint-Pierre e Miquelon</string>
-	<string name="country_vc">São Vicente e Granadinas</string>
-	<string name="country_ws">Samoa</string>
-	<string name="country_sm">San Marino</string>
-	<string name="country_st">São Tomé e Príncipe</string>
-	<string name="country_sa">Arábia Saudita</string>
-	<string name="country_sn">Senegal</string>
-	<string name="country_rs">Sérvia</string>
-	<string name="country_sc">Seychelles</string>
-	<string name="country_sl">Serra Leoa</string>
-	<string name="country_sg">Cingapura</string>
-	<string name="country_sk">Eslováquia</string>
-	<string name="country_si">Eslovênia</string>
-	<string name="country_sb">Ilhas Salomão</string>
-	<string name="country_so">Somália</string>
-	<string name="country_za">África do Sul</string>
-	<string name="country_gs">Geórgia do Sul e Ilhas Sandwich</string>
-	<string name="country_es">Espanha</string>
-	<string name="country_lk">Sri Lanka</string>
-	<string name="country_sd">Sudão</string>
-	<string name="country_sr">Suriname</string>
-	<string name="country_sj">Svalbard e a Ilha de Jan Mayen</string>
-	<string name="country_sz">Suazilândia</string>
-	<string name="country_se">Suécia</string>
-	<string name="country_ch">Suíça</string>
-	<string name="country_sy">Síria, República Árabe da</string>
-	<string name="country_tw">Taiwan</string>
-	<string name="country_tj">Tadjiquistão</string>
-	<string name="country_tz">Tanzânia, República Unida da</string>
-	<string name="country_th">Tailândia</string>
-	<string name="country_tl">Timor-Leste</string>
-	<string name="country_tg">Togo</string>
-	<string name="country_tk">Tokelau</string>
-	<string name="country_to">Tonga</string>
-	<string name="country_tt">Trinidade e Tobago</string>
-	<string name="country_tn">Tunísia</string>
-	<string name="country_tr">Turquia</string>
-	<string name="country_tm">Turcomenistão</string>
-	<string name="country_tc">Ilhas Turks e Caicos</string>
-	<string name="country_tv">Tuvalu</string>
-	<string name="country_ug">Uganda</string>
-	<string name="country_ua">Ucrânia</string>
-	<string name="country_ae">Emirados Árabes Unidos</string>
-	<string name="country_gb">Reino Unido</string>
-	<string name="country_us">Estados Unidos</string>
-	<string name="country_um">Ilhas Menores Distantes dos Estados Unidos</string>
-	<string name="country_uy">Uruguai</string>
-	<string name="country_uz">Uzbequistão</string>
-	<string name="country_vu">Vanuatu</string>
-	<string name="country_ve">Venezuela, República Bolivariana da</string>
-	<string name="country_vn">Vietnã</string>
-	<string name="country_vg">Ilhas Virgens, Britânicas</string>
-	<string name="country_vi">Ilhas Virgens, Estados Unidos</string>
-	<string name="country_wf">Wallis e Futuna (Ilhas)</string>
-	<string name="country_eh">Saara Ocidental</string>
-	<string name="country_ye">Iêmen</string>
-	<string name="country_zm">Zâmbia</string>
-	<string name="country_zw">Zimbábue</string>
-	<string name="country_ax">Ilhas Åland</string>
+    <!-- Menu strings -->
+    <!-- Label for "settings" menu item. -->
+    <string name="Settings">Configurações</string>
+    <!-- Label for "about this app" menu item. -->
+    <string name="About">Sobre</string>
+
+    <!-- Preferences strings -->
+    <!-- String for default preference setting (for any given preference) -->
+    <string name="Default">Padrão</string>
+
+    <!-- Error strings - replacements for default EAN errors -->
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_no_results">Não foi possível encontrar nenhum hotel disponível. Tente inserir datas diferentes ou outro local.</string>
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_connect_unavailable">Impossível conectar ao hotel selecionado para pesquisar os quartos disponíveis.</string>
+    <!-- Error message displayed when the phone number sent via booking is invalid -->
+    <string name="ean_error_invalid_phone_number">Insira um número de telefone válido</string>
+
+    <!-- Checkout API method -->
+    <!-- The hotel booking failed -->
+    <string name="e3_error_checkout_booking_failed">Ocorreu um erro que impediu a conclusão de sua reserva. Tente novamente.</string>
+    <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
+    <string name="e3_error_checkout_booking_succeeded_with_errors">Você concluiu a reserva do hotel! Se precisar de um itinerário imediatamente, entre em contato com o Serviço de atendimento ao cliente da Expedia.</string>
+    <!-- The hotel room is no longer available -->
+    <string name="e3_error_checkout_hotel_room_unavailable">O quarto solicitado não está mais disponível.</string>
+    <!-- There is invalid input in the hotel booking form. Please fix it. -->
+    <string name="e3_error_checkout_invalid_input">Corrija as informações incorretas.</string>
+    <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
+    <string name="e3_error_checkout_payment_failed">Não foi possível processar seu pagamento. Verifique se as informações inseridas estão corretas.</string>
+
+    <!-- SearchResults API method -->
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_hotel_service_failure">Não foi possível concluir sua pesquisa. Tente novamente.</string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input">Nenhum resultado foi retornado para seus termos de pesquisa. Tente novamente.</string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input_unknown">Nenhum resultado foi retornado para seus termos de pesquisa. Tente novamente.</string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_unknown_error">Não foi possível concluir sua pesquisa. Tente novamente.</string>
+
+    <!-- HotelOffers API method -->
+    <!-- The hotel offer is no longer available -->
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Desculpe! As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
+
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">O quarto solicitado não está mais disponível.</string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure">Não foi possível estabelecer conexão com a Expedia. Tente novamente.</string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_invalid_input">Desculpe! As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_unknown_error">Desculpe! As ofertas para este quarto já foram encerradas, mas há outras ofertas disponíveis.</string>
+
+    <!-- HotelProduct API method -->
+    <string name="e3_error_hotel_product_unknown_error">Ocorreu um erro desconhecido.</string>
+    <string name="e3_error_hotel_product_invalid_input">Ocorreu um erro desconhecido.</string>
+
+    <!-- HotelInformation API method -->
+    <string name="e3_error_hotel_information_hotel_service_failure">Ocorreu um erro desconhecido.</string>
+    <string name="e3_error_hotel_information_unknown_error">Ocorreu um erro desconhecido.</string>
+    <string name="e3_error_hotel_information_invalid_input">Ocorreu um erro desconhecido.</string>
+
+    <!-- Currency names -->
+    <string name="currency_aud">Dólar australiano</string>
+    <string name="currency_brl">Real brasileiro</string>
+    <string name="currency_gbp">Libra esterlina</string>
+    <string name="currency_cad">Dólar canadense</string>
+    <string name="currency_cny">Yuan da China</string>
+    <string name="currency_dkk">Coroa dinamarquesa</string>
+    <string name="currency_eur">Euro</string>
+    <string name="currency_hkd">Dólar de Hong Kong</string>
+    <string name="currency_inr">Rupias indianas</string>
+    <string name="currency_ils">Novo shekel israelense </string>
+    <string name="currency_jpy">Ienes japoneses</string>
+    <string name="currency_krw">Won coreano</string>
+    <string name="currency_mxn">Peso mexicano</string>
+    <string name="currency_nzd">Dólares neozelandeses</string>
+    <string name="currency_nok">Coroa norueguesa</string>
+    <string name="currency_rub">Rublos russos</string>
+    <string name="currency_sgd">Dólares de Cingapura</string>
+    <string name="currency_sek">Coroa sueca</string>
+    <string name="currency_chf">Francos suíços</string>
+    <string name="currency_usd">Dólares americanos</string>
+
+    <!-- Country names -->
+    <string name="country_af">Afeganistão</string>
+    <string name="country_al">Albânia</string>
+    <string name="country_dz">Argélia</string>
+    <string name="country_as">Samoa Americana</string>
+    <string name="country_ad">Andorra</string>
+    <string name="country_ao">Angola</string>
+    <string name="country_ai">Anguilla</string>
+    <string name="country_aq">Antártica</string>
+    <string name="country_ag">Antígua e Barbuda</string>
+    <string name="country_ar">Argentina</string>
+    <string name="country_am">Armênia</string>
+    <string name="country_aw">Aruba</string>
+    <string name="country_au">Austrália</string>
+    <string name="country_at">Áustria</string>
+    <string name="country_az">Azerbaijão</string>
+    <string name="country_bs">Bahamas</string>
+    <string name="country_bh">Bahrain</string>
+    <string name="country_bd">Bangladesh</string>
+    <string name="country_bb">Barbados</string>
+    <string name="country_by">Bielorrússia</string>
+    <string name="country_be">Bélgica</string>
+    <string name="country_bz">Belize</string>
+    <string name="country_bj">Benim</string>
+    <string name="country_bm">Bermuda</string>
+    <string name="country_bt">Butão</string>
+    <string name="country_bo">Bolívia, Estado Plurinacional da</string>
+    <string name="country_ba">Bósnia e Herzegovina</string>
+    <string name="country_bw">Botsuana</string>
+    <string name="country_bv">Ilha Bouvet</string>
+    <string name="country_br">Brasil</string>
+    <string name="country_io">Território Britânico do Oceano Índico</string>
+    <string name="country_bn">Brunei Darussalam</string>
+    <string name="country_bg">Bulgária</string>
+    <string name="country_bf">Burkina Faso</string>
+    <string name="country_bi">Burundi</string>
+    <string name="country_kh">Camboja</string>
+    <string name="country_cm">Camarões</string>
+    <string name="country_ca">Canadá</string>
+    <string name="country_cv">Cabo Verde</string>
+    <string name="country_ky">Ilhas Cayman</string>
+    <string name="country_cf">República Centro-Africana</string>
+    <string name="country_td">Chade</string>
+    <string name="country_cl">Chile</string>
+    <string name="country_cn">China</string>
+    <string name="country_cx">Ilhas Christmas</string>
+    <string name="country_cc">Ilhas Cocos (Keeling)</string>
+    <string name="country_co">Colômbia</string>
+    <string name="country_km">Ilhas Comores</string>
+    <string name="country_cg">Congo</string>
+    <string name="country_cd">Congo, República Democrática do</string>
+    <string name="country_ck">Ilhas Cook</string>
+    <string name="country_cr">Costa Rica</string>
+    <string name="country_hr">Croácia</string>
+    <string name="country_cu">Cuba</string>
+    <string name="country_cy">Chipre</string>
+    <string name="country_cz">República Tcheca</string>
+    <string name="country_ci">Costa do Marfim</string>
+    <string name="country_dk">Dinamarca</string>
+    <string name="country_dj">Djibuti</string>
+    <string name="country_dm">Dominica</string>
+    <string name="country_do">República Dominicana</string>
+    <string name="country_ec">Equador</string>
+    <string name="country_eg">Egito</string>
+    <string name="country_sv">El Salvador</string>
+    <string name="country_gq">Guiné Equatorial</string>
+    <string name="country_er">Eritréia</string>
+    <string name="country_ee">Estônia</string>
+    <string name="country_et">Etiópia</string>
+    <string name="country_fk">Ilhas Malvinas</string>
+    <string name="country_fo">Ilhas Faroé</string>
+    <string name="country_fj">Fiji</string>
+    <string name="country_fi">Finlândia</string>
+    <string name="country_fr">França</string>
+    <string name="country_gf">Guiana Francesa</string>
+    <string name="country_pf">Polinésia Francesa</string>
+    <string name="country_tf">Territórios Franceses do Sul</string>
+    <string name="country_ga">Gabão</string>
+    <string name="country_gm">Gâmbia</string>
+    <string name="country_ge">Geórgia</string>
+    <string name="country_de">Alemanha</string>
+    <string name="country_gh">Gana</string>
+    <string name="country_gi">Gibraltar</string>
+    <string name="country_gr">Grécia</string>
+    <string name="country_gl">Groelândia</string>
+    <string name="country_gd">Granada</string>
+    <string name="country_gp">Guadalupe</string>
+    <string name="country_gu">Guam</string>
+    <string name="country_gt">Guatemala</string>
+    <string name="country_gg">Guernsey</string>
+    <string name="country_gn">Guiné</string>
+    <string name="country_gw">Guiné-Bissau</string>
+    <string name="country_gy">Guiana</string>
+    <string name="country_ht">Haiti</string>
+    <string name="country_hm">Ilha Heard e Ilhas McDonald</string>
+    <string name="country_va">Santa Sé (Cidade-Estado do Vaticano)</string>
+    <string name="country_hn">Honduras</string>
+    <string name="country_hk">Hong Kong</string>
+    <string name="country_hu">Hungria</string>
+    <string name="country_is">Islândia</string>
+    <string name="country_in">Índia</string>
+    <string name="country_id">Indonésia</string>
+    <string name="country_ir">Irã, República Islâmica do</string>
+    <string name="country_iq">Iraque</string>
+    <string name="country_ie">Irlanda</string>
+    <string name="country_im">Ilha de Man</string>
+    <string name="country_il">Israel</string>
+    <string name="country_it">Itália</string>
+    <string name="country_jm">Jamaica</string>
+    <string name="country_jp">Japão</string>
+    <string name="country_je">Jérsei</string>
+    <string name="country_jo">Jordânia</string>
+    <string name="country_kz">Cazaquistão</string>
+    <string name="country_ke">Quênia</string>
+    <string name="country_ki">Kiribati</string>
+    <string name="country_kp">Coreia, República Popular Democrática da</string>
+    <string name="country_kr">Coreia</string>
+    <string name="country_kw">Kuwait</string>
+    <string name="country_kg">Quirguistão</string>
+    <string name="country_la">Laos, República Popular Democrática do</string>
+    <string name="country_lv">Letônia</string>
+    <string name="country_lb">Líbano</string>
+    <string name="country_ls">Lesoto</string>
+    <string name="country_lr">Libéria</string>
+    <string name="country_ly">Líbia, Jamahiriya Árabe da</string>
+    <string name="country_li">Liechtenstein</string>
+    <string name="country_lt">Lituânia</string>
+    <string name="country_lu">Luxemburgo</string>
+    <string name="country_mo">Macau</string>
+    <string name="country_mk">Macedônia, República da</string>
+    <string name="country_mg">Madagascar</string>
+    <string name="country_mw">Malavi</string>
+    <string name="country_my">Malásia</string>
+    <string name="country_mv">Maldivas</string>
+    <string name="country_ml">Mali</string>
+    <string name="country_mt">Malta</string>
+    <string name="country_mh">Ilhas Marshal</string>
+    <string name="country_mq">Martinica</string>
+    <string name="country_mr">Mauritânia</string>
+    <string name="country_mu">Maurício</string>
+    <string name="country_yt">Mayotte</string>
+    <string name="country_mx">México</string>
+    <string name="country_fm">Micronésia, Estados Federados da</string>
+    <string name="country_md">Moldávia, República da</string>
+    <string name="country_mc">Mônaco</string>
+    <string name="country_mn">Mongólia</string>
+    <string name="country_me">Montenegro</string>
+    <string name="country_ms">Montserrat</string>
+    <string name="country_ma">Marrocos</string>
+    <string name="country_mz">Moçambique</string>
+    <string name="country_mm">Mianmar</string>
+    <string name="country_na">Namíbia</string>
+    <string name="country_nr">Nauru</string>
+    <string name="country_np">Nepal</string>
+    <string name="country_nl">Países Baixos</string>
+    <string name="country_an">Antilhas Holandesas</string>
+    <string name="country_nc">Nova Caledônia</string>
+    <string name="country_nz">Nova Zelândia</string>
+    <string name="country_ni">Nicarágua</string>
+    <string name="country_ne">Níger</string>
+    <string name="country_ng">Nigéria</string>
+    <string name="country_nu">Niue</string>
+    <string name="country_nf">Ilha Norfolk</string>
+    <string name="country_mp">Ilhas Marianas do Norte</string>
+    <string name="country_no">Noruega</string>
+    <string name="country_om">Omã</string>
+    <string name="country_pk">Paquistão</string>
+    <string name="country_pw">Palau</string>
+    <string name="country_ps">Palestina, Território Ocupado da</string>
+    <string name="country_pa">Panamá</string>
+    <string name="country_pg">Papua Nova Guiné</string>
+    <string name="country_py">Paraguai</string>
+    <string name="country_pe">Peru</string>
+    <string name="country_ph">Filipinas</string>
+    <string name="country_pn">Pitcairn</string>
+    <string name="country_pl">Polônia</string>
+    <string name="country_pt">Portugal</string>
+    <string name="country_pr">Porto Rico</string>
+    <string name="country_qa">Catar</string>
+    <string name="country_ro">Romênia</string>
+    <string name="country_ru">Federação Russa</string>
+    <string name="country_rw">Ruanda</string>
+    <string name="country_re">Réunion</string>
+    <string name="country_bl">Saint Barthélemy</string>
+    <string name="country_sh">Santa Helena</string>
+    <string name="country_kn">São Cristóvão e Nevis</string>
+    <string name="country_lc">Santa Lúcia</string>
+    <string name="country_mf">São Martim (parte francesa)</string>
+    <string name="country_pm">Saint-Pierre e Miquelon</string>
+    <string name="country_vc">São Vicente e Granadinas</string>
+    <string name="country_ws">Samoa</string>
+    <string name="country_sm">San Marino</string>
+    <string name="country_st">São Tomé e Príncipe</string>
+    <string name="country_sa">Arábia Saudita</string>
+    <string name="country_sn">Senegal</string>
+    <string name="country_rs">Sérvia</string>
+    <string name="country_sc">Seychelles</string>
+    <string name="country_sl">Serra Leoa</string>
+    <string name="country_sg">Cingapura</string>
+    <string name="country_sk">Eslováquia</string>
+    <string name="country_si">Eslovênia</string>
+    <string name="country_sb">Ilhas Salomão</string>
+    <string name="country_so">Somália</string>
+    <string name="country_za">África do Sul</string>
+    <string name="country_gs">Geórgia do Sul e Ilhas Sandwich</string>
+    <string name="country_es">Espanha</string>
+    <string name="country_lk">Sri Lanka</string>
+    <string name="country_sd">Sudão</string>
+    <string name="country_sr">Suriname</string>
+    <string name="country_sj">Svalbard e a Ilha de Jan Mayen</string>
+    <string name="country_sz">Suazilândia</string>
+    <string name="country_se">Suécia</string>
+    <string name="country_ch">Suíça</string>
+    <string name="country_sy">Síria, República Árabe da</string>
+    <string name="country_tw">Taiwan</string>
+    <string name="country_tj">Tadjiquistão</string>
+    <string name="country_tz">Tanzânia, República Unida da</string>
+    <string name="country_th">Tailândia</string>
+    <string name="country_tl">Timor-Leste</string>
+    <string name="country_tg">Togo</string>
+    <string name="country_tk">Tokelau</string>
+    <string name="country_to">Tonga</string>
+    <string name="country_tt">Trinidade e Tobago</string>
+    <string name="country_tn">Tunísia</string>
+    <string name="country_tr">Turquia</string>
+    <string name="country_tm">Turcomenistão</string>
+    <string name="country_tc">Ilhas Turks e Caicos</string>
+    <string name="country_tv">Tuvalu</string>
+    <string name="country_ug">Uganda</string>
+    <string name="country_ua">Ucrânia</string>
+    <string name="country_ae">Emirados Árabes Unidos</string>
+    <string name="country_gb">Reino Unido</string>
+    <string name="country_us">Estados Unidos</string>
+    <string name="country_um">Ilhas Menores Distantes dos Estados Unidos</string>
+    <string name="country_uy">Uruguai</string>
+    <string name="country_uz">Uzbequistão</string>
+    <string name="country_vu">Vanuatu</string>
+    <string name="country_ve">Venezuela, República Bolivariana da</string>
+    <string name="country_vn">Vietnã</string>
+    <string name="country_vg">Ilhas Virgens, Britânicas</string>
+    <string name="country_vi">Ilhas Virgens, Estados Unidos</string>
+    <string name="country_wf">Wallis e Futuna (Ilhas)</string>
+    <string name="country_eh">Saara Ocidental</string>
+    <string name="country_ye">Iêmen</string>
+    <string name="country_zm">Zâmbia</string>
+    <string name="country_zw">Zimbábue</string>
+    <string name="country_ax">Ilhas Åland</string>
 </resources>

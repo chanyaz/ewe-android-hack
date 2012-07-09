@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -31,11 +32,12 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.mobiata.android.ImageCache;
-import com.mobiata.android.Log;
 import com.mobiata.android.ImageCache.OnImageLoaded;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 
+@TargetApi(11)
 public class HotelGalleryActivity extends FragmentActivity {
 
 	private Gallery mHotelGallery;

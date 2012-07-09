@@ -15,8 +15,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.utils.ConfirmationUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
@@ -39,7 +38,7 @@ public class BookingConfirmationFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
+		
 		if (!(activity instanceof BookingConfirmationFragmentListener)) {
 			throw new RuntimeException("BookingConfirmationFragment Activity "
 					+ "must implement BookingConfirmationFragmentListener!");
@@ -50,14 +49,46 @@ public class BookingConfirmationFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_confirmation, container, false);
+		ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_confirmation, container, false);
+		Property property = Db.getSelectedProperty();
+		setupMap(view, property);
+
+		View shareBookingButton = view.findViewById(R.id.share_booking_info_button);
+		shareBookingButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mListener.onShareBooking();
+			}
+		});
+
+		View showOnMapButton = view.findViewById(R.id.show_on_map_button);
+		showOnMapButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				mListener.onShowOnMap();
+			}
+		});
+
+		View nextSearchButton = view.findViewById(R.id.start_new_search_button);
+		nextSearchButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				mListener.onNewSearch();
+			}
+		});
+
+		return view;
+	}
+
+	private void setupMap(ViewGroup container, Property property) {
+		ViewGroup mapViewLayout = (ViewGroup) container.findViewById(R.id.map_layout);
+		if (mapViewLayout == null) {
+			return;
+		}
 		mMapView = MapUtils.createMapView(getActivity());
 		mMapView.setClickable(true);
-		ViewGroup mapViewLayout = (ViewGroup) view.findViewById(R.id.map_layout);
 		mapViewLayout.addView(mMapView);
 		mMapView.setEnabled(false);
 
-		Property property = Db.getSelectedProperty();
 		List<Property> properties = new ArrayList<Property>(1);
 		properties.add(property);
 		List<Overlay> overlays = mMapView.getOverlays();
@@ -74,56 +105,30 @@ public class BookingConfirmationFragment extends Fragment {
 		});
 
 		// Thumbnail in the map
-		ImageView thumbnail = (ImageView) view.findViewById(R.id.thumbnail_image_view);
-		if (property.getThumbnail() != null) {
-			ImageCache.loadImage(property.getThumbnail().getUrl(), thumbnail);
+		ImageView thumbnail = (ImageView) container.findViewById(R.id.thumbnail_image_view);
+		if (thumbnail != null) {
+			if (property.getThumbnail() != null) {
+				ImageCache.loadImage(property.getThumbnail().getUrl(), thumbnail);
+			}
+			else {
+				thumbnail.setVisibility(View.GONE);
+			}
+
+			// anti-aliasing is not supported on the hardware
+			// rendering pipline yet, so rendering the image 
+			// on a software layer to prevent the jaggies.
+            LayoutUtils.sayNoToJaggies(thumbnail);
 		}
-		else {
-			thumbnail.setVisibility(View.GONE);
-		}
-
-		// anti-aliasing is not supported on the hardware
-		// rendering pipline yet, so rendering the image 
-		// on a software layer to prevent the jaggies.
-		thumbnail.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-		View shareBookingButton = view.findViewById(R.id.share_booking_info_button);
-		shareBookingButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				String contactText = ConfirmationUtils.determineContactText(getActivity());
-				ConfirmationUtils.share(getActivity(), Db.getSearchParams(), Db.getSelectedProperty(),
-						Db.getBookingResponse(), Db.getBillingInfo(), Db.getSelectedRate(), contactText);
-			}
-		});
-
-		View showOnMapButton = view.findViewById(R.id.show_on_map_button);
-		showOnMapButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Tracker.trackViewOnMap(getActivity());
-
-				startActivity(ConfirmationUtils.generateIntentToShowPropertyOnMap(Db.getSelectedProperty()));
-			}
-		});
-
-		View nextSearchButton = view.findViewById(R.id.start_new_search_button);
-		nextSearchButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mListener.onNewSearch();
-			}
-		});
-
-		return view;
 	}
 
 	@Override
 	public void onDestroyView() {
-
 		ViewGroup mapViewLayout = (ViewGroup) getView().findViewById(R.id.map_layout);
-		mapViewLayout.removeView(mMapView);
-		mMapView.setEnabled(true);
-		mMapView.getOverlays().clear();
+		if (mapViewLayout != null && mMapView != null) {
+			mapViewLayout.removeView(mMapView);
+			mMapView.setEnabled(true);
+			mMapView.getOverlays().clear();
+		}
 		super.onDestroyView();
 	}
 
@@ -144,5 +149,9 @@ public class BookingConfirmationFragment extends Fragment {
 
 	public interface BookingConfirmationFragmentListener {
 		public void onNewSearch();
+
+		public void onShareBooking();
+
+		public void onShowOnMap();
 	}
 }

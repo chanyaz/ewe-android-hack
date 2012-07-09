@@ -1,7 +1,10 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +30,7 @@ import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -43,9 +47,11 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
 
-	private static final String KEY_BOOKING = "KEY_BOOKING";
+	public static final String BOOKING_DOWNLOAD_KEY = BookingFragmentActivity.class.getName() + ".BOOKING";
 
 	public static final String EXTRA_SPECIFIC_RATE = "EXTRA_SPECIFIC_RATE";
+
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
@@ -53,6 +59,8 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	private Context mContext;
 
 	private BookingInfoFragment mBookingInfoFragment;
+
+	private long mLastResumeTime = -1;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -85,6 +93,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		}
 	}
 
+	@TargetApi(11)
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -100,9 +109,19 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	protected void onResume() {
 		super.onResume();
 
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_BOOKING)) {
-			bd.registerDownloadCallback(KEY_BOOKING, mBookingCallback);
+		if (bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
+			bd.registerDownloadCallback(BOOKING_DOWNLOAD_KEY, mBookingCallback);
+			DialogFragment dialog = BookingInProgressDialogFragment.newInstance();
+			dialog.setCancelable(false);
+			dialog.show(getSupportFragmentManager(), getString(R.string.tag_booking_progress));
 		}
 	}
 
@@ -110,12 +129,21 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	protected void onPause() {
 		super.onPause();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.unregisterDownloadCallback(KEY_BOOKING, mBookingCallback);
+		bd.unregisterDownloadCallback(BOOKING_DOWNLOAD_KEY, mBookingCallback);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (isFinishing()) {
+			Db.setCreateTripResponse(null);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
+	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
@@ -158,8 +186,21 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		@Override
 		public BookingResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
+			String userId = null;
+			String tripId = null;
+			Long tuid = null;
+
+			if (Db.getCreateTripResponse() != null) {
+				tripId = Db.getCreateTripResponse().getTripId();
+				userId = Db.getCreateTripResponse().getUserId();
+			}
+
+			if (Db.getUser() != null) {
+				tuid = Db.getUser().getTuid();
+			}
+
 			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),
-					Db.getBillingInfo());
+					Db.getBillingInfo(), tripId, userId, tuid);
 		}
 	};
 
@@ -190,8 +231,9 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 				showErrorDialog(errorMsg);
 
 				// Highlight erroneous fields, if that exists
+				boolean isStoredCard = Db.getBillingInfo() != null && Db.getBillingInfo().getStoredCard() != null;
 				List<ValidationError> errors = response.checkForInvalidFields(bookingFormFragment.getDialog()
-						.getWindow());
+						.getWindow(), isStoredCard);
 				if (errors != null && errors.size() > 0) {
 					if (bookingFormFragment != null) {
 						bookingFormFragment.handleFormErrors(errors);
@@ -203,13 +245,25 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 				return;
 			}
 
+			// Track successful booking with Amobee
+			final String currency = Db.getSelectedRate().getDisplayRate().getCurrency();
+			final Integer duration = Db.getSearchParams().getStayDuration();
+			final Double totalPrice = Db.getSelectedRate().getTotalAmountAfterTax().getAmount();
+			final Integer daysRemaining = (int) ((Db.getSearchParams().getCheckInDate().getTime().getTime() - new Date()
+					.getTime()) / (24 * 60 * 60 * 1000));
+
+			Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
+
+			if (Db.getCreateTripResponse() != null) {
+				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
+			}
+
 			if (bookingFormFragment != null) {
 				bookingFormFragment.dismiss();
 			}
 
 			// Start the conf activity
-			Intent intent = new Intent(mContext, ConfirmationFragmentActivity.class);
-			startActivity(intent);
+			startActivity(ConfirmationFragmentActivity.createIntent(mContext));
 		}
 	};
 
@@ -252,8 +306,8 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 	@Override
 	public void onLoginCompleted() {
-		BookingFormFragment bookingFormFragment = (BookingFormFragment) getSupportFragmentManager()
-				.findFragmentByTag(getString(R.string.tag_booking_form));
+		BookingFormFragment bookingFormFragment = (BookingFormFragment) getSupportFragmentManager().findFragmentByTag(
+				getString(R.string.tag_booking_form));
 		bookingFormFragment.loginCompleted();
 	}
 
@@ -267,10 +321,12 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 	@Override
 	public void onCheckout() {
-		BookingInProgressDialogFragment.newInstance().show(getSupportFragmentManager(),
-				getString(R.string.tag_booking_progress));
+		DialogFragment dialog = BookingInProgressDialogFragment.newInstance();
+		dialog.setCancelable(false);
+		dialog.show(getSupportFragmentManager(), getString(R.string.tag_booking_progress));
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.cancelDownload(KEY_BOOKING);
-		bd.startDownload(KEY_BOOKING, mBookingDownload, mBookingCallback);
+		bd.cancelDownload(BOOKING_DOWNLOAD_KEY);
+		bd.startDownload(BOOKING_DOWNLOAD_KEY, mBookingDownload, mBookingCallback);
 	}
 }

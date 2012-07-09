@@ -15,6 +15,7 @@ import com.mobiata.android.SocialUtils;
 public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 	private static final int DIALOG_CONTACT_EXPEDIA = 1;
+	private static final int DIALOG_EXPEDIA_WEBSITE = 2;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -36,7 +37,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		});
 		addSimpleRow(expediaSection, getString(R.string.expedia_website), new OnClickListener() {
 			public void onClick(View v) {
-				mUtils.openExpediaWebsite();
+				showDialog(DIALOG_EXPEDIA_WEBSITE);
 			}
 		});
 
@@ -128,6 +129,14 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			return mUtils.createContactExpediaDialog(new Runnable() {
 				public void run() {
 					removeDialog(DIALOG_CONTACT_EXPEDIA);
+				}
+			});
+		}
+		case DIALOG_EXPEDIA_WEBSITE: {
+			return mUtils.createExpediaWebsiteDialog(new Runnable() {
+				@Override
+				public void run() {
+					removeDialog(DIALOG_EXPEDIA_WEBSITE);
 				}
 			});
 		}

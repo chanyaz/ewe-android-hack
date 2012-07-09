@@ -1,1040 +1,1070 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<string name="app_name">Expedia</string>
+    <string name="app_name">Expedia</string>
 
-	<!-- Search Fragment -->
-	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">ระบุตำแหน่งที่ต้องการค้นหา </string>
-	<!-- Hint for "search location" field -->
-	<string name="hint_search_location">ค้นหาตำแหน่ง</string>
-	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">กำลังโหลคคำแนะนำ...
-</string>
-	<!-- Label for recent searches user has made -->
-	<string name="recent_searches">ผลลัพธ์ล่าสุด </string>
-	<!-- Label for searches that the user can make that are featured -->
-	<string name="featured_destinations">จุดหมายปลายทางน่าสนใจ </string>
-	<!-- Label for button that starts search -->
-	<string name="search_for_hotels">ค้นหาโรงแรม </string>
-	<!--  Label for picking search location -->
-	<string name="where_are_you_going">คุณอยากจะไป&lt;b&gt;ที่ไหน&lt;/b&gt; </string>
-	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;ลากนิ้ว&lt;/b&gt;เพื่อยืดวันเข้าพัก</string>
-	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">&lt;b&gt;ใคร&lt;/b&gt; เป็นผู้เดินทาง</string>
-	<!-- Child age dialog button -->
-	<string name="button_done">เสร็จ</string>
-	<!--  Label for child age selection prompt -->
-	<plurals name="select_each_childs_age">
-	    <item quantity="one">โปรดระบุอายุเด็ก</item>
-	    <item quantity="two">โปรดระบุอายุเด็ก</item>
-	    <item quantity="many">โปรดระบุอายุเด็ก</item>
-	    <item quantity="other">โปรดระบุอายุเด็ก</item>
-	</plurals>
-	<!--  Title of "select child age" spinner dialog box -->
-	<string name="prompt_select_child_age">โปรดระบุอายุเด็ก (%1$s - %2$s)</string>
-	<!--  Text for child's age on search refinements and in spinner -->
-	<plurals name="child_age">
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; ปี</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; ปี</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; ปี</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; ปี</item>
-	</plurals>
-	<!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-	<string name="child_age_less_than_one">&lt;b&gt;น้อยกว่า 1&lt;/b&gt; ปี</string>
-	
-	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-	<!-- Suggestion to search Times Square -->
-	<string name="suggestion_times_square">ไทม์แสควร์, นิวยอร์ก, NY </string>
-	<string name="suggestion_boston">บอสตัน, MA</string>
-	<string name="suggestion_los_angeles">ลอสแอนเจลิส, CA</string>
-	<string name="suggestion_venice">สวนสาธารณะหาดเวนิส, เวนิส, CA </string>
-	<string name="suggestion_miami">ไมแอมี, FL</string>
-	<string name="suggestion_london">ลอนดอน, UK</string>
-	<string name="suggestion_las_vegas">ลาสเวกัส, NV</string>
-	<string name="suggestion_paris">ปารีส, ฝรั่งเศส</string>
-	<string name="suggestion_minneapolis">มินนีแอโพลิส, MN</string>
-	<string name="suggestion_san_francisco">ซานฟรานซิสโก, CA</string>
+    <!-- General -->
+    <!-- Connectivity -->
+    <!-- Dialog Message tell the user that their device has no internet connection -->
+    <string name="dialog_message_no_connection">คุณไม่ได้เชื่อมต่อกับอินเทอร์เน็ต </string>
 
-	<!-- Search Activity -->
-	<!-- Label for "start search" button -->
-	<string name="search">ค้นหา</string>
-	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
-	    1$ - The search address
-	    2$ - The check-in date
-	    3$ - The check-out date
-	    The dates may include year, if we cross a year boundary 
-	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; ถึง &lt;b&gt;%3$s&lt;/b&gt;</string>
-	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
-	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
-	</plurals>
-	<!-- Hint for filtering results by hotel name -->
-	<string name="filter_hotel_name_hint">จำกัดผลลัพธ์ตามชื่อโรงแรม </string>
-	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">ขออภัย ไม่มีโรงแรมตรงกับการจำกัดการค้นหาของคุณ </string>
-	<!-- Label indicating that geolocation failed -->
-	<string name="geolocation_failed">ไม่สามารถระบุตำแหน่ง</string>
-	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-	<string name="NoGeocodingResults">ไม่สามารถค้นหาตำแหน่งของ %s</string>
-	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">หรือคุณหมายถึง </string>
-	<!-- Button label for upgrading the app -->
-	<string name="upgrade">อัพเกรด</string>
-	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">ค้นหาแผนที่ </string>
-	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">กำลังโหลดผลลัพธ์ก่อนหน้า </string>
-	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">&quot;ค้นหาตาม:&quot;</string>
-	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;ค้นหาตาม&lt;/b&gt;: %s</string>
-	<!-- Label for filter hotels button in bottom bar -->
-	<string name="filter_hotels">ค้นหาโรงแรม </string>
-	<!-- A number of results -->
-	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
-	</plurals>
+    <!-- Search Fragment -->
+    <!-- Initial hint for the search location field - invites the user to enter information here -->
+    <string name="enter_search_location">ป้อนสถานที่ที่คุณต้องการค้นหา…</string>
+    <!-- Hint for "search location" field -->
+    <string name="hint_search_location">ค้นหาตำแหน่ง</string>
+    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+    <string name="loading_suggestions">กำลังโหลดคำแนะนำ…</string>
+    <!-- Label for recent searches user has made -->
+    <string name="recent_searches">ผลลัพธ์ล่าสุด </string>
+    <!-- Label for searches that the user can make that are featured -->
+    <string name="featured_destinations">จุดหมายปลายทางน่าสนใจ </string>
+    <!-- Label for button that starts search -->
+    <string name="search_for_hotels">ค้นหาโรงแรม </string>
+    <!--  Label for picking search location -->
+    <string name="where_are_you_going">คุณอยากจะไป&lt;b&gt;ที่ไหน&lt;/b&gt; </string>
+    <!--  Label for picking checkin/checkout dates -->
+    <string name="drag_to_extend_your_stay">&lt;b&gt;ลากนิ้ว&lt;/b&gt;เพื่อยืดวันเข้าพัก</string>
+    <!--  Label for picking guests for hotel booking -->
+    <string name="who_is_going">&lt;b&gt;ใคร&lt;/b&gt; เป็นผู้เดินทาง</string>
+    <!-- Child age dialog button -->
+    <string name="button_done">เสร็จ</string>
+    <!--  Label for child age selection prompt -->
+    <plurals name="select_each_childs_age">
+        <item quantity="one">โปรดระบุอายุเด็ก</item>
+        <item quantity="two">โปรดระบุอายุเด็ก</item>
+        <item quantity="many">โปรดระบุอายุเด็ก</item>
+        <item quantity="other">โปรดระบุอายุเด็ก</item>
+    </plurals>
+    <!--  Title of "select child age" spinner dialog box -->
+    <string name="prompt_select_child_age">เลือกอายุเด็ก (%1$s - %2$s)</string>
+    <!--  Text for child's age on search refinements and in spinner -->
+    <plurals name="child_age">
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; ปี</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; ปี</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; ปี</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; ปี</item>
+    </plurals>
+    <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
+    <string name="child_age_less_than_one">&lt;b&gt;น้อยกว่า 1&lt;/b&gt; ปี</string>
 
-	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">ในการใช้ตำแหน่งของฉัน คุณต้องเปิดตำแหน่งปัจจุบันในการตั้งค่าก่อน \nไปที่การตั้งค่าและเปิดใช้หรือไม่ </string>
-	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">ปิดการให้บริการข้อมูลตำแหน่งแล้ว โปรดเปิดใช้การให้บริการข้อมูลตำแหน่ง หากต้องการค้นหาตามตำแหน่ง </string>
-	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ โปรดลองอีกครั้ง</string>
-	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ในขณะนี้  โปรดลองอีกครั้ง </string>
+    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
+    <!-- Suggestion to search Times Square -->
+    <string name="suggestion_times_square">ไทม์แสควร์, นิวยอร์ก, NY </string>
+    <string name="suggestion_boston">บอสตัน, MA</string>
+    <string name="suggestion_los_angeles">ลอสแอนเจลิส, CA</string>
+    <string name="suggestion_venice">สวนสาธารณะหาดเวนิส, เวนิส, CA </string>
+    <string name="suggestion_miami">ไมแอมี, FL</string>
+    <string name="suggestion_london">ลอนดอน, UK</string>
+    <string name="suggestion_las_vegas">ลาสเวกัส, NV</string>
+    <string name="suggestion_paris">ปารีส, ฝรั่งเศส</string>
+    <string name="suggestion_minneapolis">มินนีแอโพลิส, MN</string>
+    <string name="suggestion_san_francisco">ซานฟรานซิสโก, CA</string>
 
-	<!-- Sort descriptions, e.g. Sorted by "description" -->
-	<!-- Sort by distance label -->
-	<string name="sort_description_distance">ระยะทาง</string>
-	<!-- Sort by popularity label -->
-	<string name="sort_description_popular">ความนิยม</string>
-	<!-- Sort by price label -->
-	<string name="sort_description_price">ราคา</string>
-	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">คะแนนจากผู้เข้าพัก </string>
-	
-	<!-- Filter option for "show all" -->
-	<string name="all">ทั้งหมด</string>
-	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_cheap">$</string>
-	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_moderate">$$</string>
-	<!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_expensive">$$$</string>
-	<!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_three">3+</string>
-	<!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_four">4+</string>
-	<!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
-	<string name="filter_stars_five">5</string>
-	<!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-	<string name="filter_distance_miles_template">%s ไมล์</string>
-	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-	<string name="filter_distance_kilometers_template">%s กม.</string>
+    <!-- Search Activity -->
+    <!-- Label for "start search" button -->
+    <string name="search">ค้นหา</string>
+    <!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
+        1$ - The search address
+        2$ - The check-in date
+        3$ - The check-out date
+        The dates may include year, if we cross a year boundary
+    -->
+    <string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; ถึง &lt;b&gt;%3$s&lt;/b&gt;</string>
+    <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
+    <plurals name="number_of_matching_hotels">
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; โรงแรมที่ตรงกัน </item>
+    </plurals>
+    <!-- Hint for filtering results by hotel name -->
+    <string name="filter_hotel_name_hint">จำกัดผลลัพธ์ตามชื่อโรงแรม </string>
+    <!-- Label indicating that there are no results matching their current filter -->
+    <string name="no_filter_results">ขออภัย ไม่มีโรงแรมตรงกับการจำกัดการค้นหาของคุณ </string>
+    <!-- Label indicating that geolocation failed -->
+    <string name="geolocation_failed">ไม่สามารถระบุตำแหน่ง</string>
+    <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
+    <string name="NoGeocodingResults">ไม่สามารถค้นหาตำแหน่งของ %s</string>
+    <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
+    <string name="ChooseLocation">หรือคุณหมายความว่า…</string>
+    <!-- Button label for upgrading the app -->
+    <string name="upgrade">อัพเกรด</string>
+    <!-- Button label for searching the visible map area -->
+    <string name="map_search_button">ค้นหาแผนที่ </string>
+    <!-- Message when app is loading saved search results -->
+    <string name="loading_previous">กำลังโหลดผลลัพธ์การค้นหาก่อนหน้า…</string>
+    <!-- Label for sort hotels button in bottom bar -->
+    <string name="sort_hotels">&quot;ค้นหาตาม:&quot;</string>
+    <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
+    <string name="sort_hotels_template">&lt;b&gt;ค้นหาตาม&lt;/b&gt;: %s</string>
+    <!-- Label for filter hotels button in bottom bar -->
+    <string name="filter_hotels">ค้นหาโรงแรม </string>
+    <!-- A number of results -->
+    <plurals name="number_of_results">
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; ผลลัพธ์</item>
+    </plurals>
 
-	<!-- Progress messages -->	
-	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">กำลังค้นหาตำแหน่งปัจจุบัน... </string>
-	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">กำลังค้นหาโรงแรม...</string>
-	<!-- Message displayed when search comes up with zero results -->
-	<string name="progress_search_failed">ไม่พบโรงแรม </string>
-	
-	<!-- Suggestion adapter -->
-	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-	<string name="current_location">ตำแหน่งปัจจุบัน</string>
-	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">แผนที่ที่กำลังดู</string>
+    <!-- Dialog message asking user if they want to enable a location provider. -->
+    <string name="EnableLocationSettings">ในการใช้ตำแหน่งของฉัน คุณต้องเปิดตำแหน่งปัจจุบันในการตั้งค่าก่อน \nไปที่การตั้งค่าและเปิดใช้หรือไม่ </string>
+    <!-- Message displayed when user has disabled finding the device's location. -->
+    <string name="ProviderDisabled">ปิดการให้บริการข้อมูลตำแหน่งแล้ว โปรดเปิดใช้การให้บริการข้อมูลตำแหน่ง หากต้องการค้นหาตามตำแหน่ง </string>
+    <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
+    <string name="ProviderOutOfService">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ โปรดลองอีกครั้ง</string>
+    <!-- Message displayed when the location provider is temporarily unavailable. -->
+    <string name="ProviderTemporarilyUnavailable">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ในขณะนี้  โปรดลองอีกครั้ง </string>
 
-	<!-- Search list adapter -->
-	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">เริ่มจาก</string>
-	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">เริ่มจาก &lt;strike&gt;%s&lt;/strike&gt;</string>
-	<!-- The label for price per night - "from $120/night", for example -->
-	<string name="per_night">/คืน</string>
-	<!-- Label shown when a hotel has no user ratings -->
-	<string name="not_rated">ไม่มีคะแนนมาตรฐาน </string>
-	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">ลด %2.0f%%</string>
+    <!-- Sort descriptions, e.g. Sorted by "description" -->
+    <!-- Sort by distance label -->
+    <string name="sort_description_distance">ระยะทาง</string>
+    <!-- Sort by popularity label -->
+    <string name="sort_description_popular">ความนิยม</string>
+    <!-- Sort by price label -->
+    <string name="sort_description_price">ราคา</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_rating">คะแนนจากผู้เข้าพัก </string>
 
-	<!-- Filter results action bar label -->
-	<string name="filter_results">จำกัดผลลัพธ์</string>
-	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
-	<string name="filter">จำกัดการค้นหา</string>
+    <!-- Filter option for "show all" -->
+    <string name="all">ทั้งหมด</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap">$</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate">$$</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_three">3+</string>
+    <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_four">4+</string>
+    <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
+    <string name="filter_stars_five">5</string>
+    <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
+    <string name="filter_distance_miles_template">%s ไมล์</string>
+    <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
+    <string name="filter_distance_kilometers_template">%s กม.</string>
 
-	<!-- Map -->
-	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">เริ่มจาก %s</string>
+    <!-- Progress messages -->
+    <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
+    <string name="progress_finding_location">กำลังระบุตำแหน่งปัจจุบัน…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels">กำลังค้นหาโรงแรม…</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="progress_search_failed">ไม่พบโรงแรม </string>
 
-	<!-- Mini-details fragment -->
-	<!-- Label for "see details" button on the mini details fragment -->
-	<string name="see_details">ดูรายละเอียด</string>
+    <!-- Suggestion adapter -->
+    <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <string name="current_location">ตำแหน่งปัจจุบัน</string>
+    <!-- Suggestion to search the currently visible map area on the screen -->
+    <string name="visible_map_area">แผนที่ที่กำลังดู</string>
 
-	<!-- Widget -->
-	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">กำลังโหลดโรงแรม... </string>
-	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">ลด %2.0f%%</string>
-	<!--  Indicator to user to tap the widget to cause it to refresh -->
-	<string name="refresh_widget">แตะเพื่อรีเฟรช </string>
-	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions">แตะหน้าจอหลักค้างไว้ เพื่อเพิ่มเรดาห์ระบุตำแหน่งโรงแรม</string>
-	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">ไม่มีสัญญาณอินเทอร์เน็ต</string>
-	<!--  Widget Branding title -->
-	<string name="hotel_radar">เรดาห์ระบุตำแหน่งโรงแรม</string>
-	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">จองโรงแรมคืนนี้ </string>
-	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">เพิ่ม Hotel Radar</string>
-	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">หาข้อเสนอพิเศษใกล้คุณ</string>
+    <!-- Search list adapter -->
+    <!-- The label for how much hotels cost - "from $120/night", for example -->
+    <string name="from">เริ่มจาก</string>
+    <!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
+    <string name="from_template">เริ่มจาก &lt;strike&gt;%s&lt;/strike&gt;</string>
+    <!-- The label for price per night - "from $120/night", for example -->
+    <string name="per_night">/คืน</string>
+    <!-- Label shown when a hotel has no user ratings -->
+    <string name="not_rated">ไม่มีคะแนนมาตรฐาน </string>
+    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+    <string name="percent_off_template">ลด %2.0f%%</string>
 
-	<!-- Hotel Activity -->
-	<!-- Label for button to book the hotel -->
-	<string name="book_now">จอง</string>
-	<!-- Label for the hotel's star rating -->
-	<string name="star_rating">คะแนนมาตรฐาน </string>
-	<!--  Title for star rating in hotel description section -->
-	<string name="star_rating_title">คะแนนมาตรฐาน:</string>
-	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="user_rating">คะแนนจากผู้เข้าพัก </string>
-	<!-- Label for the address section of the description  -->
-	<string name="address">ที่อยู่</string>
-	<!-- Bullet point for list items  -->
-	<string name="bullet_point">•</string>
-	
-	<!--  Hotel Details Fragment -->
-	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">เริ่มจาก%s</string>
-	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; เริ่มจาก</string>
-	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">ผู้เข้าพัก %1$d จากทั้งหมด %2$d คนแนะนำ</string>
-	<!--  Title for the amenities section in the hotel details fragment -->
-	<string name="amenities">สิ่งอำนวยความสะดวก</string>
-	<!--  Label for button to see all reviews as a modal dialog -->
-	<string name="see_all_reviews">แสดงความคิดเห็นทั้งหมด </string>
-	<!-- Label for button that brings users to the room selection page -->
-	<string name="select_room">เลือกห้อง</string>
+    <!-- Filter results action bar label -->
+    <string name="filter_results">จำกัดผลลัพธ์</string>
+    <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+    <string name="filter">จำกัดการค้นหา</string>
 
-	<!-- Amenity strings -->
-	<!-- Text that indicates no amenities at this property -->
-	<string name="AmenityNone">ไม่มีสิ่งอำนวยความสะดวก</string>
-	<!-- Business center amenity -->
-	<string name="AmenityBusinessCenter">ศูนย์ธุรกิจ </string>
-	<!-- Fitness center amenity -->
-	<string name="AmenityFitnessCenter">ห้องฟิตเนส</string>
-	<!-- Hot tub on-site amenity -->
-	<string name="AmenityHotTub">อ่างน้ำร้อน </string>
-	<!-- Internet access amenity -->
-	<string name="AmenityInternet">อินเทอร์เน็ต </string>
-	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">กิจกรรมสำหรับเด็ก </string>
-	<!-- Kitchen/kitchenette amenity -->
-	<string name="AmenityKitchen">ห้องครัว </string>
-	<!-- Pets allowed amenity -->
-	<string name="AmenityPetsAllowed">บริการดูแลสัตว์เลี้ยง</string>
-	<!-- Pool amenity -->
-	<string name="AmenityPool">สระว่ายน้ำ</string>
-	<!-- Restaurant on-site amenity -->
-	<string name="AmenityRestaurant">ห้องอาหาร</string>
-	<!-- Spa on-site amenity -->
-	<string name="AmenitySpa">สปา</string>
-	<!-- Whirlpool bath amenity -->
-	<string name="AmenityWhirlpoolBath">สระน้ำวน </string>
-	<!-- Breakfast amenity -->
-	<string name="AmenityBreakfast">อาหารเช้า</string>
-	<!-- Babysitting amenity -->
-	<string name="AmenityBabysitting">บริการดูแลเด็ก</string>
-	<!-- Jacuzzi amenity -->
-	<string name="AmenityJacuzzi">อ่างจากุซซี่</string>
-	<!-- Parking amenity -->
-	<string name="AmenityParking">ที่จอดรถ</string>
-	<!-- Room service amenity -->
-	<string name="AmenityRoomService">รูมเซอร์วิส</string>
-	<!-- Accessible path of travel amenity -->
-	<string name="AmenityAccessiblePaths">ทางเดินสำหรับผู้พิการ</string>
-	<!-- Accessible bathroom amenity -->
-	<string name="AmenityAccessibleBathroom">ห้องน้ำสำหรับผู้พิการ </string>
-	<!-- Roll-in shower amenity -->
-	<string name="AmenityRollInShower">ห้องอาบน้ำสำหรับผู้ใช้รถเข็น </string>
-	<!-- Handicapped parking amenity -->
-	<string name="AmenityHandicappedParking">ที่จอดรถสำหรับผู้พิการ </string>
-	<!-- In-room accessibility amenity -->
-	<string name="AmenityInRoomAccessibility">ห้องพักบริการผู้พิการ</string>
-	<!-- Accessibility equipment for the deaf amenity -->
-	<string name="AmenityDeafAccessibilityEquipment">สิ่งอำนวยความสะดวกแก่ผู้พิการทางหู</string>
-	<!-- Braille or raised signage amenity -->
-	<string name="AmenityBrailleSignage">ป้ายอักษรเบรลล์</string>
-	<!-- Free airport shuttle amenity -->
-	<string name="AmenityFreeAirportShuttle">รถรับส่งสนามบิน </string>
-	<!-- Indoor pool amenity -->
-	<string name="AmenityPoolIndoor">สระว่ายน้ำในร่ม </string>
-	<!-- Outdoor pool amenity -->
-	<string name="AmenityPoolOutdoor">สะว่ายน้ำกลางแจ้ง </string>
-	<!-- Extended parking amenity -->
-	<string name="AmenityExtendedParking">ที่จอดรถเพิ่มเติม </string>
-	<!-- Free parking amenity -->
-	<string name="AmenityFreeParking">ที่จอดรถฟรี </string>
+    <!-- Map -->
+    <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
+    <string name="map_snippet_price_template">เริ่มจาก %s</string>
 
-	<!-- User Reviews list strings -->
-	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">กำลังโหลดความคิดเห็นของผู้เข้าพัก...</string>
-	<!-- Header for reviews of the non-native language -->
-	<string name="user_review_other_languages_title">เปลี่ยนภาษา</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_recent">ล่าสุด</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_favorable">เชิงบวก</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">เชิงลบ</string>
-	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">กำลังโหลดความคิดเห็นเพิ่มเติม</string>
-	<!-- Read more of the review -->
-	<string name="user_review_read_more">ศึกษาข้อมูลเพิ่มเติม </string>
-	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-		1$ represents the number of guests that recommend this hotel
-		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">ผู้เข้าพัก &lt;b&gt;%1$d&lt;/b&gt; จากทั้งหมด &lt;b&gt;%2$d&lt;/b&gt; คนแนะนำโรงแรมนี้</string>
-	<!-- A number of reviews -->
-	<plurals name="number_of_reviews">
-		<item quantity="zero">%dความคิดเห็น </item>
-		<item quantity="one">%dความคิดเห็น </item>
-		<item quantity="two">%dความคิดเห็น </item>
-		<item quantity="many">%dความคิดเห็น </item>
-		<item quantity="other">%dความคิดเห็น </item>
-	</plurals>
-	<!-- User review name and place review signature eg (John from San Diego, CA)
-		1$ is the user name
-		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$s จาก %2$s</string>
-	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">ไม่มีความคิดเห็นเชิงลบสำหรับโรงแรมนี้ </string>
-	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">ไม่มีความคิดเห็นเชิงบวกสำหรับโรงแรมนี้ </string>
-	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">ไม่มีความคิดเห็นใหม่สำหรับโรงแรมนี้ </string>
-	<!-- User reviews server/parsing error -->
-	<string name="user_review_unavailable">ขออภัย ระบบแสดงความคิดเห็นขัดข้อง</string>
-	
-	<!-- Room and rates list -->
-	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-	<plurals name="staying_nights">
-		<item quantity="zero">พัก %d คืน</item>
-		<item quantity="one">พัก %d คืน</item>
-		<item quantity="two">พัก %d คืน</item>
-		<item quantity="many">พัก %d คืน</item>
-		<item quantity="other">พัก %d คืน</item>
-	</plurals>
-	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">กำลังค้นหาห้องว่าง...</string>
-	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">ไม่สามารถดาวน์โหลดข้อมูลห้องพักและราคา โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
-	<!-- Rate price displayed "per night" -->
-	<string name="rate_per_night">ต่อคืน</string>
-	<!-- Rate price displayed "average per night" -->
-	<string name="rate_avg_per_night">เฉลี่ย/คืน </string>
-	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-	<plurals name="number_of_rooms_left">
-		<item quantity="zero">ไม่มีห้องว่าง</item>
-		<item quantity="one">เหลือเพียง 1 ห้อง</item>
-		<item quantity="two">เหลือเพียง %d ห้อง</item>
-		<item quantity="many">เหลือเพียง %d ห้อง</item>
-		<item quantity="other">เหลือเพียง %d ห้อง</item>
-	</plurals>
+    <!-- Mini-details fragment -->
+    <!-- Label for "see details" button on the mini details fragment -->
+    <string name="see_details">ดูรายละเอียด</string>
+
+    <!-- Widget -->
+    <!--  Default Loading message for widget -->
+    <string name="loading_hotels">กำลังโหลดโรงแรม…</string>
+    <!--  Template for sale element in widget. The parameter is for the sale % -->
+    <string name="widget_savings_template">ลด %2.0f%%</string>
+    <!--  Indicator to user to tap the widget to cause it to refresh -->
+    <string name="refresh_widget">แตะเพื่อรีเฟรช </string>
+    <!--  Instructions on how to add widget to home screen -->
+    <string name="widget_add_instructions">แตะหน้าจอหลักค้างไว้ เพื่อเพิ่มเรดาห์ระบุตำแหน่งโรงแรม</string>
+    <!--  Error string for widget when internet connection is unavailable -->
+    <string name="widget_error_no_internet">ไม่มีสัญญาณอินเทอร์เน็ต</string>
+    <!--  Widget Branding title -->
+    <string name="hotel_radar">เรดาห์ระบุตำแหน่งโรงแรม</string>
+    <!--  Widget Branding description -->
+    <string name="book_a_room_tonight">จองโรงแรมคืนนี้ </string>
+    <!--  First string for widget upsell within app as a notification in the top bar -->
+    <string name="widget_upsell_short_1">เพิ่ม Hotel Radar</string>
+    <!--  Second string for widget upsell within app as a notification in the app bar -->
+    <string name="widget_upsell_short_2">หาข้อเสนอพิเศษใกล้คุณ</string>
+
+    <!-- Hotel Activity -->
+    <!-- Label for button to book the hotel -->
+    <string name="book_now">จอง</string>
+    <!-- Label for the hotel's star rating -->
+    <string name="star_rating">คะแนนมาตรฐาน </string>
+    <!--  Title for star rating in hotel description section -->
+    <string name="star_rating_title">คะแนนมาตรฐาน:</string>
+    <!-- Label for the hotel's trip advisor rating  -->
+    <string name="user_rating">คะแนนจากผู้เข้าพัก </string>
+    <!-- Label for the address section of the description  -->
+    <string name="address">ที่อยู่</string>
+    <!-- Bullet point for list items  -->
+    <string name="bullet_point">•</string>
+
+    <!--  Hotel Details Fragment -->
+    <!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
+    <string name="min_room_price_template">เริ่มจาก%s</string>
+    <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
+    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; เริ่มจาก</string>
+    <!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel -->
+    <string name="reviews_recommended_template">ผู้เข้าพัก %1$d จากทั้งหมด %2$d คนแนะนำ</string>
+    <!--  Title for the amenities section in the hotel details fragment -->
+    <string name="amenities">สิ่งอำนวยความสะดวก</string>
+    <!--  Label for button to see all reviews as a modal dialog -->
+    <string name="see_all_reviews">แสดงความคิดเห็นทั้งหมด </string>
+    <!-- Label for button that brings users to the room selection page -->
+    <string name="select_room">เลือกห้อง</string>
+
+    <!-- Amenity strings -->
+    <!-- Text that indicates no amenities at this property -->
+    <string name="AmenityNone">ไม่มีสิ่งอำนวยความสะดวก</string>
+    <!-- Business center amenity -->
+    <string name="AmenityBusinessCenter">ศูนย์ธุรกิจ </string>
+    <!-- Fitness center amenity -->
+    <string name="AmenityFitnessCenter">ห้องฟิตเนส</string>
+    <!-- Hot tub on-site amenity -->
+    <string name="AmenityHotTub">อ่างน้ำร้อน </string>
+    <!-- Internet access amenity -->
+    <string name="AmenityInternet">อินเทอร์เน็ต </string>
+    <!-- Kids' activities amenity -->
+    <string name="AmenityKidsActivities">กิจกรรมสำหรับเด็ก </string>
+    <!-- Kitchen/kitchenette amenity -->
+    <string name="AmenityKitchen">ห้องครัว </string>
+    <!-- Pets allowed amenity -->
+    <string name="AmenityPetsAllowed">บริการดูแลสัตว์เลี้ยง</string>
+    <!-- Pool amenity -->
+    <string name="AmenityPool">สระว่ายน้ำ</string>
+    <!-- Restaurant on-site amenity -->
+    <string name="AmenityRestaurant">ห้องอาหาร</string>
+    <!-- Spa on-site amenity -->
+    <string name="AmenitySpa">สปา</string>
+    <!-- Whirlpool bath amenity -->
+    <string name="AmenityWhirlpoolBath">สระน้ำวน </string>
+    <!-- Breakfast amenity -->
+    <string name="AmenityBreakfast">อาหารเช้า</string>
+    <!-- Babysitting amenity -->
+    <string name="AmenityBabysitting">บริการดูแลเด็ก</string>
+    <!-- Jacuzzi amenity -->
+    <string name="AmenityJacuzzi">อ่างจากุซซี่</string>
+    <!-- Parking amenity -->
+    <string name="AmenityParking">ที่จอดรถ</string>
+    <!-- Room service amenity -->
+    <string name="AmenityRoomService">รูมเซอร์วิส</string>
+    <!-- Accessible path of travel amenity -->
+    <string name="AmenityAccessiblePaths">ทางเดินสำหรับผู้พิการ</string>
+    <!-- Accessible bathroom amenity -->
+    <string name="AmenityAccessibleBathroom">ห้องน้ำสำหรับผู้พิการ </string>
+    <!-- Roll-in shower amenity -->
+    <string name="AmenityRollInShower">ห้องอาบน้ำสำหรับผู้ใช้รถเข็น </string>
+    <!-- Handicapped parking amenity -->
+    <string name="AmenityHandicappedParking">ที่จอดรถสำหรับผู้พิการ </string>
+    <!-- In-room accessibility amenity -->
+    <string name="AmenityInRoomAccessibility">ห้องพักบริการผู้พิการ</string>
+    <!-- Accessibility equipment for the deaf amenity -->
+    <string name="AmenityDeafAccessibilityEquipment">สิ่งอำนวยความสะดวกแก่ผู้พิการทางหู</string>
+    <!-- Braille or raised signage amenity -->
+    <string name="AmenityBrailleSignage">ป้ายอักษรเบรลล์</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="AmenityFreeAirportShuttle">รถรับส่งสนามบิน </string>
+    <!-- Indoor pool amenity -->
+    <string name="AmenityPoolIndoor">สระว่ายน้ำในร่ม </string>
+    <!-- Outdoor pool amenity -->
+    <string name="AmenityPoolOutdoor">สะว่ายน้ำกลางแจ้ง </string>
+    <!-- Extended parking amenity -->
+    <string name="AmenityExtendedParking">ที่จอดรถเพิ่มเติม </string>
+    <!-- Free parking amenity -->
+    <string name="AmenityFreeParking">ที่จอดรถฟรี </string>
+
+    <!-- User Reviews list strings -->
+    <!-- Loading text prompt -->
+    <string name="user_review_loading_text">กำลังโหลดความคิดเห็นของผู้เข้าพัก…</string>
+    <!-- Header for reviews of the non-native language -->
+    <string name="user_review_other_languages_title">เปลี่ยนภาษา</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_recent">ล่าสุด</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_favorable">เชิงบวก</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_critical">เชิงลบ</string>
+    <!-- Loading more reviews -->
+    <string name="user_review_loading_more_reviews">กำลังโหลดความคิดเห็นเพิ่มเติม…</string>
+    <!-- Read more of the review -->
+    <string name="user_review_read_more">ศึกษาข้อมูลเพิ่มเติม </string>
+    <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
+        1$ represents the number of guests that recommend this hotel
+        2$ represents the total number of guests  -->
+    <string name="user_review_recommendation_tag_text">ผู้เข้าพัก &lt;b&gt;%1$d&lt;/b&gt; จากทั้งหมด &lt;b&gt;%2$d&lt;/b&gt; คนแนะนำโรงแรมนี้</string>
+    <!-- A number of reviews -->
+    <plurals name="number_of_reviews">
+        <item quantity="zero">%dความคิดเห็น </item>
+        <item quantity="one">%dความคิดเห็น </item>
+        <item quantity="two">%dความคิดเห็น </item>
+        <item quantity="many">%dความคิดเห็น </item>
+        <item quantity="other">%dความคิดเห็น </item>
+    </plurals>
+    <!-- User review name and place review signature eg (John from San Diego, CA)
+        1$ is the user name
+        2$ is the place they are from -->
+    <string name="user_review_name_and_location_signature">%1$s จาก %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">ไม่มีความคิดเห็นเชิงลบสำหรับโรงแรมนี้ </string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">ไม่มีความคิดเห็นเชิงบวกสำหรับโรงแรมนี้ </string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">ไม่มีความคิดเห็นใหม่สำหรับโรงแรมนี้ </string>
+    <!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">ขออภัย ระบบแสดงความคิดเห็นขัดข้อง</string>
+
+    <!-- Room and rates list -->
+    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+    <plurals name="staying_nights">
+        <item quantity="zero">พัก %d คืน</item>
+        <item quantity="one">พัก %d คืน</item>
+        <item quantity="two">พัก %d คืน</item>
+        <item quantity="many">พัก %d คืน</item>
+        <item quantity="other">พัก %d คืน</item>
+    </plurals>
+    <!-- Loading message for rooms & rates -->
+    <string name="room_rates_loading">กำลังค้นหาห้องว่าง…</string>
+    <!-- Error message (no response) for not being able to download room and rates information -->
+    <string name="error_no_response_room_rates">ไม่สามารถดาวน์โหลดข้อมูลห้องพักและราคา โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
+    <!-- Rate price displayed "per night" -->
+    <string name="rate_per_night">ต่อคืน</string>
+    <!-- Rate price displayed "average per night" -->
+    <string name="rate_avg_per_night">เฉลี่ย/คืน </string>
+    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
+    <plurals name="number_of_rooms_left">
+        <item quantity="zero">ไม่มีห้องว่าง</item>
+        <item quantity="one">เหลือเพียง 1 ห้อง</item>
+        <item quantity="two">เหลือเพียง %d ห้อง</item>
+        <item quantity="many">เหลือเพียง %d ห้อง</item>
+        <item quantity="other">เหลือเพียง %d ห้อง</item>
+    </plurals>
     <!-- The text we use to message that the room in non-refundable -->
-    <string name="non_refundable">ไม่สามารถคืนเงินได้ </string>
-	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">ลด \n %2.0f%%</string>
-	<!-- Label for free nights -->
-	<string name="free">ฟรี!</string>
-	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-	<string name="value_add_template">มี%s</string>
-	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">ห้องทั้งหมดมี%s</string>
-	<!--  Instruction as the header of the list to select a room from the list -->
-	<string name="select_a_room_instruction">เลือกห้อง</string>
-	
-	<!-- Gallery -->
-	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-	<string name="gallery_title_template">รูป &lt;b&gt;%1$s&lt;/b&gt;</string>
-	    
-	<!-- Booking info -->
-	<!-- edit label -->
-	<string name="edit">แก้ไข</string>
-	<!-- Label for room type -->
-	<string name="room_type">ประเภทห้อง </string>
-	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">ขออภัย ระบบไม่สามารถโหลดรายละเอียดห้องพักได้ โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
-	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">ขออภัย ระบบไม่สามารถหาข้อมูลเพิ่มเติมสำหรับห้องพักนี้ </string>
-	<!-- Label for bed type -->
-	<string name="bed_type">ประเภทเตียง </string>
-	<!-- Label for length of stay -->
-	<string name="stay_duration">ระยะเวลา</string>
-	<!-- Quantity for the length of stay -->
-	<plurals name="length_of_stay">
-		<item quantity="one">1 คืน </item>
-		<item quantity="other">%d คืน</item>
-	</plurals>
-	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-	<string name="room_rate_template">ราคาห้อง %s </string>
-	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">ค่าธรรมเนียมสำหรับผู้เข้าพักเพิ่มเติม</string>
-	<!-- Label for total cost of hotel stay -->
-	<string name="total_cost">ราคาทั้งหมด</string>
-	<!-- Label for "guest info" form field section -->
-	<string name="guest_info">ข้อมูลผู้เข้าพัก </string>
-	<!-- The "first name" booking info field.  -->
-	<string name="FirstName">ชื่อ</string>
-	<!-- The "last name" booking info field.  -->
-	<string name="LastName">นามสกุล</string>
-	<!-- Hint for "telephone country code" field (e.g., "+44") -->
-	<string name="hint_telephone_country_code">##</string>
-	<!-- The "telephone" booking info field.  -->
-	<string name="Telephone">โทรศัพท์</string>
-	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">อีเมล</string>
-	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">ข้อมูลใบแจ้งหนี้ </string>
-	<!-- Address line 1 form field hint -->
-	<string name="hint_address1">ที่อยู่ 1 </string>
-	<!-- Address line 2 form field hint -->
-	<string name="hint_address2">ที่อยู่ 2 (ไม่จำเป็น)</string>
-	<!-- The "city" booking info field.  -->
-	<string name="City">เขต/อำเภอ</string>
-	<!-- The "postal code" booking info field.  -->
-	<string name="PostalCode">รหัสไปรษณีย์</string>
-	<!-- State code hint -->
-	<string name="hint_state_code">จังหวัด</string>
-	<!-- Label for "credit card info" form field section -->
-	<string name="credit_card_info">ข้อมูลบัตรเครดิต</string>
-	<!-- Label for credit card selection box -->
-	<string name="saved_cards">บัตรเครดิตที่อยู่ในระบบ</string>
-	<!-- Label for entering new credit card information -->
-	<string name="enter_a_new_card">ป้อนข้อมูลบัตรเครดิตใหม่</string>
-	<!-- Card number form field hint -->
-	<string name="hint_card_number">หมายเลขบัตร</string>
-	<!-- Card expiration month form field hint -->
-	<string name="hint_expiration_month">ดด</string>
-	<!-- Card expiration year form field hint -->
-	<string name="hint_expiration_year">ปป</string>
-	<!-- Security code label -->
-	<string name="security_code">รหัสความปลอดภัย </string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_front">ดูด้านหน้าบัตรเครดิต</string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_back">ดูด้านหลังบัตรเครดิต</string>
-	<!-- Rules & restrictions section header -->
-	<string name="rules_restrictions">กฏและข้อบังคับ </string>
-	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">หากคุณมีบัญชี Expedia Rewards โปรดใช้อีเมลที่ระบุในบัญชีในการจอง เพื่อให้ระบบเพิ่มคะแนนให้คุณโดยอัตโนมัติ หลังการเข้าพัก หมายเหตุ: อาจใช้เวลานานกว่า 30 วัน ในการแสดงคะแนนที่เพิ่ม </string>
-	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">ป้อนข้อมูลการจอง</string>
-	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">จะมีการตัดยอดบัตรเครดิตในราคา %s บาท </string>
-	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">ยืนยันและจอง</string>
-	<!-- Label for clearing private data -->
-	<string name="clear_private_data">ล้างข้อมูลส่วนตัว </string>
-	<!-- Title for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_title">ต้องการล้างข้อมูลส่วนตัวหรือไม่</string>
-	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">นี่จะเป็นการลบข้อมูลรายชื่อและใบแจ้งหนี้ที่บันทึกไว้ </string>
-	<!-- Title for dialog after private data has been cleared -->
-	<string name="toast_private_data_cleared">ล้างข้อมูลส่วนตัวแล้ว </string>
-	<!-- Error message if field was required but not entered -->
-	<string name="required_field">โปรดระบุข้อมูลในช่องนี้</string>
-	<!-- Error message if field had data entered but was invalid -->
-	<string name="invalid_field">โปรดระบุข้อมูลในช่องนี้</string>
-	<!-- Error if an invalid card number was entered -->
-	<string name="invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง </string>
-	<!-- Error if an invalid credit card type was entered -->
-	<string name="invalid_card_type">ระบบไม่พบประเภทบัตรเครดิตของคุณ โปรดระบุข้อมูลใหม่ </string>
-	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">โปรดระบุข้อมูลตั้งแต่ช่อง 1 ถึง 12 </string>
-	<!-- Error if an invalid year was entered -->
-	<string name="invalid_expiration_year">โปรดระบุปีในอนาคต</string>
-	<!-- Error if an invalid security code was entered -->
-	<string name="invalid_security_code">โปรดระบุรหัสความปลอดภัย</string>
-	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">ขออภัย American Express ไม่รองรับการใช้จ่ายผ่านสกุลเงินนี้ %s โปรดใช้บัตรเครดิตอื่น </string>
-	<!-- Error if user agreement needs to be checked but is not -->
-	<string name="error_no_user_agreement">คุณต้องยอมรับข้อกำหนดในการจอง</string>
-	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">กำลังจอง</string>
-	<!-- Title for error dialog when booking fails -->
-	<string name="error_booking_title">เกิดข้อผิดพลาด</string>
-	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ของ Expedia โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
-	<!-- Error message when booking completed with errors -->
-	<string name="error_booking_succeeded_with_errors">ระบบทำการจองห้องให้คุณแล้ว แต่เกิดข้อผิดพลาดต่อไปนี้: %s</string>
-	<!-- Error message when booking completed with errors - specifically if email was not sent -->
-	<string name="error_unable_to_send_email">ระบบไม่สามารถส่งอีเมลยืนยันข้อมูล</string>
-	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s บน %2$s</string>
-	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
-	<string name="enter_booking_info">ป้อนข้อมูลการจอง</string>
-	<!--  Title for action bar when the user is on the booking info screen -->
-	<string name="booking_information_title">ข้อมูลการจอง</string>
-	<!-- Title for dialog where the user is prompted to enter booking booking information -->
-	<string name="booking_information_dialog_title">ทำการจองให้เสร็จ </string>
-	
-	<!-- Confirmation activity -->
-	<!-- Format for a first/last name -->
-	<string name="name_template">%1$s %2$s</string>
-	<!-- Reservation summary label -->
-	<string name="reservation_summary">ข้อมูลสรุปการจอง</string>
-	<!-- Confirmation number label -->
-	<string name="confirmation_number">รหัสการยืนยัน</string>
-	<!-- Itinerary number label -->
-	<string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
-	<!-- Confirmation email label -->
-	<string name="confirmation_email">อีเมลยืนยัน</string>
-	<!-- Label for starting a new search -->
-	<string name="new_search">ค้นหาใหม่</string>
-	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">หากคุณมีคำถามเกี่ยวกับการจอง โปรดติดต่อ Expedia ที่%s</string>
+    <string name="non_refundable">ไม่สามารถคืนเงินได้</string>
+    <!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
+    <string name="savings_template">ลด %2.0f%%</string>
+    <!-- Label for free nights -->
+    <string name="free">ฟรี!</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">มี%s</string>
+    <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
+    <string name="common_value_add_template">ห้องทั้งหมดมี%s</string>
+    <!--  Instruction as the header of the list to select a room from the list -->
+    <string name="select_a_room_instruction">เลือกห้อง</string>
 
-	<!--  Confirmation Fragment -->
-	<!-- Label to share booking information after a booking confirmation -->
-	<string name="share_booking_info">แชร์ข้อมูลการจอง</string>
-	<!-- Label to start a new search from a confirmation screen  -->
-	<string name="start_new_search">ค้นหาใหม่ </string>
-	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-	<string name="show_on_map">ดูบนแผนที่</string>
-	
-	<!-- Rate template strings -->
-	<!-- Label for the number of guests the booking is for. -->
-	<string name="GuestsLabel">ผู้เข้าพัก </string>
-	<!-- Label for the taxes & fees for this booking. -->
-	<string name="TaxesAndFees">ภาษีและค่าธรรมเนียม </string>
-	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
-	<string name="MandatoryFees">ค่าธรรมเนียมโรงแรม (จ่ายที่โรงแรม)</string>
-	<!-- Label for the rate per room per night. -->
-	<string name="RatePerRoomPerNight">ราคาต่อห้องต่อคืน </string>
-	<!-- Label for the total cost of the booking. -->
-	<string name="Total">ทั้งหมด</string>
-	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-	<string name="PayToExpedia">จ่ายให้ Expedia </string>
-	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
-	<string name="CheckIn">เช็คอิน</string>
-	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-	<string name="CheckOut">เช็คเอาท์ </string>
+    <!-- Gallery -->
+    <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+    <string name="gallery_title_template">รูป &lt;b&gt;%1$s&lt;/b&gt;</string>
 
-	<!-- Expedia policy strings -->
-	<!-- Policy displayed to user when an immediate charge is required -->
-	<string name="PolicyImmediateChargeRequired">ระบบจะทำการตัดเงินผ่านบัตรเครดิตเป็นจำนวนเงินทั้งหมดที่ระบุไว้ในใบยืนยันการจองทันที  </string>
-	<!-- Policy displayed to user when the room is non-refundable -->
-	<string name="PolicyNonRefundable">เรามีราคาถูกสุดพิเศษสำหรับโรงแรมนี้ แต่ว่า ราคานี้จะเป็นราคาที่เมื่อจองแล้ว ไม่สามารถขอคืนเงินได้ คุณจะไม่ได้เงินคืน หากคุณต้องการยกเลิก</string>
-	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">ระบบจะตัดบัตรเครดิตของคุณเป็นเงินมัดจำสำหรับการจองนี้ โรงแรมจะตัดบัตรเครดิตคุณทันที เมื่อคุณทำการจอง</string>
-	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">เราจำเป็นต้องใช้ข้อมูลบัตรเครดิตของคุณในการยืนยันการจอง ระบบจะไม่ทำการตัดบัตรเครดิตของคุณ จนกว่าคุณจะทำการเช็คอินเข้าโรงแรมหรือเกินกำหนดวันยกเลิกแล้ว  </string>
-	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">ในการทำการจองนี้ คุณยอมรับข้อตกลงและเงื่อนไข ซึ่งรวมถึงนโยบายการยกเลิกและเนื้อหาข้อตกลงและเงื่อนไขต่างๆ ที่ระบุในข้อตกลงสำหรับผู้ใช้  \n\n คุณตกลงที่จะชำระเงินสำหรับการจองนี้ หากคุณไม่ชำระเงินตามที่ตกลงไว้ และหากมีการเรียกเก็บหนี้สินจากบริษัทติดตามทวงหนี้ ทนายความ หรือมีการดำเนินการตามกฏหมายต่างๆ คุณตกลงที่จะชำระค่าใช้จ่ายและค่าธรรมเนียมต่างๆ ที่เกี่ยวข้อง ซึ่งรวมถึงค่าบริการทนายความและค่าศาล </string>
-	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">คุณกำลังทำการจองโรงแรมที่ไม่มีส่วนลด ราคาที่แสดงเป็นราคาต่อคืน ตามจำนวนการเข้าพัก 2 คนต่อห้อง ยกเว้นระบุว่าไว้ต่างหาก โปรดอ่านรายละเอียดห้องพักและราคาอย่างละเอียด เพื่อให้แน่ใจว่าห้องที่คุณเลือกสามารถรองรับผู้ร่วมทริปทั้งหมด ราคาห้องบางอย่างอาจต้องใช้โค้ดการจองพิเศษ ทางเราไม่ได้รวมค่าธรรมเนียมในการจอง ภาษี และค่าบริการต่างๆ ที่เรียกเก็บจากโรงแรม โรงแรมอาจมีการเรียกเก็บค่าบริการสำหรับผู้เข้าพักเพิ่มเติมนอกเหนือจากจำนวนที่ระบุไว้ ไม่ว่าจะเป็นผู้ใหญ่หรือเด็ก \n\n เราจะส่งคำร้องขอสำหรับการเข้าพักมากกว่า 2 คน หรือการเข้าพักมากกว่าจำนวนที่กำหนดไว้ตามราคาไปให้โรงแรม แต่เราไม่รับรองว่าโรงแรมจะปฏิบัติตาม หากโรงแรมยินดีที่จะปฏิบัติตาม ทางโรงแรมอาจจะคิดค่าธรรมเนียมเพิ่มเติม </string>
+    <!-- Booking info -->
+    <!-- edit label -->
+    <string name="edit">แก้ไข</string>
+    <!-- Label for room type -->
+    <string name="room_type">ประเภทห้อง </string>
+    <!-- Error if we couldn't load the room type details -->
+    <string name="error_room_type_load">ขออภัย ระบบไม่สามารถโหลดรายละเอียดห้องพักได้ โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
+    <!-- Error if we couldn't find the room type details -->
+    <string name="error_room_type_nonexistant">ขออภัย ระบบไม่สามารถหาข้อมูลเพิ่มเติมสำหรับห้องพักนี้ </string>
+    <!-- Label for bed type -->
+    <string name="bed_type">ประเภทเตียง </string>
+    <!-- Label for length of stay -->
+    <string name="stay_duration">ระยะเวลา</string>
+    <!-- Quantity for the length of stay -->
+    <plurals name="length_of_stay">
+        <item quantity="one">1 คืน </item>
+        <item quantity="other">%d คืน</item>
+    </plurals>
+    <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
+    <string name="room_rate_template">ราคาห้อง %s </string>
+    <!-- Label for the extra guest charge -->
+    <string name="extra_guest_charge">ค่าธรรมเนียมสำหรับผู้เข้าพักเพิ่มเติม</string>
+    <!-- Label for total cost of hotel stay -->
+    <string name="total_cost">ราคาทั้งหมด</string>
+    <!-- Label for "guest info" form field section -->
+    <string name="guest_info">ข้อมูลผู้เข้าพัก </string>
+    <!-- The "first name" booking info field.  -->
+    <string name="FirstName">ชื่อ</string>
+    <!-- The "last name" booking info field.  -->
+    <string name="LastName">นามสกุล</string>
+    <!-- Hint for "telephone country code" field (e.g., "+44") -->
+    <string name="hint_telephone_country_code">##</string>
+    <!-- The "telephone" booking info field.  -->
+    <string name="Telephone">โทรศัพท์</string>
+    <!-- The "email for booking confirmation" booking info field.  -->
+    <string name="EmailForConf">อีเมล</string>
+    <!-- Label for "billing info" form field section -->
+    <string name="billing_info">ที่อยู่สำหรับใบแจ้งหนี้</string>
+    <!-- Address line 1 form field hint -->
+    <string name="hint_address1">ที่อยู่ 1 </string>
+    <!-- Address line 2 form field hint -->
+    <string name="hint_address2">ที่อยู่  (ไม่จำเป็น)</string>
+    <!-- The "city" booking info field.  -->
+    <string name="City">เขต/อำเภอ</string>
+    <!-- The "postal code" booking info field.  -->
+    <string name="PostalCode">รหัสไปรษณีย์</string>
+    <!-- State code hint -->
+    <string name="hint_state_code">จังหวัด</string>
+    <!-- Label for "credit card info" form field section -->
+    <string name="credit_card_info">ข้อมูลบัตรเครดิต</string>
+    <!-- Label for credit card selection box -->
+    <string name="saved_cards">บัตรเครดิตที่อยู่ในระบบ</string>
+    <!-- Label for entering new credit card information -->
+    <string name="enter_a_new_card">ป้อนข้อมูลบัตรเครดิตใหม่</string>
+    <!-- Card number form field hint -->
+    <string name="hint_card_number">หมายเลขบัตร</string>
+    <!-- Card expiration month form field hint -->
+    <string name="hint_expiration_month">ดด</string>
+    <!-- Card expiration year form field hint -->
+    <string name="hint_expiration_year">ปป</string>
+    <!-- Security code label -->
+    <string name="security_code">รหัสความปลอดภัย </string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_front">ดูด้านหน้าบัตรเครดิต</string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_back">ดูด้านหลังบัตรเครดิต</string>
+    <!-- Rules & restrictions section header -->
+    <string name="rules_restrictions">กฏและข้อบังคับ </string>
+    <!-- Disclaimer about how to earn expedia points -->
+    <string name="disclaimer_expedia_points">หากคุณมีบัญชี Expedia Rewards โปรดใช้อีเมลที่ระบุในบัญชีในการจอง เพื่อให้ระบบเพิ่มคะแนนให้คุณโดยอัตโนมัติ หลังการเข้าพัก หมายเหตุ: อาจใช้เวลานานกว่า 30 วัน ในการแสดงคะแนนที่เพิ่ม </string>
+    <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
+    <string name="EnterBookingInfo">ป้อนข้อมูลการจอง</string>
+    <!-- Message at the bottom of the booking screen with how much you will be charged -->
+    <string name="charge_details_template">จะมีการตัดยอดบัตรเครดิตในราคา %s บาท </string>
+    <!-- Button label for confirming your booking -->
+    <string name="confirm_book">ยืนยันและจอง</string>
+    <!-- Label for clearing private data -->
+    <string name="clear_private_data">ล้างข้อมูลส่วนตัว </string>
+    <!-- Title for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_title">ต้องการล้างข้อมูลส่วนตัวหรือไม่</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_msg">นี่จะเป็นการลบข้อมูลติดต่อและบัตรเครดิตที่บันทึกไว้ </string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_log_out_and_clear_private_data_msg">ระบบจะให้คุณออกจากระบบและล้างข้อมูลบัตรเครดิตและติดต่อทั้งหมด</string>
+    <!-- Title for dialog after private data has been cleared -->
+    <string name="toast_private_data_cleared">ล้างข้อมูลส่วนตัวแล้ว </string>
+    <!-- Error message if field was required but not entered -->
+    <string name="required_field">โปรดระบุข้อมูลในช่องนี้</string>
+    <!-- Error message if field had data entered but was invalid -->
+    <string name="invalid_field">โปรดระบุข้อมูลในช่องนี้</string>
+    <!-- Error if an invalid card number was entered -->
+    <string name="invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง </string>
+    <!-- Error if an invalid credit card type was entered -->
+    <string name="invalid_card_type">ระบบไม่พบประเภทบัตรเครดิตของคุณ โปรดระบุข้อมูลใหม่ </string>
+    <!-- Error if an invalid month (not 1-12) was entered -->
+    <string name="invalid_month">โปรดระบุข้อมูลตั้งแต่ช่อง 1 ถึง 12 </string>
+    <!-- Error if an invalid year was entered -->
+    <string name="invalid_expiration_year">โปรดระบุปีในอนาคต</string>
+    <!-- Error if an invalid security code was entered -->
+    <string name="invalid_security_code">โปรดระบุรหัสความปลอดภัย</string>
+    <!-- Error if an invalid currency code is being used with American Express -->
+    <string name="invalid_currency_for_amex">ขออภัย American Express ไม่รองรับการใช้จ่ายผ่านสกุลเงินนี้ %s โปรดใช้บัตรเครดิตอื่น </string>
+    <!-- Error if user agreement needs to be checked but is not -->
+    <string name="error_no_user_agreement">คุณต้องยอมรับข้อกำหนดในการจอง</string>
+    <!-- Message to display to user while booking is in progress -->
+    <string name="booking_loading">กำลังจอง…</string>
+    <!-- Title for error dialog when booking fails -->
+    <string name="error_booking_title">เกิดข้อผิดพลาด</string>
+    <!-- Error message when we couldn't get a response -->
+    <string name="error_booking_null">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ของ Expedia โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
+    <!-- Error message when booking completed with errors -->
+    <string name="error_booking_succeeded_with_errors">ระบบทำการจองห้องให้คุณแล้ว แต่เกิดข้อผิดพลาดต่อไปนี้: %s</string>
+    <!-- Error message when booking completed with errors - specifically if email was not sent -->
+    <string name="error_unable_to_send_email">ระบบไม่สามารถส่งอีเมลยืนยันข้อมูล</string>
+    <!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
+    <string name="check_in_out_time_template">%1$s บน %2$s</string>
+    <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
+    <string name="enter_booking_info">ป้อนข้อมูลการจอง</string>
+    <!--  Title for action bar when the user is on the booking info screen -->
+    <string name="booking_information_title">ข้อมูลการจอง</string>
+    <!-- Title for dialog where the user is prompted to enter booking booking information -->
+    <string name="booking_information_dialog_title">ทำการจองให้เสร็จ </string>
 
-	<!-- Expedia Accounts -->
-	<!-- Label for menu item to log into account -->
-	<string name="log_in_to_expedia">เข้าระบบ Expedia</string>
-	<!-- Hint for user to enter password into a field -->
-	<string name="hint_password">รหัสผ่าน</string>
-	<!-- Progress dialog text when we are logging the user into Expedia -->
-	<string name="logging_in">กำลังเข้าระบบ...</string>
-	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">เรียบร้อยแล้ว คุณเข้าระบบแล้ว</string>
-	<!-- Label for login widget button -->
-	<string name="account_login">เข้าสู่ระบบ</string>
-	<!-- Label for login widget additional text -->
-	<string name="log_in_for_faster_booking">เข้าระบบเพื่อการจองที่รวดเร็วขึ้น </string>
-	<!-- Label for account status -->
-	<string name="enrolled_in_expedia_rewards">ลงชื่อร่วมโปรแกรม Expedia Rewards\u2122</string>
-	<!-- Label for account name -->
-	<string name="logged_in_as">เข้าระบบโดยใช้ชื่อ</string>
-	<!-- Label for account name -->
-    <string name="logged_in_as_template">เข้าระบบโดยใช้ชื่อ&lt;b&gt;%s&lt;/b&gt;</string>
-	<!-- Label for signin screen -->
-	<string name="expedia_account">บัญชี Expedia</string>
-	<!-- Label for loading user profile from expedia.com -->
-	<string name="loading_expedia_account">กำลังโหลดบัญชี Expedia</string>
+    <!-- Confirmation activity -->
+    <!-- Format for a first/last name -->
+    <string name="name_template">%1$s %2$s</string>
+    <!-- Reservation summary label -->
+    <string name="reservation_summary">ข้อมูลสรุปการจอง</string>
+    <!-- Confirmation number label -->
+    <string name="confirmation_number">รหัสการยืนยัน</string>
+    <!-- Itinerary number label -->
+    <string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
+    <!-- Confirmation email label -->
+    <string name="confirmation_email">อีเมลยืนยัน</string>
+    <!-- Label for starting a new search -->
+    <string name="new_search">ค้นหาใหม่</string>
+    <!-- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template">หากคุณมีคำถามเกี่ยวกับการจอง โปรดติดต่อ Expedia ที่%s</string>
+
+    <!--  Confirmation Fragment -->
+    <!-- Label to share booking information after a booking confirmation -->
+    <string name="share_booking_info">แชร์ข้อมูลการจอง</string>
+    <!-- Label to start a new search from a confirmation screen  -->
+    <string name="start_new_search">ค้นหาใหม่ </string>
+    <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
+    <string name="show_on_map">ดูบนแผนที่</string>
+
+    <!-- Rate template strings -->
+    <!-- Label for the number of guests the booking is for. -->
+    <string name="GuestsLabel">ผู้เข้าพัก </string>
+    <!-- Label for the taxes & fees for this booking. -->
+    <string name="TaxesAndFees">ภาษีและค่าธรรมเนียม </string>
+    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <string name="MandatoryFees">ค่าธรรมเนียมโรงแรม (จ่ายที่โรงแรม)</string>
+    <!-- Label for the rate per room per night. -->
+    <string name="RatePerRoomPerNight">ราคาต่อห้องต่อคืน </string>
+    <!-- Label for the total cost of the booking. -->
+    <string name="Total">ทั้งหมด</string>
+    <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+    <string name="PayToExpedia">จ่ายให้ Expedia </string>
+    <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
+    <string name="CheckIn">เช็คอิน</string>
+    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
+    <string name="CheckOut">เช็คเอาท์ </string>
+    <!-- Label to display the amount you save after applying a coupon code in the receipt -->
+    <string name="discount">ส่วนลด</string>
+
+    <!-- Expedia policy strings -->
+    <!-- Policy displayed to user when an immediate charge is required -->
+    <string name="PolicyImmediateChargeRequired">ระบบจะทำการตัดเงินผ่านบัตรเครดิตเป็นจำนวนเงินทั้งหมดที่ระบุไว้ในใบยืนยันการจองทันที  </string>
+    <!-- Policy displayed to user when the room is non-refundable -->
+    <string name="PolicyNonRefundable">เรามีราคาถูกสุดพิเศษสำหรับโรงแรมนี้ แต่ว่า ราคานี้จะเป็นราคาที่เมื่อจองแล้ว ไม่สามารถขอคืนเงินได้ คุณจะไม่ได้เงินคืน หากคุณต้องการยกเลิก</string>
+    <!-- Policy displayed to user when a deposit is required -->
+    <string name="PolicyDepositRequired">ระบบจะตัดบัตรเครดิตของคุณเป็นเงินมัดจำสำหรับการจองนี้ โรงแรมจะตัดบัตรเครดิตคุณทันที เมื่อคุณทำการจอง</string>
+    <!-- Policy displayed to user when a guarantee is required -->
+    <string name="PolicyGuaranteeRequired">เราจำเป็นต้องใช้ข้อมูลบัตรเครดิตของคุณในการยืนยันการจอง ระบบจะไม่ทำการตัดบัตรเครดิตของคุณ จนกว่าคุณจะทำการเช็คอินเข้าโรงแรมหรือเกินกำหนดวันยกเลิกแล้ว  </string>
+    <!-- Expedia merchant hotel policies -->
+    <string name="PolicyExpediaMerchant">ในการทำการจองนี้ คุณยอมรับข้อตกลงและเงื่อนไข ซึ่งรวมถึงนโยบายการยกเลิกและเนื้อหาข้อตกลงและเงื่อนไขต่างๆ ที่ระบุในข้อตกลงสำหรับผู้ใช้  \n\n คุณตกลงที่จะชำระเงินสำหรับการจองนี้ หากคุณไม่ชำระเงินตามที่ตกลงไว้ และหากมีการเรียกเก็บหนี้สินจากบริษัทติดตามทวงหนี้ ทนายความ หรือมีการดำเนินการตามกฏหมายต่างๆ คุณตกลงที่จะชำระค่าใช้จ่ายและค่าธรรมเนียมต่างๆ ที่เกี่ยวข้อง ซึ่งรวมถึงค่าบริการทนายความและค่าศาล </string>
+    <!-- Expedia agent hotel policies -->
+    <string name="PolicyExpediaAgent">คุณกำลังทำการจองโรงแรมที่ไม่มีส่วนลด ราคาที่แสดงเป็นราคาต่อคืน ตามจำนวนการเข้าพัก 2 คนต่อห้อง ยกเว้นระบุว่าไว้ต่างหาก โปรดอ่านรายละเอียดห้องพักและราคาอย่างละเอียด เพื่อให้แน่ใจว่าห้องที่คุณเลือกสามารถรองรับผู้ร่วมทริปทั้งหมด ราคาห้องบางอย่างอาจต้องใช้โค้ดการจองพิเศษ ทางเราไม่ได้รวมค่าธรรมเนียมในการจอง ภาษี และค่าบริการต่างๆ ที่เรียกเก็บจากโรงแรม โรงแรมอาจมีการเรียกเก็บค่าบริการสำหรับผู้เข้าพักเพิ่มเติมนอกเหนือจากจำนวนที่ระบุไว้ ไม่ว่าจะเป็นผู้ใหญ่หรือเด็ก \n\n เราจะส่งคำร้องขอสำหรับการเข้าพักมากกว่า 2 คน หรือการเข้าพักมากกว่าจำนวนที่กำหนดไว้ตามราคาไปให้โรงแรม แต่เราไม่รับรองว่าโรงแรมจะปฏิบัติตาม หากโรงแรมยินดีที่จะปฏิบัติตาม ทางโรงแรมอาจจะคิดค่าธรรมเนียมเพิ่มเติม </string>
+
+    <!-- Expedia Accounts -->
+    <!-- Label for menu item to log into account -->
+    <string name="log_in">เข้าระบบ</string>
+    <!-- Label for menu item to log into account -->
+    <string name="log_in_to_expedia">เข้าระบบ Expedia</string>
+    <!-- Hint for user to enter password into a field -->
+    <string name="hint_password">รหัสผ่าน</string>
+    <!-- Progress dialog text when we are logging the user into Expedia -->
+    <string name="logging_in">กำลังเข้าระบบ…</string>
+    <!-- Message that tells user they successfully logged in -->
+    <string name="login_success">เรียบร้อยแล้ว คุณเข้าระบบแล้ว</string>
+    <!-- Message that tells user they failed to log in -->
+    <string name="login_failed">ไม่สามารถเข้าระบบ</string>
+    <!-- Label for login widget button -->
+    <string name="account_login">เข้าสู่ระบบ</string>
+    <!-- Label for login widget additional text -->
+    <string name="log_in_for_faster_booking">เข้าระบบเพื่อการจองที่รวดเร็วขึ้น </string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_rewards">ลงชื่อร่วมโปรแกรม Expedia Rewards\u2122</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as">เข้าระบบของ</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as_template">เข้าระบบของ&lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Label for signin screen -->
+    <string name="expedia_account">บัญชี Expedia</string>
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">กำลังโหลดบัญชี Expedia</string>
     <!-- Label for password recovery -->
-	<string name="forgot_your_password">ลืมรหัสผ่าน</string>
+    <string name="forgot_your_password">ลืมรหัสผ่าน</string>
     <!-- Label for coupon code area of booking form -->
-	<string name="coupon_code">รหัสคูปอง</string>
+    <string name="coupon_code">รหัสคูปอง</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">ไม่จำเป็น</string>
     <!-- Label applying a coupon -->
-	<string name="apply">ใช้</string>
+    <string name="apply">ใช้</string>
     <!-- Label for new price after applying coupon -->
-	<string name="new_total">ราคาใหม่ หลังส่วนลด:</string>
+    <string name="new_total">ราคาใหม่ หลังส่วนลด:</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">ใช้บัตรเครดิตนี้:</string>
+    <string name="use_card">ใช้บัตรเครดิตนี้</string>
+    <!-- Label for when a user has entered an invalid coupon -->
+    <string name="invalid_coupon">คูปองไม่ถูกต้อง</string>
+    <!-- Label for when a user has entered a coupon which is expired -->
+    <string name="expired_coupon">คูปองหมดอายุ</string>
+    <!-- Label for when a user has entered a coupon and the server fails -->
+    <string name="coupon_error">คูปองผิด</string>
 
-	<!-- Sharing bookings via email -->
-	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">หมายเลขแผนการเดินทาง Expedia  - %1$s (%2$s - %3$s)</string>
-	<!-- Preset at the top of the share body message -->
-	<string name="share_body_start">ข้อมูลการจองโรงแรม: </string>
-	<!-- Name of user -->
-	<string name="name">ชื่อ</string>
-	<!-- Number of adults label -->
-	<string name="adults">ผู้ใหญ่</string>
-	<!-- Number of children label -->
-	<string name="children">เด็ก</string>
-	<!-- Subtotal label -->
-	<string name="subtotal">ราคาทั้งหมด</string>
-	<!-- Cancellation policy label -->
-	<string name="cancellation_policy">นโยบายการยกเลิก</string>
-	
-	<!-- About activity -->
-	<!-- Label for "contact Expedia" button in info page -->
-	<string name="contact_expedia">ติดต่อ Expedia </string>
-	<!-- Extra description for "contact Expedia" button, when space allows -->
-	<string name="contact_expedia_description">พวกเราพร้อมบริการคุณตลอด 24 ชั่วโมง</string>
-	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">ติอต่อ Expedia ผ่าน:</string>
-	<!-- Contact Expedia via phone -->
-	<string name="contact_expedia_phone">โทรศัพท์</string>
-	<!-- Contact Expedia via email -->
-	<string name="contact_expedia_email">อีเมล</string>
-	<!-- Contact Expedia via email subject -->
-	<string name="contact_expedia_email_subject">ฝ่ายบริการลูกค้า Expedia </string>
-	<!-- Contact Expedia via website -->
-	<string name="contact_expedia_website">เว็บไซต์</string>
-	<!-- Label for "Expedia website" button in info page -->
-	<string name="expedia_website">เว็บไซต์ Expedia </string>
-	<!-- Extra description for "Expedia website" button, when space allows -->
-	<string name="expedia_website_description">ไปที่ Expedia.com หากต้องการจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยวอื่นๆ  </string>
-	<!-- Extra description for "app feedback" button, when space allows -->
-	<string name="app_feedback_description">โปรดแสดงความคิดเห็นของคุณเกี่ยวกับแอพ</string>
-	<!-- Label for "app support" button in info page -->
-	<string name="app_support">ฝ่ายบริการลูกค้า</string>
-	<!-- Extra description for "app support" button, when space allows -->
-	<string name="app_support_description">ส่งข้อความถึงเรา แล้วเราจะติดต่อกลับไป</string>
-	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">หากคุณและเพื่อนชอบข้อเสนอทริปสุดพิเศษ บอกให้พวกเขาดาวน์โหลดแอพนี้ </string>
-	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">เที่ยวแบบมือโปร </string>
-	<!-- Subject line for "tell a friend" feature -->
-	<string name="tell_a_friend_subject">โรงแรม Expedia </string>
-	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">สวัสดีครับ \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง คุณสามารถค้นหาและจองห้องโรงแรมกว่า 130,000 โรงแรมทั่วโลกได้ง่ายๆ และฟรี ผ่านมือถือของคุณ \n\n http://www.expedia.com/app</string>
-	<!-- Label for link to terms and conditions -->
-	<string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข </string>
-	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">นโยบายความเป็นส่วนตัว </string>
-	<!-- Copyright information -->
-	<string name="copyright">© 2011-2012 Expedia, Inc. \nสงวนลิขสิทธิ์</string>
-	
-	<!--  App Feedback Activity -->
-	<!-- Text within submit button in header -->
-	<string name="send_feedback">ส่งความคิดเห็น </string>
-	<!-- Header title -->
-	<string name="app_feedback">แสดงความคิดเห็น</string>
-	<!-- Section header for rating (1-5 stars) -->
-	<string name="oosdk_rating_overall_header">โปรดให้คะแนน</string>
-	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">สนับสนุนโดย Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">นโยบายความเป็นส่วนตัว</a></string>
-	<!-- Hint to type in email address -->
-	<string name="email_address">อีเมล</string>
-	<!-- Hint to type in comments -->
-	<string name="feedback_hint">โปรดแสดงความคิดเห็นของคุณ เพื่อให้เราบริการคุณใด้ดีขึ้น </string>
-	<!-- Message displayed to users after they submit feedback -->
-	<string name="oosdk_thanks_txt">ขอบคุณที่สละเวลาแสดงความคิดเห็นให้เรา  เราให้ความสำคัญกับความคิดเห็นทุกข้อของลูกค้า</string>
-	
-	<!-- Preferences -->
-	<!-- Category name for general preferences -->
-	<string name="preference_category_general">ทั่วไป</string>
-	<!-- Title for point of sale setting -->
-	<string name="preference_point_of_sale_title">ประเทศ</string>
-	<!-- Template for default point of sale -->
-	<string name="default_point_of_sale_template">%s (โดยมาตรฐาน)</string>
+    <!-- Sharing bookings via email -->
+    <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
+    <string name="share_subject_template">หมายเลขแผนการเดินทาง Expedia  - %1$s (%2$s - %3$s)</string>
+    <!-- Preset at the top of the share body message -->
+    <string name="share_body_start">ข้อมูลการจองโรงแรม: </string>
+    <!-- Name of user -->
+    <string name="name">ชื่อ</string>
+    <!-- Number of adults label -->
+    <string name="adults">ผู้ใหญ่</string>
+    <!-- Number of children label -->
+    <string name="children">เด็ก</string>
+    <!-- Subtotal label -->
+    <string name="subtotal">ราคาทั้งหมด</string>
+    <!-- Cancellation policy label -->
+    <string name="cancellation_policy">นโยบายการยกเลิก</string>
 
-	<!-- Strings used a lot of places -->
-	<!-- A number of adults -->
-	<plurals name="number_of_adults">
-		<item quantity="zero">ผู้ใหญ่ %d</item>
-		<item quantity="one">ผู้ใหญ่ %d</item>
-		<item quantity="two">ผู้ใหญ่ %d</item>
-		<item quantity="many">ผู้ใหญ่ %d</item>
-		<item quantity="other">ผู้ใหญ่ %d</item>
-	</plurals>
-	<!-- A number of children -->
-	<plurals name="number_of_children">
-		<item quantity="zero">เด็ก %d </item>
-		<item quantity="one">เด็ก %d </item>
-		<item quantity="two">เด็ก %d </item>
-		<item quantity="many">เด็ก %d </item>
-		<item quantity="other">เด็ก %d </item>
-	</plurals>
-	<!-- A number of guests -->
-	<plurals name="number_of_guests">
-		<item quantity="zero">%d คน</item>
-		<item quantity="one">%d คน</item>
-		<item quantity="two">%d คน</item>
-		<item quantity="many">%d คน</item>
-		<item quantity="other">%d คน</item>
-	</plurals>
-	<!-- A number of nights (as in stay duration).  Capitalized -->
-	<plurals name="number_of_nights">
-		<item quantity="zero">%d คืน </item>
-		<item quantity="one">%d คืน</item>
-		<item quantity="two">%d คืน </item>
-		<item quantity="many">%d คืน </item>
-		<item quantity="other">%d คืน </item>
-	</plurals>
+    <!-- About activity -->
+    <!-- Label for "contact Expedia" button in info page -->
+    <string name="contact_expedia">ติดต่อ Expedia </string>
+    <!-- Extra description for "contact Expedia" button, when space allows -->
+    <string name="contact_expedia_description">พวกเราพร้อมบริการคุณตลอด 24 ชั่วโมง</string>
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_expedia_via">ติดต่อ Expedia ผ่าน</string>
+    <!-- Contact Expedia via phone -->
+    <string name="contact_expedia_phone">โทรศัพท์</string>
+    <!-- Contact Expedia via email -->
+    <string name="contact_expedia_email">อีเมล</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_expedia_email_subject">ฝ่ายบริการลูกค้า Expedia </string>
+    <!-- Contact Expedia via website -->
+    <string name="contact_expedia_website">เว็บไซต์</string>
+    <!-- Label for "Expedia website" button in info page -->
+    <string name="expedia_website">เว็บไซต์ Expedia </string>
+    <!-- Extra description for "Expedia website" button, when space allows -->
+    <string name="expedia_website_description">ไปที่ Expedia.com หากต้องการจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยวอื่นๆ  </string>
+    <!-- Extra description for "app feedback" button, when space allows -->
+    <string name="app_feedback_description">โปรดแสดงความคิดเห็นของคุณเกี่ยวกับแอพ</string>
+    <!-- Label for "app support" button in info page -->
+    <string name="app_support">ฝ่ายบริการลูกค้า</string>
+    <!-- Extra description for "app support" button, when space allows -->
+    <string name="app_support_description">ส่งข้อความถึงเรา แล้วเราจะติดต่อกลับไป</string>
+    <!-- Extra description for "tell a friend" button, when space allows -->
+    <string name="tell_a_friend_description">หากคุณและเพื่อนชอบข้อเสนอทริปสุดพิเศษ บอกให้พวกเขาดาวน์โหลดแอพนี้ </string>
+    <!-- Section header for other apps by Mobiata -->
+    <string name="travel_smart">เที่ยวแบบมือโปร </string>
+    <!-- Subject line for "tell a friend" feature -->
+    <string name="tell_a_friend_subject">โรงแรม Expedia </string>
+    <!-- Message body for "tell a friend" feature -->
+    <string name="tell_a_friend_body">สวัสดีครับ \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง คุณสามารถค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ และฟรี ผ่านมือถือของคุณ \n\n http://www.expedia.com/app</string>
+    <!-- Label for link to terms and conditions -->
+    <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข </string>
+    <!-- Label for link to privacy policy -->
+    <string name="info_label_privacy_policy">นโยบายความเป็นส่วนตัว </string>
+    <!-- Copyright information -->
+    <string name="copyright">© 2011-2012 Expedia, Inc. \nสงวนลิขสิทธิ์</string>
+    <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
+    <string name="dialog_title_log_out_and_clear_private_data">คุณต้องการออกจากระบบและล้างข้อมูลหรือไม่</string>
+    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_title_logged_out_and_cleared_private_data">ออกจากระบบและล้างข้อมูลแล้ว</string>
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data">คุณออกจากระบบบัญชีของ Expedia และล้างข้อมูลการเงินและติดต่อแล้ว </string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
+    <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ Expedia หรือไม่</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
+    <string name="dialog_message_launch_expedia_support_site">ต้องการไปที่เว็บไซต์ฝ่ายบริการลูกค้า Expedia หรือไม่ </string>
 
-	<!-- Distance strings -->
-	<!-- Abbreviated miles (used in distance_template) -->
-	<string name="unit_miles">ไมล์</string>
-	<!-- Abbreviated kilometers (used in distance_template) -->
-	<string name="unit_kilometers">กม.</string>
-	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">%1$s %2$s ออกไป</string>
-	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-	<string name="distance_template_short">%1$s %2$s</string>
+    <!--  App Feedback Activity -->
+    <!-- Text within submit button in header -->
+    <string name="send_feedback">ส่งความคิดเห็น </string>
+    <!-- Header title -->
+    <string name="app_feedback">แสดงความคิดเห็น</string>
+    <!-- Section header for rating (1-5 stars) -->
+    <string name="oosdk_rating_overall_header">โปรดให้คะแนน</string>
+    <!-- Footer for the view -->
+    <string name="powered_by_opinion_lab">สนับสนุนโดย Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">นโยบายความเป็นส่วนตัว</a></string>
+    <!-- Hint to type in email address -->
+    <string name="email_address">อีเมล</string>
+    <!-- Hint to type in comments -->
+    <string name="feedback_hint">โปรดแสดงความคิดเห็นของคุณ เพื่อให้เราบริการคุณใด้ดีขึ้น </string>
+    <!-- Message displayed to users after they submit feedback -->
+    <string name="oosdk_thanks_txt">ขอบคุณที่สละเวลาแสดงความคิดเห็นให้เรา  เราให้ความสำคัญกับความคิดเห็นทุกข้อของลูกค้า</string>
 
-	<!-- Menu strings -->
-	<!-- Label for "settings" menu item. -->
-	<string name="Settings">การตั้งค่า </string>
-	<!-- Label for "about this app" menu item. -->
-	<string name="About">เกี่ยวกับ </string>
+    <!-- Preferences -->
+    <!-- Category name for general preferences -->
+    <string name="preference_category_general">ทั่วไป</string>
+    <!-- Title for point of sale setting -->
+    <string name="preference_point_of_sale_title">ประเทศ</string>
+    <!-- Template for default point of sale -->
+    <string name="default_point_of_sale_template">%s (โดยมาตรฐาน)</string>
 
-	<!-- Preferences strings -->
-	<!-- String for default preference setting (for any given preference) -->
-	<string name="Default">ค่าปรกติ</string>
-	
-	<!-- Error strings - replacements for default EAN errors -->
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_no_results">ขออภัย ระบบไม่พบโรงแรมที่้มีห้องว่างตามวันเข้าพักที่คุณระบุ โปรดระบุวันเข้าพักและสถานที่ใหม่อีกครั้ง </string>
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_connect_unavailable">ระบบไม่สามารถเชื่อมข้อมูลห้องว่างของโรงแรมที่เลือกได้</string>
-	<!-- Error message displayed when the phone number sent via booking is invalid -->
-	<string name="ean_error_invalid_phone_number">โปรดระบุหมายเลขโทรศัพท์</string>
-	
-	<!-- Checkout API method -->
-	<!-- The hotel booking failed -->
-	<string name="e3_error_checkout_booking_failed">ขออภัย ระบบไม่สามารถดำเนินการจองได้ โปรดลองใหม่อีกครั้ง </string>
-	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-	<string name="e3_error_checkout_booking_succeeded_with_errors">คุณจองโรงแรมเรียบร้อยแล้ว หากคุณต้องการหมายเลขแผนการเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของ Expedia</string>
-	<!-- The hotel room is no longer available -->
-	<string name="e3_error_checkout_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว </string>
-	<!-- There is invalid input in the hotel booking form. Please fix it. -->
-	<string name="e3_error_checkout_invalid_input">โปรดแก้ไขข้อมูลที่ไม่ถูกต้อง </string>
-	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-	<string name="e3_error_checkout_payment_failed">ขออภัย ระบบไม่สามารถดำเนินการชำระเงินได้ โปรดตรวจสอบว่าคุณป้อนข้อมูลที่ถูกต้อง </string>
-	
-	<!-- SearchResults API method -->
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_hotel_service_failure">ขออภัย ระบบไม่พบข้อมูลที่คุณต้องการ โปรดลองใหม่อีกครั้ง </string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input">ขออภัย ระบบไม่พบข้อมูลที่คุณทำการค้นหา โปรดลองใหม่อีกครั้ง </string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input_unknown">ขออภัย ระบบไม่พบข้อมูลที่คุณทำการค้นหา โปรดลองใหม่อีกครั้ง </string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_unknown_error">ขออภัย ระบบไม่พบข้อมูลที่คุณต้องการ โปรดลองใหม่อีกครั้ง </string>
-	
-	<!-- HotelOffers API method -->
-	<!-- The hotel offer is no longer available -->
-	<string name="e3_error_hotel_offers_hotel_offer_unavailable">ขออภัย! โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
-	
-	<string name="e3_error_hotel_offers_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว </string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_hotel_offers_hotel_service_failure">ขออภัย ระบบไม่สามารถไปที่ Expedia ได้ โปรดลองใหม่อีกครั้ง </string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_invalid_input">ขออภัย! โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_unknown_error">ขออภัย! โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
-	
-	<!-- HotelProduct API method -->
-	<string name="e3_error_hotel_product_unknown_error">เกิดข้อผิดพลาด</string>
-	<string name="e3_error_hotel_product_invalid_input">เกิดข้อผิดพลาด</string>
-	
-	<!-- HotelInformation API method -->
-	<string name="e3_error_hotel_information_hotel_service_failure">เกิดข้อผิดพลาด</string>
-	<string name="e3_error_hotel_information_unknown_error">เกิดข้อผิดพลาด</string>
-	<string name="e3_error_hotel_information_invalid_input">เกิดข้อผิดพลาด</string>
+    <!-- Strings used a lot of places -->
+    <!-- A number of adults -->
+    <plurals name="number_of_adults">
+        <item quantity="zero">ผู้ใหญ่ %d</item>
+        <item quantity="one">ผู้ใหญ่ %d</item>
+        <item quantity="two">ผู้ใหญ่ %d</item>
+        <item quantity="many">ผู้ใหญ่ %d</item>
+        <item quantity="other">ผู้ใหญ่ %d</item>
+    </plurals>
+    <!-- A number of children -->
+    <plurals name="number_of_children">
+        <item quantity="zero">เด็ก %d </item>
+        <item quantity="one">เด็ก %d </item>
+        <item quantity="two">เด็ก %d </item>
+        <item quantity="many">เด็ก %d </item>
+        <item quantity="other">เด็ก %d </item>
+    </plurals>
+    <!-- A number of guests -->
+    <plurals name="number_of_guests">
+        <item quantity="zero">%d คน</item>
+        <item quantity="one">%d คน</item>
+        <item quantity="two">%d คน</item>
+        <item quantity="many">%d คน</item>
+        <item quantity="other">%d คน</item>
+    </plurals>
+    <!-- A number of nights (as in stay duration).  Capitalized -->
+    <plurals name="number_of_nights">
+        <item quantity="zero">%d คืน </item>
+        <item quantity="one">%d คืน</item>
+        <item quantity="two">%d คืน </item>
+        <item quantity="many">%d คืน </item>
+        <item quantity="other">%d คืน </item>
+    </plurals>
 
-	<!-- Currency names -->
-	<string name="currency_aud">ดอลลาร์ออสเตรเลีย </string>
-	<string name="currency_brl">เรียลบราซิล</string>
-	<string name="currency_gbp">ปอนด์อังกฤษ</string>
-	<string name="currency_cad">ดอลลาร์แคนาดา</string>
-	<string name="currency_cny">RMB จีน</string>
-	<string name="currency_dkk">โครเนอร์เดนมาร์ก</string>
-	<string name="currency_eur">ยูโร</string>
-	<string name="currency_hkd">ดอลลาร์ฮ่องกง</string>
-	<string name="currency_inr">รูปีอินเดีย </string>
-	<string name="currency_ils">นิวเชคเกิลอิสราเอล </string>
-	<string name="currency_jpy">เยนญี่ปุ่น </string>
-	<string name="currency_krw">วอนเกาหลี</string>
-	<string name="currency_mxn">เปโซเม็กซิโก</string>
-	<string name="currency_nzd">ดอลลาร์นิวซีแลนด์</string>
-	<string name="currency_nok">โครเนอร์นอร์เวย์</string>
-	<string name="currency_rub">รูเบิลรัสเซีย </string>
-	<string name="currency_sgd">ดอลลาร์สิงคโปร์</string>
-	<string name="currency_sek">โครนาสวีเดน</string>
-	<string name="currency_chf">ฟรังก์สวิส</string>
-	<string name="currency_usd">ดอลลาร์สหรัฐ</string>
+    <!-- Distance strings -->
+    <!-- Abbreviated miles (used in distance_template) -->
+    <string name="unit_miles">ไมล์</string>
+    <!-- Abbreviated kilometers (used in distance_template) -->
+    <string name="unit_kilometers">กม.</string>
+    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
+    <string name="distance_template">%1$s %2$s ออกไป</string>
+    <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+    <string name="distance_template_short">%1$s %2$s</string>
 
-	<!-- Country names -->
-	<string name="country_af">อัฟกานิสถาน</string>
-	<string name="country_al">แอลเบเนีย</string>
-	<string name="country_dz">แอลจีเรีย</string>
-	<string name="country_as">อเมริกันซามัว</string>
-	<string name="country_ad">อันดอร์รา</string>
-	<string name="country_ao">แองโกลา</string>
-	<string name="country_ai">แองกวิลลา</string>
-	<string name="country_aq">แอนตาร์กติกา</string>
-	<string name="country_ag">แอนติกาและบาร์บูดา</string>
-	<string name="country_ar">อาร์เจนตินา</string>
-	<string name="country_am">อาร์เมเนีย</string>
-	<string name="country_aw">อารูบา</string>
-	<string name="country_au">ออสเตรเลีย </string>
-	<string name="country_at">ออสเตรีย</string>
-	<string name="country_az">อาเซอร์ไบจาน</string>
-	<string name="country_bs">บาฮามาส</string>
-	<string name="country_bh">บาห์เรน</string>
-	<string name="country_bd">บังกลาเทศ</string>
-	<string name="country_bb">บาร์เบโดส</string>
-	<string name="country_by">เบลารุส</string>
-	<string name="country_be">เบลเยียม </string>
-	<string name="country_bz">เบลีซ</string>
-	<string name="country_bj">เบนิน</string>
-	<string name="country_bm">เบอร์มิวดา</string>
-	<string name="country_bt">ภูฏาน</string>
-	<string name="country_bo">รัฐพหุชนชาติแห่งโบลิเวีย[</string>
-	<string name="country_ba">บอสเนียและเฮอร์เซโกวีนา</string>
-	<string name="country_bw">บอตสวานา</string>
-	<string name="country_bv">เกาะบูแว</string>
-	<string name="country_br">บราซิล</string>
-	<string name="country_io">บริติชอินเดียนโอเชียนเทร์ริทอรี</string>
-	<string name="country_bn">บรูไนดารุสซาลาม</string>
-	<string name="country_bg">บัลแกเรีย</string>
-	<string name="country_bf">บูร์กินาฟาโซ</string>
-	<string name="country_bi">บุรุนดี</string>
-	<string name="country_kh">กัมพูชา</string>
-	<string name="country_cm">แคเมอรูน</string>
-	<string name="country_ca">แคนาดา</string>
-	<string name="country_cv">เคปเวิร์ด</string>
-	<string name="country_ky">หมู่เกาะเคย์แมน</string>
-	<string name="country_cf">สาธารณรัฐแอฟริกากลาง</string>
-	<string name="country_td">ชาด</string>
-	<string name="country_cl">ชิลี</string>
-	<string name="country_cn">จีน</string>
-	<string name="country_cx">เกาะคริสต์มาส</string>
-	<string name="country_cc">หมู่เกาะโคโคส (คีลิง) </string>
-	<string name="country_co">โคลอมเบีย</string>
-	<string name="country_km">คอโมโรส</string>
-	<string name="country_cg">สาธารณรัฐคองโก</string>
-	<string name="country_cd">สาธารณรัฐประชาธิปไตยคองโก</string>
-	<string name="country_ck">หมู่เกาะคุก</string>
-	<string name="country_cr">คอสตาริกา</string>
-	<string name="country_hr">โครเอเชีย</string>
-	<string name="country_cu">คิวบา</string>
-	<string name="country_cy">ไซปรัส</string>
-	<string name="country_cz">สาธารณรัฐเช็ก</string>
-	<string name="country_ci">โกตดิวัวร์</string>
-	<string name="country_dk">เดนมาร์ก</string>
-	<string name="country_dj">จิบูตี</string>
-	<string name="country_dm">โดมินิกา</string>
-	<string name="country_do">สาธารณรัฐโดมินิกัน</string>
-	<string name="country_ec">เอกวาดอร์</string>
-	<string name="country_eg">อียิปต์</string>
-	<string name="country_sv">เอลซัลวาดอร์</string>
-	<string name="country_gq">อิเควทอเรียลกินี</string>
-	<string name="country_er">เอริเทรีย</string>
-	<string name="country_ee">เอสโตเนีย</string>
-	<string name="country_et">เอธิโอเปีย</string>
-	<string name="country_fk">หมู่เกาะฟอล์กแลนด์ (มัลบีนัส) </string>
-	<string name="country_fo">หมู่เกาะแฟโร</string>
-	<string name="country_fj">ฟิจิ</string>
-	<string name="country_fi">ฟินแลนด์</string>
-	<string name="country_fr">ฝรั่งเศส</string>
-	<string name="country_gf">เฟรนช์เกียนา</string>
-	<string name="country_pf">เฟรนช์โปลินีเซีย</string>
-	<string name="country_tf">เขตปกครองพิเศษทางตอนใต้ของฝรั่งเศส</string>
-	<string name="country_ga">กาบอง</string>
-	<string name="country_gm">แกมเบีย</string>
-	<string name="country_ge">จอร์เจีย</string>
-	<string name="country_de">เยอรมนี</string>
-	<string name="country_gh">กานา</string>
-	<string name="country_gi">ยิบรอลตาร์</string>
-	<string name="country_gr">กรีซ</string>
-	<string name="country_gl">กรีนแลนด์</string>
-	<string name="country_gd">เกรเนดา</string>
-	<string name="country_gp">กวาเดอลูป</string>
-	<string name="country_gu">กวม</string>
-	<string name="country_gt">กัวเตมาลา</string>
-	<string name="country_gg">เกิร์นซีย์</string>
-	<string name="country_gn">กินี</string>
-	<string name="country_gw">กินี-บิสเซา</string>
-	<string name="country_gy">กายอานา</string>
-	<string name="country_ht">เฮติ</string>
-	<string name="country_hm"> เกาะเฮิร์ดและหมู่เกาะแมกดอนัลด์</string>
-	<string name="country_va">สันตะสำนัก (นครรัฐวาติกัน)</string>
-	<string name="country_hn">ฮอนดูรัส</string>
-	<string name="country_hk">ฮ่องกง</string>
-	<string name="country_hu">ฮังการี</string>
-	<string name="country_is">ไอซ์แลนด์</string>
-	<string name="country_in">อินเดีย</string>
-	<string name="country_id">อินโดนีเซีย </string>
-	<string name="country_ir">อิหร่าน</string>
-	<string name="country_iq">อิรัก</string>
-	<string name="country_ie">ไอร์แลนด์</string>
-	<string name="country_im">เกาะแมน</string>
-	<string name="country_il">อิสราเอล</string>
-	<string name="country_it">อิตาลี </string>
-	<string name="country_jm">จาเมกา</string>
-	<string name="country_jp">ญี่ปุ่น </string>
-	<string name="country_je">เจอร์ซีย์</string>
-	<string name="country_jo">จอร์แดน</string>
-	<string name="country_kz">คาซัคสถาน</string>
-	<string name="country_ke">เคนยา</string>
-	<string name="country_ki">คิริบาส</string>
-	<string name="country_kp">เกาหลีเหนือ</string>
-	<string name="country_kr">เกาหลีใต้</string>
-	<string name="country_kw">คูเวต</string>
-	<string name="country_kg">คีร์กีซสถาน</string>
-	<string name="country_la">ลาว</string>
-	<string name="country_lv">ลัตเวีย</string>
-	<string name="country_lb">เลบานอน</string>
-	<string name="country_ls">เลโซโท</string>
-	<string name="country_lr">ไลบีเรีย</string>
-	<string name="country_ly">ลิเบีย</string>
-	<string name="country_li">ลิกเตนสไตน์</string>
-	<string name="country_lt">ลิทัวเนีย</string>
-	<string name="country_lu">ลักเซมเบิร์ก</string>
-	<string name="country_mo">มาเก๊า</string>
-	<string name="country_mk">มาซิโดเนีย</string>
-	<string name="country_mg">มาดากัสการ์</string>
-	<string name="country_mw">มาลาวี</string>
-	<string name="country_my">มาเลเซีย </string>
-	<string name="country_mv">มัลดีฟส์</string>
-	<string name="country_ml">มาลี</string>
-	<string name="country_mt">มอลตา</string>
-	<string name="country_mh">หมู่เกาะมาร์แชลล์</string>
-	<string name="country_mq">มาร์ตินีก</string>
-	<string name="country_mr">มอริเตเนีย</string>
-	<string name="country_mu">มอริเชียส</string>
-	<string name="country_yt">มายอต</string>
-	<string name="country_mx">เม็กซิโก</string>
-	<string name="country_fm">ไมโครนีเซีย</string>
-	<string name="country_md">มอลโดวา</string>
-	<string name="country_mc">โมนาโก</string>
-	<string name="country_mn">มองโกเลีย</string>
-	<string name="country_me">มอนเตเนโกร</string>
-	<string name="country_ms">มอนต์เซอร์รัต</string>
-	<string name="country_ma">โมร็อกโก</string>
-	<string name="country_mz">โมซัมบิก</string>
-	<string name="country_mm">พม่า</string>
-	<string name="country_na">นามิเบีย</string>
-	<string name="country_nr">นาอูรู</string>
-	<string name="country_np">เนปาล</string>
-	<string name="country_nl">เนเธอร์แลนด์</string>
-	<string name="country_an">เนเธอร์แลนด์แอนทิลลิส</string>
-	<string name="country_nc">นิวแคลิโดเนีย</string>
-	<string name="country_nz">นิวซีแลนด์</string>
-	<string name="country_ni">นิการากัว</string>
-	<string name="country_ne">ไนเจอร์</string>
-	<string name="country_ng">ไนจีเรีย</string>
-	<string name="country_nu">นีอูเอ</string>
-	<string name="country_nf">เกาะนอร์ฟอล์ก</string>
-	<string name="country_mp">หมู่เกาะนอร์เทิร์นมาเรียนา</string>
-	<string name="country_no">นอร์เวย์</string>
-	<string name="country_om">โอมาน</string>
-	<string name="country_pk">ปากีสถาน</string>
-	<string name="country_pw">ปาเลา</string>
-	<string name="country_ps">ปาเลสไตน์</string>
-	<string name="country_pa">ปานามา</string>
-	<string name="country_pg">ปาปัวนิวกินี</string>
-	<string name="country_py">ปารากวัย</string>
-	<string name="country_pe">เปรู</string>
-	<string name="country_ph">ฟิลิปปินส์ </string>
-	<string name="country_pn">หมู่เกาะพิตแคร์น</string>
-	<string name="country_pl">โปแลนด์</string>
-	<string name="country_pt">โปรตุเกส</string>
-	<string name="country_pr">เปอร์โตริโก</string>
-	<string name="country_qa">กาตาร์</string>
-	<string name="country_ro">โรมาเนีย</string>
-	<string name="country_ru">รัสเซีย</string>
-	<string name="country_rw">รวันดา</string>
-	<string name="country_re">เรอูนียง</string>
-	<string name="country_bl">แซ็งบาร์เตเลอมี</string>
-	<string name="country_sh">เซนต์เฮเลนา</string>
-	<string name="country_kn">เซนต์คิตส์และเนวิส</string>
-	<string name="country_lc">เซนต์ลูเซีย</string>
-	<string name="country_mf">แซ็งมาร์แต็ง</string>
-	<string name="country_pm">แซงปีแยร์และมีเกอลง</string>
-	<string name="country_vc">เซนต์วินเซนต์และเกรนาดีนส์</string>
-	<string name="country_ws">ซามัว</string>
-	<string name="country_sm">ซานมารีโน</string>
-	<string name="country_st">เซาตูเมและปรินซิปี</string>
-	<string name="country_sa">ซาอุดีอาระเบีย</string>
-	<string name="country_sn">เซเนกัล</string>
-	<string name="country_rs">เซอร์เบีย</string>
-	<string name="country_sc">เซเชลส์</string>
-	<string name="country_sl">เซียร์ราลีโอน</string>
-	<string name="country_sg">สิงคโปร์</string>
-	<string name="country_sk">สโลวาเกีย</string>
-	<string name="country_si">สโลวีเนีย</string>
-	<string name="country_sb">หมู่เกาะโซโลมอน</string>
-	<string name="country_so">โซมาเลีย</string>
-	<string name="country_za">แอฟริกาใต้</string>
-	<string name="country_gs">เกาะเซาท์จอร์เจียและหมู่เกาะเซาท์แซนด์วิช</string>
-	<string name="country_es">สเปน</string>
-	<string name="country_lk">ศรีลังกา</string>
-	<string name="country_sd">ซูดาน</string>
-	<string name="country_sr">ซูรินาเม</string>
-	<string name="country_sj">สฟาลบาร์และยานไมเอน</string>
-	<string name="country_sz">สวาซิแลนด์</string>
-	<string name="country_se">สวีเดน </string>
-	<string name="country_ch">สวิตเซอร์แลนด์</string>
-	<string name="country_sy">ซีเรีย</string>
-	<string name="country_tw">ไต้หวัน </string>
-	<string name="country_tj">ทาจิกิสถาน</string>
-	<string name="country_tz">แทนซาเนีย</string>
-	<string name="country_th">ประเทศไทย </string>
-	<string name="country_tl">ติมอร์ตะวันออก</string>
-	<string name="country_tg">โตโก</string>
-	<string name="country_tk">โตเกเลา</string>
-	<string name="country_to">ตองกา</string>
-	<string name="country_tt">ตรินิแดดและโตเบโก</string>
-	<string name="country_tn">ตูนิเซีย</string>
-	<string name="country_tr">ตุรกี</string>
-	<string name="country_tm">เติร์กเมนิสถาน</string>
-	<string name="country_tc">หมู่เกาะเติกส์และหมู่เกาะเคคอส</string>
-	<string name="country_tv">ตูวาลู</string>
-	<string name="country_ug">ยูกันดา</string>
-	<string name="country_ua">ยูเครน</string>
-	<string name="country_ae">สหรัฐอาหรับเอมิเรตส์</string>
-	<string name="country_gb">สหราชอาณาจักร </string>
-	<string name="country_us">สหรัฐอเมริกา </string>
-	<string name="country_um">เกาะเล็กรอบนอกของสหรัฐอเมริกา</string>
-	<string name="country_uy">อุรุกวัย</string>
-	<string name="country_uz">อุซเบกิสถาน</string>
-	<string name="country_vu">วานูอาตู</string>
-	<string name="country_ve">เวเนซุเอลา</string>
-	<string name="country_vn">เวียตนาม</string>
-	<string name="country_vg">หมู่เกาะบริติชเวอร์จิน</string>
-	<string name="country_vi">หมู่เกาะยูเอสเวอร์จิน</string>
-	<string name="country_wf">วาลลิสและฟุตูนา</string>
-	<string name="country_eh">ซะฮาราตะวันตก</string>
-	<string name="country_ye">เยเมน</string>
-	<string name="country_zm">แซมเบีย</string>
-	<string name="country_zw">ซิมบับเว</string>
-	<string name="country_ax">เกาะ Åland</string>
+    <!-- Menu strings -->
+    <!-- Label for "settings" menu item. -->
+    <string name="Settings">การตั้งค่า </string>
+    <!-- Label for "about this app" menu item. -->
+    <string name="About">เกี่ยวกับ </string>
+
+    <!-- Preferences strings -->
+    <!-- String for default preference setting (for any given preference) -->
+    <string name="Default">ค่าปรกติ</string>
+
+    <!-- Error strings - replacements for default EAN errors -->
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_no_results">ขออภัย ระบบไม่พบโรงแรมที่้มีห้องว่างตามวันเข้าพักที่คุณระบุ โปรดระบุวันเข้าพักและสถานที่ใหม่อีกครั้ง </string>
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_connect_unavailable">ระบบไม่สามารถเชื่อมข้อมูลห้องว่างของโรงแรมที่เลือกได้</string>
+    <!-- Error message displayed when the phone number sent via booking is invalid -->
+    <string name="ean_error_invalid_phone_number">โปรดระบุหมายเลขโทรศัพท์</string>
+
+    <!-- Checkout API method -->
+    <!-- The hotel booking failed -->
+    <string name="e3_error_checkout_booking_failed">ขออภัย ระบบไม่สามารถดำเนินการจองได้ โปรดลองใหม่อีกครั้ง </string>
+    <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
+    <string name="e3_error_checkout_booking_succeeded_with_errors">คุณจองโรงแรมเรียบร้อยแล้ว หากคุณต้องการหมายเลขแผนการเดินทางทันที โปรดติดต่อฝ่ายบริการลูกค้าของ Expedia</string>
+    <!-- The hotel room is no longer available -->
+    <string name="e3_error_checkout_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว </string>
+    <!-- There is invalid input in the hotel booking form. Please fix it. -->
+    <string name="e3_error_checkout_invalid_input">โปรดแก้ไขข้อมูลที่ไม่ถูกต้อง </string>
+    <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
+    <string name="e3_error_checkout_payment_failed">ขออภัย ระบบไม่สามารถดำเนินการชำระเงินได้ โปรดตรวจสอบว่าคุณป้อนข้อมูลที่ถูกต้อง </string>
+
+    <!-- SearchResults API method -->
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_hotel_service_failure">ขออภัย ระบบไม่พบข้อมูลที่คุณต้องการ โปรดลองใหม่อีกครั้ง </string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input">ขออภัย ระบบไม่พบข้อมูลที่คุณทำการค้นหา โปรดลองใหม่อีกครั้ง </string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input_unknown">ขออภัย ระบบไม่พบข้อมูลที่คุณทำการค้นหา โปรดลองใหม่อีกครั้ง </string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_unknown_error">ขออภัย ระบบไม่พบข้อมูลที่คุณต้องการ โปรดลองใหม่อีกครั้ง </string>
+
+    <!-- HotelOffers API method -->
+    <!-- The hotel offer is no longer available -->
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">ขออภัย! โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
+
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">ขออภัย ห้องพักที่คุณเลือกเต็มแล้ว </string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure">ขออภัย ระบบไม่สามารถไปที่ Expedia ได้ โปรดลองใหม่อีกครั้ง </string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_invalid_input">ขออภัย! โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_unknown_error">ขออภัย! โปรโมชั่นสำหรับห้องนี้หมดเวลาแล้ว แต่เรามีโปรโมชั่นอื่นๆ อีกมากมาย</string>
+
+    <!-- HotelProduct API method -->
+    <string name="e3_error_hotel_product_unknown_error">เกิดข้อผิดพลาด</string>
+    <string name="e3_error_hotel_product_invalid_input">เกิดข้อผิดพลาด</string>
+
+    <!-- HotelInformation API method -->
+    <string name="e3_error_hotel_information_hotel_service_failure">เกิดข้อผิดพลาด</string>
+    <string name="e3_error_hotel_information_unknown_error">เกิดข้อผิดพลาด</string>
+    <string name="e3_error_hotel_information_invalid_input">เกิดข้อผิดพลาด</string>
+
+    <!-- Currency names -->
+    <string name="currency_aud">ดอลลาร์ออสเตรเลีย </string>
+    <string name="currency_brl">เรียลบราซิล</string>
+    <string name="currency_gbp">ปอนด์อังกฤษ</string>
+    <string name="currency_cad">ดอลลาร์แคนาดา</string>
+    <string name="currency_cny">RMB จีน</string>
+    <string name="currency_dkk">โครเนอร์เดนมาร์ก</string>
+    <string name="currency_eur">ยูโร</string>
+    <string name="currency_hkd">ดอลลาร์ฮ่องกง</string>
+    <string name="currency_inr">รูปีอินเดีย </string>
+    <string name="currency_ils">นิวเชคเกิลอิสราเอล </string>
+    <string name="currency_jpy">เยนญี่ปุ่น </string>
+    <string name="currency_krw">วอนเกาหลี</string>
+    <string name="currency_mxn">เปโซเม็กซิโก</string>
+    <string name="currency_nzd">ดอลลาร์นิวซีแลนด์</string>
+    <string name="currency_nok">โครเนอร์นอร์เวย์</string>
+    <string name="currency_rub">รูเบิลรัสเซีย </string>
+    <string name="currency_sgd">ดอลลาร์สิงคโปร์</string>
+    <string name="currency_sek">โครนาสวีเดน</string>
+    <string name="currency_chf">ฟรังก์สวิส</string>
+    <string name="currency_usd">ดอลลาร์สหรัฐ</string>
+
+    <!-- Country names -->
+    <string name="country_af">อัฟกานิสถาน</string>
+    <string name="country_al">แอลเบเนีย</string>
+    <string name="country_dz">แอลจีเรีย</string>
+    <string name="country_as">อเมริกันซามัว</string>
+    <string name="country_ad">อันดอร์รา</string>
+    <string name="country_ao">แองโกลา</string>
+    <string name="country_ai">แองกวิลลา</string>
+    <string name="country_aq">แอนตาร์กติกา</string>
+    <string name="country_ag">แอนติกาและบาร์บูดา</string>
+    <string name="country_ar">อาร์เจนตินา</string>
+    <string name="country_am">อาร์เมเนีย</string>
+    <string name="country_aw">อารูบา</string>
+    <string name="country_au">ออสเตรเลีย </string>
+    <string name="country_at">ออสเตรีย</string>
+    <string name="country_az">อาเซอร์ไบจาน</string>
+    <string name="country_bs">บาฮามาส</string>
+    <string name="country_bh">บาห์เรน</string>
+    <string name="country_bd">บังกลาเทศ</string>
+    <string name="country_bb">บาร์เบโดส</string>
+    <string name="country_by">เบลารุส</string>
+    <string name="country_be">เบลเยียม </string>
+    <string name="country_bz">เบลีซ</string>
+    <string name="country_bj">เบนิน</string>
+    <string name="country_bm">เบอร์มิวดา</string>
+    <string name="country_bt">ภูฏาน</string>
+    <string name="country_bo">รัฐพหุชนชาติแห่งโบลิเวีย[</string>
+    <string name="country_ba">บอสเนียและเฮอร์เซโกวีนา</string>
+    <string name="country_bw">บอตสวานา</string>
+    <string name="country_bv">เกาะบูแว</string>
+    <string name="country_br">บราซิล</string>
+    <string name="country_io">บริติชอินเดียนโอเชียนเทร์ริทอรี</string>
+    <string name="country_bn">บรูไนดารุสซาลาม</string>
+    <string name="country_bg">บัลแกเรีย</string>
+    <string name="country_bf">บูร์กินาฟาโซ</string>
+    <string name="country_bi">บุรุนดี</string>
+    <string name="country_kh">กัมพูชา</string>
+    <string name="country_cm">แคเมอรูน</string>
+    <string name="country_ca">แคนาดา</string>
+    <string name="country_cv">เคปเวิร์ด</string>
+    <string name="country_ky">หมู่เกาะเคย์แมน</string>
+    <string name="country_cf">สาธารณรัฐแอฟริกากลาง</string>
+    <string name="country_td">ชาด</string>
+    <string name="country_cl">ชิลี</string>
+    <string name="country_cn">จีน</string>
+    <string name="country_cx">เกาะคริสต์มาส</string>
+    <string name="country_cc">หมู่เกาะโคโคส (คีลิง) </string>
+    <string name="country_co">โคลอมเบีย</string>
+    <string name="country_km">คอโมโรส</string>
+    <string name="country_cg">สาธารณรัฐคองโก</string>
+    <string name="country_cd">สาธารณรัฐประชาธิปไตยคองโก</string>
+    <string name="country_ck">หมู่เกาะคุก</string>
+    <string name="country_cr">คอสตาริกา</string>
+    <string name="country_hr">โครเอเชีย</string>
+    <string name="country_cu">คิวบา</string>
+    <string name="country_cy">ไซปรัส</string>
+    <string name="country_cz">สาธารณรัฐเช็ก</string>
+    <string name="country_ci">โกตดิวัวร์</string>
+    <string name="country_dk">เดนมาร์ก</string>
+    <string name="country_dj">จิบูตี</string>
+    <string name="country_dm">โดมินิกา</string>
+    <string name="country_do">สาธารณรัฐโดมินิกัน</string>
+    <string name="country_ec">เอกวาดอร์</string>
+    <string name="country_eg">อียิปต์</string>
+    <string name="country_sv">เอลซัลวาดอร์</string>
+    <string name="country_gq">อิเควทอเรียลกินี</string>
+    <string name="country_er">เอริเทรีย</string>
+    <string name="country_ee">เอสโตเนีย</string>
+    <string name="country_et">เอธิโอเปีย</string>
+    <string name="country_fk">หมู่เกาะฟอล์กแลนด์ (มัลบีนัส) </string>
+    <string name="country_fo">หมู่เกาะแฟโร</string>
+    <string name="country_fj">ฟิจิ</string>
+    <string name="country_fi">ฟินแลนด์</string>
+    <string name="country_fr">ฝรั่งเศส</string>
+    <string name="country_gf">เฟรนช์เกียนา</string>
+    <string name="country_pf">เฟรนช์โปลินีเซีย</string>
+    <string name="country_tf">เขตปกครองพิเศษทางตอนใต้ของฝรั่งเศส</string>
+    <string name="country_ga">กาบอง</string>
+    <string name="country_gm">แกมเบีย</string>
+    <string name="country_ge">จอร์เจีย</string>
+    <string name="country_de">เยอรมนี</string>
+    <string name="country_gh">กานา</string>
+    <string name="country_gi">ยิบรอลตาร์</string>
+    <string name="country_gr">กรีซ</string>
+    <string name="country_gl">กรีนแลนด์</string>
+    <string name="country_gd">เกรเนดา</string>
+    <string name="country_gp">กวาเดอลูป</string>
+    <string name="country_gu">กวม</string>
+    <string name="country_gt">กัวเตมาลา</string>
+    <string name="country_gg">เกิร์นซีย์</string>
+    <string name="country_gn">กินี</string>
+    <string name="country_gw">กินี-บิสเซา</string>
+    <string name="country_gy">กายอานา</string>
+    <string name="country_ht">เฮติ</string>
+    <string name="country_hm"> เกาะเฮิร์ดและหมู่เกาะแมกดอนัลด์</string>
+    <string name="country_va">สันตะสำนัก (นครรัฐวาติกัน)</string>
+    <string name="country_hn">ฮอนดูรัส</string>
+    <string name="country_hk">ฮ่องกง</string>
+    <string name="country_hu">ฮังการี</string>
+    <string name="country_is">ไอซ์แลนด์</string>
+    <string name="country_in">อินเดีย</string>
+    <string name="country_id">อินโดนีเซีย </string>
+    <string name="country_ir">อิหร่าน</string>
+    <string name="country_iq">อิรัก</string>
+    <string name="country_ie">ไอร์แลนด์</string>
+    <string name="country_im">เกาะแมน</string>
+    <string name="country_il">อิสราเอล</string>
+    <string name="country_it">อิตาลี </string>
+    <string name="country_jm">จาเมกา</string>
+    <string name="country_jp">ญี่ปุ่น </string>
+    <string name="country_je">เจอร์ซีย์</string>
+    <string name="country_jo">จอร์แดน</string>
+    <string name="country_kz">คาซัคสถาน</string>
+    <string name="country_ke">เคนยา</string>
+    <string name="country_ki">คิริบาส</string>
+    <string name="country_kp">เกาหลีเหนือ</string>
+    <string name="country_kr">เกาหลีใต้</string>
+    <string name="country_kw">คูเวต</string>
+    <string name="country_kg">คีร์กีซสถาน</string>
+    <string name="country_la">ลาว</string>
+    <string name="country_lv">ลัตเวีย</string>
+    <string name="country_lb">เลบานอน</string>
+    <string name="country_ls">เลโซโท</string>
+    <string name="country_lr">ไลบีเรีย</string>
+    <string name="country_ly">ลิเบีย</string>
+    <string name="country_li">ลิกเตนสไตน์</string>
+    <string name="country_lt">ลิทัวเนีย</string>
+    <string name="country_lu">ลักเซมเบิร์ก</string>
+    <string name="country_mo">มาเก๊า</string>
+    <string name="country_mk">มาซิโดเนีย</string>
+    <string name="country_mg">มาดากัสการ์</string>
+    <string name="country_mw">มาลาวี</string>
+    <string name="country_my">มาเลเซีย </string>
+    <string name="country_mv">มัลดีฟส์</string>
+    <string name="country_ml">มาลี</string>
+    <string name="country_mt">มอลตา</string>
+    <string name="country_mh">หมู่เกาะมาร์แชลล์</string>
+    <string name="country_mq">มาร์ตินีก</string>
+    <string name="country_mr">มอริเตเนีย</string>
+    <string name="country_mu">มอริเชียส</string>
+    <string name="country_yt">มายอต</string>
+    <string name="country_mx">เม็กซิโก</string>
+    <string name="country_fm">ไมโครนีเซีย</string>
+    <string name="country_md">มอลโดวา</string>
+    <string name="country_mc">โมนาโก</string>
+    <string name="country_mn">มองโกเลีย</string>
+    <string name="country_me">มอนเตเนโกร</string>
+    <string name="country_ms">มอนต์เซอร์รัต</string>
+    <string name="country_ma">โมร็อกโก</string>
+    <string name="country_mz">โมซัมบิก</string>
+    <string name="country_mm">พม่า</string>
+    <string name="country_na">นามิเบีย</string>
+    <string name="country_nr">นาอูรู</string>
+    <string name="country_np">เนปาล</string>
+    <string name="country_nl">เนเธอร์แลนด์</string>
+    <string name="country_an">เนเธอร์แลนด์แอนทิลลิส</string>
+    <string name="country_nc">นิวแคลิโดเนีย</string>
+    <string name="country_nz">นิวซีแลนด์</string>
+    <string name="country_ni">นิการากัว</string>
+    <string name="country_ne">ไนเจอร์</string>
+    <string name="country_ng">ไนจีเรีย</string>
+    <string name="country_nu">นีอูเอ</string>
+    <string name="country_nf">เกาะนอร์ฟอล์ก</string>
+    <string name="country_mp">หมู่เกาะนอร์เทิร์นมาเรียนา</string>
+    <string name="country_no">นอร์เวย์</string>
+    <string name="country_om">โอมาน</string>
+    <string name="country_pk">ปากีสถาน</string>
+    <string name="country_pw">ปาเลา</string>
+    <string name="country_ps">ปาเลสไตน์</string>
+    <string name="country_pa">ปานามา</string>
+    <string name="country_pg">ปาปัวนิวกินี</string>
+    <string name="country_py">ปารากวัย</string>
+    <string name="country_pe">เปรู</string>
+    <string name="country_ph">ฟิลิปปินส์ </string>
+    <string name="country_pn">หมู่เกาะพิตแคร์น</string>
+    <string name="country_pl">โปแลนด์</string>
+    <string name="country_pt">โปรตุเกส</string>
+    <string name="country_pr">เปอร์โตริโก</string>
+    <string name="country_qa">กาตาร์</string>
+    <string name="country_ro">โรมาเนีย</string>
+    <string name="country_ru">รัสเซีย</string>
+    <string name="country_rw">รวันดา</string>
+    <string name="country_re">เรอูนียง</string>
+    <string name="country_bl">แซ็งบาร์เตเลอมี</string>
+    <string name="country_sh">เซนต์เฮเลนา</string>
+    <string name="country_kn">เซนต์คิตส์และเนวิส</string>
+    <string name="country_lc">เซนต์ลูเซีย</string>
+    <string name="country_mf">แซ็งมาร์แต็ง</string>
+    <string name="country_pm">แซงปีแยร์และมีเกอลง</string>
+    <string name="country_vc">เซนต์วินเซนต์และเกรนาดีนส์</string>
+    <string name="country_ws">ซามัว</string>
+    <string name="country_sm">ซานมารีโน</string>
+    <string name="country_st">เซาตูเมและปรินซิปี</string>
+    <string name="country_sa">ซาอุดีอาระเบีย</string>
+    <string name="country_sn">เซเนกัล</string>
+    <string name="country_rs">เซอร์เบีย</string>
+    <string name="country_sc">เซเชลส์</string>
+    <string name="country_sl">เซียร์ราลีโอน</string>
+    <string name="country_sg">สิงคโปร์</string>
+    <string name="country_sk">สโลวาเกีย</string>
+    <string name="country_si">สโลวีเนีย</string>
+    <string name="country_sb">หมู่เกาะโซโลมอน</string>
+    <string name="country_so">โซมาเลีย</string>
+    <string name="country_za">แอฟริกาใต้</string>
+    <string name="country_gs">เกาะเซาท์จอร์เจียและหมู่เกาะเซาท์แซนด์วิช</string>
+    <string name="country_es">สเปน</string>
+    <string name="country_lk">ศรีลังกา</string>
+    <string name="country_sd">ซูดาน</string>
+    <string name="country_sr">ซูรินาเม</string>
+    <string name="country_sj">สฟาลบาร์และยานไมเอน</string>
+    <string name="country_sz">สวาซิแลนด์</string>
+    <string name="country_se">สวีเดน </string>
+    <string name="country_ch">สวิตเซอร์แลนด์</string>
+    <string name="country_sy">ซีเรีย</string>
+    <string name="country_tw">ไต้หวัน </string>
+    <string name="country_tj">ทาจิกิสถาน</string>
+    <string name="country_tz">แทนซาเนีย</string>
+    <string name="country_th">ประเทศไทย </string>
+    <string name="country_tl">ติมอร์ตะวันออก</string>
+    <string name="country_tg">โตโก</string>
+    <string name="country_tk">โตเกเลา</string>
+    <string name="country_to">ตองกา</string>
+    <string name="country_tt">ตรินิแดดและโตเบโก</string>
+    <string name="country_tn">ตูนิเซีย</string>
+    <string name="country_tr">ตุรกี</string>
+    <string name="country_tm">เติร์กเมนิสถาน</string>
+    <string name="country_tc">หมู่เกาะเติกส์และหมู่เกาะเคคอส</string>
+    <string name="country_tv">ตูวาลู</string>
+    <string name="country_ug">ยูกันดา</string>
+    <string name="country_ua">ยูเครน</string>
+    <string name="country_ae">สหรัฐอาหรับเอมิเรตส์</string>
+    <string name="country_gb">สหราชอาณาจักร </string>
+    <string name="country_us">สหรัฐอเมริกา </string>
+    <string name="country_um">เกาะเล็กรอบนอกของสหรัฐอเมริกา</string>
+    <string name="country_uy">อุรุกวัย</string>
+    <string name="country_uz">อุซเบกิสถาน</string>
+    <string name="country_vu">วานูอาตู</string>
+    <string name="country_ve">เวเนซุเอลา</string>
+    <string name="country_vn">เวียตนาม</string>
+    <string name="country_vg">หมู่เกาะบริติชเวอร์จิน</string>
+    <string name="country_vi">หมู่เกาะยูเอสเวอร์จิน</string>
+    <string name="country_wf">วาลลิสและฟุตูนา</string>
+    <string name="country_eh">ซะฮาราตะวันตก</string>
+    <string name="country_ye">เยเมน</string>
+    <string name="country_zm">แซมเบีย</string>
+    <string name="country_zw">ซิมบับเว</string>
+    <string name="country_ax">เกาะ Åland</string>
 </resources>

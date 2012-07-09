@@ -2,10 +2,15 @@ package com.expedia.bookings.activity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -39,6 +44,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -53,6 +59,8 @@ import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.NetUtils;
 import com.omniture.AppMeasurement;
 
 public class HotelActivity extends Activity {
@@ -70,6 +78,10 @@ public class HotelActivity extends Activity {
 
 	private static final int BODY_LENGTH_CUTOFF = 400;
 	private static final int BODY_LENGTH_TRUNCATE = 300;
+
+	private static final int DIALOG_NO_CONNECTION = 0;
+
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
 
 	private Context mContext;
 	private ExpediaBookingApp mApp;
@@ -90,15 +102,29 @@ public class HotelActivity extends Activity {
 
 	private HotelDescription mDescription;
 
+	private long mLastResumeTime = -1;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (!NetUtils.isOnline(this)) {
+			showDialog(DIALOG_NO_CONNECTION);
+		}
 
 		// This code allows us to test the HotelActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
 		Intent intent = getIntent();
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
 			Db.loadTestData(this);
+		}
+
+		if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+			ConfirmationUtils.deleteSavedConfirmationData(this);
+
+			Property property = new Property();
+			property = (Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class);
+			Db.setSelectedProperty(property);
 		}
 
 		// #13365: If the Db expired, finish out of this activity
@@ -134,6 +160,20 @@ public class HotelActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return;
+		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
 		mIsStartingReviewsActivity = false;
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -161,7 +201,7 @@ public class HotelActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		
+
 		if (!isFinishing()) {
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 		}
@@ -189,7 +229,7 @@ public class HotelActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if (isFinishing() && Db.getSelectedProperty().getMediaCount() > 0) {
+		if (isFinishing() && Db.getSelectedProperty() != null && Db.getSelectedProperty().getMediaCount() > 0) {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
 			Log.d("Clearing out images from property.");
 
@@ -197,6 +237,35 @@ public class HotelActivity extends Activity {
 				image.removeFromImageCache();
 			}
 		}
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DIALOG_NO_CONNECTION: {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.error_booking_title);
+			builder.setMessage(R.string.dialog_message_no_connection);
+			builder.setOnCancelListener(new OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					dialog.dismiss();
+					finish();
+				}
+			});
+			builder.setNegativeButton(android.R.string.ok, new Dialog.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					finish();
+				}
+			});
+
+			return builder.create();
+		}
+		}
+
+		return super.onCreateDialog(id);
 	}
 
 	private void setupHotelActivity(Bundle savedInstanceState) {
@@ -452,13 +521,12 @@ public class HotelActivity extends Activity {
 
 	private final Download<AvailabilityResponse> mDownload = new Download<AvailabilityResponse>() {
 		@Override
-			public AvailabilityResponse doDownload() {
-				ExpediaServices services = new ExpediaServices(mContext);
-				BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-				return services.information(Db.getSelectedProperty());
-			}
+		public AvailabilityResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext);
+			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
+			return services.information(Db.getSelectedProperty());
+		}
 	};
-
 
 	private final OnDownloadComplete<AvailabilityResponse> mCallback = new OnDownloadComplete<AvailabilityResponse>() {
 		@Override

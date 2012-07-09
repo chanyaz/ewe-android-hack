@@ -27,14 +27,13 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.cookie.NetscapeDraftSpec;
+import org.apache.http.cookie.CookieSpecRegistry;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -46,11 +45,13 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightDetailsResponse;
 import com.expedia.bookings.data.FlightDetailsResponseHandler;
@@ -156,6 +157,9 @@ public class ExpediaServices implements DownloadListener {
 		get.addHeader("Accept", "application/json");
 		get.addHeader("Accept-Encoding", "gzip");
 
+		// Some logging before passing the request along^M
+		Log.d("Autosuggest request: " + url + "?" + NetUtils.getParamsForLogging(params));
+
 		SuggestResponseHandler responseHandler = new SuggestResponseHandler(mContext);
 
 		return (SuggestResponse) doRequest(get, responseHandler, 0);
@@ -249,6 +253,7 @@ public class ExpediaServices implements DownloadListener {
 	public SearchResponse search(SearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		if (params.hasRegionId()) {
@@ -290,6 +295,7 @@ public class ExpediaServices implements DownloadListener {
 	public AvailabilityResponse information(Property property) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
@@ -305,6 +311,7 @@ public class ExpediaServices implements DownloadListener {
 	public AvailabilityResponse availability(SearchParams params, Property property, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
@@ -334,9 +341,11 @@ public class ExpediaServices implements DownloadListener {
 		return response;
 	}
 
-	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo) {
+	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo,
+			String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
@@ -348,18 +357,72 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
 
+		if (!TextUtils.isEmpty(tripId)) {
+			query.add(new BasicNameValuePair("tripId", tripId));
+		}
+
+		// Response with user id. Get it from the sign in response first.
+		if (tuid != null) {
+			query.add(new BasicNameValuePair("userId", String.valueOf(tuid)));
+		}
+		else if (!TextUtils.isEmpty(userId)) {
+			query.add(new BasicNameValuePair("userId", userId));
+		}
+
+		// Simulate a valid checkout, to bypass the actual checkout process
+		if (!AndroidUtils.isRelease(mContext)) {
+			boolean spoofBookings = SettingUtils.get(mContext, mContext.getString(R.string.preference_spoof_bookings),
+					false);
+
+			if (spoofBookings) {
+				// Show a log of what URL would have been called had this not been spoofed
+				String serverUrl = getE3EndpointUrl(F_SECURE_REQUEST) + "Checkout";
+				Log.d("Request (spoofed): " + serverUrl + "?" + NetUtils.getParamsForLogging(query));
+
+				String simulatedResponse = "{\"warnings\":[],\"cancellationPolicy\":\" \",\"nonLocalizedhotelName\":\"Hotel Deadbeef\",\"hotelName\":\"Hotel Deadbeef\",\"localizedHotelName\":\"Hotel Deadbeef\",\"hotelAddress\":\"250 W 43rd St\",\"hotelPostalCode\":\"10036\",\"hotelStateProvinceCode\":\"NY\",\"hotelCountryCode\":\"USA\",\"hotelCity\":\"New York\",\"hotelPhone\":\"1-212-944-6000\",\"hotelLongitude\":\"-73.98791\",\"hotelLatitude\":\"40.75731\",\"nightCount\":\"1\",\"maxGuestCount\":\"2\",\"checkInInstructions\":\"\",\"roomDescription\":\" Single/double\",\"checkInDate\":\"2013-06-05\",\"checkInDateForTracking\":\"6/5/2013\",\"checkOutDate\":\"2013-06-06\",\"pricePerDayBreakdown\":\"true\",\"averageDailyHotelPrice\":\"132.93\",\"taxes\":\"20.14\",\"fees\":\"13.85\",\"averageBaseRate\":\"98.94\",\"totalPrice\":\"132.93\",\"currencyCode\":\"USD\",\"nightlyRates\":[{\"promo\":\"false\",\"baseRate\":\"98.94\",\"rate\":\"98.94\"}],\"supplierType\":\"MERCHANT\",\"confirmationPending\":\"false\",\"itineraryNumber\":\"12345678901\",\"travelRecordLocator\":\"11890585\",\"numberOfRoomsBooked\":\"1\",\"nonRefundable\":\"false\",\"email\":\"qa-ehcc@mobiata.com\",\"guestFullName\":\"JexperCC MobiataTestaverde\",\"guestPhone\":{\"number\":\"9992222\",\"areaCode\":\"919\",\"category\":\"PRIMARY\",\"countryCode\":\"1\"},\"tripId\":\"deadbeef-feed-cede-bead-f00f00f00f00\",\"isMerchant\":true,\"isGDS\":false,\"isOpaque\":false,\"hotelInventoryTypeName\":\"MERCHANT\"}";
+				JSONObject json = null;
+				try {
+					json = new JSONObject(simulatedResponse);
+					Thread.sleep(3000);
+				}
+				catch (JSONException e) {
+					e.printStackTrace();
+				}
+				catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				return new BookingResponseHandler(mContext).handleJson(json);
+			}
+		}
+
 		return (BookingResponse) doE3Request("Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+
+	public CreateTripResponse createTripWithCoupon(String couponCode, SearchParams params, Property property, Rate rate) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
+		addPOSParams(query);
+		addBasicParams(query, params);
+
+		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
+		query.add(new BasicNameValuePair("couponCode", couponCode));
+
+		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
+		return (CreateTripResponse) doE3Request("CreateTrip", query, responseHandler, F_SECURE_REQUEST);
 	}
 
 	public SignInResponse signIn(String email, String password) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
 		query.add(new BasicNameValuePair("staySignedIn", "true"));
 
+		signOut();
 		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
@@ -367,6 +430,7 @@ public class ExpediaServices implements DownloadListener {
 	public SignInResponse signIn() {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("profileOnly", "true"));
@@ -596,9 +660,11 @@ public class ExpediaServices implements DownloadListener {
 		cookieStore.load(mContext, COOKIES_FILE);
 		HttpContext httpContext = new BasicHttpContext();
 		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
-		httpContext.setAttribute(ClientContext.COOKIE_SPEC, new NetscapeDraftSpec());
+		CookieSpecRegistry cookieSpecRegistry = new CookieSpecRegistry();
+		cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory(mContext));
+		httpContext.setAttribute(ClientContext.COOKIESPEC_REGISTRY, cookieSpecRegistry);
 
-		HttpClientParams.setCookiePolicy(httpParameters, CookiePolicy.NETSCAPE);
+		HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");
 
 		// When not a release build, allow SSL from all connections
 		if ((flags & F_SECURE_REQUEST) != 0 && !AndroidUtils.isRelease(mContext)) {

@@ -76,12 +76,14 @@ public class Property implements JSONable {
 	// These change based on when the user requests data
 	private boolean mAvailable;
 	private Distance mDistanceFromUser;
+	private int mRoomsLeftAtThisRate;
 
 	// Expedia specific detail
 	private int mAmenityMask;
 	private boolean mHasAmenitiesSet;
 	private String mSupplierType; // E == merchant, S or W == GDS
 	private Rate mLowestRate;
+	private boolean mIsLowestRateMobileExclusive = false;
 
 	// Hotel rating ranges from 0-5, in .5 intervals
 	private double mHotelRating;
@@ -253,6 +255,14 @@ public class Property implements JSONable {
 		return mLowestRate;
 	}
 
+	public void setRoomsLeftAtThisRate(int num) {
+		mRoomsLeftAtThisRate = num;
+	}
+
+	public int getRoomsLeftAtThisRate() {
+		return mRoomsLeftAtThisRate;
+	}
+
 	// Only valid for Expedia
 	public boolean isMerchant() {
 		return mSupplierType != null && (mSupplierType.equals("E") || mSupplierType.equals("MERCHANT"));
@@ -262,13 +272,22 @@ public class Property implements JSONable {
 		return getAverageExpediaRating() >= Filter.HIGH_USER_RATING;
 	}
 
+	public void setIsLowestRateMobileExclusive(boolean b) {
+		mIsLowestRateMobileExclusive = b;
+	}
+
+	public boolean isLowestRateMobileExclusive() {
+		return mIsLowestRateMobileExclusive;
+	}
+
 	// Updates a Property from another Property (currently, one returned via an AvailabilityResponse)
 	public void updateFrom(Property property) {
 		if (property.hasAmenitiesSet()) {
 			this.setAmenityMask(property.getAmenityMask());
 		}
 		if (property.getDescriptionText() != null) {
-			if (this.mDescriptionText == null || this.mDescriptionText.length() < property.getDescriptionText().length()) {
+			if (this.mDescriptionText == null
+					|| this.mDescriptionText.length() < property.getDescriptionText().length()) {
 				this.setDescriptionText(property.getDescriptionText());
 			}
 		}
@@ -371,6 +390,40 @@ public class Property implements JSONable {
 				return 1;
 			}
 			else {
+				return -1;
+			}
+		}
+	};
+
+	public static final Comparator<Property> DEALS_COMPARATOR = new Comparator<Property>() {
+		@Override
+		public int compare(Property leftProperty, Property rightProperty) {
+			Rate left = leftProperty.getLowestRate();
+			Rate right = rightProperty.getLowestRate();
+
+			if (left.isOnSale() && right.isOnSale()) {
+				// Both on sale
+				if (left.getSavingsPercent() == right.getSavingsPercent()) {
+					return NAME_COMPARATOR.compare(leftProperty, rightProperty);
+				}
+				else if (left.getSavingsPercent() > right.getSavingsPercent()) {
+					// We want to show larger percentage discounts first
+					return -1;
+				}
+				else {
+					return 1;
+				}
+			}
+			else if(left.isOnSale()) {
+				// Bump the on sale property to the top
+				return -1;
+			}
+			else if (right.isOnSale()) {
+				// Bump the on sale property to the top
+				return 1;
+			}
+			else {
+				// Just keep the same order
 				return -1;
 			}
 		}

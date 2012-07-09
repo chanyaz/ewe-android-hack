@@ -4,17 +4,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
-import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.hockey.helper.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -43,12 +38,6 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// #7090: If the user was just sent from the ConfirmationActivity, quit (if desired)
-		if (getIntent().getBooleanExtra(Codes.EXTRA_FINISH, false)) {
-			finish();
-			return;
-		}
 
 		setContentView(R.layout.activity_search_fragment);
 
@@ -99,12 +88,6 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 		if (!NetUtils.isOnline(this)) {
 			showDialog(DIALOG_NO_INTERNET);
 			return;
-		}
-
-		SearchParams params = Db.getSearchParams();
-
-		if (params.getSearchType() == SearchType.FREEFORM) {
-			Search.add(this, params);
 		}
 
 		Intent intent = new Intent(this, SearchResultsFragmentActivity.class);

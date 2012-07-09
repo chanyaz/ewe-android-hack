@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.expedia.bookings.widget.AccountButton
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingTop="12dp" >
+
+    <LinearLayout
+        android:id="@+id/error_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_error_box"
+        android:gravity="center"
+        android:padding="@dimen/booking_form_saved_section_padding"
+        android:visibility="gone"
+        style="@style/BookingSection" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/card_icon_padding"
+            android:src="@drawable/ic_error" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/login_failed"
+            android:textColor="@color/text_black" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/account_loading_container"
@@ -29,23 +52,22 @@
             android:text="@string/loading_expedia_account"
             android:textColor="@color/text_dark" />
         <ImageView
-            android:id="@+id/logout_button"
+            android:id="@+id/account_loading_logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_close" />
+            android:paddingRight="6dp"
+            android:src="@drawable/ic_log_out" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/account_login_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:background="@drawable/btn_signin"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/booking_form_saved_section_padding"
-        android:visibility="gone"
-        style="@style/BookingSection" >
+        android:paddingBottom="12dp"
+        android:visibility="gone" >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,9 +112,10 @@
                 android:textColor="@color/text_dark" />
         </LinearLayout>
         <ImageView
-            android:id="@+id/logout_button"
+            android:id="@+id/account_logout_logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_close" />
+            android:paddingRight="6dp"
+            android:src="@drawable/ic_log_out" />
     </LinearLayout>
-</LinearLayout>
+</com.expedia.bookings.widget.AccountButton>

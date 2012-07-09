@@ -29,7 +29,8 @@
         android:id="@+id/numberpicker_input"
         style="?attr/numberPickerInputTextStyle"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:inputType="none" />
 
     <ImageButton
         android:id="@+id/decrement"

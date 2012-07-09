@@ -238,7 +238,8 @@ public class Tracker {
 		s.eVar30 = "Hotel:" + checkIn + "-" + checkOut + ":N";
 
 		// Unique confirmation id
-		s.prop15 = s.purchaseID = response.getItineraryId() + ":" + Calendar.getInstance().getTimeInMillis();
+		// 14103: Remove timestamp from the purchaseID variable
+		s.prop15 = s.purchaseID = response.getItineraryId();
 
 		// Billing country code
 		s.prop46 = s.state = billingInfo.getLocation().getCountryCode();

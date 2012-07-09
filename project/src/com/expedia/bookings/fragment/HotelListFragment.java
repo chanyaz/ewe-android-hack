@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -20,10 +17,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.widget.HotelAdapter;
-import com.expedia.bookings.widget.ListViewScrollBar;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -40,9 +35,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private static final String INSTANCE_STATUS = "INSTANCE_STATUS";
 	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
 
-	private static final String FORMAT_HEADER = "MMM d";
-	private static final String FORMAT_HEADER_WITH_YEAR = "MMM d, yyyy";
-
 	private String mStatus;
 
 	private boolean mShowDistances;
@@ -51,9 +43,8 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	private ViewGroup mHeaderLayout;
 	private TextView mNumHotelsTextView;
+	private TextView mNumHotelsTextViewTablet;
 	private TextView mSortTypeTextView;
-	private ListViewScrollBar mScrollBar;
-	private TextView mBookingInfoHeader;
 
 	private PlaceholderTagProgressBar mSearchProgressBar;
 
@@ -99,8 +90,8 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
 		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
+		mNumHotelsTextViewTablet = (TextView) view.findViewById(R.id.num_hotels_text_view_tablet);
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
-		mScrollBar = Ui.findView(view, R.id.scroll_bar);
 
 		ViewGroup placeholderContainer = (ViewGroup) view.findViewById(R.id.placeholder_container);
 		ProgressBar placeholderProgressBar = (ProgressBar) view.findViewById(R.id.placeholder_progress_bar);
@@ -108,32 +99,29 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
 				placeholderProgressTextView);
 
-		mSortTypeTextView.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mListener.onSortButtonClicked();
-			}
-		});
+		if (mSortTypeTextView != null) {
+			mSortTypeTextView.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					mListener.onSortButtonClicked();
+				}
+			});
+		}
 
 		// Configure ListView
 		ListView listView = Ui.findView(view, android.R.id.list);
 		listView.setOnScrollListener(this);
-		mScrollBar.setListView(listView);
-		mScrollBar.setOnScrollListener(this);
 
 		// Disable highlighting if we're on phone UI
 		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
 
-		// Configure the phone vs. ui different
+		// Configure the phone vs. tablet ui different
 		if (AndroidUtils.isHoneycombTablet(getActivity())) {
-			mScrollBar.setVisibility(View.GONE);
+
 		}
 		else {
 			mSearchProgressBar.setVisibility(View.GONE);
 
 			Ui.findView(view, R.id.no_filter_results_text_view).setVisibility(View.VISIBLE);
-
-			mBookingInfoHeader = (TextView) inflater.inflate(R.layout.row_booking_info, null);
-			listView.addHeaderView(mBookingInfoHeader);
 
 			listView.setScrollIndicators(null, null);
 			listView.setVerticalFadingEdgeEnabled(false);
@@ -163,7 +151,9 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		mListener.onListItemClicked((Property) mAdapter.getItem(position - l.getHeaderViewsCount()), position);
+		if (position - l.getHeaderViewsCount() > -1) {
+			mListener.onListItemClicked((Property) mAdapter.getItem(position - l.getHeaderViewsCount()), position);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -230,17 +220,16 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private void updateNumHotels() {
 		// only update if view has been initialized
 		if (mNumHotelsTextView != null) {
-			int count = mAdapter.getCount();
-			mNumHotelsTextView.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_results,
-					count, count)));
+			mNumHotelsTextView
+					.setText(String.format(getString(R.string.search_header_num_hotels), mAdapter.getCount()));
 		}
-	}
 
-	private void updateSortLabel(SearchResponse response) {
-		// only update if view has been initialized
-		if (mSortTypeTextView != null) {
-			String sortType = getString(response.getFilter().getSort().getDescriptionResId());
-			mSortTypeTextView.setText(Html.fromHtml(getString(R.string.sort_hotels_template, sortType)));
+		if (mNumHotelsTextViewTablet != null) {
+			int count = mAdapter.getCount();
+			mNumHotelsTextViewTablet.setText(Html.fromHtml(getResources().getQuantityString(
+					R.plurals.number_of_results,
+					count, count)
+					+ " " + getString(R.string.prices_avg_per_night_short)));
 		}
 	}
 
@@ -260,7 +249,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private void updateSearchResults() {
 		SearchResponse response = Db.getSearchResponse();
 		mAdapter.setSearchResponse(response);
-		mScrollBar.setSearchResponse(response);
 
 		// In case there is a currently selected property, select it on the screen.
 		mAdapter.setSelectedPosition(getPositionOfProperty(Db.getSelectedProperty()));
@@ -277,8 +265,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		}
 		else {
 			updateNumHotels();
-			updateSortLabel(response);
-			updateBookingInfoHeaderText();
 			setHeaderVisibility(View.VISIBLE);
 			mAdapter.setShowDistance(mShowDistances);
 		}
@@ -292,41 +278,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 			}
 
 			mHeaderLayout.setVisibility(visibility);
-		}
-	}
-
-	public void updateBookingInfoHeaderText() {
-		if (mBookingInfoHeader != null) {
-			SearchParams searchParams = Db.getSearchParams();
-			String location = searchParams.getSearchDisplayText(getActivity());
-
-			Calendar checkIn = searchParams.getCheckInDate();
-			Calendar checkOut = searchParams.getCheckOutDate();
-
-			int startYear = checkIn.get(Calendar.YEAR);
-			int endYear = checkOut.get(Calendar.YEAR);
-
-			Calendar start = new GregorianCalendar(startYear, checkIn.get(Calendar.MONTH),
-					checkIn.get(Calendar.DAY_OF_MONTH));
-			Calendar end = new GregorianCalendar(endYear, checkOut.get(Calendar.MONTH),
-					checkOut.get(Calendar.DAY_OF_MONTH));
-
-			String startFormatter = FORMAT_HEADER;
-			String endFormatter = FORMAT_HEADER;
-			if (startYear != endYear) {
-				// Start year differs from end year - specify year on both dates
-				startFormatter = endFormatter = FORMAT_HEADER_WITH_YEAR;
-			}
-			else if (Calendar.getInstance().get(Calendar.YEAR) != startYear) {
-				// The entire selection is in a different year from now - specify year on the end date
-				endFormatter = FORMAT_HEADER_WITH_YEAR;
-			}
-
-			CharSequence text = Html.fromHtml(getString(R.string.booking_info_template, location,
-					android.text.format.DateFormat.format(startFormatter, start),
-					android.text.format.DateFormat.format(endFormatter, end)));
-
-			mBookingInfoHeader.setText(text);
 		}
 	}
 

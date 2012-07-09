@@ -91,17 +91,7 @@ public class ParserUtils {
 			JSONArray arr = response.getJSONArray("errors");
 			for (int a = 0; a < arr.length(); a++) {
 				JSONObject error = arr.getJSONObject(a);
-				ServerError serverError = new ServerError(apiMethod);
-				serverError.setCode(error.getString("errorCode"));
-				serverError.setDiagnosticFullText(error.optString("diagnosticFullText"));
-
-				JSONObject info = error.getJSONObject("errorInfo");
-				serverError.setMessage(info.optString("summary", null));
-				serverError.addExtra("field", info.optString("field", null));
-				serverError.addExtra("itineraryBooked", info.optString("itineraryBooked", null));
-				serverError.addExtra("emailSent", info.optString("emailSent", null));
-
-				errors.add(serverError);
+				errors.add(getServerError(error, apiMethod));
 			}
 
 			return errors;
@@ -123,5 +113,39 @@ public class ParserUtils {
 		}
 
 		return null;
+	}
+
+	public static List<ServerError> parseWarnings(Context context, ApiMethod apiMethod, JSONObject response)
+			throws JSONException {
+
+		if (response.has("warnings")) {
+			List<ServerError> errors = new ArrayList<ServerError>();
+
+			JSONArray arr = response.getJSONArray("warnings");
+			for (int a = 0; a < arr.length(); a++) {
+				JSONObject error = arr.getJSONObject(a);
+				errors.add(getServerError(error, apiMethod));
+			}
+
+			return errors;
+		}
+
+		return null;
+	}
+
+	private static ServerError getServerError(JSONObject error, ApiMethod apiMethod)
+			throws JSONException {
+
+		ServerError serverError = new ServerError(apiMethod);
+		serverError.setCode(error.getString("errorCode"));
+		serverError.setDiagnosticFullText(error.optString("diagnosticFullText"));
+
+		JSONObject info = error.getJSONObject("errorInfo");
+		serverError.setMessage(info.optString("summary", null));
+		serverError.addExtra("field", info.optString("field", null));
+		serverError.addExtra("itineraryBooked", info.optString("itineraryBooked", null));
+		serverError.addExtra("emailSent", info.optString("emailSent", null));
+
+		return serverError;
 	}
 }

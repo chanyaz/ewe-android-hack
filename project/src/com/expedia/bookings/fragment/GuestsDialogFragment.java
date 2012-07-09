@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -24,6 +25,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
 
+@TargetApi(11)
 public class GuestsDialogFragment extends DialogFragment {
 
 	private static final String KEY_NUM_ADULTS = "numAdults";

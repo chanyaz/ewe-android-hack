@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/amenity_layout_width"
     android:layout_height="wrap_content"
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
+    android:drawableTop="@drawable/ic_amenity_pool"
     android:gravity="center_horizontal|top"
-    android:orientation="vertical" >
-
-    <ImageView
-        android:id="@+id/icon_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/name_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:shadowColor="@android:color/white"
-        android:shadowDx="0"
-        android:shadowDy="1"
-        android:shadowRadius="0.1"
-        android:textColor="#737880"
-        android:textSize="@dimen/amenity_text_size_large" />
-
-</LinearLayout>
+    android:orientation="vertical"
+    android:shadowColor="@android:color/white"
+    android:shadowDx="0"
+    android:shadowDy="1"
+    android:shadowRadius="0.1"
+    android:textColor="#737880"
+    android:textSize="@dimen/amenity_text_size_large" />

@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragment
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -29,15 +32,20 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 
 public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.booking.details.offer.full";
 
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
+
 	private RoomsAndRatesFragment mRoomsAndRatesFragment;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
+
+	private long mLastResumeTime = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +133,19 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 	protected void onResume() {
 		super.onResume();
 
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return;
+		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(DOWNLOAD_KEY)) {
 			mRoomsAndRatesFragment.showProgress();
@@ -159,11 +180,9 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		public AvailabilityResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(RoomsAndRatesListActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-			return services.availability(Db.getSearchParams(), Db.getSelectedProperty(),
-					ExpediaServices.F_EXPENSIVE);
+			return services.availability(Db.getSearchParams(), Db.getSelectedProperty(), ExpediaServices.F_EXPENSIVE);
 		}
 	};
-
 
 	private final OnDownloadComplete<AvailabilityResponse> mCallback = new OnDownloadComplete<AvailabilityResponse>() {
 		@Override

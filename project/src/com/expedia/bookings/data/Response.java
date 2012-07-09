@@ -86,7 +86,7 @@ public class Response implements JSONable {
 	 * @param activity
 	 * @return
 	 */
-	public List<ValidationError> checkForInvalidFields(Window parent) {
+	public List<ValidationError> checkForInvalidFields(Window parent, boolean isStoredCreditCard) {
 		if (parent == null) {
 			Log.d("Window parent is null");
 			return null;
@@ -99,29 +99,29 @@ public class Response implements JSONable {
 					View v = parent.findViewById(R.id.security_code_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
-				else if ("creditCardNumber".equals(field)) {
+				else if (!isStoredCreditCard && "creditCardNumber".equals(field)) {
 					View v = parent.findViewById(R.id.card_number_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
-				else if ("expirationDate".equals(field)) {
+				else if (!isStoredCreditCard && "expirationDate".equals(field)) {
 					View v = parent.findViewById(R.id.expiration_month_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 					v = parent.findViewById(R.id.expiration_year_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
-				else if ("streetAddress".equals(field)) {
+				else if (!isStoredCreditCard && "streetAddress".equals(field)) {
 					View v = parent.findViewById(R.id.address1_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
-				else if ("city".equals(field)) {
+				else if (!isStoredCreditCard && "city".equals(field)) {
 					View v = parent.findViewById(R.id.city_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
-				else if ("state".equals(field)) {
+				else if (!isStoredCreditCard && "state".equals(field)) {
 					View v = parent.findViewById(R.id.state_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
-				else if ("postalCode".equals(field)) {
+				else if (!isStoredCreditCard && "postalCode".equals(field)) {
 					View v = parent.findViewById(R.id.postal_code_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}

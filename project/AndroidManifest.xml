@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.expedia.bookings"
-    android:versionCode="10"
-    android:versionName="1.4" >
+    android:versionCode="12"
+    android:versionName="1.5" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -63,8 +63,10 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activity.ConfirmationFragmentActivity"
-            android:theme="@style/Theme.Tablet"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".activity.HotelDetailsFragmentActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.HotelActivity"
             android:launchMode="singleTask" />
@@ -75,7 +77,6 @@
             android:theme="@style/Theme.Light.Fullscreen.Panel" />
         <activity android:name=".activity.RoomsAndRatesListActivity" />
         <activity android:name=".activity.BookingInfoActivity" />
-        <activity android:name=".activity.ConfirmationActivity" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.TabletAboutActivity" />
         <activity android:name=".activity.ExpediaBookingPreferenceActivity" />
@@ -167,7 +168,9 @@
         <!-- HockeyApp -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
 
-        <service android:name="com.expedia.bookings.appwidget.ExpediaBookingsService" >
+        <service
+            android:name="com.expedia.bookings.appwidget.ExpediaBookingsService"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.expedia.bookings.START_SEARCH" />
                 <action android:name="com.expedia.bookings.START_CLEAN_SEARCH" />
@@ -207,6 +210,13 @@
         <!-- Tracking -->
         <receiver
             android:name="com.expedia.bookings.tracking.MdotmReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.amobee.agency.tracking.AmobeeReceiver"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />

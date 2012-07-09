@@ -4,6 +4,6 @@
     <item android:drawable="@drawable/calendar_date_picker_cell_selected" android:state_pressed="false" android:state_selected="true"/>
     <item android:drawable="@drawable/calendar_date_picker_cell_pressed" android:state_pressed="true"/>
     <item android:drawable="@drawable/calendar_date_picker_cell_normal" android:state_enabled="true"/>
-    <item android:drawable="@drawable/calendar_date_picker_cell_normal" android:state_enabled="false"/>
+    <item android:drawable="@drawable/calendar_date_picker_cell_disabled" android:state_enabled="false"/>
 
 </selector>

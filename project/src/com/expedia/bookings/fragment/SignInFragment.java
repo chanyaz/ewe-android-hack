@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -11,6 +12,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,14 +23,13 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.DialogUtils;
 
 public class SignInFragment extends DialogFragment {
 	private static final String KEY_SIGNIN = "KEY_SIGNIN";
@@ -46,6 +47,10 @@ public class SignInFragment extends DialogFragment {
 	private boolean mEmptyUsername = true;
 	private boolean mEmptyPassword = true;
 
+	private final String SIGNIN_LOGIN_CLICKED = "SIGNIN_LOGIN_CLICKED";
+	private final String SIGNIN_EMPTY_USERNAME = "SIGNIN_EMPTY_USERNAME";
+	private final String SIGNIN_EMPTY_PASSWORD = "SIGNIN_EMPTY_PASSWORD";
+
 	public static SignInFragment newInstance() {
 		SignInFragment dialog = new SignInFragment();
 		return dialog;
@@ -62,7 +67,7 @@ public class SignInFragment extends DialogFragment {
 			dialog.requestWindowFeature(STYLE_NO_TITLE);
 		}
 		else {
-			dialog = new Dialog(getActivity());
+			dialog = new Dialog(getActivity(), R.style.ExpediaLoginDialog);
 		}
 		dialog.setTitle(R.string.expedia_account);
 		dialog.setContentView(view);
@@ -71,28 +76,37 @@ public class SignInFragment extends DialogFragment {
 		mUsernameEditText = (EditText) view.findViewById(R.id.username_edit_text);
 		mPasswordEditText = (EditText) view.findViewById(R.id.password_edit_text);
 
+		mPasswordEditText.setTypeface(Typeface.DEFAULT);
+		mPasswordEditText.setTransformationMethod(new PasswordTransformationMethod());
+
 		TextView forgotLink = (TextView) view.findViewById(R.id.forgot_your_password_link);
-		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>", LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
+		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>",
+				LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
 		forgotLink.setMovementMethod(LinkMovementMethod.getInstance());
+
+		mProgressDialog = new ProgressDialog(mContext);
+		mProgressDialog.setMessage(getString(R.string.logging_in));
+		mProgressDialog.setCancelable(false);
+		if (savedInstanceState != null) {
+			mLoginClicked = savedInstanceState.getBoolean(SIGNIN_LOGIN_CLICKED, false);
+			mEmptyUsername = savedInstanceState.getBoolean(SIGNIN_EMPTY_USERNAME, true);
+			mEmptyPassword = savedInstanceState.getBoolean(SIGNIN_EMPTY_PASSWORD, true);
+		}
 
 		mLogInButton = (Button) view.findViewById(R.id.log_in_button);
 		mLogInButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick (View v) {
+			public void onClick(View v) {
 				mLoginFailed.setVisibility(View.GONE);
 				mLoginClicked = true;
-				mProgressDialog = new ProgressDialog(mContext);
-				mProgressDialog.setMessage(getString(R.string.logging_in));
-				mProgressDialog.setCancelable(false);
-				mProgressDialog.show();
-				BackgroundDownloader.getInstance().startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
+				startOrResumeDownload();
 			}
 		});
 		mLogInButton.setEnabled(false);
 		View cancelButton = view.findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick (View v) {
+			public void onClick(View v) {
 				dismiss();
 			}
 		});
@@ -138,6 +152,14 @@ public class SignInFragment extends DialogFragment {
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(SIGNIN_LOGIN_CLICKED, mLoginClicked);
+		outState.putBoolean(SIGNIN_EMPTY_USERNAME, mEmptyUsername);
+		outState.putBoolean(SIGNIN_EMPTY_PASSWORD, mEmptyPassword);
+	}
+
+	@Override
 	public void onPause() {
 		super.onPause();
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN, mLoginCallback);
@@ -146,8 +168,21 @@ public class SignInFragment extends DialogFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		startOrResumeDownload();
+	}
+
+	public void startOrResumeDownload() {
 		if (mLoginClicked) {
-			BackgroundDownloader.getInstance().registerDownloadCallback(KEY_SIGNIN, mLoginCallback);
+			if (!mProgressDialog.isShowing()) {
+				mProgressDialog.show();
+			}
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (bd.isDownloading(KEY_SIGNIN)) {
+				bd.registerDownloadCallback(KEY_SIGNIN, mLoginCallback);
+			}
+			else {
+				bd.startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
+			}
 		}
 	}
 
@@ -176,12 +211,15 @@ public class SignInFragment extends DialogFragment {
 		@Override
 		public void onDownload(SignInResponse response) {
 			mProgressDialog.dismiss();
+			mLoginClicked = false;
 			if (response == null || response.hasErrors()) {
+				mPasswordEditText.setText("");
 				mLoginFailed.setVisibility(View.VISIBLE);
 				((SignInFragmentListener) getActivity()).onLoginFailed();
 			}
 			else {
 				Db.setUser(response.getUser());
+				Amobee.trackLogin();
 				ExpediaServices.persistUserIsLoggedIn(mContext);
 				((SignInFragmentListener) getActivity()).onLoginCompleted();
 				dismiss();
@@ -191,8 +229,9 @@ public class SignInFragment extends DialogFragment {
 
 	public interface SignInFragmentListener {
 		public void onLoginStarted();
+
 		public void onLoginCompleted();
+
 		public void onLoginFailed();
 	}
 }
-

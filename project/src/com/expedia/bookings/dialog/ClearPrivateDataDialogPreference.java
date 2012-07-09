@@ -11,6 +11,11 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.server.ExpediaServices;
 
 public class ClearPrivateDataDialogPreference extends DialogPreference {
+	public interface ClearPrivateDataListener {
+		public void onClearPrivateDate(boolean signedOut);
+	}
+
+	private ClearPrivateDataListener mClearPrivateDataListener;
 
 	public ClearPrivateDataDialogPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -24,8 +29,21 @@ public class ClearPrivateDataDialogPreference extends DialogPreference {
 			info.delete(context);
 
 			ExpediaServices expedia = new ExpediaServices(context);
-			expedia.signOut();
-			Toast.makeText(context, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
+			boolean signedIn = expedia.isLoggedIn();
+			if (signedIn) {
+				expedia.signOut();
+			}
+
+			if (mClearPrivateDataListener != null) {
+				mClearPrivateDataListener.onClearPrivateDate(signedIn);
+			}
+			else {
+				Toast.makeText(context, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
+			}
 		}
+	}
+
+	public void setClearPrivateDataListener(ClearPrivateDataListener clearPrivateDataListener) {
+		mClearPrivateDataListener = clearPrivateDataListener;
 	}
 }

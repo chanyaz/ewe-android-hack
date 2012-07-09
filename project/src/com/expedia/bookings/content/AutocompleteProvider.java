@@ -1,9 +1,12 @@
 package com.expedia.bookings.content;
 
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +15,7 @@ import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
@@ -66,6 +70,8 @@ public class AutocompleteProvider extends ContentProvider {
 
 		String currentLocation = context.getString(R.string.current_location);
 
+		Set<String> suggestedLocations = new HashSet<String>();
+
 		MatrixCursor cursor = new MatrixCursor(COLUMNS);
 		int id = 1;
 
@@ -87,6 +93,7 @@ public class AutocompleteProvider extends ContentProvider {
 			if (response != null) {
 				for (Search search : response.getSuggestions()) {
 					String freeformLocation = search.getFreeformLocation();
+					suggestedLocations.add(freeformLocation);
 					JSONObject json = search.toJson();
 					Object[] row = { id, freeformLocation, freeformLocation, json, R.drawable.ic_autocomplete_pin };
 					cursor.addRow(row);
@@ -105,24 +112,31 @@ public class AutocompleteProvider extends ContentProvider {
 		// Then suggest history
 		if (id <= 15) {
 			for (Search search : recentSearches) {
-
 				SearchParams p = new SearchParams();
 				p.fillFromSearch(search);
 
 				final String freeformLocation = search.getFreeformLocation();
-				final Object[] historyRow = { id, freeformLocation, freeformLocation, p.toJson(),
-						R.drawable.ic_autocomplete_pin };
-				cursor.addRow(historyRow);
-				id++;
+				if (!suggestedLocations.contains(freeformLocation)) {
+					suggestedLocations.add(freeformLocation);
+					final Object[] historyRow = { id, freeformLocation, freeformLocation, p.toJson(),
+							R.drawable.ic_autocomplete_pin };
+					cursor.addRow(historyRow);
+					id++;
+				}
 			}
 		}
 
 		// Then suggest from array of random cool cities
 		if (id <= 15) {
-			for (String suggestion : getStaticSuggestions(context)) {
-				final Object[] suggestionRow = { id, suggestion, suggestion, null, R.drawable.ic_autocomplete_pin };
-				cursor.addRow(suggestionRow);
-				id++;
+			for (SearchParams p : getStaticSuggestions(context)) {
+				final String freeformLocation = p.getFreeformLocation();
+				if (!suggestedLocations.contains(freeformLocation)) {
+					suggestedLocations.add(freeformLocation);
+					final Object[] suggestionRow = { id, freeformLocation, freeformLocation, p.toJson(),
+							R.drawable.ic_autocomplete_pin };
+					cursor.addRow(suggestionRow);
+					id++;
+				}
 			}
 		}
 
@@ -148,11 +162,26 @@ public class AutocompleteProvider extends ContentProvider {
 		return null;
 	}
 
-	private static List<String> sStaticSuggestions;
+	private static List<SearchParams> sStaticSuggestions;
 
-	private static List<String> getStaticSuggestions(Context context) {
+	// 13812: this is "synchronized" so we don't try to create sStaticSuggestions more than once
+	private synchronized static List<SearchParams> getStaticSuggestions(Context context) {
 		if (sStaticSuggestions == null) {
-			sStaticSuggestions = Arrays.asList(context.getResources().getStringArray(R.array.suggestions));
+			Resources resources = context.getResources();
+			List<String> suggestions = Arrays.asList(resources.getStringArray(R.array.suggestions));
+			List<String> regionIds = Arrays.asList(resources.getStringArray(R.array.suggestion_region_ids));
+			List<String> latitudes = Arrays.asList(resources.getStringArray(R.array.suggestion_latitudes));
+			List<String> longitudes = Arrays.asList(resources.getStringArray(R.array.suggestion_longitudes));
+
+			sStaticSuggestions = new ArrayList<SearchParams>(suggestions.size());
+			for (int i = 0; i < suggestions.size(); i++) {
+				SearchParams p = new SearchParams();
+				p.setFreeformLocation(suggestions.get(i));
+				p.setRegionId(regionIds.get(i));
+				p.setSearchLatLon(Double.parseDouble(latitudes.get(i)), Double.parseDouble(longitudes.get(i)));
+				sStaticSuggestions.add(p);
+			}
+
 			Collections.shuffle(sStaticSuggestions); // Randomly shuffle them for each launch
 		}
 		return sStaticSuggestions;

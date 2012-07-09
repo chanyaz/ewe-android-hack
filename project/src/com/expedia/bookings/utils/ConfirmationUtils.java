@@ -38,7 +38,7 @@ public class ConfirmationUtils {
 	public static final String CONFIRMATION_DATA_VERSION_FILE = "confirmation-version.dat";
 
 	public static void share(Context context, SearchParams searchParams, Property property,
-			BookingResponse bookingResponse, BillingInfo billingInfo, Rate rate, String contactText) {
+			BookingResponse bookingResponse, BillingInfo billingInfo, Rate rate, Rate discountRate, String contactText) {
 		Resources res = context.getResources();
 
 		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
@@ -119,10 +119,11 @@ public class ConfirmationUtils {
 			body.append("\n");
 		}
 
-		Money totalSurcharge = rate.getTotalSurcharge();
+		Money totalSurcharge = new Money(rate.getTotalSurcharge());
 		Money extraGuestFee = rate.getExtraGuestFee();
 		if (extraGuestFee != null) {
 			appendLabelValue(context, body, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
+			body.append("\n");
 			if (totalSurcharge != null) {
 				totalSurcharge = totalSurcharge.copy();
 				totalSurcharge.subtract(extraGuestFee);
@@ -133,9 +134,19 @@ public class ConfirmationUtils {
 			body.append("\n");
 		}
 
-		if (rate.getTotalAmountAfterTax() != null) {
+		if (discountRate != null) {
+			Money discount = new Money(discountRate.getTotalAmountAfterTax());
+			discount.subtract(rate.getTotalAmountAfterTax());
+			appendLabelValue(context, body, R.string.discount, discount.getFormattedMoney());
 			body.append("\n");
-			appendLabelValue(context, body, R.string.Total, rate.getTotalAmountAfterTax().getFormattedMoney());
+			appendLabelValue(context, body, R.string.Total, discountRate.getTotalAmountAfterTax().getFormattedMoney());
+			body.append("\n");
+		}
+		else {
+			if (rate.getTotalAmountAfterTax() != null) {
+				body.append("\n");
+				appendLabelValue(context, body, R.string.Total, rate.getTotalAmountAfterTax().getFormattedMoney());
+			}
 		}
 
 		Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
@@ -160,7 +171,7 @@ public class ConfirmationUtils {
 	// Breadcrumb (reloading activity)
 
 	public static boolean saveConfirmationData(Context context, SearchParams searchParams, Property property,
-			Rate rate, BillingInfo billingInfo, BookingResponse bookingResponse) {
+			Rate rate, BillingInfo billingInfo, BookingResponse bookingResponse, Rate discountRate) {
 		Log.i("Saving confirmation data...");
 		try {
 			JSONObject data = new JSONObject();
@@ -169,6 +180,9 @@ public class ConfirmationUtils {
 			data.put(Codes.RATE, rate.toJson());
 			data.put(Codes.BILLING_INFO, billingInfo.toJson());
 			data.put(Codes.BOOKING_RESPONSE, bookingResponse.toJson());
+			if (discountRate != null) {
+				data.put(Codes.DISCOUNT_RATE, discountRate.toJson());
+			}
 
 			IoUtils.writeStringToFile(CONFIRMATION_DATA_VERSION_FILE,
 					Integer.toString(AndroidUtils.getAppCode(context)), context);

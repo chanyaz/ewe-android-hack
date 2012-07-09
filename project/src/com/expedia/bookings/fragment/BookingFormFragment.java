@@ -1,10 +1,8 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -15,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
@@ -46,21 +43,24 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.BillingAddressWidget;
+import com.expedia.bookings.widget.CouponCodeWidget;
 import com.expedia.bookings.widget.ReceiptWidget;
 import com.expedia.bookings.widget.StoredCardSpinnerAdapter;
 import com.expedia.bookings.widget.TelephoneSpinner;
@@ -69,11 +69,9 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
-import com.mobiata.android.validation.RequiredValidator;
 import com.mobiata.android.validation.TextViewErrorHandler;
 import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
@@ -81,7 +79,7 @@ import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 
 public class BookingFormFragment extends DialogFragment {
-	private static final String KEY_SIGNIN = "KEY_SIGNIN";
+	private static final String KEY_SIGNIN_FETCH = "KEY_SIGNIN_FETCH";
 
 	public static BookingFormFragment newInstance() {
 		BookingFormFragment dialog = new BookingFormFragment();
@@ -142,6 +140,7 @@ public class BookingFormFragment extends DialogFragment {
 	private boolean mGuestsExpanded;
 
 	private ReceiptWidget mReceiptWidget;
+	private CouponCodeWidget mCouponCodeWidget;
 
 	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
 	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
@@ -223,24 +222,34 @@ public class BookingFormFragment extends DialogFragment {
 			mStoredCardSpinner = (Spinner) mStoredCardContainer.findViewById(R.id.stored_card_spinner);
 		}
 
-		mAccountButton = new AccountButton(getActivity(), mAccountButtonClickListener, view.findViewById(R.id.account_button_root));
+		mAccountButton = (AccountButton) view.findViewById(R.id.account_button_root);
+		mAccountButton.setListener(mAccountButtonClickListener);
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
+		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
 		mBillingAddressWidget = new BillingAddressWidget(getActivity(), mRootBillingView);
 		mBillingAddressWidget.restoreInstanceState(savedInstanceState);
+		mCouponCodeWidget.setCouponCodeAppliedListener(new CouponCodeWidget.CouponCodeAppliedListener() {
+			@Override
+			public void couponCodeApplied() {
+				if (isAdded()) {
+					updateChargeDetails();
+					updateReceiptWidget();
+				}
+			}
+		});
+		mCouponCodeWidget.setFieldAboveCouponCode(mSecurityCodeEditText, R.id.security_code_edit_text);
+		mCouponCodeWidget.setFieldBelowCouponCode(mRulesRestrictionsCheckbox, R.id.rules_restrictions_checkbox);
+		mCouponCodeWidget.restoreInstanceState(savedInstanceState);
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
-		int sdkVersion = AndroidUtils.getSdkVersion();
-		if (sdkVersion >= 11 && sdkVersion <= 13) {
-			mGuestSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-			view.findViewById(R.id.credit_card_security_code_container).setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
+		LayoutUtils.sayNoToJaggies(mGuestSavedLayout, view.findViewById(R.id.credit_card_security_code_container));
 
 		// Retrieve some data we keep using
 		Resources r = getResources();
 		String[] twoLetterCountryCodes = r.getStringArray(R.array.country_codes);
 		String[] threeLetterCountryCodes = new String[twoLetterCountryCodes.length];
-		for (int i = 0; i < twoLetterCountryCodes.length; i++){
+		for (int i = 0; i < twoLetterCountryCodes.length; i++) {
 			threeLetterCountryCodes[i] = LocaleUtils.convertCountryCode(twoLetterCountryCodes[i]);
 		}
 		mCountryCodes = threeLetterCountryCodes;
@@ -251,61 +260,53 @@ public class BookingFormFragment extends DialogFragment {
 				mSelectedCardPosition = savedInstanceState.getInt(SELECTED_CARD_POSITION);
 			}
 			mUserProfileIsFresh = savedInstanceState.getBoolean(USER_PROFILE_IS_FRESH);
+			mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
+		}
+
+		// Expand the guest form if neccesary
+		if (savedInstanceState != null && savedInstanceState.containsKey(GUESTS_EXPANDED)) {
+			if (savedInstanceState.getBoolean(GUESTS_EXPANDED)) {
+				expandGuestsForm(false);
+			}
+		}
+		else {
+			if (Db.getBillingInfo().doesExistOnDisk()) {
+				syncFormFieldsFromBillingInfo(view);
+			}
+			checkSectionsCompleted(false);
+			if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
+				expandGuestsForm(false);
+			}
 		}
 
 		// Figure out if we are logged in
 		if (ExpediaServices.isLoggedIn((Context) mActivity)) {
+			syncFormFieldsFromBillingInfo(view);
 			if (savedInstanceState != null && mUserProfileIsFresh) {
-				mAccountButton.update(false);
-				syncFormFieldsFromBillingInfo(view);
-				checkSectionsCompleted(false);
-
-				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
-					expandGuestsForm(false);
-				}
+				mAccountButton.bind(false, true, Db.getUser());
 			}
 			else {
-				syncFormFieldsFromBillingInfo(view);
-				checkSectionsCompleted(false);
-
-				if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
-					expandGuestsForm(false);
-				}
-
 				// Show progress spinner
-				mAccountButton.update(true);
+				mAccountButton.bind(true, false, null);
 				// fetch fresh profile
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (bd.isDownloading(KEY_SIGNIN)) {
-					bd.cancelDownload(KEY_SIGNIN);
+				if (bd.isDownloading(KEY_SIGNIN_FETCH)) {
+					bd.registerDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 				}
-				bd.startDownload(KEY_SIGNIN, mLoginDownload, mLoginCallback);
+				else {
+					bd.startDownload(KEY_SIGNIN_FETCH, mLoginDownload, mLoginCallback);
+				}
 			}
 		}
 		else {
-			mAccountButton.update(false);
+			mAccountButton.bind(false, false, null);
 
 			if (Db.getBillingInfo().doesExistOnDisk()) {
 				syncFormFieldsFromBillingInfo(view);
-
-				if (savedInstanceState != null) {
-					if (savedInstanceState.getBoolean(GUESTS_EXPANDED)) {
-						expandGuestsForm(false);
-					}
-
-					mRulesRestrictionsCheckbox.setChecked(savedInstanceState.getBoolean(RULES_RESTRICTIONS_CHECKED));
-				}
-				else {
-					checkSectionsCompleted(false);
-
-					if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
-						expandGuestsForm(false);
-					}
-				}
 			}
 			else {
 				expandGuestsForm(false);
-				mBillingAddressWidget.expand(false);
+				mBillingAddressWidget.update(null);
 			}
 			mFormHasBeenFocused = false;
 		}
@@ -316,11 +317,10 @@ public class BookingFormFragment extends DialogFragment {
 			mSecurityCodeEditText.setText("");
 		}
 
-		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
-		mReceiptWidget.restoreInstanceState(savedInstanceState);
-
-		BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), view);
-		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), view);
+		if (Db.getSelectedProperty() != null && Db.getSelectedRate() != null) {
+			updateReceiptWidget();
+			mReceiptWidget.restoreInstanceState(savedInstanceState);
+		}
 
 		if (savedInstanceState == null) {
 			Tracker.trackAppHotelsCheckoutPayment(getActivity(), Db.getSelectedProperty(), mBookingInfoValidation);
@@ -361,20 +361,32 @@ public class BookingFormFragment extends DialogFragment {
 
 		mReceiptWidget.saveInstanceState(outState);
 		mBillingAddressWidget.saveInstanceState(outState);
+		mCouponCodeWidget.saveInstanceState(outState);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN, mLoginCallback);
+		syncBillingInfo();
+		saveBillingInfo();
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (! mUserProfileIsFresh && bd.isDownloading(KEY_SIGNIN)) {
-			bd.registerDownloadCallback(KEY_SIGNIN, mLoginCallback);
+		if (!mUserProfileIsFresh && bd.isDownloading(KEY_SIGNIN_FETCH)) {
+			bd.registerDownloadCallback(KEY_SIGNIN_FETCH, mLoginCallback);
+		}
+		mCouponCodeWidget.startTextWatcher();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (isRemoving()) {
+			Db.setCreateTripResponse(null);
 		}
 	}
 
@@ -610,24 +622,7 @@ public class BookingFormFragment extends DialogFragment {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					if (!mFormHasBeenFocused) {
-						// Change the button text (if not showing as dialog)
-						if (!getShowsDialog()) {
-							mConfirmBookButton.setText(R.string.confirm_book);
-						}
-
-						// Reveal the charge lock icon
-						if (mChargeDetailsImageView != null) {
-							mChargeDetailsImageView.setVisibility(View.VISIBLE);
-						}
-
-						// Add the charge details text
-						if (mChargeDetailsTextView != null) {
-							CharSequence text = getString(R.string.charge_details_template, Db.getSelectedRate()
-									.getTotalAmountAfterTax()
-									.getFormattedMoney());
-							mChargeDetailsTextView.setText(text);
-						}
-
+						updateChargeDetails();
 						mFormHasBeenFocused = true;
 					}
 				}
@@ -653,6 +648,42 @@ public class BookingFormFragment extends DialogFragment {
 		if (mConfirmBookButton != null) {
 			mConfirmBookButton.setOnFocusChangeListener(l);
 		}
+	}
+
+	private void updateChargeDetails() {
+		// Change the button text (if not showing as dialog)
+		if (!getShowsDialog()) {
+			mConfirmBookButton.setText(R.string.confirm_book);
+		}
+
+		// Reveal the charge lock icon
+		if (mChargeDetailsImageView != null) {
+			mChargeDetailsImageView.setVisibility(View.VISIBLE);
+		}
+
+		// Add the charge details text
+		if (mChargeDetailsTextView != null) {
+			Money amountToShow;
+			if (Db.getCreateTripResponse() != null) {
+				amountToShow = Db.getCreateTripResponse().getNewRate().getTotalAmountAfterTax();
+			}
+			else {
+				amountToShow = Db.getSelectedRate().getTotalAmountAfterTax();
+			}
+			CharSequence text = getString(R.string.charge_details_template, amountToShow.getFormattedMoney());
+			mChargeDetailsTextView.setText(text);
+		}
+	}
+
+	public void updateReceiptWidget() {
+		Rate discountRate = null;
+		if (Db.getCreateTripResponse() != null) {
+			discountRate = Db.getCreateTripResponse().getNewRate();
+		}
+		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
+
+		BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), mRootBillingView);
+		ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), mRootBillingView);
 	}
 
 	/**
@@ -712,13 +743,15 @@ public class BookingFormFragment extends DialogFragment {
 	private void fixFocus() {
 		// Handle where guest forms are pointing down (if expanded)
 		if (mGuestsExpanded) {
-			int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.address1_edit_text : R.id.card_number_edit_text;
+			int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.address1_edit_text
+					: R.id.card_number_edit_text;
 			mEmailEditText.setNextFocusDownId(nextId);
 			mEmailEditText.setNextFocusRightId(nextId);
 		}
 
 		// Handle where card info is pointing up
-		int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.postal_code_edit_text : R.id.email_edit_text;
+		int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.postal_code_edit_text
+				: R.id.email_edit_text;
 		mCardNumberEditText.setNextFocusUpId(nextId);
 		mCardNumberEditText.setNextFocusLeftId(nextId);
 		mExpirationMonthEditText.setNextFocusUpId(nextId);
@@ -838,13 +871,7 @@ public class BookingFormFragment extends DialogFragment {
 	 * restoring the Activity.
 	 */
 	private void syncFormFieldsFromBillingInfo(View view) {
-		BillingInfo billingInfo;
-		if (mUserProfileIsFresh) {
-			billingInfo = Db.getUser().toBillingInfo();
-		}
-		else {
-			billingInfo = Db.getBillingInfo();
-		}
+		BillingInfo billingInfo = Db.getBillingInfo();
 
 		// Sync the saved guest fields
 		String firstName = billingInfo.getFirstName();
@@ -878,12 +905,13 @@ public class BookingFormFragment extends DialogFragment {
 		mLastNameEditText.setText(lastName);
 		mTelephoneEditText.setText(billingInfo.getTelephone());
 		mEmailEditText.setText(billingInfo.getEmail());
+		mEmailEditText.setEnabled(!ExpediaServices.isLoggedIn(getActivity()));
+		mEmailEditText.setFocusable(!ExpediaServices.isLoggedIn(getActivity()));
+		mEmailEditText.setFocusableInTouchMode(!ExpediaServices.isLoggedIn(getActivity()));
 
 		// Sync the saved billing info fields
 		Location loc = billingInfo.getLocation();
 		if (loc != null) {
-			mBillingAddressWidget.update(loc);
-
 			// Sync the telephone country code spinner
 			SpinnerAdapter adapter = mTelephoneCountryCodeSpinner.getAdapter();
 			int position = findAdapterIndex(adapter, billingInfo.getTelephoneCountry());
@@ -904,7 +932,8 @@ public class BookingFormFragment extends DialogFragment {
 		}
 		mSecurityCodeEditText.setText(billingInfo.getSecurityCode());
 
-		if (mUserProfileIsFresh && Db.getUser().hasStoredCreditCards()) {
+		mBillingAddressWidget.update(billingInfo.getLocation());
+		if (mUserProfileIsFresh && Db.getUser() != null && Db.getUser().hasStoredCreditCards()) {
 			// otherwise we want them to add a new CC anyways
 			mCreditCardInfoContainer.setVisibility(View.GONE);
 			mBillingAddressWidget.hide();
@@ -918,7 +947,6 @@ public class BookingFormFragment extends DialogFragment {
 		}
 		else {
 			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
-			mBillingAddressWidget.update(billingInfo.getLocation());
 			mStoredCardContainer.setVisibility(View.GONE);
 		}
 	}
@@ -927,15 +955,10 @@ public class BookingFormFragment extends DialogFragment {
 		// Gather all the data to be saved
 		syncBillingInfo();
 
-		if (! ExpediaServices.isLoggedIn((Context) mActivity)) {
-			// Save the hashed email, just for tracking purposes
-			TrackingUtils.saveEmailForTracking(getActivity(), Db.getBillingInfo().getEmail());
+		// Save the hashed email, just for tracking purposes
+		TrackingUtils.saveEmailForTracking(getActivity(), Db.getBillingInfo().getEmail());
 
-			return Db.getBillingInfo().save(getActivity());
-		}
-		else {
-			return true;
-		}
+		return Db.getBillingInfo().save(getActivity());
 	}
 
 	public void clearBillingInfo() {
@@ -970,7 +993,7 @@ public class BookingFormFragment extends DialogFragment {
 		@Override
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices((Context) mActivity);
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_SIGNIN, services);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_SIGNIN_FETCH, services);
 			return services.signIn();
 		}
 	};
@@ -984,7 +1007,8 @@ public class BookingFormFragment extends DialogFragment {
 			else {
 				mUserProfileIsFresh = true;
 				Db.setUser(response.getUser());
-				mAccountButton.update(false);
+				Amobee.trackLogin();
+				mAccountButton.bind(false, true, Db.getUser());
 				syncFormFieldsFromBillingInfo(mRootBillingView);
 				syncBillingInfo();
 				checkSectionsCompleted(false);
@@ -994,7 +1018,6 @@ public class BookingFormFragment extends DialogFragment {
 				else {
 					collapseGuestsForm();
 				}
-				mBillingAddressWidget.update(Db.getUser().toBillingInfo().getLocation());
 			}
 		}
 	};
@@ -1008,7 +1031,7 @@ public class BookingFormFragment extends DialogFragment {
 			mUserProfileIsFresh = false;
 			ExpediaServices services = new ExpediaServices((Context) mActivity);
 			services.signOut();
-			mAccountButton.update(false);
+			mAccountButton.bind(false, false, null);
 			Db.resetBillingInfo();
 			Db.getBillingInfo().save(getActivity());
 			clearBillingInfo();
@@ -1020,9 +1043,11 @@ public class BookingFormFragment extends DialogFragment {
 
 	public void loginCompleted() {
 		mUserProfileIsFresh = true;
-		mAccountButton.update(false);
+		Db.setBillingInfo(Db.getUser().toBillingInfo());
+		mAccountButton.bind(false, true, Db.getUser());
 		syncFormFieldsFromBillingInfo(mRootBillingView);
 		syncBillingInfo();
+		saveBillingInfo();
 		checkSectionsCompleted(false);
 		if (!mBookingInfoValidation.isGuestsSectionCompleted()) {
 			expandGuestsForm(false);
@@ -1035,8 +1060,7 @@ public class BookingFormFragment extends DialogFragment {
 	private void updateEnterNewCreditCard() {
 		if (mCardAdapter == null || mCardAdapter.getSelectedCard() == null) {
 			// user has selected enter new credit card
-			Location loc = mUserProfileIsFresh ? Db.getUser().toBillingInfo().getLocation() : Db.getBillingInfo().getLocation();
-			mBillingAddressWidget.update(loc);
+			mBillingAddressWidget.show();
 			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -1047,11 +1071,11 @@ public class BookingFormFragment extends DialogFragment {
 	}
 
 	public class StoredCardOnItemSelectedListener implements OnItemSelectedListener {
-		public void onItemSelected(AdapterView<?> parent,
-				View view, int pos, long id) {
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			mCardAdapter.setSelected(pos);
 			updateEnterNewCreditCard();
 		}
+
 		public void onNothingSelected(AdapterView parent) {
 			// Do nothing.
 		}

@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.annotation.TargetApi;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +10,13 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.ContactExpediaDialogFragment;
+import com.expedia.bookings.fragment.ExpediaWebsiteDialogFragment;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.app.HoneycombAboutActivity;
 
+@TargetApi(11)
 public class TabletAboutActivity extends HoneycombAboutActivity {
 
 	private AboutUtils mUtils;
@@ -41,7 +44,8 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 		addSimpleRow(standardSection, getString(R.string.expedia_website),
 				getString(R.string.expedia_website_description), new OnClickListener() {
 					public void onClick(View v) {
-						mUtils.openExpediaWebsite();
+						DialogFragment newFragment = ExpediaWebsiteDialogFragment.newInstance();
+						newFragment.show(getFragmentManager(), "ExpediaWebsiteDialog");
 					}
 				});
 

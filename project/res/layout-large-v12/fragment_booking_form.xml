@@ -139,6 +139,18 @@
 
                     <include layout="@layout/include_guest_info_fields" />
 
+                    <!-- Billing info form fields -->
+
+                    <TextView
+                        android:id="@+id/billing_info_section_title"
+                        style="@style/TabletSectionHeader.Details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/billing_info" />
+
+                    <include layout="@layout/include_saved_billing_info" />
+                    <include layout="@layout/include_billing_info_fields" />
+
                     <!-- Credit card info form fields -->
 
                     <TextView
@@ -151,17 +163,8 @@
                     <include layout="@layout/include_credit_card_info" />
                     <include layout="@layout/include_credit_card_security" />
 
-                    <!-- Billing info form fields -->
-
-                    <TextView
-                        android:id="@+id/billing_info_section_title"
-                        style="@style/TabletSectionHeader.Details"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/billing_info" />
-
-                    <include layout="@layout/include_saved_billing_info" />
-                    <include layout="@layout/include_billing_info_fields" />
+                    <!-- Coupon codes -->
+                    <include layout="@layout/include_coupon_code" />
 
                     <!-- Terms and conditions -->
 

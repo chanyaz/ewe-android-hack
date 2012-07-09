@@ -1,1039 +1,1070 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<string name="app_name">Expedia</string>
+    <string name="app_name">Expedia</string>
 
-	<!-- Search Fragment -->
-	<!-- Initial hint for the search location field - invites the user to enter information here -->
-	<string name="enter_search_location">Zoeklocatie invoeren...</string>
-	<!-- Hint for "search location" field -->
-	<string name="hint_search_location">Locatie zoeken</string>
-	<!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
-	<string name="loading_suggestions">Bezig met laden van suggesties...</string>
-	<!-- Label for recent searches user has made -->
-	<string name="recent_searches">Recente zoekacties</string>
-	<!-- Label for searches that the user can make that are featured -->
-	<string name="featured_destinations">Topbestemmingen</string>
-	<!-- Label for button that starts search -->
-	<string name="search_for_hotels">Hotels zoeken</string>
-	<!--  Label for picking search location -->
-	<string name="where_are_you_going">&lt;b&gt;Waar&lt;/b&gt; ga je naartoe?</string>
-	<!--  Label for picking checkin/checkout dates -->
-	<string name="drag_to_extend_your_stay">&lt;b&gt;Sleep&lt;/b&gt; om je verblijf te verlengen.</string>
-	<!--  Label for picking guests for hotel booking -->
-	<string name="who_is_going">&lt;b&gt;Wie&lt;/b&gt; gaan er mee?</string>
-	<!-- Child age dialog button -->
-	<string name="button_done">Gereed</string>
-	<!--  Label for child age selection prompt -->
-	<plurals name="select_each_childs_age">
-	    <item quantity="one">Selecteer de leeftijd van kind</item>
-	    <item quantity="two">Selecteer de leeftijd van elk kind</item>
-	    <item quantity="many">Selecteer de leeftijd van elk kind</item>
-	    <item quantity="other">Selecteer de leeftijd van elk kind</item>
-	</plurals>
-	<!--  Title of "select child age" spinner dialog box -->
-	<string name="prompt_select_child_age">Selecteer leeftijd kind (%1$s - %2$s)</string>
-	<!--  Text for child's age on search refinements and in spinner -->
-	<plurals name="child_age">
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; jaar</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; jaar</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; jaar</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; jaar</item>
-	</plurals>
-	<!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-	<string name="child_age_less_than_one">&lt;b&gt;Minder dan 1&lt;/b&gt; jaar</string>
-	
-	<!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
-	<!-- Suggestion to search Times Square -->
-	<string name="suggestion_times_square">Times Square, New York, New York</string>
-	<string name="suggestion_boston">Boston, Massachusetts</string>
-	<string name="suggestion_los_angeles">Los Angeles, Californië</string>
-	<string name="suggestion_venice">Venice Beach Park, Venice, Californië</string>
-	<string name="suggestion_miami">Miami, Florida</string>
-	<string name="suggestion_london">Londen, VK</string>
-	<string name="suggestion_las_vegas">Las Vegas, Nevada</string>
-	<string name="suggestion_paris">Parijs, Frankrijk</string>
-	<string name="suggestion_minneapolis">Minneapolis, Minnesota</string>
-	<string name="suggestion_san_francisco">San Francisco, Californië</string>
+    <!-- General -->
+    <!-- Connectivity -->
+    <!-- Dialog Message tell the user that their device has no internet connection -->
+    <string name="dialog_message_no_connection">Je hebt momenteel geen internetverbinding. </string>
 
-	<!-- Search Activity -->
-	<!-- Label for "start search" button -->
-	<string name="search">Zoeken</string>
-	<!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
-	    1$ - The search address
-	    2$ - The check-in date
-	    3$ - The check-out date
-	    The dates may include year, if we cross a year boundary 
-	-->
-	<string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; tot &lt;b&gt;%3$s&lt;/b&gt;</string>
-	<!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
-	<plurals name="number_of_matching_hotels">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotel</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
-	</plurals>
-	<!-- Hint for filtering results by hotel name -->
-	<string name="filter_hotel_name_hint">Filteren op hotelnaam</string>
-	<!-- Label indicating that there are no results matching their current filter -->
-	<string name="no_filter_results">Sorry, geen hotels gevonden volgens je huidige filters.</string>
-	<!-- Label indicating that geolocation failed -->
-	<string name="geolocation_failed">Kan zoeklocatie niet bepalen.</string>
-	<!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-	<string name="NoGeocodingResults">Kan locatie %s niet vinden.</string>
-	<!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-	<string name="ChooseLocation">Bedoelde je ...</string>
-	<!-- Button label for upgrading the app -->
-	<string name="upgrade">Upgrade</string>
-	<!-- Button label for searching the visible map area -->
-	<string name="map_search_button">Op kaart zoeken</string>
-	<!-- Message when app is loading saved search results -->
-	<string name="loading_previous">Eerdere zoekresultaten laden...</string>
-	<!-- Label for sort hotels button in bottom bar -->
-	<string name="sort_hotels">&quot;Sorteren: &quot;</string>
-	<!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-	<string name="sort_hotels_template">&lt;b&gt;Sorteren&lt;/b&gt;: %s</string>
-	<!-- Label for filter hotels button in bottom bar -->
-	<string name="filter_hotels">Hotels filteren</string>
-	<!-- A number of results -->
-	<plurals name="number_of_results">
-		<item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
-		<item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
-		<item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
-		<item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
-		<item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
-	</plurals>
+    <!-- Search Fragment -->
+    <!-- Initial hint for the search location field - invites the user to enter information here -->
+    <string name="enter_search_location">Zoeklocatie invoeren…</string>
+    <!-- Hint for "search location" field -->
+    <string name="hint_search_location">Locatie zoeken</string>
+    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+    <string name="loading_suggestions">Bezig met laden van suggesties…</string>
+    <!-- Label for recent searches user has made -->
+    <string name="recent_searches">Recente zoekacties</string>
+    <!-- Label for searches that the user can make that are featured -->
+    <string name="featured_destinations">Topbestemmingen</string>
+    <!-- Label for button that starts search -->
+    <string name="search_for_hotels">Hotels zoeken</string>
+    <!--  Label for picking search location -->
+    <string name="where_are_you_going">&lt;b&gt;Waar&lt;/b&gt; ga je naartoe?</string>
+    <!--  Label for picking checkin/checkout dates -->
+    <string name="drag_to_extend_your_stay">&lt;b&gt;Sleep&lt;/b&gt; om je verblijf te verlengen.</string>
+    <!--  Label for picking guests for hotel booking -->
+    <string name="who_is_going">&lt;b&gt;Wie&lt;/b&gt; gaan er mee?</string>
+    <!-- Child age dialog button -->
+    <string name="button_done">Gereed</string>
+    <!--  Label for child age selection prompt -->
+    <plurals name="select_each_childs_age">
+        <item quantity="one">Selecteer de leeftijd van kind</item>
+        <item quantity="two">Selecteer de leeftijd van elk kind</item>
+        <item quantity="many">Selecteer de leeftijd van elk kind</item>
+        <item quantity="other">Selecteer de leeftijd van elk kind</item>
+    </plurals>
+    <!--  Title of "select child age" spinner dialog box -->
+    <string name="prompt_select_child_age">Selecteer leeftijd kind (%1$s – %2$s)</string>
+    <!--  Text for child's age on search refinements and in spinner -->
+    <plurals name="child_age">
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; jaar</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; jaar</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; jaar</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; jaar</item>
+    </plurals>
+    <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
+    <string name="child_age_less_than_one">&lt;b&gt;Minder dan 1&lt;/b&gt; jaar</string>
 
-	<!-- Dialog message asking user if they want to enable a location provider. -->
-	<string name="EnableLocationSettings">Om je huidige locatie te gebruiken moet je naar&quot; Locatie en beveiliging&quot; gaan in Instellingen.\nWil je naar Instellingen gaan en dit nu inschakelen?</string>
-	<!-- Message displayed when user has disabled finding the device's location. -->
-	<string name="ProviderDisabled">Je locatieprovider is uitgeschakeld. Schakel deze opnieuw in als je op jouw locatie wilt zoeken.</string>
-	<!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-	<string name="ProviderOutOfService">Je locatieprovider is buiten dienst. Probeer het later opnieuw.</string>
-	<!-- Message displayed when the location provider is temporarily unavailable. -->
-	<string name="ProviderTemporarilyUnavailable">Je locatieprovider is momenteel niet beschikbaar. Probeer het over een paar minuten opnieuw.</string>
+    <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
+    <!-- Suggestion to search Times Square -->
+    <string name="suggestion_times_square">Times Square, New York, New York</string>
+    <string name="suggestion_boston">Boston, Massachusetts</string>
+    <string name="suggestion_los_angeles">Los Angeles, Californië</string>
+    <string name="suggestion_venice">Venice Beach Park, Venice, Californië</string>
+    <string name="suggestion_miami">Miami, Florida</string>
+    <string name="suggestion_london">Londen, VK</string>
+    <string name="suggestion_las_vegas">Las Vegas, Nevada</string>
+    <string name="suggestion_paris">Parijs, Frankrijk</string>
+    <string name="suggestion_minneapolis">Minneapolis, Minnesota</string>
+    <string name="suggestion_san_francisco">San Francisco, Californië</string>
 
-	<!-- Sort descriptions, e.g. Sorted by "description" -->
-	<!-- Sort by distance label -->
-	<string name="sort_description_distance">Afstand</string>
-	<!-- Sort by popularity label -->
-	<string name="sort_description_popular">Populariteit</string>
-	<!-- Sort by price label -->
-	<string name="sort_description_price">Prijs</string>
-	<!-- Sort by user rating label -->
-	<string name="sort_description_rating">Beoordeling</string>
-	
-	<!-- Filter option for "show all" -->
-	<string name="all">Alle</string>
-	<!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_cheap">$</string>
-	<!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_moderate">$$</string>
-	<!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-	<string name="filter_price_expensive">$$$</string>
-	<!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_three">3+</string>
-	<!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
-	<string name="filter_stars_four">4+</string>
-	<!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
-	<string name="filter_stars_five">5</string>
-	<!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-	<string name="filter_distance_miles_template">%s mijl</string>
-	<!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-	<string name="filter_distance_kilometers_template">%s km</string>
+    <!-- Search Activity -->
+    <!-- Label for "start search" button -->
+    <string name="search">Zoeken</string>
+    <!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
+        1$ - The search address
+        2$ - The check-in date
+        3$ - The check-out date
+        The dates may include year, if we cross a year boundary
+    -->
+    <string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; to &lt;b&gt;%3$s&lt;/b&gt;</string>
+    <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
+    <plurals name="number_of_matching_hotels">
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotel</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
+    </plurals>
+    <!-- Hint for filtering results by hotel name -->
+    <string name="filter_hotel_name_hint">Filteren op hotelnaam</string>
+    <!-- Label indicating that there are no results matching their current filter -->
+    <string name="no_filter_results">Sorry, geen hotels gevonden volgens je huidige filters.</string>
+    <!-- Label indicating that geolocation failed -->
+    <string name="geolocation_failed">Kan zoeklocatie niet bepalen.</string>
+    <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
+    <string name="NoGeocodingResults">Kan locatie %s niet vinden.</string>
+    <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
+    <string name="ChooseLocation">Bedoelde je soms…</string>
+    <!-- Button label for upgrading the app -->
+    <string name="upgrade">Upgrade</string>
+    <!-- Button label for searching the visible map area -->
+    <string name="map_search_button">Op kaart zoeken</string>
+    <!-- Message when app is loading saved search results -->
+    <string name="loading_previous">Bezig met laden eerdere zoekresultaten…</string>
+    <!-- Label for sort hotels button in bottom bar -->
+    <string name="sort_hotels">&quot;Sorteren: &quot;</string>
+    <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
+    <string name="sort_hotels_template">&lt;b&gt;Sorteren&lt;/b&gt;: %s</string>
+    <!-- Label for filter hotels button in bottom bar -->
+    <string name="filter_hotels">Hotels filteren</string>
+    <!-- A number of results -->
+    <plurals name="number_of_results">
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultaten</item>
+    </plurals>
 
-	<!-- Progress messages -->	
-	<!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-	<string name="progress_finding_location">Huidige locatie zoeken...</string>
-	<!-- Message displayed when app is searching a location for hotels -->
-	<string name="progress_searching_hotels">Bezig met zoeken naar hotels...</string>
-	<!-- Message displayed when search comes up with zero results -->
-	<string name="progress_search_failed">Geen hotels gevonden</string>
-	
-	<!-- Suggestion adapter -->
-	<!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-	<string name="current_location">Huidige locatie</string>
-	<!-- Suggestion to search the currently visible map area on the screen -->
-	<string name="visible_map_area">Zichtbaar kaartgebied</string>
+    <!-- Dialog message asking user if they want to enable a location provider. -->
+    <string name="EnableLocationSettings">Om je huidige locatie te gebruiken moet je naar&quot; Locatie en beveiliging&quot; gaan in Instellingen.\nWil je naar Instellingen gaan en dit nu inschakelen?</string>
+    <!-- Message displayed when user has disabled finding the device's location. -->
+    <string name="ProviderDisabled">Je locatieprovider is uitgeschakeld. Schakel deze opnieuw in als je op jouw locatie wilt zoeken.</string>
+    <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
+    <string name="ProviderOutOfService">Je locatieprovider is buiten dienst. Probeer het later opnieuw.</string>
+    <!-- Message displayed when the location provider is temporarily unavailable. -->
+    <string name="ProviderTemporarilyUnavailable">Je locatieprovider is momenteel niet beschikbaar. Probeer het over een paar minuten opnieuw.</string>
 
-	<!-- Search list adapter -->
-	<!-- The label for how much hotels cost - "from $120/night", for example -->
-	<string name="from">Vanaf</string>
-	<!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-	<string name="from_template">Vanaf  &lt;strike&gt;%s&lt;/strike&gt;</string>
-	<!-- The label for price per night - "from $120/night", for example -->
-	<string name="per_night">/nacht</string>
-	<!-- Label shown when a hotel has no user ratings -->
-	<string name="not_rated">Niet beoordeeld</string>
-	<!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-	<string name="percent_off_template">%2.0f%% KORTING</string>
+    <!-- Sort descriptions, e.g. Sorted by "description" -->
+    <!-- Sort by distance label -->
+    <string name="sort_description_distance">Afstand</string>
+    <!-- Sort by popularity label -->
+    <string name="sort_description_popular">Populariteit</string>
+    <!-- Sort by price label -->
+    <string name="sort_description_price">Prijs</string>
+    <!-- Sort by user rating label -->
+    <string name="sort_description_rating">Beoordeling</string>
 
-	<!-- Filter results action bar label -->
-	<string name="filter_results">Resultaten filteren</string>
-	<!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
-	<string name="filter">Filteren</string>
+    <!-- Filter option for "show all" -->
+    <string name="all">Alle</string>
+    <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_cheap">$</string>
+    <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_moderate">$$</string>
+    <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
+    <string name="filter_price_expensive">$$$</string>
+    <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_three">3+</string>
+    <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
+    <string name="filter_stars_four">4+</string>
+    <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
+    <string name="filter_stars_five">5</string>
+    <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
+    <string name="filter_distance_miles_template">%s mijl</string>
+    <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
+    <string name="filter_distance_kilometers_template">%s km</string>
 
-	<!-- Map -->
-	<!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-	<string name="map_snippet_price_template">Vanaf %s</string>
+    <!-- Progress messages -->
+    <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
+    <string name="progress_finding_location">Huidige locatie zoeken…</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels">Zoeken naar hotels…</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="progress_search_failed">Geen hotels gevonden</string>
 
-	<!-- Mini-details fragment -->
-	<!-- Label for "see details" button on the mini details fragment -->
-	<string name="see_details">Hotelgegevens</string>
+    <!-- Suggestion adapter -->
+    <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
+    <string name="current_location">Huidige locatie</string>
+    <!-- Suggestion to search the currently visible map area on the screen -->
+    <string name="visible_map_area">Zichtbaar kaartgebied</string>
 
-	<!-- Widget -->
-	<!--  Default Loading message for widget -->
-	<string name="loading_hotels">Bezig met laden van hotels...</string>
-	<!--  Template for sale element in widget. The parameter is for the sale % -->
-	<string name="widget_savings_template">Bespaar %2.0f%%</string>
-	<!--  Indicator to user to tap the widget to cause it to refresh -->
-	<string name="refresh_widget">Tik om te vernieuwen</string>
-	<!--  Instructions on how to add widget to home screen -->
-	<string name="widget_add_instructions">Voeg de Hotel Radar-widget toe door op het thuisscherm te tikken en vast te houden.</string>
-	<!--  Error string for widget when internet connection is unavailable -->
-	<string name="widget_error_no_internet">Geen internetverbinding</string>
-	<!--  Widget Branding title -->
-	<string name="hotel_radar">Hotel Radar</string>
-	<!--  Widget Branding description -->
-	<string name="book_a_room_tonight">Boek vandaag nog een kamer.</string>
-	<!--  First string for widget upsell within app as a notification in the top bar -->
-	<string name="widget_upsell_short_1">Voeg de Hotel Radar-widget toe.</string>
-	<!--  Second string for widget upsell within app as a notification in the app bar -->
-	<string name="widget_upsell_short_2">Ontvang aanbiedingen in jouw omgeving!</string>
+    <!-- Search list adapter -->
+    <!-- The label for how much hotels cost - "from $120/night", for example -->
+    <string name="from">Vanaf</string>
+    <!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
+    <string name="from_template">Vanaf  &lt;strike&gt;%s&lt;/strike&gt;</string>
+    <!-- The label for price per night - "from $120/night", for example -->
+    <string name="per_night">/nacht</string>
+    <!-- Label shown when a hotel has no user ratings -->
+    <string name="not_rated">Niet beoordeeld</string>
+    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+    <string name="percent_off_template">%2.0f%% KORTING</string>
 
-	<!-- Hotel Activity -->
-	<!-- Label for button to book the hotel -->
-	<string name="book_now">Boek nu</string>
-	<!-- Label for the hotel's star rating -->
-	<string name="star_rating">Sterrenclassificatie</string>
-	<!--  Title for star rating in hotel description section -->
-	<string name="star_rating_title">Sterrenclassificatie:</string>
-	<!-- Label for the hotel's trip advisor rating  -->
-	<string name="user_rating">Gebruikersbeoordeling</string>
-	<!-- Label for the address section of the description  -->
-	<string name="address">Adres</string>
-	<!-- Bullet point for list items  -->
-	<string name="bullet_point">•</string>
-	
-	<!--  Hotel Details Fragment -->
-	<!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-	<string name="min_room_price_template">Vanaf %s</string>
-	<!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
-	<string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; vanaf</string>
-	<!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel --> 
-	<string name="reviews_recommended_template">Aanbevolen door %1$d van %2$d gasten</string>
-	<!--  Title for the amenities section in the hotel details fragment -->
-	<string name="amenities">Voorzieningen</string>
-	<!--  Label for button to see all reviews as a modal dialog -->
-	<string name="see_all_reviews">Alle reviews bekijken</string>
-	<!-- Label for button that brings users to the room selection page -->
-	<string name="select_room">Kamer selecteren</string>
+    <!-- Filter results action bar label -->
+    <string name="filter_results">Resultaten filteren</string>
+    <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+    <string name="filter">Filteren</string>
 
-	<!-- Amenity strings -->
-	<!-- Text that indicates no amenities at this property -->
-	<string name="AmenityNone">Geen aangeboden voorzieningen</string>
-	<!-- Business center amenity -->
-	<string name="AmenityBusinessCenter">Zakencentrum</string>
-	<!-- Fitness center amenity -->
-	<string name="AmenityFitnessCenter">Fitnesscentrum</string>
-	<!-- Hot tub on-site amenity -->
-	<string name="AmenityHotTub">Bubbelbad</string>
-	<!-- Internet access amenity -->
-	<string name="AmenityInternet">Internet</string>
-	<!-- Kids' activities amenity -->
-	<string name="AmenityKidsActivities">Activiteiten voor kinderen</string>
-	<!-- Kitchen/kitchenette amenity -->
-	<string name="AmenityKitchen">Keuken</string>
-	<!-- Pets allowed amenity -->
-	<string name="AmenityPetsAllowed">Huisdieren</string>
-	<!-- Pool amenity -->
-	<string name="AmenityPool">Zwembad</string>
-	<!-- Restaurant on-site amenity -->
-	<string name="AmenityRestaurant">Dineren</string>
-	<!-- Spa on-site amenity -->
-	<string name="AmenitySpa">Spa</string>
-	<!-- Whirlpool bath amenity -->
-	<string name="AmenityWhirlpoolBath">Whirlpool</string>
-	<!-- Breakfast amenity -->
-	<string name="AmenityBreakfast">Ontbijt</string>
-	<!-- Babysitting amenity -->
-	<string name="AmenityBabysitting">Babysit</string>
-	<!-- Jacuzzi amenity -->
-	<string name="AmenityJacuzzi">Jacuzzi</string>
-	<!-- Parking amenity -->
-	<string name="AmenityParking">Parkeren</string>
-	<!-- Room service amenity -->
-	<string name="AmenityRoomService">Roomservice</string>
-	<!-- Accessible path of travel amenity -->
-	<string name="AmenityAccessiblePaths">Rolstoeltoegankelijk wandelpad</string>
-	<!-- Accessible bathroom amenity -->
-	<string name="AmenityAccessibleBathroom">Rolstoeltoegankelijke badkamer</string>
-	<!-- Roll-in shower amenity -->
-	<string name="AmenityRollInShower">Drempelloze douche</string>
-	<!-- Handicapped parking amenity -->
-	<string name="AmenityHandicappedParking">Parkeergelegenheid voor mindervaliden</string>
-	<!-- In-room accessibility amenity -->
-	<string name="AmenityInRoomAccessibility">Rolstoeltoegankelijke kamer</string>
-	<!-- Accessibility equipment for the deaf amenity -->
-	<string name="AmenityDeafAccessibilityEquipment">Voorzieningen voor doven</string>
-	<!-- Braille or raised signage amenity -->
-	<string name="AmenityBrailleSignage">Informatieborden in braille</string>
-	<!-- Free airport shuttle amenity -->
-	<string name="AmenityFreeAirportShuttle">Luchthavenshuttle</string>
-	<!-- Indoor pool amenity -->
-	<string name="AmenityPoolIndoor">Binnenzwembad</string>
-	<!-- Outdoor pool amenity -->
-	<string name="AmenityPoolOutdoor">Buitenzwembad</string>
-	<!-- Extended parking amenity -->
-	<string name="AmenityExtendedParking">Langer parkeren</string>
-	<!-- Free parking amenity -->
-	<string name="AmenityFreeParking">Gratis parkeren</string>
+    <!-- Map -->
+    <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
+    <string name="map_snippet_price_template">Vanaf %s</string>
 
-	<!-- User Reviews list strings -->
-	<!-- Loading text prompt -->
-	<string name="user_review_loading_text">Bezig met laden van gebruikersbeoordelingen...</string>
-	<!-- Header for reviews of the non-native language -->
-	<string name="user_review_other_languages_title">Beoordelingen in andere talen</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_recent">Recent</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_favorable">Positief</string>
-	<!-- The text for the sort button, recent -->
-	<string name="user_review_sort_button_critical">Negatief</string>
-	<!-- Loading more reviews -->
-	<string name="user_review_loading_more_reviews">Bezig met laden van meer beoordelingen...</string>
-	<!-- Read more of the review -->
-	<string name="user_review_read_more">Meer lezen</string>
-	<!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-		1$ represents the number of guests that recommend this hotel
-		2$ represents the total number of guests  -->
-	<string name="user_review_recommendation_tag_text">Dit hotel wordt aanbevolen door &lt;b&gt;%1$d&lt;/b&gt; van &lt;b&gt;%2$d&lt;/b&gt; gasten.</string>
-	<!-- A number of reviews -->
-	<plurals name="number_of_reviews">
-		<item quantity="zero">%d Beoordelingen</item>
-		<item quantity="one">%d Beoordeling</item>
-		<item quantity="two">%d Beoordelingen</item>
-		<item quantity="many">%d Beoordelingen</item>
-		<item quantity="other">%d Beoordelingen</item>
-	</plurals>
-	<!-- User review name and place review signature eg (John from San Diego, CA)
-		1$ is the user name
-		2$ is the place they are from -->
-	<string name="user_review_name_and_location_signature">%1$s van %2$s</string>
-	<!-- User review no critical reviews -->
-	<string name="user_review_no_critical_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
-	<!-- User review no favorable reviews -->
-	<string name="user_review_no_favorable_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
-	<!-- User review no recent reviews -->
-	<string name="user_review_no_recent_reviews">Er zijn geen recente beoordelingen voor dit hotel</string>
-	<!-- User reviews server/parsing error -->
-	<string name="user_review_unavailable">De beoordelingen zijn voorlopig niet beschikbaar</string>
-	
-	<!-- Room and rates list -->
-	<!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-	<plurals name="staying_nights">
-		<item quantity="zero">Verblijf van %d nachten</item>
-		<item quantity="one">Verblijf van %d nachten</item>
-		<item quantity="two">Verblijf van %d nachten</item>
-		<item quantity="many">Verblijf van %d nachten</item>
-		<item quantity="other">Verblijf van %d nachten</item>
-	</plurals>
-	<!-- Loading message for rooms & rates -->
-	<string name="room_rates_loading">Bezig met zoeken van beschikbare kamers...</string>
-	<!-- Error message (no response) for not being able to download room and rates information -->
-	<string name="error_no_response_room_rates">Kan geen kamer- en prijsgegevens downloaden. Controleer de verbinding en probeer opnieuw. </string>
-	<!-- Rate price displayed "per night" -->
-	<string name="rate_per_night">per nacht</string>
-	<!-- Rate price displayed "average per night" -->
-	<string name="rate_avg_per_night">gem/nacht</string>
-	<!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-	<plurals name="number_of_rooms_left">
-		<item quantity="zero">Geen kamers meer over!</item>
-		<item quantity="one">Nog maar 1 kamer over!</item>
-		<item quantity="two">Nog maar %d kamers over!</item>
-		<item quantity="many">Nog maar %d kamers over!</item>
-		<item quantity="other">Nog maar %d kamers over!</item>
-	</plurals>
+    <!-- Mini-details fragment -->
+    <!-- Label for "see details" button on the mini details fragment -->
+    <string name="see_details">Hotelgegevens</string>
+
+    <!-- Widget -->
+    <!--  Default Loading message for widget -->
+    <string name="loading_hotels">Bezig met laden van hotels…</string>
+    <!--  Template for sale element in widget. The parameter is for the sale % -->
+    <string name="widget_savings_template">Bespaar %2.0f%%</string>
+    <!--  Indicator to user to tap the widget to cause it to refresh -->
+    <string name="refresh_widget">Tik om te vernieuwen</string>
+    <!--  Instructions on how to add widget to home screen -->
+    <string name="widget_add_instructions">Voeg de Hotel Radar-widget toe door op het thuisscherm te tikken en vast te houden.</string>
+    <!--  Error string for widget when internet connection is unavailable -->
+    <string name="widget_error_no_internet">Geen internetverbinding</string>
+    <!--  Widget Branding title -->
+    <string name="hotel_radar">Hotel Radar</string>
+    <!--  Widget Branding description -->
+    <string name="book_a_room_tonight">Boek vandaag nog een kamer.</string>
+    <!--  First string for widget upsell within app as a notification in the top bar -->
+    <string name="widget_upsell_short_1">Voeg de Hotel Radar-widget toe.</string>
+    <!--  Second string for widget upsell within app as a notification in the app bar -->
+    <string name="widget_upsell_short_2">Ontvang aanbiedingen in jouw omgeving!</string>
+
+    <!-- Hotel Activity -->
+    <!-- Label for button to book the hotel -->
+    <string name="book_now">Boek nu</string>
+    <!-- Label for the hotel's star rating -->
+    <string name="star_rating">Sterrenclassificatie</string>
+    <!--  Title for star rating in hotel description section -->
+    <string name="star_rating_title">Sterrenclassificatie:</string>
+    <!-- Label for the hotel's trip advisor rating  -->
+    <string name="user_rating">Gebruikersbeoordeling</string>
+    <!-- Label for the address section of the description  -->
+    <string name="address">Adres</string>
+    <!-- Bullet point for list items  -->
+    <string name="bullet_point">•</string>
+
+    <!--  Hotel Details Fragment -->
+    <!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
+    <string name="min_room_price_template">Vanaf %s</string>
+    <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
+    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; vanaf</string>
+    <!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel -->
+    <string name="reviews_recommended_template">Aanbevolen door %1$d van %2$d gasten</string>
+    <!--  Title for the amenities section in the hotel details fragment -->
+    <string name="amenities">Voorzieningen</string>
+    <!--  Label for button to see all reviews as a modal dialog -->
+    <string name="see_all_reviews">Alle reviews bekijken</string>
+    <!-- Label for button that brings users to the room selection page -->
+    <string name="select_room">Kamer selecteren</string>
+
+    <!-- Amenity strings -->
+    <!-- Text that indicates no amenities at this property -->
+    <string name="AmenityNone">Geen aangeboden voorzieningen</string>
+    <!-- Business center amenity -->
+    <string name="AmenityBusinessCenter">Zakencentrum</string>
+    <!-- Fitness center amenity -->
+    <string name="AmenityFitnessCenter">Fitnesscentrum</string>
+    <!-- Hot tub on-site amenity -->
+    <string name="AmenityHotTub">Bubbelbad</string>
+    <!-- Internet access amenity -->
+    <string name="AmenityInternet">Internet</string>
+    <!-- Kids' activities amenity -->
+    <string name="AmenityKidsActivities">Activiteiten voor kinderen</string>
+    <!-- Kitchen/kitchenette amenity -->
+    <string name="AmenityKitchen">Keuken</string>
+    <!-- Pets allowed amenity -->
+    <string name="AmenityPetsAllowed">Huisdieren</string>
+    <!-- Pool amenity -->
+    <string name="AmenityPool">Zwembad</string>
+    <!-- Restaurant on-site amenity -->
+    <string name="AmenityRestaurant">Dineren</string>
+    <!-- Spa on-site amenity -->
+    <string name="AmenitySpa">Spa</string>
+    <!-- Whirlpool bath amenity -->
+    <string name="AmenityWhirlpoolBath">Whirlpool</string>
+    <!-- Breakfast amenity -->
+    <string name="AmenityBreakfast">Ontbijt</string>
+    <!-- Babysitting amenity -->
+    <string name="AmenityBabysitting">Babysit</string>
+    <!-- Jacuzzi amenity -->
+    <string name="AmenityJacuzzi">Jacuzzi</string>
+    <!-- Parking amenity -->
+    <string name="AmenityParking">Parkeren</string>
+    <!-- Room service amenity -->
+    <string name="AmenityRoomService">Roomservice</string>
+    <!-- Accessible path of travel amenity -->
+    <string name="AmenityAccessiblePaths">Rolstoeltoegankelijk wandelpad</string>
+    <!-- Accessible bathroom amenity -->
+    <string name="AmenityAccessibleBathroom">Rolstoeltoegankelijke badkamer</string>
+    <!-- Roll-in shower amenity -->
+    <string name="AmenityRollInShower">Drempelloze douche</string>
+    <!-- Handicapped parking amenity -->
+    <string name="AmenityHandicappedParking">Parkeergelegenheid voor mindervaliden</string>
+    <!-- In-room accessibility amenity -->
+    <string name="AmenityInRoomAccessibility">Rolstoeltoegankelijke kamer</string>
+    <!-- Accessibility equipment for the deaf amenity -->
+    <string name="AmenityDeafAccessibilityEquipment">Voorzieningen voor doven</string>
+    <!-- Braille or raised signage amenity -->
+    <string name="AmenityBrailleSignage">Informatieborden in braille</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="AmenityFreeAirportShuttle">Luchthavenshuttle</string>
+    <!-- Indoor pool amenity -->
+    <string name="AmenityPoolIndoor">Binnenzwembad</string>
+    <!-- Outdoor pool amenity -->
+    <string name="AmenityPoolOutdoor">Buitenzwembad</string>
+    <!-- Extended parking amenity -->
+    <string name="AmenityExtendedParking">Langer parkeren</string>
+    <!-- Free parking amenity -->
+    <string name="AmenityFreeParking">Gratis parkeren</string>
+
+    <!-- User Reviews list strings -->
+    <!-- Loading text prompt -->
+    <string name="user_review_loading_text">Bezig met laden van beoordelingen…</string>
+    <!-- Header for reviews of the non-native language -->
+    <string name="user_review_other_languages_title">Beoordelingen in andere talen</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_recent">Recent</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_favorable">Positief</string>
+    <!-- The text for the sort button, recent -->
+    <string name="user_review_sort_button_critical">Negatief</string>
+    <!-- Loading more reviews -->
+    <string name="user_review_loading_more_reviews">Bezig met laden van meer beoordelingen…</string>
+    <!-- Read more of the review -->
+    <string name="user_review_read_more">Lees verder</string>
+    <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
+        1$ represents the number of guests that recommend this hotel
+        2$ represents the total number of guests  -->
+    <string name="user_review_recommendation_tag_text">Dit hotel wordt aanbevolen door &lt;b&gt;%1$d&lt;/b&gt; van &lt;b&gt;%2$d&lt;/b&gt; gasten.</string>
+    <!-- A number of reviews -->
+    <plurals name="number_of_reviews">
+        <item quantity="zero">%d Beoordelingen</item>
+        <item quantity="one">%d Beoordeling</item>
+        <item quantity="two">%d Beoordelingen</item>
+        <item quantity="many">%d Beoordelingen</item>
+        <item quantity="other">%d Beoordelingen</item>
+    </plurals>
+    <!-- User review name and place review signature eg (John from San Diego, CA)
+        1$ is the user name
+        2$ is the place they are from -->
+    <string name="user_review_name_and_location_signature">%1$s van %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Er zijn geen negatieve beoordelingen voor dit hotel</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Er zijn geen recente beoordelingen voor dit hotel</string>
+    <!-- User reviews server/parsing error -->
+    <string name="user_review_unavailable">De beoordelingen zijn voorlopig niet beschikbaar</string>
+
+    <!-- Room and rates list -->
+    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
+    <plurals name="staying_nights">
+        <item quantity="zero">Verblijf van %d nachten</item>
+        <item quantity="one">Verblijf van %d nachten</item>
+        <item quantity="two">Verblijf van %d nachten</item>
+        <item quantity="many">Verblijf van %d nachten</item>
+        <item quantity="other">Verblijf van %d nachten</item>
+    </plurals>
+    <!-- Loading message for rooms & rates -->
+    <string name="room_rates_loading">Bezig met zoeken van beschikbare kamers…</string>
+    <!-- Error message (no response) for not being able to download room and rates information -->
+    <string name="error_no_response_room_rates">Kan geen kamer- en prijsgegevens downloaden. Controleer de verbinding en probeer opnieuw. </string>
+    <!-- Rate price displayed "per night" -->
+    <string name="rate_per_night">per nacht</string>
+    <!-- Rate price displayed "average per night" -->
+    <string name="rate_avg_per_night">gem/nacht</string>
+    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
+    <plurals name="number_of_rooms_left">
+        <item quantity="zero">Geen kamers meer over!</item>
+        <item quantity="one">Nog maar 1 kamer over!</item>
+        <item quantity="two">Nog maar %d kamers over!</item>
+        <item quantity="many">Nog maar %d kamers over!</item>
+        <item quantity="other">Nog maar %d kamers over!</item>
+    </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Geen restitutie</string>
-	<!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-	<string name="savings_template">Bespaar\n %2.0f%%</string>
-	<!-- Label for free nights -->
-	<string name="free">GRATIS!</string>
-	<!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-	<string name="value_add_template">Inclusief %s</string>
-	<!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
-	<string name="common_value_add_template">Alle kamers beschikken over %s</string>
-	<!--  Instruction as the header of the list to select a room from the list -->
-	<string name="select_a_room_instruction">Kamer selecteren</string>
-	
-	<!-- Gallery -->
-	<!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-	<string name="gallery_title_template">Foto\&apos;s van &lt;b&gt;%1$s&lt;/b&gt;</string>
-	    
-	<!-- Booking info -->
-	<!-- edit label -->
-	<string name="edit">Bewerken</string>
-	<!-- Label for room type -->
-	<string name="room_type">Kamertype</string>
-	<!-- Error if we couldn't load the room type details -->
-	<string name="error_room_type_load">Het spijt ons, we kunnen geen kamergegevens laden. Controleer de internetverbinding en probeer opnieuw.</string>
-	<!-- Error if we couldn't find the room type details -->
-	<string name="error_room_type_nonexistant">Het spijt ons, we kunnen geen extra kamersgegevens vinden.</string>
-	<!-- Label for bed type -->
-	<string name="bed_type">Bedtype</string>
-	<!-- Label for length of stay -->
-	<string name="stay_duration">Verblijfsduur</string>
-	<!-- Quantity for the length of stay -->
-	<plurals name="length_of_stay">
-		<item quantity="one">1 nacht</item>
-		<item quantity="other">%d nachten</item>
-	</plurals>
-	<!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-	<string name="room_rate_template">Kamerprijs %s</string>
-	<!-- Label for the extra guest charge -->
-	<string name="extra_guest_charge">Toeslag voor extra gast</string>
-	<!-- Label for total cost of hotel stay -->
-	<string name="total_cost">Totale kosten</string>
-	<!-- Label for "guest info" form field section -->
-	<string name="guest_info">Gastgegevens</string>
-	<!-- The "first name" booking info field.  -->
-	<string name="FirstName">Voornaam</string>
-	<!-- The "last name" booking info field.  -->
-	<string name="LastName">Achternaam</string>
-	<!-- Hint for "telephone country code" field (e.g., "+44") -->
-	<string name="hint_telephone_country_code">##</string>
-	<!-- The "telephone" booking info field.  -->
-	<string name="Telephone">Telefoon</string>
-	<!-- The "email for booking confirmation" booking info field.  -->
-	<string name="EmailForConf">E-mailadres voor bevestiging</string>
-	<!-- Label for "billing info" form field section -->
-	<string name="billing_info">Betaalgegevens</string>
-	<!-- Address line 1 form field hint -->
-	<string name="hint_address1">Adreslijn 1</string>
-	<!-- Address line 2 form field hint -->
-	<string name="hint_address2">Adreslijn 2 (niet verplicht)</string>
-	<!-- The "city" booking info field.  -->
-	<string name="City">Stad</string>
-	<!-- The "postal code" booking info field.  -->
-	<string name="PostalCode">Postcode</string>
-	<!-- State code hint -->
-	<string name="hint_state_code">Provincie</string>
-	<!-- Label for "credit card info" form field section -->
-	<string name="credit_card_info">Creditcardgegevens</string>
-	<!-- Label for credit card selection box -->
-	<string name="saved_cards">Opgeslagen kaarten</string>
-	<!-- Label for entering new credit card information -->
-	<string name="enter_a_new_card">Voeg een nieuwe kaart toe</string>
-	<!-- Card number form field hint -->
-	<string name="hint_card_number">Kaartnummer</string>
-	<!-- Card expiration month form field hint -->
-	<string name="hint_expiration_month">m</string>
-	<!-- Card expiration year form field hint -->
-	<string name="hint_expiration_year">jj</string>
-	<!-- Security code label -->
-	<string name="security_code">Beveiligingscode</string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_front">Zie de voorzijde van je creditcard</string>
-	<!-- Security code tip (if code is on front of card) -->
-	<string name="security_code_tip_back">Zie de achterzijde van je creditcard</string>
-	<!-- Rules & restrictions section header -->
-	<string name="rules_restrictions">Regels &amp; beperkingen</string>
-	<!-- Disclaimer about how to earn expedia points -->
-	<string name="disclaimer_expedia_points">Als je een Expedia Rewards-account hebt, boek dan met hetzelfde e-mailadres om je punten automatisch na je verblijf toe te voegen. Let op: het kan maximaal 30 dagen duren voordat je punten verschijnen. </string>
-	<!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-	<string name="EnterBookingInfo">Voer boekingsinfo in</string>
-	<!-- Message at the bottom of the booking screen with how much you will be charged -->
-	<string name="charge_details_template">Op je creditcard wordt %s aangerekend</string>
-	<!-- Button label for confirming your booking -->
-	<string name="confirm_book">Bevestigen en boeken</string>
-	<!-- Label for clearing private data -->
-	<string name="clear_private_data">Privégegevens wissen</string>
-	<!-- Title for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_title">Privégegevens wissen?</string>
-	<!-- Message for dialog confirming the clearing of private data -->
-	<string name="dialog_clear_private_data_msg">Zo verwijder je alle opgeslagen betaal- en contactgegevens.</string>
-	<!-- Title for dialog after private data has been cleared -->
-	<string name="toast_private_data_cleared">Privégegevens gewist</string>
-	<!-- Error message if field was required but not entered -->
-	<string name="required_field">Voer een waarde in voor dit veld.</string>
-	<!-- Error message if field had data entered but was invalid -->
-	<string name="invalid_field">Voer een geldige waarde in voor dit veld.</string>
-	<!-- Error if an invalid card number was entered -->
-	<string name="invalid_card_number">Het ingevoerde creditcardnummer is ongeldig, probeer het opnieuw.</string>
-	<!-- Error if an invalid credit card type was entered -->
-	<string name="invalid_card_type">We hebben je creditcardtype niet kunnen vaststellen, voer een geldige creditcard in.</string>
-	<!-- Error if an invalid month (not 1-12) was entered -->
-	<string name="invalid_month">Voer een waarde in tussen 1 en 12.</string>
-	<!-- Error if an invalid year was entered -->
-	<string name="invalid_expiration_year">Voer een jaar in dat niet in het verleden ligt</string>
-	<!-- Error if an invalid security code was entered -->
-	<string name="invalid_security_code">Voer een drie- of viercijferige beveiligingscode in</string>
-	<!-- Error if an invalid currency code is being used with American Express -->
-	<string name="invalid_currency_for_amex">Het spijt ons, betalingen in deze valuta (%s) worden niet ondersteund door American Express. Gebruik een andere creditcard. </string>
-	<!-- Error if user agreement needs to be checked but is not -->
-	<string name="error_no_user_agreement">Je moet de voorwaarden accepteren om te kunnen boeken</string>
-	<!-- Message to display to user while booking is in progress -->
-	<string name="booking_loading">Bezig met boeken...</string>
-	<!-- Title for error dialog when booking fails -->
-	<string name="error_booking_title">Fout</string>
-	<!-- Error message when we couldn't get a response -->
-	<string name="error_booking_null">Kon geen verbinding met de Expedia-servers maken. Controleer de verbinding en probeer opnieuw. </string>
-	<!-- Error message when booking completed with errors -->
-	<string name="error_booking_succeeded_with_errors">Je hotelkamer werd geboekt en gereserveerd. De volgende fouten deden zich echter voor: %s</string>
-	<!-- Error message when booking completed with errors - specifically if email was not sent -->
-	<string name="error_unable_to_send_email">Het is niet mogelijk om een bevestigingsmail te sturen. </string>
-	<!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
-	<string name="check_in_out_time_template">%1$s op %2$s</string>
-	<!-- Label for button pressing which brings up a dialog to enter info to book a room -->
-	<string name="enter_booking_info">Voer boekingsinfo in</string>
-	<!--  Title for action bar when the user is on the booking info screen -->
-	<string name="booking_information_title">Boekingsgegevens</string>
-	<!-- Title for dialog where the user is prompted to enter booking booking information -->
-	<string name="booking_information_dialog_title">Boeking voltooien</string>
-	
-	<!-- Confirmation activity -->
-	<!-- Format for a first/last name -->
-	<string name="name_template">%1$s %2$s</string>
-	<!-- Reservation summary label -->
-	<string name="reservation_summary">Boekingsoverzicht</string>
-	<!-- Confirmation number label -->
-	<string name="confirmation_number">Bevestigingsnr.</string>
-	<!-- Itinerary number label -->
-	<string name="itinerary_number">Reisplannr.</string>
-	<!-- Confirmation email label -->
-	<string name="confirmation_email">Bevestigingsmail</string>
-	<!-- Label for starting a new search -->
-	<string name="new_search">Nieuwe zoekactie</string>
-	<!-- Contact info for a country with a known support line where %s represents the phone number -->
-	<string name="contact_phone_template">Als je vragen hebt over je boeking, bel dan Expedia.com op %s.</string>
+    <!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
+    <string name="savings_template">Bespaar\n %2.0f%%</string>
+    <!-- Label for free nights -->
+    <string name="free">GRATIS!</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">Inclusief %s</string>
+    <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
+    <string name="common_value_add_template">Alle kamers beschikken over %s</string>
+    <!--  Instruction as the header of the list to select a room from the list -->
+    <string name="select_a_room_instruction">Kamer selecteren</string>
 
-	<!--  Confirmation Fragment -->
-	<!-- Label to share booking information after a booking confirmation -->
-	<string name="share_booking_info">Boekingsgegevens delen</string>
-	<!-- Label to start a new search from a confirmation screen  -->
-	<string name="start_new_search">Nieuwe zoekactie starten</string>
-	<!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-	<string name="show_on_map">Bekijk op de kaart</string>
-	
-	<!-- Rate template strings -->
-	<!-- Label for the number of guests the booking is for. -->
-	<string name="GuestsLabel">Gasten</string>
-	<!-- Label for the taxes & fees for this booking. -->
-	<string name="TaxesAndFees">Bekijk op de kaart</string>
-	<!-- Label for the "Mandatory Fees" (bait & switch fees) -->
-	<string name="MandatoryFees">Hoteltoeslagen (te betalen aan het hotel)</string>
-	<!-- Label for the rate per room per night. -->
-	<string name="RatePerRoomPerNight">Tarief per kamer per nacht</string>
-	<!-- Label for the total cost of the booking. -->
-	<string name="Total">Totaal</string>
-	<!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-	<string name="PayToExpedia">Betaal Expedia</string>
-	<!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
-	<string name="CheckIn">Inchecken</string>
-	<!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
-	<string name="CheckOut">Uitchecken</string>
+    <!-- Gallery -->
+    <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
+    <string name="gallery_title_template">Foto\&apos;s van &lt;b&gt;%1$s&lt;/b&gt;</string>
 
-	<!-- Expedia policy strings -->
-	<!-- Policy displayed to user when an immediate charge is required -->
-	<string name="PolicyImmediateChargeRequired">Je creditcard wordt bij de boeking onmiddellijk het volledige bedrag van de reservering aangerekend.</string>
-	<!-- Policy displayed to user when the room is non-refundable -->
-	<string name="PolicyNonRefundable">We bieden een uitzonderlijk laag tarief op deze accommodatie. Om dit aan te kunnen bieden is het tarief niet-restitueerbaar. Als je ervoor kiest deze reservering te annuleren, ontvang je geen restitutie van de betaling.</string>
-	<!-- Policy displayed to user when a deposit is required -->
-	<string name="PolicyDepositRequired">Er wordt een borgsom voor je reservering in rekening gebracht bij je creditcard. Je creditcard wordt direct door het hotel aangerekend nadat je de reservering geplaatst hebt.</string>
-	<!-- Policy displayed to user when a guarantee is required -->
-	<string name="PolicyGuaranteeRequired">De creditcardgegevens zijn verplicht om je reservering te kunnen garanderen. Je creditcard wordt niet belast vóór je aankomst bij het hotel of voordat de annuleringsdeadline voorbij is.</string>
-	<!-- Expedia merchant hotel policies -->
-	<string name="PolicyExpediaMerchant">Door deze boeking af te ronden verklaar je alle Algemene Voorwaarden, inclusief het Privacybeleid en alle gebruiksvoorwaarden, gelezen en goedgekeurd te hebben.\n\nJe gaat akkoord met de betaling van alle reserveringskosten. Als je deze kosten niet betaalt zodat deze via een incassobureau, een deurwaarder of andere wettelijke procedures moeten worden gevorderd, ga je akkoord met alle daaruit voortvloeiende kosten, inclusief deurwaarders- en procedurekosten, die verband houden met deze invorderingspogingen.</string>
-	<!-- Expedia agent hotel policies -->
-	<string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist.   Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een extra toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie zulk verzoek aanvaardt, kunnen naar goeddunken ervan extra kosten worden aangerekend.</string>
+    <!-- Booking info -->
+    <!-- edit label -->
+    <string name="edit">Bewerken</string>
+    <!-- Label for room type -->
+    <string name="room_type">Kamertype</string>
+    <!-- Error if we couldn't load the room type details -->
+    <string name="error_room_type_load">Het spijt ons, we kunnen geen kamergegevens laden. Controleer de internetverbinding en probeer opnieuw.</string>
+    <!-- Error if we couldn't find the room type details -->
+    <string name="error_room_type_nonexistant">Het spijt ons, we kunnen geen extra kamersgegevens vinden.</string>
+    <!-- Label for bed type -->
+    <string name="bed_type">Bedtype</string>
+    <!-- Label for length of stay -->
+    <string name="stay_duration">Verblijfsduur</string>
+    <!-- Quantity for the length of stay -->
+    <plurals name="length_of_stay">
+        <item quantity="one">1 nacht</item>
+        <item quantity="other">%d nachten</item>
+    </plurals>
+    <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
+    <string name="room_rate_template">Kamerprijs %s</string>
+    <!-- Label for the extra guest charge -->
+    <string name="extra_guest_charge">Toeslag voor extra gast</string>
+    <!-- Label for total cost of hotel stay -->
+    <string name="total_cost">Totale kosten</string>
+    <!-- Label for "guest info" form field section -->
+    <string name="guest_info">Gastgegevens</string>
+    <!-- The "first name" booking info field.  -->
+    <string name="FirstName">Voornaam</string>
+    <!-- The "last name" booking info field.  -->
+    <string name="LastName">Achternaam</string>
+    <!-- Hint for "telephone country code" field (e.g., "+44") -->
+    <string name="hint_telephone_country_code">##</string>
+    <!-- The "telephone" booking info field.  -->
+    <string name="Telephone">Telefoon</string>
+    <!-- The "email for booking confirmation" booking info field.  -->
+    <string name="EmailForConf">E-mailadres voor bevestiging</string>
+    <!-- Label for "billing info" form field section -->
+    <string name="billing_info">Betaalgegevens</string>
+    <!-- Address line 1 form field hint -->
+    <string name="hint_address1">Adreslijn 1</string>
+    <!-- Address line 2 form field hint -->
+    <string name="hint_address2">Adreslijn 2 (niet verplicht)</string>
+    <!-- The "city" booking info field.  -->
+    <string name="City">Stad</string>
+    <!-- The "postal code" booking info field.  -->
+    <string name="PostalCode">Postcode</string>
+    <!-- State code hint -->
+    <string name="hint_state_code">Provincie</string>
+    <!-- Label for "credit card info" form field section -->
+    <string name="credit_card_info">Creditcardgegevens</string>
+    <!-- Label for credit card selection box -->
+    <string name="saved_cards">Opgeslagen kaarten</string>
+    <!-- Label for entering new credit card information -->
+    <string name="enter_a_new_card">Voeg een nieuwe kaart toe</string>
+    <!-- Card number form field hint -->
+    <string name="hint_card_number">Kaartnummer</string>
+    <!-- Card expiration month form field hint -->
+    <string name="hint_expiration_month">m</string>
+    <!-- Card expiration year form field hint -->
+    <string name="hint_expiration_year">jj</string>
+    <!-- Security code label -->
+    <string name="security_code">Beveiligingscode</string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_front">Zie de voorzijde van je creditcard</string>
+    <!-- Security code tip (if code is on front of card) -->
+    <string name="security_code_tip_back">Zie de achterzijde van je creditcard</string>
+    <!-- Rules & restrictions section header -->
+    <string name="rules_restrictions">Regels &amp; beperkingen</string>
+    <!-- Disclaimer about how to earn expedia points -->
+    <string name="disclaimer_expedia_points">Als je een Expedia Rewards-account hebt, boek dan met hetzelfde e-mailadres om je punten automatisch na je verblijf toe te voegen. Let op: het kan maximaal 30 dagen duren voordat je punten verschijnen. </string>
+    <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
+    <string name="EnterBookingInfo">Voer boekingsinfo in</string>
+    <!-- Message at the bottom of the booking screen with how much you will be charged -->
+    <string name="charge_details_template">Op je creditcard wordt %s aangerekend</string>
+    <!-- Button label for confirming your booking -->
+    <string name="confirm_book">Bevestigen en boeken</string>
+    <!-- Label for clearing private data -->
+    <string name="clear_private_data">Privégegevens wissen</string>
+    <!-- Title for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_title">Privégegevens wissen?</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_clear_private_data_msg">Zo verwijder je alle opgeslagen betaal- en contactgegevens.</string>
+    <!-- Message for dialog confirming the clearing of private data -->
+    <string name="dialog_log_out_and_clear_private_data_msg">Zo wordt je afgemeld en verwijder je alle opgeslagen betaal- en contactgegevens.</string>
+    <!-- Title for dialog after private data has been cleared -->
+    <string name="toast_private_data_cleared">Privégegevens gewist</string>
+    <!-- Error message if field was required but not entered -->
+    <string name="required_field">Voer een waarde in voor dit veld.</string>
+    <!-- Error message if field had data entered but was invalid -->
+    <string name="invalid_field">Voer een geldige waarde in voor dit veld.</string>
+    <!-- Error if an invalid card number was entered -->
+    <string name="invalid_card_number">Het ingevoerde creditcardnummer is ongeldig, probeer het opnieuw.</string>
+    <!-- Error if an invalid credit card type was entered -->
+    <string name="invalid_card_type">We hebben je creditcardtype niet kunnen vaststellen, voer een geldige creditcard in.</string>
+    <!-- Error if an invalid month (not 1-12) was entered -->
+    <string name="invalid_month">Voer een waarde in tussen 1 en 12.</string>
+    <!-- Error if an invalid year was entered -->
+    <string name="invalid_expiration_year">Voer een jaar in dat niet in het verleden ligt</string>
+    <!-- Error if an invalid security code was entered -->
+    <string name="invalid_security_code">Voer een drie- of viercijferige beveiligingscode in</string>
+    <!-- Error if an invalid currency code is being used with American Express -->
+    <string name="invalid_currency_for_amex">Het spijt ons, betalingen in deze valuta (%s) worden niet ondersteund door American Express. Gebruik een andere creditcard. </string>
+    <!-- Error if user agreement needs to be checked but is not -->
+    <string name="error_no_user_agreement">Je moet de voorwaarden accepteren om te kunnen boeken</string>
+    <!-- Message to display to user while booking is in progress -->
+    <string name="booking_loading">Bezig met boeken…</string>
+    <!-- Title for error dialog when booking fails -->
+    <string name="error_booking_title">Fout</string>
+    <!-- Error message when we couldn't get a response -->
+    <string name="error_booking_null">Kon geen verbinding met de Expedia-servers maken. Controleer de verbinding en probeer opnieuw. </string>
+    <!-- Error message when booking completed with errors -->
+    <string name="error_booking_succeeded_with_errors">Je hotelkamer werd geboekt en gereserveerd. De volgende fouten deden zich echter voor: %s</string>
+    <!-- Error message when booking completed with errors - specifically if email was not sent -->
+    <string name="error_unable_to_send_email">Het is niet mogelijk om een bevestigingsmail te sturen. </string>
+    <!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
+    <string name="check_in_out_time_template">%1$s op %2$s</string>
+    <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
+    <string name="enter_booking_info">Voer boekingsinfo in</string>
+    <!--  Title for action bar when the user is on the booking info screen -->
+    <string name="booking_information_title">Boekingsgegevens</string>
+    <!-- Title for dialog where the user is prompted to enter booking booking information -->
+    <string name="booking_information_dialog_title">Boeking voltooien</string>
 
-	<!-- Expedia Accounts -->
-	<!-- Label for menu item to log into account -->
-	<string name="log_in_to_expedia">Aanmelden bij Expedia</string>
-	<!-- Hint for user to enter password into a field -->
-	<string name="hint_password">Wachtwoord</string>
-	<!-- Progress dialog text when we are logging the user into Expedia -->
-	<string name="logging_in">Bezig met aanmelden ...</string>
-	<!-- Message that tells user they successfully logged in -->
-	<string name="login_success">Veel success! Je bent aangemeld.</string>
-	<!-- Label for login widget button -->
-	<string name="account_login">Aanmelden bij account</string>
-	<!-- Label for login widget additional text -->
-	<string name="log_in_for_faster_booking">Meld je aan om sneller te kunnen boeken. </string>
-	<!-- Label for account status -->
-	<string name="enrolled_in_expedia_rewards">Ingeschreven voor Expedia Rewards\u2122</string>
-	<!-- Label for account name -->
-	<string name="logged_in_as">Aangemeld als</string>
-	<!-- Label for account name -->
+    <!-- Confirmation activity -->
+    <!-- Format for a first/last name -->
+    <string name="name_template">%1$s %2$s</string>
+    <!-- Reservation summary label -->
+    <string name="reservation_summary">Boekingsoverzicht</string>
+    <!-- Confirmation number label -->
+    <string name="confirmation_number">Bevestigingsnr.</string>
+    <!-- Itinerary number label -->
+    <string name="itinerary_number">Reisplannr.</string>
+    <!-- Confirmation email label -->
+    <string name="confirmation_email">Bevestigingsmail</string>
+    <!-- Label for starting a new search -->
+    <string name="new_search">Nieuwe zoekactie</string>
+    <!-- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template">Als je vragen hebt over je boeking, bel dan Expedia.com op %s.</string>
+
+    <!--  Confirmation Fragment -->
+    <!-- Label to share booking information after a booking confirmation -->
+    <string name="share_booking_info">Boekingsgegevens delen</string>
+    <!-- Label to start a new search from a confirmation screen  -->
+    <string name="start_new_search">Nieuwe zoekactie starten</string>
+    <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
+    <string name="show_on_map">Bekijk op de kaart</string>
+
+    <!-- Rate template strings -->
+    <!-- Label for the number of guests the booking is for. -->
+    <string name="GuestsLabel">Gasten</string>
+    <!-- Label for the taxes & fees for this booking. -->
+    <string name="TaxesAndFees">Belastingen &amp; Toeslagen</string>
+    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
+    <string name="MandatoryFees">Hoteltoeslagen (te betalen aan het hotel)</string>
+    <!-- Label for the rate per room per night. -->
+    <string name="RatePerRoomPerNight">Tarief per kamer per nacht</string>
+    <!-- Label for the total cost of the booking. -->
+    <string name="Total">Totaal</string>
+    <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
+    <string name="PayToExpedia">Betaal Expedia</string>
+    <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
+    <string name="CheckIn">Inchecken</string>
+    <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
+    <string name="CheckOut">Uitchecken</string>
+    <!-- Label to display the amount you save after applying a coupon code in the receipt -->
+    <string name="discount">Korting</string>
+
+    <!-- Expedia policy strings -->
+    <!-- Policy displayed to user when an immediate charge is required -->
+    <string name="PolicyImmediateChargeRequired">Het volledige bedrag wordt onmiddellijk tijdens het boeken op je creditcard in rekening gebracht.</string>
+    <!-- Policy displayed to user when the room is non-refundable -->
+    <string name="PolicyNonRefundable">We bieden een uitzonderlijk laag tarief op deze accommodatie. Om dit aan te kunnen bieden is het tarief niet-restitueerbaar. Als je ervoor kiest deze reservering te annuleren, ontvang je geen restitutie van de betaling.</string>
+    <!-- Policy displayed to user when a deposit is required -->
+    <string name="PolicyDepositRequired">Er wordt een borgsom voor je reservering in rekening gebracht bij je creditcard. Je creditcard wordt direct door het hotel aangerekend nadat je de reservering geplaatst hebt.</string>
+    <!-- Policy displayed to user when a guarantee is required -->
+    <string name="PolicyGuaranteeRequired">De creditcardgegevens zijn verplicht om je reservering te kunnen garanderen. Je creditcard wordt niet belast vóór je aankomst bij het hotel of voordat de annuleringsdeadline voorbij is.</string>
+    <!-- Expedia merchant hotel policies -->
+    <string name="PolicyExpediaMerchant">Door deze boeking af te ronden verklaar je alle Algemene Voorwaarden, inclusief het Privacybeleid en alle gebruiksvoorwaarden, gelezen en goedgekeurd te hebben.\n\nJe gaat akkoord met de betaling van alle reserveringskosten. Als je deze kosten niet betaalt zodat deze via een incassobureau, een deurwaarder of andere wettelijke procedures moeten worden gevorderd, ga je akkoord met alle daaruit voortvloeiende kosten, inclusief deurwaarders- en procedurekosten, die verband houden met deze invorderingspogingen.</string>
+    <!-- Expedia agent hotel policies -->
+    <string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn gebaseerd op twee personen per kamer tenzij anders is aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist.   Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een extra toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
+
+    <!-- Expedia Accounts -->
+    <!-- Label for menu item to log into account -->
+    <string name="log_in">Aanmelden</string>
+    <!-- Label for menu item to log into account -->
+    <string name="log_in_to_expedia">Aanmelden bij Expedia</string>
+    <!-- Hint for user to enter password into a field -->
+    <string name="hint_password">Wachtwoord</string>
+    <!-- Progress dialog text when we are logging the user into Expedia -->
+    <string name="logging_in">Bezig met aanmelden…</string>
+    <!-- Message that tells user they successfully logged in -->
+    <string name="login_success">Veel success! Je bent aangemeld.</string>
+    <!-- Message that tells user they failed to log in -->
+    <string name="login_failed">Aanmelding mislukt</string>
+    <!-- Label for login widget button -->
+    <string name="account_login">Aanmelden bij account</string>
+    <!-- Label for login widget additional text -->
+    <string name="log_in_for_faster_booking">Meld je aan om sneller te kunnen boeken. </string>
+    <!-- Label for account status -->
+    <string name="enrolled_in_expedia_rewards">Ingeschreven voor Expedia Rewards\u2122</string>
+    <!-- Label for account name -->
+    <string name="logged_in_as">Aangemeld als</string>
+    <!-- Label for account name -->
     <string name="logged_in_as_template">Aangemeld als &lt;b&gt;%s&lt;/b&gt;</string>
-	<!-- Label for signin screen -->
-	<string name="expedia_account">Expedia account</string>
-	<!-- Label for loading user profile from expedia.com -->
-	<string name="loading_expedia_account">Bezig met laden van Expedia account</string>
+    <!-- Label for signin screen -->
+    <string name="expedia_account">Expedia account</string>
+    <!-- Label for loading user profile from expedia.com -->
+    <string name="loading_expedia_account">Bezig met laden van Expedia account</string>
     <!-- Label for password recovery -->
-	<string name="forgot_your_password">Je wachtwoord vergeten?</string>
+    <string name="forgot_your_password">Je wachtwoord vergeten?</string>
     <!-- Label for coupon code area of booking form -->
-	<string name="coupon_code">Couponcode</string>
+    <string name="coupon_code">Couponcode</string>
+    <!-- Label for coupon code hint -->
+    <string name="optional">Optioneel</string>
     <!-- Label applying a coupon -->
-	<string name="apply">Toepassen</string>
+    <string name="apply">Toepassen</string>
     <!-- Label for new price after applying coupon -->
-	<string name="new_total">Nieuw totaal:</string>
+    <string name="new_total">Nieuw totaal:</string>
     <!-- Label for credit card selection -->
-	<string name="use_card">Gebruik kaart:</string>
+    <string name="use_card">Gebruik kaart:</string>
+    <!-- Label for when a user has entered an invalid coupon -->
+    <string name="invalid_coupon">Ongeldige coupon</string>
+    <!-- Label for when a user has entered a coupon which is expired -->
+    <string name="expired_coupon">Verlopen coupon</string>
+    <!-- Label for when a user has entered a coupon and the server fails -->
+    <string name="coupon_error">Fout met coupon</string>
 
-	<!-- Sharing bookings via email -->
-	<!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
-	<string name="share_subject_template">Expedia reisplan - %1$s (%2$s - %3$s)</string>
-	<!-- Preset at the top of the share body message -->
-	<string name="share_body_start">Hier is mijn hotelboekingsinformatie:</string>
-	<!-- Name of user -->
-	<string name="name">Naam</string>
-	<!-- Number of adults label -->
-	<string name="adults">Volwassenen</string>
-	<!-- Number of children label -->
-	<string name="children">Kinderen</string>
-	<!-- Subtotal label -->
-	<string name="subtotal">Subtotaal</string>
-	<!-- Cancellation policy label -->
-	<string name="cancellation_policy">Annuleringsbeleid</string>
-	
-	<!-- About activity -->
-	<!-- Label for "contact Expedia" button in info page -->
-	<string name="contact_expedia">Neem contact op met Expedia</string>
-	<!-- Extra description for "contact Expedia" button, when space allows -->
-	<string name="contact_expedia_description">We staan 24 uur per dag voor je klaar.</string>
-	<!-- Title for different ways to connect to Expedia -->
-	<string name="contact_expedia_via">Neem contact op met Expedia via...</string>
-	<!-- Contact Expedia via phone -->
-	<string name="contact_expedia_phone">Telefoon</string>
-	<!-- Contact Expedia via email -->
-	<string name="contact_expedia_email">E-mail</string>
-	<!-- Contact Expedia via email subject -->
-	<string name="contact_expedia_email_subject">Expedia Klantenservice</string>
-	<!-- Contact Expedia via website -->
-	<string name="contact_expedia_website">Website</string>
-	<!-- Label for "Expedia website" button in info page -->
-	<string name="expedia_website">Expedia-website</string>
-	<!-- Extra description for "Expedia website" button, when space allows -->
-	<string name="expedia_website_description">Ga naar onze website voor het boeken van vluchten, huurauto\&apos;s, pakketvakanties en nog veel meer.</string>
-	<!-- Extra description for "app feedback" button, when space allows -->
-	<string name="app_feedback_description">Laat ons weten wat je van onze app vindt.</string>
-	<!-- Label for "app support" button in info page -->
-	<string name="app_support">App-support</string>
-	<!-- Extra description for "app support" button, when space allows -->
-	<string name="app_support_description">Stuur ons een berichtje, en we sturen je een antwoord.</string>
-	<!-- Extra description for "tell a friend" button, when space allows -->
-	<string name="tell_a_friend_description">Hou je van geweldige hotelaanbiedingen? Vertel je vrienden over onze app.</string>
-	<!-- Section header for other apps by Mobiata -->
-	<string name="travel_smart">Reis slim</string>
-	<!-- Subject line for "tell a friend" feature -->
-	<string name="tell_a_friend_subject">Expedia Hotels</string>
-	<!-- Message body for "tell a friend" feature -->
-	<string name="tell_a_friend_body">Hallo,\n\ndownload Expedia Hotels voor de iPhone en Android-telefoons. Het is GRATIS en je kunt heel eenvoudig kamers zoeken en boeken bij meer dan 130.000 hotels over de hele wereld. Het is de eenvoudigste manier om met je mobiel hotelkamers te boeken.\n\nhttp://www.expedia.com/app</string>
-	<!-- Label for link to terms and conditions -->
-	<string name="info_label_terms_conditions">Algemene Voorwaarden</string>
-	<!-- Label for link to privacy policy -->
-	<string name="info_label_privacy_policy">Privacybeleid</string>
-	<!-- Copyright information -->
-	<string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nAlle rechten voorbehouden.</string>
-	
-	<!--  App Feedback Activity -->
-	<!-- Text within submit button in header -->
-	<string name="send_feedback">Feedback verzenden</string>
-	<!-- Header title -->
-	<string name="app_feedback">App-feedback</string>
-	<!-- Section header for rating (1-5 stars) -->
-	<string name="oosdk_rating_overall_header">Beoordeel ons</string>
-	<!-- Footer for the view -->
-	<string name="powered_by_opinion_lab">Mogelijk gemaakt door Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacybeleid</a></string>
-	<!-- Hint to type in email address -->
-	<string name="email_address">E-mailadres</string>
-	<!-- Hint to type in comments -->
-	<string name="feedback_hint">Wat kunnen we beter doen?</string>
-	<!-- Message displayed to users after they submit feedback -->
-	<string name="oosdk_thanks_txt">Bedankt voor je mening. We stellen de feedback van onze klanten zeer op prijs.</string>
-	
-	<!-- Preferences -->
-	<!-- Category name for general preferences -->
-	<string name="preference_category_general">Algemeen</string>
-	<!-- Title for point of sale setting -->
-	<string name="preference_point_of_sale_title">Land</string>
-	<!-- Template for default point of sale -->
-	<string name="default_point_of_sale_template">Standaard (%s)</string>
+    <!-- Sharing bookings via email -->
+    <!-- Subject template.  1$ is the name of the hotel, 2$ and 3$ are the ` ranges (e.g., 3/21 - 3/24) -->
+    <string name="share_subject_template">Expedia reisplan - %1$s (%2$s - %3$s)</string>
+    <!-- Preset at the top of the share body message -->
+    <string name="share_body_start">Hier is mijn hotelboekingsinformatie:</string>
+    <!-- Name of user -->
+    <string name="name">Naam</string>
+    <!-- Number of adults label -->
+    <string name="adults">Volwassenen</string>
+    <!-- Number of children label -->
+    <string name="children">Kinderen</string>
+    <!-- Subtotal label -->
+    <string name="subtotal">Subtotaal</string>
+    <!-- Cancellation policy label -->
+    <string name="cancellation_policy">Annuleringsbeleid</string>
 
-	<!-- Strings used a lot of places -->
-	<!-- A number of adults -->
-	<plurals name="number_of_adults">
-		<item quantity="zero">%d Volwassenen</item>
-		<item quantity="one">%d Volwassene</item>
-		<item quantity="two">%d Volwassenen</item>
-		<item quantity="many">%d Volwassenen</item>
-		<item quantity="other">%d Volwassenen</item>
-	</plurals>
-	<!-- A number of children -->
-	<plurals name="number_of_children">
-		<item quantity="zero">%d Kinderen</item>
-		<item quantity="one">%d Kind</item>
-		<item quantity="two">%d Kinderen</item>
-		<item quantity="many">%d Kinderen</item>
-		<item quantity="other">%d Kinderen</item>
-	</plurals>
-	<!-- A number of guests -->
-	<plurals name="number_of_guests">
-		<item quantity="zero">%d Gasten</item>
-		<item quantity="one">%d Gast</item>
-		<item quantity="two">%d Gasten</item>
-		<item quantity="many">%d Gasten</item>
-		<item quantity="other">%d Gasten</item>
-	</plurals>
-	<!-- A number of nights (as in stay duration).  Capitalized -->
-	<plurals name="number_of_nights">
-		<item quantity="zero">%d Nachten</item>
-		<item quantity="one">%d Nacht</item>
-		<item quantity="two">%d Nachten</item>
-		<item quantity="many">%d Nachten</item>
-		<item quantity="other">%d Nachten</item>
-	</plurals>
+    <!-- About activity -->
+    <!-- Label for "contact Expedia" button in info page -->
+    <string name="contact_expedia">Neem contact op met Expedia</string>
+    <!-- Extra description for "contact Expedia" button, when space allows -->
+    <string name="contact_expedia_description">We staan 24 uur per dag voor je klaar.</string>
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_expedia_via">Neem contact op met Expedia via…</string>
+    <!-- Contact Expedia via phone -->
+    <string name="contact_expedia_phone">Telefoon</string>
+    <!-- Contact Expedia via email -->
+    <string name="contact_expedia_email">E-mail</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_expedia_email_subject">Expedia Klantenservice</string>
+    <!-- Contact Expedia via website -->
+    <string name="contact_expedia_website">Website</string>
+    <!-- Label for "Expedia website" button in info page -->
+    <string name="expedia_website">Expedia-website</string>
+    <!-- Extra description for "Expedia website" button, when space allows -->
+    <string name="expedia_website_description">Ga naar onze website voor het boeken van vluchten, huurauto\&apos;s, pakketvakanties en nog veel meer.</string>
+    <!-- Extra description for "app feedback" button, when space allows -->
+    <string name="app_feedback_description">Laat ons weten wat je van onze app vindt.</string>
+    <!-- Label for "app support" button in info page -->
+    <string name="app_support">App-support</string>
+    <!-- Extra description for "app support" button, when space allows -->
+    <string name="app_support_description">Stuur ons een berichtje, en we sturen je een antwoord.</string>
+    <!-- Extra description for "tell a friend" button, when space allows -->
+    <string name="tell_a_friend_description">Hou je van geweldige hotelaanbiedingen? Vertel je vrienden over onze app.</string>
+    <!-- Section header for other apps by Mobiata -->
+    <string name="travel_smart">Reis slim</string>
+    <!-- Subject line for "tell a friend" feature -->
+    <string name="tell_a_friend_subject">Expedia Hotels</string>
+    <!-- Message body for "tell a friend" feature -->
+    <string name="tell_a_friend_body">Hallo,\n\ndownload Expedia Hotels voor de iPhone en Android-telefoons. Het is GRATIS en je kunt heel eenvoudig kamers zoeken en boeken bij meer dan 140,000 hotels over de hele wereld. Het is de eenvoudigste manier om met je mobieltje hotelkamers te boeken.\n\nhttp://www.expedia.com/app</string>
+    <!-- Label for link to terms and conditions -->
+    <string name="info_label_terms_conditions">Algemene Voorwaarden</string>
+    <!-- Label for link to privacy policy -->
+    <string name="info_label_privacy_policy">Privacybeleid</string>
+    <!-- Copyright information -->
+    <string name="copyright">© Copyright 2011-2012 Expedia, Inc.\nAlle rechten voorbehouden.</string>
+    <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
+    <string name="dialog_title_log_out_and_clear_private_data">Wil je afmelden en gegevens wissen?</string>
+    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_title_logged_out_and_cleared_private_data">Afgemeld en gegevens gewist</string>
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data">Je bent nu afgemeld bij je Expedia account en alle betaal-en contactgegevens werden gewist.</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
+    <string name="dialog_message_launch_expedia_mobile_site">Wil je Expedia\&apos;s mobiele website opstarten?</string>
+    <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
+    <string name="dialog_message_launch_expedia_support_site">De support-website van Expedia bezoeken?</string>
 
-	<!-- Distance strings -->
-	<!-- Abbreviated miles (used in distance_template) -->
-	<string name="unit_miles">mijl</string>
-	<!-- Abbreviated kilometers (used in distance_template) -->
-	<string name="unit_kilometers">km</string>
-	<!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-	<string name="distance_template">op %1$s %2$s</string>
-	<!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-	<string name="distance_template_short">%1$s %2$s</string>
+    <!--  App Feedback Activity -->
+    <!-- Text within submit button in header -->
+    <string name="send_feedback">Feedback verzenden</string>
+    <!-- Header title -->
+    <string name="app_feedback">App-feedback</string>
+    <!-- Section header for rating (1-5 stars) -->
+    <string name="oosdk_rating_overall_header">Beoordeel ons</string>
+    <!-- Footer for the view -->
+    <string name="powered_by_opinion_lab">Mogelijk gemaakt door Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacybeleid</a></string>
+    <!-- Hint to type in email address -->
+    <string name="email_address">E-mailadres</string>
+    <!-- Hint to type in comments -->
+    <string name="feedback_hint">Wat kunnen we beter doen?</string>
+    <!-- Message displayed to users after they submit feedback -->
+    <string name="oosdk_thanks_txt">Bedankt voor je mening. We stellen de feedback van onze klanten zeer op prijs.</string>
 
-	<!-- Menu strings -->
-	<!-- Label for "settings" menu item. -->
-	<string name="Settings">Instellingen</string>
-	<!-- Label for "about this app" menu item. -->
-	<string name="About">Over</string>
+    <!-- Preferences -->
+    <!-- Category name for general preferences -->
+    <string name="preference_category_general">Algemeen</string>
+    <!-- Title for point of sale setting -->
+    <string name="preference_point_of_sale_title">Land</string>
+    <!-- Template for default point of sale -->
+    <string name="default_point_of_sale_template">Standaard (%s)</string>
 
-	<!-- Preferences strings -->
-	<!-- String for default preference setting (for any given preference) -->
-	<string name="Default">Standaard</string>
-	
-	<!-- Error strings - replacements for default EAN errors -->
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_no_results">Sorry, we kunnen op dit moment geen beschikbare hotels vinden. Probeer andere data of een andere locatie.</string>
-	<!-- Replaces "result was null" for no result search -->
-	<string name="ean_error_connect_unavailable">Kan geen verbinding maken met het geselecteerde hotel om beschikbare kamers te vinden.</string>
-	<!-- Error message displayed when the phone number sent via booking is invalid -->
-	<string name="ean_error_invalid_phone_number">Voer een geldig telefoonnummer in</string>
-	
-	<!-- Checkout API method -->
-	<!-- The hotel booking failed -->
-	<string name="e3_error_checkout_booking_failed">Door een fout konden we je boeking niet afronden. Probeer het opnieuw.</string>
-	<!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-	<string name="e3_error_checkout_booking_succeeded_with_errors">Je hebt je boeking bij dit hotel succesvol afgerond! Als je onmiddellijk een reisplan nodig hebt, bel dan de Expedia klantenservice.</string>
-	<!-- The hotel room is no longer available -->
-	<string name="e3_error_checkout_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia. </string>
-	<!-- There is invalid input in the hotel booking form. Please fix it. -->
-	<string name="e3_error_checkout_invalid_input">Corrigeer de ongeldige gegevens.</string>
-	<!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-	<string name="e3_error_checkout_payment_failed">Het spijt ons, maar we konden je betaling niet verwerken. Controleer of jouw ingevoerde gegevens correct zijn.</string>
-	
-	<!-- SearchResults API method -->
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_hotel_service_failure">Het spijt ons, maar we konden je zoekactie niet beëindigen. Probeer het opnieuw.</string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input">Het spijt ons, maar we vonden geen resultaten voor je zoektermen. Probeer het opnieuw.</string>
-	<!-- There were no results matching the input -->
-	<string name="e3_error_search_results_invalid_input_unknown">Het spijt ons, maar we vonden geen resultaten voor je zoektermen. Probeer het opnieuw.</string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_search_results_unknown_error">Het spijt ons, maar we konden je zoekactie niet beëindigen. Probeer het opnieuw.</string>
-	
-	<!-- HotelOffers API method -->
-	<!-- The hotel offer is no longer available -->
-	<string name="e3_error_hotel_offers_hotel_offer_unavailable">Het spijt ons! De aanbieding op deze kamer is niet langer geldig, maar we hebben nog andere aanbiedingen.</string>
-	
-	<string name="e3_error_hotel_offers_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia. </string>
-	<!-- For some reason the API failed and we couldn't complete the search -->
-	<string name="e3_error_hotel_offers_hotel_service_failure">Het spijt ons, maar we konden geen verbinding maken met Expedia. Probeer het opnieuw.</string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_invalid_input">Het spijt ons! De aanbieding op deze kamer is niet langer geldig, maar we hebben nog andere aanbiedingen.</string>
-	<!-- There are no longer any rooms for the hotel offer -->
-	<string name="e3_error_hotel_offers_unknown_error">Het spijt ons! De aanbieding op deze kamer is niet langer geldig, maar we hebben nog andere aanbiedingen.</string>
-	
-	<!-- HotelProduct API method -->
-	<string name="e3_error_hotel_product_unknown_error">Er is een onbekende fout opgetreden.</string>
-	<string name="e3_error_hotel_product_invalid_input">Er is een onbekende fout opgetreden.</string>
-	
-	<!-- HotelInformation API method -->
-	<string name="e3_error_hotel_information_hotel_service_failure">Er is een onbekende fout opgetreden.</string>
-	<string name="e3_error_hotel_information_unknown_error">Er is een onbekende fout opgetreden.</string>
-	<string name="e3_error_hotel_information_invalid_input">Er is een onbekende fout opgetreden.</string>
+    <!-- Strings used a lot of places -->
+    <!-- A number of adults -->
+    <plurals name="number_of_adults">
+        <item quantity="zero">%d Volwassenen</item>
+        <item quantity="one">%d Volwassene</item>
+        <item quantity="two">%d Volwassenen</item>
+        <item quantity="many">%d Volwassenen</item>
+        <item quantity="other">%d Volwassenen</item>
+    </plurals>
+    <!-- A number of children -->
+    <plurals name="number_of_children">
+        <item quantity="zero">%d Kinderen</item>
+        <item quantity="one">%d Kind</item>
+        <item quantity="two">%d Kinderen</item>
+        <item quantity="many">%d Kinderen</item>
+        <item quantity="other">%d Kinderen</item>
+    </plurals>
+    <!-- A number of guests -->
+    <plurals name="number_of_guests">
+        <item quantity="zero">%d Gasten</item>
+        <item quantity="one">%d Gast</item>
+        <item quantity="two">%d Gasten</item>
+        <item quantity="many">%d Gasten</item>
+        <item quantity="other">%d Gasten</item>
+    </plurals>
+    <!-- A number of nights (as in stay duration).  Capitalized -->
+    <plurals name="number_of_nights">
+        <item quantity="zero">%d Nachten</item>
+        <item quantity="one">%d Nacht</item>
+        <item quantity="two">%d Nachten</item>
+        <item quantity="many">%d Nachten</item>
+        <item quantity="other">%d Nachten</item>
+    </plurals>
 
-	<!-- Currency names -->
-	<string name="currency_aud">Australische dollar</string>
-	<string name="currency_brl">Braziliaanse real</string>
-	<string name="currency_gbp">Britse pond</string>
-	<string name="currency_cad">Canadese dollar</string>
-	<string name="currency_cny">Chinese yuan</string>
-	<string name="currency_dkk">Deense kroon</string>
-	<string name="currency_eur">Euro</string>
-	<string name="currency_hkd">Hongkongse dollar</string>
-	<string name="currency_inr">Indiase roepies</string>
-	<string name="currency_ils">Israëlitische nieuwe sjekel </string>
-	<string name="currency_jpy">Japanse yen</string>
-	<string name="currency_krw">Koreaanse won</string>
-	<string name="currency_mxn">Mexicaanse peso</string>
-	<string name="currency_nzd">Nieuw-Zeelandse dollar</string>
-	<string name="currency_nok">Noorse kroon</string>
-	<string name="currency_rub">Russische roebel</string>
-	<string name="currency_sgd">Singaporese dollar</string>
-	<string name="currency_sek">Zweedse kroon</string>
-	<string name="currency_chf">Zwitserse frank</string>
-	<string name="currency_usd">Amerikaanse dollar</string>
+    <!-- Distance strings -->
+    <!-- Abbreviated miles (used in distance_template) -->
+    <string name="unit_miles">mijl</string>
+    <!-- Abbreviated kilometers (used in distance_template) -->
+    <string name="unit_kilometers">km</string>
+    <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
+    <string name="distance_template">op %1$s %2$s</string>
+    <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
+    <string name="distance_template_short">%1$s %2$s</string>
 
-	<!-- Country names -->
-	<string name="country_af">Afghanistan</string>
-	<string name="country_al">Albanië</string>
-	<string name="country_dz">Algerije</string>
-	<string name="country_as">Amerikaans-Samoa</string>
-	<string name="country_ad">Andorra</string>
-	<string name="country_ao">Angola</string>
-	<string name="country_ai">Anguilla</string>
-	<string name="country_aq">Antarctica</string>
-	<string name="country_ag">Antigua en Barbuda</string>
-	<string name="country_ar">Argentinië</string>
-	<string name="country_am">Armenië</string>
-	<string name="country_aw">Aruba</string>
-	<string name="country_au">Australië</string>
-	<string name="country_at">Oostenrijk</string>
-	<string name="country_az">Azerbeidzjan</string>
-	<string name="country_bs">Bahama\&apos;s</string>
-	<string name="country_bh">Bahrein</string>
-	<string name="country_bd">Bangladesh</string>
-	<string name="country_bb">Barbados</string>
-	<string name="country_by">Wit-Rusland</string>
-	<string name="country_be">België</string>
-	<string name="country_bz">Belize</string>
-	<string name="country_bj">Benin</string>
-	<string name="country_bm">Bermuda</string>
-	<string name="country_bt">Bhutan</string>
-	<string name="country_bo">Bolivia, Plurinationale Staat</string>
-	<string name="country_ba">Bosnië en Herzegovina</string>
-	<string name="country_bw">Botswana</string>
-	<string name="country_bv">Bouvet</string>
-	<string name="country_br">Brazilië</string>
-	<string name="country_io">Brits Indische Oceaanterritorium</string>
-	<string name="country_bn">Brunei Darussalam</string>
-	<string name="country_bg">Bulgarije</string>
-	<string name="country_bf">Burkina Faso</string>
-	<string name="country_bi">Burundi</string>
-	<string name="country_kh">Cambodja</string>
-	<string name="country_cm">Kameroen</string>
-	<string name="country_ca">Canada</string>
-	<string name="country_cv">Kaapverdische eilanden</string>
-	<string name="country_ky">Kaaimaneilanden</string>
-	<string name="country_cf">Centraal-Afrikaanse Republiek</string>
-	<string name="country_td">Tsjaad</string>
-	<string name="country_cl">Chili</string>
-	<string name="country_cn">China</string>
-	<string name="country_cx">Christmaseiland</string>
-	<string name="country_cc">Cocos (Keeling) Eilanden</string>
-	<string name="country_co">Colombia</string>
-	<string name="country_km">Comoren</string>
-	<string name="country_cg">Congo</string>
-	<string name="country_cd">Congo, Democratische Republiek</string>
-	<string name="country_ck">Cookeilanden</string>
-	<string name="country_cr">Costa Rica</string>
-	<string name="country_hr">Kroatië</string>
-	<string name="country_cu">Cuba</string>
-	<string name="country_cy">Cyprus</string>
-	<string name="country_cz">Tsjechische Republiek</string>
-	<string name="country_ci">Ivoorkust</string>
-	<string name="country_dk">Denemarken</string>
-	<string name="country_dj">Djibouti</string>
-	<string name="country_dm">Dominica</string>
-	<string name="country_do">Dominicaanse Republiek</string>
-	<string name="country_ec">Ecuador</string>
-	<string name="country_eg">Egypte</string>
-	<string name="country_sv">El Salvador</string>
-	<string name="country_gq">Equatoriaal Guinea</string>
-	<string name="country_er">Eritrea</string>
-	<string name="country_ee">Estland</string>
-	<string name="country_et">Ethiopië</string>
-	<string name="country_fk">Falklandeilanden (Malvinas)</string>
-	<string name="country_fo">Faeröereilanden</string>
-	<string name="country_fj">Fiji</string>
-	<string name="country_fi">Finland</string>
-	<string name="country_fr">Frankrijk</string>
-	<string name="country_gf">Frans Guyana</string>
-	<string name="country_pf">Frans-Polynesië</string>
-	<string name="country_tf">Franse Zuidelijke Gebieden</string>
-	<string name="country_ga">Gabon</string>
-	<string name="country_gm">Gambia</string>
-	<string name="country_ge">Georgië</string>
-	<string name="country_de">Duitsland</string>
-	<string name="country_gh">Ghana</string>
-	<string name="country_gi">Gibraltar</string>
-	<string name="country_gr">Griekenland</string>
-	<string name="country_gl">Groenland</string>
-	<string name="country_gd">Grenada</string>
-	<string name="country_gp">Guadeloupe</string>
-	<string name="country_gu">Guam</string>
-	<string name="country_gt">Guatemala</string>
-	<string name="country_gg">Guernsey</string>
-	<string name="country_gn">Guinee</string>
-	<string name="country_gw">Guinee-Bissau</string>
-	<string name="country_gy">Guyana</string>
-	<string name="country_ht">Haïti</string>
-	<string name="country_hm">Heardeiland en McDonaldeilanden</string>
-	<string name="country_va">Heilige Stoel (Staat Vaticaanstad)</string>
-	<string name="country_hn">Honduras</string>
-	<string name="country_hk">Hongkong</string>
-	<string name="country_hu">Hongarije</string>
-	<string name="country_is">IJsland</string>
-	<string name="country_in">India</string>
-	<string name="country_id">Indonesië</string>
-	<string name="country_ir">Iran, Islamitische Republiek</string>
-	<string name="country_iq">Irak</string>
-	<string name="country_ie">Ierland</string>
-	<string name="country_im">Eiland Man</string>
-	<string name="country_il">Israël</string>
-	<string name="country_it">Italië</string>
-	<string name="country_jm">Jamaica</string>
-	<string name="country_jp">Japan</string>
-	<string name="country_je">Jersey</string>
-	<string name="country_jo">Jordanië</string>
-	<string name="country_kz">Kazachstan</string>
-	<string name="country_ke">Kenia</string>
-	<string name="country_ki">Kiribati</string>
-	<string name="country_kp">Noord-Korea</string>
-	<string name="country_kr">Korea</string>
-	<string name="country_kw">Koeweit</string>
-	<string name="country_kg">Kirgizië</string>
-	<string name="country_la">Laos, Democratische Volksrepubliek</string>
-	<string name="country_lv">Letland</string>
-	<string name="country_lb">Libanon</string>
-	<string name="country_ls">Lesotho</string>
-	<string name="country_lr">Liberia</string>
-	<string name="country_ly">Libië</string>
-	<string name="country_li">Liechtenstein</string>
-	<string name="country_lt">Litouwen</string>
-	<string name="country_lu">Luxemburg</string>
-	<string name="country_mo">Macao</string>
-	<string name="country_mk">Macedonië, voormalige Joegoslavische Republiek</string>
-	<string name="country_mg">Madagascar</string>
-	<string name="country_mw">Malawi</string>
-	<string name="country_my">Maleisië</string>
-	<string name="country_mv">Malediven</string>
-	<string name="country_ml">Mali</string>
-	<string name="country_mt">Malta</string>
-	<string name="country_mh">Marshalleilanden</string>
-	<string name="country_mq">Martinique</string>
-	<string name="country_mr">Mauritanië</string>
-	<string name="country_mu">Mauritius</string>
-	<string name="country_yt">Mayotte</string>
-	<string name="country_mx">Mexico</string>
-	<string name="country_fm">Micronesia, Federale Staten van</string>
-	<string name="country_md">Moldavië, Republiek</string>
-	<string name="country_mc">Monaco</string>
-	<string name="country_mn">Mongolië</string>
-	<string name="country_me">Montenegro</string>
-	<string name="country_ms">Montserrat</string>
-	<string name="country_ma">Marokko</string>
-	<string name="country_mz">Mozambique</string>
-	<string name="country_mm">Myanmar</string>
-	<string name="country_na">Namibië</string>
-	<string name="country_nr">Nauru</string>
-	<string name="country_np">Nepal</string>
-	<string name="country_nl">Nederland</string>
-	<string name="country_an">Nederlandse Antillen</string>
-	<string name="country_nc">Nieuw-Caledonië</string>
-	<string name="country_nz">Nieuw-Zeeland</string>
-	<string name="country_ni">Nicaragua</string>
-	<string name="country_ne">Niger</string>
-	<string name="country_ng">Nigeria</string>
-	<string name="country_nu">Niue</string>
-	<string name="country_nf">Norfolkeiland</string>
-	<string name="country_mp">Noordelijke Marianen</string>
-	<string name="country_no">Noorwegen</string>
-	<string name="country_om">Oman</string>
-	<string name="country_pk">Pakistan</string>
-	<string name="country_pw">Palau</string>
-	<string name="country_ps">Palestina, Bezette gebieden van</string>
-	<string name="country_pa">Panama</string>
-	<string name="country_pg">Papoea-Nieuw-Guinea</string>
-	<string name="country_py">Paraguay</string>
-	<string name="country_pe">Peru</string>
-	<string name="country_ph">Filippijnen</string>
-	<string name="country_pn">Pitcairneilanden</string>
-	<string name="country_pl">Polen</string>
-	<string name="country_pt">Portugal</string>
-	<string name="country_pr">Puerto Rico</string>
-	<string name="country_qa">Qatar</string>
-	<string name="country_ro">Roemenië</string>
-	<string name="country_ru">Rusland</string>
-	<string name="country_rw">Rwanda</string>
-	<string name="country_re">Réunion</string>
-	<string name="country_bl">Saint Barthélemy</string>
-	<string name="country_sh">Sint-Helena</string>
-	<string name="country_kn">Saint Kitts en Nevis</string>
-	<string name="country_lc">Saint Lucia</string>
-	<string name="country_mf">Sint-Maarten (Franse deel)</string>
-	<string name="country_pm">Saint Pierre en Miquelon</string>
-	<string name="country_vc">Saint Vincent en de Grenadines</string>
-	<string name="country_ws">Samoa</string>
-	<string name="country_sm">San Marino</string>
-	<string name="country_st">Sao Tomé en Principe</string>
-	<string name="country_sa">Saoedi-Arabië</string>
-	<string name="country_sn">Senegal</string>
-	<string name="country_rs">Servië</string>
-	<string name="country_sc">Seychellen</string>
-	<string name="country_sl">Sierra Leone</string>
-	<string name="country_sg">Singapore</string>
-	<string name="country_sk">Slowakije</string>
-	<string name="country_si">Slovenië</string>
-	<string name="country_sb">Salomonseilanden</string>
-	<string name="country_so">Somalië</string>
-	<string name="country_za">Zuid-Afrika</string>
-	<string name="country_gs">Zuid-Georgia en de Zuidelijke Sandwicheilanden</string>
-	<string name="country_es">Spanje</string>
-	<string name="country_lk">Sri Lanka</string>
-	<string name="country_sd">Soedan</string>
-	<string name="country_sr">Suriname</string>
-	<string name="country_sj">Spitsbergen en Jan Mayen</string>
-	<string name="country_sz">Swaziland</string>
-	<string name="country_se">Zweden</string>
-	<string name="country_ch">Zwitserland</string>
-	<string name="country_sy">Syrische Arabische Republiek</string>
-	<string name="country_tw">Taiwan</string>
-	<string name="country_tj">Tadzjikistan</string>
-	<string name="country_tz">Tanzania, Verenigde Republiek</string>
-	<string name="country_th">Thailand</string>
-	<string name="country_tl">Timor Leste</string>
-	<string name="country_tg">Togo</string>
-	<string name="country_tk">Tokelau-eilanden</string>
-	<string name="country_to">Tonga</string>
-	<string name="country_tt">Trinidad en Tobago</string>
-	<string name="country_tn">Tunesië</string>
-	<string name="country_tr">Turkije</string>
-	<string name="country_tm">Turkmenistan</string>
-	<string name="country_tc">Turks- en Caicoseilanden</string>
-	<string name="country_tv">Tuvalu</string>
-	<string name="country_ug">Oeganda</string>
-	<string name="country_ua">Oekraïne</string>
-	<string name="country_ae">Verenigde Arabische Emiraten</string>
-	<string name="country_gb">Verenigd Koninkrijk</string>
-	<string name="country_us">Verenigde Staten</string>
-	<string name="country_um">Kleine afgelegen eilanden van de Verenigde Staten</string>
-	<string name="country_uy">Uruguay</string>
-	<string name="country_uz">Oezbekistan</string>
-	<string name="country_vu">Vanuatu</string>
-	<string name="country_ve">Venezuela, Bolivariaanse Republiek</string>
-	<string name="country_vn">Vietnam</string>
-	<string name="country_vg">Britse Maagdeneilanden</string>
-	<string name="country_vi">Amerikaanse Maagdeneilanden</string>
-	<string name="country_wf">Wallis en Futuna</string>
-	<string name="country_eh">Westelijke Sahara</string>
-	<string name="country_ye">Jemen</string>
-	<string name="country_zm">Zambia</string>
-	<string name="country_zw">Zimbabwe</string>
-	<string name="country_ax">Ålandseilanden</string>
+    <!-- Menu strings -->
+    <!-- Label for "settings" menu item. -->
+    <string name="Settings">Instellingen</string>
+    <!-- Label for "about this app" menu item. -->
+    <string name="About">Over</string>
+
+    <!-- Preferences strings -->
+    <!-- String for default preference setting (for any given preference) -->
+    <string name="Default">Standaard</string>
+
+    <!-- Error strings - replacements for default EAN errors -->
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_no_results">Sorry, we kunnen op dit moment geen beschikbare hotels vinden. Probeer andere data of een andere locatie.</string>
+    <!-- Replaces "result was null" for no result search -->
+    <string name="ean_error_connect_unavailable">Kan geen verbinding maken met het geselecteerde hotel om beschikbare kamers te vinden.</string>
+    <!-- Error message displayed when the phone number sent via booking is invalid -->
+    <string name="ean_error_invalid_phone_number">Voer een geldig telefoonnummer in</string>
+
+    <!-- Checkout API method -->
+    <!-- The hotel booking failed -->
+    <string name="e3_error_checkout_booking_failed">Door een fout konden we je boeking niet afronden. Probeer het opnieuw.</string>
+    <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
+    <string name="e3_error_checkout_booking_succeeded_with_errors">Je hebt je boeking bij dit hotel succesvol afgerond! Als je onmiddellijk een reisplan nodig hebt, bel dan de Expedia klantenservice.</string>
+    <!-- The hotel room is no longer available -->
+    <string name="e3_error_checkout_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia. </string>
+    <!-- There is invalid input in the hotel booking form. Please fix it. -->
+    <string name="e3_error_checkout_invalid_input">Corrigeer de ongeldige gegevens.</string>
+    <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
+    <string name="e3_error_checkout_payment_failed">Het spijt ons, maar we konden je betaling niet verwerken. Controleer of jouw ingevoerde gegevens correct zijn.</string>
+
+    <!-- SearchResults API method -->
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_hotel_service_failure">Het spijt ons, maar we konden je zoekactie niet beëindigen. Probeer het opnieuw.</string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input">Het spijt ons, maar we vonden geen resultaten voor je zoektermen. Probeer het opnieuw.</string>
+    <!-- There were no results matching the input -->
+    <string name="e3_error_search_results_invalid_input_unknown">Het spijt ons, maar we vonden geen resultaten voor je zoektermen. Probeer het opnieuw.</string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_search_results_unknown_error">Het spijt ons, maar we konden je zoekactie niet beëindigen. Probeer het opnieuw.</string>
+
+    <!-- HotelOffers API method -->
+    <!-- The hotel offer is no longer available -->
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Het spijt ons! De aanbieding op deze kamer is niet langer geldig, maar we hebben nog andere aanbiedingen.</string>
+
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia. </string>
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure">Het spijt ons, maar we konden geen verbinding maken met Expedia. Probeer het opnieuw.</string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_invalid_input">Het spijt ons! De aanbieding op deze kamer is niet langer geldig, maar we hebben nog andere aanbiedingen.</string>
+    <!-- There are no longer any rooms for the hotel offer -->
+    <string name="e3_error_hotel_offers_unknown_error">Het spijt ons! De aanbieding op deze kamer is niet langer geldig, maar we hebben nog andere aanbiedingen.</string>
+
+    <!-- HotelProduct API method -->
+    <string name="e3_error_hotel_product_unknown_error">Er is een onbekende fout opgetreden.</string>
+    <string name="e3_error_hotel_product_invalid_input">Er is een onbekende fout opgetreden.</string>
+
+    <!-- HotelInformation API method -->
+    <string name="e3_error_hotel_information_hotel_service_failure">Er is een onbekende fout opgetreden.</string>
+    <string name="e3_error_hotel_information_unknown_error">Er is een onbekende fout opgetreden.</string>
+    <string name="e3_error_hotel_information_invalid_input">Er is een onbekende fout opgetreden.</string>
+
+    <!-- Currency names -->
+    <string name="currency_aud">Australische dollar</string>
+    <string name="currency_brl">Braziliaanse real</string>
+    <string name="currency_gbp">Britse pond</string>
+    <string name="currency_cad">Canadese dollar</string>
+    <string name="currency_cny">Chinese yuan</string>
+    <string name="currency_dkk">Deense kroon</string>
+    <string name="currency_eur">Euro</string>
+    <string name="currency_hkd">Hongkongse dollar</string>
+    <string name="currency_inr">Indiase roepies</string>
+    <string name="currency_ils">Israëlitische nieuwe sjekel </string>
+    <string name="currency_jpy">Japanse yen</string>
+    <string name="currency_krw">Koreaanse won</string>
+    <string name="currency_mxn">Mexicaanse peso</string>
+    <string name="currency_nzd">Nieuw-Zeelandse dollar</string>
+    <string name="currency_nok">Noorse kroon</string>
+    <string name="currency_rub">Russische roebel</string>
+    <string name="currency_sgd">Singaporese dollar</string>
+    <string name="currency_sek">Zweedse kroon</string>
+    <string name="currency_chf">Zwitserse frank</string>
+    <string name="currency_usd">Amerikaanse dollar</string>
+
+    <!-- Country names -->
+    <string name="country_af">Afghanistan</string>
+    <string name="country_al">Albanië</string>
+    <string name="country_dz">Algerije</string>
+    <string name="country_as">Amerikaans-Samoa</string>
+    <string name="country_ad">Andorra</string>
+    <string name="country_ao">Angola</string>
+    <string name="country_ai">Anguilla</string>
+    <string name="country_aq">Antarctica</string>
+    <string name="country_ag">Antigua en Barbuda</string>
+    <string name="country_ar">Argentinië</string>
+    <string name="country_am">Armenië</string>
+    <string name="country_aw">Aruba</string>
+    <string name="country_au">Australië</string>
+    <string name="country_at">Oostenrijk</string>
+    <string name="country_az">Azerbeidzjan</string>
+    <string name="country_bs">Bahama\&apos;s</string>
+    <string name="country_bh">Bahrein</string>
+    <string name="country_bd">Bangladesh</string>
+    <string name="country_bb">Barbados</string>
+    <string name="country_by">Wit-Rusland</string>
+    <string name="country_be">België</string>
+    <string name="country_bz">Belize</string>
+    <string name="country_bj">Benin</string>
+    <string name="country_bm">Bermuda</string>
+    <string name="country_bt">Bhutan</string>
+    <string name="country_bo">Bolivia, Plurinationale Staat</string>
+    <string name="country_ba">Bosnië en Herzegovina</string>
+    <string name="country_bw">Botswana</string>
+    <string name="country_bv">Bouvet</string>
+    <string name="country_br">Brazilië</string>
+    <string name="country_io">Brits Indische Oceaanterritorium</string>
+    <string name="country_bn">Brunei Darussalam</string>
+    <string name="country_bg">Bulgarije</string>
+    <string name="country_bf">Burkina Faso</string>
+    <string name="country_bi">Burundi</string>
+    <string name="country_kh">Cambodja</string>
+    <string name="country_cm">Kameroen</string>
+    <string name="country_ca">Canada</string>
+    <string name="country_cv">Kaapverdische eilanden</string>
+    <string name="country_ky">Kaaimaneilanden</string>
+    <string name="country_cf">Centraal-Afrikaanse Republiek</string>
+    <string name="country_td">Tsjaad</string>
+    <string name="country_cl">Chili</string>
+    <string name="country_cn">China</string>
+    <string name="country_cx">Christmaseiland</string>
+    <string name="country_cc">Cocos (Keeling) Eilanden</string>
+    <string name="country_co">Colombia</string>
+    <string name="country_km">Comoren</string>
+    <string name="country_cg">Congo</string>
+    <string name="country_cd">Congo, Democratische Republiek</string>
+    <string name="country_ck">Cookeilanden</string>
+    <string name="country_cr">Costa Rica</string>
+    <string name="country_hr">Kroatië</string>
+    <string name="country_cu">Cuba</string>
+    <string name="country_cy">Cyprus</string>
+    <string name="country_cz">Tsjechische Republiek</string>
+    <string name="country_ci">Ivoorkust</string>
+    <string name="country_dk">Denemarken</string>
+    <string name="country_dj">Djibouti</string>
+    <string name="country_dm">Dominica</string>
+    <string name="country_do">Dominicaanse Republiek</string>
+    <string name="country_ec">Ecuador</string>
+    <string name="country_eg">Egypte</string>
+    <string name="country_sv">El Salvador</string>
+    <string name="country_gq">Equatoriaal Guinea</string>
+    <string name="country_er">Eritrea</string>
+    <string name="country_ee">Estland</string>
+    <string name="country_et">Ethiopië</string>
+    <string name="country_fk">Falklandeilanden (Malvinas)</string>
+    <string name="country_fo">Faeröereilanden</string>
+    <string name="country_fj">Fiji</string>
+    <string name="country_fi">Finland</string>
+    <string name="country_fr">Frankrijk</string>
+    <string name="country_gf">Frans Guyana</string>
+    <string name="country_pf">Frans-Polynesië</string>
+    <string name="country_tf">Franse Zuidelijke Gebieden</string>
+    <string name="country_ga">Gabon</string>
+    <string name="country_gm">Gambia</string>
+    <string name="country_ge">Georgië</string>
+    <string name="country_de">Duitsland</string>
+    <string name="country_gh">Ghana</string>
+    <string name="country_gi">Gibraltar</string>
+    <string name="country_gr">Griekenland</string>
+    <string name="country_gl">Groenland</string>
+    <string name="country_gd">Grenada</string>
+    <string name="country_gp">Guadeloupe</string>
+    <string name="country_gu">Guam</string>
+    <string name="country_gt">Guatemala</string>
+    <string name="country_gg">Guernsey</string>
+    <string name="country_gn">Guinee</string>
+    <string name="country_gw">Guinee-Bissau</string>
+    <string name="country_gy">Guyana</string>
+    <string name="country_ht">Haïti</string>
+    <string name="country_hm">Heardeiland en McDonaldeilanden</string>
+    <string name="country_va">Heilige Stoel (Staat Vaticaanstad)</string>
+    <string name="country_hn">Honduras</string>
+    <string name="country_hk">Hongkong</string>
+    <string name="country_hu">Hongarije</string>
+    <string name="country_is">IJsland</string>
+    <string name="country_in">India</string>
+    <string name="country_id">Indonesië</string>
+    <string name="country_ir">Iran, Islamitische Republiek</string>
+    <string name="country_iq">Irak</string>
+    <string name="country_ie">Ierland</string>
+    <string name="country_im">Eiland Man</string>
+    <string name="country_il">Israël</string>
+    <string name="country_it">Italië</string>
+    <string name="country_jm">Jamaica</string>
+    <string name="country_jp">Japan</string>
+    <string name="country_je">Jersey</string>
+    <string name="country_jo">Jordanië</string>
+    <string name="country_kz">Kazachstan</string>
+    <string name="country_ke">Kenia</string>
+    <string name="country_ki">Kiribati</string>
+    <string name="country_kp">Noord-Korea</string>
+    <string name="country_kr">Korea</string>
+    <string name="country_kw">Koeweit</string>
+    <string name="country_kg">Kirgizië</string>
+    <string name="country_la">Laos, Democratische Volksrepubliek</string>
+    <string name="country_lv">Letland</string>
+    <string name="country_lb">Libanon</string>
+    <string name="country_ls">Lesotho</string>
+    <string name="country_lr">Liberia</string>
+    <string name="country_ly">Libië</string>
+    <string name="country_li">Liechtenstein</string>
+    <string name="country_lt">Litouwen</string>
+    <string name="country_lu">Luxemburg</string>
+    <string name="country_mo">Macao</string>
+    <string name="country_mk">Macedonië, voormalige Joegoslavische Republiek</string>
+    <string name="country_mg">Madagascar</string>
+    <string name="country_mw">Malawi</string>
+    <string name="country_my">Maleisië</string>
+    <string name="country_mv">Malediven</string>
+    <string name="country_ml">Mali</string>
+    <string name="country_mt">Malta</string>
+    <string name="country_mh">Marshalleilanden</string>
+    <string name="country_mq">Martinique</string>
+    <string name="country_mr">Mauritanië</string>
+    <string name="country_mu">Mauritius</string>
+    <string name="country_yt">Mayotte</string>
+    <string name="country_mx">Mexico</string>
+    <string name="country_fm">Micronesia, Federale Staten van</string>
+    <string name="country_md">Moldavië, Republiek</string>
+    <string name="country_mc">Monaco</string>
+    <string name="country_mn">Mongolië</string>
+    <string name="country_me">Montenegro</string>
+    <string name="country_ms">Montserrat</string>
+    <string name="country_ma">Marokko</string>
+    <string name="country_mz">Mozambique</string>
+    <string name="country_mm">Myanmar</string>
+    <string name="country_na">Namibië</string>
+    <string name="country_nr">Nauru</string>
+    <string name="country_np">Nepal</string>
+    <string name="country_nl">Nederland</string>
+    <string name="country_an">Nederlandse Antillen</string>
+    <string name="country_nc">Nieuw-Caledonië</string>
+    <string name="country_nz">Nieuw-Zeeland</string>
+    <string name="country_ni">Nicaragua</string>
+    <string name="country_ne">Niger</string>
+    <string name="country_ng">Nigeria</string>
+    <string name="country_nu">Niue</string>
+    <string name="country_nf">Norfolkeiland</string>
+    <string name="country_mp">Noordelijke Marianen</string>
+    <string name="country_no">Noorwegen</string>
+    <string name="country_om">Oman</string>
+    <string name="country_pk">Pakistan</string>
+    <string name="country_pw">Palau</string>
+    <string name="country_ps">Palestina, Bezette gebieden van</string>
+    <string name="country_pa">Panama</string>
+    <string name="country_pg">Papoea-Nieuw-Guinea</string>
+    <string name="country_py">Paraguay</string>
+    <string name="country_pe">Peru</string>
+    <string name="country_ph">Filippijnen</string>
+    <string name="country_pn">Pitcairneilanden</string>
+    <string name="country_pl">Polen</string>
+    <string name="country_pt">Portugal</string>
+    <string name="country_pr">Puerto Rico</string>
+    <string name="country_qa">Qatar</string>
+    <string name="country_ro">Roemenië</string>
+    <string name="country_ru">Rusland</string>
+    <string name="country_rw">Rwanda</string>
+    <string name="country_re">Réunion</string>
+    <string name="country_bl">Saint Barthélemy</string>
+    <string name="country_sh">Sint-Helena</string>
+    <string name="country_kn">Saint Kitts en Nevis</string>
+    <string name="country_lc">Saint Lucia</string>
+    <string name="country_mf">Sint-Maarten (Franse deel)</string>
+    <string name="country_pm">Saint Pierre en Miquelon</string>
+    <string name="country_vc">Saint Vincent en de Grenadines</string>
+    <string name="country_ws">Samoa</string>
+    <string name="country_sm">San Marino</string>
+    <string name="country_st">Sao Tomé en Principe</string>
+    <string name="country_sa">Saoedi-Arabië</string>
+    <string name="country_sn">Senegal</string>
+    <string name="country_rs">Servië</string>
+    <string name="country_sc">Seychellen</string>
+    <string name="country_sl">Sierra Leone</string>
+    <string name="country_sg">Singapore</string>
+    <string name="country_sk">Slowakije</string>
+    <string name="country_si">Slovenië</string>
+    <string name="country_sb">Salomonseilanden</string>
+    <string name="country_so">Somalië</string>
+    <string name="country_za">Zuid-Afrika</string>
+    <string name="country_gs">Zuid-Georgia en de Zuidelijke Sandwicheilanden</string>
+    <string name="country_es">Spanje</string>
+    <string name="country_lk">Sri Lanka</string>
+    <string name="country_sd">Soedan</string>
+    <string name="country_sr">Suriname</string>
+    <string name="country_sj">Spitsbergen en Jan Mayen</string>
+    <string name="country_sz">Swaziland</string>
+    <string name="country_se">Zweden</string>
+    <string name="country_ch">Zwitserland</string>
+    <string name="country_sy">Syrische Arabische Republiek</string>
+    <string name="country_tw">Taiwan</string>
+    <string name="country_tj">Tadzjikistan</string>
+    <string name="country_tz">Tanzania, Verenigde Republiek</string>
+    <string name="country_th">Thailand</string>
+    <string name="country_tl">Timor Leste</string>
+    <string name="country_tg">Togo</string>
+    <string name="country_tk">Tokelau-eilanden</string>
+    <string name="country_to">Tonga</string>
+    <string name="country_tt">Trinidad en Tobago</string>
+    <string name="country_tn">Tunesië</string>
+    <string name="country_tr">Turkije</string>
+    <string name="country_tm">Turkmenistan</string>
+    <string name="country_tc">Turks- en Caicoseilanden</string>
+    <string name="country_tv">Tuvalu</string>
+    <string name="country_ug">Oeganda</string>
+    <string name="country_ua">Oekraïne</string>
+    <string name="country_ae">Verenigde Arabische Emiraten</string>
+    <string name="country_gb">Verenigd Koninkrijk</string>
+    <string name="country_us">Verenigde Staten</string>
+    <string name="country_um">Kleine afgelegen eilanden van de Verenigde Staten</string>
+    <string name="country_uy">Uruguay</string>
+    <string name="country_uz">Oezbekistan</string>
+    <string name="country_vu">Vanuatu</string>
+    <string name="country_ve">Venezuela, Bolivariaanse Republiek</string>
+    <string name="country_vn">Vietnam</string>
+    <string name="country_vg">Britse Maagdeneilanden</string>
+    <string name="country_vi">Amerikaanse Maagdeneilanden</string>
+    <string name="country_wf">Wallis en Futuna</string>
+    <string name="country_eh">Westelijke Sahara</string>
+    <string name="country_ye">Jemen</string>
+    <string name="country_zm">Zambia</string>
+    <string name="country_zw">Zimbabwe</string>
+    <string name="country_ax">Ålandseilanden</string>
 </resources>

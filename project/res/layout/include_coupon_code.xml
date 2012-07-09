@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:id="@+id/coupon_code"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="10dp" >
+
+    <TextView
+        style="@style/PhoneSectionHeader.Details"
+        android:id="@+id/coupon_code_collapsed_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_coupon_expand"
+        android:drawablePadding="5dp"
+        android:text="@string/coupon_code"
+        android:textColor="@color/text_blue_dark"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/coupon_code_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+        <com.expedia.bookings.widget.CustomEditText
+            android:id="@+id/coupon_code_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/optional"
+            android:imeOptions="flagNoExtractUi"
+            android:singleLine="true"
+            mobiata:touchAreaPadding="25dp" />
+        <LinearLayout
+            android:layout_width="@dimen/coupon_code_right_width"
+            android:layout_height="@dimen/coupon_code_right_height"
+            android:gravity="center_horizontal" >
+            <com.mobiata.android.widget.AutoResizeTextView
+                android:id="@+id/apply_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_default"
+                android:gravity="center"
+                android:text="@string/apply"
+                android:textColor="@color/btn_black_text_color"
+                mobiata:maxTextSize="14dp" />
+            <ProgressBar
+                android:id="@+id/coupon_progress_bar"
+                style="@android:style/Widget.ProgressBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:indeterminate="true"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/new_total_textview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="right"
+                android:text="@string/new_total"
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

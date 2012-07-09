@@ -264,7 +264,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		return availResponse;
 	}
 
-	private Rate parseJsonHotelOffer(JSONObject jsonRate, int numberOfNights, Policy checkInPolicy)
+	public Rate parseJsonHotelOffer(JSONObject jsonRate, int numberOfNights, Policy checkInPolicy)
 			throws JSONException {
 		Rate rate = new Rate();
 		RateRules rateRules = new RateRules();

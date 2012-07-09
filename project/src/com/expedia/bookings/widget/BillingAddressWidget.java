@@ -10,9 +10,9 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
@@ -23,18 +23,15 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
-
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.validation.RequiredValidator;
 import com.mobiata.android.validation.TextViewValidator;
-import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
-import com.mobiata.android.validation.Validator;
 
 public class BillingAddressWidget {
-	private static final String BILLING_EXPANDED = "BILLING_EXPANDED";
+	private static final String BILLING_ADDRESS_USER_EXPANDED = "BILLING_ADDRESS_USER_EXPANDED";
+	private static final String BILLING_ADDRESS_KEEP_EXPANDED = "BILLING_ADDRESS_KEEP_EXPANDED";
 
 	private Context mContext;
 
@@ -61,6 +58,7 @@ public class BillingAddressWidget {
 
 	// Tracks if the user has explicitly expanded the billing information
 	private boolean mUserExpanded = false;
+	private boolean mKeepExpanded = false;
 
 	private boolean mIsVisible = true;
 
@@ -82,10 +80,7 @@ public class BillingAddressWidget {
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
-		int sdkVersion = AndroidUtils.getSdkVersion();
-		if (sdkVersion >= 11 && sdkVersion <= 13) {
-			mBillingSavedLayout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
+		LayoutUtils.sayNoToJaggies(mBillingSavedLayout);
 
 		// Retrieve some data we keep using
 		Resources r = mContext.getResources();
@@ -167,13 +162,15 @@ public class BillingAddressWidget {
 
 	public void restoreInstanceState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			mUserExpanded = savedInstanceState.getBoolean(BILLING_EXPANDED);
+			mUserExpanded = savedInstanceState.getBoolean(BILLING_ADDRESS_USER_EXPANDED);
+			mKeepExpanded = savedInstanceState.getBoolean(BILLING_ADDRESS_KEEP_EXPANDED);
 		}
 	}
 
 	public void saveInstanceState(Bundle outState) {
 		if (outState != null) {
-			outState.putBoolean(BILLING_EXPANDED, mUserExpanded);
+			outState.putBoolean(BILLING_ADDRESS_USER_EXPANDED, mUserExpanded);
+			outState.putBoolean(BILLING_ADDRESS_KEEP_EXPANDED, mKeepExpanded);
 		}
 	}
 
@@ -247,7 +244,7 @@ public class BillingAddressWidget {
 		mCountrySpinner.setOnFocusChangeListener(l);
 	}
 
-	public void expand(boolean animateAndFocus) {
+	private void expand(boolean animateAndFocus) {
 		if (mSectionTitle != null) {
 			mSectionTitle.setVisibility(View.VISIBLE);
 		}
@@ -266,6 +263,21 @@ public class BillingAddressWidget {
 		mBillingFormLayout.setVisibility(View.GONE);
 	}
 
+	public void show() {
+		mIsVisible = true;
+		if (mSectionTitle != null) {
+			mSectionTitle.setVisibility(View.GONE);
+		}
+
+		if (isExpanded()) {
+			expand(false);
+		}
+		else {
+			collapse();
+		}
+		return;
+	}
+
 	public void hide() {
 		mIsVisible = false;
 		if (mSectionTitle != null) {
@@ -281,10 +293,11 @@ public class BillingAddressWidget {
 	}
 
 	public boolean isExpanded() {
-		return mUserExpanded || ! isComplete();
+		return mKeepExpanded || mUserExpanded || ! isComplete();
 	}
 
 	public void clear() {
+		mKeepExpanded = true;
 		mAddress1EditText.setText(null);
 		mAddress2EditText.setText(null);
 		mCityEditText.setText(null);

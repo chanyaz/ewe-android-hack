@@ -246,6 +246,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 	private List<View> mSortButtons;
 	private View mSortPriceButton;
+	private View mSortDealsButton;
 	private View mSortDistanceButton;
 	private View mSortUserRatingButton;
 	private View mSortPopularityButton;
@@ -356,6 +357,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 					&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
+			else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
+				simulateErrorResponse(R.string.progress_search_failed);
+				handleError();
+			}
 			else {
 				handleError();
 			}
@@ -429,12 +434,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// #7090: If the user was just sent from the ConfirmationActivity, quit (if desired)
-		if (getIntent().getBooleanExtra(Codes.EXTRA_FINISH, false)) {
-			finish();
-			return;
-		}
-
 		mContext = this;
 
 		setContentView(R.layout.activity_search);
@@ -452,6 +451,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				R.string.sort_description_popular, F_NO_DIVIDERS + F_FIRST);
 		mSortPriceButton = addSortOption(R.id.sort_price_button, R.drawable.ic_sort_price,
 				R.string.sort_description_price, 0);
+		mSortDealsButton = addSortOption(R.id.sort_deals_button, R.drawable.ic_sort_price,
+				R.string.sort_description_deals, 0);
 		mSortUserRatingButton = addSortOption(R.id.sort_reviews_button, R.drawable.ic_sort_user_rating,
 				R.string.sort_description_rating, 0);
 		mSortDistanceButton = addSortOption(R.id.sort_distance_button, R.drawable.ic_sort_distance,
@@ -469,6 +470,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		});
 
 		mSortPriceButton.setOnClickListener(mSortOptionChangedListener);
+		mSortDealsButton.setOnClickListener(mSortOptionChangedListener);
 		mSortPopularityButton.setOnClickListener(mSortOptionChangedListener);
 		mSortDistanceButton.setOnClickListener(mSortOptionChangedListener);
 		mSortUserRatingButton.setOnClickListener(mSortOptionChangedListener);
@@ -476,6 +478,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		mSortButtons = new ArrayList<View>();
 		mSortButtons.add(mSortPopularityButton);
 		mSortButtons.add(mSortPriceButton);
+		mSortButtons.add(mSortDealsButton);
 		mSortButtons.add(mSortUserRatingButton);
 		mSortButtons.add(mSortDistanceButton);
 
@@ -602,6 +605,13 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return;
+		}
+
 		((ExpediaBookingApp) getApplicationContext())
 				.registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
 
@@ -632,6 +642,12 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				&& mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
 			Db.getSearchParams().ensureValidCheckInDate();
+			startSearch();
+		}
+		else if (Db.getSearchParams().getSearchType() != null
+				&& Db.getSearchParams().getSearchType() == SearchType.MY_LOCATION
+				&& !Db.getSearchParams().hasSearchLatLon()) {
+			Log.d("onResume(): We were attempting to search by current location, but do not yet have valid coordinates. Starting a new search (and getting new coords if needed).");
 			startSearch();
 		}
 		else {
@@ -761,10 +777,15 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 					Address address = mAddresses.get(which);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					SearchParams searchParams = Db.getSearchParams();
+
+					// The user found a better version of the search they ran,
+					// so we'll replace it from startSearchDownloader
+					Search.delete(PhoneSearchActivity.this, searchParams);
+
 					searchParams.setFreeformLocation(formattedAddress);
 					setSearchEditViews();
-
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
+
 					determineWhetherExactLocationSpecified(address);
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
@@ -838,11 +859,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.log_in: {
-			Intent intent = new Intent(this, SignInActivity.class);
-			startActivity(intent);
-			break;
-		}
 		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_CODE_SETTINGS);
@@ -1197,6 +1213,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			filter.setSort(Sort.PRICE);
 			break;
 		}
+		case R.id.sort_deals_button: {
+			filter.setSort(Sort.DEALS);
+			break;
+		}
 		case R.id.sort_reviews_button: {
 			filter.setSort(Sort.RATING);
 			break;
@@ -1356,9 +1376,15 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 					Address address = mAddresses.get(0);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					SearchParams searchParams = Db.getSearchParams();
+
+					// The user found a better version of the search they ran,
+					// so we'll replace it from startSearchDownloader
+					Search.delete(PhoneSearchActivity.this, searchParams);
+
 					searchParams.setFreeformLocation(formattedAddress);
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
+
 					determineWhetherExactLocationSpecified(address);
 					startSearchDownloader();
 				}
@@ -1639,6 +1665,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		response.addError(error);
 
 		mSearchCallback.onDownload(response);
+		mStartSearchOnResume = true;
 	}
 
 	public void handleError() {
@@ -1849,17 +1876,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		final float centerX = mViewFlipImage.getWidth() / 2.0f;
 		final float centerY = mViewFlipImage.getHeight() / 2.0f;
 
-		if (mTag.equals(mHotelListFragment.getTag())) {
-			newFragmentTag = mHotelMapFragment.getTag();
-
-			if (ANIMATION_VIEW_FLIP_ENABLED) {
-				animationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
-				animationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
-			}
-
-			onSwitchToMap();
-		}
-		else {
+		if (mTag.equals(mHotelMapFragment.getTag())) {
 			newFragmentTag = mHotelListFragment.getTag();
 
 			if (ANIMATION_VIEW_FLIP_ENABLED) {
@@ -1868,6 +1885,16 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			}
 
 			Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), null);
+		}
+		else {
+			newFragmentTag = mHotelMapFragment.getTag();
+
+			if (ANIMATION_VIEW_FLIP_ENABLED) {
+				animationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
+				animationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
+			}
+
+			onSwitchToMap();
 		}
 
 		if (animationOut != null && animationIn != null) {
@@ -2135,6 +2162,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			selected = mSortPriceButton;
 			break;
 		}
+		case R.id.sort_deals_button: {
+			selected = mSortDealsButton;
+			break;
+		}
 		}
 
 		if (selected != null) {
@@ -2194,6 +2225,10 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			break;
 		case PRICE:
 			mSortOptionSelectedId = R.id.sort_price_button;
+			setupSortOptions();
+			break;
+		case DEALS:
+			mSortOptionSelectedId = R.id.sort_deals_button;
 			setupSortOptions();
 			break;
 		case RATING:
@@ -2516,7 +2551,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			if (str.equals(getString(R.string.current_location)) || len == 0) {
 				changed |= searchParams.setSearchType(SearchType.MY_LOCATION);
 				changed |= searchParams.setFreeformLocation(getString(R.string.current_location));
-				searchParams.setSearchLatLonUpToDate();
 			}
 			else if (str.equals(getString(R.string.visible_map_area))) {
 				changed |= searchParams.setSearchType(SearchType.PROXIMITY);
@@ -2969,21 +3003,21 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	public void showFragment(String tag) {
 		Log.d("Showing fragment with tag: " + tag);
 
-		if (tag.equals(mHotelListFragment.getTag())) {
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.show(mHotelListFragment);
-			ft.hide(mHotelMapFragment);
-			ft.commit();
-
-			mTag = mHotelListFragment.getTag();
-		}
-		else {
+		if (tag.equals(mHotelMapFragment.getTag())) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.show(mHotelMapFragment);
 			ft.hide(mHotelListFragment);
 			ft.commit();
 
 			mTag = mHotelMapFragment.getTag();
+		}
+		else {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.show(mHotelListFragment);
+			ft.hide(mHotelMapFragment);
+			ft.commit();
+
+			mTag = mHotelListFragment.getTag();
 		}
 	}
 
@@ -2999,7 +3033,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	public void onListItemClicked(Property property, int position) {
 		Db.setSelectedProperty(property);
 
-		Intent intent = new Intent(this, HotelActivity.class);
+		Intent intent = new Intent(this, AndroidUtils.getSdkVersion() >= 9 ? HotelDetailsFragmentActivity.class
+				: HotelActivity.class);
 		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
 		startActivity(intent);
 	}

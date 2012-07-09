@@ -20,6 +20,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -68,6 +69,7 @@ import com.expedia.bookings.R;
  * For an example of using this widget, see {@link android.widget.TimePicker}.
  * </p>
  */
+@TargetApi(11)
 public class NumberPicker extends LinearLayout {
 
 	/**
@@ -1173,6 +1175,8 @@ public class NumberPicker extends LinearLayout {
 		}
 	}
 
+	private Rect mTmpRect = new Rect();
+	
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (mSelectorWheelState == SELECTOR_WHEEL_STATE_NONE) {
@@ -1185,9 +1189,9 @@ public class NumberPicker extends LinearLayout {
 		final int restoreCount = canvas.save();
 
 		if (mSelectorWheelState == SELECTOR_WHEEL_STATE_SMALL) {
-			Rect clipBounds = canvas.getClipBounds();
-			clipBounds.inset(0, mSelectorElementHeight);
-			canvas.clipRect(clipBounds);
+			canvas.getClipBounds(mTmpRect);
+			mTmpRect.inset(0, mSelectorElementHeight);
+			canvas.clipRect(mTmpRect);
 		}
 
 		// draw the selector wheel

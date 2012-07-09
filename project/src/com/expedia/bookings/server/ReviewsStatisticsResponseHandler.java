@@ -42,7 +42,7 @@ public class ReviewsStatisticsResponseHandler extends JsonResponseHandler<Review
 
 			reviewsStatisticsResponse.setRecommendedCount(stats.getInt("RecommendedCount"));
 			reviewsStatisticsResponse.setTotalReviewCount(stats.getInt("TotalReviewCount"));
-			reviewsStatisticsResponse.setAverageOverallRating((new Float(stats.getString("AverageOverallRating")))
+			reviewsStatisticsResponse.setAverageOverallRating(Float.valueOf(stats.getString("AverageOverallRating"))
 					.floatValue());
 
 		}
