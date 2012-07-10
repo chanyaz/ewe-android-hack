@@ -76,6 +76,7 @@ public class FlightTripOverviewFragment extends Fragment {
 
 			//Inflate and store the sections
 			SectionFlightLeg tempFlight;
+			float density = getActivity().getResources().getDisplayMetrics().density;
 			for (int i = 0; i < mTrip.getLegCount(); i++) {
 				tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
 				if (i < mTrip.getLegCount() - 1) {
@@ -84,7 +85,7 @@ public class FlightTripOverviewFragment extends Fragment {
 					if (tempFlightLayoutParams == null) {
 						tempFlightLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 					}
-					tempFlightLayoutParams.bottomMargin = FLIGHT_LEG_BOTTOM_MARGIN;
+					tempFlightLayoutParams.bottomMargin = (int) Math.floor(FLIGHT_LEG_BOTTOM_MARGIN * density);
 					tempFlight.setLayoutParams(tempFlightLayoutParams);
 				}
 				else {
