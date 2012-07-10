@@ -73,43 +73,45 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/bg_flight_rounded_white"
-            android:divider="@android:drawable/divider_horizontal_dark"
-            android:dividerPadding="5dp"
             android:orientation="vertical"
             android:padding="10dp"
             android:showDividers="middle" >
+
+            <include
+                android:id="@+id/address_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/section_display_address_btn" 
+                />
+            
+            <View
+                android:id="@+id/payment_div_one"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#661F1F1F"/>
 
             <include
                 android:id="@+id/creditcard_section_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/section_display_creditcard_btn" />
+            
+            <View
+                android:id="@+id/payment_div_two"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#661F1F1F"/>
 
-            <LinearLayout
-                android:id="@+id/payment_container_expanded"
+            <include
+                android:id="@+id/creditcard_section_security_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone" >
+                layout="@layout/section_edit_creditcard_security_code" />
 
-                <include
-                    android:id="@+id/address_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/section_display_address_btn" />
-
-                <include
-                    android:id="@+id/creditcard_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/section_display_creditcard_btn" />
-
-                <include
-                    android:id="@+id/creditcard_section_security_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/section_edit_creditcard_security_code" />
-            </LinearLayout>
         </LinearLayout>
 
         <Button

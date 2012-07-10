@@ -133,7 +133,7 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Enter Traveler Information</string>
-    
+
     <!-- Section edit contact -->
     <!-- first name hint -->
     <string name="first_name_hint">First Name</string>
@@ -143,7 +143,6 @@
     <string name="email_address_hint">Email Address</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Phone Number</string>
-        
 
     <!-- Section display payment -->
     <!-- Enter payment info button text -->
@@ -164,6 +163,18 @@
     <string name="security_code">Security Code</string>
     <!-- Security code hint -->
     <string name="security_code_hint">123</string>
+
+    <!-- Section edit billing address -->
+    <!-- Address line 1 hint -->
+    <string name="address_line_one_hint">Address line 1</string>
+    <!-- Address line 2 hint -->
+    <string name="address_line_two_hint">Address line 2</string>
+    <!-- Address city hint -->
+    <string name="address_city_hint">City</string>
+    <!-- Address state hint -->
+    <string name="address_state_hint">State</string>
+    <!-- Postal Code hint -->
+    <string name="address_postal_code_hint">Zip</string>
 
     <!-- Section edit traveler -->
     <!-- First name label -->

@@ -2,20 +2,19 @@
 <com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#33FF0000"
     android:orientation="vertical" >
-    
+
     <EditText
         android:id="@+id/edit_address_line_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Address line 1" />
+        android:hint="@string/address_line_one_hint" />
 
     <EditText
         android:id="@+id/edit_address_line_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Address line 2" />
+        android:hint="@string/address_line_two_hint" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,21 +26,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:hint="city" />
+            android:hint="@string/address_city_hint" />
 
         <EditText
             android:id="@+id/edit_address_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="state" />
+            android:hint="@string/address_state_hint" />
 
         <EditText
             android:id="@+id/edit_address_postal_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="zip" />
+            android:hint="@string/address_postal_code_hint" />
     </LinearLayout>
 
 </com.expedia.bookings.section.SectionLocation>

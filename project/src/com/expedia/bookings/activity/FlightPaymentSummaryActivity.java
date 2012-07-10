@@ -20,7 +20,6 @@ public class FlightPaymentSummaryActivity extends Activity {
 	BillingInfo mBi;
 	SectionBillingInfo mCreditCardSegment;
 	SectionLocation mAddressSegment;
-	SectionBillingInfo mContactSegment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,6 @@ public class FlightPaymentSummaryActivity extends Activity {
 
 		mCreditCardSegment = Ui.findView(this, R.id.creditcard_section);
 		mAddressSegment = Ui.findView(this, R.id.address_section);
-		mContactSegment = Ui.findView(this, R.id.contact_info_section);
 
 		if (mBi.getLocation() == null) {
 			mBi.setLocation(new Location());
@@ -82,22 +80,11 @@ public class FlightPaymentSummaryActivity extends Activity {
 				startActivity(editContact);
 			}
 		});
-
-		mContactSegment.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent editContact = new Intent(FlightPaymentSummaryActivity.this, FlightPaymentContactActivity.class);
-				startActivity(editContact);
-			}
-			//
-		});
 	}
 
 	public void bindAll() {
 		mCreditCardSegment.bind(mBi);
 		mAddressSegment.bind(mBi.getLocation());
-		mContactSegment.bind(mBi);
 	}
 
 }

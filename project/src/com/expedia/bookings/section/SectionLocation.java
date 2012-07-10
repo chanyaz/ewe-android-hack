@@ -184,6 +184,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 							address.add("");
 						}
 						address.set(0, s.toString());
+						getData().setStreetAddress(address);
 					}
 					SectionLocation.this.onChange();
 				}
@@ -228,6 +229,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 							address.add("");
 						}
 						address.set(1, s.toString());
+						getData().setStreetAddress(address);
 					}
 					SectionLocation.this.onChange();
 				}

@@ -4,6 +4,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.model.CheckoutFlowState;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionLocation;
 import com.mobiata.android.util.Ui;
@@ -18,42 +19,44 @@ public class FlightPaymentAddressActivity extends Activity {
 
 	BillingInfo mBillingInfo;
 
+	SectionLocation mSectionLocation;
+	Button mDoneBtn;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flight_payment_address);
+		mDoneBtn = Ui.findView(this, R.id.done);
+		mSectionLocation = Ui.findView(this, R.id.address_section);
 
+		mBillingInfo = Db.getBillingInfo();
+		if (mBillingInfo.getLocation() == null) {
+			mBillingInfo.setLocation(new Location());
+		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		//We should always put this stuff in onResume, as it will set the values correctly if we get here on the back stack or from someplace wierd...
-		mBillingInfo = Db.getBillingInfo();
 
-		final SectionLocation sci = Ui.findView(this, R.id.address_section);
-		if (mBillingInfo.getLocation() == null) {
-			mBillingInfo.setLocation(new Location());
-		}
-		sci.bind(mBillingInfo.getLocation());
+		mDoneBtn.setText(CheckoutFlowState.getInstance(this).getFlowButtonText(this, mBillingInfo));
 
-		final Button done = Ui.findView(this, R.id.done);
-		done.setEnabled(sci.hasValidInput());
+		mSectionLocation.bind(mBillingInfo.getLocation());
+		mDoneBtn.setEnabled(mSectionLocation.hasValidInput());
 
-		sci.addChangeListener(new SectionChangeListener() {
+		mSectionLocation.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
-				if (sci.hasValidInput()) {
-					done.setEnabled(sci.hasValidInput());
-				}
+				mDoneBtn.setEnabled(mSectionLocation.hasValidInput());
 			}
 
 		});
 
-		done.setOnClickListener(new OnClickListener() {
+		mDoneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				finish();
+				CheckoutFlowState.getInstance(FlightPaymentAddressActivity.this).moveToNextActivityInCheckout(
+						FlightPaymentAddressActivity.this, mBillingInfo);
 			}
 		});
 

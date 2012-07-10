@@ -7,15 +7,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Contact Info:" />
-
-    <include
-        android:id="@+id/contact_info_section"
-        layout="@layout/section_display_contact_info" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="Address:" />
 
     <include

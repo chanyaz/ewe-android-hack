@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="15"
+        android:inputType="number"
         android:hint="@string/credit_card_hint" />
 
     <EditText
@@ -17,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        android:inputType="date"
         android:hint="@string/credit_card_expiration_hint" />
 
 </com.expedia.bookings.section.SectionBillingInfo>

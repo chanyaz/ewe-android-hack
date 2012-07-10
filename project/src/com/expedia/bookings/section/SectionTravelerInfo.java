@@ -11,6 +11,7 @@ import com.mobiata.android.util.Ui;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.DatePicker;
@@ -43,8 +44,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		super(context, attrs, defStyle);
 		init(context);
 	}
-	
-	private void init(Context context){
+
+	private void init(Context context) {
 		//Display fields
 		mFields.add(mDisplayFullName);
 
@@ -142,7 +143,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		@Override
 		protected boolean hasValidInput(EditText field) {
 			if (field != null) {
-				if (field.getText().length() == 0) {
+				if (TextUtils.isEmpty(field.getText())) {
 					return false;
 				}
 			}
@@ -173,7 +174,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		@Override
 		protected boolean hasValidInput(EditText field) {
 			if (field != null) {
-				if (field.getText().length() == 0) {
+				if (TextUtils.isEmpty(field.getText())) {
 					return false;
 				}
 			}
@@ -205,7 +206,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		protected boolean hasValidInput(EditText field) {
 			if (field != null) {
 				String fieldText = field.getText().toString();
-				if (fieldText.length() == 0) {
+				if (TextUtils.isEmpty(fieldText)) {
 					return false;
 				}
 				if (getNumbersOnly(fieldText).length() != 10) {
@@ -336,33 +337,33 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 
 		}
 	};
-	
+
 	SectionFieldEditable<RadioGroup, FlightPassenger> mEditGender = new SectionFieldEditable<RadioGroup, FlightPassenger>(
 			R.id.edit_gender_radio) {
-		
+
 		RadioButton mMaleRadio;
 		RadioButton mFemaleRadio;
-		
-		private void setIsMale(boolean isMale){
-			if(mMaleRadio != null && mFemaleRadio != null){ 
+
+		private void setIsMale(boolean isMale) {
+			if (mMaleRadio != null && mFemaleRadio != null) {
 				mMaleRadio.setChecked(isMale);
 				mFemaleRadio.setChecked(!isMale);
 			}
 		}
-		
+
 		@Override
-		protected void onFieldBind(){
+		protected void onFieldBind() {
 			super.onFieldBind();
-			if(this.hasBoundField()){
+			if (this.hasBoundField()) {
 				mMaleRadio = Ui.findView(getField(), R.id.edit_gender_radio_male);
 				mFemaleRadio = Ui.findView(getField(), R.id.edit_gender_radio_female);
 			}
 		}
-		
+
 		@Override
 		protected boolean hasValidInput(RadioGroup field) {
 			if (field != null) {
-				if(field.getCheckedRadioButtonId() < 0){
+				if (field.getCheckedRadioButtonId() < 0) {
 					return false;
 				}
 			}
@@ -371,32 +372,34 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 
 		@Override
 		public void setChangeListener(RadioGroup field) {
-			field.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+			field.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(RadioGroup group, int checkedId) {
-					if(hasBoundData() && mMaleRadio != null && mFemaleRadio != null){
+					if (hasBoundData() && mMaleRadio != null && mFemaleRadio != null) {
 						//TODO: We may want to do this in a way that doesn't care about the radio button text, but that is difficult because our sections don't check for subviews so we'd have to introduce some new logic
-						if(checkedId == mMaleRadio.getId()){
+						if (checkedId == mMaleRadio.getId()) {
 							getData().setGender(Gender.MALE);
-						}else if(checkedId == mFemaleRadio.getId()){
+						}
+						else if (checkedId == mFemaleRadio.getId()) {
 							getData().setGender(Gender.FEMALE);
 						}
 					}
 					SectionTravelerInfo.this.onChange();
 				}
 			});
-			
+
 		}
 
 		@Override
 		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
-			if(data.getGender() != null){
-				if(data.getGender() == Gender.MALE){
+			if (data.getGender() != null) {
+				if (data.getGender() == Gender.MALE) {
 					setIsMale(true);
-				}else{
+				}
+				else {
 					setIsMale(false);
 				}
-				
+
 			}
 		}
 	};
