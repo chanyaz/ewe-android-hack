@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Tracking tags -->
+    <string name="amobee_app_id">ExpediaHotelsAndroidPhone</string>
+
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
     <string name="tag_hotel_list">HOTEL_LIST</string>
@@ -20,333 +24,332 @@
     <string name="tag_guests_dialog">GUESTS_DIALOG</string>
     <string name="tag_simple_dialog">SIMPLE_DIALOG</string>
     <string name="tag_signin">SIGNIN</string>
+    <string name="map_snippet_template">%1$s · %2$s</string>
 
-	<string name="map_snippet_template">%1$s · %2$s</string>
+    <!-- An alternative way to modify text, if you don't want to set the typeface of the TextView -->
+    <string name="bold_template">&lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="strike_template">&lt;strike&gt;%s&lt;/strike&gt;</string>
 
-	<!-- An alternative way to modify text, if you don't want to set the typeface of the TextView -->
-	<string name="bold_template">&lt;b&gt;%s&lt;/b&gt;</string>
-	<string name="strike_template">&lt;strike&gt;%s&lt;/strike&gt;</string>
-
-	<!-- Preference keys -->
-	<string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>
+    <!-- Preference keys -->
+    <string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_spoof_bookings">spoof_bookings</string>
 
-	<!-- Country codes -->
-	<string name="country_code_af">AF</string>
-	<string name="country_code_al">AL</string>
-	<string name="country_code_dz">DZ</string>
-	<string name="country_code_as">AS</string>
-	<string name="country_code_ad">AD</string>
-	<string name="country_code_ao">AO</string>
-	<string name="country_code_ai">AI</string>
-	<string name="country_code_aq">AQ</string>
-	<string name="country_code_ag">AG</string>
-	<string name="country_code_ar">AR</string>
-	<string name="country_code_am">AM</string>
-	<string name="country_code_aw">AW</string>
-	<string name="country_code_au">AU</string>
-	<string name="country_code_at">AT</string>
-	<string name="country_code_az">AZ</string>
-	<string name="country_code_bs">BS</string>
-	<string name="country_code_bh">BH</string>
-	<string name="country_code_bd">BD</string>
-	<string name="country_code_bb">BB</string>
-	<string name="country_code_by">BY</string>
-	<string name="country_code_be">BE</string>
-	<string name="country_code_bz">BZ</string>
-	<string name="country_code_bj">BJ</string>
-	<string name="country_code_bm">BM</string>
-	<string name="country_code_bt">BT</string>
-	<string name="country_code_bo">BO</string>
-	<string name="country_code_ba">BA</string>
-	<string name="country_code_bw">BW</string>
-	<string name="country_code_bv" tools:ignore="UnusedResources">BV</string>
-	<string name="country_code_br">BR</string>
-	<string name="country_code_io">IO</string>
-	<string name="country_code_bn">BN</string>
-	<string name="country_code_bg">BG</string>
-	<string name="country_code_bf">BF</string>
-	<string name="country_code_bi">BI</string>
-	<string name="country_code_kh">KH</string>
-	<string name="country_code_cm">CM</string>
-	<string name="country_code_ca">CA</string>
-	<string name="country_code_cv">CV</string>
-	<string name="country_code_ky">KY</string>
-	<string name="country_code_cf">CF</string>
-	<string name="country_code_td">TD</string>
-	<string name="country_code_cl">CL</string>
-	<string name="country_code_cn">CN</string>
-	<string name="country_code_cx">CX</string>
-	<string name="country_code_cc">CC</string>
-	<string name="country_code_co">CO</string>
-	<string name="country_code_km">KM</string>
-	<string name="country_code_cg">CG</string>
-	<string name="country_code_cd">CD</string>
-	<string name="country_code_ck">CK</string>
-	<string name="country_code_cr">CR</string>
-	<string name="country_code_hr">HR</string>
-	<string name="country_code_cu">CU</string>
-	<string name="country_code_cy">CY</string>
-	<string name="country_code_cz">CZ</string>
-	<string name="country_code_ci">CI</string>
-	<string name="country_code_dk">DK</string>
-	<string name="country_code_dj">DJ</string>
-	<string name="country_code_dm">DM</string>
-	<string name="country_code_do">DO</string>
-	<string name="country_code_ec">EC</string>
-	<string name="country_code_eg">EG</string>
-	<string name="country_code_sv">SV</string>
-	<string name="country_code_gq">GQ</string>
-	<string name="country_code_er">ER</string>
-	<string name="country_code_ee">EE</string>
-	<string name="country_code_et">ET</string>
-	<string name="country_code_fk">FK</string>
-	<string name="country_code_fo">FO</string>
-	<string name="country_code_fj">FJ</string>
-	<string name="country_code_fi">FI</string>
-	<string name="country_code_fr">FR</string>
-	<string name="country_code_gf">GF</string>
-	<string name="country_code_pf">PF</string>
-	<string name="country_code_tf" tools:ignore="UnusedResources">TF</string>
-	<string name="country_code_ga">GA</string>
-	<string name="country_code_gm">GM</string>
-	<string name="country_code_ge">GE</string>
-	<string name="country_code_de">DE</string>
-	<string name="country_code_gh">GH</string>
-	<string name="country_code_gi">GI</string>
-	<string name="country_code_gr">GR</string>
-	<string name="country_code_gl">GL</string>
-	<string name="country_code_gd">GD</string>
-	<string name="country_code_gp">GP</string>
-	<string name="country_code_gu">GU</string>
-	<string name="country_code_gt">GT</string>
-	<string name="country_code_gg">GG</string>
-	<string name="country_code_gn">GN</string>
-	<string name="country_code_gw">GW</string>
-	<string name="country_code_gy">GY</string>
-	<string name="country_code_ht">HT</string>
-	<string name="country_code_hm" tools:ignore="UnusedResources">HM</string>
-	<string name="country_code_va">VA</string>
-	<string name="country_code_hn">HN</string>
-	<string name="country_code_hk">HK</string>
-	<string name="country_code_hu">HU</string>
-	<string name="country_code_is">IS</string>
-	<string name="country_code_in">IN</string>
-	<string name="country_code_id">ID</string>
-	<string name="country_code_ir">IR</string>
-	<string name="country_code_iq">IQ</string>
-	<string name="country_code_ie">IE</string>
-	<string name="country_code_im">IM</string>
-	<string name="country_code_il">IL</string>
-	<string name="country_code_it">IT</string>
-	<string name="country_code_jm">JM</string>
-	<string name="country_code_jp">JP</string>
-	<string name="country_code_je">JE</string>
-	<string name="country_code_jo">JO</string>
-	<string name="country_code_kz">KZ</string>
-	<string name="country_code_ke">KE</string>
-	<string name="country_code_ki">KI</string>
-	<string name="country_code_kp">KP</string>
-	<string name="country_code_kr">KR</string>
-	<string name="country_code_kw">KW</string>
-	<string name="country_code_kg">KG</string>
-	<string name="country_code_la">LA</string>
-	<string name="country_code_lv">LV</string>
-	<string name="country_code_lb">LB</string>
-	<string name="country_code_ls">LS</string>
-	<string name="country_code_lr">LR</string>
-	<string name="country_code_ly">LY</string>
-	<string name="country_code_li">LI</string>
-	<string name="country_code_lt">LT</string>
-	<string name="country_code_lu">LU</string>
-	<string name="country_code_mo">MO</string>
-	<string name="country_code_mk">MK</string>
-	<string name="country_code_mg">MG</string>
-	<string name="country_code_mw">MW</string>
-	<string name="country_code_my">MY</string>
-	<string name="country_code_mv">MV</string>
-	<string name="country_code_ml">ML</string>
-	<string name="country_code_mt">MT</string>
-	<string name="country_code_mh">MH</string>
-	<string name="country_code_mq">MQ</string>
-	<string name="country_code_mr">MR</string>
-	<string name="country_code_mu">MU</string>
-	<string name="country_code_yt">YT</string>
-	<string name="country_code_mx">MX</string>
-	<string name="country_code_fm">FM</string>
-	<string name="country_code_md">MD</string>
-	<string name="country_code_mc">MC</string>
-	<string name="country_code_mn">MN</string>
-	<string name="country_code_me">ME</string>
-	<string name="country_code_ms">MS</string>
-	<string name="country_code_ma">MA</string>
-	<string name="country_code_mz">MZ</string>
-	<string name="country_code_mm">MM</string>
-	<string name="country_code_na">NA</string>
-	<string name="country_code_nr">NR</string>
-	<string name="country_code_np">NP</string>
-	<string name="country_code_nl">NL</string>
-	<string name="country_code_an">AN</string>
-	<string name="country_code_nc">NC</string>
-	<string name="country_code_nz">NZ</string>
-	<string name="country_code_ni">NI</string>
-	<string name="country_code_ne">NE</string>
-	<string name="country_code_ng">NG</string>
-	<string name="country_code_nu">NU</string>
-	<string name="country_code_nf">NF</string>
-	<string name="country_code_mp">MP</string>
-	<string name="country_code_no">NO</string>
-	<string name="country_code_om">OM</string>
-	<string name="country_code_pk">PK</string>
-	<string name="country_code_pw">PW</string>
-	<string name="country_code_ps">PS</string>
-	<string name="country_code_pa">PA</string>
-	<string name="country_code_pg">PG</string>
-	<string name="country_code_py">PY</string>
-	<string name="country_code_pe">PE</string>
-	<string name="country_code_ph">PH</string>
-	<string name="country_code_pn">PN</string>
-	<string name="country_code_pl">PL</string>
-	<string name="country_code_pt">PT</string>
-	<string name="country_code_pr">PR</string>
-	<string name="country_code_qa">QA</string>
-	<string name="country_code_ro">RO</string>
-	<string name="country_code_ru">RU</string>
-	<string name="country_code_rw">RW</string>
-	<string name="country_code_re">RE</string>
-	<string name="country_code_bl">BL</string>
-	<string name="country_code_sh">SH</string>
-	<string name="country_code_kn">KN</string>
-	<string name="country_code_lc">LC</string>
-	<string name="country_code_mf">MF</string>
-	<string name="country_code_pm">PM</string>
-	<string name="country_code_vc">VC</string>
-	<string name="country_code_ws">WS</string>
-	<string name="country_code_sm">SM</string>
-	<string name="country_code_st">ST</string>
-	<string name="country_code_sa">SA</string>
-	<string name="country_code_sn">SN</string>
-	<string name="country_code_rs">RS</string>
-	<string name="country_code_sc">SC</string>
-	<string name="country_code_sl">SL</string>
-	<string name="country_code_sg">SG</string>
-	<string name="country_code_sk">SK</string>
-	<string name="country_code_si">SI</string>
-	<string name="country_code_sb">SB</string>
-	<string name="country_code_so">SO</string>
-	<string name="country_code_za">ZA</string>
-	<string name="country_code_gs">GS</string>
-	<string name="country_code_es">ES</string>
-	<string name="country_code_lk">LK</string>
-	<string name="country_code_sd">SD</string>
-	<string name="country_code_sr">SR</string>
-	<string name="country_code_sj">SJ</string>
-	<string name="country_code_sz">SZ</string>
-	<string name="country_code_se">SE</string>
-	<string name="country_code_ch">CH</string>
-	<string name="country_code_sy">SY</string>
-	<string name="country_code_tw">TW</string>
-	<string name="country_code_tj">TJ</string>
-	<string name="country_code_tz">TZ</string>
-	<string name="country_code_th">TH</string>
-	<string name="country_code_tl">TL</string>
-	<string name="country_code_tg">TG</string>
-	<string name="country_code_tk">TK</string>
-	<string name="country_code_to">TO</string>
-	<string name="country_code_tt">TT</string>
-	<string name="country_code_tn">TN</string>
-	<string name="country_code_tr">TR</string>
-	<string name="country_code_tm">TM</string>
-	<string name="country_code_tc">TC</string>
-	<string name="country_code_tv">TV</string>
-	<string name="country_code_ug">UG</string>
-	<string name="country_code_ua">UA</string>
-	<string name="country_code_ae">AE</string>
-	<string name="country_code_gb">GB</string>
-	<string name="country_code_us">US</string>
-	<string name="country_code_um">UM</string>
-	<string name="country_code_uy">UY</string>
-	<string name="country_code_uz">UZ</string>
-	<string name="country_code_vu">VU</string>
-	<string name="country_code_ve">VE</string>
-	<string name="country_code_vn">VN</string>
-	<string name="country_code_vg">VG</string>
-	<string name="country_code_vi">VI</string>
-	<string name="country_code_wf">WF</string>
-	<string name="country_code_eh">EH</string>
-	<string name="country_code_ye">YE</string>
-	<string name="country_code_zm">ZM</string>
-	<string name="country_code_zw">ZW</string>
-	<string name="country_code_ax">AX</string>
+    <!-- Country codes -->
+    <string name="country_code_af">AF</string>
+    <string name="country_code_al">AL</string>
+    <string name="country_code_dz">DZ</string>
+    <string name="country_code_as">AS</string>
+    <string name="country_code_ad">AD</string>
+    <string name="country_code_ao">AO</string>
+    <string name="country_code_ai">AI</string>
+    <string name="country_code_aq">AQ</string>
+    <string name="country_code_ag">AG</string>
+    <string name="country_code_ar">AR</string>
+    <string name="country_code_am">AM</string>
+    <string name="country_code_aw">AW</string>
+    <string name="country_code_au">AU</string>
+    <string name="country_code_at">AT</string>
+    <string name="country_code_az">AZ</string>
+    <string name="country_code_bs">BS</string>
+    <string name="country_code_bh">BH</string>
+    <string name="country_code_bd">BD</string>
+    <string name="country_code_bb">BB</string>
+    <string name="country_code_by">BY</string>
+    <string name="country_code_be">BE</string>
+    <string name="country_code_bz">BZ</string>
+    <string name="country_code_bj">BJ</string>
+    <string name="country_code_bm">BM</string>
+    <string name="country_code_bt">BT</string>
+    <string name="country_code_bo">BO</string>
+    <string name="country_code_ba">BA</string>
+    <string name="country_code_bw">BW</string>
+    <string name="country_code_bv" tools:ignore="UnusedResources">BV</string>
+    <string name="country_code_br">BR</string>
+    <string name="country_code_io">IO</string>
+    <string name="country_code_bn">BN</string>
+    <string name="country_code_bg">BG</string>
+    <string name="country_code_bf">BF</string>
+    <string name="country_code_bi">BI</string>
+    <string name="country_code_kh">KH</string>
+    <string name="country_code_cm">CM</string>
+    <string name="country_code_ca">CA</string>
+    <string name="country_code_cv">CV</string>
+    <string name="country_code_ky">KY</string>
+    <string name="country_code_cf">CF</string>
+    <string name="country_code_td">TD</string>
+    <string name="country_code_cl">CL</string>
+    <string name="country_code_cn">CN</string>
+    <string name="country_code_cx">CX</string>
+    <string name="country_code_cc">CC</string>
+    <string name="country_code_co">CO</string>
+    <string name="country_code_km">KM</string>
+    <string name="country_code_cg">CG</string>
+    <string name="country_code_cd">CD</string>
+    <string name="country_code_ck">CK</string>
+    <string name="country_code_cr">CR</string>
+    <string name="country_code_hr">HR</string>
+    <string name="country_code_cu">CU</string>
+    <string name="country_code_cy">CY</string>
+    <string name="country_code_cz">CZ</string>
+    <string name="country_code_ci">CI</string>
+    <string name="country_code_dk">DK</string>
+    <string name="country_code_dj">DJ</string>
+    <string name="country_code_dm">DM</string>
+    <string name="country_code_do">DO</string>
+    <string name="country_code_ec">EC</string>
+    <string name="country_code_eg">EG</string>
+    <string name="country_code_sv">SV</string>
+    <string name="country_code_gq">GQ</string>
+    <string name="country_code_er">ER</string>
+    <string name="country_code_ee">EE</string>
+    <string name="country_code_et">ET</string>
+    <string name="country_code_fk">FK</string>
+    <string name="country_code_fo">FO</string>
+    <string name="country_code_fj">FJ</string>
+    <string name="country_code_fi">FI</string>
+    <string name="country_code_fr">FR</string>
+    <string name="country_code_gf">GF</string>
+    <string name="country_code_pf">PF</string>
+    <string name="country_code_tf" tools:ignore="UnusedResources">TF</string>
+    <string name="country_code_ga">GA</string>
+    <string name="country_code_gm">GM</string>
+    <string name="country_code_ge">GE</string>
+    <string name="country_code_de">DE</string>
+    <string name="country_code_gh">GH</string>
+    <string name="country_code_gi">GI</string>
+    <string name="country_code_gr">GR</string>
+    <string name="country_code_gl">GL</string>
+    <string name="country_code_gd">GD</string>
+    <string name="country_code_gp">GP</string>
+    <string name="country_code_gu">GU</string>
+    <string name="country_code_gt">GT</string>
+    <string name="country_code_gg">GG</string>
+    <string name="country_code_gn">GN</string>
+    <string name="country_code_gw">GW</string>
+    <string name="country_code_gy">GY</string>
+    <string name="country_code_ht">HT</string>
+    <string name="country_code_hm" tools:ignore="UnusedResources">HM</string>
+    <string name="country_code_va">VA</string>
+    <string name="country_code_hn">HN</string>
+    <string name="country_code_hk">HK</string>
+    <string name="country_code_hu">HU</string>
+    <string name="country_code_is">IS</string>
+    <string name="country_code_in">IN</string>
+    <string name="country_code_id">ID</string>
+    <string name="country_code_ir">IR</string>
+    <string name="country_code_iq">IQ</string>
+    <string name="country_code_ie">IE</string>
+    <string name="country_code_im">IM</string>
+    <string name="country_code_il">IL</string>
+    <string name="country_code_it">IT</string>
+    <string name="country_code_jm">JM</string>
+    <string name="country_code_jp">JP</string>
+    <string name="country_code_je">JE</string>
+    <string name="country_code_jo">JO</string>
+    <string name="country_code_kz">KZ</string>
+    <string name="country_code_ke">KE</string>
+    <string name="country_code_ki">KI</string>
+    <string name="country_code_kp">KP</string>
+    <string name="country_code_kr">KR</string>
+    <string name="country_code_kw">KW</string>
+    <string name="country_code_kg">KG</string>
+    <string name="country_code_la">LA</string>
+    <string name="country_code_lv">LV</string>
+    <string name="country_code_lb">LB</string>
+    <string name="country_code_ls">LS</string>
+    <string name="country_code_lr">LR</string>
+    <string name="country_code_ly">LY</string>
+    <string name="country_code_li">LI</string>
+    <string name="country_code_lt">LT</string>
+    <string name="country_code_lu">LU</string>
+    <string name="country_code_mo">MO</string>
+    <string name="country_code_mk">MK</string>
+    <string name="country_code_mg">MG</string>
+    <string name="country_code_mw">MW</string>
+    <string name="country_code_my">MY</string>
+    <string name="country_code_mv">MV</string>
+    <string name="country_code_ml">ML</string>
+    <string name="country_code_mt">MT</string>
+    <string name="country_code_mh">MH</string>
+    <string name="country_code_mq">MQ</string>
+    <string name="country_code_mr">MR</string>
+    <string name="country_code_mu">MU</string>
+    <string name="country_code_yt">YT</string>
+    <string name="country_code_mx">MX</string>
+    <string name="country_code_fm">FM</string>
+    <string name="country_code_md">MD</string>
+    <string name="country_code_mc">MC</string>
+    <string name="country_code_mn">MN</string>
+    <string name="country_code_me">ME</string>
+    <string name="country_code_ms">MS</string>
+    <string name="country_code_ma">MA</string>
+    <string name="country_code_mz">MZ</string>
+    <string name="country_code_mm">MM</string>
+    <string name="country_code_na">NA</string>
+    <string name="country_code_nr">NR</string>
+    <string name="country_code_np">NP</string>
+    <string name="country_code_nl">NL</string>
+    <string name="country_code_an">AN</string>
+    <string name="country_code_nc">NC</string>
+    <string name="country_code_nz">NZ</string>
+    <string name="country_code_ni">NI</string>
+    <string name="country_code_ne">NE</string>
+    <string name="country_code_ng">NG</string>
+    <string name="country_code_nu">NU</string>
+    <string name="country_code_nf">NF</string>
+    <string name="country_code_mp">MP</string>
+    <string name="country_code_no">NO</string>
+    <string name="country_code_om">OM</string>
+    <string name="country_code_pk">PK</string>
+    <string name="country_code_pw">PW</string>
+    <string name="country_code_ps">PS</string>
+    <string name="country_code_pa">PA</string>
+    <string name="country_code_pg">PG</string>
+    <string name="country_code_py">PY</string>
+    <string name="country_code_pe">PE</string>
+    <string name="country_code_ph">PH</string>
+    <string name="country_code_pn">PN</string>
+    <string name="country_code_pl">PL</string>
+    <string name="country_code_pt">PT</string>
+    <string name="country_code_pr">PR</string>
+    <string name="country_code_qa">QA</string>
+    <string name="country_code_ro">RO</string>
+    <string name="country_code_ru">RU</string>
+    <string name="country_code_rw">RW</string>
+    <string name="country_code_re">RE</string>
+    <string name="country_code_bl">BL</string>
+    <string name="country_code_sh">SH</string>
+    <string name="country_code_kn">KN</string>
+    <string name="country_code_lc">LC</string>
+    <string name="country_code_mf">MF</string>
+    <string name="country_code_pm">PM</string>
+    <string name="country_code_vc">VC</string>
+    <string name="country_code_ws">WS</string>
+    <string name="country_code_sm">SM</string>
+    <string name="country_code_st">ST</string>
+    <string name="country_code_sa">SA</string>
+    <string name="country_code_sn">SN</string>
+    <string name="country_code_rs">RS</string>
+    <string name="country_code_sc">SC</string>
+    <string name="country_code_sl">SL</string>
+    <string name="country_code_sg">SG</string>
+    <string name="country_code_sk">SK</string>
+    <string name="country_code_si">SI</string>
+    <string name="country_code_sb">SB</string>
+    <string name="country_code_so">SO</string>
+    <string name="country_code_za">ZA</string>
+    <string name="country_code_gs">GS</string>
+    <string name="country_code_es">ES</string>
+    <string name="country_code_lk">LK</string>
+    <string name="country_code_sd">SD</string>
+    <string name="country_code_sr">SR</string>
+    <string name="country_code_sj">SJ</string>
+    <string name="country_code_sz">SZ</string>
+    <string name="country_code_se">SE</string>
+    <string name="country_code_ch">CH</string>
+    <string name="country_code_sy">SY</string>
+    <string name="country_code_tw">TW</string>
+    <string name="country_code_tj">TJ</string>
+    <string name="country_code_tz">TZ</string>
+    <string name="country_code_th">TH</string>
+    <string name="country_code_tl">TL</string>
+    <string name="country_code_tg">TG</string>
+    <string name="country_code_tk">TK</string>
+    <string name="country_code_to">TO</string>
+    <string name="country_code_tt">TT</string>
+    <string name="country_code_tn">TN</string>
+    <string name="country_code_tr">TR</string>
+    <string name="country_code_tm">TM</string>
+    <string name="country_code_tc">TC</string>
+    <string name="country_code_tv">TV</string>
+    <string name="country_code_ug">UG</string>
+    <string name="country_code_ua">UA</string>
+    <string name="country_code_ae">AE</string>
+    <string name="country_code_gb">GB</string>
+    <string name="country_code_us">US</string>
+    <string name="country_code_um">UM</string>
+    <string name="country_code_uy">UY</string>
+    <string name="country_code_uz">UZ</string>
+    <string name="country_code_vu">VU</string>
+    <string name="country_code_ve">VE</string>
+    <string name="country_code_vn">VN</string>
+    <string name="country_code_vg">VG</string>
+    <string name="country_code_vi">VI</string>
+    <string name="country_code_wf">WF</string>
+    <string name="country_code_eh">EH</string>
+    <string name="country_code_ye">YE</string>
+    <string name="country_code_zm">ZM</string>
+    <string name="country_code_zw">ZW</string>
+    <string name="country_code_ax">AX</string>
 
-	<!-- State codes -->
-	<string name="state_code_al">AL</string>
-	<string name="state_code_ak">AK</string>
-	<string name="state_code_ab" tools:ignore="UnusedResources">AB</string>
-	<string name="state_code_az">AZ</string>
-	<string name="state_code_ar">AR</string>
-	<string name="state_code_bc" tools:ignore="UnusedResources">BC</string>
-	<string name="state_code_ca">CA</string>
-	<string name="state_code_co">CO</string>
-	<string name="state_code_ct">CT</string>
-	<string name="state_code_de" tools:ignore="UnusedResources">DE</string>
-	<string name="state_code_dc">DC</string>
-	<string name="state_code_fl">FL</string>
-	<string name="state_code_ga">GA</string>
-	<string name="state_code_hi">HI</string>
-	<string name="state_code_id">ID</string>
-	<string name="state_code_il">IL</string>
-	<string name="state_code_in">IN</string>
-	<string name="state_code_ia">IA</string>
-	<string name="state_code_ks">KS</string>
-	<string name="state_code_ky">KY</string>
-	<string name="state_code_la">LA</string>
-	<string name="state_code_me" tools:ignore="UnusedResources">ME</string>
-	<string name="state_code_mb" tools:ignore="UnusedResources">MB</string>
-	<string name="state_code_md">MD</string>
-	<string name="state_code_ma">MA</string>
-	<string name="state_code_mi">MI</string>
-	<string name="state_code_mn">MN</string>
-	<string name="state_code_ms">MS</string>
-	<string name="state_code_mo">MO</string>
-	<string name="state_code_mt">MT</string>
-	<string name="state_code_ne">NE</string>
-	<string name="state_code_nv">NV</string>
-	<string name="state_code_nb" tools:ignore="UnusedResources">NB</string>
-	<string name="state_code_nh">NH</string>
-	<string name="state_code_nj">NJ</string>
-	<string name="state_code_nm">NM</string>
-	<string name="state_code_ny">NY</string>
-	<string name="state_code_nf" tools:ignore="UnusedResources">NF</string>
-	<string name="state_code_nc">NC</string>
-	<string name="state_code_nd">ND</string>
-	<string name="state_code_nt" tools:ignore="UnusedResources">NT</string>
-	<string name="state_code_ns" tools:ignore="UnusedResources">NS</string>
-	<string name="state_code_nu" tools:ignore="UnusedResources">NU</string>
-	<string name="state_code_oh">OH</string>
-	<string name="state_code_ok">OK</string>
-	<string name="state_code_on" tools:ignore="UnusedResources">ON</string>
-	<string name="state_code_or">OR</string>
-	<string name="state_code_pa">PA</string>
-	<string name="state_code_pe" tools:ignore="UnusedResources">PE</string>
-	<string name="state_code_qc" tools:ignore="UnusedResources">QC</string>
-	<string name="state_code_ri">RI</string>
-	<string name="state_code_sk" tools:ignore="UnusedResources">SK</string>
-	<string name="state_code_sc">SC</string>
-	<string name="state_code_sd">SD</string>
-	<string name="state_code_tn">TN</string>
-	<string name="state_code_tx">TX</string>
-	<string name="state_code_ut">UT</string>
-	<string name="state_code_vt" tools:ignore="UnusedResources">VT</string>
-	<string name="state_code_va">VA</string>
-	<string name="state_code_wa">WA</string>
-	<string name="state_code_wv" tools:ignore="UnusedResources">WV</string>
-	<string name="state_code_wi">WI</string>
-	<string name="state_code_wy" tools:ignore="UnusedResources">WY</string>
-	<string name="state_code_yt" tools:ignore="UnusedResources">YT</string>
+    <!-- State codes -->
+    <string name="state_code_al">AL</string>
+    <string name="state_code_ak">AK</string>
+    <string name="state_code_ab" tools:ignore="UnusedResources">AB</string>
+    <string name="state_code_az">AZ</string>
+    <string name="state_code_ar">AR</string>
+    <string name="state_code_bc" tools:ignore="UnusedResources">BC</string>
+    <string name="state_code_ca">CA</string>
+    <string name="state_code_co">CO</string>
+    <string name="state_code_ct">CT</string>
+    <string name="state_code_de" tools:ignore="UnusedResources">DE</string>
+    <string name="state_code_dc">DC</string>
+    <string name="state_code_fl">FL</string>
+    <string name="state_code_ga">GA</string>
+    <string name="state_code_hi">HI</string>
+    <string name="state_code_id">ID</string>
+    <string name="state_code_il">IL</string>
+    <string name="state_code_in">IN</string>
+    <string name="state_code_ia">IA</string>
+    <string name="state_code_ks">KS</string>
+    <string name="state_code_ky">KY</string>
+    <string name="state_code_la">LA</string>
+    <string name="state_code_me" tools:ignore="UnusedResources">ME</string>
+    <string name="state_code_mb" tools:ignore="UnusedResources">MB</string>
+    <string name="state_code_md">MD</string>
+    <string name="state_code_ma">MA</string>
+    <string name="state_code_mi">MI</string>
+    <string name="state_code_mn">MN</string>
+    <string name="state_code_ms">MS</string>
+    <string name="state_code_mo">MO</string>
+    <string name="state_code_mt">MT</string>
+    <string name="state_code_ne">NE</string>
+    <string name="state_code_nv">NV</string>
+    <string name="state_code_nb" tools:ignore="UnusedResources">NB</string>
+    <string name="state_code_nh">NH</string>
+    <string name="state_code_nj">NJ</string>
+    <string name="state_code_nm">NM</string>
+    <string name="state_code_ny">NY</string>
+    <string name="state_code_nf" tools:ignore="UnusedResources">NF</string>
+    <string name="state_code_nc">NC</string>
+    <string name="state_code_nd">ND</string>
+    <string name="state_code_nt" tools:ignore="UnusedResources">NT</string>
+    <string name="state_code_ns" tools:ignore="UnusedResources">NS</string>
+    <string name="state_code_nu" tools:ignore="UnusedResources">NU</string>
+    <string name="state_code_oh">OH</string>
+    <string name="state_code_ok">OK</string>
+    <string name="state_code_on" tools:ignore="UnusedResources">ON</string>
+    <string name="state_code_or">OR</string>
+    <string name="state_code_pa">PA</string>
+    <string name="state_code_pe" tools:ignore="UnusedResources">PE</string>
+    <string name="state_code_qc" tools:ignore="UnusedResources">QC</string>
+    <string name="state_code_ri">RI</string>
+    <string name="state_code_sk" tools:ignore="UnusedResources">SK</string>
+    <string name="state_code_sc">SC</string>
+    <string name="state_code_sd">SD</string>
+    <string name="state_code_tn">TN</string>
+    <string name="state_code_tx">TX</string>
+    <string name="state_code_ut">UT</string>
+    <string name="state_code_vt" tools:ignore="UnusedResources">VT</string>
+    <string name="state_code_va">VA</string>
+    <string name="state_code_wa">WA</string>
+    <string name="state_code_wv" tools:ignore="UnusedResources">WV</string>
+    <string name="state_code_wi">WI</string>
+    <string name="state_code_wy" tools:ignore="UnusedResources">WY</string>
+    <string name="state_code_yt" tools:ignore="UnusedResources">YT</string>
 
     <!-- Points of Sale (POS) -->
     <string name="point_of_sale_ar">expedia.com.ar</string>
@@ -380,68 +383,68 @@
     <string name="point_of_sale_us">expedia.com</string>
     <string name="point_of_sale_vn">expedia.com.vn</string>
 
-	<!-- Contact Expedia URL for each POS -->
-	<string name="contact_expedia_url_ar">http://support.expedia.com.ar</string>
-	<string name="contact_expedia_url_at">http://support.expedia.at</string>
-	<string name="contact_expedia_url_au">http://support.expedia.com.au</string>
-	<string name="contact_expedia_url_be">http://support.expedia.be</string>
-	<string name="contact_expedia_url_br">http://support.expedia.com.br</string>
-	<string name="contact_expedia_url_ca">http://support.expedia.ca</string>
-	<string name="contact_expedia_url_de">http://support.expedia.de</string>
-	<string name="contact_expedia_url_dk">http://support.expedia.dk</string>
-	<string name="contact_expedia_url_es">http://support.expedia.es</string>
-	<string name="contact_expedia_url_fr">http://support.expedia.fr</string>
-	<string name="contact_expedia_url_hk">http://faq.expedia.com.hk</string>
-	<string name="contact_expedia_url_id">http://faq.expedia.co.id</string>
-	<string name="contact_expedia_url_ie">http://support.expedia.ie</string>
-	<string name="contact_expedia_url_in">http://faq.expedia.co.in</string>
-	<string name="contact_expedia_url_it">http://support.expedia.it</string>
-	<string name="contact_expedia_url_jp">http://support.expedia.co.jp</string>
-	<string name="contact_expedia_url_kr">http://faq.expedia.co.kr</string>
-	<string name="contact_expedia_url_mx">http://support.expedia.mx</string>
-	<string name="contact_expedia_url_my">http://faq.expedia.com.my</string>
-	<string name="contact_expedia_url_nl">http://support.expedia.nl</string>
-	<string name="contact_expedia_url_no">http://support.expedia.no</string>
-	<string name="contact_expedia_url_nz">http://support.expedia.co.nz</string>
-	<string name="contact_expedia_url_ph">http://faq.expedia.com.ph</string>
-	<string name="contact_expedia_url_se">http://support.expedia.se</string>
-	<string name="contact_expedia_url_sg">http://faq.expedia.com.sg</string>
-	<string name="contact_expedia_url_th">http://faq.expedia.co.th</string>
-	<string name="contact_expedia_url_tw">http://faq.expedia.com.tw</string>
-	<string name="contact_expedia_url_uk">http://support.expedia.co.uk</string>
-	<string name="contact_expedia_url_us">http://support.expedia.com</string>
-	<string name="contact_expedia_url_vn">http://faq.expedia.com.vn</string>
+    <!-- Contact Expedia URL for each POS -->
+    <string name="contact_expedia_url_ar">http://support.expedia.com.ar</string>
+    <string name="contact_expedia_url_at">http://support.expedia.at</string>
+    <string name="contact_expedia_url_au">http://support.expedia.com.au</string>
+    <string name="contact_expedia_url_be">http://support.expedia.be</string>
+    <string name="contact_expedia_url_br">http://support.expedia.com.br</string>
+    <string name="contact_expedia_url_ca">http://support.expedia.ca</string>
+    <string name="contact_expedia_url_de">http://support.expedia.de</string>
+    <string name="contact_expedia_url_dk">http://support.expedia.dk</string>
+    <string name="contact_expedia_url_es">http://support.expedia.es</string>
+    <string name="contact_expedia_url_fr">http://support.expedia.fr</string>
+    <string name="contact_expedia_url_hk">http://faq.expedia.com.hk</string>
+    <string name="contact_expedia_url_id">http://faq.expedia.co.id</string>
+    <string name="contact_expedia_url_ie">http://support.expedia.ie</string>
+    <string name="contact_expedia_url_in">http://faq.expedia.co.in</string>
+    <string name="contact_expedia_url_it">http://support.expedia.it</string>
+    <string name="contact_expedia_url_jp">http://support.expedia.co.jp</string>
+    <string name="contact_expedia_url_kr">http://faq.expedia.co.kr</string>
+    <string name="contact_expedia_url_mx">http://support.expedia.mx</string>
+    <string name="contact_expedia_url_my">http://faq.expedia.com.my</string>
+    <string name="contact_expedia_url_nl">http://support.expedia.nl</string>
+    <string name="contact_expedia_url_no">http://support.expedia.no</string>
+    <string name="contact_expedia_url_nz">http://support.expedia.co.nz</string>
+    <string name="contact_expedia_url_ph">http://faq.expedia.com.ph</string>
+    <string name="contact_expedia_url_se">http://support.expedia.se</string>
+    <string name="contact_expedia_url_sg">http://faq.expedia.com.sg</string>
+    <string name="contact_expedia_url_th">http://faq.expedia.co.th</string>
+    <string name="contact_expedia_url_tw">http://faq.expedia.com.tw</string>
+    <string name="contact_expedia_url_uk">http://support.expedia.co.uk</string>
+    <string name="contact_expedia_url_us">http://support.expedia.com</string>
+    <string name="contact_expedia_url_vn">http://faq.expedia.com.vn</string>
 
-	<!-- Info support telephone numbers. These go on the info screen. -->
-	<string name="info_support_number_ar" tools:ignore="TypographyDashes">0-800-444-9888</string>
-	<string name="info_support_number_at" tools:ignore="TypographyDashes">01 206 09 1626</string>
-	<string name="info_support_number_au" tools:ignore="TypographyDashes">1 300 669 564</string>
-	<string name="info_support_number_be" tools:ignore="TypographyDashes">022 00 83 65</string>
-	<string name="info_support_number_br" tools:ignore="TypographyDashes">0800-761-0770</string>
-	<string name="info_support_number_ca" tools:ignore="TypographyDashes">1-866-406-2684</string>
-	<string name="info_support_number_de" tools:ignore="TypographyDashes">069 945 19 23 27</string>
-	<string name="info_support_number_dk" tools:ignore="TypographyDashes">43 68 21 91</string>
-	<string name="info_support_number_es" tools:ignore="TypographyDashes">912 754 962</string>
-	<string name="info_support_number_fr" tools:ignore="TypographyDashes">01 57 32 38 31</string>
-	<string name="info_support_number_hk" tools:ignore="TypographyDashes">02 2525 5696</string>
-	<string name="info_support_number_id" tools:ignore="TypographyDashes">007-803-011-0463</string>
-	<string name="info_support_number_ie" tools:ignore="TypographyDashes">01 517 1524</string>
-	<string name="info_support_number_in" tools:ignore="TypographyDashes">0124 487 3888</string>
-	<string name="info_support_number_it" tools:ignore="TypographyDashes">02 9148 3659</string>
-	<string name="info_support_number_jp" tools:ignore="TypographyDashes">0120 941 853</string>
-	<string name="info_support_number_kr" tools:ignore="TypographyDashes">02-2076-8343</string>
-	<string name="info_support_number_mx" tools:ignore="TypographyDashes">01 800 925 0382</string>
-	<string name="info_support_number_my" tools:ignore="TypographyDashes">1-800-815676</string>
-	<string name="info_support_number_nl" tools:ignore="TypographyDashes">020 700 60 42</string>
-	<string name="info_support_number_no" tools:ignore="TypographyDashes">24 15 97 43</string>
-	<string name="info_support_number_nz" tools:ignore="TypographyDashes">0800-453-036</string>
-	<string name="info_support_number_ph" tools:ignore="TypographyDashes">1 800 1 114 2468</string>
-	<string name="info_support_number_se" tools:ignore="TypographyDashes">08 502 52029</string>
-	<string name="info_support_number_sg" tools:ignore="TypographyDashes">6226 3973</string>
-	<string name="info_support_number_th" tools:ignore="TypographyDashes">02 1055728</string>
-	<string name="info_support_number_tw" tools:ignore="TypographyDashes">00801-13-6291</string>
-	<string name="info_support_number_uk" tools:ignore="TypographyDashes">0203 027 6594</string>
-	<string name="info_support_number_us" tools:ignore="TypographyDashes">866-649-6924</string>
-	<string name="info_support_number_vn" tools:ignore="TypographyDashes">120 65 125</string>
+    <!-- Info support telephone numbers. These go on the info screen. -->
+    <string name="info_support_number_ar" tools:ignore="TypographyDashes">0-800-444-9888</string>
+    <string name="info_support_number_at" tools:ignore="TypographyDashes">01 206 09 1626</string>
+    <string name="info_support_number_au" tools:ignore="TypographyDashes">1 300 669 564</string>
+    <string name="info_support_number_be" tools:ignore="TypographyDashes">022 00 83 65</string>
+    <string name="info_support_number_br" tools:ignore="TypographyDashes">0800-761-0770</string>
+    <string name="info_support_number_ca" tools:ignore="TypographyDashes">1-866-406-2684</string>
+    <string name="info_support_number_de" tools:ignore="TypographyDashes">069 945 19 23 27</string>
+    <string name="info_support_number_dk" tools:ignore="TypographyDashes">43 68 21 91</string>
+    <string name="info_support_number_es" tools:ignore="TypographyDashes">912 754 962</string>
+    <string name="info_support_number_fr" tools:ignore="TypographyDashes">01 57 32 38 31</string>
+    <string name="info_support_number_hk" tools:ignore="TypographyDashes">02 2525 5696</string>
+    <string name="info_support_number_id" tools:ignore="TypographyDashes">007-803-011-0463</string>
+    <string name="info_support_number_ie" tools:ignore="TypographyDashes">01 517 1524</string>
+    <string name="info_support_number_in" tools:ignore="TypographyDashes">0124 487 3888</string>
+    <string name="info_support_number_it" tools:ignore="TypographyDashes">02 9148 3659</string>
+    <string name="info_support_number_jp" tools:ignore="TypographyDashes">0120 941 853</string>
+    <string name="info_support_number_kr" tools:ignore="TypographyDashes">02-2076-8343</string>
+    <string name="info_support_number_mx" tools:ignore="TypographyDashes">01 800 925 0382</string>
+    <string name="info_support_number_my" tools:ignore="TypographyDashes">1-800-815676</string>
+    <string name="info_support_number_nl" tools:ignore="TypographyDashes">020 700 60 42</string>
+    <string name="info_support_number_no" tools:ignore="TypographyDashes">24 15 97 43</string>
+    <string name="info_support_number_nz" tools:ignore="TypographyDashes">0800-453-036</string>
+    <string name="info_support_number_ph" tools:ignore="TypographyDashes">1 800 1 114 2468</string>
+    <string name="info_support_number_se" tools:ignore="TypographyDashes">08 502 52029</string>
+    <string name="info_support_number_sg" tools:ignore="TypographyDashes">6226 3973</string>
+    <string name="info_support_number_th" tools:ignore="TypographyDashes">02 1055728</string>
+    <string name="info_support_number_tw" tools:ignore="TypographyDashes">00801-13-6291</string>
+    <string name="info_support_number_uk" tools:ignore="TypographyDashes">0203 027 6594</string>
+    <string name="info_support_number_us" tools:ignore="TypographyDashes">866-649-6924</string>
+    <string name="info_support_number_vn" tools:ignore="TypographyDashes">120 65 125</string>
 
 </resources>

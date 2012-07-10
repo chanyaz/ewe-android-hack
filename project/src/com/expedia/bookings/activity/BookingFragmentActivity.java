@@ -33,6 +33,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.Somo;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -253,6 +254,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 					.getTime()) / (24 * 60 * 60 * 1000));
 
 			Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
+			Somo.trackBooking(currency, totalPrice, duration, daysRemaining);
 
 			if (Db.getCreateTripResponse() != null) {
 				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());

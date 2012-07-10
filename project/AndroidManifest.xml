@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.expedia.bookings"
     android:versionCode="12"
@@ -23,6 +22,9 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="6" />
+        <meta-data
+            android:name="com.somo.apptimiser.PUBLIC_KEY_RAW_RESOURCE"
+            android:resource="@raw/pub" />
 
         <uses-library android:name="com.google.android.maps" />
 
@@ -149,6 +151,13 @@
         </receiver>
         <receiver
             android:name="com.amobee.agency.tracking.AmobeeReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.somo.apptimiser.SomoMarketBroadcastReceiver"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />

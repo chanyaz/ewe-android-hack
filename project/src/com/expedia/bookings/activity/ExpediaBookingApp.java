@@ -13,6 +13,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 
 import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.Somo;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -66,9 +68,19 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		LocaleUtils.onPointOfSaleChanged(this);
 
-		List<String> amobeePos = Arrays.asList(getResources().getStringArray(R.array.valid_amobee_points_of_sale));
-		Amobee.initialize(this, "ExpediaHotelsAndroidPhone", amobeePos.contains(LocaleUtils.getPointOfSale(this)));
+		// Ad tracking
+		final Resources res = getResources();
+
+		final List<String> amobeePos = Arrays.asList(res.getStringArray(R.array.valid_amobee_points_of_sale));
+		final String appId = getString(R.string.amobee_app_id);
+		Amobee.initialize(this, appId, amobeePos.contains(LocaleUtils.getPointOfSale(this)));
 		Amobee.trackFirstLaunch();
+
+		final List<String> somoPos = Arrays.asList(res.getStringArray(R.array.valid_somo_points_of_sale));
+		final int userId = res.getInteger(R.integer.somo_user_id);
+		final int applicationId = res.getInteger(R.integer.somo_application_id);
+		Somo.initialize(this, userId, applicationId, somoPos.contains(LocaleUtils.getPointOfSale(this)));
+		Somo.trackFirstLaunch();
 
 		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so, 
 		// in that it requires the app to be launched at least once before it can be disabled, but it's

@@ -57,6 +57,7 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
+import com.expedia.bookings.utils.Somo;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.BillingAddressWidget;
