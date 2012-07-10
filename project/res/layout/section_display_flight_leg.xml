@@ -31,17 +31,20 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:paddingRight="10dp"
             android:gravity="right"
-            android:orientation="horizontal"
-            android:visibility="gone" >
+            android:orientation="horizontal" >
 
             <Button
+                android:id="@+id/details_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Details"
+                android:layout_height="32dp"
+                android:text="@string/details"
+                android:textColor="#FCFCFC"
+                android:background="#66000000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -55,11 +58,23 @@
         android:padding="10dp" >
 
         <TextView
+            android:id="@+id/display_flight_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="right"
+            android:textColor="@color/flight_trip"
+            android:textSize="26dp"
+            android:textStyle="bold" />
+        
+        <TextView
             android:id="@+id/display_carrier_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/display_flight_price"
             android:textSize="22dp"
             android:textStyle="bold" />
 
@@ -80,17 +95,7 @@
             android:layout_below="@id/display_carrier_name"
             android:layout_toLeftOf="@id/display_departure_time" />
 
-        <TextView
-            android:id="@+id/display_flight_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/display_carrier_name"
-            android:gravity="right"
-            android:textColor="@color/flight_trip"
-            android:textSize="26dp"
-            android:textStyle="bold" />
+        
     </RelativeLayout>
 
 </com.expedia.bookings.section.SectionFlightLeg>
