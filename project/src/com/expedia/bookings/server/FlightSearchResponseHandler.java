@@ -150,12 +150,22 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 	private void parsePricingInfoArray(JSONArray pricingJson) {
 		int len = pricingJson.length();
 		for (int a = 0; a < len; a++) {
-			FlightTrip trip = parseTrip(pricingJson.optJSONObject(a));
+			JSONObject tripJson = pricingJson.optJSONObject(a);
+			FlightTrip trip = parseTrip(tripJson);
+
+			// If we're parsing as a matrix response, get the legs
+			if (tripJson.has("legIds")) {
+				JSONArray legsJson = tripJson.optJSONArray("legIds");
+				for (int b = 0; b < legsJson.length(); b++) {
+					trip.addLeg(getLeg(legsJson.optString(b)));
+				}
+			}
+
 			mResponse.addTrip(trip);
 		}
 	}
 
-	private FlightTrip parseTrip(JSONObject tripJson) {
+	public static FlightTrip parseTrip(JSONObject tripJson) {
 		FlightTrip trip = new FlightTrip();
 		trip.setProductKey(tripJson.optString("productKey"));
 
@@ -170,14 +180,6 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		}
 
 		trip.setSeatsRemaining(tripJson.optInt("seatsRemaining"));
-
-		// If we're parsing as a matrix response, get the legs
-		if (tripJson.has("legIds")) {
-			JSONArray legsJson = tripJson.optJSONArray("legIds");
-			for (int a = 0; a < legsJson.length(); a++) {
-				trip.addLeg(getLeg(legsJson.optString(a)));
-			}
-		}
 
 		return trip;
 	}

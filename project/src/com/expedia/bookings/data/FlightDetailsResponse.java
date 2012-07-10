@@ -2,11 +2,39 @@ package com.expedia.bookings.data;
 
 public class FlightDetailsResponse extends Response {
 
+	private FlightTrip mOffer;
+	private FlightTrip mOldOffer;
+	private Money mPriceChangeAmount;
+
 	private boolean mIsChangeAllowed;
 	private boolean mIsEnrouteChangeAllowed;
 	private boolean mIsEnrouteRefundAllowed;
 	private boolean mIsRefundable;
 	private Money mChangePenaltyAmount;
+
+	public void setOffer(FlightTrip flightTrip) {
+		mOffer = flightTrip;
+	}
+
+	public FlightTrip getOffer() {
+		return mOffer;
+	}
+
+	public void setOldOffer(FlightTrip flightTrip) {
+		mOldOffer = flightTrip;
+	}
+
+	public FlightTrip getOldOffer() {
+		return mOldOffer;
+	}
+
+	public void setPriceChangeAmount(Money priceChangeAmount) {
+		mPriceChangeAmount = priceChangeAmount;
+	}
+
+	public Money getPriceChangeAmount() {
+		return mPriceChangeAmount;
+	}
 
 	public boolean isIsChangeAllowed() {
 		return mIsChangeAllowed;
