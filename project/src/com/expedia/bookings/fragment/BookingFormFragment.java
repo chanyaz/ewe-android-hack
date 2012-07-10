@@ -1009,6 +1009,7 @@ public class BookingFormFragment extends DialogFragment {
 				mUserProfileIsFresh = true;
 				Db.setUser(response.getUser());
 				Amobee.trackLogin();
+				Somo.trackLogin();
 				mAccountButton.bind(false, true, Db.getUser());
 				syncFormFieldsFromBillingInfo(mRootBillingView);
 				syncBillingInfo();
