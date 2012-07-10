@@ -599,7 +599,7 @@
     <!-- Message that tells user they successfully logged in -->
     <string name="login_success">Success! You are now logged in.</string>
     <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">Login Failed</string>
+    <string name="login_failed">Please log in again</string>
     <!-- Label for login widget button -->
     <string name="account_login">Account Login</string>
     <!-- Label for login widget additional text -->
