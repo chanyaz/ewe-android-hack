@@ -3,6 +3,7 @@
 
     <!-- Tracking tags -->
     <string name="amobee_app_id">ExpediaHotelsAndroidPhone</string>
+    <string name="soma_rsa_key">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxHRuUzmwGm6WRoWKXinF5p/FKDXo6C91C6wyHV1cr1Yi0hlqL2ENB/9VtHLVhLbvsvPprgixhxgMp7bTjlaE5XH/OmBNWiNBJRojJy8KtI4ee+wW91hW/ZClgyzYZINQm0EhtECmMG0owiqEPOjSq2qPzgChxGU1Xk3bEuyuT6wIDAQAB</string>
 
     <!-- Fragment tags -->
     <string name="tag_search_params">SEARCH_PARAMS</string>
