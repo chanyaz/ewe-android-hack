@@ -164,7 +164,10 @@
             android:name=".activity.FlightTravelerInfoTwoActivity"
             android:theme="@style/FlightTheme" >
         </activity>
-        
+
+        <!-- Testing -->
+        <activity android:name=".test.CalendarDatePickerTestActivity" />
+
         <!-- HockeyApp -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
 
