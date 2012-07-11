@@ -70,6 +70,8 @@
     <string name="saved_travelers">Saved Travelers</string>
     <!-- Header for travelers you can pick from your contacts (that you can fill info from while booking) -->
     <string name="from_contacts">Load Info From Contacts</string>
+    <!-- Error message when user tries to search for a flight to/from the same airport -->
+    <string name="error_same_origin_arrival">You must enter different departure and arrival airports.</string>
 
     <!-- Flight Details Fragment -->
     <!-- The label for the number of seats left for a flight -->

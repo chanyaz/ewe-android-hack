@@ -21,12 +21,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.*;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Date;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.fragment.AirportPickerFragment;
 import com.expedia.bookings.fragment.AirportPickerFragment.AirportPickerFragmentListener;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
@@ -553,6 +559,14 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 
 	private void startSearch() {
 		if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
+			// Pre-validate data being sent
+			FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+			if (params.getDepartureAirportCode().equals(params.getArrivalAirportCode())) {
+				Toast.makeText(this, getString(R.string.error_same_origin_arrival), Toast.LENGTH_LONG).show();
+				return;
+			}
+
+			// Search is good, continue
 			mFinishedSearch = false;
 			clearEditTextFocus();
 			showLoading();
