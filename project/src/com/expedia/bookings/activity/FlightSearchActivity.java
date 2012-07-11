@@ -383,8 +383,11 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 
 		// If we're doing a download and we're NOT setting the status tag, cancel the download
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (tag != null && !tag.equals(TAG_STATUS) && bd.isDownloading(DOWNLOAD_KEY)) {
+		if (tag != null && !tag.equals(TAG_STATUS)) {
 			bd.cancelDownload(DOWNLOAD_KEY);
+
+			// Also, stop showing search errors again
+			mFinishedSearch = false;
 		}
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
