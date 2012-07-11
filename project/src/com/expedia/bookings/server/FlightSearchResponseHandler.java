@@ -1,8 +1,5 @@
 package com.expedia.bookings.server;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +20,6 @@ import com.mobiata.android.net.JsonResponseHandler;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearchResponse> {
 
@@ -32,8 +28,6 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 	private FlightSearchResponse mResponse;
 
 	private Map<String, FlightLeg> mLegs;
-
-	private DateFormat mDateTimeFormat = new SimpleDateFormat("MMM d, y h:m:s a");
 
 	public FlightSearchResponseHandler(Context context) {
 		mContext = context;
@@ -123,12 +117,14 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			// Parse departure
 			Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
 			departure.mAirportCode = segmentJson.optString("departureAirportCode");
-			addDateTime(departure, segmentJson.optString("departureTime"));
+			addDateTime(departure, segmentJson.optLong("departureTimeEpochSeconds"),
+					segmentJson.optInt("departureTimeZoneOffsetSeconds"));
 
 			// Parse arrival
 			Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
 			arrival.mAirportCode = segmentJson.optString("arrivalAirportCode");
-			addDateTime(arrival, segmentJson.optString("arrivalTime"));
+			addDateTime(arrival, segmentJson.optLong("arrivalTimeEpochSeconds"),
+					segmentJson.optInt("arrivalTimeZoneOffsetSeconds"));
 
 			// Add a default status code
 			segment.mStatusCode = Flight.STATUS_SCHEDULED;
@@ -139,16 +135,9 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		return leg;
 	}
 
-	private void addDateTime(Waypoint waypoint, String dateTime) {
-		// For now, we're just reformatting the date times as strings that match FlightStats
-		// This is very inefficient and should eventually be fixed
-		try {
-			String dateStr = DateTimeUtils.formatFlightStatsDateTime(mDateTimeFormat.parse(dateTime));
-			waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN, dateStr);
-		}
-		catch (ParseException e) {
-			throw new RuntimeException(e);
-		}
+	private void addDateTime(Waypoint waypoint, long millisFromEpoch, int tzOffsetSeconds) {
+		waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN, millisFromEpoch,
+				tzOffsetSeconds * 1000);
 	}
 
 	private void parsePricingInfoArray(JSONArray pricingJson) {
