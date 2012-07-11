@@ -24,9 +24,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.Amobee;
+import com.expedia.bookings.utils.AdTracker;
 import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.utils.Somo;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -220,8 +219,7 @@ public class SignInFragment extends DialogFragment {
 			}
 			else {
 				Db.setUser(response.getUser());
-				Amobee.trackLogin();
-				Somo.trackLogin();
+				AdTracker.trackLogin();
 				ExpediaServices.persistUserIsLoggedIn(mContext);
 				((SignInFragmentListener) getActivity()).onLoginCompleted();
 				dismiss();

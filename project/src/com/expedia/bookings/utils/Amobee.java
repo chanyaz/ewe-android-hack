@@ -38,8 +38,9 @@ public class Amobee {
 		}
 	}
 
-	public static void trackBooking(Object... params) {
+	public static void trackBooking(String currency, double totalPrice, int duration, int daysRemaining) {
 		if (mEnabled) {
+			Object params = new Object[] { currency, totalPrice, duration, daysRemaining };
 			AmobeeReceiver.amobeeTracking(Goal.CUSTOM0, mContext, mAppId, params);
 		}
 	}

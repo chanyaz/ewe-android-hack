@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.utils.Amobee;
+import com.expedia.bookings.utils.AdTracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
-import com.expedia.bookings.utils.Somo;
 import com.mobiata.android.BackgroundDownloader;
 
 /**
@@ -26,8 +25,7 @@ public class SearchActivity extends Activity {
 
 		// Track the app loading
 		Tracker.trackAppLoading(this);
-		Amobee.trackLaunch();
-		Somo.trackLaunch();
+		AdTracker.trackLaunch();
 
 		// Determine where to route the app
 		Class<? extends Activity> routingTarget;
