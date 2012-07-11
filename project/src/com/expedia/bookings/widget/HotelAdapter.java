@@ -27,6 +27,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
@@ -231,8 +232,14 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
-			holder.strikethroughPrice.setVisibility(View.VISIBLE);
-			holder.strikethroughPrice.setText(Html.fromHtml("<strike>" + StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate()) + "</strike>", null, new StrikethroughTagHandler()));
+			if (LocaleUtils.getPointOfSale(mContext).equals("expedia.com.vn")) {
+				// Disable for vietnam because the prices are too long
+				holder.strikethroughPrice.setVisibility(View.GONE);
+			}
+			else {
+				holder.strikethroughPrice.setVisibility(View.VISIBLE);
+				holder.strikethroughPrice.setText(Html.fromHtml("<strike>" + StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate()) + "</strike>", null, new StrikethroughTagHandler()));
+			}
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleContainer.setVisibility(View.VISIBLE);
 			if (!mUseCondensedRows || !ExpediaBookingApp.useTabletInterface(mContext)) {
