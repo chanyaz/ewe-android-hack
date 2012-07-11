@@ -41,6 +41,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 	@Override
 	public FlightSearchResponse handleJson(JSONObject response) {
+		long start = System.currentTimeMillis();
+
 		mResponse = new FlightSearchResponse();
 		mLegs = new HashMap<String, FlightLeg>();
 
@@ -70,6 +72,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 			parsePricingInfoArray(response.optJSONArray("offers"));
 		}
+
+		Log.d("Flight search response parse time: " + (System.currentTimeMillis() - start) + " ms");
 
 		return mResponse;
 	}
