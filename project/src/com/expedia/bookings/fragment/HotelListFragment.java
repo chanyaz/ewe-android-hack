@@ -115,17 +115,10 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
 
 		// Configure the phone vs. tablet ui different
-		if (AndroidUtils.isHoneycombTablet(getActivity())) {
-
-		}
-		else {
+		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
 			mSearchProgressBar.setVisibility(View.GONE);
 
 			Ui.findView(view, R.id.no_filter_results_text_view).setVisibility(View.VISIBLE);
-
-			listView.setScrollIndicators(null, null);
-			listView.setVerticalFadingEdgeEnabled(false);
-			listView.setVerticalScrollBarEnabled(false);
 		}
 
 		return view;
