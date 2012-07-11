@@ -113,6 +113,8 @@
     <string name="checkout_btn">Checkout</string>
     <!-- Notice when price changes on a flight -->
     <string name="price_change_alert_TEMPLATE">The price of your trip has changed from %1$s to %2$s.</string>
+    <!-- Message when loading realtime flight information -->
+    <string name="loading_flight_details">Loading realtime flight information...</string>
 
     <!-- Section Display Flights -->
     <!-- Departs label with date (e.g. Depart: Aug 2nd) -->

@@ -3,6 +3,9 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -27,10 +30,10 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 
 public class FlightTripOverviewFragment extends Fragment {
@@ -110,6 +113,10 @@ public class FlightTripOverviewFragment extends Fragment {
 			// Begin loading flight details in the background, if we haven't already
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			if (!bd.isDownloading(KEY_DETAILS) && !mRequestedDetails) {
+				// Show a loading dialog
+				LoadingDetailsDialogFragment df = new LoadingDetailsDialogFragment();
+				df.show(getFragmentManager(), LoadingDetailsDialogFragment.TAG);
+
 				bd.startDownload(KEY_DETAILS, mFlightDetailsDownload, mFlightDetailsCallback);
 			}
 		}
@@ -176,7 +183,12 @@ public class FlightTripOverviewFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_DETAILS);
+		if (getActivity().isFinishing()) {
+			BackgroundDownloader.getInstance().cancelDownload(KEY_DETAILS);
+		}
+		else {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_DETAILS);
+		}
 	}
 
 	@Override
@@ -208,15 +220,19 @@ public class FlightTripOverviewFragment extends Fragment {
 			Db.setFlightDetails(results);
 			mRequestedDetails = true;
 
+			LoadingDetailsDialogFragment df = Ui.findSupportFragment(getCompatibilityActivity(),
+					LoadingDetailsDialogFragment.TAG);
+			df.dismiss();
+
 			if (results == null) {
 				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
 						getString(R.string.error_server));
-				dialogFragment.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "errorFragment");
+				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else if (results.hasErrors()) {
 				String error = results.getErrors().get(0).getPresentableMessage(getActivity());
 				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null, error);
-				dialogFragment.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "errorFragment");
+				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else {
 				mCheckoutBtn.setEnabled(true);
@@ -227,8 +243,7 @@ public class FlightTripOverviewFragment extends Fragment {
 					String msg = getString(R.string.price_change_alert_TEMPLATE, oldFare, newFare);
 
 					DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null, msg);
-					dialogFragment.show(((FragmentActivity) getActivity()).getSupportFragmentManager(),
-							"noticeFragment");
+					dialogFragment.show(getFragmentManager(), "noticeFragment");
 				}
 
 				mOffer = results.getOffer();
@@ -237,4 +252,35 @@ public class FlightTripOverviewFragment extends Fragment {
 			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Progress dialog
+
+	public static class LoadingDetailsDialogFragment extends DialogFragment {
+
+		public static final String TAG = LoadingDetailsDialogFragment.class.getName();
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+
+			setCancelable(true);
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			ProgressDialog pd = new ProgressDialog(getActivity());
+			pd.setMessage(getString(R.string.loading_flight_details));
+			pd.setCanceledOnTouchOutside(false);
+			return pd;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+
+			// If the dialog is canceled without finishing loading, don't show this page.
+			getActivity().finish();
+		}
+	}
 }
