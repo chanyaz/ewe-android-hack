@@ -27,8 +27,8 @@ import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentList
 import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.Amobee;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;

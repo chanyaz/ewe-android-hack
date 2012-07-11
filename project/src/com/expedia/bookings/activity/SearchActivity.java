@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.utils.AdTracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.mobiata.android.BackgroundDownloader;
 

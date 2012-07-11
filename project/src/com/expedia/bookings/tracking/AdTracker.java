@@ -1,14 +1,21 @@
-package com.expedia.bookings.utils;
+package com.expedia.bookings.tracking;
 
 import java.util.Arrays;
 import java.util.List;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
+import android.provider.Settings;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.LocaleUtils;
+import com.omniture.AppMeasurement;
 
 public class AdTracker {
+	private static AppMeasurement mAppMeasurement;
+	private static String mAndroidId;
+
 	public static void initialize(Context context) {
 		final Resources res = context.getResources();
 
@@ -24,11 +31,14 @@ public class AdTracker {
 		Somo.initialize(context, userId, applicationId, somoPos.contains(LocaleUtils.getPointOfSale(context)));
 
 		// TODO: Initialize omniture
+		mAppMeasurement = new AppMeasurement((Application) context.getApplicationContext());
+		mAndroidId = Settings.Secure.getString(context.getContentResolver(), "android_id");
 	}
 
 	public static void trackFirstLaunch() {
 		Amobee.trackFirstLaunch();
 		Somo.trackFirstLaunch();
+		
 	}
 
 	public static void trackLaunch() {

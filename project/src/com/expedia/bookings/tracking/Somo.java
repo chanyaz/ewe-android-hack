@@ -1,4 +1,4 @@
-package com.expedia.bookings.utils;
+package com.expedia.bookings.tracking;
 
 import android.content.Context;
 

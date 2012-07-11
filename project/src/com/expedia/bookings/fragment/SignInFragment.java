@@ -24,7 +24,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.AdTracker;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
