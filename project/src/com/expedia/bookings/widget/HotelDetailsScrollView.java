@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.OverScroller;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.util.AndroidUtils;
@@ -89,7 +88,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		boolean result = super.onTouchEvent(ev);
 
 		if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-			if (getScroller().isFinished()) {
+			if (isScrollerFinished()) {
 				snapGallery();
 			}
 		}
@@ -200,36 +199,12 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	}
 
 	@Override
-	public OverScroller initScroller() {
-		return new CustomOverScroller();
-	}
-
-	private class CustomOverScroller extends OverScroller {
-		public CustomOverScroller() {
-			super(getContext());
+	public Object initScroller() {
+		if (AndroidUtils.getSdkVersion() < 9) {
+			return new HotelDetailsScroller(this);
 		}
-
-		@Override
-		public void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY,
-				int overX, int overY) {
-
-			int modifiedMinY = minY;
-			int modifiedMaxY = maxY;
-			if (startY > mInitialScrollTop && velocityY < 0) {
-				modifiedMinY = Math.max(mInitialScrollTop, minY);
-			}
-			else if (startY < mInitialScrollTop) {
-				if (velocityY < 0) {
-					modifiedMinY = 0;
-					modifiedMaxY = 0;
-				}
-				else {
-					modifiedMinY = mInitialScrollTop;
-					modifiedMaxY = mInitialScrollTop;
-				}
-			}
-
-			super.fling(startX, startY, velocityX, velocityY, minX, maxX, modifiedMinY, modifiedMaxY, 0, 20);
+		else {
+			return new HotelDetailsOverScroller(this);
 		}
 	}
 }

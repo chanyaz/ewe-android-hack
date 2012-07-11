@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.List;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -134,7 +133,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 			userRatingBar.setRating(0f);
 			if (numReviews > 0) {
 				//TODO: ObjectAnimator doesn't exist pre v11
-				ObjectAnimator.ofFloat(userRatingBar, "rating", userRating).start();
+				//ObjectAnimator.ofFloat(userRatingBar, "rating", userRating).start();
 			}
 		}
 		else {
@@ -152,7 +151,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 			ratingThumbImage.setImageResource(R.drawable.rating_good);
 			ratingThumbImage.setRotation(90);
 			if (numReviews > 0) {
-				ratingThumbImage.animate().rotationBy(percentRecommend > 50 ? -90 : 90);
+				//ratingThumbImage.animate().rotationBy(percentRecommend > 50 ? -90 : 90);
 			}
 		}
 		else {
