@@ -93,6 +93,9 @@ public class Db {
 	// the returned results
 	private FlightSearch mFlightSearch = new FlightSearch();
 
+	// Flight details (of the flight we're investigating right now in FlightSearch
+	private FlightDetailsResponse mFlightDetails;
+
 	// Flight Travelers
 	private ArrayList<FlightPassenger> mFlightPassengers = new ArrayList<FlightPassenger>();
 
@@ -324,6 +327,14 @@ public class Db {
 		return sDb.mFlightSearch;
 	}
 
+	public static void setFlightDetails(FlightDetailsResponse flightDetails) {
+		sDb.mFlightDetails = flightDetails;
+	}
+
+	public static FlightDetailsResponse getFlightDetails() {
+		return sDb.mFlightDetails;
+	}
+
 	public static ArrayList<FlightPassenger> getFlightPassengers() {
 		return sDb.mFlightPassengers;
 	}
@@ -399,7 +410,7 @@ public class Db {
 			putJsonable(obj, "selectedProperty", sDb.mSelectedProperty);
 			putJsonable(obj, "selectedRate", sDb.mSelectedRate);
 			putJsonable(obj, "user", sDb.mUser);
-			putArrayList(obj,"flightPassengers",sDb.mFlightPassengers);
+			putArrayList(obj, "flightPassengers", sDb.mFlightPassengers);
 
 			IoUtils.writeStringToFile(TEST_DATA_FILE, obj.toString(), context);
 		}
@@ -436,7 +447,7 @@ public class Db {
 			sDb.mSelectedProperty = getJsonable(obj, "selectedProperty", Property.class, sDb.mSelectedProperty);
 			sDb.mSelectedRate = getJsonable(obj, "selectedRate", Rate.class, sDb.mSelectedRate);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
-			sDb.mFlightPassengers = getArrayList(obj,"flightPassengers",FlightPassenger.class,sDb.mFlightPassengers);
+			sDb.mFlightPassengers = getArrayList(obj, "flightPassengers", FlightPassenger.class, sDb.mFlightPassengers);
 		}
 		catch (Exception e) {
 			Log.w("Could not load db testing", e);
@@ -512,7 +523,7 @@ public class Db {
 				jsonable.fromJson(arr.getJSONObject(i));
 				retArr.add(jsonable);
 			}
-			
+
 			return retArr;
 		}
 		return defaultVal;

@@ -12,6 +12,10 @@ public class FlightDetailsResponse extends Response {
 	private boolean mIsRefundable;
 	private Money mChangePenaltyAmount;
 
+	public boolean hasPriceChanged() {
+		return mPriceChangeAmount != null;
+	}
+
 	public void setOffer(FlightTrip flightTrip) {
 		mOffer = flightTrip;
 	}
