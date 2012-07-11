@@ -14,6 +14,7 @@
 
 	<!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
 	<dimen name="hotel_details_intro_offset">-45dp</dimen>
+	<dimen name="price_promo_banner_height">45dp</dimen>
 
 	<!-- Radius of the blue circle drawn on the hotel details mini map fragment -->
 	<dimen name="mini_map_circle_radius">7dp</dimen>
