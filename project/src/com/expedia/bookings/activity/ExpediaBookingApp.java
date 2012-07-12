@@ -51,7 +51,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		// Initialize some parts of the code that require a Context
-		Rate.initInclusivePrices(this);
+		LocaleUtils.initInclusivePrices(this);
 
 		// Fill POS based on locale if it's not already filled.
 		// Do it here so it becomes a sticky preference, i.e. it won't

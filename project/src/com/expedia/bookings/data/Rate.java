@@ -516,19 +516,6 @@ public class Rate implements JSONable {
 		return mIsMobileExclusive;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Inclusive rates
-
-	// An array of POSes that use inclusive pricing (aka, showing the full
-	// stay's price instead per/night)
-
-	private static String[] sInclusivePricingPointOfSales;
-
-	public static void initInclusivePrices(Context context) {
-		sInclusivePricingPointOfSales = context.getResources().getStringArray(R.array.pos_inclusive_pricing);
-		Arrays.sort(sInclusivePricingPointOfSales);
-	}
-
 	public boolean showInclusivePrices() {
 		switch (getUserPriceType()) {
 		case PER_NIGHT_RATE_NO_TAXES:
@@ -536,13 +523,7 @@ public class Rate implements JSONable {
 		case RATE_FOR_WHOLE_STAY_WITH_TAXES:
 			return true;
 		}
-
-		// If the type is unknown, fall back on our old system (just in case) 
-		if (sInclusivePricingPointOfSales == null) {
-			throw new RuntimeException("Need to call initInclusivePrices() on app start");
-		}
-
-		return Arrays.binarySearch(sInclusivePricingPointOfSales, LocaleUtils.getPointOfSale()) >= 0;
+		return LocaleUtils.doesPointOfSaleHaveInclusivePricing();
 	}
 
 	public Money getInclusiveBaseRate() {
