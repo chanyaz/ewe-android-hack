@@ -47,10 +47,11 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
@@ -280,7 +281,7 @@ public class BookingFormFragment extends DialogFragment {
 		}
 
 		// Figure out if we are logged in
-		if (ExpediaServices.isLoggedIn((Context) mActivity)) {
+		if (User.isLoggedIn((Context) mActivity)) {
 			syncFormFieldsFromBillingInfo(view);
 			if (savedInstanceState != null && mUserProfileIsFresh) {
 				mAccountButton.bind(false, true, Db.getUser());
@@ -905,9 +906,11 @@ public class BookingFormFragment extends DialogFragment {
 		mLastNameEditText.setText(lastName);
 		mTelephoneEditText.setText(billingInfo.getTelephone());
 		mEmailEditText.setText(billingInfo.getEmail());
-		mEmailEditText.setEnabled(!ExpediaServices.isLoggedIn(getActivity()));
-		mEmailEditText.setFocusable(!ExpediaServices.isLoggedIn(getActivity()));
-		mEmailEditText.setFocusableInTouchMode(!ExpediaServices.isLoggedIn(getActivity()));
+
+		boolean isLoggedIn = User.isLoggedIn(getActivity());
+		mEmailEditText.setEnabled(!isLoggedIn);
+		mEmailEditText.setFocusable(!isLoggedIn);
+		mEmailEditText.setFocusableInTouchMode(!isLoggedIn);
 
 		// Sync the saved billing info fields
 		Location loc = billingInfo.getLocation();
@@ -1007,7 +1010,7 @@ public class BookingFormFragment extends DialogFragment {
 			else {
 				mUserProfileIsFresh = true;
 				Db.setUser(response.getUser());
-				Amobee.trackLogin();
+				AdTracker.trackLogin();
 				mAccountButton.bind(false, true, Db.getUser());
 				syncFormFieldsFromBillingInfo(mRootBillingView);
 				syncBillingInfo();
@@ -1029,8 +1032,7 @@ public class BookingFormFragment extends DialogFragment {
 
 		public void accountLogoutClicked() {
 			mUserProfileIsFresh = false;
-			ExpediaServices services = new ExpediaServices((Context) mActivity);
-			services.signOut();
+			User.signOut(getActivity());
 			mAccountButton.bind(false, false, null);
 			Db.resetBillingInfo();
 			Db.getBillingInfo().save(getActivity());

@@ -18,10 +18,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.mobiata.android.Log;
 
 public class HotelListFragment extends ListFragment implements OnScrollListener {
 
@@ -45,6 +47,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private TextView mNumHotelsTextView;
 	private TextView mNumHotelsTextViewTablet;
 	private TextView mSortTypeTextView;
+	private TextView mLawyerLabelTextView;
 
 	private PlaceholderTagProgressBar mSearchProgressBar;
 
@@ -92,6 +95,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
 		mNumHotelsTextViewTablet = (TextView) view.findViewById(R.id.num_hotels_text_view_tablet);
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
+		mLawyerLabelTextView = (TextView) view.findViewById(R.id.lawyer_label_text_view);
 
 		ViewGroup placeholderContainer = (ViewGroup) view.findViewById(R.id.placeholder_container);
 		ProgressBar placeholderProgressBar = (ProgressBar) view.findViewById(R.id.placeholder_progress_bar);
@@ -107,6 +111,8 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 			});
 		}
 
+		updateLawyerLabel();
+
 		// Configure ListView
 		ListView listView = Ui.findView(view, android.R.id.list);
 		listView.setOnScrollListener(this);
@@ -115,17 +121,10 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
 
 		// Configure the phone vs. tablet ui different
-		if (AndroidUtils.isHoneycombTablet(getActivity())) {
-
-		}
-		else {
+		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
 			mSearchProgressBar.setVisibility(View.GONE);
 
 			Ui.findView(view, R.id.no_filter_results_text_view).setVisibility(View.VISIBLE);
-
-			listView.setScrollIndicators(null, null);
-			listView.setVerticalFadingEdgeEnabled(false);
-			listView.setVerticalScrollBarEnabled(false);
 		}
 
 		return view;
@@ -164,6 +163,14 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 		if (mAdapter != null) {
 			mAdapter.setShowDistance(mShowDistances);
+		}
+	}
+
+	private void updateLawyerLabel() {
+		if (LocaleUtils.doesPointOfSaleHaveInclusivePricing(getActivity())) {
+			mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay));
+		} else {
+			mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night));
 		}
 	}
 
@@ -266,6 +273,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		else {
 			updateNumHotels();
 			setHeaderVisibility(View.VISIBLE);
+			updateLawyerLabel();
 			mAdapter.setShowDistance(mShowDistances);
 		}
 	}

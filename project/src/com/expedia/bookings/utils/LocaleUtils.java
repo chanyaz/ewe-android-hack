@@ -350,4 +350,34 @@ public class LocaleUtils {
 		return pos.equals(context.getString(R.string.point_of_sale_it))
 				|| pos.equals(context.getString(R.string.point_of_sale_de));
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Inclusive rates
+
+	// An array of POSes that use inclusive pricing (aka, showing the full
+	// stay's price instead per/night)
+
+	private static String[] sInclusivePricingPointOfSales;
+
+	public static void initInclusivePrices(Context context) {
+		sInclusivePricingPointOfSales = context.getResources().getStringArray(R.array.pos_inclusive_pricing);
+		Arrays.sort(sInclusivePricingPointOfSales);
+	}
+
+	public static boolean doesPointOfSaleHaveInclusivePricing(Context context) {
+		if (sInclusivePricingPointOfSales == null) {
+			throw new RuntimeException("Need to call initInclusivePrices() on app start");
+		}
+
+		return Arrays.binarySearch(sInclusivePricingPointOfSales, getPointOfSale(context)) >= 0;
+	}
+
+	public static boolean doesPointOfSaleHaveInclusivePricing() {
+		if (sInclusivePricingPointOfSales == null) {
+			throw new RuntimeException("Need to call initInclusivePrices() on app start");
+		}
+
+		return Arrays.binarySearch(sInclusivePricingPointOfSales, getPointOfSale()) >= 0;
+	}
+
 }

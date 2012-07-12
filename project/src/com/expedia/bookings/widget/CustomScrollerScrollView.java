@@ -1,16 +1,16 @@
 package com.expedia.bookings.widget;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.OverScroller;
 import android.widget.ScrollView;
 
-public class CustomScrollerScrollView extends ScrollView {
+public abstract class CustomScrollerScrollView extends ScrollView {
 
-	private OverScroller mOverriddenScroller;
-	
+	private Object mCustomScroller;
+
 	public CustomScrollerScrollView(Context context) {
 		this(context, null);
 	}
@@ -26,30 +26,45 @@ public class CustomScrollerScrollView extends ScrollView {
 		setScroller(initScroller());
 	}
 
-	public OverScroller initScroller() {
-		return new OverScroller(getContext());
+	/**
+	 * Subclasses should return either a Scroller (for < API9) or OverScroller (for >= API9).
+	 * @return
+	 */
+	public abstract Object initScroller();
+
+	public boolean isScrollerFinished() {
+		Object scroller = getScroller();
+		try {
+			Method method = scroller.getClass().getMethod("isFinished", null);
+			return (Boolean) method.invoke(scroller, null);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return true;
 	}
 
-	public OverScroller getScroller() {
-		if (mOverriddenScroller == null) {
+	public Object getScroller() {
+		if (mCustomScroller == null) {
 			try {
 				Field field = ScrollView.class.getDeclaredField("mScroller");
 				field.setAccessible(true);
-				mOverriddenScroller = (OverScroller) field.get(this);
+				mCustomScroller = field.get(this);
 			}
 			catch (Throwable e) {
 				e.printStackTrace();
 			}
-			
 		}
-		return mOverriddenScroller;
+		return mCustomScroller;
 	}
 
-	private void setScroller(OverScroller scroller) {
+	private void setScroller(Object scroller) {
 		try {
 			Field field = ScrollView.class.getDeclaredField("mScroller");
 			field.setAccessible(true);
 			field.set(this, scroller);
+			mCustomScroller = scroller;
 		}
 		catch (Throwable e) {
 			e.printStackTrace();

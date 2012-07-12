@@ -62,7 +62,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	private HotelDetailsIntroFragment mIntroFragment;
 	private HotelDetailsMiniMapFragment mMapFragment;
 	private HotelDetailsDescriptionFragment mDescriptionFragment;
-	private HotelDetailsScrollView mScrollView;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
@@ -201,8 +200,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		};
 		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
 
-		mScrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_main);
-
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction ft = manager.beginTransaction();
 
@@ -323,7 +320,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	public void onMiniMapClicked() {
 		Intent intent = new Intent(this, HotelMapActivity.class);
 		startActivity(intent);
-		overridePendingTransition(R.anim.fade_in, R.anim.explode);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -331,7 +327,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 	@Override
 	public void onMiniGalleryItemClicked(Property property, Object item) {
-		mScrollView.toggleFullScreenGallery();
+		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_main);
+		scrollView.toggleFullScreenGallery();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

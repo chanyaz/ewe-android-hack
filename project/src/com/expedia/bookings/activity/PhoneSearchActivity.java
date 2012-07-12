@@ -3033,9 +3033,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	public void onListItemClicked(Property property, int position) {
 		Db.setSelectedProperty(property);
 
-		Intent intent = new Intent(this, AndroidUtils.getSdkVersion() >= 9 ? HotelDetailsFragmentActivity.class
-				: HotelActivity.class);
-		intent.putExtra(HotelActivity.EXTRA_POSITION, position);
+		Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
 		startActivity(intent);
 	}
 
@@ -3051,7 +3049,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	public void onBalloonClicked(Property property) {
 		Db.setSelectedProperty(property);
 
-		Intent intent = new Intent(this, HotelActivity.class);
+		Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
 		startActivity(intent);
 	}
 

@@ -1,6 +1,5 @@
 package com.expedia.bookings.server;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -68,6 +67,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.SuggestResponse;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
@@ -90,7 +90,6 @@ public class ExpediaServices implements DownloadListener {
 	public static final int HOTEL_MAX_RESULTS = 200;
 
 	private static final String COOKIES_FILE = "cookies.dat";
-	private static final String IS_USER_LOGGED_IN_FILE = "is_user_logged_in.boolean";
 
 	public enum ReviewSort {
 		NEWEST_REVIEW_FIRST("NewestReviewFirst"), HIGHEST_RATING_FIRST("HighestRatingFirst"), LOWEST_RATING_FIRST(
@@ -422,7 +421,9 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("password", password));
 		query.add(new BasicNameValuePair("staySignedIn", "true"));
 
-		signOut();
+		// Make sure we're signed out before we try to sign in again
+		User.signOut(mContext);
+
 		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
@@ -438,39 +439,10 @@ public class ExpediaServices implements DownloadListener {
 		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
-	public void signOut() {
+	public void clearCookies() {
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
 		cookieStore.clear();
 		cookieStore.save(mContext, COOKIES_FILE);
-
-		// Cleanup persisted user data
-		File f = mContext.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
-		f.delete();
-	}
-
-	public void persistUserIsLoggedIn() {
-		File f = mContext.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
-		try {
-			f.createNewFile();
-		}
-		catch (IOException e) {
-			// nothing
-		}
-	}
-
-	public static void persistUserIsLoggedIn(Context context) {
-		ExpediaServices service = new ExpediaServices(context);
-		service.persistUserIsLoggedIn();
-	}
-
-	public boolean isLoggedIn() {
-		File f = mContext.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
-		return f.exists();
-	}
-
-	public static boolean isLoggedIn(Context context) {
-		ExpediaServices service = new ExpediaServices(context);
-		return service.isLoggedIn();
 	}
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {

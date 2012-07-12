@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -17,8 +16,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.server.ExpediaServices;
-import com.mobiata.android.Log;
+import com.expedia.bookings.data.User;
 
 public class DomainPreference extends ListPreference {
 	private Context mContext;
@@ -60,12 +58,12 @@ public class DomainPreference extends ListPreference {
 
 	@Override
 	protected void onDialogClosed(boolean positiveResult) {
-		if(positiveResult && mSelectedOption >= 0 && super.getEntryValues() != null) {
+		if (positiveResult && mSelectedOption >= 0 && super.getEntryValues() != null) {
 			final String value = super.getEntryValues()[mSelectedOption].toString();
 			setSelectedOption(super.findIndexOfValue(super.getValue()));
 			Builder builder = new AlertDialog.Builder(mContext);
 			builder.setTitle(R.string.dialog_clear_private_data_title);
-			if (ExpediaServices.isLoggedIn(mContext)) {
+			if (User.isLoggedIn(mContext)) {
 				builder.setMessage(R.string.dialog_log_out_and_clear_private_data_msg);
 			}
 			else {
@@ -80,8 +78,7 @@ public class DomainPreference extends ListPreference {
 					// Delete private data
 					Db.deleteBillingInfo(mContext);
 
-					ExpediaServices service = new ExpediaServices(mContext);
-					service.signOut();
+					User.signOut(mContext);
 
 					// Inform the men
 					Toast.makeText(mContext, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
@@ -197,4 +194,3 @@ public class DomainPreference extends ListPreference {
 		}
 	}
 }
-

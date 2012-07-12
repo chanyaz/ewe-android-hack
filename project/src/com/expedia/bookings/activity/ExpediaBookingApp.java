@@ -6,8 +6,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import android.app.Application;
 import android.content.ComponentName;
@@ -20,8 +18,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.Amobee;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -62,7 +60,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		// Initialize some parts of the code that require a Context
-		Rate.initInclusivePrices(this);
+		LocaleUtils.initInclusivePrices(this);
 
 		// Fill POS based on locale if it's not already filled.
 		// Do it here so it becomes a sticky preference, i.e. it won't
@@ -74,10 +72,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		LocaleUtils.onPointOfSaleChanged(this);
-
-		List<String> amobeePos = Arrays.asList(getResources().getStringArray(R.array.valid_amobee_points_of_sale));
-		Amobee.initialize(this, "ExpediaHotelsAndroidPhone", amobeePos.contains(LocaleUtils.getPointOfSale(this)));
-		Amobee.trackFirstLaunch();
+		AdTracker.initialize(this);
+		AdTracker.trackFirstLaunch();
 
 		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so, 
 		// in that it requires the app to be launched at least once before it can be disabled, but it's

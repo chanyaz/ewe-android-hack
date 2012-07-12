@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.expedia.bookings"
     android:versionCode="12"
@@ -23,6 +22,9 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="6" />
+        <meta-data
+            android:name="com.somo.apptimiser.PUBLIC_KEY_BASE64_STRING"
+            android:value="@string/soma_rsa_key" />
 
         <uses-library android:name="com.google.android.maps" />
 
@@ -60,7 +62,7 @@
         <activity
             android:name=".activity.BookingFragmentActivity"
             android:theme="@style/Theme.Tablet"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ConfirmationFragmentActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
@@ -209,6 +211,20 @@
         </receiver>
         <receiver
             android:name="com.amobee.agency.tracking.AmobeeReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.somo.apptimiser.SomoMarketBroadcastReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.expedia.bookings.tracking.OmnitureReceiver"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />

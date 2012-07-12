@@ -604,9 +604,11 @@
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">avg/night</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
-    <string name="prices_avg_per_night">Prices average, per night.</string>
+    <string name="total_price_for_stay">Total price for stay</string>
+    <!-- Rate price for entire list, encompasses a group of hotel properties -->
+    <string name="prices_avg_per_night">Prices average, per night</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties. Abbreviated. Meant to be short and fit in a small space -->
-    <string name="prices_avg_per_night_short">Prices avg/night.</string>
+    <string name="prices_avg_per_night_short">Prices avg/night</string>
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">No rooms left!</item>
@@ -825,7 +827,7 @@
     <!-- Message that tells user they successfully logged in -->
     <string name="login_success">Success! You are now logged in.</string>
     <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">Login Failed</string>
+    <string name="login_failed">Please log in again</string>
     <!-- Label for login widget button -->
     <string name="account_login">Account Login</string>
     <!-- Label for login widget additional text -->

@@ -280,12 +280,6 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_bar_layout"
-        android:background="@drawable/actionbar_shadow" />
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:layout_above="@+id/bottombar_divider"
         android:background="@drawable/bottombar_shadow" />
 
