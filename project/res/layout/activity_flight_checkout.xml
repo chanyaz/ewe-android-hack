@@ -23,15 +23,12 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/login_btn"
-            android:layout_width="match_parent"
+        <include
+            android:id="@+id/account_button_root"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_small_yellow"
-            android:drawableLeft="@drawable/ic_logged_in_with_rewards"
-            android:text="@string/login_btn_text" />
+            android:layout_gravity="center_horizontal"
+            layout="@layout/include_account_button" />
 
         <TextView
             android:layout_width="match_parent"
@@ -82,37 +79,35 @@
                 android:id="@+id/address_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/section_display_address_btn" 
-                />
-            
+                layout="@layout/section_display_address_btn" />
+
             <View
                 android:id="@+id/payment_div_one"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#661F1F1F"/>
+                android:layout_marginTop="5dp"
+                android:background="#661F1F1F" />
 
             <include
                 android:id="@+id/creditcard_section_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/section_display_creditcard_btn" />
-            
+
             <View
                 android:id="@+id/payment_div_two"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="#661F1F1F"/>
+                android:layout_marginTop="5dp"
+                android:background="#661F1F1F" />
 
             <include
                 android:id="@+id/creditcard_section_security_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/section_edit_creditcard_security_code" />
-
         </LinearLayout>
 
         <Button
