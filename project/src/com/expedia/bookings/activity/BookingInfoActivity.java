@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
 import com.expedia.bookings.fragment.SignInFragment;
@@ -190,7 +191,7 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 		case DIALOG_CLEAR_PRIVATE_DATA: {
 			Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.dialog_clear_private_data_title);
-			if (ExpediaServices.isLoggedIn(mContext)) {
+			if (User.isLoggedIn(mContext)) {
 				builder.setMessage(R.string.dialog_log_out_and_clear_private_data_msg);
 			}
 			else {
@@ -204,8 +205,7 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 					// Clear form
 					mBookingFragment.clearBillingInfo();
 
-					ExpediaServices service = new ExpediaServices(mContext);
-					service.signOut();
+					User.signOut(mContext);
 
 					// Inform the men
 					Toast.makeText(mContext, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();

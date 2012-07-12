@@ -14,9 +14,9 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -40,8 +40,7 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 			ListPreference apiPref = (ListPreference) findPreference(apiKey);
 			apiPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					ExpediaServices expedia = new ExpediaServices(ExpediaBookingPreferenceActivity.this);
-					expedia.signOut();
+					User.signOut(ExpediaBookingPreferenceActivity.this);
 					return true;
 				}
 			});

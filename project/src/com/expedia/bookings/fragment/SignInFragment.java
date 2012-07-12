@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.LocaleUtils;
@@ -218,9 +219,10 @@ public class SignInFragment extends DialogFragment {
 				((SignInFragmentListener) getActivity()).onLoginFailed();
 			}
 			else {
-				Db.setUser(response.getUser());
+				User user = response.getUser();
+				Db.setUser(user);
 				AdTracker.trackLogin();
-				ExpediaServices.persistUserIsLoggedIn(mContext);
+				user.save(mContext);
 				((SignInFragmentListener) getActivity()).onLoginCompleted();
 				dismiss();
 			}

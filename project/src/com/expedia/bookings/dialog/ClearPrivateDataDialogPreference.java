@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.data.User;
 
 public class ClearPrivateDataDialogPreference extends DialogPreference {
 	public interface ClearPrivateDataListener {
@@ -28,10 +28,9 @@ public class ClearPrivateDataDialogPreference extends DialogPreference {
 			BillingInfo info = new BillingInfo();
 			info.delete(context);
 
-			ExpediaServices expedia = new ExpediaServices(context);
-			boolean signedIn = expedia.isLoggedIn();
+			boolean signedIn = User.isLoggedIn(context);
 			if (signedIn) {
-				expedia.signOut();
+				User.signOut(context);
 			}
 
 			if (mClearPrivateDataListener != null) {
