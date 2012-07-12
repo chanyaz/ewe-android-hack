@@ -16,9 +16,11 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.SparseArray;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Filter;
@@ -122,6 +124,12 @@ public class TrackingUtils {
 		if (!AndroidUtils.isRelease(context)) {
 			s.account += "dev";
 		}
+
+		// Amobee tracking
+
+		s.visitorID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+		s.eVar7 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+		s.eVar10 = SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), "");
 
 		// Server
 		s.trackingServer = "om.expedia.com";

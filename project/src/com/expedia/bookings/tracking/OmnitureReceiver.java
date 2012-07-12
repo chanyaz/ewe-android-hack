@@ -2,6 +2,7 @@ package com.expedia.bookings.tracking;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Application;
 import android.content.BroadcastReceiver;
@@ -20,10 +21,18 @@ public class OmnitureReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getAction().equals("com.android.vending.INSTALL_REFERRER")) {
 			AppMeasurement appMeasurement = new AppMeasurement((Application) context.getApplicationContext());
-			String androidId = Settings.Secure.getString(context.getContentResolver(), "android_id");
+
+			String marketingDate = FORMATTER.format(new Date());
+			String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+			SettingUtils.save(context, context.getString(R.string.preference_amobee_marketing_date), marketingDate);
 
 			appMeasurement.visitorID = androidId;
-			appMeasurement.eVar27 = "App Launch";
+			appMeasurement.eVar7 = androidId;
+			appMeasurement.eVar10 = marketingDate;
+			appMeasurement.eVar28 = "App Install";
+
+			appMeasurement.track();
 		}
 	}
 }

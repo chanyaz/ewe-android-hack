@@ -10,11 +10,13 @@ import android.provider.Settings;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.omniture.AppMeasurement;
 
 public class AdTracker {
 	private static AppMeasurement mAppMeasurement;
 	private static String mAndroidId;
+	private static String mMarketingDate;
 
 	public static void initialize(Context context) {
 		final Resources res = context.getResources();
@@ -30,20 +32,28 @@ public class AdTracker {
 		final int applicationId = res.getInteger(R.integer.somo_application_id);
 		Somo.initialize(context, userId, applicationId, somoPos.contains(LocaleUtils.getPointOfSale(context)));
 
-		// TODO: Initialize omniture
+		// Omniture
 		mAppMeasurement = new AppMeasurement((Application) context.getApplicationContext());
-		mAndroidId = Settings.Secure.getString(context.getContentResolver(), "android_id");
+		mAndroidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+		mMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), "");
 	}
 
 	public static void trackFirstLaunch() {
 		Amobee.trackFirstLaunch();
 		Somo.trackFirstLaunch();
-		
 	}
 
 	public static void trackLaunch() {
 		Amobee.trackLaunch();
 		Somo.trackLaunch();
+
+		// Omniture
+		mAppMeasurement.visitorID = mAndroidId;
+		mAppMeasurement.eVar7 = mAndroidId;
+		mAppMeasurement.eVar10 = mMarketingDate;
+		mAppMeasurement.eVar27 = "App Launch";
+
+		mAppMeasurement.track();
 	}
 
 	public static void trackLogin() {
