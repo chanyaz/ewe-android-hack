@@ -242,10 +242,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			}
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleContainer.setVisibility(View.VISIBLE);
-			if (!mUseCondensedRows || !ExpediaBookingApp.useTabletInterface(mContext)) {
-				holder.saleText.setText(mContext.getString(R.string.percent_minus_template,
-						lowestRate.getSavingsPercent() * 100));
-			}
+			holder.saleText.setText(mContext.getString(R.string.percent_minus_template,
+				lowestRate.getSavingsPercent() * 100));
 		}
 		else {
 			holder.strikethroughPrice.setVisibility(View.GONE);
