@@ -117,17 +117,6 @@
             android:name=".activity.FlightDetailsActivity"
             android:theme="@style/FlightTheme" />
         <activity
-            android:name=".activity.FlightPaymentSummaryActivity"
-            android:label="Payment Summary"
-            android:theme="@style/FlightTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".activity.FlightTripOverviewActivity"
             android:label="Overview"
             android:theme="@style/FlightTheme" >
