@@ -8,21 +8,19 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.validation.ValidationError;
+import com.mobiata.android.validation.Validator;
 
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable {
 
@@ -61,16 +59,27 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayFullName);
 		mFields.add(this.mDisplayEmailAddress);
 		mFields.add(this.mDisplayPhoneNumber);
+		mFields.add(this.mDisplayCreditCardBrandName);
 
 		//Edit fields
 		mFields.add(this.mEditCreditCardExpiration);
 		mFields.add(this.mEditCreditCardNumber);
 		mFields.add(this.mEditCreditCardSecurityCode);
-		mFields.add(this.mEditCreditCardType);
 		mFields.add(this.mEditFirstName);
 		mFields.add(this.mEditLastName);
 		mFields.add(this.mEditEmailAddress);
 		mFields.add(this.mEditPhoneNumber);
+	}
+
+	/***
+	 * Helper method, so when we update the card number we don't rebind everything
+	 */
+	private void rebindNumDependantFields() {
+		mDisplayCreditCardNumber.bindData(mBillingInfo);
+		mDisplayCreditCardNumberMasked.bindData(mBillingInfo);
+		mDisplayCreditCardBrandIcon.bindData(mBillingInfo);
+		mDisplayCreditCardBrandName.bindData(mBillingInfo);
+		mDisplayCreditCardSecurityCodeInfo.bindData(mBillingInfo);
 	}
 
 	@Override
@@ -190,6 +199,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				if (cardType != null) {
 					field.setImageResource(BookingInfoUtils.CREDIT_CARD_ICONS.get(cardType));
 				}
+				else {
+					field.setImageResource(R.drawable.ic_cc_unknown);
+				}
+			}
+			else {
+				field.setImageResource(R.drawable.ic_cc_unknown);
 			}
 		}
 	};
@@ -203,6 +218,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				if (cardType != null) {
 					field.setText(BookingInfoUtils.CREDIT_CARD_SECURITY_LOCATION.get(cardType));
 				}
+				else {
+					field.setText("");
+				}
+			}
+			else {
+				field.setText("");
 			}
 		}
 	};
@@ -242,21 +263,25 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
+	SectionField<TextView, BillingInfo> mDisplayCreditCardBrandName = new SectionField<TextView, BillingInfo>(
+			R.id.display_creditcard_brand_name) {
+		@Override
+		public void onHasFieldAndData(TextView field, BillingInfo data) {
+			if (!TextUtils.isEmpty(data.getBrandName())) {
+				//TODO:Format phone number
+				field.setText((data.getBrandName() != null) ? data.getBrandName() : "");
+			}
+			else {
+				field.setText("");//If we don't have a brand name we don't want to keep the old one.
+			}
+		}
+	};
 	//////////////////////////////////////
 	////// EDIT FIELDS
 	//////////////////////////////////////
 
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardNumber = new SectionFieldEditable<EditText, BillingInfo>(
 			R.id.edit_creditcard_number) {
-		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
-		}
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -264,9 +289,22 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				@Override
 				public void afterTextChanged(Editable s) {
 					if (hasBoundData()) {
-						getData().setNumber(s.toString());
+						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber())) {
+							getData().setNumber(s.toString());
+
+							CreditCardType type = CurrencyUtils.detectCreditCardBrand(mContext, getData().getNumber());
+							if (type == null) {
+								getData().setBrandCode(null);
+								getData().setBrandName(null);
+							}
+							else {
+								getData().setBrandCode(type.getCode());
+								getData().setBrandName(type.name());
+							}
+							rebindNumDependantFields();
+						}
 					}
-					SectionBillingInfo.this.onChange();
+					onChange();
 				}
 			});
 		}
@@ -277,6 +315,29 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				field.setText(data.getNumber());
 			}
 		}
+
+		@Override
+		protected Validator<EditText> getValidator() {
+			//Inline so that we can get the context
+			return new Validator<EditText>() {
+				@Override
+				public int validate(EditText obj) {
+					if (obj == null) {
+						return ValidationError.ERROR_DATA_MISSING;
+					}
+					else {
+						CreditCardType type = CurrencyUtils.detectCreditCardBrand(mContext, obj.getText().toString()
+								.trim());
+						if (type == null) {
+							return ValidationError.ERROR_DATA_INVALID;
+						}
+						else {
+							return ValidationError.NO_ERROR;
+						}
+					}
+				}
+			};
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardExpiration = new SectionFieldEditable<EditText, BillingInfo>(
@@ -285,17 +346,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		//TODO: This whole class needs better (localized) text to cal and visaversa conversion
 
 		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-				//TODO: Bad validator
-				if (!field.getText().toString().matches("^\\d{1,2}/\\d{2}$")) {
-					return false;
-				}
-			}
-			return true;
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.EXPIRATION_DATE_VALIDATOR_ET;
 		}
 
 		@Override
@@ -336,10 +388,15 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					String cleanMonth = splitStr[0].replace("/", "").trim();
 					String cleanYear = splitStr[1].replace("/", "").trim();
 
-					int month = Integer.parseInt(cleanMonth);
-					int year = Integer.parseInt(cleanYear);
+					if (TextUtils.isEmpty(cleanMonth) || TextUtils.isEmpty(cleanYear)) {
+						return null;
+					}
+					else {
+						int month = Integer.parseInt(cleanMonth);
+						int year = Integer.parseInt(cleanYear);
 
-					return new GregorianCalendar(year, month, 1);
+						return new GregorianCalendar(year, month, 1);
+					}
 				}
 			}
 			return null;
@@ -348,15 +405,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardSecurityCode = new SectionFieldEditable<EditText, BillingInfo>(
 			R.id.edit_creditcard_security_code) {
-		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
-		}
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -376,79 +424,19 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getSecurityCode())) {
 				field.setText(data.getSecurityCode());
 			}
-		}
-	};
-
-	SectionFieldEditable<Spinner, BillingInfo> mEditCreditCardType = new SectionFieldEditable<Spinner, BillingInfo>(
-			R.id.edit_creditcard_type_spinner) {
-
-		@Override
-		protected void onFieldBind() {
-			super.onFieldBind();
-			if (hasBoundField()) {
-				getField().setAdapter(new ArrayAdapter<CreditCardType>(SectionBillingInfo.this.mContext,
-						android.R.layout.simple_list_item_1, CreditCardType.values()));
+			else {
+				field.setText("");
 			}
 		}
 
 		@Override
-		protected boolean hasValidInput(Spinner field) {
-			return true;
-		}
-
-		@Override
-		public void setChangeListener(Spinner field) {
-			field.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-					// TODO Auto-generated method stub
-					if (getData() != null) {
-						CreditCardType type = (CreditCardType) parent.getItemAtPosition(pos);
-						getData().setBrandCode(type.getCode());
-						getData().setBrandName(type.name());
-
-						//Updates the card icon
-						bind(getData());
-
-						onChange();
-					}
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-					// TODO Auto-generated method stub
-				}
-			});
-		}
-
-		@Override
-		protected void onHasFieldAndData(Spinner field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getBrandName())) {
-				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
-				if (cardType != null) {
-					@SuppressWarnings("unchecked")
-					ArrayAdapter<CreditCardType> cardBrandAdapter = (ArrayAdapter<CreditCardType>) field
-							.getAdapter();
-					if (cardBrandAdapter != null) {
-						int pos = cardBrandAdapter.getPosition(cardType);
-						field.setSelection(pos);
-					}
-				}
-			}
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditFirstName = new SectionFieldEditable<EditText, BillingInfo>(
 			R.id.edit_first_name) {
-		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
-		}
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -469,19 +457,15 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				field.setText(data.getFirstName());
 			}
 		}
+
+		@Override
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditLastName = new SectionFieldEditable<EditText, BillingInfo>(
 			R.id.edit_last_name) {
-		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
-		}
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -502,19 +486,15 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				field.setText(data.getLastName());
 			}
 		}
+
+		@Override
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditEmailAddress = new SectionFieldEditable<EditText, BillingInfo>(
 			R.id.edit_email_address) {
-		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
-		}
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -535,19 +515,15 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				field.setText(data.getEmail());
 			}
 		}
+
+		@Override
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditPhoneNumber = new SectionFieldEditable<EditText, BillingInfo>(
 			R.id.edit_phone_number) {
-		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
-		}
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -567,6 +543,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getTelephone())) {
 				field.setText(data.getTelephone());
 			}
+		}
+
+		@Override
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
 	};
 

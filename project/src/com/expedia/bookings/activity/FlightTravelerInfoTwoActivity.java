@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TableRow;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
@@ -29,6 +31,15 @@ public class FlightTravelerInfoTwoActivity extends Activity {
 
 		mFinishButton = Ui.findView(this, R.id.finish);
 		mSectionTravelerInfo = Ui.findView(this, R.id.traveler_info);
+
+		//TODO:Determine if this is a domestic flight or not...
+		boolean domesticFlight = false;
+		if (domesticFlight) {
+			//If this is a domestic flight we don't need the passport country so we remove it.
+			TableRow countryRow = Ui.findView(mSectionTravelerInfo, R.id.passport_country_container);
+			ViewGroup countryRowParent = (ViewGroup) countryRow.getParent();
+			countryRowParent.removeView(countryRow);
+		}
 
 		mPassengerIndex = getIntent().getIntExtra(Codes.PASSENGER_INDEX, -1);
 		if (mPassengerIndex >= 0) {

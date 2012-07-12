@@ -13,11 +13,10 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public class FlightTravelerInfoOneActivity extends Activity {
- 
+
 	FlightPassenger mPassenger;
 	SectionTravelerInfo mSectionTravelerInfo;
 	Button mNextButton;
@@ -48,10 +47,8 @@ public class FlightTravelerInfoOneActivity extends Activity {
 		mSectionTravelerInfo.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
-				Log.i("mSectionTravelerInfo onChange");
-				
 				mNextButton.setEnabled(mSectionTravelerInfo.hasValidInput());
-				
+
 			}
 		});
 	}

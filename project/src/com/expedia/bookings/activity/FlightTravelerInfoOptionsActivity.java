@@ -27,7 +27,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_flight_traveler_info_options);
+		setContentView(R.layout.activity_flight_traveler_info_options); 
 
 		Button enterManually = Ui.findView(this, R.id.enter_info_manually_button);
 		enterManually.setOnClickListener(new OnClickListener() {

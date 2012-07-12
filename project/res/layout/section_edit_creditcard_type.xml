@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_cc_unknown" />
 
-    <Spinner
-        android:id="@+id/edit_creditcard_type_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <TextView 
+        android:id="@+id/display_creditcard_brand_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </com.expedia.bookings.section.SectionBillingInfo>

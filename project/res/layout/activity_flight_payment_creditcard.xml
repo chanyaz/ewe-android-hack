@@ -3,14 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-
-    <include
-        android:id="@+id/creditcard_type_section"
-        layout="@layout/section_edit_creditcard_type" />
-
-    <include
-        android:id="@+id/contact_info_section"
-        layout="@layout/section_edit_contact_info" />
     
     <include
         android:id="@+id/creditcard_section"

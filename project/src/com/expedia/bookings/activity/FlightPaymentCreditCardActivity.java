@@ -18,9 +18,7 @@ public class FlightPaymentCreditCardActivity extends Activity {
 
 	BillingInfo mBillingInfo;
 
-	SectionBillingInfo mSectionCreditCardNum;
-	SectionBillingInfo mSectionCreditCardType;
-	SectionBillingInfo mSectionContactInfo;
+	SectionBillingInfo mSectionCreditCard;
 	Button mDoneBtn;
 
 	@Override
@@ -32,13 +30,9 @@ public class FlightPaymentCreditCardActivity extends Activity {
 
 		mDoneBtn = Ui.findView(this, R.id.done);
 
-		mSectionCreditCardNum = Ui.findView(this, R.id.creditcard_section);
-		mSectionCreditCardType = Ui.findView(this, R.id.creditcard_type_section);
-		mSectionContactInfo = Ui.findView(this, R.id.contact_info_section);
+		mSectionCreditCard = Ui.findView(this, R.id.creditcard_section);
 
-		mSectionCreditCardNum.addChangeListener(mDoneButtonEnabler);
-		mSectionCreditCardNum.addChangeListener(mDoneButtonEnabler);
-		mSectionContactInfo.addChangeListener(mDoneButtonEnabler);
+		mSectionCreditCard.addChangeListener(mDoneButtonEnabler);
 		mDoneButtonEnabler.onChange();
 
 		mDoneBtn.setOnClickListener(new OnClickListener() {
@@ -53,8 +47,7 @@ public class FlightPaymentCreditCardActivity extends Activity {
 	SectionChangeListener mDoneButtonEnabler = new SectionChangeListener() {
 		@Override
 		public void onChange() {
-			mDoneBtn.setEnabled(mSectionCreditCardNum.hasValidInput() && mSectionCreditCardType.hasValidInput()
-					&& mSectionContactInfo.hasValidInput());
+			mDoneBtn.setEnabled(mSectionCreditCard.hasValidInput());
 		}
 	};
 
@@ -66,9 +59,7 @@ public class FlightPaymentCreditCardActivity extends Activity {
 	}
 
 	public void bindAll() {
-		mSectionCreditCardNum.bind(mBillingInfo);
-		mSectionCreditCardType.bind(mBillingInfo);
-		mSectionContactInfo.bind(mBillingInfo);
+		mSectionCreditCard.bind(mBillingInfo);
 	}
 
 }

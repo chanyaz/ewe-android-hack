@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
+import com.mobiata.android.validation.Validator;
 
 import android.content.Context;
 import android.text.Editable;
@@ -154,20 +155,18 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 	};
 
+
+
 	//////////////////////////////////////
 	////// EDIT FIELDS
 	//////////////////////////////////////
 
 	SectionFieldEditable<EditText, Location> mEditAddressLineOne = new SectionFieldEditable<EditText, Location>(
 			R.id.edit_address_line_one) {
+
 		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
 
 		@Override
@@ -206,10 +205,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 	SectionFieldEditable<EditText, Location> mEditAddressLineTwo = new SectionFieldEditable<EditText, Location>(
 			R.id.edit_address_line_two) {
+
 		@Override
-		protected boolean hasValidInput(EditText field) {
-			//Line two is not required
-			return true;
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET;
 		}
 
 		@Override
@@ -252,13 +251,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	SectionFieldEditable<EditText, Location> mEditAddressCity = new SectionFieldEditable<EditText, Location>(
 			R.id.edit_address_city) {
 		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
 
 		@Override
@@ -285,13 +279,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	SectionFieldEditable<EditText, Location> mEditAddressState = new SectionFieldEditable<EditText, Location>(
 			R.id.edit_address_state) {
 		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
 
 		@Override
@@ -318,13 +307,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	SectionFieldEditable<EditText, Location> mEditAddressPostalCode = new SectionFieldEditable<EditText, Location>(
 			R.id.edit_address_postal_code) {
 		@Override
-		protected boolean hasValidInput(EditText field) {
-			if (field != null) {
-				if (field.getText().length() == 0) {
-					return false;
-				}
-			}
-			return true;
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
 
 		@Override

@@ -27,6 +27,7 @@ public class FlightPassenger implements JSONable {
 
 	//This is some stuff in the design that maybe won't exist
 	private String mRedressNumber;
+	private String mPassportCountry;
 
 	public enum Gender {
 		MALE, FEMALE
@@ -106,6 +107,10 @@ public class FlightPassenger implements JSONable {
 		return mRedressNumber;
 	}
 
+	public String getPassportCountry() {
+		return mPassportCountry;
+	}
+
 	//////////////////////////
 	// Setters
 
@@ -145,6 +150,10 @@ public class FlightPassenger implements JSONable {
 		mRedressNumber = redressNumber;
 	}
 
+	public void setPassportCountry(String passportCountry) {
+		mPassportCountry = passportCountry;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
@@ -163,6 +172,9 @@ public class FlightPassenger implements JSONable {
 
 			//TODO:Calendar 
 			//obj.putOpt("birthDate", mBirthDate);
+			
+			obj.putOpt("redressNumber", mRedressNumber);
+			obj.putOpt("passportCountry", mPassportCountry);
 
 			return obj;
 		}
@@ -186,6 +198,9 @@ public class FlightPassenger implements JSONable {
 		mGender = Gender.valueOf(obj.optString("gender"));
 
 		//TODO:Calender stuff for birthday...
+		
+		mRedressNumber = obj.optString("redressNumber");
+		mPassportCountry = obj.optString("passportCountry");
 
 		return true;
 	}

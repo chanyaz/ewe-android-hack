@@ -236,8 +236,7 @@ public class FlightCheckoutActivity extends SherlockActivity {
 
 	private void updatePaymentVisibilities() {
 		boolean paymentAddressValid = CheckoutFlowState.getInstance(this).hasValidBillingAddress(mBillingInfo);
-		boolean paymentCCValid = CheckoutFlowState.getInstance(this).hasValidCardInfo(mBillingInfo)
-				&& CheckoutFlowState.getInstance(this).hasValidCardType(mBillingInfo);
+		boolean paymentCCValid = CheckoutFlowState.getInstance(this).hasValidCardInfo(mBillingInfo);
 		boolean paymentSecCodeValid = CheckoutFlowState.getInstance(this).hasValidSecurityCode(mBillingInfo);
 
 		if (!paymentAddressValid && !paymentCCValid && !paymentSecCodeValid) {

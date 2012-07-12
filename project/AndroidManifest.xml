@@ -129,7 +129,7 @@
         </activity>
         <activity
             android:name=".activity.FlightTripOverviewActivity"
-            android:label="Checkout"
+            android:label="Overview"
             android:theme="@style/FlightTheme" >
         </activity>
         <activity
