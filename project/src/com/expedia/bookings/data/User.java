@@ -192,13 +192,21 @@ public class User implements JSONable {
 	 * @return true if successfully deleted
 	 */
 	public static boolean delete(Context context) {
-		// Check that the saved user file exists before trying to delete
-		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		if (!f.exists()) {
-			return true;
+		boolean success = true;
+
+		// Backwards compatible delete
+		File fOld = context.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
+		if (fOld.exists()) {
+			success &= fOld.delete();
 		}
 
-		return f.delete();
+		// Check that the saved user file exists before trying to delete
+		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
+		if (f.exists()) {
+			success &= f.delete();
+		}
+
+		return success;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
