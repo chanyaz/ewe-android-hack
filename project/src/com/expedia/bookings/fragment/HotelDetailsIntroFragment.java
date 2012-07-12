@@ -24,6 +24,8 @@ import com.mobiata.android.util.Ui;
 
 public class HotelDetailsIntroFragment extends Fragment {
 
+	private static final int ROOMS_LEFT_CUTOFF = 5;
+
 	private boolean mIsStartingReviewsActivity = false;
 
 	public static HotelDetailsIntroFragment newInstance() {
@@ -44,11 +46,13 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 	public void populateViews() {
 		View view = getView();
-		populateBannerSection(view, DbPropertyHelper.getBestRateProperty().getLowestRate());
+		populateBannerSection(view, DbPropertyHelper.getBestRateProperty());
 		populateIntroParagraph(view, DbPropertyHelper.getBestDescriptionProperty());
 	}
 
-	private void populateBannerSection(View view, Rate rate) {
+	private void populateBannerSection(View view, Property property) {
+		Rate rate = property.getLowestRate();
+
 		// Sale banner
 		TextView saleBannerTextView = Ui.findView(view, R.id.sale_banner_text_view);
 		TextView promoTextView = Ui.findView(view, R.id.promo_text_view);
@@ -61,13 +65,19 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 
 		// Promo text, i.e. "Mobile Only!"
-		// TODO: figure out the promo text and the correct value for hasPromo
-		boolean hasPromo = rate.isOnSale();
-		if (hasPromo) {
+		int roomsLeft = property.getRoomsLeftAtThisRate();
+		if (property.isLowestRateMobileExclusive()) {
+			promoTextView.setText(getString(R.string.mobile_exclusive));
+			promoTextView.setVisibility(View.VISIBLE);
+		}
+		else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+			promoTextView.setText(getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
+					roomsLeft));
 			promoTextView.setVisibility(View.VISIBLE);
 		}
 		else {
 			promoTextView.setVisibility(View.GONE);
+
 		}
 
 		// "From <strike>$400</strike>" (if it's on sale) or else just "From"
