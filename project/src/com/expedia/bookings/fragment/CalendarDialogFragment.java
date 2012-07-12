@@ -181,6 +181,13 @@ public class CalendarDialogFragment extends DialogFragment {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Public methods
+
+	public void setOneWayResearchMode(boolean researchMode) {
+		mCalendarDatePicker.setOneWayResearchMode(researchMode);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Listener
 
 	private void notifyDateChangedListener() {

@@ -395,6 +395,10 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 		ft.setCustomAnimations(R.anim.slide_up, R.anim.slide_down);
 
 		if (currentFragment != null) {
+			// if fragment to be detached is the date picker, enable a convenience interaction mode for the future
+			if (currentFragment.getTag().equals(TAG_DATE_PICKER)) {
+				((CalendarDialogFragment) currentFragment).setOneWayResearchMode(true);
+			}
 			ft.detach(currentFragment);
 		}
 
