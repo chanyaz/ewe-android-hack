@@ -116,7 +116,13 @@ public class Distance implements JSONable, Comparable<Distance> {
 		double distance = getDistance(distanceUnit);
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(1);
-		int unitStrId = (distanceUnit == DistanceUnit.KILOMETERS) ? R.string.unit_kilometers_full : R.string.unit_miles_full;
+		int unitStrId;
+		if (distanceUnit == DistanceUnit.KILOMETERS) {
+			unitStrId = abbreviated ? R.string.unit_kilometers : R.string.unit_kilometers_full;
+		}
+		else {
+			unitStrId = abbreviated ? R.string.unit_miles : R.string.unit_miles_full;
+		}
 		int templateResId = (abbreviated) ? R.string.distance_template_short : R.string.distance_template;
 		return context.getString(templateResId, nf.format(distance), context.getString(unitStrId));
 	}
