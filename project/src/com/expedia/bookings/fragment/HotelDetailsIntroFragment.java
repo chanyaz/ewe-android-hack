@@ -120,7 +120,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 
 		// Add "read more" button if the intro paragraph is too long
-		int cutoff = 90;
+		int cutoff = 180;
 		if (body.length() > cutoff) {
 			final CharSequence untruncated = body;
 			final View readMoreView = Ui.findView(view, R.id.read_more_layout);
