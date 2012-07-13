@@ -14,6 +14,9 @@
 
         <!-- The rate at which we flip through images, in ms. -->
         <attr name="android:flipInterval" />
+
+        <!-- The drawable or color to use as a placeholder image -->
+        <attr name="placeholder" format="reference" />
     </declare-styleable>
     <declare-styleable name="CustomEditText">
 

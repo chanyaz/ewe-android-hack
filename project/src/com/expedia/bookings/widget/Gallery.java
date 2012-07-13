@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -167,6 +168,11 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 */
 	private boolean mIsFirstScroll;
 
+	/**
+	 * Stores the drawable for the placeholder images.
+	 */
+	private Drawable mPlaceholderDrawable;
+
 	public Gallery(Context context) {
 		this(context, null);
 	}
@@ -201,6 +207,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 		int flipInterval = a.getInt(R.styleable.Gallery_android_flipInterval, DEFAULT_FLIP_INTERVAL);
 		setFlipInterval(flipInterval);
+
+		Drawable d = a.getDrawable(R.styleable.Gallery_placeholder);
+		setPlaceholderDrawable(d);
 
 		a.recycle();
 
@@ -1311,6 +1320,25 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		}
 	}
 
+	/**
+	 * Sets the drawable that will be used as a placeholder while an image is
+	 * being loaded (such as from a network request). Setting to null will clear
+	 * the placeholder image.
+	 * @param drawable
+	 */
+	public void setPlaceholderDrawable(Drawable drawable) {
+		mPlaceholderDrawable = drawable;
+	}
+
+	/**
+	 * Sets the resource that will be used as a placeholder while an image is
+	 * being loaded (such as from a network request).
+	 * @param drawable
+	 */
+	public void setPlaceholderDrawableResource(int resid) {
+		mPlaceholderDrawable = getResources().getDrawable(resid);
+	}
+
 	@Override
 	protected int getChildDrawingOrder(int childCount, int i) {
 		int selectedIndex = mSelectedPosition - mFirstPosition;
@@ -1575,8 +1603,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				imageView.setImageBitmap(bitmap);
 			}
 			else {
-				// Clear the background drawable while loading
+				imageView.setImageDrawable(mPlaceholderDrawable);
 				imageView.setLayoutParams(LAYOUT_WIDE);
+				// Clear the background drawable while loading
 				imageView.setBackgroundDrawable(null);
 				media.loadHighResImage(null, callback);
 			}
