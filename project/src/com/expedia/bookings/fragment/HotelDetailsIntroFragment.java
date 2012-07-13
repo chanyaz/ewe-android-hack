@@ -84,7 +84,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		TextView fromTextView = Ui.findView(view, R.id.from_text_view);
 		if (rate.isOnSale()) {
 			fromTextView.setText(Html.fromHtml(
-					getString(R.string.from_template, StrUtils.formatHotelPrice(rate.getAverageBaseRate())), null,
+					getString(R.string.from_template, StrUtils.formatHotelPrice(rate.getDisplayBaseRate())), null,
 					new StrikethroughTagHandler()));
 
 		}
