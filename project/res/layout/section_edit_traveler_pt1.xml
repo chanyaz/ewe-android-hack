@@ -1,140 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TableLayout
+    <com.gridlayout.GridLayout
+        android:id="@+id/grid_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:shrinkColumns="1"
-        android:stretchColumns="1" >
+        gridlayout:alignmentMode="alignMargins"
+        gridlayout:columnCount="2"
+        gridlayout:columnOrderPreserved="false"
+        gridlayout:useDefaultMargins="true" >
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/first_name" />
 
-            <TextView
+        <EditText
+            android:id="@+id/edit_first_name"
+            android:layout_gravity="fill_horizontal"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/middle_name" />
+
+        <EditText
+            android:id="@+id/edit_middle_name"
+            android:layout_gravity="fill_horizontal"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/last_name" />
+
+        <EditText
+            android:id="@+id/edit_last_name"
+            android:layout_gravity="fill_horizontal"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/phone_number_country_code" />
+
+        <com.expedia.bookings.widget.TelephoneSpinner
+            android:layout_width="5dp"
+            android:layout_gravity="fill_horizontal"
+            android:id="@+id/edit_phone_number_country_code_spinner"/>
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/phone_number" />
+
+        <EditText
+            android:id="@+id/edit_phone_number"
+            android:layout_gravity="fill_horizontal"
+            android:inputType="phone" />
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/gender" />
+
+        <RadioGroup
+            android:id="@+id/edit_gender_radio"
+            android:layout_gravity="fill_horizontal"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/edit_gender_radio_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/first_name" />
+                android:text="@string/male" />
 
-            <EditText
-                android:id="@+id/edit_first_name"
+            <RadioButton
+                android:id="@+id/edit_gender_radio_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
-        </TableRow>
+                android:text="@string/female" />
+        </RadioGroup>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/middle_name" />
-
-            <EditText
-                android:id="@+id/edit_middle_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/last_name" />
-
-            <EditText
-                android:id="@+id/edit_last_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/phone_number_country_code" />
-
-            <com.expedia.bookings.widget.TelephoneSpinner
-                android:id="@+id/edit_phone_number_country_code_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/phone_number" />
-
-            <EditText
-                android:id="@+id/edit_phone_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/gender" />
-
-            <RadioGroup
-                android:id="@+id/edit_gender_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <RadioButton
-                    android:id="@+id/edit_gender_radio_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/male" />
-
-                <RadioButton
-                    android:id="@+id/edit_gender_radio_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/female" />
-            </RadioGroup>
-        </TableRow>
-    </TableLayout>
-
-    <TextView
-        android:id="@+id/footer_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/name_as_appears_on_id_warning" />
+        <TextView
+            android:id="@+id/footer_message"
+            gridlayout:layout_columnSpan="2"
+             android:layout_gravity="left"
+            android:text="@string/name_as_appears_on_id_warning" />
+    </com.gridlayout.GridLayout>
 
 </com.expedia.bookings.section.SectionTravelerInfo>

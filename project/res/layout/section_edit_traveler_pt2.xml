@@ -1,70 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TableLayout
+    <com.gridlayout.GridLayout
+        android:id="@+id/grid_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:shrinkColumns="1"
-        android:stretchColumns="1" >
+        gridlayout:alignmentMode="alignMargins"
+        gridlayout:columnCount="2"
+        gridlayout:columnOrderPreserved="false"
+        gridlayout:useDefaultMargins="true" >
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/date_of_birth" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/date_of_birth" />
+        <DatePicker
+            android:id="@+id/edit_date_of_birth"
+            android:layout_gravity="fill_horizontal"
+            android:layout_width="5dp"
+            android:calendarViewShown="false"
+            android:spinnersShown="true" />
 
-            <DatePicker
-                android:id="@+id/edit_date_of_birth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:calendarViewShown="false"
-                android:spinnersShown="true" />
-        </TableRow>
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/redress_number" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
+        <EditText
+            android:id="@+id/edit_redress_number"
+            android:layout_gravity="fill_horizontal"
+            android:hint="@string/only_if_applicable"
+            android:inputType="number" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/redress_number" />
+        <TextView
+            android:id="@+id/passport_country_label"
+            android:layout_gravity="right"
+            android:text="@string/passport_country" />
 
-            <EditText
-                android:id="@+id/edit_redress_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/only_if_applicable"
-                android:inputType="number" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/passport_country_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/passport_country" />
-
-            <Spinner
-                android:id="@+id/edit_passport_country_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </TableRow>
-    </TableLayout>
+        <Spinner android:id="@+id/edit_passport_country_spinner"
+            android:layout_gravity="fill_horizontal"
+            android:layout_width="5dp" />
+    </com.gridlayout.GridLayout>
 
 </com.expedia.bookings.section.SectionTravelerInfo>
