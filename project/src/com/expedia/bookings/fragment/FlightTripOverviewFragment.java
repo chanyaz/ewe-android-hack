@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,7 +143,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		float density = getActivity().getResources().getDisplayMetrics().density;
 		for (int i = 0; i < mTrip.getLegCount(); i++) {
 			tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
-			if (i < mTrip.getLegCount() - 1) {
+			if (i < mTrip.getLegCount() - 1 || mTrip.getLegCount() == 1) {
 				tempFlight.setIsOutbound(true);
 				LinearLayout.LayoutParams tempFlightLayoutParams = (LayoutParams) tempFlight.getLayoutParams();
 				if (tempFlightLayoutParams == null) {
