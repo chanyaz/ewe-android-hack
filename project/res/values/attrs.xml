@@ -21,34 +21,34 @@
         Flag to indicate whether or not to use the 
 		clear field functionality set up as a right drawable
         -->
-        <attr format="boolean" name="useClearFieldDrawable" />
-        <attr format="reference" name="errorTextColor" />
+        <attr name="useClearFieldDrawable" format="boolean" />
+        <attr name="errorTextColor" format="reference" />
         <!-- Defines how much extra area around the "X" allows touch (for clearing the content) -->
-        <attr format="dimension" name="touchAreaPadding" />
+        <attr name="touchAreaPadding" format="dimension" />
     </declare-styleable>
 
     <!-- NumberPicker style. -->
-    <attr format="reference" name="numberPickerStyle" />
+    <attr name="numberPickerStyle" format="reference" />
     <!-- NumberPicker up button style. -->
-    <attr format="reference" name="numberPickerUpButtonStyle" />
+    <attr name="numberPickerUpButtonStyle" format="reference" />
     <!-- NumberPicker down button style. -->
-    <attr format="reference" name="numberPickerDownButtonStyle" />
+    <attr name="numberPickerDownButtonStyle" format="reference" />
     <!-- NumberPicker input text style. -->
-    <attr format="reference" name="numberPickerInputTextStyle" />
+    <attr name="numberPickerInputTextStyle" format="reference" />
 
     <declare-styleable name="NumberPicker">
 
         <!-- @hide Color for the solid color background if such for optimized rendering. -->
-        <attr format="color|reference" name="solidColor" />
+        <attr name="solidColor" format="color|reference" />
         <!-- @hide Whether the number picker supports fligning. -->
-        <attr format="boolean" name="flingable" />
+        <attr name="flingable" format="boolean" />
         <!-- @hide The divider for making the selection area. -->
-        <attr format="reference" name="selectionDivider" />
+        <attr name="selectionDivider" format="reference" />
         <!-- @hide The height of the selection divider. -->
-        <attr format="dimension" name="selectionDividerHeight" />
+        <attr name="selectionDividerHeight" format="dimension" />
     </declare-styleable>
-
     <declare-styleable name="ScrollView">
+
         <!-- Defines whether the scrollview should stretch its content to fill the viewport. -->
         <attr name="fillViewport" format="boolean" />
     </declare-styleable>
