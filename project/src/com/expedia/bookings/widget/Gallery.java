@@ -1575,8 +1575,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				imageView.setImageBitmap(bitmap);
 			}
 			else {
-				// Set a placeholder image while we load the image
-				imageView.setImageResource(R.drawable.ic_image_placeholder);
+				// Clear the background drawable while loading
 				imageView.setLayoutParams(LAYOUT_WIDE);
 				imageView.setBackgroundDrawable(null);
 				media.loadHighResImage(null, callback);
