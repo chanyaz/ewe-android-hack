@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.json.JSONException;
@@ -79,6 +80,17 @@ public class FlightSearchParams implements JSONable {
 
 	public Date getDepartureDate() {
 		return mQueryLegs.get(0).getDepartureDate();
+	}
+
+	// FOR DEBUG PURPOSES ONLY - GET RID OF THIS EVENTUALLY AND REPLACE WITH getDepartureDate()
+	public Date getDepartureDateWithDefault() {
+		Date depDate = mQueryLegs.get(0).getDepartureDate();
+		if (depDate == null) {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			depDate = new com.expedia.bookings.data.Date(cal);
+		}
+		return depDate;
 	}
 
 	public void setReturnDate(Date returnDate) {

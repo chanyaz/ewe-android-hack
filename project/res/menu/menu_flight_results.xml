@@ -4,6 +4,6 @@
     <item
         android:id="@+id/menu_filter"
         android:showAsAction="always|withText"
-        android:title="@string/filter_results"/>
+        android:title="@string/filter"/>
 
 </menu>

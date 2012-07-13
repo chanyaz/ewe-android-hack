@@ -1,12 +1,18 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -16,7 +22,6 @@ import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightAdapterListener {
@@ -27,6 +32,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	// Current leg being displayed
 	private int mLegPosition;
+
+	private TextView mTitleTextView;
+	private TextView mSubtitleTextView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +52,27 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		// DELETE EVENTUALLY: For now, just set the header to always be SF
 		mListFragment.setHeaderDrawable(getResources().getDrawable(R.drawable.san_francisco));
 
+		// Configure the custom action bar view
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setCustomView(R.layout.action_bar_flight_results);
+		View customView = actionBar.getCustomView();
+		mTitleTextView = Ui.findView(customView, R.id.title_text_view);
+		mSubtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
+		actionBar.setDisplayShowCustomEnabled(true);
+
 		// Configure the title based on which leg the user is selecting
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 		int titleStrId = (mLegPosition == 0) ? R.string.outbound_TEMPLATE : R.string.inbound_TEMPLATE;
 		String airportCode = (mLegPosition == 0) ? params.getArrivalAirportCode() : params.getDepartureAirportCode();
-		setTitle(getString(titleStrId, FlightStatsDbUtils.getAirport(airportCode).mCity));
+		mTitleTextView.setText(getString(titleStrId, FlightStatsDbUtils.getAirport(airportCode).mCity));
+
+		// Configure subtitle based on which user the leg is selecting
+		Date date = (mLegPosition == 0) ? params.getDepartureDateWithDefault() : params.getReturnDate();
+		mSubtitleTextView.setText(android.text.format.DateFormat.getMediumDateFormat(this).format(
+				date.getCalendar().getTime()));
 
 		// Enable the home button on the action bar
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		}
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

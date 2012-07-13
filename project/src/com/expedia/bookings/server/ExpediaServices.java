@@ -179,13 +179,7 @@ public class ExpediaServices implements DownloadListener {
 
 		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
 
-		com.expedia.bookings.data.Date depDate = params.getDepartureDate();
-		if (depDate == null) {
-			// If no departure date is set, go to next day by default
-			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.DAY_OF_MONTH, 1);
-			depDate = new com.expedia.bookings.data.Date(cal);
-		}
+		com.expedia.bookings.data.Date depDate = params.getDepartureDateWithDefault();
 		query.add(new BasicNameValuePair("departureDate", df.format(depDate.getCalendar().getTime())));
 
 		if (params.isRoundTrip()) {
