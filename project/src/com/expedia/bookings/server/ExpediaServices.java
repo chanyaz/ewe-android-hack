@@ -663,7 +663,7 @@ public class ExpediaServices implements DownloadListener {
 					"localhost:3000"));
 			builder.append("/");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
-			builder.append("/");
+			builder.append("/MobileHotel/Webapp/");
 			break;
 		}
 		}
