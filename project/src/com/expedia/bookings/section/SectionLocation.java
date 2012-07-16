@@ -155,8 +155,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 	};
 
-
-
 	//////////////////////////////////////
 	////// EDIT FIELDS
 	//////////////////////////////////////
@@ -185,7 +183,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 						address.set(0, s.toString());
 						getData().setStreetAddress(address);
 					}
-					SectionLocation.this.onChange();
+					onChange(SectionLocation.this);
 				}
 			});
 		}
@@ -200,6 +198,12 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					}
 				}
 			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	};
 
@@ -230,7 +234,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 						address.set(1, s.toString());
 						getData().setStreetAddress(address);
 					}
-					SectionLocation.this.onChange();
+					onChange(SectionLocation.this);
 				}
 			});
 		}
@@ -245,6 +249,12 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					}
 				}
 			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	};
 
@@ -263,7 +273,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					if (hasBoundData()) {
 						getData().setCity(s.toString());
 					}
-					SectionLocation.this.onChange();
+					onChange(SectionLocation.this);
 				}
 			});
 		}
@@ -273,6 +283,12 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			if (!TextUtils.isEmpty(data.getCity())) {
 				field.setText(data.getCity());
 			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	};
 
@@ -291,7 +307,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					if (hasBoundData()) {
 						getData().setStateCode(s.toString());
 					}
-					SectionLocation.this.onChange();
+					onChange(SectionLocation.this);
 				}
 			});
 		}
@@ -301,6 +317,12 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			if (!TextUtils.isEmpty(data.getStateCode())) {
 				field.setText(data.getStateCode());
 			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	};
 
@@ -319,7 +341,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					if (hasBoundData()) {
 						getData().setPostalCode(s.toString());
 					}
-					SectionLocation.this.onChange();
+					onChange(SectionLocation.this);
 				}
 			});
 		}
@@ -329,6 +351,12 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			if (!TextUtils.isEmpty(data.getPostalCode())) {
 				field.setText(data.getPostalCode());
 			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	};
 

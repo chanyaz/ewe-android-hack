@@ -304,7 +304,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							rebindNumDependantFields();
 						}
 					}
-					onChange();
+					onChange(SectionBillingInfo.this);
 				}
 			});
 		}
@@ -338,6 +338,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			};
 		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardExpiration = new SectionFieldEditable<EditText, BillingInfo>(
@@ -358,7 +364,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					if (hasBoundData()) {
 						getData().setExpirationDate(getCalFromExpStr(s.toString()));
 					}
-					SectionBillingInfo.this.onChange();
+					onChange(SectionBillingInfo.this);
 				}
 			});
 		}
@@ -401,6 +407,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			}
 			return null;
 		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardSecurityCode = new SectionFieldEditable<EditText, BillingInfo>(
@@ -414,7 +426,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					if (hasBoundData()) {
 						getData().setSecurityCode(s.toString());
 					}
-					SectionBillingInfo.this.onChange();
+					onChange(SectionBillingInfo.this);
 				}
 			});
 		}
@@ -433,6 +445,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected Validator<EditText> getValidator() {
 			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditFirstName = new SectionFieldEditable<EditText, BillingInfo>(
@@ -446,7 +464,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					if (hasBoundData()) {
 						getData().setFirstName(s.toString());
 					}
-					SectionBillingInfo.this.onChange();
+					onChange(SectionBillingInfo.this);
 				}
 			});
 		}
@@ -462,6 +480,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected Validator<EditText> getValidator() {
 			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditLastName = new SectionFieldEditable<EditText, BillingInfo>(
@@ -475,7 +499,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					if (hasBoundData()) {
 						getData().setLastName(s.toString());
 					}
-					SectionBillingInfo.this.onChange();
+					onChange(SectionBillingInfo.this);
 				}
 			});
 		}
@@ -491,6 +515,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected Validator<EditText> getValidator() {
 			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditEmailAddress = new SectionFieldEditable<EditText, BillingInfo>(
@@ -504,7 +534,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					if (hasBoundData()) {
 						getData().setEmail(s.toString());
 					}
-					SectionBillingInfo.this.onChange();
+					onChange(SectionBillingInfo.this);
 				}
 			});
 		}
@@ -520,6 +550,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected Validator<EditText> getValidator() {
 			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
 		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditPhoneNumber = new SectionFieldEditable<EditText, BillingInfo>(
@@ -533,7 +569,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					if (hasBoundData()) {
 						getData().setTelephone(s.toString());
 					}
-					SectionBillingInfo.this.onChange();
+					onChange(SectionBillingInfo.this);
 				}
 			});
 		}
@@ -548,6 +584,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected Validator<EditText> getValidator() {
 			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	};
 

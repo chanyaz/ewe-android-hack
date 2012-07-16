@@ -12,4 +12,6 @@ public interface ISectionEditable {
 	public void removeChangeListener(SectionChangeListener listener);
 
 	public void clearChangeListeners();
+
+	public void onChange();
 }

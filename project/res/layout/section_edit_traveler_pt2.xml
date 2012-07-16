@@ -10,24 +10,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         gridlayout:alignmentMode="alignMargins"
-        gridlayout:columnCount="2"
+        gridlayout:columnCount="3"
         gridlayout:columnOrderPreserved="false"
-        gridlayout:useDefaultMargins="true" >
+        gridlayout:useDefaultMargins="false" >
 
         <TextView
             android:layout_gravity="right"
             android:text="@string/date_of_birth" />
 
+        <View
+            android:id="@+id/valid_date_of_birth"
+            android:layout_width="3dp"
+            android:layout_height="1dp"
+            android:layout_gravity="fill_vertical"
+            android:background="#000000" />
+
         <DatePicker
             android:id="@+id/edit_date_of_birth"
-            android:layout_gravity="fill_horizontal"
             android:layout_width="5dp"
+            android:layout_gravity="fill_horizontal"
             android:calendarViewShown="false"
             android:spinnersShown="true" />
 
         <TextView
             android:layout_gravity="right"
             android:text="@string/redress_number" />
+
+        <View
+            android:id="@+id/valid_redress_number"
+            android:layout_width="3dp"
+            android:layout_height="1dp"
+            android:layout_gravity="fill_vertical"
+            android:background="#000000" />
 
         <EditText
             android:id="@+id/edit_redress_number"
@@ -40,9 +54,17 @@
             android:layout_gravity="right"
             android:text="@string/passport_country" />
 
-        <Spinner android:id="@+id/edit_passport_country_spinner"
-            android:layout_gravity="fill_horizontal"
-            android:layout_width="5dp" />
+        <View
+            android:id="@+id/valid_passport_country"
+            android:layout_width="3dp"
+            android:layout_height="1dp"
+            android:layout_gravity="fill_vertical"
+            android:background="#000000" />
+
+        <Spinner
+            android:id="@+id/edit_passport_country_spinner"
+            android:layout_width="5dp"
+            android:layout_gravity="fill_horizontal" />
     </com.gridlayout.GridLayout>
 
 </com.expedia.bookings.section.SectionTravelerInfo>
