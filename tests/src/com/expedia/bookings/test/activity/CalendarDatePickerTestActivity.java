@@ -1,4 +1,4 @@
-package com.expedia.bookings.test;
+package com.expedia.bookings.test.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

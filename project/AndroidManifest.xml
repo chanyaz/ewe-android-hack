@@ -157,7 +157,7 @@
         </activity>
 
         <!-- Testing -->
-        <activity android:name=".test.CalendarDatePickerTestActivity" />
+        <activity android:name=".test.activity.CalendarDatePickerTestActivity" />
 
         <!-- HockeyApp -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />

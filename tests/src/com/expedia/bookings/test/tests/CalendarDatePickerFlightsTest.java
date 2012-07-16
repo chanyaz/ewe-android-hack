@@ -1,7 +1,8 @@
-package com.expedia.bookings.test;
+package com.expedia.bookings.test.tests;
 
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
+import com.expedia.bookings.test.activity.CalendarDatePickerTestActivity;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.android.text.format.Time;
