@@ -13,7 +13,6 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -787,13 +786,11 @@ public class ExpediaServices implements DownloadListener {
 		}
 		}
 
-		if (endPoint != EndPoint.PROXY) {
-			if (api == Api.HOTELS) {
-				builder.append("MobileHotel/Webapp/");
-			}
-			else if (api == Api.FLIGHTS) {
-				builder.append("api/flight/");
-			}
+		if (api == Api.HOTELS) {
+			builder.append("MobileHotel/Webapp/");
+		}
+		else if (api == Api.FLIGHTS) {
+			builder.append("api/flight/");
 		}
 
 		String e3url = builder.toString();
