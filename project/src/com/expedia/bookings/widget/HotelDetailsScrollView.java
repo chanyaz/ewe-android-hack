@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.util.AndroidUtils;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.animation.AnimatorProxy;
 
 /**
@@ -129,19 +129,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			return;
 		}
 
-		//TODO: this causes an infinite loop in NineOldAndroids. But it shouldn't.
-		//mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to);
-		//mAnimator.start();
-
-		mAnimator = new ValueAnimator();
-		mAnimator.setIntValues(from, to);
-		mAnimator.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator arg0) {
-				int val = (Integer) arg0.getAnimatedValue();
-				scrollTo(0, val);
-			}
-		});
+		mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to);
 		mAnimator.start();
 	}
 
