@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.util.AndroidUtils;
-import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.animation.AnimatorProxy;
 
 /**
@@ -28,6 +29,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	int mInitialScrollTop = 0;
 
 	AnimatorProxy mGalleryAnimatorProxy;
+	ValueAnimator mAnimator;
 
 	public HotelDetailsScrollView(Context context) {
 		this(context, null);
@@ -104,31 +106,43 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		mapCounterscroll(t);
 	}
 
-	@TargetApi(11)
 	public void snapGallery() {
-		int scrollY = getScrollY();
-		if (scrollY < mInitialScrollTop) {
+		int from = getScrollY();
+		if (from < mInitialScrollTop) {
 			int threshold = getHeight() / 3;
-			int to = scrollY < threshold ? 0 : mInitialScrollTop;
-			if (AndroidUtils.getSdkVersion() >= 11) {
-				ObjectAnimator.ofInt(this, "scrollY", scrollY, to).start();
-			}
-			else {
-				this.smoothScrollTo(0, to);
-			}
+			int to = from < threshold ? 0 : mInitialScrollTop;
+			animateScrollY(from, to);
 		}
 	}
 
-	@TargetApi(11)
 	public void toggleFullScreenGallery() {
-		int scrollY = getScrollY();
-		int to = scrollY != 0 ? 0 : mInitialScrollTop;
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			ObjectAnimator.ofInt(this, "scrollY", scrollY, to).start();
+		int from = getScrollY();
+		int to = from != 0 ? 0 : mInitialScrollTop;
+		animateScrollY(from, to);
+	}
+
+	private void animateScrollY(int from, int to) {
+		if (mAnimator != null && mAnimator.isRunning()) {
+			return;
 		}
-		else {
-			this.smoothScrollTo(0, to);
+		if (from == to) {
+			return;
 		}
+
+		//TODO: this causes an infinite loop in NineOldAndroids. But it shouldn't.
+		//mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to);
+		//mAnimator.start();
+
+		mAnimator = new ValueAnimator();
+		mAnimator.setIntValues(from, to);
+		mAnimator.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator arg0) {
+				int val = (Integer) arg0.getAnimatedValue();
+				scrollTo(0, val);
+			}
+		});
+		mAnimator.start();
 	}
 
 	private void galleryCounterscroll(int parentScroll) {
