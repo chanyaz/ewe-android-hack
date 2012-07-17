@@ -229,15 +229,14 @@ public class FlightTrip implements JSONable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mProductKey = obj.optString("productKey", null);
-		mLegs = (List<FlightLeg>) JSONUtils.getJSONableList(obj, "legs", FlightLeg.class);
-		mBaseFare = (Money) JSONUtils.getJSONable(obj, "baseFare", Money.class);
-		mTotalFare = (Money) JSONUtils.getJSONable(obj, "totalFare", Money.class);
-		mTaxes = (Money) JSONUtils.getJSONable(obj, "taxes", Money.class);
-		mFees = (Money) JSONUtils.getJSONable(obj, "fees", Money.class);
+		mLegs = JSONUtils.getJSONableList(obj, "legs", FlightLeg.class);
+		mBaseFare = JSONUtils.getJSONable(obj, "baseFare", Money.class);
+		mTotalFare = JSONUtils.getJSONable(obj, "totalFare", Money.class);
+		mTaxes = JSONUtils.getJSONable(obj, "taxes", Money.class);
+		mFees = JSONUtils.getJSONable(obj, "fees", Money.class);
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 		return true;
 	}

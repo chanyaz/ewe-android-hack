@@ -300,8 +300,8 @@ public class FlightSearch implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mSearchParams = (FlightSearchParams) JSONUtils.getJSONable(obj, "searchParams", FlightSearchParams.class);
-		mSearchResponse = (FlightSearchResponse) JSONUtils.getJSONable(obj, "searchResponse", FlightSearchResponse.class);
+		mSearchParams = JSONUtils.getJSONable(obj, "searchParams", FlightSearchParams.class);
+		mSearchResponse = JSONUtils.getJSONable(obj, "searchResponse", FlightSearchResponse.class);
 		return true;
 	}
 }

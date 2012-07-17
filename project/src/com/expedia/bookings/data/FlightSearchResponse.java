@@ -55,11 +55,10 @@ public class FlightSearchResponse extends SearchResponse {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-		mTrips = (List<FlightTrip>) JSONUtils.getJSONableList(obj, "trips", FlightTrip.class);
+		mTrips = JSONUtils.getJSONableList(obj, "trips", FlightTrip.class);
 		return true;
 	}
 }

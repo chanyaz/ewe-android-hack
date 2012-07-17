@@ -114,14 +114,14 @@ public class FlightDetailsResponse extends Response {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-		mOffer = (FlightTrip) JSONUtils.getJSONable(obj, "offer", FlightTrip.class);
-		mOldOffer = (FlightTrip) JSONUtils.getJSONable(obj, "oldOffer", FlightTrip.class);
-		mPriceChangeAmount = (Money) JSONUtils.getJSONable(obj, "priceChangeAmount", Money.class);
+		mOffer = JSONUtils.getJSONable(obj, "offer", FlightTrip.class);
+		mOldOffer = JSONUtils.getJSONable(obj, "oldOffer", FlightTrip.class);
+		mPriceChangeAmount = JSONUtils.getJSONable(obj, "priceChangeAmount", Money.class);
 		mIsChangeAllowed = obj.optBoolean("isChangeAllowed");
 		mIsEnrouteChangeAllowed = obj.optBoolean("isEnrouteChangeAllowed");
 		mIsEnrouteRefundAllowed = obj.optBoolean("isEnrouteRefundAllowed");
 		mIsRefundable = obj.optBoolean("isRefundable");
-		mChangePenaltyAmount = (Money) JSONUtils.getJSONable(obj, "changePenaltyAmount", Money.class);
+		mChangePenaltyAmount = JSONUtils.getJSONable(obj, "changePenaltyAmount", Money.class);
 		return true;
 	}
 }

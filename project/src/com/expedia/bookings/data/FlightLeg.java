@@ -97,7 +97,7 @@ public class FlightLeg implements JSONable {
 		}
 		return sb.toString();
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -114,11 +114,10 @@ public class FlightLeg implements JSONable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mLegId = obj.optString("legId");
-		mSegments = (List<Flight>) JSONUtils.getJSONableList(obj, "segments", Flight.class);
+		mSegments = JSONUtils.getJSONableList(obj, "segments", Flight.class);
 		return true;
 	}
 }
