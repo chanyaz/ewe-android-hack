@@ -188,17 +188,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		};
 
 		Property property = Db.getSelectedProperty();
-		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
-			public synchronized void onClick(final View v) {
-				if (!mIsStartingReviewsActivity) {
-					mIsStartingReviewsActivity = true;
-					Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
-					newIntent.fillIn(intent, 0);
-					startActivity(newIntent);
-				}
-			}
-		};
-		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
+		LayoutUtils.configureHeader(this, property, onBookNowClick);
 
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction ft = manager.beginTransaction();

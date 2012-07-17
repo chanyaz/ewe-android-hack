@@ -65,13 +65,7 @@ public class HotelMapActivity extends MapActivity {
 				startActivity(roomsRatesIntent);
 			}
 		};
-		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
-			public void onClick(View v) {
-				Intent userReviewsIntent = new Intent(mContext, UserReviewsListActivity.class);
-				startActivity(userReviewsIntent);
-			}
-		};
-		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
+		LayoutUtils.configureHeader(this, property, onBookNowClick);
 
 		// Create the map and add it to the layout
 		mMapView = MapUtils.createMapView(this);
