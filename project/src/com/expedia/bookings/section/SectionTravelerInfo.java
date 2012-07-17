@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.apache.http.impl.cookie.DateUtils;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.data.FlightPassenger.Gender;
@@ -248,6 +246,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		@Override
 		public void onHasFieldAndData(TextView field, FlightPassenger data) {
 			if (!TextUtils.isEmpty(data.getPhoneCountryCode())) {
+
 				field.setText(data.getPhoneCountryCode());
 			}
 		}
@@ -258,7 +257,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		@Override
 		public void onHasFieldAndData(TextView field, FlightPassenger data) {
 			if (!TextUtils.isEmpty(data.getPhoneNumber())) {
-				field.setText(data.getPhoneNumber());
+				field.setText(PhoneNumberUtils.formatNumber(data.getPhoneNumber()));
 			}
 		}
 	};
@@ -278,7 +277,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		@Override
 		public void onHasFieldAndData(TextView field, FlightPassenger data) {
 			if (data.getBirthDate() != null) {
-				field.setText(DateUtils.formatDate(data.getBirthDate().getTime()));
+				field.setText(android.text.format.DateUtils.formatDateTime(mContext, data.getBirthDate().getTime()
+						.getTime(), android.text.format.DateUtils.FORMAT_NUMERIC_DATE
+						| android.text.format.DateUtils.FORMAT_SHOW_DATE));
 			}
 		}
 	};
@@ -568,11 +569,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 
 		@Override
 		protected void onHasFieldAndData(DatePicker field, FlightPassenger data) {
-			if (data.getBirthDate() != null) {
-				Calendar bd = data.getBirthDate();
-				field.updateDate(bd.get(Calendar.YEAR), bd.get(Calendar.MONTH), bd.get(Calendar.DAY_OF_MONTH));
+			if (data.getBirthDate() == null) {
+				data.setBirthDate(Calendar.getInstance());
 			}
-
+			Calendar bd = data.getBirthDate();
+			field.updateDate(bd.get(Calendar.YEAR), bd.get(Calendar.MONTH), bd.get(Calendar.DAY_OF_MONTH));
 		}
 
 		@Override

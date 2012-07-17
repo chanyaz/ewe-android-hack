@@ -56,9 +56,8 @@ public class FlightTravelerInfoOneActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		//mNextButton.setText(TravelerFlowState.getInstance(this).getTravelerFlowButtonText(this, mPassenger));
 		mSectionTravelerInfo.bind(mPassenger);
-
 	}
 
 }

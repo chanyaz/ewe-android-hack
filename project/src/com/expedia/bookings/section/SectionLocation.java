@@ -9,7 +9,6 @@ import com.mobiata.android.validation.Validator;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.EditText;
@@ -75,12 +74,12 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 	public boolean hasValidInput() {
 		boolean valid = true;
+		SectionFieldEditable<?, Location> editable;
 		for (SectionField<?, Location> field : mFields) {
 			if (field instanceof SectionFieldEditable) {
-				SectionFieldEditable<?, Location> editable = (SectionFieldEditable<?, Location>) field;
-				if (field.hasBoundData()) {
-					valid = valid && editable.isValid();
-				}
+				editable = (SectionFieldEditable<?, Location>) field;
+				boolean newIsValid = editable.isValid();
+				valid = (valid && newIsValid);
 			}
 		}
 		return valid;
@@ -118,9 +117,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		public void onHasFieldAndData(TextView field, Location data) {
 			List<String> address = data.getStreetAddress();
 			if (address != null && address.size() > 0) {
-				if (!TextUtils.isEmpty(address.get(0))) {
-					field.setText(address.get(0));
-				}
+				field.setText((address.get(0) != null) ? address.get(0) : "");
 			}
 		}
 	};
@@ -129,9 +126,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.display_address_city) {
 		@Override
 		public void onHasFieldAndData(TextView field, Location data) {
-			if (!TextUtils.isEmpty(data.getCity())) {
-				field.setText(data.getCity());
-			}
+			field.setText((data.getCity() != null) ? data.getCity() : "");
 		}
 	};
 
@@ -139,9 +134,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.display_address_state) {
 		@Override
 		public void onHasFieldAndData(TextView field, Location data) {
-			if (!TextUtils.isEmpty(data.getStateCode())) {
-				field.setText(data.getStateCode());
-			}
+			field.setText((data.getStateCode() != null) ? data.getStateCode() : "");
 		}
 	};
 
@@ -149,9 +142,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.display_address_postal_code) {
 		@Override
 		public void onHasFieldAndData(TextView field, Location data) {
-			if (!TextUtils.isEmpty(data.getPostalCode())) {
-				field.setText(data.getPostalCode());
-			}
+			field.setText((data.getPostalCode() != null) ? data.getPostalCode() : "");
 		}
 	};
 
@@ -193,9 +184,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			if (data.getStreetAddress() != null) {
 				List<String> address = data.getStreetAddress();
 				if (address.size() > 0) {
-					if (!TextUtils.isEmpty(address.get(0))) {
-						field.setText(address.get(0));
-					}
+					field.setText((address.get(0) != null) ? address.get(0) : "");
+				}
+				else {
+					field.setText("");
 				}
 			}
 		}
@@ -244,9 +236,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			if (data.getStreetAddress() != null) {
 				List<String> address = data.getStreetAddress();
 				if (address.size() > 1) {
-					if (!TextUtils.isEmpty(address.get(1))) {
-						field.setText(address.get(1));
-					}
+					field.setText((address.get(1) != null) ? address.get(1) : "");
+				}
+				else {
+					field.setText("");
 				}
 			}
 		}
@@ -280,9 +273,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected void onHasFieldAndData(EditText field, Location data) {
-			if (!TextUtils.isEmpty(data.getCity())) {
-				field.setText(data.getCity());
-			}
+			field.setText((data.getCity() != null) ? data.getCity() : "");
 		}
 
 		@Override
@@ -314,9 +305,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected void onHasFieldAndData(EditText field, Location data) {
-			if (!TextUtils.isEmpty(data.getStateCode())) {
-				field.setText(data.getStateCode());
-			}
+			field.setText((data.getStateCode() != null) ? data.getStateCode() : "");
 		}
 
 		@Override
@@ -348,9 +337,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected void onHasFieldAndData(EditText field, Location data) {
-			if (!TextUtils.isEmpty(data.getPostalCode())) {
-				field.setText(data.getPostalCode());
-			}
+			field.setText((data.getPostalCode() != null) ? data.getPostalCode() : "");
 		}
 
 		@Override

@@ -74,7 +74,6 @@ public class FlightTravelerInfoTwoActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		mSectionTravelerInfo.bind(mPassenger);
 
 	}

@@ -1,13 +1,9 @@
 package com.expedia.bookings.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightCheckoutActivity;
-import com.expedia.bookings.activity.FlightPaymentAddressActivity;
-import com.expedia.bookings.activity.FlightPaymentCreditCardActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -18,8 +14,8 @@ import com.expedia.bookings.section.SectionLocation;
  * @author jdrotos
  *
  */
-public class CheckoutFlowState {
-	private static CheckoutFlowState mInstance;
+public class PaymentFlowState {
+	private static PaymentFlowState mInstance;
 
 	Context mContext;
 
@@ -27,7 +23,7 @@ public class CheckoutFlowState {
 	SectionBillingInfo mCardInfo;
 	SectionBillingInfo mCardSecurityCode;
 
-	private CheckoutFlowState(Context context) {
+	private PaymentFlowState(Context context) {
 		mContext = context;
 
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -36,9 +32,9 @@ public class CheckoutFlowState {
 		mCardSecurityCode = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard_security_code, null);
 	}
 
-	public static CheckoutFlowState getInstance(Context context) {
+	public static PaymentFlowState getInstance(Context context) {
 		if (mInstance == null) {
-			mInstance = new CheckoutFlowState(context);
+			mInstance = new PaymentFlowState(context);
 		}
 
 		return mInstance;
@@ -72,45 +68,6 @@ public class CheckoutFlowState {
 		bind(billingInfo);
 		return mBillingAddress.hasValidInput()
 				&& mCardInfo.hasValidInput() && mCardSecurityCode.hasValidInput();
-	}
-
-	public void moveToNextActivityInCheckout(Context context, BillingInfo billingInfo) {
-		bind(billingInfo);
-		boolean vAddr = mBillingAddress.hasValidInput();
-		boolean vInfo = mCardInfo.hasValidInput();
-
-		if (vAddr && vInfo) {
-			//Back to checkout summary
-			Intent backToCheckoutIntent = new Intent(context,
-					FlightCheckoutActivity.class);
-			backToCheckoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			backToCheckoutIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			context.startActivity(backToCheckoutIntent);
-
-		}
-		else if (vAddr) {
-			//Enter card type
-			Intent cardTypeIntent = new Intent(context, FlightPaymentCreditCardActivity.class);
-			context.startActivity(cardTypeIntent);
-		}
-		else {
-			//Enter billing address
-			Intent billingAddressIntent = new Intent(context, FlightPaymentAddressActivity.class);
-			context.startActivity(billingAddressIntent);
-		}
-	}
-
-	public String getFlowButtonText(Context context, BillingInfo billingInfo) {
-		bind(billingInfo);
-		boolean vAddr = mBillingAddress.hasValidInput();
-		boolean vInfo = mCardInfo.hasValidInput();
-
-		if (vAddr && vInfo) {
-			return context.getString(R.string.button_done);
-		}
-		else {
-			return context.getString(R.string.next);
-		}
 	}
 
 }

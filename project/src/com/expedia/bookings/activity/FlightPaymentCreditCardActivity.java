@@ -3,12 +3,12 @@ package com.expedia.bookings.activity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.model.CheckoutFlowState;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.mobiata.android.util.Ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,8 +38,12 @@ public class FlightPaymentCreditCardActivity extends Activity {
 		mDoneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				CheckoutFlowState.getInstance(FlightPaymentCreditCardActivity.this).moveToNextActivityInCheckout(
-						FlightPaymentCreditCardActivity.this, mBillingInfo);
+
+				Intent backToCheckoutIntent = new Intent(FlightPaymentCreditCardActivity.this,
+						FlightCheckoutActivity.class);
+				backToCheckoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				backToCheckoutIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				startActivity(backToCheckoutIntent);
 			}
 		});
 	}
@@ -54,7 +58,6 @@ public class FlightPaymentCreditCardActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		mDoneBtn.setText(CheckoutFlowState.getInstance(this).getFlowButtonText(this, mBillingInfo));
 		bindAll();
 	}
 

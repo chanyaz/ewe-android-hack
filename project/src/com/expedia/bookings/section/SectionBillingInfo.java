@@ -15,6 +15,7 @@ import com.mobiata.android.validation.Validator;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.EditText;
@@ -60,6 +61,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayEmailAddress);
 		mFields.add(this.mDisplayPhoneNumber);
 		mFields.add(this.mDisplayCreditCardBrandName);
+		mFields.add(this.mDisplayAddress);
 
 		//Edit fields
 		mFields.add(this.mEditCreditCardExpiration);
@@ -146,9 +148,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			R.id.display_creditcard_number) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getNumber())) {
-				field.setText(data.getNumber());
-			}
+			field.setText((data.getNumber() != null) ? data.getNumber() : "");
 		}
 	};
 
@@ -160,9 +160,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				if (data.getNumber().length() > 4) {
 					String lastFourDigits = data.getNumber().substring(data.getNumber().length() - 4);
 					String brandName = (!TextUtils.isEmpty(data.getBrandName())) ? data.getBrandName() : "";
-					field.setText(String.format(getResources().getString(R.string.blanked_out_credit_card_TEMPLATE),
-							brandName, lastFourDigits));
+					field.setText(
+							Html.fromHtml(String.format(
+									getResources().getString(R.string.blanked_out_credit_card_TEMPLATE),
+									brandName, lastFourDigits)), TextView.BufferType.SPANNABLE);
 				}
+			}
+			else {
+				field.setText("");
 			}
 		}
 	};
@@ -171,9 +176,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			R.id.display_creditcard_security_code) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getSecurityCode())) {
-				field.setText(data.getSecurityCode());
-			}
+			field.setText((data.getSecurityCode() != null) ? data.getSecurityCode() : "");
 		}
 	};
 
@@ -186,6 +189,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				field.setText(String.format("%02d/%02d", mBillingInfo.getExpirationDate().get(Calendar.MONTH),
 						mBillingInfo
 								.getExpirationDate().get(Calendar.YEAR)));
+			}
+			else {
+				field.setText("");
 			}
 		}
 	};
@@ -239,6 +245,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				fullName = fullName.trim();
 				field.setText(fullName);
 			}
+			else {
+				field.setText("");
+			}
 		}
 	};
 
@@ -246,9 +255,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			R.id.display_email_address) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getEmail())) {
-				field.setText(data.getEmail());
-			}
+			field.setText((data.getEmail() != null) ? data.getEmail() : "");
 		}
 	};
 
@@ -256,10 +263,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			R.id.display_phone_number) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getTelephone())) {
-				//TODO:Format phone number
-				field.setText(data.getTelephone());
-			}
+			field.setText((data.getTelephone() != null) ? data.getTelephone() : "");
 		}
 	};
 
@@ -267,15 +271,20 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			R.id.display_creditcard_brand_name) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getBrandName())) {
-				//TODO:Format phone number
-				field.setText((data.getBrandName() != null) ? data.getBrandName() : "");
-			}
-			else {
-				field.setText("");//If we don't have a brand name we don't want to keep the old one.
+			field.setText((data.getBrandName() != null) ? data.getBrandName() : "");
+		}
+	};
+
+	SectionField<SectionLocation, BillingInfo> mDisplayAddress = new SectionField<SectionLocation, BillingInfo>(
+			R.id.section_location_address) {
+		@Override
+		public void onHasFieldAndData(SectionLocation field, BillingInfo data) {
+			if (data.getLocation() != null) {
+				field.bind(data.getLocation());
 			}
 		}
 	};
+
 	//////////////////////////////////////
 	////// EDIT FIELDS
 	//////////////////////////////////////

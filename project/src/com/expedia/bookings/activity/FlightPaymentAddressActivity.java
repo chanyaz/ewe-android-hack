@@ -4,12 +4,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.model.CheckoutFlowState;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionLocation;
 import com.mobiata.android.util.Ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,8 +39,6 @@ public class FlightPaymentAddressActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 
-		mDoneBtn.setText(CheckoutFlowState.getInstance(this).getFlowButtonText(this, mBillingInfo));
-
 		mSectionLocation.bind(mBillingInfo.getLocation());
 		mDoneBtn.setEnabled(mSectionLocation.hasValidInput());
 
@@ -55,8 +53,9 @@ public class FlightPaymentAddressActivity extends Activity {
 		mDoneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				CheckoutFlowState.getInstance(FlightPaymentAddressActivity.this).moveToNextActivityInCheckout(
-						FlightPaymentAddressActivity.this, mBillingInfo);
+				Intent cardTypeIntent = new Intent(FlightPaymentAddressActivity.this,
+						FlightPaymentCreditCardActivity.class);
+				startActivity(cardTypeIntent);
 			}
 		});
 

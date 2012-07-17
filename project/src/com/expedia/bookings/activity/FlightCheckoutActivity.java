@@ -26,10 +26,9 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
-import com.expedia.bookings.model.CheckoutFlowState;
-import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.model.PaymentFlowState;
+import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
-import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AccountButton;
@@ -38,7 +37,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 
@@ -51,6 +49,9 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 	public static final String EXTRA_TRIP_KEY = "EXTRA_TRIP_KEY";
 
+	//We only want to load from disk once: when the activity is first started (as it is the first time BillingInfo is seen)
+	private static boolean mLoaded = false;
+
 	String mTripKey;
 	FlightTrip mTrip;
 	BillingInfo mBillingInfo;
@@ -59,15 +60,12 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 	private AccountButton mAccountButton;
 	SectionBillingInfo mCreditCardSectionButton;
-	SectionBillingInfo mCreditCardSecurityCodeSection;
-	SectionLocation mAddressSection;
 
 	Button mReviewBtn;
 	ViewGroup mTravelerContainer;
+	ViewGroup mTravelerButton;
+	ViewGroup mPaymentButton;
 	LinearLayout mPaymentContainer;
-
-	View mPaymentDivOne;
-	View mPaymentDivTwo;
 
 	private boolean mRefreshedUser;
 
@@ -82,21 +80,22 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		setContentView(R.layout.activity_flight_checkout);
 
 		mBillingInfo = Db.getBillingInfo();
-		mBillingInfo.load(this);
+		if (!mLoaded) {
+			mBillingInfo.load(this);
+			mLoaded = true;
+		}
 
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());
 		}
 
-		mAccountButton = Ui.findView(this, R.id.account_button_root);
+		mTravelerButton = Ui.findView(this, R.id.traveler_info_btn);
+		mPaymentButton = Ui.findView(this, R.id.payment_info_btn);
 		mCreditCardSectionButton = Ui.findView(this, R.id.creditcard_section_button);
-		mCreditCardSecurityCodeSection = Ui.findView(this, R.id.creditcard_section_security_code);
 		mTravelerContainer = Ui.findView(this, R.id.travelers_container);
-		mAddressSection = Ui.findView(this, R.id.address_section);
+		mAccountButton = Ui.findView(this, R.id.account_button_root);
 		mReviewBtn = Ui.findView(this, R.id.review_btn);
 		mPaymentContainer = Ui.findView(this, R.id.payment_container);
-		mPaymentDivOne = Ui.findView(this, R.id.payment_div_one);
-		mPaymentDivTwo = Ui.findView(this, R.id.payment_div_two);
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
@@ -120,6 +119,9 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			mAccountButton.bind(false, false, null);
 		}
 
+		mCreditCardSectionButton.setOnClickListener(gotoBillingAddress);
+		mPaymentButton.setOnClickListener(gotoBillingAddress);
+
 		mReviewBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -128,13 +130,6 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 				}
 				Intent intent = new Intent(FlightCheckoutActivity.this, FlightBookingActivity.class);
 				startActivity(intent);
-			}
-		});
-
-		mCreditCardSecurityCodeSection.addChangeListener(new SectionChangeListener() {
-			@Override
-			public void onChange() {
-				updatePaymentVisibilities();
 			}
 		});
 
@@ -189,21 +184,29 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			final int travelerNum = i;
 			SectionTravelerInfo traveler = (SectionTravelerInfo) inflater.inflate(
 					R.layout.section_display_traveler_info_btn, null);
-			traveler.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent editTravelerIntent = new Intent(FlightCheckoutActivity.this,
-							FlightTravelerInfoOptionsActivity.class);
-					editTravelerIntent.putExtra(Codes.PASSENGER_INDEX, travelerNum);
-					startActivity(editTravelerIntent);
-				}
-			});
+			traveler.setOnClickListener(new OnTravelerClickListener(travelerNum));
 			mTravelerSections.add(traveler);
 			mTravelerContainer.addView(traveler);
 		}
 
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			mPaymentContainer.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+		mTravelerButton.setOnClickListener(new OnTravelerClickListener(0));
+	}
+
+	private class OnTravelerClickListener implements OnClickListener {
+		int mTravelerIndex = 0;
+
+		public OnTravelerClickListener(int travelerIndex) {
+			if (travelerIndex >= 0) {
+				mTravelerIndex = travelerIndex;
+			}
+		}
+
+		@Override
+		public void onClick(View v) {
+			Intent editTravelerIntent = new Intent(FlightCheckoutActivity.this,
+					FlightTravelerInfoOptionsActivity.class);
+			editTravelerIntent.putExtra(Codes.PASSENGER_INDEX, mTravelerIndex);
+			startActivity(editTravelerIntent);
 		}
 	}
 
@@ -213,7 +216,6 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		mBillingInfo = Db.getBillingInfo();
 		bindAll();
 		updatePaymentVisibilities();
-		updateClickListeners();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
@@ -238,9 +240,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	public void bindAll() {
 		Log.i("bindAll");
 
-		mAddressSection.bind(mBillingInfo.getLocation());
 		mCreditCardSectionButton.bind(mBillingInfo);
-		mCreditCardSecurityCodeSection.bind(mBillingInfo);
 
 		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
 		if (passengers.size() != mTravelerSections.size()) {
@@ -256,18 +256,23 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 	}
 
-	private boolean hasValidTravlerSections() {
+	private boolean hasValidTravlers() {
 		if (mTravelerSections == null || mTravelerSections.size() <= 0) {
 			return false;
 		}
 		else {
-			//TODO:This isn't validating anything because these are display only sections
-			for (int i = 0; i < mTravelerSections.size(); i++) {
-				if (!mTravelerSections.get(i).hasValidInput()) {
-					return false;
+			boolean travelerValid = true;
+			if (Db.getFlightPassengers() == null || Db.getFlightPassengers().size() <= 0) {
+				travelerValid = false;
+			}
+			else {
+				for (int i = 0; i < Db.getFlightPassengers().size(); i++) {
+					travelerValid &= (TravelerFlowState.getInstance(this).allTravelerInfoIsValid(Db
+							.getFlightPassengers()
+							.get(i)));
 				}
 			}
-			return true;
+			return travelerValid;
 		}
 	}
 
@@ -279,66 +284,36 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		}
 	};
 
-	OnClickListener gotoCardInfo = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			Intent editContact = new Intent(FlightCheckoutActivity.this, FlightPaymentCreditCardActivity.class);
-			startActivity(editContact);
-		}
-	};
-
-	private void updateClickListeners() {
-		boolean paymentAddressValid = CheckoutFlowState.getInstance(this).hasValidBillingAddress(mBillingInfo);
-
-		if (!paymentAddressValid) {
-			mCreditCardSectionButton.setOnClickListener(gotoBillingAddress);
-		}
-		else {
-			mCreditCardSectionButton.setOnClickListener(gotoCardInfo);
-		}
-		mAddressSection.setOnClickListener(gotoBillingAddress);
-	}
-
 	private void updatePaymentVisibilities() {
-		boolean paymentAddressValid = CheckoutFlowState.getInstance(this).hasValidBillingAddress(mBillingInfo);
-		boolean paymentCCValid = CheckoutFlowState.getInstance(this).hasValidCardInfo(mBillingInfo);
-		boolean paymentSecCodeValid = CheckoutFlowState.getInstance(this).hasValidSecurityCode(mBillingInfo);
 
-		if (!paymentAddressValid && !paymentCCValid && !paymentSecCodeValid) {
-			mAddressSection.setVisibility(View.GONE);
-			mCreditCardSectionButton.setVisibility(View.VISIBLE);
-			mCreditCardSecurityCodeSection.setVisibility(View.GONE);
-			mReviewBtn.setEnabled(false);
-			mPaymentDivOne.setVisibility(View.GONE);
-			mPaymentDivTwo.setVisibility(View.GONE);
-		}
-		else if (paymentAddressValid && !paymentCCValid && !paymentSecCodeValid) {
-			mAddressSection.setVisibility(View.VISIBLE);
-			mCreditCardSectionButton.setVisibility(View.VISIBLE);
-			mCreditCardSecurityCodeSection.setVisibility(View.GONE);
-			mReviewBtn.setEnabled(false);
-			mPaymentDivOne.setVisibility(View.VISIBLE);
-			mPaymentDivTwo.setVisibility(View.GONE);
-		}
-		else if (paymentAddressValid && paymentCCValid && !paymentSecCodeValid) {
-			mAddressSection.setVisibility(View.VISIBLE);
-			mCreditCardSectionButton.setVisibility(View.VISIBLE);
-			mCreditCardSecurityCodeSection.setVisibility(View.VISIBLE);
-			mReviewBtn.setEnabled(false);
-			mPaymentDivOne.setVisibility(View.VISIBLE);
-			mPaymentDivTwo.setVisibility(View.VISIBLE);
+		boolean paymentAddressValid = PaymentFlowState.getInstance(this).hasValidBillingAddress(mBillingInfo);
+		boolean paymentCCValid = PaymentFlowState.getInstance(this).hasValidCardInfo(mBillingInfo);
+		boolean travelerValid = hasValidTravlers();
+
+		if (travelerValid) {
+			mTravelerButton.setVisibility(View.GONE);
+			mTravelerContainer.setVisibility(View.VISIBLE);
 		}
 		else {
-			mAddressSection.setVisibility(View.VISIBLE);
-			mCreditCardSectionButton.setVisibility(View.VISIBLE);
-			mCreditCardSecurityCodeSection.setVisibility(View.VISIBLE);
-			if (hasValidTravlerSections()) {
-				mReviewBtn.setEnabled(true);
-			}
-			mPaymentDivOne.setVisibility(View.VISIBLE);
-			mPaymentDivTwo.setVisibility(View.VISIBLE);
+			mTravelerButton.setVisibility(View.VISIBLE);
+			mTravelerContainer.setVisibility(View.GONE);
 		}
 
+		if (paymentAddressValid && paymentCCValid) {
+			mPaymentButton.setVisibility(View.GONE);
+			mCreditCardSectionButton.setVisibility(View.VISIBLE);
+		}
+		else {
+			mPaymentButton.setVisibility(View.VISIBLE);
+			mCreditCardSectionButton.setVisibility(View.GONE);
+		}
+
+		if (paymentAddressValid && paymentCCValid && travelerValid) {
+			mReviewBtn.setEnabled(true);
+		}
+		else {
+			mReviewBtn.setEnabled(false);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
