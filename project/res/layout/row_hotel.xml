@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/price_text_view"
+            android:layout_toLeftOf="@+id/price_text_view"
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:singleLine="true"

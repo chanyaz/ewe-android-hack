@@ -26,7 +26,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.HotelActivity;
+import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -983,7 +983,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void setupOnClickIntentForWidget(WidgetState widget, Property property, RemoteViews rv) {
-		Intent onClickIntent = new Intent(this.getApplicationContext(), HotelActivity.class);
+		Intent onClickIntent = new Intent(this.getApplicationContext(), HotelDetailsFragmentActivity.class);
 		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 		onClickIntent.putExtra(Codes.SEARCH_PARAMS, mWidgetDeals.getSearchParams().toJson().toString());
 		onClickIntent.putExtra(Codes.OPENED_FROM_WIDGET, true);
