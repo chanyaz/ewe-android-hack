@@ -10,10 +10,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
+
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 
-public class FlightSearch {
+public class FlightSearch implements JSONable {
 
 	private FlightSearchParams mSearchParams = new FlightSearchParams();
 	private FlightSearchResponse mSearchResponse;
@@ -274,5 +280,28 @@ public class FlightSearch {
 		public void unregisterDataSetObserver(DataSetObserver observer) {
 			mDataSetObservable.unregisterObserver(observer);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
+
+	@Override
+	public JSONObject toJson() {
+		try {
+			JSONObject obj = new JSONObject();
+			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
+			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
+			return obj;
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		mSearchParams = (FlightSearchParams) JSONUtils.getJSONable(obj, "searchParams", FlightSearchParams.class);
+		mSearchResponse = (FlightSearchResponse) JSONUtils.getJSONable(obj, "searchResponse", FlightSearchResponse.class);
+		return true;
 	}
 }

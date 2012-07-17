@@ -1,5 +1,10 @@
 package com.expedia.bookings.data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.mobiata.android.json.JSONUtils;
+
 public class FlightDetailsResponse extends Response {
 
 	private FlightTrip mOffer;
@@ -80,4 +85,43 @@ public class FlightDetailsResponse extends Response {
 		mChangePenaltyAmount = changePenaltyAmount;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
+
+	@Override
+	public JSONObject toJson() {
+		JSONObject obj = super.toJson();
+		if (obj == null) {
+			return null;
+		}
+
+		try {
+			JSONUtils.putJSONable(obj, "offer", mOffer);
+			JSONUtils.putJSONable(obj, "oldOffer", mOldOffer);
+			JSONUtils.putJSONable(obj, "priceChangeAmount", mPriceChangeAmount);
+			obj.putOpt("isChangeAllowed", mIsChangeAllowed);
+			obj.putOpt("isEnrouteChangeAllowed", mIsEnrouteChangeAllowed);
+			obj.putOpt("isEnrouteRefundAllowed", mIsEnrouteRefundAllowed);
+			obj.putOpt("isRefundable", mIsRefundable);
+			JSONUtils.putJSONable(obj, "changePenaltyAmount", mChangePenaltyAmount);
+			return obj;
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		super.fromJson(obj);
+		mOffer = (FlightTrip) JSONUtils.getJSONable(obj, "offer", FlightTrip.class);
+		mOldOffer = (FlightTrip) JSONUtils.getJSONable(obj, "oldOffer", FlightTrip.class);
+		mPriceChangeAmount = (Money) JSONUtils.getJSONable(obj, "priceChangeAmount", Money.class);
+		mIsChangeAllowed = obj.optBoolean("isChangeAllowed");
+		mIsEnrouteChangeAllowed = obj.optBoolean("isEnrouteChangeAllowed");
+		mIsEnrouteRefundAllowed = obj.optBoolean("isEnrouteRefundAllowed");
+		mIsRefundable = obj.optBoolean("isRefundable");
+		mChangePenaltyAmount = (Money) JSONUtils.getJSONable(obj, "changePenaltyAmount", Money.class);
+		return true;
+	}
 }

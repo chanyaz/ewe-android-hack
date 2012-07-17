@@ -3,6 +3,11 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.mobiata.android.json.JSONUtils;
+
 public class FlightSearchResponse extends SearchResponse {
 
 	private List<FlightTrip> mTrips;
@@ -29,5 +34,32 @@ public class FlightSearchResponse extends SearchResponse {
 		}
 
 		return mTrips.size();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
+
+	@Override
+	public JSONObject toJson() {
+		JSONObject obj = super.toJson();
+		if (obj == null) {
+			return null;
+		}
+
+		try {
+			JSONUtils.putJSONableList(obj, "trips", mTrips);
+			return obj;
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		super.fromJson(obj);
+		mTrips = (List<FlightTrip>) JSONUtils.getJSONableList(obj, "trips", FlightTrip.class);
+		return true;
 	}
 }

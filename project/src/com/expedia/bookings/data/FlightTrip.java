@@ -5,9 +5,14 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
 
-public class FlightTrip {
+public class FlightTrip implements JSONable {
 
 	private String mProductKey;
 
@@ -203,4 +208,37 @@ public class FlightTrip {
 		}
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
+
+	@Override
+	public JSONObject toJson() {
+		try {
+			JSONObject obj = new JSONObject();
+			obj.putOpt("productKey", mProductKey);
+			JSONUtils.putJSONableList(obj, "legs", mLegs);
+			JSONUtils.putJSONable(obj, "baseFare", mBaseFare);
+			JSONUtils.putJSONable(obj, "totalFare", mTotalFare);
+			JSONUtils.putJSONable(obj, "taxes", mTaxes);
+			JSONUtils.putJSONable(obj, "fees", mFees);
+			obj.putOpt("seatsRemaining", mSeatsRemaining);
+			return obj;
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		mProductKey = obj.optString("productKey", null);
+		mLegs = (List<FlightLeg>) JSONUtils.getJSONableList(obj, "legs", FlightLeg.class);
+		mBaseFare = (Money) JSONUtils.getJSONable(obj, "baseFare", Money.class);
+		mTotalFare = (Money) JSONUtils.getJSONable(obj, "totalFare", Money.class);
+		mTaxes = (Money) JSONUtils.getJSONable(obj, "taxes", Money.class);
+		mFees = (Money) JSONUtils.getJSONable(obj, "fees", Money.class);
+		mSeatsRemaining = obj.optInt("seatsRemaining");
+		return true;
+	}
 }

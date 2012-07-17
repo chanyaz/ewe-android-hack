@@ -6,11 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.expedia.bookings.utils.CalendarUtils;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class FlightLeg {
+public class FlightLeg implements JSONable {
 
 	private String mLegId;
 
@@ -91,5 +96,29 @@ public class FlightLeg {
 			sb.append(FlightStatsDbUtils.getAirline(airlineCode).mAirlineName);
 		}
 		return sb.toString();
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
+
+	@Override
+	public JSONObject toJson() {
+		try {
+			JSONObject obj = new JSONObject();
+			obj.putOpt("legId", mLegId);
+			JSONUtils.putJSONableList(obj, "segments", mSegments);
+			return obj;
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		mLegId = obj.optString("legId");
+		mSegments = (List<Flight>) JSONUtils.getJSONableList(obj, "segments", Flight.class);
+		return true;
 	}
 }
