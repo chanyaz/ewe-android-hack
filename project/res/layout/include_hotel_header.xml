@@ -29,10 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/book_now_button"
+        android:layout_toLeftOf="@id/book_now_button"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="My Cool Hotel Name Goes Here"
         android:textColor="#e1e1e1"
         android:textSize="18sp"
         android:textStyle="bold" />
