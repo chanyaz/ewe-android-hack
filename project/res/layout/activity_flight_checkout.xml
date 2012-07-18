@@ -115,6 +115,16 @@
                 android:layout_height="wrap_content"
                 layout="@layout/section_display_creditcard_btn" />
         </LinearLayout>
+        
+        <include
+            android:id="@+id/price_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            layout="@layout/section_display_flight_trip_price_bar" />
 
         <Button
             android:id="@+id/review_btn"
@@ -122,7 +132,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="40dp"
             android:background="@drawable/btn_small_yellow"
             android:text="@string/review_btn" />
     </LinearLayout>

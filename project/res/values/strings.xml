@@ -117,7 +117,11 @@
     <string name="price_change_alert_TEMPLATE">The price of your trip has changed from %1$s to %2$s.</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Loading realtime flight information...</string>
-
+    <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
+    <string name="plus_symbol">+</string>
+    <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare-->
+    <string name="equals_symbol">=</string>
+    
     <!-- Section Display Flights -->
     <!-- Departs label with date (e.g. Depart: Aug 2nd) -->
     <string name="departs_with_date_TEMPLATE">Depart: %1$s %2$s</string>

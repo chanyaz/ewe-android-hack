@@ -24,11 +24,13 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.UserDataTransfer;
 import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AccountButton;
@@ -60,6 +62,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 	private AccountButton mAccountButton;
 	SectionBillingInfo mCreditCardSectionButton;
+	SectionFlightTrip mFlightTripSectionPriceBar;
 
 	Button mReviewBtn;
 	ViewGroup mTravelerContainer;
@@ -96,6 +99,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		mAccountButton = Ui.findView(this, R.id.account_button_root);
 		mReviewBtn = Ui.findView(this, R.id.review_btn);
 		mPaymentContainer = Ui.findView(this, R.id.payment_container);
+		mFlightTripSectionPriceBar = Ui.findView(this, R.id.price_bar);
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
@@ -121,7 +125,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 		mCreditCardSectionButton.setOnClickListener(gotoBillingAddress);
 		mPaymentButton.setOnClickListener(gotoBillingAddress);
-
+		mTravelerButton.setOnClickListener(new OnTravelerClickListener(0));
 		mReviewBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -133,10 +137,18 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			}
 		});
 
+		
+		//Set values
+		setHeadingText();
+		populatePassengerData();
+		buildPassengerSections();
+	}
+	
+	private void setHeadingText(){
 		mTripKey = getIntent().getStringExtra(EXTRA_TRIP_KEY);
 		if (mTripKey != null) {
 			mTrip = Db.getFlightSearch().getFlightTrip(mTripKey);
-
+			
 			FlightLeg firstLeg = mTrip.getLeg(0);
 			FlightLeg lastLeg = mTrip.getLeg(mTrip.getLegCount() - 1);
 
@@ -167,18 +179,28 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 					getResources().getString(R.string.checkout_heading_city_and_dates_TEMPLATE), cityName, startDate,
 					endDate));
 		}
-
+	}
+	
+	private void populatePassengerData(){
 		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
 		if (passengers == null) {
 			passengers = new ArrayList<FlightPassenger>();
 			Db.setFlightPassengers(passengers);
 		}
-
+		
 		if (passengers.size() == 0) {
-			//TODO:Load from billing info, or from expedia account
-			passengers.add(new FlightPassenger());
+			FlightPassenger fp = new FlightPassenger();
+			if(Db.getUser() != null){
+				fp = UserDataTransfer.fillPassengerFromUser(Db.getUser(), fp);
+			}else if(Db.getBillingInfo() != null){
+				fp = UserDataTransfer.fillPassengerFromBillingInfo(Db.getBillingInfo(), fp);
+			}
+			passengers.add(fp);
 		}
-
+	}
+	
+	private void buildPassengerSections(){
+		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 		for (int i = 0; i < passengers.size(); i++) {
 			final int travelerNum = i;
@@ -188,8 +210,6 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			mTravelerSections.add(traveler);
 			mTravelerContainer.addView(traveler);
 		}
-
-		mTravelerButton.setOnClickListener(new OnTravelerClickListener(0));
 	}
 
 	private class OnTravelerClickListener implements OnClickListener {
@@ -241,7 +261,8 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		Log.i("bindAll");
 
 		mCreditCardSectionButton.bind(mBillingInfo);
-
+		mFlightTripSectionPriceBar.bind(mTrip);
+		
 		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
 		if (passengers.size() != mTravelerSections.size()) {
 			Ui.showToast(this, "Traveler info out of date...");

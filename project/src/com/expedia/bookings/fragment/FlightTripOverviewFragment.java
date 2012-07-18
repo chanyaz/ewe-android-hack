@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightCheckoutActivity;
@@ -28,6 +27,7 @@ import com.expedia.bookings.data.FlightDetailsResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.section.SectionFlightLeg;
+import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
@@ -48,10 +48,10 @@ public class FlightTripOverviewFragment extends Fragment {
 	private FlightTrip mTrip;
 	private FlightTrip mOffer;
 
-	private TextView mTripCostTextView;
 	private ArrayList<SectionFlightLeg> mFlights;
 	private ViewGroup mFlightContainer;
 	private Button mCheckoutBtn;
+	private SectionFlightTrip mFlightTripSectionPriceBar;
 
 	private boolean mRequestedDetails = false;
 
@@ -80,11 +80,11 @@ public class FlightTripOverviewFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.activity_flight_trip_overview, container, false);
 
-		mTripCostTextView = Ui.findView(v, R.id.trip_cost);
 		mFlights = new ArrayList<SectionFlightLeg>();
 		mFlightContainer = Ui.findView(v, R.id.flight_legs_container);
 		mCheckoutBtn = Ui.findView(v, R.id.checkout_btn);
-
+		mFlightTripSectionPriceBar = Ui.findView(v, R.id.price_bar);
+		
 		mCheckoutBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -162,16 +162,23 @@ public class FlightTripOverviewFragment extends Fragment {
 			mFlightContainer.addView(tempFlight);
 		}
 
-		// Initial bind of data
-		bindOffer();
-
 		return v;
 	}
 
+	public void bindAll(){
+		if(mOffer == null){
+			mFlightTripSectionPriceBar.bind(mTrip);
+		}else{
+			mFlightTripSectionPriceBar.bind(mOffer);
+		}
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
 
+		bindAll();
+		
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_DETAILS)) {
 			bd.registerDownloadCallback(KEY_DETAILS, mFlightDetailsCallback);
@@ -195,10 +202,6 @@ public class FlightTripOverviewFragment extends Fragment {
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_REQUESTED_DETAILS, mRequestedDetails);
-	}
-
-	public void bindOffer() {
-		mTripCostTextView.setText(mOffer.getTotalFare().getFormattedMoney());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -247,7 +250,7 @@ public class FlightTripOverviewFragment extends Fragment {
 
 				mOffer = results.getOffer();
 
-				bindOffer();
+				bindAll();
 			}
 		}
 	};

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionFlightTrip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <com.gridlayout.GridLayout
+        android:id="@+id/grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        gridlayout:alignmentMode="alignMargins"
+        gridlayout:columnCount="2"
+        gridlayout:columnOrderPreserved="false"
+        gridlayout:useDefaultMargins="false" >
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/subtotal" />
+
+        <TextView
+            android:id="@+id/display_subtotal"
+            android:layout_gravity="fill_horizontal" />
+            
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/TaxesAndFees" />
+        
+        <TextView
+            android:id="@+id/display_taxes_and_fees"
+            android:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/total_price_label" />
+        
+        <TextView
+            android:id="@+id/display_total_price"
+            android:layout_gravity="fill_horizontal" />
+        
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/sort_description_duration" />
+        
+        <TextView
+            android:id="@+id/display_trip_duration"
+            android:layout_gravity="fill_horizontal" />
+        
+        <TextView
+            android:layout_gravity="right"
+            android:text="Destination" />
+        
+        <TextView
+            android:id="@+id/display_destination_city"
+            android:layout_gravity="fill_horizontal" />
+
+    </com.gridlayout.GridLayout>
+
+</com.expedia.bookings.section.SectionFlightTrip>
+
+

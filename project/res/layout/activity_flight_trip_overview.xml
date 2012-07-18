@@ -55,44 +55,23 @@
                     android:textColor="@color/trip_info_text"
                     android:textSize="16sp" />
 
-                <ImageView
-                    android:id="@+id/icon_traveler"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/icon_cal"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="#FFCC99" />
-
                 <TextView
                     android:id="@+id/traveler_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/icon_traveler"
-                    android:layout_toRightOf="@+id/icon_traveler"
-                    android:textColor="@color/trip_info_text"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/trip_cost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:textColor="@color/trip_info_text"
-                    android:textSize="26sp"
-                    android:textStyle="bold" />
+                    android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/trip_cost_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/trip_cost"
-                    android:text="@string/total_price_label"
-                    android:textColor="@color/trip_info_text"
-                    android:textSize="12sp" />
+                <ImageView
+                    android:id="@+id/icon_traveler"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/traveler_count"
+                    android:background="#FFCC99" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -100,9 +79,20 @@
             android:id="@+id/flight_legs_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
             android:orientation="vertical" >
         </LinearLayout>
+
+        <include
+            android:id="@+id/price_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            layout="@layout/section_display_flight_trip_price_bar" />
 
         <Button
             android:id="@+id/checkout_btn"
