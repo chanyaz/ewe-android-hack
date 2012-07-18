@@ -21,13 +21,13 @@
 
         <TextView
             android:id="@+id/name_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/price_text_view"
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:singleLine="true"
+            android:paddingRight="40dip"
             android:textColor="@color/hotel_cell_primary_color"
             android:textSize="@dimen/hotel_row_name_text_size"
             android:textStyle="bold" />
