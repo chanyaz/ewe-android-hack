@@ -115,6 +115,21 @@
     </plurals>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Mobile Exclusive</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="tonight_only">Tonight Only!</string>
+
+    <!-- To indicate how many people there are -->
+    <plurals name="num_people">
+        <item quantity="one">%d Person</item>
+        <item quantity="two">%d People</item>
+        <item quantity="many">%d People</item>
+        <item quantity="other">%d People</item>
+    </plurals>
+    <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
+    <string name="booked_this_in_the_last_hour">booked this in the last hour</string>
+    <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
+    <string name="booked_this_in_the_last_hours_template">booked this in the last %d hours</string>
+
     <!-- Expedia urgency messaging indicating the number of rooms left-->
     <plurals name="num_rooms_left">
         <item quantity="one">%d Room Left!</item>
@@ -184,6 +199,8 @@
     <string name="from_template">From &lt;strike&gt;%s&lt;/strike&gt;</string>
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/night</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt">/nt</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Not Rated</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -604,6 +621,8 @@
     <string name="login_failed">Please log in again</string>
     <!-- Label for login widget button -->
     <string name="account_login">Account Login</string>
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation">Are you sure you want to log out of your Expedia account?</string>
     <!-- Label for login widget additional text -->
     <string name="log_in_for_faster_booking">Log in for faster booking.</string>
     <!-- Label for account status -->
@@ -628,6 +647,8 @@
     <string name="new_total">New Total:</string>
     <!-- Label for credit card selection -->
     <string name="use_card">Use card:</string>
+    <!-- Label for credit card expired warning -->
+    <string name="stored_card_expired">The stored credit card you are using is expired.</string>
     <!-- Label for when a user has entered an invalid coupon -->
     <string name="invalid_coupon">Invalid Coupon</string>
     <!-- Label for when a user has entered a coupon which is expired -->
