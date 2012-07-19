@@ -1,5 +1,11 @@
 package com.expedia.bookings.activity;
 
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -13,14 +19,6 @@ import com.expedia.bookings.fragment.TripFragment;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class FlightDetailsActivity extends SherlockFragmentActivity {
 
@@ -36,6 +34,14 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Recover data if it was flushed from memory
+		if (Db.getFlightSearch().getSearchResponse() == null) {
+			if (!Db.loadCachedFlightData(this)) {
+				NavUtils.onDataMissing(this);
+				return;
+			}
+		}
 
 		setContentView(R.layout.activity_flight_details);
 

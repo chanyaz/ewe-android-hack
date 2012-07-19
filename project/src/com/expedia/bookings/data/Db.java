@@ -11,9 +11,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Process;
 
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 
@@ -380,6 +382,82 @@ public class Db {
 
 		sDb.mFlightSearch.reset();
 		sDb.mFlightPassengers.clear();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Saving/loading data
+
+	private static final String SAVED_FLIGHT_DATA_FILE = "flights-data.db";
+
+	/**
+	 * MAKE SURE TO CALL THIS IN A NON-UI THREAD
+	 */
+	public static boolean saveFlightDataCache(Context context) {
+		long start = System.currentTimeMillis();
+		try {
+			JSONObject obj = new JSONObject();
+			JSONUtils.putJSONable(obj, "flightSearch", sDb.mFlightSearch);
+			JSONUtils.putJSONable(obj, "flightDetails", sDb.mFlightDetails);
+
+			IoUtils.writeStringToFile(SAVED_FLIGHT_DATA_FILE, obj.toString(), context);
+
+			Log.d("Saved flight data cache in " + (System.currentTimeMillis() - start) + " ms");
+
+			return true;
+		}
+		catch (Exception e) {
+			// It's not a severe issue if this all fails - just 
+			Log.w("Failed to save flight data", e);
+			return false;
+		}
+	}
+
+	public static boolean loadCachedFlightData(Context context) {
+		long start = System.currentTimeMillis();
+
+		File file = context.getFileStreamPath(SAVED_FLIGHT_DATA_FILE);
+		if (!file.exists()) {
+			return false;
+		}
+
+		try {
+			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SAVED_FLIGHT_DATA_FILE, context));
+
+			if (obj.has("flightSearch")) {
+				sDb.mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
+			}
+			if (obj.has("flightDetails")) {
+				sDb.mFlightDetails = JSONUtils.getJSONable(obj, "flightDetails", FlightDetailsResponse.class);
+			}
+
+			Log.d("Loaded cached flight data in " + (System.currentTimeMillis() - start) + " ms");
+
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static boolean deleteCachedFlightData(Context context) {
+		File file = context.getFileStreamPath(SAVED_FLIGHT_DATA_FILE);
+		if (!file.exists()) {
+			return true;
+		}
+		else {
+			return file.delete();
+		}
+	}
+
+	public static void kickOffBackgroundSave(final Context context) {
+		// Kick off a search to cache results to disk, in case app is killed
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+				Db.saveFlightDataCache(context);
+			}
+		})).start();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -33,6 +33,7 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.mobiata.android.BackgroundDownloader;
@@ -75,6 +76,14 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Recover data if it was flushed from memory
+		if (Db.getFlightSearch().getSearchResponse() == null) {
+			if (!Db.loadCachedFlightData(this)) {
+				NavUtils.onDataMissing(this);
+				return;
+			}
+		}
 
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);

@@ -57,6 +57,11 @@ public class FlightListFragment extends ListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// If the parent is finishing already, don't bother with displaying the data
+		if (getActivity().isFinishing()) {
+			return null;
+		}
+
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
 		// Configure the header

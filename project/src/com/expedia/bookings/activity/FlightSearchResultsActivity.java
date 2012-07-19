@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.Calendar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +37,14 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Recover data if it was flushed from memory
+		if (Db.getFlightSearch().getSearchResponse() == null) {
+			if (!Db.loadCachedFlightData(this)) {
+				NavUtils.onDataMissing(this);
+				return;
+			}
+		}
 
 		mLegPosition = getIntent().getIntExtra(EXTRA_LEG_POSITION, 0);
 

@@ -72,6 +72,8 @@
     <string name="from_contacts">Load Info From Contacts</string>
     <!-- Error message when user tries to search for a flight to/from the same airport -->
     <string name="error_same_origin_arrival">You must enter different departure and arrival airports.</string>
+    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
+    <string name="error_data_expired">DEBUG: Search data was cleared somehow.  Please report this error to DLew.</string>
 
     <!-- Flight Details Fragment -->
     <!-- The label for the number of seats left for a flight -->

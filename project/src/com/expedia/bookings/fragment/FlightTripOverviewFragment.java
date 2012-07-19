@@ -222,6 +222,8 @@ public class FlightTripOverviewFragment extends Fragment {
 			Db.setFlightDetails(results);
 			mRequestedDetails = true;
 
+			Db.kickOffBackgroundSave(getActivity());
+
 			LoadingDetailsDialogFragment df = Ui.findSupportFragment(getCompatibilityActivity(),
 					LoadingDetailsDialogFragment.TAG);
 			df.dismiss();

@@ -38,6 +38,7 @@ import com.expedia.bookings.fragment.AirportPickerFragment.AirportPickerFragment
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.PassengerPickerFragment;
+import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.DebugMenu;
@@ -53,6 +54,8 @@ import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightSearchActivity extends SherlockFragmentActivity implements AirportPickerFragmentListener,
 		CalendarDialogFragmentListener {
+
+	public static final String EXTRA_DATA_EXPIRED = "EXTRA_DATA_EXPIRED";
 
 	private static final String TAG_AIRPORT_PICKER = "TAG_AIRPORT_PICKER";
 	private static final String TAG_DATE_PICKER = "TAG_DATE_PICKER";
@@ -88,6 +91,12 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState == null && getIntent().getBooleanExtra(EXTRA_DATA_EXPIRED, false)) {
+			SimpleSupportDialogFragment df = SimpleSupportDialogFragment.newInstance(null,
+					getString(R.string.error_data_expired));
+			df.show(getSupportFragmentManager(), "dataExpiredDf");
+		}
 
 		if (savedInstanceState != null) {
 			mFinishedSearch = savedInstanceState.getBoolean(INSTANCE_FINISHED_SEARCH, false);
@@ -599,6 +608,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 
 			FlightSearch search = Db.getFlightSearch();
 			search.setSearchResponse(response);
+
+			Db.kickOffBackgroundSave(FlightSearchActivity.this);
 
 			if (!handleErrors(response)) {
 				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
