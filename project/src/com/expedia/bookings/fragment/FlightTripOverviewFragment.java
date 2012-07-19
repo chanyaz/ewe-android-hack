@@ -84,7 +84,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		mFlightContainer = Ui.findView(v, R.id.flight_legs_container);
 		mCheckoutBtn = Ui.findView(v, R.id.checkout_btn);
 		mFlightTripSectionPriceBar = Ui.findView(v, R.id.price_bar);
-		
+
 		mCheckoutBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -135,8 +135,9 @@ public class FlightTripOverviewFragment extends Fragment {
 		Ui.setText(v, R.id.departure_date_long_form, date);
 		Ui.setText(v, R.id.your_trip_to,
 				String.format(getResources().getString(R.string.your_trip_to_TEMPLATE), cityName));
+		int numTravelers = 1;
 		Ui.setText(v, R.id.traveler_count,
-				String.format(getResources().getString(R.string.number_of_travelers_TEMPLATE), "1"));
+				getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers));
 
 		//Inflate and store the sections
 		SectionFlightLeg tempFlight;
@@ -165,20 +166,21 @@ public class FlightTripOverviewFragment extends Fragment {
 		return v;
 	}
 
-	public void bindAll(){
-		if(mOffer == null){
+	public void bindAll() {
+		if (mOffer == null) {
 			mFlightTripSectionPriceBar.bind(mTrip);
-		}else{
+		}
+		else {
 			mFlightTripSectionPriceBar.bind(mOffer);
 		}
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 
 		bindAll();
-		
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_DETAILS)) {
 			bd.registerDownloadCallback(KEY_DETAILS, mFlightDetailsCallback);
