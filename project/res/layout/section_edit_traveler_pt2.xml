@@ -15,7 +15,7 @@
         gridlayout:useDefaultMargins="false" >
 
         <TextView
-            android:layout_gravity="right"
+            android:layout_gravity="center_horizontal"
             android:text="@string/date_of_birth" />
 
         <View
@@ -25,12 +25,12 @@
             android:layout_gravity="fill_vertical"
             android:background="#000000" />
 
-        <DatePicker
-            android:id="@+id/edit_date_of_birth"
-            android:layout_width="5dp"
+        <TextView
+            android:id="@+id/edit_birth_date_text_btn"
             android:layout_gravity="fill_horizontal"
-            android:calendarViewShown="false"
-            android:spinnersShown="true" />
+            android:paddingLeft="5dp"
+            android:text="@string/date_of_birth"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_gravity="right"
@@ -64,6 +64,51 @@
         <Spinner
             android:id="@+id/edit_passport_country_spinner"
             android:layout_width="5dp"
+            android:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/seating" />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="1dp"
+            android:layout_gravity="fill_vertical"
+            android:background="#000000" />
+
+        <Spinner
+            android:id="@+id/edit_seat_preference_spinner"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/meal" />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="1dp"
+            android:layout_gravity="fill_vertical"
+            android:background="#000000" />
+
+        <Spinner
+            android:id="@+id/edit_meal_preference_spinner"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:layout_gravity="right"
+            android:text="@string/assistance" />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="1dp"
+            android:layout_gravity="fill_vertical"
+            android:background="#000000" />
+
+        <Spinner
+            android:id="@+id/edit_assistance_preference_spinner"
+            android:layout_width="0dp"
             android:layout_gravity="fill_horizontal" />
     </com.gridlayout.GridLayout>
 

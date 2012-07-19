@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Flight meal preferences -->
+    <string-array name="meal_preferences">
+        <item>@string/none</item>
+        <item>@string/vegetarian</item>
+        <item>@string/booze</item>
+    </string-array>
+
+    <!-- Flight assistance preferences -->
+    <string-array name="assistance_preferences">
+        <item>@string/none</item>
+        <item>@string/wheelchair</item>
+        <item>@string/defibrillator</item>
+    </string-array>
+
+    <!-- Flight seat preferences -->
+    <string-array name="seat_preferences">
+        <item>@string/none</item>
+        <item>@string/window</item>
+        <item>@string/aisle</item>
+    </string-array>
+
     <!--
          Suggested locations to search that are given to the user.  Order doesn't matter
 		as these are all shuffled before displaying anyways.

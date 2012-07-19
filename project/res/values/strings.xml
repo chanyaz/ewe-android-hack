@@ -121,9 +121,9 @@
     <string name="loading_flight_details">Loading realtime flight information...</string>
     <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
     <string name="plus_symbol">+</string>
-    <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare-->
+    <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
     <string name="equals_symbol">=</string>
-    
+
     <!-- Section Display Flights -->
     <!-- Departs label with date (e.g. Depart: Aug 2nd) -->
     <string name="departs_with_date_TEMPLATE">Depart: %1$s %2$s</string>
@@ -200,7 +200,7 @@
     <!-- Phone number label -->
     <string name="phone_number_country_code">Country Code</string>
     <!-- Phone number label -->
-    <string name="phone_number">Phone Number</string>
+    <string name="phone_number">Phone #</string>
     <!-- Gender label -->
     <string name="gender">Gender</string>
     <!-- name as it appears on id warning message -->
@@ -221,6 +221,36 @@
     <string name="passport_country">Passport Country</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Only if applicable</string>
+    <!-- Seating label -->
+    <string name="seating">Seating</string>
+    <!-- Assistance label -->
+    <string name="assistance">Assistance</string>
+    <!-- Meal label -->
+    <string name="meal">Meal</string>
+
+    <!-- Traveler Info spinner values -->
+    <!-- None -->
+    <string name="none">None</string>
+
+    <!-- Seat types -->
+    <!-- Window seating preference -->
+    <string name="window">Window</string>
+    <!-- Aisle seating preference -->
+    <string name="aisle">Aisle</string>
+
+    <!-- Assistance Types -->
+    <!-- Wheelchair -->
+    <string name="wheelchair">Wheelchair</string>
+    <!-- DEFIBRILLATOR -->
+    <string name="defibrillator">Defibrillator</string>
+    <!-- salad -->
+    <string name="salad">Salad</string>
+
+    <!-- Meal Types -->
+    <!-- vegetarian -->
+    <string name="vegetarian">Vegetarian</string>
+    <!-- booze -->
+    <string name="booze">Booze</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->

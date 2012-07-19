@@ -23,14 +23,32 @@ public class FlightPassenger implements JSONable {
 	private String mPhoneNumber;
 	private String mEmail;
 	private Gender mGender;
-	private Calendar mBirthDate;
 
-	//This is some stuff in the design that maybe won't exist
+	private Calendar mBirthDate;
 	private String mRedressNumber;
 	private String mPassportCountry;
+	private SeatPreference mSeatPreference = SeatPreference.NONE;
+	private AssistanceType mAssistance = AssistanceType.NONE;
+	private MealType mMealPreference = MealType.NONE;
 
 	public enum Gender {
 		MALE, FEMALE
+	}
+
+	public enum SeatPreference {
+		NONE,WINDOW, AISLE
+	}
+
+	public enum AssistanceType {
+		NONE,
+		WHEELCHAIR,
+		DEFIBRILLATOR
+	}
+	
+	public enum MealType{
+		NONE,
+		VEGITARIAN,
+		BOOZE
 	}
 
 	public FlightPassenger() {
@@ -111,6 +129,18 @@ public class FlightPassenger implements JSONable {
 		return mPassportCountry;
 	}
 
+	public SeatPreference getSeatPreference() {
+		return mSeatPreference;
+	}
+
+	public AssistanceType getAssistance() {
+		return mAssistance;
+	}
+	
+	public MealType getMealPreference(){
+		return mMealPreference;
+	}
+
 	//////////////////////////
 	// Setters
 
@@ -154,6 +184,18 @@ public class FlightPassenger implements JSONable {
 		mPassportCountry = passportCountry;
 	}
 
+	public void setSeatPreference(SeatPreference pref) {
+		mSeatPreference = pref;
+	}
+
+	public void setAssistance(AssistanceType assistance) {
+		mAssistance = assistance;
+	}
+	
+	public void setMealPreference(MealType preference){
+		mMealPreference = preference;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
@@ -172,9 +214,12 @@ public class FlightPassenger implements JSONable {
 
 			//TODO:Calendar 
 			//obj.putOpt("birthDate", mBirthDate);
-			
+
 			obj.putOpt("redressNumber", mRedressNumber);
 			obj.putOpt("passportCountry", mPassportCountry);
+			obj.put("seatPreference", mSeatPreference.name());
+			obj.put("assistance", mAssistance.name());
+			obj.put("mealPreference" , mMealPreference.name());
 
 			return obj;
 		}
@@ -198,9 +243,13 @@ public class FlightPassenger implements JSONable {
 		mGender = Gender.valueOf(obj.optString("gender"));
 
 		//TODO:Calender stuff for birthday...
-		
+
 		mRedressNumber = obj.optString("redressNumber");
 		mPassportCountry = obj.optString("passportCountry");
+
+		mSeatPreference = SeatPreference.valueOf(obj.optString("seatPreference"));
+		mAssistance = AssistanceType.valueOf(obj.optString("assistance"));
+		mMealPreference = MealType.valueOf(obj.optString("mealPreference"));
 
 		return true;
 	}

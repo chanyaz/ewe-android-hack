@@ -3,6 +3,7 @@ package com.expedia.bookings.section;
 import java.util.regex.Pattern;
 
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import com.mobiata.android.validation.PatternValidator;
 import com.mobiata.android.validation.TextViewValidator;
@@ -52,6 +53,16 @@ public class CommonSectionValidators {
 		@Override
 		public int validate(EditText obj) {
 			return (obj == null) ? ValidationError.ERROR_DATA_MISSING : mValidator.validate(obj);
+		}
+	};
+	
+	public static final Validator<RadioGroup> RADIO_GROUP_HAS_SELECTION = new Validator<RadioGroup>() {
+		@Override
+		public int validate(RadioGroup obj) {
+			if (obj.getCheckedRadioButtonId() < 0) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			return ValidationError.NO_ERROR;
 		}
 	};
 }

@@ -6,7 +6,10 @@ import java.util.GregorianCalendar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.FlightPassenger.AssistanceType;
 import com.expedia.bookings.data.FlightPassenger.Gender;
+import com.expedia.bookings.data.FlightPassenger.MealType;
+import com.expedia.bookings.data.FlightPassenger.SeatPreference;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
@@ -14,11 +17,14 @@ import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.graphics.Color;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -90,9 +96,16 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		mFields.add(mEditPhoneNumberCountryCodeSpinner);
 		mFields.add(mEditPhoneNumber);
 		mFields.add(mEditBirthDate);
+		mFields.add(mEditBirthDateTextBtn);
 		mFields.add(mEditRedressNumber);
 		mFields.add(mEditGender);
 		mFields.add(mEditPassportCountry);
+		mFields.add(mEditAssistancePreference);//Old radio...
+		mFields.add(mEditSeatPreference);//Old radio...
+		mFields.add(mEditMealPreference);//Old Radio...
+		mFields.add(mEditMealPreferenceSpinner);
+		mFields.add(mEditAssistancePreferenceSpinner);
+		mFields.add(mEditSeatPreferenceSpinner);
 	}
 
 	@Override
@@ -440,6 +453,86 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 	};
 
+	SectionFieldEditable<TextView, FlightPassenger> mEditBirthDateTextBtn = new SectionFieldEditable<TextView, FlightPassenger>(
+			R.id.edit_birth_date_text_btn) {
+
+		@Override
+		public void setChangeListener(TextView field) {
+
+			field.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					Calendar defCal = Calendar.getInstance();
+					if (hasBoundData()) {
+						if (getData().getBirthDate() != null) {
+							defCal = getData().getBirthDate();
+						}
+					}
+
+					int year = defCal.get(Calendar.YEAR);
+					int month = defCal.get(Calendar.MONTH);
+					int day = defCal.get(Calendar.DAY_OF_MONTH);
+
+					OnDateSetListener dsl = new OnDateSetListener() {
+						@Override
+						public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+							if (hasBoundData()) {
+								Calendar cal = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+								getData().setBirthDate(cal);
+							}
+							refreshText();
+							onChange(SectionTravelerInfo.this);
+						}
+					};
+
+					DatePickerDialog birthDatePicker = new DatePickerDialog(mContext, dsl, year, month, day);
+					birthDatePicker.show();
+				}
+			});
+
+		}
+
+		private void refreshText() {
+			if (hasBoundField() && hasBoundData()) {
+				onHasFieldAndData(getField(), getData());
+			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+			retArr.add(mValidDateOfBirth);
+			return retArr;
+		}
+
+		@Override
+		protected void onHasFieldAndData(TextView field, FlightPassenger data) {
+
+			Calendar cal = Calendar.getInstance();
+			if (data.getBirthDate() != null) {
+				cal = data.getBirthDate();
+			}
+			field.setText(DateUtils.formatDateTime(mContext, cal.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE
+					| DateUtils.FORMAT_NUMERIC_DATE));
+		}
+
+		Validator<TextView> mValidator = new Validator<TextView>() {
+
+			@Override
+			public int validate(TextView obj) {
+				// TODO require reasonable date
+				return ValidationError.NO_ERROR;
+			}
+
+		};
+
+		@Override
+		protected Validator<TextView> getValidator() {
+			return mValidator;
+		}
+	};
+
 	SectionFieldEditable<EditText, FlightPassenger> mEditPhoneNumber = new SectionFieldEditable<EditText, FlightPassenger>(
 			R.id.edit_phone_number) {
 		@Override
@@ -541,6 +634,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		Validator<DatePicker> mValidator = new Validator<DatePicker>() {
 			@Override
 			public int validate(DatePicker obj) {
+				Calendar cal = new GregorianCalendar(obj.getYear(), obj.getMonth(), obj.getDayOfMonth());
+				Calendar now = Calendar.getInstance();
+				if (cal.getTimeInMillis() > now.getTimeInMillis()) {
+					return ValidationError.ERROR_DATA_INVALID;
+				}
 				return ValidationError.NO_ERROR;
 			}
 		};
@@ -793,6 +891,405 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 
 		@Override
 		protected Validator<TelephoneSpinner> getValidator() {
+			return mValidator;
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+			return null;
+		}
+	};
+
+	SectionFieldEditable<RadioGroup, FlightPassenger> mEditMealPreference = new SectionFieldEditable<RadioGroup, FlightPassenger>(
+			R.id.edit_meal_radio) {
+
+		RadioButton mNoneRadio;
+		RadioButton mVegetarianRadio;
+		RadioButton mBoozeRadio;
+
+		@Override
+		protected void onFieldBind() {
+			super.onFieldBind();
+			if (this.hasBoundField()) {
+				mNoneRadio = Ui.findView(getField(), R.id.edit_meal_radio_none);
+				mVegetarianRadio = Ui.findView(getField(), R.id.edit_meal_radio_vegetarian);
+				mBoozeRadio = Ui.findView(getField(), R.id.edit_meal_radio_booze);
+			}
+		}
+
+		@Override
+		protected Validator<RadioGroup> getValidator() {
+			return CommonSectionValidators.RADIO_GROUP_HAS_SELECTION;
+		}
+
+		@Override
+		public void setChangeListener(RadioGroup field) {
+			field.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+					if (hasBoundData()) {
+						if (mVegetarianRadio != null && checkedId == mVegetarianRadio.getId()) {
+							getData().setMealPreference(MealType.VEGITARIAN);
+						}
+						else if (mBoozeRadio != null && checkedId == mBoozeRadio.getId()) {
+							getData().setMealPreference(MealType.BOOZE);
+						}
+						else {
+							getData().setMealPreference(MealType.NONE);
+						}
+					}
+					onChange(SectionTravelerInfo.this);
+				}
+			});
+		}
+
+		@Override
+		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
+			if (data.getMealPreference() != null) {
+				MealType mt = data.getMealPreference();
+				if (mt == MealType.NONE) {
+					mNoneRadio.setChecked(true);
+					mVegetarianRadio.setChecked(false);
+					mBoozeRadio.setChecked(false);
+				}
+				else if (mt == MealType.VEGITARIAN) {
+					mNoneRadio.setChecked(false);
+					mVegetarianRadio.setChecked(true);
+					mBoozeRadio.setChecked(false);
+				}
+				else if (mt == MealType.BOOZE) {
+					mNoneRadio.setChecked(false);
+					mVegetarianRadio.setChecked(false);
+					mBoozeRadio.setChecked(true);
+				}
+			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+			return null;
+		}
+	};
+
+	SectionFieldEditable<RadioGroup, FlightPassenger> mEditSeatPreference = new SectionFieldEditable<RadioGroup, FlightPassenger>(
+			R.id.edit_seating_preference_radio) {
+
+		RadioButton mNoneRadio;
+		RadioButton mWindowRadio;
+		RadioButton mAisleRadio;
+
+		@Override
+		protected void onFieldBind() {
+			super.onFieldBind();
+			if (this.hasBoundField()) {
+				mNoneRadio = Ui.findView(getField(), R.id.edit_seating_preference_radio_none);
+				mWindowRadio = Ui.findView(getField(), R.id.edit_seating_preference_radio_window);
+				mAisleRadio = Ui.findView(getField(), R.id.edit_seating_preference_radio_aisle);
+			}
+		}
+
+		@Override
+		protected Validator<RadioGroup> getValidator() {
+			return CommonSectionValidators.RADIO_GROUP_HAS_SELECTION;
+		}
+
+		@Override
+		public void setChangeListener(RadioGroup field) {
+			field.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+					if (hasBoundData()) {
+						if (mWindowRadio != null && checkedId == mWindowRadio.getId()) {
+							getData().setSeatPreference(SeatPreference.WINDOW);
+						}
+						else if (mAisleRadio != null && checkedId == mAisleRadio.getId()) {
+							getData().setSeatPreference(SeatPreference.AISLE);
+						}
+						else {
+							getData().setSeatPreference(SeatPreference.NONE);
+						}
+					}
+					onChange(SectionTravelerInfo.this);
+				}
+			});
+		}
+
+		@Override
+		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
+			if (data.getMealPreference() != null) {
+				SeatPreference sp = data.getSeatPreference();
+				if (sp == SeatPreference.WINDOW) {
+					mNoneRadio.setChecked(false);
+					mWindowRadio.setChecked(true);
+					mAisleRadio.setChecked(false);
+				}
+				else if (sp == SeatPreference.AISLE) {
+					mNoneRadio.setChecked(false);
+					mWindowRadio.setChecked(false);
+					mAisleRadio.setChecked(true);
+				}
+				else {
+					mNoneRadio.setChecked(true);
+					mWindowRadio.setChecked(false);
+					mAisleRadio.setChecked(false);
+				}
+			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+			return null;
+		}
+	};
+
+	SectionFieldEditable<RadioGroup, FlightPassenger> mEditAssistancePreference = new SectionFieldEditable<RadioGroup, FlightPassenger>(
+			R.id.edit_assistance_radio) {
+
+		RadioButton mNoneRadio;
+		RadioButton mWheelChairRadio;
+		RadioButton mDefibrillatorRadio;
+
+		@Override
+		protected void onFieldBind() {
+			super.onFieldBind();
+			if (this.hasBoundField()) {
+				mNoneRadio = Ui.findView(getField(), R.id.edit_assistance_radio_none);
+				mWheelChairRadio = Ui.findView(getField(), R.id.edit_assistance_radio_wheelchair);
+				mDefibrillatorRadio = Ui.findView(getField(), R.id.edit_assistance_radio_defibrillator);
+			}
+		}
+
+		@Override
+		protected Validator<RadioGroup> getValidator() {
+			return CommonSectionValidators.RADIO_GROUP_HAS_SELECTION;
+		}
+
+		@Override
+		public void setChangeListener(RadioGroup field) {
+			field.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+					if (hasBoundData()) {
+						if (mWheelChairRadio != null && checkedId == mWheelChairRadio.getId()) {
+							getData().setAssistance(AssistanceType.WHEELCHAIR);
+						}
+						else if (mDefibrillatorRadio != null && checkedId == mDefibrillatorRadio.getId()) {
+							getData().setAssistance(AssistanceType.DEFIBRILLATOR);
+						}
+						else {
+							getData().setAssistance(AssistanceType.NONE);
+						}
+					}
+					onChange(SectionTravelerInfo.this);
+				}
+			});
+		}
+
+		@Override
+		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
+			if (data.getMealPreference() != null) {
+				AssistanceType at = data.getAssistance();
+				if (at == AssistanceType.WHEELCHAIR) {
+					mNoneRadio.setChecked(false);
+					mWheelChairRadio.setChecked(true);
+					mDefibrillatorRadio.setChecked(false);
+				}
+				else if (at == AssistanceType.DEFIBRILLATOR) {
+					mNoneRadio.setChecked(false);
+					mWheelChairRadio.setChecked(false);
+					mDefibrillatorRadio.setChecked(true);
+				}
+				else {
+					mNoneRadio.setChecked(true);
+					mWheelChairRadio.setChecked(false);
+					mDefibrillatorRadio.setChecked(false);
+				}
+			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+			return null;
+		}
+	};
+
+	SectionFieldEditable<Spinner, FlightPassenger> mEditMealPreferenceSpinner = new SectionFieldEditable<Spinner, FlightPassenger>(
+			R.id.edit_meal_preference_spinner) {
+
+		Validator<Spinner> mValidator = new Validator<Spinner>() {
+			@Override
+			public int validate(Spinner obj) {
+				return ValidationError.NO_ERROR;
+			}
+		};
+
+		@Override
+		protected void onFieldBind() {
+			super.onFieldBind();
+			if (hasBoundField()) {
+				getField().setAdapter(new MealTypeSpinnerAdapter(mContext));
+			}
+		}
+
+		@Override
+		public void setChangeListener(Spinner field) {
+
+			field.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					if (getData() != null) {
+						MealTypeSpinnerAdapter mealTypes = (MealTypeSpinnerAdapter) parent.getAdapter();
+						getData().setMealPreference(mealTypes.getMealTypeValue(position));
+					}
+					onChange(SectionTravelerInfo.this);
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
+
+		}
+
+		@Override
+		protected void onHasFieldAndData(Spinner field, FlightPassenger data) {
+			MealTypeSpinnerAdapter adapter = (MealTypeSpinnerAdapter) field.getAdapter();
+
+			for (int i = 0; i < adapter.getCount(); i++) {
+				if (adapter.getMealTypeValue(i) == data.getMealPreference()) {
+					field.setSelection(i);
+					break;
+				}
+			}
+		}
+
+		@Override
+		protected Validator<Spinner> getValidator() {
+			return mValidator;
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+			return null;
+		}
+	};
+
+	SectionFieldEditable<Spinner, FlightPassenger> mEditSeatPreferenceSpinner = new SectionFieldEditable<Spinner, FlightPassenger>(
+			R.id.edit_seat_preference_spinner) {
+
+		Validator<Spinner> mValidator = new Validator<Spinner>() {
+			@Override
+			public int validate(Spinner obj) {
+				return ValidationError.NO_ERROR;
+			}
+		};
+
+		@Override
+		protected void onFieldBind() {
+			super.onFieldBind();
+			if (hasBoundField()) {
+				getField().setAdapter(new SeatPreferenceSpinnerAdapter(mContext));
+			}
+		}
+
+		@Override
+		public void setChangeListener(Spinner field) {
+
+			field.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					if (getData() != null) {
+						SeatPreferenceSpinnerAdapter mealTypes = (SeatPreferenceSpinnerAdapter) parent.getAdapter();
+						getData().setSeatPreference(mealTypes.getSeatPreferenceValue(position));
+					}
+					onChange(SectionTravelerInfo.this);
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
+
+		}
+
+		@Override
+		protected void onHasFieldAndData(Spinner field, FlightPassenger data) {
+			SeatPreferenceSpinnerAdapter adapter = (SeatPreferenceSpinnerAdapter) field.getAdapter();
+
+			for (int i = 0; i < adapter.getCount(); i++) {
+				if (adapter.getSeatPreferenceValue(i) == data.getSeatPreference()) {
+					field.setSelection(i);
+					break;
+				}
+			}
+		}
+
+		@Override
+		protected Validator<Spinner> getValidator() {
+			return mValidator;
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+			return null;
+		}
+	};
+
+	SectionFieldEditable<Spinner, FlightPassenger> mEditAssistancePreferenceSpinner = new SectionFieldEditable<Spinner, FlightPassenger>(
+			R.id.edit_assistance_preference_spinner) {
+
+		Validator<Spinner> mValidator = new Validator<Spinner>() {
+			@Override
+			public int validate(Spinner obj) {
+				return ValidationError.NO_ERROR;
+			}
+		};
+
+		@Override
+		protected void onFieldBind() {
+			super.onFieldBind();
+			if (hasBoundField()) {
+				getField().setAdapter(new AssistanceTypeSpinnerAdapter(mContext));
+			}
+		}
+
+		@Override
+		public void setChangeListener(Spinner field) {
+
+			field.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					if (getData() != null) {
+						AssistanceTypeSpinnerAdapter mealTypes = (AssistanceTypeSpinnerAdapter) parent.getAdapter();
+						getData().setAssistance(mealTypes.getAssistanceTypeValue(position));
+					}
+					onChange(SectionTravelerInfo.this);
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
+
+		}
+
+		@Override
+		protected void onHasFieldAndData(Spinner field, FlightPassenger data) {
+			AssistanceTypeSpinnerAdapter adapter = (AssistanceTypeSpinnerAdapter) field.getAdapter();
+
+			for (int i = 0; i < adapter.getCount(); i++) {
+				if (adapter.getAssistanceTypeValue(i) == data.getAssistance()) {
+					field.setSelection(i);
+					break;
+				}
+			}
+		}
+
+		@Override
+		protected Validator<Spinner> getValidator() {
 			return mValidator;
 		}
 

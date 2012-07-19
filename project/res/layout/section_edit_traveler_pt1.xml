@@ -14,72 +14,72 @@
         gridlayout:columnOrderPreserved="false"
         gridlayout:useDefaultMargins="false" >
 
-        <TextView
-            android:layout_gravity="right"
-            android:text="@string/first_name" />
-
-        <View
-            android:id="@+id/valid_first_name"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
-            android:background="#000000" />
-
         <EditText
             android:id="@+id/edit_first_name"
             android:layout_gravity="fill_horizontal"
             gridlayout:layout_columnSpan="2"
+            android:hint="@string/first_name"
             android:inputType="textPersonName" />
-
-        <TextView
-            android:layout_gravity="right"
-            android:text="@string/middle_name" />
-
-        <View
-            android:id="@+id/valid_middle_name"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
-            android:background="#000000" />
 
         <EditText
             android:id="@+id/edit_middle_name"
             android:layout_gravity="fill_horizontal"
             gridlayout:layout_columnSpan="2"
+            android:hint="@string/middle_name"
             android:inputType="textPersonName" />
-
-        <TextView
-            android:layout_gravity="right"
-            android:text="@string/last_name" />
+        
+        <View
+            android:id="@+id/valid_first_name"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="2"
+            android:background="#000000" />
 
         <View
-            android:id="@+id/valid_last_name"
-            android:layout_width="3dp"
+            android:id="@+id/valid_middle_name"
+            android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="2"
             android:background="#000000" />
+        
+
 
         <EditText
             android:id="@+id/edit_last_name"
+            android:layout_width="0dp"
             android:layout_gravity="fill_horizontal"
-            gridlayout:layout_columnSpan="2"
+            gridlayout:layout_columnSpan="4"
+            android:hint="@string/last_name"
             android:inputType="textPersonName" />
+
+        
+
+        <View
+            android:id="@+id/valid_last_name"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="4"
+            android:background="#000000" />
+    </com.gridlayout.GridLayout>
+
+    <com.gridlayout.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        gridlayout:alignmentMode="alignMargins"
+        gridlayout:columnCount="3"
+        gridlayout:columnOrderPreserved="false"
+        gridlayout:useDefaultMargins="false" >
 
         <TextView
             android:layout_gravity="right"
             android:text="@string/phone_number" />
 
-        <View
-            android:id="@+id/valid_phone_number"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
-            android:background="#000000" />
-
         <com.expedia.bookings.widget.TelephoneSpinner
             android:id="@+id/edit_phone_number_country_code_spinner"
-            android:layout_width="100dp"
-            android:layout_gravity="left" />
+            android:layout_width="100dp" />
 
         <EditText
             android:id="@+id/edit_phone_number"
@@ -87,21 +87,24 @@
             android:layout_gravity="fill_horizontal"
             android:inputType="phone" />
 
-        <TextView
-            android:layout_gravity="right"
-            android:text="@string/gender" />
-
         <View
-            android:id="@+id/valid_gender"
-            android:layout_width="3dp"
+            android:id="@+id/valid_phone_number"
+            android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
+            android:layout_gravity="fill_horizontal"
+            android:layout_column="1"
+            gridlayout:layout_columnSpan="2"
             android:background="#000000" />
+
+        <TextView
+            android:layout_gravity="right|center_vertical"
+            android:text="@string/gender" />
 
         <RadioGroup
             android:id="@+id/edit_gender_radio"
-            android:layout_gravity="fill_horizontal"
             gridlayout:layout_columnSpan="2"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal|center"
             android:orientation="horizontal" >
 
             <RadioButton
@@ -117,10 +120,20 @@
                 android:text="@string/female" />
         </RadioGroup>
 
+        <View
+            android:id="@+id/valid_gender"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_gravity="fill_horizontal"
+            android:layout_column="1"
+            gridlayout:layout_columnSpan="2"
+            android:background="#000000" />
+
         <TextView
             android:id="@+id/footer_message"
-            android:layout_gravity="left"
-            gridlayout:layout_columnSpan="4"
+            android:layout_width="0dp"
+            android:layout_gravity="left|fill_horizontal"
+            gridlayout:layout_columnSpan="3"
             android:text="@string/name_as_appears_on_id_warning" />
     </com.gridlayout.GridLayout>
 
