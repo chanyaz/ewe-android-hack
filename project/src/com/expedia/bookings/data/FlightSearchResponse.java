@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import com.mobiata.android.json.JSONUtils;
 
-public class FlightSearchResponse extends SearchResponse {
+public class FlightSearchResponse extends Response {
 
 	private List<FlightTrip> mTrips;
 

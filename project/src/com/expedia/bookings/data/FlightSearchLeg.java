@@ -58,7 +58,7 @@ public class FlightSearchLeg implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			obj.putOpt("departureDate", mDepartureDate.toJson());
+			JSONUtils.putJSONable(obj, "departureDate", mDepartureDate);
 			obj.putOpt("departureAirportCode", mDepartureAirportCode);
 			obj.putOpt("arrivalAirportCode", mArrivalAirportCode);
 			return obj;
@@ -70,11 +70,9 @@ public class FlightSearchLeg implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mDepartureDate = (Date) JSONUtils.getJSONable(obj, "departureDate", Date.class);
-
+		mDepartureDate = JSONUtils.getJSONable(obj, "departureDate", Date.class);
 		mDepartureAirportCode = obj.optString("departureAirportCode");
 		mArrivalAirportCode = obj.optString("arrivalAirportCode");
-
 		return true;
 	}
 }
