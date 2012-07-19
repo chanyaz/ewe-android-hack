@@ -261,7 +261,12 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		if (Db.getSelectedProperty() != null) {
 			// In case there is a currently selected property, select it on the screen.
 			position = getPositionOfProperty(Db.getSelectedProperty());
-			mAdapter.setSelectedPosition(position);
+			if (position < 0) {
+				position = 0;
+			}
+			else {
+				mAdapter.setSelectedPosition(position);
+			}
 		}
 		final ListView lv = getListView();
 		final int frozenPosition = position;
