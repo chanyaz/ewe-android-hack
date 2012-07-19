@@ -14,15 +14,14 @@ import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
+import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightAdapterListener {
+public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener {
 
 	public static final String EXTRA_LEG_POSITION = "EXTRA_LEG_POSITION";
 
@@ -127,19 +126,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// FlightAdapterListener
+	// FlightListFragmentListener
 
 	@Override
-	public void onDetailsClick(FlightTrip trip, FlightLeg leg, int position) {
-		Intent intent = new Intent(this, FlightDetailsActivity.class);
-		intent.putExtra(FlightDetailsActivity.EXTRA_TRIP_KEY, trip.getProductKey());
-		intent.putExtra(FlightDetailsActivity.EXTRA_LEG_POSITION, mLegPosition);
-		startActivity(intent);
-	}
-
-	@Override
-	public void onSelectClick(FlightTrip trip, FlightLeg leg, int position) {
-		Db.getFlightSearch().setSelectedLeg(mLegPosition, leg);
+	public void onFlightLegClick(FlightLeg flightLeg) {
+		Db.getFlightSearch().setSelectedLeg(mLegPosition, flightLeg);
 
 		NavUtils.onFlightLegSelected(this);
 	}

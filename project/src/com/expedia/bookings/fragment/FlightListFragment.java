@@ -14,8 +14,9 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.widget.FlightAdapter;
-import com.expedia.bookings.widget.FlightAdapter.FlightAdapterListener;
 import com.mobiata.android.util.Ui;
 
 public class FlightListFragment extends ListFragment {
@@ -26,7 +27,7 @@ public class FlightListFragment extends ListFragment {
 
 	private FlightAdapter mAdapter;
 
-	private FlightAdapterListener mListener;
+	private FlightListFragmentListener mListener;
 
 	private ImageView mHeaderImage;
 
@@ -48,11 +49,11 @@ public class FlightListFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof FlightAdapterListener)) {
-			throw new RuntimeException("FlightListFragment Activity must implement FlightAdapterListener!");
+		if (!(activity instanceof FlightListFragmentListener)) {
+			throw new RuntimeException("FlightListFragment Activity must implement FlightListFragmentListener!");
 		}
 
-		mListener = (FlightAdapterListener) activity;
+		mListener = (FlightListFragmentListener) activity;
 	}
 
 	@Override
@@ -79,24 +80,21 @@ public class FlightListFragment extends ListFragment {
 		// Add the adapter
 		mAdapter = new FlightAdapter(getActivity(), savedInstanceState);
 		setListAdapter(mAdapter);
-		mAdapter.setListener(mListener);
 
 		// Set initial data
 		int legPosition = getArguments().getInt(ARG_LEG_POSITION);
 		mAdapter.setLegPosition(legPosition);
 		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(legPosition));
 
-		// Need to set this since we have buttons inside of the expandable rows
-		lv.setItemsCanFocus(true);
-
 		return v;
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
 
-		mAdapter.saveInstanceState(outState);
+		FlightTrip trip = mAdapter.getItem(position);
+		mListener.onFlightLegClick(trip.getLeg(getArguments().getInt(ARG_LEG_POSITION)));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -134,5 +132,12 @@ public class FlightListFragment extends ListFragment {
 		mErrorTextView.setVisibility(View.VISIBLE);
 
 		mErrorTextView.setText(errorText);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FlightListFragment listener
+
+	public interface FlightListFragmentListener {
+		public void onFlightLegClick(FlightLeg flightLeg);
 	}
 }
