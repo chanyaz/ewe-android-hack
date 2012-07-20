@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightDetailsResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.server.ExpediaServices;
@@ -157,7 +158,7 @@ public class FlightTripOverviewFragment extends Fragment {
 				tempFlight.setIsOutbound(false);
 			}
 
-			tempFlight.bind(mTrip.getLeg(i));
+			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));
 
 			mFlights.add(tempFlight);
 			mFlightContainer.addView(tempFlight);

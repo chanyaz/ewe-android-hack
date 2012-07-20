@@ -15,6 +15,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.fragment.TripFragment;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -79,7 +80,7 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 		FlightSearch search = Db.getFlightSearch();
 		FlightTrip trip = search.getFlightTrip(mTripKey);
 		FlightLeg leg = trip.getLeg(mLegPosition);
-		search.setSelectedLeg(mLegPosition, leg);
+		search.setSelectedLeg(mLegPosition, new FlightTripLeg(trip, leg));
 
 		NavUtils.onFlightLegSelected(this);
 	}

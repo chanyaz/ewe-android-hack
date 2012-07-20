@@ -24,11 +24,12 @@ public class FlightSearch implements JSONable {
 
 	private FlightSearchParams mSearchParams = new FlightSearchParams();
 	private FlightSearchResponse mSearchResponse;
-	private FlightLeg[] mSelectedLegs;
+	private FlightTripLeg[] mSelectedLegs;
 	private FlightFilter[] mFilters;
 
 	// Not to be saved - transitory states!
 	private Map<String, FlightTrip> mFlightTripMap = new HashMap<String, FlightTrip>();
+	private Map<String, FlightLeg> mFlightLegMap = new HashMap<String, FlightLeg>();
 	private FlightTripQuery[] mFlightTripQueries;
 
 	public void reset() {
@@ -45,11 +46,15 @@ public class FlightSearch implements JSONable {
 	public void setSearchResponse(FlightSearchResponse searchResponse) {
 		mSearchResponse = searchResponse;
 
-		// Reset the FlightTrip map
+		// Reset the FlightTrip and FlightLeg maps
 		mFlightTripMap.clear();
 		if (mSearchResponse != null && mSearchResponse.getTripCount() > 0) {
 			for (FlightTrip flightTrip : mSearchResponse.getTrips()) {
 				mFlightTripMap.put(flightTrip.getProductKey(), flightTrip);
+
+				for (FlightLeg leg : flightTrip.getLegs()) {
+					mFlightLegMap.put(leg.getLegId(), leg);
+				}
 			}
 		}
 
@@ -61,6 +66,10 @@ public class FlightSearch implements JSONable {
 
 	public FlightTrip getFlightTrip(String productKey) {
 		return mFlightTripMap.get(productKey);
+	}
+
+	public FlightLeg getFlightLeg(String legId) {
+		return mFlightLegMap.get(legId);
 	}
 
 	/**
@@ -77,7 +86,7 @@ public class FlightSearch implements JSONable {
 
 		final List<FlightTrip> trips = mSearchResponse.getTrips();
 		final int tripCount = trips.size();
-		final FlightLeg[] selectedLegs = getSelectedLegs();
+		final FlightTripLeg[] selectedLegs = getSelectedLegs();
 		final int legCount = selectedLegs.length;
 
 		// Filter out invalid trips
@@ -86,7 +95,8 @@ public class FlightSearch implements JSONable {
 
 			boolean addLeg = true;
 			for (int b = 0; b < legCount; b++) {
-				if (b != legPosition && selectedLegs[b] != null && !selectedLegs[b].equals(trip.getLeg(b))) {
+				if (b != legPosition && selectedLegs[b] != null
+						&& !selectedLegs[b].getFlightLeg().equals(trip.getLeg(b))) {
 					addLeg = false;
 					break;
 				}
@@ -123,15 +133,15 @@ public class FlightSearch implements JSONable {
 		return mSearchResponse;
 	}
 
-	public FlightLeg[] getSelectedLegs() {
+	public FlightTripLeg[] getSelectedLegs() {
 		if (mSelectedLegs == null || mSelectedLegs.length != mSearchParams.getQueryLegCount()) {
-			mSelectedLegs = new FlightLeg[mSearchParams.getQueryLegCount()];
+			mSelectedLegs = new FlightTripLeg[mSearchParams.getQueryLegCount()];
 		}
 
 		return mSelectedLegs;
 	}
 
-	public void setSelectedLeg(int position, FlightLeg leg) {
+	public void setSelectedLeg(int position, FlightTripLeg leg) {
 		getSelectedLegs()[position] = leg;
 	}
 
@@ -139,7 +149,7 @@ public class FlightSearch implements JSONable {
 	//
 	// Only valid if all legs are selected.  Otherwise, it returns null.
 	public FlightTrip getSelectedFlightTrip() {
-		FlightLeg[] legs = getSelectedLegs();
+		FlightTripLeg[] legs = getSelectedLegs();
 		for (int a = 0; a < legs.length; a++) {
 			if (legs[a] == null) {
 				return null;
@@ -153,7 +163,7 @@ public class FlightSearch implements JSONable {
 
 			boolean matches = true;
 			for (int b = 0; b < legs.length; b++) {
-				if (!candidate.getLeg(b).equals(legs[b])) {
+				if (!candidate.getLeg(b).equals(legs[b].getFlightLeg())) {
 					matches = false;
 				}
 			}
@@ -309,9 +319,9 @@ public class FlightSearch implements JSONable {
 		mSearchParams = JSONUtils.getJSONable(obj, "searchParams", FlightSearchParams.class);
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", FlightSearchResponse.class));
 
-		List<FlightLeg> selectedLegs = JSONUtils.getJSONableList(obj, "selectedLegs", FlightLeg.class);
+		List<FlightTripLeg> selectedLegs = JSONUtils.getJSONableList(obj, "selectedLegs", FlightTripLeg.class);
 		if (selectedLegs != null) {
-			mSelectedLegs = selectedLegs.toArray(new FlightLeg[0]);
+			mSelectedLegs = selectedLegs.toArray(new FlightTripLeg[0]);
 		}
 
 		return true;

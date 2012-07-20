@@ -8,8 +8,8 @@ import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightTripOverviewActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.mobiata.android.Log;
 
 /**
@@ -37,7 +37,7 @@ public class NavUtils {
 	public static void onFlightLegSelected(Context context) {
 		FlightSearch search = Db.getFlightSearch();
 
-		FlightLeg[] selectedLegs = search.getSelectedLegs();
+		FlightTripLeg[] selectedLegs = search.getSelectedLegs();
 		int lastUnselected = -1;
 		for (int a = 0; a < selectedLegs.length; a++) {
 			if (selectedLegs[a] == null) {

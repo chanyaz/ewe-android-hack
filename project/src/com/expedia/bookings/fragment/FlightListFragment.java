@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
@@ -108,7 +109,7 @@ public class FlightListFragment extends ListFragment {
 		FlightTrip trip = mAdapter.getItem(position);
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		FlightSearch flightSearch = Db.getFlightSearch();
-		flightSearch.setSelectedLeg(mLegPosition, leg);
+		flightSearch.setSelectedLeg(mLegPosition, new FlightTripLeg(trip, leg));
 
 		// If we need to select another leg, continue; otherwise go to next page
 		if (flightSearch.getSelectedFlightTrip() == null) {

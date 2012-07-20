@@ -14,14 +14,15 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
-public class SectionFlightLeg extends LinearLayout implements ISection<FlightLeg> {
+public class SectionFlightLeg extends LinearLayout implements ISection<FlightTripLeg> {
 
-	ArrayList<SectionField<?, FlightLeg>> mFields = new ArrayList<SectionField<?, FlightLeg>>();
+	ArrayList<SectionField<?, FlightTripLeg>> mFields = new ArrayList<SectionField<?, FlightTripLeg>>();
 
-	FlightLeg mLeg;
+	private FlightTripLeg mLeg;
 	boolean mIsOutbound = false;
 
 	Context mContext;
@@ -56,18 +57,18 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightLeg
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		for (SectionField<?, FlightLeg> field : mFields) {
+		for (SectionField<?, FlightTripLeg> field : mFields) {
 			field.bindField(this);
 		}
 	}
 
 	@Override
-	public void bind(FlightLeg leg) {
+	public void bind(FlightTripLeg leg) {
 		//Update fields
 		mLeg = leg;
 
 		if (mLeg != null) {
-			for (SectionField<?, FlightLeg> field : mFields) {
+			for (SectionField<?, FlightTripLeg> field : mFields) {
 				field.bindData(mLeg);
 			}
 		}
@@ -95,76 +96,71 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightLeg
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
-	SectionField<TextView, FlightLeg> mDisplayCarrierName = new SectionField<TextView, FlightLeg>(
+	SectionField<TextView, FlightTripLeg> mDisplayCarrierName = new SectionField<TextView, FlightTripLeg>(
 			R.id.display_carrier_name) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightLeg data) {
-			if (!TextUtils.isEmpty(data.getAirlinesFormatted())) {
-				field.setText(data.getAirlinesFormatted());
+		public void onHasFieldAndData(TextView field, FlightTripLeg data) {
+			FlightLeg leg = data.getFlightLeg();
+			if (!TextUtils.isEmpty(leg.getAirlinesFormatted())) {
+				field.setText(leg.getAirlinesFormatted());
 			}
 		}
 	};
 
-	SectionField<TextView, FlightLeg> mDisplayDepartureTime = new SectionField<TextView, FlightLeg>(
+	SectionField<TextView, FlightTripLeg> mDisplayDepartureTime = new SectionField<TextView, FlightTripLeg>(
 			R.id.display_departure_time) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightLeg data) {
-			if (data.getSegments() != null && data.getSegmentCount() > 0) {
-				field.setText(getFormatedRelevantWaypointTime(data.getSegment(0).mOrigin));
-			}
+		public void onHasFieldAndData(TextView field, FlightTripLeg data) {
+			field.setText(getFormatedRelevantWaypointTime(data.getFlightLeg().getFirstWaypoint()));
 		}
 	};
 
-	SectionField<TextView, FlightLeg> mDisplayArrivalTime = new SectionField<TextView, FlightLeg>(
+	SectionField<TextView, FlightTripLeg> mDisplayArrivalTime = new SectionField<TextView, FlightTripLeg>(
 			R.id.display_arrival_time) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightLeg data) {
-			if (data.getSegments() != null && data.getSegmentCount() > 0) {
-				field.setText(getFormatedRelevantWaypointTime(data.getSegment(data.getSegmentCount() - 1).mDestination));
-			}
+		public void onHasFieldAndData(TextView field, FlightTripLeg data) {
+			field.setText(getFormatedRelevantWaypointTime(data.getFlightLeg().getLastWaypoint()));
 		}
 	};
 
-	SectionField<TextView, FlightLeg> mDisplayArriveOrDepartWithDate = new SectionField<TextView, FlightLeg>(
+	SectionField<TextView, FlightTripLeg> mDisplayArriveOrDepartWithDate = new SectionField<TextView, FlightTripLeg>(
 			R.id.display_arrive_or_depart_with_date) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightLeg data) {
-			if (data.getSegments() != null && data.getSegmentCount() > 0) {
-				String formatted = "";
-				String formatString = "";
-				Calendar cal = null;
-				if (mIsOutbound) {
-					cal = data.getSegment(0).mOrigin.getMostRelevantDateTime();
-					formatString = getResources().getString(R.string.departs_with_date_TEMPLATE);
-				}
-				else {
-					cal = data.getSegment(data.getSegmentCount() - 1).mDestination
-							.getMostRelevantDateTime();
-
-					formatString = getResources().getString(R.string.arrives_with_date_TEMPLATE);
-				}
-
-				String shortMonth = DateUtils.getMonthString(cal.get(Calendar.MONTH), DateUtils.LENGTH_SHORT);
-				String day = "" + cal.get(Calendar.DAY_OF_MONTH);
-				formatted = String.format(formatString, shortMonth, day);
-				field.setText(formatted);
+		public void onHasFieldAndData(TextView field, FlightTripLeg data) {
+			FlightLeg leg = data.getFlightLeg();
+			
+			String formatted = "";
+			String formatString = "";
+			Calendar cal = null;
+			if (mIsOutbound) {
+				cal = leg.getFirstWaypoint().getMostRelevantDateTime();
+				formatString = getResources().getString(R.string.departs_with_date_TEMPLATE);
 			}
+			else {
+				cal = leg.getLastWaypoint().getMostRelevantDateTime();
+				formatString = getResources().getString(R.string.arrives_with_date_TEMPLATE);
+			}
+
+			String shortMonth = DateUtils.getMonthString(cal.get(Calendar.MONTH), DateUtils.LENGTH_SHORT);
+			String day = "" + cal.get(Calendar.DAY_OF_MONTH);
+			formatted = String.format(formatString, shortMonth, day);
+			field.setText(formatted);
 		}
 	};
 
-	SectionField<TextView, FlightLeg> mDisplayFlightPrice = new SectionField<TextView, FlightLeg>(
+	SectionField<TextView, FlightTripLeg> mDisplayFlightPrice = new SectionField<TextView, FlightTripLeg>(
 			R.id.display_flight_price) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightLeg data) {
+		public void onHasFieldAndData(TextView field, FlightTripLeg data) {
 			field.setText("$000");
 		}
 	};
 
-	//It's not clear that this should even be here, as it does not take a value from the FlightLeg instance
-	SectionField<ImageView, FlightLeg> mDisplayInboundOutboundArrow = new SectionField<ImageView, FlightLeg>(
+	//It's not clear that this should even be here, as it does not take a value from the SelectedFlightLeg instance
+	SectionField<ImageView, FlightTripLeg> mDisplayInboundOutboundArrow = new SectionField<ImageView, FlightTripLeg>(
 			R.id.display_inbound_outbound_arrow) {
 		@Override
-		public void onHasFieldAndData(ImageView field, FlightLeg data) {
+		public void onHasFieldAndData(ImageView field, FlightTripLeg data) {
 			if (mIsOutbound) {
 				//TODO:Get good arrow drawables...
 			}
