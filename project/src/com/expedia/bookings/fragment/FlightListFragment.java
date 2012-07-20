@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ public class FlightListFragment extends ListFragment {
 
 	private FlightAdapter mAdapter;
 
+	private FlightListFragmentListener mListener;
+
 	private ImageView mHeaderImage;
 	private SectionFlightLeg mSectionFlightLeg;
 
@@ -49,6 +52,17 @@ public class FlightListFragment extends ListFragment {
 		else {
 			mLegPosition = 0;
 		}
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof FlightListFragmentListener)) {
+			throw new RuntimeException("FlightListFragment activity must implement FlightListFragmentListener!");
+		}
+
+		mListener = (FlightListFragmentListener) activity;
 	}
 
 	@Override
@@ -76,7 +90,7 @@ public class FlightListFragment extends ListFragment {
 		setListAdapter(mAdapter);
 
 		// Set initial data
-		loadList();
+		onLegPositionChanged();
 
 		return v;
 	}
@@ -104,7 +118,7 @@ public class FlightListFragment extends ListFragment {
 
 			displayHeaderLeg();
 
-			loadList();
+			onLegPositionChanged();
 		}
 		else {
 			Intent intent = new Intent(getActivity(), FlightTripOverviewActivity.class);
@@ -121,7 +135,8 @@ public class FlightListFragment extends ListFragment {
 		if (mLegPosition > 0) {
 			Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
 			mLegPosition--;
-			loadList();
+
+			onLegPositionChanged();
 
 			displayHeaderLeg();
 
@@ -166,14 +181,22 @@ public class FlightListFragment extends ListFragment {
 	//////////////////////////////////////////////////////////////////////////
 	// List control
 
-	// Call whenever leg position changes
-	public void loadList() {
+	public void onLegPositionChanged() {
 		mAdapter.setLegPosition(mLegPosition);
 		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
+
+		mListener.onSelectionChanged(mLegPosition);
 
 		// Scroll to top after reloading list with new results
 		if (getView() != null) {
 			getListView().setSelection(0);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FlightListFragmentListener
+
+	public interface FlightListFragmentListener {
+		public void onSelectionChanged(int newLegPosition);
 	}
 }

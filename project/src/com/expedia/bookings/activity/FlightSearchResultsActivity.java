@@ -15,18 +15,17 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
+import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class FlightSearchResultsActivity extends SherlockFragmentActivity {
-
-	public static final String EXTRA_LEG_POSITION = "EXTRA_LEG_POSITION";
+public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener {
 
 	private FlightListFragment mListFragment;
 
 	// Current leg being displayed
-	private int mLegPosition;
+	private int mLegPosition = 0;
 
 	private TextView mTitleTextView;
 	private TextView mSubtitleTextView;
@@ -42,8 +41,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity {
 				return;
 			}
 		}
-
-		mLegPosition = getIntent().getIntExtra(EXTRA_LEG_POSITION, 0);
 
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		if (mListFragment == null) {
@@ -63,29 +60,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity {
 		mSubtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
 		actionBar.setDisplayShowCustomEnabled(true);
 
-		// Configure the title based on which leg the user is selecting
-		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
-		int titleStrId = (mLegPosition == 0) ? R.string.outbound_TEMPLATE : R.string.inbound_TEMPLATE;
-		String airportCode = (mLegPosition == 0) ? params.getArrivalAirportCode() : params.getDepartureAirportCode();
-		mTitleTextView.setText(getString(titleStrId, FlightStatsDbUtils.getAirport(airportCode).mCity));
-
-		// Configure subtitle based on which user the leg is selecting
-		Date date = (mLegPosition == 0) ? params.getDepartureDateWithDefault() : params.getReturnDate();
-		mSubtitleTextView.setText(android.text.format.DateFormat.getMediumDateFormat(this).format(
-				date.getCalendar().getTime()));
-
 		// Enable the home button on the action bar
 		actionBar.setDisplayHomeAsUpEnabled(true);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-
-		if (isFinishing()) {
-			// Clear out the selected leg if the user is exiting the Activity
-			Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
-		}
 	}
 
 	@Override
@@ -122,11 +98,33 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	public void updateTitleBar() {
+		// Configure the title based on which leg the user is selecting
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		int titleStrId = (mLegPosition == 0) ? R.string.outbound_TEMPLATE : R.string.inbound_TEMPLATE;
+		String airportCode = (mLegPosition == 0) ? params.getArrivalAirportCode() : params.getDepartureAirportCode();
+		mTitleTextView.setText(getString(titleStrId, FlightStatsDbUtils.getAirport(airportCode).mCity));
+
+		// Configure subtitle based on which user the leg is selecting
+		Date date = (mLegPosition == 0) ? params.getDepartureDateWithDefault() : params.getReturnDate();
+		mSubtitleTextView.setText(android.text.format.DateFormat.getMediumDateFormat(this).format(
+				date.getCalendar().getTime()));
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Filter dialog
 
 	public void showFilterDialog() {
 		FlightFilterDialogFragment fragment = FlightFilterDialogFragment.newInstance(mLegPosition);
 		fragment.show(getSupportFragmentManager(), FlightFilterDialogFragment.TAG);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FlightListFragmentListener
+
+	@Override
+	public void onSelectionChanged(int newLegPosition) {
+		mLegPosition = newLegPosition;
+		updateTitleBar();
 	}
 }
