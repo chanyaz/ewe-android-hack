@@ -25,8 +25,12 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	ViewGroup mGalleryScrollView;
 	ViewGroup mMapScrollView;
+	View mGalleryContainer;
+	HotelDetailsGallery mGallery;
 
+	int mGalleryHeight = 0;
 	int mInitialScrollTop = 0;
+	int mLastContainerHeight = 0;
 
 	AnimatorProxy mGalleryAnimatorProxy;
 	ValueAnimator mAnimator;
@@ -48,36 +52,53 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		super.onLayout(changed, l, t, r, b);
 
 		int screenHeight = b - t;
-		int galleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
-		mInitialScrollTop = screenHeight - galleryHeight;
+		mInitialScrollTop = screenHeight - mGalleryHeight;
 
-		scrollTo(0, mInitialScrollTop);
-		doCounterscroll();
+		// onLayout is called more frequently than mGalleryContainer is resized/layout'ed.
+		// We want to just scroll to mInitialScrollTop only when mGalleryContainer is
+		// resized.
+		if (mGalleryContainer == null) {
+			mLastContainerHeight = 0;
+		}
+		else if (mGalleryContainer.getHeight() != mLastContainerHeight) {
+			mLastContainerHeight = screenHeight;
+			scrollTo(0, mInitialScrollTop);
+			doCounterscroll();
+		}
 	}
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 
-		// Gallery Layout
-		int galleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
+		if (mGalleryHeight == 0) {
+			mGalleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
+		}
 
-		mGalleryScrollView = (ViewGroup) findViewById(R.id.gallery_scroll_view);
-		View galleryContainer = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
-		mGalleryAnimatorProxy = AnimatorProxy.wrap(galleryContainer);
+		if (mGalleryScrollView == null) {
+			mGalleryScrollView = (ViewGroup) findViewById(R.id.gallery_scroll_view);
+		}
+		if (mGalleryContainer == null) {
+			mGalleryContainer = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
+		}
+		if (mGalleryAnimatorProxy == null) {
+			mGalleryAnimatorProxy = AnimatorProxy.wrap(mGalleryContainer);
+		}
 
-		HotelDetailsGallery gallery = (HotelDetailsGallery) findViewById(R.id.images_gallery);
-		gallery.setInvalidateView(mGalleryScrollView);
+		if (mGallery == null) {
+			mGallery = (HotelDetailsGallery) findViewById(R.id.images_gallery);
+			mGallery.setInvalidateView(mGalleryScrollView);
+		}
 
 		ViewGroup.LayoutParams lp = mGalleryScrollView.getLayoutParams();
 		lp.height = h;
 		mGalleryScrollView.setLayoutParams(lp);
 
-		int paddingTop = (int) (h - galleryHeight / 2.0);
-		int paddingBottom = (int) ((h - galleryHeight));
-		findViewById(R.id.hotel_details_mini_gallery_fragment_container).setPadding(0, paddingTop, 0, paddingBottom);
+		int paddingTop = h - mGalleryHeight / 2;
+		int paddingBottom = h - mGalleryHeight;
+		mGalleryContainer.setPadding(0, paddingTop, 0, paddingBottom);
 
-		mGalleryAnimatorProxy.setPivotY(paddingTop + galleryHeight / 2);
+		mGalleryAnimatorProxy.setPivotY(h);
 		mGalleryAnimatorProxy.setPivotX(w / 2);
 	}
 
