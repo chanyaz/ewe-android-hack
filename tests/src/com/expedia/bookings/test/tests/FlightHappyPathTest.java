@@ -117,6 +117,9 @@ public class FlightHappyPathTest extends InstrumentationTestCase {
 		mSolo.clickOnScreen((float) location[0], (float) location[1]);
 
 		mInstr.waitForIdleSync();
+		
+		/*
+		 * THIS PART OF THE TESTS NEEDS TO BE REWRITTEN DUE TO DESIGN CHANGES
 
 		row = (RelativeLayout) lv.getChildAt(1);
 		final Button detailsButton = (Button) row.findViewById(R.id.details_button);
@@ -137,6 +140,7 @@ public class FlightHappyPathTest extends InstrumentationTestCase {
 		mCurrentActivity = mInstr.waitForMonitorWithTimeout(monitor, 5000);
 
 		assertEquals(FlightDetailsActivity.class, mCurrentActivity.getClass());
+		*/
 	}
 
 }
