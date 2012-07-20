@@ -19,13 +19,14 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.SectionFlightLeg;
+import com.expedia.bookings.section.SectionFlightLeg.SectionFlightLegListener;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
 // will need to rewrite a good portion of it.
-public class FlightListFragment extends ListFragment {
+public class FlightListFragment extends ListFragment implements SectionFlightLegListener {
 
 	public static final String TAG = FlightListFragment.class.getName();
 
@@ -79,6 +80,8 @@ public class FlightListFragment extends ListFragment {
 		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, lv, false);
 		mHeaderImage = Ui.findView(header, R.id.background);
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
+		mSectionFlightLeg.setDeselectButtonEnabled(true);
+		mSectionFlightLeg.setListener(this);
 		lv.addHeaderView(header);
 		lv.setHeaderDividersEnabled(false);
 
@@ -133,13 +136,7 @@ public class FlightListFragment extends ListFragment {
 	 */
 	public boolean onBackPressed() {
 		if (mLegPosition > 0) {
-			Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
-			mLegPosition--;
-
-			onLegPositionChanged();
-
-			displayHeaderLeg();
-
+			deselectOutboundLeg();
 			return true;
 		}
 
@@ -180,6 +177,15 @@ public class FlightListFragment extends ListFragment {
 
 	//////////////////////////////////////////////////////////////////////////
 	// List control
+	
+	public void deselectOutboundLeg() {
+		Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
+		mLegPosition--;
+
+		onLegPositionChanged();
+
+		displayHeaderLeg();
+	}
 
 	public void onLegPositionChanged() {
 		mAdapter.setLegPosition(mLegPosition);
@@ -198,5 +204,13 @@ public class FlightListFragment extends ListFragment {
 
 	public interface FlightListFragmentListener {
 		public void onSelectionChanged(int newLegPosition);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SectionFlightLegListener
+
+	@Override
+	public void onDeselect() {
+		deselectOutboundLeg();
 	}
 }

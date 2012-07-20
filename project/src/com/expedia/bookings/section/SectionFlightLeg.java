@@ -29,6 +29,10 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 
 	private FlightTripLeg mTripLeg;
 
+	private boolean mDeselectButtonEnabled;
+
+	private SectionFlightLegListener mListener;
+
 	Context mContext;
 
 	public SectionFlightLeg(Context context) {
@@ -51,11 +55,16 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 
 		//Display fields
 		mFields.add(this.mDetailsButton);
+		mFields.add(this.mDeselectButton);
 		mFields.add(this.mDisplayArrivalTime);
 		mFields.add(this.mDisplayDepartureTime);
 		mFields.add(this.mDisplayCarrierName);
 		mFields.add(this.mDisplayFlightPrice);
 		mFields.add(this.mDisplayArriveOrDepartWithDate);
+	}
+	
+	public void setListener(SectionFlightLegListener listener) {
+		mListener = listener;
 	}
 
 	@Override
@@ -87,6 +96,11 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 		else {
 			return "fail";
 		}
+	}
+
+	public void setDeselectButtonEnabled(boolean enabled) {
+		mDeselectButtonEnabled = enabled;
+		mDeselectButton.bindData(mTripLeg);
 	}
 
 	private int getLegPosition() {
@@ -126,6 +140,27 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 					mContext.startActivity(intent);
 				}
 			});
+		}
+	};
+
+	SectionField<TextView, FlightTripLeg> mDeselectButton = new SectionField<TextView, FlightTripLeg>(
+			R.id.deselect_btn) {
+		@Override
+		public void onHasFieldAndData(TextView field, final FlightTripLeg data) {
+			if (!mDeselectButtonEnabled) {
+				field.setVisibility(View.GONE);
+			}
+			else {
+				field.setVisibility(View.VISIBLE);
+				field.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (mListener != null) {
+							mListener.onDeselect();
+						}
+					}
+				});
+			}
 		}
 	};
 
@@ -199,7 +234,10 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 	};
 
 	//////////////////////////////////////
-	////// EDIT FIELDS
+	////// Listener
 	//////////////////////////////////////
 
+	public interface SectionFlightLegListener {
+		public void onDeselect();
+	}
 }
