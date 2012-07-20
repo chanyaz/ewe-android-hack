@@ -53,7 +53,7 @@ public class FlightAdapter extends BaseAdapter {
 	public void setFlightTripQuery(FlightTripQuery query) {
 		if (query != mFlightTripQuery) {
 			if (mFlightTripQuery != null) {
-				query.unregisterDataSetObserver(mDataSetObserver);
+				mFlightTripQuery.unregisterDataSetObserver(mDataSetObserver);
 			}
 
 			mFlightTripQuery = query;
