@@ -151,6 +151,28 @@ public class JSONUtilsTestCase extends AndroidTestCase {
 		assertNull(back);
 	}
 
+	public void testListsWithNulls() throws JSONException {
+		List<MyJSONable> list = new ArrayList<JSONUtilsTestCase.MyJSONable>();
+		for (int a = 0; a < 10; a++) {
+			if (a % 2 == 0) {
+				list.add(new MyJSONable());
+			}
+			else {
+				list.add(null);
+			}
+		}
+
+		JSONObject obj = new JSONObject();
+		JSONUtils.putJSONableList(obj, "listWithNulls", list);
+		List<MyJSONable> back = JSONUtils.getJSONableList(obj, "listWithNulls", MyJSONable.class);
+
+		assertNotNull(back);
+		assertEquals(list.size(), back.size());
+		for (int a = 0; a < list.size(); a++) {
+			assertEquals(list.get(a), back.get(a));
+		}
+	}
+
 	public void testJSONableListInJSON() throws JSONException {
 		// Test round trip of JSONable list
 		List<MyJSONable> list = new ArrayList<JSONUtilsTestCase.MyJSONable>();
