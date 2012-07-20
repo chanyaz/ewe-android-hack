@@ -134,7 +134,12 @@ public class Db {
 
 	public static void setSelectedProperty(Property property) {
 		sDb.mSelectedProperty = property;
-		setSelectedProperty(property.getPropertyId());
+		if (property != null) {
+			setSelectedProperty(property.getPropertyId());
+		}
+		else {
+			setSelectedProperty("");
+		}
 	}
 
 	public static void setSelectedProperty(String propertyId) {

@@ -175,6 +175,15 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (isFinishing()) {
+			Db.setSelectedProperty((Property) null);
+		}
+	}
+
 	private void setupHotelActivity(Bundle savedInstanceState) {
 		final Intent intent = getIntent();
 

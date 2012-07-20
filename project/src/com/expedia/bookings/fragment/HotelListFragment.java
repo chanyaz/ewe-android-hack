@@ -195,10 +195,16 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	public void notifySearchComplete() {
 		updateSearchResults();
+		resetToTop();
 	}
 
 	public void notifyFilterChanged() {
 		updateSearchResults();
+		Log.d("HERE filter changed");
+		if (Db.getSelectedProperty() == null) {
+			Log.d("HERE filter reset it");
+			resetToTop();
+		}
 	}
 
 	public void notifyPropertySelected() {
@@ -257,25 +263,11 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		SearchResponse response = Db.getSearchResponse();
 		mAdapter.setSearchResponse(response);
 
-		int position = 0;
 		if (Db.getSelectedProperty() != null) {
 			// In case there is a currently selected property, select it on the screen.
-			position = getPositionOfProperty(Db.getSelectedProperty());
-			if (position < 0) {
-				position = 0;
-			}
-			else {
-				mAdapter.setSelectedPosition(position);
-			}
+			int position = getPositionOfProperty(Db.getSelectedProperty());
+			mAdapter.setSelectedPosition(position);
 		}
-		final ListView lv = getListView();
-		final int frozenPosition = position;
-		lv.post(new Runnable() {
-			@Override
-			public void run() {
-				lv.setSelection(frozenPosition);
-			}
-		});
 
 		if (response.getPropertiesCount() == 0) {
 			setHeaderVisibility(View.GONE);
@@ -293,6 +285,16 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 			updateLawyerLabel();
 			mAdapter.setShowDistance(mShowDistances);
 		}
+	}
+
+	private void resetToTop() {
+		final ListView lv = getListView();
+		lv.post(new Runnable() {
+			@Override
+			public void run() {
+				lv.setSelection(0);
+			}
+		});
 	}
 
 	private void setHeaderVisibility(int visibility) {
