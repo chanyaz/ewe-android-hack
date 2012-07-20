@@ -28,9 +28,10 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	View mGalleryContainer;
 	HotelDetailsGallery mGallery;
 
-	int mGalleryHeight = 0;
-	int mInitialScrollTop = 0;
-	int mLastContainerHeight = 0;
+	private int mGalleryHeight = 0;
+	private int mInitialScrollTop = 0;
+	private int mLastContainerHeight = 0;
+	private int mIntroOffset = 0;
 
 	AnimatorProxy mGalleryAnimatorProxy;
 	ValueAnimator mAnimator;
@@ -73,6 +74,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 		if (mGalleryHeight == 0) {
 			mGalleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
+			mIntroOffset = getResources().getDimensionPixelSize(R.dimen.hotel_details_intro_offset);
 		}
 
 		if (mGalleryScrollView == null) {
@@ -156,7 +158,6 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	private void galleryCounterscroll(int parentScroll) {
 		// Gallery Layout
-		int galleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
 		int screenHeight = getHeight();
 		int availableHeight = screenHeight - parentScroll;
 
@@ -164,15 +165,15 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		float scale = 1f;
 		int counterscroll = availableHeight / 2;
 
-		if (availableHeight > galleryHeight) {
+		if (availableHeight > mGalleryHeight) {
 
 			// at x = galleryHeight, scale = 1.0
 			// at x = screenHeight, scale = 0.7 * scaledHeight / galleryHeight
 
-			float x1 = galleryHeight;
+			float x1 = mGalleryHeight;
 			float x2 = screenHeight;
 			float y1 = 1f;
-			float y2 = 0.7f * screenHeight / galleryHeight;
+			float y2 = 0.7f * screenHeight / mGalleryHeight;
 
 			// Linear interpolation
 			float x = screenHeight - parentScroll;
@@ -180,7 +181,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			scale = y1 + (y2 - y1) * pct;
 
 			float y3 = counterscroll;
-			float y4 = counterscroll - getResources().getDimensionPixelSize(R.dimen.hotel_details_intro_offset) / 2;
+			float y4 = counterscroll - mIntroOffset / 2;
 			counterscroll = (int) (y3 + (y4 - y3) * pct);
 		}
 
@@ -229,5 +230,9 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		else {
 			return new HotelDetailsOverScroller(this);
 		}
+	}
+	
+	public int getInitialScrollTop() {
+		return mInitialScrollTop;
 	}
 }

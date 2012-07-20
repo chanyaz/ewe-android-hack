@@ -21,7 +21,7 @@ public class HotelDetailsOverScroller extends OverScroller {
 			return;
 		}
 
-		int initialScrollTop = view.mInitialScrollTop;
+		int initialScrollTop = view.getInitialScrollTop();
 		int modifiedMinY = minY;
 		int modifiedMaxY = maxY;
 
