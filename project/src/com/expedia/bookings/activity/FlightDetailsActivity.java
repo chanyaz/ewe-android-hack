@@ -11,11 +11,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.fragment.TripFragment;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -77,12 +74,9 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 	}
 
 	public void selectLeg() {
-		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getFlightTrip(mTripKey);
-		FlightLeg leg = trip.getLeg(mLegPosition);
-		search.setSelectedLeg(mLegPosition, new FlightTripLeg(trip, leg));
-
-		NavUtils.onFlightLegSelected(this);
+		// Fake out!  In the new design, you can ONLY see the details of a leg after selection.
+		// All we do here is finish the current activity to go back to the screen before.
+		finish();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -146,16 +146,12 @@ public class FlightTripOverviewFragment extends Fragment {
 		for (int i = 0; i < mTrip.getLegCount(); i++) {
 			tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
 			if (i < mTrip.getLegCount() - 1 || mTrip.getLegCount() == 1) {
-				tempFlight.setIsOutbound(true);
 				LinearLayout.LayoutParams tempFlightLayoutParams = (LayoutParams) tempFlight.getLayoutParams();
 				if (tempFlightLayoutParams == null) {
 					tempFlightLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 				}
 				tempFlightLayoutParams.bottomMargin = (int) Math.floor(FLIGHT_LEG_BOTTOM_MARGIN * density);
 				tempFlight.setLayoutParams(tempFlightLayoutParams);
-			}
-			else {
-				tempFlight.setIsOutbound(false);
 			}
 
 			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));

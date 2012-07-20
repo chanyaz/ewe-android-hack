@@ -5,15 +5,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightDetailsActivity;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.mobiata.flightlib.data.Waypoint;
@@ -23,8 +27,7 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 
 	ArrayList<SectionField<?, FlightTripLeg>> mFields = new ArrayList<SectionField<?, FlightTripLeg>>();
 
-	private FlightTripLeg mLeg;
-	boolean mIsOutbound = false;
+	private FlightTripLeg mTripLeg;
 
 	Context mContext;
 
@@ -47,6 +50,7 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 		mContext = context;
 
 		//Display fields
+		mFields.add(this.mDetailsButton);
 		mFields.add(this.mDisplayArrivalTime);
 		mFields.add(this.mDisplayDepartureTime);
 		mFields.add(this.mDisplayCarrierName);
@@ -66,20 +70,12 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 	@Override
 	public void bind(FlightTripLeg leg) {
 		//Update fields
-		mLeg = leg;
+		mTripLeg = leg;
 
-		if (mLeg != null) {
+		if (mTripLeg != null) {
 			for (SectionField<?, FlightTripLeg> field : mFields) {
-				field.bindData(mLeg);
+				field.bindData(mTripLeg);
 			}
-		}
-	}
-
-	public void setIsOutbound(boolean isOutbound) {
-		mIsOutbound = isOutbound;
-		if (mLeg != null) {
-			//must rebind to adjust arrive/depart
-			bind(mLeg);
 		}
 	}
 
@@ -93,9 +89,45 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 		}
 	}
 
+	private int getLegPosition() {
+		FlightTrip trip = mTripLeg.getFlightTrip();
+		FlightLeg leg = mTripLeg.getFlightLeg();
+
+		int legCount = trip.getLegCount();
+		for (int a = 0; a < legCount; a++) {
+			if (leg.equals(trip.getLeg(a))) {
+				return a;
+			}
+		}
+
+		// Should never get here
+		return -1;
+	}
+
+	// Convenience method that works while we only support 1-2 legs.
+	private boolean isOutbound() {
+		return getLegPosition() == 0;
+	}
+
 	//////////////////////////////////////
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
+
+	SectionField<TextView, FlightTripLeg> mDetailsButton = new SectionField<TextView, FlightTripLeg>(
+			R.id.details_btn) {
+		@Override
+		public void onHasFieldAndData(TextView field, final FlightTripLeg data) {
+			field.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(mContext, FlightDetailsActivity.class);
+					intent.putExtra(FlightDetailsActivity.EXTRA_TRIP_KEY, data.getFlightTrip().getProductKey());
+					intent.putExtra(FlightDetailsActivity.EXTRA_LEG_POSITION, getLegPosition());
+					mContext.startActivity(intent);
+				}
+			});
+		}
+	};
 
 	SectionField<TextView, FlightTripLeg> mDisplayCarrierName = new SectionField<TextView, FlightTripLeg>(
 			R.id.display_carrier_name) {
@@ -129,11 +161,11 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 		@Override
 		public void onHasFieldAndData(TextView field, FlightTripLeg data) {
 			FlightLeg leg = data.getFlightLeg();
-			
+
 			String formatted = "";
 			String formatString = "";
 			Calendar cal = null;
-			if (mIsOutbound) {
+			if (isOutbound()) {
 				cal = leg.getFirstWaypoint().getMostRelevantDateTime();
 				formatString = getResources().getString(R.string.departs_with_date_TEMPLATE);
 			}
@@ -162,12 +194,7 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 			R.id.display_inbound_outbound_arrow) {
 		@Override
 		public void onHasFieldAndData(ImageView field, FlightTripLeg data) {
-			if (mIsOutbound) {
-				//TODO:Get good arrow drawables...
-			}
-			else {
-
-			}
+			// TODO: Support arrow assets one we have them.
 		}
 	};
 
