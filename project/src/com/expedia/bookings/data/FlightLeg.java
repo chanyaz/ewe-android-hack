@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightLeg implements JSONable {
@@ -56,6 +57,20 @@ public class FlightLeg implements JSONable {
 
 	////////////////////////////////////////////////////////////////////////
 	// More meta retrieval methods
+
+	public Waypoint getFirstWaypoint() {
+		if (mSegments != null && mSegments.size() > 0) {
+			return mSegments.get(0).mOrigin;
+		}
+		return null;
+	}
+
+	public Waypoint getLastWaypoint() {
+		if (mSegments != null && mSegments.size() > 0) {
+			return mSegments.get(mSegments.size() - 1).mDestination;
+		}
+		return null;
+	}
 
 	// Returns the duration in milliseconds
 	public long getDuration() {
