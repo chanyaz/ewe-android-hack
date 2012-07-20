@@ -232,14 +232,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
-			if (LocaleUtils.getPointOfSale(mContext).equals("expedia.com.vn")) {
-				// Disable for vietnam because the prices are too long
-				holder.strikethroughPrice.setVisibility(View.GONE);
-			}
-			else {
-				holder.strikethroughPrice.setVisibility(View.VISIBLE);
-				holder.strikethroughPrice.setText(Html.fromHtml("<strike>" + StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate()) + "</strike>", null, new StrikethroughTagHandler()));
-			}
+			holder.strikethroughPrice.setVisibility(View.VISIBLE);
+			holder.strikethroughPrice.setText(Html.fromHtml("<strike>" + StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate()) + "</strike>", null, new StrikethroughTagHandler()));
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleContainer.setVisibility(View.VISIBLE);
 			holder.saleText.setText(mContext.getString(R.string.percent_minus_template,
