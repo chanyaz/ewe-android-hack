@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -13,23 +13,30 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightTripOverviewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
 
+// TODO: REMOVE UNUSED PROGRESS BAR FROM FRAGMENT
+//
+// IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
+// two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
+// will need to rewrite a good portion of it.
 public class FlightListFragment extends ListFragment {
 
 	public static final String TAG = FlightListFragment.class.getName();
 
-	private static final String ARG_LEG_POSITION = "ARG_LEG_POSITION";
+	private static final String INSTANCE_LEG_POSITION = "INSTANCE_LEG_POSITION";
 
 	private FlightAdapter mAdapter;
 
-	private FlightListFragmentListener mListener;
-
 	private ImageView mHeaderImage;
+	private SectionFlightLeg mSectionFlightLeg;
 
 	private Drawable mHeaderDrawable;
 
@@ -37,23 +44,18 @@ public class FlightListFragment extends ListFragment {
 	private TextView mProgressTextView;
 	private TextView mErrorTextView;
 
-	public static FlightListFragment newInstance(int legPosition) {
-		FlightListFragment fragment = new FlightListFragment();
-		Bundle args = new Bundle();
-		args.putInt(ARG_LEG_POSITION, legPosition);
-		fragment.setArguments(args);
-		return fragment;
-	}
+	private int mLegPosition;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-		if (!(activity instanceof FlightListFragmentListener)) {
-			throw new RuntimeException("FlightListFragment Activity must implement FlightListFragmentListener!");
+		if (savedInstanceState != null) {
+			mLegPosition = savedInstanceState.getInt(INSTANCE_LEG_POSITION);
 		}
-
-		mListener = (FlightListFragmentListener) activity;
+		else {
+			mLegPosition = 0;
+		}
 	}
 
 	@Override
@@ -67,10 +69,14 @@ public class FlightListFragment extends ListFragment {
 
 		// Configure the header
 		ListView lv = Ui.findView(v, android.R.id.list);
-		mHeaderImage = (ImageView) inflater.inflate(R.layout.snippet_flight_header, lv, false);
-		lv.addHeaderView(mHeaderImage);
+		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, lv, false);
+		mHeaderImage = Ui.findView(header, R.id.background);
+		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
+		lv.addHeaderView(header);
 		lv.setHeaderDividersEnabled(false);
+
 		displayHeaderDrawable();
+		displayHeaderLeg();
 
 		// Configure the progress/error stuff
 		mProgressBar = Ui.findView(v, R.id.progress_bar);
@@ -82,19 +88,59 @@ public class FlightListFragment extends ListFragment {
 		setListAdapter(mAdapter);
 
 		// Set initial data
-		int legPosition = getArguments().getInt(ARG_LEG_POSITION);
-		mAdapter.setLegPosition(legPosition);
-		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(legPosition));
+		loadList();
 
 		return v;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putInt(INSTANCE_LEG_POSITION, mLegPosition);
 	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
+		// Set the leg as selected
 		FlightTrip trip = mAdapter.getItem(position);
-		mListener.onFlightLegClick(trip.getLeg(getArguments().getInt(ARG_LEG_POSITION)));
+		FlightLeg leg = trip.getLeg(mLegPosition);
+		FlightSearch flightSearch = Db.getFlightSearch();
+		flightSearch.setSelectedLeg(mLegPosition, leg);
+
+		// If we need to select another leg, continue; otherwise go to next page
+		if (flightSearch.getSelectedFlightTrip() == null) {
+			mLegPosition++;
+
+			displayHeaderLeg();
+
+			loadList();
+		}
+		else {
+			Intent intent = new Intent(getActivity(), FlightTripOverviewActivity.class);
+			intent.putExtra(FlightTripOverviewActivity.EXTRA_TRIP_KEY, trip.getProductKey());
+			startActivity(intent);
+		}
+	}
+
+	/**
+	 * We want to be able to handle back presses
+	 * @return true if back press was consumed, false otherwise
+	 */
+	public boolean onBackPressed() {
+		if (mLegPosition > 0) {
+			Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
+			mLegPosition--;
+			loadList();
+
+			displayHeaderLeg();
+
+			return true;
+		}
+
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -117,6 +163,32 @@ public class FlightListFragment extends ListFragment {
 		}
 	}
 
+	private void displayHeaderLeg() {
+		if (mSectionFlightLeg != null) {
+			if (mLegPosition == 0) {
+				mSectionFlightLeg.setVisibility(View.GONE);
+			}
+			else {
+				mSectionFlightLeg.setVisibility(View.VISIBLE);
+				mSectionFlightLeg.bind(Db.getFlightSearch().getSelectedLegs()[0]);
+			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// List control
+
+	// Call whenever leg position changes
+	public void loadList() {
+		mAdapter.setLegPosition(mLegPosition);
+		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
+
+		// Scroll to top after reloading list with new results
+		if (getView() != null) {
+			getListView().setSelection(0);
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Progress control
 
@@ -132,12 +204,5 @@ public class FlightListFragment extends ListFragment {
 		mErrorTextView.setVisibility(View.VISIBLE);
 
 		mErrorTextView.setText(errorText);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// FlightListFragment listener
-
-	public interface FlightListFragmentListener {
-		public void onFlightLegClick(FlightLeg flightLeg);
 	}
 }

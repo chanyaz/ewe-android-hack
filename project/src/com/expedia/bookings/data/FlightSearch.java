@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,11 +14,11 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.json.JSONable;
-
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
+
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
 
 public class FlightSearch implements JSONable {
 
@@ -291,6 +292,11 @@ public class FlightSearch implements JSONable {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
+
+			if (mSelectedLegs != null) {
+				JSONUtils.putJSONableList(obj, "selectedLegs", Arrays.asList(mSelectedLegs));
+			}
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -302,6 +308,12 @@ public class FlightSearch implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mSearchParams = JSONUtils.getJSONable(obj, "searchParams", FlightSearchParams.class);
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", FlightSearchResponse.class));
+
+		List<FlightLeg> selectedLegs = JSONUtils.getJSONableList(obj, "selectedLegs", FlightLeg.class);
+		if (selectedLegs != null) {
+			mSelectedLegs = selectedLegs.toArray(new FlightLeg[0]);
+		}
+
 		return true;
 	}
 }

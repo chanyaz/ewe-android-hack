@@ -12,16 +12,14 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
-import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener {
+public class FlightSearchResultsActivity extends SherlockFragmentActivity {
 
 	public static final String EXTRA_LEG_POSITION = "EXTRA_LEG_POSITION";
 
@@ -49,7 +47,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		if (mListFragment == null) {
-			mListFragment = FlightListFragment.newInstance(mLegPosition);
+			mListFragment = new FlightListFragment();
 			getSupportFragmentManager().beginTransaction()
 					.add(android.R.id.content, mListFragment, FlightListFragment.TAG).commit();
 		}
@@ -90,6 +88,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (!mListFragment.onBackPressed()) {
+			super.onBackPressed();
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Action bar
 
@@ -123,15 +128,5 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	public void showFilterDialog() {
 		FlightFilterDialogFragment fragment = FlightFilterDialogFragment.newInstance(mLegPosition);
 		fragment.show(getSupportFragmentManager(), FlightFilterDialogFragment.TAG);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// FlightListFragmentListener
-
-	@Override
-	public void onFlightLegClick(FlightLeg flightLeg) {
-		Db.getFlightSearch().setSelectedLeg(mLegPosition, flightLeg);
-
-		NavUtils.onFlightLegSelected(this);
 	}
 }

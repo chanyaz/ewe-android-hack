@@ -4,11 +4,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightLeg;
-import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.utils.DateTimeUtils;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -16,6 +11,11 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightLeg;
+import com.mobiata.flightlib.data.Waypoint;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class SectionFlightLeg extends LinearLayout implements ISection<FlightLeg> {
 
