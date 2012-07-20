@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.data.Money;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
@@ -152,7 +153,7 @@ public class SectionFlightLeg extends LinearLayout implements ISection<FlightTri
 			R.id.display_flight_price) {
 		@Override
 		public void onHasFieldAndData(TextView field, FlightTripLeg data) {
-			field.setText("$000");
+			field.setText(data.getFlightTrip().getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
 		}
 	};
 
