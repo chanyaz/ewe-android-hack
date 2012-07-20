@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightTripOverviewActivity;
@@ -23,8 +21,6 @@ import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
 
-// TODO: REMOVE UNUSED PROGRESS BAR FROM FRAGMENT
-//
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
 // will need to rewrite a good portion of it.
@@ -40,10 +36,6 @@ public class FlightListFragment extends ListFragment {
 	private SectionFlightLeg mSectionFlightLeg;
 
 	private Drawable mHeaderDrawable;
-
-	private ProgressBar mProgressBar;
-	private TextView mProgressTextView;
-	private TextView mErrorTextView;
 
 	private int mLegPosition;
 
@@ -78,11 +70,6 @@ public class FlightListFragment extends ListFragment {
 
 		displayHeaderDrawable();
 		displayHeaderLeg();
-
-		// Configure the progress/error stuff
-		mProgressBar = Ui.findView(v, R.id.progress_bar);
-		mProgressTextView = Ui.findView(v, R.id.progress_text_view);
-		mErrorTextView = Ui.findView(v, R.id.error_text_view);
 
 		// Add the adapter
 		mAdapter = new FlightAdapter(getActivity(), savedInstanceState);
@@ -188,22 +175,5 @@ public class FlightListFragment extends ListFragment {
 		if (getView() != null) {
 			getListView().setSelection(0);
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Progress control
-
-	public void showProgress() {
-		mProgressBar.setVisibility(View.VISIBLE);
-		mProgressTextView.setVisibility(View.VISIBLE);
-		mErrorTextView.setVisibility(View.GONE);
-	}
-
-	public void showError(CharSequence errorText) {
-		mProgressBar.setVisibility(View.GONE);
-		mProgressTextView.setVisibility(View.GONE);
-		mErrorTextView.setVisibility(View.VISIBLE);
-
-		mErrorTextView.setText(errorText);
 	}
 }
