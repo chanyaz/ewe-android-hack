@@ -126,7 +126,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.hockey.helper.HockeyPuck;
+import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;

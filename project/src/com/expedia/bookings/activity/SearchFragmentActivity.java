@@ -11,7 +11,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.hockey.helper.HockeyPuck;
+import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.NetUtils;

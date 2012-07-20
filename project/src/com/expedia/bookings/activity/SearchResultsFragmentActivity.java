@@ -91,7 +91,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
-import com.mobiata.android.hockey.helper.HockeyPuck;
+import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.omniture.AppMeasurement;

@@ -47,7 +47,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.hockey.helper.HockeyPuck;
+import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
