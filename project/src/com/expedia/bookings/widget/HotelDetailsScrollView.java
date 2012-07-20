@@ -61,7 +61,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			mLastContainerHeight = 0;
 		}
 		else if (mGalleryContainer.getHeight() != mLastContainerHeight) {
-			mLastContainerHeight = screenHeight;
+			mLastContainerHeight = mGalleryContainer.getHeight();
 			scrollTo(0, mInitialScrollTop);
 			doCounterscroll();
 		}
