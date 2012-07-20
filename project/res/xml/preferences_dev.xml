@@ -11,8 +11,8 @@
         <EditTextPreference
             android:defaultValue="localhost:3000"
             android:key="@string/preference_proxy_server_address"
-            android:summary="The address of your mock proxy server (e.g., 192.168.0.5:3000)"
-            android:title="Proxy Server Address" />
+            android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
+            android:title="Server/Proxy Address" />
 
         <CheckBoxPreference
             android:key="@string/preference_spoof_bookings"

@@ -614,7 +614,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public enum EndPoint {
-		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY
+		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY, PUBLIC_INTEGRATION
 	}
 
 	/**
@@ -658,6 +658,12 @@ public class ExpediaServices implements DownloadListener {
 			builder.append("/MobileHotel/Webapp/");
 			break;
 		}
+		case PUBLIC_INTEGRATION: {
+			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+					"localhost:80"));
+			builder.append("/MobileHotel/Webapp/");
+			break;
+		}
 		case PROXY: {
 			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
 					"localhost:3000"));
@@ -687,6 +693,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (which.equals("Proxy")) {
 			return EndPoint.PROXY;
+		}
+		else if (which.equals("Public Integration")) {
+			return EndPoint.PUBLIC_INTEGRATION;
 		}
 		else if (which.equals("Integration")) {
 			return EndPoint.INTEGRATION;

@@ -1269,6 +1269,7 @@
         <item>Integration</item>
         <item>Stable</item>
         <item>Proxy</item>
+        <item>Public Integration</item>
     </string-array>
     <string-array name="section_strings_property_amenities" tools:ignore="MissingTranslation">
         <item>Property Amenities</item>
