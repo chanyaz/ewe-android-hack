@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/select_leg"
-          android:icon="@drawable/btn_actionbar_list"
-          android:title="Select Leg"
-          android:actionLayout="@layout/widget_flights_actionbar_select_leg_btn"
-          android:showAsAction="always|withText" />
+          android:icon="@drawable/widget_notification_close_btn"
+          android:title="@string/button_done"
+          android:showAsAction="ifRoom|withText" />
 </menu>

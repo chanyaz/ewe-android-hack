@@ -2,13 +2,10 @@ package com.expedia.bookings.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
@@ -16,7 +13,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.TripFragment;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 
 public class FlightDetailsActivity extends SherlockFragmentActivity {
 
@@ -67,14 +63,11 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 			getSupportFragmentManager().beginTransaction().add(R.id.flight_details_card_holder_ll, mDetails).commit();
 		}
 
-		// Enable the home button on the action bar
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-		}
+		// Enable the home (back) button on the action bar
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
-	public void selectLeg() {
-		// Fake out!  In the new design, you can ONLY see the details of a leg after selection.
+	public void exitDisplay() {
 		// All we do here is finish the current activity to go back to the screen before.
 		finish();
 	}
@@ -86,25 +79,25 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_flight_details, menu);
 
-		//Add the select leg button
-		LinearLayout selectLegBtnLL = (LinearLayout) menu.findItem(R.id.select_leg).getActionView();
-		Button selectLegBtn = (Button) selectLegBtnLL.findViewById(R.id.actionbar_flights_select_leg_btn);
-		selectLegBtn.setOnClickListener(new OnClickListener() {
-
+		menu.findItem(R.id.select_leg).setOnMenuItemClickListener(new OnMenuItemClickListener(){
 			@Override
-			public void onClick(View v) {
-				selectLeg();
+			public boolean onMenuItemClick(MenuItem item) {
+				exitDisplay();
+				return true;
 			}
 		});
-
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home:
+			exitDisplay();
+			break;
 		case R.id.select_leg:
-			selectLeg();
+			exitDisplay();
 			break;
 		}
 
