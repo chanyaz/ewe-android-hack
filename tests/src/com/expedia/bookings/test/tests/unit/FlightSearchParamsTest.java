@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests;
+package com.expedia.bookings.test.tests.unit;
 
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.FlightSearchLeg;

@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests;
+package com.expedia.bookings.test.tests.unit;
 
 import java.util.ArrayList;
 import java.util.HashMap;

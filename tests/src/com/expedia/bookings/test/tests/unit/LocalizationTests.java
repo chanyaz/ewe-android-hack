@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests;
+package com.expedia.bookings.test.tests.unit;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
