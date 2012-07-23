@@ -109,8 +109,14 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
+		// Adjust clicks for the header view count
+		int numHeaderViews = l.getHeaderViewsCount();
+		if (position < numHeaderViews) {
+			return;
+		}
+
 		// Set the leg as selected
-		FlightTrip trip = mAdapter.getItem(position);
+		FlightTrip trip = mAdapter.getItem(position - numHeaderViews);
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		FlightSearch flightSearch = Db.getFlightSearch();
 		flightSearch.setSelectedLeg(mLegPosition, new FlightTripLeg(trip, leg));
@@ -177,7 +183,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	//////////////////////////////////////////////////////////////////////////
 	// List control
-	
+
 	public void deselectOutboundLeg() {
 		Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
 		mLegPosition--;
