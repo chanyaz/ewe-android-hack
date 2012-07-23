@@ -55,11 +55,18 @@ public class FlightDetailsResponseHandler extends JsonResponseHandler<FlightDeta
 		}
 
 		if (response.has("flightRules")) {
-			details.setIsChangeAllowed(response.optBoolean("isChangeAllowed"));
-			details.setIsEnrouteChangeAllowed(response.optBoolean("isEnrouteChangeAllowed"));
-			details.setIsEnrouteRefundAllowed(response.optBoolean("isEnrouteRefundAllowed"));
-			details.setIsRefundable(response.optBoolean("isRefundable"));
-			details.setChangePenaltyAmount(ParserUtils.createMoney(response.optDouble("changePenaltyAmount"),
+			JSONObject flightRules = response.optJSONObject("flightRules");
+
+			// Sometimes this is an 1-sized array for some reason?
+			if (flightRules == null) {
+				flightRules = response.optJSONArray("flightRules").optJSONObject(0);
+			}
+
+			details.setIsChangeAllowed(flightRules.optBoolean("isChangeAllowed"));
+			details.setIsEnrouteChangeAllowed(flightRules.optBoolean("isEnrouteChangeAllowed"));
+			details.setIsEnrouteRefundAllowed(flightRules.optBoolean("isEnrouteRefundAllowed"));
+			details.setIsRefundable(flightRules.optBoolean("isRefundable"));
+			details.setChangePenaltyAmount(ParserUtils.createMoney(flightRules.optDouble("changePenaltyAmount"),
 					currencyCode));
 		}
 
