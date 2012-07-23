@@ -154,7 +154,7 @@ public class FlightTripOverviewFragment extends Fragment {
 				tempFlight.setLayoutParams(tempFlightLayoutParams);
 			}
 
-			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));
+			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)), false);
 
 			mFlights.add(tempFlight);
 			mFlightContainer.addView(tempFlight);

@@ -80,7 +80,6 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, lv, false);
 		mHeaderImage = Ui.findView(header, R.id.background);
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
-		mSectionFlightLeg.setDeselectButtonEnabled(true);
 		mSectionFlightLeg.setListener(this);
 		lv.addHeaderView(header);
 		lv.setHeaderDividersEnabled(false);
@@ -176,7 +175,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			}
 			else {
 				mSectionFlightLeg.setVisibility(View.VISIBLE);
-				mSectionFlightLeg.bind(Db.getFlightSearch().getSelectedLegs()[0]);
+				mSectionFlightLeg.bind(Db.getFlightSearch().getSelectedLegs()[0], true);
 			}
 		}
 	}
