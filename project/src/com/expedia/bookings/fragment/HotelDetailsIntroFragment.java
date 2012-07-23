@@ -71,8 +71,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 			promoTextView.setVisibility(View.VISIBLE);
 		}
 		else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
-			promoTextView.setText(getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
-					roomsLeft));
+			promoTextView.setText(getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
 			promoTextView.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -80,16 +79,16 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 		}
 
-		// "From <strike>$400</strike>" (if it's on sale) or else just "From"
-		TextView fromTextView = Ui.findView(view, R.id.from_text_view);
+		// "<strike>$400</strike>" (if it's on sale) or else just "From"
+		TextView strikethroughTextView = Ui.findView(view, R.id.strikethrough_price_text_view);
 		if (rate.isOnSale()) {
-			fromTextView.setText(Html.fromHtml(
-					getString(R.string.from_template, StrUtils.formatHotelPrice(rate.getDisplayBaseRate())), null,
+			strikethroughTextView.setText(Html.fromHtml(
+					getString(R.string.strike_template, StrUtils.formatHotelPrice(rate.getDisplayBaseRate())), null,
 					new StrikethroughTagHandler()));
-
+			strikethroughTextView.setVisibility(View.VISIBLE);
 		}
 		else {
-			fromTextView.setText(R.string.from);
+			strikethroughTextView.setVisibility(View.GONE);
 		}
 
 		// Rate

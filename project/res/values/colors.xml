@@ -66,4 +66,7 @@
     <color name="hotel_strikethrough_price_text_color">#777</color>
 
 	<color name="clickable_row_background">#efefef</color>
+	
+	<color name="price_promo_banner_text_color">#fff</color>
+	<color name="price_promo_banner_strikethrough_text_color">#aaa</color>
 </resources>
