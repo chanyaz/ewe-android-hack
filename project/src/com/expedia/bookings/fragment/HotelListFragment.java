@@ -200,9 +200,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	public void notifyFilterChanged() {
 		updateSearchResults();
-		Log.d("HERE filter changed");
 		if (Db.getSelectedProperty() == null) {
-			Log.d("HERE filter reset it");
 			resetToTop();
 		}
 	}
