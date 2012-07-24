@@ -102,7 +102,11 @@ public class SectionFlightLeg extends LinearLayout {
 		mCarrierNameTextView.setText(leg.getAirlinesFormatted());
 		mDepartureTimeTextView.setText(getFormatedRelevantWaypointTime(leg.getFirstWaypoint()));
 		mArrivalTimeTextView.setText(getFormatedRelevantWaypointTime(leg.getLastWaypoint()));
-		mFlightPriceTextView.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+
+		Money totalFare = trip.getTotalFare();
+		if (totalFare != null) {
+			mFlightPriceTextView.setText(totalFare.getFormattedMoney(Money.F_NO_DECIMAL));
+		}
 
 		// Arrival/departure time formatted display
 		String formatted = "";

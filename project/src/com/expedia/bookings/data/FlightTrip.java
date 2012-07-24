@@ -102,8 +102,21 @@ public class FlightTrip implements JSONable {
 	public static final Comparator<FlightTrip> PRICE_COMPARATOR = new Comparator<FlightTrip>() {
 		@Override
 		public int compare(FlightTrip lhs, FlightTrip rhs) {
-			double lhsAmount = lhs.getTotalFare().getAmount();
-			double rhsAmount = rhs.getTotalFare().getAmount();
+			Money lhsMoney = lhs.getTotalFare();
+			Money rhsMoney = rhs.getTotalFare();
+
+			if (lhsMoney == null && rhsMoney == null) {
+				return 0;
+			}
+			else if (lhsMoney == null) {
+				return 1;
+			}
+			else if (rhsMoney == null) {
+				return -1;
+			}
+
+			double lhsAmount = lhsMoney.getAmount();
+			double rhsAmount = rhsMoney.getAmount();
 
 			if (lhsAmount == rhsAmount) {
 				return 0;
