@@ -1,8 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,7 +11,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -38,7 +37,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 
 		mTextView = Ui.findView(this, R.id.text);
 
-		Button button = Ui.findView(this, R.id.button);
+		final Button button = Ui.findView(this, R.id.button);
+		button.setEnabled(false);
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -49,6 +49,16 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 				bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
 			}
 		});
+
+		final SectionBillingInfo ccSecCode = Ui.findView(this, R.id.edit_creditcard_security_code);
+		ccSecCode.bind(Db.getBillingInfo());
+		ccSecCode.addChangeListener(new SectionChangeListener() {
+			@Override
+			public void onChange() {
+				button.setEnabled(ccSecCode.hasValidInput());
+			}
+		});
+
 	}
 
 	@Override
@@ -74,29 +84,15 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			ExpediaServices services = new ExpediaServices(FlightBookingActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 
-			// Create a dummy BillingInfo for now
-			BillingInfo billingInfo = new BillingInfo();
-			billingInfo.setFirstName("Mary");
-			billingInfo.setLastName("Poppins");
-			billingInfo.setTelephone("222-222-2222");
-			billingInfo.setTelephoneCountry("US");
-			billingInfo.setTelephoneCountryCode("1");
-			billingInfo.setEmail("dan@mobiata.com");
-
-			Location location = new Location();
-			location.setStreetAddress(Arrays.asList(new String[] { "17 Cherry Tree Lane" }));
-			location.setCity("London");
-			location.setStateCode("LH");
-			location.setPostalCode("55408");
-			location.setCountryCode("GBR");
-			billingInfo.setLocation(location);
-
-			billingInfo.setNumber("4111111111111111");
-			billingInfo.setExpirationDate(new GregorianCalendar(2016, 1, 1));
-			billingInfo.setSecurityCode("123");
+			//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
+			//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
+			BillingInfo billingInfo = Db.getBillingInfo();
+			FlightPassenger passenger = Db.getFlightPassengers().get(0);
+			billingInfo.setTelephone(passenger.getPhoneNumber());
+			billingInfo.setTelephoneCountryCode(passenger.getPhoneCountryCode());
 
 			return services.flightCheckout(Db.getFlightSearch().getSelectedFlightTrip().getProductKey(),
-					billingInfo, 0);
+					billingInfo, Db.getFlightPassengers(), 0);
 		}
 	};
 

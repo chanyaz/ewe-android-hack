@@ -5,14 +5,21 @@ import java.util.List;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
+import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class SectionLocation extends LinearLayout implements ISection<Location>, ISectionEditable {
 
@@ -20,6 +27,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	ArrayList<SectionField<?, Location>> mFields = new ArrayList<SectionField<?, Location>>();
 
 	Location mLocation;
+	Context mContext;
 
 	public SectionLocation(Context context) {
 		super(context);
@@ -37,6 +45,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	}
 
 	private void init(Context context) {
+		mContext = context;
+
 		//Display fields
 		mFields.add(this.mDisplayAddressLineOne);
 		mFields.add(this.mDisplayAddressCity);
@@ -49,6 +59,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		mFields.add(this.mEditAddressCity);
 		mFields.add(this.mEditAddressState);
 		mFields.add(this.mEditAddressPostalCode);
+		mFields.add(this.mEditCountrySpinner);
 	}
 
 	@Override
@@ -343,6 +354,72 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
 			// TODO Auto-generated method stub
+			return null;
+		}
+	};
+
+	SectionFieldEditable<Spinner, Location> mEditCountrySpinner = new SectionFieldEditable<Spinner, Location>(
+			R.id.edit_country_spinner) {
+
+		Validator<Spinner> mValidator = new Validator<Spinner>() {
+			@Override
+			public int validate(Spinner obj) {
+				return ValidationError.NO_ERROR;
+			}
+		};
+
+		@Override
+		protected void onFieldBind() {
+			super.onFieldBind();
+			if (hasBoundField()) {
+				getField().setAdapter(new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME));
+			}
+		}
+
+		@Override
+		public void setChangeListener(Spinner field) {
+
+			field.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					if (getData() != null) {
+						CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) parent.getAdapter();
+						getData().setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.TWO_LETTER));
+					}
+					onChange(SectionLocation.this);
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
+
+		}
+
+		@Override
+		protected void onHasFieldAndData(Spinner field, Location data) {
+			CountrySpinnerAdapter adapter = (CountrySpinnerAdapter) field.getAdapter();
+			if (TextUtils.isEmpty(data.getCountryCode())) {
+				field.setSelection(adapter.getDefaultLocalePosition());
+			}
+			else {
+				for (int i = 0; i < adapter.getCount(); i++) {
+					if (adapter.getItemValue(i, CountryDisplayType.THREE_LETTER)
+							.equalsIgnoreCase(data.getCountryCode())) {
+						field.setSelection(i);
+						break;
+					}
+				}
+			}
+		}
+
+		@Override
+		protected Validator<Spinner> getValidator() {
+			return mValidator;
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
 			return null;
 		}
 	};

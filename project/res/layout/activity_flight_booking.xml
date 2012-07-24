@@ -5,6 +5,12 @@
     android:gravity="center"
     android:orientation="vertical" >
 
+    <include 
+        android:id="@+id/edit_creditcard_security_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/section_edit_creditcard_security_code"/>
+    
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"

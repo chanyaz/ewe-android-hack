@@ -53,6 +53,8 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightDetailsResponse;
 import com.expedia.bookings.data.FlightDetailsResponseHandler;
+import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.FlightPassenger.Gender;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Location;
@@ -201,14 +203,15 @@ public class ExpediaServices implements DownloadListener {
 				flags);
 	}
 
-	public FlightCheckoutResponse flightCheckout(String productKey, BillingInfo billingInfo, int flags) {
+	public FlightCheckoutResponse flightCheckout(String productKey, BillingInfo billingInfo,
+			List<FlightPassenger> passengers, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addBillingInfo(query, billingInfo);
 
-		// TODO: New billing fields that are not yet support in BillingInfo
-		query.add(new BasicNameValuePair("gender", "FEMALE"));
-		query.add(new BasicNameValuePair("birthDate", "1985-12-12"));
+		for (int i = 0; i < passengers.size(); i++) {
+			addFlightPassenger(query, passengers.get(i));
+		}
 
 		// Not sure why, but this is required
 		query.add(new BasicNameValuePair("tripTitle", "My Awesome Trip"));
@@ -477,7 +480,10 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
 
 		Location location = billingInfo.getLocation();
-		query.add(new BasicNameValuePair("streetAddress", location.getStreetAddressString()));
+		query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
+		if (location.getStreetAddress().size() > 1) {
+			query.add(new BasicNameValuePair("streetAddress2", location.getStreetAddress().get(1)));
+		}
 		query.add(new BasicNameValuePair("city", location.getCity()));
 		query.add(new BasicNameValuePair("state", location.getStateCode()));
 		query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
@@ -493,15 +499,25 @@ public class ExpediaServices implements DownloadListener {
 
 			// This is an alternative way of representing expiration date, used for Flights.
 			// Doesn't hurt to include both methods
-			query.add(new BasicNameValuePair("expirationDateYear", android.text.format.DateFormat.format("yyyy", expDate)
+			query.add(new BasicNameValuePair("expirationDateYear", android.text.format.DateFormat.format("yyyy",
+					expDate)
 					.toString()));
-			query.add(new BasicNameValuePair("expirationDateMonth", android.text.format.DateFormat.format("MM", expDate)
+			query.add(new BasicNameValuePair("expirationDateMonth", android.text.format.DateFormat
+					.format("MM", expDate)
 					.toString()));
 		}
 		else {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
 		}
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
+	}
+
+	private void addFlightPassenger(List<BasicNameValuePair> query, FlightPassenger passenger) {
+		//TODO: This is incomplete. There is a bunch of information not currently supported by the API that needs to go here. 
+		// Furthermore, there should be any number of passengers and they shouldn't overwrite one another's birthdays etc. Again, we wait for API updates.
+		SimpleDateFormat isoDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
+		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(passenger.getBirthDate().getTime())));
+		query.add(new BasicNameValuePair("gender", (passenger.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

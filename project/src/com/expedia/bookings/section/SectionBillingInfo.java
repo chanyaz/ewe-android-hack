@@ -1,8 +1,10 @@
 package com.expedia.bookings.section;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -360,6 +362,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		//TODO: This whole class needs better (localized) text to cal and visaversa conversion
 
+		DateFormat mExpParser = new SimpleDateFormat("MM/yy");
+		
 		@Override
 		protected Validator<EditText> getValidator() {
 			return CommonSectionValidators.EXPIRATION_DATE_VALIDATOR_ET;
@@ -381,9 +385,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		protected void onHasFieldAndData(EditText field, BillingInfo data) {
 			if (data.getExpirationDate() != null) {
-				//TODO:No hardcoded formatters!!!
-				String formattedExpr = String.format("%02d/%02d", data.getExpirationDate().get(Calendar.MONTH), data
-						.getExpirationDate().get(Calendar.YEAR));
+				String formattedExpr = mExpParser.format(data.getExpirationDate().getTime());
 				field.setText(formattedExpr);
 			}
 		}
@@ -400,18 +402,16 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					return null;
 				}
 				else {
-					String cleanMonth = splitStr[0].replace("/", "").trim();
-					String cleanYear = splitStr[1].replace("/", "").trim();
-
-					if (TextUtils.isEmpty(cleanMonth) || TextUtils.isEmpty(cleanYear)) {
-						return null;
-					}
-					else {
-						int month = Integer.parseInt(cleanMonth);
-						int year = Integer.parseInt(cleanYear);
-
-						return new GregorianCalendar(year, month, 1);
-					}
+						
+						Calendar cal = Calendar.getInstance();
+						try {
+							cal.setTime(mExpParser.parse(exp));
+							return cal;
+						}
+						catch (ParseException e) {
+							Log.e("Date Parse Error!");
+							return null;
+						}
 				}
 			}
 			return null;

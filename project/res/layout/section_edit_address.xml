@@ -43,4 +43,9 @@
             android:hint="@string/address_postal_code_hint" />
     </LinearLayout>
 
+    <Spinner
+        android:id="@+id/edit_country_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </com.expedia.bookings.section.SectionLocation>
