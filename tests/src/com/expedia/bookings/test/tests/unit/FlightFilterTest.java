@@ -14,7 +14,7 @@ public class FlightFilterTest extends TestCase {
 
 	public void testNewFlightFilterDefaultsSortToPrice() {
 		FlightFilter flightFilter = new FlightFilter();
-		assertEquals(FlightFilter.Sort.ARRIVAL, flightFilter.getSort());
+		assertEquals(FlightFilter.Sort.PRICE, flightFilter.getSort());
 	}
 
 }
