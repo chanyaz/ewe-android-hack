@@ -62,13 +62,9 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 			mGalleryPosition = savedInstanceState.getInt(INSTANCE_GALLERY_POSITION, 0);
 		}
 
-		return view;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
 		populateViews();
+
+		return view;
 	}
 
 	@Override

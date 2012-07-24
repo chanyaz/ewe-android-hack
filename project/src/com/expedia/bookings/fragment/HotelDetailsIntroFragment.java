@@ -26,7 +26,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 	private static final int ROOMS_LEFT_CUTOFF = 5;
 
-	private boolean mIsStartingReviewsActivity = false;
+	private static final int INTRO_PARAGRAPH_CUTOFF = 180;
 
 	public static HotelDetailsIntroFragment newInstance() {
 		return new HotelDetailsIntroFragment();
@@ -34,14 +34,10 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_hotel_details_intro, container, false);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		populateViews();
-		mIsStartingReviewsActivity = false;
+		View view = inflater.inflate(R.layout.fragment_hotel_details_intro, container, false);
+		populateBannerSection(view, DbPropertyHelper.getBestRateProperty());
+		populateIntroParagraph(view, DbPropertyHelper.getBestDescriptionProperty());
+		return view;
 	}
 
 	public void populateViews() {
@@ -119,10 +115,9 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 
 		// Add "read more" button if the intro paragraph is too long
-		int cutoff = 180;
-		if (body.length() > cutoff) {
+		if (body.length() > INTRO_PARAGRAPH_CUTOFF) {
 			final CharSequence untruncated = body;
-			final View readMoreView = Ui.findView(view, R.id.read_more_layout);
+			final View readMoreView = Ui.findView(view, R.id.read_more);
 			final View fadeOverlay = Ui.findView(view, R.id.body_text_fade_bottom);
 			readMoreView.setVisibility(View.VISIBLE);
 			fadeOverlay.setVisibility(View.VISIBLE);
@@ -134,7 +129,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 					fadeOverlay.setVisibility(View.GONE);
 				}
 			});
-			body = body.subSequence(0, cutoff) + "...";
+			body = body.subSequence(0, INTRO_PARAGRAPH_CUTOFF) + "É";
 		}
 
 		titleView.setVisibility(TextUtils.isEmpty(title) ? View.INVISIBLE : View.VISIBLE);

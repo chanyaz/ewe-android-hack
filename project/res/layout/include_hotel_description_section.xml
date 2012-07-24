@@ -5,8 +5,7 @@
     android:background="#efefef"
     android:paddingBottom="10dp"
     android:paddingLeft="14dp"
-    android:paddingRight="14dp"
-    android:orientation="vertical" >
+    android:paddingRight="14dp" >
 
     <TextView
         android:id="@+id/title_text"
@@ -38,22 +37,17 @@
         android:background="@drawable/bg_text_fade"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/read_more_layout"
+    <TextView
+        android:id="@+id/read_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/body_text"
+        android:drawablePadding="6dp"
+        android:drawableRight="@drawable/ic_expand"
         android:gravity="right"
-        android:visibility="gone" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="6dp"
-            android:drawableRight="@drawable/ic_expand"
-            android:text="@string/user_review_read_more"
-            android:textColor="#898989"
-            android:textStyle="bold" />
-    </LinearLayout>
+        android:text="@string/user_review_read_more"
+        android:textColor="#898989"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </RelativeLayout>

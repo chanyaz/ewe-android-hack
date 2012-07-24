@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -198,15 +197,11 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 		// The portion of the map that we want visible as long as possible (presumably the middle part)
 		int criticalHeight = 40;
-		int criticalTop = (int) (mMapScrollView.getChildAt(0).getHeight() / 2.0 - criticalHeight / 2.0);
-
-		// hitRect = the position of this view within the mHostLayout
-		Rect hitRect = new Rect();
-		mMapScrollView.getHitRect(hitRect);
+		int criticalTop = mMapScrollView.getChildAt(0).getHeight() / 2 - criticalHeight / 2;
 
 		// Compute the range where the view is (at least partially) visible
-		int maxVisibleScroll = hitRect.bottom;
-		int minVisibleScroll = hitRect.top - getHeight();
+		int maxVisibleScroll = mMapScrollView.getBottom();
+		int minVisibleScroll = mMapScrollView.getTop() - this.getHeight();
 
 		if (parentScroll < minVisibleScroll + criticalHeight || parentScroll > maxVisibleScroll - criticalHeight) {
 			// Child isn't visible, no need to bother with it
@@ -217,7 +212,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 		// Scroll the child so that desiredy is located pct% down
 
-		int scrollTo = criticalTop - (int) (pct * (hitRect.height() - criticalHeight));
+		int scrollTo = criticalTop - (int) (pct * (mMapScrollView.getHeight() - criticalHeight));
 
 		mMapScrollView.scrollTo(0, scrollTo);
 	}
@@ -231,7 +226,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			return new HotelDetailsOverScroller(this);
 		}
 	}
-	
+
 	public int getInitialScrollTop() {
 		return mInitialScrollTop;
 	}

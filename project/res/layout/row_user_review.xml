@@ -56,27 +56,19 @@
             android:layout_marginTop="3dp"
             android:textColor="#333" />
 
-        <LinearLayout
-            android:id="@+id/read_more_layout"
+        <TextView
+            android:id="@+id/user_review_read_more_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_review_body_text_view"
+            android:drawablePadding="6dp"
+            android:drawableRight="@drawable/btn_user_review_read_more_triangle"
             android:gravity="center"
-            android:orientation="horizontal"
             android:paddingBottom="4dp"
-            android:paddingTop="3dp" >
-
-            <TextView
-                android:id="@+id/user_review_read_more_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableRight="@drawable/btn_user_review_read_more_triangle"
-                android:drawablePadding="6dp"
-                android:text="@string/user_review_read_more"
-                android:textColor="@color/user_review_read_more"
-                android:textStyle="bold" />
-
-        </LinearLayout>
+            android:paddingTop="3dp"
+            android:text="@string/user_review_read_more"
+            android:textColor="@color/user_review_read_more"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/user_review_date_text_view"

@@ -31,13 +31,10 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_hotel_details_description, container, false);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		populateViews();
+		View view = inflater.inflate(R.layout.fragment_hotel_details_description, container, false);
+		setupAmenities(view, DbPropertyHelper.getBestAmenityProperty());
+		setupDescriptionSections(view, DbPropertyHelper.getBestDescriptionProperty());
+		return view;
 	}
 
 	public void populateViews() {

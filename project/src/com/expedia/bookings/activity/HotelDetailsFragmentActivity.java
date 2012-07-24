@@ -65,7 +65,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
-	private boolean mIsStartingReviewsActivity = false;
 
 	private long mLastResumeTime = -1;
 
@@ -103,8 +102,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			return;
 		}
 		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
-
-		mIsStartingReviewsActivity = false;
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 

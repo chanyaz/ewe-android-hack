@@ -37,7 +37,8 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 		super.onAttach(activity);
 
 		if (!(activity instanceof HotelMiniMapFragmentListener)) {
-			throw new RuntimeException("HotelDetailsMiniMapFragment Activity must implement HotelMiniMapFragmentListener!");
+			throw new RuntimeException(
+					"HotelDetailsMiniMapFragment Activity must implement HotelMiniMapFragmentListener!");
 		}
 
 		mListener = (HotelMiniMapFragmentListener) activity;
@@ -78,14 +79,14 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 	}
 
 	private class MapImageView extends ImageView {
-		
+
 		private int mCircleRadius;
 
 		public MapImageView(Context context) {
 			super(context);
 
 			Resources res = getResources();
-			
+
 			int width = ViewGroup.LayoutParams.MATCH_PARENT;
 			int height = res.getDimensionPixelSize(R.dimen.hotel_details_map_visible_size) * 2;
 			mCircleRadius = res.getDimensionPixelSize(R.dimen.mini_map_circle_radius);
@@ -99,8 +100,9 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 		protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 			super.onLayout(changed, left, top, right, bottom);
 
-			// Now that we know the dimensions, go ahead and fetch the image
-			populateViews();
+			if (changed && bottom - top > 0 && right - left > 0) {
+				populateViews();
+			}
 		}
 
 		@Override
