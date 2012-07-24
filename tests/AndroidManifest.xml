@@ -4,7 +4,7 @@
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="7" />
-    <instrumentation android:targetPackage="com.expedia.bookings" android:name="android.test.InstrumentationTestRunner" />
+    <instrumentation android:targetPackage="com.expedia.bookings" android:name="com.zutubi.android.junitreport.JUnitReportTestRunner" />
     <application android:icon="@drawable/icon" android:label="@string/app_name">
 
     <uses-library android:name="android.test.runner" />
