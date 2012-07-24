@@ -32,7 +32,9 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	private int mLastContainerHeight = 0;
 	private int mIntroOffset = 0;
 
+	//TODO: this won't be needed once minSdk >= 11
 	AnimatorProxy mGalleryAnimatorProxy;
+
 	ValueAnimator mAnimator;
 
 	public HotelDetailsScrollView(Context context) {
@@ -82,7 +84,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		if (mGalleryContainer == null) {
 			mGalleryContainer = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
 		}
-		if (mGalleryAnimatorProxy == null) {
+		if (mGalleryAnimatorProxy == null && AndroidUtils.getSdkVersion() < 11) {
 			mGalleryAnimatorProxy = AnimatorProxy.wrap(mGalleryContainer);
 		}
 
@@ -99,8 +101,14 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		int paddingBottom = h - mGalleryHeight;
 		mGalleryContainer.setPadding(0, paddingTop, 0, paddingBottom);
 
-		mGalleryAnimatorProxy.setPivotY(h);
-		mGalleryAnimatorProxy.setPivotX(w / 2);
+		if (AndroidUtils.getSdkVersion() < 11) {
+			mGalleryAnimatorProxy.setPivotY(h);
+			mGalleryAnimatorProxy.setPivotX(w / 2);
+		}
+		else {
+			mGalleryContainer.setPivotX(w / 2);
+			mGalleryContainer.setPivotY(h);
+		}
 	}
 
 	@Override
@@ -151,7 +159,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			return;
 		}
 
-		mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to);
+		mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to).setDuration(200);
 		mAnimator.start();
 	}
 
@@ -184,8 +192,14 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			counterscroll = (int) (y3 + (y4 - y3) * pct);
 		}
 
-		mGalleryAnimatorProxy.setScaleX(scale);
-		mGalleryAnimatorProxy.setScaleY(scale);
+		if (AndroidUtils.getSdkVersion() < 11) {
+			mGalleryAnimatorProxy.setScaleX(scale);
+			mGalleryAnimatorProxy.setScaleY(scale);
+		}
+		else {
+			mGalleryContainer.setScaleX(scale);
+			mGalleryContainer.setScaleY(scale);
+		}
 		mGalleryScrollView.scrollTo(0, counterscroll);
 	}
 
