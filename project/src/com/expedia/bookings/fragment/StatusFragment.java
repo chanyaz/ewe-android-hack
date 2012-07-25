@@ -14,12 +14,27 @@ import com.mobiata.android.util.Ui;
 
 public class StatusFragment extends Fragment {
 
+	public static final String TAG = StatusFragment.class.toString();
+
+	private static final String INSTANCE_LOADING_TEXT = "INSTANCE_LOADING_TEXT";
+	private static final String INSTANCE_ERROR_TEXT = "INSTANCE_ERROR_TEXT";
+
 	private ProgressBar mProgressBar;
 	private TextView mProgressTextView;
 	private TextView mErrorTextView;
 
 	private CharSequence mLoadingText;
 	private CharSequence mErrorText;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mLoadingText = savedInstanceState.getCharSequence(INSTANCE_LOADING_TEXT);
+			mErrorText = savedInstanceState.getCharSequence(INSTANCE_ERROR_TEXT);
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,6 +47,14 @@ public class StatusFragment extends Fragment {
 		displayStatus();
 
 		return v;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putCharSequence(INSTANCE_LOADING_TEXT, mLoadingText);
+		outState.putCharSequence(INSTANCE_ERROR_TEXT, mErrorText);
 	}
 
 	public void showLoading(CharSequence loadingText) {
