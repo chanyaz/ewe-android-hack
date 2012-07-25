@@ -53,6 +53,9 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		else {
 			mLegPosition = 0;
 		}
+
+		// DELETE EVENTUALLY: For now, just set the header to always be SF
+		setHeaderDrawable(getResources().getDrawable(R.drawable.san_francisco));
 	}
 
 	@Override

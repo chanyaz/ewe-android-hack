@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,16 +13,31 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
+import com.expedia.bookings.fragment.StatusFragment;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener {
 
+	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
+
+	private Context mContext;
+
+	private StatusFragment mStatusFragment;
 	private FlightListFragment mListFragment;
 
 	// Current leg being displayed
@@ -34,6 +50,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mContext = this;
+
 		// Recover data if it was flushed from memory
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(this)) {
@@ -42,15 +60,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 		}
 
+		// Try to recover any Fragments
+		mStatusFragment = Ui.findSupportFragment(this, StatusFragment.TAG);
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
-		if (mListFragment == null) {
-			mListFragment = new FlightListFragment();
-			getSupportFragmentManager().beginTransaction()
-					.add(android.R.id.content, mListFragment, FlightListFragment.TAG).commit();
-		}
-
-		// DELETE EVENTUALLY: For now, just set the header to always be SF
-		mListFragment.setHeaderDrawable(getResources().getDrawable(R.drawable.san_francisco));
 
 		// Configure the custom action bar view
 		ActionBar actionBar = getSupportActionBar();
@@ -62,11 +74,35 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		// Enable the home button on the action bar
 		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		if (savedInstanceState == null) {
+			// On first launch, start a search
+			startSearch();
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		if (!isFinishing()) {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+		}
+		else {
+			BackgroundDownloader.getInstance().cancelDownload(DOWNLOAD_KEY);
+		}
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (!mListFragment.onBackPressed()) {
+		if (mListFragment == null || !mListFragment.onBackPressed()) {
 			super.onBackPressed();
 		}
 	}
@@ -76,7 +112,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
+		// getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
+		// TODO: Add back menu options
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -110,6 +148,67 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mSubtitleTextView.setText(android.text.format.DateFormat.getMediumDateFormat(this).format(
 				date.getCalendar().getTime()));
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Search download
+
+	private void startSearch() {
+		if (mStatusFragment == null) {
+			mStatusFragment = new StatusFragment();
+		}
+
+		getSupportFragmentManager().beginTransaction()
+				.replace(android.R.id.content, mStatusFragment, StatusFragment.TAG).commit();
+		mStatusFragment.showLoading(getString(R.string.loading_flights));
+
+		BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
+	}
+
+	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {
+		@Override
+		public FlightSearchResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext);
+			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
+			return services.flightSearch(Db.getFlightSearch().getSearchParams(), 0);
+		}
+	};
+
+	private OnDownloadComplete<FlightSearchResponse> mDownloadCallback = new OnDownloadComplete<FlightSearchResponse>() {
+		@Override
+		public void onDownload(FlightSearchResponse response) {
+			Log.i("Finished flights download!");
+
+			// If the response is null, fake an error response (for the sake of cleaner code)
+			if (response == null) {
+				response = new FlightSearchResponse();
+				ServerError error = new ServerError(ApiMethod.FLIGHT_SEARCH);
+				error.setPresentationMessage(getString(R.string.error_server));
+				error.setCode("SIMULATED");
+				response.addError(error);
+			}
+
+			FlightSearch search = Db.getFlightSearch();
+			search.setSearchResponse(response);
+
+			Db.kickOffBackgroundSave(mContext);
+
+			if (response.hasErrors()) {
+				mStatusFragment.showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors()
+						.get(0).getPresentableMessage(mContext)));
+			}
+			else if (response.getTripCount() == 0) {
+				mStatusFragment.showError(getString(R.string.error_no_flights_found));
+			}
+			else {
+				if (mListFragment == null) {
+					mListFragment = new FlightListFragment();
+				}
+
+				getSupportFragmentManager().beginTransaction()
+						.replace(android.R.id.content, mListFragment, FlightListFragment.TAG).commit();
+			}
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Filter dialog

@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -30,23 +29,15 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.fragment.AirportPickerFragment;
 import com.expedia.bookings.fragment.AirportPickerFragment.AirportPickerFragmentListener;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.PassengerPickerFragment;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
-import com.expedia.bookings.fragment.StatusFragment;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -60,11 +51,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	private static final String TAG_AIRPORT_PICKER = "TAG_AIRPORT_PICKER";
 	private static final String TAG_DATE_PICKER = "TAG_DATE_PICKER";
 	private static final String TAG_PASSENGER_PICKER = "TAG_PASSENGER_PICKER";
-	private static final String TAG_STATUS = "TAG_STATUS";
 
 	private static final String INSTANCE_FINISHED_SEARCH = "INSTANCE_FINISHED_SEARCH";
-
-	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
 	// Controls the ratio of how large a selected EditText should take up
 	// 1 == takes up the full size, 0 == takes up 50%.
@@ -211,15 +199,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 		mDepartureAirportEditText.addTextChangedListener(mAirportTextWatcher);
 		mArrivalAirportEditText.addTextChangedListener(mAirportTextWatcher);
 
-		if (BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
-			showLoading();
-			BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
-		}
-		else if (mFinishedSearch) {
-			// If we already got a response, but it had errors, use callback again to redisplay them
-			handleErrors(Db.getFlightSearch().getSearchResponse());
-		}
-
 		//HockeyApp crash
 		mHockeyPuck.onResume();
 	}
@@ -230,8 +209,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 
 		mDepartureAirportEditText.removeTextChangedListener(mAirportTextWatcher);
 		mArrivalAirportEditText.removeTextChangedListener(mAirportTextWatcher);
-
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 	}
 
 	@Override
@@ -390,15 +367,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 			return currentFragment;
 		}
 
-		// If we're doing a download and we're NOT setting the status tag, cancel the download
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (tag != null && !tag.equals(TAG_STATUS)) {
-			bd.cancelDownload(DOWNLOAD_KEY);
-
-			// Also, stop showing search errors again
-			mFinishedSearch = false;
-		}
-
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
 		ft.setCustomAnimations(R.anim.slide_up, R.anim.slide_down);
@@ -432,9 +400,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 				else if (tag.equals(TAG_PASSENGER_PICKER)) {
 					newFragment = new PassengerPickerFragment();
 				}
-				else if (tag.equals(TAG_STATUS)) {
-					newFragment = new StatusFragment();
-				}
 
 				ft.add(R.id.content_frame, newFragment, tag);
 			}
@@ -446,16 +411,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 		ft.commit();
 
 		return newFragment;
-	}
-
-	private void showLoading() {
-		StatusFragment fragment = (StatusFragment) setFragment(TAG_STATUS);
-		fragment.showLoading(getString(R.string.loading_flights));
-	}
-
-	private void showError(CharSequence errorText) {
-		StatusFragment fragment = (StatusFragment) setFragment(TAG_STATUS);
-		fragment.showError(errorText);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -485,7 +440,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.search:
-			startSearch();
+			startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
+			setFragment(null);
 			return true;
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
@@ -568,73 +524,5 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Ai
 			params.setReturnDate(null);
 		}
 		updateDateButton();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Downloads
-
-	private void startSearch() {
-		if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
-			// Pre-validate data being sent
-			FlightSearchParams params = Db.getFlightSearch().getSearchParams();
-			if (params.getDepartureAirportCode().equals(params.getArrivalAirportCode())) {
-				Toast.makeText(this, getString(R.string.error_same_origin_arrival), Toast.LENGTH_LONG).show();
-				return;
-			}
-
-			// Search is good, continue
-			mFinishedSearch = false;
-			clearEditTextFocus();
-			showLoading();
-			BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
-		}
-	}
-
-	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {
-		@Override
-		public FlightSearchResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(FlightSearchActivity.this);
-			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-			return services.flightSearch(Db.getFlightSearch().getSearchParams(), 0);
-		}
-	};
-
-	private OnDownloadComplete<FlightSearchResponse> mDownloadCallback = new OnDownloadComplete<FlightSearchResponse>() {
-		@Override
-		public void onDownload(FlightSearchResponse response) {
-			Log.i("Finished flights download!");
-
-			mFinishedSearch = true;
-
-			FlightSearch search = Db.getFlightSearch();
-			search.setSearchResponse(response);
-
-			Db.kickOffBackgroundSave(FlightSearchActivity.this);
-
-			if (!handleErrors(response)) {
-				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
-				setFragment(null);
-			}
-		}
-	};
-
-	// Handles any errors that might be in a search response
-	// Returns true if errors were found, false if none were present
-	private boolean handleErrors(FlightSearchResponse response) {
-		if (response == null) {
-			showError(getString(R.string.error_server));
-			return true;
-		}
-		else if (response.hasErrors()) {
-			showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors().get(0)
-					.getPresentableMessage(FlightSearchActivity.this)));
-			return true;
-		}
-		else if (response.getTripCount() == 0) {
-			showError(getString(R.string.error_no_flights_found));
-			return true;
-		}
-
-		return false;
 	}
 }
