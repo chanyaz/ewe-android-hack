@@ -451,7 +451,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				R.string.sort_description_popular, F_NO_DIVIDERS + F_FIRST);
 		mSortPriceButton = addSortOption(R.id.sort_price_button, R.drawable.ic_sort_price,
 				R.string.sort_description_price, 0);
-		mSortDealsButton = addSortOption(R.id.sort_deals_button, R.drawable.ic_sort_price,
+		mSortDealsButton = addSortOption(R.id.sort_deals_button, R.drawable.ic_sort_deals,
 				R.string.sort_description_deals, 0);
 		mSortUserRatingButton = addSortOption(R.id.sort_reviews_button, R.drawable.ic_sort_user_rating,
 				R.string.sort_description_rating, 0);
