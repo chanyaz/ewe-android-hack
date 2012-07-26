@@ -113,7 +113,6 @@ public class HotelDetailsIntroFragment extends Fragment {
 			percentRecommend = numReviews == 0 ? 0f : statistics.getRecommendedCount() * 100f / numReviews;
 			userRating = (float) statistics.getAverageOverallRating();
 		}
-		numReviews = 0;
 
 		TextView reviewsTextView = Ui.findView(view, R.id.user_rating_text_view);
 		reviewsTextView.setText(getResources().getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews));
