@@ -32,7 +32,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 	private static final int ROOMS_LEFT_CUTOFF = 5;
 
-	private static final int INTRO_PARAGRAPH_CUTOFF = 180;
+	private static final int INTRO_PARAGRAPH_CUTOFF = 90;
 
 	public static HotelDetailsIntroFragment newInstance() {
 		return new HotelDetailsIntroFragment();
