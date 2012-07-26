@@ -930,6 +930,11 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				mSuppressSelectionChanged = true;
 		}
 
+		// No need to fling anything if there are no children.
+		if (getChildCount() == 0) {
+			return true;
+		}
+
 		// Calculate the distance the fling will take you.  If it will propel you to the next
 		// image, force it to only scroll to the next image.
 		int distanceToNext = mSelectedChild.getWidth() + mSpacing;
