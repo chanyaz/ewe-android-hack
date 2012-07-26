@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -10,17 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.UserReviewsListActivity;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelDescription;
 import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class HotelDetailsIntroFragment extends Fragment {
 
@@ -36,6 +42,8 @@ public class HotelDetailsIntroFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_details_intro, container, false);
 		populateBannerSection(view, DbPropertyHelper.getBestRateProperty());
+		populateReviewsSection(view, DbPropertyHelper.getBestReviewsProperty(),
+				Db.getSelectedReviewsStatisticsResponse());
 		populateIntroParagraph(view, DbPropertyHelper.getBestDescriptionProperty());
 		return view;
 	}
@@ -43,6 +51,8 @@ public class HotelDetailsIntroFragment extends Fragment {
 	public void populateViews() {
 		View view = getView();
 		populateBannerSection(view, DbPropertyHelper.getBestRateProperty());
+		populateReviewsSection(view, DbPropertyHelper.getBestReviewsProperty(),
+				Db.getSelectedReviewsStatisticsResponse());
 		populateIntroParagraph(view, DbPropertyHelper.getBestDescriptionProperty());
 	}
 
@@ -60,14 +70,13 @@ public class HotelDetailsIntroFragment extends Fragment {
 			saleBannerTextView.setVisibility(View.GONE);
 		}
 
-		// Promo text, i.e. "Mobile Only!"
-		int roomsLeft = property.getRoomsLeftAtThisRate();
+		// Promo text, i.e. "Mobile Exclusive!" or "Tonight Only!"
 		if (property.isLowestRateMobileExclusive()) {
 			promoTextView.setText(getString(R.string.mobile_exclusive));
 			promoTextView.setVisibility(View.VISIBLE);
 		}
-		else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
-			promoTextView.setText(getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
+		else if (property.isLowestRateTonightOnly()) {
+			promoTextView.setText(getString(R.string.tonight_only));
 			promoTextView.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -75,7 +84,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 		}
 
-		// "<strike>$400</strike>" (if it's on sale) or else just "From"
+		// "<strike>$400</strike>" (if it's on sale)
 		TextView strikethroughTextView = Ui.findView(view, R.id.strikethrough_price_text_view);
 		if (rate.isOnSale()) {
 			strikethroughTextView.setText(Html.fromHtml(
@@ -90,6 +99,63 @@ public class HotelDetailsIntroFragment extends Fragment {
 		// Rate
 		TextView rateTextView = Ui.findView(view, R.id.rate_text_view);
 		rateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
+	}
+
+	// Reviews
+	private void populateReviewsSection(View view, Property property, ReviewsStatisticsResponse statistics) {
+
+		// Reviews
+		int numReviews = 0;
+		float percentRecommend = 0;
+		float userRating = 0f;
+		if (statistics != null) {
+			numReviews = statistics.getTotalReviewCount();
+			percentRecommend = numReviews == 0 ? 0f : statistics.getRecommendedCount() * 100f / numReviews;
+			userRating = (float) statistics.getAverageOverallRating();
+		}
+		numReviews = 0;
+
+		TextView reviewsTextView = Ui.findView(view, R.id.user_rating_text_view);
+		reviewsTextView.setText(getResources().getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews));
+		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
+			public synchronized void onClick(final View v) {
+				Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
+				newIntent.fillIn(getActivity().getIntent(), 0);
+				startActivity(newIntent);
+			}
+		};
+		view.findViewById(R.id.user_review_layout).setOnClickListener(onReviewsClick);
+
+		// User Rating Bar
+		RatingBar userRatingBar = Ui.findView(view, R.id.user_rating_bar);
+		userRatingBar.setRating(0f);
+		if (numReviews > 0) {
+			ObjectAnimator.ofFloat(userRatingBar, "rating", userRating).start();
+		}
+
+		// Urgency messaging
+		TextView urgencyTextView = Ui.findView(view, R.id.urgency_message_text_view);
+
+		int roomsLeft = property.getRoomsLeftAtThisRate();
+
+		// xx booked in the past x hours
+		/*if (TODO: xx booked in the past x hours) {
+		}*/
+		// Only xx rooms left
+		/*else*/if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+			urgencyTextView.setText(getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
+			urgencyTextView.setVisibility(View.VISIBLE);
+			//TODO: better drawable
+			urgencyTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.review_thumbs_up, 0, 0, 0);
+		}
+
+		// xx% recommend this hotel
+		else {
+			urgencyTextView.setText(getString(R.string.x_percent_guests_recommend, percentRecommend));
+			urgencyTextView.setVisibility(View.VISIBLE);
+			//TODO: better drawable
+			urgencyTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.review_thumbs_up, 0, 0, 0);
+		}
 	}
 
 	private void populateIntroParagraph(View view, Property property) {

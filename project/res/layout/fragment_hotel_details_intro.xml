@@ -3,16 +3,96 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-    
+
     <!-- Promo banner -->
-    
+
     <include
         android:layout_width="match_parent"
         android:layout_height="@dimen/price_promo_banner_height"
         layout="@layout/include_price_promo_banner" />
 
+    <!-- Urgency messages / user reviews -->
+
+    <RelativeLayout
+        android:id="@+id/reviews_summary_layout"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="#efefef" >
+
+        <LinearLayout
+            android:id="@+id/user_review_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_clickable_row"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="15dp" >
+
+            <RatingBar
+                android:id="@+id/user_rating_bar"
+                style="@style/RatingBarSmall.Shadowed.UserReview.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="3.4"
+                android:stepSize="0.5" />
+
+            <TextView
+                android:id="@+id/user_rating_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="78 Reviews"
+                android:textColor="#000"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/vertical_sep"
+            android:layout_width="@dimen/one_di_pixel"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_toLeftOf="@+id/user_review_layout"
+            android:background="#aaaaaa" />
+
+        <TextView
+            android:id="@+id/urgency_message_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/vertical_sep"
+            android:drawableLeft="@drawable/rating_good"
+            android:drawablePadding="8dp"
+            android:gravity="left|center_vertical"
+            android:padding="15dp"
+            android:text="276 People booked this in the past 48 hours."
+            android:textColor="#000" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one_di_pixel"
+        android:background="#efefef" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#aaaaaa" />
+    </FrameLayout>
+
     <!-- Hotel intro paragraph -->
-    
+
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
