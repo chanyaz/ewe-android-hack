@@ -3,6 +3,8 @@ package com.expedia.bookings.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
+import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.NavUtils;
@@ -35,10 +38,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
+	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
+
 	private Context mContext;
 
 	private StatusFragment mStatusFragment;
 	private FlightListFragment mListFragment;
+	private FlightSearchParamsFragment mSearchParamsFragment;
 
 	// Current leg being displayed
 	private int mLegPosition = 0;
@@ -59,6 +65,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				return;
 			}
 		}
+
+		setContentView(R.layout.activity_flight_results);
 
 		// Try to recover any Fragments
 		mStatusFragment = Ui.findSupportFragment(this, StatusFragment.TAG);
@@ -112,10 +120,17 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
-		// TODO: Add back menu options
+		getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
 
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem searchItem = menu.findItem(R.id.menu_search);
+		searchItem.setVisible(mListFragment != null);
+
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -128,8 +143,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 					+ Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			startActivity(intent);
 			return true;
-		case R.id.menu_filter:
-			showFilterDialog();
+		case R.id.menu_search:
+			showSearchParameters();
 			return true;
 		}
 
@@ -158,7 +173,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 
 		getSupportFragmentManager().beginTransaction()
-				.replace(android.R.id.content, mStatusFragment, StatusFragment.TAG).commit();
+				.replace(R.id.content_container, mStatusFragment, StatusFragment.TAG).commit();
 		mStatusFragment.showLoading(getString(R.string.loading_flights));
 
 		BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
@@ -205,10 +220,29 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				}
 
 				getSupportFragmentManager().beginTransaction()
-						.replace(android.R.id.content, mListFragment, FlightListFragment.TAG).commit();
+						.replace(R.id.content_container, mListFragment, FlightListFragment.TAG).commit();
+
+				supportInvalidateOptionsMenu();
 			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Search parameters
+
+	private void showSearchParameters() {
+		FragmentManager fm = getSupportFragmentManager();
+		if (fm.findFragmentById(R.id.search_params_container) == null) {
+			if (mSearchParamsFragment == null) {
+				mSearchParamsFragment = FlightSearchParamsFragment.newInstance(true);
+			}
+
+			FragmentTransaction ft = fm.beginTransaction();
+			ft.addToBackStack(BACKSTACK_SEARCH_PARAMS);
+			ft.add(R.id.search_params_container, mSearchParamsFragment, FlightSearchParamsFragment.TAG);
+			ft.commit();
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Filter dialog
