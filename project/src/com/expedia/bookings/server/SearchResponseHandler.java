@@ -252,6 +252,10 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			else if (name.equals("isDiscountRestrictedToCurrentSourceType")) {
 				property.setIsLowestRateMobileExclusive(parser.getValueAsBoolean());
 			}
+			//TODO: waiting for E3
+			//else if (TODO: tonight only) {
+			//	property.setIsLowestRateTonightOnly(parser.getValueAsBoolean());
+			//}
 			else {
 				parser.skipChildren();
 			}
