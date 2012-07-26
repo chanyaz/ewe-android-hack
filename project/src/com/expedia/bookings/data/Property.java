@@ -15,6 +15,7 @@ import com.mobiata.android.json.JSONable;
 public class Property implements JSONable {
 
 	public static enum Amenity {
+		// @formatter:off
 		BUSINESS_CENTER(0x0000001, R.string.AmenityBusinessCenter),
 		FITNESS_CENTER(0x0000002, R.string.AmenityFitnessCenter),
 		HOT_TUB(0x0000004, R.string.AmenityHotTub),
@@ -43,6 +44,7 @@ public class Property implements JSONable {
 		POOL_OUTDOOR(0x2000000, R.string.AmenityPoolOutdoor),
 		EXTENDED_PARKING(0x4000000, R.string.AmenityExtendedParking),
 		FREE_PARKING(0x8000000, R.string.AmenityFreeParking);
+		// @formatter:on
 
 		private int flag;
 		private int strId;
@@ -423,7 +425,7 @@ public class Property implements JSONable {
 					return 1;
 				}
 			}
-			else if(left.isOnSale()) {
+			else if (left.isOnSale()) {
 				// Bump the on sale property to the top
 				return -1;
 			}
