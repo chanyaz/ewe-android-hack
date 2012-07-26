@@ -20,24 +20,24 @@
     <string name="featured_destinations">Điểm đến tiêu biểu</string>
     <!-- Label for button that starts search -->
     <string name="search_for_hotels">Tìm Khách sạn</string>
-    <!--  Label for picking search location -->
-    <string name="where_are_you_going">Bạn định &lt;b&gt;đi đâu&lt;/b&gt;?</string>
-    <!--  Label for picking checkin/checkout dates -->
+    <!-- Label for picking search location -->
+    <string name="where_are_you_going">Quý vị định &lt;b&gt;đi đâu&lt;/b&gt;?</string>
+    <!-- Label for picking checkin/checkout dates -->
     <string name="drag_to_extend_your_stay">&lt;b&gt;Kéo&lt;/b&gt; để kéo dài thời gian lưu trú.</string>
-    <!--  Label for picking guests for hotel booking -->
+    <!-- Label for picking guests for hotel booking -->
     <string name="who_is_going">&lt;b&gt;Ai&lt;/b&gt; chuẩn bị đi?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Hoàn tất</string>
-    <!--  Label for child age selection prompt -->
+    <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Chọn tuổi trẻ</item>
         <item quantity="two">Chọn tuổi từng trẻ</item>
         <item quantity="many">Chọn tuổi từng trẻ</item>
         <item quantity="other">Chọn tuổi từng trẻ</item>
     </plurals>
-    <!--  Title of "select child age" spinner dialog box -->
+    <!-- Title of "select child age" spinner dialog box -->
     <string name="prompt_select_child_age">Chọn tuổi trẻ (%1$s - %2$s)</string>
-    <!--  Text for child's age on search refinements and in spinner -->
+    <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
         <item quantity="one">&lt;b&gt;%d&lt;/b&gt; tuổi</item>
         <item quantity="two">&lt;b&gt;%d&lt;/b&gt; tuổi</item>
@@ -63,7 +63,8 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Tìm kiếm</string>
-    <!-- The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
+    <!--
+         The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
         1$ - The search address
         2$ - The check-in date
         3$ - The check-out date
@@ -78,16 +79,18 @@
         <item quantity="many">&lt;b&gt;%d&lt;/b&gt; khách sạn phù hợp</item>
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; khách sạn phù hợp</item>
     </plurals>
+    <!-- Search header, Example: "42 Hotels Found" -->
+    <string name="search_header_num_hotels">Tìm thấy %d khách sạn</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Lọc theo tên khách sạn</string>
     <!-- Label indicating that there are no results matching their current filter -->
-    <string name="no_filter_results">Rất tiếc, không có khách sạn nào khớp với tùy chọn hiện tại của bạn.</string>
+    <string name="no_filter_results">Rất tiếc, không có khách sạn nào khớp với tùy chọn hiện tại của quý vị.</string>
     <!-- Label indicating that geolocation failed -->
     <string name="geolocation_failed">Không thể xác định địa điểm tìm kiếm.</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
     <string name="NoGeocodingResults">Không thể tìm vị trí %s.</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
-    <string name="ChooseLocation">Ý bạn là…</string>
+    <string name="ChooseLocation">Ý quý vị là…</string>
     <!-- Button label for upgrading the app -->
     <string name="upgrade">Nâng cấp</string>
     <!-- Button label for searching the visible map area -->
@@ -95,7 +98,9 @@
     <!-- Message when app is loading saved search results -->
     <string name="loading_previous">Tải lại kết quả tìm kiếm cũ…</string>
     <!-- Label for sort hotels button in bottom bar -->
-    <string name="sort_hotels">&quot;Sắp xếp:&quot;</string>
+    <string name="sort_hotels">&quot;Sắp xếp: &quot;</string>
+    <!-- Label for sort hotels in hotel list on tablet -->
+    <string name="sort_hotels_tablet">SẮP XẾP</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
     <string name="sort_hotels_template">&lt;b&gt;Sắp xếp&lt;/b&gt;: %s</string>
     <!-- Label for filter hotels button in bottom bar -->
@@ -108,15 +113,39 @@
         <item quantity="many">&lt;b&gt;%d&lt;/b&gt; Kết quả</item>
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; Kết quả</item>
     </plurals>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="mobile_exclusive">Loại trừ trên di động</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="tonight_only">Chỉ tối nay!</string>
+
+    <!-- To indicate how many people there are -->
+    <plurals name="num_people">
+        <item quantity="one">%d Người</item>
+        <item quantity="two">%d Người</item>
+        <item quantity="many">%d Người</item>
+        <item quantity="other">%d Người</item>
+    </plurals>
+    <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
+    <string name="booked_this_in_the_last_hour">đã đặt chỗ 1 giờ qua</string>
+    <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
+    <string name="booked_this_in_the_last_hours_template">đã đặt chỗ %d giờ qua</string>
+
+    <!-- Expedia urgency messaging indicating the number of rooms left-->
+    <plurals name="num_rooms_left">
+        <item quantity="one">Còn %d phòng!</item>
+        <item quantity="two">Còn %d phòng</item>
+        <item quantity="many">Còn %d phòng</item>
+        <item quantity="other">Còn %d phòng</item>
+    </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Để sử dụng chức năng &quot;Địa điểm của tôi&quot;, trước hết bạn phải mở nguồn Địa điểm trong mục Cài đặt\nVào &quot;Cài đặt&quot; và mở ngay?</string>
+    <string name="EnableLocationSettings">Để sử dụng chức năng &quot;Địa điểm của tôi&quot;, trước hết quý vị phải mở nguồn Địa điểm trong mục Cài đặt.\nVào &quot;Cài đặt&quot; và mở ngay?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">Nguồn cung cấp thông tin địa điểm của bạn đang không hoạt động. Vui lòng kích hoạt lại để tìm kiếm địa điểm của bạn.</string>
+    <string name="ProviderDisabled">Nguồn cung cấp thông tin địa điểm của quý vị đang không hoạt động. Vui lòng kích hoạt lại để tìm kiếm địa điểm của quý vị.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-    <string name="ProviderOutOfService">Nguồn cung cấp thông tin địa điểm của bạn đang ngoài vùng hoạt động. Vui lòng thử lại sau.</string>
+    <string name="ProviderOutOfService">Nguồn cung cấp thông tin địa điểm của quý vị đang ngoài vùng hoạt động. Vui lòng thử lại sau.</string>
     <!-- Message displayed when the location provider is temporarily unavailable. -->
-    <string name="ProviderTemporarilyUnavailable">Nguồn cung cấp thông tin của bạn đang tạm thời gián đoạn.  Vui lòng thử lại trong vài phút nữa.</string>
+    <string name="ProviderTemporarilyUnavailable">Nguồn cung cấp thông tin của quý vị đang tạm thời gián đoạn.  Vui lòng thử lại trong vài phút nữa.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -125,6 +154,8 @@
     <string name="sort_description_popular">Phổ biến</string>
     <!-- Sort by price label -->
     <string name="sort_description_price">Giá</string>
+    <!-- Sort by deals label -->
+    <string name="sort_description_deals">Ưu đãi</string>
     <!-- Sort by user rating label -->
     <string name="sort_description_rating">Xếp hạng của người dùng</string>
 
@@ -168,13 +199,17 @@
     <string name="from_template">Từ &lt;strike&gt;%s&lt;/strike&gt;</string>
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/đêm</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt">/đêm</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Chưa được xếp hạng</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_off_template">GIẢM %2.0f%%</string>
+    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
+    <string name="percent_minus_template">-%2.0f%%</string>
 
     <!-- Filter results action bar label -->
-    <string name="filter_results">Kết quả lọc</string>
+    <string name="filter_results">Lọc kết quả</string>
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Lọc</string>
 
@@ -187,52 +222,56 @@
     <string name="see_details">Xem chi tiết</string>
 
     <!-- Widget -->
-    <!--  Default Loading message for widget -->
+    <!-- Default Loading message for widget -->
     <string name="loading_hotels">Đang tải khách sạn…</string>
-    <!--  Template for sale element in widget. The parameter is for the sale % -->
+    <!-- Template for sale element in widget. The parameter is for the sale % -->
     <string name="widget_savings_template">Tiết kiệm %2.0f%%</string>
-    <!--  Indicator to user to tap the widget to cause it to refresh -->
+    <!-- Indicator to user to tap the widget to cause it to refresh -->
     <string name="refresh_widget">Chạm để tải lại</string>
-    <!--  Instructions on how to add widget to home screen -->
+    <!-- Instructions on how to add widget to home screen -->
     <string name="widget_add_instructions">Chạm và giữ màn hình chờ để thêm ứng dụng Hotel Radar.</string>
-    <!--  Error string for widget when internet connection is unavailable -->
+    <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Không có kết nối internet</string>
-    <!--  Widget Branding title -->
+    <!-- Widget Branding title -->
     <string name="hotel_radar">Hotel Radar</string>
-    <!--  Widget Branding description -->
+    <!-- Widget Branding description -->
     <string name="book_a_room_tonight">Đặt phòng khách sạn đêm nay.</string>
-    <!--  First string for widget upsell within app as a notification in the top bar -->
+    <!-- First string for widget upsell within app as a notification in the top bar -->
     <string name="widget_upsell_short_1">Thêm Ứng dụng Hotel Radar.</string>
-    <!--  Second string for widget upsell within app as a notification in the app bar -->
-    <string name="widget_upsell_short_2">Tìm deal hàng đêm ở gần khu vực của bạn!</string>
+    <!-- Second string for widget upsell within app as a notification in the app bar -->
+    <string name="widget_upsell_short_2">Tìm ưu đãi hàng đêm ở gần khu vực của quý vị!</string>
 
     <!-- Hotel Activity -->
     <!-- Label for button to book the hotel -->
     <string name="book_now">Đặt phòng ngay</string>
     <!-- Label for the hotel's star rating -->
     <string name="star_rating">Xếp hạng sao</string>
-    <!--  Title for star rating in hotel description section -->
+    <!-- Title for star rating in hotel description section -->
     <string name="star_rating_title">Xếp hạng sao:</string>
-    <!-- Label for the hotel's trip advisor rating  -->
+    <!-- Label for the hotel's trip advisor rating -->
     <string name="user_rating">Xếp hạng của người dùng</string>
-    <!-- Label for the address section of the description  -->
+    <!-- Label for the address section of the description -->
     <string name="address">Địa chỉ</string>
-    <!-- Bullet point for list items  -->
+    <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
 
-    <!--  Hotel Details Fragment -->
+    <!-- Hotel Details Fragment -->
     <!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
     <string name="min_room_price_template">Từ %s</string>
-    <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available  -->
+    <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->
     <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; từ</string>
-    <!--  Title for the reviews section in the details fragment stating the number of recommendations for the hotel -->
+    <!-- Title for the reviews section in the details fragment stating the number of recommendations for the hotel -->
     <string name="reviews_recommended_template">Được %1$d trong %2$d khách đề cử</string>
-    <!--  Title for the amenities section in the hotel details fragment -->
+    <!-- Title for the amenities section in the hotel details fragment -->
     <string name="amenities">Tiện nghi</string>
-    <!--  Label for button to see all reviews as a modal dialog -->
+    <!-- Label for button to see all reviews as a modal dialog -->
     <string name="see_all_reviews">Xem tất cả đánh giá</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Chọn phòng</string>
+
+    <!-- HotelDetailsFragmentActivity and friends -->
+    <string name="minus_x_percent">-%2.0f%%</string>
+    <string name="x_percent_guests_recommend">%2.0f%% khách giới thiệu khách sạn này.</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -309,9 +348,11 @@
     <string name="user_review_loading_more_reviews">Đang tải thêm các đánh giá khác…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">Đọc thêm</string>
-    <!-- User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
+    <!--
+         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel
-        2$ represents the total number of guests  -->
+        2$ represents the total number of guests
+    -->
     <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; trên tổng số &lt;b&gt;%2$d&lt;/b&gt; khách đề cử khách sạn này.</string>
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
@@ -321,9 +362,11 @@
         <item quantity="many">%d Đánh giá</item>
         <item quantity="other">%d Đánh giá</item>
     </plurals>
-    <!-- User review name and place review signature eg (John from San Diego, CA)
+    <!--
+         User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
-        2$ is the place they are from -->
+        2$ is the place they are from
+    -->
     <string name="user_review_name_and_location_signature">%1$s từ %2$s</string>
     <!-- User review no critical reviews -->
     <string name="user_review_no_critical_reviews">Không có nhận xét tiêu cực về khách sạn này.</string>
@@ -346,11 +389,17 @@
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Đang tìm phòng trống…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">Không thể tải thông tin phòng và giá.  Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
+    <string name="error_no_response_room_rates">Không thể tải thông tin phòng và giá.  Vui lòng kiểm tra kết nối của quý vị và thử lại.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">mỗi đêm</string>
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">trung bình/đêm</string>
+    <!-- Rate price for entire list, encompasses a group of hotel properties -->
+    <string name="total_price_for_stay">Tổng giá cho kỳ lưu trú</string>
+    <!-- Rate price for entire list, encompasses a group of hotel properties -->
+    <string name="prices_avg_per_night">Giá trung bình, mỗi đêm</string>
+    <!-- Rate price for entire list, encompasses a group of hotel properties. Abbreviated. Meant to be short and fit in a small space -->
+    <string name="prices_avg_per_night_short">Giá trung bình/đêm</string>
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Không còn phòng nào!</item>
@@ -367,9 +416,9 @@
     <string name="free">MIỄN PHÍ!</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">Bao gồm %s</string>
-    <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms-->
+    <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Tất cả phòng bao gồm %s</string>
-    <!--  Instruction as the header of the list to select a room from the list -->
+    <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Chọn phòng</string>
 
     <!-- Gallery -->
@@ -402,15 +451,15 @@
     <string name="total_cost">Tổng chi phí</string>
     <!-- Label for "guest info" form field section -->
     <string name="guest_info">Thông tin về khách</string>
-    <!-- The "first name" booking info field.  -->
+    <!-- The "first name" booking info field. -->
     <string name="FirstName">Tên</string>
-    <!-- The "last name" booking info field.  -->
+    <!-- The "last name" booking info field. -->
     <string name="LastName">Họ</string>
     <!-- Hint for "telephone country code" field (e.g., "+44") -->
     <string name="hint_telephone_country_code">##</string>
-    <!-- The "telephone" booking info field.  -->
+    <!-- The "telephone" booking info field. -->
     <string name="Telephone">Điện thoại</string>
-    <!-- The "email for booking confirmation" booking info field.  -->
+    <!-- The "email for booking confirmation" booking info field. -->
     <string name="EmailForConf">Email để xác nhận</string>
     <!-- Label for "billing info" form field section -->
     <string name="billing_info">Thông tin thanh toán</string>
@@ -418,10 +467,10 @@
     <string name="hint_address1">Địa chỉ 1</string>
     <!-- Address line 2 form field hint -->
     <string name="hint_address2">Địa chỉ 2 (không bắt buộc)</string>
-    <!-- The "city" booking info field.  -->
+    <!-- The "city" booking info field. -->
     <string name="City">Thành phố</string>
-    <!-- The "postal code" booking info field.  -->
-    <string name="PostalCode">Mã bưu chính</string>
+    <!-- The "postal code" booking info field. -->
+    <string name="PostalCode">Mã zip</string>
     <!-- State code hint -->
     <string name="hint_state_code">Bang</string>
     <!-- Label for "credit card info" form field section -->
@@ -433,9 +482,9 @@
     <!-- Card number form field hint -->
     <string name="hint_card_number">Số thẻ</string>
     <!-- Card expiration month form field hint -->
-    <string name="hint_expiration_month">t</string>
+    <string name="hint_expiration_month">m</string>
     <!-- Card expiration year form field hint -->
-    <string name="hint_expiration_year">nn</string>
+    <string name="hint_expiration_year">yy</string>
     <!-- Security code label -->
     <string name="security_code">Mã bảo mật</string>
     <!-- Security code tip (if code is on front of card) -->
@@ -445,11 +494,11 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">Quy tắc &amp; Giới hạn</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Nếu đã có tài khoản Expedia Rewards, vui lòng đặt chỗ với cùng địa chỉ email và điểm của bạn sẽ tự động được cập nhật sau khi thời gian lưu trú. Xin lưu ý rằng có thể mất tối đa 30 ngày để điểm tích lũy xuất hiện.</string>
+    <string name="disclaimer_expedia_points">Nếu đã có tài khoản Expedia Rewards, vui lòng đặt chỗ với cùng địa chỉ email và điểm của quý vị sẽ tự động được cập nhật sau khi thời gian lưu trú. Xin lưu ý rằng có thể mất tối đa 30 ngày để điểm tích lũy xuất hiện.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Nhập thông tin đặt phòng</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
-    <string name="charge_details_template">Thẻ tín dụng của bạn sẽ được tính phí %s</string>
+    <string name="charge_details_template">Thẻ tín dụng của quý vị sẽ được tính phí %s</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Xác nhận &amp; Đặt phòng</string>
     <!-- Label for clearing private data -->
@@ -459,7 +508,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">Thao tác này sẽ xóa tất cả thông tin thanh toán và liên hệ đã lưu.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">Bằng thao tác này, bạn sẽ thoát khỏi tài khoản và xóa mọi thông tin liên lạc lẫn thanh toán đã lưu.</string>
+    <string name="dialog_log_out_and_clear_private_data_msg">Bằng thao tác này, quý vị sẽ thoát khỏi tài khoản và xóa mọi thông tin liên lạc lẫn thanh toán đã lưu.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Đã xóa dữ liệu cá nhân</string>
     <!-- Error message if field was required but not entered -->
@@ -467,9 +516,9 @@
     <!-- Error message if field had data entered but was invalid -->
     <string name="invalid_field">Vui lòng nhập thông tin hợp lệ.</string>
     <!-- Error if an invalid card number was entered -->
-    <string name="invalid_card_number">Số thẻ tín dụng bạn nhập không hợp lệ, vui lòng nhập lại.</string>
+    <string name="invalid_card_number">Số thẻ tín dụng quý vị nhập không hợp lệ, vui lòng nhập lại.</string>
     <!-- Error if an invalid credit card type was entered -->
-    <string name="invalid_card_type">Chúng tôi không thể xác minh loại thẻ tín dụng của bạn, vui lòng nhập thông tin thẻ hợp lệ.</string>
+    <string name="invalid_card_type">Chúng tôi không thể xác minh loại thẻ tín dụng của quý vị, vui lòng nhập thông tin thẻ hợp lệ.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->
     <string name="invalid_month">Vui lòng nhập một số trong khoảng từ 1 đến 12</string>
     <!-- Error if an invalid year was entered -->
@@ -479,22 +528,22 @@
     <!-- Error if an invalid currency code is being used with American Express -->
     <string name="invalid_currency_for_amex">Rất tiếc, American Express không hỗ trợ thanh toán bằng loại tiền tệ này (%s). Vui lòng sử dụng thẻ tín dụng khác.</string>
     <!-- Error if user agreement needs to be checked but is not -->
-    <string name="error_no_user_agreement">Bạn phải đồng ý các điều khoản sử dụng để đặt phòng</string>
+    <string name="error_no_user_agreement">Quý vị phải đồng ý các điều khoản sử dụng để đặt phòng</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Đang đặt chỗ…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">Lỗi</string>
     <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">Không thể kết nối với máy chủ Expedia.  Vui lòng kiểm tra kết nối của bạn và thử lại.</string>
+    <string name="error_booking_null">Không thể kết nối với máy chủ Expedia.  Vui lòng kiểm tra kết nối của quý vị và thử lại.</string>
     <!-- Error message when booking completed with errors -->
-    <string name="error_booking_succeeded_with_errors">Đã đặt phòng khách sạn cho bạn.  Tuy nhiên, có một số lỗi sau: %s</string>
+    <string name="error_booking_succeeded_with_errors">Đã đặt phòng khách sạn cho quý vị.  Tuy nhiên, có một số lỗi sau: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Chúng tôi không thể gửi email xác nhận.</string>
-    <!--  Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24")-->
+    <!-- Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24") -->
     <string name="check_in_out_time_template">%1$s vào %2$s</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
     <string name="enter_booking_info">Nhập thông tin đặt phòng</string>
-    <!--  Title for action bar when the user is on the booking info screen -->
+    <!-- Title for action bar when the user is on the booking info screen -->
     <string name="booking_information_title">Thông tin đặt phòng</string>
     <!-- Title for dialog where the user is prompted to enter booking booking information -->
     <string name="booking_information_dialog_title">Hoàn tất việc đặt phòng</string>
@@ -515,10 +564,10 @@
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Nếu có bất kỳ câu hỏi nào về việc đặt phòng, vui lòng gọi cho Expedia theo số %s.</string>
 
-    <!--  Confirmation Fragment -->
+    <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
     <string name="share_booking_info">Chia sẻ thông tin đặt phòng</string>
-    <!-- Label to start a new search from a confirmation screen  -->
+    <!-- Label to start a new search from a confirmation screen -->
     <string name="start_new_search">Bắt đầu tìm kiếm mới</string>
     <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
     <string name="show_on_map">Xem trên bản đồ</string>
@@ -545,17 +594,17 @@
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Toàn bộ chi phí đặt phòng này sẽ được tính ngay vào thẻ tín dụng của bạn.</string>
+    <string name="PolicyImmediateChargeRequired">Toàn bộ chi phí đặt phòng này sẽ được tính ngay vào thẻ tín dụng của quý vị.</string>
     <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">Chúng tôi đang có giá đặc biệt thấp cho khách sạn này. Và để đảm bảo, chúng tôi phải tính giá không hoàn trả. Nếu hủy đặt phòng này, bạn sẽ không được hoàn trả số tiền đã thanh toán.</string>
+    <string name="PolicyNonRefundable">Chúng tôi đang có giá đặc biệt thấp cho khách sạn này. Và để đảm bảo, chúng tôi phải tính giá không hoàn trả. Nếu hủy đặt phòng này, quý vị sẽ không được hoàn trả số tiền đã thanh toán.</string>
     <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Tiền đặt cọc cho hồ sơ đặt phòng này sẽ được tín vào thẻ tín dụng của bạn. Khách sạn sẽ tín phí đặt phòng trực tiếp vào thẻ tín dụng của bạn khi việc đặt phòng hoàn tất.</string>
+    <string name="PolicyDepositRequired">Tiền đặt cọc cho hồ sơ đặt phòng này sẽ được tính vào thẻ tín dụng của quý vị. Khách sạn sẽ tín phí đặt phòng trực tiếp vào thẻ tín dụng của quý vị khi việc đặt phòng hoàn tất.</string>
     <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">Chúng tôi cần thông tin thẻ tín dụng của bạn để đảm bảo có thể giữ phòng bạn đã đặt. Bạn sẽ không phải thanh toán qua thẻ tín dụng cho đến khi có mặt tại khách sạn hoặc hết thời hạn cho phép hủy đặt phòng.</string>
+    <string name="PolicyGuaranteeRequired">Chúng tôi cần thông tin thẻ tín dụng của quý vị để đảm bảo có thể giữ phòng quý vị đã đặt. Quý vị sẽ không phải thanh toán qua thẻ tín dụng cho đến khi có mặt tại khách sạn hoặc hết thời hạn cho phép hủy đặt phòng.</string>
     <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">Tiến hành đặt phòng khách sạn này cũng đồng nghĩa với việc bạn đồng ý với mọi điều khoản và điều kiện, bao gồm cả Chính sách Hủy đặt phòng và mọi điều khoản khác trong mục &quot;Thỏa thuận Người dùng&quot;.\n\n Bạn đồng ý thanh toán cho việc đặt phòng của mình. Nếu bạn không thanh toán và khoản nợ này phải được thu hồi qua một công ty thu hồi nợ, luật sư hoặc qua các quy trình pháp lý khác, bạn đồng ý thanh toán mọi khoản chi phí hợp lý phát sinh trong quá trình thu hồi nợ, bao gồm phí luật sư và án phí.</string>
+    <string name="PolicyExpediaMerchant">Tiến hành đặt phòng khách sạn này cũng đồng nghĩa với việc quý vị đồng ý với mọi điều khoản và điều kiện, bao gồm cả Chính sách Hủy đặt phòng và mọi điều khoản khác trong mục &quot;Thỏa thuận Người dùng&quot;.\n\n Quý vị đồng ý thanh toán cho việc đặt phòng của mình. Nếu quý vị không thanh toán và khoản nợ này phải được thu hồi qua một công ty thu hồi nợ, luật sư hoặc qua các quy trình pháp lý khác, quý vị đồng ý thanh toán mọi khoản chi phí hợp lý phát sinh trong quá trình thu hồi nợ, bao gồm phí luật sư và án phí.</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Bạn đang tiến hành đặt phòng tại một khách sạn không có giá ưu đãi. Tất cả giá hiển thị đều là giá từng phòng mỗi đêm, dành cho 2 người, trừ khi có các lưu ý khác. Vui lòng xem kỹ mô tả phòng và các quy định về giá để đảm bảo rằng phòng bạn chọn phù hợp nhu cầu của bạn. Một số mức giá có thể yêu cầu một số thông tin xác thực đặc biệt. Phí đặt phòng của chúng tôi, thuế và các phí phát sinh khác của khách sạn chưa được tính. Mọi yêu cầu bổ sung chỗ cho người lớn hoặc trẻ em vào danh sách đặt phòng bên trên có thể sẽ bị khách sạn tính phí bổ sung.\n\nYêu cầu về chỗ cho từ hơn 2 người trở lên (so với mức giá bạn đã chọn) sẽ được chuyển đến khách sạn nhưng không được đảm bảo chắc chắn. Nếu được đồng ý, yêu cầu của bạn có thể khách sạn bị tính phí bổ sung.</string>
+    <string name="PolicyExpediaAgent">Quý vị đang tiến hành đặt phòng tại một khách sạn không có giá ưu đãi. Tất cả giá hiển thị đều là giá từng phòng mỗi đêm, dành cho 2 người, trừ khi có các lưu ý khác. Vui lòng xem kỹ mô tả phòng và các quy định về giá để đảm bảo rằng phòng quý vị chọn phù hợp nhu cầu của quý vị. Một số mức giá có thể yêu cầu một số thông tin xác thực đặc biệt. Phí đặt phòng của chúng tôi, thuế và các phí phát sinh khác của khách sạn chưa được tính. Mọi yêu cầu bổ sung chỗ cho người lớn hoặc trẻ em vào danh sách đặt phòng bên trên có thể sẽ bị khách sạn tính phí bổ sung.\n\nYêu cầu về chỗ cho từ hơn 2 người trở lên (so với mức giá quý vị đã chọn) sẽ được chuyển đến khách sạn nhưng không được đảm bảo chắc chắn. Nếu được đồng ý, yêu cầu của quý vị có thể khách sạn bị tính phí bổ sung.</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
@@ -567,11 +616,13 @@
     <!-- Progress dialog text when we are logging the user into Expedia -->
     <string name="logging_in">Đang đăng nhập…</string>
     <!-- Message that tells user they successfully logged in -->
-    <string name="login_success">Thành công! Bạn đã đăng nhập.</string>
+    <string name="login_success">Thành công! Quý vị đã đăng nhập.</string>
     <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">Đăng nhập không thành công</string>
+    <string name="login_failed">Vui lòng đăng nhập lại</string>
     <!-- Label for login widget button -->
     <string name="account_login">Đăng nhập</string>
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation">Quý vị có chắc chắn muốn thoát khỏi tài khoản Expedia không?</string>
     <!-- Label for login widget additional text -->
     <string name="log_in_for_faster_booking">Đăng nhập để đặt phòng nhanh hơn.</string>
     <!-- Label for account status -->
@@ -596,6 +647,8 @@
     <string name="new_total">Tổng giá mới:</string>
     <!-- Label for credit card selection -->
     <string name="use_card">Sử dụng thẻ:</string>
+    <!-- Label for credit card expired warning -->
+    <string name="stored_card_expired">Thẻ tín dụng đã lưu mà quý vị đang sử dụng đã hết hạn.</string>
     <!-- Label for when a user has entered an invalid coupon -->
     <string name="invalid_coupon">Coupon không hợp lệ</string>
     <!-- Label for when a user has entered a coupon which is expired -->
@@ -623,7 +676,7 @@
     <!-- Label for "contact Expedia" button in info page -->
     <string name="contact_expedia">Liên hệ với Expedia</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
-    <string name="contact_expedia_description">Chúng tôi luôn có mặt bên bạn 24 giờ mỗi ngày.</string>
+    <string name="contact_expedia_description">Chúng tôi luôn có mặt bên quý vị 24 giờ mỗi ngày.</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_expedia_via">Liên lạc với Expedia qua…</string>
     <!-- Contact Expedia via phone -->
@@ -639,11 +692,11 @@
     <!-- Extra description for "Expedia website" button, when space allows -->
     <string name="expedia_website_description">Truy cập trang web để đặt vé máy bay, xe, gói du lịch và nhiều hơn nữa.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
-    <string name="app_feedback_description">Vui lòng cho chúng tôi biết bạn nghĩ gì về ứng dụng này.</string>
+    <string name="app_feedback_description">Vui lòng cho chúng tôi biết quý vị nghĩ gì về ứng dụng này.</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Hỗ trợ ứng dụng</string>
     <!-- Extra description for "app support" button, when space allows -->
-    <string name="app_support_description">Gửi vài lời cho chúng tôi và chúng tôi sẽ liên lạc lại với bạn.</string>
+    <string name="app_support_description">Gửi vài lời cho chúng tôi và chúng tôi sẽ liên lạc lại với quý vị.</string>
     <!-- Extra description for "tell a friend" button, when space allows -->
     <string name="tell_a_friend_description">Thích những deal khách sạn tuyệt vời? Giới thiệu với bạn bè về ứng dụng này.</string>
     <!-- Section header for other apps by Mobiata -->
@@ -651,7 +704,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Xin chào,\n\nHãy thử ứng dụng Expedia Hotels dành cho điện thoại iPhone và Android! MIỄN PHÍ và bạn có thể dễ dàng tìm kiếm cũng như đặt phòng từ hơn 140.000 khách sạn trên toàn thế giới. Đây là cách dễ dàng nhất để đặt phòng khách sạn từ điện thoại của bạn.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Xin chào,\n\nHãy thử ứng dụng Expedia Hotels dành cho điện thoại iPhone và Android! MIỄN PHÍ và quý vị có thể dễ dàng tìm kiếm cũng như đặt phòng từ hơn 140.000 khách sạn trên toàn thế giới. Đây là cách dễ dàng nhất để đặt phòng khách sạn từ điện thoại của quý vị.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Điều khoản và Điều kiện</string>
     <!-- Label for link to privacy policy -->
@@ -663,13 +716,17 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Đã thoát và xóa dữ liệu</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Bạn đã thoát khỏi tài khoản Expedia, mọi thông tin liên lạc và thanh toán đã được xóa.</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">Quý vị đã thoát khỏi tài khoản Expedia, mọi thông tin liên lạc và thanh toán đã được xóa.</string>
+    <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_title_cleared_private_data">Đã xóa dữ liệu cá nhân</string>
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_cleared_private_data">Đã xóa mọi thông tin thanh toán và liên hệ đã lưu.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
     <string name="dialog_message_launch_expedia_mobile_site">Mở trang web cho di động của Expedia?</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">Truy cập trang web hỗ trợ của Expedia?</string>
 
-    <!--  App Feedback Activity -->
+    <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
     <string name="send_feedback">Gửi phản hồi</string>
     <!-- Header title -->
@@ -683,7 +740,7 @@
     <!-- Hint to type in comments -->
     <string name="feedback_hint">Chúng tôi cần cải thiện thêm điểm nào?</string>
     <!-- Message displayed to users after they submit feedback -->
-    <string name="oosdk_thanks_txt">Cám ơn phản hồi của bạn! Chúng tôi luôn trân trọng những đánh giá của khách hàng.</string>
+    <string name="oosdk_thanks_txt">Cám ơn phản hồi của quý vị! Chúng tôi luôn trân trọng những đánh giá của khách hàng.</string>
 
     <!-- Preferences -->
     <!-- Category name for general preferences -->
@@ -732,6 +789,10 @@
     <string name="unit_miles">dặm</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
+    <!-- Miles (used in distance_template) -->
+    <string name="unit_miles_full">dặm</string>
+    <!-- Kilometers (used in distance template) -->
+    <string name="unit_kilometers_full">kilômét</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">cách %1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
@@ -751,37 +812,36 @@
     <!-- Replaces "result was null" for no result search -->
     <string name="ean_error_no_results">Rất tiếc, chúng tôi không tìm được khách sạn nào vào thời điểm này. Vui lòng chọn ngày khác hoặc địa điểm khác.</string>
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_connect_unavailable">Không thể kết nối với khách sạn bạn chọn để tìm phòng.</string>
+    <string name="ean_error_connect_unavailable">Không thể kết nối với khách sạn quý vị chọn để tìm phòng.</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
     <string name="ean_error_invalid_phone_number">Vui lòng nhập số điện thoại hợp lệ</string>
 
     <!-- Checkout API method -->
     <!-- The hotel booking failed -->
-    <string name="e3_error_checkout_booking_failed">Lỗi đã ngăn chúng tôi hoàn tất đặt phòng cho bạn. Vui lòng thử lại.</string>
+    <string name="e3_error_checkout_booking_failed">Lỗi đã ngăn chúng tôi hoàn tất đặt phòng cho quý vị. Vui lòng thử lại.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Bạn đã đặt phòng khách sạn thành công! Nếu cần lịch trình ngay lúc này, vui lòng gọi Bộ phận hỗ trợ khách hàng của Expedia.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">Quý vị đã đặt phòng khách sạn thành công! Nếu cần lịch trình ngay lúc này, vui lòng gọi Bộ phận hỗ trợ khách hàng của Expedia.</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">Rất tiếc, nhưng phòng bạn yêu cầu không còn.</string>
+    <string name="e3_error_checkout_hotel_room_unavailable">Rất tiếc, nhưng phòng quý vị yêu cầu không còn.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">Vui lòng sửa thông tin không hợp lệ.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">Rất tiếc, chúng tôi không thể xử lý thanh toán của bạn. Vui lòng xác nhận bạn đã nhập thông tin chính xác.</string>
+    <string name="e3_error_checkout_payment_failed">Rất tiếc, chúng tôi không thể xử lý thanh toán của quý vị. Vui lòng xác nhận quý vị đã nhập thông tin chính xác.</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">Rất tiếc, chúng tôi không thể hoàn thành lệnh tìm kiếm của bạn. Vui lòng thử lại.</string>
+    <string name="e3_error_search_results_hotel_service_failure">Rất tiếc, chúng tôi không thể hoàn thành lệnh tìm kiếm của quý vị. Vui lòng thử lại.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">Rất tiếc, chúng tôi không thể trả lại kết quả cho cụm từ tìm kiếm của bạn. Vui lòng thử lại.</string>
+    <string name="e3_error_search_results_invalid_input">Rất tiếc, chúng tôi không thể trả lại kết quả cho cụm từ tìm kiếm của quý vị. Vui lòng thử lại.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">Rất tiếc, chúng tôi không thể trả lại kết quả cho cụm từ tìm kiếm của bạn. Vui lòng thử lại.</string>
+    <string name="e3_error_search_results_invalid_input_unknown">Rất tiếc, chúng tôi không thể trả lại kết quả cho cụm từ tìm kiếm của quý vị. Vui lòng thử lại.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">Rất tiếc, nhưng chúng tôi không thể hoàn thành tìm kiếm của bạn. Vui lòng thử lại.</string>
+    <string name="e3_error_search_results_unknown_error">Rất tiếc, nhưng chúng tôi không thể hoàn thành tìm kiếm của quý vị. Vui lòng thử lại.</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Rất tiếc! Chương trình khuyến mãi cho phòng này đã kết thúc, nhưng vẫn còn nhiều ưu đãi khác.</string>
-
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">Rất tiếc, nhưng phòng bạn yêu cầu không còn.</string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">Rất tiếc, nhưng phòng quý vị yêu cầu không còn.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure">Rất tiếc, nhưng chúng tôi không thể kết nối với Expedia. Vui lòng thử lại.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -1067,4 +1127,5 @@
     <string name="country_zm">Zambia</string>
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Quần đảo Åland</string>
+
 </resources>
