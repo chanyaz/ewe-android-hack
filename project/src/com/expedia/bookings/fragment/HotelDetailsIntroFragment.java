@@ -41,15 +41,15 @@ public class HotelDetailsIntroFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_details_intro, container, false);
-		populateBannerSection(view, DbPropertyHelper.getBestRateProperty());
-		populateReviewsSection(view, DbPropertyHelper.getBestReviewsProperty(),
-				Db.getSelectedReviewsStatisticsResponse());
-		populateIntroParagraph(view, DbPropertyHelper.getBestDescriptionProperty());
+		populateViews(view);
 		return view;
 	}
 
 	public void populateViews() {
-		View view = getView();
+		populateViews(getView());
+	}
+
+	private void populateViews(View view) {
 		populateBannerSection(view, DbPropertyHelper.getBestRateProperty());
 		populateReviewsSection(view, DbPropertyHelper.getBestReviewsProperty(),
 				Db.getSelectedReviewsStatisticsResponse());
