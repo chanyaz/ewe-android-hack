@@ -66,6 +66,18 @@ public class FlightSearchParams implements JSONable {
 		return mQueryLegs.get(position);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof FlightSearchParams)) {
+			return false;
+		}
+
+		FlightSearchParams other = (FlightSearchParams) o;
+
+		return this.mAdults == other.mAdults && this.mChildren.equals(other.mChildren)
+				&& this.mQueryLegs.equals(other.mQueryLegs);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Utility methods
 	//
@@ -171,7 +183,6 @@ public class FlightSearchParams implements JSONable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mAdults = obj.optInt("adults");

@@ -68,6 +68,17 @@ public class Date implements JSONable {
 		return new Date(mYear, mMonth, mDayOfMonth);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Date)) {
+			return false;
+		}
+
+		Date other = (Date) o;
+
+		return this.mYear == other.mYear && this.mMonth == other.mMonth && this.mDayOfMonth == other.mDayOfMonth;
+	}
+
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();

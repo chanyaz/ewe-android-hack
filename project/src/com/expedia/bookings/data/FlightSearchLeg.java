@@ -51,6 +51,24 @@ public class FlightSearchLeg implements JSONable {
 		mArrivalAirportCode = arrivalAirportCode;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof FlightSearchLeg)) {
+			return false;
+		}
+
+		FlightSearchLeg other = (FlightSearchLeg) o;
+
+		return ((this.mDepartureDate == null) == (other.mDepartureDate == null))
+				&& (this.mDepartureDate == null || this.mDepartureDate.equals(other.mDepartureDate))
+				&& ((this.mDepartureAirportCode == null) == (other.mDepartureAirportCode == null))
+				&& (this.mDepartureAirportCode == null || this.mDepartureAirportCode
+						.equals(other.mDepartureAirportCode))
+				&& ((this.mArrivalAirportCode == null) == (other.mArrivalAirportCode == null))
+				&& (this.mArrivalAirportCode == null || this.mArrivalAirportCode
+						.equals(other.mArrivalAirportCode));
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
