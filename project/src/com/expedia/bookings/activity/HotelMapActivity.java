@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -22,6 +24,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
+import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.BalloonItemizedOverlay;
 import com.mobiata.android.widget.StandardBalloonAdapter;
 import com.omniture.AppMeasurement;
@@ -57,6 +60,7 @@ public class HotelMapActivity extends MapActivity {
 		setContentView(R.layout.activity_hotel_map);
 
 		Property property = Db.getSelectedProperty();
+		Location location = property.getLocation();
 
 		// Configure header
 		OnClickListener onBookNowClick = new OnClickListener() {
@@ -71,6 +75,10 @@ public class HotelMapActivity extends MapActivity {
 		mMapView = MapUtils.createMapView(this);
 		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
 		mapContainer.addView(mMapView);
+		
+		// Display the address
+		TextView addressTextView = Ui.findView(this, R.id.address_text_view);
+		addressTextView.setText(location.getStreetAddressString() + "\n" + location.toFormattedString());
 
 		// Configure the map
 		mMapView.setBuiltInZoomControls(true);
