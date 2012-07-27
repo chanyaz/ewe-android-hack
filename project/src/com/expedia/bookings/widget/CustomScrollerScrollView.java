@@ -35,8 +35,8 @@ public abstract class CustomScrollerScrollView extends ScrollView {
 	public boolean isScrollerFinished() {
 		Object scroller = getScroller();
 		try {
-			Method method = scroller.getClass().getMethod("isFinished", null);
-			return (Boolean) method.invoke(scroller, null);
+			Method method = scroller.getClass().getMethod("isFinished");
+			return (Boolean) method.invoke(scroller);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
