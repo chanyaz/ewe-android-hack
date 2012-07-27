@@ -21,6 +21,8 @@ public class Somo {
 		if (mEnabled) {
 			mSomoTracker.track(SomoTracker.EVENT_OPEN);
 			mSomoTracker.submit();
+
+			Log.i("Submitted Somo first launch event");
 		}
 	}
 
@@ -28,6 +30,8 @@ public class Somo {
 		if (mEnabled) {
 			mSomoTracker.track(SomoTracker.EVENT_OPEN);
 			mSomoTracker.submit();
+
+			Log.i("Submitted Somo launch event");
 		}
 	}
 
@@ -35,6 +39,8 @@ public class Somo {
 		if (mEnabled) {
 			mSomoTracker.track(SomoTracker.EVENT_SIGN_UP);
 			mSomoTracker.submit();
+
+			Log.i("Submitted Somo login event");
 		}
 	}
 
@@ -45,6 +51,8 @@ public class Somo {
 
 			mSomoTracker.track(SomoTracker.EVENT_SALE, null, null, info);
 			mSomoTracker.submit();
+
+			Log.i("Submitted Somo booking event");
 		}
 	}
 }
