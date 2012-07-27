@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.amobee.agency.tracking.AmobeeReceiver;
 import com.amobee.agency.tracking.AmobeeReceiver.Goal;
+import com.mobiata.android.Log;
 
 public class Amobee {
 	private static Context mContext;
@@ -18,6 +19,8 @@ public class Amobee {
 		mAppId = appId;
 
 		mEnabled = enabled && mContext != null && mAppId != null;
+
+		Log.i("Amobee tracking initialized (enabled: " + String.valueOf(enabled) + ")");
 	}
 
 	public static void trackFirstLaunch() {
