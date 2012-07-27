@@ -178,6 +178,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 		if (isFinishing()) {
 			Db.setSelectedProperty((Property) null);
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			bd.cancelDownload(INFO_DOWNLOAD_KEY);
+			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
 		}
 	}
 
