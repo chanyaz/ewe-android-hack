@@ -234,7 +234,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentById(R.id.search_params_container) == null) {
 			if (mSearchParamsFragment == null) {
-				mSearchParamsFragment = FlightSearchParamsFragment.newInstance(true);
+				mSearchParamsFragment = FlightSearchParamsFragment.newInstance(Db.getFlightSearch().getSearchParams(),
+						true);
 			}
 
 			FragmentTransaction ft = fm.beginTransaction();

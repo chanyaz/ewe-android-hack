@@ -14,10 +14,6 @@
     <string name="hint_arrival_airport">Arrival Airport</string>
     <!-- Button label prompting user to select dates by tapping calendar -->
     <string name="dates_prompt">No dates selected</string>
-    <!-- Button label when you have a one-way trip selected. -->
-    <string name="one_way_TEMPLATE">%1$s (One Way)</string>
-    <!-- Button label when you have a round trip selected.  %1$s is the start date, %2$s is the end date (e.g., "May 5 to Oct 12") -->
-    <string name="round_trip_TEMPLATE">%1$s to %2$s</string>
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Loading flights...</string>
     <!-- TEMPORARY generic error message when loading flights fails -->
@@ -74,6 +70,14 @@
     <string name="error_same_origin_arrival">You must enter different departure and arrival airports.</string>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Search data was cleared somehow.  Please report this error to DLew.</string>
+
+    <!-- Flight search params fragment -->
+    <!-- Hint when no dates are selected for a flight trip -->
+    <string name="hint_select_departure">Select a departure date</string>
+    <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
+    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (One Way)</string>
+    <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
+    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; to &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
 
     <!-- Flight Details Fragment -->
     <!-- The label for the number of seats left for a flight -->

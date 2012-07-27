@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <!-- Dummy focus clear -->
+
+    <View
+        android:id="@+id/focus_stealer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
     <!-- Dimmer that can be placed on top of content fragment -->
 
     <View
@@ -57,12 +66,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <Button
+            <EditText
                 android:id="@+id/dates_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:singleLine="true" />
+                android:ellipsize="end"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/hint_select_departure"
+                android:singleLine="true"
+                android:textColor="#999999" />
 
             <ImageButton
                 android:id="@+id/passengers_button"
