@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.List;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -26,6 +27,7 @@ import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public class HotelDetailsIntroFragment extends Fragment {
@@ -51,7 +53,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 	private void populateViews(View view) {
 		populateBannerSection(view, DbPropertyHelper.getBestRateProperty());
-		populateReviewsSection(view, DbPropertyHelper.getBestReviewsProperty(),
+		populateBannerSection(view, DbPropertyHelper.getBestReviewsProperty(),
 				Db.getSelectedReviewsStatisticsResponse());
 		populateIntroParagraph(view, DbPropertyHelper.getBestDescriptionProperty());
 	}
@@ -102,20 +104,33 @@ public class HotelDetailsIntroFragment extends Fragment {
 	}
 
 	// Reviews
-	private void populateReviewsSection(View view, Property property, ReviewsStatisticsResponse statistics) {
+	private void populateBannerSection(View view, Property property, ReviewsStatisticsResponse statistics) {
 
-		// Reviews
-		int numReviews = 0;
-		float percentRecommend = 0;
-		float userRating = 0f;
-		if (statistics != null) {
-			numReviews = statistics.getTotalReviewCount();
-			percentRecommend = numReviews == 0 ? 0f : statistics.getRecommendedCount() * 100f / numReviews;
-			userRating = (float) statistics.getAverageOverallRating();
+		Resources resources = getResources();
+		View reviewsLayout = Ui.findView(view, R.id.user_review_layout);
+		TextView reviewsTextView = Ui.findView(view, R.id.user_rating_text_view);
+		View verticalSep = Ui.findView(view, R.id.vertical_sep);
+		TextView bannerTextView = Ui.findView(view, R.id.banner_message_text_view);
+		RatingBar userRatingBar = Ui.findView(view, R.id.user_rating_bar);
+
+		if (statistics == null) {
+			reviewsLayout.setVisibility(View.INVISIBLE);
+			bannerTextView.setVisibility(View.INVISIBLE);
+			verticalSep.setVisibility(View.INVISIBLE);
+			return;
 		}
 
-		TextView reviewsTextView = Ui.findView(view, R.id.user_rating_text_view);
-		reviewsTextView.setText(getResources().getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews));
+		reviewsLayout.setVisibility(View.VISIBLE);
+		bannerTextView.setVisibility(View.VISIBLE);
+		verticalSep.setVisibility(View.VISIBLE);
+
+		// Reviews
+		int numReviews = statistics.getTotalReviewCount();
+		float percentRecommend = numReviews == 0 ? 0f : statistics.getRecommendedCount() * 100f / numReviews;
+		float userRating = (float) statistics.getAverageOverallRating();
+
+		reviewsTextView.setText(resources.getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews));
+
 		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
 			public synchronized void onClick(final View v) {
 				Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
@@ -123,18 +138,13 @@ public class HotelDetailsIntroFragment extends Fragment {
 				startActivity(newIntent);
 			}
 		};
-		view.findViewById(R.id.user_review_layout).setOnClickListener(onReviewsClick);
+		reviewsLayout.setOnClickListener(onReviewsClick);
 
 		// User Rating Bar
-		RatingBar userRatingBar = Ui.findView(view, R.id.user_rating_bar);
 		userRatingBar.setRating(0f);
-		if (numReviews > 0) {
-			ObjectAnimator.ofFloat(userRatingBar, "rating", userRating).start();
-		}
+		ObjectAnimator animRating = ObjectAnimator.ofFloat(userRatingBar, "rating", userRating);
 
-		// Urgency messaging
-		TextView urgencyTextView = Ui.findView(view, R.id.urgency_message_text_view);
-
+		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
 
 		// xx booked in the past x hours
@@ -142,19 +152,27 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}*/
 		// Only xx rooms left
 		/*else*/if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
-			urgencyTextView.setText(getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
-			urgencyTextView.setVisibility(View.VISIBLE);
+			bannerTextView.setText(resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
+			bannerTextView.setVisibility(View.VISIBLE);
 			//TODO: better drawable
-			urgencyTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.review_thumbs_up, 0, 0, 0);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.review_thumbs_up, 0, 0, 0);
 		}
 
 		// xx% recommend this hotel
 		else {
-			urgencyTextView.setText(getString(R.string.x_percent_guests_recommend, percentRecommend));
-			urgencyTextView.setVisibility(View.VISIBLE);
+			bannerTextView.setText(resources.getString(R.string.x_percent_guests_recommend, percentRecommend));
+			bannerTextView.setVisibility(View.VISIBLE);
 			//TODO: better drawable
-			urgencyTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.review_thumbs_up, 0, 0, 0);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.review_thumbs_up, 0, 0, 0);
 		}
+
+		// Please to be doing all the animations.
+		ObjectAnimator anim1 = ObjectAnimator.ofFloat(reviewsLayout, "alpha", 0f, 1f);
+		ObjectAnimator anim2 = ObjectAnimator.ofFloat(bannerTextView, "alpha", 0f, 1f);
+		ObjectAnimator anim3 = ObjectAnimator.ofFloat(verticalSep, "alpha", 0f, 1f);
+		AnimatorSet s = new AnimatorSet();
+		s.play(anim1).with(anim2).with(anim3).before(animRating);
+		s.start();
 	}
 
 	private void populateIntroParagraph(View view, Property property) {
