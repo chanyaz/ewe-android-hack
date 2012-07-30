@@ -59,7 +59,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mContext = this;
 
 		// Recover data if it was flushed from memory
-		if (Db.getFlightSearch().getSearchResponse() == null) {
+		if (savedInstanceState != null && !BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)
+				&& Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(this)) {
 				NavUtils.onDataMissing(this);
 				return;
