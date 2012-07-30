@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.Calendar;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -162,6 +163,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		updateCalendarText();
+		updateAirportTextColors();
 
 		return v;
 	}
@@ -280,6 +282,24 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		resetAirportEditTexts();
 	}
 
+	private void updateAirportTextColors() {
+		Resources res = getResources();
+		int defColor = res.getColor(R.color.flight_airport_text);
+		mDepartureAirportEditText.setTextColor(defColor);
+		mArrivalAirportEditText.setTextColor(defColor);
+
+		// If the calendar is open, highlight whichever leg we're selecting a date for
+		if (mCalendarDatePicker.getVisibility() == View.VISIBLE) {
+			int selectedColor = res.getColor(R.color.flight_airport_text_selected);
+			if (mCalendarDatePicker.getStartTime() == null) {
+				mDepartureAirportEditText.setTextColor(selectedColor);
+			}
+			else if (mCalendarDatePicker.getEndTime() == null) {
+				mArrivalAirportEditText.setTextColor(selectedColor);
+			}
+		}
+	}
+
 	private void toggleCalendarDatePicker(boolean enabled) {
 		if (enabled == (mCalendarDatePicker.getVisibility() == View.VISIBLE)) {
 			return;
@@ -304,6 +324,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		mCalendarDatePicker.setVisibility(enabled ? View.VISIBLE : View.GONE);
+		updateAirportTextColors();
 	}
 
 	private void updateCalendarText() {
@@ -349,5 +370,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		updateCalendarText();
+		updateAirportTextColors();
 	}
 }
