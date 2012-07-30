@@ -15,6 +15,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener {
 
@@ -38,11 +41,16 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private static final String INSTANCE_SHOW_CALENDAR = "INSTANCE_SHOW_CALENDAR";
 
+	// Controls the ratio of how large a selected EditText should take up
+	// 1 == takes up the full size, 0 == takes up 50%.
+	private static final float EDITTEXT_EXPANSION_RATIO = .25f;
+
 	// TODO: Localize this date format
 	private static final String DATE_FORMAT = "MMM d";
 
 	private View mFocusStealer;
 	private View mDimmerView;
+	private LinearLayout mAirportsContainer;
 	private EditText mDepartureAirportEditText;
 	private EditText mArrivalAirportEditText;
 	private TextView mDatesTextView;
@@ -74,6 +82,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		// Cache views
 		mFocusStealer = Ui.findView(v, R.id.focus_stealer);
 		mDimmerView = Ui.findView(v, R.id.dimmer_view);
+		mAirportsContainer = Ui.findView(v, R.id.airports_container);
 		mDepartureAirportEditText = Ui.findView(v, R.id.departure_airport_edit_text);
 		mArrivalAirportEditText = Ui.findView(v, R.id.arrival_airport_edit_text);
 		mDatesTextView = Ui.findView(v, R.id.dates_button);
@@ -94,6 +103,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 					// Clear out previous data
 					TextView tv = (TextView) v;
 					tv.setText(null);
+
+					expandAirportEditText(v);
 				}
 				else {
 					if (v == mDepartureAirportEditText) {
@@ -176,6 +187,79 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 	}
 
+	private void expandAirportEditText(View focusView) {
+		final View expandingView;
+		final View shrinkingView;
+
+		if (focusView == mDepartureAirportEditText) {
+			expandingView = mDepartureAirportEditText;
+			shrinkingView = mArrivalAirportEditText;
+		}
+		else {
+			expandingView = mArrivalAirportEditText;
+			shrinkingView = mDepartureAirportEditText;
+		}
+
+		// Show an animation to expand/collapse one or the other.
+		final LinearLayout.LayoutParams expandingLayoutParams = (LinearLayout.LayoutParams) expandingView
+				.getLayoutParams();
+		final LinearLayout.LayoutParams shrinkingLayoutParams = (LinearLayout.LayoutParams) shrinkingView
+				.getLayoutParams();
+		final float halfWeight = mAirportsContainer.getWeightSum() / 2;
+		final float startVal = expandingLayoutParams.weight - halfWeight;
+		final float endVal = halfWeight * EDITTEXT_EXPANSION_RATIO;
+
+		ValueAnimator anim = ValueAnimator.ofFloat(startVal, endVal);
+		anim.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				float val = (Float) animator.getAnimatedValue();
+				expandingLayoutParams.weight = halfWeight + val;
+				shrinkingLayoutParams.weight = halfWeight - val;
+				mAirportsContainer.requestLayout();
+			}
+		});
+		anim.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+		anim.start();
+	}
+
+	private void resetAirportEditTexts() {
+		// Animate both views back to 50/50
+		final float halfWeight = mAirportsContainer.getWeightSum() / 2;
+
+		final LinearLayout.LayoutParams expandingLayoutParams;
+		final LinearLayout.LayoutParams shrinkingLayoutParams;
+
+		if (((LinearLayout.LayoutParams) mDepartureAirportEditText.getLayoutParams()).weight > halfWeight) {
+			expandingLayoutParams = (LinearLayout.LayoutParams) mArrivalAirportEditText.getLayoutParams();
+			shrinkingLayoutParams = (LinearLayout.LayoutParams) mDepartureAirportEditText.getLayoutParams();
+		}
+		else {
+			expandingLayoutParams = (LinearLayout.LayoutParams) mDepartureAirportEditText.getLayoutParams();
+			shrinkingLayoutParams = (LinearLayout.LayoutParams) mArrivalAirportEditText.getLayoutParams();
+		}
+
+		float startVal = expandingLayoutParams.weight - halfWeight;
+
+		// If they weren't already focused, don't bother with this animation
+		if (Math.abs(startVal) < .001) {
+			return;
+		}
+
+		ValueAnimator anim = ValueAnimator.ofFloat(expandingLayoutParams.weight - halfWeight, 0);
+		anim.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				float val = (Float) animator.getAnimatedValue();
+				expandingLayoutParams.weight = halfWeight + val;
+				shrinkingLayoutParams.weight = halfWeight - val;
+				mAirportsContainer.requestLayout();
+			}
+		});
+		anim.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+		anim.start();
+	}
+
 	private void clearEditTextFocus() {
 		EditText textWithFocus = null;
 
@@ -192,6 +276,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(textWithFocus.getWindowToken(), 0);
 		}
+
+		resetAirportEditTexts();
 	}
 
 	private void toggleCalendarDatePicker(boolean enabled) {
