@@ -149,21 +149,22 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 		// xx booked in the past x hours
 		/*if (TODO: xx booked in the past x hours) {
+			bannerTextView.setText(TODO);
+			bannerTextView.setVisibility(View.VISIBLE);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
 		}*/
 		// Only xx rooms left
 		/*else*/if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
 			bannerTextView.setText(resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
 			bannerTextView.setVisibility(View.VISIBLE);
-			//TODO: better drawable
-			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.review_thumbs_up, 0, 0, 0);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
 		}
 
 		// xx% recommend this hotel
 		else {
 			bannerTextView.setText(resources.getString(R.string.x_percent_guests_recommend, percentRecommend));
 			bannerTextView.setVisibility(View.VISIBLE);
-			//TODO: better drawable
-			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.review_thumbs_up, 0, 0, 0);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_users, 0, 0, 0);
 		}
 
 		// Please to be doing all the animations.
