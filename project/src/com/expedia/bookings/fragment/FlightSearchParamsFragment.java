@@ -204,11 +204,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			Date returnDate = mSearchParams.getReturnDate();
 
 			if (departureDate != null) {
-				mCalendarDatePicker.updateStartDate(departureDate.getYear(), departureDate.getMonth(),
+				mCalendarDatePicker.updateStartDate(departureDate.getYear(), departureDate.getMonth() - 1,
 						departureDate.getDayOfMonth());
 			}
 			if (returnDate != null) {
-				mCalendarDatePicker.updateEndDate(returnDate.getYear(), returnDate.getMonth(),
+				mCalendarDatePicker.updateEndDate(returnDate.getYear(), returnDate.getMonth() - 1,
 						returnDate.getDayOfMonth());
 			}
 
@@ -252,11 +252,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	@Override
 	public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 		mSearchParams.setDepartureDate(new Date(mCalendarDatePicker.getStartYear(),
-				mCalendarDatePicker.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth()));
+				mCalendarDatePicker.getStartMonth() + 1, mCalendarDatePicker.getStartDayOfMonth()));
 
 		if (mCalendarDatePicker.getEndTime() != null) {
 			mSearchParams.setReturnDate(new Date(mCalendarDatePicker.getEndYear(),
-					mCalendarDatePicker.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth()));
+					mCalendarDatePicker.getEndMonth() + 1, mCalendarDatePicker.getEndDayOfMonth()));
 		}
 		else {
 			mSearchParams.setReturnDate(null);
