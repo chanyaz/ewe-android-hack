@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -81,7 +80,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mTitleTextView = Ui.findView(customView, R.id.title_text_view);
 		mSubtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
 		actionBar.setDisplayShowCustomEnabled(true);
-		updateTitleBar();
 
 		// Enable the home button on the action bar
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -131,7 +129,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem searchItem = menu.findItem(R.id.menu_search);
-		searchItem.setVisible(mListFragment != null);
+		FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
+		searchItem.setVisible(mListFragment != null || (response != null && response.hasErrors()));
+
+		updateTitleBar();
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -285,6 +286,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	public void onSelectionChanged(int newLegPosition) {
 		mLegPosition = newLegPosition;
-		updateTitleBar();
+
+		invalidateOptionsMenu();
 	}
 }
