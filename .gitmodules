@@ -7,6 +7,3 @@
 [submodule "lib/OpinionLab"]
 	path = lib/OpinionLab
 	url = git@team.mobiata.com:Android/OpinionLab.git
-[submodule "lib/Hockey"]
-	path = lib/Hockey
-	url = git@team.mobiata.com:Android/HockeySdk
