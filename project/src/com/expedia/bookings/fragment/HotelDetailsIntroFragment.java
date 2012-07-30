@@ -160,6 +160,13 @@ public class HotelDetailsIntroFragment extends Fragment {
 			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
 		}
 
+		// Special case if no urgency and no recommendations: hide this while banner section.
+		else if (percentRecommend == 0 && numReviews == 0) {
+			view.findViewById(R.id.reviews_summary_layout).setVisibility(View.GONE);
+			view.findViewById(R.id.horizontal_sep).setVisibility(View.GONE);
+			return;
+		}
+
 		// xx% recommend this hotel
 		else {
 			bannerTextView.setText(resources.getString(R.string.x_percent_guests_recommend, percentRecommend));

@@ -79,6 +79,7 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/horizontal_sep"
         android:layout_width="match_parent"
         android:layout_height="@dimen/one_di_pixel"
         android:background="#efefef" >
