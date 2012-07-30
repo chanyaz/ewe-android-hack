@@ -212,11 +212,38 @@ public class HotelDetailsIntroFragment extends Fragment {
 					fadeOverlay.setVisibility(View.GONE);
 				}
 			});
-			body = String.format(getString(R.string.ellipsize_text_template), body.subSequence(0, INTRO_PARAGRAPH_CUTOFF));
+
+			body = String.format(getString(R.string.ellipsize_text_template), body.subSequence(0, cutAtWordBarrier(body)));
 		}
 
 		titleView.setVisibility(TextUtils.isEmpty(title) ? View.INVISIBLE : View.VISIBLE);
 		titleView.setText(title);
 		bodyView.setText(body);
+	}
+
+	public static int cutAtWordBarrier(CharSequence body) {
+		int before = INTRO_PARAGRAPH_CUTOFF;
+		for (int i = INTRO_PARAGRAPH_CUTOFF; i > 0; i --) {
+			char c = body.charAt(i);
+			if (c == ' ' || c == ',' || c == '.') {
+				before = i;
+				break;
+			}
+		}
+		while (body.charAt(before) == ' ' || body.charAt(before) == ',' || body.charAt(before) == '.') {
+			before --;
+		}
+		before ++;
+		int after = INTRO_PARAGRAPH_CUTOFF;
+		for (int i = INTRO_PARAGRAPH_CUTOFF; i < body.length(); i ++) {
+			char c = body.charAt(i);
+			if (c == ' ' || c == ',' || c == '.') {
+				after = i;
+				break;
+			}
+		}
+		int leftDistance = Math.abs(INTRO_PARAGRAPH_CUTOFF - before);
+		int rightDistance = Math.abs(after - INTRO_PARAGRAPH_CUTOFF);
+		return (leftDistance < rightDistance) ? before : after;
 	}
 }
