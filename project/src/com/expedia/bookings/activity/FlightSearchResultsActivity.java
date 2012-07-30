@@ -254,18 +254,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	private void onSearch() {
-		FlightSearch search = Db.getFlightSearch();
-		FlightSearchResponse response = search.getSearchResponse();
-		FlightSearchParams newParams = mSearchParamsFragment.getSearchParams();
-		if (!search.getSearchParams().equals(newParams) || (response != null && response.hasErrors())) {
-			Log.i("Search params changed, conducting a new search.");
+		Db.getFlightSearch().setSearchParams(mSearchParamsFragment.getSearchParams());
 
-			search.setSearchParams(newParams);
+		startSearch();
 
-			startSearch();
-
-			supportInvalidateOptionsMenu();
-		}
+		supportInvalidateOptionsMenu();
 
 		// Remove the search params fragment regardless
 		getSupportFragmentManager().popBackStack(BACKSTACK_SEARCH_PARAMS, FragmentManager.POP_BACK_STACK_INCLUSIVE);
