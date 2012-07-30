@@ -39,6 +39,10 @@ public class FlightSearch implements JSONable {
 		mFilters = null;
 	}
 
+	public void setSearchParams(FlightSearchParams params) {
+		mSearchParams = params;
+	}
+
 	public FlightSearchParams getSearchParams() {
 		return mSearchParams;
 	}

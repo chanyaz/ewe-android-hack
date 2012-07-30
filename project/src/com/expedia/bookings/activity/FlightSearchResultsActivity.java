@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -80,6 +81,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mTitleTextView = Ui.findView(customView, R.id.title_text_view);
 		mSubtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
 		actionBar.setDisplayShowCustomEnabled(true);
+		updateTitleBar();
 
 		// Enable the home button on the action bar
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -145,7 +147,12 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			startActivity(intent);
 			return true;
 		case R.id.menu_search:
-			showSearchParameters();
+			if (mSearchParamsFragment != null && mSearchParamsFragment.isAdded() && !mSearchParamsFragment.isDetached()) {
+				onSearch();
+			}
+			else {
+				showSearchParameters();
+			}
 			return true;
 		}
 
@@ -244,6 +251,24 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			ft.add(R.id.search_params_container, mSearchParamsFragment, FlightSearchParamsFragment.TAG);
 			ft.commit();
 		}
+	}
+
+	private void onSearch() {
+		FlightSearch search = Db.getFlightSearch();
+		FlightSearchParams newParams = mSearchParamsFragment.getSearchParams();
+		if (!search.getSearchParams().equals(newParams)) {
+			Log.i("Search params changed, conducting a new search.");
+
+			search.setSearchParams(newParams);
+
+			startSearch();
+
+			supportInvalidateOptionsMenu();
+		}
+
+		// Remove the search params fragment regardless
+		getSupportFragmentManager().popBackStack(BACKSTACK_SEARCH_PARAMS, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		mSearchParamsFragment = null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
