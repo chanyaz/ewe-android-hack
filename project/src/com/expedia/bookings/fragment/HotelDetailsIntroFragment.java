@@ -194,7 +194,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 					fadeOverlay.setVisibility(View.GONE);
 				}
 			});
-			body = body.subSequence(0, INTRO_PARAGRAPH_CUTOFF) + "É";
+			body = String.format(getString(R.string.ellipsize_text_template), body.subSequence(0, INTRO_PARAGRAPH_CUTOFF));
 		}
 
 		titleView.setVisibility(TextUtils.isEmpty(title) ? View.INVISIBLE : View.VISIBLE);
