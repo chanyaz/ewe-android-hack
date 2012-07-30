@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,8 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
+import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener {
 
@@ -87,20 +90,37 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					toggleCalendarDatePicker(false);
+
+					// Clear out previous data
+					TextView tv = (TextView) v;
+					tv.setText(null);
 				}
 				else {
 					if (v == mDepartureAirportEditText) {
-						mSearchParams.setDepartureAirportCode(mDepartureAirportEditText.getText().toString()
-								.toUpperCase());
+						String airportCode = mDepartureAirportEditText.getText().toString().toUpperCase();
+						if (!TextUtils.isEmpty(airportCode)) {
+							mSearchParams.setDepartureAirportCode(airportCode);
+						}
+						updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureAirportCode());
 					}
 					else {
-						mSearchParams.setArrivalAirportCode(mArrivalAirportEditText.getText().toString().toUpperCase());
+						String airportCode = mArrivalAirportEditText.getText().toString().toUpperCase();
+						if (!TextUtils.isEmpty(airportCode)) {
+							mSearchParams.setArrivalAirportCode(airportCode);
+						}
+						updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalAirportCode());
 					}
 				}
 			}
 		};
 		mDepartureAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
 		mArrivalAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
+
+		if (savedInstanceState == null) {
+			// Fill in the initial departure/arrival airports if we are just launching
+			updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureAirportCode());
+			updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalAirportCode());
+		}
 
 		mDatesTextView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -144,6 +164,17 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	//////////////////////////////////////////////////////////////////////////
 	// View control
+
+	private void updateAirportText(TextView textView, String airportCode) {
+		Airport airport = FlightStatsDbUtils.getAirport(airportCode);
+		if (airport == null) {
+			textView.setText(null);
+		}
+		else {
+			String str = getString(R.string.search_airport_TEMPLATE, airport.mAirportCode, airport.mCity);
+			textView.setText(Html.fromHtml(str));
+		}
+	}
 
 	private void clearEditTextFocus() {
 		EditText textWithFocus = null;
