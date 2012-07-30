@@ -184,7 +184,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			textView.setText(null);
 		}
 		else {
-			String str = getString(R.string.search_airport_TEMPLATE, airport.mAirportCode, airport.mCity);
+			String city = airport.mCity;
+			if (TextUtils.isEmpty(city)) {
+				city = getString(R.string.custom_code);
+			}
+			String str = getString(R.string.search_airport_TEMPLATE, airport.mAirportCode, city);
 			textView.setText(Html.fromHtml(str));
 		}
 	}
