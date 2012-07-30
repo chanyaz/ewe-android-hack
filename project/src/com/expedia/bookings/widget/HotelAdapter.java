@@ -19,7 +19,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
@@ -27,12 +26,10 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
@@ -237,7 +234,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleContainer.setVisibility(View.VISIBLE);
 			holder.saleText.setText(mContext.getString(R.string.percent_minus_template,
-				lowestRate.getSavingsPercent() * 100));
+				lowestRate.getDiscountPercent()));
 		}
 		else {
 			holder.strikethroughPrice.setVisibility(View.GONE);

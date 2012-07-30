@@ -162,7 +162,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 					+ StrUtils.formatHotelPrice(rate.getDisplayBaseRate())
 					+ "</strike> ";
 
-			holder.saleLabel.setText(mContext.getString(R.string.percent_off_template, rate.getSavingsPercent() * 100));
+			holder.saleLabel.setText(mContext.getString(R.string.percent_off_template, rate.getDiscountPercent()));
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -214,10 +214,14 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			bedText += "\n" + mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft);
 
 			// move the sale label up so as to accomodate the multiple lines for the bed text
-			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, 0);
-			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).topMargin = (int) mContext.getResources().getDimension(R.dimen.margin_top_sale_ribbon_room_rates);
-		} else {
-			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL,
+					0);
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).topMargin = (int) mContext
+					.getResources().getDimension(R.dimen.margin_top_sale_ribbon_room_rates);
+		}
+		else {
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL,
+					RelativeLayout.TRUE);
 		}
 
 		// If there are value adds, setup the alternate view

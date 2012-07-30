@@ -299,6 +299,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			rate.setAverageRate(averageRate);
 			rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
 					currencyCode));
+			rate.setDiscountPercent(chargeableRateInfo.getDouble("discountPercent"));
 
 			Money totalMandatoryFees = ParserUtils.createMoney(
 					chargeableRateInfo.optString("totalMandatoryFees", "0.0"), currencyCode);
@@ -320,8 +321,10 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 
 			rate.setUserPriceType(chargeableRateInfo.optString("userPriceType"));
 
-			Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"), currencyCode);
-			Money strikethroughPriceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("strikethroughPriceToShowUsers"), currencyCode);
+			Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
+					currencyCode);
+			Money strikethroughPriceToShowUsers = ParserUtils.createMoney(
+					chargeableRateInfo.getString("strikethroughPriceToShowUsers"), currencyCode);
 
 			rate.setPriceToShowUsers(priceToShowUsers);
 			rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);
@@ -400,7 +403,8 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		}
 
 		if (jsonRate.has("cancellationPolicy")) {
-			String cancellationPolicy = JSONUtils.getNormalizedString(jsonRate, "cancellationPolicy"); if (cancellationPolicy.startsWith("<![CDATA[")) {
+			String cancellationPolicy = JSONUtils.getNormalizedString(jsonRate, "cancellationPolicy");
+			if (cancellationPolicy.startsWith("<![CDATA[")) {
 				cancellationPolicy = cancellationPolicy.substring(9, cancellationPolicy.length() - 3);
 			}
 			Policy policy = new Policy();

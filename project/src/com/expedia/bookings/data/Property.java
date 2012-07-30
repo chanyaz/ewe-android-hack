@@ -414,10 +414,10 @@ public class Property implements JSONable {
 
 			if (left.isOnSale() && right.isOnSale()) {
 				// Both on sale
-				if (left.getSavingsPercent() == right.getSavingsPercent()) {
+				if (left.getDiscountPercent() == right.getDiscountPercent()) {
 					return NAME_COMPARATOR.compare(leftProperty, rightProperty);
 				}
-				else if (left.getSavingsPercent() > right.getSavingsPercent()) {
+				else if (left.getDiscountPercent() > right.getDiscountPercent()) {
 					// We want to show larger percentage discounts first
 					return -1;
 				}

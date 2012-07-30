@@ -137,7 +137,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		}
 		else if (lowestRate.isOnSale()) {
 			snippet = mContext.getString(R.string.map_snippet_template, snippet,
-					mContext.getString(R.string.widget_savings_template, lowestRate.getSavingsPercent() * 100));
+					mContext.getString(R.string.widget_savings_template, lowestRate.getDiscountPercent() * 100));
 		}
 
 		overlayItem = new StandardBalloonOverlayItem(point, property.getName(), snippet);

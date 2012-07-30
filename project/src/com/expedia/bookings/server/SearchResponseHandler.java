@@ -291,6 +291,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		String currencyCode = null;
 		double averageRate = 0;
 		double averageBaseRate = 0;
+		double discountPercent = Rate.UNSET_DISCOUNT_PERCENT;
 		double surchargeTotalForEntireStay = 0;
 		double totalMandatoryFees = 0;
 		double totalPriceWithMandatoryFees = 0;
@@ -312,6 +313,9 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			}
 			else if (name.equals("averageBaseRate")) {
 				averageBaseRate = parser.getValueAsDouble();
+			}
+			else if (name.equals("discountPercent")) {
+				discountPercent = parser.getValueAsDouble();
 			}
 			else if (name.equals("surchargeTotalForEntireStay")) {
 				surchargeTotalForEntireStay = parser.getValueAsDouble();
@@ -342,6 +346,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		Rate rate = new Rate();
 		rate.setAverageRate(ParserUtils.createMoney(averageRate, currencyCode));
 		rate.setAverageBaseRate(ParserUtils.createMoney(averageBaseRate, currencyCode));
+		rate.setDiscountPercent(discountPercent);
 		rate.setTotalSurcharge(ParserUtils.createMoney(surchargeTotalForEntireStay, currencyCode));
 		rate.setTotalMandatoryFees(ParserUtils.createMoney(totalMandatoryFees, currencyCode));
 		rate.setTotalPriceWithMandatoryFees(ParserUtils.createMoney(totalPriceWithMandatoryFees, currencyCode));

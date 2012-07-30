@@ -66,7 +66,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		TextView promoTextView = Ui.findView(view, R.id.promo_text_view);
 		if (rate.isSaleTenPercentOrBetter()) {
 			saleBannerTextView.setVisibility(View.VISIBLE);
-			saleBannerTextView.setText(getString(R.string.minus_x_percent, rate.getSavingsPercent() * 100));
+			saleBannerTextView.setText(getString(R.string.minus_x_percent, rate.getDiscountPercent()));
 		}
 		else {
 			saleBannerTextView.setVisibility(View.GONE);
