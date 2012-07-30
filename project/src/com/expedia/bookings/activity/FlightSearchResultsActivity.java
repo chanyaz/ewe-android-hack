@@ -72,6 +72,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		// Try to recover any Fragments
 		mStatusFragment = Ui.findSupportFragment(this, StatusFragment.TAG);
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
+		mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
 
 		// Configure the custom action bar view
 		ActionBar actionBar = getSupportActionBar();
@@ -128,10 +129,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem searchItem = menu.findItem(R.id.menu_search);
-		FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
-		searchItem.setVisible(mListFragment != null || (response != null && response.hasErrors()));
-
 		updateTitleBar();
 
 		return super.onPrepareOptionsMenu(menu);
@@ -185,7 +182,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				.replace(R.id.content_container, mStatusFragment, StatusFragment.TAG).commit();
 		mStatusFragment.showLoading(getString(R.string.loading_flights));
 
-		BackgroundDownloader.getInstance().startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(DOWNLOAD_KEY);
+		bd.startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
 	}
 
 	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {
@@ -256,8 +255,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	private void onSearch() {
 		FlightSearch search = Db.getFlightSearch();
+		FlightSearchResponse response = search.getSearchResponse();
 		FlightSearchParams newParams = mSearchParamsFragment.getSearchParams();
-		if (!search.getSearchParams().equals(newParams)) {
+		if (!search.getSearchParams().equals(newParams) || (response != null && response.hasErrors())) {
 			Log.i("Search params changed, conducting a new search.");
 
 			search.setSearchParams(newParams);
