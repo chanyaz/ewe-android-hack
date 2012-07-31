@@ -23,7 +23,6 @@ import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
-import com.mobiata.android.Log;
 
 public class HotelListFragment extends ListFragment implements OnScrollListener {
 
@@ -40,6 +39,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private String mStatus;
 
 	private boolean mShowDistances;
+	private boolean mIsTablet;
 
 	private HotelAdapter mAdapter;
 
@@ -102,6 +102,8 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		TextView placeholderProgressTextView = (TextView) view.findViewById(R.id.placeholder_progress_text_view);
 		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
 				placeholderProgressTextView);
+
+		mIsTablet = mNumHotelsTextViewTablet != null;
 
 		if (mSortTypeTextView != null) {
 			mSortTypeTextView.setOnClickListener(new OnClickListener() {
@@ -168,9 +170,20 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	private void updateLawyerLabel() {
 		if (LocaleUtils.doesPointOfSaleHaveInclusivePricing(getActivity())) {
-			mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay));
-		} else {
-			mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night));
+			if (mIsTablet) {
+				mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay_punctuated));
+			}
+			else {
+				mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay));
+			}
+		}
+		else {
+			if (mIsTablet) {
+				mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night_short));
+			}
+			else {
+				mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night));
+			}
 		}
 	}
 
@@ -238,9 +251,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		if (mNumHotelsTextViewTablet != null) {
 			int count = mAdapter.getCount();
 			mNumHotelsTextViewTablet.setText(Html.fromHtml(getResources().getQuantityString(
-					R.plurals.number_of_results,
-					count, count)
-					+ " " + getString(R.string.prices_avg_per_night_short)));
+					R.plurals.number_of_results, count, count)));
 		}
 	}
 

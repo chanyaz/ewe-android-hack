@@ -5,4 +5,4 @@
     android:singleLine="true"
     android:text="@string/prices_avg_per_night"
     android:textColor="#394552"
-    android:textSize="12sp" />
+    android:textSize="14sp" />

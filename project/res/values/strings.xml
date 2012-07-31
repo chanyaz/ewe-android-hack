@@ -107,11 +107,11 @@
     <string name="filter_hotels">Filter Hotels</string>
     <!-- A number of results -->
     <plurals name="number_of_results">
-        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Results</item>
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; Result</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; Results</item>
-        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; Results</item>
-        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; Results</item>
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Results.</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; Result.</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; Results.</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; Results.</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; Results.</item>
     </plurals>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Mobile Exclusive</string>
@@ -397,9 +397,11 @@
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="total_price_for_stay">Total price for stay</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
+    <string name="total_price_for_stay_punctuated">Total price for stay.</string>
+    <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Prices average, per night</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties. Abbreviated. Meant to be short and fit in a small space -->
-    <string name="prices_avg_per_night_short">Prices avg/night</string>
+    <string name="prices_avg_per_night_short">Prices avg/night.</string>
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">No rooms left!</item>
