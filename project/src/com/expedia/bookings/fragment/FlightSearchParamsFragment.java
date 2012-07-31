@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -179,6 +180,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		updateCalendarText();
 		updateAirportTextColors();
+		updateCalendarInstructionText();
 
 		return v;
 	}
@@ -318,6 +320,18 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		}
 	}
+	
+	private void updateCalendarInstructionText(){
+		if(mCalendarDatePicker != null){
+			if(mCalendarDatePicker.getStartTime() != null && mCalendarDatePicker.getEndTime() != null){
+				int nightCount = Time.getJulianDay(mCalendarDatePicker.getEndTime().toMillis(true), mCalendarDatePicker.getEndTime().gmtoff)  - Time.getJulianDay(mCalendarDatePicker.getStartTime().toMillis(true), mCalendarDatePicker.getStartTime().gmtoff);
+				String nightsStr = String.format(getString(R.string.calendar_instructions_range_selected_TEMPLATE), nightCount);
+				mCalendarDatePicker.setHeaderInstructionText(nightsStr);
+			}else if(mCalendarDatePicker.getStartTime() != null){
+				mCalendarDatePicker.setHeaderInstructionText(getString(R.string.calendar_instructions_start_selected));
+			}
+		}
+	}
 
 	private void toggleCalendarDatePicker(boolean enabled) {
 		if (enabled == (mCalendarDatePicker.getVisibility() == View.VISIBLE)) {
@@ -344,6 +358,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		mCalendarDatePicker.setVisibility(enabled ? View.VISIBLE : View.GONE);
 		updateAirportTextColors();
+		updateCalendarInstructionText();
 	}
 
 	private void updateCalendarText() {
@@ -400,5 +415,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		updateCalendarText();
 		updateAirportTextColors();
+		updateCalendarInstructionText();
 	}
 }

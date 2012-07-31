@@ -97,6 +97,8 @@
         android:layout_alignParentBottom="true"
         android:background="#DDD"
         android:visibility="gone"
+        mobiata:headerInstructionText="@string/calendar_instructions_nothing_selected"
+        mobiata:headerInstructionTextSpaceReserved="true"
         mobiata:calendarHeaderBackground="@color/calendar_header"
         mobiata:cellBackground="@drawable/bg_calendar_cell_tablet"
         mobiata:cellTextColor="@color/cell_text"

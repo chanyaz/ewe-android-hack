@@ -71,6 +71,7 @@
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Search data was cleared somehow.  Please report this error to DLew.</string>
 
+
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Select a departure date</string>
@@ -80,6 +81,15 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; to &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Display for airports.  %1$s is the airport code, %2$s is the city name.  E.g., "BOS Boston" -->
     <string name="search_airport_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+
+    <!-- Calendar instructions -->
+    <!-- Nothing is selected -->
+    <string name="calendar_instructions_nothing_selected">Tap to select your &lt;b>&lt;font color="#3b5998">departure date&lt;/font>&lt;/b>.</string>
+    <!-- Start date is selected -->
+    <string name="calendar_instructions_start_selected">Tap a &lt;b>&lt;font color="#3b5998">return date&lt;/font>&lt;/b>. (Optional)</string>
+  	<!-- Start date and end date selected -->
+    <string name="calendar_instructions_range_selected_TEMPLATE">%1$d night trip selected.</string>
+    
 
     <!-- Flight Details Fragment -->
     <!-- The label for the number of seats left for a flight -->
