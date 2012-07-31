@@ -97,18 +97,12 @@
         android:layout_alignParentBottom="true"
         android:background="#DDD"
         android:visibility="gone"
+        mobiata:calendarHeaderBackground="@color/calendar_header"
+        mobiata:cellTextColor="@color/calendar_cell_text"
+        mobiata:drawGridLines="false"
         mobiata:headerInstructionText="@string/calendar_instructions_nothing_selected"
         mobiata:headerInstructionTextSpaceReserved="true"
-        mobiata:calendarHeaderBackground="@color/calendar_header"
-        mobiata:cellBackground="@drawable/bg_calendar_cell_tablet"
-        mobiata:cellTextColor="@color/cell_text"
-        mobiata:drawGridLines="false"
-        mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_tablet"
-        mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
         mobiata:popupBackground="@drawable/calendar_date_picker_popup"
-        mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
-        mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
-        mobiata:todayCellBackground="@drawable/bg_calendar_cell_today_tablet"
-        mobiata:allowHybridDragging="true" />
+        mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell" />
 
 </RelativeLayout>
