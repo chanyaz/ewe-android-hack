@@ -43,6 +43,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private static final int ROOMS_LEFT_CUTOFF = 5;
 
+	private static final int HOTEL_PRICE_TOO_LONG = 7;
+
 	private Context mContext;
 	private LayoutInflater mInflater;
 
@@ -227,13 +229,17 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
 
+		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
+
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
-			holder.strikethroughPrice.setVisibility(View.VISIBLE);
-			holder.strikethroughPrice.setText(Html.fromHtml(
-					mContext.getString(R.string.strike_template,
-							StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
-					new StrikethroughTagHandler()));
+			if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
+				holder.strikethroughPrice.setVisibility(View.VISIBLE);
+				holder.strikethroughPrice.setText(Html.fromHtml(
+							mContext.getString(R.string.strike_template,
+								StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
+							new StrikethroughTagHandler()));
+			}
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleContainer.setVisibility(View.VISIBLE);
 			holder.saleText.setText(mContext.getString(R.string.percent_minus_template,
@@ -261,7 +267,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 
 		holder.price.setTextSize(mPriceTextSize);
-		holder.price.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
+		holder.price.setText(hotelPrice);
 
 		holder.userRating.setRating((float) property.getAverageExpediaRating());
 		if (holder.userRating.getRating() == 0) {
