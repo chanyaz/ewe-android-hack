@@ -188,6 +188,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	public void deselectOutboundLeg() {
 		Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
+		Db.getFlightSearch().clearQuery(mLegPosition); // #443: Clear cached query
 		mLegPosition--;
 
 		onLegPositionChanged();

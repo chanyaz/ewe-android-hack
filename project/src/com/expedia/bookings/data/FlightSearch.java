@@ -197,9 +197,7 @@ public class FlightSearch implements JSONable {
 	}
 
 	public FlightTripQuery queryTrips(final int legPosition) {
-		if (mFlightTripQueries == null || mFlightTripQueries.length != mSearchParams.getQueryLegCount()) {
-			mFlightTripQueries = new FlightTripQuery[mSearchParams.getQueryLegCount()];
-		}
+		ensureFlightTripQueriesIntegrity();
 
 		if (mFlightTripQueries[legPosition] == null) {
 			mFlightTripQueries[legPosition] = new FlightTripQuery(legPosition);
@@ -212,6 +210,18 @@ public class FlightSearch implements JSONable {
 		}
 
 		return mFlightTripQueries[legPosition];
+	}
+
+	public void clearQuery(int legPosition) {
+		ensureFlightTripQueriesIntegrity();
+
+		mFlightTripQueries[legPosition] = null;
+	}
+
+	private void ensureFlightTripQueriesIntegrity() {
+		if (mFlightTripQueries == null || mFlightTripQueries.length != mSearchParams.getQueryLegCount()) {
+			mFlightTripQueries = new FlightTripQuery[mSearchParams.getQueryLegCount()];
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
