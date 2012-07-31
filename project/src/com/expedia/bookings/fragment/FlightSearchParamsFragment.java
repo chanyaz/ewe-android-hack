@@ -9,15 +9,18 @@ import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
@@ -127,6 +130,18 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		};
 		mDepartureAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
 		mArrivalAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
+
+		mArrivalAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+					mDatesTextView.performClick();
+					return true;
+				}
+
+				return false;
+			}
+		});
 
 		if (savedInstanceState == null) {
 			// Fill in the initial departure/arrival airports if we are just launching
