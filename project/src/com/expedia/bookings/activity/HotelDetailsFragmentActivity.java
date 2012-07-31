@@ -196,6 +196,11 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 		};
 
+		if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+			Db.setSelectedProperty((Property) JSONUtils.parseJSONableFromIntent(intent,
+						Codes.PROPERTY, Property.class));
+		}
+
 		Property property = Db.getSelectedProperty();
 		LayoutUtils.configureHeader(this, property, onBookNowClick);
 
