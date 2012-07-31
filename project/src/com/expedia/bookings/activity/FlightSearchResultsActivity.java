@@ -178,6 +178,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			mStatusFragment = new StatusFragment();
 		}
 
+		// #445: Need to reset the search results before starting a new one
+		mLegPosition = 0;
+		Db.getFlightSearch().setSearchResponse(null);
+
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_container, mStatusFragment, StatusFragment.TAG).commit();
 		mStatusFragment.showLoading(getString(R.string.loading_flights));
