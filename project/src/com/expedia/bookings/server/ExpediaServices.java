@@ -85,8 +85,9 @@ public class ExpediaServices implements DownloadListener {
 	private static final String COOKIES_FILE = "cookies.dat";
 
 	public enum ReviewSort {
-		NEWEST_REVIEW_FIRST("NewestReviewFirst"), HIGHEST_RATING_FIRST("HighestRatingFirst"), LOWEST_RATING_FIRST(
-				"LowestRatingFirst");
+		NEWEST_REVIEW_FIRST("NewestReviewFirst"),
+		HIGHEST_RATING_FIRST("HighestRatingFirst"),
+		LOWEST_RATING_FIRST("LowestRatingFirst");
 
 		private String mKey;
 
