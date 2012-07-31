@@ -40,6 +40,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	private boolean mShowDistances;
 	private boolean mIsTablet;
+	private boolean mListNeedsReset = false;
 
 	private HotelAdapter mAdapter;
 
@@ -204,18 +205,20 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	public void notifySearchStarted() {
 		mAdapter.setSelectedPosition(-1);
+		mListNeedsReset = true;
 	}
 
 	public void notifySearchComplete() {
 		updateSearchResults();
-		resetToTop();
+		if (mListNeedsReset) {
+			resetToTop();
+			mListNeedsReset = false;
+		}
 	}
 
 	public void notifyFilterChanged() {
 		updateSearchResults();
-		if (Db.getSelectedProperty() == null) {
-			resetToTop();
-		}
+		resetToTop();
 	}
 
 	public void notifyPropertySelected() {
@@ -297,13 +300,15 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	}
 
 	private void resetToTop() {
-		final ListView lv = getListView();
-		lv.post(new Runnable() {
-			@Override
-			public void run() {
-				lv.setSelection(0);
-			}
-		});
+		if (Db.getSelectedProperty() == null) {
+			final ListView lv = getListView();
+			lv.post(new Runnable() {
+				@Override
+				public void run() {
+					lv.setSelection(0);
+				}
+			});
+		}
 	}
 
 	private void setHeaderVisibility(int visibility) {
