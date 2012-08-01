@@ -215,8 +215,13 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 		}
 
 		int reviewsCount = property.getTotalReviews();
-		mReviewsTitle.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_reviews, reviewsCount,
-				reviewsCount)));
+		if (reviewsCount == 0) {
+			mReviewsTitle.setText(getString(R.string.no_reviews));
+		}
+		else {
+			mReviewsTitle.setText(getResources().getQuantityString(R.plurals.number_of_reviews, reviewsCount,
+					reviewsCount));
+		}
 
 		if (property.hasExpediaReviews()) {
 			mReviewsSection.setVisibility(View.VISIBLE);

@@ -354,9 +354,11 @@
         2$ represents the total number of guests
     -->
     <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; out of &lt;b&gt;%2$d&lt;/b&gt; guests recommend this hotel.</string>
+    <!-- Special case for 0 reviews -->
+    <string name="no_reviews">No Reviews</string>
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
-        <item quantity="zero">%d Reviews</item>
+        <item quantity="zero">No Reviews</item>
         <item quantity="one">%d Review</item>
         <item quantity="two">%d Reviews</item>
         <item quantity="many">%d Reviews</item>

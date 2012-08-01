@@ -129,7 +129,12 @@ public class HotelDetailsIntroFragment extends Fragment {
 		float percentRecommend = numReviews == 0 ? 0f : statistics.getRecommendedCount() * 100f / numReviews;
 		float userRating = (float) statistics.getAverageOverallRating();
 
-		reviewsTextView.setText(resources.getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews));
+		if (numReviews == 0) {
+			reviewsTextView.setText(resources.getString(R.string.no_reviews));
+		}
+		else {
+			reviewsTextView.setText(resources.getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews));
+		}
 
 		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
 			public synchronized void onClick(final View v) {
@@ -221,7 +226,8 @@ public class HotelDetailsIntroFragment extends Fragment {
 				}
 			});
 
-			body = String.format(getString(R.string.ellipsize_text_template), body.subSequence(0, cutAtWordBarrier(body)));
+			body = String.format(getString(R.string.ellipsize_text_template),
+					body.subSequence(0, cutAtWordBarrier(body)));
 		}
 
 		titleView.setVisibility(TextUtils.isEmpty(title) ? View.INVISIBLE : View.VISIBLE);
@@ -231,7 +237,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 	public static int cutAtWordBarrier(CharSequence body) {
 		int before = INTRO_PARAGRAPH_CUTOFF;
-		for (int i = INTRO_PARAGRAPH_CUTOFF; i > 0; i --) {
+		for (int i = INTRO_PARAGRAPH_CUTOFF; i > 0; i--) {
 			char c = body.charAt(i);
 			if (c == ' ' || c == ',' || c == '.') {
 				before = i;
@@ -239,11 +245,11 @@ public class HotelDetailsIntroFragment extends Fragment {
 			}
 		}
 		while (body.charAt(before) == ' ' || body.charAt(before) == ',' || body.charAt(before) == '.') {
-			before --;
+			before--;
 		}
-		before ++;
+		before++;
 		int after = INTRO_PARAGRAPH_CUTOFF;
-		for (int i = INTRO_PARAGRAPH_CUTOFF; i < body.length(); i ++) {
+		for (int i = INTRO_PARAGRAPH_CUTOFF; i < body.length(); i++) {
 			char c = body.charAt(i);
 			if (c == ' ' || c == ',' || c == '.') {
 				after = i;
