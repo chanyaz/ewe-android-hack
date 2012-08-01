@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -18,6 +19,9 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +33,7 @@ import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
@@ -56,13 +61,15 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private View mFocusStealer;
 	private View mDimmerView;
 	private LinearLayout mAirportsContainer;
-	private EditText mDepartureAirportEditText;
-	private EditText mArrivalAirportEditText;
+	private AutoCompleteTextView mDepartureAirportEditText;
+	private AutoCompleteTextView mArrivalAirportEditText;
 	private TextView mDatesTextView;
 	private View mPassengersButton;
 	private CalendarDatePicker mCalendarDatePicker;
 
 	private FlightSearchParams mSearchParams;
+
+	private AirportDropDownAdapter mAirportAdapter;
 
 	public static FlightSearchParamsFragment newInstance(FlightSearchParams initialParams, boolean dimBackground) {
 		FlightSearchParamsFragment fragment = new FlightSearchParamsFragment();
@@ -78,6 +85,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		super.onCreate(savedInstanceState);
 
 		mSearchParams = JSONUtils.getJSONable(getArguments(), ARG_INITIAL_PARAMS, FlightSearchParams.class);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		mAirportAdapter = new AirportDropDownAdapter(activity);
+		mAirportAdapter.openDb();
 	}
 
 	@Override
@@ -131,6 +146,23 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		};
 		mDepartureAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
 		mArrivalAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
+
+		mDepartureAirportEditText.setAdapter(mAirportAdapter);
+		mArrivalAirportEditText.setAdapter(mAirportAdapter);
+
+		mDepartureAirportEditText.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				mArrivalAirportEditText.requestFocus();
+			}
+		});
+
+		mArrivalAirportEditText.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				mDatesTextView.performClick();
+			}
+		});
 
 		mArrivalAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
@@ -190,6 +222,13 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_SHOW_CALENDAR, mCalendarDatePicker.getVisibility() == View.VISIBLE);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		mAirportAdapter.closeDb();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

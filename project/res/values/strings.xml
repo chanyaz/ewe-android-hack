@@ -81,6 +81,8 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; to &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Display for airports.  %1$s is the airport code, %2$s is the city name.  E.g., "BOS Boston" -->
     <string name="search_airport_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Display for airports in the dropdown.  %1$s is the airport code, %2$s is the city name, %3$s is either the state code or the country name.  E.g., "BOS Boston, MA" or "SJU San Juan, Puerto Rico" -->
+    <string name="search_airport_autocomplete_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s, %3$s</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
