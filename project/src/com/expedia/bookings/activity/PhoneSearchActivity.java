@@ -1292,7 +1292,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 			break;
 		}
-		case PROXIMITY: {
+		case VISIBLE_MAP_AREA: {
 			stopLocationListener();
 			startSearchDownloader();
 
@@ -2376,7 +2376,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			break;
 		}
-		case PROXIMITY: {
+		case VISIBLE_MAP_AREA: {
 			stopLocationListener();
 
 			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
@@ -2553,7 +2553,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				changed |= searchParams.setFreeformLocation(getString(R.string.current_location));
 			}
 			else if (str.equals(getString(R.string.visible_map_area))) {
-				changed |= searchParams.setSearchType(SearchType.PROXIMITY);
+				changed |= searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
 				searchParams.setSearchLatLonUpToDate();
 			}
 			else {
@@ -2825,7 +2825,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 			if (mHotelMapFragment != null) {
 				GeoPoint center = mHotelMapFragment.getCenter();
-				searchParams.setSearchType(SearchType.PROXIMITY);
+				searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
 
 				double lat = MapUtils.getLatitude(center);
 				double lng = MapUtils.getLongitude(center);

@@ -362,7 +362,7 @@ public class TrackingUtils {
 			if (searchParams.getSearchType() != oldSearchParams.getSearchType()
 					|| (searchParams.getSearchType() == SearchType.FREEFORM && !searchParams.getFreeformLocation()
 							.equals(oldSearchParams.getFreeformLocation()))
-					|| ((searchParams.getSearchType() == SearchType.MY_LOCATION || searchParams.getSearchType() == SearchType.PROXIMITY) && (searchParams
+					|| ((searchParams.getSearchType() == SearchType.MY_LOCATION || searchParams.getSearchType() == SearchType.VISIBLE_MAP_AREA) && (searchParams
 							.getSearchLatitude() != oldSearchParams.getSearchLatitude() || searchParams
 							.getSearchLongitude() != oldSearchParams.getSearchLongitude()))) {
 				refinements.add("App.Hotels.Search.Refine.Location");

@@ -840,7 +840,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 				startGeocode();
 			}
 			break;
-		case PROXIMITY:
+		case VISIBLE_MAP_AREA:
 			// TODO: Implement PROXIMITY search (once a MapView is available)
 			Log.w("PROXIMITY searches not yet supported!");
 			break;

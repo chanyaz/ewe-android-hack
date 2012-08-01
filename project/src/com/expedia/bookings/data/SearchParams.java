@@ -28,7 +28,7 @@ import com.mobiata.android.util.SettingUtils;
 public class SearchParams implements JSONable {
 
 	public static enum SearchType {
-		MY_LOCATION, ADDRESS, POI, CITY, PROXIMITY, FREEFORM
+		MY_LOCATION, ADDRESS, POI, CITY, VISIBLE_MAP_AREA, FREEFORM
 	}
 
 	private SearchType mSearchType = SearchType.MY_LOCATION;
@@ -193,7 +193,7 @@ public class SearchParams implements JSONable {
 			return mFreeformLocation;
 		case MY_LOCATION:
 			return context.getString(R.string.current_location);
-		case PROXIMITY:
+		case VISIBLE_MAP_AREA:
 			return context.getString(R.string.visible_map_area);
 		default:
 			return null;
@@ -380,7 +380,14 @@ public class SearchParams implements JSONable {
 		mChildren = JSONUtils.getIntList(obj, "children");
 
 		if (obj.has("searchType")) {
-			mSearchType = SearchType.valueOf(obj.optString("searchType"));
+			// TODO: remove the "if" part of this later. It's for backwards compatibility.
+			// 2012.08.01
+			if (obj.optString("searchType").equals("PROXIMITY")) {
+				mSearchType = SearchType.VISIBLE_MAP_AREA;
+			}
+			else {
+				mSearchType = SearchType.valueOf(obj.optString("searchType"));
+			}
 		}
 
 		mRegionId = obj.optString("regionId", null);
