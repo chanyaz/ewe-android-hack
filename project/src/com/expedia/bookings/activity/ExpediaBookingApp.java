@@ -18,6 +18,7 @@ import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -64,6 +65,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		// Initialize some parts of the code that require a Context
+		PointOfSaleInfo.init(this);
 		LocaleUtils.init(this);
 
 		// Fill POS based on locale if it's not already filled.
@@ -183,5 +185,4 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			}
 		}
 	}
-
 }
