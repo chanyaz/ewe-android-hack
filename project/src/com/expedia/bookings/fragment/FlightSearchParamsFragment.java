@@ -114,39 +114,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mDimmerView.setVisibility(View.VISIBLE);
 		}
 
-		OnFocusChangeListener airportFocusChangeListener = new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					toggleCalendarDatePicker(false);
-
-					// Clear out previous data
-					TextView tv = (TextView) v;
-					tv.setText(null);
-
-					expandAirportEditText(v);
-				}
-				else {
-					if (v == mDepartureAirportEditText) {
-						String airportCode = mDepartureAirportEditText.getText().toString().toUpperCase();
-						if (!TextUtils.isEmpty(airportCode)) {
-							mSearchParams.setDepartureAirportCode(airportCode);
-						}
-						updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureAirportCode());
-					}
-					else {
-						String airportCode = mArrivalAirportEditText.getText().toString().toUpperCase();
-						if (!TextUtils.isEmpty(airportCode)) {
-							mSearchParams.setArrivalAirportCode(airportCode);
-						}
-						updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalAirportCode());
-					}
-				}
-			}
-		};
-		mDepartureAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
-		mArrivalAirportEditText.setOnFocusChangeListener(airportFocusChangeListener);
-
 		mDepartureAirportEditText.setAdapter(mAirportAdapter);
 		mArrivalAirportEditText.setAdapter(mAirportAdapter);
 
@@ -218,6 +185,16 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+
+		// Don't set the focus change listener until now, so that we can properly
+		// restore the state of the views
+		mDepartureAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
+		mArrivalAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
+	}
+
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
@@ -233,6 +210,37 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	//////////////////////////////////////////////////////////////////////////
 	// View control
+
+	private OnFocusChangeListener mAirportFocusChangeListener = new OnFocusChangeListener() {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (hasFocus) {
+				toggleCalendarDatePicker(false);
+
+				// Clear out previous data
+				TextView tv = (TextView) v;
+				tv.setText(null);
+
+				expandAirportEditText(v);
+			}
+			else {
+				if (v == mDepartureAirportEditText) {
+					String airportCode = mDepartureAirportEditText.getText().toString().toUpperCase();
+					if (!TextUtils.isEmpty(airportCode)) {
+						mSearchParams.setDepartureAirportCode(airportCode);
+					}
+					updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureAirportCode());
+				}
+				else {
+					String airportCode = mArrivalAirportEditText.getText().toString().toUpperCase();
+					if (!TextUtils.isEmpty(airportCode)) {
+						mSearchParams.setArrivalAirportCode(airportCode);
+					}
+					updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalAirportCode());
+				}
+			}
+		}
+	};
 
 	private void updateAirportText(TextView textView, String airportCode) {
 		Airport airport = FlightStatsDbUtils.getAirport(airportCode);
