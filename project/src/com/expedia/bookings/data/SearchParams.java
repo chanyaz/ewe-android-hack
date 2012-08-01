@@ -28,7 +28,7 @@ import com.mobiata.android.util.SettingUtils;
 public class SearchParams implements JSONable {
 
 	public static enum SearchType {
-		FREEFORM, KEYWORD, MY_LOCATION, PROXIMITY, PROPERTY
+		MY_LOCATION, ADDRESS, POI, CITY, PROXIMITY, FREEFORM
 	}
 
 	private SearchType mSearchType = SearchType.MY_LOCATION;
@@ -330,7 +330,7 @@ public class SearchParams implements JSONable {
 		mSearchLongitude = longitude;
 		mSearchLatLonUpToDate = true;
 	}
-	
+
 	public void setSearchLatLonUpToDate() {
 		mSearchLatLonUpToDate = true;
 	}

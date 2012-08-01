@@ -6,13 +6,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.utils.LocaleUtils;
-
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class Location implements JSONable {
 	private List<String> mStreetAddress;
+	private String mDescription;
 	private String mCity;
 	private String mStateCode;
 	private String mCountryCode;
@@ -41,6 +41,14 @@ public class Location implements JSONable {
 
 	public void setStreetAddress(List<String> streetAddress) {
 		mStreetAddress = streetAddress;
+	}
+
+	public String getDescription() {
+		return mDescription;
+	}
+
+	public void setDescription(String description) {
+		this.mDescription = description;
 	}
 
 	public String getCity() {
@@ -103,6 +111,7 @@ public class Location implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putStringList(obj, "streetAddress", mStreetAddress);
+			obj.putOpt("description", mDescription);
 			obj.putOpt("city", mCity);
 			obj.putOpt("stateCode", mStateCode);
 			obj.putOpt("countryCode", mCountryCode);
@@ -120,6 +129,7 @@ public class Location implements JSONable {
 
 	public boolean fromJson(JSONObject obj) {
 		mStreetAddress = JSONUtils.getStringList(obj, "streetAddress");
+		mDescription = obj.optString("description", null);
 		mCity = obj.optString("city", null);
 		mStateCode = obj.optString("stateCode", null);
 		mCountryCode = LocaleUtils.convertCountryCode(obj.optString("countryCode", null));

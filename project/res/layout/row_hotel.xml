@@ -26,8 +26,8 @@
             android:layout_alignParentLeft="true"
             android:ellipsize="end"
             android:includeFontPadding="false"
-            android:singleLine="true"
             android:paddingRight="40dip"
+            android:singleLine="true"
             android:textColor="@color/hotel_cell_primary_color"
             android:textSize="@dimen/hotel_row_name_text_size"
             android:textStyle="bold" />
@@ -44,15 +44,18 @@
             android:stepSize=".5" />
 
         <TextView
-            android:id="@+id/distance_text_view"
+            android:id="@+id/proximity_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/name_text_view"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/urgency_text_view"
+            android:layout_toLeftOf="@+id/urgency_text_view"
+            android:ellipsize="end"
             android:includeFontPadding="false"
+            android:paddingRight="6dp"
+            android:singleLine="true"
             android:textColor="@color/light_gray"
-            android:textSize="@dimen/hotel_row_distance_text_size" />
+            android:textSize="@dimen/hotel_row_proximity_text_size" />
 
         <com.mobiata.android.widget.AutoResizeTextView
             android:id="@+id/strikethrough_price_text_view"

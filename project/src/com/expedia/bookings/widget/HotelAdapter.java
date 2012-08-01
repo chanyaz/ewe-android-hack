@@ -209,7 +209,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.saleText = (TextView) convertView.findViewById(R.id.sale_text_view);
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.notRatedText = (TextView) convertView.findViewById(R.id.not_rated_text_view);
-			holder.distance = (TextView) convertView.findViewById(R.id.distance_text_view);
+			holder.proximity = (TextView) convertView.findViewById(R.id.proximity_text_view);
 			holder.urgency = (TextView) convertView.findViewById(R.id.urgency_text_view);
 
 			convertView.setTag(holder);
@@ -279,9 +279,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.notRatedText.setVisibility(View.GONE);
 		}
 
-		// send true so as to use the "abbreviated" version, which has now become standard in 1.5
-		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit, true));
-		holder.distance.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
+		if (mShowDistance) {
+			// Send true so as to use the "abbreviated" version, which has now become standard in 1.5
+			holder.proximity.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit, true));
+		}
+		else {
+			holder.proximity.setText(property.getLocation().getDescription());
+		}
 
 		// See if there's a first image; if there is, use that as the thumbnail
 		// Don't try to load the thumbnail if we're just measuring the height of the ListView
@@ -332,7 +336,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView saleText;
 		public RatingBar userRating;
 		public TextView notRatedText;
-		public TextView distance;
+		public TextView proximity;
 		public TextView urgency;
 	}
 

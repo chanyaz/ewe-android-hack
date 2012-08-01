@@ -832,6 +832,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		case FREEFORM:
 			if (params.hasEnoughToSearch()) {
 				Search.add(this, params);
+				// TODO: change this to true if (POI|Address|current location), false otherwise
 				setShowDistances(params.hasSearchLatLon());
 				startSearchDownloader();
 			}

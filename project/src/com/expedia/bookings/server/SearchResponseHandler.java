@@ -159,6 +159,9 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			else if (name.equals("shortDescription")) {
 				property.setDescriptionText(parser.getText());
 			}
+			else if (name.equals("locationDescription")) {
+				location.setDescription(parser.getText());
+			}
 			else if (name.equals("largeThumbnailUrl")) {
 				// The thumbnail url can sometimes assume a prefix
 				String url = parser.getText();
