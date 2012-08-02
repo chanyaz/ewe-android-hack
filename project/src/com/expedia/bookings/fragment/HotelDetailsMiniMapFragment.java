@@ -19,12 +19,13 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
 
 public class HotelDetailsMiniMapFragment extends Fragment {
-
 	ImageView mStaticMapImageView;
+	String mStaticMapUri;
 
 	private HotelMiniMapFragmentListener mListener;
 
@@ -47,13 +48,13 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mStaticMapImageView = new MapImageView(getActivity());
-
 		mStaticMapImageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mListener.onMiniMapClicked();
 			}
 		});
+
 		return mStaticMapImageView;
 	}
 
@@ -65,21 +66,31 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 		int width = mStaticMapImageView.getWidth();
 		int height = mStaticMapImageView.getHeight();
 
-		String uri;
 		// High DPI screens should utilize scale=2 for this API
 		// https://developers.google.com/maps/documentation/staticmaps/
 		if (getResources().getDisplayMetrics().density > 1.5) {
-			uri = GoogleServices.getStaticMapUrl(width / 2, height / 2, 12, MapType.ROADMAP, latitude, longitude)
-					+ "&scale=2";
+			mStaticMapUri = GoogleServices.getStaticMapUrl(width / 2, height / 2, 12, MapType.ROADMAP, latitude,
+					longitude) + "&scale=2";
 		}
 		else {
-			uri = GoogleServices.getStaticMapUrl(width, height, 12, MapType.ROADMAP, latitude, longitude);
+			mStaticMapUri = GoogleServices.getStaticMapUrl(width, height, 12, MapType.ROADMAP, latitude, longitude);
 		}
-		ImageCache.loadImage(uri, mStaticMapImageView);
+
+		ImageCache.loadImage(mStaticMapUri, mStaticMapImageView);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		if (getActivity().isFinishing()) {
+			Log.d("Clearing out map image.");
+
+			ImageCache.removeImage(mStaticMapUri, true);
+		}
 	}
 
 	private class MapImageView extends ImageView {
-
 		private int mCircleRadius;
 
 		public MapImageView(Context context) {
@@ -121,7 +132,6 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 			paint.setColor(Color.BLACK);
 			canvas.drawCircle(x, y, mCircleRadius, paint);
 		}
-
 	}
 
 	//////////////////////////////////////////////////////////////////////////
