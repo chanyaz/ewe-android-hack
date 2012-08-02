@@ -230,8 +230,8 @@ public class HotelDetailsIntroFragment extends Fragment {
 					body.subSequence(0, cutAtWordBarrier(body)));
 		}
 
-		titleView.setVisibility(TextUtils.isEmpty(title) ? View.INVISIBLE : View.VISIBLE);
-		titleView.setText(title);
+		// Always hide this for the intro
+		titleView.setVisibility(View.GONE);
 		bodyView.setText(body);
 	}
 
