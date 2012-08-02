@@ -174,9 +174,9 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("latitude", params.getSearchLatitude() + ""));
 			query.add(new BasicNameValuePair("longitude", params.getSearchLongitude() + ""));
 		}
-		else if (params.hasFreeformLocation()) {
+		else if (params.hasQuery()) {
 			Log.d("Searching by city...");
-			query.add(new BasicNameValuePair("city", params.getFreeformLocation()));
+			query.add(new BasicNameValuePair("city", params.getQuery()));
 		}
 
 		addBasicParams(query, params);

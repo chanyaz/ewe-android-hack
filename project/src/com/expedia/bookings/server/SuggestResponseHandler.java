@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.StrUtils;
@@ -55,10 +56,24 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 				//String cityName = responseSuggestion.getString("s");
 				//String countryName = responseSuggestion.getString("c");
 				String regionId = responseSuggestion.getString("id");
+				String type = responseSuggestion.getString("t");
 
 				SearchParams searchParams = new SearchParams();
-				searchParams.setFreeformLocation(locationName);
+				searchParams.setQuery(locationName);
 				searchParams.setRegionId(regionId);
+
+				if (type.equals("CITY")) {
+					searchParams.setSearchType(SearchType.CITY);
+				}
+				else if (type.equals("ADDRESS")) {
+					searchParams.setSearchType(SearchType.ADDRESS);
+				}
+				else if (type.equals("ATTRACTION") || type.equals("AIRPORT") || type.equals("HOTEL")) {
+					searchParams.setSearchType(SearchType.POI);
+				}
+				else {
+					searchParams.setSearchType(SearchType.FREEFORM);
+				}
 
 				JSONObject latlng = responseSuggestion.optJSONObject("ll");
 				if (latlng != null) {

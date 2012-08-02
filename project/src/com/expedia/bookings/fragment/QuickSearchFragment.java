@@ -90,7 +90,7 @@ public class QuickSearchFragment extends Fragment {
 	private void addRecentSearch(final SearchParams searchParams) {
 		mRecentSearchesContainer.setVisibility(View.VISIBLE);
 
-		String location = searchParams.getFreeformLocation();
+		String location = searchParams.getQuery();
 		String thumbnailUrl = GoogleServices.getStaticMapUrl(300, 300, 12, MapType.ROADMAP, location);
 
 		View destination = addDestination(thumbnailUrl, location);

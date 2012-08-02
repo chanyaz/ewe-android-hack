@@ -112,6 +112,7 @@ import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
@@ -777,16 +778,18 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 					Address address = mAddresses.get(which);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					SearchParams searchParams = Db.getSearchParams();
+					SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
 
 					// The user found a better version of the search they ran,
 					// so we'll replace it from startSearchDownloader
 					Search.delete(PhoneSearchActivity.this, searchParams);
 
-					searchParams.setFreeformLocation(formattedAddress);
+					searchParams.setQuery(formattedAddress);
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
+					searchParams.setSearchType(searchType);
 
-					determineWhetherExactLocationSpecified(address);
+					setShowDistance(searchType == SearchType.ADDRESS);
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
 				}
@@ -795,14 +798,14 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams()
-							.getFreeformLocation()));
+							.getQuery()));
 				}
 			});
 			builder.setOnCancelListener(new OnCancelListener() {
 				public void onCancel(DialogInterface dialog) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams()
-							.getFreeformLocation()));
+							.getQuery()));
 				}
 			});
 			return builder.create();
@@ -1286,19 +1289,21 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		saveParams();
 
 		switch (Db.getSearchParams().getSearchType()) {
-		case FREEFORM: {
+		case CITY:
+			setShowDistance(false);
+		case ADDRESS:
+		case POI:
+		case FREEFORM:
 			stopLocationListener();
 			startGeocode();
-
 			break;
-		}
-		case VISIBLE_MAP_AREA: {
+
+		case VISIBLE_MAP_AREA:
 			stopLocationListener();
 			startSearchDownloader();
-
 			break;
-		}
-		case MY_LOCATION: {
+
+		case MY_LOCATION:
 			// See if we have a good enough location stored
 			long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
 			Location location = LocationServices.getLastBestLocation(this, minTime);
@@ -1311,8 +1316,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 			break;
 		}
-		// TODO: Add "region" search once enum is added.
-		}
 	}
 
 	private void startGeocode() {
@@ -1322,21 +1325,13 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 		if (searchParams.hasEnoughToSearch()) {
 			Log.d("User already has region id or lat/lng for freeform location, skipping geocoding.");
-
-			if (searchParams.hasSearchLatLon()) {
-				setShowDistance(true);
-			}
-			else {
-				setShowDistance(false);
-			}
-
 			startSearchDownloader();
 			return;
 		}
 
-		Log.d("Geocoding: " + searchParams.getFreeformLocation());
+		Log.d("Geocoding: " + searchParams.getQuery());
 
-		searchParams.setUserFreeformLocation(searchParams.getFreeformLocation());
+		searchParams.setUserQuery(searchParams.getQuery());
 
 		if (!NetUtils.isOnline(this)) {
 			simulateErrorResponse(R.string.error_no_internet);
@@ -1350,7 +1345,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 	private final Download<List<Address>> mGeocodeDownload = new Download<List<Address>>() {
 		public List<Address> doDownload() {
-			return LocationServices.geocode(mContext, Db.getSearchParams().getFreeformLocation());
+			return LocationServices.geocode(mContext, Db.getSearchParams().getQuery());
 		}
 	};
 
@@ -1376,16 +1371,18 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 					Address address = mAddresses.get(0);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
 					SearchParams searchParams = Db.getSearchParams();
+					SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
 
 					// The user found a better version of the search they ran,
 					// so we'll replace it from startSearchDownloader
 					Search.delete(PhoneSearchActivity.this, searchParams);
 
-					searchParams.setFreeformLocation(formattedAddress);
+					searchParams.setQuery(formattedAddress);
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
+					searchParams.setSearchType(searchType);
 
-					determineWhetherExactLocationSpecified(address);
+					setShowDistance(searchType == SearchType.ADDRESS);
 					startSearchDownloader();
 				}
 			}
@@ -1406,7 +1403,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			return;
 		}
 
-		if (Db.getSearchParams().getSearchType() == SearchType.FREEFORM) {
+		SearchType type = Db.getSearchParams().getSearchType();
+		if (type != SearchType.MY_LOCATION && type != SearchType.VISIBLE_MAP_AREA) {
 			Search.add(this, Db.getSearchParams());
 		}
 
@@ -2368,20 +2366,20 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	private void setSearchEditViews() {
 		SearchParams searchParams = Db.getSearchParams();
 		switch (searchParams.getSearchType()) {
-		case FREEFORM: {
+
+		case MY_LOCATION:
+			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+			break;
+
+		case VISIBLE_MAP_AREA:
+			stopLocationListener();
+			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+			break;
+
+		default:
 			mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
 			break;
-		}
-		case MY_LOCATION: {
-			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
-			break;
-		}
-		case VISIBLE_MAP_AREA: {
-			stopLocationListener();
 
-			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
-			break;
-		}
 		}
 
 		mSearchEditText.setText(searchParams.getSearchDisplayText(this));
@@ -2421,16 +2419,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		});
 
 		setActionBarBookingInfoText();
-	}
-
-	// #13072: As you can tell, there's very little "determined" here nowadays. 
-	// The logic has changed such that we should basically always show distance
-	// (except when we completely lack this information).  I've kept this method
-	// in anticipation of someday needing it back again (once we can suss out
-	// the difference between autocomplete searches and geocodes).
-	private void determineWhetherExactLocationSpecified(Address location) {
-		Log.d("determineWhetherExactLocationSpecified(): " + location);
-		setShowDistance(true);
 	}
 
 	private void setShowDistance(boolean showDistance) {
@@ -2548,17 +2536,21 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			int len = s.length();
 			boolean changed = false;
 			SearchParams searchParams = Db.getSearchParams();
-			if (str.equals(getString(R.string.current_location)) || len == 0) {
+			if (str.equals(searchParams.getQuery())) {
+				// SearchParams hasn't changed
+			}
+			else if (str.equals(getString(R.string.current_location)) || len == 0) {
 				changed |= searchParams.setSearchType(SearchType.MY_LOCATION);
-				changed |= searchParams.setFreeformLocation(getString(R.string.current_location));
 			}
 			else if (str.equals(getString(R.string.visible_map_area))) {
 				changed |= searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
 				searchParams.setSearchLatLonUpToDate();
 			}
 			else {
+				//TODO: Always changing it to FREEFORM here might not be right,
+				// only when the user types something.
 				changed |= searchParams.setSearchType(SearchType.FREEFORM);
-				changed |= searchParams.setFreeformLocation(str);
+				changed |= searchParams.setQuery(str);
 			}
 			if (changed) {
 				startAutocomplete();
@@ -2595,7 +2587,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// We only have one Loader, so we don't care about the ID.
-		Uri uri = AutocompleteProvider.generateSearchUri(Db.getSearchParams().getFreeformLocation(), 50);
+		Uri uri = AutocompleteProvider.generateSearchUri(Db.getSearchParams().getQuery(), 50);
 		return new CursorLoader(this, uri, AutocompleteProvider.COLUMNS, null, null, "");
 	}
 
@@ -2633,7 +2625,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				}
 				else {
 					searchParams.setSearchType(SearchType.FREEFORM);
-					searchParams.setFreeformLocation(o.toString());
+					searchParams.setQuery(o.toString());
 				}
 			}
 
@@ -2821,7 +2813,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		@Override
 		public void onClick(View v) {
 			SearchParams searchParams = Db.getSearchParams();
-			searchParams.invalidateFreeformLocation();
+			searchParams.clearQuery();
 
 			if (mHotelMapFragment != null) {
 				GeoPoint center = mHotelMapFragment.getCenter();

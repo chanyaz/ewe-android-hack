@@ -359,13 +359,20 @@ public class TrackingUtils {
 			// Location change
 			// Checks that the search type is the same, or else that a search of a particular type hasn't
 			// been modified (e.g., freeform text changing on a freeform search)
-			if (searchParams.getSearchType() != oldSearchParams.getSearchType()
-					|| (searchParams.getSearchType() == SearchType.FREEFORM && !searchParams.getFreeformLocation()
-							.equals(oldSearchParams.getFreeformLocation()))
-					|| ((searchParams.getSearchType() == SearchType.MY_LOCATION || searchParams.getSearchType() == SearchType.VISIBLE_MAP_AREA) && (searchParams
-							.getSearchLatitude() != oldSearchParams.getSearchLatitude() || searchParams
-							.getSearchLongitude() != oldSearchParams.getSearchLongitude()))) {
+			if (!searchParams.equals(oldSearchParams.getSearchType())) {
 				refinements.add("App.Hotels.Search.Refine.Location");
+			}
+			else if (searchParams.getSearchType() == SearchType.MY_LOCATION
+					|| searchParams.getSearchType() == SearchType.VISIBLE_MAP_AREA) {
+				if (searchParams.getSearchLatitude() != oldSearchParams.getSearchLatitude()
+						|| searchParams.getSearchLongitude() != oldSearchParams.getSearchLongitude()) {
+					refinements.add("App.Hotels.Search.Refine.Location");
+				}
+			}
+			else {
+				if (!searchParams.getQuery().equals(oldSearchParams.getQuery())) {
+					refinements.add("App.Hotels.Search.Refine.Location");
+				}
 			}
 
 			// Checkin date change

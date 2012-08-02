@@ -81,6 +81,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
@@ -252,7 +253,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			@Override
 			public boolean onQueryTextChange(String newText) {
 				if (newText == null || newText.equals(getString(R.string.current_location))
-						|| Db.getSearchParams() == null || newText.equals(Db.getSearchParams().getFreeformLocation())) {
+						|| Db.getSearchParams() == null || newText.equals(Db.getSearchParams().getQuery())) {
 					mPartialSearch = null;
 				}
 				else {
@@ -753,7 +754,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		Log.d("Setting freeform location: " + freeformLocation);
 
 		Db.getSearchParams().setSearchType(SearchType.FREEFORM);
-		Db.getSearchParams().setFreeformLocation(freeformLocation);
+		Db.getSearchParams().setQuery(freeformLocation);
 
 		invalidateOptionsMenu();
 	}
@@ -829,10 +830,21 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		// Determine search type, conduct search
 		SearchParams params = Db.getSearchParams();
 		switch (params.getSearchType()) {
+		case CITY:
+			if (params.hasEnoughToSearch()) {
+				Search.add(this, params);
+				setShowDistances(false);
+				startSearchDownloader();
+			}
+			else {
+				startGeocode();
+			}
+			break;
+		case ADDRESS:
+		case POI:
 		case FREEFORM:
 			if (params.hasEnoughToSearch()) {
 				Search.add(this, params);
-				// TODO: change this to true if (POI|Address|current location), false otherwise
 				setShowDistances(params.hasSearchLatLon());
 				startSearchDownloader();
 			}
@@ -841,8 +853,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			}
 			break;
 		case VISIBLE_MAP_AREA:
-			// TODO: Implement PROXIMITY search (once a MapView is available)
-			Log.w("PROXIMITY searches not yet supported!");
+			// TODO: Implement VISIBLE_MAP_AREA search (once a MapView is available)
+			Log.w("VISIBLE_MAP_AREA searches not yet supported!");
 			break;
 		case MY_LOCATION:
 			long minTime = Calendar.getInstance().getTimeInMillis() - PhoneSearchActivity.MINIMUM_TIME_AGO;
@@ -855,13 +867,12 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			}
 			break;
 		}
-		// TODO: Add REGION when enumerated properly
 	}
 
 	public void startGeocode() {
-		Log.i("startGeocode(): " + Db.getSearchParams().getFreeformLocation());
+		Log.i("startGeocode(): " + Db.getSearchParams().getQuery());
 
-		Db.getSearchParams().setUserFreeformLocation(Db.getSearchParams().getFreeformLocation());
+		Db.getSearchParams().setUserQuery(Db.getSearchParams().getQuery());
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_GEOCODE, mGeocodeDownload, mGeocodeCallback);
@@ -869,7 +880,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 	private final Download<List<Address>> mGeocodeDownload = new Download<List<Address>>() {
 		public List<Address> doDownload() {
-			return LocationServices.geocode(mContext, Db.getSearchParams().getFreeformLocation());
+			return LocationServices.geocode(mContext, Db.getSearchParams().getQuery());
 		}
 	};
 
@@ -898,14 +909,19 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 	public void onGeocodeSuccess(Address address) {
 		String formattedAddress = StrUtils.removeUSAFromAddress(address);
-		Db.getSearchParams().setFreeformLocation(formattedAddress);
+
+		// Determine if this is a specific place by whether there is an address.
+		SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
+
+		Db.getSearchParams().setQuery(formattedAddress);
+		Db.getSearchParams().setSearchType(searchType);
 		invalidateOptionsMenu();
 
 		setLatLng(address.getLatitude(), address.getLongitude());
 
 		// #13072: Always show as if it was an exact location search for geocodes
-		// Used to use SearchUtils.isExactLocation(address).
-		setShowDistances(true);
+		// v1.5 un-does this logic.
+		setShowDistances(searchType == SearchType.ADDRESS);
 
 		startSearchDownloader();
 	}
