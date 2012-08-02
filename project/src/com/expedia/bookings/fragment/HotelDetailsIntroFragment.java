@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -100,7 +99,13 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 		// Rate
 		TextView rateTextView = Ui.findView(view, R.id.rate_text_view);
-		rateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
+		if (rate.showInclusivePrices()) {
+			rateTextView.setText(StrUtils.formatHotelPrice(rate.getInclusiveRate()));
+			view.findViewById(R.id.per_nt_text_view).setVisibility(View.GONE);
+		}
+		else {
+			rateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
+		}
 	}
 
 	// Reviews

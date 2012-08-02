@@ -7,7 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" >
+        android:layout_gravity="center"
+        android:paddingRight="15dp" >
 
         <TextView
             android:id="@+id/sale_banner_text_view"
@@ -53,9 +54,9 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/per_nt_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="15dp"
             android:text="@string/per_nt"
             android:textColor="@color/price_promo_banner_text_color"
             android:textSize="12sp" />
