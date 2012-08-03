@@ -6,10 +6,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.PlaneWindowView;
 import com.mobiata.android.util.Ui;
 
 public class StatusFragment extends Fragment {
@@ -19,9 +19,8 @@ public class StatusFragment extends Fragment {
 	private static final String INSTANCE_LOADING_TEXT = "INSTANCE_LOADING_TEXT";
 	private static final String INSTANCE_ERROR_TEXT = "INSTANCE_ERROR_TEXT";
 
-	private ProgressBar mProgressBar;
-	private TextView mProgressTextView;
-	private TextView mErrorTextView;
+	private PlaneWindowView mPlaneWindowView;
+	private TextView mMessageTextView;
 
 	private CharSequence mLoadingText;
 	private CharSequence mErrorText;
@@ -40,13 +39,19 @@ public class StatusFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_status, container, false);
 
-		mProgressBar = Ui.findView(v, R.id.progress_bar);
-		mProgressTextView = Ui.findView(v, R.id.progress_text_view);
-		mErrorTextView = Ui.findView(v, R.id.error_text_view);
+		mPlaneWindowView = Ui.findView(v, R.id.plane_window_view);
+		mMessageTextView = Ui.findView(v, R.id.message_text_view);
 
 		displayStatus();
 
 		return v;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		mPlaneWindowView.setRendering(true);
 	}
 
 	@Override
@@ -55,6 +60,13 @@ public class StatusFragment extends Fragment {
 
 		outState.putCharSequence(INSTANCE_LOADING_TEXT, mLoadingText);
 		outState.putCharSequence(INSTANCE_ERROR_TEXT, mErrorText);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		mPlaneWindowView.setRendering(false);
 	}
 
 	public void showLoading(CharSequence loadingText) {
@@ -72,20 +84,12 @@ public class StatusFragment extends Fragment {
 	}
 
 	private void displayStatus() {
-		if (mProgressBar != null && mProgressTextView != null && mErrorTextView != null) {
+		if (mMessageTextView != null) {
 			if (!TextUtils.isEmpty(mErrorText)) {
-				mProgressBar.setVisibility(View.GONE);
-				mProgressTextView.setVisibility(View.GONE);
-				mErrorTextView.setVisibility(View.VISIBLE);
-
-				mErrorTextView.setText(mErrorText);
+				mMessageTextView.setText(mErrorText);
 			}
 			else {
-				mProgressBar.setVisibility(View.VISIBLE);
-				mProgressTextView.setVisibility(View.VISIBLE);
-				mErrorTextView.setVisibility(View.GONE);
-
-				mProgressTextView.setText(mLoadingText);
+				mMessageTextView.setText(mLoadingText);
 			}
 		}
 	}
