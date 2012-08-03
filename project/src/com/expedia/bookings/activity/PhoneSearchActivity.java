@@ -797,15 +797,13 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams()
-							.getQuery()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams().getQuery()));
 				}
 			});
 			builder.setOnCancelListener(new OnCancelListener() {
 				public void onCancel(DialogInterface dialog) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams()
-							.getQuery()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams().getQuery()));
 				}
 			});
 			return builder.create();
@@ -2387,23 +2385,25 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			mSearchEditText.setSelection(mSearchTextSelectionStart, mSearchTextSelectionEnd);
 		}
 
-		// Temporarily remove the OnDateChangedListener so that it is not fired
-		// while we manually update the start/end dates
-		mDatesCalendarDatePicker.setOnDateChangedListener(null);
+		if (mDisplayType != DisplayType.CALENDAR) {
+			// Temporarily remove the OnDateChangedListener so that it is not fired
+			// while we manually update the start/end dates
+			mDatesCalendarDatePicker.setOnDateChangedListener(null);
 
-		Calendar checkIn = searchParams.getCheckInDate();
-		mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
-				checkIn.get(Calendar.DAY_OF_MONTH));
+			Calendar checkIn = searchParams.getCheckInDate();
+			mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
+					checkIn.get(Calendar.DAY_OF_MONTH));
 
-		Calendar checkOut = searchParams.getCheckOutDate();
-		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
-				checkOut.get(Calendar.DAY_OF_MONTH));
+			Calendar checkOut = searchParams.getCheckOutDate();
+			mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
+					checkOut.get(Calendar.DAY_OF_MONTH));
 
-		// Ensure that our checkin/checkout dates match the calendar date picker (the calendar stay may have
-		// changed due to enforcing min/max dates).
-		syncDatesFromPicker();
+			// Ensure that our checkin/checkout dates match the calendar date picker (the calendar stay may have
+			// changed due to enforcing min/max dates).
+			syncDatesFromPicker();
 
-		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
+			mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
+		}
 
 		mGuestsLayout.post(new Runnable() {
 			@Override
