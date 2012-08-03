@@ -400,6 +400,10 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		query.add(new BasicNameValuePair("room1", guests.toString()));
+
+		if (!AndroidUtils.isRelease(mContext) && getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
+			query.add(new BasicNameValuePair("siteid", LocaleUtils.getSiteId(mContext)));
+		}
 	}
 
 	private void addPOSParams(List<BasicNameValuePair> query) {

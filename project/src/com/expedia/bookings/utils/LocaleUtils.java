@@ -270,7 +270,17 @@ public class LocaleUtils {
 			sTPIDs = ResourceUtils.getStringMap(context, R.array.tpid_map);
 		}
 
-		return sTPIDs.get(getPointOfSale());
+		return sTPIDs.get(getPointOfSale(context));
+	}
+
+	private static Map<String, String> sSiteIds;
+
+	public static String getSiteId(Context context) {
+		if (sTPIDs == null) {
+			sSiteIds = ResourceUtils.getStringMap(context, R.array.siteid_map);
+		}
+
+		return sSiteIds.get(getPointOfSale(context));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
