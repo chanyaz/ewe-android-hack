@@ -231,6 +231,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 					mListFragment = new FlightListFragment();
 				}
 
+				mStatusFragment.setCoverEnabled(true);
 				getSupportFragmentManager().beginTransaction()
 						.replace(R.id.content_container, mListFragment, FlightListFragment.TAG).commit();
 

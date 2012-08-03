@@ -21,4 +21,10 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+    <View
+        android:id="@+id/cover_up_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CACACA" />
+
 </RelativeLayout>

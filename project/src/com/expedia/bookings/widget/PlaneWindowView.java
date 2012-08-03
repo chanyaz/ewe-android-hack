@@ -29,10 +29,16 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 	private PlaneThread mThread;
 
+	private PlaneWindowListener mListener;
+
 	public PlaneWindowView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		initThread();
+	}
+
+	public void setListener(PlaneWindowListener listener) {
+		mListener = listener;
 	}
 
 	public void setRendering(boolean rendering) {
@@ -57,6 +63,13 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 			mThread = new PlaneThread(surfaceHolder);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Callbacks
+
+	public interface PlaneWindowListener {
+		public void onFirstRender();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -334,10 +347,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		@Override
 		public void run() {
 			while (mRun) {
-				if (!mRendering) {
-
-				}
-				else {
+				if (mRendering) {
 					Canvas c = null;
 					try {
 						if (mRenderAll || SHOW_DEBUG_INFO) {
@@ -357,6 +367,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 						if (mRenderAll) {
 							mRenderAll = false;
+
+							if (mListener != null) {
+								mListener.onFirstRender();
+							}
 						}
 					}
 					catch (Exception e) {

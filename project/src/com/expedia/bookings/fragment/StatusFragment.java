@@ -10,9 +10,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.PlaneWindowView;
+import com.expedia.bookings.widget.PlaneWindowView.PlaneWindowListener;
 import com.mobiata.android.util.Ui;
 
-public class StatusFragment extends Fragment {
+public class StatusFragment extends Fragment implements PlaneWindowListener {
 
 	public static final String TAG = StatusFragment.class.toString();
 
@@ -21,6 +22,7 @@ public class StatusFragment extends Fragment {
 
 	private PlaneWindowView mPlaneWindowView;
 	private TextView mMessageTextView;
+	private View mCoverUpView;
 
 	private CharSequence mLoadingText;
 	private CharSequence mErrorText;
@@ -41,6 +43,9 @@ public class StatusFragment extends Fragment {
 
 		mPlaneWindowView = Ui.findView(v, R.id.plane_window_view);
 		mMessageTextView = Ui.findView(v, R.id.message_text_view);
+		mCoverUpView = Ui.findView(v, R.id.cover_up_view);
+
+		mPlaneWindowView.setListener(this);
 
 		displayStatus();
 
@@ -69,6 +74,16 @@ public class StatusFragment extends Fragment {
 		mPlaneWindowView.setRendering(false);
 	}
 
+	// The cover lets you cover up the tears between showing/hiding the SurfaceView
+	public void setCoverEnabled(final boolean enabled) {
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mCoverUpView.setVisibility(enabled ? View.VISIBLE : View.GONE);
+			}
+		});
+	}
+
 	public void showLoading(CharSequence loadingText) {
 		mLoadingText = loadingText;
 		mErrorText = null;
@@ -92,5 +107,13 @@ public class StatusFragment extends Fragment {
 				mMessageTextView.setText(mLoadingText);
 			}
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// PlaneWindowListener
+
+	@Override
+	public void onFirstRender() {
+		setCoverEnabled(false);
 	}
 }
