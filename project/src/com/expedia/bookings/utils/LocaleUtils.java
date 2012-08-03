@@ -276,7 +276,7 @@ public class LocaleUtils {
 	private static Map<String, String> sSiteIds;
 
 	public static String getSiteId(Context context) {
-		if (sTPIDs == null) {
+		if (sSiteIds == null) {
 			sSiteIds = ResourceUtils.getStringMap(context, R.array.siteid_map);
 		}
 
