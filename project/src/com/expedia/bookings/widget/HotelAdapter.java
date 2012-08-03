@@ -290,11 +290,11 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		// See if there's a first image; if there is, use that as the thumbnail
 		// Don't try to load the thumbnail if we're just measuring the height of the ListView
 		boolean imageSet = false;
-		if (!mIsMeasuring && property.getThumbnail() != null) {
+		if (holder.thumbnail != null && !mIsMeasuring && property.getThumbnail() != null) {
 			String url = property.getThumbnail().getUrl();
 			imageSet = ImageCache.loadImage(url, holder.thumbnail);
 		}
-		if (!imageSet) {
+		if (holder.thumbnail != null && !imageSet) {
 			holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
 		}
 
