@@ -162,7 +162,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 		int titleStrId = (mLegPosition == 0) ? R.string.outbound_TEMPLATE : R.string.inbound_TEMPLATE;
 		String airportCode = (mLegPosition == 0) ? params.getArrivalAirportCode() : params.getDepartureAirportCode();
-		mTitleTextView.setText(getString(titleStrId, FlightStatsDbUtils.getAirport(airportCode).mCity));
+		String city = FlightStatsDbUtils.getAirport(airportCode).mCity;
+		mTitleTextView.setText(getString(titleStrId, city != null ? city : airportCode));
 
 		// Configure subtitle based on which user the leg is selecting
 		Date date = (mLegPosition == 0) ? params.getDepartureDateWithDefault() : params.getReturnDate();
