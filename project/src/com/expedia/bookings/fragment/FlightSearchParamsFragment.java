@@ -367,14 +367,22 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		}
 	}
-	
-	private void updateCalendarInstructionText(){
-		if(mCalendarDatePicker != null){
-			if(mCalendarDatePicker.getStartTime() != null && mCalendarDatePicker.getEndTime() != null){
-				int nightCount = Time.getJulianDay(mCalendarDatePicker.getEndTime().toMillis(true), mCalendarDatePicker.getEndTime().gmtoff)  - Time.getJulianDay(mCalendarDatePicker.getStartTime().toMillis(true), mCalendarDatePicker.getStartTime().gmtoff);
-				String nightsStr = String.format(getString(R.string.calendar_instructions_range_selected_TEMPLATE), nightCount);
+
+	private void updateCalendarInstructionText() {
+		if (mCalendarDatePicker != null) {
+			Calendar dateStart = mSearchParams.getDepartureDate() == null ? null : mSearchParams.getDepartureDate()
+					.getCalendar();
+			Calendar dateEnd = mSearchParams.getReturnDate() == null ? null : mSearchParams.getReturnDate()
+					.getCalendar();
+
+			if (dateStart != null && dateEnd != null) {
+				int nightCount = Time.getJulianDay(dateEnd.getTimeInMillis(), dateEnd.getTimeZone().getRawOffset())
+						- Time.getJulianDay(dateStart.getTimeInMillis(), dateStart.getTimeZone().getRawOffset());
+				String nightsStr = String.format(getString(R.string.calendar_instructions_range_selected_TEMPLATE),
+						nightCount);
 				mCalendarDatePicker.setHeaderInstructionText(nightsStr);
-			}else if(mCalendarDatePicker.getStartTime() != null){
+			}
+			else if (dateStart != null) {
 				mCalendarDatePicker.setHeaderInstructionText(getString(R.string.calendar_instructions_start_selected));
 			}
 		}
