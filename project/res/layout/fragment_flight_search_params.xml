@@ -110,6 +110,7 @@
         mobiata:popupBackground="@drawable/calendar_date_picker_popup"
         mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
         mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
-        mobiata:todayCellBackground="@drawable/bg_calendar_cell_today_tablet" />
+        mobiata:todayCellBackground="@drawable/bg_calendar_cell_today_tablet"
+        mobiata:allowHybridDragging="true" />
 
 </RelativeLayout>
