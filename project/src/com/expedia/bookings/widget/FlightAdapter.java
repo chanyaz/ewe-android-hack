@@ -57,27 +57,30 @@ public class FlightAdapter extends BaseAdapter {
 			}
 
 			mFlightTripQuery = query;
-			mFlightTripQuery.registerDataSetObserver(mDataSetObserver);
 
-			// Calculate the min/max time
-			List<FlightTrip> trips = mFlightTripQuery.getTrips();
-			FlightTrip trip = trips.get(0);
-			FlightLeg leg = trip.getLeg(mLegPosition);
-			mMinTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
-			mMaxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
+			if (mFlightTripQuery != null) {
+				mFlightTripQuery.registerDataSetObserver(mDataSetObserver);
 
-			for (int a = 1; a < trips.size(); a++) {
-				trip = trips.get(a);
-				leg = trip.getLeg(mLegPosition);
+				// Calculate the min/max time
+				List<FlightTrip> trips = mFlightTripQuery.getTrips();
+				FlightTrip trip = trips.get(0);
+				FlightLeg leg = trip.getLeg(mLegPosition);
+				mMinTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
+				mMaxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
 
-				Calendar minTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
-				Calendar maxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
+				for (int a = 1; a < trips.size(); a++) {
+					trip = trips.get(a);
+					leg = trip.getLeg(mLegPosition);
 
-				if (minTime.before(mMinTime)) {
-					mMinTime = minTime;
-				}
-				if (maxTime.after(mMaxTime)) {
-					mMaxTime = maxTime;
+					Calendar minTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
+					Calendar maxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
+
+					if (minTime.before(mMinTime)) {
+						mMinTime = minTime;
+					}
+					if (maxTime.after(mMaxTime)) {
+						mMaxTime = maxTime;
+					}
 				}
 			}
 

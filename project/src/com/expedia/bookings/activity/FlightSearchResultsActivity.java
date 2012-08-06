@@ -180,8 +180,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 
 		// #445: Need to reset the search results before starting a new one
-		mLegPosition = 0;
 		Db.getFlightSearch().setSearchResponse(null);
+		if (mListFragment != null) {
+			mListFragment.reset();
+		}
+		onSelectionChanged(0);
 
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_container, mStatusFragment, StatusFragment.TAG).commit();

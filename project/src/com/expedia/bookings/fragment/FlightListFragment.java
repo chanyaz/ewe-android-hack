@@ -185,6 +185,11 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	//////////////////////////////////////////////////////////////////////////
 	// List control
+	
+	public void reset() {
+		mLegPosition = 0;
+		mAdapter.setFlightTripQuery(null);
+	}
 
 	public void deselectOutboundLeg() {
 		Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
