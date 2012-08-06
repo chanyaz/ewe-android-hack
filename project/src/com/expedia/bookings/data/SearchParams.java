@@ -26,6 +26,8 @@ import com.mobiata.android.util.SettingUtils;
 
 public class SearchParams implements JSONable {
 
+	private static final String SEARCH_PARAMS_KEY = "searchParams";
+
 	public static enum SearchType {
 		MY_LOCATION, ADDRESS, POI, CITY, VISIBLE_MAP_AREA, FREEFORM
 	}
@@ -65,7 +67,7 @@ public class SearchParams implements JSONable {
 	 */
 	public SearchParams(SharedPreferences prefs) {
 		init();
-		String searchParamsJson = prefs.getString("searchParams", null);
+		String searchParamsJson = prefs.getString(SEARCH_PARAMS_KEY, null);
 		if (searchParamsJson != null) {
 			try {
 				JSONObject obj = new JSONObject(searchParamsJson);
@@ -479,7 +481,7 @@ public class SearchParams implements JSONable {
 
 	public void saveToSharedPreferences(SharedPreferences prefs) {
 		Editor editor = prefs.edit();
-		editor.putString("searchParams", toJson().toString());
+		editor.putString(SEARCH_PARAMS_KEY, toJson().toString());
 		SettingUtils.commitOrApply(editor);
 	}
 
