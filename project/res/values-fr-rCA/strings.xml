@@ -98,7 +98,7 @@
     <!-- Message when app is loading saved search results -->
     <string name="loading_previous">Chargement des résultats de recherche précédents…</string>
     <!-- Label for sort hotels button in bottom bar -->
-    <string name="sort_hotels">&quot;Tri : &quot;</string>
+    <string name="sort_hotels">«Tri : »</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">TRI</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -644,9 +644,9 @@
     <!-- Label applying a coupon -->
     <string name="apply">Appliquer</string>
     <!-- Label for new price after applying coupon -->
-    <string name="new_total">Nouveau total:</string>
+    <string name="new_total">Nouveau total :</string>
     <!-- Label for credit card selection -->
-    <string name="use_card">Utiliser la carte:</string>
+    <string name="use_card">Utiliser la carte :</string>
     <!-- Label for credit card expired warning -->
     <string name="stored_card_expired">La carte de crédit que vous utilisez est expirée.</string>
     <!-- Label for when a user has entered an invalid coupon -->

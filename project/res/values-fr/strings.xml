@@ -644,9 +644,9 @@
     <!-- Label applying a coupon -->
     <string name="apply">Appliquer</string>
     <!-- Label for new price after applying coupon -->
-    <string name="new_total">Nouveau total:</string>
+    <string name="new_total">Nouveau total :</string>
     <!-- Label for credit card selection -->
-    <string name="use_card">Utiliser carte:</string>
+    <string name="use_card">Utiliser carte :</string>
     <!-- Label for credit card expired warning -->
     <string name="stored_card_expired">La carte de crédit enregistrée que vous êtes en train d\&apos;utiliser a expiré.</string>
     <!-- Label for when a user has entered an invalid coupon -->
