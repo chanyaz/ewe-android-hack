@@ -243,6 +243,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	// Search parameters
 
 	private void showSearchParameters() {
+		Log.i("Showing search paramters in FlightSearchResultsActivity");
+
 		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentById(R.id.search_params_container) == null) {
 			if (mSearchParamsFragment == null) {
@@ -258,6 +260,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	private void onSearch() {
+		Log.i("New search requested from FlightSearchResultsActivity");
+
 		Db.getFlightSearch().setSearchParams(mSearchParamsFragment.getSearchParams());
 
 		startSearch();

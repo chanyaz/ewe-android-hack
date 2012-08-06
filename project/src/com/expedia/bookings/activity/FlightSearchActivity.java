@@ -14,6 +14,7 @@ import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -100,6 +101,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.search:
+			Log.i("Initial search requested!");
 			Db.getFlightSearch().setSearchParams(mSearchParamsFragment.getSearchParams());
 			startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 			return true;
