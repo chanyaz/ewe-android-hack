@@ -1286,12 +1286,13 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		hideBottomBar();
 		saveParams();
 
-		switch (Db.getSearchParams().getSearchType()) {
+		SearchType searchType = Db.getSearchParams().getSearchType();
+		switch (searchType) {
 		case CITY:
-			setShowDistance(false);
 		case ADDRESS:
 		case POI:
 		case FREEFORM:
+			setShowDistance(searchType != SearchType.CITY);
 			stopLocationListener();
 			startGeocode();
 			break;
