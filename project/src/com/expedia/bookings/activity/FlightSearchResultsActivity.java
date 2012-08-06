@@ -217,8 +217,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			FlightSearch search = Db.getFlightSearch();
 			search.setSearchResponse(response);
 
-			Db.kickOffBackgroundSave(mContext);
-
 			if (response.hasErrors()) {
 				mStatusFragment.showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors()
 						.get(0).getPresentableMessage(mContext)));
@@ -286,5 +284,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mLegPosition = newLegPosition;
 
 		invalidateOptionsMenu();
+
+		Db.kickOffBackgroundSave(this);
 	}
 }
