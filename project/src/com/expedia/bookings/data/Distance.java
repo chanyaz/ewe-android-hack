@@ -113,9 +113,9 @@ public class Distance implements JSONable, Comparable<Distance> {
 	}
 
 	public String formatDistance(Context context, DistanceUnit distanceUnit, boolean abbreviated) {
-		if (mDistance < 0.1d) {
-			return context.getString(R.string.distance_nearby);
-		}
+		//		if (mDistance < 0.1d) {
+		//			return context.getString(R.string.distance_nearby);
+		//		}
 
 		double distance = getDistance(distanceUnit);
 		NumberFormat nf = NumberFormat.getInstance();
