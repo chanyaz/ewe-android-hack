@@ -2861,7 +2861,9 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	private final View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			setDisplayType(DisplayType.KEYBOARD);
+			if (mDisplayType != DisplayType.KEYBOARD) {
+				setDisplayType(DisplayType.KEYBOARD);
+			}
 		}
 	};
 
@@ -2877,8 +2879,8 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
 				setDisplayType(DisplayType.KEYBOARD);
-
-				if (Db.getSearchParams().getSearchType() != SearchType.FREEFORM) {
+				SearchType searchType = Db.getSearchParams().getSearchType();
+				if (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA) {
 					mSearchEditText.post(new Runnable() {
 						@Override
 						public void run() {
