@@ -49,6 +49,7 @@ public class Rate implements JSONable {
 	private Money mExtraGuestFee;
 	private Money mTotalMandatoryFees; // "bait & switch" fees
 	private Money mTotalPriceWithMandatoryFees;
+	private Money mTotalPriceAdjustments;
 
 	// Display prices
 	private UserPriceType mUserPriceType;
@@ -396,6 +397,14 @@ public class Rate implements JSONable {
 
 	public void setTotalPriceWithMandatoryFees(Money totalPriceWithMandatoryFees) {
 		mTotalPriceWithMandatoryFees = totalPriceWithMandatoryFees;
+	}
+
+	public Money getTotalPriceAdjustments() {
+		return mTotalPriceAdjustments;
+	}
+
+	public void setTotalPriceAdjustments(Money totalPriceAdjustments) {
+		mTotalPriceAdjustments = totalPriceAdjustments;
 	}
 
 	public void setUserPriceType(String userPriceType) {

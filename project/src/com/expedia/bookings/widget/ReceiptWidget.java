@@ -160,17 +160,24 @@ public class ReceiptWidget {
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
 		if (discountRate != null) {
-			Money amountDiscounted, after;
-			if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
-				amountDiscounted = new Money(rate.getTotalPriceWithMandatoryFees());
-				after = discountRate.getTotalPriceWithMandatoryFees();
+			Money amountDiscounted;
+			if (discountRate.getTotalPriceAdjustments() != null) {
+				amountDiscounted = discountRate.getTotalPriceAdjustments();
 			}
 			else {
-				amountDiscounted = new Money(rate.getTotalAmountAfterTax());
-				after = discountRate.getTotalAmountAfterTax();
+				Money after;
+
+				if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
+					amountDiscounted = new Money(rate.getTotalPriceWithMandatoryFees());
+					after = discountRate.getTotalPriceWithMandatoryFees();
+				}
+				else {
+					amountDiscounted = new Money(rate.getTotalAmountAfterTax());
+					after = discountRate.getTotalAmountAfterTax();
+				}
+				amountDiscounted.subtract(after);
+				amountDiscounted.negate();
 			}
-			amountDiscounted.subtract(after);
-			amountDiscounted.negate();
 
 			rate = discountRate;
 			addRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());

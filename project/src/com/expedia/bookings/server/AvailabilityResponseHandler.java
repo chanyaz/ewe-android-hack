@@ -356,6 +356,17 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 					}
 				}
 			}
+
+			JSONArray priceAdjustments = chargeableRateInfo.optJSONArray("priceAdjustments");
+			if (priceAdjustments != null) {
+				Money totalAdjustments = new Money();
+				totalAdjustments.setAmount(0.0f);
+				for (int b = 0; b < priceAdjustments.length(); b++) {
+					JSONObject adjustment = priceAdjustments.getJSONObject(b);
+					totalAdjustments.add(ParserUtils.createMoney(adjustment.getDouble("amount"), currencyCode));
+				}
+				rate.setTotalPriceAdjustments(totalAdjustments);
+			}
 		}
 		else {
 			rate.setDailyAmountBeforeTax(ParserUtils.createMoney(chargeableRateInfo.getString("maxNightlyRate"),
