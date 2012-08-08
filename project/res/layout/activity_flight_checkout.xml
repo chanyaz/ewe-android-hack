@@ -13,15 +13,12 @@
         android:orientation="vertical"
         android:padding="10dp" >
 
-        <TextView
-            android:id="@+id/city_and_dates"
+        <include
+            android:id="@+id/date_and_travlers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:gravity="center_horizontal"
-            android:textColor="@color/trip_info_text"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_margin="20dp"
+            layout="@layout/section_display_flight_info_travelers_date_bar" />
 
         <include
             android:id="@+id/account_button_root"

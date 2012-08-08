@@ -6,6 +6,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -15,6 +16,7 @@ import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.widget.NavigationButton;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -58,6 +60,19 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 				button.setEnabled(ccSecCode.hasValidInput());
 			}
 		});
+
+		//Actionbar
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+
+		//Set actionbar nav dropdown
+		NavigationButton nb = NavigationButton.getStatefulInstance(this);
+		nb.resetSubViews();
+		nb.setTitle((actionBar.getTitle() == null) ? "" : actionBar.getTitle().toString());
+		actionBar.setCustomView(nb);
 
 	}
 

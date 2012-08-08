@@ -2,6 +2,8 @@ package com.expedia.bookings.activity;
 
 import android.os.Bundle;
 import android.view.View;
+
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -13,6 +15,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.TripFragment;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.NavigationButton;
 
 public class FlightDetailsActivity extends SherlockFragmentActivity {
 
@@ -63,8 +66,18 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 			getSupportFragmentManager().beginTransaction().add(R.id.flight_details_card_holder_ll, mDetails).commit();
 		}
 
-		// Enable the home (back) button on the action bar
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		//Actionbar
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+
+		//Set actionbar nav dropdown
+		NavigationButton nb = NavigationButton.getStatefulInstance(this);
+		nb.resetSubViews();
+		nb.setTitle((actionBar.getTitle() == null) ? "" : actionBar.getTitle().toString());
+		actionBar.setCustomView(nb);
 	}
 
 	public void exitDisplay() {
@@ -79,14 +92,14 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_flight_details, menu);
 
-		menu.findItem(R.id.select_leg).setOnMenuItemClickListener(new OnMenuItemClickListener(){
+		menu.findItem(R.id.select_leg).setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				exitDisplay();
 				return true;
 			}
 		});
-		
+
 		return super.onCreateOptionsMenu(menu);
 	}
 

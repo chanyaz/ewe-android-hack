@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionGeneralFlightInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/trip_info_inner_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/icon_cal"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
+            android:background="#FFCC99" />
+
+        <TextView
+            android:id="@+id/departure_date_long_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/icon_cal"
+            android:textColor="@color/trip_info_text"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/traveler_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/trip_info_text"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/icon_traveler"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/traveler_count"
+            android:background="#FFCC99" />
+    </RelativeLayout>
+
+</com.expedia.bookings.section.SectionGeneralFlightInfo>

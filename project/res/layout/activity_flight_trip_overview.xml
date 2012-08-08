@@ -14,66 +14,12 @@
         android:background="#77000000"
         android:orientation="vertical" >
 
-        <!-- TODO: We might consider making this into a section, but it doesn't seem very reusable so no need for now -->
-
-        <LinearLayout
-            android:id="@+id/trip_info_container"
+        <include
+            android:id="@+id/date_and_travlers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/your_trip_to"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center_horizontal"
-                android:textColor="@color/trip_info_text"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <RelativeLayout
-                android:id="@+id/trip_info_inner_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <ImageView
-                    android:id="@+id/icon_cal"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="5dp"
-                    android:background="#FFCC99" />
-
-                <TextView
-                    android:id="@+id/departure_date_long_form"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/icon_cal"
-                    android:textColor="@color/trip_info_text"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/traveler_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:textColor="@color/trip_info_text"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:id="@+id/icon_traveler"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="5dp"
-                    android:layout_toLeftOf="@id/traveler_count"
-                    android:background="#FFCC99" />
-            </RelativeLayout>
-        </LinearLayout>
+            layout="@layout/section_display_flight_info_travelers_date_bar" />
 
         <LinearLayout
             android:id="@+id/flight_legs_container"

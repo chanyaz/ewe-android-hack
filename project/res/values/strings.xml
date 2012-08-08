@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Nav Dropdown menu -->
+    <!-- Home -->
+    <string name="nav_home">Home</string>
+    <!-- Flights -->
+    <string name="nav_flights">Flights</string>
+    <!-- Hotels -->
+    <string name="nav_hotels">Hotels</string>
+    <!-- Account -->
+    <string name="nav_account">Account</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Search Flights</string>
@@ -71,7 +81,6 @@
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Search data was cleared somehow.  Please report this error to DLew.</string>
 
-
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Select a departure date</string>
@@ -89,9 +98,8 @@
     <string name="calendar_instructions_nothing_selected">Tap to select your &lt;b>&lt;font color="#3b5998">departure date&lt;/font>&lt;/b>.</string>
     <!-- Start date is selected -->
     <string name="calendar_instructions_start_selected">Tap a &lt;b>&lt;font color="#3b5998">return date&lt;/font>&lt;/b>. (Optional)</string>
-  	<!-- Start date and end date selected -->
+    <!-- Start date and end date selected -->
     <string name="calendar_instructions_range_selected_TEMPLATE">%1$d night trip selected.</string>
-    
 
     <!-- Flight Details Fragment -->
     <!-- The label for the number of seats left for a flight -->
@@ -128,7 +136,7 @@
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Your trip to %1$s</string>
     <!-- Number of traverlers template -->
-    
+
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d Travelers</item>
         <item quantity="one">%1$d Traveler</item>

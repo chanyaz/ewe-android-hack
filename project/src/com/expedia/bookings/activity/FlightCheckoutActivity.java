@@ -1,11 +1,9 @@
 package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
@@ -31,17 +29,18 @@ import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionFlightTrip;
+import com.expedia.bookings.section.SectionGeneralFlightInfo;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.AccountButton;
+import com.expedia.bookings.widget.NavigationButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
-import com.mobiata.flightlib.data.Flight;
 
 public class FlightCheckoutActivity extends SherlockFragmentActivity implements AccountButtonClickListener,
 		SignInFragmentListener {
@@ -64,6 +63,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	private AccountButton mAccountButton;
 	SectionBillingInfo mCreditCardSectionButton;
 	SectionFlightTrip mFlightTripSectionPriceBar;
+	SectionGeneralFlightInfo mFlightDateAndTravCount;
 
 	Button mReviewBtn;
 	ViewGroup mTravelerContainer;
@@ -109,6 +109,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		mReviewBtn = Ui.findView(this, R.id.review_btn);
 		mPaymentContainer = Ui.findView(this, R.id.payment_container);
 		mFlightTripSectionPriceBar = Ui.findView(this, R.id.price_bar);
+		mFlightDateAndTravCount = Ui.findView(this, R.id.date_and_travlers);
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
@@ -145,70 +146,53 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 				startActivity(intent);
 			}
 		});
-
 		
+		mTripKey = getIntent().getStringExtra(EXTRA_TRIP_KEY);
+		mTrip = Db.getFlightSearch().getFlightTrip(mTripKey);
+		mFlightDateAndTravCount.bind(mTrip,(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() != 0) ? Db.getFlightPassengers().size() : 1);
+		String cityName = mTrip.getLeg(0).getLastWaypoint().getAirport().mCity;
+		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
+		
+		
+		//Actionbar
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+
+		//Set actionbar nav dropdown
+		NavigationButton nb = NavigationButton.getStatefulInstance(this);
+		nb.resetSubViews();
+		nb.setTitle(yourTripToStr);
+		actionBar.setCustomView(nb);
+
 		//Set values
-		setHeadingText();
 		populatePassengerData();
 		buildPassengerSections();
 	}
-	
-	private void setHeadingText(){
-		mTripKey = getIntent().getStringExtra(EXTRA_TRIP_KEY);
-		if (mTripKey != null) {
-			mTrip = Db.getFlightSearch().getFlightTrip(mTripKey);
-			
-			FlightLeg firstLeg = mTrip.getLeg(0);
-			FlightLeg lastLeg = mTrip.getLeg(mTrip.getLegCount() - 1);
 
-			String cityName = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mDestination.getAirport().mCity;
 
-			Flight firstSeg = firstLeg.getSegment(0);
-			Calendar startCal = firstSeg.mOrigin.getMostRelevantDateTime();
-			String startMonthStr = DateUtils.getMonthString(startCal.get(Calendar.MONTH), DateUtils.LENGTH_SHORT);
-			int startDay = startCal.get(Calendar.DAY_OF_MONTH);
-			String startDate = startMonthStr + " " + startDay;
-
-			Flight lastSeg = lastLeg.getSegment(lastLeg.getSegmentCount() - 1);
-			Calendar endCal = lastSeg.mDestination.getMostRelevantDateTime();
-			String endMonthStr = DateUtils.getMonthString(endCal.get(Calendar.MONTH), DateUtils.LENGTH_SHORT);
-			int endDay = endCal.get(Calendar.DAY_OF_MONTH);
-			String endDate = "";
-
-			if (startMonthStr.compareTo(endMonthStr) == 0) {
-				//Same month
-				endDate = "" + endDay;
-			}
-			else {
-				//Dif months
-				endDate = endMonthStr + " " + endDay;
-			}
-
-			Ui.setText(this, R.id.city_and_dates, String.format(
-					getResources().getString(R.string.checkout_heading_city_and_dates_TEMPLATE), cityName, startDate,
-					endDate));
-		}
-	}
-	
-	private void populatePassengerData(){
+	private void populatePassengerData() {
 		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
 		if (passengers == null) {
 			passengers = new ArrayList<FlightPassenger>();
 			Db.setFlightPassengers(passengers);
 		}
-		
+
 		if (passengers.size() == 0) {
 			FlightPassenger fp = new FlightPassenger();
-			if(Db.getUser() != null){
+			if (Db.getUser() != null) {
 				fp = UserDataTransfer.fillPassengerFromUser(Db.getUser(), fp);
-			}else if(Db.getBillingInfo() != null){
+			}
+			else if (Db.getBillingInfo() != null) {
 				fp = UserDataTransfer.fillPassengerFromBillingInfo(Db.getBillingInfo(), fp);
 			}
 			passengers.add(fp);
 		}
 	}
-	
-	private void buildPassengerSections(){
+
+	private void buildPassengerSections() {
 		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 		for (int i = 0; i < passengers.size(); i++) {
@@ -271,7 +255,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 		mCreditCardSectionButton.bind(mBillingInfo);
 		mFlightTripSectionPriceBar.bind(mTrip);
-		
+
 		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
 		if (passengers.size() != mTravelerSections.size()) {
 			Ui.showToast(this, "Traveler info out of date...");

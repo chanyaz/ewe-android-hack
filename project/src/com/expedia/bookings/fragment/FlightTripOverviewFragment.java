@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +27,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.SectionFlightTrip;
+import com.expedia.bookings.section.SectionGeneralFlightInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
@@ -53,6 +52,7 @@ public class FlightTripOverviewFragment extends Fragment {
 	private ViewGroup mFlightContainer;
 	private Button mCheckoutBtn;
 	private SectionFlightTrip mFlightTripSectionPriceBar;
+	private SectionGeneralFlightInfo mFlightDateAndTravCount;
 
 	private boolean mRequestedDetails = false;
 
@@ -85,6 +85,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		mFlightContainer = Ui.findView(v, R.id.flight_legs_container);
 		mCheckoutBtn = Ui.findView(v, R.id.checkout_btn);
 		mFlightTripSectionPriceBar = Ui.findView(v, R.id.price_bar);
+		mFlightDateAndTravCount = Ui.findView(v, R.id.date_and_travlers);
 
 		mCheckoutBtn.setOnClickListener(new OnClickListener() {
 			@Override
@@ -120,25 +121,8 @@ public class FlightTripOverviewFragment extends Fragment {
 				bd.startDownload(KEY_DETAILS, mFlightDetailsDownload, mFlightDetailsCallback);
 			}
 		}
-
-		//Set up the Activity's views.
-		FlightLeg arrLeg = mTrip.getLeg(0);
-		String cityName = arrLeg.getSegment(arrLeg.getSegmentCount() - 1).mDestination.getAirport().mCity;
-
-		Flight firstSeg = arrLeg.getSegment(0);
-		Calendar cal = firstSeg.mOrigin.getMostRelevantDateTime();
-		String monthStr = DateUtils.getMonthString(cal.get(Calendar.MONTH), DateUtils.LENGTH_LONG);
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int year = cal.get(Calendar.YEAR);
-
-		String date = String
-				.format(getResources().getString(R.string.long_form_date_TEMPLATE), monthStr, day, year);
-		Ui.setText(v, R.id.departure_date_long_form, date);
-		Ui.setText(v, R.id.your_trip_to,
-				String.format(getResources().getString(R.string.your_trip_to_TEMPLATE), cityName));
-		int numTravelers = 1;
-		Ui.setText(v, R.id.traveler_count,
-				getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers));
+		
+		mFlightDateAndTravCount.bind(mTrip,(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() != 0) ? Db.getFlightPassengers().size() : 1);
 
 		//Inflate and store the sections
 		SectionFlightLeg tempFlight;

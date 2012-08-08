@@ -86,4 +86,8 @@
 
     <color name="flight_airport_text">@android:color/black</color>
     <color name="flight_airport_text_selected">#135C9A</color>
+    
+    <color name="nav_dropdown_background">#333333</color>
+    <color name="nav_dropdown_text">#CFCFCF</color>
+    <color name="nav_dropdown_dividers">#999999</color>
 </resources>

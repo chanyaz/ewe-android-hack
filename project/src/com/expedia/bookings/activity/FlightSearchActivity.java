@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -14,6 +15,7 @@ import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.NavigationButton;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -52,11 +54,23 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 			df.show(getSupportFragmentManager(), "dataExpiredDf");
 		}
 
-		setTitle(R.string.search_flights);
+		//Actionbar
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+
+		//Set actionbar nav dropdown
+		NavigationButton nb = NavigationButton.getStatefulInstance(this);
+		nb.resetSubViews();
+		nb.setTitle(getString(R.string.search_flights));
+		actionBar.setCustomView(nb);
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
+
 	}
 
 	@Override

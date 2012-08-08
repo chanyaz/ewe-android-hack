@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.NavigationButton;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -74,16 +76,24 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
 
+		//Actionbar
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+
 		// Configure the custom action bar view
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setCustomView(R.layout.action_bar_flight_results);
-		View customView = actionBar.getCustomView();
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
 		mTitleTextView = Ui.findView(customView, R.id.title_text_view);
 		mSubtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
-		actionBar.setDisplayShowCustomEnabled(true);
 
-		// Enable the home button on the action bar
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		//Set actionbar nav dropdown
+		NavigationButton nb = NavigationButton.getStatefulInstance(this);
+		nb.resetSubViews();
+		nb.addSideView(customView);
+		actionBar.setCustomView(nb);
+		actionBar.setDisplayShowCustomEnabled(true);
 
 		if (savedInstanceState == null) {
 			// On first launch, start a search
