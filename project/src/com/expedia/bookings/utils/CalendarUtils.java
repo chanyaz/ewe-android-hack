@@ -10,8 +10,8 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.text.format.Time;
-import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.android.widget.CalendarDatePicker.SelectionMode;
+import com.mobiata.android.widget.VintageCalendarDatePicker;
+import com.mobiata.android.widget.VintageCalendarDatePicker.SelectionMode;
 
 public class CalendarUtils {
 	/**
@@ -59,7 +59,7 @@ public class CalendarUtils {
 	 * 
 	 * @param calendarDatePicker
 	 */
-	public static void configureCalendarDatePicker(CalendarDatePicker calendarDatePicker) {
+	public static void configureCalendarDatePicker(VintageCalendarDatePicker calendarDatePicker) {
 		// Always set these variables
 		calendarDatePicker.setSelectionMode(SelectionMode.RANGE);
 		calendarDatePicker.setMaxRange(29);
@@ -100,7 +100,7 @@ public class CalendarUtils {
 				DateUtils.FORMAT_NUMERIC_DATE + DateUtils.FORMAT_UTC);
 	}
 
-	public static CharSequence getCalendarDatePickerTitle(Context context, CalendarDatePicker calendarDatePicker) {
+	public static CharSequence getCalendarDatePickerTitle(Context context, VintageCalendarDatePicker calendarDatePicker) {
 		int nights = calendarDatePicker.getSelectedRange() - 1;
 		if (nights <= 1) {
 			return Html.fromHtml(context.getString(R.string.drag_to_extend_your_stay));

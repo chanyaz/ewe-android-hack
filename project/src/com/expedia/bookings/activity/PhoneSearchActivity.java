@@ -133,7 +133,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.android.widget.CalendarDatePicker;
+import com.mobiata.android.widget.VintageCalendarDatePicker;
 import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.Panel;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -207,7 +207,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	//----------------------------------
 
 	private View mSearchButton;
-	private CalendarDatePicker mDatesCalendarDatePicker;
+	private VintageCalendarDatePicker mDatesCalendarDatePicker;
 	private EditText mFilterHotelNameEditText;
 	private EditText mSearchEditText;
 	private FrameLayout mContent;
@@ -1014,7 +1014,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
-		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
+		mDatesCalendarDatePicker = (VintageCalendarDatePicker) findViewById(R.id.dates_date_picker);
 		mGuestsLayout = findViewById(R.id.guests_layout);
 		mChildAgesLayout = findViewById(R.id.child_ages_layout);
 		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
@@ -2638,9 +2638,9 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		}
 	};
 
-	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
+	private final VintageCalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new VintageCalendarDatePicker.OnDateChangedListener() {
 		@Override
-		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
+		public void onDateChanged(VintageCalendarDatePicker view, int year, int yearMonth, int monthDay) {
 			if (mOriginalSearchParams != null) {
 				syncDatesFromPicker();
 			}
