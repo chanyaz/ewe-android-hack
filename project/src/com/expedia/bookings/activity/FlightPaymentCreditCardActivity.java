@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.model.YoYo;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.mobiata.android.util.Ui;
@@ -35,17 +36,31 @@ public class FlightPaymentCreditCardActivity extends Activity {
 		mSectionCreditCard.addChangeListener(mDoneButtonEnabler);
 		mDoneButtonEnabler.onChange();
 
+		final YoYo yoyo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
 		mDoneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				Intent backToCheckoutIntent = new Intent(FlightPaymentCreditCardActivity.this,
-						FlightCheckoutActivity.class);
-				backToCheckoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				backToCheckoutIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				startActivity(backToCheckoutIntent);
+				Intent intent = new Intent(FlightPaymentCreditCardActivity.this,
+						(yoyo == null || yoyo.isEmpty(FlightPaymentCreditCardActivity.class)) ? FlightCheckoutActivity.class: yoyo.popNextTrick(FlightPaymentCreditCardActivity.class));
+				intent.putExtra(YoYo.TAG_YOYO, yoyo);
+				if(yoyo.isEmpty(FlightPaymentCreditCardActivity.class)){
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				}
+				startActivity(intent);
 			}
 		});
+		
+		if(yoyo != null){
+			if(yoyo.isLast()){
+				//Done
+				mDoneBtn.setText(getString(R.string.button_done));
+			}else{
+				//Next
+				mDoneBtn.setText(getString(R.string.next));
+			}
+		}
+		
 	}
 
 	SectionChangeListener mDoneButtonEnabler = new SectionChangeListener() {

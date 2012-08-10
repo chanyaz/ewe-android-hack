@@ -133,6 +133,11 @@
         <activity
             android:name=".activity.FlightBookingActivity"
             android:theme="@style/FlightTheme" />
+        
+        <activity
+            android:name=".activity.FlightPaymentOptionsActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
         <activity
             android:name=".activity.FlightPaymentContactActivity"
             android:theme="@style/FlightTheme" >

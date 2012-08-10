@@ -52,6 +52,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		mFields.add(this.mDisplayAddressCity);
 		mFields.add(this.mDisplayAddressState);
 		mFields.add(this.mDisplayAddressPostalCode);
+		mFields.add(this.mDisplayAddressCountry);
 
 		//Edit fields
 		mFields.add(this.mEditAddressLineOne);
@@ -154,6 +155,14 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		@Override
 		public void onHasFieldAndData(TextView field, Location data) {
 			field.setText((data.getPostalCode() != null) ? data.getPostalCode() : "");
+		}
+	};
+	
+	SectionField<TextView, Location> mDisplayAddressCountry = new SectionField<TextView, Location>(
+			R.id.display_address_country) {
+		@Override
+		public void onHasFieldAndData(TextView field, Location data) {
+			field.setText((data.getCountryCode() != null) ? data.getCountryCode() : "");
 		}
 	};
 

@@ -28,7 +28,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity {
 			}
 		}
 
-		String tripKey = getIntent().getStringExtra(EXTRA_TRIP_KEY);
+		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
+		
+		//String tripKey = getIntent().getStringExtra(EXTRA_TRIP_KEY);
 		
 		if (savedInstanceState == null) {
 			FlightTripOverviewFragment fragment = FlightTripOverviewFragment.newInstance(tripKey);

@@ -33,7 +33,6 @@ public class SectionGeneralFlightInfo extends LinearLayout {
 		super(context, attrs, defStyle);
 	}
 
-
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
@@ -44,26 +43,27 @@ public class SectionGeneralFlightInfo extends LinearLayout {
 	}
 
 	public void bind(FlightTrip trip, int numTravelers) {
-		
-		mTrip = trip;
-		
-		Calendar depDate = mTrip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-		mNumberOfTravlers = numTravelers;
-		
-		if(mDepartureDateTextView != null){
-			String monthStr = DateUtils.getMonthString(depDate.get(Calendar.MONTH), DateUtils.LENGTH_LONG);
-			int day = depDate.get(Calendar.DAY_OF_MONTH);
-			int year = depDate.get(Calendar.YEAR);
 
-			String date = String
-					.format(getResources().getString(R.string.long_form_date_TEMPLATE), monthStr, day, year);
-			mDepartureDateTextView.setText( date);
+		if (trip != null) {
+			mTrip = trip;
+			Calendar depDate = mTrip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
+			mNumberOfTravlers = numTravelers;
+
+			if (mDepartureDateTextView != null) {
+				String monthStr = DateUtils.getMonthString(depDate.get(Calendar.MONTH), DateUtils.LENGTH_LONG);
+				int day = depDate.get(Calendar.DAY_OF_MONTH);
+				int year = depDate.get(Calendar.YEAR);
+
+				String date = String
+						.format(getResources().getString(R.string.long_form_date_TEMPLATE), monthStr, day, year);
+				mDepartureDateTextView.setText(date);
+			}
 		}
-		
-		if(mTravelerCountTextView != null){
-			mTravelerCountTextView.setText(getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, mNumberOfTravlers, mNumberOfTravlers));
+
+		if (mTravelerCountTextView != null) {
+			mTravelerCountTextView.setText(getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE,
+					mNumberOfTravlers, mNumberOfTravlers));
 		}
 	}
-
 
 }

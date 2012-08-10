@@ -130,6 +130,23 @@
         <item quantity="other">seats left!</item>
     </plurals>
 
+    
+    <!-- Flight payment overview Activity -->
+    <!-- Edit current payment -->
+    <string name="edit_current_payment_details">Edit Current Payment Details</string>
+    <!-- Or Select a new payment method-->
+    <string name="or_select_new_paymet_method">Select a New Payment Method</string>
+    <!-- Select Payment -->
+    <string name="select_payment">Select Payment</string>
+    <!-- Choose from contacts -->
+    <string name="choose_from_contacts">Choose from contacts...</string>
+    <!-- Add new card -->
+    <string name="add_new_card">Add New Card</string>
+    <!-- Overview button -->
+    <string name="overview_btn">Overview</string>
+    <!-- Stored Payment label -->
+    <string name="stored_payment_label">Choose a Stored Payment Method</string>
+    
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
     <string name="total_price_label">Total Price</string>

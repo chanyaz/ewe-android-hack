@@ -4,6 +4,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.model.YoYo;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionLocation;
 import com.mobiata.android.util.Ui;
@@ -33,6 +34,31 @@ public class FlightPaymentAddressActivity extends Activity {
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());
 		}
+		
+		final YoYo yoyo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
+		mDoneBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(FlightPaymentAddressActivity.this,
+						(yoyo == null || yoyo.isEmpty(FlightPaymentAddressActivity.class)) ? FlightPaymentCreditCardActivity.class: yoyo.popNextTrick(FlightPaymentAddressActivity.class));
+				intent.putExtra(YoYo.TAG_YOYO, yoyo);
+				if(yoyo.isEmpty(FlightPaymentAddressActivity.class)){
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				}
+				startActivity(intent);
+			}
+		});
+		
+		if(yoyo != null){
+			if(yoyo.isLast()){
+				//Done
+				mDoneBtn.setText(getString(R.string.button_done));
+			}else{
+				//Next
+				mDoneBtn.setText(getString(R.string.next));
+			}
+		}
 	}
 
 	@Override
@@ -49,16 +75,6 @@ public class FlightPaymentAddressActivity extends Activity {
 			}
 
 		});
-
-		mDoneBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent cardTypeIntent = new Intent(FlightPaymentAddressActivity.this,
-						FlightPaymentCreditCardActivity.class);
-				startActivity(cardTypeIntent);
-			}
-		});
-
 	}
 
 }

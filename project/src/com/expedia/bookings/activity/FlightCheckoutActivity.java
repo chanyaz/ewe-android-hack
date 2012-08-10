@@ -49,12 +49,9 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
-	public static final String EXTRA_TRIP_KEY = "EXTRA_TRIP_KEY";
-
 	//We only want to load from disk once: when the activity is first started (as it is the first time BillingInfo is seen)
 	private static boolean mLoaded = false;
 
-	String mTripKey;
 	FlightTrip mTrip;
 	BillingInfo mBillingInfo;
 
@@ -147,8 +144,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			}
 		});
 		
-		mTripKey = getIntent().getStringExtra(EXTRA_TRIP_KEY);
-		mTrip = Db.getFlightSearch().getFlightTrip(mTripKey);
+		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
 		mFlightDateAndTravCount.bind(mTrip,(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() != 0) ? Db.getFlightPassengers().size() : 1);
 		String cityName = mTrip.getLeg(0).getLastWaypoint().getAirport().mCity;
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
@@ -293,7 +289,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	OnClickListener gotoBillingAddress = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Intent editAddress = new Intent(FlightCheckoutActivity.this, FlightPaymentAddressActivity.class);
+			Intent editAddress = new Intent(FlightCheckoutActivity.this, FlightPaymentOptionsActivity.class);
 			startActivity(editAddress);
 		}
 	};
