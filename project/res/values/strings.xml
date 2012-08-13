@@ -216,6 +216,10 @@
     <!-- Section display address -->
     <!-- Enter address info button text -->
     <string name="enter_address_info">Enter Address Information</string>
+    <!-- Two address lines to one -->
+    <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
+    <!-- Single Line City State Zip -->
+    <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->

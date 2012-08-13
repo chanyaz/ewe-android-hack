@@ -21,37 +21,19 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/display_address_line_one"
-            android:textStyle="bold"
+            android:id="@+id/display_address_single_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/display_address_city_state_zip_one_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_marginRight="5dp"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/display_address_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/display_address_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/display_address_postal_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp" />
-        </LinearLayout>
 
         <TextView
             android:id="@+id/display_address_country"
