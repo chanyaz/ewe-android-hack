@@ -833,6 +833,8 @@
     <string name="e3_error_checkout_invalid_input">Please fix the invalid information.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
     <string name="e3_error_checkout_payment_failed">We\'re sorry, but we were unable to process your payment. Please verify that you entered your information correctly.</string>
+    <!-- There is invalid expiration date for the credit card used. Please fix it. -->
+    <string name="e3_error_checkout_invalid_expiration">Invalid credit card expiration date.</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->

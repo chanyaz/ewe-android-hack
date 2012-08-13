@@ -21,19 +21,9 @@ public class ServerError implements JSONable {
 	}
 
 	public static enum ErrorCode {
-		BOOKING_FAILED,
-		BOOKING_SUCCEEDED_WITH_ERRORS,
-		HOTEL_OFFER_UNAVAILABLE,
-		HOTEL_SERVICE_FATAL_FAILURE,
-		HOTEL_ROOM_UNAVAILABLE,
-		INVALID_INPUT,
-		INVALID_INPUT_UNKNOWN,
-		PAYMENT_FAILED,
-		SIMULATED, // Not returned by e3, our own error
+		BOOKING_FAILED, BOOKING_SUCCEEDED_WITH_ERRORS, HOTEL_OFFER_UNAVAILABLE, HOTEL_SERVICE_FATAL_FAILURE, HOTEL_ROOM_UNAVAILABLE, INVALID_INPUT, INVALID_INPUT_UNKNOWN, PAYMENT_FAILED, SIMULATED, // Not returned by e3, our own error
 		UNKNOWN_ERROR, // Catch-all error code
-		USER_SERVICE_FATAL_FAILURE,
-		INVALID_INPUT_COUPON_CODE,
-		APPLY_COUPON_ERROR
+		USER_SERVICE_FATAL_FAILURE, INVALID_INPUT_COUPON_CODE, APPLY_COUPON_ERROR
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
@@ -223,51 +213,48 @@ public class ServerError implements JSONable {
 	// Use the presentation message, except in special circumstances of lacking data
 	// or when the data needs some gentle massaging
 	public String getPresentableMessage(Context context) {
+		String message = mPresentationMessage;
+
 		if (mApiMethod != null && mErrorCode != null) {
 			switch (mApiMethod) {
 			case CHECKOUT: {
 				if (ERROR_MAP_CHECKOUT.containsKey(mErrorCode)) {
-					return context.getString(ERROR_MAP_CHECKOUT.get(mErrorCode));
+					message = context.getString(ERROR_MAP_CHECKOUT.get(mErrorCode));
 				}
 				break;
 			}
 			case SEARCH_RESULTS: {
 				if (ERROR_MAP_SEARCH_RESULTS.containsKey(mErrorCode)) {
-					return context.getString(ERROR_MAP_SEARCH_RESULTS.get(mErrorCode));
+					message = context.getString(ERROR_MAP_SEARCH_RESULTS.get(mErrorCode));
 				}
 				break;
 			}
 			case HOTEL_OFFERS: {
 				if (ERROR_MAP_HOTEL_OFFERS.containsKey(mErrorCode)) {
-					return context.getString(ERROR_MAP_HOTEL_OFFERS.get(mErrorCode));
+					message = context.getString(ERROR_MAP_HOTEL_OFFERS.get(mErrorCode));
 				}
 				break;
 			}
 			case HOTEL_PRODUCT: {
 				if (ERROR_MAP_HOTEL_PRODUCT.containsKey(mErrorCode)) {
-					return context.getString(ERROR_MAP_HOTEL_PRODUCT.get(mErrorCode));
+					message = context.getString(ERROR_MAP_HOTEL_PRODUCT.get(mErrorCode));
 				}
 				break;
 			}
 			case HOTEL_INFORMATION: {
 				if (ERROR_MAP_HOTEL_INFORMATION.containsKey(mErrorCode)) {
-					return context.getString(ERROR_MAP_HOTEL_INFORMATION.get(mErrorCode));
+					message = context.getString(ERROR_MAP_HOTEL_INFORMATION.get(mErrorCode));
 				}
 				break;
 			}
 			}
 		}
 
-		String message = mPresentationMessage;
 		if (TextUtils.isEmpty(message)) {
 			message = mVerboseMessage;
 			if (TextUtils.isEmpty(message)) {
 				message = mMessage;
 			}
-		}
-
-		if (TextUtils.isEmpty(message)) {
-			return null;
 		}
 
 		if (mExtras != null && mExtras.containsKey("emailSent") && mExtras.get("emailSent").equals("unknown")) {
@@ -281,13 +268,16 @@ public class ServerError implements JSONable {
 			message = context.getString(ERRORS.get(message));
 		}
 
+		// Handle special cases
 		if (mDiagnosticFullText != null) {
 			if (mDiagnosticFullText.contains("Phone number!")) {
 				message = context.getString(R.string.ean_error_invalid_phone_number);
 			}
+			if (mDiagnosticFullText.contains("INVALID_EXPIRATIONDATE")) {
+				message = context.getString(R.string.e3_error_checkout_invalid_expiration);
+			}
 		}
 
-		// Handle special cases
 		switch (mErrorCode) {
 		case INVALID_INPUT: {
 			if (mExtras != null && mExtras.containsKey("field")) {
@@ -298,6 +288,11 @@ public class ServerError implements JSONable {
 			}
 			break;
 		}
+		}
+
+		// If message is empty, set it to null
+		if (TextUtils.isEmpty(message)) {
+			message = null;
 		}
 
 		return message;
