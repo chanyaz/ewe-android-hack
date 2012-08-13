@@ -196,7 +196,11 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Enter Traveler Information</string>
-
+	<!-- Special Assistance label template -->
+	<string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
+	<!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number)-->
+	<string name="phone_number_with_country_code_TEMPLATE">+%1$s %2$s</string>
+    
     <!-- Section edit contact -->
     <!-- first name hint -->
     <string name="first_name_hint">First Name</string>

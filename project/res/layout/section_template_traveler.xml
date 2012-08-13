@@ -2,7 +2,6 @@
 <com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    
     android:orientation="vertical" >
 
     <TableLayout
@@ -373,8 +372,7 @@
                 android:hint="@string/only_if_applicable"
                 android:inputType="number" />
         </TableRow>
-        
-        
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -397,7 +395,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/none" />
-                
+
                 <RadioButton
                     android:id="@+id/edit_seating_preference_radio_window"
                     android:layout_width="wrap_content"
@@ -411,8 +409,7 @@
                     android:text="@string/aisle" />
             </RadioGroup>
         </TableRow>
-        
-        
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -441,7 +438,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/wheelchair" />
-                
+
                 <RadioButton
                     android:id="@+id/edit_assistance_radio_defibrillator"
                     android:layout_width="wrap_content"
@@ -449,8 +446,7 @@
                     android:text="@string/defibrillator" />
             </RadioGroup>
         </TableRow>
-        
-        
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -479,7 +475,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/vegetarian" />
-                
+
                 <RadioButton
                     android:id="@+id/edit_meal_radio_booze"
                     android:layout_width="wrap_content"
@@ -487,60 +483,63 @@
                     android:text="@string/booze" />
             </RadioGroup>
         </TableRow>
-        
     </TableLayout>
-    
+
     <View
-            android:id="@+id/valid_gender"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:background="#000000" />
-    
+        android:id="@+id/valid_gender"
+        android:layout_width="3dp"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
     <View
-            android:id="@+id/valid_phone_number"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:background="#000000" />
-    
+        android:id="@+id/valid_phone_number"
+        android:layout_width="3dp"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
     <View
-            android:id="@+id/valid_last_name"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:background="#000000" />
+        android:id="@+id/valid_last_name"
+        android:layout_width="3dp"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
     <View
-            android:id="@+id/valid_middle_name"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:background="#000000" />
-    
+        android:id="@+id/valid_middle_name"
+        android:layout_width="3dp"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
     <View
-            android:id="@+id/valid_first_name"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:background="#000000" />
-    
+        android:id="@+id/valid_first_name"
+        android:layout_width="3dp"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
     <TextView
         android:id="@+id/edit_birth_date_text_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/date_of_birth" />
 
-    <Spinner 
+    <Spinner
         android:id="@+id/edit_meal_preference_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    
-    <Spinner 
+        android:layout_height="wrap_content" />
+
+    <Spinner
         android:id="@+id/edit_assistance_preference_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    
-    <Spinner 
+        android:layout_height="wrap_content" />
+
+    <Spinner
         android:id="@+id/edit_seat_preference_spinner"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/display_phone_number_with_country_code"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
-    
+         />
+
 </com.expedia.bookings.section.SectionTravelerInfo>

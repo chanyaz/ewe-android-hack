@@ -77,6 +77,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		mFields.add(mDisplayBirthDay);
 		mFields.add(mDisplayRedressNumber);
 		mFields.add(mDisplayPassportCountry);
+		mFields.add(mDisplaySpecialAssistance);
+		mFields.add(mDisplayPhoneNumberWithCountryCode);
 
 		//Validation Indicator fields
 		mFields.add(mValidFirstName);
@@ -259,7 +261,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		@Override
 		public void onHasFieldAndData(TextView field, FlightPassenger data) {
 			if (!TextUtils.isEmpty(data.getPhoneCountryCode())) {
-
 				field.setText(data.getPhoneCountryCode());
 			}
 		}
@@ -272,6 +273,18 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 			if (!TextUtils.isEmpty(data.getPhoneNumber())) {
 				field.setText(PhoneNumberUtils.formatNumber(data.getPhoneNumber()));
 			}
+		}
+	};
+
+	SectionField<TextView, FlightPassenger> mDisplayPhoneNumberWithCountryCode = new SectionField<TextView, FlightPassenger>(
+			R.id.display_phone_number_with_country_code) {
+		@Override
+		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+			String formatStr = mContext.getResources().getString(R.string.phone_number_with_country_code_TEMPLATE);
+			String retStr = String.format(formatStr,
+					data.getPhoneCountryCode() == null ? "" : data.getPhoneCountryCode(),
+					data.getPhoneNumber() == null ? "" : PhoneNumberUtils.formatNumber(data.getPhoneNumber()));
+			field.setText(retStr);
 		}
 	};
 
@@ -313,6 +326,16 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 			if (!TextUtils.isEmpty(data.getPassportCountry())) {
 				field.setText(data.getPassportCountry());
 			}
+		}
+	};
+
+	SectionField<TextView, FlightPassenger> mDisplaySpecialAssistance = new SectionField<TextView, FlightPassenger>(
+			R.id.display_special_assistance) {
+		@Override
+		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+			String template = mContext.getString(R.string.special_assistance_label_TEMPLATE);
+			String val = String.format(template, data.getAssistanceString(mContext));
+			field.setText(val);
 		}
 	};
 

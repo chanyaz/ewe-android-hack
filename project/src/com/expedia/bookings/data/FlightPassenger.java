@@ -5,6 +5,10 @@ import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -36,7 +40,7 @@ public class FlightPassenger implements JSONable {
 	}
 
 	public enum SeatPreference {
-		NONE,WINDOW, AISLE
+		NONE, WINDOW, AISLE
 	}
 
 	public enum AssistanceType {
@@ -44,8 +48,8 @@ public class FlightPassenger implements JSONable {
 		WHEELCHAIR,
 		DEFIBRILLATOR
 	}
-	
-	public enum MealType{
+
+	public enum MealType {
 		NONE,
 		VEGITARIAN,
 		BOOZE
@@ -136,8 +140,27 @@ public class FlightPassenger implements JSONable {
 	public AssistanceType getAssistance() {
 		return mAssistance;
 	}
-	
-	public MealType getMealPreference(){
+
+	public String getAssistanceString(Context context) {
+		AssistanceType assistanceType = getAssistance();
+		Resources res = context.getResources();
+		String retStr = "";
+
+		switch (assistanceType) {
+		case WHEELCHAIR:
+			retStr = res.getString(R.string.wheelchair);
+		case DEFIBRILLATOR:
+			retStr = res.getString(R.string.defibrillator);
+		case NONE:
+			retStr = res.getString(R.string.none);
+		default:
+			retStr = res.getString(R.string.none);
+		}
+
+		return retStr;
+	}
+
+	public MealType getMealPreference() {
 		return mMealPreference;
 	}
 
@@ -191,8 +214,8 @@ public class FlightPassenger implements JSONable {
 	public void setAssistance(AssistanceType assistance) {
 		mAssistance = assistance;
 	}
-	
-	public void setMealPreference(MealType preference){
+
+	public void setMealPreference(MealType preference) {
 		mMealPreference = preference;
 	}
 
@@ -219,7 +242,7 @@ public class FlightPassenger implements JSONable {
 			obj.putOpt("passportCountry", mPassportCountry);
 			obj.put("seatPreference", mSeatPreference.name());
 			obj.put("assistance", mAssistance.name());
-			obj.put("mealPreference" , mMealPreference.name());
+			obj.put("mealPreference", mMealPreference.name());
 
 			return obj;
 		}
