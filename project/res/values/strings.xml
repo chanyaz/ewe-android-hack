@@ -133,7 +133,7 @@
     
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
-    <string name="edit_current_payment_details">Edit Current Payment Details</string>
+    <string name="edit_current_payment_details">Current Payment Details</string>
     <!-- Or Select a new payment method-->
     <string name="or_select_new_paymet_method">Select a New Payment Method</string>
     <!-- Select Payment -->

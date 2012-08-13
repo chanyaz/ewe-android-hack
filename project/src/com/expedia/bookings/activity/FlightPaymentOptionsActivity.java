@@ -3,8 +3,6 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONObject;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
@@ -18,10 +16,10 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.widget.NavigationButton;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +33,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class FlightPaymentOptionsActivity extends SherlockFragmentActivity implements LoaderCallbacks<Cursor> {
@@ -44,6 +44,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 	SectionLocation mSectionCurrentBillingAddress;
 	SectionBillingInfo mSectionCurrentCreditCard;
+	SectionStoredCreditCard mSectionStoredPayment;
 	View mNewCreditCardBtn;
 	View mFromContactsBtn;
 	View mOverviewBtn;
@@ -53,6 +54,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	TextView mNewPaymentLabel;
 	ViewGroup mCurrentPaymentContainer;
 	ViewGroup mStoredCardsContainer;
+	ViewGroup mStoredPaymentContainer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,12 +63,14 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 		mSectionCurrentBillingAddress = Ui.findView(this, R.id.current_payment_address_section);
 		mSectionCurrentCreditCard = Ui.findView(this, R.id.current_payment_cc_section);
+		mSectionStoredPayment = Ui.findView(this, R.id.stored_creditcard_section);
 
 		mStoredPaymentsLabel = Ui.findView(this, R.id.stored_payments_label);
 		mCurrentPaymentLabel = Ui.findView(this, R.id.current_payment_label);
 		mNewPaymentLabel = Ui.findView(this, R.id.new_payment_label);
 		mCurrentPaymentContainer = Ui.findView(this, R.id.current_payment_container);
 		mStoredCardsContainer = Ui.findView(this, R.id.new_payment_stored_cards);
+		mStoredPaymentContainer = Ui.findView(this, R.id.stored_payment_container);
 
 		mOverviewBtn = Ui.findView(this, R.id.overview_btn);
 		mNewCreditCardBtn = Ui.findView(this, R.id.new_payment_new_card);
@@ -84,6 +88,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Db.getBillingInfo().setStoredCard(null);
 				Intent intent = new Intent(FlightPaymentOptionsActivity.this, FlightPaymentAddressActivity.class);
 				YoYo yoyo = new YoYo();
 				yoyo.addYoYoTrick(FlightPaymentCreditCardActivity.class);
@@ -127,25 +132,16 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
 
 		//Populate stored creditcard list
-		if (User.isLoggedIn(this)) {
+		if (User.isLoggedIn(this) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
 			cards = Db.getUser().getStoredCreditCards();
-		}
-
-		//TODO:Remove these are fake cards...
-		try {
-			cards.clear();
-			cards.add(new StoredCreditCard(new JSONObject("{description:'Kmart card'}")));
-			cards.add(new StoredCreditCard(new JSONObject("{description:'Joes stored VISA'}")));
-			cards.add(new StoredCreditCard(new JSONObject("{description:'Your Moms card'}")));
-		}
-		catch (Exception ex) {
-			Log.i("fail", ex);
 		}
 
 		if (cards != null && cards.size() > 0) {
 			//Inflate stored cards
 			LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+			Resources res = getResources();
 			for (int i = 0; i < cards.size(); i++) {
+				final StoredCreditCard storedCard = cards.get(i);
 				SectionStoredCreditCard card = (SectionStoredCreditCard) inflater.inflate(
 						R.layout.section_display_stored_credit_card, null);
 				card.bind(cards.get(i));
@@ -153,23 +149,39 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				card.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Ui.showToast(FlightPaymentOptionsActivity.this, "TODO:Handle stored card");
+						Db.getBillingInfo().setStoredCard(storedCard);
+						Intent intent = new Intent(FlightPaymentOptionsActivity.this, FlightCheckoutActivity.class);
+						startActivity(intent);
 					}
 				});
 
-				//TODO:This is bad, we shouldn't be subtracting this divider, we should be adding them when needed
-				if (i == cards.size() - 1) {
-					Ui.findView(card, R.id.divider).setVisibility(View.GONE);
+				//Add dividers
+				if (i != 0) {
+					View divider = new View(this);
+					LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
+							LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
+					divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
+							res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
+					divider.setLayoutParams(divLayoutParams);
+					divider.setBackgroundColor(res.getColor(R.color.divider_grey));
+					mStoredCardsContainer.addView(divider);
 				}
 				mStoredCardsContainer.addView(card);
 			}
-			mStoredPaymentsLabel.setVisibility(View.VISIBLE);
-			mStoredCardsContainer.setVisibility(View.VISIBLE);
+
 		}
-		else {
-			mStoredPaymentsLabel.setVisibility(View.GONE);
-			mStoredCardsContainer.setVisibility(View.GONE);
-		}
+
+		//Set visibilities
+		boolean hasAccountCards = cards != null && cards.size() > 0;
+		boolean hasSelectedStoredCard = Db.getBillingInfo().getStoredCard() != null;
+		boolean hasValidNewCard = !TextUtils.isEmpty(Db.getBillingInfo().getNumber());
+		mCurrentPaymentLabel.setVisibility(hasSelectedStoredCard || hasValidNewCard ? View.VISIBLE : View.GONE);
+		mStoredPaymentContainer.setVisibility(hasSelectedStoredCard ? View.VISIBLE : View.GONE);
+		mCurrentPaymentContainer.setVisibility(!hasSelectedStoredCard && hasValidNewCard ? View.VISIBLE : View.GONE);
+		mNewPaymentLabel
+				.setText(hasSelectedStoredCard || hasValidNewCard ? getString(R.string.or_select_new_paymet_method)
+						: getString(R.string.select_payment));
+		mStoredPaymentsLabel.setVisibility(hasAccountCards ? View.VISIBLE : View.GONE);
 
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
@@ -194,20 +206,9 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			mBillingInfo.setLocation(new Location());
 		}
 
-		//TODO: Set a better valid data check
-		if (TextUtils.isEmpty(mBillingInfo.getNumber())) {
-			mCurrentPaymentContainer.setVisibility(View.GONE);
-			mCurrentPaymentLabel.setVisibility(View.GONE);
-			mNewPaymentLabel.setText(getString(R.string.select_payment));
-		}
-		else {
-			mCurrentPaymentContainer.setVisibility(View.VISIBLE);
-			mCurrentPaymentLabel.setVisibility(View.VISIBLE);
-			mNewPaymentLabel.setText(getString(R.string.or_select_new_paymet_method));
-		}
-
 		mSectionCurrentBillingAddress.bind(mBillingInfo.getLocation());
 		mSectionCurrentCreditCard.bind(mBillingInfo);
+		mSectionStoredPayment.bind(mBillingInfo.getStoredCard());
 
 	}
 
@@ -264,6 +265,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		getSupportLoaderManager().destroyLoader(ContactQuery._LOADER_ID);
 
 		//Start entry flow
+		Db.getBillingInfo().setStoredCard(null);
 		Intent intent = new Intent(FlightPaymentOptionsActivity.this, FlightPaymentAddressActivity.class);
 		YoYo yoyo = new YoYo();
 		yoyo.addYoYoTrick(FlightPaymentCreditCardActivity.class);

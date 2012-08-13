@@ -23,6 +23,23 @@
             android:textSize="20sp" />
 
         <LinearLayout
+            android:id="@+id/stored_payment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_flight_rounded_white"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp" >
+
+            <include
+                android:id="@+id/stored_creditcard_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/section_display_stored_credit_card" />
+
+        </LinearLayout>
+        
+        <LinearLayout
             android:id="@+id/current_payment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

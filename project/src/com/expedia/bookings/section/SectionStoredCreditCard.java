@@ -61,7 +61,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			R.id.display_stored_card_desc) {
 		@Override
 		public void onHasFieldAndData(TextView field, StoredCreditCard data) {
-			field.setText(data.getDescription());
+			field.setText(data.getDescription() == null ? "" : data.getDescription());
 		}
 	};
 

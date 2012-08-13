@@ -111,6 +111,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/section_display_creditcard_btn" />
+            
+            <include
+                android:id="@+id/stored_creditcard_section_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/section_display_stored_credit_card" />
+            
         </LinearLayout>
         
         <include

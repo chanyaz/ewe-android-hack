@@ -6,6 +6,7 @@
     <color name="trip_info_text">#FEFEFE</color>
     <color name="airport_text">#9EA8B6</color>
     <color name="airport_text_shadow">#F3F3F3</color>
+    <color name="divider_grey">#AFAFAF</color>
     
 	<!-- These colors are ripped from the iOS version, and are not finalized -->
 	<color name="window_background">#FF666666</color>

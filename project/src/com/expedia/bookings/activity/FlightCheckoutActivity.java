@@ -30,6 +30,7 @@ import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.section.SectionGeneralFlightInfo;
+import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.NavUtils;
@@ -61,6 +62,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	SectionBillingInfo mCreditCardSectionButton;
 	SectionFlightTrip mFlightTripSectionPriceBar;
 	SectionGeneralFlightInfo mFlightDateAndTravCount;
+	SectionStoredCreditCard mStoredCreditCard;
 
 	Button mReviewBtn;
 	ViewGroup mTravelerContainer;
@@ -100,6 +102,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 		mTravelerButton = Ui.findView(this, R.id.traveler_info_btn);
 		mPaymentButton = Ui.findView(this, R.id.payment_info_btn);
+		mStoredCreditCard = Ui.findView(this, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(this, R.id.creditcard_section_button);
 		mTravelerContainer = Ui.findView(this, R.id.travelers_container);
 		mAccountButton = Ui.findView(this, R.id.account_button_root);
@@ -131,6 +134,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		}
 
 		mCreditCardSectionButton.setOnClickListener(gotoBillingAddress);
+		mStoredCreditCard.setOnClickListener(gotoBillingAddress);
 		mPaymentButton.setOnClickListener(gotoBillingAddress);
 		mTravelerButton.setOnClickListener(new OnTravelerClickListener(0));
 		mReviewBtn.setOnClickListener(new OnClickListener() {
@@ -143,13 +147,14 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 				startActivity(intent);
 			}
 		});
-		
+
 		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
-		mFlightDateAndTravCount.bind(mTrip,(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() != 0) ? Db.getFlightPassengers().size() : 1);
+		mFlightDateAndTravCount.bind(mTrip,
+				(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() != 0) ? Db.getFlightPassengers()
+						.size() : 1);
 		String cityName = mTrip.getLeg(0).getLastWaypoint().getAirport().mCity;
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
-		
-		
+
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setHomeButtonEnabled(false);
@@ -167,7 +172,6 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		populatePassengerData();
 		buildPassengerSections();
 	}
-
 
 	private void populatePassengerData() {
 		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
@@ -224,7 +228,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		super.onResume();
 		mBillingInfo = Db.getBillingInfo();
 		bindAll();
-		updatePaymentVisibilities();
+		updateViewVisibilities();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
@@ -250,6 +254,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		Log.i("bindAll");
 
 		mCreditCardSectionButton.bind(mBillingInfo);
+		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
 		mFlightTripSectionPriceBar.bind(mTrip);
 
 		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
@@ -294,10 +299,13 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		}
 	};
 
-	private void updatePaymentVisibilities() {
+	private void updateViewVisibilities() {
 
-		boolean paymentAddressValid = PaymentFlowState.getInstance(this).hasValidBillingAddress(mBillingInfo);
-		boolean paymentCCValid = PaymentFlowState.getInstance(this).hasValidCardInfo(mBillingInfo);
+		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
+		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : PaymentFlowState.getInstance(this)
+				.hasValidBillingAddress(mBillingInfo);
+		boolean paymentCCValid = hasStoredCard ? hasStoredCard : PaymentFlowState.getInstance(this).hasValidCardInfo(
+				mBillingInfo);
 		boolean travelerValid = hasValidTravlers();
 
 		if (travelerValid) {
@@ -309,11 +317,18 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			mTravelerContainer.setVisibility(View.GONE);
 		}
 
-		if (paymentAddressValid && paymentCCValid) {
+		if (hasStoredCard) {
+			mStoredCreditCard.setVisibility(View.VISIBLE);
+			mPaymentButton.setVisibility(View.GONE);
+			mCreditCardSectionButton.setVisibility(View.GONE);
+		}
+		else if (paymentAddressValid && paymentCCValid) {
+			mStoredCreditCard.setVisibility(View.GONE);
 			mPaymentButton.setVisibility(View.GONE);
 			mCreditCardSectionButton.setVisibility(View.VISIBLE);
 		}
 		else {
+			mStoredCreditCard.setVisibility(View.GONE);
 			mPaymentButton.setVisibility(View.VISIBLE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
 		}

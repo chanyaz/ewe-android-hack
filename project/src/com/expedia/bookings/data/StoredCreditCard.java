@@ -1,7 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
