@@ -135,8 +135,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		return leg;
 	}
 
-	private void addDateTime(Waypoint waypoint, long millisFromEpoch, int tzOffsetSeconds) {
-		waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN, millisFromEpoch,
+	private void addDateTime(Waypoint waypoint, long secondsFromEpoch, int tzOffsetSeconds) {
+		waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN, secondsFromEpoch * 1000,
 				tzOffsetSeconds * 1000);
 	}
 
