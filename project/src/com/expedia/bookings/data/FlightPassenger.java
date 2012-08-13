@@ -149,10 +149,13 @@ public class FlightPassenger implements JSONable {
 		switch (assistanceType) {
 		case WHEELCHAIR:
 			retStr = res.getString(R.string.wheelchair);
+			break;
 		case DEFIBRILLATOR:
 			retStr = res.getString(R.string.defibrillator);
+			break;
 		case NONE:
 			retStr = res.getString(R.string.none);
+			break;
 		default:
 			retStr = res.getString(R.string.none);
 		}
