@@ -14,7 +14,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -170,7 +169,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		private double mSkyOffset = 0;
 
 		// For the accelerometer
-		private Display mDisplay;
+		private int mDisplayRotation;
 		private float mSensorX = 0;
 		private double mRotation = 0;
 		private double mRotationTarget = 0;
@@ -297,8 +296,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					Sensor accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 					sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
 
+					// Use deprecated getOrientation() because it's exactly
+					// the same as getRotation()
 					WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-					mDisplay = wm.getDefaultDisplay();
+					mDisplayRotation = wm.getDefaultDisplay().getOrientation();
 
 					mRenderAll = true;
 				}
@@ -311,7 +312,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		}
 
 		public boolean onTouchEvent(MotionEvent event) {
-			switch (event.getActionMasked()) {
+			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN: {
 				// Reject the touch if it doesn't touch the shade area (+/- slop)
 				float eventX = event.getX();
@@ -515,7 +516,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 			float sensorX = 0;
-			switch (mDisplay.getRotation()) {
+			switch (mDisplayRotation) {
 			case Surface.ROTATION_0:
 				sensorX = event.values[0];
 				break;
