@@ -126,11 +126,11 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		private static final double SKY_LOOP_TIME = 45 * 1e9; // Nanoseconds to loop through entire sky animation 
 
-		private static final double ROTATION_PER_NANOSECOND = 10 / 1e9; // Maximum rotation per nanosecond in degrees
+		private static final double ROTATION_PER_NANOSECOND = 1.5 / 1e9; // Maximum rotation per nanosecond in degrees
 
-		private static final double ROTATION_TOLERANCE = 4; // Min degrees before rotation changes
+		private static final double ROTATION_TOLERANCE = 3; // Min degrees before rotation changes
 
-		private static final double MAX_ROTATION = 15; // Maximum rotation in degrees (in either direction)
+		private static final double MAX_ROTATION = 6; // Maximum rotation in degrees (in either direction)
 
 		// Vars
 
