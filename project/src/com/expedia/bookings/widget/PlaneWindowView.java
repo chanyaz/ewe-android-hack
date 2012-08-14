@@ -252,8 +252,13 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 						(int) (mVisibleFrameRect.right + padLeftRight),
 						(int) (mVisibleFrameRect.bottom + padTopBot));
 
+				// Common options for decoding bitmaps
+				BitmapFactory.Options opts = new BitmapFactory.Options();
+				opts.inScaled = false;
+				opts.inPreferQualityOverSpeed = true;
+
 				// Pre-scale sky bitmap
-				mSkyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading_repeating_sky);
+				mSkyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading_repeating_sky, opts);
 				int skyWidth = (int) Math.round(mSkyBitmap.getWidth()
 						* ((double) mSkyDstFull.height() / (double) mSkyBitmap.getHeight()));
 				mSkyBitmap = Bitmap.createScaledBitmap(mSkyBitmap, skyWidth, mSkyDstFull.height(), true);
@@ -265,11 +270,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				mRotationPivotY = mVisibleFrameRect.top + (mVisibleFrameHeight / 2f);
 
 				// Pre-scale shade
-				mWindowShadeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading_window_shade);
-				int shadeHeight = (int) Math.round(mWindowShadeBitmap.getHeight()
-						* ((double) mVisibleFrameWidth / (double) mWindowShadeBitmap.getWidth()));
-				mWindowShadeBitmap = Bitmap.createScaledBitmap(mWindowShadeBitmap, mVisibleFrameWidth, shadeHeight,
-						true);
+				mWindowShadeBitmap = BitmapFactory
+						.decodeResource(getResources(), R.drawable.loading_window_shade, opts);
+				mWindowShadeBitmap = Bitmap.createScaledBitmap(mWindowShadeBitmap, mVisibleFrameWidth,
+						(int) Math.ceil(mVisibleFrameHeight * 1.05), true);
 				mShadeHeight = mWindowShadeBitmap.getHeight();
 				mShadeMinY = mShadeY = (int) (.17 * mShadeHeight);
 
