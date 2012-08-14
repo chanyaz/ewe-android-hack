@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -361,7 +362,26 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			Arrays.sort(filteredProperties, Property.PRICE_COMPARATOR);
 			break;
 		case DEALS:
-			Arrays.sort(filteredProperties, Property.DEALS_COMPARATOR);
+			ArrayList<Property> deals = new ArrayList<Property>();
+			ArrayList<Property> others = new ArrayList<Property>();
+			for (Property p : filteredProperties) {
+				if (p.getLowestRate().isSaleTenPercentOrBetter()) {
+					deals.add(p);
+				}
+				else {
+					others.add(p);
+				}
+			}
+			Collections.sort(deals, Property.DEALS_COMPARATOR);
+			int i = 0;
+			for (Property p : deals) {
+				filteredProperties[i] = p;
+				i ++;
+			}
+			for (Property p : others) {
+				filteredProperties[i] = p;
+				i ++;
+			}
 			break;
 		case RATING:
 			Arrays.sort(filteredProperties, Property.RATING_COMPARATOR);

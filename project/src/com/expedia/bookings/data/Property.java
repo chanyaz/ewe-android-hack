@@ -412,30 +412,15 @@ public class Property implements JSONable {
 			Rate left = leftProperty.getLowestRate();
 			Rate right = rightProperty.getLowestRate();
 
-			if (left.isOnSale() && right.isOnSale()) {
-				// Both on sale
-				if (left.getDiscountPercent() == right.getDiscountPercent()) {
-					return NAME_COMPARATOR.compare(leftProperty, rightProperty);
-				}
-				else if (left.getDiscountPercent() > right.getDiscountPercent()) {
-					// We want to show larger percentage discounts first
-					return -1;
-				}
-				else {
-					return 1;
-				}
-			}
-			else if (left.isOnSale()) {
-				// Bump the on sale property to the top
-				return -1;
-			}
-			else if (right.isOnSale()) {
-				// Bump the on sale property to the top
+			if (left.getDiscountPercent() == right.getDiscountPercent()) {
 				return 1;
 			}
-			else {
-				// Just keep the same order
+			else if (left.getDiscountPercent() > right.getDiscountPercent()) {
+				// We want to show larger percentage discounts first
 				return -1;
+			}
+			else {
+				return 1;
 			}
 		}
 	};
