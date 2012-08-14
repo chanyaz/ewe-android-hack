@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
@@ -82,6 +83,9 @@ public class FilterDialogFragment extends DialogFragment {
 		}
 		}
 		mRadiusButtonGroup.check(checkId);
+		SearchType searchType = Db.getSearchParams().getSearchType();
+		mRadiusButtonGroup.setVisibility(searchType == SearchType.ADDRESS || searchType == SearchType.MY_LOCATION
+				|| searchType == SearchType.POI ? View.VISIBLE : View.GONE);
 
 		double minStarRating = filter.getMinimumStarRating();
 		if (minStarRating >= 5) {
