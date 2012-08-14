@@ -544,16 +544,28 @@ public class Rate implements JSONable {
 		return LocaleUtils.doesPointOfSaleHaveInclusivePricing();
 	}
 
-	public Money getInclusiveBaseRate() {
+	private Money getInclusiveBaseRate() {
 		if (mInclusiveBaseRate == null) {
-			double rate = mAverageBaseRate.getAmount() * mNumberOfNights;
-			mInclusiveBaseRate = ParserUtils.createMoney(rate, mAverageBaseRate.getCurrency());
-			mInclusiveBaseRate.add(mTotalSurcharge);
+			mInclusiveBaseRate = new Money();
+			mInclusiveBaseRate.add(mStrikethroughPriceToShowUsers);
+			mInclusiveBaseRate.add(mTotalMandatoryFees);
 		}
 		return mInclusiveBaseRate;
 	}
 
-	public Money getInclusiveRate() {
+	public Money getDisplayBaseRate() {
+		if (showInclusivePrices()) {
+			return getInclusiveBaseRate();
+		}
+		else if (mStrikethroughPriceToShowUsers != null) {
+			return mStrikethroughPriceToShowUsers;
+		}
+		else {
+			return mAverageBaseRate;
+		}
+	}
+
+	private Money getInclusiveRate() {
 		if (mInclusiveRate == null) {
 			if (mTotalPriceWithMandatoryFees != null) {
 				mInclusiveRate = mTotalPriceWithMandatoryFees;
@@ -567,24 +579,12 @@ public class Rate implements JSONable {
 		return mInclusiveRate;
 	}
 
-	public Money getDisplayBaseRate() {
-		if (mStrikethroughPriceToShowUsers != null) {
-			return mStrikethroughPriceToShowUsers;
-		}
-		else if (showInclusivePrices()) {
-			return getInclusiveBaseRate();
-		}
-		else {
-			return mAverageBaseRate;
-		}
-	}
-
 	public Money getDisplayRate() {
-		if (mPriceToShowUsers != null) {
-			return mPriceToShowUsers;
-		}
-		else if (showInclusivePrices()) {
+		if (showInclusivePrices()) {
 			return getInclusiveRate();
+		}
+		else if (mPriceToShowUsers != null) {
+			return mPriceToShowUsers;
 		}
 		else {
 			return mAverageRate;
