@@ -143,6 +143,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		private Bitmap mWindowShadeBitmap;
 		private Bitmap mSkyBitmap;
 
+		private Paint mSkyPaint;
+
 		private int mFrameLeft;
 		private int mFrameTop;
 		private Rect mVisibleFrameRect;
@@ -199,6 +201,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 			Resources res = getResources();
 			mWindowFrameBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_window_frame);
+
+			mSkyPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
 			if (SHOW_DEBUG_INFO) {
 				mDebugTextPaint = new TextPaint();
@@ -444,8 +448,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			canvas.translate((int) -mSkyOffset, 0);
 
 			// Draw two skies, one after another, and let the clipping handle what should be shown
-			canvas.drawBitmap(mSkyBitmap, 0, mSkyDstFull.top, null);
-			canvas.drawBitmap(mSkyBitmap, mSkyWidth, mSkyDstFull.top, null);
+			canvas.drawBitmap(mSkyBitmap, 0, mSkyDstFull.top, mSkyPaint);
+			canvas.drawBitmap(mSkyBitmap, mSkyWidth, mSkyDstFull.top, mSkyPaint);
 
 			canvas.restore();
 
