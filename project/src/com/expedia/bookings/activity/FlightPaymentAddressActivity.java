@@ -39,19 +39,20 @@ public class FlightPaymentAddressActivity extends Activity {
 		mDoneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(FlightPaymentAddressActivity.this,
-						(yoyo == null || yoyo.isEmpty(FlightPaymentAddressActivity.class)) ? FlightPaymentCreditCardActivity.class: yoyo.popNextTrick(FlightPaymentAddressActivity.class));
-				intent.putExtra(YoYo.TAG_YOYO, yoyo);
-				if(yoyo.isEmpty(FlightPaymentAddressActivity.class)){
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				}
+//				Intent intent = new Intent(FlightPaymentAddressActivity.this,
+//						(yoyo == null || yoyo.isEmpty(FlightPaymentAddressActivity.class)) ? FlightPaymentCreditCardActivity.class: yoyo.popNextTrick(FlightPaymentAddressActivity.class));
+//				intent.putExtra(YoYo.TAG_YOYO, yoyo);
+//				if(yoyo.isEmpty(FlightPaymentAddressActivity.class)){
+//					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//				}
+				Intent intent = yoyo.generateIntent(FlightPaymentAddressActivity.this, getIntent());
 				startActivity(intent);
 			}
 		});
 		
 		if(yoyo != null){
-			if(yoyo.isLast()){
+			if(yoyo.isLast(FlightPaymentAddressActivity.class)){
 				//Done
 				mDoneBtn.setText(getString(R.string.button_done));
 			}else{

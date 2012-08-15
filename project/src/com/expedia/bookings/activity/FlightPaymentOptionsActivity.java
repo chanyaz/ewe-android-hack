@@ -92,8 +92,8 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				Intent intent = new Intent(FlightPaymentOptionsActivity.this, FlightPaymentAddressActivity.class);
 				YoYo yoyo = new YoYo();
 				yoyo.addYoYoTrick(FlightPaymentCreditCardActivity.class);
-				yoyo.addYoYoTrick(FlightPaymentOptionsActivity.class);
 				//TODO:Add email activity...
+				yoyo.addYoYoTrick(FlightCheckoutActivity.class);
 				intent.putExtra(YoYo.TAG_YOYO, yoyo);
 				startActivity(intent);
 			}
@@ -269,8 +269,8 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		Intent intent = new Intent(FlightPaymentOptionsActivity.this, FlightPaymentAddressActivity.class);
 		YoYo yoyo = new YoYo();
 		yoyo.addYoYoTrick(FlightPaymentCreditCardActivity.class);
-		yoyo.addYoYoTrick(FlightPaymentOptionsActivity.class);
 		//TODO:Add email activity...
+		yoyo.addYoYoTrick(FlightCheckoutActivity.class);
 		intent.putExtra(YoYo.TAG_YOYO, yoyo);
 		startActivity(intent);
 	}

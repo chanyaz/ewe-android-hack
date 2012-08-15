@@ -36,7 +36,7 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<String> {
 	}
 
 	public SeatPreference getSeatPreferenceValue(int position) {
-		SeatPreference retVal = SeatPreference.NONE;
+		SeatPreference retVal = SeatPreference.ANY;
 		if (SEAT_PREF_VALUES.containsKey(mSeatPrefNames[position])) {
 			retVal = SEAT_PREF_VALUES.get(mSeatPrefNames[position]);
 		}
@@ -46,7 +46,7 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<String> {
 	private void fillSeatPreferences(Context context) {
 		final Resources res = context.getResources();
 
-		SEAT_PREF_VALUES.put(res.getString(R.string.none), SeatPreference.NONE);
+		SEAT_PREF_VALUES.put(res.getString(R.string.any), SeatPreference.ANY);
 		SEAT_PREF_VALUES.put(res.getString(R.string.aisle), SeatPreference.AISLE);
 		SEAT_PREF_VALUES.put(res.getString(R.string.window), SeatPreference.WINDOW);
 	}

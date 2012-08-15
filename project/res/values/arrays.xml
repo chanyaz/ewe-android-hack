@@ -17,7 +17,7 @@
 
     <!-- Flight seat preferences -->
     <string-array name="seat_preferences">
-        <item>@string/none</item>
+        <item>@string/any</item>
         <item>@string/window</item>
         <item>@string/aisle</item>
     </string-array>

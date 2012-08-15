@@ -1,5 +1,6 @@
 package com.expedia.bookings.section;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -79,6 +80,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		mFields.add(mDisplayPassportCountry);
 		mFields.add(mDisplaySpecialAssistance);
 		mFields.add(mDisplayPhoneNumberWithCountryCode);
+		mFields.add(mDisplaySpeatPreference);
+		mFields.add(mDisplayLongFormBirthDay);
 
 		//Validation Indicator fields
 		mFields.add(mValidFirstName);
@@ -284,6 +287,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 			String retStr = String.format(formatStr,
 					data.getPhoneCountryCode() == null ? "" : data.getPhoneCountryCode(),
 					data.getPhoneNumber() == null ? "" : PhoneNumberUtils.formatNumber(data.getPhoneNumber()));
+			
 			field.setText(retStr);
 		}
 	};
@@ -306,6 +310,25 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 				field.setText(android.text.format.DateUtils.formatDateTime(mContext, data.getBirthDate().getTime()
 						.getTime(), android.text.format.DateUtils.FORMAT_NUMERIC_DATE
 						| android.text.format.DateUtils.FORMAT_SHOW_DATE));
+			}else{
+				field.setText("");
+			}
+		}
+	};
+	
+	SectionField<TextView, FlightPassenger> mDisplayLongFormBirthDay = new SectionField<TextView, FlightPassenger>(
+			R.id.display_born_on) {
+		@Override
+		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+			
+			if(data.getBirthDate() != null){
+				String formatStr = mContext.getString(R.string.born_on_TEMPLATE);
+				DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+				String bdayStr = df.format(data.getBirthDate().getTime());//DateFormat.MEDIUM
+				String bornStr = String.format(formatStr, bdayStr);
+				field.setText(bornStr);
+			}else{
+				field.setText("");
 			}
 		}
 	};
@@ -313,9 +336,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 			R.id.display_redress_number) {
 		@Override
 		public void onHasFieldAndData(TextView field, FlightPassenger data) {
-			if (!TextUtils.isEmpty(data.getRedressNumber())) {
-				field.setText(data.getRedressNumber());
-			}
+			field.setText(TextUtils.isEmpty(data.getRedressNumber())? "" : data.getRedressNumber());
 		}
 	};
 
@@ -323,9 +344,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 			R.id.display_passport_country) {
 		@Override
 		public void onHasFieldAndData(TextView field, FlightPassenger data) {
-			if (!TextUtils.isEmpty(data.getPassportCountry())) {
-				field.setText(data.getPassportCountry());
-			}
+			field.setText(TextUtils.isEmpty(data.getPassportCountry()) ? "" : data.getPassportCountry());
 		}
 	};
 
@@ -335,6 +354,16 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		public void onHasFieldAndData(TextView field, FlightPassenger data) {
 			String template = mContext.getString(R.string.special_assistance_label_TEMPLATE);
 			String val = String.format(template, data.getAssistanceString(mContext));
+			field.setText(val);
+		}
+	};
+	
+	SectionField<TextView, FlightPassenger> mDisplaySpeatPreference = new SectionField<TextView, FlightPassenger>(
+			R.id.display_seat_preference) {
+		@Override
+		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+			String template = mContext.getString(R.string.prefers_seat_TEMPLATE);
+			String val = String.format(template, data.getSeatPreferenceString(mContext));
 			field.setText(val);
 		}
 	};
@@ -1031,7 +1060,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 							getData().setSeatPreference(SeatPreference.AISLE);
 						}
 						else {
-							getData().setSeatPreference(SeatPreference.NONE);
+							getData().setSeatPreference(SeatPreference.ANY);
 						}
 					}
 					onChange(SectionTravelerInfo.this);

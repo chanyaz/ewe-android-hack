@@ -167,6 +167,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		nb.resetSubViews();
 		nb.setTitle(yourTripToStr);
 		actionBar.setCustomView(nb);
+		
 
 		//Set values
 		populatePassengerData();
@@ -182,12 +183,12 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 		if (passengers.size() == 0) {
 			FlightPassenger fp = new FlightPassenger();
-			if (Db.getUser() != null) {
+			if (User.isLoggedIn(this)) {
 				fp = UserDataTransfer.fillPassengerFromUser(Db.getUser(), fp);
 			}
-			else if (Db.getBillingInfo() != null) {
-				fp = UserDataTransfer.fillPassengerFromBillingInfo(Db.getBillingInfo(), fp);
-			}
+//			else if (Db.getBillingInfo() != null) {
+//				fp = UserDataTransfer.fillPassengerFromBillingInfo(Db.getBillingInfo(), fp);
+//			}
 			passengers.add(fp);
 		}
 	}
@@ -374,7 +375,12 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser());
 		mRefreshedUser = true;
-
+		
+		if(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() > 0){
+			Db.getFlightPassengers().clear();
+		}
+		populatePassengerData();
+		
 		// TODO: Update rest of UI based on new logged-in data.
 	}
 

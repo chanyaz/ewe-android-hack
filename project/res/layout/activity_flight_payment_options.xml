@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_flight_rounded_white"
             android:orientation="vertical"
+            android:layout_marginBottom="15dp"
             android:paddingBottom="8dp"
             android:paddingTop="8dp" >
 
@@ -55,10 +56,10 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:background="#AFAFAF" />
+                android:layout_height="@dimen/simple_grey_divider_height"
+                android:layout_marginBottom="@dimen/simple_grey_divider_margin_bottom"
+                android:layout_marginTop="@dimen/simple_grey_divider_margin_top"
+                android:background="@color/divider_grey" />
 
             <include
                 android:id="@+id/current_payment_cc_section"
@@ -71,7 +72,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="15dp"
             android:text="@string/stored_payment_label"
             android:textColor="#121212"
             android:textSize="20sp" />
@@ -80,6 +80,7 @@
             android:id="@+id/new_payment_stored_cards"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/bg_flight_rounded_white"
             android:orientation="vertical" >
         </LinearLayout>
@@ -89,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="15dp"
+            
             android:text="@string/or_select_new_paymet_method"
             android:textColor="#121212"
             android:textSize="20sp" />
@@ -100,6 +101,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_flight_rounded_white"
             android:orientation="vertical"
+            android:layout_marginBottom="15dp"
             android:paddingBottom="8dp"
             android:paddingTop="8dp" >
 
@@ -167,7 +169,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
             android:background="@drawable/btn_small_yellow"
             android:text="@string/overview_btn" />
     </LinearLayout>

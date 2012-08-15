@@ -1,12 +1,14 @@
 package com.expedia.bookings.data;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
@@ -18,6 +20,8 @@ import com.mobiata.android.json.JSONable;
  *
  */
 public class FlightPassenger implements JSONable {
+
+	private Long mTuid;
 
 	//These all come from the api...
 	private String mFirstName;
@@ -31,7 +35,7 @@ public class FlightPassenger implements JSONable {
 	private Calendar mBirthDate;
 	private String mRedressNumber;
 	private String mPassportCountry;
-	private SeatPreference mSeatPreference = SeatPreference.NONE;
+	private SeatPreference mSeatPreference = SeatPreference.ANY;
 	private AssistanceType mAssistance = AssistanceType.NONE;
 	private MealType mMealPreference = MealType.NONE;
 
@@ -40,7 +44,7 @@ public class FlightPassenger implements JSONable {
 	}
 
 	public enum SeatPreference {
-		NONE, WINDOW, AISLE
+		ANY, WINDOW, AISLE
 	}
 
 	public enum AssistanceType {
@@ -56,6 +60,7 @@ public class FlightPassenger implements JSONable {
 	}
 
 	public FlightPassenger() {
+		initDefaultBirthday();
 	}
 
 	/***
@@ -72,6 +77,8 @@ public class FlightPassenger implements JSONable {
 		setPhoneCountryCode(info.getTelephoneCountryCode());
 		setPhoneNumber(info.getTelephone());
 		setEmail(info.getEmail());
+		
+		initDefaultBirthday();
 	}
 
 	/***
@@ -88,6 +95,13 @@ public class FlightPassenger implements JSONable {
 		setMiddleName(user.getMiddleName());
 		setLastName(user.getLastName());
 		setEmail(user.getEmail());
+		
+		initDefaultBirthday();
+	}
+	
+	private void initDefaultBirthday(){
+		GregorianCalendar cal = new GregorianCalendar();
+		setBirthDate(cal);
 	}
 
 	///////////////////////////
@@ -137,6 +151,27 @@ public class FlightPassenger implements JSONable {
 		return mSeatPreference;
 	}
 
+	public String getSeatPreferenceString(Context context) {
+		SeatPreference pref = getSeatPreference();
+		Resources res = context.getResources();
+		String retStr = "";
+
+		switch (pref) {
+		case ANY:
+			retStr = res.getString(R.string.any);
+			break;
+		case WINDOW:
+			retStr = res.getString(R.string.window);
+			break;
+		case AISLE:
+			retStr = res.getString(R.string.aisle);
+			break;
+		default:
+			retStr = res.getString(R.string.any);
+		}
+		return retStr;
+	}
+
 	public AssistanceType getAssistance() {
 		return mAssistance;
 	}
@@ -165,6 +200,23 @@ public class FlightPassenger implements JSONable {
 
 	public MealType getMealPreference() {
 		return mMealPreference;
+	}
+
+	public Long getTuid() {
+		return mTuid;
+	}
+
+	public boolean hasTuid() {
+		return (mTuid != 0);
+	}
+
+	/***
+	 * Does the passenger have non-blank first and last name values
+	 * @return
+	 */
+	public boolean hasName() {
+		return !TextUtils.isEmpty(getFirstName()) && !TextUtils.isEmpty(getLastName());
+
 	}
 
 	//////////////////////////
@@ -222,11 +274,17 @@ public class FlightPassenger implements JSONable {
 		mMealPreference = preference;
 	}
 
+	public void setTuid(Long tuid) {
+		mTuid = tuid;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
 
 		try {
+			obj.putOpt("tuid", mTuid);
+
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("middleName", mMiddleName);
 			obj.putOpt("lastName", mLastName);
@@ -236,16 +294,25 @@ public class FlightPassenger implements JSONable {
 			obj.putOpt("phone", mPhoneNumber);
 
 			obj.putOpt("email", mEmail);
-			obj.putOpt("gender", mGender.name());
+
+			if (mGender != null) {
+				obj.putOpt("gender", mGender.name());
+			}
 
 			//TODO:Calendar 
 			//obj.putOpt("birthDate", mBirthDate);
 
 			obj.putOpt("redressNumber", mRedressNumber);
 			obj.putOpt("passportCountry", mPassportCountry);
-			obj.put("seatPreference", mSeatPreference.name());
-			obj.put("assistance", mAssistance.name());
-			obj.put("mealPreference", mMealPreference.name());
+			if (mSeatPreference != null) {
+				obj.put("seatPreference", mSeatPreference.name());
+			}
+			if (mAssistance != null) {
+				obj.put("assistance", mAssistance.name());
+			}
+			if (mMealPreference != null) {
+				obj.put("mealPreference", mMealPreference.name());
+			}
 
 			return obj;
 		}
@@ -257,6 +324,8 @@ public class FlightPassenger implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
+		mTuid = obj.optLong("tuid");
+
 		mEmail = obj.optString("email", null);
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);
@@ -266,16 +335,25 @@ public class FlightPassenger implements JSONable {
 		mPhoneCountryCode = obj.optString("phoneCountryCode");
 		mPhoneNumber = obj.optString("phone");
 
-		mGender = Gender.valueOf(obj.optString("gender"));
+		String genderStr = obj.optString("gender");
+		if (!TextUtils.isEmpty(genderStr)) {
+			mGender = Gender.valueOf(genderStr);
+		}
 
 		//TODO:Calender stuff for birthday...
 
 		mRedressNumber = obj.optString("redressNumber");
 		mPassportCountry = obj.optString("passportCountry");
 
-		mSeatPreference = SeatPreference.valueOf(obj.optString("seatPreference"));
-		mAssistance = AssistanceType.valueOf(obj.optString("assistance"));
-		mMealPreference = MealType.valueOf(obj.optString("mealPreference"));
+		String seatPrefStr = obj.optString("seatPreference");
+		if (!TextUtils.isEmpty(seatPrefStr)) {
+			mSeatPreference = SeatPreference.valueOf(seatPrefStr);
+		}
+		String assistanceStr = obj.optString("assistance");
+		if (!TextUtils.isEmpty(assistanceStr)) {
+			mAssistance = AssistanceType.valueOf(assistanceStr);
+		}
+		//mMealPreference = MealType.valueOf(obj.optString("mealPreference"));
 
 		return true;
 	}

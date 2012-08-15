@@ -40,19 +40,21 @@ public class FlightPaymentCreditCardActivity extends Activity {
 		mDoneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(FlightPaymentCreditCardActivity.this,
-						(yoyo == null || yoyo.isEmpty(FlightPaymentCreditCardActivity.class)) ? FlightCheckoutActivity.class: yoyo.popNextTrick(FlightPaymentCreditCardActivity.class));
-				intent.putExtra(YoYo.TAG_YOYO, yoyo);
-				if(yoyo.isEmpty(FlightPaymentCreditCardActivity.class)){
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				}
+				//Intent intent = new Intent(FlightPaymentCreditCardActivity.this,
+				//		(yoyo == null || yoyo.isEmpty(FlightPaymentCreditCardActivity.class)) ? FlightCheckoutActivity.class: yoyo.popNextTrick(FlightPaymentCreditCardActivity.class));
+				//intent.putExtra(YoYo.TAG_YOYO, yoyo);
+				
+//				if(yoyo.isEmpty(FlightPaymentCreditCardActivity.class)){
+//					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//				}
+				Intent intent = yoyo.generateIntent(FlightPaymentCreditCardActivity.this, getIntent());
 				startActivity(intent);
 			}
 		});
 		
 		if(yoyo != null){
-			if(yoyo.isLast()){
+			if(yoyo.isLast(FlightPaymentCreditCardActivity.class)){
 				//Done
 				mDoneBtn.setText(getString(R.string.button_done));
 			}else{

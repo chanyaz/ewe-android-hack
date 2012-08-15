@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.model.YoYo;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.util.Ui;
@@ -19,7 +20,7 @@ public class FlightTravelerInfoOneActivity extends Activity {
 
 	FlightPassenger mPassenger;
 	SectionTravelerInfo mSectionTravelerInfo;
-	Button mNextButton;
+	Button mDoneBtn;
 	int mPassengerIndex = -1;
 
 	@Override
@@ -27,7 +28,7 @@ public class FlightTravelerInfoOneActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flight_traveler_info_step1);
 
-		mNextButton = Ui.findView(this, R.id.next);
+		mDoneBtn = Ui.findView(this, R.id.done);
 		mSectionTravelerInfo = Ui.findView(this, R.id.traveler_info);
 
 		mPassengerIndex = getIntent().getIntExtra(Codes.PASSENGER_INDEX, -1);
@@ -35,22 +36,35 @@ public class FlightTravelerInfoOneActivity extends Activity {
 			mPassenger = Db.getFlightPassengers().get(mPassengerIndex);
 		}
 
-		mNextButton.setOnClickListener(new OnClickListener() {
+		
+		final YoYo yoyo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
+		mDoneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent nextIntent = new Intent(FlightTravelerInfoOneActivity.this, FlightTravelerInfoTwoActivity.class);
-				nextIntent.fillIn(getIntent(), 0);
-				startActivity(nextIntent);
+				Intent intent = yoyo.generateIntent(FlightTravelerInfoOneActivity.this, getIntent());
+				startActivity(intent);
 			}
 		});
+		
 
 		mSectionTravelerInfo.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
-				mNextButton.setEnabled(mSectionTravelerInfo.hasValidInput());
+				mDoneBtn.setEnabled(mSectionTravelerInfo.hasValidInput());
 
 			}
 		});
+		
+		
+		if(yoyo != null){
+			if(yoyo.isLast(FlightTravelerInfoOneActivity.class)){
+				//Done
+				mDoneBtn.setText(getString(R.string.button_done));
+			}else{
+				//Next
+				mDoneBtn.setText(getString(R.string.next));
+			}
+		}
 	}
 
 	@Override

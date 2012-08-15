@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/display_picture"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0"
+        android:src="@drawable/ic_amenity_breakfast" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <TextView 
+            android:id="@+id/redress_number_label"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/redress_number"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+        
+        <TextView
+            android:id="@+id/display_redress_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_toRightOf="@id/redress_number_label"/>
+        
+        <TextView
+            android:id="@+id/display_seat_preference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/redress_number_label" />
+
+        <TextView
+            android:id="@+id/display_special_assistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/display_seat_preference" />
+        
+    </RelativeLayout>
+
+</com.expedia.bookings.section.SectionTravelerInfo>

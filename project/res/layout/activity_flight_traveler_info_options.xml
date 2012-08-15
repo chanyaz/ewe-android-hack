@@ -1,36 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="8dp" >
-
-    <Button
-        android:id="@+id/enter_info_manually_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/enter_info_manually" />
+    android:background="#CFCFCF"
+    android:fillViewport="true"
+    android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/saved_travelers_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:fillViewport="true"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:padding="8dp" >
 
         <TextView
+            android:id="@+id/edit_traveler_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/saved_travelers"
-            android:textSize="24sp" />
+            android:layout_marginBottom="8dp"
+            android:text="@string/edit_current_traveler"
+            android:textColor="#121212"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/edit_traveler_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_flight_rounded_white"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp" >
+            
+            <include
+                android:id="@+id/current_traveler_contact"
+                android:layout_marginLeft="15dp"
+                layout="@layout/section_display_traveler_info_contact" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/simple_grey_divider_height"
+                android:layout_marginBottom="@dimen/simple_grey_divider_margin_bottom"
+                android:layout_marginTop="@dimen/simple_grey_divider_margin_top"
+                android:background="@color/divider_grey" />
+
+            <include
+                android:id="@+id/current_traveler_prefs"
+                android:layout_marginLeft="15dp"
+                layout="@layout/section_display_traveler_info_prefs" />
+            
+         </LinearLayout>
+        
+        
+        <TextView
+            android:id="@+id/select_traveler_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/select_a_traveler"
+            android:textColor="#121212"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/new_traveler_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_flight_rounded_white"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp" >
+
+            <LinearLayout
+                android:id="@+id/associated_travelers_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/load_from_contacts_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0"
+                    android:src="@drawable/btn_actionbar_guests_normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/choose_from_contacts"
+                    android:textColor="#121212"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="#AFAFAF" />
+
+            <LinearLayout
+                android:id="@+id/enter_info_manually_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0"
+                    android:src="@drawable/ic_select_credit_card" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/enter_info_manually"
+                    android:textColor="#121212"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/overview_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_small_yellow"
+            android:text="@string/overview_btn" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/load_from_contacts_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/from_contacts" />
-
-</LinearLayout>
+</ScrollView>

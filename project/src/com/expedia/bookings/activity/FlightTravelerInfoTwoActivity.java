@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.model.YoYo;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.util.Ui;
@@ -20,7 +21,7 @@ public class FlightTravelerInfoTwoActivity extends Activity {
 
 	FlightPassenger mPassenger;
 	SectionTravelerInfo mSectionTravelerInfo;
-	Button mFinishButton;
+	Button mDoneBtn;
 	int mPassengerIndex = -1;
 
 	@Override
@@ -28,7 +29,7 @@ public class FlightTravelerInfoTwoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flight_traveler_info_step2);
 
-		mFinishButton = Ui.findView(this, R.id.finish);
+		mDoneBtn = Ui.findView(this, R.id.finish);
 		mSectionTravelerInfo = Ui.findView(this, R.id.traveler_info);
 
 		//TODO:Determine if this is a domestic flight or not...
@@ -50,14 +51,13 @@ public class FlightTravelerInfoTwoActivity extends Activity {
 			mPassenger = Db.getFlightPassengers().get(mPassengerIndex);
 		}
 
-		mFinishButton.setOnClickListener(new OnClickListener() {
+		
+		final YoYo yoyo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
+		mDoneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent backToCheckoutIntent = new Intent(FlightTravelerInfoTwoActivity.this,
-						FlightCheckoutActivity.class);
-				backToCheckoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				backToCheckoutIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				startActivity(backToCheckoutIntent);
+				Intent intent = yoyo.generateIntent(FlightTravelerInfoTwoActivity.this,getIntent());
+				startActivity(intent);
 			}
 		});
 
@@ -65,10 +65,20 @@ public class FlightTravelerInfoTwoActivity extends Activity {
 			@Override
 			public void onChange() {
 				if (mSectionTravelerInfo.hasValidInput()) {
-					mFinishButton.setEnabled(mSectionTravelerInfo.hasValidInput());
+					mDoneBtn.setEnabled(mSectionTravelerInfo.hasValidInput());
 				}
 			}
 		});
+		
+		if(yoyo != null){
+			if(yoyo.isLast(FlightTravelerInfoTwoActivity.class)){
+				//Done
+				mDoneBtn.setText(getString(R.string.button_done));
+			}else{
+				//Next
+				mDoneBtn.setText(getString(R.string.next));
+			}
+		}
 	}
 
 	@Override
