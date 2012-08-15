@@ -13,3 +13,6 @@
 [submodule "lib/ActionBarSherlock"]
 	path = lib/ActionBarSherlock
 	url = git@team.mobiata.com:Android/ActionBarSherlock
+[submodule "lib/TestUtils"]
+	path = lib/TestUtils
+	url = git@team.mobiata.com:Android/TestUtils.git
