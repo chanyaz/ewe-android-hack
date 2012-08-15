@@ -31,6 +31,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NavigationButton;
+import com.expedia.bookings.widget.NavigationDropdownAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -78,24 +79,17 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
 
-		//Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setDisplayShowTitleEnabled(false);
 
 		// Configure the custom action bar view
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
 		mTitleTextView = Ui.findView(customView, R.id.title_text_view);
 		mSubtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
-
-		//Set actionbar nav dropdown
-		NavigationButton nb = NavigationButton.getStatefulInstance(this);
-		nb.resetSubViews();
-		nb.addSideView(customView);
-		actionBar.setCustomView(nb);
-		actionBar.setDisplayShowCustomEnabled(true);
+		
+		ActionBar actionBar = this.getSupportActionBar();
+		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
+		nb.setDropdownAdapter(new NavigationDropdownAdapter(this));
+		nb.setCustomView(customView);
 
 		if (savedInstanceState == null) {
 			// On first launch, start a search

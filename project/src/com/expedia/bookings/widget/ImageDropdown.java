@@ -1,25 +1,19 @@
 package com.expedia.bookings.widget;
 
-import com.expedia.bookings.R;
-import com.mobiata.android.util.Ui;
-
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 /**
  * This class creates an imageview with that will toggle a dropdown on click
  *
  */
-public class ImageDropdown extends LinearLayout {
+public class ImageDropdown extends ImageView {
 	
 	View mAnchor;
-	ImageView mImageView;
 	PopupWindow mPopupWindow;
 
 	public ImageDropdown(Context context) {
@@ -38,13 +32,8 @@ public class ImageDropdown extends LinearLayout {
 	}
 
 	private void init(Context context) {
-
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View imageDropdown = inflater.inflate(R.layout.widget_image_dropdown, this);
-
-		mImageView = Ui.findView(imageDropdown, R.id.image_dropdown_image);
-		mAnchor = mImageView;
-		mImageView.setOnClickListener(new OnClickListener() {
+		mAnchor = this;
+		this.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				toggleDisplayDropdown();
@@ -64,6 +53,10 @@ public class ImageDropdown extends LinearLayout {
 		super.onAttachedToWindow();
 	}
 
+	/**
+	 * show or hide the dropdown
+	 * @param displayDropdown - if true show the dropdown, if false hide it
+	 */
 	public void setDisplayDropdown(boolean displayDropdown) {
 		if (mPopupWindow != null) {
 			if (displayDropdown) {
@@ -79,31 +72,34 @@ public class ImageDropdown extends LinearLayout {
 		}
 	}
 
+	/**
+	 * toggle the display of the dropdown
+	 */
 	public void toggleDisplayDropdown() {
 		setDisplayDropdown(!mPopupWindow.isShowing());
 	}
 
-	public void setImageDrawable(Drawable drawable) {
-		if (mImageView != null) {
-			mImageView.setImageDrawable(drawable);
-		}
-	}
-	public Drawable getImageDrawable(){
-		if(mImageView != null){
-			return mImageView.getDrawable();
-		}
-		return null;
-	}
-
+	/**
+	 * Set the view to use for the dropdown
+	 * @param dropDownView
+	 */
 	public void setDropdownView( View dropDownView) {
 		mPopupWindow = new PopupWindow(dropDownView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	}
 
-	public void setDropdownAnchor(View anchor) {
+	/**
+	 * Set the drop down to anchor itself to a different view.
+	 * So we still click the image, but the dropdown appears anchored to the view specified
+	 * @param anchor
+	 */
+	public void setAlternateDropdownAnchor(View anchor) {
 		mAnchor = anchor;
 	}
 
+	/**
+	 * Reset the dropdown to anchor itself to this view
+	 */
 	public void resetAnchor() {
-		mAnchor = mImageView;
+		mAnchor = this;
 	}
 }

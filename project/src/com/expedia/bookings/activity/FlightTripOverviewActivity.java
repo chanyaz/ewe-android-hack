@@ -11,6 +11,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.NavigationButton;
+import com.expedia.bookings.widget.NavigationDropdownAdapter;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity {
 
@@ -45,15 +46,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity {
 		
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowCustomEnabled(true);
-
-		//Set actionbar nav dropdown
-		NavigationButton nb = NavigationButton.getStatefulInstance(this);
-		nb.resetSubViews();
+		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
+		nb.setDropdownAdapter(new NavigationDropdownAdapter(this));
 		nb.setTitle(yourTripToStr);
-		actionBar.setCustomView(nb);
 	}
 }

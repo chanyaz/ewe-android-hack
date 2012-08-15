@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.SearchActivity;
@@ -9,10 +10,13 @@ import com.expedia.bookings.utils.Ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,32 +25,36 @@ import android.widget.TextView;
  * This class is intended for ActionBar navigation. It toggles a dropdown of navigation items.
  *
  */
-public class NavigationButton extends ImageDropdown {
-
-	private static NavigationButton mInstance;
+public class NavigationButton extends LinearLayout {
 	
 	View mDropDownContent;
 	ViewGroup mSideViews;
+	ImageDropdown mImageDropdown;
 	Context mContext;
 	TextView mTitle;
 	
-	/**
-	 * This class is intended to be a global navigation object, so when we request a new instance, we expect it to have the same state
-	 * as the instance on the previous activity. This is typically in the form of which icon is displayed.
-	 * @param context
-	 * @return
-	 */
-	public static NavigationButton getStatefulInstance(Context context){
-		NavigationButton nav = new NavigationButton(context);
-		restoreStateFromStaticInstance(nav);
-		mInstance = nav;
-		return mInstance;
+	public static NavigationButton createNewInstance(Context context, int iconResId){
+		return createNewInstance(context,context.getResources().getDrawable(iconResId));
 	}
 	
-	private static void restoreStateFromStaticInstance(NavigationButton nav){
-		if(mInstance != null){
-			nav.setImageDrawable(mInstance.getImageDrawable());
-		}
+	public static NavigationButton createNewInstance(Context context, Drawable icon){
+		NavigationButton nb = new NavigationButton(context);
+		nb.getImageDropdown().setImageDrawable(icon);
+		return nb;
+	}
+	
+	public static NavigationButton createNewInstanceAndAttach(Context context, int iconResId, ActionBar actionBar){
+		return createNewInstanceAndAttach(context,context.getResources().getDrawable(iconResId) ,actionBar);
+	}
+	public static NavigationButton createNewInstanceAndAttach(Context context, Drawable icon, ActionBar actionBar){
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		
+		NavigationButton nb = createNewInstance(context, icon);
+		actionBar.setCustomView(nb);
+		return nb;
 	}
 	
 	private NavigationButton(Context context) {
@@ -64,83 +72,71 @@ public class NavigationButton extends ImageDropdown {
 		init(context);
 	}
 
-	private void init(final Context context) {
+	private void init(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.widget_image_dropdown, this);
+		
 		mContext = context;
 		mTitle = Ui.findView(this,R.id.image_dropdown_title);
+		mImageDropdown = Ui.findView(this, R.id.image_dropdown);
 		
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mDropDownContent = inflater.inflate(R.layout.snippet_nav_dropdown, null);
-		ListView dropDownList = Ui.findView(mDropDownContent, R.id.nav_dropdown_list);
-
-		mSideViews = Ui.findView(this, R.id.image_dropdown_side_container);
-		
-		final Resources res = mContext.getResources();
-		NavigationDropdownAdapter adapter = new NavigationDropdownAdapter(mContext);
-		adapter.addItem(new NavItem(res.getDrawable(R.drawable.icon), res
-				.getString(R.string.nav_home), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-				NavigationButton.this.setDisplayDropdown(false);
-				NavigationButton.this.setImageDrawable(res.getDrawable(R.drawable.icon));
-				Intent intent = new Intent(mContext, FlightSearchActivity.class);
-				mContext.startActivity(intent);
-			}
-		}));
-
-		adapter.addItem(new NavItem(res.getDrawable(R.drawable.search_center_purple), res
-				.getString(R.string.nav_hotels), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				NavigationButton.this.setDisplayDropdown(false);
-				NavigationButton.this.setImageDrawable(res.getDrawable(R.drawable.search_center_purple));
-				Intent intent = new Intent(mContext, SearchActivity.class);
-				mContext.startActivity(intent);
-			}
-		}));
-
-		adapter.addItem(new NavItem(res.getDrawable(R.drawable.radar), res
-				.getString(R.string.nav_flights), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				NavigationButton.this.setDisplayDropdown(false);
-				NavigationButton.this.setImageDrawable(res.getDrawable(R.drawable.radar));
-				Intent intent = new Intent(mContext, FlightSearchActivity.class);
-				mContext.startActivity(intent);
-			}
-		}));
-		adapter.addItem(new NavItem(res.getDrawable(R.drawable.ic_logged_in_no_rewards), res
-				.getString(R.string.nav_account), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				NavigationButton.this.setDisplayDropdown(false);
-				NavigationButton.this.setImageDrawable(res.getDrawable(R.drawable.ic_logged_in_no_rewards));
-				Ui.showToast(mContext, "Account");
-			}
-		}));
-		dropDownList.setAdapter(adapter);
-
-		setDropdownView(mDropDownContent);
+		mSideViews = Ui.findView(this, R.id.image_dropdown_side_container);	
+		mImageDropdown.setDropdownView(mDropDownContent);
 	}
 	
+	public void setDropdownAdapter(ListAdapter adapter){
+		ListView dropDownList = Ui.findView(mDropDownContent, R.id.nav_dropdown_list);
+		dropDownList.setAdapter(adapter);
+	}
+	
+	public void setDrawable(Drawable drawable){
+		mImageDropdown.setImageDrawable(drawable);
+	}
 	
 	public void addSideView(View view){
 		mSideViews.addView(view);
 	}
-	
-	public void resetSubViews(){
+
+	public void clearTitleAndCustomViews(){
 		mSideViews.removeAllViews();
 		mTitle.setText("");
 		mTitle.setVisibility(View.GONE);
 	}
-	
-	public void setTitle(String title){
-		mTitle.setText(title);
-		mTitle.setVisibility(View.VISIBLE);
-	}
-	
+
 	public String getTitle(){
 		return (mTitle == null || mTitle.getText() == null) ? "" : mTitle.getText().toString();
 	}
 	
+	public ImageDropdown getImageDropdown(){
+		return mImageDropdown;
+	}
+	
+	////////////////////////////////////////
+	// These methods replicate the methods found in the action bar
+	
+	public void setTitle(CharSequence title){
+		mTitle.setText(title);
+		mTitle.setVisibility(View.VISIBLE);
+	}
+	public void setTitle(int resid){
+		mTitle.setText(resid);
+		mTitle.setVisibility(View.VISIBLE);
+	}
+	
+	public void setCustomView(int resId){
+		mSideViews.removeAllViews();
+		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(resId, mSideViews);
+	}
+	
+	public void setCustomView(View view){
+		mSideViews.removeAllViews();
+		mSideViews.addView(view);
+	}
+	
+	public void setCustomView(View view, LayoutParams layoutParams){
+		mSideViews.removeAllViews();
+		mSideViews.addView(view, layoutParams);
+	}
 }

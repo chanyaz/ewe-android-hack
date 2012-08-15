@@ -3,14 +3,19 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightSearchActivity;
+import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.NavItem;
 import com.expedia.bookings.utils.Ui;
 
@@ -21,10 +26,12 @@ import com.expedia.bookings.utils.Ui;
 public class NavigationDropdownAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 	private ArrayList<NavItem> navItems;
-
+	private Context mContext;
+	
 	public NavigationDropdownAdapter(Context context) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		navItems = new ArrayList<NavItem>();
+		mContext = context;
+		initData(context);
 	}
 	
 	public void addItem(NavItem item){
@@ -34,7 +41,47 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 	public void clearItems(){
 		navItems.clear();
 	}
+	
+	private void initData(Context context){
+		navItems = new ArrayList<NavItem>();
+		Resources res = context.getResources();
+		
+		addItem(new NavItem(res.getDrawable(R.drawable.icon), res
+				.getString(R.string.nav_home), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, FlightSearchActivity.class);
+				mContext.startActivity(intent);
+			}
+		}));
 
+		addItem(new NavItem(res.getDrawable(R.drawable.search_center_purple), res
+				.getString(R.string.nav_hotels), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, SearchActivity.class);
+				mContext.startActivity(intent);
+			}
+		}));
+
+		addItem(new NavItem(res.getDrawable(R.drawable.radar), res
+				.getString(R.string.nav_flights), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, FlightSearchActivity.class);
+				mContext.startActivity(intent);
+			}
+		}));
+		addItem(new NavItem(res.getDrawable(R.drawable.ic_logged_in_no_rewards), res
+				.getString(R.string.nav_account), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Ui.showToast(mContext, "Account");
+			}
+		}));
+
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */

@@ -16,6 +16,7 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.widget.NavigationButton;
+import com.expedia.bookings.widget.NavigationDropdownAdapter;
 import com.mobiata.android.util.Ui;
 
 import android.content.Intent;
@@ -185,16 +186,10 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowCustomEnabled(true);
-
-		//Set actionbar nav dropdown
-		NavigationButton nb = NavigationButton.getStatefulInstance(this);
-		nb.resetSubViews();
-		nb.setTitle(this.getTitle().toString());
-		actionBar.setCustomView(nb);
+		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
+		nb.setDropdownAdapter(new NavigationDropdownAdapter(this));
+		nb.setTitle(this.getTitle());
+		
 	}
 
 	@Override
