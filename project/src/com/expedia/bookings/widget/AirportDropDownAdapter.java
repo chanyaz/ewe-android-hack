@@ -123,8 +123,8 @@ public class AirportDropDownAdapter extends CursorAdapter implements FilterQuery
 		String sql = "SELECT a._id, a.code, a.name, a.city, a.stateCode, c.countryCode, (a.code = ?) AS 'exactMatch' "
 				+ "FROM airports a "
 				+ "JOIN countries c ON c._id = a.countryId "
-				+ "WHERE (code like ? or name like ? or city like ?) ORDER BY exactMatch DESC, classification, city";
+				+ "WHERE (code like ? or city like ?) ORDER BY exactMatch DESC, classification, city";
 
-		return mDb.rawQuery(sql, new String[] { exact, like, like, like });
+		return mDb.rawQuery(sql, new String[] { exact, like, like });
 	}
 }
