@@ -114,6 +114,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 	//////////////////////////////////////////////////////////////////////////
 	// Rendering thread
 
+	@SuppressWarnings("unused")
 	private class PlaneThread extends Thread implements SensorEventListener {
 
 		// Constants
@@ -126,11 +127,19 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		private static final double SKY_LOOP_TIME = 45 * 1e9; // Nanoseconds to loop through entire sky animation 
 
-		private static final double ROTATION_PER_NANOSECOND = 1.5 / 1e9; // Maximum rotation per nanosecond in degrees
+		private static final double PITCH_PER_NANOSECOND = 1.5 / 1e9; // Maximum pitch rotation per nanosecond in degrees
 
-		private static final double ROTATION_TOLERANCE = 3; // Min degrees before rotation changes
+		private static final double PITCH_TOLERANCE = 3; // Min degrees before pitch changes
 
-		private static final double MAX_ROTATION = 6; // Maximum rotation in degrees (in either direction)
+		private static final double MAX_PITCH = 6; // Maximum pitch in degrees (in either direction)
+
+		private static final double MAX_TRANSLATION_Y = 75; // Maximum Y-translation of sky in dp (max roll)
+
+		private static final float MAX_SENSOR_Z = .5f; // Translates Z-sensor into MAX_TRANSLATION_Y
+
+		private static final double ROLL_PERCENT_PER_NANOSECOND = .15 / 1e9; // Maximum roll % change per nanosecond
+
+		private static final double ROLL_PERCENT_TOLERANCE = .1; // Min % change in roll before changes kick in
 
 		// Vars
 
@@ -173,10 +182,14 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		// For the accelerometer
 		private int mDisplayRotation;
 		private float mSensorX = 0;
-		private double mRotation = 0;
-		private double mRotationTarget = 0;
-		private float mRotationPivotX;
-		private float mRotationPivotY;
+		private float mSensorZ = 0;
+		private double mPitch = 0;
+		private double mPitchTarget = 0;
+		private float mPitchPivotX;
+		private float mPitchPivotY;
+		private double mRollPercent = 0;
+		private double mRollPercentTarget = 0;
+		private double mMaxTranslationY;
 
 		// For calculating time
 		private long mPreviousTick;
@@ -201,6 +214,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 			Resources res = getResources();
 			mWindowFrameBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_window_frame);
+
+			mMaxTranslationY = res.getDisplayMetrics().density * MAX_TRANSLATION_Y;
 
 			mSkyPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
@@ -248,9 +263,9 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				double padLeftRight = diagonal - (mVisibleFrameWidth / 2);
 				double padTopBot = diagonal - (mVisibleFrameHeight / 2);
 				mSkyDstFull = new Rect((int) (mVisibleFrameRect.left - padLeftRight),
-						(int) (mVisibleFrameRect.top - padTopBot),
+						(int) (mVisibleFrameRect.top - padTopBot - MAX_TRANSLATION_Y),
 						(int) (mVisibleFrameRect.right + padLeftRight),
-						(int) (mVisibleFrameRect.bottom + padTopBot));
+						(int) (mVisibleFrameRect.bottom + padTopBot + MAX_TRANSLATION_Y));
 
 				// Common options for decoding bitmaps
 				BitmapFactory.Options opts = new BitmapFactory.Options();
@@ -265,9 +280,9 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				mSkyWidth = mSkyBitmap.getWidth();
 				mSkyOffsetPerNano = (double) mSkyWidth / SKY_LOOP_TIME;
 
-				// Pre-configure rotation pivot points
-				mRotationPivotX = mVisibleFrameRect.left + (mVisibleFrameWidth / 2f);
-				mRotationPivotY = mVisibleFrameRect.top + (mVisibleFrameHeight / 2f);
+				// Pre-configure pitch pivot points
+				mPitchPivotX = mVisibleFrameRect.left + (mVisibleFrameWidth / 2f);
+				mPitchPivotY = mVisibleFrameRect.top + (mVisibleFrameHeight / 2f);
 
 				// Pre-scale shade
 				mWindowShadeBitmap = BitmapFactory
@@ -404,41 +419,70 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			// Adjust sky offset
 			mSkyOffset = (mSkyOffset + (mSkyOffsetPerNano * diffNanos)) % mSkyWidth;
 
-			// Adjust sky rotation
-			double rotationTarget = mSensorX * 90;
-			if (rotationTarget > MAX_ROTATION) {
-				rotationTarget = MAX_ROTATION;
+			// Adjust plane pitch
+			double pitchTarget = mSensorX * 90;
+			if (pitchTarget > MAX_PITCH) {
+				pitchTarget = MAX_PITCH;
 			}
-			else if (rotationTarget < -MAX_ROTATION) {
-				rotationTarget = -MAX_ROTATION;
+			else if (pitchTarget < -MAX_PITCH) {
+				pitchTarget = -MAX_PITCH;
 			}
 
 			// If we're within striking distance of horizontal, cheat and make it horizontal.
 			// Feels much more comfortable this way (when trying to get things back to normal)
-			if (rotationTarget > -ROTATION_TOLERANCE && rotationTarget < ROTATION_TOLERANCE) {
-				mRotationTarget = 0;
+			if (pitchTarget > -PITCH_TOLERANCE && pitchTarget < PITCH_TOLERANCE) {
+				mPitchTarget = 0;
 			}
-			// Don't set a new rotation target unless it's a particular tolerance
+			// Don't set a new pitch target unless it's a particular tolerance
 			// away from the old one
-			else if (Math.abs(mRotationTarget - rotationTarget) > ROTATION_TOLERANCE) {
-				mRotationTarget = rotationTarget;
+			else if (Math.abs(mPitchTarget - pitchTarget) > PITCH_TOLERANCE) {
+				mPitchTarget = pitchTarget;
 			}
 
-			double currDiff = Math.abs(mRotationTarget - mRotation);
-			double rotationChange = diffNanos * ROTATION_PER_NANOSECOND;
-			if (currDiff < rotationChange) {
-				rotationChange = currDiff;
+			double currDiff = Math.abs(mPitchTarget - mPitch);
+			double pitchChange = diffNanos * PITCH_PER_NANOSECOND;
+			if (currDiff < pitchChange) {
+				pitchChange = currDiff;
 			}
 
-			if (mRotationTarget < mRotation) {
-				mRotation -= rotationChange;
+			if (mPitchTarget < mPitch) {
+				mPitch -= pitchChange;
 			}
 			else {
-				mRotation += rotationChange;
+				mPitch += pitchChange;
+			}
+
+			// Adjust sky y-translation
+
+			// Translate sensor Z into a range from -100% to 100%
+			double targetPercentTranslate = mSensorZ / MAX_SENSOR_Z;
+			if (targetPercentTranslate > 1) {
+				targetPercentTranslate = 1;
+			}
+			else if (targetPercentTranslate < -1) {
+				targetPercentTranslate = -1;
+			}
+
+			// Calculate if we've gone past the threshhold with which to translate
+			if (Math.abs(mRollPercentTarget - targetPercentTranslate) > ROLL_PERCENT_TOLERANCE) {
+				mRollPercentTarget = targetPercentTranslate;
+			}
+
+			// Change the roll % by the amount necessary
+			currDiff = Math.abs(mRollPercentTarget - mRollPercent);
+			double rollChange = diffNanos * ROLL_PERCENT_PER_NANOSECOND;
+			if (currDiff < rollChange) {
+				rollChange = currDiff;
+			}
+
+			if (mRollPercentTarget < mRollPercent) {
+				mRollPercent -= rollChange;
+			}
+			else {
+				mRollPercent += rollChange;
 			}
 		}
 
-		@SuppressWarnings("unused")
 		private void doDraw(Canvas canvas) {
 			// Fill the background color
 			canvas.drawARGB(255, 202, 202, 202);
@@ -448,8 +492,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 			// Apply clip/rotation for the sky
 			canvas.clipRect(mVisibleFrameRect);
-			canvas.rotate((float) mRotation, mRotationPivotX, mRotationPivotY);
-			canvas.translate((int) -mSkyOffset, 0);
+			canvas.rotate((float) mPitch, mPitchPivotX, mPitchPivotY);
+			canvas.translate((int) -mSkyOffset, (float) (mRollPercent * MAX_TRANSLATION_Y));
 
 			// Draw two skies, one after another, and let the clipping handle what should be shown
 			canvas.drawBitmap(mSkyBitmap, 0, mSkyDstFull.top, mSkyPaint);
@@ -493,7 +537,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				String[] debugStrings = new String[] {
 						"FPS: " + mFPS + " AVG: " + (int) ((double) mAvgTotal / mNumFPSSamples),
 						"SensorX: " + mSensorX,
-						"Rotation: " + mRotation,
+						"SensorZ: " + mSensorZ,
+						"Rotation: " + mPitch,
 						"Sky Offset: " + mSkyOffset,
 				};
 
@@ -540,6 +585,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			}
 
 			mSensorX = sensorX / SensorManager.GRAVITY_EARTH;
+			mSensorZ = -event.values[2] / SensorManager.GRAVITY_EARTH;
 		}
 	}
 }
