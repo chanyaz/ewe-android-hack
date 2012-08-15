@@ -12,6 +12,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -270,7 +271,11 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				// Common options for decoding bitmaps
 				BitmapFactory.Options opts = new BitmapFactory.Options();
 				opts.inScaled = false;
-				opts.inPreferQualityOverSpeed = true;
+
+				// #470: This var was only added in 10+
+				if (Build.VERSION.SDK_INT >= 10) {
+					opts.inPreferQualityOverSpeed = true;
+				}
 
 				// Pre-scale sky bitmap
 				mSkyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading_repeating_sky, opts);
