@@ -197,7 +197,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		private long mCurrentTick;
 
 		// Only render full frame occasionally (usually only a portion is animating)
-		private boolean mRenderAll;
+		private boolean mHasRendered;
 
 		// For calculating FPS
 		private int mFPS;
@@ -309,7 +309,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 				// Init some values
 				mCurrentTick = System.nanoTime();
-				mRenderAll = true;
+				mHasRendered = false;
 			}
 
 			Log.d("Prepped PlaneWindowView in " + ((System.nanoTime() - start) / 1e6) + " ms");
@@ -333,7 +333,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 					mDisplayRotation = wm.getDefaultDisplay().getOrientation();
 
-					mRenderAll = true;
+					mHasRendered = false;
 				}
 				else {
 					sm.unregisterListener(this);
@@ -383,12 +383,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				if (mRendering) {
 					Canvas c = null;
 					try {
-						if (mRenderAll || SHOW_DEBUG_INFO) {
-							c = mSurfaceHolder.lockCanvas(null);
-						}
-						else {
-							c = mSurfaceHolder.lockCanvas(mVisibleFrameRect);
-						}
+						c = mSurfaceHolder.lockCanvas(null);
 
 						synchronized (mSurfaceHolder) {
 							mPreviousTick = mCurrentTick;
@@ -398,8 +393,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 							doDraw(c);
 						}
 
-						if (mRenderAll) {
-							mRenderAll = false;
+						if (!mHasRendered) {
+							mHasRendered = true;
 
 							if (mListener != null) {
 								mListener.onFirstRender();
