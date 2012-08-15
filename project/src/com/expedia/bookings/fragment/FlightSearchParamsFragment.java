@@ -228,6 +228,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 					String airportCode = mDepartureAirportEditText.getText().toString().toUpperCase();
 					if (!TextUtils.isEmpty(airportCode)) {
 						mSearchParams.setDepartureAirportCode(airportCode);
+						mAirportAdapter.onAirportSelected(airportCode);
 					}
 					updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureAirportCode());
 				}
@@ -235,6 +236,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 					String airportCode = mArrivalAirportEditText.getText().toString().toUpperCase();
 					if (!TextUtils.isEmpty(airportCode)) {
 						mSearchParams.setArrivalAirportCode(airportCode);
+						mAirportAdapter.onAirportSelected(airportCode);
 					}
 					updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalAirportCode());
 				}

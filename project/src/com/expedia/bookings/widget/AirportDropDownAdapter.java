@@ -1,11 +1,14 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.MergeCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v4.widget.CursorAdapter;
@@ -19,14 +22,21 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.util.Ui;
+import com.mobiata.flightlib.data.RecentSearchList;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class AirportDropDownAdapter extends CursorAdapter implements FilterQueryProvider {
+
+	private static final String RECENT_SEARCH_FILE = "recent-airports.dat";
+
+	private RecentSearchList mRecentSearchList;
 
 	private Map<String, String> mCountryCodeMap;
 
 	public AirportDropDownAdapter(Context context) {
 		super(context, null, 0);
+
+		mRecentSearchList = new RecentSearchList(context, RECENT_SEARCH_FILE);
 
 		Resources r = context.getResources();
 		mCountryCodeMap = new HashMap<String, String>();
@@ -84,6 +94,21 @@ public class AirportDropDownAdapter extends CursorAdapter implements FilterQuery
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// RecentSearchList interaction
+
+	public void onAirportSelected(String airportCode) {
+		mRecentSearchList.addItem(airportCode);
+
+		// Save the recent search list in the bg
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				mRecentSearchList.saveList(mContext, RECENT_SEARCH_FILE);
+			}
+		})).start();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// FilterQueryProvider
 
 	private SQLiteDatabase mDb;
@@ -103,18 +128,45 @@ public class AirportDropDownAdapter extends CursorAdapter implements FilterQuery
 
 	@Override
 	public Cursor runQuery(CharSequence constraint) {
-		if (mDb == null || !mDb.isOpen() || TextUtils.isEmpty(constraint)) {
+		if (mDb == null || !mDb.isOpen()) {
 			return null;
 		}
 
-		String exact = constraint.toString();
-		Cursor c = runQuery(exact);
-		if (c.getCount() > 0) {
-			return c;
-		}
+		if (TextUtils.isEmpty(constraint)) {
+			if (mRecentSearchList.getList().size() == 0) {
+				return null;
+			}
 
-		// If we came up with no results, do a query without spaces
-		return runQuery(exact.replaceAll(" ", ""));
+			// We make multiple queries in order to sort them so that
+			// the most recent is first.
+			//
+			// TODO: Figure out more efficient way of doing this?
+			String sql = "SELECT a._id, a.code, a.name, a.city, a.stateCode, c.countryCode "
+					+ "FROM airports a "
+					+ "JOIN countries c ON c._id = a.countryId "
+					+ "WHERE a.code = ?";
+
+			List<String> recent = mRecentSearchList.getList();
+			List<Cursor> cursors = new ArrayList<Cursor>();
+			int size = recent.size();
+			for (int a = 0; a < size; a++) {
+				Cursor c = mDb.rawQuery(sql, new String[] { recent.get(a) });
+				if (c.getCount() == 1) {
+					cursors.add(c);
+				}
+			}
+			return new MergeCursor(cursors.toArray(new Cursor[0]));
+		}
+		else {
+			String exact = constraint.toString();
+			Cursor c = runQuery(exact);
+			if (c.getCount() > 0) {
+				return c;
+			}
+
+			// If we came up with no results, do a query without spaces
+			return runQuery(exact.replaceAll(" ", ""));
+		}
 	}
 
 	private Cursor runQuery(String exact) {

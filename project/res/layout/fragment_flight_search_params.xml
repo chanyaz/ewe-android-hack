@@ -40,23 +40,21 @@
             android:orientation="horizontal"
             android:weightSum="2" >
 
-            <AutoCompleteTextView
+            <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
                 android:id="@+id/departure_airport_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:completionThreshold="1"
                 android:ellipsize="end"
                 android:hint="@string/hint_departure_airport"
                 android:imeOptions="flagNoExtractUi|actionNext"
                 android:singleLine="true" />
 
-            <AutoCompleteTextView
+            <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
                 android:id="@+id/arrival_airport_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:completionThreshold="1"
                 android:ellipsize="end"
                 android:hint="@string/hint_arrival_airport"
                 android:imeOptions="flagNoExtractUi|actionNext"
