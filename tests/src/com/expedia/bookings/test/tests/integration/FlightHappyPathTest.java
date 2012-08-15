@@ -5,12 +5,13 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.view.View;
 import android.widget.*;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightDetailsActivity;
-import com.expedia.bookings.activity.FlightSearchActivity;
-import com.expedia.bookings.activity.FlightSearchResultsActivity;
-import com.expedia.bookings.test.utils.CalendarTouchUtils;
+import com.expedia.bookings.activity.*;
+import com.expedia.bookings.fragment.FlightListFragment;
+import com.expedia.bookings.fragment.StatusFragment;
+import com.mobiata.testutils.CalendarTouchUtils;
 import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.Ui;
@@ -20,7 +21,9 @@ public class FlightHappyPathTest extends InstrumentationTestCase {
 
 	private Activity mCurrentActivity;
 	private Solo mSolo;
+
 	private Instrumentation mInstr;
+	private Instrumentation.ActivityMonitor mMonitor;
 
 	@Override
 	public void setUp() {
@@ -45,30 +48,35 @@ public class FlightHappyPathTest extends InstrumentationTestCase {
 	 */
 
 	@LargeTest
-	public void testFlightSearch() throws Throwable {
-		// create Intent to launch FlightSearchActivity
+	public void testFlightSearchOneWay() throws Throwable {
+		// create Intent to launch FlightSearchActivity (default Flights launcher)
 		Intent intent = new Intent(Intent.ACTION_MAIN);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.setClassName(mInstr.getTargetContext(), FlightSearchActivity.class.getName());
 
-		// Register we are interested in the FlightSearchActivity
-		Instrumentation.ActivityMonitor monitor = mInstr.addMonitor(FlightSearchActivity.class.getName(),
-				null, false);
+		// Register we are interested monitoring in the FlightSearchActivity
+		registerMonitor(FlightSearchActivity.class.getName());
 
-		// launch activity 
+		// launch activity via instrumentation
 		mInstr.startActivitySync(intent);
 
 		// assert the activity gets launched
-		mCurrentActivity = mInstr.waitForMonitorWithTimeout(monitor, 5);
+		mCurrentActivity = mInstr.waitForMonitorWithTimeout(mMonitor, 5);
 		assertNotNull(mCurrentActivity);
 		assertEquals(FlightSearchActivity.class, mCurrentActivity.getClass());
 
 		// instantiate the Robotium Solo class for manual touch interaction
 		mSolo = new Solo(mInstr, mCurrentActivity);
 
-		// Enter airport fields for the FlightSearchParams
-		mSolo.enterText((EditText) mCurrentActivity.findViewById(R.id.departure_airport_edit_text), "DTW");
-		mSolo.enterText((EditText) mCurrentActivity.findViewById(R.id.arrival_airport_edit_text), "SFO");
+		// insert two airport codes (perhaps this data should be part of a larger mocking framework?)
+		runTestOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Ui.setText(mCurrentActivity, R.id.departure_airport_edit_text, "DTW");
+				Ui.setText(mCurrentActivity, R.id.arrival_airport_edit_text, "SFO");
+			}
+
+		});
 
 		// click the dates button to show the Calendar fragment in the content pane
 		runTestOnUiThread(new Runnable() {
@@ -82,13 +90,15 @@ public class FlightHappyPathTest extends InstrumentationTestCase {
 		mInstr.waitForIdleSync();
 
 		// Enter date for the FlightSearchParams
-		CalendarDatePicker cal = (CalendarDatePicker) mCurrentActivity.findViewById(R.id.dates_date_picker);
-		Time day = CalendarTouchUtils.getDay(3);
+		CalendarDatePicker cal = (CalendarDatePicker) mCurrentActivity.findViewById(R.id.calendar_date_picker);
+		assertNotNull(cal);
+		Time day = CalendarTouchUtils.getDay(4);
+		assertNotNull(day);
+		assertNotNull(mSolo);
 		CalendarTouchUtils.clickOnDay(mSolo, cal, day);
 
 		// create monitor for FlightSearchResultsActivity
-		mInstr.removeMonitor(monitor);
-		monitor = mInstr.addMonitor(FlightSearchResultsActivity.class.getName(), null, false);
+		registerMonitor(FlightSearchResultsActivity.class.getName());
 
 		// perform Search!
 		runTestOnUiThread(new Runnable() {
@@ -99,48 +109,62 @@ public class FlightHappyPathTest extends InstrumentationTestCase {
 		});
 
 		// wait for SearchResults with a 40 second timeout. change timeout?
-		mCurrentActivity = mInstr.waitForMonitorWithTimeout(monitor, 40000);
+		mCurrentActivity = mInstr.waitForMonitorWithTimeout(mMonitor, 40000);
 
 		mInstr.waitForIdleSync();
 
 		// assert that a list of results is present
 		assertEquals(FlightSearchResultsActivity.class, mCurrentActivity.getClass());
 
+		// The expected behavior for FlightSearchResultsActivity is to progress through fragments. monitor for fragments
+		mSolo.waitForFragmentByTag(StatusFragment.TAG);
+		mSolo.waitForFragmentByTag(FlightListFragment.TAG);
+		mInstr.waitForIdleSync();
+
+		// find the list of flights and assert that it exists
 		ListView lv = (ListView) mCurrentActivity.findViewById(android.R.id.list);
 		assertNotNull(lv);
 
-		// click on the first element in list (that is not a header)
-		RelativeLayout row = (RelativeLayout) lv.getChildAt(0 + lv.getHeaderViewsCount());
+		// add monitor for OverviewActivity in anticipation of click in list
+		registerMonitor(FlightTripOverviewActivity.class.getName());
 
-		int[] location = new int[2];
-		row.getLocationInWindow(location);
-		mSolo.clickOnScreen((float) location[0], (float) location[1]);
-
+		// click on the first Flight in the list (first child of ListView that is not a header, 0th index) 
+		mSolo.clickInList(lv.getHeaderViewsCount() + 1);
+		mCurrentActivity = mInstr.waitForMonitorWithTimeout(mMonitor, 10000);
 		mInstr.waitForIdleSync();
-		
-		/*
-		 * THIS PART OF THE TESTS NEEDS TO BE REWRITTEN DUE TO DESIGN CHANGES
+		assertEquals(FlightTripOverviewActivity.class, mCurrentActivity.getClass());
 
-		row = (RelativeLayout) lv.getChildAt(1);
-		final Button detailsButton = (Button) row.findViewById(R.id.details_button);
+		// wait 5 seconds to ensure that the price update call goes through
+		mSolo.sleep(5000);
 
-		assertNotNull(detailsButton);
+		View priceUpdateDialog = mSolo.getView(android.R.id.button3);
+		if (priceUpdateDialog != null) {
+			mSolo.clickOnView(mSolo.getView(android.R.id.button3));
+		}
 
-		// monitor for FlightDetailsActivity
-		mInstr.removeMonitor(monitor);
-		monitor = mInstr.addMonitor(FlightDetailsActivity.class.getName(), null, false);
+		// click on the checkout button to launch the FlightCheckoutActivity
+		registerMonitor(FlightCheckoutActivity.class.getName());
+		mSolo.clickOnView(mSolo.getView(R.id.checkout_btn));
+		mCurrentActivity = mInstr.waitForMonitorWithTimeout(mMonitor, 10000);
+		mInstr.waitForIdleSync();
+		assertEquals(FlightCheckoutActivity.class, mCurrentActivity.getClass());
 
-		// click details button to launch details activity
-		runTestOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				detailsButton.performClick();
-			}
-		});
-		mCurrentActivity = mInstr.waitForMonitorWithTimeout(monitor, 5000);
+		//
 
-		assertEquals(FlightDetailsActivity.class, mCurrentActivity.getClass());
-		*/
+		mSolo.sleep(10000);
 	}
 
+	// helper method to make things a little bit easier
+	private void registerMonitor(String className) {
+		if (mMonitor != null) {
+			mInstr.removeMonitor(mMonitor);
+		}
+
+		mMonitor = mInstr.addMonitor(className, null, false);
+	}
+
+	@LargeTest
+	public void testFlightSearchRoundtrip() throws Throwable {
+
+	}
 }
