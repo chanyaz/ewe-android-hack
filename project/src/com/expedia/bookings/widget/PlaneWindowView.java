@@ -231,6 +231,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		}
 
 		public void setSurfaceSize(int width, int height) {
+			long start = System.nanoTime();
+
 			// synchronized to make sure these all change atomically
 			synchronized (mSurfaceHolder) {
 				mCanvasWidth = width;
@@ -309,6 +311,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				mCurrentTick = System.nanoTime();
 				mRenderAll = true;
 			}
+
+			Log.d("Prepped PlaneWindowView in " + ((System.nanoTime() - start) / 1e6) + " ms");
 		}
 
 		public void setRunning(boolean running) {
