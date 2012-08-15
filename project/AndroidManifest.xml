@@ -116,7 +116,8 @@
         <activity
             android:name=".activity.FlightSearchResultsActivity"
             android:theme="@style/FlightTheme"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name=".activity.FlightDetailsActivity"
             android:theme="@style/FlightTheme" />

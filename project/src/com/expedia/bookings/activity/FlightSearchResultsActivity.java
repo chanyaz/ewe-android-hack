@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,8 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener {
+public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
+		OnBackStackChangedListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
@@ -106,6 +108,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		super.onResume();
 
 		BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
+
+		getSupportFragmentManager().addOnBackStackChangedListener(this);
 	}
 
 	@Override
@@ -118,6 +122,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		else {
 			BackgroundDownloader.getInstance().cancelDownload(DOWNLOAD_KEY);
 		}
+
+		getSupportFragmentManager().removeOnBackStackChangedListener(this);
 	}
 
 	@Override
@@ -141,6 +147,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		updateTitleBar();
 
+		// Show sort/filter only if we have results and are not showing the search params fragment
+		FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
+		menu.setGroupVisible(R.id.group_results, response != null && !response.hasErrors()
+				&& (mSearchParamsFragment == null || !mSearchParamsFragment.isAdded()));
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -154,6 +165,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 					+ Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			startActivity(intent);
 			return true;
+		case R.id.menu_sort:
+		case R.id.menu_filter: {
+			// TODO: Will need to change with new design someday
+			FlightFilterDialogFragment dialog = FlightFilterDialogFragment.newInstance(mLegPosition);
+			dialog.show(getSupportFragmentManager(), "filterDialogFragment");
+			break;
+		}
 		case R.id.menu_search:
 			if (mSearchParamsFragment != null && mSearchParamsFragment.isAdded() && !mSearchParamsFragment.isDetached()) {
 				onSearch();
@@ -304,5 +322,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		invalidateOptionsMenu();
 
 		Db.kickOffBackgroundSave(this);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnBackStackChangedListener
+
+	@Override
+	public void onBackStackChanged() {
+		supportInvalidateOptionsMenu();
 	}
 }
