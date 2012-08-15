@@ -66,8 +66,11 @@ public class FlightDetailsResponseHandler extends JsonResponseHandler<FlightDeta
 			details.setIsEnrouteChangeAllowed(flightRules.optBoolean("isEnrouteChangeAllowed"));
 			details.setIsEnrouteRefundAllowed(flightRules.optBoolean("isEnrouteRefundAllowed"));
 			details.setIsRefundable(flightRules.optBoolean("isRefundable"));
-			details.setChangePenaltyAmount(ParserUtils.createMoney(flightRules.optDouble("changePenaltyAmount"),
-					currencyCode));
+
+			if (flightRules.has("changePenaltyAmount")) {
+				details.setChangePenaltyAmount(ParserUtils.createMoney(flightRules.optDouble("changePenaltyAmount"),
+						currencyCode));
+			}
 		}
 
 		return details;
