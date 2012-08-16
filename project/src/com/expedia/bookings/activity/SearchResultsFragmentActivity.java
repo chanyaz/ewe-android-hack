@@ -333,9 +333,11 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 		}
 		else if (Db.getSearchResponse() != null) {
-			String key = getDownloadKey(Db.getSelectedProperty());
-			if (bd.isDownloading(key)) {
-				bd.registerDownloadCallback(key, mRoomAvailabilityCallback);
+			if (Db.getSelectedProperty() != null) {
+				String key = getDownloadKey(Db.getSelectedProperty());
+				if (bd.isDownloading(key)) {
+					bd.registerDownloadCallback(key, mRoomAvailabilityCallback);
+				}
 			}
 			if (bd.isDownloading(KEY_REVIEWS)) {
 				bd.registerDownloadCallback(KEY_REVIEWS, mReviewsCallback);
