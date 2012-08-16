@@ -178,7 +178,7 @@ public class Db {
 	}
 
 	public static void addAvailabilityResponse(AvailabilityResponse availabilityResponse) {
-		if (availabilityResponse != null) {
+		if (availabilityResponse != null && availabilityResponse.getProperty() != null) {
 			if (availabilityResponse.canRequestMoreData()) {
 				sDb.mInfoResponses.put(availabilityResponse.getProperty().getPropertyId(), availabilityResponse);
 			}
