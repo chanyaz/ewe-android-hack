@@ -42,7 +42,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	private FlightListFragmentListener mListener;
 
-	private ImageView mHeaderImage;
+	private ImageView mBackgroundView;
 	private TextView mNumFlightsTextView;
 	private SectionFlightLeg mSectionFlightLeg;
 
@@ -83,19 +83,21 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			return null;
 		}
 
-		View v = super.onCreateView(inflater, container, savedInstanceState);
+		View v = inflater.inflate(R.layout.fragment_flight_list, container, false);
+
+		mBackgroundView = Ui.findView(v, R.id.background_view);
 
 		// Configure the header
 		ListView lv = Ui.findView(v, android.R.id.list);
+		lv.setDividerHeight(0);
 		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, lv, false);
-		mHeaderImage = Ui.findView(header, R.id.background);
 		mNumFlightsTextView = Ui.findView(header, R.id.num_flights_text_view);
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
 		mSectionFlightLeg.setListener(this);
 		lv.addHeaderView(header);
 		lv.setHeaderDividersEnabled(false);
 
-		displayHeaderDrawable();
+		displayBackground();
 		displayHeaderLeg();
 
 		// Add the adapter
@@ -173,18 +175,12 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	public void setHeaderDrawable(Drawable drawable) {
 		mHeaderDrawable = drawable;
-		displayHeaderDrawable();
+		displayBackground();
 	}
 
-	private void displayHeaderDrawable() {
-		if (mHeaderImage != null) {
-			if (mHeaderDrawable == null) {
-				mHeaderImage.setVisibility(View.GONE);
-			}
-			else {
-				mHeaderImage.setVisibility(View.VISIBLE);
-				mHeaderImage.setImageDrawable(mHeaderDrawable);
-			}
+	private void displayBackground() {
+		if (mBackgroundView != null) {
+			mBackgroundView.setImageDrawable(mHeaderDrawable);
 		}
 	}
 

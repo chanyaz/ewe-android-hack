@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetBottom="10dp"
+    android:insetLeft="10dp"
+    android:insetRight="10dp"
+    android:insetTop="10dp" >
 
-    <item android:drawable="@android:color/transparent" android:state_focused="true"/>
-    <item android:drawable="@android:color/transparent" android:state_pressed="true"/>
-    <item android:drawable="@color/bg_flight_row"/>
+    <selector>
+        <item android:state_focused="true">
+            <shape android:shape="rectangle" >
+                <solid android:color="#D555" />
 
-</selector>
+                <corners android:radius="5dp" />
+            </shape>
+        </item>
+        <item android:state_pressed="true">
+            <shape android:shape="rectangle" >
+                <solid android:color="#D999" />
+
+                <corners android:radius="5dp" />
+            </shape>
+        </item>
+        <item>
+            <shape android:shape="rectangle" >
+                <solid android:color="#DEEE" />
+
+                <corners android:radius="5dp" />
+            </shape>
+        </item>
+    </selector>
+
+</inset>
