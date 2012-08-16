@@ -129,6 +129,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 	private boolean mShowDistances;
 
+	private ArrayList<String> mDownloadKeys = new ArrayList<String>();
+
 	// So we can detect if these search results are stale
 	private long mLastSearchTime;
 
@@ -331,8 +333,9 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 		}
 		else if (Db.getSearchResponse() != null) {
-			if (bd.isDownloading(KEY_AVAILABILITY_SEARCH)) {
-				bd.registerDownloadCallback(KEY_AVAILABILITY_SEARCH, mRoomAvailabilityCallback);
+			String key = KEY_AVAILABILITY_SEARCH + "_" + Db.getSelectedProperty().getPropertyId();
+			if (bd.isDownloading(key)) {
+				bd.registerDownloadCallback(key, mRoomAvailabilityCallback);
 			}
 			if (bd.isDownloading(KEY_REVIEWS)) {
 				bd.registerDownloadCallback(KEY_REVIEWS, mReviewsCallback);
@@ -365,7 +368,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_GEOCODE);
 		bd.unregisterDownloadCallback(KEY_SEARCH);
-		bd.unregisterDownloadCallback(KEY_AVAILABILITY_SEARCH);
+		for (String key : mDownloadKeys) {
+			// unregister KEY_AVAILABILITY_SEARCH related downloads
+			bd.unregisterDownloadCallback(key);
+		}
 		bd.unregisterDownloadCallback(KEY_REVIEWS);
 	}
 
@@ -1017,7 +1023,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_GEOCODE);
 		bd.cancelDownload(KEY_SEARCH);
-		bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
+		for (String key : mDownloadKeys) {
+			// Cancel KEY_AVAILABILITY_SEARCH related downloads
+			bd.cancelDownload(key);
+		}
 		bd.cancelDownload(KEY_REVIEWS);
 
 		Db.setSearchResponse(null);
@@ -1102,9 +1111,14 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			return;
 		}
 
+		String key = KEY_AVAILABILITY_SEARCH + "_" + property.getPropertyId();
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.cancelDownload(KEY_AVAILABILITY_SEARCH);
-		bd.startDownload(KEY_AVAILABILITY_SEARCH, mRoomAvailabilityDownload, mRoomAvailabilityCallback);
+		bd.cancelDownload(key);
+		mDownloadKeys.remove(key);
+
+		bd.startDownload(key, mRoomAvailabilityDownload, mRoomAvailabilityCallback);
+		mDownloadKeys.add(key);
 
 		notifyAvailabilityQueryStarted();
 	}
@@ -1112,7 +1126,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	private final Download<AvailabilityResponse> mRoomAvailabilityDownload = new Download<AvailabilityResponse>() {
 		public AvailabilityResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_AVAILABILITY_SEARCH, services);
+			String key = KEY_AVAILABILITY_SEARCH + "_" + Db.getSelectedProperty().getPropertyId();
+			BackgroundDownloader.getInstance().addDownloadListener(key, services);
 
 			if (Db.getSelectedInfoResponse() == null) {
 				return services.information(Db.getSelectedProperty());
@@ -1139,13 +1154,13 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 					TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 				}
 				else {
-					Db.getSelectedProperty().updateFrom(availabilityResponse.getProperty());
+					Db.getProperty(availabilityResponse.getProperty().getPropertyId()).updateFrom(availabilityResponse.getProperty());
 
 					notifyAvailabilityQueryComplete();
 
 					// Immediately kick off another (more expensive) request to get more data (if possible)
 					if (availabilityResponse.canRequestMoreData()) {
-						startRoomsAndRatesDownload(Db.getSelectedProperty());
+						startRoomsAndRatesDownload(Db.getProperty(availabilityResponse.getProperty().getPropertyId()));
 					}
 				}
 			}
