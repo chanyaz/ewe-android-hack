@@ -1145,8 +1145,6 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 	private final OnDownloadComplete<AvailabilityResponse> mRoomAvailabilityCallback = new OnDownloadComplete<AvailabilityResponse>() {
 		public void onDownload(AvailabilityResponse availabilityResponse) {
-			Db.addAvailabilityResponse(availabilityResponse);
-
 			if (availabilityResponse == null) {
 				notifyAvailabilityQueryError(getString(R.string.error_no_response_room_rates));
 				TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
@@ -1158,6 +1156,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 					TrackingUtils.trackErrorPage(mContext, "RatesListRequestFailed");
 				}
 				else {
+					Db.addAvailabilityResponse(availabilityResponse);
+
 					Db.getProperty(availabilityResponse.getProperty().getPropertyId()).updateFrom(availabilityResponse.getProperty());
 
 					notifyAvailabilityQueryComplete();
