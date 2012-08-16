@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -79,13 +80,12 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
 
-
 		// Configure the custom action bar view
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
 		mTitleTextView = Ui.findView(customView, R.id.title_text_view);
 		mSubtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
-		
+
 		ActionBar actionBar = this.getSupportActionBar();
 		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
 		nb.setDropdownAdapter(new NavigationDropdownAdapter(this));
@@ -189,8 +189,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		// Configure subtitle based on which user the leg is selecting
 		Date date = (mLegPosition == 0) ? params.getDepartureDateWithDefault() : params.getReturnDate();
-		mSubtitleTextView.setText(android.text.format.DateFormat.getMediumDateFormat(this).format(
-				date.getCalendar().getTime()));
+		mSubtitleTextView.setText(DateUtils.formatDateTime(mContext, date.getCalendar().getTimeInMillis(),
+				DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR + DateUtils.FORMAT_SHOW_WEEKDAY));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -44,9 +44,9 @@
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Select</string>
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">Outbound to %s</string>
+    <string name="outbound_TEMPLATE">Outbound Flights to %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">Inbound to %s</string>
+    <string name="inbound_TEMPLATE">Return Flights to %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Sorry, we could not connect to Expedia\'s servers.  Please try again later.</string>
     <!-- Label for changing sort order on flights -->
