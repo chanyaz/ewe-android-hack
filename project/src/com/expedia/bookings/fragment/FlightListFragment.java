@@ -2,26 +2,32 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightTripOverviewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.SectionFlightLeg.SectionFlightLegListener;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
+import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
@@ -37,6 +43,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	private FlightListFragmentListener mListener;
 
 	private ImageView mHeaderImage;
+	private TextView mNumFlightsTextView;
 	private SectionFlightLeg mSectionFlightLeg;
 
 	private Drawable mHeaderDrawable;
@@ -82,6 +89,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		ListView lv = Ui.findView(v, android.R.id.list);
 		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, lv, false);
 		mHeaderImage = Ui.findView(header, R.id.background);
+		mNumFlightsTextView = Ui.findView(header, R.id.num_flights_text_view);
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
 		mSectionFlightLeg.setListener(this);
 		lv.addHeaderView(header);
@@ -92,6 +100,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 		// Add the adapter
 		mAdapter = new FlightAdapter(getActivity(), savedInstanceState);
+		mAdapter.registerDataSetObserver(mDataSetObserver);
 		setListAdapter(mAdapter);
 
 		// Set initial data
@@ -183,9 +192,30 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		}
 	}
 
+	private void displayNumFlights() {
+		if (mNumFlightsTextView != null) {
+			int count = mAdapter.getCount();
+			if (count == 0) {
+				mNumFlightsTextView.setText(null);
+			}
+			else {
+				FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+				String airportCode = (mLegPosition == 0) ? params.getArrivalAirportCode() : params
+						.getDepartureAirportCode();
+				Airport airport = FlightStatsDbUtils.getAirport(airportCode);
+				String city = airport.mCity;
+				if (TextUtils.isEmpty(city)) {
+					city = airportCode;
+				}
+				mNumFlightsTextView.setText(getResources().getQuantityString(R.plurals.num_flights_to_destination,
+						count, count, city).toUpperCase());
+			}
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// List control
-	
+
 	public void reset() {
 		mLegPosition = 0;
 		mAdapter.setFlightTripQuery(null);
@@ -203,6 +233,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	public void onLegPositionChanged() {
 		mAdapter.setLegPosition(mLegPosition);
+
 		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
 
 		mListener.onSelectionChanged(mLegPosition);
@@ -212,6 +243,16 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			getListView().setSelection(0);
 		}
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Dataset observer
+
+	private DataSetObserver mDataSetObserver = new DataSetObserver() {
+		@Override
+		public void onChanged() {
+			displayNumFlights();
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// FlightListFragmentListener

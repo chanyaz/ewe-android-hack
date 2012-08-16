@@ -80,6 +80,15 @@
     <string name="error_same_origin_arrival">You must enter different departure and arrival airports.</string>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Search data was cleared somehow.  Please report this error to DLew.</string>
+    <!-- # of flights, plus where they're going.  %1$s is the # of flights, %2$s is the destination.  E.g., "5 flights to Los Angeles" -->
+    <plurals name="num_flights_to_destination">
+        <item quantity="zero">%1$s flights to %2$s</item>
+        <item quantity="one">%1$s flight to %2$s</item>
+        <item quantity="two">%1$s flights to %2$s</item>
+        <item quantity="few">%1$s flights to %2$s</item>
+        <item quantity="many">%1$s flights to %2$s</item>
+        <item quantity="other">%1$s flights to %2$s</item>
+    </plurals>
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
