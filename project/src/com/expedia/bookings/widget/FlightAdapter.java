@@ -178,6 +178,17 @@ public class FlightAdapter extends BaseAdapter {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Reset
+
+	// This *needs* to be called before the FlightAdapter is destroyed.
+	// Otherwise we keep a long-running reference as a dataset observer.
+	public void destroy() {
+		if (mFlightTripQuery != null) {
+			mFlightTripQuery.unregisterDataSetObserver(mDataSetObserver);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Dataset observer
 
 	private DataSetObserver mDataSetObserver = new DataSetObserver() {

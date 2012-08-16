@@ -117,6 +117,14 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	}
 
 	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+
+		mAdapter.destroy();
+		mAdapter = null;
+	}
+
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
