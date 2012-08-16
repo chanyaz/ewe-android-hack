@@ -333,7 +333,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 		}
 		else if (Db.getSearchResponse() != null) {
-			String key = KEY_AVAILABILITY_SEARCH + "_" + Db.getSelectedProperty().getPropertyId();
+			String key = getDownloadKey(Db.getSelectedProperty());
 			if (bd.isDownloading(key)) {
 				bd.registerDownloadCallback(key, mRoomAvailabilityCallback);
 			}
@@ -1111,7 +1111,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			return;
 		}
 
-		String key = KEY_AVAILABILITY_SEARCH + "_" + property.getPropertyId();
+		String key = getDownloadKey(property);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(key);
@@ -1123,10 +1123,14 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		notifyAvailabilityQueryStarted();
 	}
 
+	private String getDownloadKey(Property p) {
+		return KEY_AVAILABILITY_SEARCH + "_" + p.getPropertyId();
+	}
+
 	private final Download<AvailabilityResponse> mRoomAvailabilityDownload = new Download<AvailabilityResponse>() {
 		public AvailabilityResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
-			String key = KEY_AVAILABILITY_SEARCH + "_" + Db.getSelectedProperty().getPropertyId();
+			String key = getDownloadKey(Db.getSelectedProperty());
 			BackgroundDownloader.getInstance().addDownloadListener(key, services);
 
 			if (Db.getSelectedInfoResponse() == null) {
