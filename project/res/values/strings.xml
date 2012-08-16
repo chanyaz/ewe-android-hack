@@ -327,6 +327,8 @@
     <string name="wheelchair">Wheelchair</string>
     <!-- DEFIBRILLATOR -->
     <string name="defibrillator">Defibrillator</string>
+    <!-- Super long for test purposes -->
+    <string name="super_long_assistance">Super long assistance type that will be ellipsized</string>
     <!-- salad -->
     <string name="salad">Salad</string>
 

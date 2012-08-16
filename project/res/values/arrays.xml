@@ -13,6 +13,7 @@
         <item>@string/none</item>
         <item>@string/wheelchair</item>
         <item>@string/defibrillator</item>
+        <item>@string/super_long_assistance</item>
     </string-array>
 
     <!-- Flight seat preferences -->

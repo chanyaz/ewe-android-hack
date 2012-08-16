@@ -49,5 +49,7 @@ public class AssistanceTypeSpinnerAdapter extends ArrayAdapter<String> {
 		ASSISTANCE_VALUES.put(res.getString(R.string.none), AssistanceType.NONE);
 		ASSISTANCE_VALUES.put(res.getString(R.string.wheelchair), AssistanceType.WHEELCHAIR);
 		ASSISTANCE_VALUES.put(res.getString(R.string.defibrillator), AssistanceType.DEFIBRILLATOR);
+		ASSISTANCE_VALUES.put(res.getString(R.string.super_long_assistance), AssistanceType.SUPER_LONG_ASSISTANCE_TYPE);
+		
 	}
 }

@@ -50,7 +50,8 @@ public class FlightPassenger implements JSONable {
 	public enum AssistanceType {
 		NONE,
 		WHEELCHAIR,
-		DEFIBRILLATOR
+		DEFIBRILLATOR,
+		SUPER_LONG_ASSISTANCE_TYPE
 	}
 
 	public enum MealType {
@@ -187,6 +188,9 @@ public class FlightPassenger implements JSONable {
 			break;
 		case DEFIBRILLATOR:
 			retStr = res.getString(R.string.defibrillator);
+			break;
+		case SUPER_LONG_ASSISTANCE_TYPE:
+			retStr = res.getString(R.string.super_long_assistance);
 			break;
 		case NONE:
 			retStr = res.getString(R.string.none);
