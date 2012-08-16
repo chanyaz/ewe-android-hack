@@ -79,7 +79,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 		super.onDestroy();
 
 		Property property = DbPropertyHelper.getBestMediaProperty();
-		if (getActivity().isFinishing() && property.getMediaCount() > 0) {
+		if (getActivity().isFinishing() && property != null && property.getMediaCount() > 0) {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
 			Log.d("Clearing out images from property.");
 
