@@ -27,24 +27,6 @@
             gridlayout:layout_columnSpan="2"
             android:hint="@string/middle_name"
             android:inputType="textPersonName" />
-        
-        <View
-            android:id="@+id/valid_first_name"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_horizontal"
-            gridlayout:layout_columnSpan="2"
-            android:background="#000000" />
-
-        <View
-            android:id="@+id/valid_middle_name"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_horizontal"
-            gridlayout:layout_columnSpan="2"
-            android:background="#000000" />
-        
-
 
         <EditText
             android:id="@+id/edit_last_name"
@@ -54,15 +36,6 @@
             android:hint="@string/last_name"
             android:inputType="textPersonName" />
 
-        
-
-        <View
-            android:id="@+id/valid_last_name"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_horizontal"
-            gridlayout:layout_columnSpan="4"
-            android:background="#000000" />
     </com.gridlayout.GridLayout>
 
     <com.gridlayout.GridLayout
@@ -87,15 +60,6 @@
             android:layout_gravity="fill_horizontal"
             android:inputType="phone" />
 
-        <View
-            android:id="@+id/valid_phone_number"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_horizontal"
-            android:layout_column="1"
-            gridlayout:layout_columnSpan="2"
-            android:background="#000000" />
-
         <TextView
             android:layout_gravity="right|center_vertical"
             android:text="@string/gender" />
@@ -119,15 +83,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/female" />
         </RadioGroup>
-
-        <View
-            android:id="@+id/valid_gender"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_horizontal"
-            android:layout_column="1"
-            gridlayout:layout_columnSpan="2"
-            android:background="#000000" />
 
         <TextView
             android:id="@+id/footer_message"

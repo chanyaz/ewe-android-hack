@@ -23,6 +23,8 @@ public class FlightTravelerInfoOneActivity extends Activity {
 	Button mDoneBtn;
 	int mPassengerIndex = -1;
 
+	boolean mAttemptToLeaveMade = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,31 +38,34 @@ public class FlightTravelerInfoOneActivity extends Activity {
 			mPassenger = Db.getFlightPassengers().get(mPassengerIndex);
 		}
 
-		
 		final YoYo yoyo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
 		mDoneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = yoyo.generateIntent(FlightTravelerInfoOneActivity.this, getIntent());
-				startActivity(intent);
+				mAttemptToLeaveMade = true;
+				if (mSectionTravelerInfo.hasValidInput()) {
+					Intent intent = yoyo.generateIntent(FlightTravelerInfoOneActivity.this, getIntent());
+					startActivity(intent);
+				}
+				mDoneBtn.setEnabled(mSectionTravelerInfo.hasValidInput());
 			}
 		});
-		
 
 		mSectionTravelerInfo.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
-				mDoneBtn.setEnabled(mSectionTravelerInfo.hasValidInput());
-
+				if (mAttemptToLeaveMade) {
+					mDoneBtn.setEnabled(mSectionTravelerInfo.hasValidInput());
+				}
 			}
 		});
-		
-		
-		if(yoyo != null){
-			if(yoyo.isLast(FlightTravelerInfoOneActivity.class)){
+
+		if (yoyo != null) {
+			if (yoyo.isLast(FlightTravelerInfoOneActivity.class)) {
 				//Done
 				mDoneBtn.setText(getString(R.string.button_done));
-			}else{
+			}
+			else {
 				//Next
 				mDoneBtn.setText(getString(R.string.next));
 			}
@@ -70,7 +75,6 @@ public class FlightTravelerInfoOneActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		//mNextButton.setText(TravelerFlowState.getInstance(this).getTravelerFlowButtonText(this, mPassenger));
 		mSectionTravelerInfo.bind(mPassenger);
 	}
 

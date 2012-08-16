@@ -21,7 +21,10 @@ import com.mobiata.android.validation.Validator;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -120,8 +123,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		for (SectionField<?, FlightPassenger> field : mFields) {
 			field.bindField(this);
 		}
-
-		hasValidInput();
 	}
 
 	@Override
@@ -191,21 +192,51 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 			}
 		}
 	}
+	
+	
+	class ValidationIndicatorTextColorExclaimation<Data extends Object> extends SectionFieldValidIndicator<EditText, Data> {
+		public ValidationIndicatorTextColorExclaimation(int fieldId) {
+			super(fieldId);
+		}
 
-	ValidationIndicatorColorView<FlightPassenger> mValidFirstName = new ValidationIndicatorColorView<FlightPassenger>(
-			R.id.valid_first_name);
-	ValidationIndicatorColorView<FlightPassenger> mValidMiddleName = new ValidationIndicatorColorView<FlightPassenger>(
-			R.id.valid_middle_name);
-	ValidationIndicatorColorView<FlightPassenger> mValidLastName = new ValidationIndicatorColorView<FlightPassenger>(
-			R.id.valid_last_name);
-	ValidationIndicatorColorView<FlightPassenger> mValidPhoneNumber = new ValidationIndicatorColorView<FlightPassenger>(
-			R.id.valid_phone_number);
+		ColorStateList mValidColor;
+		Color mInvalidTextColor;
+		Boolean mWasValid = true;
+		
+		@Override
+		protected void onPostValidate(EditText field, boolean isValid) {
+			if (!isValid && mWasValid) {
+				//Not valid, but it was the last time we validated
+				mValidColor = field.getTextColors();
+				field.setTextColor(Color.RED);
+				Drawable errorIcon = getResources().getDrawable(R.drawable.ic_error);
+				errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
+				field.setError(null, errorIcon);
+				mWasValid = false;
+			}	
+			else if(isValid && !mWasValid){
+				//Freshly valid
+				field.setTextColor(mValidColor);
+				field.setError(null,null);
+				mWasValid = true;
+			}
+		}
+	}
+	
+	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidFirstName = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(R.id.edit_first_name);
+	
+	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidMiddleName = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+			R.id.edit_middle_name);
+	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidLastName = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+			R.id.edit_last_name);
+	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidPhoneNumber = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+			R.id.edit_phone_number);
 	ValidationIndicatorColorView<FlightPassenger> mValidGender = new ValidationIndicatorColorView<FlightPassenger>(
 			R.id.valid_gender);
 	ValidationIndicatorColorView<FlightPassenger> mValidDateOfBirth = new ValidationIndicatorColorView<FlightPassenger>(
 			R.id.valid_date_of_birth);
-	ValidationIndicatorColorView<FlightPassenger> mValidRedressNumber = new ValidationIndicatorColorView<FlightPassenger>(
-			R.id.valid_redress_number);
+	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidRedressNumber = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+			R.id.edit_redress_number);
 	ValidationIndicatorColorView<FlightPassenger> mValidPassportCountry = new ValidationIndicatorColorView<FlightPassenger>(
 			R.id.valid_passport_country);
 
