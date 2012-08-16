@@ -393,22 +393,34 @@ public class Db {
 	 * MAKE SURE TO CALL THIS IN A NON-UI THREAD
 	 */
 	public static boolean saveFlightDataCache(Context context) {
-		long start = System.currentTimeMillis();
-		try {
-			JSONObject obj = new JSONObject();
-			JSONUtils.putJSONable(obj, "flightSearch", sDb.mFlightSearch);
-			JSONUtils.putJSONable(obj, "flightDetails", sDb.mFlightDetails);
+		synchronized (sDb) {
+			Log.d("Saving flight data cache...");
 
-			IoUtils.writeStringToFile(SAVED_FLIGHT_DATA_FILE, obj.toString(), context);
+			long start = System.currentTimeMillis();
+			try {
+				JSONObject obj = new JSONObject();
+				JSONUtils.putJSONable(obj, "flightSearch", sDb.mFlightSearch);
+				JSONUtils.putJSONable(obj, "flightDetails", sDb.mFlightDetails);
 
-			Log.d("Saved flight data cache in " + (System.currentTimeMillis() - start) + " ms");
+				String json = obj.toString();
+				IoUtils.writeStringToFile(SAVED_FLIGHT_DATA_FILE, json, context);
 
-			return true;
-		}
-		catch (Exception e) {
-			// It's not a severe issue if this all fails - just 
-			Log.w("Failed to save flight data", e);
-			return false;
+				Log.d("Saved flight data cache in " + (System.currentTimeMillis() - start)
+						+ " ms.  Size of data cache: "
+						+ json.length() + " chars");
+
+				return true;
+			}
+			catch (Exception e) {
+				// It's not a severe issue if this all fails - just 
+				Log.w("Failed to save flight data", e);
+				return false;
+			}
+			catch (OutOfMemoryError err) {
+				Log.e("Ran out of memory trying to save flight data cache", err);
+				throw new RuntimeException(err);
+			}
+
 		}
 	}
 
@@ -450,6 +462,14 @@ public class Db {
 	}
 
 	public static void kickOffBackgroundSave(final Context context) {
+		// #517: Trying to track down issues
+		try {
+			throw new RuntimeException("FAKE EXCEPTION FOR STACK TRACE");
+		}
+		catch (Exception e) {
+			Log.d("Kicking off background flight data save", e);
+		}
+
 		// Kick off a search to cache results to disk, in case app is killed
 		(new Thread(new Runnable() {
 			@Override
