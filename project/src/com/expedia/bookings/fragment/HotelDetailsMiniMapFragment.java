@@ -91,8 +91,8 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 		int width = mStaticMapImageView.getWidth();
 		int height = mStaticMapImageView.getHeight();
 
-		mStaticMapUri = GoogleServices.getStaticMapUrl(width / 2, height / 2, ZOOM, MapType.ROADMAP, latitude,
-				longitude) + "&scale=" + DENSITY_SCALE_FACTOR;
+		mStaticMapUri = GoogleServices.getStaticMapUrl(width / DENSITY_SCALE_FACTOR, height / DENSITY_SCALE_FACTOR,
+				ZOOM, MapType.ROADMAP, latitude, longitude) + "&scale=" + DENSITY_SCALE_FACTOR;
 
 		ImageCache.loadImage(mStaticMapUri, mStaticMapImageView);
 	}
