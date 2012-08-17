@@ -157,7 +157,11 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 				startActivity(intent);
 			}
 		});
-
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
 		refreshCurrentPassenger();
 	}
 

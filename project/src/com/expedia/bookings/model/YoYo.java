@@ -56,7 +56,7 @@ public class YoYo implements Parcelable {
 			intent.fillIn(other, Intent.FILL_IN_DATA);
 		}
 		intent.putExtra(YoYo.TAG_YOYO, this);
-		if(isEmpty(currentActivity.getClass())){
+		if(isLast(currentActivity.getClass())){
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		}
