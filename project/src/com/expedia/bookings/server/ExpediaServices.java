@@ -664,9 +664,7 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		}
 		case PUBLIC_INTEGRATION: {
-			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-					"localhost:80"));
-			builder.append("/MobileHotel/Webapp/");
+			builder.append("70.42.224.37:80/MobileHotel/Webapp/");
 			break;
 		}
 		case PROXY: {
