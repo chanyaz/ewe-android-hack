@@ -664,7 +664,7 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		}
 		case PUBLIC_INTEGRATION: {
-			builder.append("70.42.224.37:80/MobileHotel/Webapp/");
+			builder.append("70.42.224.37/MobileHotel/Webapp/");
 			break;
 		}
 		case PROXY: {
