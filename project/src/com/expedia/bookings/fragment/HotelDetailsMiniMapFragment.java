@@ -26,8 +26,8 @@ import com.mobiata.android.services.GoogleServices.MapType;
 
 public class HotelDetailsMiniMapFragment extends Fragment {
 
-	private static final int ZOOM = 12;
-	private static final int PIXEL_COEFFICIENT = 4096 * 256; // 2^ZOOM * map pixel width
+	private static int ZOOM = 13; // We want this to be different depending on dpi too
+	private static int PIXEL_COEFFICIENT = 8192 * 256; // 2^ZOOM * map pixel width
 	private static int DENSITY_SCALE_FACTOR = 1; // This has to be calculated at runtime
 
 	private ImageView mStaticMapImageView;
@@ -66,7 +66,11 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 
 		// High DPI screens should utilize scale=2 for this API
 		// https://developers.google.com/maps/documentation/staticmaps/
-		DENSITY_SCALE_FACTOR = getResources().getDisplayMetrics().density > 1.5 ? 2 : 1;
+		if (getResources().getDisplayMetrics().density > 1.5) {
+			DENSITY_SCALE_FACTOR = 2;
+			ZOOM = 12;
+			PIXEL_COEFFICIENT = 4096 * 256;
+		}
 
 		return mStaticMapImageView;
 	}
