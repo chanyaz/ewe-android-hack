@@ -201,7 +201,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 
 		Property property = Db.getSelectedProperty();
-		LayoutUtils.configureHeader(this, property, onBookNowClick);
+		if (property != null) {
+			LayoutUtils.configureHeader(this, property, onBookNowClick);
+		}
 
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction ft = manager.beginTransaction();
