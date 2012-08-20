@@ -122,7 +122,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void onBackPressed() {
-		if (mListFragment == null || !mListFragment.onBackPressed()) {
+		if ((mSearchParamsFragment != null && mSearchParamsFragment.isAdded()) || mListFragment == null
+				|| !mListFragment.onBackPressed()) {
 			super.onBackPressed();
 		}
 	}
