@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -29,8 +31,8 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	private int mGalleryHeight = 0;
 	private int mInitialScrollTop = 0;
-	private int mLastContainerHeight = 0;
 	private int mIntroOffset = 0;
+	private boolean mHasBeenTouched = false;
 
 	//TODO: this won't be needed once minSdk >= 11
 	AnimatorProxy mGalleryAnimatorProxy;
@@ -47,36 +49,30 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	public HotelDetailsScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+
+		mGalleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
+		mIntroOffset = getResources().getDimensionPixelSize(R.dimen.hotel_details_intro_offset);
 	}
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
 
-		int screenHeight = b - t;
-		mInitialScrollTop = screenHeight - mGalleryHeight;
+		int h = b - t;
+		mInitialScrollTop = h - mGalleryHeight;
 
-		// onLayout is called more frequently than mGalleryContainer is resized/layout'ed.
-		// We want to just scroll to mInitialScrollTop only when mGalleryContainer is
-		// resized.
-		if (mGalleryContainer == null) {
-			mLastContainerHeight = 0;
-		}
-		else if (mGalleryContainer.getHeight() != mLastContainerHeight) {
-			mLastContainerHeight = mGalleryContainer.getHeight();
+		if (!mHasBeenTouched) {
 			scrollTo(0, mInitialScrollTop);
 			doCounterscroll();
 		}
 	}
 
+	@TargetApi(11)
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 
-		if (mGalleryHeight == 0) {
-			mGalleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
-			mIntroOffset = getResources().getDimensionPixelSize(R.dimen.hotel_details_intro_offset);
-		}
+		mInitialScrollTop = h - mGalleryHeight;
 
 		if (mGalleryScrollView == null) {
 			mGalleryScrollView = (ViewGroup) findViewById(R.id.gallery_scroll_view);
@@ -121,6 +117,8 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	public boolean onTouchEvent(MotionEvent ev) {
 		boolean result = super.onTouchEvent(ev);
 
+		mHasBeenTouched = true;
+
 		if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
 			if (isScrollerFinished()) {
 				snapGallery();
@@ -163,6 +161,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		mAnimator.start();
 	}
 
+	@TargetApi(11)
 	private void galleryCounterscroll(int parentScroll) {
 		// Gallery Layout
 		int screenHeight = getHeight();
