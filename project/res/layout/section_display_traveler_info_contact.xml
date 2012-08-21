@@ -26,18 +26,29 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/enter_traveler_info"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textColor="@color/data_review_dark"
+            android:textScaleX="0.9"
+            android:textSize="@dimen/data_display_primary_text"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp" />
 
         <TextView
             android:id="@+id/display_phone_number_with_country_code"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/data_review_grey"
+            android:textSize="@dimen/data_display_sub_text"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="0dp" />
 
         <TextView
             android:id="@+id/display_born_on"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/data_review_grey"
+            android:textSize="@dimen/data_display_sub_text"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="0dp" />
     </LinearLayout>
 
 </com.expedia.bookings.section.SectionTravelerInfo>

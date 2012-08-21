@@ -213,6 +213,8 @@
 	<string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Born %1$s</string>
+    <!-- Born on colored -->
+    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191">Born&lt;/font> %1$s</string>
 	
 	
     <!-- Section edit contact -->
@@ -262,6 +264,8 @@
     <string name="address_postal_code_hint">Zip</string>
 
     <!-- Section edit traveler -->
+    <!-- Traveler Information -->
+    <string name="traveler_information">Traveler Information</string>
     <!-- First name label -->
     <string name="first_name">First Name</string>
     <!-- Middle name label -->
@@ -292,8 +296,10 @@
     <string name="redress_number">Redress #</string>
     <!-- Passport country label -->
     <string name="passport_country">Passport Country</string>
+    <!-- Passport country / origin heading -->
+    <string name="passport_country_origin">Passport Country / Origin</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">Only if applicable</string>
+    <string name="only_if_applicable">Redress # (if applicable)</string>
     <!-- Seating label -->
     <string name="seating">Seating</string>
     <!-- Assistance label -->
@@ -304,15 +310,23 @@
     <!-- Traveler Info spinner values -->
     <!-- None -->
     <string name="none">None</string>
+    <!-- Gender name template e.g. Chris is Male -->
+    <string name="gender_name_TEMPLATE">&lt;font color="#919191">%1$s is&lt;/font> %2$s</string>
     
     
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
     <string name="select_a_traveler">Select a traveler</string>
+    <!-- Select a different traveler -->
+    <string name="select_a_different_traveler">Select a different traveler</string>
+    <!-- Enter a new traveler -->
+    <string name="enter_new_traveler">Enter a new traveler</string>
     <!-- Edit current traveler details -->
-    <string name="edit_current_traveler">Edit Current Traveler Details</string>
+    <string name="edit_current_traveler">Edit Traveler Information</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
+    <!-- prefers seat template -->
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191">Prefers&lt;/font> %1$s Seat</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -323,6 +337,8 @@
     <string name="any">Any</string>
 
     <!-- Assistance Types -->
+    <!--  No assistance type -->
+    <string name="no_assistance">No Special Assistance Required</string>
     <!-- Wheelchair -->
     <string name="wheelchair">Wheelchair</string>
     <!-- DEFIBRILLATOR -->

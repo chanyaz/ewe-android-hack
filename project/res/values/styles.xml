@@ -369,4 +369,8 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">24sp</item>
     </style>
+    
+    <style name="SpinnerStyle" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:background">@drawable/spinner_default_holo_light</item>
+    </style>
 </resources>

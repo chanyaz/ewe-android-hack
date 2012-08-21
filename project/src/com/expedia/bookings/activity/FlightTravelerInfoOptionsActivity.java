@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -23,6 +22,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -32,7 +34,7 @@ import com.expedia.bookings.model.YoYo;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.util.Ui;
 
-public class FlightTravelerInfoOptionsActivity extends FragmentActivity implements LoaderCallbacks<Cursor> {
+public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity implements LoaderCallbacks<Cursor> {
 
 	private static final int REQUEST_CODE_PICK_CONTACT = 1;
 	private static final String CONTACT_URI = "CONTACT_URI";
@@ -40,8 +42,10 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	View mOverviewBtn;
 	View mEnterManuallyBtn;
 	View mFromContactsBtn;
+	View mInternationalDivider;
 
 	TextView mEditTravelerLabel;
+	TextView mSelectTravelerLabel;
 	ViewGroup mEditTravelerContainer;
 	ViewGroup mAssociatedTravelersContainer;
 
@@ -50,6 +54,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 
 	SectionTravelerInfo mPassengerContact;
 	SectionTravelerInfo mPassengerPrefs;
+	SectionTravelerInfo mPassengerPassportCountry;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +66,9 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 
 		mEditTravelerContainer = Ui.findView(this, R.id.edit_traveler_container);
 		mEditTravelerLabel = Ui.findView(this, R.id.edit_traveler_label);
+		mSelectTravelerLabel = Ui.findView(this, R.id.select_traveler_label);
 		mAssociatedTravelersContainer = Ui.findView(this, R.id.associated_travelers_container);
-
-		mOverviewBtn = Ui.findView(this, R.id.overview_btn);
-		mOverviewBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this, FlightCheckoutActivity.class);
-				startActivity(intent);
-			}
-		});
+		mInternationalDivider = Ui.findView(this, R.id.current_traveler_passport_country_divider);
 
 		mEnterManuallyBtn = Ui.findView(this, R.id.enter_info_manually_button);
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
@@ -113,7 +111,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 				});
 
 				mAssociatedTravelersContainer.addView(travelerInfo);
-				
+
 				//Add divider
 				View divider = new View(this);
 				LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
@@ -131,6 +129,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 
 		mPassengerContact = Ui.findView(this, R.id.current_traveler_contact);
 		mPassengerPrefs = Ui.findView(this, R.id.current_traveler_prefs);
+		mPassengerPassportCountry = Ui.findView(this, R.id.current_traveler_passport_country);
 
 		mPassengerContact.setOnClickListener(new OnClickListener() {
 			@Override
@@ -157,10 +156,24 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 				startActivity(intent);
 			}
 		});
+
+		mPassengerPassportCountry.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this,
+						FlightTravelerInfoThreeActivity.class);
+				YoYo yoyo = new YoYo();
+				yoyo.addYoYoTrick(FlightTravelerInfoOptionsActivity.class);
+				intent.putExtra(Codes.PASSENGER_INDEX, mCurrentPassengerIndex);
+				intent.putExtra(YoYo.TAG_YOYO, yoyo);
+				startActivity(intent);
+			}
+		});
+
 	}
-	
+
 	@Override
-	public void onResume(){
+	public void onResume() {
 		super.onResume();
 		refreshCurrentPassenger();
 	}
@@ -169,14 +182,25 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 		if (!mCurrentPassenger.hasName()) {
 			mEditTravelerContainer.setVisibility(View.GONE);
 			mEditTravelerLabel.setVisibility(View.GONE);
+			mSelectTravelerLabel.setText(getString(R.string.select_a_traveler));
 		}
 		else {
 			mEditTravelerContainer.setVisibility(View.VISIBLE);
 			mEditTravelerLabel.setVisibility(View.VISIBLE);
+			mSelectTravelerLabel.setText(getString(R.string.select_a_different_traveler));
+			if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+				mInternationalDivider.setVisibility(View.VISIBLE);
+				mPassengerPassportCountry.setVisibility(View.VISIBLE);
+			}
+			else {
+				mInternationalDivider.setVisibility(View.GONE);
+				mPassengerPassportCountry.setVisibility(View.GONE);
+			}
 		}
 
 		mPassengerContact.bind(mCurrentPassenger);
 		mPassengerPrefs.bind(mCurrentPassenger);
+		mPassengerPassportCountry.bind(mCurrentPassenger);
 	}
 
 	@Override
@@ -194,10 +218,27 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 		Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this, FlightTravelerInfoOneActivity.class);
 		YoYo yoyo = new YoYo();
 		yoyo.addYoYoTrick(FlightTravelerInfoTwoActivity.class);
+		if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+			yoyo.addYoYoTrick(FlightTravelerInfoThreeActivity.class);
+		}
 		yoyo.addYoYoTrick(FlightCheckoutActivity.class);
 		intent.putExtra(Codes.PASSENGER_INDEX, mCurrentPassengerIndex);
 		intent.putExtra(YoYo.TAG_YOYO, yoyo);
 		startActivity(intent);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = this.getSupportMenuInflater();
+		inflater.inflate(R.menu.menu_done, menu);
+		menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this, FlightCheckoutActivity.class);
+				startActivity(intent);
+			}		
+		});
+		return true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -234,9 +275,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 			passenger.setLastName(validNameParts.get(2));
 		}
 
-		
 		Db.getFlightPassengers().set(mCurrentPassengerIndex, passenger);
-		
 
 		// Shut down the query, now that we have the data
 		getSupportLoaderManager().destroyLoader(ContactQuery._LOADER_ID);

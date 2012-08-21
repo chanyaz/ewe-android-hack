@@ -17,7 +17,7 @@ import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.util.Ui;
 
-public class FlightTravelerInfoTwoActivity extends SherlockActivity {
+public class FlightTravelerInfoThreeActivity extends SherlockActivity {
 
 	FlightPassenger mPassenger;
 	SectionTravelerInfo mSectionTravelerInfo;
@@ -29,7 +29,7 @@ public class FlightTravelerInfoTwoActivity extends SherlockActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_flight_traveler_info_step2);
+		setContentView(R.layout.activity_flight_traveler_info_step3);
 		mSectionTravelerInfo = Ui.findView(this, R.id.traveler_info);
 
 		mPassengerIndex = getIntent().getIntExtra(Codes.PASSENGER_INDEX, -1);
@@ -72,7 +72,7 @@ public class FlightTravelerInfoTwoActivity extends SherlockActivity {
 			public void onClick(View v) {
 				mAttemptToLeaveMade = true;
 				if (mSectionTravelerInfo.hasValidInput()) {
-					Intent intent = mYoYo.generateIntent(FlightTravelerInfoTwoActivity.this, getIntent());
+					Intent intent = mYoYo.generateIntent(FlightTravelerInfoThreeActivity.this, getIntent());
 					startActivity(intent);
 				}
 			}		

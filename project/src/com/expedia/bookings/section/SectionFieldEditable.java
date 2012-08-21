@@ -22,6 +22,7 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 	@Override
 	protected void onFieldBind() {
 		super.onFieldBind();
+		validationOutdated = true;//If we rebind we want to make sure we revalidate
 		if (this.hasBoundField()) {
 			setChangeListener(this.getField());
 			setPostValidators(this.getPostValidators());

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CFCFCF"
+    android:background="@color/flight_checkout_opaque_white"
     android:fillViewport="true"
     android:padding="10dp" >
 
@@ -11,28 +11,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <!-- This nesting is bad, but it prevents fillViewport from altering our inner layouts -->
-
-        <LinearLayout
+        <include
+            android:id="@+id/traveler_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_flight_rounded_white"
-            android:orientation="vertical"
-            android:padding="10dp" >
-
-            <include
-                android:id="@+id/traveler_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/section_edit_traveler_pt2" />
-
-            <Button
-                android:id="@+id/finish"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="@string/finish" />
-        </LinearLayout>
+            layout="@layout/section_edit_traveler_pt2" />
     </LinearLayout>
 
 </ScrollView>

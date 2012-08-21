@@ -1,12 +1,14 @@
 package com.expedia.bookings.activity;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -16,21 +18,20 @@ import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.util.Ui;
 
-public class FlightTravelerInfoOneActivity extends Activity {
+public class FlightTravelerInfoOneActivity extends SherlockActivity {
 
 	FlightPassenger mPassenger;
 	SectionTravelerInfo mSectionTravelerInfo;
-	Button mDoneBtn;
 	int mPassengerIndex = -1;
 
 	boolean mAttemptToLeaveMade = false;
+	YoYo mYoYo;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flight_traveler_info_step1);
 
-		mDoneBtn = Ui.findView(this, R.id.done);
 		mSectionTravelerInfo = Ui.findView(this, R.id.traveler_info);
 
 		mPassengerIndex = getIntent().getIntExtra(Codes.PASSENGER_INDEX, -1);
@@ -38,38 +39,17 @@ public class FlightTravelerInfoOneActivity extends Activity {
 			mPassenger = Db.getFlightPassengers().get(mPassengerIndex);
 		}
 
-		final YoYo yoyo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
-		mDoneBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mAttemptToLeaveMade = true;
-				if (mSectionTravelerInfo.hasValidInput()) {
-					Intent intent = yoyo.generateIntent(FlightTravelerInfoOneActivity.this, getIntent());
-					startActivity(intent);
-				}
-				mDoneBtn.setEnabled(mSectionTravelerInfo.hasValidInput());
-			}
-		});
+		mYoYo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
 
 		mSectionTravelerInfo.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
-					mDoneBtn.setEnabled(mSectionTravelerInfo.hasValidInput());
+					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
+					mSectionTravelerInfo.hasValidInput();
 				}
 			}
 		});
-
-		if (yoyo != null) {
-			if (yoyo.isLast(FlightTravelerInfoOneActivity.class)) {
-				//Done
-				mDoneBtn.setText(getString(R.string.button_done));
-			}
-			else {
-				//Next
-				mDoneBtn.setText(getString(R.string.next));
-			}
-		}
 	}
 
 	@Override
@@ -78,4 +58,25 @@ public class FlightTravelerInfoOneActivity extends Activity {
 		mSectionTravelerInfo.bind(mPassenger);
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = this.getSupportMenuInflater();
+	    if(mYoYo != null && mYoYo.isLast(this.getClass())){
+	    	inflater.inflate(R.menu.menu_done, menu);
+	    }else{
+	    	inflater.inflate(R.menu.menu_next, menu);
+	    }
+	    menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				mAttemptToLeaveMade = true;
+				if (mSectionTravelerInfo.hasValidInput()) {
+					Intent intent = mYoYo.generateIntent(FlightTravelerInfoOneActivity.this, getIntent());
+					startActivity(intent);
+				}
+			}		
+		});
+	    return true;
+	}
+	
 }

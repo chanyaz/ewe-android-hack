@@ -14,19 +14,26 @@
         gridlayout:columnOrderPreserved="false"
         gridlayout:useDefaultMargins="false" >
 
-        <EditText
-            android:id="@+id/edit_first_name"
+        <LinearLayout
             android:layout_gravity="fill_horizontal"
-            gridlayout:layout_columnSpan="2"
-            android:hint="@string/first_name"
-            android:inputType="textPersonName" />
+            gridlayout:layout_columnSpan="4" >
 
-        <EditText
-            android:id="@+id/edit_middle_name"
-            android:layout_gravity="fill_horizontal"
-            gridlayout:layout_columnSpan="2"
-            android:hint="@string/middle_name"
-            android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/edit_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/first_name"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/edit_middle_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/middle_name"
+                android:inputType="textPersonName" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edit_last_name"
@@ -35,7 +42,6 @@
             gridlayout:layout_columnSpan="4"
             android:hint="@string/last_name"
             android:inputType="textPersonName" />
-
     </com.gridlayout.GridLayout>
 
     <com.gridlayout.GridLayout
@@ -46,50 +52,29 @@
         gridlayout:columnOrderPreserved="false"
         gridlayout:useDefaultMargins="false" >
 
-        <TextView
-            android:layout_gravity="right"
-            android:text="@string/phone_number" />
-
         <com.expedia.bookings.widget.TelephoneSpinner
             android:id="@+id/edit_phone_number_country_code_spinner"
-            android:layout_width="100dp" />
+            android:layout_width="100dp"
+            gridlayout:layout_columnSpan="1" />
 
         <EditText
             android:id="@+id/edit_phone_number"
             android:layout_width="0dp"
             android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="2"
+            android:hint="@string/phone_number_hint"
             android:inputType="phone" />
 
         <TextView
-            android:layout_gravity="right|center_vertical"
-            android:text="@string/gender" />
-
-        <RadioGroup
-            android:id="@+id/edit_gender_radio"
-            gridlayout:layout_columnSpan="2"
-            android:layout_width="0dp"
-            android:layout_gravity="fill_horizontal|center"
-            android:orientation="horizontal" >
-
-            <RadioButton
-                android:id="@+id/edit_gender_radio_male"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/male" />
-
-            <RadioButton
-                android:id="@+id/edit_gender_radio_female"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/female" />
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/footer_message"
-            android:layout_width="0dp"
-            android:layout_gravity="left|fill_horizontal"
+            android:id="@+id/edit_birth_date_text_btn"
+            style="@style/SpinnerStyle"
+            android:layout_gravity="fill_horizontal"
             gridlayout:layout_columnSpan="3"
-            android:text="@string/name_as_appears_on_id_warning" />
+            android:gravity="center_vertical"
+            android:hint="@string/date_of_birth"
+            android:bufferType="spannable"
+            android:paddingLeft="5dp"
+            android:textSize="18dp" />
     </com.gridlayout.GridLayout>
 
 </com.expedia.bookings.section.SectionTravelerInfo>

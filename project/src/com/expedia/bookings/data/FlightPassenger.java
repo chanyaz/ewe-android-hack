@@ -1,7 +1,6 @@
 package com.expedia.bookings.data;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +60,7 @@ public class FlightPassenger implements JSONable {
 	}
 
 	public FlightPassenger() {
-		initDefaultBirthday();
+		
 	}
 
 	/***
@@ -79,7 +78,7 @@ public class FlightPassenger implements JSONable {
 		setPhoneNumber(info.getTelephone());
 		setEmail(info.getEmail());
 		
-		initDefaultBirthday();
+	
 	}
 
 	/***
@@ -97,12 +96,7 @@ public class FlightPassenger implements JSONable {
 		setLastName(user.getLastName());
 		setEmail(user.getEmail());
 		
-		initDefaultBirthday();
-	}
-	
-	private void initDefaultBirthday(){
-		GregorianCalendar cal = new GregorianCalendar();
-		setBirthDate(cal);
+		
 	}
 
 	///////////////////////////

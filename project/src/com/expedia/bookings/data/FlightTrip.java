@@ -95,6 +95,30 @@ public class FlightTrip implements JSONable {
 	public boolean hasPricing() {
 		return mBaseFare != null && mTotalFare != null && mTaxes != null && mFees != null;
 	}
+	
+	/**
+	 * Does the trip contain any segments which cross into a different country?
+	 * @return true if we cross an international border sometime in this trip
+	 */
+	public boolean isInternational(){
+		boolean retVal = false;
+		if(mLegs != null && mLegs.size() > 0){
+			String countryCode = mLegs.get(0).getFirstWaypoint().getAirport().mCountryCode;
+			for(FlightLeg leg : mLegs){
+				for(Flight flight : leg.getSegments()){
+					if(flight.mDestination != null && flight.mDestination.getAirport() != null && flight.mDestination.getAirport().mCountryCode != null && !flight.mDestination.getAirport().mCountryCode.equalsIgnoreCase(countryCode)){
+						//Country codes don't match so we consider the flight to be international
+						retVal = true;
+						break;
+					}
+				}
+				if(retVal){
+					break;
+				}
+			}
+		}
+		return retVal;
+	}
 
 	////////////////////////////////////////////////////////////////////////
 	// Comparators

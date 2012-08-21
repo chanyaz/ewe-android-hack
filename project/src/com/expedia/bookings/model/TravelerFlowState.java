@@ -13,7 +13,7 @@ import com.expedia.bookings.section.SectionTravelerInfo;
  *
  */
 public class TravelerFlowState {
-	private static TravelerFlowState mInstance;
+	//private static TravelerFlowState mInstance;
 
 	Context mContext;
 
@@ -29,11 +29,7 @@ public class TravelerFlowState {
 	}
 
 	public static TravelerFlowState getInstance(Context context) {
-		if (mInstance == null) {
-			mInstance = new TravelerFlowState(context);
-		}
-
-		return mInstance;
+		return new TravelerFlowState(context);
 	}
 
 	private void bind(FlightPassenger travelerInfo) {

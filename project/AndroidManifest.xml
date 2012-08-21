@@ -169,6 +169,10 @@
             android:name=".activity.FlightTravelerInfoTwoActivity"
             android:theme="@style/FlightTheme" >
         </activity>
+		<activity
+            android:name=".activity.FlightTravelerInfoThreeActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
 
         <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />

@@ -13,103 +13,33 @@
         gridlayout:columnCount="3"
         gridlayout:columnOrderPreserved="false"
         gridlayout:useDefaultMargins="false" >
-
-        <TextView
-            android:layout_gravity="center_horizontal"
-            android:text="@string/date_of_birth" />
-
-        <View
-            android:id="@+id/valid_date_of_birth"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
-            android:background="#000000" />
-
-        <TextView
-            android:id="@+id/edit_birth_date_text_btn"
+        
+        <Spinner
+            android:id="@+id/edit_gender_spinner"
+            android:layout_width="0dp"
             android:layout_gravity="fill_horizontal"
-            android:paddingLeft="5dp"
-            android:text="@string/date_of_birth"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_gravity="right"
-            android:text="@string/redress_number" />
-
-        <View
-            android:id="@+id/valid_redress_number"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
-            android:background="#000000" />
-
+            gridlayout:layout_columnSpan="3" />
+        
         <EditText
             android:id="@+id/edit_redress_number"
             android:layout_gravity="fill_horizontal"
             android:hint="@string/only_if_applicable"
+            gridlayout:layout_columnSpan="3"
             android:inputType="number" />
 
-        <TextView
-            android:id="@+id/passport_country_label"
-            android:layout_gravity="right"
-            android:text="@string/passport_country" />
-
-        <View
-            android:id="@+id/valid_passport_country"
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
-            android:background="#000000" />
-
-        <Spinner
-            android:id="@+id/edit_passport_country_spinner"
-            android:layout_width="5dp"
-            android:layout_gravity="fill_horizontal" />
-
-        <TextView
-            android:layout_gravity="right"
-            android:text="@string/seating" />
-
-        <View
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
-            android:background="#000000" />
+		<Spinner
+            android:id="@+id/edit_assistance_preference_spinner"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="3" />
 
         <Spinner
             android:id="@+id/edit_seat_preference_spinner"
             android:layout_width="0dp"
-            android:layout_gravity="fill_horizontal" />
-
-        <TextView
-            android:layout_gravity="right"
-            android:text="@string/meal" />
-
-        <View
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
-            android:background="#000000" />
-
-        <Spinner
-            android:id="@+id/edit_meal_preference_spinner"
-            android:layout_width="0dp"
-            android:layout_gravity="fill_horizontal" />
-
-        <TextView
-            android:layout_gravity="right"
-            android:text="@string/assistance" />
-
-        <View
-            android:layout_width="3dp"
-            android:layout_height="1dp"
-            android:layout_gravity="fill_vertical"
-            android:background="#000000" />
-
-        <Spinner
-            android:id="@+id/edit_assistance_preference_spinner"
-            android:layout_width="0dp"
-            android:layout_gravity="fill_horizontal" />
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="3" />
+        
+        
     </com.gridlayout.GridLayout>
 
 </com.expedia.bookings.section.SectionTravelerInfo>
