@@ -89,7 +89,8 @@ public class AdTracker {
 		final Integer duration = Db.getSearchParams().getStayDuration();
 		final Double avgPrice = Db.getSelectedRate().getAverageRate().getAmount();
 		final Double totalPrice = Db.getSelectedRate().getTotalAmountAfterTax().getAmount();
-		final Double totalTax = Db.getSelectedRate().getTaxesAndFeesPerRoom().getAmount();
+		final Double totalTax = Db.getSelectedRate().getTaxesAndFeesPerRoom() != null ? Db.getSelectedRate()
+				.getTaxesAndFeesPerRoom().getAmount() : 0;
 		final Integer daysRemaining = (int) ((Db.getSearchParams().getCheckInDate().getTime().getTime() - new Date()
 				.getTime()) / (24 * 60 * 60 * 1000));
 
