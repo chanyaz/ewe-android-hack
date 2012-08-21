@@ -36,7 +36,6 @@ public class FlightPassenger implements JSONable {
 	private String mPassportCountry;
 	private SeatPreference mSeatPreference = SeatPreference.ANY;
 	private AssistanceType mAssistance = AssistanceType.NONE;
-	private MealType mMealPreference = MealType.NONE;
 
 	public enum Gender {
 		MALE, FEMALE
@@ -53,14 +52,8 @@ public class FlightPassenger implements JSONable {
 		SUPER_LONG_ASSISTANCE_TYPE
 	}
 
-	public enum MealType {
-		NONE,
-		VEGITARIAN,
-		BOOZE
-	}
-
 	public FlightPassenger() {
-		
+
 	}
 
 	/***
@@ -77,8 +70,7 @@ public class FlightPassenger implements JSONable {
 		setPhoneCountryCode(info.getTelephoneCountryCode());
 		setPhoneNumber(info.getTelephone());
 		setEmail(info.getEmail());
-		
-	
+
 	}
 
 	/***
@@ -95,8 +87,7 @@ public class FlightPassenger implements JSONable {
 		setMiddleName(user.getMiddleName());
 		setLastName(user.getLastName());
 		setEmail(user.getEmail());
-		
-		
+
 	}
 
 	///////////////////////////
@@ -196,10 +187,6 @@ public class FlightPassenger implements JSONable {
 		return retStr;
 	}
 
-	public MealType getMealPreference() {
-		return mMealPreference;
-	}
-
 	public Long getTuid() {
 		return mTuid;
 	}
@@ -268,10 +255,6 @@ public class FlightPassenger implements JSONable {
 		mAssistance = assistance;
 	}
 
-	public void setMealPreference(MealType preference) {
-		mMealPreference = preference;
-	}
-
 	public void setTuid(Long tuid) {
 		mTuid = tuid;
 	}
@@ -307,9 +290,6 @@ public class FlightPassenger implements JSONable {
 			}
 			if (mAssistance != null) {
 				obj.put("assistance", mAssistance.name());
-			}
-			if (mMealPreference != null) {
-				obj.put("mealPreference", mMealPreference.name());
 			}
 
 			return obj;
@@ -351,7 +331,6 @@ public class FlightPassenger implements JSONable {
 		if (!TextUtils.isEmpty(assistanceStr)) {
 			mAssistance = AssistanceType.valueOf(assistanceStr);
 		}
-		//mMealPreference = MealType.valueOf(obj.optString("mealPreference"));
 
 		return true;
 	}

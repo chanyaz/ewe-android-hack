@@ -447,42 +447,7 @@
             </RadioGroup>
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/meal" />
-
-            <RadioGroup
-                android:id="@+id/edit_meal_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <RadioButton
-                    android:id="@+id/edit_meal_radio_none"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/none" />
-
-                <RadioButton
-                    android:id="@+id/edit_meal_radio_vegetarian"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vegetarian" />
-
-                <RadioButton
-                    android:id="@+id/edit_meal_radio_booze"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/booze" />
-            </RadioGroup>
-        </TableRow>
+       
     </TableLayout>
 
     <View

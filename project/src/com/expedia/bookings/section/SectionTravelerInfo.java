@@ -9,7 +9,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.data.FlightPassenger.AssistanceType;
 import com.expedia.bookings.data.FlightPassenger.Gender;
-import com.expedia.bookings.data.FlightPassenger.MealType;
 import com.expedia.bookings.data.FlightPassenger.SeatPreference;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.TelephoneSpinner;
@@ -1098,77 +1097,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 	};
 
-	SectionFieldEditable<RadioGroup, FlightPassenger> mEditMealPreference = new SectionFieldEditable<RadioGroup, FlightPassenger>(
-			R.id.edit_meal_radio) {
-
-		RadioButton mNoneRadio;
-		RadioButton mVegetarianRadio;
-		RadioButton mBoozeRadio;
-
-		@Override
-		protected void onFieldBind() {
-			super.onFieldBind();
-			if (this.hasBoundField()) {
-				mNoneRadio = Ui.findView(getField(), R.id.edit_meal_radio_none);
-				mVegetarianRadio = Ui.findView(getField(), R.id.edit_meal_radio_vegetarian);
-				mBoozeRadio = Ui.findView(getField(), R.id.edit_meal_radio_booze);
-			}
-		}
-
-		@Override
-		protected Validator<RadioGroup> getValidator() {
-			return CommonSectionValidators.RADIO_GROUP_HAS_SELECTION;
-		}
-
-		@Override
-		public void setChangeListener(RadioGroup field) {
-			field.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-					if (hasBoundData()) {
-						if (mVegetarianRadio != null && checkedId == mVegetarianRadio.getId()) {
-							getData().setMealPreference(MealType.VEGITARIAN);
-						}
-						else if (mBoozeRadio != null && checkedId == mBoozeRadio.getId()) {
-							getData().setMealPreference(MealType.BOOZE);
-						}
-						else {
-							getData().setMealPreference(MealType.NONE);
-						}
-					}
-					onChange(SectionTravelerInfo.this);
-				}
-			});
-		}
-
-		@Override
-		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
-			if (data.getMealPreference() != null) {
-				MealType mt = data.getMealPreference();
-				if (mt == MealType.NONE) {
-					mNoneRadio.setChecked(true);
-					mVegetarianRadio.setChecked(false);
-					mBoozeRadio.setChecked(false);
-				}
-				else if (mt == MealType.VEGITARIAN) {
-					mNoneRadio.setChecked(false);
-					mVegetarianRadio.setChecked(true);
-					mBoozeRadio.setChecked(false);
-				}
-				else if (mt == MealType.BOOZE) {
-					mNoneRadio.setChecked(false);
-					mVegetarianRadio.setChecked(false);
-					mBoozeRadio.setChecked(true);
-				}
-			}
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			return null;
-		}
-	};
 
 	SectionFieldEditable<RadioGroup, FlightPassenger> mEditSeatPreference = new SectionFieldEditable<RadioGroup, FlightPassenger>(
 			R.id.edit_seating_preference_radio) {
@@ -1216,7 +1144,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 
 		@Override
 		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
-			if (data.getMealPreference() != null) {
+			if (data.getSeatPreference() != null) {
 				SeatPreference sp = data.getSeatPreference();
 				if (sp == SeatPreference.WINDOW) {
 					mNoneRadio.setChecked(false);
@@ -1288,7 +1216,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 
 		@Override
 		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
-			if (data.getMealPreference() != null) {
+			if (data.getAssistance() != null) {
 				AssistanceType at = data.getAssistance();
 				if (at == AssistanceType.WHEELCHAIR) {
 					mNoneRadio.setChecked(false);

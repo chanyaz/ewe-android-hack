@@ -304,8 +304,7 @@
     <string name="seating">Seating</string>
     <!-- Assistance label -->
     <string name="assistance">Assistance</string>
-    <!-- Meal label -->
-    <string name="meal">Meal</string>
+    
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -345,14 +344,6 @@
     <string name="defibrillator">Defibrillator</string>
     <!-- Super long for test purposes -->
     <string name="super_long_assistance">Super long assistance type that will be ellipsized</string>
-    <!-- salad -->
-    <string name="salad">Salad</string>
-
-    <!-- Meal Types -->
-    <!-- vegetarian -->
-    <string name="vegetarian">Vegetarian</string>
-    <!-- booze -->
-    <string name="booze">Booze</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -361,6 +352,7 @@
     <string name="hint_search_location">Search Location</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Loading suggestions...</string>
+    
     <string name="app_name">Expedia</string>
 
     <!-- General -->
