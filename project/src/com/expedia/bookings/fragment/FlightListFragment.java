@@ -224,7 +224,12 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	private void displayHeaderLeg() {
 		if (mSectionFlightLeg != null) {
 			if (mLegPosition == 0) {
-				mSectionFlightLeg.setVisibility(View.GONE);
+				if (usesDynamicBlur()) {
+					mSectionFlightLeg.setVisibility(View.INVISIBLE);
+				}
+				else {
+					mSectionFlightLeg.setVisibility(View.GONE);
+				}
 			}
 			else {
 				mSectionFlightLeg.setVisibility(View.VISIBLE);
