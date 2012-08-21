@@ -3,6 +3,7 @@ package com.expedia.bookings.section;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.expedia.bookings.R;
@@ -13,10 +14,12 @@ import com.expedia.bookings.data.FlightPassenger.SeatPreference;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
@@ -561,6 +564,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		public void setChangeListener(TextView field) {
 
 			field.setOnClickListener(new OnClickListener() {
+				@TargetApi(11)
 				@Override
 				public void onClick(View v) {
 
@@ -587,7 +591,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 						}
 					};
 
+					
 					DatePickerDialog birthDatePicker = new DatePickerDialog(mContext, dsl, year, month, day);
+					if(AndroidUtils.getSdkVersion() >= 11){
+						//We set a max date for new apis, if we are stuck with an old api, they will be allowed to choose any date, but validation will fail
+						birthDatePicker.getDatePicker().setMaxDate((new Date()).getTime());
+					}
 					birthDatePicker.show();
 				}
 			});
