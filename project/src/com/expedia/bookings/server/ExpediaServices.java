@@ -798,7 +798,7 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		}
 		case PUBLIC_INTEGRATION: {
-			builder.append("70.42.224.37/MobileHotel/Webapp/");
+			builder.append("70.42.224.37/");
 			break;
 		}
 		case PROXY: {
@@ -806,7 +806,7 @@ public class ExpediaServices implements DownloadListener {
 					"localhost:3000"));
 			builder.append("/");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
-			builder.append("/MobileHotel/Webapp/");
+			builder.append("/");
 			break;
 		}
 		}
