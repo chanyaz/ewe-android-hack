@@ -2,4 +2,6 @@
 <resources>
     <!-- State code hint -->
     <string name="hint_state_code">Prov.</string>
+    <!-- Zip code hint -->
+    <string name="PostalCode">Postal Code</string>
 </resources>
