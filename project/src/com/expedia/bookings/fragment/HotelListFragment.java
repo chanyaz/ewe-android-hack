@@ -93,8 +93,11 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		View view = inflater.inflate(R.layout.fragment_hotel_list, container, false);
 
 		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
-		mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
-		mNumHotelsTextViewTablet = (TextView) view.findViewById(R.id.num_hotels_text_view_tablet);
+		// 306: Text overlaps. Being removed in next version anyways so we just care about the lawyer label
+		//mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
+		//mNumHotelsTextViewTablet = (TextView) view.findViewById(R.id.num_hotels_text_view_tablet);
+		mNumHotelsTextView = null;
+		mNumHotelsTextViewTablet = null;
 		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
 		mLawyerLabelTextView = (TextView) view.findViewById(R.id.lawyer_label_text_view);
 
