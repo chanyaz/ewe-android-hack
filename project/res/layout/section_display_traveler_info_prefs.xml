@@ -12,7 +12,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_weight="0"
-        android:src="@drawable/ic_amenity_breakfast" />
+        android:src="@drawable/ic_details" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

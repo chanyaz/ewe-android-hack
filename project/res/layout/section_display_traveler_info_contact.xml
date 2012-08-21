@@ -12,7 +12,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_weight="0"
-        android:src="@drawable/btn_actionbar_guests" />
+        android:src="@drawable/ic_traveler" />
 
     <LinearLayout
         android:layout_width="wrap_content"
