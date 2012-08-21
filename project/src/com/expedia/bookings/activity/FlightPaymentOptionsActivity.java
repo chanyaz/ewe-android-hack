@@ -21,14 +21,7 @@ import com.mobiata.android.util.Ui;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,16 +31,12 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FlightPaymentOptionsActivity extends SherlockFragmentActivity implements LoaderCallbacks<Cursor> {
-
-	private static final int REQUEST_CODE_PICK_CONTACT = 1;
-	private static final String CONTACT_URI = "CONTACT_URI";
+public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 
 	SectionLocation mSectionCurrentBillingAddress;
 	SectionBillingInfo mSectionCurrentCreditCard;
 	SectionStoredCreditCard mSectionStoredPayment;
 	View mNewCreditCardBtn;
-	View mFromContactsBtn;
 	View mOverviewBtn;
 
 	TextView mStoredPaymentsLabel;
@@ -75,16 +64,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 		mOverviewBtn = Ui.findView(this, R.id.overview_btn);
 		mNewCreditCardBtn = Ui.findView(this, R.id.new_payment_new_card);
-		mFromContactsBtn = Ui.findView(this, R.id.new_payment_from_contacts);
-
-		mFromContactsBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent pickContactIntent = new Intent(Intent.ACTION_PICK);
-				pickContactIntent.setData(ContactsContract.Contacts.CONTENT_URI);
-				startActivityForResult(pickContactIntent, REQUEST_CODE_PICK_CONTACT);
-			}
-		});
 
 		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
 			@Override
@@ -205,89 +184,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		mSectionCurrentCreditCard.bind(mBillingInfo);
 		mSectionStoredPayment.bind(mBillingInfo.getStoredCard());
 
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_CODE_PICK_CONTACT) {
-			if (resultCode == RESULT_OK && data.getData() != null) {
-				Bundle args = new Bundle();
-				args.putParcelable(CONTACT_URI, data.getData());
-				getSupportLoaderManager().initLoader(ContactQuery._LOADER_ID, args, this);
-			}
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Implementation of LoaderCallbacks<Cursor>
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		Uri uri = args.getParcelable(CONTACT_URI);
-		return new CursorLoader(this, uri, ContactQuery.PROJECTION, null, null, null);
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		data.moveToFirst();
-
-		ArrayList<String> validNameParts = new ArrayList<String>();
-		String[] nameparts = data.getString(ContactQuery.DISPLAY_NAME).split(" ");
-		for (int i = 0; i < nameparts.length; i++) {
-			nameparts[i] = nameparts[i].trim();
-			if (!TextUtils.isEmpty(nameparts[i])) {
-				validNameParts.add(nameparts[i]);
-			}
-		}
-
-		BillingInfo billingInfo = Db.getBillingInfo();
-
-		//TODO:This is a best guess method that could likely be improved
-		if (validNameParts.size() >= 2) {
-			billingInfo.setFirstName(validNameParts.get(0));
-			billingInfo.setLastName(validNameParts.get(validNameParts.size() - 1));
-		}
-		else if (validNameParts.size() == 1) {
-			billingInfo.setFirstName(validNameParts.get(0));
-		}
-
-		// TODO: Right now, we can't get much information about the person until we add
-		// the READ_CONTACTS permission.  We need to have a discussion on whether we
-		// want to add this permission at all to the app before moving forward on
-		// this feature.
-
-		// Shut down the query, now that we have the data
-		getSupportLoaderManager().destroyLoader(ContactQuery._LOADER_ID);
-
-		//Start entry flow
-		Db.getBillingInfo().setStoredCard(null);
-		Intent intent = new Intent(FlightPaymentOptionsActivity.this, FlightPaymentAddressActivity.class);
-		YoYo yoyo = new YoYo();
-		yoyo.addYoYoTrick(FlightPaymentCreditCardActivity.class);
-		//TODO:Add email activity...
-		yoyo.addYoYoTrick(FlightCheckoutActivity.class);
-		intent.putExtra(YoYo.TAG_YOYO, yoyo);
-		startActivity(intent);
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
-		// Do nothing, should never happen
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Query definition
-
-	public interface ContactQuery {
-		int _LOADER_ID = 0x01;
-
-		String[] PROJECTION = {
-				Contacts._ID,
-				Contacts.DISPLAY_NAME,
-		};
-
-		int _ID = 0;
-		int DISPLAY_NAME = 1;
 	}
 
 }

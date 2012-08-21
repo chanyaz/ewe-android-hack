@@ -1,19 +1,10 @@
 package com.expedia.bookings.activity;
 
-import java.util.ArrayList;
 
 import android.app.Service;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,14 +25,9 @@ import com.expedia.bookings.model.YoYo;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.util.Ui;
 
-public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity implements LoaderCallbacks<Cursor> {
-
-	private static final int REQUEST_CODE_PICK_CONTACT = 1;
-	private static final String CONTACT_URI = "CONTACT_URI";
-
+public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity {
 	View mOverviewBtn;
 	View mEnterManuallyBtn;
-	View mFromContactsBtn;
 	View mInternationalDivider;
 
 	TextView mEditTravelerLabel;
@@ -76,16 +62,6 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			public void onClick(View v) {
 				Db.getFlightPassengers().set(mCurrentPassengerIndex, new FlightPassenger());
 				gotoFirstDataEntryPage();
-			}
-		});
-
-		mFromContactsBtn = Ui.findView(this, R.id.load_from_contacts_button);
-		mFromContactsBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent pickContactIntent = new Intent(Intent.ACTION_PICK);
-				pickContactIntent.setData(ContactsContract.Contacts.CONTENT_URI);
-				startActivityForResult(pickContactIntent, REQUEST_CODE_PICK_CONTACT);
 			}
 		});
 
@@ -203,16 +179,6 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		mPassengerPassportCountry.bind(mCurrentPassenger);
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_CODE_PICK_CONTACT) {
-			if (resultCode == RESULT_OK && data.getData() != null) {
-				Bundle args = new Bundle();
-				args.putParcelable(CONTACT_URI, data.getData());
-				getSupportLoaderManager().initLoader(ContactQuery._LOADER_ID, args, this);
-			}
-		}
-	}
 
 	protected void gotoFirstDataEntryPage() {
 		Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this, FlightTravelerInfoOneActivity.class);
@@ -241,65 +207,4 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		return true;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Implementation of LoaderCallbacks<Cursor>
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		Uri uri = args.getParcelable(CONTACT_URI);
-		return new CursorLoader(this, uri, ContactQuery.PROJECTION, null, null, null);
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		data.moveToFirst();
-
-		ArrayList<String> validNameParts = new ArrayList<String>();
-		String[] nameparts = data.getString(ContactQuery.DISPLAY_NAME).split(" ");
-		for (int i = 0; i < nameparts.length; i++) {
-			nameparts[i] = nameparts[i].trim();
-			if (!TextUtils.isEmpty(nameparts[i])) {
-				validNameParts.add(nameparts[i]);
-			}
-		}
-
-		FlightPassenger passenger = new FlightPassenger();
-		if (validNameParts.size() > 0) {
-			passenger.setFirstName(validNameParts.get(0));
-		}
-		if (validNameParts.size() == 2) {
-			passenger.setLastName(validNameParts.get(1));
-		}
-		if (validNameParts.size() >= 3) {
-			passenger.setMiddleName(validNameParts.get(1));
-			passenger.setLastName(validNameParts.get(2));
-		}
-
-		Db.getFlightPassengers().set(mCurrentPassengerIndex, passenger);
-
-		// Shut down the query, now that we have the data
-		getSupportLoaderManager().destroyLoader(ContactQuery._LOADER_ID);
-
-		gotoFirstDataEntryPage();
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
-		// Do nothing, should never happen
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Query definition
-
-	public interface ContactQuery {
-		int _LOADER_ID = 0x01;
-
-		String[] PROJECTION = {
-				Contacts._ID,
-				Contacts.DISPLAY_NAME,
-		};
-
-		int _ID = 0;
-		int DISPLAY_NAME = 1;
-	}
 }
