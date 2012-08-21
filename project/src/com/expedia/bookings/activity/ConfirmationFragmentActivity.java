@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import org.json.JSONObject;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -208,10 +209,16 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 
 		// Ensure we can't come back here again
 		ConfirmationUtils.deleteSavedConfirmationData(mContext);
+		Db.clear();
 
-		Intent intent = new Intent(mContext, SearchActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		Class<? extends Activity> routingTarget = ExpediaBookingApp.useTabletInterface(this)
+				? SearchFragmentActivity.class
+				: PhoneSearchActivity.class;
+
+		Intent intent = new Intent(mContext, routingTarget);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
+
 		startActivity(intent);
 		finish();
 	}
