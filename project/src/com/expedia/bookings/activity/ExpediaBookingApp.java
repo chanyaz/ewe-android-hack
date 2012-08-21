@@ -15,7 +15,6 @@ import android.content.res.Configuration;
 import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -28,6 +27,7 @@ import com.nullwire.trace.ExceptionHandler;
 import com.omniture.AppMeasurement;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
+	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
 
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
 
@@ -64,7 +64,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		LocaleUtils.onPointOfSaleChanged(this);
 		AdTracker.initialize(this);
-		AdTracker.trackFirstLaunch();
+
+		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
+			SettingUtils.save(this, PREF_FIRST_LAUNCH, true);
+			AdTracker.trackFirstLaunch();
+		}
 
 		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so, 
 		// in that it requires the app to be launched at least once before it can be disabled, but it's

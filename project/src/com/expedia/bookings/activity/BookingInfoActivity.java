@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -273,13 +272,7 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 			}
 
 			// Track successful booking with Amobee
-			final String currency = Db.getSelectedRate().getDisplayRate().getCurrency();
-			final Integer duration = Db.getSearchParams().getStayDuration();
-			final Double totalPrice = Db.getSelectedRate().getTotalAmountAfterTax().getAmount();
-			final Integer daysRemaining = (int) ((Db.getSearchParams().getCheckInDate().getTime().getTime() - new Date()
-					.getTime()) / (24 * 60 * 60 * 1000));
-
-			AdTracker.trackBooking(currency, totalPrice, duration, daysRemaining);
+			AdTracker.trackBooking();
 
 			if (Db.getCreateTripResponse() != null) {
 				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
