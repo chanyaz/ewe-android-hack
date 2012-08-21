@@ -27,31 +27,39 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 	private ArrayList<NavItem> navItems;
 	private Context mContext;
-	
-	public NavigationDropdownAdapter(Context context) {
+	private NoOpButton mNoOpBtn = NoOpButton.NONE;
+
+	public enum NoOpButton {
+		HOME, FLIGHTS, HOTELS, ACCOUNT, NONE
+	}
+
+	public NavigationDropdownAdapter(Context context, NoOpButton noopbtn) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mContext = context;
+		mNoOpBtn = noopbtn;
 		initData(context);
 	}
-	
-	public void addItem(NavItem item){
+
+	public void addItem(NavItem item) {
 		navItems.add(item);
 	}
-	
-	public void clearItems(){
+
+	public void clearItems() {
 		navItems.clear();
 	}
-	
-	private void initData(Context context){
+
+	private void initData(Context context) {
 		navItems = new ArrayList<NavItem>();
 		Resources res = context.getResources();
-		
+
 		addItem(new NavItem(res.getDrawable(R.drawable.icon), res
 				.getString(R.string.nav_home), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext, FlightSearchActivity.class);
-				mContext.startActivity(intent);
+				if (mNoOpBtn != NoOpButton.HOME) {
+					Intent intent = new Intent(mContext, FlightSearchActivity.class);
+					mContext.startActivity(intent);
+				}
 			}
 		}));
 
@@ -59,8 +67,10 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 				.getString(R.string.nav_hotels), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext, SearchActivity.class);
-				mContext.startActivity(intent);
+				if (mNoOpBtn != NoOpButton.HOTELS) {
+					Intent intent = new Intent(mContext, SearchActivity.class);
+					mContext.startActivity(intent);
+				}
 			}
 		}));
 
@@ -68,20 +78,24 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 				.getString(R.string.nav_flights), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext, FlightSearchActivity.class);
-				mContext.startActivity(intent);
+				if (mNoOpBtn != NoOpButton.FLIGHTS) {
+					Intent intent = new Intent(mContext, FlightSearchActivity.class);
+					mContext.startActivity(intent);
+				}
 			}
 		}));
 		addItem(new NavItem(res.getDrawable(R.drawable.ic_logged_in_no_rewards), res
 				.getString(R.string.nav_account), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Ui.showToast(mContext, "Account");
+				if (mNoOpBtn != NoOpButton.ACCOUNT) {
+					Ui.showToast(mContext, "Account");
+				}
 			}
 		}));
 
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -106,7 +120,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 		img.setImageDrawable(navItems.get(position).getDrawable());
 		text.setText(navItems.get(position).getText());
 		view.setOnClickListener(navItems.get(position).getOnClickListener());
-		
+
 		return view;
 	}
 
@@ -125,5 +139,4 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 		return position;
 	}
 
-	
 }

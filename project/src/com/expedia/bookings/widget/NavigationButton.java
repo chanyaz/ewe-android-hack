@@ -2,14 +2,9 @@ package com.expedia.bookings.widget;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightSearchActivity;
-import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.data.NavItem;
 import com.expedia.bookings.utils.Ui;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;

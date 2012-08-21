@@ -33,6 +33,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NavigationButton;
 import com.expedia.bookings.widget.NavigationDropdownAdapter;
+import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -88,7 +89,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		ActionBar actionBar = this.getSupportActionBar();
 		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
-		nb.setDropdownAdapter(new NavigationDropdownAdapter(this));
+		nb.setDropdownAdapter(new NavigationDropdownAdapter(this,NoOpButton.FLIGHTS));
 		nb.setCustomView(customView);
 
 		if (savedInstanceState == null) {

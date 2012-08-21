@@ -18,6 +18,7 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.NavigationButton;
 import com.expedia.bookings.widget.NavigationDropdownAdapter;
+import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -65,7 +66,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
-		nb.setDropdownAdapter(new NavigationDropdownAdapter(this));
+		nb.setDropdownAdapter(new NavigationDropdownAdapter(this,NoOpButton.FLIGHTS));
 		nb.setTitle(getTitle());
 		
 

@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NavigationButton;
 import com.expedia.bookings.widget.NavigationDropdownAdapter;
+import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -58,7 +59,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
-		nb.setDropdownAdapter(new NavigationDropdownAdapter(this));
+		nb.setDropdownAdapter(new NavigationDropdownAdapter(this,NoOpButton.FLIGHTS));
 		nb.setTitle(getString(R.string.search_flights));
 
 		// HockeyApp init

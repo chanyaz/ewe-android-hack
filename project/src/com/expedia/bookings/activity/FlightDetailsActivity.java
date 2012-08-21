@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NavigationButton;
 import com.expedia.bookings.widget.NavigationDropdownAdapter;
+import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
 
 public class FlightDetailsActivity extends SherlockFragmentActivity {
 
@@ -70,7 +71,7 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
-		nb.setDropdownAdapter(new NavigationDropdownAdapter(this));
+		nb.setDropdownAdapter(new NavigationDropdownAdapter(this,NoOpButton.FLIGHTS));
 		nb.setTitle(getTitle());
 		
 	}

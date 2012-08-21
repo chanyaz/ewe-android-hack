@@ -83,7 +83,7 @@ public class ImageDropdown extends ImageView {
 	 * Set the view to use for the dropdown
 	 * @param dropDownView
 	 */
-	public void setDropdownView( View dropDownView) {
+	public void setDropdownView(View dropDownView) {
 		mPopupWindow = new PopupWindow(dropDownView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	}
 
