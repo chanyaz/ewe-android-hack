@@ -65,7 +65,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
-	private boolean mIsStartingReviewsActivity = false;
 
 	private long mLastResumeTime = -1;
 
@@ -103,8 +102,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			return;
 		}
 		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
-
-		mIsStartingReviewsActivity = false;
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
@@ -175,6 +172,17 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (isFinishing()) {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			bd.cancelDownload(INFO_DOWNLOAD_KEY);
+			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
+		}
+	}
+
 	private void setupHotelActivity(Bundle savedInstanceState) {
 		final Intent intent = getIntent();
 
@@ -187,18 +195,15 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 		};
 
+		if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+			Db.setSelectedProperty((Property) JSONUtils.parseJSONableFromIntent(intent,
+						Codes.PROPERTY, Property.class));
+		}
+
 		Property property = Db.getSelectedProperty();
-		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
-			public synchronized void onClick(final View v) {
-				if (!mIsStartingReviewsActivity) {
-					mIsStartingReviewsActivity = true;
-					Intent newIntent = new Intent(mContext, UserReviewsListActivity.class);
-					newIntent.fillIn(intent, 0);
-					startActivity(newIntent);
-				}
-			}
-		};
-		LayoutUtils.configureHeader(this, property, onBookNowClick, onReviewsClick);
+		if (property != null) {
+			LayoutUtils.configureHeader(this, property, onBookNowClick);
+		}
 
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction ft = manager.beginTransaction();

@@ -152,7 +152,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.title = Ui.findView(convertView, R.id.user_review_title_text_view);
 		viewHolder.ratingBar = Ui.findView(convertView, R.id.user_review_rating_bar);
 		viewHolder.body = Ui.findView(convertView, R.id.user_review_body_text_view);
-		viewHolder.readMore = Ui.findView(convertView, R.id.read_more_layout);
+		viewHolder.readMore = Ui.findView(convertView, R.id.user_review_read_more_button);
 		viewHolder.nameAndLocation = Ui.findView(convertView, R.id.user_review_name_and_location_text_view);
 		viewHolder.submissionDate = Ui.findView(convertView, R.id.user_review_date_text_view);
 		return viewHolder;

@@ -229,7 +229,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		// Autosuggestions
 		initSuggestionViews(view, inflater);
-		startAutocomplete(Db.getSearchParams().getFreeformLocation());
+		startAutocomplete(Db.getSearchParams().getQuery());
 
 		// Configure the calendar
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
@@ -290,7 +290,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			mHasFocusedSearchField = true;
 
 			updateViews();
-			startAutocomplete(Db.getSearchParams().getFreeformLocation());
+			startAutocomplete(Db.getSearchParams().getQuery());
 		}
 	}
 
@@ -330,7 +330,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		SearchParams params = Db.getSearchParams();
 
 		if (mHasFocusedSearchField) {
-			mLocationEditText.setText(params.getFreeformLocation());
+			mLocationEditText.setText(params.getQuery());
 		}
 		else {
 			mLocationEditText.setText(R.string.enter_search_location);
@@ -628,7 +628,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 			String location;
 			if (query instanceof Search) {
 				search = (Search) query;
-				location = search.getFreeformLocation();
+				location = search.getQuery();
 			}
 			else {
 				location = query.toString();
@@ -659,7 +659,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		private OnClickListener createRowOnClickListener(final String suggestion, final Search search) {
 			return new OnClickListener() {
 				public void onClick(View v) {
-					Db.getSearchParams().setFreeformLocation(suggestion);
+					Db.getSearchParams().setQuery(suggestion);
 					if (search != null) {
 						Db.getSearchParams().fillFromSearch(search);
 					}
@@ -773,8 +773,8 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 				searchParams.setSearchType(SearchType.MY_LOCATION);
 				startAutocomplete("");
 			}
-			else if (!location.equals(searchParams.getFreeformLocation())) {
-				searchParams.setFreeformLocation(location);
+			else if (!location.equals(searchParams.getQuery())) {
+				searchParams.setQuery(location);
 				searchParams.setSearchType(SearchType.FREEFORM);
 
 				// If we have a query string, kick off a suggestions request
@@ -810,7 +810,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		public void onReceive(Context context, Intent intent) {
 			if (mDetectedInitialConnectivity) {
 				// Kick off a new suggestion query based on the current text.
-				startAutocomplete(Db.getSearchParams().getFreeformLocation());
+				startAutocomplete(Db.getSearchParams().getQuery());
 			}
 			else {
 				mDetectedInitialConnectivity = true;
@@ -841,7 +841,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	// Fragment control
 
 	public void onResetParams() {
-		startAutocomplete(Db.getSearchParams().getFreeformLocation());
+		startAutocomplete(Db.getSearchParams().getQuery());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -23,7 +23,6 @@ import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
-import com.mobiata.android.Log;
 
 public class HotelListFragment extends ListFragment implements OnScrollListener {
 
@@ -40,6 +39,8 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private String mStatus;
 
 	private boolean mShowDistances;
+	private boolean mIsTablet;
+	private boolean mListNeedsReset = false;
 
 	private HotelAdapter mAdapter;
 
@@ -102,6 +103,8 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		TextView placeholderProgressTextView = (TextView) view.findViewById(R.id.placeholder_progress_text_view);
 		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
 				placeholderProgressTextView);
+
+		mIsTablet = mNumHotelsTextViewTablet != null;
 
 		if (mSortTypeTextView != null) {
 			mSortTypeTextView.setOnClickListener(new OnClickListener() {
@@ -168,9 +171,20 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	private void updateLawyerLabel() {
 		if (LocaleUtils.doesPointOfSaleHaveInclusivePricing(getActivity())) {
-			mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay));
-		} else {
-			mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night));
+			if (mIsTablet) {
+				mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay_punctuated));
+			}
+			else {
+				mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay));
+			}
+		}
+		else {
+			if (mIsTablet) {
+				mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night_short));
+			}
+			else {
+				mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night));
+			}
 		}
 	}
 
@@ -191,14 +205,20 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	public void notifySearchStarted() {
 		mAdapter.setSelectedPosition(-1);
+		mListNeedsReset = true;
 	}
 
 	public void notifySearchComplete() {
 		updateSearchResults();
+		if (mListNeedsReset) {
+			resetToTop();
+			mListNeedsReset = false;
+		}
 	}
 
 	public void notifyFilterChanged() {
 		updateSearchResults();
+		resetToTop();
 	}
 
 	public void notifyPropertySelected() {
@@ -234,9 +254,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		if (mNumHotelsTextViewTablet != null) {
 			int count = mAdapter.getCount();
 			mNumHotelsTextViewTablet.setText(Html.fromHtml(getResources().getQuantityString(
-					R.plurals.number_of_results,
-					count, count)
-					+ " " + getString(R.string.prices_avg_per_night_short)));
+					R.plurals.number_of_results, count, count)));
 		}
 	}
 
@@ -257,8 +275,11 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		SearchResponse response = Db.getSearchResponse();
 		mAdapter.setSearchResponse(response);
 
-		// In case there is a currently selected property, select it on the screen.
-		mAdapter.setSelectedPosition(getPositionOfProperty(Db.getSelectedProperty()));
+		if (Db.getSelectedProperty() != null) {
+			// In case there is a currently selected property, select it on the screen.
+			int position = getPositionOfProperty(Db.getSelectedProperty());
+			mAdapter.setSelectedPosition(position);
+		}
 
 		if (response.getPropertiesCount() == 0) {
 			setHeaderVisibility(View.GONE);
@@ -275,6 +296,18 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 			setHeaderVisibility(View.VISIBLE);
 			updateLawyerLabel();
 			mAdapter.setShowDistance(mShowDistances);
+		}
+	}
+
+	private void resetToTop() {
+		if (Db.getSelectedProperty() == null) {
+			final ListView lv = getListView();
+			lv.post(new Runnable() {
+				@Override
+				public void run() {
+					lv.setSelection(0);
+				}
+			});
 		}
 	}
 

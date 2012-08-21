@@ -94,7 +94,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		mContext = this;
 
 		setContentView(R.layout.activity_user_reviews);
-		
+
 		mProperty = Db.getSelectedProperty();
 
 		if (savedInstanceState != null) {
@@ -301,8 +301,14 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 
 			if (mHasReviewStats) {
 				TextView totalReviews = Ui.findView(this, R.id.user_review_total_reviews);
-				totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews, mTotalReviewCount,
-						mTotalReviewCount));
+				if (mTotalReviewCount == 0) {
+					totalReviews.setText(getString(R.string.no_reviews));
+				}
+				else {
+					totalReviews.setText(getResources().getQuantityString(R.plurals.number_of_reviews,
+							mTotalReviewCount,
+							mTotalReviewCount));
+				}
 
 				RatingBar bottomRatingBar = Ui.findView(this, R.id.user_review_rating_bar_bottom);
 				bottomRatingBar.setRating(mAverageOverallRating);

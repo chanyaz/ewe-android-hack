@@ -46,7 +46,7 @@ public class CustomEditText extends EditText {
 	private boolean mTemporaryDetach;
 
 	private int MINIMUM_WIDTH_IN_DP = 100;
-	private int MINIMUM_PADDING_IN_DP = 60;
+	private int MINIMUM_PADDING_IN_DP = 40;
 
 	// this flag helps to keep track of 
 	// whether or not to setup/dismiss
@@ -200,8 +200,7 @@ public class CustomEditText extends EditText {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomEditText);
 		mUseClearFieldDrawable = a.getBoolean(R.styleable.CustomEditText_useClearFieldDrawable, true);
-		mErrorTextColorResId = a.getResourceId(R.styleable.CustomEditText_errorTextColor,
-				android.R.color.black);
+		mErrorTextColorResId = a.getResourceId(R.styleable.CustomEditText_errorTextColor, android.R.color.black);
 		mTouchAreaPadding = a.getDimensionPixelSize(R.styleable.CustomEditText_touchAreaPadding, 0);
 		addTextChangedListener(textWatcher);
 		setupTransparentRightDrawable();
@@ -387,8 +386,7 @@ public class CustomEditText extends EditText {
 			int x = (int) event.getX();
 			int y = (int) event.getY();
 			if (x >= this.getRight() - this.getLeft() - rBounds.width() - mTouchAreaPadding
-					&& x <= this.getRight() - this.getLeft() + mTouchAreaPadding
-					&& y >= 0 && y <= (this.getHeight())) {
+					&& x <= this.getRight() - this.getLeft() + mTouchAreaPadding && y >= 0 && y <= (this.getHeight())) {
 				this.setText("");
 				event.setAction(MotionEvent.ACTION_CANCEL);//use this to prevent the keyboard from coming up
 				removeClearFieldButton();
@@ -488,8 +486,10 @@ public class CustomEditText extends EditText {
 		 * for the textview, however, I am also unable to set a layout changed listener 
 		 * for the textview as I get a class not found error for the EditTextWithCustomErrorPopup. 
 		 */
-		int wid = Math.max(tv.getPaddingLeft() + tv.getPaddingRight(), MINIMUM_PADDING_IN_DP);
-		int ht = Math.max(tv.getPaddingTop() + tv.getPaddingBottom(), MINIMUM_PADDING_IN_DP);
+		final float scale = getResources().getDisplayMetrics().density;
+
+		int wid = Math.max(tv.getPaddingLeft() + tv.getPaddingRight(), (int) (MINIMUM_PADDING_IN_DP * scale));
+		int ht = Math.max(tv.getPaddingTop() + tv.getPaddingBottom(), (int) (MINIMUM_PADDING_IN_DP * scale));
 
 		/*
 		 * Figure out how big the text would be if we laid it out to the

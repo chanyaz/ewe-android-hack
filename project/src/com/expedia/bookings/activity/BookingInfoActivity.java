@@ -28,7 +28,7 @@ import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentList
 import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.Amobee;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -279,7 +279,7 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 			final Integer daysRemaining = (int) ((Db.getSearchParams().getCheckInDate().getTime().getTime() - new Date()
 					.getTime()) / (24 * 60 * 60 * 1000));
 
-			Amobee.trackBooking(currency, totalPrice, duration, daysRemaining);
+			AdTracker.trackBooking(currency, totalPrice, duration, daysRemaining);
 
 			if (Db.getCreateTripResponse() != null) {
 				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());

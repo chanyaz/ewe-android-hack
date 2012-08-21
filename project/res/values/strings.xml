@@ -460,15 +460,30 @@
     <string name="filter_hotels">Filter Hotels</string>
     <!-- A number of results -->
     <plurals name="number_of_results">
-        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Results</item>
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; Result</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; Results</item>
-        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; Results</item>
-        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; Results</item>
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Results.</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; Result.</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; Results.</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; Results.</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; Results.</item>
     </plurals>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Mobile Exclusive</string>
-    <!-- Expedia urgency messaging indicating the number of rooms left -->
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="tonight_only">Tonight Only!</string>
+
+    <!-- To indicate how many people there are -->
+    <plurals name="num_people">
+        <item quantity="one">%d Person</item>
+        <item quantity="two">%d People</item>
+        <item quantity="many">%d People</item>
+        <item quantity="other">%d People</item>
+    </plurals>
+    <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
+    <string name="booked_this_in_the_last_hour">booked this in the last hour</string>
+    <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
+    <string name="booked_this_in_the_last_hours_template">booked this in the last %d hours</string>
+
+    <!-- Expedia urgency messaging indicating the number of rooms left-->
     <plurals name="num_rooms_left">
         <item quantity="one">%d Room Left!</item>
         <item quantity="two">%d Rooms Left</item>
@@ -537,6 +552,8 @@
     <string name="from_template">From &lt;strike&gt;%s&lt;/strike&gt;</string>
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/night</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt">/nt</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Not Rated</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -690,9 +707,11 @@
         2$ represents the total number of guests
     -->
     <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; out of &lt;b&gt;%2$d&lt;/b&gt; guests recommend this hotel.</string>
+    <!-- Special case for 0 reviews -->
+    <string name="no_reviews">No Reviews</string>
     <!-- A number of reviews -->
     <plurals name="number_of_reviews">
-        <item quantity="zero">%d Reviews</item>
+        <item quantity="zero">No Reviews</item>
         <item quantity="one">%d Review</item>
         <item quantity="two">%d Reviews</item>
         <item quantity="many">%d Reviews</item>
@@ -733,9 +752,11 @@
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="total_price_for_stay">Total price for stay</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
+    <string name="total_price_for_stay_punctuated">Total price for stay.</string>
+    <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">Prices average, per night</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties. Abbreviated. Meant to be short and fit in a small space -->
-    <string name="prices_avg_per_night_short">Prices avg/night</string>
+    <string name="prices_avg_per_night_short">Prices avg/night.</string>
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">No rooms left!</item>
@@ -957,6 +978,8 @@
     <string name="login_failed">Please log in again</string>
     <!-- Label for login widget button -->
     <string name="account_login">Account Login</string>
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation">Are you sure you want to log out of your Expedia account?</string>
     <!-- Label for login widget additional text -->
     <string name="log_in_for_faster_booking">Log in for faster booking.</string>
     <!-- Label for account status -->
@@ -981,6 +1004,8 @@
     <string name="new_total">New Total:</string>
     <!-- Label for credit card selection -->
     <string name="use_card">Use card:</string>
+    <!-- Label for credit card expired warning -->
+    <string name="stored_card_expired">The stored credit card you are using is expired.</string>
     <!-- Label for when a user has entered an invalid coupon -->
     <string name="invalid_coupon">Invalid Coupon</string>
     <!-- Label for when a user has entered a coupon which is expired -->
@@ -1125,6 +1150,8 @@
     <string name="unit_miles_full">miles</string>
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">kilometers</string>
+    <!-- Display for distances if the distance is 0 miles or 0 kilometers depending on the distance unit -->
+    <string name="distance_nearby">Nearby</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s %2$s away</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->

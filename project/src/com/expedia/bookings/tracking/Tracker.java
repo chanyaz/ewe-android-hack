@@ -7,13 +7,13 @@ import java.util.Calendar;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -113,8 +113,8 @@ public class Tracker {
 		// Region
 		DecimalFormat df = new DecimalFormat("#.######");
 		String region = null;
-		if (searchParams.getSearchType() == SearchType.FREEFORM) {
-			region = searchParams.getFreeformLocation();
+		if (!TextUtils.isEmpty(searchParams.getQuery())) {
+			region = searchParams.getQuery();
 		}
 		else {
 			region = df.format(searchParams.getSearchLatitude()) + "|" + df.format(searchParams.getSearchLongitude());
@@ -133,8 +133,8 @@ public class Tracker {
 		s.eVar47 = "A" + searchParams.getNumAdults() + "|C" + searchParams.getNumChildren();
 
 		// Freeform location
-		if (searchParams.getSearchType() == SearchType.FREEFORM) {
-			s.eVar48 = searchParams.getUserFreeformLocation();
+		if (!TextUtils.isEmpty(searchParams.getUserQuery())) {
+			s.eVar48 = searchParams.getUserQuery();
 		}
 
 		// Number of search results

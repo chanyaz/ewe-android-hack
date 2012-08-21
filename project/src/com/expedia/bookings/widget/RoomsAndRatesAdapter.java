@@ -48,6 +48,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	private int mBedSalePadding;
 
+	private StringBuilder mBuilder;
+
 	public RoomsAndRatesAdapter(Context context, AvailabilityResponse response) {
 		mContext = context;
 		mResources = context.getResources();
@@ -84,6 +86,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		mSaleTextSize = LayoutUtils.getSaleTextSize(context);
 
 		mBedSalePadding = (int) Math.round(mResources.getDisplayMetrics().density * 26);
+
+		mBuilder = new StringBuilder();
 	}
 
 	public void highlightSelectedPosition(boolean highlight) {
@@ -154,15 +158,15 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		holder.description.setText(Html.fromHtml(rate.getRoomDescription()));
 		holder.price.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
 
-		String explanation = "";
+		mBuilder.setLength(0);
 
 		// Check if there should be a strike-through rate, if this is on sale
 		if (rate.isOnSale()) {
-			explanation += "<strike>"
-					+ StrUtils.formatHotelPrice(rate.getDisplayBaseRate())
-					+ "</strike> ";
+			mBuilder.append(mContext.getString(R.string.strike_template,
+					StrUtils.formatHotelPrice(rate.getDisplayBaseRate())));
+			mBuilder.append(' ');
 
-			holder.saleLabel.setText(mContext.getString(R.string.percent_off_template, rate.getSavingsPercent() * 100));
+			holder.saleLabel.setText(mContext.getString(R.string.percent_off_template, rate.getDiscountPercent()));
 			holder.saleLabel.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -172,12 +176,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// Determine whether to show rate, rate per night, or avg rate per night for explanation
 		int explanationId = rate.getQualifier();
 		if (explanationId != 0) {
-			explanation += mContext.getString(explanationId);
+			mBuilder.append(mContext.getString(explanationId));
 		}
 
-		if (explanation.length() > 0) {
+		if (mBuilder.length() > 0) {
 			holder.priceExplanation.setVisibility(View.VISIBLE);
-			holder.priceExplanation.setText(Html.fromHtml(explanation, null, new StrikethroughTagHandler()));
+			holder.priceExplanation.setText(Html.fromHtml(mBuilder.toString(), null, new StrikethroughTagHandler()));
 		}
 		else {
 			holder.priceExplanation.setVisibility(View.GONE);
@@ -203,21 +207,28 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		holder.beds.setPadding(holder.beds.getPaddingLeft(), padding, holder.beds.getPaddingRight(),
 				holder.beds.getPaddingBottom());
 
-		String bedText = rate.getRatePlanName();
+		mBuilder.setLength(0);
+		mBuilder.append(rate.getRatePlanName());
 
 		if (rate.isNonRefundable()) {
-			bedText += "\n" + mResources.getString(R.string.non_refundable);
+			mBuilder.append('\n');
+			mBuilder.append(mResources.getString(R.string.non_refundable));
 		}
 		// If there are < ROOMS_LEFT_CUTOFF rooms left, show a warning to the user
 		else if (showRoomsLeft(rate)) {
 			int numRoomsLeft = rate.getNumRoomsLeft();
-			bedText += "\n" + mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft);
+			mBuilder.append('\n');
+			mBuilder.append(mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft));
 
 			// move the sale label up so as to accomodate the multiple lines for the bed text
-			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, 0);
-			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).topMargin = (int) mContext.getResources().getDimension(R.dimen.margin_top_sale_ribbon_room_rates);
-		} else {
-			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL,
+					0);
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).topMargin = (int) mContext
+					.getResources().getDimension(R.dimen.margin_top_sale_ribbon_room_rates);
+		}
+		else {
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL,
+					RelativeLayout.TRUE);
 		}
 
 		// If there are value adds, setup the alternate view
@@ -226,14 +237,14 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			holder.beds.setVisibility(View.VISIBLE);
 			holder.valueAddsLayout.setVisibility(View.GONE);
 
-			holder.beds.setText(bedText);
+			holder.beds.setText(mBuilder.toString());
 		}
 		else {
 			holder.beds.setVisibility(View.GONE);
 			holder.valueAddsLayout.setVisibility(View.VISIBLE);
 
 			holder.valueAdds.setText(mValueAdds.get(position));
-			holder.valueAddsBeds.setText(bedText);
+			holder.valueAddsBeds.setText(mBuilder.toString());
 		}
 
 		// Set the background based on whether the row is selected or not

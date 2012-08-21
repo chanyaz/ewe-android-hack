@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.amobee.agency.tracking.AmobeeReceiver;
 import com.amobee.agency.tracking.AmobeeReceiver.Goal;
+import com.mobiata.android.Log;
 
 public class Amobee {
 	private static Context mContext;
@@ -18,23 +19,31 @@ public class Amobee {
 		mAppId = appId;
 
 		mEnabled = enabled && mContext != null && mAppId != null;
+
+		Log.i("Amobee tracking initialized (enabled: " + String.valueOf(enabled) + ")");
 	}
 
 	public static void trackFirstLaunch() {
 		if (mEnabled) {
 			AmobeeReceiver.amobeeTracking(Goal.FIRST_LAUNCH, mContext, mAppId);
+
+			Log.i("Submitted Amobee first launch event");
 		}
 	}
 
 	public static void trackLaunch() {
 		if (mEnabled) {
 			AmobeeReceiver.amobeeTracking(Goal.LAUNCH, mContext, mAppId);
+
+			Log.i("Submitted Amobee launch event");
 		}
 	}
 
 	public static void trackLogin() {
 		if (mEnabled) {
 			AmobeeReceiver.amobeeTracking(Goal.LOGIN, mContext, mAppId);
+
+			Log.i("Submitted Amobee login event");
 		}
 	}
 
@@ -42,6 +51,8 @@ public class Amobee {
 		if (mEnabled) {
 			Object params = new Object[] { currency, totalPrice, duration, daysRemaining };
 			AmobeeReceiver.amobeeTracking(Goal.CUSTOM0, mContext, mAppId, params);
+
+			Log.i("Submitted Amobee booking event");
 		}
 	}
 }

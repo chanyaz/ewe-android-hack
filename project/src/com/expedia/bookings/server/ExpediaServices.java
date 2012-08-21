@@ -93,8 +93,9 @@ public class ExpediaServices implements DownloadListener {
 	private static final String COOKIES_FILE = "cookies.dat";
 
 	public enum ReviewSort {
-		NEWEST_REVIEW_FIRST("NewestReviewFirst"), HIGHEST_RATING_FIRST("HighestRatingFirst"), LOWEST_RATING_FIRST(
-				"LowestRatingFirst");
+		NEWEST_REVIEW_FIRST("NewestReviewFirst"),
+		HIGHEST_RATING_FIRST("HighestRatingFirst"),
+		LOWEST_RATING_FIRST("LowestRatingFirst");
 
 		private String mKey;
 
@@ -260,9 +261,9 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("latitude", params.getSearchLatitude() + ""));
 			query.add(new BasicNameValuePair("longitude", params.getSearchLongitude() + ""));
 		}
-		else if (params.hasFreeformLocation()) {
+		else if (params.hasQuery()) {
 			Log.d("Searching by city...");
-			query.add(new BasicNameValuePair("city", params.getFreeformLocation()));
+			query.add(new BasicNameValuePair("city", params.getQuery()));
 		}
 
 		addBasicParams(query, params);
@@ -469,6 +470,10 @@ public class ExpediaServices implements DownloadListener {
 		String langId = LocaleUtils.getDualLanguageId(mContext);
 		if (langId != null) {
 			query.add(new BasicNameValuePair("langid", langId));
+		}
+
+		if (!AndroidUtils.isRelease(mContext) && getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
+			query.add(new BasicNameValuePair("siteid", LocaleUtils.getSiteId(mContext)));
 		}
 	}
 
@@ -730,7 +735,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public enum EndPoint {
-		TRUNK, PRODUCTION, DEV, INTEGRATION, STABLE, PROXY
+		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY, PUBLIC_INTEGRATION, TRUNK
 	}
 
 	/**
@@ -792,12 +797,16 @@ public class ExpediaServices implements DownloadListener {
 			builder.append("www.expedia.com.trunk.sb.karmalab.net/");
 			break;
 		}
+		case PUBLIC_INTEGRATION: {
+			builder.append("70.42.224.37/MobileHotel/Webapp/");
+			break;
+		}
 		case PROXY: {
 			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
 					"localhost:3000"));
 			builder.append("/");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
-			builder.append("/");
+			builder.append("/MobileHotel/Webapp/");
 			break;
 		}
 		}
@@ -828,6 +837,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (which.equals("Proxy")) {
 			return EndPoint.PROXY;
+		}
+		else if (which.equals("Public Integration")) {
+			return EndPoint.PUBLIC_INTEGRATION;
 		}
 		else if (which.equals("Integration")) {
 			return EndPoint.INTEGRATION;

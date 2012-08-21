@@ -6,47 +6,48 @@
     android:layout_weight="1"
     android:background="@drawable/bg_row_summarized_room_rate" >
 
-    <ImageView
-        android:id="@+id/chevron"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:src="@drawable/room_rate_chevron" />
+        android:gravity="center_vertical" >
 
-    <TextView
-        android:id="@+id/description_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textColor="#48505c"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/description_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="#48505c"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/rate_qualifier_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/description_text_view"
-        android:layout_toLeftOf="@+id/chevron"
-        android:textColor="@color/light_gray"
-        android:textSize="@dimen/hotel_row_price_per_night_text_size" />
+        <TextView
+            android:id="@+id/rate_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textColor="@color/hotel_price_text_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/rate_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/description_text_view"
-        android:layout_toLeftOf="@+id/rate_qualifier_text_view"
-        android:layout_toRightOf="@+id/description_text_view"
-        android:gravity="right"
-        android:textColor="@color/hotel_price_text_color"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/rate_qualifier_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_gray"
+            android:textSize="@dimen/hotel_row_price_per_night_text_size" />
+
+        <ImageView
+            android:id="@+id/chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/room_rate_chevron" />
+    </LinearLayout>
 
     <View
         android:id="@+id/divider"

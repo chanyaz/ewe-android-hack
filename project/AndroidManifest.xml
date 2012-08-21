@@ -21,7 +21,7 @@
         android:theme="@style/Theme" >
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="6" />
+            android:value="7" />
         <meta-data
             android:name="com.somo.apptimiser.PUBLIC_KEY_BASE64_STRING"
             android:value="@string/soma_rsa_key" />
@@ -220,6 +220,12 @@
         </receiver>
 
         <!-- Tracking -->
+
+        <receiver android:name=".activity.PosChangedReceiver" >
+            <intent-filter>
+                <action android:name="com.expedia.bookings.action.pos_changed" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name="com.expedia.bookings.tracking.MdotmReceiver"
             android:exported="true" >

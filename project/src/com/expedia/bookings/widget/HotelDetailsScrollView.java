@@ -1,16 +1,18 @@
 package com.expedia.bookings.widget;
 
-import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.view.animation.AnimatorProxy;
 
 /**
  * This class implements a parallax-like scrolling effect specifically for 
@@ -24,10 +26,18 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	ViewGroup mGalleryScrollView;
 	ViewGroup mMapScrollView;
+	View mGalleryContainer;
+	HotelDetailsGallery mGallery;
 
-	int mInitialScrollTop = 0;
+	private int mGalleryHeight = 0;
+	private int mInitialScrollTop = 0;
+	private int mIntroOffset = 0;
+	private boolean mHasBeenTouched = false;
 
-	View mGalleryFragmentContainer;
+	//TODO: this won't be needed once minSdk >= 11
+	AnimatorProxy mGalleryAnimatorProxy;
+
+	ValueAnimator mAnimator;
 
 	public HotelDetailsScrollView(Context context) {
 		this(context, null);
@@ -39,41 +49,61 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	public HotelDetailsScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+
+		mGalleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
+		mIntroOffset = getResources().getDimensionPixelSize(R.dimen.hotel_details_intro_offset);
 	}
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
 
-		int screenHeight = b - t;
-		int galleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
-		mInitialScrollTop = screenHeight - galleryHeight;
+		int h = b - t;
+		mInitialScrollTop = h - mGalleryHeight;
 
-		scrollTo(0, mInitialScrollTop);
-		doCounterscroll();
+		if (!mHasBeenTouched) {
+			scrollTo(0, mInitialScrollTop);
+			doCounterscroll();
+		}
 	}
 
+	@TargetApi(11)
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 
-		// Gallery Layout
-		int galleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
+		mInitialScrollTop = h - mGalleryHeight;
 
-		mGalleryScrollView = (ViewGroup) findViewById(R.id.gallery_scroll_view);
-		mGalleryFragmentContainer = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
+		if (mGalleryScrollView == null) {
+			mGalleryScrollView = (ViewGroup) findViewById(R.id.gallery_scroll_view);
+		}
+		if (mGalleryContainer == null) {
+			mGalleryContainer = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
+		}
+		if (mGalleryAnimatorProxy == null && AndroidUtils.getSdkVersion() < 11) {
+			mGalleryAnimatorProxy = AnimatorProxy.wrap(mGalleryContainer);
+		}
+
+		if (mGallery == null) {
+			mGallery = (HotelDetailsGallery) findViewById(R.id.images_gallery);
+			mGallery.setInvalidateView(mGalleryScrollView);
+		}
 
 		ViewGroup.LayoutParams lp = mGalleryScrollView.getLayoutParams();
 		lp.height = h;
 		mGalleryScrollView.setLayoutParams(lp);
 
-		int paddingTop = (int) (h - galleryHeight / 2.0);
-		int paddingBottom = (int) ((h - galleryHeight));
-		findViewById(R.id.hotel_details_mini_gallery_fragment_container).setPadding(0, paddingTop, 0, paddingBottom);
+		int paddingTop = h - mGalleryHeight / 2;
+		int paddingBottom = h - mGalleryHeight;
+		mGalleryContainer.setPadding(0, paddingTop, 0, paddingBottom);
 
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			mGalleryFragmentContainer.setPivotY(paddingTop + galleryHeight / 2);
-			mGalleryFragmentContainer.setPivotX(w / 2);
+		if (AndroidUtils.getSdkVersion() < 11) {
+			mGalleryAnimatorProxy.setPivotY(h);
+			mGalleryAnimatorProxy.setPivotX(w / 2);
+		}
+		else {
+			mGalleryContainer.setPivotX(w / 2);
+			mGalleryContainer.setPivotY(h);
 		}
 	}
 
@@ -86,6 +116,8 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		boolean result = super.onTouchEvent(ev);
+
+		mHasBeenTouched = true;
 
 		if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
 			if (isScrollerFinished()) {
@@ -102,36 +134,36 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		mapCounterscroll(t);
 	}
 
-	@TargetApi(11)
 	public void snapGallery() {
-		int scrollY = getScrollY();
-		if (scrollY < mInitialScrollTop) {
+		int from = getScrollY();
+		if (from < mInitialScrollTop) {
 			int threshold = getHeight() / 3;
-			int to = scrollY < threshold ? 0 : mInitialScrollTop;
-			if (AndroidUtils.getSdkVersion() >= 11) {
-				ObjectAnimator.ofInt(this, "scrollY", scrollY, to).start();
-			}
-			else {
-				this.smoothScrollTo(0, to);
-			}
+			int to = from < threshold ? 0 : mInitialScrollTop;
+			animateScrollY(from, to);
 		}
+	}
+
+	public void toggleFullScreenGallery() {
+		int from = getScrollY();
+		int to = from != 0 ? 0 : mInitialScrollTop;
+		animateScrollY(from, to);
+	}
+
+	private void animateScrollY(int from, int to) {
+		if (mAnimator != null && mAnimator.isRunning()) {
+			return;
+		}
+		if (from == to) {
+			return;
+		}
+
+		mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to).setDuration(200);
+		mAnimator.start();
 	}
 
 	@TargetApi(11)
-	public void toggleFullScreenGallery() {
-		int scrollY = getScrollY();
-		int to = scrollY != 0 ? 0 : mInitialScrollTop;
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			ObjectAnimator.ofInt(this, "scrollY", scrollY, to).start();
-		}
-		else {
-			this.smoothScrollTo(0, to);
-		}
-	}
-
 	private void galleryCounterscroll(int parentScroll) {
 		// Gallery Layout
-		int galleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
 		int screenHeight = getHeight();
 		int availableHeight = screenHeight - parentScroll;
 
@@ -139,15 +171,15 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		float scale = 1f;
 		int counterscroll = availableHeight / 2;
 
-		if (availableHeight > galleryHeight) {
+		if (availableHeight > mGalleryHeight) {
 
 			// at x = galleryHeight, scale = 1.0
 			// at x = screenHeight, scale = 0.7 * scaledHeight / galleryHeight
 
-			float x1 = galleryHeight;
+			float x1 = mGalleryHeight;
 			float x2 = screenHeight;
 			float y1 = 1f;
-			float y2 = 0.7f * screenHeight / galleryHeight;
+			float y2 = 0.7f * screenHeight / mGalleryHeight;
 
 			// Linear interpolation
 			float x = screenHeight - parentScroll;
@@ -155,13 +187,17 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			scale = y1 + (y2 - y1) * pct;
 
 			float y3 = counterscroll;
-			float y4 = counterscroll - getResources().getDimensionPixelSize(R.dimen.hotel_details_intro_offset) / 2;
+			float y4 = counterscroll - mIntroOffset / 2;
 			counterscroll = (int) (y3 + (y4 - y3) * pct);
 		}
 
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			mGalleryFragmentContainer.setScaleX(scale);
-			mGalleryFragmentContainer.setScaleY(scale);
+		if (AndroidUtils.getSdkVersion() < 11) {
+			mGalleryAnimatorProxy.setScaleX(scale);
+			mGalleryAnimatorProxy.setScaleY(scale);
+		}
+		else {
+			mGalleryContainer.setScaleX(scale);
+			mGalleryContainer.setScaleY(scale);
 		}
 		mGalleryScrollView.scrollTo(0, counterscroll);
 	}
@@ -174,15 +210,11 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 		// The portion of the map that we want visible as long as possible (presumably the middle part)
 		int criticalHeight = 40;
-		int criticalTop = (int) (mMapScrollView.getChildAt(0).getHeight() / 2.0 - criticalHeight / 2.0);
-
-		// hitRect = the position of this view within the mHostLayout
-		Rect hitRect = new Rect();
-		mMapScrollView.getHitRect(hitRect);
+		int criticalTop = mMapScrollView.getChildAt(0).getHeight() / 2 - criticalHeight / 2;
 
 		// Compute the range where the view is (at least partially) visible
-		int maxVisibleScroll = hitRect.bottom;
-		int minVisibleScroll = hitRect.top - getHeight();
+		int maxVisibleScroll = mMapScrollView.getBottom();
+		int minVisibleScroll = mMapScrollView.getTop() - this.getHeight();
 
 		if (parentScroll < minVisibleScroll + criticalHeight || parentScroll > maxVisibleScroll - criticalHeight) {
 			// Child isn't visible, no need to bother with it
@@ -193,7 +225,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 		// Scroll the child so that desiredy is located pct% down
 
-		int scrollTo = criticalTop - (int) (pct * (hitRect.height() - criticalHeight));
+		int scrollTo = criticalTop - (int) (pct * (mMapScrollView.getHeight() - criticalHeight));
 
 		mMapScrollView.scrollTo(0, scrollTo);
 	}
@@ -206,5 +238,9 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		else {
 			return new HotelDetailsOverScroller(this);
 		}
+	}
+
+	public int getInitialScrollTop() {
+		return mInitialScrollTop;
 	}
 }

@@ -6,5 +6,5 @@
 	<dimen name="hotel_row_from_text_size">14sp</dimen>
 	<dimen name="hotel_row_price_text_size">25sp</dimen>
 	<dimen name="hotel_row_price_per_night_text_size">15sp</dimen>
-	<dimen name="hotel_row_distance_text_size">16sp</dimen>
+	<dimen name="hotel_row_proximity_text_size">16sp</dimen>
 </resources>

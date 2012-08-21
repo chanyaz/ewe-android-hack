@@ -24,6 +24,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
@@ -44,7 +45,9 @@ public class AutocompleteProvider extends ContentProvider {
 		builder.scheme("content");
 		builder.authority("com.expedia.booking.autocomplete");
 		builder.appendPath("search_suggest_query");
-		builder.appendPath(query);
+		if (query != null) {
+			builder.appendPath(query);
+		}
 		builder.appendQueryParameter("limit", Integer.toString(limit));
 		return builder.build();
 	}
@@ -66,8 +69,6 @@ public class AutocompleteProvider extends ContentProvider {
 	}
 
 	public static Cursor getSuggestions(Context context, String query) {
-		Log.d("Autocomplete query: '" + query + "'");
-
 		String currentLocation = context.getString(R.string.current_location);
 
 		Set<String> suggestedLocations = new HashSet<String>();
@@ -79,20 +80,20 @@ public class AutocompleteProvider extends ContentProvider {
 		List<Search> recentSearches = Search.getRecentSearches(context, 5);
 		boolean recentSearchesContainsQuery = false;
 		for (Search search : recentSearches) {
-			if (search.getFreeformLocation().equals(query)) {
+			if (search.getQuery().equals(query)) {
 				recentSearchesContainsQuery = true;
 				break;
 			}
 		}
 
 		// Don't bother hitting the network in some cases
-		if (!recentSearchesContainsQuery && !query.equals(currentLocation) && !query.equals("")) {
+		if (!recentSearchesContainsQuery && !query.equals(currentLocation) && !TextUtils.isEmpty(query)) {
 			ExpediaServices services = new ExpediaServices(context);
 			SuggestResponse response = services.suggest(query);
 
 			if (response != null) {
 				for (Search search : response.getSuggestions()) {
-					String freeformLocation = search.getFreeformLocation();
+					String freeformLocation = search.getQuery();
 					suggestedLocations.add(freeformLocation);
 					JSONObject json = search.toJson();
 					Object[] row = { id, freeformLocation, freeformLocation, json, R.drawable.ic_autocomplete_pin };
@@ -115,7 +116,7 @@ public class AutocompleteProvider extends ContentProvider {
 				SearchParams p = new SearchParams();
 				p.fillFromSearch(search);
 
-				final String freeformLocation = search.getFreeformLocation();
+				final String freeformLocation = search.getQuery();
 				if (!suggestedLocations.contains(freeformLocation)) {
 					suggestedLocations.add(freeformLocation);
 					final Object[] historyRow = { id, freeformLocation, freeformLocation, p.toJson(),
@@ -129,7 +130,7 @@ public class AutocompleteProvider extends ContentProvider {
 		// Then suggest from array of random cool cities
 		if (id <= 15) {
 			for (SearchParams p : getStaticSuggestions(context)) {
-				final String freeformLocation = p.getFreeformLocation();
+				final String freeformLocation = p.getQuery();
 				if (!suggestedLocations.contains(freeformLocation)) {
 					suggestedLocations.add(freeformLocation);
 					final Object[] suggestionRow = { id, freeformLocation, freeformLocation, p.toJson(),
@@ -176,9 +177,10 @@ public class AutocompleteProvider extends ContentProvider {
 			sStaticSuggestions = new ArrayList<SearchParams>(suggestions.size());
 			for (int i = 0; i < suggestions.size(); i++) {
 				SearchParams p = new SearchParams();
-				p.setFreeformLocation(suggestions.get(i));
+				p.setQuery(suggestions.get(i));
 				p.setRegionId(regionIds.get(i));
 				p.setSearchLatLon(Double.parseDouble(latitudes.get(i)), Double.parseDouble(longitudes.get(i)));
+				p.setSearchType(SearchType.CITY);
 				sStaticSuggestions.add(p);
 			}
 

@@ -31,17 +31,16 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_hotel_details_description, container, false);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		populateViews();
+		View view = inflater.inflate(R.layout.fragment_hotel_details_description, container, false);
+		populateViews(view);
+		return view;
 	}
 
 	public void populateViews() {
-		View view = getView();
+		populateViews(getView());
+	}
+
+	private void populateViews(View view) {
 		setupAmenities(view, DbPropertyHelper.getBestAmenityProperty());
 		setupDescriptionSections(view, DbPropertyHelper.getBestDescriptionProperty());
 	}
@@ -50,22 +49,7 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 		// Disable some aspects of the horizontal scrollview so it looks pretty
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
 		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
-
-		// Have to disable overscroll mode via reflection, since it's only in API 9+
-		try {
-			Field f = HorizontalScrollView.class.getField("OVER_SCROLL_NEVER");
-			Method m = HorizontalScrollView.class.getMethod("setOverScrollMode", int.class);
-			m.invoke(amenitiesScrollView, f.getInt(null));
-		}
-		catch (NoSuchFieldError e) {
-			// Ignore; this will just happen pre-9
-		}
-		catch (NoSuchMethodException e) {
-			// Ignore; this will just happen pre-9
-		}
-		catch (Exception e) {
-			Log.w("Something went wrong trying to disable overscroll mode.", e);
-		}
+		disableOverScrollMode(amenitiesScrollView);
 
 		ViewGroup amenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
 		amenitiesContainer.removeAllViews();
@@ -85,6 +69,24 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 			view.findViewById(R.id.amenities_divider).setVisibility(View.GONE);
 		}
 
+	}
+
+	// Have to disable overscroll mode via reflection, since it's only in API 9+
+	private void disableOverScrollMode(HorizontalScrollView view) {
+		try {
+			Field f = HorizontalScrollView.class.getField("OVER_SCROLL_NEVER");
+			Method m = HorizontalScrollView.class.getMethod("setOverScrollMode", int.class);
+			m.invoke(view, f.getInt(null));
+		}
+		catch (NoSuchFieldError e) {
+			// Ignore; this will just happen pre-9
+		}
+		catch (NoSuchMethodException e) {
+			// Ignore; this will just happen pre-9
+		}
+		catch (Exception e) {
+			Log.w("Something went wrong trying to disable overscroll mode.", e);
+		}
 	}
 
 	private void setupDescriptionSections(View view, Property property) {

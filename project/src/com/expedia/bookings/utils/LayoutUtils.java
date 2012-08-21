@@ -73,27 +73,12 @@ public class LayoutUtils {
 				distanceStrId, df.format(SearchRadius.LARGE.getRadius(distanceUnit))));
 	}
 
-	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick,
-			OnClickListener onReviewsClick) {
+	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick) {
 		TextView name = (TextView) activity.findViewById(R.id.name_text_view);
 		name.setText(property.getName());
-		RatingBar userRating = (RatingBar) activity.findViewById(R.id.user_rating_bar);
-		userRating.setRating((float) property.getAverageExpediaRating());
-		TextView location = (TextView) activity.findViewById(R.id.location_text_view);
-		location.setText(StrUtils.formatAddress(property.getLocation(), StrUtils.F_CITY + StrUtils.F_STATE_CODE));
-
-		TextView reviewsText = (TextView) activity.findViewById(R.id.user_rating_text_view);
-		int numReviews = property.getTotalReviews();
-		reviewsText.setText(activity.getResources().getQuantityString(R.plurals.number_of_reviews, numReviews,
-				numReviews));
-
-		View reviewsContainer = activity.findViewById(R.id.user_rating_layout);
-		if (onReviewsClick == null) {
-			reviewsContainer.setEnabled(false);
-		}
-		else {
-			reviewsContainer.setOnClickListener(onReviewsClick);
-		}
+		
+		RatingBar hotelRating = (RatingBar) activity.findViewById(R.id.hotel_rating_bar);
+		hotelRating.setRating((float) property.getHotelRating());
 
 		TextView bookButton = (TextView) activity.findViewById(R.id.book_now_button);
 		bookButton.setOnClickListener(onBookNowClick);

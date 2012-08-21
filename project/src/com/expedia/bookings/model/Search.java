@@ -6,13 +6,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchParams.SearchType;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -26,8 +26,8 @@ public class Search extends Model implements JSONable {
 	public Search(SearchParams searchParams) {
 		super();
 
-		if (searchParams.hasFreeformLocation()) {
-			mFreeformLocation = searchParams.getFreeformLocation().trim();
+		if (searchParams.hasQuery()) {
+			mQuery = searchParams.getQuery().trim();
 		}
 		if (searchParams.hasSearchLatLon()) {
 			mLatitude = searchParams.getSearchLatitude();
@@ -36,10 +36,12 @@ public class Search extends Model implements JSONable {
 		if (searchParams.hasRegionId()) {
 			mRegionId = searchParams.getRegionId();
 		}
+		mSearchType = searchParams.getSearchType().name();
 	}
 
+	// This column is named FreeFormLocation for legacy sake
 	@Column(name = "FreeFormLocation")
-	private String mFreeformLocation;
+	private String mQuery;
 
 	@Column(name = "Latitude")
 	private Double mLatitude;
@@ -50,8 +52,11 @@ public class Search extends Model implements JSONable {
 	@Column(name = "RegionId")
 	private String mRegionId;
 
-	public String getFreeformLocation() {
-		return mFreeformLocation;
+	@Column(name = "SearchType")
+	private String mSearchType;
+
+	public String getQuery() {
+		return mQuery;
 	}
 
 	public double getLatitude() {
@@ -64,6 +69,15 @@ public class Search extends Model implements JSONable {
 
 	public String getRegionId() {
 		return mRegionId;
+	}
+
+	public String getSearchType() {
+		// TODO: This if block is for legacy searches. Eventually we shouldn't need it.
+		if (TextUtils.isEmpty(mSearchType)) {
+			return "FREEFORM";
+		}
+
+		return mSearchType;
 	}
 
 	public boolean hasLatLng() {
@@ -81,8 +95,7 @@ public class Search extends Model implements JSONable {
 	}
 
 	public static void add(Context context, SearchParams searchParams) {
-		if (searchParams.getSearchType() != SearchType.FREEFORM || searchParams.getFreeformLocation() == null
-				|| searchParams.getFreeformLocation().length() == 0) {
+		if (TextUtils.isEmpty(searchParams.getQuery())) {
 			return;
 		}
 
@@ -91,7 +104,7 @@ public class Search extends Model implements JSONable {
 	}
 
 	public static void delete(Context context, SearchParams searchParams) {
-		Search.delete(Search.class, "lower(FreeFormLocation) = ?", searchParams.getFreeformLocation().toLowerCase()
+		Search.delete(Search.class, "lower(FreeFormLocation) = ?", searchParams.getQuery().toLowerCase()
 				.trim());
 	}
 
@@ -99,10 +112,11 @@ public class Search extends Model implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			obj.putOpt("freeformLocation", mFreeformLocation);
+			obj.putOpt("freeformLocation", mQuery);
 			obj.putOpt("latitude", mLatitude);
 			obj.putOpt("longitude", mLongitude);
 			obj.putOpt("regionId", mRegionId);
+			obj.putOpt("searchType", mSearchType);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -113,12 +127,13 @@ public class Search extends Model implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mFreeformLocation = obj.optString("freeformLocation", null);
+		mQuery = obj.optString("freeformLocation", null);
 		if (obj.has("latitude") && obj.has("longitude")) {
 			mLatitude = obj.optDouble("latitude");
 			mLongitude = obj.optDouble("longitude");
 		}
 		mRegionId = obj.optString("regionId", null);
+		mSearchType = obj.optString("searchType", "FREEFORM");
 
 		return true;
 	}

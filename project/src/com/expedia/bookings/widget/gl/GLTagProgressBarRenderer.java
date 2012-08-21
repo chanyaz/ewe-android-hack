@@ -725,26 +725,8 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	public void shutdown() {
 		Log.t("GL shutdown called.");
 
-		if (mGL == null) {
-			return;
-		}
-
-		if (mSprites != null) {
-			int lastFreedResource = -1;
-			int[] textureToDelete = new int[1];
-
-			for (int x = 0; x < mSprites.length; x++) {
-				int resource = mSprites[x].getResourceId();
-				if (resource != lastFreedResource) {
-					textureToDelete[0] = mSprites[x].getTextureName();
-					mGL.glDeleteTextures(1, textureToDelete, 0);
-					mSprites[x].setTextureName(0);
-				}
-				if (mUseHardwareBuffers) {
-					mSprites[x].getGrid().releaseHardwareBuffers(mGL);
-				}
-			}
-		}
+		// Clear out the reference so we don't hold onto the opengl context when we shutdown
+		mGL = null;
 	}
 
 	protected int[] loadBitmap(Context context, GL10 gl, int resourceId) {

@@ -6,9 +6,6 @@ import java.util.List;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.StrikethroughSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
@@ -169,12 +166,5 @@ public class StrUtils {
 
 	public static String formatHotelPrice(Money money, String currencyCode) {
 		return money.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN, currencyCode);
-	}
-
-	public static Spanned getStrikedThroughSpanned(String str) {
-		SpannableString strSpannable = new SpannableString(str);
-		StrikethroughSpan strikeThroughSpan = new StrikethroughSpan();
-		strSpannable.setSpan(strikeThroughSpan, 0, str.length(), 0);
-		return strSpannable;
 	}
 }

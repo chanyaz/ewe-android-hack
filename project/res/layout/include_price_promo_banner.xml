@@ -7,7 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" >
+        android:layout_gravity="center"
+        android:paddingRight="15dp" >
 
         <TextView
             android:id="@+id/sale_banner_text_view"
@@ -18,8 +19,7 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="20dp"
-            android:text="30%"
-            android:textColor="#fff"
+            android:textColor="@color/price_promo_banner_text_color"
             android:textStyle="bold" />
 
         <TextView
@@ -28,35 +28,37 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:paddingLeft="5dp"
-            android:text="Mobile Only!"
-            android:textColor="#fff" />
+            android:textColor="@color/price_promo_banner_text_color" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/from_text_view"
+            android:id="@+id/strikethrough_price_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:paddingRight="3dp"
-            android:text="@string/from"
-            android:textColor="#fff"
-            android:textSize="12sp" />
+            android:includeFontPadding="false"
+            android:paddingRight="6dp"
+            android:textColor="@color/price_promo_banner_strikethrough_text_color"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/rate_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$345"
             android:textAppearance="@android:style/TextAppearance.Large"
-            android:textColor="#fff"
+            android:textColor="@color/price_promo_banner_text_color"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/per_nt_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="15dp"
-            android:text="@string/per_night"
-            android:textColor="#fff"
+            android:text="@string/per_nt"
+            android:textColor="@color/price_promo_banner_text_color"
             android:textSize="12sp" />
     </LinearLayout>
 

@@ -16,13 +16,15 @@
         android:layout_centerVertical="true"
         layout="@layout/include_hotel_list_fixed_header_num_hotels_text_view" />
 
-<!--     <include
+    <include
+        android:id="@+id/lawyer_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/num_hotels_text_view"
+        android:layout_alignBaseline="@id/num_hotels_text_view_tablet"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@id/num_hotels_text_view_tablet"
         layout="@layout/include_hotel_list_fixed_header_lawyer_label_text_view"
-        android:text="@string/prices_avg_per_night_short" /> -->
+        android:text="@string/prices_avg_per_night_short" />
 
     <TextView
         android:id="@+id/sort_type_text_view"

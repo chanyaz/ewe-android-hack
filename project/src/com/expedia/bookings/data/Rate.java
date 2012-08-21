@@ -1,15 +1,12 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ParserUtils;
@@ -19,6 +16,9 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class Rate implements JSONable {
+
+	// Anything outside the range [0, 100] is invalid. So let's use 200.
+	public static final double UNSET_DISCOUNT_PERCENT = 200;
 
 	// The types of display rates
 	public enum UserPriceType {
@@ -49,6 +49,7 @@ public class Rate implements JSONable {
 	private Money mExtraGuestFee;
 	private Money mTotalMandatoryFees; // "bait & switch" fees
 	private Money mTotalPriceWithMandatoryFees;
+	private Money mTotalPriceAdjustments;
 
 	// Display prices
 	private UserPriceType mUserPriceType;
@@ -62,6 +63,7 @@ public class Rate implements JSONable {
 	// Expedia-specific fields
 	private Money mAverageRate; // The average rate, post-sale
 	private Money mAverageBaseRate; // The average rate, without sale discounts
+	private double mDiscountPercent = UNSET_DISCOUNT_PERCENT; // Discount percent, as reported by E3 (i.e. 15.0)
 	private int mNumberOfNights;
 	private String mPromoDescription;
 	private int mNumRoomsLeft;
@@ -351,6 +353,28 @@ public class Rate implements JSONable {
 		mAverageBaseRate = averageBaseRate;
 	}
 
+	/**
+	 * @return the savings between the base rate and the sale rate, in the range [0, 100]. 0 if no sale.
+	 */
+	public double getDiscountPercent() {
+		if (mDiscountPercent <= 100 && mDiscountPercent >= 0) {
+			return mDiscountPercent;
+		}
+		// Alternate/old method of calculating savings percent.
+		else if (mAverageRate != null && mAverageBaseRate != null) {
+			double baseRate = mAverageBaseRate.getAmount();
+			double saleRate = mAverageRate.getAmount();
+			if (baseRate > saleRate) {
+				return 100 * (1 - (saleRate / baseRate));
+			}
+		}
+		return 0;
+	}
+
+	public void setDiscountPercent(double discountPercent) {
+		mDiscountPercent = Math.abs(discountPercent);
+	}
+
 	public Money getTotalSurcharge() {
 		return mTotalSurcharge;
 	}
@@ -373,6 +397,14 @@ public class Rate implements JSONable {
 
 	public void setTotalPriceWithMandatoryFees(Money totalPriceWithMandatoryFees) {
 		mTotalPriceWithMandatoryFees = totalPriceWithMandatoryFees;
+	}
+
+	public Money getTotalPriceAdjustments() {
+		return mTotalPriceAdjustments;
+	}
+
+	public void setTotalPriceAdjustments(Money totalPriceAdjustments) {
+		mTotalPriceAdjustments = totalPriceAdjustments;
 	}
 
 	public void setUserPriceType(String userPriceType) {
@@ -414,28 +446,14 @@ public class Rate implements JSONable {
 		mNumberOfNights = numberOfNights;
 	}
 
-	/**
-	 * @return the savings between the base rate and the sale rate.  0 if no sale.
-	 */
-	public double getSavingsPercent() {
-		if (mAverageRate != null && mAverageBaseRate != null) {
-			double baseRate = mAverageBaseRate.getAmount();
-			double saleRate = mAverageRate.getAmount();
-			if (baseRate > saleRate) {
-				return 1 - (saleRate / baseRate);
-			}
-		}
-
-		return 0;
-	}
-
 	// #10905 - If the property's sale is <1%, we don't consider it on sale.
 	public boolean isOnSale() {
-		return getSavingsPercent() >= .01;
+		return getDiscountPercent() >= 1;
 	}
 
+	// 9.5% or higher will be rounded to 10% when the percent is displayed as an integer.
 	public boolean isSaleTenPercentOrBetter() {
-		return getSavingsPercent() >= .10;
+		return getDiscountPercent() >= 9.5;
 	}
 
 	public int getNumRoomsLeft() {
@@ -526,16 +544,28 @@ public class Rate implements JSONable {
 		return LocaleUtils.doesPointOfSaleHaveInclusivePricing();
 	}
 
-	public Money getInclusiveBaseRate() {
+	private Money getInclusiveBaseRate() {
 		if (mInclusiveBaseRate == null) {
-			double rate = mAverageBaseRate.getAmount() * mNumberOfNights;
-			mInclusiveBaseRate = ParserUtils.createMoney(rate, mAverageBaseRate.getCurrency());
-			mInclusiveBaseRate.add(mTotalSurcharge);
+			mInclusiveBaseRate = new Money();
+			mInclusiveBaseRate.add(mStrikethroughPriceToShowUsers);
+			mInclusiveBaseRate.add(mTotalMandatoryFees);
 		}
 		return mInclusiveBaseRate;
 	}
 
-	public Money getInclusiveRate() {
+	public Money getDisplayBaseRate() {
+		if (showInclusivePrices()) {
+			return getInclusiveBaseRate();
+		}
+		else if (mStrikethroughPriceToShowUsers != null) {
+			return mStrikethroughPriceToShowUsers;
+		}
+		else {
+			return mAverageBaseRate;
+		}
+	}
+
+	private Money getInclusiveRate() {
 		if (mInclusiveRate == null) {
 			if (mTotalPriceWithMandatoryFees != null) {
 				mInclusiveRate = mTotalPriceWithMandatoryFees;
@@ -549,24 +579,12 @@ public class Rate implements JSONable {
 		return mInclusiveRate;
 	}
 
-	public Money getDisplayBaseRate() {
-		if (mStrikethroughPriceToShowUsers != null) {
-			return mStrikethroughPriceToShowUsers;
-		}
-		else if (showInclusivePrices()) {
-			return getInclusiveBaseRate();
-		}
-		else {
-			return mAverageBaseRate;
-		}
-	}
-
 	public Money getDisplayRate() {
-		if (mPriceToShowUsers != null) {
-			return mPriceToShowUsers;
-		}
-		else if (showInclusivePrices()) {
+		if (showInclusivePrices()) {
 			return getInclusiveRate();
+		}
+		else if (mPriceToShowUsers != null) {
+			return mPriceToShowUsers;
 		}
 		else {
 			return mAverageRate;
@@ -602,6 +620,7 @@ public class Rate implements JSONable {
 			obj.putOpt("promoDescription", mPromoDescription);
 			JSONUtils.putJSONable(obj, "averageRate", mAverageRate);
 			JSONUtils.putJSONable(obj, "averageBaseRate", mAverageBaseRate);
+			obj.put("discountPercent", mDiscountPercent);
 			JSONUtils.putJSONable(obj, "totalSurcharge", mTotalSurcharge);
 			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
 			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
@@ -650,6 +669,7 @@ public class Rate implements JSONable {
 		mPromoDescription = obj.optString("promoDescription", null);
 		mAverageRate = (Money) JSONUtils.getJSONable(obj, "averageRate", Money.class);
 		mAverageBaseRate = (Money) JSONUtils.getJSONable(obj, "averageBaseRate", Money.class);
+		mDiscountPercent = obj.optDouble("discountPercent", UNSET_DISCOUNT_PERCENT);
 		mTotalSurcharge = (Money) JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
 		if (mTotalSurcharge == null) {
 			// Try surcharge from EAN

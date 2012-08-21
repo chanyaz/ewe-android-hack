@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -167,6 +168,11 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 */
 	private boolean mIsFirstScroll;
 
+	/**
+	 * Stores the drawable for the placeholder images.
+	 */
+	private Drawable mPlaceholderDrawable;
+
 	public Gallery(Context context) {
 		this(context, null);
 	}
@@ -201,6 +207,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 		int flipInterval = a.getInt(R.styleable.Gallery_android_flipInterval, DEFAULT_FLIP_INTERVAL);
 		setFlipInterval(flipInterval);
+
+		Drawable d = a.getDrawable(R.styleable.Gallery_placeholder);
+		setPlaceholderDrawable(d);
 
 		a.recycle();
 
@@ -344,8 +353,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		/*
 		 * Gallery expects Gallery.LayoutParams.
 		 */
-		return new Gallery.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT);
+		return new Gallery.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 	}
 
 	@Override
@@ -435,9 +443,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 		int centerDifference = galleryCenter - extremeChildCenter;
 
-		return motionToLeft
-				? Math.max(centerDifference, deltaX)
-				: Math.min(centerDifference, deltaX);
+		return motionToLeft ? Math.max(centerDifference, deltaX) : Math.min(centerDifference, deltaX);
 	}
 
 	/**
@@ -702,8 +708,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		}
 
 		while (curRightEdge > galleryLeft && curPosition >= 0) {
-			prevIterationView = makeAndAddView(curPosition, curPosition - mSelectedPosition,
-					curRightEdge, false);
+			prevIterationView = makeAndAddView(curPosition, curPosition - mSelectedPosition, curRightEdge, false);
 
 			// Remember some state
 			mFirstPosition = curPosition;
@@ -736,8 +741,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		}
 
 		while (curLeftEdge < galleryRight && curPosition < numItems) {
-			prevIterationView = makeAndAddView(curPosition, curPosition - mSelectedPosition,
-					curLeftEdge, true);
+			prevIterationView = makeAndAddView(curPosition, curPosition - mSelectedPosition, curLeftEdge, true);
 
 			// Set state for next iteration
 			curLeftEdge = prevIterationView.getRight() + itemSpacing;
@@ -760,8 +764,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 *        building from left to right)?
 	 * @return A view that has been added to the gallery
 	 */
-	private View makeAndAddView(int position, int offset, int x,
-			boolean fromLeft) {
+	private View makeAndAddView(int position, int offset, int x, boolean fromLeft) {
 
 		View child;
 
@@ -772,8 +775,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				int childLeft = child.getLeft();
 
 				// Remember left and right edges of where views have been placed
-				mRightMost = Math.max(mRightMost, childLeft
-						+ child.getMeasuredWidth());
+				mRightMost = Math.max(mRightMost, childLeft + child.getMeasuredWidth());
 				mLeftMost = Math.min(mLeftMost, childLeft);
 
 				// Position the view
@@ -808,8 +810,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 		// Respect layout params that are already in the view. Otherwise
 		// make some up...
-		Gallery.LayoutParams lp = (Gallery.LayoutParams)
-				child.getLayoutParams();
+		Gallery.LayoutParams lp = (Gallery.LayoutParams) child.getLayoutParams();
 		if (lp == null) {
 			lp = (Gallery.LayoutParams) generateDefaultLayoutParams();
 		}
@@ -819,10 +820,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		child.setSelected(offset == 0);
 
 		// Get measure specs
-		int childHeightSpec = ViewGroup.getChildMeasureSpec(mHeightMeasureSpec,
-				mSpinnerPadding.top + mSpinnerPadding.bottom, lp.height);
-		int childWidthSpec = ViewGroup.getChildMeasureSpec(mWidthMeasureSpec,
-				mSpinnerPadding.left + mSpinnerPadding.right, lp.width);
+		int childHeightSpec = ViewGroup.getChildMeasureSpec(mHeightMeasureSpec, mSpinnerPadding.top
+				+ mSpinnerPadding.bottom, lp.height);
+		int childWidthSpec = ViewGroup.getChildMeasureSpec(mWidthMeasureSpec, mSpinnerPadding.left
+				+ mSpinnerPadding.right, lp.width);
 
 		// Measure child
 		child.measure(childWidthSpec, childHeightSpec);
@@ -864,8 +865,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			childTop = mSpinnerPadding.top;
 			break;
 		case Gravity.CENTER_VERTICAL:
-			int availableSpace = myHeight - mSpinnerPadding.bottom
-					- mSpinnerPadding.top - childHeight;
+			int availableSpace = myHeight - mSpinnerPadding.bottom - mSpinnerPadding.top - childHeight;
 			childTop = mSpinnerPadding.top + (availableSpace / 2);
 			break;
 		case Gravity.BOTTOM:
@@ -905,8 +905,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 			// Also pass the click so the client knows, if it wants to.
 			if (mShouldCallbackOnUnselectedItemClick || mDownTouchPosition == mSelectedPosition) {
-				performItemClick(mDownTouchView, mDownTouchPosition, getAdapter()
-						.getItemId(mDownTouchPosition));
+				performItemClick(mDownTouchView, mDownTouchPosition, getAdapter().getItemId(mDownTouchPosition));
 			}
 
 			return true;
@@ -929,6 +928,11 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			// This will get reset once we scroll into slots
 			if (!mSuppressSelectionChanged)
 				mSuppressSelectionChanged = true;
+		}
+
+		// No need to fling anything if there are no children.
+		if (getChildCount() == 0) {
+			return true;
 		}
 
 		// Calculate the distance the fling will take you.  If it will propel you to the next
@@ -1144,8 +1148,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		boolean handled = false;
 
 		if (mOnItemLongClickListener != null) {
-			handled = mOnItemLongClickListener.onItemLongClick(this, mDownTouchView,
-					mDownTouchPosition, id);
+			handled = mOnItemLongClickListener.onItemLongClick(this, mDownTouchView, mDownTouchPosition, id);
 		}
 
 		if (!handled) {
@@ -1212,8 +1215,8 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 					}, ViewConfiguration.getPressedStateDuration());
 
 					int selectedIndex = mSelectedPosition - mFirstPosition;
-					performItemClick(getChildAt(selectedIndex), mSelectedPosition, getAdapter()
-							.getItemId(mSelectedPosition));
+					performItemClick(getChildAt(selectedIndex), mSelectedPosition,
+							getAdapter().getItemId(mSelectedPosition));
 				}
 			}
 
@@ -1311,6 +1314,25 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		}
 	}
 
+	/**
+	 * Sets the drawable that will be used as a placeholder while an image is
+	 * being loaded (such as from a network request). Setting to null will clear
+	 * the placeholder image.
+	 * @param drawable
+	 */
+	public void setPlaceholderDrawable(Drawable drawable) {
+		mPlaceholderDrawable = drawable;
+	}
+
+	/**
+	 * Sets the resource that will be used as a placeholder while an image is
+	 * being loaded (such as from a network request).
+	 * @param drawable
+	 */
+	public void setPlaceholderDrawableResource(int resid) {
+		mPlaceholderDrawable = getResources().getDrawable(resid);
+	}
+
 	@Override
 	protected int getChildDrawingOrder(int childCount, int i) {
 		int selectedIndex = mSelectedPosition - mFirstPosition;
@@ -1382,8 +1404,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 			int initialX = initialVelocity < 0 ? Integer.MAX_VALUE : 0;
 			mLastFlingX = initialX;
-			mScroller.fling(initialX, 0, initialVelocity, 0,
-					0, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
+			mScroller.fling(initialX, 0, initialVelocity, 0, 0, Integer.MAX_VALUE, 0, Integer.MAX_VALUE);
 			post(this);
 		}
 
@@ -1494,10 +1515,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		private LayoutInflater mInflater;
 		private List<Media> mMedia;
 
-		private final LinearLayout.LayoutParams LAYOUT_WIDE = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-		private final LinearLayout.LayoutParams LAYOUT_TALL = new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT);
+		private final LinearLayout.LayoutParams LAYOUT_WIDE = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.FILL_PARENT);
+		private final LinearLayout.LayoutParams LAYOUT_TALL = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.FILL_PARENT);
 
 		public ImageAdapter(Context context, List<Media> media) {
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -1575,9 +1596,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				imageView.setImageBitmap(bitmap);
 			}
 			else {
-				// Set a placeholder image while we load the image
-				imageView.setImageResource(R.drawable.ic_image_placeholder);
+				imageView.setImageDrawable(mPlaceholderDrawable);
 				imageView.setLayoutParams(LAYOUT_WIDE);
+				// Clear the background drawable while loading
 				imageView.setBackgroundDrawable(null);
 				media.loadHighResImage(null, callback);
 			}
@@ -1680,8 +1701,8 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			mRunning = running;
 		}
 
-		Log.d("updateRunning() mVisible=" + mVisible + ", mStarted=" + mStarted
-				+ ", mUserPresent=" + mUserPresent + ", mRunning=" + mRunning + ", mScrolling=" + mScrolling);
+		Log.d("updateRunning() mVisible=" + mVisible + ", mStarted=" + mStarted + ", mUserPresent=" + mUserPresent
+				+ ", mRunning=" + mRunning + ", mScrolling=" + mScrolling);
 	}
 
 	// This method isn't perfect; in particular, it assumes that you are scrolling to an item

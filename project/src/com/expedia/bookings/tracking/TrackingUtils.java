@@ -16,9 +16,11 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.SparseArray;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Filter;
@@ -122,6 +124,12 @@ public class TrackingUtils {
 		if (!AndroidUtils.isRelease(context)) {
 			s.account += "dev";
 		}
+
+		// Amobee tracking
+
+		s.visitorID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+		s.eVar7 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+		s.eVar10 = SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), "");
 
 		// Server
 		s.trackingServer = "om.expedia.com";
@@ -351,13 +359,20 @@ public class TrackingUtils {
 			// Location change
 			// Checks that the search type is the same, or else that a search of a particular type hasn't
 			// been modified (e.g., freeform text changing on a freeform search)
-			if (searchParams.getSearchType() != oldSearchParams.getSearchType()
-					|| (searchParams.getSearchType() == SearchType.FREEFORM && !searchParams.getFreeformLocation()
-							.equals(oldSearchParams.getFreeformLocation()))
-					|| ((searchParams.getSearchType() == SearchType.MY_LOCATION || searchParams.getSearchType() == SearchType.PROXIMITY) && (searchParams
-							.getSearchLatitude() != oldSearchParams.getSearchLatitude() || searchParams
-							.getSearchLongitude() != oldSearchParams.getSearchLongitude()))) {
+			if (!searchParams.equals(oldSearchParams.getSearchType())) {
 				refinements.add("App.Hotels.Search.Refine.Location");
+			}
+			else if (searchParams.getSearchType() == SearchType.MY_LOCATION
+					|| searchParams.getSearchType() == SearchType.VISIBLE_MAP_AREA) {
+				if (searchParams.getSearchLatitude() != oldSearchParams.getSearchLatitude()
+						|| searchParams.getSearchLongitude() != oldSearchParams.getSearchLongitude()) {
+					refinements.add("App.Hotels.Search.Refine.Location");
+				}
+			}
+			else {
+				if (!searchParams.getQuery().equals(oldSearchParams.getQuery())) {
+					refinements.add("App.Hotels.Search.Refine.Location");
+				}
 			}
 
 			// Checkin date change

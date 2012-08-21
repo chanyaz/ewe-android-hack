@@ -148,7 +148,12 @@ public class Db {
 
 	public static void setSelectedProperty(Property property) {
 		sDb.mSelectedProperty = property;
-		setSelectedProperty(property.getPropertyId());
+		if (property != null) {
+			setSelectedProperty(property.getPropertyId());
+		}
+		else {
+			setSelectedProperty("");
+		}
 	}
 
 	public static void setSelectedProperty(String propertyId) {
@@ -187,12 +192,12 @@ public class Db {
 	}
 
 	public static void addAvailabilityResponse(AvailabilityResponse availabilityResponse) {
-		if (availabilityResponse != null) {
+		if (availabilityResponse != null && availabilityResponse.getProperty() != null) {
 			if (availabilityResponse.canRequestMoreData()) {
-				sDb.mInfoResponses.put(sDb.mSelectedPropertyId, availabilityResponse);
+				sDb.mInfoResponses.put(availabilityResponse.getProperty().getPropertyId(), availabilityResponse);
 			}
 			else {
-				sDb.mAvailabilityResponses.put(sDb.mSelectedPropertyId, availabilityResponse);
+				sDb.mAvailabilityResponses.put(availabilityResponse.getProperty().getPropertyId(), availabilityResponse);
 			}
 		}
 	}

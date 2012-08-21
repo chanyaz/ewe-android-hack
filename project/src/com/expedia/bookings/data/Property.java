@@ -15,6 +15,7 @@ import com.mobiata.android.json.JSONable;
 public class Property implements JSONable {
 
 	public static enum Amenity {
+		// @formatter:off
 		BUSINESS_CENTER(0x0000001, R.string.AmenityBusinessCenter),
 		FITNESS_CENTER(0x0000002, R.string.AmenityFitnessCenter),
 		HOT_TUB(0x0000004, R.string.AmenityHotTub),
@@ -43,6 +44,7 @@ public class Property implements JSONable {
 		POOL_OUTDOOR(0x2000000, R.string.AmenityPoolOutdoor),
 		EXTENDED_PARKING(0x4000000, R.string.AmenityExtendedParking),
 		FREE_PARKING(0x8000000, R.string.AmenityFreeParking);
+		// @formatter:on
 
 		private int flag;
 		private int strId;
@@ -84,6 +86,7 @@ public class Property implements JSONable {
 	private String mSupplierType; // E == merchant, S or W == GDS
 	private Rate mLowestRate;
 	private boolean mIsLowestRateMobileExclusive = false;
+	private boolean mIsLowestRateTonightOnly = false;
 
 	// Hotel rating ranges from 0-5, in .5 intervals
 	private double mHotelRating;
@@ -280,6 +283,14 @@ public class Property implements JSONable {
 		return mIsLowestRateMobileExclusive;
 	}
 
+	public void setIsLowestRateTonightOnly(boolean b) {
+		mIsLowestRateTonightOnly = b;
+	}
+
+	public boolean isLowestRateTonightOnly() {
+		return mIsLowestRateTonightOnly;
+	}
+
 	// Updates a Property from another Property (currently, one returned via an AvailabilityResponse)
 	public void updateFrom(Property property) {
 		if (property.hasAmenitiesSet()) {
@@ -403,10 +414,10 @@ public class Property implements JSONable {
 
 			if (left.isOnSale() && right.isOnSale()) {
 				// Both on sale
-				if (left.getSavingsPercent() == right.getSavingsPercent()) {
+				if (left.getDiscountPercent() == right.getDiscountPercent()) {
 					return NAME_COMPARATOR.compare(leftProperty, rightProperty);
 				}
-				else if (left.getSavingsPercent() > right.getSavingsPercent()) {
+				else if (left.getDiscountPercent() > right.getDiscountPercent()) {
 					// We want to show larger percentage discounts first
 					return -1;
 				}
@@ -414,7 +425,7 @@ public class Property implements JSONable {
 					return 1;
 				}
 			}
-			else if(left.isOnSale()) {
+			else if (left.isOnSale()) {
 				// Bump the on sale property to the top
 				return -1;
 			}

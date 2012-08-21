@@ -14,12 +14,11 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.location.Address;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -27,12 +26,15 @@ import com.mobiata.android.util.SettingUtils;
 
 public class SearchParams implements JSONable {
 
+	private static final String SEARCH_PARAMS_KEY = "searchParams";
+
 	public static enum SearchType {
-		FREEFORM, KEYWORD, MY_LOCATION, PROXIMITY, PROPERTY
+		MY_LOCATION, ADDRESS, POI, CITY, VISIBLE_MAP_AREA, FREEFORM
 	}
 
 	private SearchType mSearchType = SearchType.MY_LOCATION;
-	private String mFreeformLocation;
+
+	private String mQuery;
 	private Calendar mCheckInDate;
 	private Calendar mCheckOutDate;
 	private int mNumAdults;
@@ -48,10 +50,12 @@ public class SearchParams implements JSONable {
 	// This might get filled as a result of an autosuggestion
 	private String mRegionId;
 
-	// The variables below are just for analytics
-	// mUserFreeformLocation is what the user entered for a freeform location.  We may disambiguate or
-	// figure out a better string when we ultimately do a search.
-	private String mUserFreeformLocation;
+	/**
+	 *  The variables below are just for analytics
+	 *  mUserFreeformLocation is what the user entered for a freeform location.  We may disambiguate or
+	 *  figure out a better string when we ultimately do a search.
+	 */
+	private String mUserQuery;
 
 	public SearchParams() {
 		init();
@@ -63,7 +67,7 @@ public class SearchParams implements JSONable {
 	 */
 	public SearchParams(SharedPreferences prefs) {
 		init();
-		String searchParamsJson = prefs.getString("searchParams", null);
+		String searchParamsJson = prefs.getString(SEARCH_PARAMS_KEY, null);
 		if (searchParamsJson != null) {
 			try {
 				JSONObject obj = new JSONObject(searchParamsJson);
@@ -86,7 +90,7 @@ public class SearchParams implements JSONable {
 		mChildren = null;
 
 		// Setup default number of results
-		mFreeformLocation = null;
+		mQuery = null;
 		mPropertyIds = new HashSet<String>();
 	}
 
@@ -120,56 +124,58 @@ public class SearchParams implements JSONable {
 	 */
 	public boolean setSearchType(SearchType searchType) {
 		boolean changed = mSearchType != searchType;
-		if (searchType != SearchType.FREEFORM) {
-			invalidateFreeformLocation();
+		if (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA) {
+			clearQuery();
 		}
 		mSearchType = searchType;
 		return changed;
 	}
 
 	/**
-	 * Sets the freeform location for this SearchParams object. Also marks the (latitude, longitude) 
+	 * Sets the location query for this SearchParams object. Also marks the (latitude, longitude) 
 	 * position as not up to date and clears the regionId. Returns false if the location passed was 
 	 * the same as before.
-	 * @param freeformLocation
+	 * @param query
 	 * @return
 	 */
-	public boolean setFreeformLocation(String freeformLocation) {
-		if (mFreeformLocation != null && mFreeformLocation.equals(freeformLocation)) {
-			Log.v("Not resetting freeform location; already searching this spot: " + freeformLocation);
+	public boolean setQuery(String query) {
+		if (mQuery != null && mQuery.equals(query)) {
+			Log.v("Not resetting freeform location; already searching this spot: " + query);
 			return false;
 		}
 
-		mFreeformLocation = freeformLocation;
+		mQuery = query;
 		mSearchLatLonUpToDate = false;
 		mRegionId = null;
 		return true;
 	}
 
-	public void invalidateFreeformLocation() {
-		mFreeformLocation = null;
-		mSearchLatLonUpToDate = false;
-		mRegionId = null;
+	public void clearQuery() {
+		setQuery(null);
 	}
 
-	public void setFreeformLocation(Address address) {
-		setFreeformLocation(LocationServices.formatAddress(address));
+	public String getQuery() {
+		return mQuery;
 	}
 
-	public String getFreeformLocation() {
-		return mFreeformLocation;
+	public boolean hasQuery() {
+		return !TextUtils.isEmpty(mQuery);
 	}
 
-	public void setUserFreeformLocation(String userFreeformLocation) {
-		mUserFreeformLocation = userFreeformLocation;
+	/**
+	 * Set the original query as typed by the user (it may be overridden by a geocoding response).
+	 * @param userQuery
+	 */
+	public void setUserQuery(String userQuery) {
+		mUserQuery = userQuery;
 	}
 
-	public String getUserFreeformLocation() {
-		return mUserFreeformLocation;
-	}
-
-	public boolean hasFreeformLocation() {
-		return mFreeformLocation != null && mFreeformLocation.length() > 0;
+	/**
+	 * get the original query as typed by the user.
+	 * @param userQuery
+	 */
+	public String getUserQuery() {
+		return mUserQuery;
 	}
 
 	/**
@@ -189,11 +195,14 @@ public class SearchParams implements JSONable {
 	 */
 	public String getSearchDisplayText(Context context) {
 		switch (mSearchType) {
+		case CITY:
+		case ADDRESS:
+		case POI:
 		case FREEFORM:
-			return mFreeformLocation;
+			return mQuery;
 		case MY_LOCATION:
 			return context.getString(R.string.current_location);
-		case PROXIMITY:
+		case VISIBLE_MAP_AREA:
 			return context.getString(R.string.visible_map_area);
 		default:
 			return null;
@@ -201,8 +210,8 @@ public class SearchParams implements JSONable {
 	}
 
 	public void fillFromSearch(Search search) {
-		setSearchType(SearchType.FREEFORM);
-		setFreeformLocation(search.getFreeformLocation());
+		setSearchType(SearchType.valueOf(search.getSearchType()));
+		setQuery(search.getQuery());
 		setRegionId(search.getRegionId());
 		if (search.hasLatLng()) {
 			setSearchLatLon(search.getLatitude(), search.getLongitude());
@@ -330,7 +339,7 @@ public class SearchParams implements JSONable {
 		mSearchLongitude = longitude;
 		mSearchLatLonUpToDate = true;
 	}
-	
+
 	public void setSearchLatLonUpToDate() {
 		mSearchLatLonUpToDate = true;
 	}
@@ -360,7 +369,7 @@ public class SearchParams implements JSONable {
 	}
 
 	public boolean fromJson(JSONObject obj) {
-		mFreeformLocation = obj.optString("freeformLocation", null);
+		mQuery = obj.optString("freeformLocation", null);
 		mSearchLatLonUpToDate = obj.optBoolean("hasLatLon", false);
 		mSearchLatitude = obj.optDouble("latitude", 0);
 		mSearchLongitude = obj.optDouble("longitude", 0);
@@ -380,12 +389,19 @@ public class SearchParams implements JSONable {
 		mChildren = JSONUtils.getIntList(obj, "children");
 
 		if (obj.has("searchType")) {
-			mSearchType = SearchType.valueOf(obj.optString("searchType"));
+			// TODO: remove the "if" part of this later. It's for backwards compatibility.
+			// 2012.08.01
+			if (obj.optString("searchType").equals("PROXIMITY")) {
+				mSearchType = SearchType.VISIBLE_MAP_AREA;
+			}
+			else {
+				mSearchType = SearchType.valueOf(obj.optString("searchType"));
+			}
 		}
 
 		mRegionId = obj.optString("regionId", null);
 
-		mUserFreeformLocation = obj.optString("userFreeformLocation", null);
+		mUserQuery = obj.optString("userFreeformLocation", null);
 
 		try {
 			mPropertyIds = new HashSet<String>();
@@ -407,7 +423,7 @@ public class SearchParams implements JSONable {
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("freeformLocation", mFreeformLocation);
+			obj.put("freeformLocation", mQuery);
 			if (mSearchLatLonUpToDate) {
 				obj.put("hasLatLon", mSearchLatLonUpToDate);
 				obj.put("latitude", mSearchLatitude);
@@ -434,7 +450,7 @@ public class SearchParams implements JSONable {
 
 			obj.put("regionId", mRegionId);
 
-			obj.put("userFreeformLocation", mUserFreeformLocation);
+			obj.put("userFreeformLocation", mUserQuery);
 		}
 		catch (JSONException e) {
 			Log.w("Could not write search params JSON.", e);
@@ -452,7 +468,7 @@ public class SearchParams implements JSONable {
 			// compare some state variables (such as lat/lon, which are retrieved from the freeform location
 
 			return this.getSearchType().equals(other.getSearchType())
-					&& (mFreeformLocation != null ? mFreeformLocation.equals(other.getFreeformLocation()) : true) // mFreeformLocation may be null
+					&& (mQuery != null ? mQuery.equals(other.getQuery()) : true) // mFreeformLocation may be null
 					&& this.mSearchLatitude == other.getSearchLatitude()
 					&& this.mSearchLongitude == other.getSearchLongitude()
 					&& this.mPropertyIds.equals(other.getPropertyIds())
@@ -465,7 +481,7 @@ public class SearchParams implements JSONable {
 
 	public void saveToSharedPreferences(SharedPreferences prefs) {
 		Editor editor = prefs.edit();
-		editor.putString("searchParams", toJson().toString());
+		editor.putString(SEARCH_PARAMS_KEY, toJson().toString());
 		SettingUtils.commitOrApply(editor);
 	}
 
