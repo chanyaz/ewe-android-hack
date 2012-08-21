@@ -16,15 +16,15 @@
             android:layout_height="32dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/ic_select_credit_card" />
+            android:src="@drawable/ic_credit_card" />
 
         <TextView
             android:id="@+id/display_stored_card_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textColor="@color/data_entry_text"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </com.expedia.bookings.section.SectionStoredCreditCard>

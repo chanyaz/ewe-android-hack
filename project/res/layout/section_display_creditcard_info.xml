@@ -12,7 +12,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_weight="0"
-        android:src="@drawable/ic_select_credit_card" />
+        android:src="@drawable/ic_credit_card" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -21,29 +21,35 @@
         android:orientation="vertical" >
 		
         <TextView
-            android:id="@+id/display_full_name"
+            android:id="@+id/display_creditcard_brand_name"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:bufferType="spannable"
             android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="17sp" />
+            android:text="@string/enter_traveler_info"
+            android:textColor="@color/data_review_dark"
+            android:textScaleX="0.9"
+            android:textSize="@dimen/data_display_primary_text"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp" />
         
         <TextView
             android:id="@+id/display_creditcard_number_masked"
-            android:layout_width="wrap_content"
+           android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:bufferType="spannable"
-            android:gravity="center_horizontal"
-            android:textSize="16sp" />
+            android:textColor="@color/data_review_grey"
+            android:textSize="@dimen/data_display_sub_text"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="0dp" />
         
         <TextView
             android:id="@+id/display_creditcard_expiration"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:bufferType="spannable"
-            android:gravity="center_horizontal"
-            android:textSize="16sp" />
+            android:textColor="@color/data_review_grey"
+            android:textSize="@dimen/data_display_sub_text"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="0dp" />
 
         
     </LinearLayout>

@@ -12,7 +12,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_weight="0"
-        android:src="@drawable/btn_map" />
+        android:src="@drawable/ic_address_envelope" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,24 +22,33 @@
 
         <TextView
             android:id="@+id/display_address_single_line"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:gravity="center_horizontal"
+            android:textColor="@color/data_review_dark"
+            android:textScaleX="0.9"
+            android:textSize="@dimen/data_display_primary_text"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp" />
 
         <TextView
             android:id="@+id/display_address_city_state_zip_one_line"
-            android:layout_width="match_parent"
+             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textSize="16sp" />
+            android:textColor="@color/data_review_grey"
+            android:textSize="@dimen/data_display_sub_text"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="0dp" />
 
 
         <TextView
             android:id="@+id/display_address_country"
-            android:layout_width="wrap_content"
+             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp" />
+            android:textColor="@color/data_review_grey"
+            android:textSize="@dimen/data_display_sub_text"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="0dp" />
     </LinearLayout>
 
 </com.expedia.bookings.section.SectionLocation>

@@ -53,7 +53,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="0"
-                    android:src="@drawable/btn_actionbar_guests" />
+                    android:src="@drawable/ic_traveler" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="0"
-                    android:src="@drawable/ic_select_credit_card" />
+                    android:src="@drawable/ic_credit_card" />
 
                 <TextView
                     android:layout_width="wrap_content"

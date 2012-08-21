@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CFCFCF"
+    android:background="@color/flight_checkout_opaque_white"
     android:fillViewport="true"
     android:orientation="vertical" >
 
@@ -17,16 +17,24 @@
             android:id="@+id/current_payment_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
             android:text="@string/edit_current_payment_details"
-            android:textColor="#121212"
-            android:textSize="20sp" />
+            android:textAllCaps="true"
+            android:textColor="@color/data_entry_heading"
+            android:textSize="@dimen/data_form_section_header_text"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/data_entry_heading_divider" />
 
         <LinearLayout
             android:id="@+id/stored_payment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_flight_rounded_white"
             android:orientation="vertical"
             android:paddingBottom="8dp"
             android:paddingTop="8dp" >
@@ -36,45 +44,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/section_display_stored_credit_card" />
-
         </LinearLayout>
-        
+
         <LinearLayout
             android:id="@+id/current_payment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_flight_rounded_white"
-            android:orientation="vertical"
             android:layout_marginBottom="15dp"
+            android:orientation="vertical"
             android:paddingBottom="8dp"
             android:paddingTop="8dp" >
-
-            <include
-                android:id="@+id/current_payment_address_section"
-                android:layout_marginLeft="15dp"
-                layout="@layout/section_display_address_info" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/simple_grey_divider_height"
-                android:layout_marginBottom="@dimen/simple_grey_divider_margin_bottom"
-                android:layout_marginTop="@dimen/simple_grey_divider_margin_top"
-                android:background="@color/divider_grey" />
 
             <include
                 android:id="@+id/current_payment_cc_section"
                 android:layout_marginLeft="15dp"
                 layout="@layout/section_display_creditcard_info" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/simple_grey_divider_height"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/divider_grey" />
+
+            <include
+                android:id="@+id/current_payment_address_section"
+                android:layout_marginLeft="15dp"
+                layout="@layout/section_display_address_info" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/stored_payments_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
             android:text="@string/stored_payment_label"
-            android:textColor="#121212"
-            android:textSize="20sp" />
+            android:textAllCaps="true"
+            android:textColor="@color/data_entry_heading"
+            android:textSize="@dimen/data_form_section_header_text"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/data_entry_heading_divider" />
 
         <LinearLayout
             android:id="@+id/new_payment_stored_cards"
@@ -89,22 +104,29 @@
             android:id="@+id/new_payment_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
             android:text="@string/or_select_new_paymet_method"
-            android:textColor="#121212"
-            android:textSize="20sp" />
+            android:textAllCaps="true"
+            android:textColor="@color/data_entry_heading"
+            android:textSize="@dimen/data_form_section_header_text"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/data_entry_heading_divider" />
 
         <LinearLayout
             android:id="@+id/new_payment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/bg_flight_rounded_white"
             android:orientation="vertical"
-            android:layout_marginBottom="15dp"
             android:paddingBottom="8dp"
             android:paddingTop="8dp" >
-
 
             <LinearLayout
                 android:id="@+id/new_payment_new_card"
@@ -119,27 +141,17 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="0"
-                    android:src="@drawable/ic_select_credit_card" />
+                    android:src="@drawable/ic_credit_card_add" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/add_new_card"
-                    android:textColor="#121212"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/data_entry_text"
+                    android:textSize="18sp"/>
             </LinearLayout>
         </LinearLayout>
-
-        <Button
-            android:id="@+id/overview_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_small_yellow"
-            android:text="@string/overview_btn" />
     </LinearLayout>
 
 </ScrollView>

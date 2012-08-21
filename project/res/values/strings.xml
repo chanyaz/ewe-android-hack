@@ -231,7 +231,7 @@
     <!-- Enter payment info button text -->
     <string name="enter_payment_info">Enter Payment Information</string>
     <!-- Template for blanked out Credit Card -->
-    <string name="blanked_out_credit_card_TEMPLATE">&lt;b>%1$s&lt;/b> ending in &lt;b>%2$s&lt;/b></string>
+    <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b>%2$s&lt;/b></string>
 
     <!-- Section display address -->
     <!-- Enter address info button text -->

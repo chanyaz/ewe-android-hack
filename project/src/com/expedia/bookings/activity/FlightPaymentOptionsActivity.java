@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -37,7 +39,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 	SectionBillingInfo mSectionCurrentCreditCard;
 	SectionStoredCreditCard mSectionStoredPayment;
 	View mNewCreditCardBtn;
-	View mOverviewBtn;
 
 	TextView mStoredPaymentsLabel;
 	TextView mCurrentPaymentLabel;
@@ -62,7 +63,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 		mStoredCardsContainer = Ui.findView(this, R.id.new_payment_stored_cards);
 		mStoredPaymentContainer = Ui.findView(this, R.id.stored_payment_container);
 
-		mOverviewBtn = Ui.findView(this, R.id.overview_btn);
 		mNewCreditCardBtn = Ui.findView(this, R.id.new_payment_new_card);
 
 		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
@@ -101,13 +101,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 			}
 		});
 
-		mOverviewBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(FlightPaymentOptionsActivity.this, FlightCheckoutActivity.class);
-				startActivity(intent);
-			}
-		});
 
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
 
@@ -184,6 +177,20 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 		mSectionCurrentCreditCard.bind(mBillingInfo);
 		mSectionStoredPayment.bind(mBillingInfo.getStoredCard());
 
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = this.getSupportMenuInflater();
+		inflater.inflate(R.menu.menu_done, menu);
+		menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(FlightPaymentOptionsActivity.this, FlightCheckoutActivity.class);
+				startActivity(intent);
+			}		
+		});
+		return true;
 	}
 
 }
