@@ -11,6 +11,9 @@ import android.provider.Settings;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Item;
@@ -83,16 +86,18 @@ public class AdTracker {
 
 	public static void trackBooking() {
 		// Values
-		final String propertyId = Db.getSelectedProperty().getPropertyId();
-		final String propertyName = Db.getSelectedProperty().getName();
-		final String currency = Db.getSelectedRate().getDisplayRate().getCurrency();
-		final Integer duration = Db.getSearchParams().getStayDuration();
-		final Double avgPrice = Db.getSelectedRate().getAverageRate().getAmount();
-		final Double totalPrice = Db.getSelectedRate().getTotalAmountAfterTax().getAmount();
-		final Double totalTax = Db.getSelectedRate().getTaxesAndFeesPerRoom() != null ? Db.getSelectedRate()
-				.getTaxesAndFeesPerRoom().getAmount() : 0;
-		final Integer daysRemaining = (int) ((Db.getSearchParams().getCheckInDate().getTime().getTime() - new Date()
-				.getTime()) / (24 * 60 * 60 * 1000));
+		final SearchParams searchParams = Db.getSearchParams().copy();
+		final Property property = Db.getSelectedProperty();
+		final Rate rate = Db.getSelectedRate();
+
+		final String propertyId = property.getPropertyId();
+		final String propertyName = property.getName();
+		final String currency = rate.getDisplayRate().getCurrency();
+		final Integer duration = searchParams.getStayDuration();
+		final Double avgPrice = rate.getAverageRate().getAmount();
+		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount();
+		final Double totalTax = rate.getTaxesAndFeesPerRoom() != null ? rate.getTaxesAndFeesPerRoom().getAmount() : 0;
+		final Integer daysRemaining = (int) ((searchParams.getCheckInDate().getTime().getTime() - new Date().getTime()) / (24 * 60 * 60 * 1000));
 
 		// Google Analytics
 		Transaction transaction = new Transaction.Builder(currency, (long) (totalPrice * 1000000))
