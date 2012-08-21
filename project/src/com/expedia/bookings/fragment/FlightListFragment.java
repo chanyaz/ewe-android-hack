@@ -3,13 +3,18 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,7 +37,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
 // will need to rewrite a good portion of it.
-public class FlightListFragment extends ListFragment implements SectionFlightLegListener {
+public class FlightListFragment extends ListFragment implements SectionFlightLegListener, OnScrollListener {
 
 	public static final String TAG = FlightListFragment.class.getName();
 
@@ -43,10 +48,14 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	private FlightListFragmentListener mListener;
 
 	private ImageView mBackgroundView;
+	private ImageView mBackgroundBgView;
+	private ImageView mBackgroundFgView;
+
 	private TextView mNumFlightsTextView;
 	private SectionFlightLeg mSectionFlightLeg;
 
-	private Drawable mHeaderDrawable;
+	private Bitmap mHeaderBitmap;
+	private Bitmap mBlurredHeaderBitmap;
 
 	private int mLegPosition;
 
@@ -62,7 +71,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		}
 
 		// DELETE EVENTUALLY: For now, just set the header to always be SF
-		setHeaderDrawable(getResources().getDrawable(R.drawable.san_francisco));
+		setHeaderBitmap(null);
 	}
 
 	@Override
@@ -86,6 +95,8 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		View v = inflater.inflate(R.layout.fragment_flight_list, container, false);
 
 		mBackgroundView = Ui.findView(v, R.id.background_view);
+		mBackgroundBgView = Ui.findView(v, R.id.background_bg_view);
+		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
 
 		// Configure the header
 		ListView lv = Ui.findView(v, android.R.id.list);
@@ -96,6 +107,10 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		mSectionFlightLeg.setListener(this);
 		lv.addHeaderView(header);
 		lv.setHeaderDividersEnabled(false);
+
+		if (usesDynamicBlur()) {
+			lv.setOnScrollListener(this);
+		}
 
 		displayBackground();
 		displayHeaderLeg();
@@ -173,15 +188,37 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	//////////////////////////////////////////////////////////////////////////
 	// Header control
 
-	public void setHeaderDrawable(Drawable drawable) {
-		mHeaderDrawable = drawable;
-		displayBackground();
+	public void setHeaderBitmap(Bitmap bitmap) {
+		// TODO: Actually implement dynamic loading of images/blurring
+		mHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.san_francisco);
+		mBlurredHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.san_francisco_blurred);
 	}
 
 	private void displayBackground() {
-		if (mBackgroundView != null) {
-			mBackgroundView.setImageDrawable(mHeaderDrawable);
+		if (mHeaderBitmap != null && mBlurredHeaderBitmap != null) {
+			if (mBackgroundView != null) {
+				mBackgroundView.setImageDrawable(new BitmapDrawable(getResources(), mBlurredHeaderBitmap));
+			}
+
+			if (mBackgroundBgView != null) {
+				mBackgroundBgView.setImageDrawable(new BitmapDrawable(getResources(), mHeaderBitmap));
+			}
+
+			if (mBackgroundFgView != null) {
+				mBackgroundFgView.setImageDrawable(new BitmapDrawable(getResources(), mBlurredHeaderBitmap));
+			}
 		}
+	}
+
+	// Goes from 0.0 - 1.0
+	private void setBlurAmount(float percent) {
+		if (mBackgroundFgView != null) {
+			mBackgroundFgView.setAlpha(percent);
+		}
+	}
+
+	private boolean usesDynamicBlur() {
+		return Build.VERSION.SDK_INT >= 11;
 	}
 
 	private void displayHeaderLeg() {
@@ -271,5 +308,21 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	@Override
 	public void onDeselect() {
 		deselectOutboundLeg();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnScrollListener
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if (firstVisibleItem == 0 && view.getChildCount() > 0) {
+			View header = view.getChildAt(0);
+			setBlurAmount((float) -header.getTop() / (float) header.getHeight());
+		}
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// Do nothing
 	}
 }
