@@ -129,6 +129,12 @@
         <item>@string/point_of_sale_vn</item>
     </string-array>
 
+    <!-- POSes that require mandatory fees (i.e., total price instead of per/night price) -->
+    <string-array name="pos_mandatory_fees">
+        <item>@string/point_of_sale_de</item>
+        <item>@string/point_of_sale_it</item>
+    </string-array>
+
     <!-- Mapping of POS to siteId -->
     <string-array name="siteid_map" tools:ignore="MissingTranslation">
         <item>@string/point_of_sale_ar</item>

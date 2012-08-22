@@ -352,13 +352,32 @@ public class LocaleUtils {
 		}
 	}
 
+	public static void init(Context context) {
+		initMandatoryFees(context);
+		initInclusivePrices(context);
+	}
+
+	private static String[] sMandatoryFeesPointOfSales;
+
+	public static void initMandatoryFees(Context context) {
+		sMandatoryFeesPointOfSales = context.getResources().getStringArray(R.array.pos_mandatory_fees);
+		Arrays.sort(sMandatoryFeesPointOfSales);
+	}
+
 	public static boolean shouldDisplayMandatoryFees(Context context) {
-		String pos = getPointOfSale(context);
-		if (pos == null) {
-			return false;
+		if (sMandatoryFeesPointOfSales == null) {
+			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
 		}
-		return pos.equals(context.getString(R.string.point_of_sale_it))
-				|| pos.equals(context.getString(R.string.point_of_sale_de));
+
+		return Arrays.binarySearch(sMandatoryFeesPointOfSales, getPointOfSale(context)) >= 0;
+	}
+
+	public static boolean shouldDisplayMandatoryFees() {
+		if (sMandatoryFeesPointOfSales == null) {
+			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
+		}
+
+		return Arrays.binarySearch(sMandatoryFeesPointOfSales, getPointOfSale()) >= 0;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -376,7 +395,7 @@ public class LocaleUtils {
 
 	public static boolean doesPointOfSaleHaveInclusivePricing(Context context) {
 		if (sInclusivePricingPointOfSales == null) {
-			throw new RuntimeException("Need to call initInclusivePrices() on app start");
+			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
 		}
 
 		return Arrays.binarySearch(sInclusivePricingPointOfSales, getPointOfSale(context)) >= 0;
@@ -384,7 +403,7 @@ public class LocaleUtils {
 
 	public static boolean doesPointOfSaleHaveInclusivePricing() {
 		if (sInclusivePricingPointOfSales == null) {
-			throw new RuntimeException("Need to call initInclusivePrices() on app start");
+			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
 		}
 
 		return Arrays.binarySearch(sInclusivePricingPointOfSales, getPointOfSale()) >= 0;

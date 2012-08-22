@@ -75,8 +75,8 @@ public class Rate implements JSONable {
 
 	// These are computed rates, based on the user's current locale.  They should
 	// not be saved, but instead computed on demand (since locale can change).
-	private Money mInclusiveBaseRate = null;
-	private Money mInclusiveRate = null;
+	private Money mMandatoryFeesBaseRate = null;
+	private Money mMandatoryFeesRate = null;
 
 	/*
 	 * This enum represents the different bed types
@@ -538,18 +538,22 @@ public class Rate implements JSONable {
 		return LocaleUtils.doesPointOfSaleHaveInclusivePricing();
 	}
 
-	private Money getInclusiveBaseRate() {
-		if (mInclusiveBaseRate == null) {
-			mInclusiveBaseRate = new Money();
-			mInclusiveBaseRate.add(mStrikethroughPriceToShowUsers);
-			mInclusiveBaseRate.add(mTotalMandatoryFees);
+	public boolean showMandatoryFees() {
+		return LocaleUtils.shouldDisplayMandatoryFees();
+	}
+
+	private Money getMandatoryBaseRate() {
+		if (mMandatoryFeesBaseRate == null) {
+			mMandatoryFeesBaseRate = new Money();
+			mMandatoryFeesBaseRate.add(mStrikethroughPriceToShowUsers);
+			mMandatoryFeesBaseRate.add(mTotalMandatoryFees);
 		}
-		return mInclusiveBaseRate;
+		return mMandatoryFeesBaseRate;
 	}
 
 	public Money getDisplayBaseRate() {
-		if (showInclusivePrices()) {
-			return getInclusiveBaseRate();
+		if (showMandatoryFees()) {
+			return getMandatoryBaseRate();
 		}
 		else if (mStrikethroughPriceToShowUsers != null) {
 			return mStrikethroughPriceToShowUsers;
@@ -559,23 +563,9 @@ public class Rate implements JSONable {
 		}
 	}
 
-	private Money getInclusiveRate() {
-		if (mInclusiveRate == null) {
-			if (mTotalPriceWithMandatoryFees != null) {
-				mInclusiveRate = mTotalPriceWithMandatoryFees;
-			}
-			else {
-				double rate = mAverageRate.getAmount() * mNumberOfNights;
-				mInclusiveRate = ParserUtils.createMoney(rate, mAverageRate.getCurrency());
-				mInclusiveRate.add(mTotalSurcharge);
-			}
-		}
-		return mInclusiveRate;
-	}
-
 	public Money getDisplayRate() {
-		if (showInclusivePrices()) {
-			return getInclusiveRate();
+		if (showMandatoryFees() && mTotalPriceWithMandatoryFees != null) {
+			return mTotalPriceWithMandatoryFees;
 		}
 		else if (mPriceToShowUsers != null) {
 			return mPriceToShowUsers;
