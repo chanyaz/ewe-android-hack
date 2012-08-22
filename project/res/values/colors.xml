@@ -84,11 +84,11 @@
 	<color name="clickable_row_background">#efefef</color>
 
     <color name="flight_details_outer_bg">#C0C0C0</color>
-    <color name="flight_details_inner_bg">#E8E8E8</color>
+    <color name="flight_details_inner_bg">#DDE8E8E8</color>
     <color name="flight_details_line">#585858</color>
     <color name="flight_details_dotted_line">#C8C8C8</color>
-    <color name="flight_details_carrier_grad_start">#990066</color>
-    <color name="flight_details_carrier_grad_end">#990033</color>
+    <color name="flight_details_carrier_grad_start">#222536</color>
+    <color name="flight_details_carrier_grad_end">#242537</color>
     
     <color name="flight_checkout_opaque_white">#BBE8E8E8</color>
 
