@@ -535,12 +535,6 @@ public class Rate implements JSONable {
 	}
 
 	public boolean showInclusivePrices() {
-		switch (getUserPriceType()) {
-		case PER_NIGHT_RATE_NO_TAXES:
-			return false;
-		case RATE_FOR_WHOLE_STAY_WITH_TAXES:
-			return true;
-		}
 		return LocaleUtils.doesPointOfSaleHaveInclusivePricing();
 	}
 
