@@ -320,9 +320,14 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		if (firstVisibleItem == 0 && view.getChildCount() > 0) {
-			View header = view.getChildAt(0);
-			setBlurAmount((float) -header.getTop() / (float) header.getHeight());
+		if (view.getChildCount() > 0) {
+			if (firstVisibleItem == 0) {
+				View header = view.getChildAt(0);
+				setBlurAmount((float) -header.getTop() / (float) header.getHeight());
+			}
+			else {
+				setBlurAmount(1.0f);
+			}
 		}
 	}
 
