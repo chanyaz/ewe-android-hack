@@ -72,21 +72,24 @@ public class FlightTripView extends View {
 		int width = getWidth();
 
 		// Calculate the bounds based on the min
-		long minTime = DateTimeUtils.getTimeInGMT(mMinTime).getTime();
-		long maxTime = DateTimeUtils.getTimeInGMT(mMaxTime).getTime();
-		long startTime = DateTimeUtils.getTimeInGMT(mFlightLeg.getSegment(0).mOrigin.getMostRelevantDateTime())
-				.getTime();
-		long endTime = DateTimeUtils.getTimeInGMT(
-				mFlightLeg.getSegment(mFlightLeg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime())
-				.getTime();
-		long duration = maxTime - minTime;
+		float left, right;
+		if (mMinTime != null && mMaxTime != null) {
+			long minTime = DateTimeUtils.getTimeInGMT(mMinTime).getTime();
+			long maxTime = DateTimeUtils.getTimeInGMT(mMaxTime).getTime();
+			long startTime = DateTimeUtils.getTimeInGMT(mFlightLeg.getSegment(0).mOrigin.getMostRelevantDateTime())
+					.getTime();
+			long endTime = DateTimeUtils.getTimeInGMT(
+					mFlightLeg.getSegment(mFlightLeg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime())
+					.getTime();
+			long duration = maxTime - minTime;
 
-		float left = ((float) (startTime - minTime) / (float) duration) * width;
-		float right = ((float) (endTime - minTime) / (float) duration) * width;
-
-		// Temporarily use the full width for drawing
-		left = 0;
-		right = width;
+			left = ((float) (startTime - minTime) / (float) duration) * width;
+			right = ((float) (endTime - minTime) / (float) duration) * width;
+		}
+		else {
+			left = 0;
+			right = width;
+		}
 
 		// Fuzz the edges a bit to make sure that we can draw the full airport code without falling
 		// off the edge of the canvas.
