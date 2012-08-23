@@ -103,6 +103,7 @@
         mobiata:headerInstructionText="@string/calendar_instructions_nothing_selected"
         mobiata:headerInstructionTextSpaceReserved="true"
         mobiata:popupBackground="@drawable/calendar_date_picker_popup"
-        mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell" />
+        mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell"
+        mobiata:allowHybridDragging="true" />
 
 </RelativeLayout>
