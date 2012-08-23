@@ -71,6 +71,13 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
+		}
+
 		mContext = this;
 		mApp = (ExpediaBookingApp) getApplicationContext();
 		setupHotelActivity(savedInstanceState);
@@ -196,8 +203,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		};
 
 		if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
-			Db.setSelectedProperty((Property) JSONUtils.parseJSONableFromIntent(intent,
-						Codes.PROPERTY, Property.class));
+			Db.setSelectedProperty((Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class));
 		}
 
 		Property property = Db.getSelectedProperty();
