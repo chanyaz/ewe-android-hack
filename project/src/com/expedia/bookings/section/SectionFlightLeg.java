@@ -31,12 +31,9 @@ public class SectionFlightLeg extends LinearLayout {
 
 	private Button mDetailsButton;
 	private Button mDeselectButton;
-	private TextView mCarrierNameTextView;
-	private TextView mDepartureTimeTextView;
-	private TextView mArrivalTimeTextView;
 	private TextView mArriveOrDepartWithDateTextView;
-	private TextView mFlightPriceTextView;
 	private ImageView mInboundOutboundArrow;
+	private FlightLegSummarySection mFlightLegSummary;
 
 	public SectionFlightLeg(Context context) {
 		super(context);
@@ -61,12 +58,12 @@ public class SectionFlightLeg extends LinearLayout {
 		// Cache views
 		mDetailsButton = Ui.findView(this, R.id.details_btn);
 		mDeselectButton = Ui.findView(this, R.id.deselect_btn);
-		mCarrierNameTextView = Ui.findView(this, R.id.display_carrier_name);
-		mDepartureTimeTextView = Ui.findView(this, R.id.display_departure_time);
-		mArrivalTimeTextView = Ui.findView(this, R.id.display_arrival_time);
 		mArriveOrDepartWithDateTextView = Ui.findView(this, R.id.display_arrive_or_depart_with_date);
-		mFlightPriceTextView = Ui.findView(this, R.id.display_flight_price);
 		mInboundOutboundArrow = Ui.findView(this, R.id.display_inbound_outbound_arrow);
+		mFlightLegSummary = Ui.findView(this, R.id.flight_leg_summary);
+
+		// Setup custom bg for FlightLegSummary
+		mFlightLegSummary.setBackgroundResource(R.drawable.bg_flight_detail_info);
 
 		// Setup click listeners once
 		mDetailsButton.setOnClickListener(new OnClickListener() {
@@ -99,14 +96,8 @@ public class SectionFlightLeg extends LinearLayout {
 		FlightLeg leg = tripLeg.getFlightLeg();
 
 		mDeselectButton.setVisibility(deselectButtonEnabled ? View.VISIBLE : View.GONE);
-		mCarrierNameTextView.setText(leg.getAirlinesFormatted());
-		mDepartureTimeTextView.setText(getFormatedRelevantWaypointTime(leg.getFirstWaypoint()));
-		mArrivalTimeTextView.setText(getFormatedRelevantWaypointTime(leg.getLastWaypoint()));
 
-		Money totalFare = trip.getTotalFare();
-		if (totalFare != null) {
-			mFlightPriceTextView.setText(totalFare.getFormattedMoney(Money.F_NO_DECIMAL));
-		}
+		mFlightLegSummary.bind(trip, leg);
 
 		// Arrival/departure time formatted display
 		String formatted = "";

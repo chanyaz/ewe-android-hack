@@ -55,50 +55,8 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_flight_detail_info"
-        android:orientation="vertical"
-        android:padding="10dp" >
-
-        <TextView
-            android:id="@+id/display_flight_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:gravity="right"
-            android:textColor="@color/flight_trip"
-            android:textSize="26dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/display_carrier_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@id/display_flight_price"
-            android:textSize="22dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/display_departure_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/display_carrier_name"
-            android:layout_marginTop="10dp" />
-
-        <TextView
-            android:id="@+id/display_arrival_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/display_departure_time"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/display_carrier_name"
-            android:layout_toLeftOf="@id/display_departure_time" />
-    </RelativeLayout>
+    <include
+        android:id="@+id/flight_leg_summary"
+        layout="@layout/section_flight_leg_summary" />
 
 </com.expedia.bookings.section.SectionFlightLeg>
