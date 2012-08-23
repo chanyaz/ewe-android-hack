@@ -108,7 +108,7 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 	public void onDestroy() {
 		super.onDestroy();
 
-		if (getActivity().isFinishing()) {
+		if (getActivity().isFinishing() && mStaticMapUri != null) {
 			Log.d("Clearing out map image.");
 
 			ImageCache.removeImage(mStaticMapUri, true);
