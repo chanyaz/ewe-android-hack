@@ -236,14 +236,18 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
 				holder.strikethroughPrice.setVisibility(View.VISIBLE);
 				holder.strikethroughPrice.setText(Html.fromHtml(
-							mContext.getString(R.string.strike_template,
+						mContext.getString(R.string.strike_template,
 								StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
-							new StrikethroughTagHandler()));
+						new StrikethroughTagHandler()));
 			}
+			else {
+				holder.strikethroughPrice.setVisibility(View.GONE);
+			}
+
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
 			holder.saleContainer.setVisibility(View.VISIBLE);
-			holder.saleText.setText(mContext.getString(R.string.percent_minus_template,
-					lowestRate.getDiscountPercent()));
+			holder.saleText
+					.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
 		}
 		else {
 			holder.strikethroughPrice.setVisibility(View.GONE);
