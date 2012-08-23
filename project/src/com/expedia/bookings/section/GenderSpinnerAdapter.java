@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
+import android.text.TextUtils.TruncateAt;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -75,6 +76,7 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	public View getView(int position, View convertView, ViewGroup parent){
 		View retView = super.getView(position, convertView, parent);
 		TextView tv = Ui.findView(retView, android.R.id.text1);
+		tv.setEllipsize(TruncateAt.START); //If we have a long name, we want to make sure atleast the Gender is displayed
 		tv.setText(Html.fromHtml(String.format(mFormatString, getItem(position))));
 		return retView;
 	}
