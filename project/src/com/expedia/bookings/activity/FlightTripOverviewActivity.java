@@ -10,9 +10,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.widget.NavigationButton;
-import com.expedia.bookings.widget.NavigationDropdownAdapter;
-import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity {
 
@@ -45,8 +42,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity {
 		
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
-		nb.setDropdownAdapter(new NavigationDropdownAdapter(this,NoOpButton.FLIGHTS));
-		nb.setTitle(yourTripToStr);
+		actionBar.setTitle(yourTripToStr);
 	}
 }

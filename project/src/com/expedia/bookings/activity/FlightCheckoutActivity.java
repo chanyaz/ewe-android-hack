@@ -34,10 +34,7 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.AccountButton;
-import com.expedia.bookings.widget.NavigationButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
-import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
-import com.expedia.bookings.widget.NavigationDropdownAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -157,11 +154,9 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
 	
-		//Set actionbar nav dropdown
+		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
-		nb.setDropdownAdapter(new NavigationDropdownAdapter(this,NoOpButton.FLIGHTS));
-		nb.setTitle(yourTripToStr);
+		actionBar.setTitle(yourTripToStr);
 		
 		//Set values
 		populatePassengerData();

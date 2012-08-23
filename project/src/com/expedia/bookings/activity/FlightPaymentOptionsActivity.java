@@ -156,12 +156,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 				.setText(hasSelectedStoredCard || hasValidNewCard ? getString(R.string.or_select_new_paymet_method)
 						: getString(R.string.select_payment));
 		mStoredPaymentsLabel.setVisibility(hasAccountCards ? View.VISIBLE : View.GONE);
-
-		//Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
-		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
-		nb.setDropdownAdapter(new NavigationDropdownAdapter(this,NoOpButton.FLIGHTS));
-		nb.setTitle(this.getTitle());
 		
 	}
 

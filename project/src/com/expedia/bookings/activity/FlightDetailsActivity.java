@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -15,9 +14,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.TripFragment;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.NavigationButton;
-import com.expedia.bookings.widget.NavigationDropdownAdapter;
-import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
 
 public class FlightDetailsActivity extends SherlockFragmentActivity {
 
@@ -67,12 +63,6 @@ public class FlightDetailsActivity extends SherlockFragmentActivity {
 			mDetails = TripFragment.newInstance(mTripKey, mLegPosition);
 			getSupportFragmentManager().beginTransaction().add(R.id.flight_details_card_holder_ll, mDetails).commit();
 		}
-
-		//Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
-		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
-		nb.setDropdownAdapter(new NavigationDropdownAdapter(this,NoOpButton.FLIGHTS));
-		nb.setTitle(getTitle());
 		
 	}
 
