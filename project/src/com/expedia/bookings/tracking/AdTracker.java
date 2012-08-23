@@ -64,7 +64,7 @@ public class AdTracker {
 
 		// Other
 		Amobee.trackLaunch();
-		Somo.trackLaunch();
+		//Somo.trackLaunch();
 
 		// Omniture
 		mAppMeasurement.visitorID = mAndroidId;
