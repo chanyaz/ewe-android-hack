@@ -169,7 +169,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			break;
 		}
 		case R.id.menu_search:
-			if (mSearchParamsFragment != null && mSearchParamsFragment.isAdded() && !mSearchParamsFragment.isDetached()) {
+			if (mSearchParamsFragment != null && mSearchParamsFragment.isAdded() && !mSearchParamsFragment.isDetached()
+					&& !BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
 				onSearch();
 			}
 			else {
