@@ -22,7 +22,6 @@ import com.expedia.bookings.activity.FlightCheckoutActivity;
 import com.expedia.bookings.activity.FlightDetailsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightDetailsResponse;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.SectionFlightLeg;
@@ -33,7 +32,6 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.flightlib.data.Flight;
 
 public class FlightTripOverviewFragment extends Fragment {
 
@@ -224,7 +222,7 @@ public class FlightTripOverviewFragment extends Fragment {
 			else {
 				mCheckoutBtn.setEnabled(true);
 
-				if (results.hasPriceChanged()) {
+				if (results.notifyPriceChanged()) {
 					String oldFare = results.getOldOffer().getTotalFare().getFormattedMoney();
 					String newFare = results.getOffer().getTotalFare().getFormattedMoney();
 					String msg = getString(R.string.price_change_alert_TEMPLATE, oldFare, newFare);

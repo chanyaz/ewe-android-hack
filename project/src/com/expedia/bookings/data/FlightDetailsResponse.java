@@ -7,6 +7,8 @@ import com.mobiata.android.json.JSONUtils;
 
 public class FlightDetailsResponse extends Response {
 
+	private static double PRICE_CHANGE_NOTIFY_CUTOFF = .01;
+
 	private FlightTrip mOffer;
 	private FlightTrip mOldOffer;
 	private Money mPriceChangeAmount;
@@ -19,6 +21,21 @@ public class FlightDetailsResponse extends Response {
 
 	public boolean hasPriceChanged() {
 		return mPriceChangeAmount != null;
+	}
+
+	public boolean notifyPriceChanged() {
+		if (!hasPriceChanged() || mOffer == null || mOldOffer == null) {
+			return false;
+		}
+
+		double newAmount = mOffer.getTotalFare().getAmount();
+		double oldAmount = mOldOffer.getTotalFare().getAmount();
+
+		if (newAmount > oldAmount) {
+			return true;
+		}
+
+		return 1.0 - (newAmount / oldAmount) >= PRICE_CHANGE_NOTIFY_CUTOFF;
 	}
 
 	public void setOffer(FlightTrip flightTrip) {
