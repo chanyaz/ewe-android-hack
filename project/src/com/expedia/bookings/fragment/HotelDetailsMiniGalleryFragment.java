@@ -105,7 +105,10 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 		mGallery.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				mListener.onMiniGalleryItemClicked(Db.getSelectedProperty(), parent.getSelectedItem());
+				Property selected = Db.getSelectedProperty();
+				if (selected != null) {
+					mListener.onMiniGalleryItemClicked(selected, parent.getSelectedItem());
+				}
 			}
 		});
 

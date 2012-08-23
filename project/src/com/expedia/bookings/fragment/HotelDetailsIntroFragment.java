@@ -58,6 +58,10 @@ public class HotelDetailsIntroFragment extends Fragment {
 	}
 
 	private void populateBannerSection(View view, Property property) {
+		if (property == null) {
+			return;
+		}
+
 		Rate rate = property.getLowestRate();
 
 		// Sale banner
@@ -106,6 +110,9 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 	// Reviews
 	private void populateBannerSection(View view, Property property, ReviewsStatisticsResponse statistics) {
+		if (property == null || statistics == null) {
+			return;
+		}
 
 		Resources resources = getResources();
 		View reviewsLayout = Ui.findView(view, R.id.user_review_layout);
@@ -190,6 +197,10 @@ public class HotelDetailsIntroFragment extends Fragment {
 	}
 
 	private void populateIntroParagraph(View view, Property property) {
+		if (property == null) {
+			return;
+		}
+
 		String unparsedDescriptionText = property.getDescriptionText();
 
 		HotelDescription.SectionStrings.initSectionStrings(getActivity());

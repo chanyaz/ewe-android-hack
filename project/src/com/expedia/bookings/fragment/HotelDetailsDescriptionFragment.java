@@ -46,6 +46,10 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 	}
 
 	private void setupAmenities(View view, Property property) {
+		if (property == null) {
+			return;
+		}
+
 		// Disable some aspects of the horizontal scrollview so it looks pretty
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
 		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
@@ -90,6 +94,10 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 	}
 
 	private void setupDescriptionSections(View view, Property property) {
+		if (property == null) {
+			return;
+		}
+
 		LinearLayout allSectionsContainer = Ui.findView(view, R.id.description_details_sections_container);
 		allSectionsContainer.removeAllViews();
 

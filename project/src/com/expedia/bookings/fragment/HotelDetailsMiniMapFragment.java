@@ -78,6 +78,9 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 	public void populateViews() {
 		SearchParams searchParams = Db.getSearchParams();
 		Property searchProperty = Db.getSelectedProperty();
+		if (searchParams == null || searchProperty == null) {
+			return;
+		}
 		double latitude = searchProperty.getLocation().getLatitude();
 		double longitude = searchProperty.getLocation().getLongitude();
 		mCenterPoint = new StaticMapPoint(latitude, longitude);
