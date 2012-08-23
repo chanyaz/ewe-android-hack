@@ -23,6 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:nextFocusRight="@+id/edit_middle_name"
+                android:nextFocusDown="@+id/edit_middle_name"
                 android:hint="@string/first_name"
                 android:inputType="textPersonName" />
 
