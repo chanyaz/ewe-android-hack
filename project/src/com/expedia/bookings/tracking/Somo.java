@@ -46,9 +46,7 @@ public class Somo {
 
 	public static void trackBooking(String currency, double totalPrice, int duration, int daysRemaining) {
 		if (mEnabled) {
-			String info = String.format("Currency: %s - Total price: %f - Duration: %d - Days remaining: %d", currency,
-					totalPrice, duration, daysRemaining);
-
+			String info = String.format("%s %f %d %d", currency, totalPrice, duration, daysRemaining);
 			mSomoTracker.track(SomoTracker.EVENT_SALE, null, null, info);
 			mSomoTracker.submit();
 
