@@ -22,7 +22,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.UserDataTransfer;
 import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.model.PaymentFlowState;
@@ -177,12 +176,6 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 		if (passengers.size() == 0) {
 			FlightPassenger fp = new FlightPassenger();
-			if (User.isLoggedIn(this)) {
-				fp = UserDataTransfer.fillPassengerFromUser(Db.getUser(), fp);
-			}
-//			else if (Db.getBillingInfo() != null) {
-//				fp = UserDataTransfer.fillPassengerFromBillingInfo(Db.getBillingInfo(), fp);
-//			}
 			passengers.add(fp);
 		}
 	}
