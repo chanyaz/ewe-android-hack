@@ -144,7 +144,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 			reviewsTextView.setText(resources.getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews));
 		}
 
-		OnClickListener onReviewsClick = (!property.hasExpediaReviews()) ? null : new OnClickListener() {
+		OnClickListener onReviewsClick = (!property.hasExpediaReviews() && numReviews == 0) ? null : new OnClickListener() {
 			public synchronized void onClick(final View v) {
 				Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
 				newIntent.fillIn(getActivity().getIntent(), 0);
