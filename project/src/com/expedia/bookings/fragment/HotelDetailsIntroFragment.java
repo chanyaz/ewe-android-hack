@@ -35,6 +35,8 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 	private static final int INTRO_PARAGRAPH_CUTOFF = 120;
 
+	private AnimatorSet mAnimSet;
+
 	public static HotelDetailsIntroFragment newInstance() {
 		return new HotelDetailsIntroFragment();
 	}
@@ -155,7 +157,6 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 		// User Rating Bar
 		userRatingBar.setRating(0f);
-		ObjectAnimator animRating = ObjectAnimator.ofFloat(userRatingBar, "rating", userRating);
 
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
@@ -187,13 +188,16 @@ public class HotelDetailsIntroFragment extends Fragment {
 			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_users, 0, 0, 0);
 		}
 
-		// Please to be doing all the animations.
-		ObjectAnimator anim1 = ObjectAnimator.ofFloat(reviewsLayout, "alpha", 0f, 1f);
-		ObjectAnimator anim2 = ObjectAnimator.ofFloat(bannerTextView, "alpha", 0f, 1f);
-		ObjectAnimator anim3 = ObjectAnimator.ofFloat(verticalSep, "alpha", 0f, 1f);
-		AnimatorSet s = new AnimatorSet();
-		s.play(anim1).with(anim2).with(anim3).before(animRating);
-		s.start();
+		if (mAnimSet == null || !mAnimSet.isRunning()) {
+			// Please to be doing all the animations.
+			ObjectAnimator animRating = ObjectAnimator.ofFloat(userRatingBar, "rating", userRating);
+			ObjectAnimator anim1 = ObjectAnimator.ofFloat(reviewsLayout, "alpha", 0f, 1f);
+			ObjectAnimator anim2 = ObjectAnimator.ofFloat(bannerTextView, "alpha", 0f, 1f);
+			ObjectAnimator anim3 = ObjectAnimator.ofFloat(verticalSep, "alpha", 0f, 1f);
+			mAnimSet = new AnimatorSet();
+			mAnimSet.play(anim1).with(anim2).with(anim3).before(animRating);
+			mAnimSet.start();
+		}
 	}
 
 	private void populateIntroParagraph(View view, Property property) {
