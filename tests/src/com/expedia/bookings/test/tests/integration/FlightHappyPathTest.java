@@ -32,7 +32,7 @@ public class FlightHappyPathTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() {
-
+		mSolo.finishOpenedActivities();
 	}
 
 	/**
