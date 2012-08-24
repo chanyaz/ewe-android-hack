@@ -47,7 +47,6 @@
                 android:id="@+id/user_rating_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="78 Reviews"
                 android:textColor="#000"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -74,8 +73,8 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="276 People booked this in the past 48 hours."
-            android:textColor="#000" />
+            android:textColor="#000"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <FrameLayout
