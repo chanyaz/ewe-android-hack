@@ -30,7 +30,8 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
+            android:paddingRight="20dp"
+            android:visibility="gone" >
 
             <RatingBar
                 android:id="@+id/user_rating_bar"
@@ -60,7 +61,8 @@
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
             android:layout_toLeftOf="@+id/user_review_layout"
-            android:background="#aaaaaa" />
+            android:background="#aaaaaa"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/banner_message_text_view"
