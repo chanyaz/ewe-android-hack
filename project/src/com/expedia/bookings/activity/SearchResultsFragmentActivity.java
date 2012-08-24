@@ -1327,6 +1327,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	}
 
 	private void notifySearchComplete() {
+		Db.clearSelectedProperty();
 		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
 			mHotelListFragment.notifySearchComplete();
 		}

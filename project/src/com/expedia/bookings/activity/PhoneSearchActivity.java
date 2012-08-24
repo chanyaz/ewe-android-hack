@@ -1492,6 +1492,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
 		Db.setSearchResponse(searchResponse);
+		Db.clearSelectedProperty();
 
 		// Inform fragments
 		mHotelListFragment.notifySearchComplete();

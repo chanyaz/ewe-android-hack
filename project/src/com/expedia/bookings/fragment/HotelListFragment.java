@@ -21,6 +21,7 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
@@ -304,6 +305,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	private void resetToTop() {
 		if (Db.getSelectedProperty() == null) {
+			Log.d("HERE reset to top");
 			final ListView lv = getListView();
 			lv.post(new Runnable() {
 				@Override

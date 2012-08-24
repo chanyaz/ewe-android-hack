@@ -132,6 +132,11 @@ public class Db {
 		return (sDb.mSearchResponse != null) ? sDb.mSearchResponse.getProperty(propertyId) : null;
 	}
 
+	public static void clearSelectedProperty() {
+		sDb.mSelectedPropertyId = null;
+		sDb.mSelectedProperty = null;
+	}
+
 	public static void setSelectedProperty(Property property) {
 		sDb.mSelectedProperty = property;
 		if (property != null) {
