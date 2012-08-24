@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.view.KeyEvent;
@@ -64,6 +66,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private AutoCompleteTextView mDepartureAirportEditText;
 	private AutoCompleteTextView mArrivalAirportEditText;
 	private TextView mDatesTextView;
+	private View mClearDatesButton;
 	private View mPassengersButton;
 	private CalendarDatePicker mCalendarDatePicker;
 
@@ -108,6 +111,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mDatesTextView = Ui.findView(v, R.id.dates_button);
 		mPassengersButton = Ui.findView(v, R.id.passengers_button);
 		mCalendarDatePicker = Ui.findView(v, R.id.calendar_date_picker);
+		mClearDatesButton = Ui.findView(v, R.id.clear_dates_btn);
 
 		// Configure views
 		if (getArguments().getBoolean(ARG_DIM_BACKGROUND)) {
@@ -158,6 +162,24 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		});
 
+		mDatesTextView.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (TextUtils.isEmpty(s)) {
+					mClearDatesButton.setVisibility(View.GONE);
+				}
+				else {
+					mClearDatesButton.setVisibility(View.VISIBLE);
+				}
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+		});
+
 		mPassengersButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -176,6 +198,22 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (savedInstanceState != null) {
 			toggleCalendarDatePicker(savedInstanceState.getBoolean(INSTANCE_SHOW_CALENDAR));
 		}
+
+		mClearDatesButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//Set out of range dates...
+				mCalendarDatePicker.reset();
+
+				mSearchParams.setDepartureDate(null);
+				mSearchParams.setReturnDate(null);
+
+				//Refresh things
+				updateCalendarText();
+				updateAirportTextColors();
+				updateCalendarInstructionText();
+			}
+		});
 
 		updateCalendarText();
 		updateAirportTextColors();
@@ -387,6 +425,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			else if (dateStart != null) {
 				mCalendarDatePicker.setHeaderInstructionText(getString(R.string.calendar_instructions_start_selected));
 			}
+			else {
+				mCalendarDatePicker
+						.setHeaderInstructionText(getString(R.string.calendar_instructions_nothing_selected));
+			}
 		}
 	}
 
@@ -459,8 +501,13 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	@Override
 	public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-		mSearchParams.setDepartureDate(new Date(mCalendarDatePicker.getStartYear(),
-				mCalendarDatePicker.getStartMonth() + 1, mCalendarDatePicker.getStartDayOfMonth()));
+		if (mCalendarDatePicker.getStartTime() != null) {
+			mSearchParams.setDepartureDate(new Date(mCalendarDatePicker.getStartYear(),
+					mCalendarDatePicker.getStartMonth() + 1, mCalendarDatePicker.getStartDayOfMonth()));
+		}
+		else {
+			mSearchParams.setDepartureDate(null);
+		}
 
 		if (mCalendarDatePicker.getEndTime() != null) {
 			mSearchParams.setReturnDate(new Date(mCalendarDatePicker.getEndYear(),
