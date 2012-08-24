@@ -72,12 +72,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (Db.getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return;
-		}
-
 		mContext = this;
 		mApp = (ExpediaBookingApp) getApplicationContext();
 		setupHotelActivity(savedInstanceState);
