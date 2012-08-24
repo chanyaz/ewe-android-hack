@@ -201,9 +201,13 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 
 		Property property = Db.getSelectedProperty();
-		if (property != null) {
-			LayoutUtils.configureHeader(this, property, onBookNowClick);
+		if (property == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
 		}
+
+		LayoutUtils.configureHeader(this, property, onBookNowClick);
 
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction ft = manager.beginTransaction();
