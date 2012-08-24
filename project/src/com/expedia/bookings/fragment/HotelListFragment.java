@@ -305,7 +305,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	private void resetToTop() {
 		if (Db.getSelectedProperty() == null) {
-			Log.d("HERE reset to top");
 			final ListView lv = getListView();
 			lv.post(new Runnable() {
 				@Override

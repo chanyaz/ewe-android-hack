@@ -161,7 +161,9 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 		mAmenitiesContainer.setVisibility(View.GONE);
 		mAmenitiesNoneText.setVisibility(View.GONE);
 
-		updateViews(Db.getSelectedProperty(), view);
+		if (Db.getSelectedProperty() != null) {
+			updateViews(Db.getSelectedProperty(), view);
+		}
 
 		return view;
 	}

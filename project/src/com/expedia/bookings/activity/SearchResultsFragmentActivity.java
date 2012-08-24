@@ -949,6 +949,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	public void startSearchDownloader() {
 		Log.i("startSearchDownloader()");
 
+		Db.clearSelectedProperty();
+
 		// This method essentially signifies that we've found the location to search;
 		// take this opportunity to notify handlers that we know where we're looking.
 		notifySearchLocationFound();
@@ -1327,7 +1329,6 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	}
 
 	private void notifySearchComplete() {
-		Db.clearSelectedProperty();
 		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
 			mHotelListFragment.notifySearchComplete();
 		}
