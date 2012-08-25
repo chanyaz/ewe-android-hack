@@ -8,10 +8,14 @@ import android.test.InstrumentationTestCase;
 import android.test.TouchUtils;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.widget.EditText;
+import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightSearchActivity;
+import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.fragment.FlightListFragment;
+import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.android.text.format.Time;
@@ -67,31 +71,76 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 
 	@MediumTest
 	public void testFlightSearchBindsUiValuesToDb() {
-		performFlightSearch("DTW", "ATL", 5, R.id.search, true);
+		performFlightSearchAndAssertDb("DTW", "ATL", 5, R.id.search, true);
 	}
 
 	@MediumTest
 	public void testFlightSearchBindsUiValuesToDbAndChangingValuesLaunchesNewCorrectSearch() {
-		performFlightSearch("DTW", "ATL", 4, R.id.search, true);
+		performFlightSearchAndAssertDb("DTW", "ATL", 4, R.id.search, true);
 
 		mSolo.goBack();
 
-		performFlightSearch("SFO", "SEA", 3, R.id.search, true);
+		performFlightSearchAndAssertDb("SFO", "SEA", 3, R.id.search, true);
 	}
 
 	@MediumTest
 	public void testFlightSearchModificationsInlineReflectedInFlightSearchActivity() {
-		performFlightSearch("DTW", "JFK", 4, R.id.search, true);
+		performFlightSearchAndAssertDb("DTW", "JFK", 4, R.id.search, true);
 
 		TouchUtils.clickView(this, Ui.findView(mSolo.getCurrentActivity(), R.id.menu_search));
 
 		String expectedAirport1 = "ATL";
 		String expectedAirport2 = "MSP";
-		performFlightSearch(expectedAirport1, expectedAirport2, 0, R.id.menu_search, false);
+		performFlightSearchAndAssertDb(expectedAirport1, expectedAirport2, 0, R.id.menu_search, false);
 
 		mSolo.goBack();
 
 		assertSearchParamsInUi(expectedAirport1, expectedAirport2);
+	}
+
+	@MediumTest
+	public void testSearchTwiceWithRotationYieldsCorrectSearchResultsInUi() {
+		String air1 = "SEA";
+		String air2 = "ATL";
+		performFlightSearchAndAssertDb(air1, air2, 4, R.id.search, true);
+
+		waitForFlightResults();
+
+		mSolo.goBack();
+
+		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+		assertSearchParamsInUi(air1, air2);
+
+		CalendarTouchUtils.selectDay(mSolo, 3, R.id.calendar_date_picker);
+
+		mSolo.clickOnView(mSolo.getView(R.id.search));
+
+		waitForFlightResults();
+
+		String titleText = ((TextView) mSolo.getView(R.id.title_text_view)).getText().toString();
+		assertTrue(titleText.contains("Atlanta"));
+	}
+
+	@MediumTest
+	public void testSearchTwiceWithRotationYieldsCorrectDbState() {
+		String air1 = "SFO";
+		String air2 = "SEA";
+		performFlightSearchAndAssertDb(air1, air2, 4, R.id.search, true);
+
+		waitForFlightResults();
+
+		mSolo.goBack();
+
+		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+		assertSearchParamsInUi(air1, air2);
+
+		CalendarTouchUtils.selectDay(mSolo, 3, R.id.calendar_date_picker);
+
+		mSolo.clickOnView(mSolo.getView(R.id.search));
+
+		assertDb(air1, air2, false, null);
 	}
 
 	@MediumTest
@@ -150,7 +199,30 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	 * @param air2
 	 * @param daysOffset
 	 */
-	private void performFlightSearch(String air1, String air2, int daysOffset, int searchId, boolean assertDate) {
+	private void performFlightSearchAndAssertDb(String air1, String air2, int daysOffset, int searchId,
+			boolean assertDate) {
+		Time expectedDay = performFlightSearch(air1, air2, daysOffset, searchId);
+
+		assertDb(air1, air2, assertDate, expectedDay);
+	}
+
+	private void performFlightSearchAndAssertUi(String air1, String air2, int daysOffset, int searchId,
+			String title) {
+		performFlightSearch(air1, air2, daysOffset, searchId);
+
+		waitForFlightResults();
+
+		String titleText = ((TextView) mSolo.getView(R.id.title_text_view)).getText().toString();
+		assertTrue(titleText.contains(title));
+	}
+
+	private void waitForFlightResults() {
+		mSolo.waitForActivity(FlightSearchResultsActivity.class.getName());
+		mSolo.waitForFragmentByTag(StatusFragment.TAG);
+		mSolo.waitForFragmentByTag(FlightListFragment.TAG);
+	}
+
+	private Time performFlightSearch(String air1, String air2, int daysOffset, int searchId) {
 		InputUtils.selectAirport(this, mInstr, mSolo, air1, R.id.departure_airport_edit_text);
 
 		InputUtils.selectAirport(this, mInstr, mSolo, air2, R.id.arrival_airport_edit_text);
@@ -164,6 +236,10 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		// search so that the FlightSearchParamsFragment closes and saves params to Db
 		TouchUtils.clickView(this, Ui.findView(mSolo.getCurrentActivity(), searchId));
 
+		return expectedDay;
+	}
+
+	private void assertDb(String air1, String air2, boolean assertDate, Time expectedDay) {
 		// grab and assert values from FlightSearchParams (from Db)
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 
