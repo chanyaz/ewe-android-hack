@@ -2,13 +2,13 @@ package com.expedia.bookings.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -24,7 +24,6 @@ import com.nineoldandroids.view.animation.AnimatorProxy;
 public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	private static final String TAG = HotelDetailsScrollView.class.getSimpleName();
 
-	ViewGroup mGalleryScrollView;
 	ViewGroup mMapScrollView;
 	View mGalleryContainer;
 	HotelDetailsGallery mGallery;
@@ -38,6 +37,8 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	AnimatorProxy mGalleryAnimatorProxy;
 
 	ValueAnimator mAnimator;
+
+	SegmentedLinearInterpolator mIGalleryScroll, mIGalleryScale, mIMapScroll;
 
 	public HotelDetailsScrollView(Context context) {
 		this(context, null);
@@ -58,6 +59,10 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
 
+		mIGalleryScroll = null;
+		mIGalleryScale = null;
+		mIMapScroll = null;
+
 		int h = b - t;
 		mInitialScrollTop = h - mGalleryHeight;
 
@@ -74,37 +79,24 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 		mInitialScrollTop = h - mGalleryHeight;
 
-		if (mGalleryScrollView == null) {
-			mGalleryScrollView = (ViewGroup) findViewById(R.id.gallery_scroll_view);
-		}
 		if (mGalleryContainer == null) {
 			mGalleryContainer = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
+		}
+		if (mGallery == null) {
+			mGallery = (HotelDetailsGallery) findViewById(R.id.images_gallery);
+			mGallery.setInvalidateView(mGalleryContainer);
 		}
 		if (mGalleryAnimatorProxy == null && AndroidUtils.getSdkVersion() < 11) {
 			mGalleryAnimatorProxy = AnimatorProxy.wrap(mGalleryContainer);
 		}
 
-		if (mGallery == null) {
-			mGallery = (HotelDetailsGallery) findViewById(R.id.images_gallery);
-			mGallery.setInvalidateView(mGalleryScrollView);
+		if (mMapScrollView == null) {
+			mMapScrollView = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_container);
 		}
 
-		ViewGroup.LayoutParams lp = mGalleryScrollView.getLayoutParams();
+		ViewGroup.LayoutParams lp = mGalleryContainer.getLayoutParams();
 		lp.height = h;
-		mGalleryScrollView.setLayoutParams(lp);
-
-		int paddingTop = h - mGalleryHeight / 2;
-		int paddingBottom = h - mGalleryHeight;
-		mGalleryContainer.setPadding(0, paddingTop, 0, paddingBottom);
-
-		if (AndroidUtils.getSdkVersion() < 11) {
-			mGalleryAnimatorProxy.setPivotY(h);
-			mGalleryAnimatorProxy.setPivotX(w / 2);
-		}
-		else {
-			mGalleryContainer.setPivotX(w / 2);
-			mGalleryContainer.setPivotY(h);
-		}
+		mGalleryContainer.setLayoutParams(lp);
 	}
 
 	@Override
@@ -163,71 +155,60 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	@TargetApi(11)
 	private void galleryCounterscroll(int parentScroll) {
-		// Gallery Layout
-		int screenHeight = getHeight();
-		int availableHeight = screenHeight - parentScroll;
-
-		// at x <= galleryHeight, scale = 1.0
-		float scale = 1f;
-		int counterscroll = availableHeight / 2;
-
-		if (availableHeight > mGalleryHeight) {
-
-			// at x = galleryHeight, scale = 1.0
-			// at x = screenHeight, scale = 0.7 * scaledHeight / galleryHeight
-
-			float x1 = mGalleryHeight;
-			float x2 = screenHeight;
-			float y1 = 1f;
-			float y2 = 0.7f * screenHeight / mGalleryHeight;
-
-			// Linear interpolation
-			float x = screenHeight - parentScroll;
-			float pct = (x - x1) / (x2 - x1);
-			scale = y1 + (y2 - y1) * pct;
-
-			float y3 = counterscroll;
-			float y4 = counterscroll - mIntroOffset / 2;
-			counterscroll = (int) (y3 + (y4 - y3) * pct);
+		// Setup interpolator for Gallery counterscroll (if needed)
+		if (mIGalleryScroll == null) {
+			int screenHeight = getHeight();
+			PointF p1 = new PointF(0, screenHeight - mGalleryHeight / 2);
+			PointF p2 = new PointF(mGalleryHeight, screenHeight - mGalleryHeight);
+			PointF p3 = new PointF(screenHeight, (screenHeight - mGalleryHeight + mIntroOffset) / 2);
+			mIGalleryScroll = new SegmentedLinearInterpolator(p1, p2, p3);
 		}
 
+		// Setup interpolator for Gallery scaling (if needed)
+		if (mIGalleryScale == null) {
+			int screenHeight = getHeight();
+			PointF p4 = new PointF(0, 1);
+			PointF p5 = new PointF(mGalleryHeight, 1);
+			PointF p6 = new PointF(screenHeight, 0.7f * screenHeight / mGalleryHeight);
+			mIGalleryScale = new SegmentedLinearInterpolator(p4, p5, p6);
+		}
+
+		// The number of y-pixels available to the gallery
+		int availableHeight = getHeight() - parentScroll;
+
+		float scale = mIGalleryScale.get(availableHeight);
+		int counterscroll = (int) mIGalleryScroll.get(availableHeight);
+
 		if (AndroidUtils.getSdkVersion() < 11) {
+			mGalleryAnimatorProxy.setPivotX(getWidth() / 2);
+			mGalleryAnimatorProxy.setPivotY(counterscroll + mGalleryHeight / 2);
 			mGalleryAnimatorProxy.setScaleX(scale);
 			mGalleryAnimatorProxy.setScaleY(scale);
 		}
 		else {
+			mGalleryContainer.setPivotX(getWidth() / 2);
+			mGalleryContainer.setPivotY(counterscroll + mGalleryHeight / 2);
 			mGalleryContainer.setScaleX(scale);
 			mGalleryContainer.setScaleY(scale);
 		}
-		mGalleryScrollView.scrollTo(0, counterscroll);
+
+		mGalleryContainer.scrollTo(0, -counterscroll);
 	}
 
 	private void mapCounterscroll(int parentScroll) {
-
-		if (mMapScrollView == null) {
-			mMapScrollView = (ViewGroup) findViewById(R.id.map_scroll_view);
+		// Setup interpolator for Map counterscroll (if needed)
+		if (mIMapScroll == null) {
+			// The middle portion of the map that we want visible as long as possible
+			int mapCriticalHeight = getResources().getDimensionPixelSize(R.dimen.mini_map_critical_section);
+			int mapHeight = mMapScrollView.getChildAt(0).getHeight();
+			int frameHeight = mMapScrollView.getHeight();
+			PointF p1 = new PointF(mMapScrollView.getTop() - this.getHeight(), (mapHeight - mapCriticalHeight) / 2);
+			PointF p2 = new PointF(mMapScrollView.getBottom(), frameHeight - (mapHeight - mapCriticalHeight) / 2);
+			mIMapScroll = new SegmentedLinearInterpolator(p1, p2);
 		}
 
-		// The portion of the map that we want visible as long as possible (presumably the middle part)
-		int criticalHeight = 40;
-		int criticalTop = mMapScrollView.getChildAt(0).getHeight() / 2 - criticalHeight / 2;
-
-		// Compute the range where the view is (at least partially) visible
-		int maxVisibleScroll = mMapScrollView.getBottom();
-		int minVisibleScroll = mMapScrollView.getTop() - this.getHeight();
-
-		if (parentScroll < minVisibleScroll + criticalHeight || parentScroll > maxVisibleScroll - criticalHeight) {
-			// Child isn't visible, no need to bother with it
-			return;
-		}
-
-		float pct = ((float) parentScroll - minVisibleScroll) / (maxVisibleScroll - minVisibleScroll);
-
-		// Scroll the child so that desiredy is located pct% down
-
-		int scrollTo = criticalTop - (int) (pct * (mMapScrollView.getHeight() - criticalHeight));
-
-		mMapScrollView.scrollTo(0, scrollTo);
+		int counterscroll = (int) mIMapScroll.get(parentScroll);
+		mMapScrollView.scrollTo(0, counterscroll);
 	}
 
 	@Override
@@ -243,4 +224,33 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	public int getInitialScrollTop() {
 		return mInitialScrollTop;
 	}
+
+	/**
+	 * Created with a number of points to be interpreted as a segmented linear function.
+	 * Will return the expected y value for any passed x value. If the "x" value passed
+	 * in is outside the range of the given x values, then the first and last segments
+	 * will be extended to meet that value.
+	 *
+	 */
+	private static class SegmentedLinearInterpolator {
+		PointF[] mPoints;
+
+		public SegmentedLinearInterpolator(PointF... points) {
+			mPoints = points;
+		}
+
+		public float get(float x) {
+			for (int i = 0; i <= mPoints.length - 2; i++) {
+				float x1 = mPoints[i].x;
+				float x2 = mPoints[i + 1].x;
+				float y1 = mPoints[i].y;
+				float y2 = mPoints[i + 1].y;
+				if (x >= x1 && x <= x2 || (i == 0 && x < x1) || (i == mPoints.length - 2 && x > x2)) {
+					return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
+				}
+			}
+			return 0f;
+		}
+	}
+
 }

@@ -31,6 +31,8 @@
 
 	<!-- Radius of the blue circle drawn on the hotel details mini map fragment -->
 	<dimen name="mini_map_circle_radius">7dp</dimen>
+	<!-- Vertical portion of the mini map that we want to be always displayed -->
+	<dimen name="mini_map_critical_section">20dp</dimen>
 
 	<!-- Dimensions for hotel rows -->
 	<!-- This is the height/width of the image in a hotel row. Height determines 

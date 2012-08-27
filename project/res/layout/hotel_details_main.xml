@@ -18,57 +18,35 @@
         android:fadingEdgeLength="0px"
         android:fillViewport="true" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <com.expedia.bookings.widget.NonTouchableScrollView
-                android:id="@+id/gallery_scroll_view"
+            <FrameLayout
+                android:id="@+id/hotel_details_mini_gallery_fragment_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fadingEdgeLength="0px"
-                android:scrollbars="none" >
-
-                <LinearLayout
-                    android:id="@+id/hotel_details_mini_gallery_fragment_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-                </LinearLayout>
-            </com.expedia.bookings.widget.NonTouchableScrollView>
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/hotel_details_intro_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/gallery_scroll_view"
-                android:layout_marginTop="@dimen/hotel_details_intro_offset" >
-            </LinearLayout>
+                android:layout_marginTop="@dimen/hotel_details_intro_offset" />
 
-            <com.expedia.bookings.widget.NonTouchableScrollView
-                android:id="@+id/map_scroll_view"
+            <FrameLayout
+                android:id="@+id/hotel_details_map_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/hotel_details_map_visible_size"
-                android:layout_below="@id/hotel_details_intro_fragment_container"
-                android:background="#aaaaaa"
-                android:fadingEdgeLength="1dp"
-                android:scrollbars="none" >
-
-                <LinearLayout
-                    android:id="@+id/hotel_details_map_fragment_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-                </LinearLayout>
-            </com.expedia.bookings.widget.NonTouchableScrollView>
+                android:background="#aaaaaa" />
 
             <LinearLayout
                 android:id="@+id/hotel_details_description_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/map_scroll_view"
                 android:background="#efefef"
-                android:minHeight="100dp" >
-            </LinearLayout>
-        </RelativeLayout>
+                android:minHeight="100dp" />
+        </LinearLayout>
     </com.expedia.bookings.widget.HotelDetailsScrollView>
 
 </LinearLayout>
