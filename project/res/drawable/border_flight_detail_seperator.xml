@@ -1,0 +1,9 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="line"> 
+    <solid android:color="@color/flight_details_inner_bg" />
+	<stroke
+        android:width="2dp"
+        android:color="@color/flight_details_dotted_line"
+        android:dashWidth="18dp"
+        android:dashGap="6dp" />
+</shape> 

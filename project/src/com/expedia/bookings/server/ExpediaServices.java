@@ -13,6 +13,7 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,6 +50,13 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreateTripResponse;
+import com.expedia.bookings.data.FlightCheckoutResponse;
+import com.expedia.bookings.data.FlightDetailsResponse;
+import com.expedia.bookings.data.FlightDetailsResponseHandler;
+import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.FlightPassenger.Gender;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -106,6 +114,10 @@ public class ExpediaServices implements DownloadListener {
 	// Flags for availability()
 	public static final int F_EXPENSIVE = 4;
 
+	// Flags for getE3EndpointUrl()
+	public static final int F_HOTELS = 8;
+	public static final int F_FLIGHTS = 16;
+
 	private Context mContext;
 
 	// For cancelling requests
@@ -152,6 +164,81 @@ public class ExpediaServices implements DownloadListener {
 		SuggestResponseHandler responseHandler = new SuggestResponseHandler(mContext);
 
 		return (SuggestResponse) doRequest(get, responseHandler, 0);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Expedia Flights API
+
+	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		// This code currently assumes that you are either making a one-way or round trip flight,
+		// even though FlightSearchParams can be configured to handle multi-leg flights.
+		//
+		// Once e3 can handle these as well, we will want to update this code.
+		query.add(new BasicNameValuePair("departureAirport", params.getDepartureAirportCode()));
+		query.add(new BasicNameValuePair("arrivalAirport", params.getArrivalAirportCode()));
+
+		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
+
+		com.expedia.bookings.data.Date depDate = params.getDepartureDateWithDefault();
+		query.add(new BasicNameValuePair("departureDate", df.format(depDate.getCalendar().getTime())));
+
+		if (params.isRoundTrip()) {
+			Date retDate = params.getReturnDate().getCalendar().getTime();
+			query.add(new BasicNameValuePair("returnDate", df.format(retDate)));
+		}
+
+		// TODO: Delete this once no longer valid (all results will eventually be returned as a matrix)
+		query.add(new BasicNameValuePair("matrix", "true"));
+
+		return (FlightSearchResponse) doFlightsRequest("search", query, new FlightSearchResponseHandler(mContext),
+				flags);
+	}
+
+	public FlightDetailsResponse flightDetails(String productKey, int flags) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("productKey", productKey));
+
+		return (FlightDetailsResponse) doFlightsRequest("details", query, new FlightDetailsResponseHandler(mContext),
+				flags);
+	}
+
+	public FlightCheckoutResponse flightCheckout(String productKey, BillingInfo billingInfo,
+			List<FlightPassenger> passengers, int flags) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addBillingInfo(query, billingInfo);
+
+		for (int i = 0; i < passengers.size(); i++) {
+			addFlightPassenger(query, passengers.get(i));
+		}
+
+		// Not sure why, but this is required
+		query.add(new BasicNameValuePair("tripTitle", "My Awesome Trip"));
+
+		// Product fields
+		query.add(new BasicNameValuePair("productKey", productKey));
+
+		// IMPORTANT: DO NOT REMOVE UNTIL INITIAL TESTING IS DONE.
+		// Checkout calls without this flag can make ACTUAL bookings!
+		query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
+
+		return (FlightCheckoutResponse) doFlightsRequest("checkout", query,
+				new FlightCheckoutResponseHandler(mContext), flags + F_SECURE_REQUEST);
+	}
+
+	private Object doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
+			ResponseHandler<?> responseHandler, int flags) {
+		String serverUrl = getE3EndpointUrl(flags + F_FLIGHTS) + targetUrl;
+
+		// Create the request
+		HttpGet get = NetUtils.createHttpGet(serverUrl, params);
+
+		// Some logging before passing the request along
+		Log.d("Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
+
+		return doRequest(get, responseHandler, flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -262,30 +349,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addBasicParams(query, params);
 
-		query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
-		query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
-		query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
-		query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
-		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
-
-		Location location = billingInfo.getLocation();
-		query.add(new BasicNameValuePair("streetAddress", location.getStreetAddressString()));
-		query.add(new BasicNameValuePair("city", location.getCity()));
-		query.add(new BasicNameValuePair("state", location.getStateCode()));
-		query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
-		query.add(new BasicNameValuePair("country", location.getCountryCode()));
-
-		if (billingInfo.getStoredCard() == null) {
-			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
-
-			DateFormat expFormatter = new SimpleDateFormat("MMyy");
-			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(billingInfo.getExpirationDate()
-					.getTime())));
-		}
-		else {
-			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
-		}
-		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
+		addBillingInfo(query, billingInfo);
 
 		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
 
@@ -411,6 +475,54 @@ public class ExpediaServices implements DownloadListener {
 		if (!AndroidUtils.isRelease(mContext) && getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
 			query.add(new BasicNameValuePair("siteid", LocaleUtils.getSiteId(mContext)));
 		}
+	}
+
+	private void addBillingInfo(List<BasicNameValuePair> query, BillingInfo billingInfo) {
+		query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
+		query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
+		query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
+		query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
+		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
+
+		Location location = billingInfo.getLocation();
+		query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
+		if (location.getStreetAddress().size() > 1) {
+			query.add(new BasicNameValuePair("streetAddress2", location.getStreetAddress().get(1)));
+		}
+		query.add(new BasicNameValuePair("city", location.getCity()));
+		query.add(new BasicNameValuePair("state", location.getStateCode()));
+		query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
+		query.add(new BasicNameValuePair("country", location.getCountryCode()));
+
+		if (billingInfo.getStoredCard() == null) {
+			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
+
+			Date expDate = billingInfo.getExpirationDate().getTime();
+
+			DateFormat expFormatter = new SimpleDateFormat("MMyy");
+			query.add(new BasicNameValuePair("expirationDate", expFormatter.format(expDate)));
+
+			// This is an alternative way of representing expiration date, used for Flights.
+			// Doesn't hurt to include both methods
+			query.add(new BasicNameValuePair("expirationDateYear", android.text.format.DateFormat.format("yyyy",
+					expDate)
+					.toString()));
+			query.add(new BasicNameValuePair("expirationDateMonth", android.text.format.DateFormat
+					.format("MM", expDate)
+					.toString()));
+		}
+		else {
+			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
+		}
+		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
+	}
+
+	private void addFlightPassenger(List<BasicNameValuePair> query, FlightPassenger passenger) {
+		//TODO: This is incomplete. There is a bunch of information not currently supported by the API that needs to go here. 
+		// Furthermore, there should be any number of passengers and they shouldn't overwrite one another's birthdays etc. Again, we wait for API updates.
+		SimpleDateFormat isoDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
+		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(passenger.getBirthDate().getTime())));
+		query.add(new BasicNameValuePair("gender", (passenger.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -618,8 +730,12 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
+	public enum Api {
+		HOTELS, FLIGHTS;
+	}
+
 	public enum EndPoint {
-		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY, PUBLIC_INTEGRATION
+		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY, PUBLIC_INTEGRATION, TRUNK
 	}
 
 	/**
@@ -629,6 +745,21 @@ public class ExpediaServices implements DownloadListener {
 	 */
 	public String getE3EndpointUrl(int flags) {
 		EndPoint endPoint = getEndPoint(mContext);
+
+		Api api;
+		if ((flags & F_FLIGHTS) != 0) {
+			api = Api.FLIGHTS;
+
+			// Note: Currently, flights only works with TRUNK or PROXY.  So automatically
+			// set endpoint to TRUNK if not otherwise set correctly.
+			if (endPoint != EndPoint.TRUNK && endPoint != EndPoint.PROXY) {
+				endPoint = EndPoint.TRUNK;
+			}
+		}
+		else {
+			api = Api.HOTELS;
+		}
+
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
@@ -637,7 +768,7 @@ public class ExpediaServices implements DownloadListener {
 		case PRODUCTION: {
 			builder.append("www.");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
-			builder.append("/MobileHotel/Webapp/");
+			builder.append("/");
 			break;
 		}
 		case INTEGRATION: {
@@ -645,7 +776,7 @@ public class ExpediaServices implements DownloadListener {
 			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
 				builder.append(s);
 			}
-			builder.append(".integration.sb.karmalab.net/MobileHotel/Webapp/");
+			builder.append(".integration.sb.karmalab.net/");
 			break;
 		}
 		case STABLE: {
@@ -653,18 +784,21 @@ public class ExpediaServices implements DownloadListener {
 			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
 				builder.append(s);
 			}
-			builder.append(".stable.sb.karmalab.net/MobileHotel/Webapp/");
+			builder.append(".stable.sb.karmalab.net/");
 			break;
 		}
 		case DEV: {
 			builder.append("www.");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
-			builder.append(".chelwebestr37.bgb.karmalab.net");
-			builder.append("/MobileHotel/Webapp/");
+			builder.append(".chelwebestr37.bgb.karmalab.net/");
+			break;
+		}
+		case TRUNK: {
+			builder.append("www.expedia.com.trunk.sb.karmalab.net/");
 			break;
 		}
 		case PUBLIC_INTEGRATION: {
-			builder.append("70.42.224.37/MobileHotel/Webapp/");
+			builder.append("70.42.224.37/");
 			break;
 		}
 		case PROXY: {
@@ -672,9 +806,16 @@ public class ExpediaServices implements DownloadListener {
 					"localhost:3000"));
 			builder.append("/");
 			builder.append(LocaleUtils.getPointOfSale(mContext));
-			builder.append("/MobileHotel/Webapp/");
+			builder.append("/");
 			break;
 		}
+		}
+
+		if (api == Api.HOTELS) {
+			builder.append("MobileHotel/Webapp/");
+		}
+		else if (api == Api.FLIGHTS) {
+			builder.append("api/flight/");
 		}
 
 		String e3url = builder.toString();
@@ -705,6 +846,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (which.equals("Stable")) {
 			return EndPoint.STABLE;
+		}
+		else if (which.equals("Trunk")) {
+			return EndPoint.TRUNK;
 		}
 		else {
 			return EndPoint.PRODUCTION;

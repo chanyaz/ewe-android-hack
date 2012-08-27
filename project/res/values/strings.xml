@@ -1,5 +1,358 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Nav Dropdown menu -->
+    <!-- Home -->
+    <string name="nav_home">Home</string>
+    <!-- Flights -->
+    <string name="nav_flights">Flights</string>
+    <!-- Hotels -->
+    <string name="nav_hotels">Hotels</string>
+    <!-- Account -->
+    <string name="nav_account">Account</string>
+
+    <!-- Flights -->
+    <!-- Label for flight search part of app -->
+    <string name="search_flights">Search Flights</string>
+    <!-- Indicates that a flight itinerary flies on multiple airlines -->
+    <string name="multiple_airlines">Multiple Airlines</string>
+    <!-- Indicates how long a layover is.  %s is an amount of time, e.g. "3h 33m layover" -->
+    <string name="layover_template">&lt;b>%s&lt;/b> Layover</string>
+    <!-- Hint in edit text that indicates one should enter a departure airport -->
+    <string name="hint_departure_airport">Departure Airport</string>
+    <!-- Hint in edit text that indicates one should enter an arrival airport -->
+    <string name="hint_arrival_airport">Arrival Airport</string>
+    <!-- Button label prompting user to select dates by tapping calendar -->
+    <string name="dates_prompt">No dates selected</string>
+    <!-- Label for when flights are loading -->
+    <string name="loading_flights">Loading flights...</string>
+    <!-- TEMPORARY generic error message when loading flights fails -->
+    <string name="error_loading_flights_TEMPLATE">DEBUG: Error loading flights: %s</string>
+    <!-- Error message when we find no flights -->
+    <string name="error_no_flights_found">Sorry, we could not find any flights.</string>
+    <!-- Pluralization for # of seats left on a flight -->
+    <plurals name="seats_left">
+        <item quantity="zero">&lt;b>%d&lt;/b> seats left!</item>
+        <item quantity="one">&lt;b>%d&lt;/b> seat left!</item>
+        <item quantity="two">&lt;b>%d&lt;/b> seats left!</item>
+        <item quantity="few">&lt;b>%d&lt;/b> seats left!</item>
+        <item quantity="many">&lt;b>%d&lt;/b> seats left!</item>
+        <item quantity="other">&lt;b>%d&lt;/b> seats left!</item>
+    </plurals>
+    <!-- "Details" button label, for seeing details of a flight -->
+    <string name="details">Details</string>
+    <!-- "Select" button label, for selecting a particular leg of a flight -->
+    <string name="select">Select</string>
+    <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
+    <string name="outbound_TEMPLATE">Outbound Flights to %s</string>
+    <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
+    <string name="inbound_TEMPLATE">Return Flights to %s</string>
+    <!-- Error when we simple can't connect to E3 servers -->
+    <string name="error_server">Sorry, we could not connect to Expedia\'s servers.  Please try again later.</string>
+    <!-- Label for changing sort order on flights -->
+    <string name="filter_flight_sort">Sort Flights By:</string>
+    <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
+    <string name="filter_flight_time">Flight Time</string>
+    <!-- Label for filtering flights by airline (aka, Delta) -->
+    <string name="filter_flight_airline">Preferred Airlines</string>
+    <!-- Sort by departure timelabel -->
+    <string name="sort_description_departure">Departs</string>
+    <!-- Sort by arrival time label -->
+    <string name="sort_description_arrival">Arrives</string>
+    <!-- Sort by duration label -->
+    <string name="sort_description_duration">Duration</string>
+    <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
+    <plurals name="day_span">
+        <item quantity="zero">%s days</item>
+        <item quantity="one">%s day</item>
+        <item quantity="two">%s days</item>
+        <item quantity="few">%s days</item>
+        <item quantity="many">%s days</item>
+        <item quantity="other">%s days</item>
+    </plurals>
+    <!-- Button for entering flight traveler information manually -->
+    <string name="enter_info_manually">Enter information manually</string>
+    <!-- Header for saved travelers (that you can fill info from while booking) -->
+    <string name="saved_travelers">Saved Travelers</string>
+    <!-- Header for travelers you can pick from your contacts (that you can fill info from while booking) -->
+    <string name="from_contacts">Load Info From Contacts</string>
+    <!-- Error message when user tries to search for a flight to/from the same airport -->
+    <string name="error_same_origin_arrival">You must enter different departure and arrival airports.</string>
+    <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
+    <string name="error_data_expired">DEBUG: Search data was cleared somehow.  Please report this error to DLew.</string>
+    <!-- # of flights, plus where they're going.  %1$s is the # of flights, %2$s is the destination.  E.g., "5 flights to Los Angeles" -->
+    <plurals name="num_flights_to_destination">
+        <item quantity="zero">%1$s flights to %2$s</item>
+        <item quantity="one">%1$s flight to %2$s</item>
+        <item quantity="two">%1$s flights to %2$s</item>
+        <item quantity="few">%1$s flights to %2$s</item>
+        <item quantity="many">%1$s flights to %2$s</item>
+        <item quantity="other">%1$s flights to %2$s</item>
+    </plurals>
+
+    <!-- Flight search params fragment -->
+    <!-- Hint when no dates are selected for a flight trip -->
+    <string name="hint_select_departure">Select a departure date</string>
+    <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
+    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (One Way)</string>
+    <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
+    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; to &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Display for airports.  %1$s is the airport code, %2$s is the city name.  E.g., "BOS Boston" -->
+    <string name="search_airport_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <!-- Display for airports in the dropdown.  %1$s is the airport code, %2$s is the city name, %3$s is either the state code or the country name.  E.g., "BOS Boston, MA" or "SJU San Juan, Puerto Rico" -->
+    <string name="search_airport_autocomplete_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s, %3$s</string>
+    <!-- Label for "sort" button -->
+    <string name="sort">Sort</string>
+
+    <!-- Calendar instructions -->
+    <!-- Nothing is selected -->
+    <string name="calendar_instructions_nothing_selected">Tap to select your &lt;b>&lt;font color="#3b5998">departure date&lt;/font>&lt;/b>.</string>
+    <!-- Start date is selected -->
+    <string name="calendar_instructions_start_selected">Tap a &lt;b>&lt;font color="#3b5998">return date&lt;/font>&lt;/b>. (Optional)</string>
+    <!-- Start date and end date selected -->
+    <string name="calendar_instructions_range_selected_TEMPLATE">%1$d night trip selected.</string>
+
+    <!-- Flight Details Fragment -->
+    <!-- The label for the number of seats left for a flight -->
+    <string name="seats_left">seats left!</string>
+    <!-- The label for the cost of flight (per person) -->
+    <string name="per_person">/person</string>
+    <!-- city to city template -->
+    <string name="city_to_city_TEMPLATE">%1$s to %2$s</string>
+    <!-- airport name and airport code template -->
+    <string name="airport_name_and_code_TEMPLATE">%1$s (%2$s)</string>
+    <!-- time range for layovers -->
+    <string name="layover_time_range_and_duration_TEMPLATE">%1$s - %2$s ( %3$s )</string>
+
+    <!-- Flight Details Activity -->
+    <!-- Seat map button -->
+    <string name="btn_seat_map">Seat Map</string>
+    <!-- Baggage fee button -->
+    <string name="btn_baggage_fee">Baggage Fee</string>
+    <!-- Details activity actionbar select leg btn -->
+    <string name="btn_select_leg">Select leg</string>
+    <!-- Seats left label without any formatting -->
+    <plurals name="seats_left_no_formatting">
+        <item quantity="zero">seats left!</item>
+        <item quantity="one">seat left!</item>
+        <item quantity="two">seats left!</item>
+        <item quantity="few">seats left!</item>
+        <item quantity="many">seats left!</item>
+        <item quantity="other">seats left!</item>
+    </plurals>
+
+    
+    <!-- Flight payment overview Activity -->
+    <!-- Edit current payment -->
+    <string name="edit_current_payment_details">Current Payment Details</string>
+    <!-- Or Select a new payment method-->
+    <string name="or_select_new_paymet_method">Select a New Payment Method</string>
+    <!-- Select Payment -->
+    <string name="select_payment">Select Payment</string>
+    <!-- Choose from contacts -->
+    <string name="choose_from_contacts">Choose from contacts...</string>
+    <!-- Add new card -->
+    <string name="add_new_card">Add New Card</string>
+    <!-- Overview button -->
+    <string name="overview_btn">Overview</string>
+    <!-- Stored Payment label -->
+    <string name="stored_payment_label">Choose a Stored Payment Method</string>
+    
+    <!-- Trip Overview Activity -->
+    <!-- Trip total price label -->
+    <string name="total_price_label">Total Price</string>
+    <!-- Your trip to template -->
+    <string name="your_trip_to_TEMPLATE">Your trip to %1$s</string>
+    <!-- Number of traverlers template -->
+
+    <plurals name="number_of_travelers_TEMPLATE">
+        <item quantity="zero">%1$d Travelers</item>
+        <item quantity="one">%1$d Traveler</item>
+        <item quantity="two">%1$d Travelers</item>
+        <item quantity="few">%1$d Travelers</item>
+        <item quantity="many">%1$d Travelers</item>
+        <item quantity="other">%1$d Travelers</item>
+    </plurals>
+    <!-- Long form date (e.g. August 16, 2012) -->
+    <string name="long_form_date_TEMPLATE">%1$s %2$d, %3$d</string>
+    <!-- Checkout button text -->
+    <string name="checkout_btn">Checkout</string>
+    <!-- Notice when price changes on a flight -->
+    <string name="price_change_alert_TEMPLATE">The price of your trip has changed from %1$s to %2$s.</string>
+    <!-- Message when loading realtime flight information -->
+    <string name="loading_flight_details">Loading realtime flight information...</string>
+    <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
+    <string name="plus_symbol">+</string>
+    <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
+    <string name="equals_symbol">=</string>
+
+    <!-- Section Display Flights -->
+    <!-- Departs label with date (e.g. Depart: Aug 2nd) -->
+    <string name="departs_with_date_TEMPLATE">Depart: %1$s %2$s</string>
+    <!-- Arrives lable with date (e.g. Return: Aug 4th) -->
+    <string name="arrives_with_date_TEMPLATE">Return: %1$s %2$s</string>
+
+    <!-- Checkout Activity -->
+    <!-- Review button text -->
+    <string name="review_btn">Review</string>
+    <!-- checkout heading city and dates -->
+    <string name="checkout_heading_city_and_dates_TEMPLATE">%1$s - %2$s to %3$s</string>
+    <!-- Travelers label -->
+    <string name="travelers">Travelers</string>
+    <!-- Payment label -->
+    <string name="payment">Payment</string>
+    <!-- Login button text -->
+    <string name="login_btn_text">Log in for faster booking</string>
+
+    <!-- Section display contact -->
+    <!-- Enter travler info button text -->
+    <string name="enter_traveler_info">Enter Traveler Information</string>
+	<!-- Special Assistance label template -->
+	<string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
+	<!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number)-->
+	<string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
+    <!-- Born on -->
+    <string name="born_on_TEMPLATE">Born %1$s</string>
+    <!-- Born on colored -->
+    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191">Born&lt;/font> %1$s</string>
+	
+	
+    <!-- Section edit contact -->
+    <!-- first name hint -->
+    <string name="first_name_hint">First Name</string>
+    <!-- last name hint -->
+    <string name="last_name_hint">Last Name</string>
+    <!-- email hint -->
+    <string name="email_address_hint">Email Address</string>
+    <!-- phone number hint -->
+    <string name="phone_number_hint">Phone Number</string>
+
+    <!-- Section display payment -->
+    <!-- Enter payment info button text -->
+    <string name="enter_payment_info">Enter Payment Information</string>
+    <!-- Template for blanked out Credit Card -->
+    <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b>%2$s&lt;/b></string>
+
+    <!-- Section display address -->
+    <!-- Enter address info button text -->
+    <string name="enter_address_info">Enter Address Information</string>
+    <!-- Two address lines to one -->
+    <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
+    <!-- Single Line City State Zip -->
+    <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
+
+    <!-- Section edit credit card info -->
+    <!-- Credit Card field hint -->
+    <string name="credit_card_hint">Credit Card number</string>
+    <!-- Expiration date hit -->
+    <string name="credit_card_expiration_hint">MM/YY</string>
+    <!-- Security code label -->
+    <string name="security_code">Security Code</string>
+    <!-- Security code hint -->
+    <string name="security_code_hint">123</string>
+
+    <!-- Section edit billing address -->
+    <!-- Address line 1 hint -->
+    <string name="address_line_one_hint">Address line 1</string>
+    <!-- Address line 2 hint -->
+    <string name="address_line_two_hint">Address line 2</string>
+    <!-- Address city hint -->
+    <string name="address_city_hint">City</string>
+    <!-- Address state hint -->
+    <string name="address_state_hint">State</string>
+    <!-- Postal Code hint -->
+    <string name="address_postal_code_hint">Zip</string>
+
+    <!-- Section edit traveler -->
+    <!-- Traveler Information -->
+    <string name="traveler_information">Traveler Information</string>
+    <!-- First name label -->
+    <string name="first_name">First Name</string>
+    <!-- Middle name label -->
+    <string name="middle_name">Middle Name</string>
+    <!-- Last name label -->
+    <string name="last_name">Last Name</string>
+    <!-- Full Name Label -->
+    <string name="full_name">Full Name</string>
+    <!-- Phone number label -->
+    <string name="phone_number_country_code">Country Code</string>
+    <!-- Phone number label -->
+    <string name="phone_number">Phone #</string>
+    <!-- Gender label -->
+    <string name="gender">Gender</string>
+    <!-- name as it appears on id warning message -->
+    <string name="name_as_appears_on_id_warning">Enter name exactly as appears on government id</string>
+    <!-- date of birth label -->
+    <string name="date_of_birth">Date of Birth</string>
+    <!-- male -->
+    <string name="male">Male</string>
+    <!-- female -->
+    <string name="female">Female</string>
+    <!-- next page buttn -->
+    <string name="next">Next</string>
+    <!-- finish button -->
+    <string name="finish">Finish</string>
+    <!-- Redress number label -->
+    <string name="redress_number">Redress #</string>
+    <!-- Passport country label -->
+    <string name="passport_country">Passport Country</string>
+    <!-- Passport country / origin heading -->
+    <string name="passport_country_origin">Passport Country / Origin</string>
+    <!-- Redress number hint -->
+    <string name="only_if_applicable">Redress # (if applicable)</string>
+    <!-- Seating label -->
+    <string name="seating">Seating</string>
+    <!-- Assistance label -->
+    <string name="assistance">Assistance</string>
+    
+
+    <!-- Traveler Info spinner values -->
+    <!-- None -->
+    <string name="none">None</string>
+    <!-- Gender name template e.g. Chris is Male -->
+    <string name="gender_name_TEMPLATE">&lt;font color="#919191">%1$s is&lt;/font> %2$s</string>
+    
+    
+    <!-- Traveler options activity -->
+    <!-- Select a traveler -->
+    <string name="select_a_traveler">Select a traveler</string>
+    <!-- Select a different traveler -->
+    <string name="select_a_different_traveler">Select a different traveler</string>
+    <!-- Enter a new traveler -->
+    <string name="enter_new_traveler">Enter a new traveler</string>
+    <!-- Edit current traveler details -->
+    <string name="edit_current_traveler">Edit Traveler Information</string>
+    <!-- prefers seat template -->
+    <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
+    <!-- prefers seat template -->
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191">Prefers&lt;/font> %1$s Seat</string>
+
+    <!-- Seat types -->
+    <!-- Window seating preference -->
+    <string name="window">Window</string>
+    <!-- Aisle seating preference -->
+    <string name="aisle">Aisle</string>
+    <!-- Any -->
+    <string name="any">Any</string>
+
+    <!-- Assistance Types -->
+    <!--  No assistance type -->
+    <string name="no_assistance">No Special Assistance Required</string>
+    <!-- Wheelchair -->
+    <string name="wheelchair">Wheelchair</string>
+    <!-- DEFIBRILLATOR -->
+    <string name="defibrillator">Defibrillator</string>
+    <!-- Super long for test purposes -->
+    <string name="super_long_assistance">Super long assistance type that will be ellipsized</string>
+
+    <!-- Search Fragment -->
+    <!-- Initial hint for the search location field - invites the user to enter information here -->
+    <string name="enter_search_location">Enter search location...</string>
+    <!-- Hint for "search location" field -->
+    <string name="hint_search_location">Search Location</string>
+    <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
+    <string name="loading_suggestions">Loading suggestions...</string>
+    
     <string name="app_name">Expedia</string>
 
     <!-- General -->

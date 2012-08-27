@@ -37,6 +37,7 @@ public class User implements JSONable {
 	private ArrayList<Phone> mPhoneNumbers;
 	private Location mHomeAddress;
 	private ArrayList<StoredCreditCard> mStoredCreditCards;
+	private ArrayList<FlightPassenger> mAssociatedTravelers;
 
 	private String mLoyaltyMembershipNumber;
 	private boolean mIsSmokingPreferred;
@@ -86,6 +87,10 @@ public class User implements JSONable {
 
 	public List<StoredCreditCard> getStoredCreditCards() {
 		return mStoredCreditCards;
+	}
+	
+	public List<FlightPassenger> getAssociatedTravelers(){
+		return mAssociatedTravelers;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -224,6 +229,7 @@ public class User implements JSONable {
 			JSONUtils.putJSONableList(obj, "phoneNumbers", mPhoneNumbers);
 			JSONUtils.putJSONable(obj, "homeAddress", mHomeAddress);
 			JSONUtils.putJSONableList(obj, "storedCreditCards", mStoredCreditCards);
+			JSONUtils.putJSONableList(obj, "associatedTravelers", mAssociatedTravelers);
 
 			obj.putOpt("loyaltyMembershipNumber", mLoyaltyMembershipNumber);
 			obj.putOpt("isSmokingPreferred", mIsSmokingPreferred);
@@ -272,6 +278,21 @@ public class User implements JSONable {
 			}
 		}
 
+		JSONArray associatedTravelers = obj.optJSONArray("associatedTravelers");
+		mAssociatedTravelers = new ArrayList<FlightPassenger>();
+		if(associatedTravelers != null){
+			for(int i = 0; i < associatedTravelers.length(); i++){
+				try{
+					FlightPassenger fp = new FlightPassenger();
+					fp.fromJson(associatedTravelers.getJSONObject(i));
+					mAssociatedTravelers.add(fp);
+				}catch(JSONException e){
+					Log.e("Could not get associated traveler at i=" + i + ":", e);
+				}
+			}
+		}
+		
+		
 		JSONObject addr = obj.optJSONObject("homeAddress");
 		if (addr != null) {
 			Location loc = new Location();

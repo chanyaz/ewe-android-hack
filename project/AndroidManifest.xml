@@ -5,7 +5,7 @@
 
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="13" />
+        android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -98,6 +98,84 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+
+        <!-- Expedia Flights -->
+
+        <activity
+            android:name=".activity.FlightSearchActivity"
+            android:label="Expedia Flights"
+            android:theme="@style/FlightTheme"
+            android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.FlightSearchResultsActivity"
+            android:theme="@style/FlightTheme"
+            android:windowSoftInputMode="adjustPan"
+            android:uiOptions="splitActionBarWhenNarrow" />
+        <activity
+            android:name=".activity.FlightDetailsActivity"
+            android:theme="@style/FlightTheme" />
+        <activity
+            android:name=".activity.FlightTripOverviewActivity"
+            android:label="Overview"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        <activity
+            android:name=".activity.FlightCheckoutActivity"
+            android:label="Checkout"
+            android:theme="@style/FlightTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.FlightBookingActivity"
+            android:theme="@style/FlightTheme" />
+        
+        <activity
+            android:name=".activity.FlightPaymentOptionsActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        <activity
+            android:name=".activity.FlightPaymentContactActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        <activity
+            android:name=".activity.FlightPaymentAddressActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        <activity
+            android:name=".activity.FlightPaymentCreditCardActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+		<activity
+            android:name=".activity.FlightTravelerInfoOptionsActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+		<activity
+            android:name=".activity.FlightTravelerInfoOneActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+		<activity
+            android:name=".activity.FlightTravelerInfoTwoActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+		<activity
+            android:name=".activity.FlightTravelerInfoThreeActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+
+        <!-- Testing -->
+        <activity android:name=".test.activity.CalendarDatePickerTestActivity" />
 
         <!-- HockeyApp -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />

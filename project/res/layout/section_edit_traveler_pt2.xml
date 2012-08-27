@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <com.gridlayout.GridLayout
+        android:id="@+id/grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        gridlayout:alignmentMode="alignMargins"
+        gridlayout:columnCount="3"
+        gridlayout:columnOrderPreserved="false"
+        gridlayout:useDefaultMargins="false" >
+        
+        <Spinner
+            android:id="@+id/edit_gender_spinner"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="3" />
+        
+        <EditText
+            android:id="@+id/edit_redress_number"
+            android:layout_gravity="fill_horizontal"
+            android:hint="@string/only_if_applicable"
+            gridlayout:layout_columnSpan="3"
+            android:inputType="number" />
+
+		<Spinner
+            android:id="@+id/edit_assistance_preference_spinner"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="3" />
+
+        <Spinner
+            android:id="@+id/edit_seat_preference_spinner"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="3" />
+        
+        
+    </com.gridlayout.GridLayout>
+
+</com.expedia.bookings.section.SectionTravelerInfo>

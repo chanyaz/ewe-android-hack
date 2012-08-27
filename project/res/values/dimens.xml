@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Flights dimens -->
+   	<dimen name="flight_trip_view_stroke_width">4dp</dimen>
+   	<dimen name="simple_grey_divider_height">1dp</dimen>
+   	<dimen name="simple_grey_divider_margin_top">5dp</dimen>
+   	<dimen name="simple_grey_divider_margin_bottom">5dp</dimen>
+   	<dimen name="data_display_primary_text">18sp</dimen>
+   	<dimen name="data_display_sub_text">14sp</dimen>
+   	<dimen name="data_form_section_header_text">14sp</dimen>
+   	<dimen name="yoyo_navigation_text_size">14sp</dimen>
+   	<dimen name="yoyo_navigation_img_width">24dp</dimen>
+   	<dimen name="yoyo_navigation_img_height">24dp</dimen>
+   	<dimen name="yoyo_navigation_padding_right">10dp</dimen>
+    
     <!-- Dimensions for the list header fragment -->
     <dimen name="sort_view_max_width">250dp</dimen>
 

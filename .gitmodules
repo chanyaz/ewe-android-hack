@@ -7,3 +7,12 @@
 [submodule "lib/OpinionLab"]
 	path = lib/OpinionLab
 	url = git@team.mobiata.com:Android/OpinionLab.git
+[submodule "lib/FlightLib"]
+	path = lib/FlightLib
+	url = git@team.mobiata.com:Android/FlightLib.git
+[submodule "lib/ActionBarSherlock"]
+	path = lib/ActionBarSherlock
+	url = git@team.mobiata.com:Android/ActionBarSherlock
+[submodule "lib/TestUtils"]
+	path = lib/TestUtils
+	url = git@team.mobiata.com:Android/TestUtils.git

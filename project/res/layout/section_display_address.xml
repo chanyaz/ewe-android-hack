@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/display_address_single_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/display_address_city_state_zip_one_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+</com.expedia.bookings.section.SectionLocation>

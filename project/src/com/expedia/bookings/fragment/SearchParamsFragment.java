@@ -232,7 +232,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		startAutocomplete(Db.getSearchParams().getQuery());
 
 		// Configure the calendar
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
+		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, VintageCalendarDatePicker.SelectionMode.RANGE);
 		mCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		// Configure the number pickers

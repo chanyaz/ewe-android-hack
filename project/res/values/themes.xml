@@ -55,4 +55,25 @@
 		<item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
 	</style>
 
+    <!-- Temporary theme for flights -->
+    <style name="FlightTheme" parent="@style/Theme.Sherlock.Light">
+        <item name="airPickerBackground">@android:color/white</item>
+        <item name="airPickerHeaderBackground">@android:color/white</item>
+        <item name="airPickerTextColor">@android:color/black</item>
+        <item name="airPickerMessageTextColor">@android:color/black</item>
+        <item name="airPickerActionTextColor">@android:color/black</item>
+        <item name="rowDividerBackground">@android:color/black</item>
+        <item name="rowBackground">@android:color/white</item>
+        <item name="rowHeaderBackground">@android:color/white</item>
+    </style>
+    
+    <style name="FlightFilterDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/FlightFilterDialogAnimation</item>
+    </style>
+
+    <style name="FlightFilterDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
 </resources>

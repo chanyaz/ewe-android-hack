@@ -1,17 +1,21 @@
 package com.expedia.bookings.data;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Process;
 
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 
@@ -86,6 +90,16 @@ public class Db {
 
 	// The currently logged in User profile
 	private User mUser;
+
+	// Flight search object - represents both the parameters and
+	// the returned results
+	private FlightSearch mFlightSearch = new FlightSearch();
+
+	// Flight details (of the flight we're investigating right now in FlightSearch
+	private FlightDetailsResponse mFlightDetails;
+
+	// Flight Travelers
+	private ArrayList<FlightPassenger> mFlightPassengers = new ArrayList<FlightPassenger>();
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -325,6 +339,26 @@ public class Db {
 		return sDb.mUser;
 	}
 
+	public static FlightSearch getFlightSearch() {
+		return sDb.mFlightSearch;
+	}
+
+	public static void setFlightDetails(FlightDetailsResponse flightDetails) {
+		sDb.mFlightDetails = flightDetails;
+	}
+
+	public static FlightDetailsResponse getFlightDetails() {
+		return sDb.mFlightDetails;
+	}
+
+	public static ArrayList<FlightPassenger> getFlightPassengers() {
+		return sDb.mFlightPassengers;
+	}
+
+	public static void setFlightPassengers(ArrayList<FlightPassenger> passengers) {
+		sDb.mFlightPassengers = passengers;
+	}
+
 	public static void setCreateTripResponse(CreateTripResponse response) {
 		sDb.mCreateTripResponse = response;
 	}
@@ -355,6 +389,105 @@ public class Db {
 		sDb.mSearchResponse = null;
 		sDb.mBookingResponse = null;
 		sDb.mUser = null;
+
+		sDb.mFlightSearch.reset();
+		sDb.mFlightPassengers.clear();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Saving/loading data
+
+	private static final String SAVED_FLIGHT_DATA_FILE = "flights-data.db";
+
+	/**
+	 * MAKE SURE TO CALL THIS IN A NON-UI THREAD
+	 */
+	public static boolean saveFlightDataCache(Context context) {
+		synchronized (sDb) {
+			Log.d("Saving flight data cache...");
+
+			long start = System.currentTimeMillis();
+			try {
+				JSONObject obj = new JSONObject();
+				JSONUtils.putJSONable(obj, "flightSearch", sDb.mFlightSearch);
+				JSONUtils.putJSONable(obj, "flightDetails", sDb.mFlightDetails);
+
+				String json = obj.toString();
+				IoUtils.writeStringToFile(SAVED_FLIGHT_DATA_FILE, json, context);
+
+				Log.d("Saved flight data cache in " + (System.currentTimeMillis() - start)
+						+ " ms.  Size of data cache: "
+						+ json.length() + " chars");
+
+				return true;
+			}
+			catch (Exception e) {
+				// It's not a severe issue if this all fails - just 
+				Log.w("Failed to save flight data", e);
+				return false;
+			}
+			catch (OutOfMemoryError err) {
+				Log.e("Ran out of memory trying to save flight data cache", err);
+				throw new RuntimeException(err);
+			}
+
+		}
+	}
+
+	public static boolean loadCachedFlightData(Context context) {
+		long start = System.currentTimeMillis();
+
+		File file = context.getFileStreamPath(SAVED_FLIGHT_DATA_FILE);
+		if (!file.exists()) {
+			return false;
+		}
+
+		try {
+			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SAVED_FLIGHT_DATA_FILE, context));
+
+			if (obj.has("flightSearch")) {
+				sDb.mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
+			}
+			if (obj.has("flightDetails")) {
+				sDb.mFlightDetails = JSONUtils.getJSONable(obj, "flightDetails", FlightDetailsResponse.class);
+			}
+
+			Log.d("Loaded cached flight data in " + (System.currentTimeMillis() - start) + " ms");
+
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static boolean deleteCachedFlightData(Context context) {
+		File file = context.getFileStreamPath(SAVED_FLIGHT_DATA_FILE);
+		if (!file.exists()) {
+			return true;
+		}
+		else {
+			return file.delete();
+		}
+	}
+
+	public static void kickOffBackgroundSave(final Context context) {
+		// #517: Trying to track down issues
+		try {
+			throw new RuntimeException("FAKE EXCEPTION FOR STACK TRACE");
+		}
+		catch (Exception e) {
+			Log.d("Kicking off background flight data save", e);
+		}
+
+		// Kick off a search to cache results to disk, in case app is killed
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+				Db.saveFlightDataCache(context);
+			}
+		})).start();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -389,6 +522,7 @@ public class Db {
 			putJsonable(obj, "selectedProperty", sDb.mSelectedProperty);
 			putJsonable(obj, "selectedRate", sDb.mSelectedRate);
 			putJsonable(obj, "user", sDb.mUser);
+			putArrayList(obj, "flightPassengers", sDb.mFlightPassengers);
 
 			IoUtils.writeStringToFile(TEST_DATA_FILE, obj.toString(), context);
 		}
@@ -425,6 +559,7 @@ public class Db {
 			sDb.mSelectedProperty = getJsonable(obj, "selectedProperty", Property.class, sDb.mSelectedProperty);
 			sDb.mSelectedRate = getJsonable(obj, "selectedRate", Rate.class, sDb.mSelectedRate);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
+			sDb.mFlightPassengers = getArrayList(obj, "flightPassengers", FlightPassenger.class, sDb.mFlightPassengers);
 		}
 		catch (Exception e) {
 			Log.w("Could not load db testing", e);
@@ -477,6 +612,32 @@ public class Db {
 			return retMap;
 		}
 
+		return defaultVal;
+	}
+
+	private static void putArrayList(JSONObject obj, String key, ArrayList<? extends JSONable> arrlist)
+			throws JSONException {
+		if (arrlist != null) {
+			JSONArray jsonarr = new JSONArray(arrlist);
+			obj.putOpt(key, jsonarr);
+		}
+	}
+
+	private static <T extends JSONable> ArrayList<T> getArrayList(JSONObject obj, String key, Class<T> c,
+			ArrayList<T> defaultVal) throws Exception {
+
+		if (obj.has(key)) {
+			ArrayList<T> retArr = new ArrayList<T>();
+			JSONArray arr = obj.getJSONArray(key);
+
+			for (int i = 0; i < arr.length(); i++) {
+				T jsonable = c.newInstance();
+				jsonable.fromJson(arr.getJSONObject(i));
+				retArr.add(jsonable);
+			}
+
+			return retArr;
+		}
 		return defaultVal;
 	}
 }

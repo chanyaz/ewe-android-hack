@@ -1338,6 +1338,7 @@
         <item>Dev</item>
         <item>Integration</item>
         <item>Stable</item>
+        <item>Trunk</item>
         <item>Proxy</item>
         <item>Public Integration</item>
     </string-array>

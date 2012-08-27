@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -20,6 +21,10 @@ import com.mobiata.android.validation.ValidationError;
 
 public class Response implements JSONable {
 	private List<ServerError> mErrors;
+
+	// Represents roughly when the response was created.  Should be used as a
+	// general guideline, but not an exact figure.
+	private long mTimestamp = Calendar.getInstance().getTimeInMillis();
 
 	public boolean isSuccess() {
 		return !hasErrors();
@@ -130,11 +135,19 @@ public class Response implements JSONable {
 		return errors;
 	}
 
+	public long getTimestamp() {
+		return mTimestamp;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
+
 	@Override
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONableList(obj, "errors", mErrors);
+			obj.putOpt("timestamp", mTimestamp);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -147,6 +160,7 @@ public class Response implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mErrors = (List<ServerError>) JSONUtils.getJSONableList(obj, "errors", ServerError.class);
+		mTimestamp = obj.optLong("timestamp");
 		return true;
 	}
 }

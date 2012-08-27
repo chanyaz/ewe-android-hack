@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -23,6 +24,7 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.nullwire.trace.ExceptionHandler;
 import com.omniture.AppMeasurement;
 
@@ -40,6 +42,13 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		boolean isRelease = AndroidUtils.isRelease(this);
 		boolean isLogEnablerInstalled = DebugUtils.isLogEnablerInstalled(this);
 		Log.configureLogging("ExpediaBookings", !isRelease || isLogEnablerInstalled);
+
+		try {
+			FlightStatsDbUtils.createDatabaseIfNotExists(this, "com.expedia.bookings");
+		}
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 		// Setup Omniture logging for crashes
 		mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();

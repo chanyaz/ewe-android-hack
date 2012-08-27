@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- Dummy focus clear -->
+
+    <View
+        android:id="@+id/focus_stealer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <!-- Dimmer that can be placed on top of content fragment -->
+
+    <View
+        android:id="@+id/dimmer_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#C000"
+        android:clickable="true"
+        android:visibility="gone" />
+
+    <!-- Header drop-down -->
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#DFFF"
+        android:orientation="vertical"
+        android:padding="8dp" >
+
+        <LinearLayout
+            android:id="@+id/airports_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2" >
+
+            <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
+                android:id="@+id/departure_airport_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:hint="@string/hint_departure_airport"
+                android:imeOptions="flagNoExtractUi|actionNext"
+                android:singleLine="true" />
+
+            <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
+                android:id="@+id/arrival_airport_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:hint="@string/hint_arrival_airport"
+                android:imeOptions="flagNoExtractUi|actionNext"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <EditText
+                    android:id="@+id/dates_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/hint_select_departure"
+                    android:singleLine="true"
+                    android:textColor="#999999" />
+                
+                <ImageView
+                    android:id="@+id/clear_dates_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/btn_cancel_normal"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"
+                    />
+            </RelativeLayout>
+
+            <ImageButton
+                android:id="@+id/passengers_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:singleLine="true"
+                android:src="@drawable/ic_action_guests" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Calendar pop-up -->
+
+    <com.mobiata.android.widget.CalendarDatePicker
+        android:id="@+id/calendar_date_picker"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:background="#DDD"
+        android:visibility="gone"
+        mobiata:allowHybridDragging="true"
+        mobiata:calendarHeaderBackground="@color/calendar_header"
+        mobiata:cellTextColor="@color/calendar_cell_text"
+        mobiata:drawGridLines="false"
+        mobiata:headerInstructionText="@string/calendar_instructions_nothing_selected"
+        mobiata:headerInstructionTextSpaceReserved="true"
+        mobiata:popupBackground="@drawable/calendar_date_picker_popup"
+        mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell" />
+
+</RelativeLayout>

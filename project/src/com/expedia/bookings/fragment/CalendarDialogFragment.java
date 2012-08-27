@@ -104,7 +104,7 @@ public class CalendarDialogFragment extends DialogFragment {
 		}
 
 		// Initial calendar date picker variables
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker);
+		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, VintageCalendarDatePicker.SelectionMode.RANGE);
 
 		// Set initial dates
 		Bundle dateInfo = (savedInstanceState != null && savedInstanceState.containsKey(KEY_START_YEAR)) ? savedInstanceState
