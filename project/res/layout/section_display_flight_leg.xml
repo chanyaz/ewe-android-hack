@@ -2,12 +2,12 @@
 <com.expedia.bookings.section.SectionFlightLeg xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_flight_card_details"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_flight_detail_carrier"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="5dp"

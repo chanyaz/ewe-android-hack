@@ -18,7 +18,6 @@ import com.expedia.bookings.activity.FlightDetailsActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
-import com.expedia.bookings.data.Money;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -61,9 +60,6 @@ public class SectionFlightLeg extends LinearLayout {
 		mArriveOrDepartWithDateTextView = Ui.findView(this, R.id.display_arrive_or_depart_with_date);
 		mInboundOutboundArrow = Ui.findView(this, R.id.display_inbound_outbound_arrow);
 		mFlightLegSummary = Ui.findView(this, R.id.flight_leg_summary);
-
-		// Setup custom bg for FlightLegSummary
-		mFlightLegSummary.setBackgroundResource(R.drawable.bg_flight_detail_info);
 
 		// Setup click listeners once
 		mDetailsButton.setOnClickListener(new OnClickListener() {
