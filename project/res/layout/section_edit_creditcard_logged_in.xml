@@ -60,19 +60,5 @@
         android:layout_height="wrap_content"
         android:hint="@string/name_on_card_hint" />
 
-    <EditText
-        android:id="@+id/edit_email_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/email_address_hint" />
-
-    <TextView
-        android:id="@+id/email_disclaimer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="@string/email_disclaimer"
-        android:textColor="@color/data_review_grey"
-        android:textSize="12sp" />
 
 </com.expedia.bookings.section.SectionBillingInfo>

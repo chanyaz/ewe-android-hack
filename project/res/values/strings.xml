@@ -252,8 +252,6 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Credit Card number</string>
-    <!-- Expiration date hit -->
-    <string name="credit_card_expiration_hint">MM/YY</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Expiration Date</string>
     <!-- Security code label -->
