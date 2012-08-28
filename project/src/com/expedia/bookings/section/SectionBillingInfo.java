@@ -1,25 +1,32 @@
 package com.expedia.bookings.section;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
-import com.mobiata.android.Log;
+import com.expedia.bookings.widget.NumberPicker;
+import com.expedia.bookings.widget.NumberPicker.Formatter;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -66,13 +73,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayAddress);
 
 		//Edit fields
-		mFields.add(this.mEditCreditCardExpiration);
 		mFields.add(this.mEditCreditCardNumber);
 		mFields.add(this.mEditCreditCardSecurityCode);
 		mFields.add(this.mEditFirstName);
 		mFields.add(this.mEditLastName);
+		mFields.add(this.mEditNameOnCard);
 		mFields.add(this.mEditEmailAddress);
 		mFields.add(this.mEditPhoneNumber);
+		mFields.add(this.mEditCardExpirationDateTextBtn);
 	}
 
 	/***
@@ -357,73 +365,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardExpiration = new SectionFieldEditable<EditText, BillingInfo>(
-			R.id.edit_creditcard_expiration) {
-
-		//TODO: This whole class needs better (localized) text to cal and visaversa conversion
-
-		DateFormat mExpParser = new SimpleDateFormat("MM/yy");
-		
-		@Override
-		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.EXPIRATION_DATE_VALIDATOR_ET;
-		}
-
-		@Override
-		public void setChangeListener(EditText field) {
-			field.addTextChangedListener(new AfterChangeTextWatcher() {
-				@Override
-				public void afterTextChanged(Editable s) {
-					if (hasBoundData()) {
-						getData().setExpirationDate(getCalFromExpStr(s.toString()));
-					}
-					onChange(SectionBillingInfo.this);
-				}
-			});
-		}
-
-		@Override
-		protected void onHasFieldAndData(EditText field, BillingInfo data) {
-			if (data.getExpirationDate() != null) {
-				String formattedExpr = mExpParser.format(data.getExpirationDate().getTime());
-				field.setText(formattedExpr);
-			}
-		}
-
-		private Calendar getCalFromExpStr(String exp) {
-			//TODO:This is not localized at all...
-			if (TextUtils.isEmpty(exp)) {
-				return null;
-			}
-			if (exp.contains("/")) {
-				String[] splitStr = exp.split("/");
-				if (splitStr.length != 2) {
-					Log.e("split != 2");
-					return null;
-				}
-				else {
-						
-						Calendar cal = Calendar.getInstance();
-						try {
-							cal.setTime(mExpParser.parse(exp));
-							return cal;
-						}
-						catch (ParseException e) {
-							Log.e("Date Parse Error!");
-							return null;
-						}
-				}
-			}
-			return null;
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	};
-
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardSecurityCode = new SectionFieldEditable<EditText, BillingInfo>(
 			R.id.edit_creditcard_security_code) {
 
@@ -532,6 +473,39 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
+	SectionFieldEditable<EditText, BillingInfo> mEditNameOnCard = new SectionFieldEditable<EditText, BillingInfo>(
+			R.id.edit_name_on_card) {
+
+		@Override
+		public void setChangeListener(EditText field) {
+			field.addTextChangedListener(new AfterChangeTextWatcher() {
+				@Override
+				public void afterTextChanged(Editable s) {
+					if (hasBoundData()) {
+						getData().setNameOnCard(s.toString());
+					}
+					onChange(SectionBillingInfo.this);
+				}
+			});
+		}
+
+		@Override
+		protected void onHasFieldAndData(EditText field, BillingInfo data) {
+			field.setText(TextUtils.isEmpty(data.getNameOnCard()) ? "" : data.getNameOnCard());
+		}
+
+		@Override
+		protected Validator<EditText> getValidator() {
+			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+	};
+
 	SectionFieldEditable<EditText, BillingInfo> mEditEmailAddress = new SectionFieldEditable<EditText, BillingInfo>(
 			R.id.edit_email_address) {
 
@@ -599,6 +573,185 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
 			// TODO Auto-generated method stub
 			return null;
+		}
+	};
+
+	SectionFieldEditable<TextView, BillingInfo> mEditCardExpirationDateTextBtn = new SectionFieldEditable<TextView, BillingInfo>(
+			R.id.edit_creditcard_exp_text_btn) {
+
+		@Override
+		public void setChangeListener(TextView field) {
+
+			field.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+					builder.setTitle(R.string.expiration_date);
+					View exprPickerView;
+					if (AndroidUtils.isHoneycombVersionOrHigher()) {
+						LayoutInflater inflater = (LayoutInflater) mContext
+								.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+						exprPickerView = inflater.inflate(R.layout.widget_expiration_date_picker, null);
+						final NumberPicker monthPicker = Ui.findView(exprPickerView, R.id.month_picker);
+						final NumberPicker yearPicker = Ui.findView(exprPickerView, R.id.year_picker);
+
+						Calendar now = Calendar.getInstance();
+
+						//Set up month picker
+						monthPicker.setMaxValue(12);
+						monthPicker.setMinValue(1);
+						if (hasBoundData() && getData().getExpirationDate() != null) {
+							monthPicker.setValue(getData().getExpirationDate().get(Calendar.MONTH) + 1);
+						}
+						else {
+							monthPicker.setValue(now.get(Calendar.MONTH) + 1);
+						}
+						monthPicker.setFormatter(NumberPicker.TWO_DIGIT_FORMATTER);
+						monthPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+						//Set up year picker
+						yearPicker.setMinValue(now.get(Calendar.YEAR));
+						yearPicker.setMaxValue(now.get(Calendar.YEAR) + 25);
+						if (hasBoundData() && getData().getExpirationDate() != null) {
+							yearPicker.setValue(getData().getExpirationDate().get(Calendar.YEAR));
+						}
+						else {
+							yearPicker.setValue(now.get(Calendar.YEAR));
+						}
+						yearPicker.setFormatter(new Formatter() {
+							@Override
+							public String format(int value) {
+								return "" + value;
+							}
+						});
+						yearPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+						
+						builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								Calendar expr = GregorianCalendar.getInstance();
+								expr.set(yearPicker.getValue(), monthPicker.getValue() - 1, 1);
+								if (hasBoundData()) {
+									getData().setExpirationDate(expr);
+									refreshText();
+									onChange(SectionBillingInfo.this);
+								}
+							}
+						});
+					}
+					else {
+						//Older versions of android
+						
+						LayoutInflater inflater = (LayoutInflater) mContext
+								.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+						exprPickerView = inflater.inflate(R.layout.widget_compat_expiration_date_picker, null);
+						final com.mobiata.android.widget.NumberPicker monthPicker = Ui.findView(exprPickerView, R.id.month_picker);
+						final com.mobiata.android.widget.NumberPicker yearPicker = Ui.findView(exprPickerView, R.id.year_picker);
+
+						Calendar now = Calendar.getInstance();
+
+						//Set up month picker
+						monthPicker.setRange(1, 12);
+						monthPicker.setCurrent(hasBoundData() && getData().getExpirationDate() != null ? getData().getExpirationDate().get(Calendar.MONTH) + 1 : now.get(Calendar.MONTH) + 1);
+						monthPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter(){
+							@Override
+							public String toString(int value) {
+								return String.format("%02d", value);
+							}
+							
+						});
+						//monthPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+						//Set up year picker
+						yearPicker.setRange(now.get(Calendar.YEAR), now.get(Calendar.YEAR) + 25);
+						yearPicker.setCurrent(hasBoundData() && getData().getExpirationDate() != null ? getData().getExpirationDate().get(Calendar.YEAR) : now.get(Calendar.YEAR));
+						yearPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter(){
+							@Override
+							public String toString(int value) {
+								return "" + value;
+							}
+							
+						});
+						//yearPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+						
+						builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								Calendar expr = GregorianCalendar.getInstance();
+								expr.set(yearPicker.getCurrent(), monthPicker.getCurrent() - 1, 1);
+								if (hasBoundData()) {
+									getData().setExpirationDate(expr);
+									refreshText();
+									onChange(SectionBillingInfo.this);
+								}
+							}
+						});
+					}
+
+					//Set handler
+					builder.setView(exprPickerView);
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+			});
+
+		}
+
+		private void refreshText() {
+			if (hasBoundField() && hasBoundData()) {
+				onHasFieldAndData(getField(), getData());
+			}
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			return null;
+		}
+
+		@Override
+		protected void onHasFieldAndData(TextView field, BillingInfo data) {
+
+			String btnTxt = "";
+			if (data.getExpirationDate() != null) {
+				String formatStr = mContext.getString(R.string.expires_colored_TEMPLATE);
+				DateFormat df = new SimpleDateFormat("MM/yy");
+				String bdayStr = df.format(data.getExpirationDate().getTime());
+				btnTxt = String.format(formatStr, bdayStr);
+			}
+			field.setText(Html.fromHtml(btnTxt));
+		}
+
+		Validator<TextView> mValidator = new Validator<TextView>() {
+
+			@Override
+			public int validate(TextView obj) {
+				int retVal = ValidationError.NO_ERROR;
+				if (hasBoundData()) {
+					if (getData().getExpirationDate() != null) {
+						Calendar cal = getData().getExpirationDate();
+						Calendar now = Calendar.getInstance();
+						if (cal.getTimeInMillis() < now.getTimeInMillis()) {
+							retVal = ValidationError.ERROR_DATA_INVALID;
+						}
+						else {
+							retVal = ValidationError.NO_ERROR;
+						}
+					}
+					else {
+						retVal = ValidationError.ERROR_DATA_MISSING;
+					}
+				}
+				else {
+					retVal = ValidationError.ERROR_DATA_MISSING;
+				}
+				return retVal;
+			}
+		};
+
+		@Override
+		protected Validator<TextView> getValidator() {
+			return mValidator;
 		}
 	};
 

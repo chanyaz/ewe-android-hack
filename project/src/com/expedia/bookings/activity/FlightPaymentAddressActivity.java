@@ -1,5 +1,8 @@
 package com.expedia.bookings.activity;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -9,25 +12,24 @@ import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionLocation;
 import com.mobiata.android.util.Ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 
-public class FlightPaymentAddressActivity extends Activity {
+public class FlightPaymentAddressActivity extends SherlockActivity {
 
 	BillingInfo mBillingInfo;
 
 	SectionLocation mSectionLocation;
-	Button mDoneBtn;
 
+	boolean mAttemptToLeaveMade = false;
+	YoYo mYoYo;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flight_payment_address);
-		mDoneBtn = Ui.findView(this, R.id.done);
 		mSectionLocation = Ui.findView(this, R.id.address_section);
 
 		mBillingInfo = Db.getBillingInfo();
@@ -35,31 +37,17 @@ public class FlightPaymentAddressActivity extends Activity {
 			mBillingInfo.setLocation(new Location());
 		}
 		
-		final YoYo yoyo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
-		mDoneBtn.setOnClickListener(new OnClickListener() {
+		mYoYo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
+
+		mSectionLocation.addChangeListener(new SectionChangeListener() {
 			@Override
-			public void onClick(View v) {
-//				Intent intent = new Intent(FlightPaymentAddressActivity.this,
-//						(yoyo == null || yoyo.isEmpty(FlightPaymentAddressActivity.class)) ? FlightPaymentCreditCardActivity.class: yoyo.popNextTrick(FlightPaymentAddressActivity.class));
-//				intent.putExtra(YoYo.TAG_YOYO, yoyo);
-//				if(yoyo.isEmpty(FlightPaymentAddressActivity.class)){
-//					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//					intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//				}
-				Intent intent = yoyo.generateIntent(FlightPaymentAddressActivity.this, getIntent());
-				startActivity(intent);
+			public void onChange() {
+				if (mAttemptToLeaveMade) {
+					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
+					mSectionLocation.hasValidInput();
+				}
 			}
 		});
-		
-		if(yoyo != null){
-			if(yoyo.isLast(FlightPaymentAddressActivity.class)){
-				//Done
-				mDoneBtn.setText(getString(R.string.button_done));
-			}else{
-				//Next
-				mDoneBtn.setText(getString(R.string.next));
-			}
-		}
 	}
 
 	@Override
@@ -67,15 +55,28 @@ public class FlightPaymentAddressActivity extends Activity {
 		super.onResume();
 
 		mSectionLocation.bind(mBillingInfo.getLocation());
-		mDoneBtn.setEnabled(mSectionLocation.hasValidInput());
-
-		mSectionLocation.addChangeListener(new SectionChangeListener() {
+		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = this.getSupportMenuInflater();
+	    if(mYoYo != null && mYoYo.isLast(this.getClass())){
+	    	inflater.inflate(R.menu.menu_done, menu);
+	    }else{
+	    	inflater.inflate(R.menu.menu_next, menu);
+	    }
+	    menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener(){
 			@Override
-			public void onChange() {
-				mDoneBtn.setEnabled(mSectionLocation.hasValidInput());
-			}
-
+			public void onClick(View v) {
+				mAttemptToLeaveMade = true;
+				if (mSectionLocation.hasValidInput()) {
+					Intent intent = mYoYo.generateIntent(FlightPaymentAddressActivity.this, getIntent());
+					startActivity(intent);
+				}
+			}		
 		});
+	    return true;
 	}
 
 }

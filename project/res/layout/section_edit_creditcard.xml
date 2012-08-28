@@ -7,39 +7,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/display_creditcard_brand_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:src="@drawable/ic_cc_unknown" />
 
-        <TextView
-            android:id="@+id/display_creditcard_brand_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/edit_creditcard_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/credit_card_hint"
+            android:inputType="number" />
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/edit_creditcard_exp_text_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        style="@style/SpinnerStyle"
+        android:bufferType="spannable"
+        android:gravity="center_vertical"
+        android:hint="@string/credit_card_expiration_hint"
+        android:paddingLeft="5dp"
+        android:textSize="18dp" />
 
-        <EditText
-            android:id="@+id/edit_first_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/first_name_hint" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/cardholder"
+        android:textAllCaps="true"
+        android:textColor="@color/data_entry_heading"
+        android:textSize="@dimen/data_form_section_header_text"
+        android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edit_last_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/last_name_hint" />
-    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/data_entry_heading_divider" />
+
+    <EditText
+        android:id="@+id/edit_name_on_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name_on_card_hint" />
 
     <EditText
         android:id="@+id/edit_email_address"
@@ -47,26 +66,12 @@
         android:layout_height="wrap_content"
         android:hint="@string/email_address_hint" />
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <EditText
-            android:id="@+id/edit_creditcard_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="15"
-            android:hint="@string/credit_card_hint"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/edit_creditcard_expiration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/credit_card_expiration_hint"
-            android:inputType="date" />
-    </LinearLayout>
+        android:layout_marginLeft="8dp"
+        android:text="@string/email_disclaimer"
+        android:textColor="@color/data_review_grey"
+        android:textSize="12sp" />
 
 </com.expedia.bookings.section.SectionBillingInfo>

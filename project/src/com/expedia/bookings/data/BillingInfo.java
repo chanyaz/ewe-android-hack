@@ -24,6 +24,7 @@ public class BillingInfo implements JSONable {
 
 	private String mFirstName;
 	private String mLastName;
+	private String mNameOnCard;
 	private String mTelephoneCountryCode;
 	private String mTelephoneCountry;
 	private String mTelephone;
@@ -136,6 +137,14 @@ public class BillingInfo implements JSONable {
 	public void setExpirationDate(Calendar expirationDate) {
 		this.mExpirationDate = expirationDate;
 	}
+	
+	public String getNameOnCard(){
+		return mNameOnCard;
+	}
+	
+	public void setNameOnCard(String name){
+		mNameOnCard = name;
+	}
 
 	public void setStoredCard(StoredCreditCard card) {
 		mStoredCard = card;
@@ -215,6 +224,7 @@ public class BillingInfo implements JSONable {
 		// Reset internal fields
 		mFirstName = null;
 		mLastName = null;
+		mNameOnCard = null;
 		mTelephoneCountryCode = null;
 		mTelephone = null;
 		mEmail = null;
@@ -245,6 +255,7 @@ public class BillingInfo implements JSONable {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("lastName", mLastName);
+			obj.putOpt("nameOnCard", mNameOnCard);
 			obj.putOpt("telephoneCountryCode", mTelephoneCountryCode);
 			obj.putOpt("telephoneCountry", mTelephoneCountry);
 			obj.putOpt("telephone", mTelephone);
@@ -271,6 +282,7 @@ public class BillingInfo implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mFirstName = obj.optString("firstName", null);
 		mLastName = obj.optString("lastName", null);
+		mNameOnCard = obj.optString("nameOnCard",null);
 		mTelephoneCountryCode = obj.optString("telephoneCountryCode", null);
 		mTelephoneCountry = obj.optString("telephoneCountry", null);
 		if (mTelephoneCountryCode != null) {
@@ -305,3 +317,4 @@ public class BillingInfo implements JSONable {
 		}
 	}
 }
+

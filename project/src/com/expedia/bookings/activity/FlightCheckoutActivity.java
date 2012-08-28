@@ -89,10 +89,10 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		setContentView(R.layout.activity_flight_checkout);
 
 		mBillingInfo = Db.getBillingInfo();
-		if (!mLoaded) {
-			mBillingInfo.load(this);
-			mLoaded = true;
-		}
+//		if (!mLoaded) {
+//			mBillingInfo.load(this);
+//			mLoaded = true;
+//		}
 
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());

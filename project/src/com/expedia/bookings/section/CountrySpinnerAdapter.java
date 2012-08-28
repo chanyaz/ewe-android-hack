@@ -59,6 +59,15 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 	public String getItemValue(int position, CountryDisplayType displayType) {
 		return mCountries[position].getValue(displayType);
 	}
+	
+	public int getPositionByCountryName(String countryName){
+		for(int i = 0; i < mCountries.length; i++){
+			if(mCountries[i].mName.compareToIgnoreCase(countryName) == 0){
+				return i;
+			}
+		}
+		return -1;
+	}
 
 	private class CountryNameData {
 		String mName;

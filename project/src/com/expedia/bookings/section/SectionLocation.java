@@ -6,6 +6,7 @@ import java.util.List;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
@@ -316,6 +317,25 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				public void afterTextChanged(Editable s) {
 					if (hasBoundData()) {
 						getData().setCity(s.toString());
+						
+						//Autofill state and country if major US city is chosen
+						String key = s.toString().toLowerCase();
+						if (BookingInfoUtils.COMMON_US_CITIES.containsKey(key)) {
+							//Set the state
+							if(mEditAddressState.hasBoundField()){
+								mEditAddressState.getField().setText(BookingInfoUtils.COMMON_US_CITIES.get(key));
+							}
+							
+							//Set the country to us
+							if(mEditCountrySpinner.hasBoundField()){
+								CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.getField().getAdapter();
+								int pos = countryAdapter.getPositionByCountryName(mContext.getString(R.string.country_us));
+								if(pos >= 0){
+									mEditCountrySpinner.getField().setSelection(pos);
+								}
+							}
+						}
+						
 					}
 					onChange(SectionLocation.this);
 				}

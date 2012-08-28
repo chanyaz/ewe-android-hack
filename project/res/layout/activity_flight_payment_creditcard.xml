@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
-    
-    <include
-        android:id="@+id/creditcard_section"
-        layout="@layout/section_edit_creditcard" />
+    android:layout_height="match_parent"
+    android:background="@color/flight_checkout_opaque_white"
+    android:fillViewport="true"
+    android:padding="10dp" >
 
-    <Button
-        android:id="@+id/done"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_done"
-        android:enabled="false" />
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <include
+            android:id="@+id/creditcard_section"
+            layout="@layout/section_edit_creditcard" />
+    </LinearLayout>
+
+</ScrollView>

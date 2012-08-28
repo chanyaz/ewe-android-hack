@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -8,12 +9,14 @@
         android:id="@+id/edit_address_line_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:hint="@string/address_line_one_hint" />
 
     <EditText
         android:id="@+id/edit_address_line_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:hint="@string/address_line_two_hint" />
 
     <LinearLayout
@@ -21,31 +24,45 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/edit_address_city"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:hint="@string/address_city_hint" />
+            android:layout_weight="3"
+            android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/edit_address_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/address_state_hint" />
+            <EditText
+                android:id="@+id/edit_address_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/address_city_hint" />
 
-        <EditText
-            android:id="@+id/edit_address_postal_code"
-            android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/edit_country_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                gridlayout:layout_columnSpan="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="@string/address_postal_code_hint" />
-    </LinearLayout>
+            android:orientation="vertical" >
 
-    <Spinner
-        android:id="@+id/edit_country_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/edit_address_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/address_state_hint" />
+
+            <EditText
+                android:id="@+id/edit_address_postal_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address_postal_code_hint" />
+        </LinearLayout>
+    </LinearLayout>
 
 </com.expedia.bookings.section.SectionLocation>

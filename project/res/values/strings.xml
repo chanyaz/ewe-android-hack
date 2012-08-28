@@ -222,10 +222,18 @@
     <string name="first_name_hint">First Name</string>
     <!-- last name hint -->
     <string name="last_name_hint">Last Name</string>
+    <!-- name on card hint -->
+    <string name="name_on_card_hint">Name On Card</string>
     <!-- email hint -->
     <string name="email_address_hint">Email Address</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Phone Number</string>
+    <!--  Cardholder -->
+    <string name="cardholder">Cardholder</string>
+    <!-- email disclaimer -->
+    <string name="email_disclaimer">Your confirmation email will be sent here</string>
+    <!-- Expires on colored template-->
+    <string name="expires_colored_TEMPLATE">&lt;font color="#919191">Expires&lt;/font> %1$s</string>
 
     <!-- Section display payment -->
     <!-- Enter payment info button text -->
@@ -246,6 +254,8 @@
     <string name="credit_card_hint">Credit Card number</string>
     <!-- Expiration date hit -->
     <string name="credit_card_expiration_hint">MM/YY</string>
+    <!-- Expiration date label -->
+    <string name="expiration_date">Expiration Date</string>
     <!-- Security code label -->
     <string name="security_code">Security Code</string>
     <!-- Security code hint -->
