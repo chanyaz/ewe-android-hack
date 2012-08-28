@@ -71,6 +71,16 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayPhoneNumber);
 		mFields.add(this.mDisplayCreditCardBrandName);
 		mFields.add(this.mDisplayAddress);
+		
+		//Validation indicator fields
+		mFields.add(mValidCCNum);
+		mFields.add(mValidSecCode);
+		mFields.add(mValidNameOnCard);
+		mFields.add(mValidFirstName);
+		mFields.add(mValidLastName);
+		mFields.add(mValidPhoneNumber);
+		mFields.add(mValidEmail);
+		mFields.add(mValidExpiration);
 
 		//Edit fields
 		mFields.add(this.mEditCreditCardNumber);
@@ -116,13 +126,13 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	}
 
 	public boolean hasValidInput() {
+		SectionFieldEditable<?, BillingInfo> editable;
 		boolean valid = true;
 		for (SectionField<?, BillingInfo> field : mFields) {
 			if (field instanceof SectionFieldEditable) {
-				SectionFieldEditable<?, BillingInfo> editable = (SectionFieldEditable<?, BillingInfo>) field;
-				if (field.hasBoundData()) {
-					valid = valid && editable.isValid();
-				}
+				editable = (SectionFieldEditable<?, BillingInfo>) field;
+				boolean newIsValid = editable.isValid();
+				valid = (valid && newIsValid);
 			}
 		}
 		return valid;
@@ -296,6 +306,26 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	//////////////////////////////////////
+	////// VALIDATION INDICATOR FIELDS
+	//////////////////////////////////////
+	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+			R.id.edit_creditcard_number);
+	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidSecCode = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+			R.id.edit_creditcard_security_code);
+	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+			R.id.edit_name_on_card);
+	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+			R.id.edit_first_name);
+	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidLastName = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+			R.id.edit_last_name);
+	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+			R.id.edit_phone_number);
+	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidEmail = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+			R.id.edit_email_address);
+	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidExpiration = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+			R.id.edit_creditcard_exp_text_btn);
+
+	//////////////////////////////////////
 	////// EDIT FIELDS
 	//////////////////////////////////////
 
@@ -360,8 +390,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			retArr.add(mValidCCNum);
+			return retArr;
 		}
 	};
 
@@ -398,8 +429,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			retArr.add(mValidSecCode);
+			return retArr;
 		}
 	};
 
@@ -433,8 +465,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			retArr.add(mValidFirstName);
+			return retArr;
 		}
 	};
 
@@ -468,8 +501,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			retArr.add(mValidLastName);
+			return retArr;
 		}
 	};
 
@@ -501,8 +535,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			retArr.add(mValidNameOnCard);
+			return retArr;
 		}
 	};
 
@@ -531,13 +566,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+			return CommonSectionValidators.EMAIL_VALIDATOR_ET;
 		}
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			retArr.add(mValidEmail);
+			return retArr;
 		}
 	};
 
@@ -571,8 +607,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			retArr.add(mValidPhoneNumber);
+			return retArr;
 		}
 	};
 
@@ -583,7 +620,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		public void setChangeListener(TextView field) {
 
 			field.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -626,7 +663,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							}
 						});
 						yearPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-						
+
 						builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
@@ -642,37 +679,41 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					}
 					else {
 						//Older versions of android
-						
+
 						LayoutInflater inflater = (LayoutInflater) mContext
 								.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 						exprPickerView = inflater.inflate(R.layout.widget_compat_expiration_date_picker, null);
-						final com.mobiata.android.widget.NumberPicker monthPicker = Ui.findView(exprPickerView, R.id.month_picker);
-						final com.mobiata.android.widget.NumberPicker yearPicker = Ui.findView(exprPickerView, R.id.year_picker);
+						final com.mobiata.android.widget.NumberPicker monthPicker = Ui.findView(exprPickerView,
+								R.id.month_picker);
+						final com.mobiata.android.widget.NumberPicker yearPicker = Ui.findView(exprPickerView,
+								R.id.year_picker);
 
 						Calendar now = Calendar.getInstance();
 
 						//Set up month picker
 						monthPicker.setRange(1, 12);
-						monthPicker.setCurrent(hasBoundData() && getData().getExpirationDate() != null ? getData().getExpirationDate().get(Calendar.MONTH) + 1 : now.get(Calendar.MONTH) + 1);
-						monthPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter(){
+						monthPicker.setCurrent(hasBoundData() && getData().getExpirationDate() != null ? getData()
+								.getExpirationDate().get(Calendar.MONTH) + 1 : now.get(Calendar.MONTH) + 1);
+						monthPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter() {
 							@Override
 							public String toString(int value) {
 								return String.format("%02d", value);
 							}
-							
+
 						});
 
 						//Set up year picker
 						yearPicker.setRange(now.get(Calendar.YEAR), now.get(Calendar.YEAR) + 25);
-						yearPicker.setCurrent(hasBoundData() && getData().getExpirationDate() != null ? getData().getExpirationDate().get(Calendar.YEAR) : now.get(Calendar.YEAR));
-						yearPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter(){
+						yearPicker.setCurrent(hasBoundData() && getData().getExpirationDate() != null ? getData()
+								.getExpirationDate().get(Calendar.YEAR) : now.get(Calendar.YEAR));
+						yearPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter() {
 							@Override
 							public String toString(int value) {
 								return "" + value;
 							}
-							
+
 						});
-						
+
 						builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
@@ -704,7 +745,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			retArr.add(mValidExpiration);
+			return retArr;
 		}
 
 		@Override

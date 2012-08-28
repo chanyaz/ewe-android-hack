@@ -15,13 +15,10 @@ import com.expedia.bookings.section.SectionLocation;
  *
  */
 public class PaymentFlowState {
-	private static PaymentFlowState mInstance;
-
 	Context mContext;
 
 	SectionLocation mBillingAddress;
 	SectionBillingInfo mCardInfo;
-	SectionBillingInfo mCardSecurityCode;
 
 	private PaymentFlowState(Context context) {
 		mContext = context;
@@ -29,15 +26,10 @@ public class PaymentFlowState {
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBillingAddress = (SectionLocation) inflater.inflate(R.layout.section_edit_address, null);
 		mCardInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard, null);
-		mCardSecurityCode = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard_security_code, null);
 	}
 
 	public static PaymentFlowState getInstance(Context context) {
-		if (mInstance == null) {
-			mInstance = new PaymentFlowState(context);
-		}
-
-		return mInstance;
+		return new PaymentFlowState(context);
 	}
 
 	private void bind(BillingInfo billingInfo) {
@@ -46,7 +38,6 @@ public class PaymentFlowState {
 		}
 		mBillingAddress.bind(billingInfo.getLocation());
 		mCardInfo.bind(billingInfo);
-		mCardSecurityCode.bind(billingInfo);
 	}
 
 	public boolean hasValidBillingAddress(BillingInfo billingInfo) {
@@ -59,15 +50,11 @@ public class PaymentFlowState {
 		return mCardInfo.hasValidInput();
 	}
 
-	public boolean hasValidSecurityCode(BillingInfo billingInfo) {
-		bind(billingInfo);
-		return mCardSecurityCode.hasValidInput();
-	}
 
 	public boolean allBillingInfoIsValid(BillingInfo billingInfo) {
 		bind(billingInfo);
 		return mBillingAddress.hasValidInput()
-				&& mCardInfo.hasValidInput() && mCardSecurityCode.hasValidInput();
+				&& mCardInfo.hasValidInput();
 	}
 
 }

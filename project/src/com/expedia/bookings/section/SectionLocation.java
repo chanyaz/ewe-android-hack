@@ -57,6 +57,13 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		mFields.add(this.mDisplayAddressCountry);
 		mFields.add(this.mDisplayAddressBothLines);
 		mFields.add(this.mDisplayCityStateZipOneLine);
+		
+		//Validation Indicators
+		mFields.add(mValidAddrLineOne);
+		mFields.add(mValidAddrLineTwo);
+		mFields.add(mValidCity);
+		mFields.add(mValidState);
+		mFields.add(mValidPostalCode);
 
 		//Edit fields
 		mFields.add(this.mEditAddressLineOne);
@@ -126,7 +133,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	//////////////////////////////////////
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
-	
+
 	SectionField<TextView, Location> mDisplayAddressLineOne = new SectionField<TextView, Location>(
 			R.id.display_address_line_one) {
 		@Override
@@ -137,18 +144,21 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			}
 		}
 	};
-	
+
 	SectionField<TextView, Location> mDisplayAddressBothLines = new SectionField<TextView, Location>(
 			R.id.display_address_single_line) {
 		@Override
 		public void onHasFieldAndData(TextView field, Location data) {
 			List<String> address = data.getStreetAddress();
-			
+
 			if (address != null) {
-				if(address.size() == 1){
+				if (address.size() == 1) {
 					field.setText((address.get(0) != null) ? address.get(0) : "");
-				}else{
-					String addrStr = String.format(mContext.getResources().getString(R.string.single_line_street_address_TEMPLATE), address.get(0), address.get(1));
+				}
+				else {
+					String addrStr = String.format(
+							mContext.getResources().getString(R.string.single_line_street_address_TEMPLATE),
+							address.get(0), address.get(1));
 					field.setText(addrStr);
 				}
 			}
@@ -161,11 +171,13 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		public void onHasFieldAndData(TextView field, Location data) {
 			Resources res = mContext.getResources();
 			String formatStr = res.getString(R.string.single_line_city_state_zip_TEMPLATE);
-			String retStr = String.format(formatStr, data.getCity() == null ?"":data.getCity(), data.getStateCode() == null ? "" : data.getStateCode(), data.getPostalCode() == null ? "" : data.getPostalCode());
+			String retStr = String.format(formatStr, data.getCity() == null ? "" : data.getCity(),
+					data.getStateCode() == null ? "" : data.getStateCode(),
+					data.getPostalCode() == null ? "" : data.getPostalCode());
 			field.setText(retStr);
 		}
 	};
-	
+
 	SectionField<TextView, Location> mDisplayAddressCity = new SectionField<TextView, Location>(
 			R.id.display_address_city) {
 		@Override
@@ -189,7 +201,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			field.setText((data.getPostalCode() != null) ? data.getPostalCode() : "");
 		}
 	};
-	
+
 	SectionField<TextView, Location> mDisplayAddressCountry = new SectionField<TextView, Location>(
 			R.id.display_address_country) {
 		@Override
@@ -197,6 +209,20 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			field.setText((data.getCountryCode() != null) ? data.getCountryCode() : "");
 		}
 	};
+
+	//////////////////////////////////////
+	////// VALIDATION INDICATOR FIELDS
+	//////////////////////////////////////
+	ValidationIndicatorTextColorExclaimation<Location> mValidAddrLineOne = new ValidationIndicatorTextColorExclaimation<Location>(
+			R.id.edit_address_line_one);
+	ValidationIndicatorTextColorExclaimation<Location> mValidAddrLineTwo = new ValidationIndicatorTextColorExclaimation<Location>(
+			R.id.edit_address_line_two);
+	ValidationIndicatorTextColorExclaimation<Location> mValidCity = new ValidationIndicatorTextColorExclaimation<Location>(
+			R.id.edit_address_city);
+	ValidationIndicatorTextColorExclaimation<Location> mValidState = new ValidationIndicatorTextColorExclaimation<Location>(
+			R.id.edit_address_state);
+	ValidationIndicatorTextColorExclaimation<Location> mValidPostalCode = new ValidationIndicatorTextColorExclaimation<Location>(
+			R.id.edit_address_postal_code);
 
 	//////////////////////////////////////
 	////// EDIT FIELDS
@@ -246,8 +272,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			retArr.add(mValidAddrLineOne);
+			return retArr;
 		}
 	};
 
@@ -298,8 +325,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			retArr.add(mValidAddrLineTwo);
+			return retArr;
 		}
 	};
 
@@ -317,25 +345,27 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				public void afterTextChanged(Editable s) {
 					if (hasBoundData()) {
 						getData().setCity(s.toString());
-						
+
 						//Autofill state and country if major US city is chosen
 						String key = s.toString().toLowerCase();
 						if (BookingInfoUtils.COMMON_US_CITIES.containsKey(key)) {
 							//Set the state
-							if(mEditAddressState.hasBoundField()){
+							if (mEditAddressState.hasBoundField()) {
 								mEditAddressState.getField().setText(BookingInfoUtils.COMMON_US_CITIES.get(key));
 							}
-							
+
 							//Set the country to us
-							if(mEditCountrySpinner.hasBoundField()){
-								CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.getField().getAdapter();
-								int pos = countryAdapter.getPositionByCountryName(mContext.getString(R.string.country_us));
-								if(pos >= 0){
+							if (mEditCountrySpinner.hasBoundField()) {
+								CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner
+										.getField().getAdapter();
+								int pos = countryAdapter.getPositionByCountryName(mContext
+										.getString(R.string.country_us));
+								if (pos >= 0) {
 									mEditCountrySpinner.getField().setSelection(pos);
 								}
 							}
 						}
-						
+
 					}
 					onChange(SectionLocation.this);
 				}
@@ -349,8 +379,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			retArr.add(mValidCity);
+			return retArr;
 		}
 	};
 
@@ -381,8 +412,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			retArr.add(mValidState);
+			return retArr;
 		}
 	};
 
@@ -413,8 +445,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			// TODO Auto-generated method stub
-			return null;
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			retArr.add(mValidPostalCode);
+			return retArr;
 		}
 	};
 
