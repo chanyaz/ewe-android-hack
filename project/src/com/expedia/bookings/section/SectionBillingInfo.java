@@ -661,7 +661,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							}
 							
 						});
-						//monthPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
 						//Set up year picker
 						yearPicker.setRange(now.get(Calendar.YEAR), now.get(Calendar.YEAR) + 25);
@@ -673,7 +672,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							}
 							
 						});
-						//yearPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 						
 						builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
 							@Override

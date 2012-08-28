@@ -18,6 +18,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="0"
         android:text="/"
+        android:textColor="@android:color/white"
         android:textSize="64sp" />
 
     <com.mobiata.android.widget.NumberPicker

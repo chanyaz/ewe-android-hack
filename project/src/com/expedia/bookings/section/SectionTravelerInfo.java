@@ -23,10 +23,6 @@ import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.Html;
@@ -95,7 +91,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		mFields.add(mValidMiddleName);
 		mFields.add(mValidLastName);
 		mFields.add(mValidPhoneNumber);
-		mFields.add(mValidGender);
 		mFields.add(mValidDateOfBirth);
 		mFields.add(mValidRedressNumber);
 
@@ -181,68 +176,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
 
-	class ValidationIndicatorColorView<Data extends Object> extends SectionFieldValidIndicator<View, Data> {
-		public ValidationIndicatorColorView(int fieldId) {
-			super(fieldId);
-		}
-
-		@Override
-		protected void onPostValidate(View field, boolean isValid) {
-			if (isValid) {
-				field.setBackgroundColor(Color.GREEN);
-			}
-			else {
-				field.setBackgroundColor(Color.RED);
-			}
-		}
-	}
-
-	class ValidationIndicatorTextColorExclaimation<Data extends Object> extends
-			SectionFieldValidIndicator<TextView, Data> {
-		public ValidationIndicatorTextColorExclaimation(int fieldId) {
-			super(fieldId);
-		}
-
-		ColorStateList mValidColor;
-		Color mInvalidTextColor;
-		Boolean mWasValid = true;
-
-		@Override
-		protected void onPostValidate(TextView field, boolean isValid) {
-			if (!isValid && mWasValid) {
-				//Not valid, but it was the last time we validated
-				mValidColor = field.getTextColors();
-				field.setTextColor(Color.RED);
-				Drawable errorIcon = getResources().getDrawable(R.drawable.ic_error);
-				errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
-				field.setError(null, errorIcon);
-				mWasValid = false;
-			}
-			else if (isValid && !mWasValid) {
-				//Freshly valid
-				field.setTextColor(mValidColor);
-				field.setError(null, null);
-				mWasValid = true;
-			}
-		}
-	}
-
-	class ValidationIndicatorViewVisible<Data extends Object> extends SectionFieldValidIndicator<View, Data> {
-		public ValidationIndicatorViewVisible(int fieldId) {
-			super(fieldId);
-		}
-
-		@Override
-		protected void onPostValidate(View field, boolean isValid) {
-			if (!isValid) {
-				field.setVisibility(View.VISIBLE);
-			}
-			else {
-				field.setVisibility(View.GONE);
-			}
-		}
-	}
-
 	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidFirstName = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
 			R.id.edit_first_name);
 
@@ -252,8 +185,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 			R.id.edit_last_name);
 	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidPhoneNumber = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
 			R.id.edit_phone_number);
-	ValidationIndicatorColorView<FlightPassenger> mValidGender = new ValidationIndicatorColorView<FlightPassenger>(
-			R.id.valid_gender);
 	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidDateOfBirth = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
 			R.id.edit_birth_date_text_btn);
 	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidRedressNumber = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
@@ -883,9 +814,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
-			retArr.add(mValidGender);
-			return retArr;
+			return null;
 		}
 	};
 
