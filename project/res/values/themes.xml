@@ -15,7 +15,8 @@
 	<style name="Theme.Tablet" parent="@android:style/Theme.Holo.Light">
 		<item name="android:actionMenuTextColor">#505966</item>
 		<item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
-
+        <item name="android:actionBarStyle">@style/Light.ActionBar</item>
+		
 		<!-- NumberPicker styles -->
 		<item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
 		<item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton
@@ -55,6 +56,18 @@
 		<item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
 	</style>
 
+    <style name="Theme.Phone" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/Dark.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Dark.ActionBar</item>
+        <item name="android:actionDropDownStyle">@style/Dark.DropDown</item>
+        <item name="android:dropDownListViewStyle">@style/Dark.DropDownListView</item>
+        <item name="android:actionMenuTextColor">@color/actionbar_text</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabView</item>
+        <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
+        <item name="android:actionBarTabTextStyle">@style/ActionBarTabText</item>
+        <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
+    </style>
+    
     <!-- Temporary theme for flights -->
     <style name="FlightTheme" parent="@style/Theme.Sherlock.Light">
         <item name="airPickerBackground">@android:color/white</item>

@@ -2,16 +2,23 @@ package com.expedia.bookings.activity;
 
 import java.util.Calendar;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
@@ -28,7 +35,6 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFra
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
-import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -38,7 +44,7 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.omniture.AppMeasurement;
 
-public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelMiniMapFragmentListener,
+public class HotelDetailsFragmentActivity extends SherlockFragmentActivity implements HotelMiniMapFragmentListener,
 		HotelMiniGalleryFragmentListener {
 
 	// Tags for this activity's fragments
@@ -150,12 +156,49 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		setupHotelActivity(null);
 	}
 
+	@TargetApi(11)
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
+
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+
+		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars, null);
+
+		Property property = Db.getSelectedProperty();
+		String title = property.getName();
+		((TextView) titleView.findViewById(R.id.title)).setText(title);
+
+		float rating = (float) property.getHotelRating();
+		((RatingBar) titleView.findViewById(R.id.rating)).setRating(rating);
+
+		actionBar.setCustomView(titleView);
+
+		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
+		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_select_hotel, null);
+		tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onOptionsItemSelected(select);
+			}
+		});
+		select.setActionView(tv);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// app icon in action bar clicked; go back
 			finish();
+			return true;
+		case R.id.menu_select_hotel:
+			startRoomRatesActivity();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -189,13 +232,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 		setContentView(R.layout.hotel_details_main);
 
-		// Fill in header views
-		OnClickListener onBookNowClick = new OnClickListener() {
-			public void onClick(View v) {
-				startRoomRatesActivity();
-			}
-		};
-
 		if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
 			Db.setSelectedProperty((Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class));
 		}
@@ -206,8 +242,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			finish();
 			return;
 		}
-
-		LayoutUtils.configureHeader(this, property, onBookNowClick);
 
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction ft = manager.beginTransaction();
@@ -329,6 +363,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	public void onMiniMapClicked() {
 		Intent intent = new Intent(this, HotelMapActivity.class);
 		startActivity(intent);
+		overridePendingTransition(R.anim.fade_in, R.anim.explode);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

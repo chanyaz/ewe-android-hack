@@ -18,6 +18,7 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
+        android:logo="@drawable/ic_logo"
         android:theme="@style/Theme" >
         <meta-data
             android:name="AA_DB_VERSION"
@@ -68,10 +69,8 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activity.HotelDetailsFragmentActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.HotelActivity"
-            android:launchMode="singleTask" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.HotelMapActivity" />
         <activity android:name=".activity.UserReviewsListActivity" />
         <activity

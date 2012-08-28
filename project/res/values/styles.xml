@@ -353,13 +353,70 @@
         <item name="android:windowTitleStyle">@style/ExpediaLoginDialogTitle</item>
     </style>
 
+    <style name="Light.ActionBar" parent="@android:style/Widget.ActionBar">
+        <item name="android:background">@drawable/bg_action_bar_light</item>
+    </style>
+    
+    <style name="Dark.ActionBar" parent="Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/bg_action_bar</item>
+        <item name="android:background">@drawable/bg_action_bar</item>
+        <item name="backgroundSplit">@drawable/bg_action_bar_bottom</item>
+        <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom</item>
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:titleTextStyle">@style/TextAppearance.Dark.ActionBar.Title</item>
+    </style>
+    
+    <style name="ActionBarTabBar" parent="android:style/Widget">
+ 	    <item name="android:background">@color/actionbar_bg</item>
+        <item name="android:divider">?android:attr/dividerVertical</item>
+        <item name="android:showDividers">middle</item>
+        <item name="android:dividerPadding">12dp</item>
+    </style>
+ 	
+ 	<style name="ActionBarTabView" parent="android:style/Widget">
+		<item name="android:gravity">center_horizontal</item>
+	    <item name="android:background">@drawable/tab_indicator</item>
+	    <item name="android:paddingLeft">8dp</item>
+	    <item name="android:paddingRight">8dp</item>
+	</style>
+    
+    <style name="ActionBarTabText" parent="android:style/TextAppearance">
+        <item name="android:textColor">@color/tab_text</item>
+        <item name="android:textSize">12dp</item>
+    	<item name="android:textAllCaps">true</item>
+    	<item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Dark.ActionBar.Title" parent="android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
     <style name="ExpediaLoginDialogTitle" parent="@android:style/TextAppearance.DialogWindowTitle">
         <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="TextAppearance.Dark.ActionBar.Title.Small" parent="android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="TextAppearance.Dark.ActionBar.SearchText" parent="android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textSize">18dp</item>
     </style>
 
     <style name="TextAppearance.Header" parent="android:style/TextAppearance">
         <item name="android:textColor">@color/header_text</item>
         <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="Dark.DropDown" parent="android:style/Widget.Holo.Spinner">
+        <item name="android:dropDownSelector">@drawable/bg_actionbar_button</item>
+    </style>
+
+    <style name="Dark.DropDownListView" parent="android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/bg_actionbar_button</item>
     </style>
 
     <!-- Expedia Flights styles -->

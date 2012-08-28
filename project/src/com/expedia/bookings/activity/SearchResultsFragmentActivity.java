@@ -233,7 +233,6 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 
 		mSearchView = new CustomSearchView(this);
 		actionBar.setCustomView(mSearchView);

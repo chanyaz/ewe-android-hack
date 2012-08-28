@@ -101,7 +101,6 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 	}
 
 	@Override

@@ -1162,7 +1162,9 @@
     <string name="Settings">Settings</string>
     <!-- Label for "about this app" menu item. -->
     <string name="About">About</string>
-
+    <!-- Label for "select hotel" on hotel details screen -->
+    <string name="SELECT">SELECT</string>
+    
     <!-- Preferences strings -->
     <!-- String for default preference setting (for any given preference) -->
     <string name="Default">Default</string>

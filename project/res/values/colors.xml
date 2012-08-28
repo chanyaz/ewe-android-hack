@@ -76,6 +76,12 @@
 
     <color name="bottom_bar_background">#c000</color>
     
+	<color name="actionbar_button_background_pressed">#60000000</color>
+	<color name="actionbar_text_blue">#8da6eb</color>
+
+	<color name="tab_text">#d7d9dc</color>
+	<color name="actionbar_bg">#232b33</color>
+
     <color name="row_background">#ececec</color>
     <color name="header_background">#ccc</color>
     <color name="header_text">#777</color>
