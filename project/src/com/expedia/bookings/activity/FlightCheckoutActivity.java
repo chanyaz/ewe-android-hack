@@ -21,7 +21,9 @@ import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.TravelerInfoResponse;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.UserDataTransfer;
 import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.model.PaymentFlowState;
@@ -47,6 +49,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
+	private static final String KEY_TRAVELER_DATA = "KEY_TRAVELER_DATA";
 
 	//We only want to load from disk once: when the activity is first started (as it is the first time BillingInfo is seen)
 	private static boolean mLoaded = false;
@@ -89,10 +92,10 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		setContentView(R.layout.activity_flight_checkout);
 
 		mBillingInfo = Db.getBillingInfo();
-//		if (!mLoaded) {
-//			mBillingInfo.load(this);
-//			mLoaded = true;
-//		}
+		//		if (!mLoaded) {
+		//			mBillingInfo.load(this);
+		//			mLoaded = true;
+		//		}
 
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());
@@ -153,12 +156,12 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		String cityName = mTrip.getLeg(0).getLastWaypoint().getAirport().mCity;
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
-	
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setTitle(yourTripToStr);
-		
+
 		//Set values
+		populateDataFromUser();
 		populatePassengerData();
 		buildPassengerSections();
 	}
@@ -325,6 +328,34 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		}
 	}
 
+	private void populateDataFromUser() {
+		if (User.isLoggedIn(this)) {
+			//Populate traveler data
+			if (Db.getFlightPassengers() != null && Db.getFlightPassengers().size() == 1 && !hasValidTravlers()) {
+				Db.getFlightPassengers().set(0, UserDataTransfer.getBestGuessStoredPassenger(Db.getUser()));
+				
+				//TODO:Uncomment this when the traveler api is finished. This may or may not be working correctly.
+//				mGetTravelerInfo.setPassenger(Db.getFlightPassengers().get(0));
+//				BackgroundDownloader bd = BackgroundDownloader.getInstance();
+//				if (!bd.isDownloading(KEY_TRAVELER_DATA)) {
+//					bd.startDownload(KEY_TRAVELER_DATA, mGetTravelerInfo, mGetTravelerCallback);
+//				}
+			}
+
+			//Populate Credit Card
+			boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
+			boolean paymentAddressValid = hasStoredCard ? hasStoredCard : PaymentFlowState.getInstance(this)
+					.hasValidBillingAddress(mBillingInfo);
+			boolean paymentCCValid = hasStoredCard ? hasStoredCard : PaymentFlowState.getInstance(this)
+					.hasValidCardInfo(
+							mBillingInfo);
+			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0
+					&& !(paymentAddressValid && paymentCCValid)) {
+				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
+			}
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// AccountButtonClickListener
 
@@ -344,7 +375,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 		// Update UI
 		mAccountButton.bind(false, false, null);
-		
+
 		//Remove stored card(s)
 		Db.getBillingInfo().setStoredCard(null);
 		bindAll();
@@ -363,9 +394,11 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser());
 		mRefreshedUser = true;
-		
+
 		populatePassengerData();
-		
+
+		populateDataFromUser();
+
 		bindAll();
 		updateViewVisibilities();
 		// TODO: Update rest of UI based on new logged-in data.
@@ -410,6 +443,48 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 				// Act as if a login just occurred
 				onLoginCompleted();
+			}
+		}
+	};
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Update Traveler
+	
+	private class TravelerDownload implements Download<TravelerInfoResponse>{
+		FlightPassenger mPassenger;
+		
+		public void setPassenger(FlightPassenger passenger){
+			mPassenger = passenger;
+		}
+		
+		@Override
+		public TravelerInfoResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(FlightCheckoutActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_TRAVELER_DATA, services);
+			return services.updateTraveler(mPassenger);
+		}
+	}
+	
+	private final TravelerDownload mGetTravelerInfo = new TravelerDownload();
+	private final OnDownloadComplete<TravelerInfoResponse> mGetTravelerCallback = new OnDownloadComplete<TravelerInfoResponse>() {
+		@Override
+		public void onDownload(TravelerInfoResponse results) {
+			if (results == null || results.hasErrors()) {
+				//TODO:If we don't have traveler info do something useful...
+				Ui.showToast(FlightCheckoutActivity.this, "Fail to update passenger");
+			}
+			else {
+				// Update our existing saved data
+				FlightPassenger traveler = results.getTraveler();
+				for(int i = 0; i < Db.getFlightPassengers().size(); i++){
+					if(traveler.getTuid() == (Db.getFlightPassengers().get(i).hasTuid() ? Db.getFlightPassengers().get(i).getTuid() : 0)){
+						Db.getFlightPassengers().set(i, traveler);
+						break;
+					}
+				}
+				bindAll();
+
+				
 			}
 		}
 	};

@@ -21,6 +21,7 @@ public class ServerError implements JSONable {
 		FLIGHT_SEARCH,
 		FLIGHT_DETAILS,
 		FLIGHT_CHECKOUT,
+		PROFILE,
 	}
 
 	public static enum ErrorCode {

@@ -68,6 +68,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.SuggestResponse;
+import com.expedia.bookings.data.TravelerInfoResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
@@ -429,10 +430,20 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
-
+		
 		query.add(new BasicNameValuePair("profileOnly", "true"));
 
 		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+	
+	
+	public TravelerInfoResponse updateTraveler(FlightPassenger passenger) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		query.add(new BasicNameValuePair("tuid", "" + passenger.getTuid()));
+		query.add(new BasicNameValuePair("profileTypes","FLIGHT"));
+
+		return (TravelerInfoResponse) doE3Request("GetMobileTravellerProfile", query, new TravelerResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public void clearCookies() {
