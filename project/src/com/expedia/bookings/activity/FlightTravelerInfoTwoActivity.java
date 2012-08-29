@@ -25,7 +25,7 @@ public class FlightTravelerInfoTwoActivity extends SherlockActivity {
 
 	boolean mAttemptToLeaveMade = false;
 	YoYo mYoYo;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,8 +37,15 @@ public class FlightTravelerInfoTwoActivity extends SherlockActivity {
 			mPassenger = Db.getFlightPassengers().get(mPassengerIndex);
 		}
 
-		
 		mYoYo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
+
+		//We don't need to show redress number field if we aren't passing through the US
+		if (!Db.getFlightSearch().getSelectedFlightTrip().passesThroughCountry("US")) {
+			View redressEntry = Ui.findView(mSectionTravelerInfo, R.id.edit_redress_number);
+			if (redressEntry != null) {
+				redressEntry.setVisibility(View.GONE);
+			}
+		}
 
 		mSectionTravelerInfo.addChangeListener(new SectionChangeListener() {
 			@Override
@@ -49,7 +56,7 @@ public class FlightTravelerInfoTwoActivity extends SherlockActivity {
 				}
 			}
 		});
-	
+
 	}
 
 	@Override
@@ -58,16 +65,17 @@ public class FlightTravelerInfoTwoActivity extends SherlockActivity {
 		mSectionTravelerInfo.bind(mPassenger);
 
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = this.getSupportMenuInflater();
-	    if(mYoYo != null && mYoYo.isLast(this.getClass())){
-	    	inflater.inflate(R.menu.menu_done, menu);
-	    }else{
-	    	inflater.inflate(R.menu.menu_next, menu);
-	    }
-	    menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener(){
+		MenuInflater inflater = this.getSupportMenuInflater();
+		if (mYoYo != null && mYoYo.isLast(this.getClass())) {
+			inflater.inflate(R.menu.menu_done, menu);
+		}
+		else {
+			inflater.inflate(R.menu.menu_next, menu);
+		}
+		menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mAttemptToLeaveMade = true;
@@ -75,9 +83,9 @@ public class FlightTravelerInfoTwoActivity extends SherlockActivity {
 					Intent intent = mYoYo.generateIntent(FlightTravelerInfoTwoActivity.this, getIntent());
 					startActivity(intent);
 				}
-			}		
+			}
 		});
-	    return true;
+		return true;
 	}
-	
+
 }
