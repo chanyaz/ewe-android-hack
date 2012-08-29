@@ -73,17 +73,6 @@ public class LayoutUtils {
 				distanceStrId, df.format(SearchRadius.LARGE.getRadius(distanceUnit))));
 	}
 
-	public static void configureHeader(Activity activity, Property property, OnClickListener onBookNowClick) {
-		TextView name = (TextView) activity.findViewById(R.id.name_text_view);
-		name.setText(property.getName());
-		
-		RatingBar hotelRating = (RatingBar) activity.findViewById(R.id.hotel_rating_bar);
-		hotelRating.setRating((float) property.getHotelRating());
-
-		TextView bookButton = (TextView) activity.findViewById(R.id.book_now_button);
-		bookButton.setOnClickListener(onBookNowClick);
-	}
-
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
 
 	public static void addAmenities(Context context, Property property, ViewGroup amenitiesContainer) {
