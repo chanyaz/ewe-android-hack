@@ -9,13 +9,21 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
+import com.mobiata.android.json.JSONUtils;
 
 public class FlightDetailsFragment extends Fragment {
 
 	public static final String TAG = FlightDetailsFragment.class.getName();
 
+	private static final String ARG_TRIP_LEG = "ARG_TRIP_LEG";
+
 	public static FlightDetailsFragment newInstance(FlightTrip trip, FlightLeg leg) {
-		return new FlightDetailsFragment();
+		FlightDetailsFragment fragment = new FlightDetailsFragment();
+		Bundle args = new Bundle();
+		JSONUtils.putJSONable(args, ARG_TRIP_LEG, new FlightTripLeg(trip, leg));
+		fragment.setArguments(args);
+		return fragment;
 	}
 
 	@Override
@@ -23,4 +31,7 @@ public class FlightDetailsFragment extends Fragment {
 		return inflater.inflate(R.layout.fragment_flight_details, container, false);
 	}
 
+	public FlightTripLeg getFlightTripLeg() {
+		return JSONUtils.getJSONable(getArguments(), ARG_TRIP_LEG, FlightTripLeg.class);
+	}
 }

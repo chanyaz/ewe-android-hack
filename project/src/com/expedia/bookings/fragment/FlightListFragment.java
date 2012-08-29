@@ -175,19 +175,6 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		*/
 	}
 
-	/**
-	 * We want to be able to handle back presses
-	 * @return true if back press was consumed, false otherwise
-	 */
-	public boolean onBackPressed() {
-		if (mLegPosition > 0) {
-			deselectOutboundLeg();
-			return true;
-		}
-
-		return false;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Header control
 
@@ -270,14 +257,14 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		mAdapter.setFlightTripQuery(null);
 	}
 
-	public void deselectOutboundLeg() {
-		Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
-		Db.getFlightSearch().clearQuery(mLegPosition); // #443: Clear cached query
-		mLegPosition--;
+	public void setLegPosition(int legPosition) {
+		mLegPosition = legPosition;
 
 		onLegPositionChanged();
+	}
 
-		displayHeaderLeg();
+	public int getLegPosition() {
+		return mLegPosition;
 	}
 
 	public void onLegPositionChanged() {
@@ -285,12 +272,12 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
 
-		mListener.onSelectionChanged(mLegPosition);
-
 		// Scroll to top after reloading list with new results
 		if (getView() != null) {
 			getListView().setSelection(0);
 		}
+
+		displayHeaderLeg();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -309,7 +296,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	public interface FlightListFragmentListener {
 		public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition);
 
-		public void onSelectionChanged(int newLegPosition);
+		public void onDeselectFlightLeg();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -317,7 +304,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	@Override
 	public void onDeselect() {
-		deselectOutboundLeg();
+		mListener.onDeselectFlightLeg();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

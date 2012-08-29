@@ -1,5 +1,8 @@
 package com.expedia.bookings.activity;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -24,6 +28,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.fragment.FlightDetailsFragment;
@@ -49,7 +54,14 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
+	private static final String INSTANCE_LEG_POSITION = "INSTANCE_LEG_POSITION";
+
+	private static final String BACKSTACK_LOADING = "BACKSTACK_LOADING";
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
+	private static final String BACKSTACK_FLIGHT_DETAILS_PREFIX = "BACKSTACK_FLIGHT_DETAILS";
+	private static final String BACKSTACK_FLIGHT_LIST_PREFIX = "BACKSTACK_FLIGHT_LIST";
+
+	private static final Pattern BACKSTACK_PATTERN = Pattern.compile(".*#(\\d)");
 
 	private Context mContext;
 
@@ -85,12 +97,17 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 		}
 
+		if (savedInstanceState != null) {
+			mLegPosition = savedInstanceState.getInt(INSTANCE_LEG_POSITION);
+		}
+
 		setContentView(R.layout.activity_flight_results);
 
 		// Try to recover any Fragments
 		mStatusFragment = Ui.findSupportFragment(this, StatusFragment.TAG);
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
+		mFlightDetailsFragment = Ui.findSupportFragment(this, FlightDetailsFragment.TAG);
 
 		// Configure the custom action bar view
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -101,6 +118,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mFlightDetailsActionContainer = Ui.findView(customView, R.id.flight_details_action_container);
 		mCancelButton = Ui.findView(customView, R.id.cancel_button);
 		mSelectFlightButton = Ui.findView(customView, R.id.select_button);
+
+		mCancelButton.setOnClickListener(mOnCancelClick);
+		mSelectFlightButton.setOnClickListener(mSelectFlightClick);
 
 		ActionBar actionBar = this.getSupportActionBar();
 		mNavButton = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
@@ -123,6 +143,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putInt(INSTANCE_LEG_POSITION, mLegPosition);
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 
@@ -138,8 +165,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void onBackPressed() {
-		if ((mSearchParamsFragment != null && mSearchParamsFragment.isAdded()) || mListFragment == null
-				|| !mListFragment.onBackPressed()) {
+		String name = getTopBackStackName();
+		if (name == null || name.equals(BACKSTACK_LOADING) || name.equals(getFlightListBackStackName(0))) {
+			finish();
+		}
+		else {
 			super.onBackPressed();
 		}
 	}
@@ -156,13 +186,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		updateTitleBar();
-
-		// Show sort/filter only if we have results and are not showing the search params fragment
-		FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
-		menu.setGroupVisible(R.id.group_results, response != null && !response.hasErrors()
-				&& (mSearchParamsFragment == null || !mSearchParamsFragment.isAdded()));
-
 		// Either show standard action bar options, or just show the custom
 		// flight details action view, depending on whether flight details
 		// are currently visible
@@ -172,6 +195,15 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mNavButton.setDisplayShowHomeEnabled(!areFlightDetailsShowing);
 		for (int a = 0; a < menu.size(); a++) {
 			menu.getItem(a).setVisible(!areFlightDetailsShowing);
+		}
+
+		if (!areFlightDetailsShowing) {
+			updateTitleBar();
+
+			// Show sort/filter only if we have results and are not showing the search params fragment/flight details
+			FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
+			menu.setGroupVisible(R.id.group_results, response != null && !response.hasErrors()
+					&& (mSearchParamsFragment == null || !mSearchParamsFragment.isAdded()));
 		}
 
 		return super.onPrepareOptionsMenu(menu);
@@ -231,14 +263,25 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 
 		// #445: Need to reset the search results before starting a new one
+		mSearchParamsFragment = null;
 		Db.getFlightSearch().setSearchResponse(null);
-		if (mListFragment != null) {
+		if (mListFragment != null && mListFragment.isAdded()) {
 			mListFragment.reset();
 		}
-		onSelectionChanged(0);
+		mLegPosition = 0;
+		Db.kickOffBackgroundSave(this);
 
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.content_container, mStatusFragment, StatusFragment.TAG).commit();
+		FragmentManager fm = getSupportFragmentManager();
+		if (fm.getBackStackEntryCount() == 0) {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.replace(R.id.content_container, mStatusFragment, StatusFragment.TAG);
+			ft.addToBackStack(BACKSTACK_LOADING);
+			ft.commit();
+		}
+		else {
+			fm.popBackStack(BACKSTACK_LOADING, 0);
+		}
+
 		mStatusFragment.showLoading(getString(R.string.loading_flights));
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -285,8 +328,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				}
 
 				mStatusFragment.setCoverEnabled(true);
-				getSupportFragmentManager().beginTransaction()
-						.replace(R.id.content_container, mListFragment, FlightListFragment.TAG).commit();
+				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+				ft.replace(R.id.content_container, mListFragment, FlightListFragment.TAG);
+				ft.addToBackStack(getFlightListBackStackName(0));
+				ft.commit();
 
 				supportInvalidateOptionsMenu();
 			}
@@ -319,30 +364,60 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		Db.getFlightSearch().setSearchParams(mSearchParamsFragment.getSearchParams());
 
 		startSearch();
+	}
 
-		supportInvalidateOptionsMenu();
+	//////////////////////////////////////////////////////////////////////////
+	// Flight list
 
-		// Remove the search params fragment regardless
-		getSupportFragmentManager().popBackStack(BACKSTACK_SEARCH_PARAMS, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-		mSearchParamsFragment = null;
+	private String getFlightListBackStackName(int legPosition) {
+		return BACKSTACK_FLIGHT_LIST_PREFIX + "#" + legPosition;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Flight details
 
-	private static final String FLIGHT_DETAILS_BACKSTACK_NAME_PREFIX = "FlightDetails";
-
 	private boolean areFlightDetailsShowing() {
-		FragmentManager fm = getSupportFragmentManager();
-		int backStackEntryCount = fm.getBackStackEntryCount();
-		return backStackEntryCount > 0
-				&& fm.getBackStackEntryAt(backStackEntryCount - 1).getName()
-						.startsWith(FLIGHT_DETAILS_BACKSTACK_NAME_PREFIX);
+		return getTopBackStackName().startsWith(BACKSTACK_FLIGHT_DETAILS_PREFIX);
 	}
 
 	private String getFlightDetailsBackStackName(int legPosition) {
-		return FLIGHT_DETAILS_BACKSTACK_NAME_PREFIX + "#" + legPosition;
+		return BACKSTACK_FLIGHT_DETAILS_PREFIX + "#" + legPosition;
 	}
+
+	private OnClickListener mOnCancelClick = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			getSupportFragmentManager().popBackStack();
+		}
+	};
+
+	private OnClickListener mSelectFlightClick = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			// Set the selected leg
+			FlightTripLeg ftl = mFlightDetailsFragment.getFlightTripLeg();
+			FlightSearch flightSearch = Db.getFlightSearch();
+			flightSearch.setSelectedLeg(mLegPosition, new FlightTripLeg(ftl.getFlightTrip(), ftl.getFlightLeg()));
+			Db.kickOffBackgroundSave(mContext);
+
+			if (flightSearch.getSelectedFlightTrip() == null) {
+				mLegPosition++;
+
+				mListFragment.setLegPosition(mLegPosition);
+
+				// Remove the flight details fragment
+				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+				ft.remove(mFlightDetailsFragment);
+				ft.addToBackStack(getFlightListBackStackName(mLegPosition));
+				ft.commit();
+			}
+			else {
+				Intent intent = new Intent(mContext, FlightTripOverviewActivity.class);
+				intent.putExtra(FlightTripOverviewActivity.EXTRA_TRIP_KEY, ftl.getFlightTrip().getProductKey());
+				startActivity(intent);
+			}
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Filter dialog
@@ -358,18 +433,15 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.add(R.id.flight_details_container, FlightDetailsFragment.newInstance(trip, leg), FlightDetailsFragment.TAG);
-		ft.addToBackStack(getFlightDetailsBackStackName(legPosition));
+		mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg);
+		ft.add(R.id.flight_details_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
+		ft.addToBackStack(getFlightDetailsBackStackName(mLegPosition));
 		ft.commit();
 	}
 
 	@Override
-	public void onSelectionChanged(int newLegPosition) {
-		mLegPosition = newLegPosition;
-
-		invalidateOptionsMenu();
-
-		Db.kickOffBackgroundSave(this);
+	public void onDeselectFlightLeg() {
+		getSupportFragmentManager().popBackStack(getFlightListBackStackName(0), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -377,6 +449,58 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void onBackStackChanged() {
+		boolean didSave = false;
+
+		String name = getTopBackStackName();
+		Matcher m = BACKSTACK_PATTERN.matcher(name);
+		if (m.matches()) {
+			int legPosition = Integer.parseInt(m.group(1));
+
+			// This indicates that we moved *backwards* to the previous details.  Normally
+			// when we move forward, we make sure to update the leg position at the same time.
+			if (mLegPosition != legPosition) {
+				// Remove selected leg
+				Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
+				Db.getFlightSearch().clearQuery(mLegPosition); // #443: Clear cached query
+				Db.kickOffBackgroundSave(mContext);
+
+				mLegPosition = legPosition;
+				mListFragment.setLegPosition(legPosition);
+				mFlightDetailsFragment = Ui.findSupportFragment(this, FlightDetailsFragment.TAG);
+
+				didSave = true;
+			}
+		}
+
 		supportInvalidateOptionsMenu();
+
+		// Leave debug message
+		Log.d("onBackStackChanged(): legPos=" + mLegPosition + ", saveAndUpdate=" + didSave + ", stack="
+				+ getBackStackDebugString());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Back stack utils
+
+	public String getTopBackStackName() {
+		FragmentManager fm = getSupportFragmentManager();
+		int backStackEntryCount = fm.getBackStackEntryCount();
+		if (backStackEntryCount > 0) {
+			return fm.getBackStackEntryAt(backStackEntryCount - 1).getName();
+		}
+		return null;
+	}
+
+	public String getBackStackDebugString() {
+		FragmentManager fm = getSupportFragmentManager();
+		StringBuilder sb = new StringBuilder();
+		for (int a = 0; a < fm.getBackStackEntryCount(); a++) {
+			if (a != 0) {
+				sb.append(" --> ");
+			}
+
+			sb.append(fm.getBackStackEntryAt(a).getName());
+		}
+		return sb.toString();
 	}
 }
