@@ -63,6 +63,7 @@
                 android:id="@+id/edit_address_postal_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:hint="@string/address_postal_code_hint" />
         </LinearLayout>
     </LinearLayout>

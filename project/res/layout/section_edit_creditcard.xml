@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:singleLine="true"
             android:hint="@string/credit_card_hint"
             android:inputType="number" />
     </LinearLayout>
@@ -58,12 +59,14 @@
         android:id="@+id/edit_name_on_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:hint="@string/name_on_card_hint" />
 
     <EditText
         android:id="@+id/edit_email_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:hint="@string/email_address_hint" />
 
     <TextView
