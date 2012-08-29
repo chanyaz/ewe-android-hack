@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_header"
+        android:background="@color/bg_sub_header"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="6dp" >
@@ -24,7 +24,7 @@
             android:src="@drawable/ic_image_placeholder" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="-2dp"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_sub_header"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -48,11 +48,11 @@
                 android:layout_marginTop="-4dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/text_sub_header" />
 
             <RatingBar
                 android:id="@+id/hotel_rating_bar"
-                style="@style/RatingBarSmall.Shadowed.Star.Dark"
+                style="@style/RatingBar.Star.Gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@android:color/white"
+                android:textColor="@color/text_sub_header"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/text_sub_header" />
         </LinearLayout>
     </LinearLayout>
 

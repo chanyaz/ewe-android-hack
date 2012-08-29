@@ -5,13 +5,15 @@ import java.util.Calendar;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Db;
@@ -34,7 +36,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
-public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
+public class RoomsAndRatesListActivity extends SherlockFragmentActivity implements RoomsAndRatesFragmentListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.booking.details.offer.full";
 
@@ -79,6 +81,11 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		else {
 			thumbnailView.setVisibility(View.GONE);
 		}
+
+		ActionBar ab = getSupportActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
+		ab.setDisplayShowTitleEnabled(true);
+		ab.setTitle(R.string.select_a_room_instruction);
 
 		TextView nameView = (TextView) findViewById(R.id.name_text_view);
 		nameView.setText(property.getName());
@@ -150,6 +157,18 @@ public class RoomsAndRatesListActivity extends FragmentActivity implements Rooms
 		if (bd.isDownloading(DOWNLOAD_KEY)) {
 			mRoomsAndRatesFragment.showProgress();
 			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in action bar clicked; go back
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 

@@ -78,7 +78,9 @@
         <activity
             android:name=".activity.TabletUserReviewsListActivity"
             android:theme="@style/Theme.Light.Fullscreen.Panel" />
-        <activity android:name=".activity.RoomsAndRatesListActivity" />
+        <activity
+            android:name=".activity.RoomsAndRatesListActivity"
+            android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.BookingInfoActivity" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.TabletAboutActivity" />
