@@ -18,8 +18,8 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.mobiata.android.widget.VintageCalendarDatePicker;
-import com.mobiata.android.widget.VintageCalendarDatePicker.OnDateChangedListener;
+import com.mobiata.android.widget.CalendarDatePicker;
+import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
 public class CalendarDialogFragment extends DialogFragment {
 
@@ -30,7 +30,7 @@ public class CalendarDialogFragment extends DialogFragment {
 	private static final String KEY_END_MONTH = "endMonth";
 	private static final String KEY_END_DAY_OF_MONTH = "endDayOfMonth";
 
-	private VintageCalendarDatePicker mCalendarDatePicker;
+	private CalendarDatePicker mCalendarDatePicker;
 
 	private CalendarDialogFragmentListener mListener;
 
@@ -95,7 +95,7 @@ public class CalendarDialogFragment extends DialogFragment {
 	private View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_dialog_calendar, container, false);
 
-		mCalendarDatePicker = (VintageCalendarDatePicker) view.findViewById(R.id.dates_date_picker);
+		mCalendarDatePicker = (CalendarDatePicker) view.findViewById(R.id.dates_date_picker);
 
 		// If we're showing it as a dialog, we want to limit the height (this is done in the layout
 		// itself).  Otherwise, we will just fill the parent.
@@ -104,7 +104,7 @@ public class CalendarDialogFragment extends DialogFragment {
 		}
 
 		// Initial calendar date picker variables
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, VintageCalendarDatePicker.SelectionMode.RANGE);
+		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
 		// Set initial dates
 		Bundle dateInfo = (savedInstanceState != null && savedInstanceState.containsKey(KEY_START_YEAR)) ? savedInstanceState
@@ -119,14 +119,14 @@ public class CalendarDialogFragment extends DialogFragment {
 		// we send updates whenever the date selection changes.
 		if (getShowsDialog()) {
 			mCalendarDatePicker.setOnDateChangedListener(new OnDateChangedListener() {
-				public void onDateChanged(VintageCalendarDatePicker view, int year, int yearMonth, int monthDay) {
+				public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 					updateTitle();
 				}
 			});
 		}
 		else {
 			mCalendarDatePicker.setOnDateChangedListener(new OnDateChangedListener() {
-				public void onDateChanged(VintageCalendarDatePicker view, int year, int yearMonth, int monthDay) {
+				public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 					notifyDateChangedListener();
 				}
 			});

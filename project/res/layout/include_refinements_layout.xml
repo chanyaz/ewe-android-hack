@@ -17,7 +17,7 @@
         android:orientation="horizontal"
         android:visibility="gone" >
 
-        <com.mobiata.android.widget.VintageCalendarDatePicker
+        <com.mobiata.android.widget.CalendarDatePicker
             android:id="@+id/dates_date_picker"
             android:layout_width="fill_parent"
             android:layout_height="300dp"

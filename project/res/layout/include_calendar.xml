@@ -8,7 +8,7 @@
     android:layout_weight="1"
     android:background="@drawable/bg_calendar" >
 
-    <com.mobiata.android.widget.VintageCalendarDatePicker
+    <com.mobiata.android.widget.CalendarDatePicker
         android:id="@+id/dates_date_picker"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

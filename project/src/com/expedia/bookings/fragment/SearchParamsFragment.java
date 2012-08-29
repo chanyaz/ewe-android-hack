@@ -65,7 +65,7 @@ import com.expedia.bookings.widget.NumberPicker;
 import com.expedia.bookings.widget.NumberPicker.OnValueChangeListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
-import com.mobiata.android.widget.VintageCalendarDatePicker;
+import com.mobiata.android.widget.CalendarDatePicker;
 
 @TargetApi(11)
 public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cursor> {
@@ -82,7 +82,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 	private EditText mLocationEditText;
 	private List<SuggestionRow> mSuggestionRows;
-	private VintageCalendarDatePicker mCalendarDatePicker;
+	private CalendarDatePicker mCalendarDatePicker;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
 	private TextView mSuggestionErrorTextView;
@@ -140,7 +140,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		setHtmlTextView(view, R.id.who_text_view, R.string.who_is_going);
 
 		mLocationEditText = (EditText) view.findViewById(R.id.location_edit_text);
-		mCalendarDatePicker = (VintageCalendarDatePicker) view.findViewById(R.id.dates_date_picker);
+		mCalendarDatePicker = (CalendarDatePicker) view.findViewById(R.id.dates_date_picker);
 		mAdultsNumberPicker = (NumberPicker) view.findViewById(R.id.adults_number_picker);
 		mChildrenNumberPicker = (NumberPicker) view.findViewById(R.id.children_number_picker);
 		mSuggestionErrorTextView = (TextView) view.findViewById(R.id.suggestion_error_text_view);
@@ -232,7 +232,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		startAutocomplete(Db.getSearchParams().getQuery());
 
 		// Configure the calendar
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, VintageCalendarDatePicker.SelectionMode.RANGE);
+		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 		mCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		// Configure the number pickers
@@ -374,8 +374,8 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		tv.setText(Html.fromHtml(getString(strId)));
 	}
 
-	private final VintageCalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new VintageCalendarDatePicker.OnDateChangedListener() {
-		public void onDateChanged(VintageCalendarDatePicker view, int year, int yearMonth, int monthDay) {
+	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
+		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 			Calendar startCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
 			Calendar endCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.mobiata.android.widget.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -133,10 +134,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.mobiata.android.widget.VintageCalendarDatePicker;
-import com.mobiata.android.widget.NumberPicker;
-import com.mobiata.android.widget.Panel;
-import com.mobiata.android.widget.SegmentedControlGroup;
 
 public class PhoneSearchActivity extends FragmentMapActivity implements LocationListener, OnDrawStartedListener,
 		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
@@ -207,7 +204,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	//----------------------------------
 
 	private View mSearchButton;
-	private VintageCalendarDatePicker mDatesCalendarDatePicker;
+	private CalendarDatePicker mDatesCalendarDatePicker;
 	private EditText mFilterHotelNameEditText;
 	private EditText mSearchEditText;
 	private FrameLayout mContent;
@@ -625,7 +622,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 		mProgressBar.onResume();
 
-		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, VintageCalendarDatePicker.SelectionMode.RANGE);
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
 		setViewButtonImage();
 		setDrawerViews();
@@ -1016,7 +1013,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
-		mDatesCalendarDatePicker = (VintageCalendarDatePicker) findViewById(R.id.dates_date_picker);
+		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
 		mGuestsLayout = findViewById(R.id.guests_layout);
 		mChildAgesLayout = findViewById(R.id.child_ages_layout);
 		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
@@ -1076,7 +1073,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 				parent.setTouchDelegate(new TouchDelegate(r, delegate));
 			}
 		});
-		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, VintageCalendarDatePicker.SelectionMode.RANGE);
+		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
 		// Progress bar 
 
@@ -1785,6 +1782,9 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			mPanelDismissView.setVisibility(View.GONE);
 			openPanel(false, animate);
 
+			// make sure to draw/redraw the calendar
+			mDatesCalendarDatePicker.markAllCellsDirty();
+
 			hideSortOptions();
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
@@ -2199,7 +2199,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 	//----------------------------------
 
 	private void setActionBarBookingInfoText() {
-		int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
+		int startDay = Db.getSearchParams().getCheckInDate().get(Calendar.DAY_OF_MONTH);
 		int numAdults = Db.getSearchParams().getNumAdults();
 		int numChildren = Db.getSearchParams().getNumChildren();
 
@@ -2404,10 +2404,6 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 			Calendar checkOut = searchParams.getCheckOutDate();
 			mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
 					checkOut.get(Calendar.DAY_OF_MONTH));
-
-			// Ensure that our checkin/checkout dates match the calendar date picker (the calendar stay may have
-			// changed due to enforcing min/max dates).
-			syncDatesFromPicker();
 
 			mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		}
@@ -2640,9 +2636,9 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 		}
 	};
 
-	private final VintageCalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new VintageCalendarDatePicker.OnDateChangedListener() {
+	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		@Override
-		public void onDateChanged(VintageCalendarDatePicker view, int year, int yearMonth, int monthDay) {
+		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 			if (mOriginalSearchParams != null) {
 				syncDatesFromPicker();
 			}
