@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -18,11 +19,14 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
@@ -52,12 +56,19 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private StatusFragment mStatusFragment;
 	private FlightListFragment mListFragment;
 	private FlightSearchParamsFragment mSearchParamsFragment;
+	private FlightDetailsFragment mFlightDetailsFragment;
 
 	// Current leg being displayed
 	private int mLegPosition = 0;
 
+	// Action bar views
+	private NavigationButton mNavButton;
+	private ViewGroup mFlightSummaryContainer;
 	private TextView mTitleTextView;
 	private TextView mSubtitleTextView;
+	private ViewGroup mFlightDetailsActionContainer;
+	private TextView mCancelButton;
+	private TextView mSelectFlightButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +95,17 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		// Configure the custom action bar view
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
+		mFlightSummaryContainer = Ui.findView(customView, R.id.flight_summary_container);
 		mTitleTextView = Ui.findView(customView, R.id.title_text_view);
 		mSubtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
+		mFlightDetailsActionContainer = Ui.findView(customView, R.id.flight_details_action_container);
+		mCancelButton = Ui.findView(customView, R.id.cancel_button);
+		mSelectFlightButton = Ui.findView(customView, R.id.select_button);
 
 		ActionBar actionBar = this.getSupportActionBar();
-		NavigationButton nb = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
-		nb.setDropdownAdapter(new NavigationDropdownAdapter(this,NoOpButton.FLIGHTS));
-		nb.setCustomView(customView);
+		mNavButton = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
+		mNavButton.setDropdownAdapter(new NavigationDropdownAdapter(this, NoOpButton.FLIGHTS));
+		mNavButton.setCustomView(customView);
 
 		if (savedInstanceState == null) {
 			// On first launch, start a search
@@ -147,6 +162,17 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
 		menu.setGroupVisible(R.id.group_results, response != null && !response.hasErrors()
 				&& (mSearchParamsFragment == null || !mSearchParamsFragment.isAdded()));
+
+		// Either show standard action bar options, or just show the custom
+		// flight details action view, depending on whether flight details
+		// are currently visible
+		boolean areFlightDetailsShowing = areFlightDetailsShowing();
+		mFlightSummaryContainer.setVisibility(areFlightDetailsShowing ? View.GONE : View.VISIBLE);
+		mFlightDetailsActionContainer.setVisibility(areFlightDetailsShowing ? View.VISIBLE : View.GONE);
+		mNavButton.setDisplayShowHomeEnabled(!areFlightDetailsShowing);
+		for (int a = 0; a < menu.size(); a++) {
+			menu.getItem(a).setVisible(!areFlightDetailsShowing);
+		}
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -302,6 +328,23 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Flight details
+
+	private static final String FLIGHT_DETAILS_BACKSTACK_NAME_PREFIX = "FlightDetails";
+
+	private boolean areFlightDetailsShowing() {
+		FragmentManager fm = getSupportFragmentManager();
+		int backStackEntryCount = fm.getBackStackEntryCount();
+		return backStackEntryCount > 0
+				&& fm.getBackStackEntryAt(backStackEntryCount - 1).getName()
+						.startsWith(FLIGHT_DETAILS_BACKSTACK_NAME_PREFIX);
+	}
+
+	private String getFlightDetailsBackStackName(int legPosition) {
+		return FLIGHT_DETAILS_BACKSTACK_NAME_PREFIX + "#" + legPosition;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Filter dialog
 
 	public void showFilterDialog() {
@@ -311,6 +354,14 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	//////////////////////////////////////////////////////////////////////////
 	// FlightListFragmentListener
+
+	@Override
+	public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition) {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.add(R.id.flight_details_container, FlightDetailsFragment.newInstance(trip, leg), FlightDetailsFragment.TAG);
+		ft.addToBackStack(getFlightDetailsBackStackName(legPosition));
+		ft.commit();
+	}
 
 	@Override
 	public void onSelectionChanged(int newLegPosition) {

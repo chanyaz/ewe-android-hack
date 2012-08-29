@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,13 +19,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightTripOverviewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.SectionFlightLeg.SectionFlightLegListener;
 import com.expedia.bookings.widget.FlightAdapter;
@@ -151,9 +147,15 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			return;
 		}
 
-		// Set the leg as selected
+		// Notify that a flight leg was clicked
 		FlightTrip trip = mAdapter.getItem(position - numHeaderViews);
 		FlightLeg leg = trip.getLeg(mLegPosition);
+		mListener.onFlightLegClick(trip, leg, mLegPosition);
+
+		/*
+		// Set the leg as selected
+		FlightTrip trip = mAdapter.getItem(position - numHeaderViews);
+		FlightLeg leg = trip.getLeg(mLegPosition);		
 		FlightSearch flightSearch = Db.getFlightSearch();
 		flightSearch.setSelectedLeg(mLegPosition, new FlightTripLeg(trip, leg));
 
@@ -170,6 +172,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			intent.putExtra(FlightTripOverviewActivity.EXTRA_TRIP_KEY, trip.getProductKey());
 			startActivity(intent);
 		}
+		*/
 	}
 
 	/**
@@ -304,6 +307,8 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	// FlightListFragmentListener
 
 	public interface FlightListFragmentListener {
+		public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition);
+
 		public void onSelectionChanged(int newLegPosition);
 	}
 

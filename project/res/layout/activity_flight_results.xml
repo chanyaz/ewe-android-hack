@@ -18,4 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- Layover container, used for flight details fragment -->
+
+    <FrameLayout
+        android:id="@+id/flight_details_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </FrameLayout>
