@@ -6,18 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
-import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.utils.CurrencyUtils;
-import com.expedia.bookings.widget.NumberPicker;
-import com.expedia.bookings.widget.NumberPicker.Formatter;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.Ui;
-import com.mobiata.android.validation.ValidationError;
-import com.mobiata.android.validation.Validator;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,6 +19,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.section.ValidationIndicatorTextColorExclaimation;
+import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.widget.NumberPicker;
+import com.expedia.bookings.widget.NumberPicker.Formatter;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.Ui;
+import com.mobiata.android.validation.ValidationError;
+import com.mobiata.android.validation.Validator;
 
 public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable {
 

@@ -1,43 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1eeea" >
 
-    <!-- Info bar at the top of the screen -->
+    <TextView
+        android:id="@+id/address_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bottom_bar_background"
+        android:gravity="left|center_vertical"
+        android:padding="10dp"
+        android:textColor="@android:color/white" />
 
-    <include layout="@layout/include_hotel_header" />
+    <!-- The MapView is added dynamically to this layout -->
 
-    <!-- Rotating image gallery -->
+    <FrameLayout
+        android:id="@+id/map_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/address_text_view" />
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#f1eeea" >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/shadow"
+        android:contentDescription="@null" />
 
-        <TextView
-            android:id="@+id/address_text_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/bottom_bar_background"
-            android:gravity="left|center_vertical"
-            android:padding="10dp"
-            android:textColor="@android:color/white" />
-
-        <!-- The MapView is added dynamically to this layout -->
-
-        <LinearLayout
-            android:id="@+id/map_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_above="@id/address_text_view" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@drawable/shadow" />
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

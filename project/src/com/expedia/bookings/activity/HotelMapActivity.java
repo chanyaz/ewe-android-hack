@@ -3,14 +3,21 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
@@ -18,7 +25,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
@@ -29,7 +35,7 @@ import com.mobiata.android.widget.BalloonItemizedOverlay;
 import com.mobiata.android.widget.StandardBalloonAdapter;
 import com.omniture.AppMeasurement;
 
-public class HotelMapActivity extends MapActivity {
+public class HotelMapActivity extends SherlockFragmentMapActivity {
 
 	private Context mContext;
 
@@ -62,15 +68,6 @@ public class HotelMapActivity extends MapActivity {
 		Property property = Db.getSelectedProperty();
 		Location location = property.getLocation();
 
-		// Configure header
-		OnClickListener onBookNowClick = new OnClickListener() {
-			public void onClick(View v) {
-				Intent roomsRatesIntent = new Intent(mContext, RoomsAndRatesListActivity.class);
-				startActivity(roomsRatesIntent);
-			}
-		};
-		LayoutUtils.configureHeader(this, property, onBookNowClick);
-
 		// Create the map and add it to the layout
 		mMapView = MapUtils.createMapView(this);
 		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
@@ -88,6 +85,7 @@ public class HotelMapActivity extends MapActivity {
 		List<Property> properties = new ArrayList<Property>();
 		properties.add(property);
 		mOverlay = new HotelItemizedOverlay(this, properties, mMapView);
+		mOverlay.setBalloonDrawable(R.drawable.bg_map_balloon);
 		mOverlay.setClickable(false);
 		StandardBalloonAdapter adapter = new StandardBalloonAdapter(this);
 		adapter.setThumbnailPlaceholderResource(R.drawable.ic_image_placeholder);
@@ -114,6 +112,65 @@ public class HotelMapActivity extends MapActivity {
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.fade_in, R.anim.implode);
+	}
+
+	@TargetApi(11)
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
+
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+
+		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars, null);
+
+		Property property = Db.getSelectedProperty();
+		String title = property.getName();
+		((TextView) titleView.findViewById(R.id.title)).setText(title);
+
+		float rating = (float) property.getHotelRating();
+		((RatingBar) titleView.findViewById(R.id.rating)).setRating(rating);
+
+		actionBar.setCustomView(titleView);
+
+		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
+		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_select_hotel, null);
+		tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onOptionsItemSelected(select);
+			}
+		});
+		select.setActionView(tv);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in action bar clicked; go back
+            Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            return true;
+		case R.id.menu_select_hotel:
+			Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
+			startActivity(roomsRatesIntent);
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 	@Override
 	protected void onStop() {
 		super.onStop();

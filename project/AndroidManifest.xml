@@ -71,7 +71,9 @@
             android:name=".activity.HotelDetailsFragmentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone" />
-        <activity android:name=".activity.HotelMapActivity" />
+        <activity
+            android:name=".activity.HotelMapActivity"
+            android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.UserReviewsListActivity" />
         <activity
             android:name=".activity.TabletUserReviewsListActivity"
@@ -115,8 +117,8 @@
         <activity
             android:name=".activity.FlightSearchResultsActivity"
             android:theme="@style/FlightTheme"
-            android:windowSoftInputMode="adjustPan"
-            android:uiOptions="splitActionBarWhenNarrow" />
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.FlightDetailsActivity"
             android:theme="@style/FlightTheme" />
@@ -139,7 +141,6 @@
         <activity
             android:name=".activity.FlightBookingActivity"
             android:theme="@style/FlightTheme" />
-        
         <activity
             android:name=".activity.FlightPaymentOptionsActivity"
             android:theme="@style/FlightTheme" >
@@ -156,19 +157,19 @@
             android:name=".activity.FlightPaymentCreditCardActivity"
             android:theme="@style/FlightTheme" >
         </activity>
-		<activity
+        <activity
             android:name=".activity.FlightTravelerInfoOptionsActivity"
             android:theme="@style/FlightTheme" >
         </activity>
-		<activity
+        <activity
             android:name=".activity.FlightTravelerInfoOneActivity"
             android:theme="@style/FlightTheme" >
         </activity>
-		<activity
+        <activity
             android:name=".activity.FlightTravelerInfoTwoActivity"
             android:theme="@style/FlightTheme" >
         </activity>
-		<activity
+        <activity
             android:name=".activity.FlightTravelerInfoThreeActivity"
             android:theme="@style/FlightTheme" >
         </activity>
