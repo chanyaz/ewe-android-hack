@@ -272,7 +272,6 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("resultsPerPage", HOTEL_MAX_RESULTS + ""));
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
-		query.add(new BasicNameValuePair("filterInventoryType", "MERCHANT"));
 
 		SearchResponseHandler rh = new SearchResponseHandler(mContext);
 		if (params.hasSearchLatLon()) {

@@ -285,97 +285,91 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 
 		rate.setNonRefundable(jsonRate.optBoolean("nonRefundable", false));
 
-		if (!mProperty.isMerchant()) {
-			rate.setRatePlanName(JSONUtils.getNormalizedString(jsonRate, "rateDescription"));
-		}
-
 		String currencyCode = chargeableRateInfo.getString("currencyCode");
 
 		// The rate info passed to merchant vs. agent hotels is very different, so
 		// handle the parsing separately here
-		if (mProperty.isMerchant()) {
-			Money averageRate = ParserUtils.createMoney(chargeableRateInfo.getString("averageRate"), currencyCode);
-			rate.setDailyAmountBeforeTax(averageRate);
-			rate.setAverageRate(averageRate);
-			rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
-					currencyCode));
-			rate.setDiscountPercent(chargeableRateInfo.getDouble("discountPercent"));
+		Money averageRate = ParserUtils.createMoney(chargeableRateInfo.getString("averageRate"), currencyCode);
+		rate.setDailyAmountBeforeTax(averageRate);
+		rate.setAverageRate(averageRate);
+		rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
+				currencyCode));
+		rate.setDiscountPercent(chargeableRateInfo.getDouble("discountPercent"));
 
-			Money totalMandatoryFees = ParserUtils.createMoney(
-					chargeableRateInfo.optString("totalMandatoryFees", "0.0"), currencyCode);
-			rate.setTotalMandatoryFees(totalMandatoryFees);
+		Money totalMandatoryFees = ParserUtils.createMoney(
+				chargeableRateInfo.optString("totalMandatoryFees", "0.0"), currencyCode);
+		rate.setTotalMandatoryFees(totalMandatoryFees);
 
-			Money totalPriceWithMandatoryFees = ParserUtils.createMoney(
-					chargeableRateInfo.optString("totalPriceWithMandatoryFees", "0.0"), currencyCode);
-			rate.setTotalPriceWithMandatoryFees(totalPriceWithMandatoryFees);
+		Money totalPriceWithMandatoryFees = ParserUtils.createMoney(
+				chargeableRateInfo.optString("totalPriceWithMandatoryFees", "0.0"), currencyCode);
+		rate.setTotalPriceWithMandatoryFees(totalPriceWithMandatoryFees);
 
-			Money surchargeTotalForEntireStay = ParserUtils.createMoney(
-					chargeableRateInfo.optString("surchargeTotalForEntireStay", "0.0"), currencyCode);
-			Money total = ParserUtils.createMoney(chargeableRateInfo.getString("total"), currencyCode);
-			Money totalBeforeTax = total.copy();
-			totalBeforeTax.subtract(surchargeTotalForEntireStay);
+		Money surchargeTotalForEntireStay = ParserUtils.createMoney(
+				chargeableRateInfo.optString("surchargeTotalForEntireStay", "0.0"), currencyCode);
+		Money total = ParserUtils.createMoney(chargeableRateInfo.getString("total"), currencyCode);
+		Money totalBeforeTax = total.copy();
+		totalBeforeTax.subtract(surchargeTotalForEntireStay);
 
-			rate.setTotalAmountBeforeTax(totalBeforeTax);
-			rate.setTotalAmountAfterTax(total);
-			rate.setTotalSurcharge(surchargeTotalForEntireStay);
+		rate.setTotalAmountBeforeTax(totalBeforeTax);
+		rate.setTotalAmountAfterTax(total);
+		rate.setTotalSurcharge(surchargeTotalForEntireStay);
 
-			rate.setUserPriceType(chargeableRateInfo.optString("userPriceType"));
+		rate.setUserPriceType(chargeableRateInfo.optString("userPriceType"));
 
-			Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
-					currencyCode);
-			Money strikethroughPriceToShowUsers = ParserUtils.createMoney(
-					chargeableRateInfo.getString("strikethroughPriceToShowUsers"), currencyCode);
+		Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
+				currencyCode);
+		Money strikethroughPriceToShowUsers = ParserUtils.createMoney(
+				chargeableRateInfo.getString("strikethroughPriceToShowUsers"), currencyCode);
 
-			rate.setPriceToShowUsers(priceToShowUsers);
-			rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);
+		rate.setPriceToShowUsers(priceToShowUsers);
+		rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);
 
-			if (jsonRate.has("taxRate")) {
-				rate.setTaxesAndFeesPerRoom(ParserUtils.createMoney(jsonRate.getDouble("taxRate"), currencyCode));
-			}
+		if (jsonRate.has("taxRate")) {
+			rate.setTaxesAndFeesPerRoom(ParserUtils.createMoney(jsonRate.getDouble("taxRate"), currencyCode));
+		}
 
-			JSONArray nightlyRates = chargeableRateInfo.optJSONArray("nightlyRatesPerRoom");
-			for (int b = 0; b < nightlyRates.length(); b++) {
-				Calendar cal = (Calendar) mSearchParams.getCheckInDate().clone();
-				cal.add(Calendar.DAY_OF_YEAR, b);
+		JSONArray nightlyRates = chargeableRateInfo.optJSONArray("nightlyRatesPerRoom");
+		for (int b = 0; b < nightlyRates.length(); b++) {
+			Calendar cal = (Calendar) mSearchParams.getCheckInDate().clone();
+			cal.add(Calendar.DAY_OF_YEAR, b);
 
-				JSONObject nightlyRate = nightlyRates.getJSONObject(b);
-				RateBreakdown rateBreakdown = new RateBreakdown();
-				rateBreakdown.setAmount(ParserUtils.createMoney(nightlyRate.getString("rate"), currencyCode));
-				rateBreakdown.setDate(new Date(cal));
+			JSONObject nightlyRate = nightlyRates.getJSONObject(b);
+			RateBreakdown rateBreakdown = new RateBreakdown();
+			rateBreakdown.setAmount(ParserUtils.createMoney(nightlyRate.getString("rate"), currencyCode));
+			rateBreakdown.setDate(new Date(cal));
 
-				rate.addRateBreakdown(rateBreakdown);
-			}
+			rate.addRateBreakdown(rateBreakdown);
+		}
 
-			// Surcharges
-			JSONArray surchargesForEntireStay = chargeableRateInfo.optJSONArray("surchargesForEntireStay");
-			if (surchargesForEntireStay != null) {
-				for (int b = 0; b < surchargesForEntireStay.length(); b++) {
-					JSONObject surcharge = surchargesForEntireStay.getJSONObject(b);
-					if (surcharge.optString("type").equals("EXTRA")) {
-						rate.setExtraGuestFee(ParserUtils.createMoney(surcharge.getDouble("amount"), currencyCode));
-					}
+		// Surcharges
+		JSONArray surchargesForEntireStay = chargeableRateInfo.optJSONArray("surchargesForEntireStay");
+		if (surchargesForEntireStay != null) {
+			for (int b = 0; b < surchargesForEntireStay.length(); b++) {
+				JSONObject surcharge = surchargesForEntireStay.getJSONObject(b);
+				if (surcharge.optString("type").equals("EXTRA")) {
+					rate.setExtraGuestFee(ParserUtils.createMoney(surcharge.getDouble("amount"), currencyCode));
 				}
-			}
-
-			JSONArray priceAdjustments = chargeableRateInfo.optJSONArray("priceAdjustments");
-			if (priceAdjustments != null) {
-				Money totalAdjustments = new Money();
-				totalAdjustments.setAmount(0.0f);
-				for (int b = 0; b < priceAdjustments.length(); b++) {
-					JSONObject adjustment = priceAdjustments.getJSONObject(b);
-					totalAdjustments.add(ParserUtils.createMoney(adjustment.getDouble("amount"), currencyCode));
-				}
-				rate.setTotalPriceAdjustments(totalAdjustments);
 			}
 		}
-		else {
-			rate.setDailyAmountBeforeTax(ParserUtils.createMoney(chargeableRateInfo.getString("maxNightlyRate"),
-					currencyCode));
 
+		JSONArray priceAdjustments = chargeableRateInfo.optJSONArray("priceAdjustments");
+		if (priceAdjustments != null) {
+			Money totalAdjustments = new Money();
+			totalAdjustments.setAmount(0.0f);
+			for (int b = 0; b < priceAdjustments.length(); b++) {
+				JSONObject adjustment = priceAdjustments.getJSONObject(b);
+				totalAdjustments.add(ParserUtils.createMoney(adjustment.getDouble("amount"), currencyCode));
+			}
+			rate.setTotalPriceAdjustments(totalAdjustments);
+		}
+
+		if (!mProperty.isMerchant()) {
 			// Taxes here is a policy info rather than a money
 			Policy policy = new Policy();
 			policy.setType(Policy.TYPE_TAX);
-			policy.setDescription(jsonRate.getString("taxRate"));
+			if (jsonRate.has("taxRate")) {
+				policy.setDescription(jsonRate.getString("taxRate"));
+			}
 			rateRules.addPolicy(policy);
 		}
 
@@ -453,26 +447,38 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			}
 		}
 
-		if (jsonRate.has("bedTypes")) {
-			// #6852: If there are multiple bed types, we just "or" them together now
-			JSONArray bedTypes = jsonRate.getJSONArray("bedTypes");
-			List<String> bedTypeElements = new ArrayList<String>();
-			for (int b = 0; b < bedTypes.length(); b++) {
-				JSONObject bedType = bedTypes.getJSONObject(b);
-				if (!bedType.has("description")) {
-					Log.w("No description for bed type. Skipping.");
-					continue;
-				}
+		if (mProperty.isMerchant()) {
+			if (jsonRate.has("bedTypes")) {
+				// #6852: If there are multiple bed types, we just "or" them together now
+				JSONArray bedTypes = jsonRate.getJSONArray("bedTypes");
+				List<String> bedTypeElements = new ArrayList<String>();
+				for (int b = 0; b < bedTypes.length(); b++) {
+					JSONObject bedType = bedTypes.getJSONObject(b);
+					if (!bedType.has("description")) {
+						Log.w("No description for bed type. Skipping.");
+						continue;
+					}
 
-				String bedTypeDescription = JSONUtils.getNormalizedString(bedType, "description");
-				bedTypeElements.add(bedTypeDescription);
+					String bedTypeDescription = JSONUtils.getNormalizedString(bedType, "description");
+					bedTypeElements.add(bedTypeDescription);
 
-				if (bedType.has("id") && bedType.getString("id") != null & !"".equals(bedTypeDescription)) {
-					rate.addBedType(bedType.getString("id"), bedTypeDescription);
+					if (bedType.has("id") && bedType.getString("id") != null & !"".equals(bedTypeDescription)) {
+						rate.addBedType(bedType.getString("id"), bedTypeDescription);
+					}
 				}
+				String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
+				rate.setRatePlanName(ratePlanName);
 			}
-			String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
-			rate.setRatePlanName(ratePlanName);
+		}
+		else {
+			String des = rate.getRoomDescription();
+			int cut = des.indexOf(" -");
+			if (cut == -1) {
+				cut = des.indexOf('_');
+			}
+			String bedType = cut <= 0 ? des : des.substring(0, cut);
+			rate.addBedType("UNKNOWN", bedType);
+			rate.setRatePlanName(bedType);
 		}
 
 		return rate;

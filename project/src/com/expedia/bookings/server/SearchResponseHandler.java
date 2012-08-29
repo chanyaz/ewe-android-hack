@@ -15,6 +15,7 @@ import org.codehaus.jackson.JsonToken;
 import android.content.Context;
 import android.text.Html;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Location;
@@ -27,17 +28,22 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 
 public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
+	private Context mContext;
 
 	private int mNumNights = 1;
 
 	private double mLatitude;
 	private double mLongitude;
 
+	private boolean mCachedIsRelease = false;
+
 	public SearchResponseHandler(Context context) {
-		// Purposefully leaving this constructor, because I can definitely
-		// foresee us wanting the context in this handler someday.
+		mContext = context;
+		mCachedIsRelease = AndroidUtils.isRelease(mContext);
 	}
 
 	public void setNumNights(int numNights) {
@@ -277,11 +283,20 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 					.getLongitude(), DistanceUnit.getDefaultDistanceUnit()));
 		}
 
-		// TODO: For now, we only support merchant hotels.  In the future, we will
-		// support all variety of supplier types.  For now, this is an easy way to
-		// filter out all non-merchant hotels.
-		if (property.isMerchant()) {
+		if (mCachedIsRelease) {
 			searchResponse.addProperty(property);
+		}
+		else {
+			boolean filterMerchants = SettingUtils.get(mContext, mContext.getString(R.string.preference_filter_merchant_properties), false);
+
+			if (filterMerchants) {
+				if (!property.isMerchant()) {
+					searchResponse.addProperty(property);
+				}
+			}
+			else {
+				searchResponse.addProperty(property);
+			}
 		}
 	}
 

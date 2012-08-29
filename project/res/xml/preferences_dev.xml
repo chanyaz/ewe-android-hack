@@ -18,6 +18,11 @@
             android:key="@string/preference_spoof_bookings"
             android:summary="Do not actually perform bookings. Instead, simulate a successful booking response."
             android:title="Spoof bookings" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_filter_merchant_properties"
+            android:summary="Only return non-merchant hotels for testing"
+            android:title="Filter Merchant Hotels" />
     </PreferenceCategory>
 
 </PreferenceScreen>
