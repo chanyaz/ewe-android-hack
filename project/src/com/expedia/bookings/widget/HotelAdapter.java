@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -205,8 +204,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			holder.name = (TextView) convertView.findViewById(R.id.name_text_view);
 			holder.strikethroughPrice = (TextView) convertView.findViewById(R.id.strikethrough_price_text_view);
 			holder.price = (TextView) convertView.findViewById(R.id.price_text_view);
-			holder.saleContainer = (FrameLayout) convertView.findViewById(R.id.sale_container);
 			holder.saleText = (TextView) convertView.findViewById(R.id.sale_text_view);
+			holder.saleImage = (ImageView) convertView.findViewById(R.id.sale_image_view);
 			holder.userRating = (RatingBar) convertView.findViewById(R.id.user_rating_bar);
 			holder.notRatedText = (TextView) convertView.findViewById(R.id.not_rated_text_view);
 			holder.proximity = (TextView) convertView.findViewById(R.id.proximity_text_view);
@@ -245,14 +244,16 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			}
 
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_sale_text_color));
-			holder.saleContainer.setVisibility(View.VISIBLE);
+			holder.saleText.setVisibility(View.VISIBLE);
+			holder.saleImage.setVisibility(View.VISIBLE);
 			holder.saleText
 					.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
 		}
 		else {
 			holder.strikethroughPrice.setVisibility(View.GONE);
 			holder.price.setTextColor(mContext.getResources().getColor(R.color.hotel_price_text_color));
-			holder.saleContainer.setVisibility(View.GONE);
+			holder.saleText.setVisibility(View.GONE);
+			holder.saleImage.setVisibility(View.GONE);
 		}
 
 		int roomsLeft = property.getRoomsLeftAtThisRate();
@@ -336,8 +337,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		public TextView name;
 		public TextView strikethroughPrice;
 		public TextView price;
-		public FrameLayout saleContainer;
 		public TextView saleText;
+		public ImageView saleImage;
 		public RatingBar userRating;
 		public TextView notRatedText;
 		public TextView proximity;

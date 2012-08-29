@@ -102,32 +102,27 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/sale_container"
+    <ImageView
+        android:id="@+id/sale_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:visibility="gone" >
+        android:src="@drawable/sale_corner_right" />
 
-        <ImageView
-            android:id="@+id/sale_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/sale_corner_right" />
-
-        <com.mobiata.android.widget.TiltedTextView
-            android:id="@+id/sale_text_view"
-            android:layout_width="27dp"
-            android:layout_height="27dp"
-            android:layout_gravity="top|right"
-            android:layout_marginRight="@dimen/percent_off_corner_margin_right"
-            android:layout_marginTop="@dimen/percent_off_corner_margin_top"
-            android:singleLine="true"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/percent_off_corner_text_size"
-            android:textStyle="bold"
-            mobiata:rotation="45" />
-    </FrameLayout>
+    <com.mobiata.android.widget.TiltedTextView
+        android:id="@+id/sale_text_view"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="top|right"
+        android:layout_marginRight="@dimen/percent_off_corner_margin_right"
+        android:layout_marginTop="@dimen/percent_off_corner_margin_top"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/percent_off_corner_text_size"
+        android:textStyle="bold"
+        mobiata:rotation="45" />
 
 </RelativeLayout>
