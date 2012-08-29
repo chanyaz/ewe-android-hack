@@ -35,7 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:hint="@string/address_city_hint" />
+                android:hint="@string/address_city_hint" 
+                android:nextFocusRight="@+id/edit_address_state"
+                android:nextFocusDown="@+id/edit_address_state"/>
 
             <Spinner
                 android:id="@+id/edit_country_spinner"
