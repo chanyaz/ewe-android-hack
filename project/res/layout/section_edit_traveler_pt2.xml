@@ -25,6 +25,7 @@
             android:layout_gravity="fill_horizontal"
             android:hint="@string/only_if_applicable"
             gridlayout:layout_columnSpan="3"
+            android:singleLine="true"
             android:inputType="number" />
 
 		<Spinner
