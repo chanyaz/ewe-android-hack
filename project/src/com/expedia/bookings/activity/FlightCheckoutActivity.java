@@ -344,6 +344,11 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 		// Update UI
 		mAccountButton.bind(false, false, null);
+		
+		//Remove stored card(s)
+		Db.getBillingInfo().setStoredCard(null);
+		bindAll();
+		updateViewVisibilities();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -359,11 +364,10 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		mAccountButton.bind(false, true, Db.getUser());
 		mRefreshedUser = true;
 		
-		if(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() > 0){
-			Db.getFlightPassengers().clear();
-		}
 		populatePassengerData();
 		
+		bindAll();
+		updateViewVisibilities();
 		// TODO: Update rest of UI based on new logged-in data.
 	}
 
