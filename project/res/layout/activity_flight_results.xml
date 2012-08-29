@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:background="@null" >
 
+    <fragment
+        android:id="@+id/background_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.expedia.bookings.fragment.BlurredBackgroundFragment" />
+
     <!-- Content fragment container -->
 
     <FrameLayout
@@ -15,13 +21,6 @@
 
     <FrameLayout
         android:id="@+id/search_params_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <!-- Layover container, used for flight details fragment -->
-
-    <FrameLayout
-        android:id="@+id/flight_details_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

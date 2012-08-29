@@ -31,6 +31,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
@@ -65,6 +66,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	private Context mContext;
 
+	private BlurredBackgroundFragment mBgFragment;
 	private StatusFragment mStatusFragment;
 	private FlightListFragment mListFragment;
 	private FlightSearchParamsFragment mSearchParamsFragment;
@@ -104,6 +106,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		setContentView(R.layout.activity_flight_results);
 
 		// Try to recover any Fragments
+		mBgFragment = Ui.findSupportFragment(this, R.id.background_fragment);
 		mStatusFragment = Ui.findSupportFragment(this, StatusFragment.TAG);
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
@@ -407,7 +410,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 				// Remove the flight details fragment
 				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-				ft.remove(mFlightDetailsFragment);
+				ft.replace(R.id.content_container, mListFragment);
 				ft.addToBackStack(getFlightListBackStackName(mLegPosition));
 				ft.commit();
 			}
@@ -434,7 +437,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg);
-		ft.add(R.id.flight_details_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
+		ft.replace(R.id.content_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
 		ft.addToBackStack(getFlightDetailsBackStackName(mLegPosition));
 		ft.commit();
 	}
@@ -442,6 +445,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	public void onDeselectFlightLeg() {
 		getSupportFragmentManager().popBackStack(getFlightListBackStackName(0), 0);
+	}
+
+	@Override
+	public void onBlur(float alpha) {
+		mBgFragment.setBlurAmount(alpha);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -470,6 +478,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 				didSave = true;
 			}
+		}
+
+		if (name.startsWith(BACKSTACK_FLIGHT_DETAILS_PREFIX)) {
+			mBgFragment.setBlurAmount(1.0f);
 		}
 
 		supportInvalidateOptionsMenu();
@@ -503,4 +515,5 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 		return sb.toString();
 	}
+
 }

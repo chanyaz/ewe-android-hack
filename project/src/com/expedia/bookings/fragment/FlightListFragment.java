@@ -2,9 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.database.DataSetObserver;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -14,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,15 +39,8 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	private FlightListFragmentListener mListener;
 
-	private ImageView mBackgroundView;
-	private ImageView mBackgroundBgView;
-	private ImageView mBackgroundFgView;
-
 	private TextView mNumFlightsTextView;
 	private SectionFlightLeg mSectionFlightLeg;
-
-	private Bitmap mHeaderBitmap;
-	private Bitmap mBlurredHeaderBitmap;
 
 	private int mLegPosition;
 
@@ -65,9 +54,6 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		else {
 			mLegPosition = 0;
 		}
-
-		// DELETE EVENTUALLY: For now, just set the header to always be SF
-		setHeaderBitmap(null);
 	}
 
 	@Override
@@ -90,10 +76,6 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 		View v = inflater.inflate(R.layout.fragment_flight_list, container, false);
 
-		mBackgroundView = Ui.findView(v, R.id.background_view);
-		mBackgroundBgView = Ui.findView(v, R.id.background_bg_view);
-		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
-
 		// Configure the header
 		ListView lv = Ui.findView(v, android.R.id.list);
 		lv.setDividerHeight(0);
@@ -108,7 +90,6 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			lv.setOnScrollListener(this);
 		}
 
-		displayBackground();
 		displayHeaderLeg();
 
 		// Add the adapter
@@ -178,35 +159,6 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	//////////////////////////////////////////////////////////////////////////
 	// Header control
 
-	public void setHeaderBitmap(Bitmap bitmap) {
-		// TODO: Actually implement dynamic loading of images/blurring
-		mHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.san_francisco);
-		mBlurredHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.san_francisco_blurred);
-	}
-
-	private void displayBackground() {
-		if (mHeaderBitmap != null && mBlurredHeaderBitmap != null) {
-			if (mBackgroundView != null) {
-				mBackgroundView.setImageDrawable(new BitmapDrawable(getResources(), mBlurredHeaderBitmap));
-			}
-
-			if (mBackgroundBgView != null) {
-				mBackgroundBgView.setImageDrawable(new BitmapDrawable(getResources(), mHeaderBitmap));
-			}
-
-			if (mBackgroundFgView != null) {
-				mBackgroundFgView.setImageDrawable(new BitmapDrawable(getResources(), mBlurredHeaderBitmap));
-			}
-		}
-	}
-
-	// Goes from 0.0 - 1.0
-	private void setBlurAmount(float percent) {
-		if (mBackgroundFgView != null) {
-			mBackgroundFgView.setAlpha(percent);
-		}
-	}
-
 	private boolean usesDynamicBlur() {
 		return Build.VERSION.SDK_INT >= 11;
 	}
@@ -260,7 +212,9 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	public void setLegPosition(int legPosition) {
 		mLegPosition = legPosition;
 
-		onLegPositionChanged();
+		if (isAdded()) {
+			onLegPositionChanged();
+		}
 	}
 
 	public int getLegPosition() {
@@ -297,6 +251,8 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition);
 
 		public void onDeselectFlightLeg();
+
+		public void onBlur(float alpha);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -315,10 +271,10 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		if (view.getChildCount() > 0) {
 			if (firstVisibleItem == 0) {
 				View header = view.getChildAt(0);
-				setBlurAmount((float) -header.getTop() / (float) header.getHeight());
+				mListener.onBlur((float) -header.getTop() / (float) header.getHeight());
 			}
 			else {
-				setBlurAmount(1.0f);
+				mListener.onBlur(1.0f);
 			}
 		}
 	}
