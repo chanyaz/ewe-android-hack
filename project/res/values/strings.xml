@@ -271,6 +271,17 @@
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Zip</string>
 
+    <!-- Save payment info dialog -->
+    <!-- save billing info -->
+    <string name="save_billing_info">Save Billing Info</string>
+    <!-- save billing info message -->
+    <string name="save_billing_info_message">Tap Save to save your billing details to your Expedia account.</string>
+    <!-- save -->
+    <string name="save">Save</string>
+    <!-- dont save -->
+    <string name="dont_save">Don\'t Save</string>
+    
+    
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
     <string name="traveler_information">Traveler Information</string>

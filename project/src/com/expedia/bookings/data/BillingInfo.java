@@ -36,6 +36,7 @@ public class BillingInfo implements JSONable {
 	private String mSecurityCode;
 	private Calendar mExpirationDate;
 	private StoredCreditCard mStoredCard;
+	private boolean mSaveCardToExpediaAccount = false;
 
 	private boolean mExistsOnDisk = false;
 
@@ -137,12 +138,12 @@ public class BillingInfo implements JSONable {
 	public void setExpirationDate(Calendar expirationDate) {
 		this.mExpirationDate = expirationDate;
 	}
-	
-	public String getNameOnCard(){
+
+	public String getNameOnCard() {
 		return mNameOnCard;
 	}
-	
-	public void setNameOnCard(String name){
+
+	public void setNameOnCard(String name) {
 		mNameOnCard = name;
 	}
 
@@ -152,6 +153,14 @@ public class BillingInfo implements JSONable {
 
 	public StoredCreditCard getStoredCard() {
 		return mStoredCard;
+	}
+
+	public void setSaveCardToExpediaAccount(boolean save) {
+		mSaveCardToExpediaAccount = save;
+	}
+
+	public boolean getSaveCardToExpediaAccount() {
+		return mSaveCardToExpediaAccount;
 	}
 
 	public boolean save(Context context) {
@@ -235,6 +244,7 @@ public class BillingInfo implements JSONable {
 		mSecurityCode = null;
 		mExpirationDate = null;
 		mExistsOnDisk = false;
+		mSaveCardToExpediaAccount = false;
 
 		// Check that the saved billing info file exists before trying to delete
 		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
@@ -265,7 +275,8 @@ public class BillingInfo implements JSONable {
 			obj.putOpt("brandCode", mBrandCode);
 			obj.putOpt("number", mNumber);
 			obj.putOpt("securityCode", mSecurityCode);
-
+			obj.putOpt("storeCreditCardInUserProfile", mSaveCardToExpediaAccount);
+			
 			if (mExpirationDate != null) {
 				obj.putOpt("expMonth", mExpirationDate.get(Calendar.MONTH));
 				obj.putOpt("expYear", mExpirationDate.get(Calendar.YEAR));
@@ -282,7 +293,7 @@ public class BillingInfo implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mFirstName = obj.optString("firstName", null);
 		mLastName = obj.optString("lastName", null);
-		mNameOnCard = obj.optString("nameOnCard",null);
+		mNameOnCard = obj.optString("nameOnCard", null);
 		mTelephoneCountryCode = obj.optString("telephoneCountryCode", null);
 		mTelephoneCountry = obj.optString("telephoneCountry", null);
 		if (mTelephoneCountryCode != null) {
@@ -296,7 +307,8 @@ public class BillingInfo implements JSONable {
 		mBrandCode = obj.optString("brandCode", null);
 		mNumber = obj.optString("number", null);
 		mSecurityCode = obj.optString("securityCode", null);
-
+		mSaveCardToExpediaAccount = obj.optBoolean("storeCreditCardInUserProfile");
+		
 		if (obj.has("expMonth") && obj.has("expYear")) {
 			int expMonth = obj.optInt("expMonth");
 			int expYear = obj.optInt("expYear");
@@ -317,4 +329,3 @@ public class BillingInfo implements JSONable {
 		}
 	}
 }
-

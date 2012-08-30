@@ -12,6 +12,8 @@ import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.mobiata.android.util.Ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -29,10 +31,11 @@ public class FlightPaymentCreditCardActivity extends SherlockActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(User.isLoggedIn(this)){
+		if (User.isLoggedIn(this)) {
 			setContentView(R.layout.activity_flight_payment_creditcard_logged_in);
 			Db.getBillingInfo().setEmail(Db.getUser().getEmail());//Set the billingInfo email address
-		}else{
+		}
+		else {
 			setContentView(R.layout.activity_flight_payment_creditcard);
 		}
 
@@ -78,8 +81,37 @@ public class FlightPaymentCreditCardActivity extends SherlockActivity {
 			public void onClick(View v) {
 				mAttemptToLeaveMade = true;
 				if (mSectionCreditCard.hasValidInput()) {
-					Intent intent = mYoYo.generateIntent(FlightPaymentCreditCardActivity.this, getIntent());
-					startActivity(intent);
+					if (User.isLoggedIn(FlightPaymentCreditCardActivity.this) && mBillingInfo.getStoredCard() == null) {
+						//If we are logged in, and the current card is not stored, we open a dialog asking to save
+						AlertDialog.Builder builder = new AlertDialog.Builder(FlightPaymentCreditCardActivity.this);
+						builder.setMessage("Are you sure you want to exit?")
+								.setCancelable(false)
+								.setTitle(R.string.save_billing_info)
+								.setMessage(R.string.save_billing_info_message)
+								.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										mBillingInfo.setSaveCardToExpediaAccount(true);
+										Intent intent = mYoYo.generateIntent(FlightPaymentCreditCardActivity.this,
+												getIntent());
+										startActivity(intent);
+									}
+								})
+								.setNegativeButton(R.string.dont_save, new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										mBillingInfo.setSaveCardToExpediaAccount(false);
+										Intent intent = mYoYo.generateIntent(FlightPaymentCreditCardActivity.this,
+												getIntent());
+										startActivity(intent);
+									}
+								});
+						AlertDialog alert = builder.create();
+						alert.show();
+
+					}
+					else {
+						Intent intent = mYoYo.generateIntent(FlightPaymentCreditCardActivity.this, getIntent());
+						startActivity(intent);
+					}
 				}
 			}
 		});
