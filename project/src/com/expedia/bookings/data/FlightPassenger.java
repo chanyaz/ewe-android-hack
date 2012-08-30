@@ -20,7 +20,7 @@ import com.mobiata.android.json.JSONable;
  */
 public class FlightPassenger implements JSONable {
 
-	private Long mTuid;
+	private Long mTuid = 0L;
 
 	//These all come from the api...
 	private String mFirstName;
@@ -36,6 +36,8 @@ public class FlightPassenger implements JSONable {
 	private String mPassportCountry;
 	private SeatPreference mSeatPreference = SeatPreference.ANY;
 	private AssistanceType mAssistance = AssistanceType.NONE;
+
+	private boolean mSavePassengerToExpediaAccount = false;
 
 	public enum Gender {
 		MALE, FEMALE
@@ -135,6 +137,10 @@ public class FlightPassenger implements JSONable {
 
 	public SeatPreference getSeatPreference() {
 		return mSeatPreference;
+	}
+
+	public boolean getSavePassengerToExpediaAccount() {
+		return mSavePassengerToExpediaAccount;
 	}
 
 	public String getSeatPreferenceString(Context context) {
@@ -259,6 +265,10 @@ public class FlightPassenger implements JSONable {
 		mTuid = tuid;
 	}
 
+	public void setSavePassengerToExpediaAccount(boolean save) {
+		mSavePassengerToExpediaAccount = save;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
@@ -275,6 +285,9 @@ public class FlightPassenger implements JSONable {
 			obj.putOpt("phone", mPhoneNumber);
 
 			obj.putOpt("email", mEmail);
+			
+			//TODO:"save" is not a valid key, this is not yet defined in the api
+			obj.putOpt("save", mSavePassengerToExpediaAccount);
 
 			if (mGender != null) {
 				obj.putOpt("gender", mGender.name());
@@ -313,6 +326,8 @@ public class FlightPassenger implements JSONable {
 		mPhoneCountryCode = obj.optString("phoneCountryCode");
 		mPhoneNumber = obj.optString("phone");
 
+		mSavePassengerToExpediaAccount = obj.optBoolean("save");
+		
 		String genderStr = obj.optString("gender");
 		if (!TextUtils.isEmpty(genderStr)) {
 			mGender = Gender.valueOf(genderStr);

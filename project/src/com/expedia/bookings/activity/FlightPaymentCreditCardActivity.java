@@ -84,8 +84,7 @@ public class FlightPaymentCreditCardActivity extends SherlockActivity {
 					if (User.isLoggedIn(FlightPaymentCreditCardActivity.this) && mBillingInfo.getStoredCard() == null) {
 						//If we are logged in, and the current card is not stored, we open a dialog asking to save
 						AlertDialog.Builder builder = new AlertDialog.Builder(FlightPaymentCreditCardActivity.this);
-						builder.setMessage("Are you sure you want to exit?")
-								.setCancelable(false)
+						builder.setCancelable(false)
 								.setTitle(R.string.save_billing_info)
 								.setMessage(R.string.save_billing_info_message)
 								.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {

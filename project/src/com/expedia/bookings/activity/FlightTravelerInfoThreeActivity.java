@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.YoYo;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
@@ -25,7 +28,7 @@ public class FlightTravelerInfoThreeActivity extends SherlockActivity {
 
 	boolean mAttemptToLeaveMade = false;
 	YoYo mYoYo;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,7 +40,6 @@ public class FlightTravelerInfoThreeActivity extends SherlockActivity {
 			mPassenger = Db.getFlightPassengers().get(mPassengerIndex);
 		}
 
-		
 		mYoYo = getIntent().getParcelableExtra(YoYo.TAG_YOYO);
 
 		mSectionTravelerInfo.addChangeListener(new SectionChangeListener() {
@@ -49,7 +51,7 @@ public class FlightTravelerInfoThreeActivity extends SherlockActivity {
 				}
 			}
 		});
-	
+
 	}
 
 	@Override
@@ -58,26 +60,55 @@ public class FlightTravelerInfoThreeActivity extends SherlockActivity {
 		mSectionTravelerInfo.bind(mPassenger);
 
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = this.getSupportMenuInflater();
-	    if(mYoYo != null && mYoYo.isLast(this.getClass())){
-	    	inflater.inflate(R.menu.menu_done, menu);
-	    }else{
-	    	inflater.inflate(R.menu.menu_next, menu);
-	    }
-	    menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener(){
+		MenuInflater inflater = this.getSupportMenuInflater();
+		if (mYoYo != null && mYoYo.isLast(this.getClass())) {
+			inflater.inflate(R.menu.menu_done, menu);
+		}
+		else {
+			inflater.inflate(R.menu.menu_next, menu);
+		}
+		menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mAttemptToLeaveMade = true;
 				if (mSectionTravelerInfo.hasValidInput()) {
-					Intent intent = mYoYo.generateIntent(FlightTravelerInfoThreeActivity.this, getIntent());
-					startActivity(intent);
+					if (User.isLoggedIn(FlightTravelerInfoThreeActivity.this) && !mPassenger.hasTuid()
+							&& mYoYo.isLast(this.getClass())) {
+						//If we are logged in, and the current traveler is not stored, we open a dialog asking to save
+						AlertDialog.Builder builder = new AlertDialog.Builder(FlightTravelerInfoThreeActivity.this);
+						builder.setCancelable(false)
+								.setTitle(R.string.save_traveler)
+								.setMessage(R.string.save_traveler_message)
+								.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										mPassenger.setSavePassengerToExpediaAccount(true);
+										Intent intent = mYoYo.generateIntent(FlightTravelerInfoThreeActivity.this,
+												getIntent());
+										startActivity(intent);
+									}
+								})
+								.setNegativeButton(R.string.dont_save, new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										mPassenger.setSavePassengerToExpediaAccount(false);
+										Intent intent = mYoYo.generateIntent(FlightTravelerInfoThreeActivity.this,
+												getIntent());
+										startActivity(intent);
+									}
+								});
+						AlertDialog alert = builder.create();
+						alert.show();
+					}
+					else {
+						Intent intent = mYoYo.generateIntent(FlightTravelerInfoThreeActivity.this, getIntent());
+						startActivity(intent);
+					}
 				}
-			}		
+			}
 		});
-	    return true;
+		return true;
 	}
-	
+
 }

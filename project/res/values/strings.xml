@@ -281,6 +281,12 @@
     <!-- dont save -->
     <string name="dont_save">Don\'t Save</string>
     
+    <!-- Save traveler dialog -->
+    <!-- save traveler -->
+    <string name="save_traveler">Save Traveler</string>
+    <!-- save traveler message -->
+    <string name="save_traveler_message">Tap Save to save this traveler to your Expedia account.</string>
+    
     
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
