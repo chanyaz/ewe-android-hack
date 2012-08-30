@@ -417,7 +417,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(FlightCheckoutActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REFRESH_USER, services);
-			return services.signIn();
+			return services.signIn(ExpediaServices.F_FLIGHTS);
 		}
 	};
 

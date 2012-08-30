@@ -72,6 +72,7 @@ import com.expedia.bookings.data.TravelerInfoResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
@@ -408,7 +409,7 @@ public class ExpediaServices implements DownloadListener {
 		return (CreateTripResponse) doE3Request("CreateTrip", query, responseHandler, F_SECURE_REQUEST);
 	}
 
-	public SignInResponse signIn(String email, String password) {
+	public SignInResponse signIn(String email, String password, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
@@ -418,6 +419,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("password", password));
 		query.add(new BasicNameValuePair("staySignedIn", "true"));
 
+		addProfileTypes(query, flags);
+
 		// Make sure we're signed out before we try to sign in again
 		User.signOut(mContext);
 
@@ -425,25 +428,27 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	// Attempt to sign in again with the stored cookie
-	public SignInResponse signIn() {
+	public SignInResponse signIn(int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
-		
+
 		query.add(new BasicNameValuePair("profileOnly", "true"));
+
+		addProfileTypes(query, flags);
 
 		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
-	
-	
+
 	public TravelerInfoResponse updateTraveler(FlightPassenger passenger) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tuid", "" + passenger.getTuid()));
-		query.add(new BasicNameValuePair("profileTypes","FLIGHT"));
+		query.add(new BasicNameValuePair("profileTypes", "FLIGHT"));
 
-		return (TravelerInfoResponse) doE3Request("GetMobileTravellerProfile", query, new TravelerResponseHandler(mContext), F_SECURE_REQUEST);
+		return (TravelerInfoResponse) doE3Request("GetMobileTravellerProfile", query, new TravelerResponseHandler(
+				mContext), F_SECURE_REQUEST);
 	}
 
 	public void clearCookies() {
@@ -485,6 +490,19 @@ public class ExpediaServices implements DownloadListener {
 		if (!AndroidUtils.isRelease(mContext) && getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
 			query.add(new BasicNameValuePair("siteid", LocaleUtils.getSiteId(mContext)));
 		}
+	}
+
+	private void addProfileTypes(List<BasicNameValuePair> query, int flags) {
+		List<String> profileTypes = new ArrayList<String>();
+
+		if ((flags & F_HOTELS) != 0) {
+			profileTypes.add("HOTEL");
+		}
+		if ((flags & F_FLIGHTS) != 0) {
+			profileTypes.add("FLIGHT");
+		}
+
+		query.add(new BasicNameValuePair("profileTypes", StrUtils.join(profileTypes, ",")));
 	}
 
 	private void addBillingInfo(List<BasicNameValuePair> query, BillingInfo billingInfo) {

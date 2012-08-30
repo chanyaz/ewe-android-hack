@@ -204,7 +204,7 @@ public class SignInFragment extends DialogFragment {
 
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SIGNIN, services);
-			return services.signIn(email, password);
+			return services.signIn(email, password, ExpediaServices.F_FLIGHTS + ExpediaServices.F_HOTELS);
 		}
 	};
 

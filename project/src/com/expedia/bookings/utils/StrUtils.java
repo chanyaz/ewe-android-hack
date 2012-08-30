@@ -167,4 +167,31 @@ public class StrUtils {
 	public static String formatHotelPrice(Money money, String currencyCode) {
 		return money.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN, currencyCode);
 	}
+
+	/**
+	 * Joins together a bunch of Strings, much like in Python
+	 * 
+	 * For example, joining [ "a", "b", "c" ] with ". " would
+	 * result in "a. b. c."
+	 * 
+	 * @param items a list of strings
+	 * @param sep the seperator between each item
+	 * @return joined string
+	 */
+	public static String join(List<String> items, String sep) {
+		if (items == null) {
+			return null;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		int len = items.size();
+		for (int a = 0; a < len; a++) {
+			if (a > 0) {
+				sb.append(sep);
+			}
+			sb.append(items.get(a));
+		}
+
+		return sb.toString();
+	}
 }
