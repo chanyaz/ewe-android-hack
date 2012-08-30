@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.Date;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.text.format.Time;
 import android.view.LayoutInflater;
@@ -145,6 +146,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		public TextView submissionDate;
 		public TextView body;
 		public View readMore;
+		public View fade;
 	}
 
 	public UserReviewViewHolder getUserReviewViewHolder(View convertView) {
@@ -152,7 +154,8 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.title = Ui.findView(convertView, R.id.user_review_title_text_view);
 		viewHolder.ratingBar = Ui.findView(convertView, R.id.user_review_rating_bar);
 		viewHolder.body = Ui.findView(convertView, R.id.user_review_body_text_view);
-		viewHolder.readMore = Ui.findView(convertView, R.id.user_review_read_more_button);
+		viewHolder.readMore = Ui.findView(convertView, R.id.read_more_layout);
+		viewHolder.fade = Ui.findView(convertView, R.id.user_review_body_text_fade_bottom);
 		viewHolder.nameAndLocation = Ui.findView(convertView, R.id.user_review_name_and_location_text_view);
 		viewHolder.submissionDate = Ui.findView(convertView, R.id.user_review_date_text_view);
 		return viewHolder;
@@ -162,6 +165,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 			final int position) {
 		// This click listener is set outside of the convertView so that it displays the right data
 		viewHolder.readMore.setOnClickListener(new OnClickListener() {
+			@TargetApi(8)
 			@Override
 			public void onClick(View v) {
 				viewHolder.body.setText(userReviewLoaded.mReview.getBody());
@@ -225,13 +229,11 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 	private void setupReducedReviewDisplay(final UserReviewViewHolder viewHolder) {
 		viewHolder.readMore.setVisibility(View.VISIBLE);
-		viewHolder.nameAndLocation.setVisibility(View.GONE);
-		viewHolder.submissionDate.setVisibility(View.GONE);
+		viewHolder.fade.setVisibility(View.VISIBLE);
 	}
 
 	private void setupFullReviewDisplay(final UserReviewViewHolder viewHolder) {
 		viewHolder.readMore.setVisibility(View.GONE);
-		viewHolder.submissionDate.setVisibility(View.VISIBLE);
-		viewHolder.nameAndLocation.setVisibility(View.VISIBLE);
+		viewHolder.fade.setVisibility(View.GONE);
 	}
 }

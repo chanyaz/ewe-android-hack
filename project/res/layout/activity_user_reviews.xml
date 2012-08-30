@@ -1,55 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/bg_default" >
-
-    <include layout="@layout/include_user_reviews_list" />
-    
-    <!-- Bottom button bar -->
-    <RelativeLayout
-        android:id="@+id/bottom_bar"
-        style="@android:style/ButtonBar"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/bottom_bar_height"
-        android:layout_alignParentBottom="true"
-	    android:background="@color/bottom_bar_background"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/user_review_total_reviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="4dp"
-            android:textColor="@color/user_reviews_text_color"
-            android:textStyle="bold" />
-
-        <RatingBar
-            android:id="@+id/user_review_rating_bar_bottom"
-            style="@style/RatingBarSmall.Shadowed.UserReview.Dark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/user_review_total_reviews"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:stepSize="0.5" />
-
-        <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/book_now_button"
-            style="@style/Widget.Button.Orange"
-            android:layout_width="@dimen/header_button_width"
-            android:layout_height="@dimen/action_bar_button_height"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="center_vertical|right"
-            android:maxLines="1"
-            android:text="@string/book_now"
-            android:textStyle="bold"
-            mobiata:maxTextSize="15dp" />
-    </RelativeLayout>
-
-</RelativeLayout>
+<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

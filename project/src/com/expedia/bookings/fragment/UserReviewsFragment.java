@@ -11,24 +11,6 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Review;
-import com.expedia.bookings.data.ReviewsResponse;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.ReviewSort;
-import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.utils.UserReviewsUtils;
-import com.expedia.bookings.widget.UserReviewsAdapter;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.json.JSONable;
-import com.mobiata.android.util.NetUtils;
-import com.mobiata.android.util.Ui;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -38,10 +20,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Review;
+import com.expedia.bookings.data.ReviewsResponse;
+import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.server.ExpediaServices.ReviewSort;
+import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.UserReviewsUtils;
+import com.expedia.bookings.widget.UserReviewsAdapter;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.Ui;
 
 public class UserReviewsFragment extends ListFragment implements OnScrollListener {
 
@@ -51,7 +52,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private String mReviewsDownloadKey;
 
 	private static final int BODY_LENGTH_CUTOFF = 270;
-	private static final int THUMB_CUTOFF_INCLUSIVE = 5;
 
 	// Bundle strings
 	private static final String ARGUMENT_PROPERTY_JSON = "ARGUMENT_PROPERTY_JSON";
@@ -99,7 +99,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private UserReviewsAdapter mUserReviewsAdapter;
 
 	// List views
-	private ViewGroup mHeaderView;
+	private TextView mHeaderView;
 
 	// Use this variable to disable download when onScroll gets invoked automatically when the ScrollListener is set
 	private boolean mScrollListenerSet;
@@ -201,7 +201,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		View view = inflater.inflate(R.layout.fragment_user_review_list, container, false);
 
 		if (mHeaderView == null) {
-			mHeaderView = (ViewGroup) inflater.inflate(R.layout.header_user_reviews_list, null, false);
+			mHeaderView = (TextView) inflater.inflate(R.layout.header_user_reviews_list, null, false);
 		}
 
 		return view;
@@ -287,30 +287,27 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	// Public Methods
 
 	public void populateListHeader() {
-		populateListHeader(mRecommendedReviewCount, mTotalReviewCount);
-
-	}
-
-	public void populateListHeader(int recommendedCount, int totalCount) {
-		mRecommendedReviewCount = recommendedCount;
-		mTotalReviewCount = totalCount;
+		ReviewsStatisticsResponse stats = Db.getSelectedReviewsStatisticsResponse();
+		mRecommendedReviewCount = stats.getRecommendedCount();
+		mTotalReviewCount = stats.getTotalReviewCount();
 
 		View view = getView();
+		if (view == null) {
+			return;
+		}
 
 		TextView recommendText = Ui.findView(view, R.id.user_reviews_recommendation_tag);
 
-		String text = String.format(getString(R.string.user_review_recommendation_tag_text),
-				recommendedCount, totalCount);
+		String text = String.format(getString(R.string.user_review_recommendation_tag_text), mRecommendedReviewCount,
+				mTotalReviewCount);
 		CharSequence styledText = Html.fromHtml(text);
 
-		ImageView thumbView = Ui.findView(view, R.id.user_reviews_thumb);
-
-		if (totalCount > 0) {
-			if (recommendedCount * 10 / totalCount >= THUMB_CUTOFF_INCLUSIVE) {
-				thumbView.setImageResource(R.drawable.review_thumbs_up);
+		if (mTotalReviewCount > 0) {
+			if ((float) mRecommendedReviewCount / mTotalReviewCount >= 0.5f) {
+				recommendText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_good_rating, 0, 0, 0);
 			}
 			else {
-				thumbView.setImageResource(R.drawable.review_thumbs_down);
+				recommendText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_bad_rating, 0, 0, 0);
 			}
 			recommendText.setText(styledText);
 		}
@@ -421,7 +418,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 					}
 				}
 			}
-			mUserReviewsFragmentListener.onDownloadComplete(mReviewSort);
+			mUserReviewsFragmentListener.onDownloadComplete(UserReviewsFragment.this);
 		}
 	};
 
@@ -718,12 +715,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	 */
 	public interface UserReviewsFragmentListener {
 
-		public void onDownloadComplete(ReviewSort sort);
+		public void onDownloadComplete(UserReviewsFragment fragment);
 
 		public void addMoreReviewsSeen(Set<String> reviews);
 
 	}
 
 	private UserReviewsFragmentListener mUserReviewsFragmentListener;
-
 }
