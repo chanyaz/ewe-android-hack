@@ -108,6 +108,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			}
 		}
 
+		// disable rendering to unregister SensorEventListener from the SensorManager and allow thread to be GC'd rather
+		// than held on to by the system
+		mThread.setRendering(false);
+
 		// Force the need for a new thread next time the surface is created
 		mThread = null;
 	}
