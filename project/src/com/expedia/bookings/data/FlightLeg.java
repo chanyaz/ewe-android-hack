@@ -79,6 +79,16 @@ public class FlightLeg implements JSONable {
 		return end.getTimeInMillis() - start.getTimeInMillis();
 	}
 
+	public int getDistanceInMiles() {
+		int totalDistance = 0;
+		if (mSegments != null) {
+			for (Flight flight : mSegments) {
+				totalDistance += flight.mDistanceToTravel;
+			}
+		}
+		return totalDistance;
+	}
+
 	// Returns the *span* of the days involved with this trip.  If all the segments
 	// are on the same day, then the span is 0.  Otherwise, it's 1+.  (This is used
 	// for detecting multi-day flights.)

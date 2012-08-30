@@ -129,6 +129,22 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			// Add a default status code
 			segment.mStatusCode = Flight.STATUS_SCHEDULED;
 
+			// Parse some other flight info
+			if (segmentJson.has("distance") && segmentJson.has("distanceUnits")) {
+				int distance = segmentJson.optInt("distance");
+				String distanceUnits = segmentJson.optString("distanceUnits");
+				if (!distanceUnits.equals("miles")) {
+					// Need to do this since I don't know what other values are possible.
+					throw new RuntimeException(
+							"DEVELOPER FIX THIS: Parser does not yet handle non-miles distanceUnits.  Got: "
+									+ distanceUnits);
+				}
+
+				// TODO: Convert from other units to miles here
+
+				segment.mDistanceToTravel = distance;
+			}
+
 			leg.addSegment(segment);
 		}
 
