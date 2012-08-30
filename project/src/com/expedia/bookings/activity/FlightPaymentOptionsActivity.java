@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -17,9 +16,6 @@ import com.expedia.bookings.model.YoYo;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
-import com.expedia.bookings.widget.NavigationButton;
-import com.expedia.bookings.widget.NavigationDropdownAdapter;
-import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
 import com.mobiata.android.util.Ui;
 
 import android.content.Intent;
@@ -42,11 +38,14 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 	View mNewCreditCardBtn;
 
 	TextView mStoredPaymentsLabel;
+	View mStoredPaymentsLabelDiv;
 	TextView mCurrentPaymentLabel;
+	View mCurrentPaymentLabelDiv;
 	TextView mNewPaymentLabel;
+	View mNewPaymentLabelDiv;
 	ViewGroup mCurrentPaymentContainer;
 	ViewGroup mStoredCardsContainer;
-	ViewGroup mStoredPaymentContainer;
+	ViewGroup mCurrentStoredPaymentContainer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,11 +57,14 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 		mSectionStoredPayment = Ui.findView(this, R.id.stored_creditcard_section);
 
 		mStoredPaymentsLabel = Ui.findView(this, R.id.stored_payments_label);
+		mStoredPaymentsLabelDiv = Ui.findView(this, R.id.stored_payments_label_div);
 		mCurrentPaymentLabel = Ui.findView(this, R.id.current_payment_label);
+		mCurrentPaymentLabelDiv = Ui.findView(this, R.id.current_payment_label_div);
 		mNewPaymentLabel = Ui.findView(this, R.id.new_payment_label);
+		mNewPaymentLabelDiv = Ui.findView(this, R.id.new_payment_label_div);
 		mCurrentPaymentContainer = Ui.findView(this, R.id.current_payment_container);
 		mStoredCardsContainer = Ui.findView(this, R.id.new_payment_stored_cards);
-		mStoredPaymentContainer = Ui.findView(this, R.id.stored_payment_container);
+		mCurrentStoredPaymentContainer = Ui.findView(this, R.id.current_stored_payment_container);
 
 		mNewCreditCardBtn = Ui.findView(this, R.id.new_payment_new_card);
 
@@ -101,7 +103,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 				startActivity(intent);
 			}
 		});
-
 
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
 
@@ -142,21 +143,34 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 				}
 				mStoredCardsContainer.addView(card);
 			}
-
 		}
 
+		updateVisibilities();
+	}
+
+	public void updateVisibilities() {
+		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
+
+		//Populate stored creditcard list
+		if (User.isLoggedIn(this) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+			cards = Db.getUser().getStoredCreditCards();
+		}
+		
 		//Set visibilities
 		boolean hasAccountCards = cards != null && cards.size() > 0;
 		boolean hasSelectedStoredCard = Db.getBillingInfo().getStoredCard() != null;
 		boolean hasValidNewCard = !TextUtils.isEmpty(Db.getBillingInfo().getNumber());
 		mCurrentPaymentLabel.setVisibility(hasSelectedStoredCard || hasValidNewCard ? View.VISIBLE : View.GONE);
-		mStoredPaymentContainer.setVisibility(hasSelectedStoredCard ? View.VISIBLE : View.GONE);
+		mCurrentPaymentLabelDiv.setVisibility(mCurrentPaymentLabel.getVisibility());
+		mCurrentStoredPaymentContainer.setVisibility(hasSelectedStoredCard ? View.VISIBLE : View.GONE);
 		mCurrentPaymentContainer.setVisibility(!hasSelectedStoredCard && hasValidNewCard ? View.VISIBLE : View.GONE);
 		mNewPaymentLabel
 				.setText(hasSelectedStoredCard || hasValidNewCard ? getString(R.string.or_select_new_paymet_method)
 						: getString(R.string.select_payment));
+		mNewPaymentLabelDiv.setVisibility(mNewPaymentLabel.getVisibility());
 		mStoredPaymentsLabel.setVisibility(hasAccountCards ? View.VISIBLE : View.GONE);
-		
+		mStoredPaymentsLabelDiv.setVisibility(mStoredPaymentsLabel.getVisibility());
+		mStoredCardsContainer.setVisibility((cards != null && cards.size() > 0)? View.VISIBLE : View.GONE);
 	}
 
 	@Override
@@ -173,17 +187,17 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity {
 		mSectionStoredPayment.bind(mBillingInfo.getStoredCard());
 
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = this.getSupportMenuInflater();
 		inflater.inflate(R.menu.menu_done, menu);
-		menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener(){
+		menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(FlightPaymentOptionsActivity.this, FlightCheckoutActivity.class);
 				startActivity(intent);
-			}		
+			}
 		});
 		return true;
 	}

@@ -31,7 +31,9 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	View mInternationalDivider;
 
 	TextView mEditTravelerLabel;
+	View mEditTravelerLabelDiv;
 	TextView mSelectTravelerLabel;
+	View mSelectTravelerLabelDiv;
 	ViewGroup mEditTravelerContainer;
 	ViewGroup mAssociatedTravelersContainer;
 
@@ -52,7 +54,9 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 		mEditTravelerContainer = Ui.findView(this, R.id.edit_traveler_container);
 		mEditTravelerLabel = Ui.findView(this, R.id.edit_traveler_label);
+		mEditTravelerLabelDiv = Ui.findView(this, R.id.edit_traveler_label_div);
 		mSelectTravelerLabel = Ui.findView(this, R.id.select_traveler_label);
+		mSelectTravelerLabelDiv = Ui.findView(this, R.id.select_traveler_label_div);
 		mAssociatedTravelersContainer = Ui.findView(this, R.id.associated_travelers_container);
 		mInternationalDivider = Ui.findView(this, R.id.current_traveler_passport_country_divider);
 
@@ -173,6 +177,9 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				mPassengerPassportCountry.setVisibility(View.GONE);
 			}
 		}
+		
+		mEditTravelerLabelDiv.setVisibility(mEditTravelerLabel.getVisibility());
+		mSelectTravelerLabelDiv.setVisibility(mSelectTravelerLabel.getVisibility());
 
 		mPassengerContact.bind(mCurrentPassenger);
 		mPassengerPrefs.bind(mCurrentPassenger);

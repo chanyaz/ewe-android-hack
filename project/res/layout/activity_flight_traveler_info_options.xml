@@ -27,6 +27,7 @@
             android:textSize="@dimen/data_form_section_header_text" />
 
         <View
+            android:id="@+id/edit_traveler_label_div"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="4dp"
@@ -85,6 +86,7 @@
             android:textSize="@dimen/data_form_section_header_text" />
 
         <View
+            android:id="@+id/select_traveler_label_div"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="8dp"
