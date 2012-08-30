@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <com.mobiata.android.widget.CalendarDatePicker
+        android:id="@+id/calendar_date_picker"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:background="#DDD"
+        mobiata:calendarHeaderBackground="@color/calendar_header"
+        mobiata:cellTextColor="@color/calendar_cell_text"
+        mobiata:drawGridLines="false"
+        mobiata:headerInstructionText="@string/calendar_instructions_nothing_selected"
+        mobiata:headerInstructionTextSpaceReserved="true"
+        mobiata:popupBackground="@drawable/calendar_date_picker_popup"
+        mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell" />
+
+</LinearLayout>

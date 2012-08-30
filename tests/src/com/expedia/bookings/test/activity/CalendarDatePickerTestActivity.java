@@ -12,7 +12,7 @@ public class CalendarDatePickerTestActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.fragment_dialog_calendar);
+		setContentView(R.layout.test_calendar_date_picker);
 	}
 
 }
