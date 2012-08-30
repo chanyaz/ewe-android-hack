@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
@@ -13,6 +14,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.section.FlightPathSection;
+import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -62,6 +64,18 @@ public class FlightDetailsFragment extends Fragment {
 				infoContainer, false);
 		flightPathSection.bind(leg.getSegment(0));
 		infoContainer.addView(flightPathSection);
+
+		// Add each card, with layovers in between
+		int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
+		int segmentCount = leg.getSegmentCount();
+		for (int a = 0; a < segmentCount; a++) {
+			FlightSegmentSection flightSegmentSection = (FlightSegmentSection) inflater.inflate(
+					R.layout.section_flight_segment, infoContainer, false);
+			flightSegmentSection.bind(getFlightTripLeg());
+			MarginLayoutParams params = (MarginLayoutParams) flightSegmentSection.getLayoutParams();
+			params.setMargins(cardMargins, cardMargins, cardMargins, cardMargins);
+			infoContainer.addView(flightSegmentSection);
+		}
 
 		return v;
 	}

@@ -12,6 +12,7 @@
    	<dimen name="yoyo_navigation_img_width">24dp</dimen>
    	<dimen name="yoyo_navigation_img_height">24dp</dimen>
    	<dimen name="yoyo_navigation_padding_right">10dp</dimen>
+   	<dimen name="flight_segment_margin">16dp</dimen>
     
     <!-- Dimensions for the list header fragment -->
     <dimen name="sort_view_max_width">250dp</dimen>
