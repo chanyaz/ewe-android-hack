@@ -1,19 +1,18 @@
 package com.expedia.bookings.section;
 
+import java.util.Calendar;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.FlightTripLeg;
 import com.mobiata.android.util.Ui;
+import com.mobiata.flightlib.data.Flight;
 
 public class FlightSegmentSection extends LinearLayout {
 
 	private FlightLegSummarySection mFlightLegSummary;
-
 
 	public FlightSegmentSection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -27,12 +26,7 @@ public class FlightSegmentSection extends LinearLayout {
 		mFlightLegSummary = Ui.findView(this, R.id.flight_leg_summary);
 	}
 
-	public void bind(FlightTripLeg tripLeg) {
-		// Bind to views
-		FlightTrip trip = tripLeg.getFlightTrip();
-		FlightLeg leg = tripLeg.getFlightLeg();
-
-		mFlightLegSummary.bind(trip, leg);
+	public void bind(Flight flight, Calendar minTime, Calendar maxTime) {
+		mFlightLegSummary.bindFlight(flight, minTime, maxTime);
 	}
-
 }

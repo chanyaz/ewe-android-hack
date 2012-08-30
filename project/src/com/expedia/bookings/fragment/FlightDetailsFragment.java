@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Calendar;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -68,6 +70,8 @@ public class FlightDetailsFragment extends Fragment {
 
 		// Add each card, with layovers in between
 		int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
+		Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+		Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
 		int segmentCount = leg.getSegmentCount();
 		for (int a = 0; a < segmentCount; a++) {
 			if (a != 0) {
@@ -79,7 +83,7 @@ public class FlightDetailsFragment extends Fragment {
 
 			FlightSegmentSection flightSegmentSection = (FlightSegmentSection) inflater.inflate(
 					R.layout.section_flight_segment, infoContainer, false);
-			flightSegmentSection.bind(getFlightTripLeg());
+			flightSegmentSection.bind(leg.getSegment(a), minTime, maxTime);
 			MarginLayoutParams params = (MarginLayoutParams) flightSegmentSection.getLayoutParams();
 			params.setMargins(cardMargins, cardMargins, cardMargins, cardMargins);
 			infoContainer.addView(flightSegmentSection);

@@ -61,6 +61,12 @@ public class FlightTripView extends View {
 		invalidate();
 	}
 
+	public void setUp(Flight flight, Calendar minTime, Calendar maxTime) {
+		FlightLeg pseudoLeg = new FlightLeg();
+		pseudoLeg.addSegment(flight);
+		setUp(pseudoLeg, minTime, maxTime);
+	}
+
 	// TODO: OPTIMIZE DRAWING CODE!
 	// This is all written for EASE of coding at the moment.  Once that's all been figured out,
 	// optimize some of the calls

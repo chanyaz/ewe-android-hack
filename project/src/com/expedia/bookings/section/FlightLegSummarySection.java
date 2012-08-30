@@ -16,8 +16,15 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.android.util.Ui;
+import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.mobiata.flightlib.utils.FormatUtils;
 
+/**
+ * Note: This is somewhat overloaded to be able to represent either an entire
+ * leg or just one segment inside of a leg, depending on what data is bound
+ * to it.
+ */
 public class FlightLegSummarySection extends RelativeLayout {
 
 	private static final DecimalFormat sDaySpanFormatter = new DecimalFormat("#");
@@ -79,6 +86,18 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		mFlightTripView.setUp(leg, minTime, maxTime);
+	}
+
+	public void bindFlight(Flight flight, Calendar minTime, Calendar maxTime) {
+		Context context = getContext();
+
+		mAirlineTextView.setText(FormatUtils.formatFlightNumber(flight, context));
+		mPriceTextView.setVisibility(View.GONE);
+
+		mDepartureTimeTextView.setText(formatTime(flight.mOrigin.getMostRelevantDateTime()));
+		mArrivalTimeTextView.setText(formatTime(flight.mDestination.getMostRelevantDateTime()));
+
+		mFlightTripView.setUp(flight, minTime, maxTime);
 	}
 
 	private String formatTime(Calendar cal) {
