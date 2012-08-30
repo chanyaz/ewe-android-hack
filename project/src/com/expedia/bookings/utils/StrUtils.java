@@ -6,12 +6,15 @@ import java.util.List;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.LocationServices;
+import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.Waypoint;
 
 public class StrUtils {
 
@@ -166,6 +169,29 @@ public class StrUtils {
 
 	public static String formatHotelPrice(Money money, String currencyCode) {
 		return money.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN, currencyCode);
+	}
+
+	public static String formatWaypoint(Waypoint waypoint) {
+		Airport airport = waypoint.getAirport();
+		StringBuilder sb = new StringBuilder();
+		if (airport != null) {
+			if (!TextUtils.isEmpty(airport.mCity)) {
+				sb.append(airport.mCity);
+			}
+			if (!TextUtils.isEmpty(airport.mCountryCode)) {
+				if (airport.mCountryCode.equals("US") && !TextUtils.isEmpty(airport.mStateCode)) {
+					sb.append(", " + airport.mStateCode);
+				}
+				else {
+					sb.append(", " + airport.mCountryCode);
+				}
+			}
+		}
+		else {
+			sb.append(waypoint.mAirportCode);
+		}
+
+		return sb.toString();
 	}
 
 	/**

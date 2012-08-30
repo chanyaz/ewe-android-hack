@@ -37,12 +37,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:fillViewport="true" >
 
         <LinearLayout
             android:id="@+id/flight_info_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" />
     </ScrollView>
 
     <!-- Bagge fee footer -->

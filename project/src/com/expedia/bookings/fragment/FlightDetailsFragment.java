@@ -12,6 +12,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.section.FlightPathSection;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -43,6 +44,7 @@ public class FlightDetailsFragment extends Fragment {
 		FlightTrip trip = getFlightTrip();
 		FlightLeg leg = getFlightLeg();
 
+		// Format header
 		String duration = DateTimeUtils.formatDuration(getResources(), (int) (leg.getDuration() / 60000));
 		String distance = FormatUtils.formatDistance(getActivity(), leg.getDistanceInMiles());
 
@@ -51,6 +53,15 @@ public class FlightDetailsFragment extends Fragment {
 		Ui.setText(v, R.id.book_price_text_view,
 				Html.fromHtml(getString(R.string.book_now_price_TEMPLATE,
 						trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL))));
+
+		// Format content
+		ViewGroup infoContainer = Ui.findView(v, R.id.flight_info_container);
+
+		// Initial header
+		FlightPathSection flightPathSection = (FlightPathSection) inflater.inflate(R.layout.section_flight_path,
+				infoContainer, false);
+		flightPathSection.bind(leg.getSegment(0));
+		infoContainer.addView(flightPathSection);
 
 		return v;
 	}
