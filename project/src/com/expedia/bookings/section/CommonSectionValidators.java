@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.PatternValidator;
 import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
@@ -39,13 +40,30 @@ public class CommonSectionValidators {
 	};
 
 	public static final Validator<EditText> TELEPHONE_NUMBER_VALIDATOR_ET = new Validator<EditText>() {
-		TextViewValidator mValidator = new TextViewValidator(new TelephoneValidator());
+
+		TextViewValidator mValidator;
 
 		@Override
 		public int validate(EditText obj) {
+
+			if (mValidator == null) {
+				MultiValidator<CharSequence> mMultiValidator = new MultiValidator<CharSequence>();
+				mMultiValidator.addValidator(new TelephoneValidator());
+				mMultiValidator.addValidator(new PhoneNumberLengthValidator());
+				mValidator = new TextViewValidator(mMultiValidator);
+			}
+
 			return (obj == null) ? ValidationError.ERROR_DATA_MISSING : mValidator.validate(obj);
 		}
 	};
+
+	public static class PhoneNumberLengthValidator extends PatternValidator {
+		private static final Pattern THREE_NUMBERS_PATTERN = Pattern.compile(".*\\d+.*\\d+.*\\d+.*");//atleast three digits
+
+		public PhoneNumberLengthValidator() {
+			super(THREE_NUMBERS_PATTERN);
+		}
+	}
 
 	public static final Validator<EditText> EMAIL_VALIDATOR_ET = new Validator<EditText>() {
 		TextViewValidator mValidator = new TextViewValidator(new EmailValidator());
@@ -55,7 +73,7 @@ public class CommonSectionValidators {
 			return (obj == null) ? ValidationError.ERROR_DATA_MISSING : mValidator.validate(obj);
 		}
 	};
-	
+
 	public static final Validator<RadioGroup> RADIO_GROUP_HAS_SELECTION = new Validator<RadioGroup>() {
 		@Override
 		public int validate(RadioGroup obj) {
