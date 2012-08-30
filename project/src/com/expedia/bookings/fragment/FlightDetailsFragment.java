@@ -13,6 +13,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.section.FlightLayoverSection;
 import com.expedia.bookings.section.FlightPathSection;
 import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.utils.Ui;
@@ -69,6 +70,13 @@ public class FlightDetailsFragment extends Fragment {
 		int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
 		int segmentCount = leg.getSegmentCount();
 		for (int a = 0; a < segmentCount; a++) {
+			if (a != 0) {
+				FlightLayoverSection flightLayoverSection = (FlightLayoverSection) inflater.inflate(
+						R.layout.section_flight_layover, infoContainer, false);
+				flightLayoverSection.bind(leg.getSegment(a - 1), leg.getSegment(a));
+				infoContainer.addView(flightLayoverSection);
+			}
+
 			FlightSegmentSection flightSegmentSection = (FlightSegmentSection) inflater.inflate(
 					R.layout.section_flight_segment, infoContainer, false);
 			flightSegmentSection.bind(getFlightTripLeg());
