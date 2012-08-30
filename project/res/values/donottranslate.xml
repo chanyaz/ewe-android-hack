@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
+    <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
+
     <!-- Tracking tags -->
     <string name="google_analytics_ua">UA-31534750-3</string>
     <string name="amobee_app_id">ExpediaHotelsAndroidPhone</string>
