@@ -7,12 +7,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -57,7 +59,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		mFields.add(this.mDisplayAddressCountry);
 		mFields.add(this.mDisplayAddressBothLines);
 		mFields.add(this.mDisplayCityStateZipOneLine);
-		
+
 		//Validation Indicators
 		mFields.add(mValidAddrLineOne);
 		mFields.add(mValidAddrLineTwo);
@@ -477,7 +479,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					if (getData() != null) {
 						CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) parent.getAdapter();
-						getData().setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.TWO_LETTER));
+						getData().setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
+						updatePostalCodeFormat();
 					}
 					onChange(SectionLocation.this);
 				}
@@ -487,6 +490,20 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
+		}
+
+		protected void updatePostalCodeFormat() {
+			if (getData() != null && mEditAddressPostalCode != null) {
+				if (mEditAddressPostalCode.hasBoundField()) {
+					Log.i("CountryCode:" + getData().getCountryCode());
+					if (!TextUtils.isEmpty(getData().getCountryCode()) && getData().getCountryCode().equalsIgnoreCase("USA")) {
+						mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_PHONE);
+					}
+					else {
+						mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_TEXT);
+					}
+				}
+			}
 		}
 
 		@Override

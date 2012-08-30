@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:inputType="textPostalAddress|textCapWords"
         android:hint="@string/address_line_one_hint" />
 
     <EditText
@@ -17,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:inputType="textPostalAddress|textCapWords"
         android:hint="@string/address_line_two_hint" />
 
     <LinearLayout
@@ -35,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:inputType="textCapWords"
                 android:hint="@string/address_city_hint" 
                 android:nextFocusRight="@+id/edit_address_state"
                 android:nextFocusDown="@+id/edit_address_state"/>
@@ -56,6 +59,7 @@
                 android:id="@+id/edit_address_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
                 android:singleLine="true"
                 android:hint="@string/address_state_hint" />
 
