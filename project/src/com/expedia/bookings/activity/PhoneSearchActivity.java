@@ -49,8 +49,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Surface;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -83,6 +81,10 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.animation.Rotate3dAnimation;
@@ -135,7 +137,7 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 
-public class PhoneSearchActivity extends FragmentMapActivity implements LocationListener, OnDrawStartedListener,
+public class PhoneSearchActivity extends SherlockFragmentMapActivity implements LocationListener, OnDrawStartedListener,
 		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -846,7 +848,7 @@ public class PhoneSearchActivity extends FragmentMapActivity implements Location
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_search, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_search, menu);
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		mHockeyPuck.onCreateOptionsMenu(menu);
 		return super.onCreateOptionsMenu(menu);

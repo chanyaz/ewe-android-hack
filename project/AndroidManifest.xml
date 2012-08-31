@@ -39,7 +39,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PhoneSearchActivity" />
+        <activity
+            android:name=".activity.PhoneSearchActivity"
+            android:theme="@style/Theme.Phone"
+            android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name=".activity.SearchFragmentActivity"
             android:theme="@style/Theme.Tablet.NoActionBar"

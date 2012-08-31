@@ -1,12 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<item
-		android:id="@+id/settings"
-		android:title="@string/Settings"
-		android:icon="@android:drawable/ic_menu_manage" />
-	<item
-		android:id="@+id/about"
-		android:title="@string/About"
-		android:icon="@android:drawable/ic_menu_info_details" />
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_select_sort"
+        android:showAsAction="always|withText"
+        android:title="Sort">
+        <menu>
+            <group
+                android:id="@+id/menu_select_sort_group"
+                android:checkableBehavior="single" >
+
+                <item
+                    android:id="@+id/menu_select_sort_popularity"
+                    android:checked="true"
+                    android:icon="@drawable/ic_sort_popular"
+                    android:title="Popularity" />
+                <item
+                    android:id="@+id/menu_select_sort_price"
+                    android:icon="@drawable/ic_sort_price"
+                    android:title="Price" />
+                <item
+                    android:id="@+id/menu_select_sort_user_rating"
+                    android:icon="@drawable/ic_sort_user_rating"
+                    android:title="User Rating" />
+                <item
+                    android:id="@+id/menu_select_sort_distance"
+                    android:icon="@drawable/ic_sort_distance"
+                    android:title="Distance" />
+            </group>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_select_filter"
+        android:showAsAction="always|withText"
+        android:title="Filter" />
+    <item
+        android:id="@+id/menu_select_change_view"
+        android:icon="@drawable/ic_menu_map"
+        android:showAsAction="always"
+        android:title="Map" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:showAsAction="never"
+        android:title="@string/Settings" />
+    <item
+        android:id="@+id/about"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:showAsAction="never"
+        android:title="@string/About" />
 </menu>
