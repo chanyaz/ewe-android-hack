@@ -440,6 +440,7 @@
         <item name="android:shadowRadius">.1</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
+        <item name="android:textScaleX">.85</item>
     </style>
 
     <style name="SpinnerStyle" parent="@android:style/Widget.Holo.Spinner">
