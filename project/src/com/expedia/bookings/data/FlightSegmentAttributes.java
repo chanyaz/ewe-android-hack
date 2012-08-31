@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.R;
 import com.mobiata.android.json.JSONable;
 
 public class FlightSegmentAttributes implements JSONable {
@@ -17,6 +18,23 @@ public class FlightSegmentAttributes implements JSONable {
 	public String getCabinCode() {
 		return mCabinCode;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience
+
+	public int getCabinCodeResId() {
+		if (mCabinCode.equals("coach")) {
+			return R.string.cabin_code_coach;
+		}
+		else if (mCabinCode.equals("first")) {
+			return R.string.cabin_code_first;
+		}
+
+		return 0;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
 
 	@Override
 	public JSONObject toJson() {

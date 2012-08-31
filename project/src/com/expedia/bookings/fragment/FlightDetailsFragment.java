@@ -83,7 +83,7 @@ public class FlightDetailsFragment extends Fragment {
 
 			FlightSegmentSection flightSegmentSection = (FlightSegmentSection) inflater.inflate(
 					R.layout.section_flight_segment, infoContainer, false);
-			flightSegmentSection.bind(leg.getSegment(a), minTime, maxTime);
+			flightSegmentSection.bind(leg.getSegment(a), trip.getFlightSegmentAttributes(leg).get(a), minTime, maxTime);
 			MarginLayoutParams params = (MarginLayoutParams) flightSegmentSection.getLayoutParams();
 			params.setMargins(cardMargins, cardMargins, cardMargins, cardMargins);
 			infoContainer.addView(flightSegmentSection);
