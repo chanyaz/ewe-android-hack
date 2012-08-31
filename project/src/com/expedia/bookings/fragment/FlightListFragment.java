@@ -39,6 +39,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	private FlightListFragmentListener mListener;
 
+	private ListView mListView;
 	private TextView mNumFlightsTextView;
 	private SectionFlightLeg mSectionFlightLeg;
 
@@ -77,18 +78,14 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		View v = inflater.inflate(R.layout.fragment_flight_list, container, false);
 
 		// Configure the header
-		ListView lv = Ui.findView(v, android.R.id.list);
-		lv.setDividerHeight(0);
-		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, lv, false);
+		mListView = Ui.findView(v, android.R.id.list);
+		mListView.setDividerHeight(0);
+		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, mListView, false);
 		mNumFlightsTextView = Ui.findView(header, R.id.num_flights_text_view);
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
 		mSectionFlightLeg.setListener(this);
-		lv.addHeaderView(header);
-		lv.setHeaderDividersEnabled(false);
-
-		if (usesDynamicBlur()) {
-			lv.setOnScrollListener(this);
-		}
+		mListView.addHeaderView(header);
+		mListView.setHeaderDividersEnabled(false);
 
 		displayHeaderLeg();
 
@@ -132,28 +129,6 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		FlightTrip trip = mAdapter.getItem(position - numHeaderViews);
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		mListener.onFlightLegClick(trip, leg, mLegPosition);
-
-		/*
-		// Set the leg as selected
-		FlightTrip trip = mAdapter.getItem(position - numHeaderViews);
-		FlightLeg leg = trip.getLeg(mLegPosition);		
-		FlightSearch flightSearch = Db.getFlightSearch();
-		flightSearch.setSelectedLeg(mLegPosition, new FlightTripLeg(trip, leg));
-
-		// If we need to select another leg, continue; otherwise go to next page
-		if (flightSearch.getSelectedFlightTrip() == null) {
-			mLegPosition++;
-
-			displayHeaderLeg();
-
-			onLegPositionChanged();
-		}
-		else {
-			Intent intent = new Intent(getActivity(), FlightTripOverviewActivity.class);
-			intent.putExtra(FlightTripOverviewActivity.EXTRA_TRIP_KEY, trip.getProductKey());
-			startActivity(intent);
-		}
-		*/
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -227,8 +202,18 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
 
 		// Scroll to top after reloading list with new results
-		if (getView() != null) {
-			getListView().setSelection(0);
+		if (mListView != null) {
+			mListView.setSelection(0);
+
+			// Only dynamically blur background if there is no header
+			// flight card being shown.
+			if (mLegPosition == 0 && usesDynamicBlur()) {
+				mListView.setOnScrollListener(this);
+			}
+			else {
+				mListView.setOnScrollListener(null);
+				mListener.onBlur(1.0f);
+			}
 		}
 
 		displayHeaderLeg();
