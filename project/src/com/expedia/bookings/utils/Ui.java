@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import android.os.Bundle;
 import android.support.v4.app.CompatFragmentActivity;
 import android.support.v4.app.Fragment;
 

@@ -54,7 +54,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private static final int BODY_LENGTH_CUTOFF = 270;
 
 	// Bundle strings
-	private static final String ARGUMENT_PROPERTY_JSON = "ARGUMENT_PROPERTY_JSON";
 	private static final String ARGUMENT_SORT_STRING = "ARGUMENT_SORT_STRING";
 
 	private static final String INSTANCE_ATTEMPTED_DOWNLOAD = "INSTANCE_ATTEMPTED_DOWNLOAD";
@@ -112,10 +111,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 		Bundle args = new Bundle();
 
-		// property
-		String propertyJson = property.toJson().toString();
-		args.putString(ARGUMENT_PROPERTY_JSON, propertyJson);
-
 		// review sort
 		String sortString = sort.toString();
 		args.putString(ARGUMENT_SORT_STRING, sortString);
@@ -141,12 +136,10 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		super.onCreate(savedInstanceState);
 
 		// property
-		final Bundle args = getArguments();
-		JSONObject property = JSONUtils.parseJSONObjectFromBundle(args, ARGUMENT_PROPERTY_JSON);
-		mProperty = new Property();
-		mProperty.fromJson(property);
+		mProperty = Db.getSelectedProperty();
 
 		// review sort
+		final Bundle args = getArguments();
 		String sortString = args.getString(ARGUMENT_SORT_STRING);
 		mReviewSort = ReviewSort.valueOf(sortString);
 
@@ -313,14 +306,16 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		}
 	}
 
-	public boolean getHasAttemptedDownload() {
-		return mAttemptedDownload;
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Reviews Download
 
-	public void startReviewsDownload() {
+	public void attemptReviewsDownload() {
+		if (!mAttemptedDownload) {
+			startReviewsDownload();
+		}
+	}
+
+	private void startReviewsDownload() {
 		mBackgroundDownloader.startDownload(mReviewsDownloadKey, mUserReviewDownload, mUserReviewDownloadCallback);
 	}
 

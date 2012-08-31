@@ -2,16 +2,11 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -31,42 +26,31 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserReviewsUtils;
+import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 
-public class UserReviewsListActivity extends SherlockFragmentActivity implements UserReviewsFragmentListener, TabListener,
-		OnPageChangeListener {
+public class UserReviewsListActivity extends SherlockFragmentActivity implements UserReviewsFragmentListener,
+		TabListener, OnPageChangeListener {
 
 	// Download keys
 	private static final String REVIEWS_STATISTICS_DOWNLOAD = UserReviewsListActivity.class.getName() + ".stats";
 
-	// Member variables
-	private Context mContext;
-	public Property mProperty;
+	// Instance variable names
+	private static final String INSTANCE_VIEWED_REVIEWS = "INSTANCE_VIEWED_REVIEWS";
 
 	// Fragments and Views
-	private UserReviewsFragment mRecentReviewsFragment;
-	private UserReviewsFragment mFavorableReviewsFragment;
-	private UserReviewsFragment mCriticalReviewsFragment;
 	private ViewPager mViewPager;
-	private PagerAdapter mPagerAdapter;
-
-	// Instance variable names
-	private static final String INSTANCE_RECENT_REVIEWS_FRAGMENT = "INSTANCE_RECENT_REVIEWS_FRAGMENT";
-	private static final String INSTANCE_FAVORABLE_REVIEWS_FRAGMENT = "INSTANCE_FAVORABLE_REVIEWS_FRAGMENT";
-	private static final String INSTANCE_CRITICAL_REVIEWS_FRAGMENT = "INSTANCE_CRITICAL_REVIEWS_FRAGMENT";
-	private static final String INSTANCE_VIEWED_REVIEWS = "INSTANCE_VIEWED_REVIEWS";
+	private UserReviewsFragmentPagerAdapter mPagerAdapter;
 
 	// Network classes
 	private BackgroundDownloader mBackgroundDownloader = BackgroundDownloader.getInstance();
@@ -84,26 +68,16 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 			return;
 		}
 
-		mContext = this;
-
-		mProperty = Db.getSelectedProperty();
-
 		if (savedInstanceState != null) {
-			mRecentReviewsFragment = Ui.findSupportFragment(this, INSTANCE_RECENT_REVIEWS_FRAGMENT);
-			mFavorableReviewsFragment = Ui.findSupportFragment(this, INSTANCE_FAVORABLE_REVIEWS_FRAGMENT);
-			mCriticalReviewsFragment = Ui.findSupportFragment(this, INSTANCE_CRITICAL_REVIEWS_FRAGMENT);
 			mViewedReviews = new HashSet<String>(savedInstanceState.getStringArrayList(INSTANCE_VIEWED_REVIEWS));
 		}
 		else {
-			mRecentReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.NEWEST_REVIEW_FIRST);
-			mFavorableReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.HIGHEST_RATING_FIRST);
-			mCriticalReviewsFragment = UserReviewsFragment.newInstance(mProperty, ReviewSort.LOWEST_RATING_FIRST);
 			mViewedReviews = new HashSet<String>();
 		}
 
 		setContentView(R.layout.activity_user_reviews);
 
-		initializePager();
+		initializePager(savedInstanceState);
 		initializeActionBar();
 	}
 
@@ -185,9 +159,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 			// cancel all downloads
 			mBackgroundDownloader.cancelDownload(REVIEWS_STATISTICS_DOWNLOAD);
-			mRecentReviewsFragment.cancelReviewsDownload();
-			mFavorableReviewsFragment.cancelReviewsDownload();
-			mCriticalReviewsFragment.cancelReviewsDownload();
+			mPagerAdapter.cancelDownloads();
 		}
 	}
 
@@ -197,14 +169,16 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 		ArrayList<String> viewedReviews = new ArrayList<String>(mViewedReviews);
 		outState.putStringArrayList(INSTANCE_VIEWED_REVIEWS, viewedReviews);
+
+		mPagerAdapter.onSaveInstanceState(getSupportFragmentManager(), outState);
 	}
 
 	private final Download<ReviewsStatisticsResponse> mReviewStatisticsDownload = new Download<ReviewsStatisticsResponse>() {
 		@Override
 		public ReviewsStatisticsResponse doDownload() {
-			ExpediaServices expediaServices = new ExpediaServices(mContext);
+			ExpediaServices expediaServices = new ExpediaServices(UserReviewsListActivity.this);
 			mBackgroundDownloader.addDownloadListener(REVIEWS_STATISTICS_DOWNLOAD, expediaServices);
-			return expediaServices.reviewsStatistics(mProperty);
+			return expediaServices.reviewsStatistics(Db.getSelectedProperty());
 		}
 	};
 
@@ -236,17 +210,12 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	 */
 	private void populateReviewsStats() {
 
-		// populate the list header for all three fragments
-		mRecentReviewsFragment.populateListHeader();
-		mFavorableReviewsFragment.populateListHeader();
-		mCriticalReviewsFragment.populateListHeader();
+		mPagerAdapter.populateReviewsStats();
 
 		LinearLayout titleView = (LinearLayout) getSupportActionBar().getCustomView();
 		if (titleView == null) {
 			return;
 		}
-
-		mRecentReviewsFragment.startReviewsDownload();
 
 		TextView titleTextView = (TextView) titleView.findViewById(R.id.title);
 		RatingBar ratingBar = (RatingBar) titleView.findViewById(R.id.user_rating);
@@ -282,38 +251,6 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		}
 	}
 
-	/**
-	 * This override is part of the FragmentListener implementation. The fragment will invoke this callback
-	 * once it has completed downloading a set of reviews. This method determines the logic for "chaining" of
-	 * reviews, that is download the first page of all three sets of reviews automatically, one after the other
-	 * such that no two downloads are happening at once
-	 */
-	@Override
-	public void onDownloadComplete(UserReviewsFragment fragmentDone) {
-		UserReviewsFragment fragmentStart;
-		if (fragmentDone == mRecentReviewsFragment) {
-			fragmentStart = mFavorableReviewsFragment;
-		}
-		else if (fragmentDone == mFavorableReviewsFragment) {
-			fragmentStart = mCriticalReviewsFragment;
-		}
-		else {
-			fragmentStart = mRecentReviewsFragment;
-		}
-
-		if (!fragmentStart.getHasAttemptedDownload()) {
-			fragmentStart.startReviewsDownload();
-		}
-	}
-
-	/**
-	 * This override is used to track the number of reviews seen
-	 */
-	@Override
-	public void addMoreReviewsSeen(Set<String> reviews) {
-		mViewedReviews.addAll(reviews);
-	}
-
 	private void initializeActionBar() {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
@@ -339,39 +276,37 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// FragmentListener
+
+	/**
+	 * This override is part of the FragmentListener implementation. The fragment will invoke this callback
+	 * once it has completed downloading a set of reviews. This method determines the logic for "chaining" of
+	 * reviews, that is download the first page of all three sets of reviews automatically, one after the other
+	 * such that no two downloads are happening at once
+	 */
+	@Override
+	public void onDownloadComplete(UserReviewsFragment fragmentDone) {
+		mPagerAdapter.attemptNextDownload(fragmentDone);
+	}
+
+	/**
+	 * This override is used to track the number of reviews seen
+	 */
+	@Override
+	public void addMoreReviewsSeen(Set<String> reviews) {
+		mViewedReviews.addAll(reviews);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// FragmentViewPager
 
-	private void initializePager() {
-		List<Fragment> fragments = new ArrayList<Fragment>();
-		fragments.add(mRecentReviewsFragment);
-		fragments.add(mFavorableReviewsFragment);
-		fragments.add(mCriticalReviewsFragment);
-		mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments);
+	private void initializePager(Bundle savedInstanceState) {
+		mPagerAdapter = new UserReviewsFragmentPagerAdapter(getSupportFragmentManager(), savedInstanceState);
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setOffscreenPageLimit(2);
 		mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setOnPageChangeListener(this);
-		mViewPager.setCurrentItem(0);
-	}
-
-	private static class PagerAdapter extends FragmentPagerAdapter {
-		private List<Fragment> mFragments;
-
-		public PagerAdapter(FragmentManager fm, List<Fragment> fragments) {
-			super(fm);
-			mFragments = fragments;
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			return mFragments.get(position);
-		}
-
-		@Override
-		public int getCount() {
-			return mFragments.size();
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -379,7 +314,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		int index = (Integer)tab.getTag();
+		int index = (Integer) tab.getTag();
 
 		if (mViewPager.getCurrentItem() != index) {
 			mViewPager.setCurrentItem(index);

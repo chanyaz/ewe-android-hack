@@ -11,12 +11,45 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="8"
-        android:background="@drawable/bg_dialog_shadow" >
+        android:background="@drawable/bg_dialog_shadow"
+        android:orientation="vertical" >
 
-        <include
+        <com.mobiata.android.widget.SegmentedControlGroup
+            android:id="@+id/user_review_sort_group"
+            style="@style/Widget.SegmentedControlGroup.UserReviews"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            layout="@layout/include_user_reviews_list" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_header"
+            android:orientation="horizontal"
+            android:padding="8dp" >
+
+            <RadioButton
+                android:id="@+id/user_review_button_recent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/user_review_sort_button_recent" />
+
+            <RadioButton
+                android:id="@+id/user_review_button_favorable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/user_review_sort_button_favorable" />
+
+            <RadioButton
+                android:id="@+id/user_review_button_critical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/user_review_sort_button_critical" />
+        </com.mobiata.android.widget.SegmentedControlGroup>
+
+        <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </LinearLayout>
