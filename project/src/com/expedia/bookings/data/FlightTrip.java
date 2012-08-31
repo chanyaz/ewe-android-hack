@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +25,9 @@ public class FlightTrip implements JSONable {
 	private Money mFees;
 
 	private int mSeatsRemaining;
+
+	// These are modifiers for each segment in leg
+	private List<List<FlightSegmentAttributes>> mFlightSegmentAttrs = new ArrayList<List<FlightSegmentAttributes>>();
 
 	public String getProductKey() {
 		return mProductKey;
@@ -87,6 +91,23 @@ public class FlightTrip implements JSONable {
 
 	public void setSeatsRemaining(int seatsRemaining) {
 		mSeatsRemaining = seatsRemaining;
+	}
+
+	public void addFlightSegmentAttributes(List<FlightSegmentAttributes> attributes) {
+		mFlightSegmentAttrs.add(attributes);
+	}
+
+	public List<FlightSegmentAttributes> getFlightSegmentAttributes(int legPosition) {
+		return mFlightSegmentAttrs.get(legPosition);
+	}
+
+	public List<FlightSegmentAttributes> getFlightSegmentAttributes(FlightLeg leg) {
+		for (int a = 0; a < mLegs.size(); a++) {
+			if (leg.equals(mLegs.get(a))) {
+				return getFlightSegmentAttributes(a);
+			}
+		}
+		return null;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -293,6 +314,12 @@ public class FlightTrip implements JSONable {
 			JSONUtils.putJSONable(obj, "taxes", mTaxes);
 			JSONUtils.putJSONable(obj, "fees", mFees);
 			obj.putOpt("seatsRemaining", mSeatsRemaining);
+
+			JSONArray arr = new JSONArray();
+			for (List<FlightSegmentAttributes> attributes : mFlightSegmentAttrs) {
+				JSONUtils.putJSONableList(arr, attributes);
+			}
+			obj.putOpt("flightSegmentAttributes", arr);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -309,6 +336,11 @@ public class FlightTrip implements JSONable {
 		mTaxes = JSONUtils.getJSONable(obj, "taxes", Money.class);
 		mFees = JSONUtils.getJSONable(obj, "fees", Money.class);
 		mSeatsRemaining = obj.optInt("seatsRemaining");
+
+		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");
+		for (int a = 0; a < arr.length(); a++) {
+			mFlightSegmentAttrs.add(JSONUtils.getJSONableList(arr, a, FlightSegmentAttributes.class));
+		}
 		return true;
 	}
 }

@@ -13,9 +13,11 @@ import android.content.Context;
 
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.FlightSegmentAttributes;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
@@ -145,6 +147,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 				segment.mDistanceToTravel = distance;
 			}
 
+			segment.mAircraftType = segmentJson.optString("equipmentDescription");
+
 			leg.addSegment(segment);
 		}
 
@@ -189,6 +193,18 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		}
 
 		trip.setSeatsRemaining(tripJson.optInt("seatsRemaining"));
+
+		if (tripJson.has("segmentAttributes")) {
+			JSONArray legArr = tripJson.optJSONArray("segmentAttributes");
+			for (int a = 0; a < legArr.length(); a++) {
+				List<FlightSegmentAttributes> attrs = new ArrayList<FlightSegmentAttributes>();
+				JSONArray segAttrs = legArr.optJSONArray(a);
+				for (int b = 0; b < segAttrs.length(); b++) {
+					attrs.add(JSONUtils.getJSONable(segAttrs, b, FlightSegmentAttributes.class));
+				}
+				trip.addFlightSegmentAttributes(attrs);
+			}
+		}
 
 		return trip;
 	}
