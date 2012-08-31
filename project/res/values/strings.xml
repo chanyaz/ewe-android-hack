@@ -112,35 +112,6 @@
     <!-- Start date and end date selected -->
     <string name="calendar_instructions_range_selected_TEMPLATE">%1$d night trip selected.</string>
 
-    <!-- Flight Details Fragment -->
-    <!-- The label for the number of seats left for a flight -->
-    <string name="seats_left">seats left!</string>
-    <!-- The label for the cost of flight (per person) -->
-    <string name="per_person">/person</string>
-    <!-- city to city template -->
-    <string name="city_to_city_TEMPLATE">%1$s to %2$s</string>
-    <!-- airport name and airport code template -->
-    <string name="airport_name_and_code_TEMPLATE">%1$s (%2$s)</string>
-    <!-- time range for layovers -->
-    <string name="layover_time_range_and_duration_TEMPLATE">%1$s - %2$s ( %3$s )</string>
-
-    <!-- Flight Details Activity -->
-    <!-- Seat map button -->
-    <string name="btn_seat_map">Seat Map</string>
-    <!-- Baggage fee button -->
-    <string name="btn_baggage_fee">Baggage Fee</string>
-    <!-- Details activity actionbar select leg btn -->
-    <string name="btn_select_leg">Select leg</string>
-    <!-- Seats left label without any formatting -->
-    <plurals name="seats_left_no_formatting">
-        <item quantity="zero">seats left!</item>
-        <item quantity="one">seat left!</item>
-        <item quantity="two">seats left!</item>
-        <item quantity="few">seats left!</item>
-        <item quantity="many">seats left!</item>
-        <item quantity="other">seats left!</item>
-    </plurals>
-
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Book now for &lt;b&gt;%s&lt;/b&gt;</string>

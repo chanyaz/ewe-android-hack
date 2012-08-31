@@ -19,7 +19,6 @@ import android.widget.LinearLayout.LayoutParams;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightCheckoutActivity;
-import com.expedia.bookings.activity.FlightDetailsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightDetailsResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -89,7 +88,6 @@ public class FlightTripOverviewFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getActivity(), FlightCheckoutActivity.class);
-				intent.putExtra(FlightDetailsActivity.EXTRA_TRIP_KEY, mTrip.getProductKey());
 				startActivity(intent);
 			}
 		});

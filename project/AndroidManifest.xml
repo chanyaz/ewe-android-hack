@@ -122,9 +122,6 @@
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.FlightDetailsActivity"
-            android:theme="@style/FlightTheme" />
-        <activity
             android:name=".activity.FlightTripOverviewActivity"
             android:label="Overview"
             android:theme="@style/FlightTheme" >
