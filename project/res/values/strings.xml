@@ -113,6 +113,10 @@
     <string name="calendar_instructions_range_selected_TEMPLATE">%1$d night trip selected.</string>
 
     <!-- Flight details fragment -->
+    <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
+    <string name="one_way_price_TEMPLATE">One way for &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
+    <string name="round_trip_price_TEMPLATE">Round trip from &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Book now for &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Button label for information about baggage fees -->

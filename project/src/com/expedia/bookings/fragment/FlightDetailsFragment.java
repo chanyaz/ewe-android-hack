@@ -52,12 +52,25 @@ public class FlightDetailsFragment extends Fragment {
 		// Format header
 		String duration = DateTimeUtils.formatDuration(getResources(), (int) (leg.getDuration() / 60000));
 		String distance = FormatUtils.formatDistance(getActivity(), leg.getDistanceInMiles());
-
 		Ui.setText(v, R.id.duration_distance_text_view,
 				Html.fromHtml(getString(R.string.time_distance_TEMPLATE, duration, distance)));
+
+		// Figure out which string to use for the upper-right label
+		int bookNowResId;
+		if (trip.getLegCount() == 1) {
+			bookNowResId = R.string.one_way_price_TEMPLATE;
+		}
+		else {
+			if (trip.getLeg(0).equals(leg)) {
+				bookNowResId = R.string.round_trip_price_TEMPLATE;
+			}
+			else {
+				bookNowResId = R.string.book_now_price_TEMPLATE;
+			}
+		}
+
 		Ui.setText(v, R.id.book_price_text_view,
-				Html.fromHtml(getString(R.string.book_now_price_TEMPLATE,
-						trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL))));
+				Html.fromHtml(getString(bookNowResId, trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL))));
 
 		// Format content
 		ViewGroup infoContainer = Ui.findView(v, R.id.flight_info_container);
