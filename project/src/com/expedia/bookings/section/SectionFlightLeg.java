@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.util.Calendar;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightDetailsActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
@@ -28,7 +26,6 @@ public class SectionFlightLeg extends LinearLayout {
 
 	private SectionFlightLegListener mListener;
 
-	private Button mDetailsButton;
 	private Button mDeselectButton;
 	private TextView mArriveOrDepartWithDateTextView;
 	private ImageView mInboundOutboundArrow;
@@ -55,24 +52,12 @@ public class SectionFlightLeg extends LinearLayout {
 		super.onFinishInflate();
 
 		// Cache views
-		mDetailsButton = Ui.findView(this, R.id.details_btn);
 		mDeselectButton = Ui.findView(this, R.id.deselect_btn);
 		mArriveOrDepartWithDateTextView = Ui.findView(this, R.id.display_arrive_or_depart_with_date);
 		mInboundOutboundArrow = Ui.findView(this, R.id.display_inbound_outbound_arrow);
 		mFlightLegSummary = Ui.findView(this, R.id.flight_leg_summary);
 
 		// Setup click listeners once
-		mDetailsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Context context = getContext();
-				Intent intent = new Intent(context, FlightDetailsActivity.class);
-				intent.putExtra(FlightDetailsActivity.EXTRA_TRIP_KEY, mTripLeg.getFlightTrip().getProductKey());
-				intent.putExtra(FlightDetailsActivity.EXTRA_LEG_POSITION, getLegPosition());
-				context.startActivity(intent);
-			}
-		});
-
 		mDeselectButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
