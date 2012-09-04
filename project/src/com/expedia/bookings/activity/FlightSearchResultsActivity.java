@@ -36,7 +36,6 @@ import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
-import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.NavUtils;
@@ -48,6 +47,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
@@ -57,8 +57,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	private static final String INSTANCE_LEG_POSITION = "INSTANCE_LEG_POSITION";
 
+	private static final int REQUEST_CODE_SEARCH_PARAMS = 1;
+
 	private static final String BACKSTACK_LOADING = "BACKSTACK_LOADING";
-	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
 	private static final String BACKSTACK_FLIGHT_DETAILS_PREFIX = "BACKSTACK_FLIGHT_DETAILS";
 	private static final String BACKSTACK_FLIGHT_LIST_PREFIX = "BACKSTACK_FLIGHT_LIST";
 
@@ -69,11 +70,15 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private BlurredBackgroundFragment mBgFragment;
 	private StatusFragment mStatusFragment;
 	private FlightListFragment mListFragment;
-	private FlightSearchParamsFragment mSearchParamsFragment;
 	private FlightDetailsFragment mFlightDetailsFragment;
 
 	// Current leg being displayed
 	private int mLegPosition = 0;
+
+	// This is needed in order to avoid timing issues with fragments.
+	// If you want to indicate to the app to start a new search, but
+	// you may not have resumed yet, use this variable.
+	private boolean mStartSearchOnPostResume;
 
 	// Action bar views
 	private NavigationButton mNavButton;
@@ -109,7 +114,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mBgFragment = Ui.findSupportFragment(this, R.id.background_fragment);
 		mStatusFragment = Ui.findSupportFragment(this, StatusFragment.TAG);
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
-		mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
 		mFlightDetailsFragment = Ui.findSupportFragment(this, FlightDetailsFragment.TAG);
 
 		// Configure the custom action bar view
@@ -146,6 +150,16 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+
+		if (mStartSearchOnPostResume) {
+			mStartSearchOnPostResume = false;
+			startSearch();
+		}
+	}
+
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
@@ -164,6 +178,20 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 
 		getSupportFragmentManager().removeOnBackStackChangedListener(this);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_CODE_SEARCH_PARAMS && resultCode == RESULT_OK) {
+			Log.i("Got new search params from FlightSearchOverlayActivity");
+
+			FlightSearchParams params = JSONUtils.getJSONable(data, FlightSearchOverlayActivity.EXTRA_SEARCH_PARAMS,
+					FlightSearchParams.class);
+			Db.getFlightSearch().setSearchParams(params);
+			mStartSearchOnPostResume = true;
+		}
 	}
 
 	@Override
@@ -205,8 +233,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 			// Show sort/filter only if we have results and are not showing the search params fragment/flight details
 			FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
-			menu.setGroupVisible(R.id.group_results, response != null && !response.hasErrors()
-					&& (mSearchParamsFragment == null || !mSearchParamsFragment.isAdded()));
+			menu.setGroupVisible(R.id.group_results, response != null && !response.hasErrors());
 		}
 
 		return super.onPrepareOptionsMenu(menu);
@@ -215,13 +242,14 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
+		case android.R.id.home: {
 			// Push user back to search page if they hit the home button
 			Intent intent = new Intent(this, FlightSearchActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_CLEAR_TASK
 					+ Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			startActivity(intent);
 			return true;
+		}
 		case R.id.menu_sort:
 		case R.id.menu_filter: {
 			// TODO: Will need to change with new design someday
@@ -229,15 +257,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			dialog.show(getSupportFragmentManager(), "filterDialogFragment");
 			break;
 		}
-		case R.id.menu_search:
-			if (mSearchParamsFragment != null && mSearchParamsFragment.isAdded() && !mSearchParamsFragment.isDetached()
-					&& !BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
-				onSearch();
-			}
-			else {
-				showSearchParameters();
-			}
+		case R.id.menu_search: {
+			Intent intent = new Intent(this, FlightSearchOverlayActivity.class);
+			startActivityForResult(intent, REQUEST_CODE_SEARCH_PARAMS);
 			return true;
+		}
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -266,7 +290,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 
 		// #445: Need to reset the search results before starting a new one
-		mSearchParamsFragment = null;
 		Db.getFlightSearch().setSearchResponse(null);
 		if (mListFragment != null && mListFragment.isAdded()) {
 			mListFragment.reset();
@@ -340,34 +363,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 		}
 	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// Search parameters
-
-	private void showSearchParameters() {
-		Log.i("Showing search paramters in FlightSearchResultsActivity");
-
-		FragmentManager fm = getSupportFragmentManager();
-		if (fm.findFragmentById(R.id.search_params_container) == null) {
-			if (mSearchParamsFragment == null) {
-				mSearchParamsFragment = FlightSearchParamsFragment.newInstance(Db.getFlightSearch().getSearchParams(),
-						true);
-			}
-
-			FragmentTransaction ft = fm.beginTransaction();
-			ft.addToBackStack(BACKSTACK_SEARCH_PARAMS);
-			ft.add(R.id.search_params_container, mSearchParamsFragment, FlightSearchParamsFragment.TAG);
-			ft.commit();
-		}
-	}
-
-	private void onSearch() {
-		Log.i("New search requested from FlightSearchResultsActivity");
-
-		Db.getFlightSearch().setSearchParams(mSearchParamsFragment.getSearchParams());
-
-		startSearch();
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Flight list

@@ -125,6 +125,9 @@
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".activity.FlightSearchOverlayActivity"
+            android:theme="@style/FlightTheme.Transparent" />
+        <activity
             android:name=".activity.FlightTripOverviewActivity"
             android:label="Overview"
             android:theme="@style/FlightTheme" >

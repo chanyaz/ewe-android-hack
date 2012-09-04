@@ -103,6 +103,8 @@
     <string name="search_airport_autocomplete_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s, %3$s</string>
     <!-- Label for "sort" button -->
     <string name="sort">Sort</string>
+    <!-- Edit search title -->
+    <string name="edit_search">Edit Search</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->

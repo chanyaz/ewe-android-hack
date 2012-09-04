@@ -85,7 +85,18 @@
 		<item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
 		<item name="numberPickerStyle">@style/Widget.NumberPicker</item>
     </style>
-    
+
+    <style name="FlightTheme.Transparent">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/FlightSearchOverlayAnimationStyle</item>
+    </style>
+
+    <style name="FlightSearchOverlayAnimationStyle">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
     <style name="FlightFilterDialogTheme" parent="@android:style/Theme.Dialog">
         <item name="android:windowAnimationStyle">@style/FlightFilterDialogAnimation</item>
     </style>
