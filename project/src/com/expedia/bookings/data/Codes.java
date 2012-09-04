@@ -26,8 +26,8 @@ public class Codes {
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
-	// HockeyApp app id, used for uploading builds to HockeyApp
-	public static final String HOCKEY_APP_ID = "792ff1cdbbb87f7ef677defb03597b0d";
+	// HockeyApp app id, used for communicating with servers to fetch new versions, send crash reports
+	public static final String HOCKEY_APP_ID = "4d9aae3faac40c74443772c8bebd5aaf";
 
 	// For EF
 	public final static String PASSENGER_INDEX = "PASSENGER_INDEX";
