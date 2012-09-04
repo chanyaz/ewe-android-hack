@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@android:color/black"
+            android:textColor="@color/action_bar_flight_text_color"
             android:textStyle="bold" />
 
         <TextView
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/action_bar_flight_text_color" />
     </LinearLayout>
 
     <LinearLayout
