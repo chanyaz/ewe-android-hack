@@ -75,11 +75,11 @@ public class FlightDetailsFragment extends Fragment {
 		// Format content
 		ViewGroup infoContainer = Ui.findView(v, R.id.flight_info_container);
 
-		// Initial header
-		FlightPathSection flightPathSection = (FlightPathSection) inflater.inflate(R.layout.section_flight_path,
+		// Depart from row
+		FlightPathSection departFromSection = (FlightPathSection) inflater.inflate(R.layout.section_flight_path,
 				infoContainer, false);
-		flightPathSection.bind(leg.getSegment(0));
-		infoContainer.addView(flightPathSection);
+		departFromSection.bind(leg.getSegment(0), true);
+		infoContainer.addView(departFromSection);
 
 		// Add each card, with layovers in between
 		int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
@@ -101,6 +101,12 @@ public class FlightDetailsFragment extends Fragment {
 			params.setMargins(cardMargins, cardMargins, cardMargins, cardMargins);
 			infoContainer.addView(flightSegmentSection);
 		}
+
+		// Arrive at row
+		FlightPathSection arriveAtSection = (FlightPathSection) inflater.inflate(R.layout.section_flight_path,
+				infoContainer, false);
+		arriveAtSection.bind(leg.getSegment(segmentCount - 1), false);
+		infoContainer.addView(arriveAtSection);
 
 		return v;
 	}

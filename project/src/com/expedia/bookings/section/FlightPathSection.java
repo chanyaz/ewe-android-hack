@@ -12,8 +12,7 @@ import com.mobiata.flightlib.data.Flight;
 
 public class FlightPathSection extends LinearLayout {
 
-	private TextView mOriginTextView;
-	private TextView mDestinationTextView;
+	private TextView mInfoTextView;
 
 	public FlightPathSection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -23,12 +22,17 @@ public class FlightPathSection extends LinearLayout {
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		mOriginTextView = Ui.findView(this, R.id.origin_text_view);
-		mDestinationTextView = Ui.findView(this, R.id.destination_text_view);
+		mInfoTextView = Ui.findView(this, R.id.info_text_view);
 	}
 
-	public void bind(Flight flight) {
-		mOriginTextView.setText(StrUtils.formatWaypoint(flight.mOrigin));
-		mDestinationTextView.setText(StrUtils.formatWaypoint(flight.mDestination));
+	public void bind(Flight flight, boolean isDeparting) {
+		if (isDeparting) {
+			mInfoTextView.setText(getResources().getString(R.string.depart_from_TEMPLATE,
+					StrUtils.formatWaypoint(flight.mOrigin)));
+		}
+		else {
+			mInfoTextView.setText(getResources().getString(R.string.arrive_at_TEMPLATE,
+					StrUtils.formatWaypoint(flight.mDestination)));
+		}
 	}
 }
