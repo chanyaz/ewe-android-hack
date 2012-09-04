@@ -111,8 +111,11 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	public void onDestroyView() {
 		super.onDestroyView();
 
-		mAdapter.destroy();
-		mAdapter = null;
+		// null check before destroying it. tests seem to get the app in the state where mAdapter == null here sometimes
+		if (mAdapter != null) {
+			mAdapter.destroy();
+			mAdapter = null;
+		}
 	}
 
 	@Override

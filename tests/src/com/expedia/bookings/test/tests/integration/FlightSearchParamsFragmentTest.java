@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.test.FlakyTest;
 import android.test.InstrumentationTestCase;
 import android.test.TouchUtils;
 import android.test.suitebuilder.annotation.MediumTest;
@@ -20,9 +21,7 @@ import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.Ui;
-import com.mobiata.testutils.CalendarTouchUtils;
-import com.mobiata.testutils.InputUtils;
-import com.mobiata.testutils.MonitorUtils;
+import com.mobiata.testutils.*;
 
 /**
  * The tests in this class validate that binding between UI components in the FlightSearchParamsFragment, and the data
@@ -31,6 +30,8 @@ import com.mobiata.testutils.MonitorUtils;
  */
 
 public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
+
+	private static final String ISO_FORMAT = "%Y-%m-%d";
 
 	private Solo mSolo;
 
@@ -60,6 +61,7 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		assertEquals(FlightSearchActivity.class, mActivity.getClass());
 
 		mSolo = new Solo(mInstr, mActivity);
+		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override
@@ -110,6 +112,8 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 
 		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+		mSolo.sleep(1500);
+
 		assertSearchParamsInUi(air1, air2);
 
 		CalendarTouchUtils.selectDay(mSolo, 3, R.id.calendar_date_picker);
@@ -134,6 +138,8 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 
 		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+		mSolo.sleep(1500);
+
 		assertSearchParamsInUi(air1, air2);
 
 		CalendarTouchUtils.selectDay(mSolo, 3, R.id.calendar_date_picker);
@@ -147,11 +153,11 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	public void testFlightSearchParamsRetainsValuesOnRotation() {
 		// select 'DTW' for departure airport
 		String expectedDepartureAirportCode = "DTW";
-		InputUtils.selectAirport(this, mInstr, mSolo, expectedDepartureAirportCode, R.id.departure_airport_edit_text);
+		InputUtils.selectAirport(mInstr, mSolo, expectedDepartureAirportCode, R.id.departure_airport_edit_text);
 
 		// select 'ATL' for arrival airport
 		String expectedArrivalAirportCode = "ATL";
-		InputUtils.selectAirport(this, mInstr, mSolo, expectedArrivalAirportCode, R.id.arrival_airport_edit_text);
+		InputUtils.selectAirport(mInstr, mSolo, expectedArrivalAirportCode, R.id.arrival_airport_edit_text);
 
 		// click on dates button to engage calendar edit mode
 		TouchUtils.clickView(this, Ui.findView(mActivity, R.id.dates_button));
@@ -190,6 +196,122 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		//		assertEquals(expectedStartDay, calendarDatePicker.getStartTime());
 	}
 
+	@MediumTest
+	public void testParamsMatchRequestUrl() {
+		// clear logcat so when the logcat is read it is not too large, nor there be duplicate desired strings
+		LogcatUtils.clearLogcat();
+
+		// expected airport codes
+		String expectedDepartureAirport = "DTW";
+		String expectedArrivalAirport = "ATL";
+
+		// expected departure date
+		final int daysOffset = 5;
+		String expectedDepartureDate = CalendarTouchUtils.getDay(daysOffset).format(ISO_FORMAT);
+
+		// perform the search
+		performFlightSearchAndAssertDb(expectedDepartureAirport, expectedArrivalAirport, daysOffset, R.id.search, true);
+		waitForFlightResults();
+
+		// grab the logcat containing debug info regarding the request
+		String log = LogcatUtils.readLogcat("ExpediaBookings", true);
+		String requestUrl = LogcatUtils.extractRequestUrl(log);
+		assertNotNull(requestUrl);
+
+		// grab the values from the request URL
+		String actualDepartureAirport = ParseUtils.extractValue(requestUrl, "departureAirport");
+		String actualArrivalAirport = ParseUtils.extractValue(requestUrl, "arrivalAirport");
+		String actualDepartureDate = ParseUtils.extractValue(requestUrl, "departureDate");
+
+		// assert the actual values were retrieved from logcat
+
+		// assert params in URL match params inserted from UI
+		assertEquals(expectedDepartureAirport, actualDepartureAirport);
+		assertEquals(expectedArrivalAirport, actualArrivalAirport);
+		assertEquals(expectedDepartureDate, actualDepartureDate);
+	}
+
+	@MediumTest
+	public void testParamsMatchRequestUrlWithModifiedSearchParams() {
+		String air1 = "SEA";
+		String air2 = "ATL";
+		performFlightSearchAndAssertDb(air1, air2, 4, R.id.search, true);
+		waitForFlightResults();
+
+		mSolo.goBack();
+
+		LogcatUtils.clearLogcat();
+
+		// perform second flight search
+		String expectedDepartureAirport = "DTW";
+		String expectedArrivalAirport = "JFK";
+
+		int daysOffset = 3;
+		String expectedDepartureDate = CalendarTouchUtils.getDay(daysOffset).format(ISO_FORMAT);
+
+		performFlightSearch(expectedDepartureAirport, expectedArrivalAirport, daysOffset, R.id.search);
+
+		// grab the logcat containing debug info regarding the request
+		String log = LogcatUtils.readLogcat("ExpediaBookings", true);
+		String requestUrl = LogcatUtils.extractRequestUrl(log);
+		assertNotNull(requestUrl);
+
+		// grab the values from the request URL
+		String actualDepartureAirport = ParseUtils.extractValue(requestUrl, "departureAirport");
+		String actualArrivalAirport = ParseUtils.extractValue(requestUrl, "arrivalAirport");
+		String actualDepartureDate = ParseUtils.extractValue(requestUrl, "departureDate");
+
+		// assert params in URL match params inserted from UI
+		assertEquals(expectedDepartureAirport, actualDepartureAirport);
+		assertEquals(expectedArrivalAirport, actualArrivalAirport);
+		assertEquals(expectedDepartureDate, actualDepartureDate);
+	}
+
+	@MediumTest
+	public void testParamsMatchRequestUrlWithRotation() {
+		// perform a flight search
+		String dep1 = "SEA";
+		String arr1 = "ATL";
+		performFlightSearchAndAssertDb(dep1, arr1, 4, R.id.search, true);
+		waitForFlightResults();
+
+		// wait for results and then go back
+		//		waitForFlightResults();
+		mSolo.goBack();
+
+		// click on dates button to remove the calendar as the display/content fragment
+		mSolo.clickOnView(mSolo.getView(R.id.passengers_button));
+
+		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+		// clear logcat so when the logcat is read it is not too large, nor there be duplicate desired strings
+		LogcatUtils.clearLogcat();
+
+		// perform second flight search
+		String expectedDepartureAirport = "SFO";
+		String expectedArrivalAirport = "PDX";
+
+		int daysOffset = 3;
+		String expectedDepartureDate = CalendarTouchUtils.getDay(daysOffset).format(ISO_FORMAT);
+
+		performFlightSearch(expectedDepartureAirport, expectedArrivalAirport, daysOffset, R.id.search);
+
+		// grab the logcat containing debug info regarding the request
+		String log = LogcatUtils.readLogcat("ExpediaBookings", true);
+		String requestUrl = LogcatUtils.extractRequestUrl(log);
+		assertNotNull(requestUrl);
+
+		// grab the values from the request URL
+		String actualDepartureAirport = ParseUtils.extractValue(requestUrl, "departureAirport");
+		String actualArrivalAirport = ParseUtils.extractValue(requestUrl, "arrivalAirport");
+		String actualDepartureDate = ParseUtils.extractValue(requestUrl, "departureDate");
+
+		// assert params in URL match params inserted from UI
+		assertEquals(expectedDepartureAirport, actualDepartureAirport);
+		assertEquals(expectedArrivalAirport, actualArrivalAirport);
+		assertEquals(expectedDepartureDate, actualDepartureDate);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// HELPER METHODS
 
@@ -217,18 +339,19 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	}
 
 	private void waitForFlightResults() {
-		mSolo.waitForActivity(FlightSearchResultsActivity.class.getName());
-		mSolo.waitForFragmentByTag(StatusFragment.TAG);
-		mSolo.waitForFragmentByTag(FlightListFragment.TAG);
+		mSolo.waitForActivity(FlightSearchResultsActivity.class.getName(), 2000);
+		mSolo.waitForFragmentByTag(StatusFragment.TAG, 2000);
+		mSolo.waitForFragmentByTag(FlightListFragment.TAG, 30000);
 	}
 
 	private Time performFlightSearch(String air1, String air2, int daysOffset, int searchId) {
-		InputUtils.selectAirport(this, mInstr, mSolo, air1, R.id.departure_airport_edit_text);
+		InputUtils.selectAirport(mInstr, mSolo, air1, R.id.departure_airport_edit_text);
 
-		InputUtils.selectAirport(this, mInstr, mSolo, air2, R.id.arrival_airport_edit_text);
+		InputUtils.selectAirport(mInstr, mSolo, air2, R.id.arrival_airport_edit_text);
 
 		// click dates button so that the calendar appears
 		mSolo.clickOnView(mSolo.getView(R.id.dates_button));
+		mSolo.sleep(1500);
 
 		// select a day 'daysOffset' in the future
 		Time expectedDay = CalendarTouchUtils.selectDay(mSolo, daysOffset, R.id.calendar_date_picker);
