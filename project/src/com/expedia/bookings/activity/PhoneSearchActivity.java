@@ -851,6 +851,19 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		getSupportMenuInflater().inflate(R.menu.menu_search, menu);
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		mHockeyPuck.onCreateOptionsMenu(menu);
+
+                // Configure the map/list view action
+                if (mTag == null) {
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                        mTag = prefs.getString("tag", mHotelListFragment.getTag());
+                }
+                if (mTag.equals(mHotelListFragment.getTag())) {
+                        menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_map);
+                }
+                else {
+                        menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_list);
+                }
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -864,6 +877,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		// Overflow items
 		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_CODE_SETTINGS);
@@ -874,6 +888,20 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			startActivity(intent);
 			break;
 		}
+
+		// Map Button
+                case R.id.menu_select_change_view: {
+                        if (mTag.equals(mHotelListFragment.getTag())) {
+                                // switch to list
+                                item.setIcon(R.drawable.ic_menu_list);
+                        }
+                        else {
+                                // switch to map
+                                item.setIcon(R.drawable.ic_menu_map);
+                        }
+                        switchResultsView();
+                        break;
+                }
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
