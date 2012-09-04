@@ -133,6 +133,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mNavButton = NavigationButton.createNewInstanceAndAttach(this, R.drawable.icon, actionBar);
 		mNavButton.setDropdownAdapter(new NavigationDropdownAdapter(this, NoOpButton.FLIGHTS));
 		mNavButton.setCustomView(customView);
+		mNavButton.setDrawable(getResources().getDrawable(R.drawable.ic_action_bar_plane));
 
 		if (savedInstanceState == null) {
 			// On first launch, start a search
