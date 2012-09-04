@@ -36,6 +36,7 @@
         android:visibility="gone" >
 
         <LinearLayout
+            android:id="@+id/cancel_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -48,7 +49,6 @@
                 android:src="@drawable/btn_navigation_cancel" />
 
             <TextView
-                android:id="@+id/cancel_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@android:string/cancel"
@@ -65,6 +65,7 @@
             android:background="#5FFF" />
 
         <LinearLayout
+            android:id="@+id/select_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -77,7 +78,6 @@
                 android:src="@drawable/ic_action_bar_checkmark" />
 
             <TextView
-                android:id="@+id/select_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/select_flight"

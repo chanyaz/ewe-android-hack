@@ -86,8 +86,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private TextView mTitleTextView;
 	private TextView mSubtitleTextView;
 	private ViewGroup mFlightDetailsActionContainer;
-	private TextView mCancelButton;
-	private TextView mSelectFlightButton;
+	private View mCancelButton;
+	private View mSelectFlightButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
