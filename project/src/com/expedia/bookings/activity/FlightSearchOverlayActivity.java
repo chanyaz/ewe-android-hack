@@ -43,7 +43,7 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity {
 			mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
 		}
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
