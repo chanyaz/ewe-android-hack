@@ -160,10 +160,6 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setTitle(yourTripToStr);
 
-		//Set values
-		populateDataFromUser();
-		populatePassengerData();
-		buildPassengerSections();
 	}
 
 	private void populatePassengerData() {
@@ -180,6 +176,9 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	}
 
 	private void buildPassengerSections() {
+		mTravelerContainer.removeAllViews();
+		mTravelerSections.clear();
+		
 		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 		for (int i = 0; i < passengers.size(); i++) {
@@ -214,6 +213,12 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	public void onResume() {
 		super.onResume();
 		mBillingInfo = Db.getBillingInfo();
+
+		//Set values
+		populateDataFromUser();
+		populatePassengerData();
+		buildPassengerSections();
+
 		bindAll();
 		updateViewVisibilities();
 
@@ -333,13 +338,13 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			//Populate traveler data
 			if (Db.getFlightPassengers() != null && Db.getFlightPassengers().size() == 1 && !hasValidTravlers()) {
 				Db.getFlightPassengers().set(0, UserDataTransfer.getBestGuessStoredPassenger(Db.getUser()));
-				
+
 				//TODO:Uncomment this when the traveler api is finished. This may or may not be working correctly.
-//				mGetTravelerInfo.setPassenger(Db.getFlightPassengers().get(0));
-//				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-//				if (!bd.isDownloading(KEY_TRAVELER_DATA)) {
-//					bd.startDownload(KEY_TRAVELER_DATA, mGetTravelerInfo, mGetTravelerCallback);
-//				}
+				//				mGetTravelerInfo.setPassenger(Db.getFlightPassengers().get(0));
+				//				BackgroundDownloader bd = BackgroundDownloader.getInstance();
+				//				if (!bd.isDownloading(KEY_TRAVELER_DATA)) {
+				//					bd.startDownload(KEY_TRAVELER_DATA, mGetTravelerInfo, mGetTravelerCallback);
+				//				}
 			}
 
 			//Populate Credit Card
@@ -353,6 +358,10 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 					&& !(paymentAddressValid && paymentCCValid)) {
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
+		}
+		else {
+			//Remove stored card(s)
+			Db.getBillingInfo().setStoredCard(null);
 		}
 	}
 
@@ -376,8 +385,8 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		// Update UI
 		mAccountButton.bind(false, false, null);
 
-		//Remove stored card(s)
-		Db.getBillingInfo().setStoredCard(null);
+		//After logout this will clear stored cards
+		populateDataFromUser();
 		bindAll();
 		updateViewVisibilities();
 	}
@@ -398,7 +407,6 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		populatePassengerData();
 
 		populateDataFromUser();
-
 		bindAll();
 		updateViewVisibilities();
 		// TODO: Update rest of UI based on new logged-in data.
@@ -446,17 +454,17 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			}
 		}
 	};
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Update Traveler
-	
-	private class TravelerDownload implements Download<TravelerInfoResponse>{
+
+	private class TravelerDownload implements Download<TravelerInfoResponse> {
 		FlightPassenger mPassenger;
-		
-		public void setPassenger(FlightPassenger passenger){
+
+		public void setPassenger(FlightPassenger passenger) {
 			mPassenger = passenger;
 		}
-		
+
 		@Override
 		public TravelerInfoResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(FlightCheckoutActivity.this);
@@ -464,7 +472,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			return services.updateTraveler(mPassenger);
 		}
 	}
-	
+
 	private final TravelerDownload mGetTravelerInfo = new TravelerDownload();
 	private final OnDownloadComplete<TravelerInfoResponse> mGetTravelerCallback = new OnDownloadComplete<TravelerInfoResponse>() {
 		@Override
@@ -476,15 +484,15 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			else {
 				// Update our existing saved data
 				FlightPassenger traveler = results.getTraveler();
-				for(int i = 0; i < Db.getFlightPassengers().size(); i++){
-					if(traveler.getTuid() == (Db.getFlightPassengers().get(i).hasTuid() ? Db.getFlightPassengers().get(i).getTuid() : 0)){
+				for (int i = 0; i < Db.getFlightPassengers().size(); i++) {
+					if (traveler.getTuid() == (Db.getFlightPassengers().get(i).hasTuid() ? Db.getFlightPassengers()
+							.get(i).getTuid() : 0)) {
 						Db.getFlightPassengers().set(i, traveler);
 						break;
 					}
 				}
 				bindAll();
 
-				
 			}
 		}
 	};
