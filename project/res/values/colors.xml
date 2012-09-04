@@ -14,6 +14,7 @@
     <color name="data_review_grey">#7F7F7F</color>
     <color name="entry_form_bg">#F0F0F0</color>
     <color name="yoyo_navigation_text_color">#333333</color><!-- #F9DF7E -->
+    <color name="action_bar_text_yellow">#FEE36C</color>
     
 	<!-- These colors are ripped from the iOS version, and are not finalized -->
 	<color name="window_background">#FF666666</color>
