@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="20dp"
+            android:paddingBottom="36dp"
             android:paddingTop="48dp" />
     </ScrollView>
 
@@ -59,6 +59,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
+        android:drawableLeft="@drawable/ic_suitcase_small"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
         android:text="@string/baggage_fee_info"
         android:textColor="@android:color/white"
         android:textStyle="bold" />

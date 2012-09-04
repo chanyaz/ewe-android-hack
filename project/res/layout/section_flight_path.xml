@@ -5,20 +5,14 @@
     android:gravity="center"
     android:orientation="horizontal" >
 
-    <ImageView
-        android:id="@+id/arrives_departs_image_view"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@android:color/white" />
-
     <TextView
         android:id="@+id/info_text_view"
         style="@style/FlightDetailsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
         android:ellipsize="middle"
+        android:gravity="center_vertical"
         android:singleLine="true" />
 
 </com.expedia.bookings.section.FlightPathSection>

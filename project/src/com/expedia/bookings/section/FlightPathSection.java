@@ -29,10 +29,14 @@ public class FlightPathSection extends LinearLayout {
 		if (isDeparting) {
 			mInfoTextView.setText(getResources().getString(R.string.depart_from_TEMPLATE,
 					StrUtils.formatWaypoint(flight.mOrigin)));
+
+			mInfoTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_departure_arrow_small, 0, 0, 0);
 		}
 		else {
 			mInfoTextView.setText(getResources().getString(R.string.arrive_at_TEMPLATE,
 					StrUtils.formatWaypoint(flight.mDestination)));
+
+			mInfoTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_return_arrow_small, 0, 0, 0);
 		}
 	}
 }
