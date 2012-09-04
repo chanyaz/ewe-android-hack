@@ -96,6 +96,7 @@
         <item name="android:background">@drawable/bg_action_bar_flight_top</item>
         <item name="backgroundSplit">@drawable/bg_action_bar_flight_bottom</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_flight_bottom</item>
+        <item name="titleTextStyle">@style/FlightActionBarTextAppearance</item>
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
     </style>
 
