@@ -102,7 +102,7 @@
     <!-- Display for airports in the dropdown.  %1$s is the airport code, %2$s is the city name, %3$s is either the state code or the country name.  E.g., "BOS Boston, MA" or "SJU San Juan, Puerto Rico" -->
     <string name="search_airport_autocomplete_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s, %3$s</string>
     <!-- Label for "sort" button -->
-    <string name="sort">Sort</string>
+    <string name="sort_flights">Sort Flights</string>
     <!-- Edit search title -->
     <string name="edit_search">Edit Search</string>
 

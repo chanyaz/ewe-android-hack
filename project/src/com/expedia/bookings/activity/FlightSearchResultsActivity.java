@@ -250,8 +250,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			startActivity(intent);
 			return true;
 		}
-		case R.id.menu_sort:
-		case R.id.menu_filter: {
+		case R.id.menu_sort: {
 			// TODO: Will need to change with new design someday
 			FlightFilterDialogFragment dialog = FlightFilterDialogFragment.newInstance(mLegPosition);
 			dialog.show(getSupportFragmentManager(), "filterDialogFragment");

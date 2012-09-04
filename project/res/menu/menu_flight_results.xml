@@ -5,17 +5,13 @@
         <item
             android:id="@+id/menu_sort"
             android:showAsAction="always|withText"
-            android:title="@string/sort"/>
-        <item
-            android:id="@+id/menu_filter"
-            android:showAsAction="always|withText"
-            android:title="@string/filter"/>
+            android:title="@string/sort_flights"/>
     </group>
 
     <item
         android:id="@+id/menu_search"
         android:icon="@android:drawable/ic_menu_search"
-        android:showAsAction="always"
+        android:showAsAction="always|withText"
         android:title="@string/search"/>
 
 </menu>
