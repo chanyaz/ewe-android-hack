@@ -131,6 +131,8 @@
     <string name="cabin_code_coach">Economy</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">First Class</string>
+    <!-- Button label for selecting flight -->
+    <string name="select_flight">Select Flight</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
