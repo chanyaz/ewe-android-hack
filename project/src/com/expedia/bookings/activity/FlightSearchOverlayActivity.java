@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -51,6 +52,14 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_search_overlay, menu);
+		final MenuItem searchItem = menu.findItem(R.id.search);
+		searchItem.getActionView().setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onOptionsItemSelected(searchItem);
+			}
+		});
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
