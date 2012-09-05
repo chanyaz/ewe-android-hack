@@ -26,6 +26,9 @@ public class FlightSegmentAttributes implements JSONable {
 		if (mCabinCode.equals("coach")) {
 			return R.string.cabin_code_coach;
 		}
+		else if (mCabinCode.equals("business")) {
+			return R.string.cabin_code_business;
+		}
 		else if (mCabinCode.equals("first")) {
 			return R.string.cabin_code_first;
 		}
@@ -53,6 +56,12 @@ public class FlightSegmentAttributes implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mBookingCode = obj.optString("bookingCode");
 		mCabinCode = obj.optString("cabinCode");
+
+		// We don't know all the possible cabin codes yet, so I'm throwing errors when we run into a new one
+		if (getCabinCodeResId() == 0) {
+			throw new RuntimeException("DEBUG: FOUND NEW CABIN CODE.  \"" + mCabinCode + "\"");
+		}
+
 		return true;
 	}
 
