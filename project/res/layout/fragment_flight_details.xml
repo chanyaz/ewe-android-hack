@@ -3,6 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <!-- Details of each flight -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="48dp"
+        android:fillViewport="true"
+        android:requiresFadingEdge="vertical" >
+
+        <LinearLayout
+            android:id="@+id/flight_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="36dp"
+            android:paddingTop="48dp" />
+    </ScrollView>
+
     <!-- Header stuff -->
 
     <LinearLayout
@@ -32,23 +52,6 @@
             android:textColor="@android:color/white"
             android:textSize="18sp" />
     </LinearLayout>
-
-    <!-- Details of each flight -->
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true" >
-
-        <LinearLayout
-            android:id="@+id/flight_info_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="36dp"
-            android:paddingTop="48dp" />
-    </ScrollView>
 
     <!-- Bagge fee footer -->
 
