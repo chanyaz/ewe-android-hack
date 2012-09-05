@@ -89,11 +89,11 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	public void testFlightSearchModificationsInlineReflectedInFlightSearchActivity() {
 		performFlightSearchAndAssertDb("DTW", "JFK", 4, R.id.search, true);
 
-		TouchUtils.clickView(this, Ui.findView(mSolo.getCurrentActivity(), R.id.menu_search));
+		mSolo.clickOnView(mSolo.getView(R.id.menu_search));
 
 		String expectedAirport1 = "ATL";
 		String expectedAirport2 = "MSP";
-		performFlightSearchAndAssertDb(expectedAirport1, expectedAirport2, 0, R.id.menu_search, false);
+		performFlightSearchAndAssertDb(expectedAirport1, expectedAirport2, 2, R.id.search, false);
 
 		mSolo.goBack();
 
@@ -357,7 +357,7 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		Time expectedDay = CalendarTouchUtils.selectDay(mSolo, daysOffset, R.id.calendar_date_picker);
 
 		// search so that the FlightSearchParamsFragment closes and saves params to Db
-		TouchUtils.clickView(this, Ui.findView(mSolo.getCurrentActivity(), searchId));
+		mSolo.clickOnView(mSolo.getView(searchId));
 
 		return expectedDay;
 	}
