@@ -146,7 +146,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private enum DisplayType {
-		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), DRAWER(false), SORT_POPUP(false);
+		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), DRAWER(false);
 
 		private boolean mIsSearchDisplay;
 
@@ -207,7 +207,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private View mSearchButton;
 	private CalendarDatePicker mDatesCalendarDatePicker;
-	private EditText mFilterHotelNameEditText;
 	private EditText mSearchEditText;
 	private FrameLayout mContent;
 	private ImageButton mDatesButton;
@@ -217,39 +216,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private ListView mSearchSuggestionsListView;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
-	private Panel mPanel;
-	private SegmentedControlGroup mRadiusButtonGroup;
-	private SegmentedControlGroup mRatingButtonGroup;
-	private SegmentedControlGroup mPriceButtonGroup;
 	private TextView mDatesTextView;
-	private TextView mFilterInfoTextView;
 	private TextView mGuestsTextView;
 	private TextView mRefinementInfoTextView;
 	private TextView mSelectChildAgeTextView;
-	private TextView mSortTextView;
 	private View mButtonBarLayout;
 	private View mDatesLayout;
 	private View mFocusLayout;
 	private View mGuestsLayout;
 	private View mChildAgesLayout;
-	private View mPanelDismissView;
-	private View mSortPopupDismissView;
 	private View mRefinementDismissView;
-	private View mBottomBarLayout;
-	private View mSortButton;
-	private View mSearchMapButton;
-	private View mFilterButton;
-	private ImageView mUpArrowFilterHotels;
-	private ImageView mUpArrowSortHotels;
-	private ViewGroup mSortOptionsLayout;
-	private PopupWindow mSortPopup;
-
-	private List<View> mSortButtons;
-	private View mSortPriceButton;
-	private View mSortDealsButton;
-	private View mSortDistanceButton;
-	private View mSortUserRatingButton;
-	private View mSortPopularityButton;
 
 	// Progress bar stuff
 	private ViewGroup mProgressBarLayout;
@@ -274,10 +250,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private Bitmap mViewFlipBitmap;
 	private Canvas mViewFlipCanvas;
 
-	private Bitmap mSortOptionDividerBitmap;
-	private BitmapDrawable mSortOptionDivider;
 	private int mSortOptionSelectedId;
-	private boolean mFilterButtonArrowUp = true;
 
 	private ArrayList<Address> mAddresses;
 	private SearchParams mOldSearchParams;
@@ -336,22 +309,21 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				if (!mLoadedSavedResults && searchResponse.getFilteredAndSortedProperties().length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
 					filter.setSearchRadius(SearchRadius.ALL);
-					mRadiusButtonGroup.check(R.id.radius_all_button);
+					// TODO: Do this with Action Bar implementation: mRadiusButtonGroup.check(R.id.radius_all_button);
 					searchResponse.clearCache();
 				}
 				ImageCache.recycleCache(true);
 				broadcastSearchCompleted(searchResponse);
 
 				hideLoading();
-				setFilterInfoText();
 
 				// #9773: Show distance sort initially, if user entered street address-level search params
 				if (mShowDistance) {
-					mSortOptionChangedListener.onClick(mSortDistanceButton);
+					mSortOptionSelectedId = R.id.menu_select_sort_distance;
+					buildFilter();
 				}
 
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
-				enablePanelHandle();
 			}
 			else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
 					&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
@@ -445,48 +417,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		initializeViews();
 
-		mSortOptionDividerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sort_option_border);
-		mSortOptionDivider = new BitmapDrawable(mSortOptionDividerBitmap);
-		mSortOptionDivider.setTileModeX(Shader.TileMode.REPEAT);
-
-		mSortPopularityButton = addSortOption(R.id.sort_popular_button, R.drawable.ic_sort_popular,
-				R.string.sort_description_popular, F_NO_DIVIDERS + F_FIRST);
-		mSortPriceButton = addSortOption(R.id.sort_price_button, R.drawable.ic_sort_price,
-				R.string.sort_description_price, 0);
-		// Card 233: Remove deals sort for later version
-		//mSortDealsButton = addSortOption(R.id.sort_deals_button, R.drawable.ic_sort_deals,
-		//		R.string.sort_description_deals, 0);
-		mSortUserRatingButton = addSortOption(R.id.sort_reviews_button, R.drawable.ic_sort_user_rating,
-				R.string.sort_description_rating, 0);
-		mSortDistanceButton = addSortOption(R.id.sort_distance_button, R.drawable.ic_sort_distance,
-				R.string.sort_description_distance, F_LAST);
-		mSortOptionsLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-		mSortPopup = new PopupWindow(mSortOptionsLayout, mSortOptionsLayout.getMeasuredWidth(),
-				mSortOptionsLayout.getMeasuredHeight());
-		mSortPopup.setAnimationStyle(R.style.Animation_Popup);
-		mSortPopup.setOnDismissListener(new OnDismissListener() {
-
-			@Override
-			public void onDismiss() {
-				mSortPopupDismissView.setVisibility(View.GONE);
-			}
-		});
-
-		mSortPriceButton.setOnClickListener(mSortOptionChangedListener);
-		// Card 233: Remove deals sort for later version
-		//mSortDealsButton.setOnClickListener(mSortOptionChangedListener);
-		mSortPopularityButton.setOnClickListener(mSortOptionChangedListener);
-		mSortDistanceButton.setOnClickListener(mSortOptionChangedListener);
-		mSortUserRatingButton.setOnClickListener(mSortOptionChangedListener);
-
-		mSortButtons = new ArrayList<View>();
-		mSortButtons.add(mSortPopularityButton);
-		mSortButtons.add(mSortPriceButton);
-		// Card 233: Remove deals sort for later version
-		//mSortButtons.add(mSortDealsButton);
-		mSortButtons.add(mSortUserRatingButton);
-		mSortButtons.add(mSortDistanceButton);
-
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
 		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
 
@@ -574,13 +504,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	public void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		hideSortOptions();
-		hideFilterOptions(false);
 
 		if (intent.getBooleanExtra(Codes.EXTRA_NEW_SEARCH, false)) {
 			mStartSearchOnResume = true;
 		}
-
 	}
 
 	@Override
@@ -626,10 +553,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
-		setViewButtonImage();
-		setDrawerViews();
 		setSearchEditViews();
-		setBottomBarOptions();
 		GuestsPickerUtils.configureAndUpdateDisplayedValues(this, mAdultsNumberPicker, mChildrenNumberPicker);
 
 		displayRefinementInfo();
@@ -917,26 +841,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		// Sort
-                case R.id.menu_select_sort_popularity: {
-                        mSortOptionSelectedId = R.id.menu_select_sort_popularity;
+                case R.id.menu_select_sort_popularity:
+                case R.id.menu_select_sort_price:
+                case R.id.menu_select_sort_user_rating:
+                case R.id.menu_select_sort_distance:
+                        mSortOptionSelectedId = item.getItemId();
                         rebuildFilter = true;
                         break;
-                }
-                case R.id.menu_select_sort_price: {
-                        mSortOptionSelectedId = R.id.menu_select_sort_price;
-                        rebuildFilter = true;
-                        break;
-                }
-                case R.id.menu_select_sort_user_rating: {
-                        mSortOptionSelectedId = R.id.menu_select_sort_user_rating;
-                        rebuildFilter = true;
-                        break;
-                }
-                case R.id.menu_select_sort_distance: {
-                        mSortOptionSelectedId = R.id.menu_select_sort_distance;
-                        rebuildFilter = true;
-                        break;
-                }
 
 		// Map Button
                 case R.id.menu_select_change_view: {
@@ -1072,23 +983,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
 
-		mViewButton = (ImageButton) findViewById(R.id.view_button);
-
 		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
 		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
 		mDatesTextView = (TextView) findViewById(R.id.dates_text_view);
 		mGuestsButton = (ImageButton) findViewById(R.id.guests_button);
 		mGuestsTextView = (TextView) findViewById(R.id.guests_text_view);
-
-		mPanelDismissView = findViewById(R.id.panel_dismiss_view);
-		mPanel = (Panel) findViewById(R.id.drawer_panel);
-
-		mFilterInfoTextView = (TextView) findViewById(R.id.filter_info_text_view);
-		mFilterHotelNameEditText = (EditText) findViewById(R.id.filter_hotel_name_edit_text);
-		mSortTextView = (TextView) findViewById(R.id.sort_text_view);
-		mRadiusButtonGroup = (SegmentedControlGroup) findViewById(R.id.radius_filter_button_group);
-		mRatingButtonGroup = (SegmentedControlGroup) findViewById(R.id.rating_filter_button_group);
-		mPriceButtonGroup = (SegmentedControlGroup) findViewById(R.id.price_filter_button_group);
 
 		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
 		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
@@ -1110,16 +1009,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mProgressText = (TextView) findViewById(R.id.search_progress_text_view);
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
 
-		mBottomBarLayout = findViewById(R.id.bottom_bar_layout);
-		mFilterButton = findViewById(R.id.filter_button_layout);
-		mSortButton = findViewById(R.id.sort_button_layout);
-		mSearchMapButton = findViewById(R.id.search_map_button_layout);
-		mUpArrowFilterHotels = (ImageView) findViewById(R.id.up_arrow_filter_hotels);
-		mUpArrowSortHotels = (ImageView) findViewById(R.id.up_arrow_sort_hotels);
-
-		mSortOptionsLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.include_sort_popup, null);
-		mSortPopupDismissView = findViewById(R.id.sort_popup_dismiss_view);
-
 		//===================================================================
 		// Properties
 
@@ -1140,20 +1029,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mSearchSuggestionsListView.addFooterView(footer, null, false);
 		//-------------------------------------------------------------------
 
-		mPanel.setInterpolator(new AccelerateInterpolator());
-		mPanel.setOnPanelListener(mPanelListener);
-
-		final View delegate = mPanel.getHandle();
-		final View parent = (View) delegate.getParent();
-		parent.post(new Runnable() {
-			@Override
-			public void run() {
-				final Rect r = new Rect();
-				delegate.getHitRect(r);
-				r.top -= 50;
-				parent.setTouchDelegate(new TouchDelegate(r, delegate));
-			}
-		});
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
 		// Progress bar 
@@ -1171,33 +1046,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		}
 
-		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, Db.getFilter());
-
-		// 8781: Clear focus on hotel name edit text when user clicks "done".  Otherwise, we retain
-		// focus and some keyboards keep up parts of themselves (like the "suggestion" bar)
-		mFilterHotelNameEditText.setOnEditorActionListener(new OnEditorActionListener() {
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					v.clearFocus();
-				}
-				return false;
-			}
-		});
-
 		//===================================================================
 		// Listeners
-		mViewButton.setOnClickListener(mViewButtonClickListener);
-
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
-
-		mPanelDismissView.setOnClickListener(mPanelDismissViewClickListener);
-		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 		mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
@@ -1206,12 +1061,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mSearchButton.setOnClickListener(mSearchButtonClickListener);
-
-		mFilterButton.setOnClickListener(mFilterButtonPressedListener);
-		mSortButton.setOnClickListener(mSortButtonPressedListener);
-		mSearchMapButton.setOnClickListener(mMapSearchButtonClickListener);
-		mSortPopupDismissView.setOnClickListener(mSortPopupDismissViewClickListener);
-
 	}
 
 	//----------------------------------
@@ -1225,67 +1074,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		Filter currentFilter = filter.copy();
 
 		// Distance
-		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.radius_small_button: {
-			filter.setSearchRadius(SearchRadius.SMALL);
-			break;
-		}
-		case R.id.radius_medium_button: {
-			filter.setSearchRadius(SearchRadius.MEDIUM);
-			break;
-		}
-		case R.id.radius_large_button: {
-			filter.setSearchRadius(SearchRadius.LARGE);
-			break;
-		}
-		default:
-		case R.id.radius_all_button: {
-			filter.setSearchRadius(SearchRadius.ALL);
-			break;
-		}
-		}
+		// FIXME
+		filter.setSearchRadius(SearchRadius.ALL);
 
 		// Rating
-		switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.rating_low_button: {
-			filter.setMinimumStarRating(3);
-			break;
-		}
-		case R.id.rating_medium_button: {
-			filter.setMinimumStarRating(4);
-			break;
-		}
-		case R.id.rating_high_button: {
-			filter.setMinimumStarRating(5);
-			break;
-		}
-		default:
-		case R.id.rating_all_button: {
-			filter.setMinimumStarRating(0);
-			break;
-		}
-		}
+		// FIXME
+		filter.setMinimumStarRating(0);
 
 		// Price
-		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
-		case R.id.price_cheap_button: {
-			filter.setPriceRange(PriceRange.CHEAP);
-			break;
-		}
-		case R.id.price_moderate_button: {
-			filter.setPriceRange(PriceRange.MODERATE);
-			break;
-		}
-		case R.id.price_expensive_button: {
-			filter.setPriceRange(PriceRange.EXPENSIVE);
-			break;
-		}
-		default:
-		case R.id.price_all_button: {
-			filter.setPriceRange(PriceRange.ALL);
-			break;
-		}
-		}
+		// FIXME
+		filter.setPriceRange(PriceRange.ALL);
 
                 // Sort
                 switch (mSortOptionSelectedId) {
@@ -1316,8 +1114,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			Log.d("Filter has changed, notifying listeners.");
 			filter.notifyFilterChanged();
 		}
-
-		setFilterInfoText();
 	}
 
 	private void saveParams() {
@@ -1335,8 +1131,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		Log.d("Resetting filter...");
 
 		Db.resetFilter();
-
-		setDrawerViews();
 	}
 
 	private void startSearch() {
@@ -1361,8 +1155,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		buildFilter();
 		setDisplayType(DisplayType.NONE);
-		disablePanelHandle();
-		hideBottomBar();
 		saveParams();
 
 		SearchType searchType = Db.getSearchParams().getSearchType();
@@ -1527,12 +1319,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
 		// stay visible, it's easier here just to hide it between activity shifts.
-		if (mDisplayType == DisplayType.SORT_POPUP) {
-			outState.putInt(INSTANCE_DISPLAY_TYPE, DisplayType.NONE.ordinal());
-		}
-		else {
-			outState.putInt(INSTANCE_DISPLAY_TYPE, mDisplayType.ordinal());
-		}
+		outState.putInt(INSTANCE_DISPLAY_TYPE, mDisplayType.ordinal());
 		return outState;
 	}
 
@@ -1577,7 +1364,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mHotelMapFragment.notifySearchComplete();
 
 		onSearchResultsChanged();
-		showBottomBar();
 
 		showWidgetNotificationIfApplicable();
 	}
@@ -1771,9 +1557,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			TrackingUtils.trackErrorPage(PhoneSearchActivity.this, "HotelListRequestFailed");
 			showLoading(false, R.string.progress_search_failed);
 		}
-
-		// Ensure that users cannot open the handle if there's an error up
-		disablePanelHandle();
 	}
 
 	//----------------------------------
@@ -1821,11 +1604,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			hideSoftKeyboard(mSearchEditText);
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
-			//mPanelDismissView.setVisibility(View.GONE);
-			openPanel(false, animate);
-
-			hideSortOptions();
-
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1841,10 +1619,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			// populate it here just in case that happens.
 			startAutocomplete();
 
-			mPanelDismissView.setVisibility(View.GONE);
-			openPanel(false, animate);
-
-			hideSortOptions();
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1858,13 +1632,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			hideSoftKeyboard(mSearchEditText);
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
-			mPanelDismissView.setVisibility(View.GONE);
-			openPanel(false, animate);
-
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
-
-			hideSortOptions();
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
@@ -1879,11 +1648,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			hideSoftKeyboard(mSearchEditText);
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
-			mPanelDismissView.setVisibility(View.GONE);
-			openPanel(false, animate);
-
-			hideSortOptions();
-
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1897,11 +1661,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			hideSoftKeyboard(mSearchEditText);
 			mSearchSuggestionsListView.setVisibility(View.GONE);
 
-			mPanelDismissView.setVisibility(View.VISIBLE);
-			openPanel(true, animate);
-
-			hideSortOptions();
-
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1909,47 +1668,15 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			break;
 		}
-		case SORT_POPUP: {
-			mSearchEditText.clearFocus();
-
-			hideSoftKeyboard(mSearchEditText);
-			mSearchSuggestionsListView.setVisibility(View.GONE);
-
-			mPanelDismissView.setVisibility(View.GONE);
-			openPanel(false, animate);
-
-			showSortOptions();
-
-			mRefinementDismissView.setVisibility(View.GONE);
-			mButtonBarLayout.setVisibility(View.GONE);
-			mDatesLayout.setVisibility(View.GONE);
-			mGuestsLayout.setVisibility(View.GONE);
-
-			break;
-		}
-
 		}
 
 		setSearchEditViews();
 		displayRefinementInfo();
 		setActionBarBookingInfoText();
-		setFilterInfoText();
-	}
-
-	private void openPanel(boolean toOpen, boolean animate) {
-		mPanel.setOpen(toOpen, animate);
-
-		if (toOpen) {
-			rotateFilterArrowDown(animate);
-		}
-		else {
-			rotateFilterArrowUp(animate);
-		}
 	}
 
 	private void switchResultsView() {
 		setDisplayType(DisplayType.NONE);
-		mViewButton.setEnabled(false);
 
 		String newFragmentTag = null;
 		Rotate3dAnimation animationOut = null;
@@ -1993,8 +1720,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mContent.draw(mViewFlipCanvas);
 			mContent.setVisibility(View.INVISIBLE);
 			showFragment(newFragmentTag);
-			setViewButtonImage();
-			setBottomBarOptions();
 
 			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
 			nextAnimation.setFillAfter(true);
@@ -2010,9 +1735,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
-					setDrawerViews();
 					mContent.setVisibility(View.VISIBLE);
-					mViewButton.setEnabled(true);
 				}
 			});
 
@@ -2047,8 +1770,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			if (newFragmentTag != null) {
 				showFragment(newFragmentTag);
 			}
-			setDrawerViews();
-			setViewButtonImage();
 		}
 	}
 
@@ -2098,165 +1819,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	//----------------------------------
-	// VIEW BUILDING METHODS
-	//----------------------------------
-
-	private void disablePanelHandle() {
-		mPanel.getHandle().setEnabled(false);
-	}
-
-	private void enablePanelHandle() {
-		mPanel.getHandle().setEnabled(true);
-	}
-
-	private void hideBottomBar() {
-		mBottomBarLayout.setVisibility(View.GONE);
-		mPanel.setVisibility(View.GONE);
-	}
-
-	private void showBottomBar() {
-		mBottomBarLayout.setVisibility(View.VISIBLE);
-		mPanel.setVisibility(View.VISIBLE);
-	}
-
-	private void showSortOptions() {
-
-		if (mSortPopup.isShowing()) {
-			return;
-		}
-
-		Animation rotateAnimation = AnimationUtils.loadAnimation(PhoneSearchActivity.this, R.anim.rotate_down);
-		mUpArrowSortHotels.startAnimation(rotateAnimation);
-
-		mSortPopup.showAsDropDown(mSortButton, ((mSortButton.getWidth() - mSortOptionsLayout.getMeasuredWidth()) / 2),
-				0);
-		mSortPopupDismissView.setVisibility(View.VISIBLE);
-		hideFilterOptions();
-	}
-
-	private void hideSortOptions() {
-		if (!mSortPopup.isShowing()) {
-			return;
-		}
-
-		mDisplayType = DisplayType.NONE;
-		mSortPopup.dismiss();
-		mUpArrowSortHotels.startAnimation(AnimationUtils.loadAnimation(PhoneSearchActivity.this, R.anim.rotate_up));
-	}
-
-	private void showFilterOptions() {
-		mPanel.setOpen(true, true);
-		mPanel.setVisibility(View.VISIBLE);
-		rotateFilterArrowDown();
-		hideSortOptions();
-	}
-
-	private void rotateFilterArrowDown(boolean animate) {
-		mFilterButtonArrowUp = false;
-		Animation animation = AnimationUtils.loadAnimation(PhoneSearchActivity.this, R.anim.rotate_down);
-		if (!animate) {
-			animation.setDuration(0);
-		}
-		mUpArrowFilterHotels.startAnimation(animation);
-	}
-
-	private void rotateFilterArrowDown() {
-		rotateFilterArrowDown(true);
-	}
-
-	private void hideFilterOptions() {
-		hideFilterOptions(true);
-	}
-
-	private void hideFilterOptions(boolean animate) {
-		if (!mPanel.isOpen()) {
-			return;
-		}
-
-		mPanel.setOpen(false, animate);
-		rotateFilterArrowUp(animate);
-	}
-
-	private void rotateFilterArrowUp(boolean animate) {
-		if (mFilterButtonArrowUp) {
-			return;
-		}
-
-		mFilterButtonArrowUp = true;
-		Animation animation = AnimationUtils.loadAnimation(PhoneSearchActivity.this, R.anim.rotate_up);
-		if (!animate) {
-			animation.setDuration(0);
-		}
-		mUpArrowFilterHotels.startAnimation(animation);
-	}
-
-	private View addSortOption(int sortOptionId, int sortOptionImageResId, int sortOptionTextResId, int flags) {
-		View sortOption = getLayoutInflater().inflate(R.layout.snippet_sort_option, null);
-		TextView sortTextView = (TextView) sortOption.findViewById(R.id.sort_option_text);
-		ImageView sortImageView = (ImageView) sortOption.findViewById(R.id.sort_option_image);
-		View sortOptionDivider = sortOption.findViewById(R.id.sort_option_divider);
-
-		sortOption.setId(sortOptionId);
-		sortTextView.setText(sortOptionTextResId);
-		sortImageView.setImageResource(sortOptionImageResId);
-
-		if ((flags & F_NO_DIVIDERS) != 0) {
-			sortOptionDivider.setVisibility(View.GONE);
-		}
-		else {
-			sortOptionDivider.setBackgroundDrawable(mSortOptionDivider);
-		}
-
-		if ((flags & F_FIRST) != 0) {
-			sortOption.setBackgroundResource(R.drawable.bg_sort_option_row_first);
-		}
-		else if ((flags & F_LAST) != 0) {
-			sortOption.setBackgroundResource(R.drawable.bg_sort_option_row_last);
-		}
-
-		mSortOptionsLayout.addView(sortOption);
-		return sortOption;
-	}
-
-	private void setupSortOptions() {
-		// Set all buttons to default state
-		for (View v : mSortButtons) {
-			v.setSelected(false);
-			v.setEnabled(true);
-		}
-
-		// Setup current sort as selected and disabled
-		View selected = null;
-		switch (mSortOptionSelectedId) {
-		case R.id.sort_popular_button: {
-			selected = mSortPopularityButton;
-			break;
-		}
-		case R.id.sort_reviews_button: {
-			selected = mSortUserRatingButton;
-			break;
-		}
-		case R.id.sort_distance_button: {
-			selected = mSortDistanceButton;
-			break;
-		}
-		case R.id.sort_price_button: {
-			selected = mSortPriceButton;
-			break;
-		}
-		case R.id.sort_deals_button: {
-			selected = mSortDealsButton;
-			break;
-		}
-		}
-
-		if (selected != null) {
-			selected.setSelected(true);
-			selected.setEnabled(false);
-		}
-	}
-
-	//----------------------------------
 	// STORE/RESTORE SEARCH PARAMS
 	//----------------------------------
 
@@ -2284,145 +1846,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		mDatesTextView.setText(String.valueOf(startDay));
 		mGuestsTextView.setText(String.valueOf((numAdults + numChildren)));
-	}
-
-	private void setDrawerViews() {
-		Filter filter = Db.getFilter();
-
-		Log.d("setDrawerViews().  Current filter: " + filter.toJson().toString());
-
-		// Temporarily remove Listeners before we start fiddling around with the filter fields
-		mFilterHotelNameEditText.removeTextChangedListener(mFilterHotelNameTextWatcher);
-		mRadiusButtonGroup.setOnCheckedChangeListener(null);
-		mPriceButtonGroup.setOnCheckedChangeListener(null);
-
-		// Configure the hotel name filter
-		mFilterHotelNameEditText.setText(filter.getHotelName());
-
-		// Configure the sort buttons
-		switch (filter.getSort()) {
-		case POPULAR:
-			mSortOptionSelectedId = R.id.sort_popular_button;
-			setupSortOptions();
-			break;
-		case PRICE:
-			mSortOptionSelectedId = R.id.sort_price_button;
-			setupSortOptions();
-			break;
-		case DEALS:
-			mSortOptionSelectedId = R.id.sort_deals_button;
-			setupSortOptions();
-			break;
-		case RATING:
-			mSortOptionSelectedId = R.id.sort_reviews_button;
-			setupSortOptions();
-			break;
-		case DISTANCE:
-			mSortOptionSelectedId = R.id.sort_distance_button;
-			setupSortOptions();
-			break;
-		default:
-			break;
-		}
-
-		// Configure the rating buttons
-		double minStarRating = filter.getMinimumStarRating();
-		if (minStarRating >= 5) {
-			mRatingButtonGroup.check(R.id.rating_high_button);
-		}
-		else if (minStarRating >= 4) {
-			mRatingButtonGroup.check(R.id.rating_medium_button);
-		}
-		else if (minStarRating >= 3) {
-			mRatingButtonGroup.check(R.id.rating_low_button);
-		}
-		else {
-			mRatingButtonGroup.check(R.id.rating_all_button);
-		}
-
-		// Configure the search radius buttons
-		switch (filter.getSearchRadius()) {
-		case SMALL:
-			mRadiusButtonGroup.check(R.id.radius_small_button);
-			break;
-		case MEDIUM:
-			mRadiusButtonGroup.check(R.id.radius_medium_button);
-			break;
-		case LARGE:
-			mRadiusButtonGroup.check(R.id.radius_large_button);
-			break;
-		case ALL:
-			mRadiusButtonGroup.check(R.id.radius_all_button);
-			break;
-		default:
-			mRadiusButtonGroup.check(DEFAULT_RADIUS_RADIO_GROUP_CHILD);
-		}
-
-		// Configure the price buttons
-		switch (filter.getPriceRange()) {
-		case CHEAP:
-			mPriceButtonGroup.check(R.id.price_cheap_button);
-			break;
-		case MODERATE:
-			mPriceButtonGroup.check(R.id.price_moderate_button);
-			break;
-		case EXPENSIVE:
-			mPriceButtonGroup.check(R.id.price_expensive_button);
-			break;
-		case ALL:
-			mPriceButtonGroup.check(R.id.price_all_button);
-			break;
-		default:
-			mPriceButtonGroup.check(DEFAULT_PRICE_RADIO_GROUP_CHILD);
-		}
-
-		// Flip to user's preferred view
-		setBottomBarOptions();
-
-		setSortTypeText();
-		setRadioButtonShadowLayers();
-
-		// Restore Listeners
-		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
-		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
-	}
-
-	private void setFilterInfoText() {
-		SearchResponse searchResponse = Db.getSearchResponse();
-		if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
-			final int count = searchResponse.getFilteredAndSortedProperties().length;
-			final String text = getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count);
-
-			mFilterInfoTextView.setText(Html.fromHtml(text));
-			mFilterInfoTextView.setVisibility(View.VISIBLE);
-		}
-		else {
-			mFilterInfoTextView.setVisibility(View.GONE);
-		}
-	}
-
-	private void setRadioButtonShadowLayers() {
-		List<SegmentedControlGroup> groups = new ArrayList<SegmentedControlGroup>();
-		groups.add(mRadiusButtonGroup);
-		groups.add(mRatingButtonGroup);
-		groups.add(mPriceButtonGroup);
-
-		for (SegmentedControlGroup group : groups) {
-			final int size = group.getChildCount();
-			for (int i = 0; i < size; i++) {
-				View view = group.getChildAt(i);
-				if (view instanceof RadioButton) {
-					RadioButton radioButton = (RadioButton) view;
-					if (radioButton.isChecked()) {
-						radioButton.setShadowLayer(0.1f, 0, -1, 0x88000000);
-					}
-					else {
-						radioButton.setShadowLayer(0.1f, 0, 1, 0x88FFFFFF);
-					}
-				}
-			}
-		}
 	}
 
 	private void displayRefinementInfo() {
@@ -2508,52 +1931,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		int visibility = mShowDistance ? View.VISIBLE : View.GONE;
 
-		// #9585: Need to adjust the drawable for the bottom popup item
-		int numSortButtons = mSortButtons.size();
-		View lastSortButton = mSortButtons.get(numSortButtons - 1);
-		if (lastSortButton == mSortDistanceButton) {
-			int secondToLastDrawable = mShowDistance ? R.drawable.bg_sort_option_row
-					: R.drawable.bg_sort_option_row_last;
-			mSortButtons.get(numSortButtons - 2).setBackgroundResource(secondToLastDrawable);
-		}
-
-		// Hide/reveal the sort-by-distance popup option
-		mSortDistanceButton.setVisibility(visibility);
-		mSortDistanceButton.findViewById(R.id.sort_option_divider).setVisibility(visibility);
-		mSortOptionsLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-		mSortPopup.setWidth(mSortOptionsLayout.getMeasuredWidth());
-		mSortPopup.setHeight(mSortOptionsLayout.getMeasuredHeight());
-
 		mHotelListFragment.setShowDistances(showDistance);
 		mHotelMapFragment.setShowDistances(showDistance);
-
-		// Hide/reveal the distance filter
-		mRadiusButtonGroup.setVisibility(visibility);
-	}
-
-	private void setSortTypeText() {
-		String sortType = getString(Db.getFilter().getSort().getDescriptionResId());
-		mSortTextView.setText(Html.fromHtml(getString(R.string.sort_hotels_template, sortType)));
-	}
-
-	private void setViewButtonImage() {
-		if (mTag.equals(mHotelListFragment.getTag())) {
-			mViewButton.setImageResource(R.drawable.btn_actionbar_map);
-		}
-		else {
-			mViewButton.setImageResource(R.drawable.btn_actionbar_list);
-		}
-	}
-
-	private void setBottomBarOptions() {
-		if (mTag.equals(mHotelListFragment.getTag())) {
-			mSortButton.setVisibility(View.VISIBLE);
-			mSearchMapButton.setVisibility(View.GONE);
-		}
-		else {
-			mSortButton.setVisibility(View.GONE);
-			mSearchMapButton.setVisibility(View.VISIBLE);
-		}
 	}
 
 	//----------------------------------
@@ -2654,7 +2033,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			Filter filter = Db.getFilter();
 			filter.setHotelName(s.toString());
 			filter.notifyFilterChanged();
-			setFilterInfoText();
 		}
 	};
 
@@ -2778,94 +2156,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	};
 
-	private final Panel.OnPanelListener mPanelListener = new Panel.OnPanelListener() {
-		@Override
-		public void onPanelOpened(Panel panel) {
-			mDisplayType = DisplayType.DRAWER;
-
-			if (mPanelDismissView.getVisibility() == View.VISIBLE) {
-				return;
-			}
-			final Animation animation = AnimationUtils.loadAnimation(PhoneSearchActivity.this, android.R.anim.fade_in);
-			animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
-			animation.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-					mPanelDismissView.setVisibility(View.VISIBLE);
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mPanelDismissView.setVisibility(View.VISIBLE);
-				}
-			});
-			mPanelDismissView.startAnimation(animation);
-
-			onOpenFilterPanel();
-		}
-
-		@Override
-		public void onPanelClosed(Panel panel) {
-			if (mPanelDismissView.getVisibility() == View.GONE) {
-				return;
-			}
-			mDisplayType = DisplayType.NONE;
-
-			final Animation animation = AnimationUtils.loadAnimation(PhoneSearchActivity.this, android.R.anim.fade_out);
-			animation.setDuration(ANIMATION_PANEL_DISMISS_SPEED);
-			animation.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-					mPanelDismissView.setVisibility(View.VISIBLE);
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mPanelDismissView.setVisibility(View.GONE);
-				}
-			});
-			mPanelDismissView.setAnimation(animation);
-
-			onSearchResultsChanged();
-			if (!mFilterButtonArrowUp) {
-				rotateFilterArrowUp(false);
-			}
-
-			// Get rid of IME if it appeared for the filter
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(mFilterHotelNameEditText.getWindowToken(), 0);
-		}
-	};
-
-	private final RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			buildFilter();
-			setSortTypeText();
-			setRadioButtonShadowLayers();
-		}
-	};
-
-	private final View.OnClickListener mSortOptionChangedListener = new View.OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			mSortOptionSelectedId = v.getId();
-			buildFilter();
-			setupSortOptions();
-			setSortTypeText();
-			hideSortOptions();
-		}
-	};
-
 	private final TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -2911,25 +2201,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	};
 
-	private final View.OnClickListener mPanelDismissViewClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			setDisplayType(DisplayType.NONE);
-		}
-	};
-
 	private final View.OnClickListener mRefinementDismissViewClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			setDisplayType(DisplayType.NONE);
-		}
-	};
-
-	private final View.OnClickListener mSortPopupDismissViewClickListener = new View.OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			hideSortOptions();
 		}
 	};
 
@@ -2983,32 +2258,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 						mSearchEditText.selectAll();
 					}
 				}
-			}
-		}
-	};
-
-	private final View.OnClickListener mFilterButtonPressedListener = new View.OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			if (mPanel.isOpen()) {
-				hideFilterOptions();
-			}
-			else {
-				showFilterOptions();
-			}
-		}
-	};
-
-	private final View.OnClickListener mSortButtonPressedListener = new View.OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			if (mSortPopup.isShowing()) {
-				setDisplayType(DisplayType.NONE);
-			}
-			else {
-				setDisplayType(DisplayType.SORT_POPUP);
 			}
 		}
 	};

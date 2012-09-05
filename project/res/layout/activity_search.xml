@@ -139,73 +139,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/view_button"
-            android:layout_toLeftOf="@+id/view_button"
             android:orientation="horizontal" >
-
-            <RelativeLayout
-                android:id="@+id/sort_button_layout"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="@drawable/btn_left_bottombar"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center" >
-
-                <ImageView
-                    android:id="@+id/sort_button_circle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/triangle_button_circle" />
-
-                <ImageView
-                    android:id="@+id/up_arrow_sort_hotels"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/sort_button_circle"
-                    android:layout_alignLeft="@id/sort_button_circle"
-                    android:layout_alignRight="@id/sort_button_circle"
-                    android:layout_alignTop="@id/sort_button_circle"
-                    android:paddingBottom="1dp"
-                    android:scaleType="center"
-                    android:src="@drawable/triangle_button_triangle" />
-
-                <TextView
-                    android:id="@+id/sort_text_view"
-                    style="@style/BottomBarText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/sort_button_circle"
-                    android:ellipsize="end"
-                    android:paddingLeft="5dp"
-                    android:singleLine="true"
-                    android:text="@string/sort_hotels"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/search_map_button_layout"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="@drawable/btn_left_bottombar"
-                android:gravity="center"
-                android:visibility="gone" >
-
-                <TextView
-                    style="@style/BottomBarText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_search_map"
-                    android:drawablePadding="5dp"
-                    android:includeFontPadding="false"
-                    android:text="@string/map_search_button"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/filter_button_layout"
@@ -249,14 +183,6 @@
                     android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/view_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@null"
-            android:src="@drawable/btn_actionbar_map" />
     </RelativeLayout>
 
     <View
