@@ -410,8 +410,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		setContentView(R.layout.activity_search);
 
-		AndroidUtils.addLegacyOverflowButton(getWindow());
-
 		mHotelListFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_list));
 		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_map));
 
