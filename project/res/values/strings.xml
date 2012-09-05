@@ -853,6 +853,8 @@
     <string name="total_cost">Total Cost</string>
     <!-- Label for "guest info" form field section -->
     <string name="guest_info">Guest Info</string>
+    <!-- Label for "guest info" form field section -->
+    <string name="GUEST_INFO">GUEST INFO</string>
     <!-- The "first name" booking info field. -->
     <string name="FirstName">First Name</string>
     <!-- The "last name" booking info field. -->
@@ -865,6 +867,8 @@
     <string name="EmailForConf">Email for Confirmation</string>
     <!-- Label for "billing info" form field section -->
     <string name="billing_info">Billing Info</string>
+    <!-- Label for "billing info" form field section -->
+    <string name="BILLING_INFO">BILLING INFO</string>
     <!-- Address line 1 form field hint -->
     <string name="hint_address1">Address 1</string>
     <!-- Address line 2 form field hint -->
