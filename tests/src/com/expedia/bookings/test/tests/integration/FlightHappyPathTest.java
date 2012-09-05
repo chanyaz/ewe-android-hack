@@ -162,9 +162,4 @@ public class FlightHappyPathTest extends InstrumentationTestCase {
 
 		mMonitor = mInstr.addMonitor(className, null, false);
 	}
-
-	@LargeTest
-	public void testFlightSearchRoundtrip() throws Throwable {
-
-	}
 }
