@@ -137,8 +137,8 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 
-public class PhoneSearchActivity extends SherlockFragmentMapActivity implements LocationListener, OnDrawStartedListener,
-		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
+public class PhoneSearchActivity extends SherlockFragmentMapActivity implements LocationListener,
+		OnDrawStartedListener, HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -2684,6 +2684,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
 			displayRefinementInfo();
 			setActionBarBookingInfoText();
+			onGuestsChanged();
 		}
 	};
 
@@ -2994,6 +2995,15 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void onSwitchToMap() {
 		Log.d("Tracking \"App.Hotels.Search.Map\" pageLoad...");
 		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Search.Map", null, "Shopper", null);
+	}
+
+	private void onGuestsChanged() {
+		Log.d("Tracking \"App.Hotels.Search.Refine.NumberTravelers\" change");
+
+		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
+				+ (mAdultsNumberPicker.getCurrent() + mChildrenNumberPicker.getCurrent());
+
+		TrackingUtils.trackSimpleEvent(this, pageName, null, "Shopper", null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
