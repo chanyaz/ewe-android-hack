@@ -474,6 +474,8 @@
     <!-- Button label for upgrading the app -->
     <string name="upgrade">Upgrade</string>
     <!-- Button label for searching the visible map area -->
+    <string name="SEARCH_MAP">SEARCH MAP</string>
+    <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Search Map</string>
     <!-- Message when app is loading saved search results -->
     <string name="loading_previous">Loading previous search results…</string>
