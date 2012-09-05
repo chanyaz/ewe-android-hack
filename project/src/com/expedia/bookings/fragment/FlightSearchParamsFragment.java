@@ -52,6 +52,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private static final String ARG_DIM_BACKGROUND = "ARG_DIM_BACKGROUND";
 
 	private static final String INSTANCE_SHOW_CALENDAR = "INSTANCE_SHOW_CALENDAR";
+	private static final String INSTANCE_PARAMS = "INSTANCE_PARAMS";
 
 	// Controls the ratio of how large a selected EditText should take up
 	// 1 == takes up the full size, 0 == takes up 50%.
@@ -87,7 +88,12 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mSearchParams = JSONUtils.getJSONable(getArguments(), ARG_INITIAL_PARAMS, FlightSearchParams.class);
+		if (savedInstanceState == null) {
+			mSearchParams = JSONUtils.getJSONable(getArguments(), ARG_INITIAL_PARAMS, FlightSearchParams.class);
+		}
+		else {
+			mSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_PARAMS, FlightSearchParams.class);
+		}
 	}
 
 	@Override
@@ -149,8 +155,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		if (savedInstanceState == null) {
 			// Fill in the initial departure/arrival airports if we are just launching
-			updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureAirportCode());
-			updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalAirportCode());
+			updateAirportText();
 		}
 
 		mDatesTextView.setOnClickListener(new OnClickListener() {
@@ -172,9 +177,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 					mClearDatesButton.setVisibility(View.VISIBLE);
 				}
 			}
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
@@ -237,6 +244,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_SHOW_CALENDAR, mCalendarDatePicker.getVisibility() == View.VISIBLE);
+		JSONUtils.putJSONable(outState, INSTANCE_PARAMS, mSearchParams);
 	}
 
 	@Override
@@ -281,6 +289,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		}
 	};
+
+	private void updateAirportText() {
+		updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureAirportCode());
+		updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalAirportCode());
+	}
 
 	private void updateAirportText(TextView textView, String airportCode) {
 		Airport airport = FlightStatsDbUtils.getAirport(airportCode);
@@ -494,6 +507,19 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		clearEditTextFocus();
 
 		return mSearchParams;
+	}
+
+	public void setSearchParams(FlightSearchParams params) {
+		// Reset view state
+		clearEditTextFocus();
+		toggleCalendarDatePicker(false);
+
+		mSearchParams = params;
+
+		updateAirportText();
+		updateCalendarText();
+		updateAirportTextColors();
+		updateCalendarInstructionText();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

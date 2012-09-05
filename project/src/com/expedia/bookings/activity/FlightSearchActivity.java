@@ -23,9 +23,16 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 
 	public static final String EXTRA_DATA_EXPIRED = "EXTRA_DATA_EXPIRED";
 
+	private static final String INSTANCE_UPDATE_ON_RESUME = "INSTANCE_UPDATE_ON_RESUME";
+
 	private FlightSearchParamsFragment mSearchParamsFragment;
 
 	private HockeyPuck mHockeyPuck;
+
+	// Keeps track of whether we should update the search params fragment with
+	// the latest SearchParams on resume.  This is checked when the user leaves
+	// this activity and comes back later (e.g., did a search).
+	private boolean mUpdateOnResume = false;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -33,6 +40,10 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mUpdateOnResume = savedInstanceState.getBoolean(INSTANCE_UPDATE_ON_RESUME);
+		}
 
 		View root = findViewById(android.R.id.content);
 		root.setBackgroundResource(R.drawable.bg_search_nyc);
@@ -69,11 +80,18 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 
 		//HockeyApp crash
 		mHockeyPuck.onResume();
+
+		if (mUpdateOnResume) {
+			mSearchParamsFragment.setSearchParams(Db.getFlightSearch().getSearchParams());
+			mUpdateOnResume = false;
+		}
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+
+		outState.putBoolean(INSTANCE_UPDATE_ON_RESUME, mUpdateOnResume);
 
 		mHockeyPuck.onSaveInstanceState(outState);
 	}
@@ -108,6 +126,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 			Log.i("Initial search requested!");
 			Db.getFlightSearch().setSearchParams(mSearchParamsFragment.getSearchParams());
 			startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
+			mUpdateOnResume = true;
 			return true;
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
