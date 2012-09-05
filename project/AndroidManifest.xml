@@ -79,7 +79,7 @@
             android:theme="@style/Theme.Phone" />
         <activity
             android:name=".activity.UserReviewsListActivity"
-            android:theme="@style/Theme.Phone" />
+            android:theme="@style/Theme.Phone.WithStackedTabs" />
         <activity
             android:name=".activity.TabletUserReviewsListActivity"
             android:theme="@style/Theme.Light.Fullscreen.Panel" />

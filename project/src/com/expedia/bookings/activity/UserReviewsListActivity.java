@@ -212,7 +212,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 		mPagerAdapter.populateReviewsStats();
 
-		LinearLayout titleView = (LinearLayout) getSupportActionBar().getCustomView();
+		View titleView = getSupportActionBar().getCustomView();
 		if (titleView == null) {
 			return;
 		}
@@ -221,19 +221,24 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		RatingBar ratingBar = (RatingBar) titleView.findViewById(R.id.user_rating);
 
 		ReviewsStatisticsResponse stats = Db.getSelectedReviewsStatisticsResponse();
-		if (stats != null) {
-			String title = getResources().getQuantityString(R.plurals.number_of_reviews, stats.getTotalReviewCount(),
-					stats.getTotalReviewCount());
-			titleTextView.setText(title);
+		if (stats == null) {
+			if (ratingBar != null) {
+				ratingBar.setVisibility(View.GONE);
+			}
+			return;
+		}
 
+		if (titleTextView != null) {
+			String title = getResources().getQuantityString(R.plurals.number_of_reviews,
+					stats.getTotalReviewCount(), stats.getTotalReviewCount());
+			titleTextView.setText(title);
+		}
+
+		if (ratingBar != null) {
 			float rating = stats.getAverageOverallRating();
 			ratingBar.setRating(rating);
 			ratingBar.setVisibility(View.VISIBLE);
 		}
-		else {
-			ratingBar.setVisibility(View.GONE);
-		}
-
 	}
 
 	private void showReviewsUnavailableError() {

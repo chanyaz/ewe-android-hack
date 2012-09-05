@@ -70,6 +70,10 @@
         <item name="android:actionBarTabTextStyle">@style/ActionBarTabText</item>
         <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
     </style>
+
+    <style name="Theme.Phone.WithStackedTabs">
+        <item name="android:windowBackground">@color/actionbar_bg</item>
+    </style>
     
     <!-- Temporary theme for flights -->
     <style name="FlightTheme" parent="@style/Theme.Sherlock.Light">

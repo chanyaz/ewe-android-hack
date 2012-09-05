@@ -22,6 +22,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -98,7 +99,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private UserReviewsAdapter mUserReviewsAdapter;
 
 	// List views
-	private TextView mHeaderView;
+	private View mHeaderView;
 
 	// Use this variable to disable download when onScroll gets invoked automatically when the ScrollListener is set
 	private boolean mScrollListenerSet;
@@ -194,7 +195,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		View view = inflater.inflate(R.layout.fragment_user_review_list, container, false);
 
 		if (mHeaderView == null) {
-			mHeaderView = (TextView) inflater.inflate(R.layout.header_user_reviews_list, null, false);
+			mHeaderView = inflater.inflate(R.layout.header_user_reviews_list, null, false);
 		}
 
 		return view;
@@ -284,12 +285,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		mRecommendedReviewCount = stats.getRecommendedCount();
 		mTotalReviewCount = stats.getTotalReviewCount();
 
-		View view = getView();
-		if (view == null) {
+		if (mHeaderView == null) {
 			return;
 		}
 
-		TextView recommendText = Ui.findView(view, R.id.user_reviews_recommendation_tag);
+		TextView recommendText = Ui.findView(mHeaderView, R.id.user_reviews_recommendation_tag);
 
 		String text = String.format(getString(R.string.user_review_recommendation_tag_text), mRecommendedReviewCount,
 				mTotalReviewCount);
@@ -304,6 +304,22 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			}
 			recommendText.setText(styledText);
 		}
+
+		// In landscape mode, "19 reviews" and user rating bar are also present in this view
+		TextView numReviews = Ui.findView(mHeaderView, R.id.num_reviews);
+		if (numReviews != null) {
+			String title = getResources().getQuantityString(R.plurals.number_of_reviews,
+					stats.getTotalReviewCount(), stats.getTotalReviewCount());
+			numReviews.setText(title);
+		}
+		RatingBar userRating = Ui.findView(mHeaderView, R.id.user_rating);
+		if (userRating != null) {
+			float rating = stats.getAverageOverallRating();
+			userRating.setRating(rating);
+			userRating.setVisibility(View.VISIBLE);
+
+		}
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
