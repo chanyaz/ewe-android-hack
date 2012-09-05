@@ -473,6 +473,8 @@
     <string name="ChooseLocation">Did you mean…</string>
     <!-- Button label for upgrading the app -->
     <string name="upgrade">Upgrade</string>
+    <!-- Button label for searching with newly selected parameters -->
+    <string name="SEARCH">SEARCH</string>
     <!-- Button label for searching the visible map area -->
     <string name="SEARCH_MAP">SEARCH MAP</string>
     <!-- Button label for searching the visible map area -->
