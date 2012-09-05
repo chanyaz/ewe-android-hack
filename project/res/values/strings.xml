@@ -621,7 +621,11 @@
     <!-- Second string for widget upsell within app as a notification in the app bar -->
     <string name="widget_upsell_short_2">Get nightly deals near you!</string>
 
-    <!-- Hotel Activity -->
+    <!-- Hotel Details Fragment Activity -->
+    <!-- Label for "select hotel" on hotel details screen -->
+    <string name="SELECT">SELECT</string>
+    <!-- Label for menu button to book the hotel, needs to be short, 1 word preferably -->
+    <string name="select_hotel">Select Hotel</string>
     <!-- Label for button to book the hotel -->
     <string name="book_now">Book Now</string>
     <!-- Label for the hotel's star rating -->
@@ -812,6 +816,8 @@
     <!-- Booking info -->
     <!-- ActionBar button for confirm user info & book the room -->
     <string name="BOOK">BOOK</string>
+    <!-- Label for book button long press -->
+    <string name="book_hotel">Book Hotel</string>
     <!-- edit label -->
     <string name="edit">Edit</string>
     <!-- Label for room type -->
@@ -1024,7 +1030,7 @@
     <!-- Label for password recovery -->
     <string name="forgot_your_password">Forgot your password?</string>
     <!-- Label for coupon code area of booking form -->
-    <string name="coupon_code">Coupon Code</string>
+    <string name="coupon_code">Enter a coupon or promotion code</string>
     <!-- Label for coupon code hint -->
     <string name="optional">Optional</string>
     <!-- Label applying a coupon -->
@@ -1191,8 +1197,6 @@
     <string name="Settings">Settings</string>
     <!-- Label for "about this app" menu item. -->
     <string name="About">About</string>
-    <!-- Label for "select hotel" on hotel details screen -->
-    <string name="SELECT">SELECT</string>
     
     <!-- Preferences strings -->
     <!-- String for default preference setting (for any given preference) -->
