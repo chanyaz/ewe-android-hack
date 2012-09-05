@@ -209,16 +209,16 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Enter Traveler Information</string>
-	<!-- Special Assistance label template -->
-	<string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
-	<!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number)-->
-	<string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
+    <!-- Special Assistance label template -->
+    <string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
+    <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number)-->
+    <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">&lt;font color="#919191">Born&lt;/font> %1$s</string>
-	
-	
+
+
     <!-- Section edit contact -->
     <!-- first name hint -->
     <string name="first_name_hint">First Name</string>
@@ -485,6 +485,10 @@
     <string name="sort_hotels">"Sort: "</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SORT</string>
+    <!-- Label for sort hotels in hotel list -->
+    <string name="SORT">SORT</string>
+    <!-- Label to swtich between map and list search results -->
+    <string name="switch_view">Switch View</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
     <string name="sort_hotels_template">&lt;b&gt;Sort&lt;/b&gt;: %s</string>
     <!-- Label for filter hotels button in bottom bar -->
@@ -596,6 +600,8 @@
     <string name="filter_results">Filter Results</string>
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Filter</string>
+    <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
+    <string name="FILTER">FILTER</string>
 
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
