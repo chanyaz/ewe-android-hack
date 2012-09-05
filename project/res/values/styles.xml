@@ -150,7 +150,7 @@
         <item name="android:minHeight">16dp</item>
         <item name="android:maxHeight">16dp</item>
     </style>
-    
+
     <style name="RatingBar.UserReview">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_yellow</item>
         <item name="android:minHeight">13dip</item>
@@ -346,7 +346,7 @@
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
     </style>
-    
+
     <style name="WhiteLabelGlowText">
         <item name="android:shadowColor">#a5000000</item>
         <item name="android:shadowRadius">1</item>
@@ -362,7 +362,7 @@
     <style name="Light.ActionBar" parent="@android:style/Widget.ActionBar">
         <item name="android:background">@drawable/bg_action_bar_light</item>
     </style>
-    
+
     <style name="Dark.ActionBar" parent="Widget.Sherlock.ActionBar">
         <item name="background">@drawable/bg_action_bar</item>
         <item name="android:background">@drawable/bg_action_bar</item>
@@ -371,26 +371,26 @@
         <item name="android:textColor">@color/actionbar_text</item>
         <item name="android:titleTextStyle">@style/TextAppearance.Dark.ActionBar.Title</item>
     </style>
-    
+
     <style name="ActionBarTabBar" parent="android:style/Widget">
- 	    <item name="android:background">@color/actionbar_bg</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:divider">?attr/actionBarDivider</item>
         <item name="android:showDividers">middle</item>
         <item name="android:dividerPadding">12dp</item>
     </style>
- 	
- 	<style name="ActionBarTabView" parent="android:style/Widget">
-		<item name="android:gravity">center_horizontal</item>
-	    <item name="android:background">@drawable/tab_indicator</item>
-	    <item name="android:paddingLeft">8dp</item>
-	    <item name="android:paddingRight">8dp</item>
-	</style>
-    
+
+    <style name="ActionBarTabView" parent="android:style/Widget">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@drawable/tab_indicator</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
     <style name="ActionBarTabText" parent="android:style/TextAppearance">
         <item name="android:textColor">@color/tab_text</item>
         <item name="android:textSize">12dp</item>
-    	<item name="android:textAllCaps">true</item>
-    	<item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.Dark.ActionBar.Title" parent="android:style/TextAppearance.Medium">
@@ -446,4 +446,5 @@
     <style name="SpinnerStyle" parent="@android:style/Widget.Holo.Spinner">
         <item name="android:background">@drawable/spinner_default_holo_light</item>
     </style>
+
 </resources>
