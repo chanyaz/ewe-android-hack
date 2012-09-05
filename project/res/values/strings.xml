@@ -810,6 +810,8 @@
     <string name="gallery_title_template">Photos of &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Booking info -->
+    <!-- ActionBar button for confirm user info & book the room -->
+    <string name="BOOK">BOOK</string>
     <!-- edit label -->
     <string name="edit">Edit</string>
     <!-- Label for room type -->
