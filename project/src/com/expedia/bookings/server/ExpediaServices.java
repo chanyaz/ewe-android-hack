@@ -822,7 +822,7 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		}
 		case TRUNK: {
-			builder.append("www.expedia.com.trunk.sb.karmalab.net/");
+			builder.append("wwwexpediacom.trunk.sb.karmalab.net/");
 			break;
 		}
 		case PUBLIC_INTEGRATION: {
