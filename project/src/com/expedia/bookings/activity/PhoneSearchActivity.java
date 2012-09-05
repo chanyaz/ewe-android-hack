@@ -810,12 +810,15 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                         mTag = prefs.getString("tag", mHotelListFragment.getTag());
                 }
-                if (mTag.equals(mHotelListFragment.getTag())) {
+		boolean isListShowing = mTag.equals(mHotelListFragment.getTag());
+                if (isListShowing) {
                         menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_map);
                 }
                 else {
                         menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_list);
                 }
+		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
+		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -853,6 +856,23 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			invalidateOptionsMenu = true;
                         break;
                 }
+
+		// Search visible map area
+		case R.id.menu_select_search_map: {
+			SearchParams searchParams = Db.getSearchParams();
+                        searchParams.clearQuery();
+
+                        if (mHotelMapFragment != null) {
+                                GeoPoint center = mHotelMapFragment.getCenter();
+                                searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
+
+                                double lat = MapUtils.getLatitude(center);
+                                double lng = MapUtils.getLongitude(center);
+                                searchParams.setSearchLatLon(lat, lng);
+                                setShowDistance(true);
+                                startSearch();
+                        }
+		}
 		}
 
 		if (rebuildFilter) {
