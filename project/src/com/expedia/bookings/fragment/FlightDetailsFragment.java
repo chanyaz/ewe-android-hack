@@ -51,9 +51,15 @@ public class FlightDetailsFragment extends Fragment {
 
 		// Format header
 		String duration = DateTimeUtils.formatDuration(getResources(), (int) (leg.getDuration() / 60000));
-		String distance = FormatUtils.formatDistance(getActivity(), leg.getDistanceInMiles());
-		Ui.setText(v, R.id.duration_distance_text_view,
-				Html.fromHtml(getString(R.string.time_distance_TEMPLATE, duration, distance)));
+		int distanceInMiles = leg.getDistanceInMiles();
+		if (distanceInMiles <= 0) {
+			Ui.setText(v, R.id.duration_distance_text_view, Html.fromHtml(getString(R.string.bold_template, duration)));
+		}
+		else {
+			String distance = FormatUtils.formatDistance(getActivity(), leg.getDistanceInMiles());
+			Ui.setText(v, R.id.duration_distance_text_view,
+					Html.fromHtml(getString(R.string.time_distance_TEMPLATE, duration, distance)));
+		}
 
 		// Figure out which string to use for the upper-right label
 		int bookNowResId;

@@ -146,6 +146,9 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 				segment.mDistanceToTravel = distance;
 			}
+			else {
+				segment.mDistanceToTravel = 0;
+			}
 
 			segment.mAircraftType = segmentJson.optString("equipmentDescription");
 
