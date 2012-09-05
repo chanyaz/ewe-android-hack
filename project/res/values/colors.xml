@@ -15,6 +15,7 @@
     <color name="entry_form_bg">#F0F0F0</color>
     <color name="yoyo_navigation_text_color">#333333</color><!-- #F9DF7E -->
     <color name="action_bar_text_yellow">#FEE36C</color>
+    <color name="dark_blue_travelers_date_bar">#182C3E</color>
     
 	<!-- These colors are ripped from the iOS version, and are not finalized -->
 	<color name="window_background">#FF666666</color>
@@ -91,6 +92,7 @@
 	<color name="clickable_row_background">#efefef</color>
 
     <color name="flight_checkout_opaque_white">#BBE8E8E8</color>
+    <color name="flight_checkout_opaque_white_fuller">#DDE8E8E8</color>
 
     <color name="flight_airport_text">@android:color/black</color>
     <color name="flight_airport_text_selected">#135C9A</color>

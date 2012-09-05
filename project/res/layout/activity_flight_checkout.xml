@@ -4,45 +4,89 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_inbound_flight"
     android:fillViewport="true"
-    android:orientation="vertical" >	
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#77000000"
-        android:orientation="vertical"
-        android:padding="10dp" >
+        android:background="#33000000"
+        android:orientation="vertical" >
 
         <include
             android:id="@+id/date_and_travlers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             layout="@layout/section_display_flight_info_travelers_date_bar" />
+
+        <!-- <LinearLayout -->
+        <!-- android:layout_width="match_parent" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:orientation="vertical" -->
+        <!-- android:paddingBottom="10dp" -->
+        <!-- android:paddingLeft="10dp" -->
+        <!-- android:paddingRight="10dp" -->
+        <!-- android:paddingTop="0dp" > -->
+
+        <RelativeLayout
+            android:id="@+id/flight_legs_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="0dp" >
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/expedia_account"
+            android:textAllCaps="true"
+            android:textColor="#BBFFFFFF"
+            android:textSize="@dimen/data_form_section_header_text" />
 
         <include
             android:id="@+id/account_button_root"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             layout="@layout/include_account_button" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/checkout_information"
+            android:textAllCaps="true"
+            android:textColor="#BBFFFFFF"
+            android:textSize="@dimen/data_form_section_header_text" />
 
         <LinearLayout
             android:id="@+id/payment_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:background="@color/flight_checkout_opaque_white"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:showDividers="middle" >
 
             <LinearLayout
                 android:id="@+id/traveler_info_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="visible" >
@@ -67,6 +111,8 @@
                 android:id="@+id/travelers_container"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical"
                 android:visibility="gone" >
 
@@ -86,6 +132,8 @@
                 android:id="@+id/payment_info_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="visible" >
@@ -110,24 +158,27 @@
                 android:id="@+id/creditcard_section_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 layout="@layout/section_display_creditcard_btn" />
-            
+
             <include
                 android:id="@+id/stored_creditcard_section_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 layout="@layout/section_display_stored_credit_card" />
-            
         </LinearLayout>
-        
+
         <include
             android:id="@+id/price_bar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             layout="@layout/section_display_flight_trip_price_bar" />
 
         <Button
@@ -138,6 +189,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/btn_small_yellow"
             android:text="@string/review_btn" />
+        <!-- </LinearLayout> -->
     </LinearLayout>
 
 </ScrollView>

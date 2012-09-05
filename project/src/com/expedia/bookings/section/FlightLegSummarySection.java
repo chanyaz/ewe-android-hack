@@ -63,16 +63,24 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	public void bind(FlightTrip trip, FlightLeg leg, Calendar minTime, Calendar maxTime) {
-		mAirlineTextView.setText(leg.getAirlinesFormatted());
-		mDepartureTimeTextView.setText(formatTime(leg.getSegment(0).mOrigin.getMostRelevantDateTime()));
-		mArrivalTimeTextView.setText(formatTime(leg.getSegment(leg.getSegmentCount() - 1).mDestination
-				.getMostRelevantDateTime()));
-
-		if (trip.hasPricing()) {
-			mPriceTextView.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+		if (mAirlineTextView != null) {
+			mAirlineTextView.setText(leg.getAirlinesFormatted());
 		}
-		else {
-			mPriceTextView.setText(null);
+		if (mDepartureTimeTextView != null) {
+			mDepartureTimeTextView.setText(formatTime(leg.getSegment(0).mOrigin.getMostRelevantDateTime()));
+		}
+		if (mArrivalTimeTextView != null) {
+			mArrivalTimeTextView.setText(formatTime(leg.getSegment(leg.getSegmentCount() - 1).mDestination
+					.getMostRelevantDateTime()));
+		}
+
+		if (mPriceTextView != null) {
+			if (trip.hasPricing()) {
+				mPriceTextView.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+			}
+			else {
+				mPriceTextView.setText(null);
+			}
 		}
 
 		int daySpan = leg.getDaySpan();
@@ -91,8 +99,12 @@ public class FlightLegSummarySection extends RelativeLayout {
 	public void bindFlight(Flight flight, Calendar minTime, Calendar maxTime) {
 		Context context = getContext();
 
-		mAirlineTextView.setText(FormatUtils.formatFlightNumber(flight, context));
-		mPriceTextView.setVisibility(View.GONE);
+		if (mAirlineTextView != null) {
+			mAirlineTextView.setText(FormatUtils.formatFlightNumber(flight, context));
+		}
+		if (mPriceTextView != null) {
+			mPriceTextView.setVisibility(View.GONE);
+		}
 
 		mDepartureTimeTextView.setText(formatTime(flight.mOrigin.getMostRelevantDateTime()));
 		mArrivalTimeTextView.setText(formatTime(flight.mDestination.getMostRelevantDateTime()));

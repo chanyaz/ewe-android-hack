@@ -1,7 +1,14 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <corners android:radius="10dp" />
+    <corners
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp" />
 
+    
+    <stroke
+        android:color="#AA000000"
+        android:width="1dp" />
+    
     <solid android:color="@color/flight_checkout_opaque_white" />
 
 </shape>

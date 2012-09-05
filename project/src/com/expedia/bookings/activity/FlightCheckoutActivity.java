@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -19,6 +22,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.TravelerInfoResponse;
@@ -28,7 +32,9 @@ import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
+import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.section.SectionGeneralFlightInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
@@ -58,6 +64,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	BillingInfo mBillingInfo;
 
 	ArrayList<SectionTravelerInfo> mTravelerSections = new ArrayList<SectionTravelerInfo>();
+	ArrayList<FlightLegSummarySection> mFlights = new ArrayList<FlightLegSummarySection>();
 
 	private AccountButton mAccountButton;
 	SectionBillingInfo mCreditCardSectionButton;
@@ -69,6 +76,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 	ViewGroup mTravelerContainer;
 	ViewGroup mTravelerButton;
 	ViewGroup mPaymentButton;
+	RelativeLayout mFlightContainer;
 	LinearLayout mPaymentContainer;
 
 	private boolean mRefreshedUser;
@@ -106,6 +114,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		mStoredCreditCard = Ui.findView(this, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(this, R.id.creditcard_section_button);
 		mTravelerContainer = Ui.findView(this, R.id.travelers_container);
+		mFlightContainer = Ui.findView(this, R.id.flight_legs_container);
 		mAccountButton = Ui.findView(this, R.id.account_button_root);
 		mReviewBtn = Ui.findView(this, R.id.review_btn);
 		mPaymentContainer = Ui.findView(this, R.id.payment_container);
@@ -162,53 +171,6 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 
 	}
 
-	private void populatePassengerData() {
-		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
-		if (passengers == null) {
-			passengers = new ArrayList<FlightPassenger>();
-			Db.setFlightPassengers(passengers);
-		}
-
-		if (passengers.size() == 0) {
-			FlightPassenger fp = new FlightPassenger();
-			passengers.add(fp);
-		}
-	}
-
-	private void buildPassengerSections() {
-		mTravelerContainer.removeAllViews();
-		mTravelerSections.clear();
-		
-		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-		for (int i = 0; i < passengers.size(); i++) {
-			final int travelerNum = i;
-			SectionTravelerInfo traveler = (SectionTravelerInfo) inflater.inflate(
-					R.layout.section_display_traveler_info_btn, null);
-			traveler.setOnClickListener(new OnTravelerClickListener(travelerNum));
-			mTravelerSections.add(traveler);
-			mTravelerContainer.addView(traveler);
-		}
-	}
-
-	private class OnTravelerClickListener implements OnClickListener {
-		int mTravelerIndex = 0;
-
-		public OnTravelerClickListener(int travelerIndex) {
-			if (travelerIndex >= 0) {
-				mTravelerIndex = travelerIndex;
-			}
-		}
-
-		@Override
-		public void onClick(View v) {
-			Intent editTravelerIntent = new Intent(FlightCheckoutActivity.this,
-					FlightTravelerInfoOptionsActivity.class);
-			editTravelerIntent.putExtra(Codes.PASSENGER_INDEX, mTravelerIndex);
-			startActivity(editTravelerIntent);
-		}
-	}
-
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -218,6 +180,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		populateDataFromUser();
 		populatePassengerData();
 		buildPassengerSections();
+		buildLegSections();
 
 		bindAll();
 		updateViewVisibilities();
@@ -261,6 +224,79 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 			}
 		}
 
+	}
+
+	private void buildLegSections() {
+		//Inflate and store the sections
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		FlightLegSummarySection tempFlight = null;
+		mFlightContainer.removeAllViews();
+		mFlights.clear();
+		int padding = 20;
+		int alphaMin = 100;
+		int alphaMax = 225;
+		for (int i = mTrip.getLegCount() - 1; i >= 0; i--) {
+			tempFlight = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_summary_short, null);
+			tempFlight.setPadding(tempFlight.getPaddingLeft(), tempFlight.getPaddingTop() > padding ? tempFlight.getPaddingTop() : padding, tempFlight.getPaddingRight(), tempFlight.getPaddingBottom());
+			tempFlight.bind(mTrip, mTrip.getLeg(mTrip.getLegCount() - 1 - i));
+			tempFlight.getBackground().setAlpha( Math.max(alphaMin,Math.min( (mTrip.getLegCount() - 1 - i) * 150 + 75, alphaMax) ));
+			mFlights.add(0,tempFlight);
+			mFlightContainer.addView(tempFlight,0);
+			
+			int widthMeasureSpec = MeasureSpec.makeMeasureSpec(RelativeLayout.LayoutParams.MATCH_PARENT, MeasureSpec.EXACTLY);
+			int heightMeasureSpec = MeasureSpec.makeMeasureSpec(RelativeLayout.LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY);
+			tempFlight.measure(widthMeasureSpec, heightMeasureSpec);
+			
+			padding += tempFlight.getMeasuredHeight();
+			Log.i("Padding: " + padding + " measuredHeight: " + tempFlight.getMeasuredHeight() + " height:" + tempFlight.getHeight());
+		}
+	}
+
+	private void populatePassengerData() {
+		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
+		if (passengers == null) {
+			passengers = new ArrayList<FlightPassenger>();
+			Db.setFlightPassengers(passengers);
+		}
+
+		if (passengers.size() == 0) {
+			FlightPassenger fp = new FlightPassenger();
+			passengers.add(fp);
+		}
+	}
+
+	private void buildPassengerSections() {
+		mTravelerContainer.removeAllViews();
+		mTravelerSections.clear();
+
+		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		for (int i = 0; i < passengers.size(); i++) {
+			final int travelerNum = i;
+			SectionTravelerInfo traveler = (SectionTravelerInfo) inflater.inflate(
+					R.layout.section_display_traveler_info_btn, null);
+			traveler.setOnClickListener(new OnTravelerClickListener(travelerNum));
+			mTravelerSections.add(traveler);
+			mTravelerContainer.addView(traveler);
+		}
+	}
+
+	private class OnTravelerClickListener implements OnClickListener {
+		int mTravelerIndex = 0;
+
+		public OnTravelerClickListener(int travelerIndex) {
+			if (travelerIndex >= 0) {
+				mTravelerIndex = travelerIndex;
+			}
+		}
+
+		@Override
+		public void onClick(View v) {
+			Intent editTravelerIntent = new Intent(FlightCheckoutActivity.this,
+					FlightTravelerInfoOptionsActivity.class);
+			editTravelerIntent.putExtra(Codes.PASSENGER_INDEX, mTravelerIndex);
+			startActivity(editTravelerIntent);
+		}
 	}
 
 	private boolean hasValidTravlers() {
