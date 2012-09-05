@@ -852,6 +852,37 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		mHockeyPuck.onCreateOptionsMenu(menu);
 
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		DebugMenu.onPrepareOptionsMenu(this, menu);
+		mHockeyPuck.onPrepareOptionsMenu(menu);
+
+                // Configure the sort buttons
+                switch (Db.getFilter().getSort()) {
+                case POPULAR:
+                        mSortOptionSelectedId = R.id.menu_select_sort_popularity;
+                        break;
+                case PRICE:
+                        mSortOptionSelectedId = R.id.menu_select_sort_price;
+                        break;
+                case RATING:
+                        mSortOptionSelectedId = R.id.menu_select_sort_user_rating;
+                        break;
+                case DISTANCE:
+                        mSortOptionSelectedId = R.id.menu_select_sort_distance;
+                        break;
+                default:
+                        mSortOptionSelectedId = R.id.menu_select_sort_popularity;
+                        break;
+                }
+                menu.findItem(mSortOptionSelectedId).setChecked(true);
+
+		// Disable distance sort
+		menu.findItem(R.id.menu_select_sort_distance).setEnabled(mShowDistance);
+
                 // Configure the map/list view action
                 if (mTag == null) {
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -864,18 +895,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
                         menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_list);
                 }
 
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		DebugMenu.onPrepareOptionsMenu(this, menu);
-		mHockeyPuck.onPrepareOptionsMenu(menu);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean rebuildFilter = false;
+		boolean invalidateOptionsMenu = false;
+
 		switch (item.getItemId()) {
 		// Overflow items
 		case R.id.settings: {
@@ -889,19 +916,43 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 
-		// Map Button
-                case R.id.menu_select_change_view: {
-                        if (mTag.equals(mHotelListFragment.getTag())) {
-                                // switch to list
-                                item.setIcon(R.drawable.ic_menu_list);
-                        }
-                        else {
-                                // switch to map
-                                item.setIcon(R.drawable.ic_menu_map);
-                        }
-                        switchResultsView();
+		// Sort
+                case R.id.menu_select_sort_popularity: {
+                        mSortOptionSelectedId = R.id.menu_select_sort_popularity;
+                        rebuildFilter = true;
                         break;
                 }
+                case R.id.menu_select_sort_price: {
+                        mSortOptionSelectedId = R.id.menu_select_sort_price;
+                        rebuildFilter = true;
+                        break;
+                }
+                case R.id.menu_select_sort_user_rating: {
+                        mSortOptionSelectedId = R.id.menu_select_sort_user_rating;
+                        rebuildFilter = true;
+                        break;
+                }
+                case R.id.menu_select_sort_distance: {
+                        mSortOptionSelectedId = R.id.menu_select_sort_distance;
+                        rebuildFilter = true;
+                        break;
+                }
+
+		// Map Button
+                case R.id.menu_select_change_view: {
+                        switchResultsView();
+			invalidateOptionsMenu = true;
+                        break;
+                }
+		}
+
+		if (rebuildFilter) {
+			buildFilter();
+			invalidateOptionsMenu = true;
+		}
+
+		if (invalidateOptionsMenu) {
+			supportInvalidateOptionsMenu();
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
@@ -1236,29 +1287,25 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 		}
 
-		// Sort
-		switch (mSortOptionSelectedId) {
-		case R.id.sort_popular_button: {
-			filter.setSort(Sort.POPULAR);
-			break;
-		}
-		case R.id.sort_price_button: {
-			filter.setSort(Sort.PRICE);
-			break;
-		}
-		case R.id.sort_deals_button: {
-			filter.setSort(Sort.DEALS);
-			break;
-		}
-		case R.id.sort_reviews_button: {
-			filter.setSort(Sort.RATING);
-			break;
-		}
-		case R.id.sort_distance_button: {
-			filter.setSort(Sort.DISTANCE);
-			break;
-		}
-		}
+                // Sort
+                switch (mSortOptionSelectedId) {
+                case R.id.menu_select_sort_popularity: {
+                        filter.setSort(Sort.POPULAR);
+                        break;
+                }
+                case R.id.menu_select_sort_price: {
+                        filter.setSort(Sort.PRICE);
+                        break;
+                }
+                case R.id.menu_select_sort_user_rating: {
+                        filter.setSort(Sort.RATING);
+                        break;
+                }
+                case R.id.menu_select_sort_distance: {
+                        filter.setSort(Sort.DISTANCE);
+                        break;
+                }
+                }
 
 		/*
 		 * Don't notify listeners of the filter having changed when the activity is either not 
@@ -1522,6 +1569,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
 		Db.setSearchResponse(searchResponse);
 		Db.clearSelectedProperty();
+
+		supportInvalidateOptionsMenu();
 
 		// Inform fragments
 		mHotelListFragment.notifySearchComplete();
@@ -3095,6 +3144,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	@Override
 	public void onFilterChanged() {
+		supportInvalidateOptionsMenu();
 		mHotelListFragment.notifyFilterChanged();
 		mHotelMapFragment.notifyFilterChanged();
 	}
