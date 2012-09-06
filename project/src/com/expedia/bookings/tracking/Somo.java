@@ -19,7 +19,7 @@ public class Somo {
 
 	public static void trackFirstLaunch() {
 		if (mEnabled) {
-			mSomoTracker.track(SomoTracker.EVENT_OPEN);
+			mSomoTracker.track(SomoTracker.EVENT_INSTALLATION);
 			mSomoTracker.submit();
 
 			Log.i("Submitted Somo first launch event");
