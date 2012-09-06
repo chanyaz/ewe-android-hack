@@ -473,11 +473,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			}
 		}
 
-                // Setup custom action bar view
-                ActionBar actionBar = getSupportActionBar();
-                actionBar.setDisplayShowCustomEnabled(true);
-                actionBar.setDisplayShowTitleEnabled(false);
-                actionBar.setCustomView(mActionBarCustomView);
+		// Setup custom action bar view
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setCustomView(mActionBarCustomView);
 
 		SearchParams searchParams = Db.getSearchParams();
 		mAdultsNumberPicker.setTextEnabled(false);
@@ -793,41 +793,41 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 		mHockeyPuck.onPrepareOptionsMenu(menu);
 
-                // Configure the sort buttons
-                switch (Db.getFilter().getSort()) {
-                case POPULAR:
-                        mSortOptionSelectedId = R.id.menu_select_sort_popularity;
-                        break;
-                case PRICE:
-                        mSortOptionSelectedId = R.id.menu_select_sort_price;
-                        break;
-                case RATING:
-                        mSortOptionSelectedId = R.id.menu_select_sort_user_rating;
-                        break;
-                case DISTANCE:
-                        mSortOptionSelectedId = R.id.menu_select_sort_distance;
-                        break;
-                default:
-                        mSortOptionSelectedId = R.id.menu_select_sort_popularity;
-                        break;
-                }
-                menu.findItem(mSortOptionSelectedId).setChecked(true);
+		// Configure the sort buttons
+		switch (Db.getFilter().getSort()) {
+		case POPULAR:
+			mSortOptionSelectedId = R.id.menu_select_sort_popularity;
+			break;
+		case PRICE:
+			mSortOptionSelectedId = R.id.menu_select_sort_price;
+			break;
+		case RATING:
+			mSortOptionSelectedId = R.id.menu_select_sort_user_rating;
+			break;
+		case DISTANCE:
+			mSortOptionSelectedId = R.id.menu_select_sort_distance;
+			break;
+		default:
+			mSortOptionSelectedId = R.id.menu_select_sort_popularity;
+			break;
+		}
+		menu.findItem(mSortOptionSelectedId).setChecked(true);
 
 		// Disable distance sort
 		menu.findItem(R.id.menu_select_sort_distance).setEnabled(mShowDistance);
 
-                // Configure the map/list view action
-                if (mTag == null) {
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                        mTag = prefs.getString("tag", mHotelListFragment.getTag());
-                }
+		// Configure the map/list view action
+		if (mTag == null) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			mTag = prefs.getString("tag", mHotelListFragment.getTag());
+		}
 		boolean isListShowing = mTag.equals(mHotelListFragment.getTag());
-                if (isListShowing) {
-                        menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_map);
-                }
-                else {
-                        menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_list);
-                }
+		if (isListShowing) {
+			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_map);
+		}
+		else {
+			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_list);
+		}
 		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
 		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
 
@@ -853,36 +853,36 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		// Sort
-                case R.id.menu_select_sort_popularity:
-                case R.id.menu_select_sort_price:
-                case R.id.menu_select_sort_user_rating:
-                case R.id.menu_select_sort_distance:
-                        mSortOptionSelectedId = item.getItemId();
-                        rebuildFilter = true;
-                        break;
+		case R.id.menu_select_sort_popularity:
+		case R.id.menu_select_sort_price:
+		case R.id.menu_select_sort_user_rating:
+		case R.id.menu_select_sort_distance:
+			mSortOptionSelectedId = item.getItemId();
+			rebuildFilter = true;
+			break;
 
 		// Map Button
-                case R.id.menu_select_change_view: {
-                        switchResultsView();
+		case R.id.menu_select_change_view: {
+			switchResultsView();
 			invalidateOptionsMenu = true;
-                        break;
-                }
+			break;
+		}
 
 		// Search visible map area
 		case R.id.menu_select_search_map: {
 			SearchParams searchParams = Db.getSearchParams();
-                        searchParams.clearQuery();
+			searchParams.clearQuery();
 
-                        if (mHotelMapFragment != null) {
-                                GeoPoint center = mHotelMapFragment.getCenter();
-                                searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
+			if (mHotelMapFragment != null) {
+				GeoPoint center = mHotelMapFragment.getCenter();
+				searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
 
-                                double lat = MapUtils.getLatitude(center);
-                                double lng = MapUtils.getLongitude(center);
-                                searchParams.setSearchLatLon(lat, lng);
-                                setShowDistance(true);
-                                startSearch();
-                        }
+				double lat = MapUtils.getLatitude(center);
+				double lng = MapUtils.getLongitude(center);
+				searchParams.setSearchLatLon(lat, lng);
+				setShowDistance(true);
+				startSearch();
+			}
 		}
 		}
 
@@ -1019,13 +1019,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
 
-                // Handled in the actionbar's custom view now
-                mActionBarCustomView = getLayoutInflater().inflate(R.layout.actionbar_search_hotels, null);
-                mSearchEditText = (EditText) mActionBarCustomView.findViewById(R.id.search_edit_text);
-                mDatesButton = (ImageButton) mActionBarCustomView.findViewById(R.id.dates_button);
-                mDatesTextView = (TextView) mActionBarCustomView.findViewById(R.id.dates_text_view);
-                mGuestsButton = (ImageButton) mActionBarCustomView.findViewById(R.id.guests_button);
-                mGuestsTextView = (TextView) mActionBarCustomView.findViewById(R.id.guests_text_view);
+		// Handled in the actionbar's custom view now
+		mActionBarCustomView = getLayoutInflater().inflate(R.layout.actionbar_search_hotels, null);
+		mSearchEditText = (EditText) mActionBarCustomView.findViewById(R.id.search_edit_text);
+		mDatesButton = (ImageButton) mActionBarCustomView.findViewById(R.id.dates_button);
+		mDatesTextView = (TextView) mActionBarCustomView.findViewById(R.id.dates_text_view);
+		mGuestsButton = (ImageButton) mActionBarCustomView.findViewById(R.id.guests_button);
+		mGuestsTextView = (TextView) mActionBarCustomView.findViewById(R.id.guests_text_view);
 
 		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
 		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
@@ -1121,25 +1121,25 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// FIXME
 		filter.setPriceRange(PriceRange.ALL);
 
-                // Sort
-                switch (mSortOptionSelectedId) {
-                case R.id.menu_select_sort_popularity: {
-                        filter.setSort(Sort.POPULAR);
-                        break;
-                }
-                case R.id.menu_select_sort_price: {
-                        filter.setSort(Sort.PRICE);
-                        break;
-                }
-                case R.id.menu_select_sort_user_rating: {
-                        filter.setSort(Sort.RATING);
-                        break;
-                }
-                case R.id.menu_select_sort_distance: {
-                        filter.setSort(Sort.DISTANCE);
-                        break;
-                }
-                }
+		// Sort
+		switch (mSortOptionSelectedId) {
+		case R.id.menu_select_sort_popularity: {
+			filter.setSort(Sort.POPULAR);
+			break;
+		}
+		case R.id.menu_select_sort_price: {
+			filter.setSort(Sort.PRICE);
+			break;
+		}
+		case R.id.menu_select_sort_user_rating: {
+			filter.setSort(Sort.RATING);
+			break;
+		}
+		case R.id.menu_select_sort_distance: {
+			filter.setSort(Sort.DISTANCE);
+			break;
+		}
+		}
 
 		/*
 		 * Don't notify listeners of the filter having changed when the activity is either not 
