@@ -47,7 +47,10 @@ public class FlightsInputUtils {
 		CalendarTouchUtils.selectDay(solo, day, R.id.calendar_date_picker);
 
 		// search so that the FlightSearchParamsFragment closes and saves params to Db
-		solo.clickOnView(solo.getView(searchId));
+		// NOTE: this is done by invoking the menu via instrumentation because for some reason Robotium (and TouchUtils)
+		// barf at finding the search view (which is within the ActionBar and thus considered internally as a menu) when
+		// the FlightSearchOverlayActivity is launched
+		instr.invokeMenuActionSync(solo.getCurrentActivity(), searchId, 0);
 	}
 
 	/**
