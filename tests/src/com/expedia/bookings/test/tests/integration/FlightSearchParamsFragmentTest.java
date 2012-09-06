@@ -105,6 +105,29 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	}
 
 	@MediumTest
+	public void testSearchModificationsInlineWithRotationsReflectedInFlightSearchActivity() {
+		performFlightSearch("PDX", "SEA", 2, R.id.search);
+
+		// click on menu search to bring up FlightSearchOverlay for inline search
+		mSolo.clickOnView(mSolo.getView(R.id.menu_search));
+
+		String expectedAirport1 = "IAH";
+		String expectedAirport2 = "JFK";
+
+		FlightsInputUtils.selectAirport(mInstr, mSolo, expectedAirport1, R.id.departure_airport_edit_text);
+		FlightsInputUtils.selectAirport(mInstr, mSolo, expectedAirport2, R.id.arrival_airport_edit_text);
+		CalendarTouchUtils.selectDay(mSolo, 4, R.id.calendar_date_picker);
+
+		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+		mInstr.waitForIdleSync();
+
+		mInstr.invokeMenuActionSync(mSolo.getCurrentActivity(), R.id.search, 0);
+
+		assertSearchParamsInUi(expectedAirport1, expectedAirport2);
+	}
+
+	@MediumTest
 	public void testSearchTwiceYieldsCorrectSearchResultsInUi() {
 		performFlightSearch("DTW", "JFK", 4, R.id.search);
 
