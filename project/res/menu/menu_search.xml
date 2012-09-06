@@ -14,19 +14,19 @@
                     android:id="@+id/menu_select_sort_popularity"
                     android:checked="true"
                     android:icon="@drawable/ic_sort_popular"
-                    android:title="Popularity" />
+                    android:title="@string/sort_description_popular" />
                 <item
                     android:id="@+id/menu_select_sort_price"
                     android:icon="@drawable/ic_sort_price"
-                    android:title="Price" />
+                    android:title="@string/sort_description_price" />
                 <item
                     android:id="@+id/menu_select_sort_user_rating"
                     android:icon="@drawable/ic_sort_user_rating"
-                    android:title="User Rating" />
+                    android:title="@string/sort_description_rating" />
                 <item
                     android:id="@+id/menu_select_sort_distance"
                     android:icon="@drawable/ic_sort_distance"
-                    android:title="Distance" />
+                    android:title="@string/sort_description_distance" />
             </group>
         </menu>
     </item>
