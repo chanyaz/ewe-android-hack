@@ -15,14 +15,12 @@
         android:id="@+id/view_flip_image"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/bottom_bar_layout"
         android:layout_below="@+id/search_bar_layout" />
 
     <FrameLayout
         android:id="@+id/content_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_bar_layout"
         android:layout_below="@id/search_bar_layout" >
 
         <fragment
@@ -69,120 +67,6 @@
             android:shadowRadius=".1"
             android:textColor="#555555"
             android:textStyle="bold" />
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/panel_dismiss_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/dismiss"
-        android:visibility="gone" />
-
-    <View
-        android:id="@+id/sort_popup_dismiss_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/transparent"
-        android:visibility="gone" />
-
-    <com.mobiata.android.widget.Panel
-        android:id="@+id/drawer_panel"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        mobiata:animationDuration="@integer/sort_filter_animation_duration"
-        mobiata:closedHandle="@drawable/search_results_drawer_handle"
-        mobiata:content="@+id/drawer_content"
-        mobiata:handle="@+id/filter_info_text_view"
-        mobiata:openedHandle="@drawable/search_results_drawer_handle"
-        mobiata:position="bottom" >
-
-        <TextView
-            android:id="@+id/filter_info_text_view"
-            android:layout_width="fill_parent"
-            android:layout_height="32dp"
-            android:background="@drawable/search_results_drawer_handle"
-            android:gravity="center"
-            android:padding="2dp"
-            android:shadowColor="#88FFFFFF"
-            android:shadowDx="0"
-            android:shadowDy="1"
-            android:shadowRadius="0.1"
-            android:singleLine="true"
-            android:text=""
-            android:textColor="#FF3D404F"
-            android:textSize="12dp" />
-
-        <include
-            android:id="@id/drawer_content"
-            layout="@layout/include_drawer_content" />
-    </com.mobiata.android.widget.Panel>
-
-    <View
-        android:id="@+id/bottombar_divider"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/two_pixels"
-        android:layout_above="@+id/bottom_bar_layout"
-        android:background="#b2b5b8" />
-
-    <RelativeLayout
-        android:id="@+id/bottom_bar_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bg_actionbar"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <RelativeLayout
-                android:id="@+id/filter_button_layout"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="@drawable/btn_bottombar"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center" >
-
-                <ImageView
-                    android:id="@+id/filter_button_circle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/triangle_button_circle" />
-
-                <ImageView
-                    android:id="@+id/up_arrow_filter_hotels"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/filter_button_circle"
-                    android:layout_alignLeft="@id/filter_button_circle"
-                    android:layout_alignRight="@id/filter_button_circle"
-                    android:layout_alignTop="@id/filter_button_circle"
-                    android:paddingBottom="1dp"
-                    android:scaleType="center"
-                    android:src="@drawable/triangle_button_triangle" />
-
-                <TextView
-                    style="@style/BottomBarText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/filter_button_circle"
-                    android:includeFontPadding="false"
-                    android:paddingLeft="5dp"
-                    android:text="@string/filter_hotels"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </LinearLayout>
     </RelativeLayout>
 
     <View
