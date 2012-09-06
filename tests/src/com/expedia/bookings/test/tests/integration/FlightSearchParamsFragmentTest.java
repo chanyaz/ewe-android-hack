@@ -149,11 +149,11 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	public void testFlightSearchParamsRetainsValuesOnRotation() {
 		// select 'DTW' for departure airport
 		String expectedDepartureAirportCode = "DTW";
-		InputUtils.selectAirport(mInstr, mSolo, expectedDepartureAirportCode, R.id.departure_airport_edit_text);
+		FlightsInputUtils.selectAirport(mInstr, mSolo, expectedDepartureAirportCode, R.id.departure_airport_edit_text);
 
 		// select 'ATL' for arrival airport
 		String expectedArrivalAirportCode = "ATL";
-		InputUtils.selectAirport(mInstr, mSolo, expectedArrivalAirportCode, R.id.arrival_airport_edit_text);
+		FlightsInputUtils.selectAirport(mInstr, mSolo, expectedArrivalAirportCode, R.id.arrival_airport_edit_text);
 
 		// click on dates button to engage calendar edit mode
 		TouchUtils.clickView(this, Ui.findView(mActivity, R.id.dates_button));

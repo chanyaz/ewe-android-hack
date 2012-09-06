@@ -1,11 +1,15 @@
 package com.expedia.bookings.test.utils;
 
+import android.app.Activity;
 import android.app.Instrumentation;
+import android.test.InstrumentationTestCase;
+import android.test.TouchUtils;
+import android.view.View;
 import com.expedia.bookings.R;
 import com.jayway.android.robotium.solo.Solo;
+import com.mobiata.android.Log;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.testutils.CalendarTouchUtils;
-import com.mobiata.testutils.InputUtils;
 
 /**
  * The purpose of this class file is to provide a set of utility methods for interacting with the flights application
@@ -31,9 +35,9 @@ public class FlightsInputUtils {
 	private static void performFlightSearchInternal(Instrumentation instr, Solo solo, String air1, String air2,
 			Time day,
 			int searchId) {
-		InputUtils.selectAirport(instr, solo, air1, R.id.departure_airport_edit_text);
+		selectAirport(instr, solo, air1, R.id.departure_airport_edit_text);
 
-		InputUtils.selectAirport(instr, solo, air2, R.id.arrival_airport_edit_text);
+		selectAirport(instr, solo, air2, R.id.arrival_airport_edit_text);
 
 		// click dates button so that the calendar appears
 		solo.clickOnView(solo.getView(R.id.dates_button));
@@ -44,6 +48,22 @@ public class FlightsInputUtils {
 
 		// search so that the FlightSearchParamsFragment closes and saves params to Db
 		solo.clickOnView(solo.getView(searchId));
+	}
+
+	/**
+	 * Sends the airport to the appropriate view via sendStringSync. make sure to click the appropriate item in the list
+	 * @param str - airport code to be selected
+	 * @param id - id of the view that is accepting the airport code
+	 */
+	public static void selectAirport(Instrumentation instr, Solo solo, String str, final int id) {
+		solo.clickOnView(solo.getView(id));
+		instr.sendStringSync(str);
+
+		// sleep for 3 seconds in order to ensure the AirportCursorAdapter can properly filter the list before we click
+		// it. This operation is especially slow in the emulator. after 3 seconds the list should theoretically settle.
+		solo.sleep(3000);
+
+		solo.clickInList(1);
 	}
 
 }
