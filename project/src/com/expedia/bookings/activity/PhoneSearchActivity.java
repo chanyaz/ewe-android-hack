@@ -227,6 +227,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private View mChildAgesLayout;
 	private View mRefinementDismissView;
 
+	private View mActionBarCustomView;
+
 	// Progress bar stuff
 	private ViewGroup mProgressBarLayout;
 	private View mProgressBarHider;
@@ -470,6 +472,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				startSearch();
 			}
 		}
+
+                // Setup custom action bar view
+                ActionBar actionBar = getSupportActionBar();
+                actionBar.setDisplayShowCustomEnabled(true);
+                actionBar.setDisplayShowTitleEnabled(false);
+                actionBar.setCustomView(mActionBarCustomView);
 
 		SearchParams searchParams = Db.getSearchParams();
 		mAdultsNumberPicker.setTextEnabled(false);
@@ -1001,11 +1009,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mContent = (FrameLayout) findViewById(R.id.content_layout);
 		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
 
-		mSearchEditText = (EditText) findViewById(R.id.search_edit_text);
-		mDatesButton = (ImageButton) findViewById(R.id.dates_button);
-		mDatesTextView = (TextView) findViewById(R.id.dates_text_view);
-		mGuestsButton = (ImageButton) findViewById(R.id.guests_button);
-		mGuestsTextView = (TextView) findViewById(R.id.guests_text_view);
+                // Handled in the actionbar's custom view now
+                mActionBarCustomView = getLayoutInflater().inflate(R.layout.actionbar_search_hotels, null);
+                mSearchEditText = (EditText) mActionBarCustomView.findViewById(R.id.search_edit_text);
+                mDatesButton = (ImageButton) mActionBarCustomView.findViewById(R.id.dates_button);
+                mDatesTextView = (TextView) mActionBarCustomView.findViewById(R.id.dates_text_view);
+                mGuestsButton = (ImageButton) mActionBarCustomView.findViewById(R.id.guests_button);
+                mGuestsTextView = (TextView) mActionBarCustomView.findViewById(R.id.guests_text_view);
 
 		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
 		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
@@ -1902,7 +1912,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 
 		default:
-			mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
+			mSearchEditText.setTextColor(getResources().getColor(R.color.actionbar_text));
 			break;
 
 		}
@@ -2260,7 +2270,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 						@Override
 						public void run() {
 							mSearchEditText.setText(null);
-							mSearchEditText.setTextColor(getResources().getColor(android.R.color.black));
 						}
 					});
 				}

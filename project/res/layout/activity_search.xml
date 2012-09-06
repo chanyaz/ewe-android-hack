@@ -83,16 +83,6 @@
         android:layout_below="@+id/search_bar_layout"
         android:layout="@layout/include_widget_notification" />
 
-    <include
-        android:id="@id/search_bar_layout"
-        layout="@layout/include_search_bar" />
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottombar_divider"
-        android:background="@drawable/bottombar_shadow" />
-
     <ListView
         android:id="@+id/search_suggestions_list_view"
         android:layout_width="fill_parent"

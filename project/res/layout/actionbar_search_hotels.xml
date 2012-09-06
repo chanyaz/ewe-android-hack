@@ -1,0 +1,88 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <EditText
+        android:id="@+id/search_edit_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/calendar_button_container"
+        android:background="@drawable/edit_text_holo_dark"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textColor="@color/actionbar_text"
+        android:textSize="18dp" />
+
+    <RelativeLayout
+        android:id="@+id/guests_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true" >
+
+        <ImageButton
+            android:id="@+id/guests_button"
+            android:layout_width="56dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ab_spinner"
+            android:padding="0dp"
+            android:src="@drawable/ic_menu_guests" />
+
+        <TextView
+            android:id="@+id/guests_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/guests_button"
+            android:layout_alignLeft="@id/guests_button"
+            android:layout_alignRight="@id/guests_button"
+            android:layout_alignTop="@id/guests_button"
+            android:gravity="top|right"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:shadowColor="#88000000"
+            android:shadowDx="0"
+            android:shadowDy="-1"
+            android:shadowRadius="0.1"
+            android:textColor="@color/actionbar_text"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/calendar_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@id/guests_button_container" >
+
+        <ImageButton
+            android:id="@+id/dates_button"
+            android:layout_width="56dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="0dp"
+            android:background="@drawable/ab_spinner"
+            android:padding="0dp"
+            android:src="@drawable/ic_menu_date" />
+
+        <TextView
+            android:id="@+id/dates_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/dates_button"
+            android:layout_alignLeft="@id/dates_button"
+            android:layout_alignRight="@id/dates_button"
+            android:layout_alignTop="@id/dates_button"
+            android:gravity="center"
+            android:paddingTop="1dp"
+            android:shadowColor="#88000000"
+            android:shadowDx="0"
+            android:shadowDy="-1"
+            android:shadowRadius="0.1"
+            android:textColor="@color/actionbar_text"
+            android:textSize="11dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</RelativeLayout>
