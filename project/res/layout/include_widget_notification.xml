@@ -3,7 +3,6 @@
     android:id="@+id/widget_notification_bar_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/search_bar_layout"
     android:background="@drawable/widget_notification_bg"
     android:clickable="true"
     android:paddingLeft="10dp"

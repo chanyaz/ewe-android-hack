@@ -14,14 +14,12 @@
     <ImageView
         android:id="@+id/view_flip_image"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/search_bar_layout" />
+        android:layout_height="fill_parent" />
 
     <FrameLayout
         android:id="@+id/content_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_bar_layout" >
+        android:layout_height="wrap_content" >
 
         <fragment
             android:name="com.expedia.bookings.fragment.HotelListFragment"
@@ -40,7 +38,6 @@
         android:id="@+id/search_progress_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/search_bar_layout"
         android:visibility="gone" >
 
         <com.expedia.bookings.widget.gl.GLTagProgressBar
@@ -80,14 +77,12 @@
         android:id="@+id/widget_notification_stub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_bar_layout"
         android:layout="@layout/include_widget_notification" />
 
     <ListView
         android:id="@+id/search_suggestions_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/search_bar_layout"
         android:background="@android:color/white"
         android:cacheColorHint="@android:color/white"
         android:divider="@null"

@@ -205,7 +205,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// VIEWS
 	//----------------------------------
 
-	private View mSearchButton;
 	private CalendarDatePicker mDatesCalendarDatePicker;
 	private EditText mSearchEditText;
 	private FrameLayout mContent;
@@ -265,6 +264,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
 
 	private boolean mIsActivityResumed = false;
+	private boolean mIsOptionsMenuCreated = false;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
@@ -779,10 +779,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_search, menu);
+
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		mHockeyPuck.onCreateOptionsMenu(menu);
+		boolean ret = super.onCreateOptionsMenu(menu);
 
-		return super.onCreateOptionsMenu(menu);
+		mIsOptionsMenuCreated = true;
+		return ret;
 	}
 
 	@Override
@@ -897,6 +900,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void supportInvalidateOptionsMenu() {
+		if (mIsOptionsMenuCreated) {
+			super.supportInvalidateOptionsMenu();
+		}
 	}
 
 	//----------------------------------
@@ -1030,7 +1040,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mButtonBarLayout = findViewById(R.id.button_bar_layout);
 		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
 		mSelectChildAgeTextView = (TextView) findViewById(R.id.label_select_each_childs_age);
-		mSearchButton = findViewById(R.id.search_button);
 
 		mProgressBarLayout = (ViewGroup) findViewById(R.id.search_progress_layout);
 		mProgressBar = (GLTagProgressBar) findViewById(R.id.search_progress_bar);
@@ -1088,7 +1097,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
-		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 	}
 
 	//----------------------------------
@@ -1442,42 +1450,42 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	private void animateWidgetNotification(final View widgetNotificationBarLayout) {
-		View searchBarLayout = findViewById(R.id.search_bar_layout);
-		searchBarLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		//View searchBarLayout = findViewById(R.id.search_bar_layout);
+		//searchBarLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 
-		// animate the notification bar from above the search bar into its place
-		// NOTE: If the animation moves the layout or if we intend to set FillAfterEnabled,
-		// the layout parameters of the button will have to be updated to reflect where
-		// the clickabe region is as the animation only redraws the view without 
-		// actually moving the button
-		TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.RELATIVE_TO_SELF, 0.0f, Animation.ABSOLUTE, -searchBarLayout.getMeasuredHeight(),
-				Animation.ABSOLUTE, 0.0f);
-		animation.setDuration(WIDGET_NOTIFICATION_BAR_ANIMATION_DURATION);
-		animation.setStartOffset(WIDGET_NOTIFICATION_BAR_ANIMATION_DELAY);
-		animation.setAnimationListener(new AnimationListener() {
+		//// animate the notification bar from above the search bar into its place
+		//// NOTE: If the animation moves the layout or if we intend to set FillAfterEnabled,
+		//// the layout parameters of the button will have to be updated to reflect where
+		//// the clickabe region is as the animation only redraws the view without 
+		//// actually moving the button
+		//TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+		//		Animation.RELATIVE_TO_SELF, 0.0f, Animation.ABSOLUTE, -searchBarLayout.getMeasuredHeight(),
+		//		Animation.ABSOLUTE, 0.0f);
+		//animation.setDuration(WIDGET_NOTIFICATION_BAR_ANIMATION_DURATION);
+		//animation.setStartOffset(WIDGET_NOTIFICATION_BAR_ANIMATION_DELAY);
+		//animation.setAnimationListener(new AnimationListener() {
 
-			@Override
-			public void onAnimationStart(Animation animation) {
-				widgetNotificationBarLayout.setVisibility(View.VISIBLE);
-			}
+		//	@Override
+		//	public void onAnimationStart(Animation animation) {
+		//		widgetNotificationBarLayout.setVisibility(View.VISIBLE);
+		//	}
 
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-				// TODO Auto-generated method stub
+		//	@Override
+		//	public void onAnimationRepeat(Animation animation) {
+		//		// TODO Auto-generated method stub
 
-			}
+		//	}
 
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				widgetNotificationBarLayout.setVisibility(View.VISIBLE);
-				// set it in stone that the notification was shown so that
-				// its never shown again to the user
-				markWidgetNotificationAsShown();
-				mIsWidgetNotificationShowing = true;
-			}
-		});
-		widgetNotificationBarLayout.startAnimation(animation);
+		//	@Override
+		//	public void onAnimationEnd(Animation animation) {
+		//		widgetNotificationBarLayout.setVisibility(View.VISIBLE);
+		//		// set it in stone that the notification was shown so that
+		//		// its never shown again to the user
+		//		markWidgetNotificationAsShown();
+		//		mIsWidgetNotificationShowing = true;
+		//	}
+		//});
+		//widgetNotificationBarLayout.startAnimation(animation);
 	}
 
 	private void broadcastSearchStarted() {
@@ -2233,13 +2241,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onClick(View v) {
 			setDisplayType(DisplayType.NONE);
-		}
-	};
-
-	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			startSearch();
 		}
 	};
 

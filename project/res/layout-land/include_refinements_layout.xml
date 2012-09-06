@@ -5,7 +5,6 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:layout_below="@id/search_bar_layout"
     android:orientation="horizontal" >
 
     <LinearLayout
