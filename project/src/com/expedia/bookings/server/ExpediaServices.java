@@ -194,15 +194,15 @@ public class ExpediaServices implements DownloadListener {
 		// TODO: Delete this once no longer valid (all results will eventually be returned as a matrix)
 		query.add(new BasicNameValuePair("matrix", "true"));
 
-		return (FlightSearchResponse) doFlightsRequest("search", query, new FlightSearchResponseHandler(mContext),
-				flags);
+		return (FlightSearchResponse) doFlightsRequest("api/flight/search", query, new FlightSearchResponseHandler(
+				mContext), flags);
 	}
 
 	public CreateItineraryResponse createItinerary(String productKey, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", productKey));
 
-		return (CreateItineraryResponse) doFlightsRequest("trip/create2", query,
+		return (CreateItineraryResponse) doFlightsRequest("api/flight/trip/create2", query,
 				new CreateItineraryResponseHandler(mContext), flags | F_SECURE_REQUEST);
 	}
 
@@ -226,21 +226,8 @@ public class ExpediaServices implements DownloadListener {
 		// Checkout calls without this flag can make ACTUAL bookings!
 		query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 
-		return (FlightCheckoutResponse) doFlightsRequest("checkout", query,
+		return (FlightCheckoutResponse) doFlightsRequest("api/flight/checkout", query,
 				new FlightCheckoutResponseHandler(mContext), flags + F_SECURE_REQUEST);
-	}
-
-	private Object doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
-			ResponseHandler<?> responseHandler, int flags) {
-		String serverUrl = getE3EndpointUrl(flags + F_FLIGHTS) + targetUrl;
-
-		// Create the request
-		HttpGet get = NetUtils.createHttpGet(serverUrl, params);
-
-		// Some logging before passing the request along
-		Log.d("Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
-
-		return doRequest(get, responseHandler, flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -280,7 +267,7 @@ public class ExpediaServices implements DownloadListener {
 			rh.setLatLng(params.getSearchLatitude(), params.getSearchLongitude());
 		}
 		rh.setNumNights(params.getStayDuration());
-		return (SearchResponse) doE3Request("SearchResults", query, rh, 0);
+		return (SearchResponse) doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
 	/**
@@ -298,7 +285,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 
 		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, null, property);
-		return (AvailabilityResponse) doE3Request("HotelInformation", query, responseHandler, 0);
+		return (AvailabilityResponse) doE3Request("MobileHotel/Webapp/HotelInformation", query, responseHandler, 0);
 	}
 
 	public AvailabilityResponse availability(SearchParams params, Property property) {
@@ -320,7 +307,8 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, params, property);
-		AvailabilityResponse response = (AvailabilityResponse) doE3Request("HotelOffers", query, responseHandler, 0);
+		AvailabilityResponse response = (AvailabilityResponse) doE3Request("MobileHotel/Webapp/HotelOffers", query,
+				responseHandler, 0);
 
 		// #12701: Often times, Atlantis cache screws up and returns the error "Hotel product's PIID that is 
 		// provided by Atlantis has expired."  This error only happens once - the next request is usually fine.
@@ -331,7 +319,8 @@ public class ExpediaServices implements DownloadListener {
 			if (error.getErrorCode() == ErrorCode.HOTEL_ROOM_UNAVAILABLE
 					&& "Hotel product\u0027s PIID that is provided by Atlantis has expired".equals(error.getMessage())) {
 				Log.w("Atlantis PIID expired, automatically retrying HotelOffers request once.");
-				response = (AvailabilityResponse) doE3Request("HotelOffers", query, responseHandler, 0);
+				response = (AvailabilityResponse) doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler,
+						0);
 			}
 		}
 
@@ -392,7 +381,8 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 
-		return (BookingResponse) doE3Request("Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
+		return (BookingResponse) doE3Request("MobileHotel/Webapp/Checkout", query,
+				new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public CreateTripResponse createTripWithCoupon(String couponCode, SearchParams params, Property property, Rate rate) {
@@ -406,7 +396,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("couponCode", couponCode));
 
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return (CreateTripResponse) doE3Request("CreateTrip", query, responseHandler, F_SECURE_REQUEST);
+		return (CreateTripResponse) doE3Request("MobileHotel/Webapp/CreateTrip", query, responseHandler,
+				F_SECURE_REQUEST);
 	}
 
 	public SignInResponse signIn(String email, String password, int flags) {
@@ -424,7 +415,8 @@ public class ExpediaServices implements DownloadListener {
 		// Make sure we're signed out before we try to sign in again
 		User.signOut(mContext);
 
-		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+		return (SignInResponse) doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext),
+				F_SECURE_REQUEST);
 	}
 
 	// Attempt to sign in again with the stored cookie
@@ -438,7 +430,8 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags);
 
-		return (SignInResponse) doE3Request("SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+		return (SignInResponse) doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext),
+				F_SECURE_REQUEST);
 	}
 
 	public TravelerInfoResponse updateTraveler(FlightPassenger passenger) {
@@ -447,8 +440,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("tuid", "" + passenger.getTuid()));
 		query.add(new BasicNameValuePair("profileTypes", "FLIGHT"));
 
-		return (TravelerInfoResponse) doE3Request("GetMobileTravellerProfile", query, new TravelerResponseHandler(
-				mContext), F_SECURE_REQUEST);
+		return (TravelerInfoResponse) doE3Request("MobileHotel/Webapp/GetMobileTravellerProfile", query,
+				new TravelerResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public void clearCookies() {
@@ -646,6 +639,11 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(post, responseHandler, flags);
 	}
 
+	private Object doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
+			ResponseHandler<?> responseHandler, int flags) {
+		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
+	}
+
 	private Object doRequest(HttpRequestBase request, ResponseHandler<?> responseHandler, int flags) {
 		// Construct a proper user agent string
 		String versionName;
@@ -758,12 +756,14 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
-	public enum Api {
-		HOTELS, FLIGHTS;
-	}
-
 	public enum EndPoint {
-		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY, PUBLIC_INTEGRATION, TRUNK
+		PRODUCTION,
+		DEV,
+		INTEGRATION,
+		STABLE,
+		PROXY,
+		PUBLIC_INTEGRATION,
+		TRUNK
 	}
 
 	/**
@@ -774,18 +774,10 @@ public class ExpediaServices implements DownloadListener {
 	public String getE3EndpointUrl(int flags) {
 		EndPoint endPoint = getEndPoint(mContext);
 
-		Api api;
-		if ((flags & F_FLIGHTS) != 0) {
-			api = Api.FLIGHTS;
-
+		if ((flags & F_FLIGHTS) != 0 && endPoint != EndPoint.TRUNK && endPoint != EndPoint.PROXY) {
 			// Note: Currently, flights only works with TRUNK or PROXY.  So automatically
 			// set endpoint to TRUNK if not otherwise set correctly.
-			if (endPoint != EndPoint.TRUNK && endPoint != EndPoint.PROXY) {
-				endPoint = EndPoint.TRUNK;
-			}
-		}
-		else {
-			api = Api.HOTELS;
+			endPoint = EndPoint.TRUNK;
 		}
 
 		StringBuilder builder = new StringBuilder();
@@ -837,13 +829,6 @@ public class ExpediaServices implements DownloadListener {
 			builder.append("/");
 			break;
 		}
-		}
-
-		if (api == Api.HOTELS) {
-			builder.append("MobileHotel/Webapp/");
-		}
-		else if (api == Api.FLIGHTS) {
-			builder.append("api/flight/");
 		}
 
 		String e3url = builder.toString();
