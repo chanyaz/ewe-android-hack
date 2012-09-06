@@ -147,8 +147,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	protected void onResume() {
 		super.onResume();
 
-		BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
-
 		getSupportFragmentManager().addOnBackStackChangedListener(this);
 	}
 
@@ -158,7 +156,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		if (mStartSearchOnPostResume) {
 			mStartSearchOnPostResume = false;
+			supportInvalidateOptionsMenu();
 			startSearch();
+		}
+		else {
+			BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
 		}
 	}
 
@@ -238,7 +240,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
 			boolean resultsVisible = response != null && !response.hasErrors();
 			menu.setGroupVisible(R.id.group_results, resultsVisible);
-			
+
 			if (resultsVisible) {
 				// Configure the checked sort button
 				FlightFilter filter = Db.getFlightSearch().getFilter(mLegPosition);
