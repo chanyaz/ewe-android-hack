@@ -103,29 +103,23 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	//	}
 
 	@MediumTest
-	public void testSearchTwiceWithRotationYieldsCorrectSearchResultsInUi() {
-		String air1 = "SEA";
-		String air2 = "ATL";
-		performFlightSearchAndAssertDb(air1, air2, 4, R.id.search, true);
-
-		waitForFlightResults();
+	public void testSearchTwiceYieldsCorrectSearchResultsInUi() {
+		performFlightSearch("DTW", "JFK", 4, R.id.search);
 
 		mSolo.goBack();
 
-		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		performFlightSearchAndAssertUi("ATL", "IAH", 3, R.id.search, "Houston");
+	}
 
+	@MediumTest
+	public void testSearchTwiceWithRotationYieldsCorrectSearchResultsInUi() {
+		performFlightSearch("SEA", "ATL", 4, R.id.search);
+
+		mSolo.goBack();
+		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		mSolo.sleep(1500);
 
-		assertSearchParamsInUi(air1, air2);
-
-		CalendarTouchUtils.selectDay(mSolo, 3, R.id.calendar_date_picker);
-
-		mSolo.clickOnView(mSolo.getView(R.id.search));
-
-		waitForFlightResults();
-
-		String titleText = ((TextView) mSolo.getView(R.id.title_text_view)).getText().toString();
-		assertTrue(titleText.contains("Atlanta"));
+		performFlightSearchAndAssertUi("MSP", "DTW", 3, R.id.search, "Detroit");
 	}
 
 	@MediumTest
