@@ -85,22 +85,24 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		performFlightSearchAndAssertDb("SFO", "SEA", 3, R.id.search, true);
 	}
 
-	// TODO: This test now (consistently) causes an illegal fragment transaction FC that mucks with test suite. Must figure
-	// out what has changed with the backend and rewrite the test.
-	//	@MediumTest
-	//	public void testFlightSearchModificationsInlineReflectedInFlightSearchActivity() {
-	//		performFlightSearchAndAssertDb("DTW", "JFK", 4, R.id.search, true);
-	//
-	//		mSolo.clickOnView(mSolo.getView(R.id.menu_search));
-	//
-	//		String expectedAirport1 = "ATL";
-	//		String expectedAirport2 = "MSP";
-	//		performFlightSearchAndAssertDb(expectedAirport1, expectedAirport2, 2, R.id.search, false);
-	//
-	//		mSolo.goBack();
-	//
-	//		assertSearchParamsInUi(expectedAirport1, expectedAirport2);
-	//	}
+	@MediumTest
+	public void testFlightSearchModificationsInlineReflectedInFlightSearchActivity() {
+		performFlightSearch("DTW", "JFK", 4, R.id.search);
+
+		// click on menu search to bring up FlightSearchOverlay for inline search
+		mSolo.clickOnView(mSolo.getView(R.id.menu_search));
+
+		// perform another, modified search
+		String expectedAirport1 = "ATL";
+		String expectedAirport2 = "MSP";
+		performFlightSearch(expectedAirport1, expectedAirport2, 2, R.id.search);
+
+		// go back
+		mSolo.goBack();
+
+		// assert the search params are reflected in the first activity
+		assertSearchParamsInUi(expectedAirport1, expectedAirport2);
+	}
 
 	@MediumTest
 	public void testSearchTwiceYieldsCorrectSearchResultsInUi() {
@@ -311,12 +313,6 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// HELPER METHODS
 
-	/**
-	 * Helper method that will perform a flight search for the given airports and days
-	 * @param air1
-	 * @param air2
-	 * @param daysOffset
-	 */
 	private void performFlightSearchAndAssertDb(String air1, String air2, int daysOffset, int searchId,
 			boolean assertDate) {
 		Time expectedDay = performFlightSearch(air1, air2, daysOffset, searchId);
