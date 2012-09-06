@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -95,8 +96,8 @@ public class Db {
 	// the returned results
 	private FlightSearch mFlightSearch = new FlightSearch();
 
-	// Flight details (of the flight we're investigating right now in FlightSearch
-	private FlightDetailsResponse mFlightDetails;
+	// Itineraries (for flights and someday hotels)
+	private Map<String, Itinerary> mItineraries = new HashMap<String, Itinerary>();
 
 	// Flight Travelers
 	private ArrayList<FlightPassenger> mFlightPassengers = new ArrayList<FlightPassenger>();
@@ -202,7 +203,8 @@ public class Db {
 				sDb.mInfoResponses.put(availabilityResponse.getProperty().getPropertyId(), availabilityResponse);
 			}
 			else {
-				sDb.mAvailabilityResponses.put(availabilityResponse.getProperty().getPropertyId(), availabilityResponse);
+				sDb.mAvailabilityResponses
+						.put(availabilityResponse.getProperty().getPropertyId(), availabilityResponse);
 			}
 		}
 	}
@@ -343,12 +345,12 @@ public class Db {
 		return sDb.mFlightSearch;
 	}
 
-	public static void setFlightDetails(FlightDetailsResponse flightDetails) {
-		sDb.mFlightDetails = flightDetails;
+	public static void addItinerary(Itinerary itinerary) {
+		sDb.mItineraries.put(itinerary.getItineraryNumber(), itinerary);
 	}
 
-	public static FlightDetailsResponse getFlightDetails() {
-		return sDb.mFlightDetails;
+	public static Itinerary getItinerary(String itineraryNumber) {
+		return sDb.mItineraries.get(itineraryNumber);
 	}
 
 	public static ArrayList<FlightPassenger> getFlightPassengers() {
@@ -410,7 +412,9 @@ public class Db {
 			try {
 				JSONObject obj = new JSONObject();
 				JSONUtils.putJSONable(obj, "flightSearch", sDb.mFlightSearch);
-				JSONUtils.putJSONable(obj, "flightDetails", sDb.mFlightDetails);
+
+				List<Itinerary> itineraryList = new ArrayList<Itinerary>(sDb.mItineraries.values());
+				JSONUtils.putJSONableList(obj, "itineraries", itineraryList);
 
 				String json = obj.toString();
 				IoUtils.writeStringToFile(SAVED_FLIGHT_DATA_FILE, json, context);
@@ -448,8 +452,11 @@ public class Db {
 			if (obj.has("flightSearch")) {
 				sDb.mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
 			}
-			if (obj.has("flightDetails")) {
-				sDb.mFlightDetails = JSONUtils.getJSONable(obj, "flightDetails", FlightDetailsResponse.class);
+			if (obj.has("itineraries")) {
+				List<Itinerary> itineraries = JSONUtils.getJSONableList(obj, "itineraries", Itinerary.class);
+				for (Itinerary itinerary : itineraries) {
+					addItinerary(itinerary);
+				}
 			}
 
 			Log.d("Loaded cached flight data in " + (System.currentTimeMillis() - start) + " ms");

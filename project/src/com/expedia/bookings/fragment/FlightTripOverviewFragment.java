@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,10 +20,11 @@ import android.widget.LinearLayout.LayoutParams;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightCheckoutActivity;
+import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightDetailsResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.section.SectionGeneralFlightInfo;
@@ -43,7 +45,6 @@ public class FlightTripOverviewFragment extends Fragment {
 	private static final int FLIGHT_LEG_BOTTOM_MARGIN = 20;
 
 	private FlightTrip mTrip;
-	private FlightTrip mOffer;
 
 	private ArrayList<SectionFlightLeg> mFlights;
 	private ViewGroup mFlightContainer;
@@ -67,10 +68,6 @@ public class FlightTripOverviewFragment extends Fragment {
 
 		if (savedInstanceState != null) {
 			mRequestedDetails = savedInstanceState.getBoolean(INSTANCE_REQUESTED_DETAILS, false);
-		}
-		else {
-			// If we're launching this for the first time, clear the current details response
-			Db.setFlightDetails(null);
 		}
 	}
 
@@ -96,16 +93,8 @@ public class FlightTripOverviewFragment extends Fragment {
 		mTrip = Db.getFlightSearch().getFlightTrip(tripKey);
 
 		// See if we have flight details we can use, first.
-		FlightDetailsResponse flightDetails = Db.getFlightDetails();
-		if (flightDetails != null && !flightDetails.hasErrors()
-				&& flightDetails.getOffer().getProductKey().equals(tripKey)) {
-			mOffer = flightDetails.getOffer();
-		}
-		else {
+		if (TextUtils.isEmpty(mTrip.getItineraryNumber())) {
 			mCheckoutBtn.setEnabled(false);
-
-			// Use the original search response as the offer for now
-			mOffer = mTrip;
 
 			// Begin loading flight details in the background, if we haven't already
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -117,8 +106,10 @@ public class FlightTripOverviewFragment extends Fragment {
 				bd.startDownload(KEY_DETAILS, mFlightDetailsDownload, mFlightDetailsCallback);
 			}
 		}
-		
-		mFlightDateAndTravCount.bind(mTrip,(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() != 0) ? Db.getFlightPassengers().size() : 1);
+
+		mFlightDateAndTravCount.bind(mTrip,
+				(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() != 0) ? Db.getFlightPassengers()
+						.size() : 1);
 
 		//Inflate and store the sections
 		SectionFlightLeg tempFlight;
@@ -144,12 +135,7 @@ public class FlightTripOverviewFragment extends Fragment {
 	}
 
 	public void bindAll() {
-		if (mOffer == null) {
-			mFlightTripSectionPriceBar.bind(mTrip);
-		}
-		else {
-			mFlightTripSectionPriceBar.bind(mOffer);
-		}
+		mFlightTripSectionPriceBar.bind(mTrip);
 	}
 
 	@Override
@@ -186,23 +172,18 @@ public class FlightTripOverviewFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Flight details download
 
-	private Download<FlightDetailsResponse> mFlightDetailsDownload = new Download<FlightDetailsResponse>() {
+	private Download<CreateItineraryResponse> mFlightDetailsDownload = new Download<CreateItineraryResponse>() {
 		@Override
-		public FlightDetailsResponse doDownload() {
+		public CreateItineraryResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DETAILS, services);
-			return services.flightDetails(mTrip.getProductKey(), 0);
+			return services.createItinerary(mTrip.getProductKey(), 0);
 		}
 	};
 
-	private OnDownloadComplete<FlightDetailsResponse> mFlightDetailsCallback = new OnDownloadComplete<FlightDetailsResponse>() {
+	private OnDownloadComplete<CreateItineraryResponse> mFlightDetailsCallback = new OnDownloadComplete<CreateItineraryResponse>() {
 		@Override
-		public void onDownload(FlightDetailsResponse results) {
-			Db.setFlightDetails(results);
-			mRequestedDetails = true;
-
-			Db.kickOffBackgroundSave(getActivity());
-
+		public void onDownload(CreateItineraryResponse results) {
 			LoadingDetailsDialogFragment df = Ui.findSupportFragment(getCompatibilityActivity(),
 					LoadingDetailsDialogFragment.TAG);
 			df.dismiss();
@@ -218,18 +199,24 @@ public class FlightTripOverviewFragment extends Fragment {
 				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else {
+				Db.addItinerary(results.getItinerary());
+				mTrip.updateFrom(results.getOffer());
+				mRequestedDetails = true;
+
+				Db.kickOffBackgroundSave(getActivity());
+
 				mCheckoutBtn.setEnabled(true);
 
-				if (results.notifyPriceChanged()) {
-					String oldFare = results.getOldOffer().getTotalFare().getFormattedMoney();
-					String newFare = results.getOffer().getTotalFare().getFormattedMoney();
+				if (mTrip.notifyPriceChanged()) {
+					String newFare = mTrip.getTotalFare().getFormattedMoney();
+					Money oldAmount = new Money(mTrip.getTotalFare());
+					oldAmount.subtract(mTrip.getPriceChangeAmount());
+					String oldFare = oldAmount.getFormattedMoney();
 					String msg = getString(R.string.price_change_alert_TEMPLATE, oldFare, newFare);
 
 					DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null, msg);
 					dialogFragment.show(getFragmentManager(), "noticeFragment");
 				}
-
-				mOffer = results.getOffer();
 
 				bindAll();
 			}

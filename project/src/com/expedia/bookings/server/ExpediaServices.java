@@ -49,10 +49,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.CreateItineraryResponse;
+import com.expedia.bookings.data.CreateItineraryResponseHandler;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightDetailsResponse;
-import com.expedia.bookings.data.FlightDetailsResponseHandler;
 import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.data.FlightPassenger.Gender;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -198,12 +198,12 @@ public class ExpediaServices implements DownloadListener {
 				flags);
 	}
 
-	public FlightDetailsResponse flightDetails(String productKey, int flags) {
+	public CreateItineraryResponse createItinerary(String productKey, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", productKey));
 
-		return (FlightDetailsResponse) doFlightsRequest("details", query, new FlightDetailsResponseHandler(mContext),
-				flags);
+		return (CreateItineraryResponse) doFlightsRequest("trip/create2", query,
+				new CreateItineraryResponseHandler(mContext), flags | F_SECURE_REQUEST);
 	}
 
 	public FlightCheckoutResponse flightCheckout(String productKey, BillingInfo billingInfo,

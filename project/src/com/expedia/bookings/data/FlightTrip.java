@@ -15,6 +15,8 @@ import com.mobiata.flightlib.data.Flight;
 
 public class FlightTrip implements JSONable {
 
+	private static double PRICE_CHANGE_NOTIFY_CUTOFF = .01;
+
 	private String mProductKey;
 
 	private List<FlightLeg> mLegs = new ArrayList<FlightLeg>();
@@ -24,10 +26,16 @@ public class FlightTrip implements JSONable {
 	private Money mTaxes;
 	private Money mFees;
 
+	// Possible price change from last time we queried this trip
+	private Money mPriceChangeAmount;
+
 	private int mSeatsRemaining;
 
 	// These are modifiers for each segment in leg
 	private List<List<FlightSegmentAttributes>> mFlightSegmentAttrs = new ArrayList<List<FlightSegmentAttributes>>();
+
+	// The associated itinerary (not created until requested)
+	private String mItineraryNumber;
 
 	public String getProductKey() {
 		return mProductKey;
@@ -85,6 +93,14 @@ public class FlightTrip implements JSONable {
 		mFees = fees;
 	}
 
+	public Money getPriceChangeAmount() {
+		return mPriceChangeAmount;
+	}
+
+	public void setPriceChangeAmount(Money priceChangeAmount) {
+		mPriceChangeAmount = priceChangeAmount;
+	}
+
 	public int getSeatsRemaining() {
 		return mSeatsRemaining;
 	}
@@ -110,11 +126,39 @@ public class FlightTrip implements JSONable {
 		return null;
 	}
 
+	public String getItineraryNumber() {
+		return mItineraryNumber;
+	}
+
+	public void setItineraryNumber(String itineraryNumber) {
+		mItineraryNumber = itineraryNumber;
+	}
+
 	////////////////////////////////////////////////////////////////////////
 	// More meta retrieval methods
 
 	public boolean hasPricing() {
 		return mBaseFare != null && mTotalFare != null && mTaxes != null && mFees != null;
+	}
+
+	public boolean hasPriceChanged() {
+		return mPriceChangeAmount != null;
+	}
+
+	public boolean notifyPriceChanged() {
+		if (!hasPriceChanged()) {
+			return false;
+		}
+
+		double changeAmount = mPriceChangeAmount.getAmount();
+		double newAmount = mTotalFare.getAmount();
+		double oldAmount = newAmount + changeAmount;
+
+		if (newAmount > oldAmount) {
+			return true;
+		}
+
+		return 1.0 - (newAmount / oldAmount) >= PRICE_CHANGE_NOTIFY_CUTOFF;
 	}
 
 	/**
@@ -301,6 +345,31 @@ public class FlightTrip implements JSONable {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Playing with others
+
+	public void updateFrom(FlightTrip other) {
+		// Things we do not update (since they shoud not change):
+		// - Product key
+		// - Legs
+		// - Leg segment attributes
+
+		if (other.hasPricing()) {
+			mBaseFare = other.mBaseFare;
+			mTotalFare = other.mTotalFare;
+			mTaxes = other.mTaxes;
+			mFees = other.mFees;
+		}
+
+		if (other.hasPriceChanged()) {
+			mPriceChangeAmount = other.mPriceChangeAmount;
+		}
+
+		if (other.mSeatsRemaining != 0) {
+			mSeatsRemaining = other.mSeatsRemaining;
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
 	@Override
@@ -313,6 +382,7 @@ public class FlightTrip implements JSONable {
 			JSONUtils.putJSONable(obj, "totalFare", mTotalFare);
 			JSONUtils.putJSONable(obj, "taxes", mTaxes);
 			JSONUtils.putJSONable(obj, "fees", mFees);
+			JSONUtils.putJSONable(obj, "priceChangeAmount", mPriceChangeAmount);
 			obj.putOpt("seatsRemaining", mSeatsRemaining);
 
 			JSONArray arr = new JSONArray();
@@ -320,6 +390,9 @@ public class FlightTrip implements JSONable {
 				JSONUtils.putJSONableList(arr, attributes);
 			}
 			obj.putOpt("flightSegmentAttributes", arr);
+
+			obj.putOpt("itineraryNumber", mItineraryNumber);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -335,12 +408,15 @@ public class FlightTrip implements JSONable {
 		mTotalFare = JSONUtils.getJSONable(obj, "totalFare", Money.class);
 		mTaxes = JSONUtils.getJSONable(obj, "taxes", Money.class);
 		mFees = JSONUtils.getJSONable(obj, "fees", Money.class);
+		mPriceChangeAmount = JSONUtils.getJSONable(obj, "priceChangeAmount", Money.class);
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 
 		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");
 		for (int a = 0; a < arr.length(); a++) {
 			mFlightSegmentAttrs.add(JSONUtils.getJSONableList(arr, a, FlightSegmentAttributes.class));
 		}
+
+		mItineraryNumber = obj.optString("itineraryNumber");
 		return true;
 	}
 }
