@@ -23,6 +23,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -30,6 +31,7 @@ import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.FlightFilter.Sort;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment;
@@ -234,7 +236,30 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 			// Show sort/filter only if we have results and are not showing the search params fragment/flight details
 			FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
-			menu.setGroupVisible(R.id.group_results, response != null && !response.hasErrors());
+			boolean resultsVisible = response != null && !response.hasErrors();
+			menu.setGroupVisible(R.id.group_results, resultsVisible);
+			
+			if (resultsVisible) {
+				// Configure the checked sort button
+				FlightFilter filter = Db.getFlightSearch().getFilter(mLegPosition);
+				int selectedId;
+				switch (filter.getSort()) {
+				default:
+				case PRICE:
+					selectedId = R.id.menu_select_sort_price;
+					break;
+				case DEPARTURE:
+					selectedId = R.id.menu_select_sort_departs;
+					break;
+				case ARRIVAL:
+					selectedId = R.id.menu_select_sort_arrives;
+					break;
+				case DURATION:
+					selectedId = R.id.menu_select_sort_duration;
+					break;
+				}
+				menu.findItem(selectedId).setChecked(true);
+			}
 		}
 
 		return super.onPrepareOptionsMenu(menu);
@@ -251,12 +276,28 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			startActivity(intent);
 			return true;
 		}
-		case R.id.menu_sort: {
-			// TODO: Will need to change with new design someday
-			FlightFilterDialogFragment dialog = FlightFilterDialogFragment.newInstance(mLegPosition);
-			dialog.show(getSupportFragmentManager(), "filterDialogFragment");
-			break;
-		}
+		case R.id.menu_select_sort_price:
+		case R.id.menu_select_sort_departs:
+		case R.id.menu_select_sort_arrives:
+		case R.id.menu_select_sort_duration:
+			FlightFilter filter = Db.getFlightSearch().getFilter(mLegPosition);
+			switch (item.getItemId()) {
+			case R.id.menu_select_sort_price:
+				filter.setSort(Sort.PRICE);
+				break;
+			case R.id.menu_select_sort_departs:
+				filter.setSort(Sort.DEPARTURE);
+				break;
+			case R.id.menu_select_sort_arrives:
+				filter.setSort(Sort.ARRIVAL);
+				break;
+			case R.id.menu_select_sort_duration:
+				filter.setSort(Sort.DURATION);
+				break;
+			}
+			filter.notifyFilterChanged();
+			item.setChecked(true);
+			return true;
 		case R.id.menu_search: {
 			Intent intent = new Intent(this, FlightSearchOverlayActivity.class);
 			startActivityForResult(intent, REQUEST_CODE_SEARCH_PARAMS);
