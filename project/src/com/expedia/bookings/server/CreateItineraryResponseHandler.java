@@ -1,13 +1,15 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.server;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.CreateItineraryResponse;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError.ApiMethod;
-import com.expedia.bookings.server.FlightSearchResponseHandler;
-import com.expedia.bookings.server.ParserUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 

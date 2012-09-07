@@ -50,7 +50,6 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreateItineraryResponse;
-import com.expedia.bookings.data.CreateItineraryResponseHandler;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightPassenger;
