@@ -118,4 +118,6 @@
 	<dimen name="one_di_pixel">1dip</dimen>
 
     <dimen name="hotel_row_strikethrough_price_text_size">12dp</dimen>
+
+    <dimen name="actionbar_refinement_width">50dp</dimen>
 </resources>

@@ -66,6 +66,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -136,6 +137,9 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class PhoneSearchActivity extends SherlockFragmentMapActivity implements LocationListener,
 		OnDrawStartedListener, HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
@@ -206,7 +210,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//----------------------------------
 
 	private CalendarDatePicker mDatesCalendarDatePicker;
-	private EditText mSearchEditText;
+	private AutoCompleteTextView mSearchEditText;
 	private FrameLayout mContent;
 	private ImageButton mDatesButton;
 	private ImageButton mGuestsButton;
@@ -418,7 +422,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		initializeViews();
 
 		mSearchSuggestionAdapter = new SearchSuggestionAdapter(this);
-		mSearchSuggestionsListView.setAdapter(mSearchSuggestionAdapter);
+		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
 		boolean localeChanged = SettingUtils.get(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 
@@ -1021,14 +1025,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		// Handled in the actionbar's custom view now
 		mActionBarCustomView = getLayoutInflater().inflate(R.layout.actionbar_search_hotels, null);
-		mSearchEditText = (EditText) mActionBarCustomView.findViewById(R.id.search_edit_text);
+		mSearchEditText = (AutoCompleteTextView) mActionBarCustomView.findViewById(R.id.search_edit_text);
 		mDatesButton = (ImageButton) mActionBarCustomView.findViewById(R.id.dates_button);
 		mDatesTextView = (TextView) mActionBarCustomView.findViewById(R.id.dates_text_view);
 		mGuestsButton = (ImageButton) mActionBarCustomView.findViewById(R.id.guests_button);
 		mGuestsTextView = (TextView) mActionBarCustomView.findViewById(R.id.guests_text_view);
 
 		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
-		mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
+		//mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
 		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
@@ -1057,13 +1061,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// setting the footer's layout params we're adding a view with the
 		// layout params we require. For some reason setting the layout
 		// params of the footer view results in class cast exception. >:-|
-		LinearLayout footer = new LinearLayout(this);
-		footer.addView(
-				new View(this),
-				new LayoutParams(LayoutParams.FILL_PARENT, getResources().getDimensionPixelSize(
-						R.dimen.row_search_suggestion_footer_height)));
+		//LinearLayout footer = new LinearLayout(this);
+		//footer.addView(
+		//		new View(this),
+		//		new LayoutParams(LayoutParams.FILL_PARENT, getResources().getDimensionPixelSize(
+		//				R.dimen.row_search_suggestion_footer_height)));
 
-		mSearchSuggestionsListView.addFooterView(footer, null, false);
+		//mSearchSuggestionsListView.addFooterView(footer, null, false);
 		//-------------------------------------------------------------------
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
@@ -1087,12 +1091,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// Listeners
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
+		mSearchEditText.setOnItemClickListener(mSearchSuggestionsItemClickListner);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
-		mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
+		//mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
@@ -1638,7 +1643,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mFocusLayout.requestFocus();
 
 			hideSoftKeyboard(mSearchEditText);
-			mSearchSuggestionsListView.setVisibility(View.GONE);
 
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
@@ -1648,7 +1652,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 		case KEYBOARD: {
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
-			mSearchSuggestionsListView.setVisibility(View.VISIBLE);
 
 			// 13550: In some cases, the list has been cleared
 			// (like as a result of memory cleanup or rotation). So just
@@ -1656,7 +1659,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			startAutocomplete();
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
-			mButtonBarLayout.setVisibility(View.VISIBLE);
+			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
 
@@ -1666,7 +1669,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchEditText.clearFocus();
 
 			hideSoftKeyboard(mSearchEditText);
-			mSearchSuggestionsListView.setVisibility(View.GONE);
 
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
@@ -1682,7 +1684,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchEditText.clearFocus();
 
 			hideSoftKeyboard(mSearchEditText);
-			mSearchSuggestionsListView.setVisibility(View.GONE);
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
@@ -1695,7 +1696,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchEditText.clearFocus();
 
 			hideSoftKeyboard(mSearchEditText);
-			mSearchSuggestionsListView.setVisibility(View.GONE);
 
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
@@ -1911,16 +1911,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		switch (searchParams.getSearchType()) {
 
 		case MY_LOCATION:
-			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+			//mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			break;
 
 		case VISIBLE_MAP_AREA:
 			stopLocationListener();
-			mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
+			//mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
 			break;
 
 		default:
-			mSearchEditText.setTextColor(getResources().getColor(R.color.actionbar_text));
+			//mSearchEditText.setTextColor(getResources().getColor(R.color.actionbar_text));
 			break;
 
 		}
@@ -2264,6 +2264,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
+				expandSearchEditText();
 				setDisplayType(DisplayType.KEYBOARD);
 				SearchType searchType = Db.getSearchParams().getSearchType();
 				if (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA) {
@@ -2287,8 +2288,57 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					}
 				}
 			}
+			else {
+				collapseSearchEditText();
+			}
 		}
 	};
+
+	private AnimatorUpdateListener mUpDownListener = new AnimatorUpdateListener() {
+		@Override
+		public void onAnimationUpdate(ValueAnimator animator) {
+			int val = (Integer) animator.getAnimatedValue();
+			((RelativeLayout.LayoutParams) mDatesButton.getLayoutParams()).bottomMargin = val;
+			((RelativeLayout.LayoutParams) mGuestsButton.getLayoutParams()).bottomMargin = val;
+			mDatesButton.requestLayout();
+			mGuestsButton.requestLayout();
+		}
+	};
+
+	private AnimatorUpdateListener mGrowShrinkListener = new AnimatorUpdateListener() {
+		@Override
+		public void onAnimationUpdate(ValueAnimator animator) {
+			int val = (Integer) animator.getAnimatedValue();
+			((RelativeLayout.LayoutParams) mDatesButton.getLayoutParams()).width = val;
+			((RelativeLayout.LayoutParams) mGuestsButton.getLayoutParams()).width = val;
+			mDatesButton.requestLayout();
+			mGuestsButton.requestLayout();
+		}
+	};
+
+	private void expandSearchEditText() {
+		ValueAnimator animUp = ValueAnimator.ofInt(0, mSearchEditText.getMeasuredHeight());
+		animUp.addUpdateListener(mUpDownListener);
+
+		ValueAnimator animShrink = ValueAnimator.ofInt(getResources().getDimensionPixelSize(R.dimen.actionbar_refinement_width), 0);
+		animShrink.addUpdateListener(mGrowShrinkListener);
+
+		AnimatorSet set = new AnimatorSet();
+		set.playSequentially(animUp, animShrink);
+		set.start();
+	}
+
+	private void collapseSearchEditText() {
+		ValueAnimator animDown = ValueAnimator.ofInt(mSearchEditText.getMeasuredHeight(), 0);
+		animDown.addUpdateListener(mUpDownListener);
+
+		ValueAnimator animGrow = ValueAnimator.ofInt(0, getResources().getDimensionPixelSize(R.dimen.actionbar_refinement_width));
+		animGrow.addUpdateListener(mGrowShrinkListener);
+
+		AnimatorSet set = new AnimatorSet();
+		set.playSequentially(animGrow, animDown);
+		set.start();
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// HANDLERS
