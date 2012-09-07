@@ -415,7 +415,7 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 		int len = mProperties.size();
 		double[] prices = new double[len];
 		for (int index = 0; index < len; index++) {
-			prices[index] = mProperties.get(index).getLowestRate().getDisplayRate().getAmount();
+			prices[index] = mProperties.get(index).getLowestRate().getDisplayRate().getAmount().doubleValue();
 		}
 
 		// Cluster
@@ -427,12 +427,14 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 				new ArrayList<Property>() };
 		double closest;
 		double tmp;
+		double amount;
 		int closestIndex;
 		for (Property property : mProperties) {
 			closestIndex = 0;
-			closest = Math.abs(property.getLowestRate().getDisplayRate().getAmount() - medoids[0]);
+			amount = property.getLowestRate().getDisplayRate().getAmount().doubleValue();
+			closest = Math.abs(amount - medoids[0]);
 			for (int a = 1; a < 3; a++) {
-				tmp = Math.abs(property.getLowestRate().getDisplayRate().getAmount() - medoids[a]);
+				tmp = Math.abs(amount - medoids[a]);
 				if (tmp < closest) {
 					closest = tmp;
 					closestIndex = a;

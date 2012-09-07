@@ -362,8 +362,8 @@ public class Rate implements JSONable {
 		}
 		// Alternate/old method of calculating savings percent.
 		else if (mAverageRate != null && mAverageBaseRate != null) {
-			double baseRate = mAverageBaseRate.getAmount();
-			double saleRate = mAverageRate.getAmount();
+			double baseRate = mAverageBaseRate.getAmount().doubleValue();
+			double saleRate = mAverageRate.getAmount().doubleValue();
 			if (baseRate > saleRate) {
 				return 100 * (1 - (saleRate / baseRate));
 			}

@@ -392,17 +392,7 @@ public class Property implements JSONable {
 			}
 
 			// Compare rates
-			double amount1 = lowRate1.getAmount();
-			double amount2 = lowRate2.getAmount();
-			if (amount1 == amount2) {
-				return NAME_COMPARATOR.compare(property1, property2);
-			}
-			else if (amount1 > amount2) {
-				return 1;
-			}
-			else {
-				return -1;
-			}
+			return lowRate1.getAmount().compareTo(lowRate2.getAmount());
 		}
 	};
 

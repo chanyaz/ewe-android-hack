@@ -189,10 +189,10 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		if (tripJson.has("currency")) {
 			String currencyCode = tripJson.optString("currency");
 
-			trip.setBaseFare(ParserUtils.createMoney(tripJson.optDouble("baseFare"), currencyCode));
-			trip.setTotalFare(ParserUtils.createMoney(tripJson.optDouble("totalFare"), currencyCode));
-			trip.setTaxes(ParserUtils.createMoney(tripJson.optDouble("taxes"), currencyCode));
-			trip.setFees(ParserUtils.createMoney(tripJson.optDouble("fees"), currencyCode));
+			trip.setBaseFare(ParserUtils.createMoney(tripJson.optString("baseFare"), currencyCode));
+			trip.setTotalFare(ParserUtils.createMoney(tripJson.optString("totalFare"), currencyCode));
+			trip.setTaxes(ParserUtils.createMoney(tripJson.optString("taxes"), currencyCode));
+			trip.setFees(ParserUtils.createMoney(tripJson.optString("fees"), currencyCode));
 		}
 
 		trip.setSeatsRemaining(tripJson.optInt("seatsRemaining"));

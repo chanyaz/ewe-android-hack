@@ -134,7 +134,7 @@ public class ReceiptWidget {
 				Date date = breakdown.getDate().getCalendar().getTime();
 				String label = mContext.getString(R.string.room_rate_template, dateFormat.format(date));
 				Money amount = breakdown.getAmount();
-				if (amount.getAmount() == 0) {
+				if (amount.isZero()) {
 					addRow(mDetailsLayout, label, mContext.getString(R.string.free));
 				}
 				else {
@@ -154,7 +154,7 @@ public class ReceiptWidget {
 		}
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();
-		if (totalMandatoryFees != null && totalMandatoryFees.getAmount() != 0 && LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
+		if (totalMandatoryFees != null && totalMandatoryFees.isZero() && LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
 			addRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
 		}
 

@@ -21,14 +21,6 @@ public class ParserUtils {
 			return null;
 		}
 
-		return createMoney(Double.parseDouble(amount), currencyCode);
-	}
-
-	public static Money createMoney(double amount, String currencyCode) {
-		if (currencyCode == null || currencyCode.length() == 0) {
-			return null;
-		}
-
 		Money money = new Money();
 		money.setAmount(amount);
 		money.setCurrency(currencyCode);

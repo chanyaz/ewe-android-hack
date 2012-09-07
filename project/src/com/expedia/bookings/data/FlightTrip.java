@@ -150,8 +150,8 @@ public class FlightTrip implements JSONable {
 			return false;
 		}
 
-		double changeAmount = mPriceChangeAmount.getAmount();
-		double newAmount = mTotalFare.getAmount();
+		double changeAmount = mPriceChangeAmount.getAmount().doubleValue();
+		double newAmount = mTotalFare.getAmount().doubleValue();
 		double oldAmount = newAmount + changeAmount;
 
 		if (newAmount > oldAmount) {
@@ -238,18 +238,7 @@ public class FlightTrip implements JSONable {
 				return -1;
 			}
 
-			double lhsAmount = lhsMoney.getAmount();
-			double rhsAmount = rhsMoney.getAmount();
-
-			if (lhsAmount == rhsAmount) {
-				return 0;
-			}
-			if (lhsAmount < rhsAmount) {
-				return -1;
-			}
-			else {
-				return 1;
-			}
+			return lhsMoney.getAmount().compareTo(rhsMoney.getAmount());
 		}
 	};
 

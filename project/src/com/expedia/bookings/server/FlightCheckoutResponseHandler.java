@@ -34,7 +34,7 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 			checkoutResponse.setTripId(response.optString("tripId"));
 
 			String currencyCode = response.optString("currencyCode");
-			checkoutResponse.setTotalCharges(ParserUtils.createMoney(response.optDouble("totalCharges"), currencyCode));
+			checkoutResponse.setTotalCharges(ParserUtils.createMoney(response.optString("totalCharges"), currencyCode));
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse flight checkout response", e);

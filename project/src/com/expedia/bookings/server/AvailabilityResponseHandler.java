@@ -325,7 +325,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);
 
 		if (jsonRate.has("taxRate")) {
-			rate.setTaxesAndFeesPerRoom(ParserUtils.createMoney(jsonRate.getDouble("taxRate"), currencyCode));
+			rate.setTaxesAndFeesPerRoom(ParserUtils.createMoney(jsonRate.optString("taxRate"), currencyCode));
 		}
 
 		JSONArray nightlyRates = chargeableRateInfo.optJSONArray("nightlyRatesPerRoom");
@@ -347,7 +347,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			for (int b = 0; b < surchargesForEntireStay.length(); b++) {
 				JSONObject surcharge = surchargesForEntireStay.getJSONObject(b);
 				if (surcharge.optString("type").equals("EXTRA")) {
-					rate.setExtraGuestFee(ParserUtils.createMoney(surcharge.getDouble("amount"), currencyCode));
+					rate.setExtraGuestFee(ParserUtils.createMoney(surcharge.optString("amount"), currencyCode));
 				}
 			}
 		}
@@ -355,10 +355,10 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		JSONArray priceAdjustments = chargeableRateInfo.optJSONArray("priceAdjustments");
 		if (priceAdjustments != null) {
 			Money totalAdjustments = new Money();
-			totalAdjustments.setAmount(0.0f);
+			totalAdjustments.setAmount("0");
 			for (int b = 0; b < priceAdjustments.length(); b++) {
 				JSONObject adjustment = priceAdjustments.getJSONObject(b);
-				totalAdjustments.add(ParserUtils.createMoney(adjustment.getDouble("amount"), currencyCode));
+				totalAdjustments.add(ParserUtils.createMoney(adjustment.optString("amount"), currencyCode));
 			}
 			rate.setTotalPriceAdjustments(totalAdjustments);
 		}

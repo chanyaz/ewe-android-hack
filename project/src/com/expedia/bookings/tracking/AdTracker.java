@@ -94,9 +94,10 @@ public class AdTracker {
 		final String propertyName = property.getName();
 		final String currency = rate.getDisplayRate().getCurrency();
 		final Integer duration = searchParams.getStayDuration();
-		final Double avgPrice = rate.getAverageRate().getAmount();
-		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount();
-		final Double totalTax = rate.getTaxesAndFeesPerRoom() != null ? rate.getTaxesAndFeesPerRoom().getAmount() : 0;
+		final Double avgPrice = rate.getAverageRate().getAmount().doubleValue();
+		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount().doubleValue();
+		final Double totalTax = rate.getTaxesAndFeesPerRoom() != null ? rate.getTaxesAndFeesPerRoom().getAmount()
+				.doubleValue() : 0;
 		final Integer daysRemaining = (int) ((searchParams.getCheckInDate().getTime().getTime() - new Date().getTime()) / (24 * 60 * 60 * 1000));
 
 		// Google Analytics

@@ -306,14 +306,14 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 		}
 
 		String currencyCode = null;
-		double averageRate = 0;
-		double averageBaseRate = 0;
+		String averageRate = null;
+		String averageBaseRate = null;
 		double discountPercent = Rate.UNSET_DISCOUNT_PERCENT;
-		double surchargeTotalForEntireStay = 0;
-		double totalMandatoryFees = 0;
-		double totalPriceWithMandatoryFees = 0;
-		double strikethroughPriceToShowUsers = 0.0d;
-		double priceToShowUsers = 0.0d;
+		String surchargeTotalForEntireStay = null;
+		String totalMandatoryFees = null;
+		String totalPriceWithMandatoryFees = null;
+		String strikethroughPriceToShowUsers = null;
+		String priceToShowUsers = null;
 		String userPriceType = null;
 
 		String name;
@@ -326,22 +326,22 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				// Skip null values
 			}
 			else if (name.equals("averageRate")) {
-				averageRate = parser.getValueAsDouble();
+				averageRate = parser.getText();
 			}
 			else if (name.equals("averageBaseRate")) {
-				averageBaseRate = parser.getValueAsDouble();
+				averageBaseRate = parser.getText();
 			}
 			else if (name.equals("discountPercent")) {
 				discountPercent = parser.getValueAsDouble();
 			}
 			else if (name.equals("surchargeTotalForEntireStay")) {
-				surchargeTotalForEntireStay = parser.getValueAsDouble();
+				surchargeTotalForEntireStay = parser.getText();
 			}
 			else if (name.equals("totalMandatoryFees")) {
-				totalMandatoryFees = parser.getValueAsDouble();
+				totalMandatoryFees = parser.getText();
 			}
 			else if (name.equals("totalPriceWithMandatoryFees")) {
-				totalPriceWithMandatoryFees = parser.getValueAsDouble();
+				totalPriceWithMandatoryFees = parser.getText();
 			}
 			else if (name.equals("currencyCode")) {
 				currencyCode = parser.getText();
@@ -350,10 +350,10 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				userPriceType = parser.getText();
 			}
 			else if (name.equals("strikethroughPriceToShowUsers")) {
-				strikethroughPriceToShowUsers = parser.getValueAsDouble();
+				strikethroughPriceToShowUsers = parser.getText();
 			}
 			else if (name.equals("priceToShowUsers")) {
-				priceToShowUsers = parser.getValueAsDouble();
+				priceToShowUsers = parser.getText();
 			}
 			else {
 				parser.skipChildren();

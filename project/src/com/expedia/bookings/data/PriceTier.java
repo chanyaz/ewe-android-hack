@@ -1,5 +1,6 @@
 package com.expedia.bookings.data;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,17 +21,17 @@ public class PriceTier {
 		// Calculate the min/max rates of the properties.  Assumes all are using the
 		// same currency
 		mMin = new Money();
-		mMin.setAmount(Double.MAX_VALUE);
+		mMin.setAmount(new BigDecimal(Double.MAX_VALUE));
 		mMax = new Money();
-		mMax.setAmount(Double.MIN_VALUE);
+		mMax.setAmount(new BigDecimal(Double.MIN_VALUE));
 		for (Property property : mProperties) {
 			Money lowRate = property.getLowestRate().getDisplayRate();
 			if (lowRate != null) {
-				double amount = lowRate.getAmount();
-				if (amount < mMin.getAmount()) {
+				BigDecimal amount = lowRate.getAmount();
+				if (amount.compareTo(mMin.getAmount()) < 0) {
 					mMin = lowRate;
 				}
-				if (amount > mMax.getAmount()) {
+				if (amount.compareTo(mMax.getAmount()) > 0) {
 					mMax = lowRate;
 				}
 			}

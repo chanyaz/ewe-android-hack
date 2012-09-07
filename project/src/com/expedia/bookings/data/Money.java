@@ -1,16 +1,24 @@
 package com.expedia.bookings.data;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Currency;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.AndroidUtils;
 
 public class Money implements JSONable {
+
+	// Version of this class
+	private static final int VERSION = 2;
 
 	/**
 	 * Flag to automatically round down in formatting
@@ -22,7 +30,7 @@ public class Money implements JSONable {
 	 */
 	public static int F_NO_DECIMAL = 2;
 
-	private double mAmount;
+	private BigDecimal mAmount;
 	private String mCurrency;
 	private String mFormattedMoney;
 
@@ -39,12 +47,31 @@ public class Money implements JSONable {
 		fromJson(obj);
 	}
 
-	public double getAmount() {
+	public BigDecimal getAmount() {
 		return mAmount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(String amount) {
+		if (TextUtils.isEmpty(amount)) {
+			// Default to 0 for the amount value
+			mAmount = new BigDecimal(0);
+		}
+		else {
+			this.mAmount = new BigDecimal(amount);
+		}
+	}
+
+	public void setAmount(BigDecimal amount) {
 		this.mAmount = amount;
+	}
+
+	/**
+	 * Handy utility for figuring out if this Money represents free.
+	 * 
+	 * @return true if the amount is null or zero
+	 */
+	public boolean isZero() {
+		return mAmount == null || mAmount.equals(BigDecimal.ZERO);
 	}
 
 	public String getCurrency() {
@@ -112,7 +139,7 @@ public class Money implements JSONable {
 		}
 
 		// Do the addition
-		mAmount += money.getAmount();
+		mAmount = mAmount.add(money.getAmount());
 
 		return true;
 	}
@@ -132,7 +159,7 @@ public class Money implements JSONable {
 		}
 
 		// Do the subtraction
-		mAmount -= money.getAmount();
+		mAmount = mAmount.subtract(money.getAmount());
 
 		return true;
 	}
@@ -142,7 +169,7 @@ public class Money implements JSONable {
 			return false;
 		}
 
-		mAmount = -mAmount;
+		mAmount = mAmount.negate();
 		return true;
 	}
 
@@ -172,7 +199,8 @@ public class Money implements JSONable {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			obj.putOpt("amount", mAmount);
+			obj.putOpt("version", VERSION);
+			obj.putOpt("amount", mAmount.toString());
 			obj.putOpt("currency", mCurrency);
 			obj.putOpt("formatted", mFormattedMoney);
 			return obj;
@@ -184,7 +212,11 @@ public class Money implements JSONable {
 	}
 
 	public boolean fromJson(JSONObject obj) {
-		mAmount = obj.optDouble("amount");
+		String amount = obj.optString("amount");
+		if (!TextUtils.isEmpty(amount)) {
+			mAmount = new BigDecimal(amount);
+		}
+
 		mCurrency = obj.optString("currency", null);
 		mFormattedMoney = obj.optString("formatted", null);
 		return true;
@@ -217,7 +249,7 @@ public class Money implements JSONable {
 	// #13560 - No space between BRL currency and price
 	private static final String BRL_CURRENCY_STRING = "R$";
 
-	private static String formatRate(double amount, String currencyCode, int flags) {
+	private static String formatRate(BigDecimal amount, String currencyCode, int flags) {
 		// We use the default user locale for both of these, as it should
 		// be properly set by the Android system.
 		Currency currency = Currency.getInstance(currencyCode);
@@ -228,7 +260,7 @@ public class Money implements JSONable {
 		}
 
 		if ((flags & F_ROUND_DOWN) != 0) {
-			amount = Math.floor(amount);
+			amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.DOWN));
 		}
 
 		if ((flags & F_NO_DECIMAL) != 0) {

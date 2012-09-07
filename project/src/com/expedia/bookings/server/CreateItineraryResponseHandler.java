@@ -48,7 +48,7 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 		JSONObject detailsJson = response.optJSONObject("details");
 		FlightTrip offer = FlightSearchResponseHandler.parseTrip(detailsJson.optJSONObject("offer"));
 		if (detailsJson.has("priceChangeAmount")) {
-			Money priceChangeAmount = ParserUtils.createMoney(detailsJson.optDouble("priceChangeAmount"), offer
+			Money priceChangeAmount = ParserUtils.createMoney(detailsJson.optString("priceChangeAmount"), offer
 					.getBaseFare().getCurrency());
 			offer.setPriceChangeAmount(priceChangeAmount);
 		}

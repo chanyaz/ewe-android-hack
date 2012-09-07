@@ -251,7 +251,7 @@ public class Tracker {
 		int numDays = searchParams.getStayDuration();
 		double totalCost = 0;
 		if (rate != null && rate.getTotalAmountAfterTax() != null) {
-			totalCost = rate.getTotalAmountAfterTax().getAmount();
+			totalCost = rate.getTotalAmountAfterTax().getAmount().doubleValue();
 		}
 		TrackingUtils.addProducts(s, property, numDays, totalCost);
 

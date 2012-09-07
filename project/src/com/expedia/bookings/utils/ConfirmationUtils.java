@@ -101,7 +101,7 @@ public class ConfirmationUtils {
 				Date date = breakdown.getDate().getCalendar().getTime();
 				String dateStr = dayFormatter.format(date) + ", " + fullDateFormatter.format(date);
 				Money amount = breakdown.getAmount();
-				if (amount.getAmount() == 0) {
+				if (amount.isZero()) {
 					appendLabelValue(body, context.getString(R.string.room_rate_template, dateStr),
 							context.getString(R.string.free));
 				}
