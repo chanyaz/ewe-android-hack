@@ -88,7 +88,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		Log.v("surfaceChanged()");
+		Log.v("surfaceChanged(" + format + ", " + width + ", " + height + ")");
 
 		mThread.setSurfaceSize(width, height);
 	}

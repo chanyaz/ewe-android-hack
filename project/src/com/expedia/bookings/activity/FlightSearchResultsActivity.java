@@ -139,7 +139,12 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		if (savedInstanceState == null) {
 			// On first launch, start a search
-			startSearch();
+			mStartSearchOnPostResume = true;
+
+			// #664: We delay the starting of the first search
+			// until *after* we've created the options menu.  That way
+			// the PlaneWindowView will know if it needs to account
+			// for a split action bar taking up space or not.
 		}
 	}
 
@@ -538,7 +543,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		if (backStackEntryCount > 0) {
 			return fm.getBackStackEntryAt(backStackEntryCount - 1).getName();
 		}
-		return null;
+		return "";
 	}
 
 	public String getBackStackDebugString() {
