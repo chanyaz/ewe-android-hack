@@ -120,7 +120,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 	// Rendering thread
 
 	@SuppressWarnings("unused")
-	private class PlaneThread extends Thread implements SensorEventListener {
+	private class PlaneThread extends Thread {
 
 		// Constants
 
@@ -213,6 +213,9 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		private TextPaint mDebugTextPaint;
 		private Paint mDebugBgPaint;
 		private int mMaxDebugInfoWidth = 0;
+
+		// SensorListenerProxy
+		private SensorListenerProxy mSensorListenerProxy;
 
 		public PlaneThread(SurfaceHolder surfaceHolder) {
 			mSurfaceHolder = surfaceHolder;
@@ -330,7 +333,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 				if (rendering) {
 					Sensor accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-					sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+					mSensorListenerProxy = new SensorListenerProxy();
+					sm.registerListener(mSensorListenerProxy, accelerometer, SensorManager.SENSOR_DELAY_UI);
 
 					// Use deprecated getOrientation() because it's exactly
 					// the same as getRotation()
@@ -340,7 +344,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					mHasRendered = false;
 				}
 				else {
-					sm.unregisterListener(this);
+					sm.unregisterListener(mSensorListenerProxy);
+					mSensorListenerProxy = null;
 				}
 			}
 
@@ -565,9 +570,20 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				}
 			}
 		}
+	}
 
-		//////////////////////////////////////////////////////////////////////
-		// SensorEventListener
+	//////////////////////////////////////////////////////////////////////
+	// SensorEventListener
+
+	/**
+	 * Note: The reason that there exists this proxy class for the SensorEventListener is to workaround a known bug
+	 * in the Android SDK. SensorManager does not properly unregister SensorEventListeners, and in our case this causes
+	 * memory issues. Use this proxy class to leak only the SensorListenerProxy rather than the expensive PlaneThread:
+	 *
+	 * http://code.google.com/p/android/issues/detail?id=15170
+	 */
+
+	private class SensorListenerProxy implements SensorEventListener {
 
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -576,24 +592,26 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			float sensorX = 0;
-			switch (mDisplayRotation) {
-			case Surface.ROTATION_0:
-				sensorX = event.values[0];
-				break;
-			case Surface.ROTATION_90:
-				sensorX = -event.values[1];
-				break;
-			case Surface.ROTATION_180:
-				sensorX = -event.values[0];
-				break;
-			case Surface.ROTATION_270:
-				sensorX = event.values[1];
-				break;
-			}
+			if (mThread != null) {
+				float sensorX = 0;
+				switch (mThread.mDisplayRotation) {
+				case Surface.ROTATION_0:
+					sensorX = event.values[0];
+					break;
+				case Surface.ROTATION_90:
+					sensorX = -event.values[1];
+					break;
+				case Surface.ROTATION_180:
+					sensorX = -event.values[0];
+					break;
+				case Surface.ROTATION_270:
+					sensorX = event.values[1];
+					break;
+				}
 
-			mSensorX = sensorX / SensorManager.GRAVITY_EARTH;
-			mSensorZ = -event.values[2] / SensorManager.GRAVITY_EARTH;
+				mThread.mSensorX = sensorX / SensorManager.GRAVITY_EARTH;
+				mThread.mSensorZ = -event.values[2] / SensorManager.GRAVITY_EARTH;
+			}
 		}
 	}
 }
