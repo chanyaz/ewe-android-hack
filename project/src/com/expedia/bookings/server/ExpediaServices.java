@@ -56,6 +56,8 @@ import com.expedia.bookings.data.FlightPassenger;
 import com.expedia.bookings.data.FlightPassenger.Gender;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -205,9 +207,13 @@ public class ExpediaServices implements DownloadListener {
 				| F_SECURE_REQUEST);
 	}
 
-	public FlightCheckoutResponse flightCheckout(String productKey, BillingInfo billingInfo,
+	public FlightCheckoutResponse flightCheckout(FlightTrip flightTrip, Itinerary itinerary, BillingInfo billingInfo,
 			List<FlightPassenger> passengers, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
+		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalFare().getAmount().toString() + ""));
+		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalFare().getCurrency()));
 
 		addBillingInfo(query, billingInfo);
 
@@ -215,17 +221,14 @@ public class ExpediaServices implements DownloadListener {
 			addFlightPassenger(query, passengers.get(i));
 		}
 
-		// Not sure why, but this is required
-		query.add(new BasicNameValuePair("tripTitle", "My Awesome Trip"));
-
-		// Product fields
-		query.add(new BasicNameValuePair("productKey", productKey));
+		// Not sure if required?
+		query.add(new BasicNameValuePair("nameOnCard", billingInfo.getNameOnCard()));
 
 		// IMPORTANT: DO NOT REMOVE UNTIL INITIAL TESTING IS DONE.
 		// Checkout calls without this flag can make ACTUAL bookings!
 		query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 
-		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
+		return doFlightsRequest("api/flight/checkout2", query, new FlightCheckoutResponseHandler(mContext), flags
 				+ F_SECURE_REQUEST);
 	}
 
@@ -501,7 +504,10 @@ public class ExpediaServices implements DownloadListener {
 		Location location = billingInfo.getLocation();
 		query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
 		if (location.getStreetAddress().size() > 1) {
-			query.add(new BasicNameValuePair("streetAddress2", location.getStreetAddress().get(1)));
+			String address2 = location.getStreetAddress().get(1);
+			if (!TextUtils.isEmpty(address2)) {
+				query.add(new BasicNameValuePair("streetAddress2", address2));
+			}
 		}
 		query.add(new BasicNameValuePair("city", location.getCity()));
 		query.add(new BasicNameValuePair("state", location.getStateCode()));
@@ -535,6 +541,11 @@ public class ExpediaServices implements DownloadListener {
 		//TODO: This is incomplete. There is a bunch of information not currently supported by the API that needs to go here. 
 		// Furthermore, there should be any number of passengers and they shouldn't overwrite one another's birthdays etc. Again, we wait for API updates.
 		SimpleDateFormat isoDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
+		query.add(new BasicNameValuePair("firstName", passenger.getFirstName()));
+		if (!TextUtils.isEmpty(passenger.getMiddleName())) {
+			query.add(new BasicNameValuePair("middleName", passenger.getMiddleName()));
+		}
+		query.add(new BasicNameValuePair("lastName", passenger.getLastName()));
 		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(passenger.getBirthDate().getTime())));
 		query.add(new BasicNameValuePair("gender", (passenger.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
 	}

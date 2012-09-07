@@ -12,6 +12,8 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.server.ExpediaServices;
@@ -90,8 +92,9 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			billingInfo.setTelephone(passenger.getPhoneNumber());
 			billingInfo.setTelephoneCountryCode(passenger.getPhoneCountryCode());
 
-			return services.flightCheckout(Db.getFlightSearch().getSelectedFlightTrip().getProductKey(),
-					billingInfo, Db.getFlightPassengers(), 0);
+			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+			Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
+			return services.flightCheckout(trip, itinerary, billingInfo, Db.getFlightPassengers(), 0);
 		}
 	};
 

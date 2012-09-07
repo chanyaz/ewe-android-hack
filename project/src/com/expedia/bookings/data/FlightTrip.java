@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
@@ -355,6 +357,10 @@ public class FlightTrip implements JSONable {
 
 		if (other.mSeatsRemaining != 0) {
 			mSeatsRemaining = other.mSeatsRemaining;
+		}
+
+		if (!TextUtils.isEmpty(other.mItineraryNumber)) {
+			mItineraryNumber = other.mItineraryNumber;
 		}
 	}
 
