@@ -13,11 +13,11 @@ import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 
-public class FlightCheckoutActivity extends SherlockFragmentActivity implements SignInFragmentListener{
+public class FlightCheckoutActivity extends SherlockFragmentActivity implements SignInFragmentListener {
 	FlightCheckoutFragment mCheckoutFragment;
-	
+
 	private static final String FRAG_TAG = "FRAG_TAG";
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,7 +31,7 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		}
 
 		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
-		
+
 		mCheckoutFragment = Ui.findSupportFragment(this, FRAG_TAG);
 		if (mCheckoutFragment == null) {
 			mCheckoutFragment = FlightCheckoutFragment.newInstance();
@@ -43,13 +43,12 @@ public class FlightCheckoutActivity extends SherlockFragmentActivity implements 
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(tripKey);
 		String cityName = trip.getLeg(0).getLastWaypoint().getAirport().mCity;
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
-		
+
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setTitle(yourTripToStr);
 	}
-	
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// SignInFragmentListener
 

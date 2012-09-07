@@ -47,7 +47,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 
-public class FlightCheckoutFragment extends Fragment implements AccountButtonClickListener{
+public class FlightCheckoutFragment extends Fragment implements AccountButtonClickListener {
 
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
 
@@ -77,7 +77,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private LinearLayout mPaymentContainer;
 
 	private boolean mRefreshedUser;
-	
+
 	public static FlightCheckoutFragment newInstance() {
 		FlightCheckoutFragment fragment = new FlightCheckoutFragment();
 		Bundle args = new Bundle();
@@ -97,7 +97,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.activity_flight_checkout, container, false);
+		View v = inflater.inflate(R.layout.fragment_flight_checkout, container, false);
 
 		// Recover data if it was flushed from memory
 		if (Db.getFlightSearch().getSearchResponse() == null) {
@@ -148,7 +148,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 					bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 				}
 			}
-
 			mAccountButton.bind(false, true, Db.getUser());
 		}
 		else {
@@ -176,26 +175,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 						.size() : 1);
 
 		return v;
-	}
-
-	public void bindAll() {
-		Log.i("bindAll");
-
-		mCreditCardSectionButton.bind(mBillingInfo);
-		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
-		mFlightTripSectionPriceBar.bind(mTrip);
-
-		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
-		if (passengers.size() != mTravelerSections.size()) {
-			Ui.showToast(getActivity(), "Traveler info out of date...");
-			Log.e("Traveler info fail... passengers size():" + passengers.size() + " sections:"
-					+ mTravelerSections.size());
-		}
-		else {
-			for (int i = 0; i < passengers.size(); i++) {
-				mTravelerSections.get(i).bind(passengers.get(i));
-			}
-		}
 	}
 
 	@Override
@@ -236,6 +215,26 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
+	}
+
+	public void bindAll() {
+		Log.i("bindAll");
+
+		mCreditCardSectionButton.bind(mBillingInfo);
+		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
+		mFlightTripSectionPriceBar.bind(mTrip);
+
+		ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
+		if (passengers.size() != mTravelerSections.size()) {
+			Ui.showToast(getActivity(), "Traveler info out of date...");
+			Log.e("Traveler info fail... passengers size():" + passengers.size() + " sections:"
+					+ mTravelerSections.size());
+		}
+		else {
+			for (int i = 0; i < passengers.size(); i++) {
+				mTravelerSections.get(i).bind(passengers.get(i));
+			}
+		}
 	}
 
 	private void buildLegSections() {
@@ -427,8 +426,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	public void accountLoginClicked() {
 
 		SignInFragment.newInstance().show(getFragmentManager(), getString(R.string.tag_signin));
-		
-		
+
 	}
 
 	@Override
@@ -448,9 +446,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		bindAll();
 		updateViewVisibilities();
 	}
-	
-	
-	public void onLoginCompleted(){
+
+	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser());
 		mRefreshedUser = true;
 
@@ -460,7 +457,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		bindAll();
 		updateViewVisibilities();
 	}
-
 
 	//////////////////////////////////////////////////////////////////////////
 	// Refresh user
@@ -499,8 +495,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			}
 		}
 	};
-	
-	
 
 	//////////////////////////////////////////////////////////////////////////
 	// Update Traveler

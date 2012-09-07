@@ -157,27 +157,7 @@
             android:theme="@style/FlightTheme" >
         </activity>
         <activity
-            android:name=".activity.FlightPaymentAddressActivity"
-            android:theme="@style/FlightTheme" >
-        </activity>
-        <activity
-            android:name=".activity.FlightPaymentCreditCardActivity"
-            android:theme="@style/FlightTheme" >
-        </activity>
-        <activity
             android:name=".activity.FlightTravelerInfoOptionsActivity"
-            android:theme="@style/FlightTheme" >
-        </activity>
-        <activity
-            android:name=".activity.FlightTravelerInfoOneActivity"
-            android:theme="@style/FlightTheme" >
-        </activity>
-        <activity
-            android:name=".activity.FlightTravelerInfoTwoActivity"
-            android:theme="@style/FlightTheme" >
-        </activity>
-        <activity
-            android:name=".activity.FlightTravelerInfoThreeActivity"
             android:theme="@style/FlightTheme" >
         </activity>
 

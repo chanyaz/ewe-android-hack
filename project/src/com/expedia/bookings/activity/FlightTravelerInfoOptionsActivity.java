@@ -1,217 +1,399 @@
 package com.expedia.bookings.activity;
 
-
-import android.app.Service;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.model.YoYo;
-import com.expedia.bookings.section.SectionTravelerInfo;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.fragment.FlightTravelerInfoOneFragment;
+import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment;
+import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
+import com.expedia.bookings.fragment.FlightTravelerInfoThreeFragment;
+import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
+import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
+import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.Ui;
 
-public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity {
-	View mOverviewBtn;
-	View mEnterManuallyBtn;
-	View mInternationalDivider;
+public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener {
+	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
+	public static final String ONE_FRAGMENT_TAG = "ONE_FRAGMENT_TAG";
+	public static final String TWO_FRAGMENT_TAG = "TWO_FRAGMENT_TAG";
+	public static final String THREE_FRAGMENT_TAG = "THREE_FRAGMENT_TAG";
+	public static final String SAVE_FRAGMENT_TAG = "SAVE_FRAGMENT_TAG";
 
-	TextView mEditTravelerLabel;
-	View mEditTravelerLabelDiv;
-	TextView mSelectTravelerLabel;
-	View mSelectTravelerLabelDiv;
-	ViewGroup mEditTravelerContainer;
-	ViewGroup mAssociatedTravelersContainer;
+	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
+	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
 
-	int mCurrentPassengerIndex;
-	FlightPassenger mCurrentPassenger;
+	private FlightTravelerInfoOptionsFragment mOptionsFragment;
+	private FlightTravelerInfoOneFragment mOneFragment;
+	private FlightTravelerInfoTwoFragment mTwoFragment;
+	private FlightTravelerInfoThreeFragment mThreeFragment;
 
-	SectionTravelerInfo mPassengerContact;
-	SectionTravelerInfo mPassengerPrefs;
-	SectionTravelerInfo mPassengerPassportCountry;
+	private MenuItem mMenuDone;
+	private MenuItem mMenuNext;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	private YoYoMode mMode = YoYoMode.NONE;
+	private YoYoPosition mPos = YoYoPosition.OPTIONS;
 
-		setContentView(R.layout.activity_flight_traveler_info_options);
-
-		mCurrentPassengerIndex = getIntent().getIntExtra(Codes.PASSENGER_INDEX, 0);
-
-		mEditTravelerContainer = Ui.findView(this, R.id.edit_traveler_container);
-		mEditTravelerLabel = Ui.findView(this, R.id.edit_traveler_label);
-		mEditTravelerLabelDiv = Ui.findView(this, R.id.edit_traveler_label_div);
-		mSelectTravelerLabel = Ui.findView(this, R.id.select_traveler_label);
-		mSelectTravelerLabelDiv = Ui.findView(this, R.id.select_traveler_label_div);
-		mAssociatedTravelersContainer = Ui.findView(this, R.id.associated_travelers_container);
-		mInternationalDivider = Ui.findView(this, R.id.current_traveler_passport_country_divider);
-
-		mEnterManuallyBtn = Ui.findView(this, R.id.enter_info_manually_button);
-		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Db.getFlightPassengers().set(mCurrentPassengerIndex, new FlightPassenger());
-				gotoFirstDataEntryPage();
-			}
-		});
-
-		//Associated Travelers (From Expedia Account)
-		mAssociatedTravelersContainer.removeAllViews();
-		if (User.isLoggedIn(this)) {
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Service.LAYOUT_INFLATER_SERVICE);
-			Resources res = getResources();
-			for (int i = 0; i < Db.getUser().getAssociatedTravelers().size(); i++) {
-				final FlightPassenger passenger = Db.getUser().getAssociatedTravelers().get(i);
-				SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
-						R.layout.section_display_traveler_info_name, null);
-				travelerInfo.bind(passenger);
-				travelerInfo.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						mCurrentPassenger = passenger;
-						Db.getFlightPassengers().set(mCurrentPassengerIndex, passenger);
-						//TODO: In the future we hope that stored travelers will have all the traveler data required
-						//At that time we will not need to go to the entry pages at all
-						gotoFirstDataEntryPage();
-					}
-				});
-
-				mAssociatedTravelersContainer.addView(travelerInfo);
-
-				//Add divider
-				View divider = new View(this);
-				LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
-						LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
-				divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
-						res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
-				divider.setLayoutParams(divLayoutParams);
-				divider.setBackgroundColor(res.getColor(R.color.divider_grey));
-				mAssociatedTravelersContainer.addView(divider);
-			}
-		}
-
-		//Selected traveler
-		mCurrentPassenger = Db.getFlightPassengers().get(mCurrentPassengerIndex);
-
-		mPassengerContact = Ui.findView(this, R.id.current_traveler_contact);
-		mPassengerPrefs = Ui.findView(this, R.id.current_traveler_prefs);
-		mPassengerPassportCountry = Ui.findView(this, R.id.current_traveler_passport_country);
-
-		mPassengerContact.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this,
-						FlightTravelerInfoOneActivity.class);
-				YoYo yoyo = new YoYo();
-				yoyo.addYoYoTrick(FlightTravelerInfoOptionsActivity.class);
-				intent.putExtra(Codes.PASSENGER_INDEX, mCurrentPassengerIndex);
-				intent.putExtra(YoYo.TAG_YOYO, yoyo);
-				startActivity(intent);
-			}
-		});
-
-		mPassengerPrefs.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this,
-						FlightTravelerInfoTwoActivity.class);
-				YoYo yoyo = new YoYo();
-				yoyo.addYoYoTrick(FlightTravelerInfoOptionsActivity.class);
-				intent.putExtra(Codes.PASSENGER_INDEX, mCurrentPassengerIndex);
-				intent.putExtra(YoYo.TAG_YOYO, yoyo);
-				startActivity(intent);
-			}
-		});
-
-		mPassengerPassportCountry.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this,
-						FlightTravelerInfoThreeActivity.class);
-				YoYo yoyo = new YoYo();
-				yoyo.addYoYoTrick(FlightTravelerInfoOptionsActivity.class);
-				intent.putExtra(Codes.PASSENGER_INDEX, mCurrentPassengerIndex);
-				intent.putExtra(YoYo.TAG_YOYO, yoyo);
-				startActivity(intent);
-			}
-		});
-
+	//Where we want to return to after our action
+	private enum YoYoPosition {
+		OPTIONS, ONE, TWO, THREE, SAVE
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		refreshCurrentPassenger();
-	}
-
-	public void refreshCurrentPassenger() {
-		if (!mCurrentPassenger.hasName()) {
-			mEditTravelerContainer.setVisibility(View.GONE);
-			mEditTravelerLabel.setVisibility(View.GONE);
-			mSelectTravelerLabel.setText(getString(R.string.select_a_traveler));
-		}
-		else {
-			mEditTravelerContainer.setVisibility(View.VISIBLE);
-			mEditTravelerLabel.setVisibility(View.VISIBLE);
-			mSelectTravelerLabel.setText(getString(R.string.select_a_different_traveler));
-			if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
-				mInternationalDivider.setVisibility(View.VISIBLE);
-				mPassengerPassportCountry.setVisibility(View.VISIBLE);
-			}
-			else {
-				mInternationalDivider.setVisibility(View.GONE);
-				mPassengerPassportCountry.setVisibility(View.GONE);
-			}
-		}
-		
-		mEditTravelerLabelDiv.setVisibility(mEditTravelerLabel.getVisibility());
-		mSelectTravelerLabelDiv.setVisibility(mSelectTravelerLabel.getVisibility());
-
-		mPassengerContact.bind(mCurrentPassenger);
-		mPassengerPrefs.bind(mCurrentPassenger);
-		mPassengerPassportCountry.bind(mCurrentPassenger);
-	}
-
-
-	protected void gotoFirstDataEntryPage() {
-		Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this, FlightTravelerInfoOneActivity.class);
-		YoYo yoyo = new YoYo();
-		yoyo.addYoYoTrick(FlightTravelerInfoTwoActivity.class);
-		if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
-			yoyo.addYoYoTrick(FlightTravelerInfoThreeActivity.class);
-		}
-		yoyo.addYoYoTrick(FlightCheckoutActivity.class);
-		intent.putExtra(Codes.PASSENGER_INDEX, mCurrentPassengerIndex);
-		intent.putExtra(YoYo.TAG_YOYO, yoyo);
-		startActivity(intent);
+	public interface Validatable {
+		public boolean validate();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = this.getSupportMenuInflater();
-		inflater.inflate(R.menu.menu_done, menu);
-		menu.findItem(R.id.menu_yoyo).getActionView().setOnClickListener(new OnClickListener(){
+		inflater.inflate(R.menu.menu_yoyo, menu);
+		mMenuNext = menu.findItem(R.id.menu_next);
+		mMenuNext.getActionView().setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(FlightTravelerInfoOptionsActivity.this, FlightCheckoutActivity.class);
-				startActivity(intent);
-			}		
+				moveForward();
+			}
 		});
+
+		mMenuDone = menu.findItem(R.id.menu_done);
+		mMenuDone.getActionView().setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				moveForward();
+			}
+		});
+		displayActionItemBasedOnState();
 		return true;
 	}
 
+	public void setMenuItemVisibilities(boolean showDone) {
+		if (mMenuNext != null) {
+			mMenuNext.setVisible(!showDone);
+			mMenuNext.setEnabled(!showDone);
+
+		}
+		if (mMenuDone != null) {
+			mMenuDone.setVisible(showDone);
+			mMenuDone.setEnabled(showDone);
+		}
+	}
+
+	public void displayActionItemBasedOnState() {
+		if (mMode == null) {
+			return;
+		}
+		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
+			switch (mPos) {
+			case ONE:
+				setMenuItemVisibilities(false);
+				break;
+			case TWO:
+				setMenuItemVisibilities(!User.isLoggedIn(this));
+				break;
+			case THREE:
+				setMenuItemVisibilities(!User.isLoggedIn(this));
+			case SAVE:
+			case OPTIONS:
+			default:
+				setMenuItemVisibilities(true);
+			}
+		}
+		else if (mMode.equals(YoYoMode.EDIT)) {
+			setMenuItemVisibilities(true);
+		}
+		else if (mMode.equals(YoYoMode.NONE)) {
+			//TODO: This should set both to invisible, but then they never return, so for now we display done
+			setMenuItemVisibilities(true);
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!moveBackwards()) {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putString(STATE_TAG_MODE, mMode.name());
+		outState.putString(STATE_TAG_DEST, mPos.name());
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
+		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Recover data if it was flushed from memory
+		if (Db.getFlightSearch().getSearchResponse() == null) {
+			if (!Db.loadCachedFlightData(this)) {
+				NavUtils.onDataMissing(this);
+				return;
+			}
+		}
+
+		//Show the options fragment
+		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
+			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
+			mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+			switch (mPos) {
+			case OPTIONS:
+				displayOptions();
+				break;
+			case ONE:
+				displayTravelerEntryOne();
+				break;
+			case TWO:
+				displayTravelerEntryTwo();
+				break;
+			case THREE:
+				displayTravelerEntryThree();
+				break;
+			case SAVE:
+				displaySaveDialog();
+				break;
+			default:
+				displayOptions();
+			}
+		}
+		else {
+			displayOptions();
+		}
+
+		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
+		FlightTrip trip = Db.getFlightSearch().getFlightTrip(tripKey);
+		String cityName = trip.getLeg(0).getLastWaypoint().getAirport().mCity;
+		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
+
+		//Actionbar
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setTitle(yourTripToStr);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+	}
+
+	public boolean validate(Validatable validatable) {
+		if (validatable == null) {
+			return false;
+		}
+		else {
+			return validatable.validate();
+		}
+	}
+
+	//////////////////////////////////////////
+	////
+
+	@Override
+	public void moveForward() {
+		if (mMode.equals(YoYoMode.YOYO)) {
+			switch (mPos) {
+			case OPTIONS:
+				displayTravelerEntryOne();
+				break;
+			case ONE:
+				if (validate(mOneFragment)) {
+					displayTravelerEntryTwo();
+				}
+				break;
+			case TWO:
+				if (validate(mTwoFragment)) {
+					if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+						displayTravelerEntryThree();
+					}
+					else {
+						if (User.isLoggedIn(this)) {
+							displaySaveDialog();
+						}
+						else {
+							displayCheckout();
+						}
+					}
+				}
+				break;
+			case THREE:
+				if (validate(mThreeFragment)) {
+					if (User.isLoggedIn(this)) {
+						displaySaveDialog();
+					}
+					else {
+						displayCheckout();
+					}
+				}
+				break;
+			case SAVE:
+				displayCheckout();
+				break;
+			default:
+				Ui.showToast(this, "FAIL");
+				break;
+			}
+		}
+		else if (mMode.equals(YoYoMode.EDIT)) {
+			switch (mPos) {
+			case ONE:
+				if (validate(mOneFragment)) {
+					displayOptions();
+				}
+				break;
+			case TWO:
+				if (validate(mTwoFragment)) {
+					displayOptions();
+				}
+				break;
+			case THREE:
+				if (validate(mThreeFragment)) {
+					displayOptions();
+				}
+				break;
+			case OPTIONS:
+			case SAVE:
+			default:
+				Ui.showToast(this, "FAIL");
+				break;
+			}
+		}
+		else if (mMode.equals(YoYoMode.NONE)) {
+			displayCheckout();
+		}
+
+	}
+
+	@Override
+	public void setMode(YoYoMode mode) {
+		mMode = mode;
+	}
+
+	@Override
+	public boolean moveBackwards() {
+		if (mMode.equals(YoYoMode.YOYO)) {
+			switch (mPos) {
+			case OPTIONS:
+				displayCheckout();
+				break;
+			case ONE:
+				displayOptions();
+				break;
+			case TWO:
+				displayTravelerEntryOne();
+				break;
+			case THREE:
+				displayTravelerEntryTwo();
+				break;
+			case SAVE:
+				displayTravelerEntryThree();
+				break;
+			default:
+				Ui.showToast(this, "FAIL");
+				return false;
+			}
+		}
+		else if (mMode.equals(YoYoMode.EDIT)) {
+			switch (mPos) {
+			case ONE:
+			case TWO:
+			case THREE:
+				displayOptions();
+				break;
+			case OPTIONS:
+			case SAVE:
+			default:
+				Ui.showToast(this, "FAIL");
+				return false;
+			}
+		}
+		else if (mMode.equals(YoYoMode.NONE)) {
+			displayCheckout();
+		}
+		return true;
+	}
+
+	@Override
+	public void displayOptions() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
+		if (mOptionsFragment == null) {
+			mOptionsFragment = FlightTravelerInfoOptionsFragment.newInstance();
+		}
+		ft.replace(android.R.id.content, mOptionsFragment, OPTIONS_FRAGMENT_TAG);
+		ft.commit();
+		mPos = YoYoPosition.OPTIONS;
+		mMode = YoYoMode.NONE;
+		displayActionItemBasedOnState();
+	}
+
+	@Override
+	public void displayTravelerEntryOne() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mOneFragment = Ui.findSupportFragment(this, ONE_FRAGMENT_TAG);
+		if (mOneFragment == null) {
+			mOneFragment = FlightTravelerInfoOneFragment.newInstance();
+		}
+		ft.replace(android.R.id.content, mOneFragment, ONE_FRAGMENT_TAG);
+		ft.commit();
+		mPos = YoYoPosition.ONE;
+		displayActionItemBasedOnState();
+
+	}
+
+	@Override
+	public void displayTravelerEntryTwo() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mTwoFragment = Ui.findSupportFragment(this, TWO_FRAGMENT_TAG);
+		if (mTwoFragment == null) {
+			mTwoFragment = FlightTravelerInfoTwoFragment.newInstance();
+		}
+		ft.replace(android.R.id.content, mTwoFragment, TWO_FRAGMENT_TAG);
+		ft.commit();
+		mPos = YoYoPosition.TWO;
+		displayActionItemBasedOnState();
+
+	}
+
+	@Override
+	public void displayTravelerEntryThree() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mThreeFragment = Ui.findSupportFragment(this, THREE_FRAGMENT_TAG);
+		if (mThreeFragment == null) {
+			mThreeFragment = FlightTravelerInfoThreeFragment.newInstance();
+		}
+		ft.replace(android.R.id.content, mThreeFragment, THREE_FRAGMENT_TAG);
+		ft.commit();
+		mPos = YoYoPosition.THREE;
+		displayActionItemBasedOnState();
+
+	}
+
+	@Override
+	public void displaySaveDialog() {
+		DialogFragment newFragment = FlightTravelerSaveDialogFragment.newInstance();
+		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
+		mPos = YoYoPosition.SAVE;
+		displayActionItemBasedOnState();
+	}
+
+	@Override
+	public void displayCheckout() {
+		finish();
+	}
 }
