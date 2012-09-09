@@ -229,12 +229,9 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 
 		// perform the search
 		performFlightSearchAndAssertDb(expectedDepartureAirport, expectedArrivalAirport, daysOffset, R.id.search, true);
-		waitForFlightResults();
 
-		// grab the logcat containing debug info regarding the request
-		String log = LogcatUtils.readLogcat("ExpediaBookings", true);
-		String requestUrl = LogcatUtils.extractRequestUrl(log);
-		assertNotNull(requestUrl);
+		// grab request url
+		String requestUrl = retrieveRequestUrl();
 
 		// grab the values from the request URL
 		String actualDepartureAirport = ParseUtils.extractValue(requestUrl, "departureAirport");
@@ -269,10 +266,8 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 
 		performFlightSearch(expectedDepartureAirport, expectedArrivalAirport, daysOffset, R.id.search);
 
-		// grab the logcat containing debug info regarding the request
-		String log = LogcatUtils.readLogcat("ExpediaBookings", true);
-		String requestUrl = LogcatUtils.extractRequestUrl(log);
-		assertNotNull(requestUrl);
+		// grab request url
+		String requestUrl = retrieveRequestUrl();
 
 		// grab the values from the request URL
 		String actualDepartureAirport = ParseUtils.extractValue(requestUrl, "departureAirport");
@@ -314,10 +309,8 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 
 		performFlightSearch(expectedDepartureAirport, expectedArrivalAirport, daysOffset, R.id.search);
 
-		// grab the logcat containing debug info regarding the request
-		String log = LogcatUtils.readLogcat("ExpediaBookings", true);
-		String requestUrl = LogcatUtils.extractRequestUrl(log);
-		assertNotNull(requestUrl);
+		// grab request url
+		String requestUrl = retrieveRequestUrl();
 
 		// grab the values from the request URL
 		String actualDepartureAirport = ParseUtils.extractValue(requestUrl, "departureAirport");
@@ -385,4 +378,15 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		assertTrue(arrivalView.getText().toString().contains(expectedArrivalAirportCode));
 	}
 
+	private String retrieveRequestUrl() {
+		// sleep to combat logcat lag
+		mSolo.sleep(1000);
+
+		String log = LogcatUtils.readLogcat("ExpediaBookings", true);
+		assertNotNull(log);
+		String requestUrl = LogcatUtils.extractRequestUrl(log);
+		assertNotNull(requestUrl);
+
+		return requestUrl;
+	}
 }
