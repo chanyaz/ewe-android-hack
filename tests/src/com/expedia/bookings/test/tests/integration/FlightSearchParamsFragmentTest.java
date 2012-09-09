@@ -38,8 +38,6 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	private Instrumentation mInstr;
 	private Instrumentation.ActivityMonitor mMonitor;
 
-	private Activity mActivity;
-
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -56,11 +54,11 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		mInstr.startActivitySync(intent);
 
 		// assert the activity gets launched
-		mActivity = mInstr.waitForMonitorWithTimeout(mMonitor, 1000);
-		assertNotNull(mActivity);
-		assertEquals(FlightSearchActivity.class, mActivity.getClass());
+		Activity activity = mInstr.waitForMonitorWithTimeout(mMonitor, 1000);
+		assertNotNull(activity);
+		assertEquals(FlightSearchActivity.class, activity.getClass());
 
-		mSolo = new Solo(mInstr, mActivity);
+		mSolo = new Solo(mInstr, activity);
 		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
@@ -68,7 +66,6 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	public void tearDown() throws Exception {
 		super.tearDown();
 		mSolo.finishOpenedActivities();
-		mActivity.finish();
 	}
 
 	@MediumTest
@@ -181,7 +178,7 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		FlightsInputUtils.selectAirport(mInstr, mSolo, expectedArrivalAirportCode, R.id.arrival_airport_edit_text);
 
 		// click on dates button to engage calendar edit mode
-		TouchUtils.clickView(this, Ui.findView(mActivity, R.id.dates_button));
+		TouchUtils.clickView(this, Ui.findView(mSolo.getCurrentActivity(), R.id.dates_button));
 
 		// click on day 3 days in future
 		Time expectedStartDay = CalendarTouchUtils.selectDay(mSolo, 3, R.id.calendar_date_picker);
@@ -191,12 +188,12 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		mSolo.sleep(1000);
 
 		// click the passengers button to hide calendar and does not take up the whole screen in landscape
-		TouchUtils.clickView(this, Ui.findView(mActivity, R.id.passengers_button));
+		TouchUtils.clickView(this, Ui.findView(mSolo.getCurrentActivity(), R.id.passengers_button));
 
 		// rotate screen to landscape
 		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		mInstr.waitForIdleSync();
-		assertNotNull(mActivity);
+		assertNotNull(mSolo.getCurrentActivity());
 
 		mSolo.sleep(1000);
 
