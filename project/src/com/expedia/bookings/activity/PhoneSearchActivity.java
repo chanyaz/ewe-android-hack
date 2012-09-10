@@ -2264,7 +2264,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
-				expandSearchEditText();
+				//expandSearchEditText();
 				setDisplayType(DisplayType.KEYBOARD);
 				SearchType searchType = Db.getSearchParams().getSearchType();
 				if (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA) {
@@ -2289,7 +2289,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				}
 			}
 			else {
-				collapseSearchEditText();
+				//collapseSearchEditText();
 			}
 		}
 	};
@@ -2324,6 +2324,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		animShrink.addUpdateListener(mGrowShrinkListener);
 
 		AnimatorSet set = new AnimatorSet();
+		set.setStartDelay(1000);
 		set.playSequentially(animUp, animShrink);
 		set.start();
 	}
