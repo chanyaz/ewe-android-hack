@@ -19,6 +19,7 @@ import com.expedia.bookings.utils.Ui;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -83,6 +84,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	}
 
 	public void displayCreditCard() {
+		mPos = YoYoPosition.CREDITCARD;
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mCCFragment = Ui.findSupportFragment(this, CREDIT_CARD_FRAGMENT_TAG);
 		if (mCCFragment == null) {
@@ -90,15 +92,25 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		}
 		ft.replace(android.R.id.content, mCCFragment, CREDIT_CARD_FRAGMENT_TAG);
 		ft.commit();
-		mPos = YoYoPosition.CREDITCARD;
+		
 		displayActionItemBasedOnState();
 	}
 
 	public void displaySaveDialog() {
-		DialogFragment newFragment = FlightPaymentSaveDialogFragment.newInstance();
-		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
 		mPos = YoYoPosition.SAVE;
 		displayActionItemBasedOnState();
+		DialogFragment newFragment = FlightPaymentSaveDialogFragment.newInstance();
+		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
+		
+	}
+	
+	private void closeSaveDialog(){
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
+		if(dialog != null){
+			ft.remove(dialog);
+		}
+		ft.commit();
 	}
 
 	public void displayCheckout() {
@@ -175,6 +187,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				displayAddress();
 				break;
 			case SAVE:
+				closeSaveDialog();
 				displayCreditCard();
 				break;
 			default:

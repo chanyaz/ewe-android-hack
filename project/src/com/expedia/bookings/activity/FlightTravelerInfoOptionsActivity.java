@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -301,6 +302,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				displayTravelerEntryTwo();
 				break;
 			case SAVE:
+				closeSaveDialog();
 				displayTravelerEntryThree();
 				break;
 			default:
@@ -386,10 +388,19 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	@Override
 	public void displaySaveDialog() {
-		DialogFragment newFragment = FlightTravelerSaveDialogFragment.newInstance();
-		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
 		mPos = YoYoPosition.SAVE;
 		displayActionItemBasedOnState();
+		DialogFragment newFragment = FlightTravelerSaveDialogFragment.newInstance();
+		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
+	}
+	
+	private void closeSaveDialog(){
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
+		if(dialog != null){
+			ft.remove(dialog);
+		}
+		ft.commit();
 	}
 
 	@Override

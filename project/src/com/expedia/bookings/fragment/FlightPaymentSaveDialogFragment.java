@@ -22,6 +22,7 @@ public class FlightPaymentSaveDialogFragment extends DialogFragment {
 		FlightPaymentSaveDialogFragment frag = new FlightPaymentSaveDialogFragment();
 		Bundle args = new Bundle();
 		frag.setArguments(args);
+		//frag.setCancelable(false);
 		return frag;
 	}
 
@@ -29,7 +30,7 @@ public class FlightPaymentSaveDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		mBillingInfo = Db.getBillingInfo();
 
-		return new AlertDialog.Builder(getActivity()).setCancelable(false)
+		return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.save_billing_info)
 				.setMessage(R.string.save_billing_info_message)
 				.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
@@ -57,5 +58,13 @@ public class FlightPaymentSaveDialogFragment extends DialogFragment {
 		}
 
 		mListener = (FlightPaymentYoYoListener) activity;
+	}
+	
+	@Override
+	public void onCancel(DialogInterface dialog){
+		super.onCancel(dialog);
+		if(mListener != null){
+			mListener.moveBackwards();
+		}
 	}
 }

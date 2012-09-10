@@ -64,4 +64,12 @@ public class FlightTravelerSaveDialogFragment extends DialogFragment {
 
 		mListener = (TravelerInfoYoYoListener) activity;
 	}
+	
+	@Override
+	public void onCancel(DialogInterface dialog){
+		super.onCancel(dialog);
+		if(mListener != null){
+			mListener.moveBackwards();
+		}
+	}
 }

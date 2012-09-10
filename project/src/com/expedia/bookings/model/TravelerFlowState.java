@@ -49,7 +49,9 @@ public class TravelerFlowState {
 
 	public boolean allTravelerInfoIsValid(FlightPassenger travelerInfo) {
 		bind(travelerInfo);
-		return mTravelerInfoOne.hasValidInput() && mTravelerInfoTwo.hasValidInput();
+		boolean travOne = mTravelerInfoOne.hasValidInput();
+		boolean travTwo = mTravelerInfoTwo.hasValidInput();
+		return travOne && travTwo;
 	}
 
 }

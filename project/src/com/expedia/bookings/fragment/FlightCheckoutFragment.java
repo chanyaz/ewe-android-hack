@@ -184,8 +184,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mBillingInfo = Db.getBillingInfo();
 
 		//Set values
-		populateDataFromUser();
 		populatePassengerData();
+		populatePaymentDataFromUser();
+		populateTravelerDataFromUser();
 		buildPassengerSections();
 		buildLegSections();
 
@@ -218,8 +219,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	}
 
 	public void bindAll() {
-		Log.i("bindAll");
-
 		mCreditCardSectionButton.bind(mBillingInfo);
 		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
 		mFlightTripSectionPriceBar.bind(mTrip);
@@ -264,8 +263,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			tempFlight.measure(widthMeasureSpec, heightMeasureSpec);
 
 			padding += tempFlight.getMeasuredHeight();
-			Log.i("Padding: " + padding + " measuredHeight: " + tempFlight.getMeasuredHeight() + " height:"
-					+ tempFlight.getHeight());
 		}
 	}
 
@@ -326,10 +323,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				travelerValid = false;
 			}
 			else {
-				for (int i = 0; i < Db.getFlightPassengers().size(); i++) {
-					travelerValid &= (TravelerFlowState.getInstance(getActivity()).allTravelerInfoIsValid(Db
-							.getFlightPassengers()
-							.get(i)));
+				ArrayList<FlightPassenger> passengers = Db.getFlightPassengers();
+				for (int i = 0; i < passengers.size(); i++) {
+					travelerValid &= (TravelerFlowState.getInstance(getActivity()).allTravelerInfoIsValid(
+							passengers.get(i)));
 				}
 			}
 			return travelerValid;
@@ -387,11 +384,16 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	}
 
-	private void populateDataFromUser() {
+	private void populateTravelerDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
 			//Populate traveler data
-			if (Db.getFlightPassengers() != null && Db.getFlightPassengers().size() == 1 && !hasValidTravlers()) {
-				Db.getFlightPassengers().set(0, UserDataTransfer.getBestGuessStoredPassenger(Db.getUser()));
+			if (Db.getFlightPassengers() != null && Db.getFlightPassengers().size() >= 1) {
+				//If the first traveler in the list isn't valid, then populate it with data from the User
+				if (!TravelerFlowState.getInstance(getActivity())
+						.allTravelerInfoIsValid(Db.getFlightPassengers().get(0))) {
+					Log.w("SET USER TRAVELER DATA!");
+					//Db.getFlightPassengers().set(0, UserDataTransfer.getBestGuessStoredPassenger(Db.getUser()));
+				}
 
 				//TODO:Uncomment this when the traveler api is finished. This may or may not be working correctly.
 				//				mGetTravelerInfo.setPassenger(Db.getFlightPassengers().get(0));
@@ -400,14 +402,25 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				//					bd.startDownload(KEY_TRAVELER_DATA, mGetTravelerInfo, mGetTravelerCallback);
 				//				}
 			}
+		}
+		else {
+			//Travelers that have tuids are from the account and thus should be removed.
+			for (int i = 0; i < Db.getFlightPassengers().size(); i++) {
+				if (Db.getFlightPassengers().get(i).hasTuid()) {
+					Db.getFlightPassengers().set(i, new FlightPassenger());
+				}
+			}
+		}
+	}
 
+	private void populatePaymentDataFromUser() {
+		if (User.isLoggedIn(getActivity())) {
 			//Populate Credit Card
+			PaymentFlowState paymentState = PaymentFlowState.getInstance(getActivity());
 			boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
-			boolean paymentAddressValid = hasStoredCard ? hasStoredCard : PaymentFlowState.getInstance(getActivity())
+			boolean paymentAddressValid = hasStoredCard ? hasStoredCard : paymentState
 					.hasValidBillingAddress(mBillingInfo);
-			boolean paymentCCValid = hasStoredCard ? hasStoredCard : PaymentFlowState.getInstance(getActivity())
-					.hasValidCardInfo(
-							mBillingInfo);
+			boolean paymentCCValid = hasStoredCard ? hasStoredCard : paymentState.hasValidCardInfo(mBillingInfo);
 			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0
 					&& !(paymentAddressValid && paymentCCValid)) {
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
@@ -442,7 +455,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mAccountButton.bind(false, false, null);
 
 		//After logout this will clear stored cards
-		populateDataFromUser();
+		populatePaymentDataFromUser();
+		populateTravelerDataFromUser();
 		bindAll();
 		updateViewVisibilities();
 	}
@@ -453,7 +467,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 		populatePassengerData();
 
-		populateDataFromUser();
+		populatePaymentDataFromUser();
+		populateTravelerDataFromUser();
 		bindAll();
 		updateViewVisibilities();
 	}

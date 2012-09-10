@@ -58,6 +58,7 @@
         android:id="@+id/edit_name_on_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPersonName"
         android:hint="@string/name_on_card_hint" />
 
 
