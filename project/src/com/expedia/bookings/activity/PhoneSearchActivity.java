@@ -72,7 +72,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioButton;
@@ -216,7 +215,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private ImageButton mGuestsButton;
 	private ImageButton mViewButton;
 	private ImageView mViewFlipImage;
-	private ListView mSearchSuggestionsListView;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
 	private TextView mDatesTextView;
@@ -1032,7 +1030,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mGuestsTextView = (TextView) mActionBarCustomView.findViewById(R.id.guests_text_view);
 
 		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
-		//mSearchSuggestionsListView = (ListView) findViewById(R.id.search_suggestions_list_view);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
 		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
@@ -1050,29 +1047,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mProgressText = (TextView) findViewById(R.id.search_progress_text_view);
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
 
-		//===================================================================
-		// Properties
-
-		//-------------------------------------------------------------------
-		// Note: Eff everything about this. First off, this footer has to be
-		// added to the listview because it's behind a transparent view so it
-		// needs to be padded up. Padding doesn't work like it should so we
-		// we have to do it with a view. You'll notice that instead of
-		// setting the footer's layout params we're adding a view with the
-		// layout params we require. For some reason setting the layout
-		// params of the footer view results in class cast exception. >:-|
-		//LinearLayout footer = new LinearLayout(this);
-		//footer.addView(
-		//		new View(this),
-		//		new LayoutParams(LayoutParams.FILL_PARENT, getResources().getDimensionPixelSize(
-		//				R.dimen.row_search_suggestion_footer_height)));
-
-		//mSearchSuggestionsListView.addFooterView(footer, null, false);
-		//-------------------------------------------------------------------
-
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
-		// Progress bar 
+		// Progress bar
 
 		mProgressBar.addOnDrawStartedListener(this);
 
@@ -1097,7 +1074,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
-		//mSearchSuggestionsListView.setOnItemClickListener(mSearchSuggestionsItemClickListner);
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
