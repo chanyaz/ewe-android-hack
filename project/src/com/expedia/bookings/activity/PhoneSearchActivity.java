@@ -390,7 +390,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	};
 
-	private OnSearchParamsChangedInWidgetListener mSearchpParamsChangedListener = new OnSearchParamsChangedInWidgetListener() {
+	private OnSearchParamsChangedInWidgetListener mSearchParamsChangedListener = new OnSearchParamsChangedInWidgetListener() {
 
 		@Override
 		public void onSearchParamsChanged(SearchParams searchParams) {
@@ -555,7 +555,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		((ExpediaBookingApp) getApplicationContext())
-				.registerSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
+				.registerSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		Db.getFilter().addOnFilterChangedListener(this);
 
@@ -629,7 +629,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		ImageCache.clearAllCallbacks();
 
 		((ExpediaBookingApp) getApplicationContext())
-				.unregisterSearchParamsChangedInWidgetListener(mSearchpParamsChangedListener);
+				.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
