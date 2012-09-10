@@ -21,6 +21,7 @@ import android.widget.FilterQueryProvider;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.util.SQLiteUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.RecentSearchList;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -121,7 +122,7 @@ public class AirportDropDownAdapter extends CursorAdapter implements FilterQuery
 
 	public void closeDb() {
 		if (mDb != null && mDb.isOpen()) {
-			mDb.close();
+			SQLiteUtils.closeDbSafe(mDb);
 			mDb = null;
 		}
 	}
