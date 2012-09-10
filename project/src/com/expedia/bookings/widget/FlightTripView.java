@@ -97,16 +97,31 @@ public class FlightTripView extends View {
 			right = width;
 		}
 
+		// F662: Ensure that the width is at least as tall as the height
+		// (otherwise drawing doesn't work properly at the moment)
+		float diff = right - left;
+		int height = getHeight();
+		if (diff < height) {
+			float missingWidth = height - diff;
+
+			left -= missingWidth / 2.0f;
+			right += missingWidth / 2.0f;
+		}
+
 		// Fuzz the edges a bit to make sure that we can draw the full airport code without falling
 		// off the edge of the canvas.
 		//
 		// TODO: Does this need to be scaled by density of screen?
 		if (left < PADDING) {
+			diff = PADDING - left;
 			left = PADDING;
+			right = Math.min(right + diff, width - PADDING);
 		}
 
 		if (right > width - PADDING) {
+			diff = width - PADDING - right;
 			right = width - PADDING;
+			left = Math.max(left + diff, PADDING);
 		}
 
 		RectF legBounds = new RectF(left, 0, right, getHeight());
