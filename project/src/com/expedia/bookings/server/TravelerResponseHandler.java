@@ -30,9 +30,9 @@ public class TravelerResponseHandler extends JsonResponseHandler<TravelerInfoRes
 			resp.setSuccess(response.optBoolean("success"));
 			
 			if (resp.isSuccess()) {
-				Traveler passenger = new Traveler();
-				passenger.fromJson(response);
-				resp.setTraveler(passenger);
+				Traveler traveler = new Traveler();
+				traveler.fromJson(response);
+				resp.setTraveler(traveler);
 			}
 		}
 		catch (Exception e) {

@@ -30,5 +30,5 @@ public class Codes {
 	public static final String HOCKEY_APP_ID = "4d9aae3faac40c74443772c8bebd5aaf";
 
 	// For EF
-	public final static String PASSENGER_INDEX = "PASSENGER_INDEX";
+	public final static String TRAVELER_INDEX = "TRAVELER_INDEX";
 }

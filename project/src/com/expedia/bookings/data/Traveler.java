@@ -14,7 +14,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
 /**
- * This class represents a flight passenger (traveler) for flight booking
+ * This class represents a traveler for booking
  * @author jdrotos
  *
  */
@@ -37,7 +37,7 @@ public class Traveler implements JSONable {
 	private SeatPreference mSeatPreference = SeatPreference.ANY;
 	private AssistanceType mAssistance = AssistanceType.NONE;
 
-	private boolean mSavePassengerToExpediaAccount = false;
+	private boolean mSaveTravelerToExpediaAccount = false;
 
 	public enum Gender {
 		MALE, FEMALE
@@ -60,7 +60,7 @@ public class Traveler implements JSONable {
 
 	/***
 	 * This constructor copies data from an existing BillingInfo object
-	 * into this FlightPassenger instance
+	 * into this Traveler instance
 	 * @param info
 	 */
 	public Traveler(BillingInfo info) {
@@ -77,7 +77,7 @@ public class Traveler implements JSONable {
 
 	/***
 	 * This constructor copies data from an existing User object
-	 * into this FlightPassenger instance
+	 * into this Traveler instance
 	 * @param info
 	 */
 	public Traveler(User user) {
@@ -139,8 +139,8 @@ public class Traveler implements JSONable {
 		return mSeatPreference;
 	}
 
-	public boolean getSavePassengerToExpediaAccount() {
-		return mSavePassengerToExpediaAccount;
+	public boolean getSaveTravelerToExpediaAccount() {
+		return mSaveTravelerToExpediaAccount;
 	}
 
 	public String getSeatPreferenceString(Context context) {
@@ -202,7 +202,7 @@ public class Traveler implements JSONable {
 	}
 
 	/***
-	 * Does the passenger have non-blank first and last name values
+	 * Does the traveler have non-blank first and last name values
 	 * @return
 	 */
 	public boolean hasName() {
@@ -265,8 +265,8 @@ public class Traveler implements JSONable {
 		mTuid = tuid;
 	}
 
-	public void setSavePassengerToExpediaAccount(boolean save) {
-		mSavePassengerToExpediaAccount = save;
+	public void setSaveTravelerToExpediaAccount(boolean save) {
+		mSaveTravelerToExpediaAccount = save;
 	}
 
 	@Override
@@ -287,7 +287,7 @@ public class Traveler implements JSONable {
 			obj.putOpt("email", mEmail);
 			
 			//TODO:"save" is not a valid key, this is not yet defined in the api
-			obj.putOpt("save", mSavePassengerToExpediaAccount);
+			obj.putOpt("save", mSaveTravelerToExpediaAccount);
 
 			if (mGender != null) {
 				obj.putOpt("gender", mGender.name());
@@ -326,7 +326,7 @@ public class Traveler implements JSONable {
 		mPhoneCountryCode = obj.optString("phoneCountryCode");
 		mPhoneNumber = obj.optString("phone");
 
-		mSavePassengerToExpediaAccount = obj.optBoolean("save");
+		mSaveTravelerToExpediaAccount = obj.optBoolean("save");
 		
 		String genderStr = obj.optString("gender");
 		if (!TextUtils.isEmpty(genderStr)) {

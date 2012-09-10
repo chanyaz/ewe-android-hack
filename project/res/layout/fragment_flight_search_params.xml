@@ -95,7 +95,7 @@
             </RelativeLayout>
 
             <ImageButton
-                android:id="@+id/passengers_button"
+                android:id="@+id/travelers_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:scaleType="center"

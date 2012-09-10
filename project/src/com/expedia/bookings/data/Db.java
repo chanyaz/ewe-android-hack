@@ -100,7 +100,7 @@ public class Db {
 	private Map<String, Itinerary> mItineraries = new HashMap<String, Itinerary>();
 
 	// Flight Travelers
-	private ArrayList<Traveler> mFlightPassengers = new ArrayList<Traveler>();
+	private ArrayList<Traveler> mTravelers = new ArrayList<Traveler>();
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -353,12 +353,12 @@ public class Db {
 		return sDb.mItineraries.get(itineraryNumber);
 	}
 
-	public static ArrayList<Traveler> getFlightPassengers() {
-		return sDb.mFlightPassengers;
+	public static ArrayList<Traveler> getTravelers() {
+		return sDb.mTravelers;
 	}
 
-	public static void setFlightPassengers(ArrayList<Traveler> passengers) {
-		sDb.mFlightPassengers = passengers;
+	public static void setTravelers(ArrayList<Traveler> travelers) {
+		sDb.mTravelers = travelers;
 	}
 
 	public static void setCreateTripResponse(CreateTripResponse response) {
@@ -393,7 +393,7 @@ public class Db {
 		sDb.mUser = null;
 
 		sDb.mFlightSearch.reset();
-		sDb.mFlightPassengers.clear();
+		sDb.mTravelers.clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -529,7 +529,7 @@ public class Db {
 			putJsonable(obj, "selectedProperty", sDb.mSelectedProperty);
 			putJsonable(obj, "selectedRate", sDb.mSelectedRate);
 			putJsonable(obj, "user", sDb.mUser);
-			putArrayList(obj, "flightPassengers", sDb.mFlightPassengers);
+			putArrayList(obj, "travelers", sDb.mTravelers);
 
 			IoUtils.writeStringToFile(TEST_DATA_FILE, obj.toString(), context);
 		}
@@ -566,7 +566,7 @@ public class Db {
 			sDb.mSelectedProperty = getJsonable(obj, "selectedProperty", Property.class, sDb.mSelectedProperty);
 			sDb.mSelectedRate = getJsonable(obj, "selectedRate", Rate.class, sDb.mSelectedRate);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
-			sDb.mFlightPassengers = getArrayList(obj, "flightPassengers", Traveler.class, sDb.mFlightPassengers);
+			sDb.mTravelers = getArrayList(obj, "travelers", Traveler.class, sDb.mTravelers);
 		}
 		catch (Exception e) {
 			Log.w("Could not load db testing", e);

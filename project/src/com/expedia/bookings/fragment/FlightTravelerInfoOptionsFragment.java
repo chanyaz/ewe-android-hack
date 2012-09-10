@@ -33,12 +33,12 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	ViewGroup mEditTravelerContainer;
 	ViewGroup mAssociatedTravelersContainer;
 
-	int mCurrentPassengerIndex;
-	Traveler mCurrentPassenger;
+	int mCurrentTravelerIndex;
+	Traveler mCurrentTraveler;
 
-	SectionTravelerInfo mPassengerContact;
-	SectionTravelerInfo mPassengerPrefs;
-	SectionTravelerInfo mPassengerPassportCountry;
+	SectionTravelerInfo mTravelerContact;
+	SectionTravelerInfo mTravelerPrefs;
+	SectionTravelerInfo mTravelerPassportCountry;
 
 	TravelerInfoYoYoListener mListener;
 
@@ -59,7 +59,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_flight_traveler_info_options, container, false);
 
-		mCurrentPassengerIndex = getActivity().getIntent().getIntExtra(Codes.PASSENGER_INDEX, 0);
+		mCurrentTravelerIndex = getActivity().getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
 
 		mEditTravelerContainer = Ui.findView(v, R.id.edit_traveler_container);
 		mEditTravelerLabel = Ui.findView(v, R.id.edit_traveler_label);
@@ -73,7 +73,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Db.getFlightPassengers().set(mCurrentPassengerIndex, new Traveler());
+				Db.getTravelers().set(mCurrentTravelerIndex, new Traveler());
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 			}
@@ -84,15 +84,15 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		if (User.isLoggedIn(getActivity())) {
 			Resources res = getResources();
 			for (int i = 0; i < Db.getUser().getAssociatedTravelers().size(); i++) {
-				final Traveler passenger = Db.getUser().getAssociatedTravelers().get(i);
+				final Traveler traveler = Db.getUser().getAssociatedTravelers().get(i);
 				SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
 						R.layout.section_display_traveler_info_name, null);
-				travelerInfo.bind(passenger);
+				travelerInfo.bind(traveler);
 				travelerInfo.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mCurrentPassenger = passenger;
-						Db.getFlightPassengers().set(mCurrentPassengerIndex, passenger);
+						mCurrentTraveler = traveler;
+						Db.getTravelers().set(mCurrentTravelerIndex, traveler);
 						//TODO: In the future we hope that stored travelers will have all the traveler data required
 						//At that time we will not need to go to the entry pages at all
 						mListener.setMode(YoYoMode.YOYO);
@@ -115,13 +115,13 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		}
 
 		//Selected traveler
-		mCurrentPassenger = Db.getFlightPassengers().get(mCurrentPassengerIndex);
+		mCurrentTraveler = Db.getTravelers().get(mCurrentTravelerIndex);
 
-		mPassengerContact = Ui.findView(v, R.id.current_traveler_contact);
-		mPassengerPrefs = Ui.findView(v, R.id.current_traveler_prefs);
-		mPassengerPassportCountry = Ui.findView(v, R.id.current_traveler_passport_country);
+		mTravelerContact = Ui.findView(v, R.id.current_traveler_contact);
+		mTravelerPrefs = Ui.findView(v, R.id.current_traveler_prefs);
+		mTravelerPassportCountry = Ui.findView(v, R.id.current_traveler_passport_country);
 
-		mPassengerContact.setOnClickListener(new OnClickListener() {
+		mTravelerContact.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mListener.setMode(YoYoMode.EDIT);
@@ -129,7 +129,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			}
 		});
 
-		mPassengerPrefs.setOnClickListener(new OnClickListener() {
+		mTravelerPrefs.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mListener.setMode(YoYoMode.EDIT);
@@ -137,7 +137,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			}
 		});
 
-		mPassengerPassportCountry.setOnClickListener(new OnClickListener() {
+		mTravelerPassportCountry.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mListener.setMode(YoYoMode.EDIT);
@@ -168,7 +168,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		refreshCurrentPassenger();
+		refreshCurrentTraveler();
 	}
 
 	@Override
@@ -176,8 +176,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		super.onSaveInstanceState(outState);
 	}
 
-	public void refreshCurrentPassenger() {
-		if (!mCurrentPassenger.hasName()) {
+	public void refreshCurrentTraveler() {
+		if (!mCurrentTraveler.hasName()) {
 			mEditTravelerContainer.setVisibility(View.GONE);
 			mEditTravelerLabel.setVisibility(View.GONE);
 			mSelectTravelerLabel.setText(getString(R.string.select_a_traveler));
@@ -188,20 +188,20 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			mSelectTravelerLabel.setText(getString(R.string.select_a_different_traveler));
 			if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
 				mInternationalDivider.setVisibility(View.VISIBLE);
-				mPassengerPassportCountry.setVisibility(View.VISIBLE);
+				mTravelerPassportCountry.setVisibility(View.VISIBLE);
 			}
 			else {
 				mInternationalDivider.setVisibility(View.GONE);
-				mPassengerPassportCountry.setVisibility(View.GONE);
+				mTravelerPassportCountry.setVisibility(View.GONE);
 			}
 		}
 
 		mEditTravelerLabelDiv.setVisibility(mEditTravelerLabel.getVisibility());
 		mSelectTravelerLabelDiv.setVisibility(mSelectTravelerLabel.getVisibility());
 
-		mPassengerContact.bind(mCurrentPassenger);
-		mPassengerPrefs.bind(mCurrentPassenger);
-		mPassengerPassportCountry.bind(mCurrentPassenger);
+		mTravelerContact.bind(mCurrentTraveler);
+		mTravelerPrefs.bind(mCurrentTraveler);
+		mTravelerPassportCountry.bind(mCurrentTraveler);
 	}
 
 	public interface TravelerInfoYoYoListener {

@@ -17,8 +17,8 @@ public class FlightTravelerSaveDialogFragment extends DialogFragment {
 
 	TravelerInfoYoYoListener mListener;
 
-	int mCurrentPassengerIndex;
-	Traveler mPassenger;
+	int mCurrentTravelerIndex;
+	Traveler mTraveler;
 
 	public static FlightTravelerSaveDialogFragment newInstance() {
 		FlightTravelerSaveDialogFragment frag = new FlightTravelerSaveDialogFragment();
@@ -30,22 +30,22 @@ public class FlightTravelerSaveDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		mCurrentPassengerIndex = getActivity().getIntent().getIntExtra(Codes.PASSENGER_INDEX, 0);
-		mPassenger = Db.getFlightPassengers().get(mCurrentPassengerIndex);
+		mCurrentTravelerIndex = getActivity().getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
+		mTraveler = Db.getTravelers().get(mCurrentTravelerIndex);
 
 		return new AlertDialog.Builder(getActivity()).setCancelable(false)
 				.setTitle(R.string.save_traveler)
 				.setMessage(R.string.save_traveler_message)
 				.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						mPassenger.setSavePassengerToExpediaAccount(true);
+						mTraveler.setSaveTravelerToExpediaAccount(true);
 						mListener.moveForward();
 
 					}
 				})
 				.setNegativeButton(R.string.dont_save, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						mPassenger.setSavePassengerToExpediaAccount(false);
+						mTraveler.setSaveTravelerToExpediaAccount(false);
 						mListener.moveForward();
 
 					}

@@ -171,7 +171,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
 		mFlightDateAndTravCount.bind(mTrip,
-				(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() != 0) ? Db.getFlightPassengers()
+				(Db.getTravelers() != null && Db.getTravelers().size() != 0) ? Db.getTravelers()
 						.size() : 1);
 
 		return v;
@@ -184,10 +184,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mBillingInfo = Db.getBillingInfo();
 
 		//Set values
-		populatePassengerData();
+		populateTravelerData();
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
-		buildPassengerSections();
+		buildTravelerSections();
 		buildLegSections();
 
 		bindAll();
@@ -223,15 +223,15 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
 		mFlightTripSectionPriceBar.bind(mTrip);
 
-		ArrayList<Traveler> passengers = Db.getFlightPassengers();
-		if (passengers.size() != mTravelerSections.size()) {
+		ArrayList<Traveler> travelers = Db.getTravelers();
+		if (travelers.size() != mTravelerSections.size()) {
 			Ui.showToast(getActivity(), "Traveler info out of date...");
-			Log.e("Traveler info fail... passengers size():" + passengers.size() + " sections:"
+			Log.e("Traveler info fail... travelers size():" + travelers.size() + " sections:"
 					+ mTravelerSections.size());
 		}
 		else {
-			for (int i = 0; i < passengers.size(); i++) {
-				mTravelerSections.get(i).bind(passengers.get(i));
+			for (int i = 0; i < travelers.size(); i++) {
+				mTravelerSections.get(i).bind(travelers.get(i));
 			}
 		}
 	}
@@ -266,26 +266,26 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	}
 
-	private void populatePassengerData() {
-		ArrayList<Traveler> passengers = Db.getFlightPassengers();
-		if (passengers == null) {
-			passengers = new ArrayList<Traveler>();
-			Db.setFlightPassengers(passengers);
+	private void populateTravelerData() {
+		ArrayList<Traveler> travelers = Db.getTravelers();
+		if (travelers == null) {
+			travelers = new ArrayList<Traveler>();
+			Db.setTravelers(travelers);
 		}
 
-		if (passengers.size() == 0) {
+		if (travelers.size() == 0) {
 			Traveler fp = new Traveler();
-			passengers.add(fp);
+			travelers.add(fp);
 		}
 	}
 
-	private void buildPassengerSections() {
+	private void buildTravelerSections() {
 		mTravelerContainer.removeAllViews();
 		mTravelerSections.clear();
 
-		ArrayList<Traveler> passengers = Db.getFlightPassengers();
+		ArrayList<Traveler> travelers = Db.getTravelers();
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		for (int i = 0; i < passengers.size(); i++) {
+		for (int i = 0; i < travelers.size(); i++) {
 			final int travelerNum = i;
 			SectionTravelerInfo traveler = (SectionTravelerInfo) inflater.inflate(
 					R.layout.section_display_traveler_info_btn, null);
@@ -308,7 +308,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		public void onClick(View v) {
 			Intent editTravelerIntent = new Intent(getActivity(),
 					FlightTravelerInfoOptionsActivity.class);
-			editTravelerIntent.putExtra(Codes.PASSENGER_INDEX, mTravelerIndex);
+			editTravelerIntent.putExtra(Codes.TRAVELER_INDEX, mTravelerIndex);
 			startActivity(editTravelerIntent);
 		}
 	}
@@ -319,14 +319,14 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 		else {
 			boolean travelerValid = true;
-			if (Db.getFlightPassengers() == null || Db.getFlightPassengers().size() <= 0) {
+			if (Db.getTravelers() == null || Db.getTravelers().size() <= 0) {
 				travelerValid = false;
 			}
 			else {
-				ArrayList<Traveler> passengers = Db.getFlightPassengers();
-				for (int i = 0; i < passengers.size(); i++) {
+				ArrayList<Traveler> travelers = Db.getTravelers();
+				for (int i = 0; i < travelers.size(); i++) {
 					travelerValid &= (TravelerFlowState.getInstance(getActivity()).allTravelerInfoIsValid(
-							passengers.get(i)));
+							travelers.get(i)));
 				}
 			}
 			return travelerValid;
@@ -387,16 +387,16 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private void populateTravelerDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
 			//Populate traveler data
-			if (Db.getFlightPassengers() != null && Db.getFlightPassengers().size() >= 1) {
+			if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
 				//If the first traveler in the list isn't valid, then populate it with data from the User
 				if (!TravelerFlowState.getInstance(getActivity())
-						.allTravelerInfoIsValid(Db.getFlightPassengers().get(0))) {
+						.allTravelerInfoIsValid(Db.getTravelers().get(0))) {
 					Log.w("SET USER TRAVELER DATA!");
-					//Db.getFlightPassengers().set(0, UserDataTransfer.getBestGuessStoredPassenger(Db.getUser()));
+					//Db.getTravelers().set(0, UserDataTransfer.getBestGuessStoredTraveler(Db.getUser()));
 				}
 
 				//TODO:Uncomment this when the traveler api is finished. This may or may not be working correctly.
-				//				mGetTravelerInfo.setPassenger(Db.getFlightPassengers().get(0));
+				//				mGetTravelerInfo.setTraveler(Db.getTravelers().get(0));
 				//				BackgroundDownloader bd = BackgroundDownloader.getInstance();
 				//				if (!bd.isDownloading(KEY_TRAVELER_DATA)) {
 				//					bd.startDownload(KEY_TRAVELER_DATA, mGetTravelerInfo, mGetTravelerCallback);
@@ -405,9 +405,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 		else {
 			//Travelers that have tuids are from the account and thus should be removed.
-			for (int i = 0; i < Db.getFlightPassengers().size(); i++) {
-				if (Db.getFlightPassengers().get(i).hasTuid()) {
-					Db.getFlightPassengers().set(i, new Traveler());
+			for (int i = 0; i < Db.getTravelers().size(); i++) {
+				if (Db.getTravelers().get(i).hasTuid()) {
+					Db.getTravelers().set(i, new Traveler());
 				}
 			}
 		}
@@ -465,7 +465,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mAccountButton.bind(false, true, Db.getUser());
 		mRefreshedUser = true;
 
-		populatePassengerData();
+		populateTravelerData();
 
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
@@ -515,17 +515,17 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	// Update Traveler
 
 	private class TravelerDownload implements Download<TravelerInfoResponse> {
-		Traveler mPassenger;
+		Traveler mTraveler;
 
-		public void setPassenger(Traveler passenger) {
-			mPassenger = passenger;
+		public void setTraveler(Traveler traveler) {
+			mTraveler = traveler;
 		}
 
 		@Override
 		public TravelerInfoResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_TRAVELER_DATA, services);
-			return services.updateTraveler(mPassenger);
+			return services.updateTraveler(mTraveler);
 		}
 	}
 
@@ -535,15 +535,15 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		public void onDownload(TravelerInfoResponse results) {
 			if (results == null || results.hasErrors()) {
 				//TODO:If we don't have traveler info do something useful...
-				Ui.showToast(getActivity(), "Fail to update passenger");
+				Ui.showToast(getActivity(), "Fail to update traveler");
 			}
 			else {
 				// Update our existing saved data
 				Traveler traveler = results.getTraveler();
-				for (int i = 0; i < Db.getFlightPassengers().size(); i++) {
-					if (traveler.getTuid() == (Db.getFlightPassengers().get(i).hasTuid() ? Db.getFlightPassengers()
+				for (int i = 0; i < Db.getTravelers().size(); i++) {
+					if (traveler.getTuid() == (Db.getTravelers().get(i).hasTuid() ? Db.getTravelers()
 							.get(i).getTuid() : 0)) {
-						Db.getFlightPassengers().set(i, traveler);
+						Db.getTravelers().set(i, traveler);
 						break;
 					}
 				}

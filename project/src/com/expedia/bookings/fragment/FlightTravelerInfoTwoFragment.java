@@ -18,9 +18,9 @@ import android.view.ViewGroup;
 
 public class FlightTravelerInfoTwoFragment extends Fragment implements Validatable {
 
-	Traveler mPassenger;
+	Traveler mTraveler;
 	SectionTravelerInfo mSectionTravelerInfo;
-	int mPassengerIndex = -1;
+	int mTravelerIndex = -1;
 
 	boolean mAttemptToLeaveMade = false;
 
@@ -43,9 +43,9 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 		mAttemptToLeaveMade = false;
 		mSectionTravelerInfo = Ui.findView(v, R.id.traveler_info);
 
-		mPassengerIndex = getActivity().getIntent().getIntExtra(Codes.PASSENGER_INDEX, -1);
-		if (mPassengerIndex >= 0) {
-			mPassenger = Db.getFlightPassengers().get(mPassengerIndex);
+		mTravelerIndex = getActivity().getIntent().getIntExtra(Codes.TRAVELER_INDEX, -1);
+		if (mTravelerIndex >= 0) {
+			mTraveler = Db.getTravelers().get(mTravelerIndex);
 		}
 
 		//We don't need to show redress number field if we aren't passing through the US
@@ -78,7 +78,7 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 	@Override
 	public void onResume() {
 		super.onResume();
-		mSectionTravelerInfo.bind(mPassenger);
+		mSectionTravelerInfo.bind(mTraveler);
 	}
 
 	@Override

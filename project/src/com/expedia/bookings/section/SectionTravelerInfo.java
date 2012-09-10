@@ -49,7 +49,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	ArrayList<SectionField<?, Traveler>> mFields = new ArrayList<SectionField<?, Traveler>>();
 
-	Traveler mPassenger;
+	Traveler mTraveler;
 	Context mContext;
 
 	public SectionTravelerInfo(Context context) {
@@ -125,13 +125,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	}
 
 	@Override
-	public void bind(Traveler passenger) {
+	public void bind(Traveler traveler) {
 		//Update fields
-		mPassenger = passenger;
+		mTraveler = traveler;
 
-		if (mPassenger != null) {
+		if (mTraveler != null) {
 			for (SectionField<?, Traveler> field : mFields) {
-				field.bindData(mPassenger);
+				field.bindData(mTraveler);
 			}
 		}
 	}
@@ -719,8 +719,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 						@Override
 						public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 							Calendar cal = new GregorianCalendar(year, monthOfYear, dayOfMonth);
-							if (mPassenger != null) {
-								mPassenger.setBirthDate(cal);
+							if (mTraveler != null) {
+								mTraveler.setBirthDate(cal);
 							}
 							onChange(SectionTravelerInfo.this);
 						}

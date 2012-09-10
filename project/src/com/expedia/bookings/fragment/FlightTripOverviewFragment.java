@@ -108,7 +108,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		}
 
 		mFlightDateAndTravCount.bind(mTrip,
-				(Db.getFlightPassengers() != null && Db.getFlightPassengers().size() != 0) ? Db.getFlightPassengers()
+				(Db.getTravelers() != null && Db.getTravelers().size() != 0) ? Db.getTravelers()
 						.size() : 1);
 
 		//Inflate and store the sections

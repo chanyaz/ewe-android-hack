@@ -208,7 +208,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public FlightCheckoutResponse flightCheckout(FlightTrip flightTrip, Itinerary itinerary, BillingInfo billingInfo,
-			List<Traveler> passengers, int flags) {
+			List<Traveler> travelers, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
@@ -217,8 +217,8 @@ public class ExpediaServices implements DownloadListener {
 
 		addBillingInfo(query, billingInfo);
 
-		for (int i = 0; i < passengers.size(); i++) {
-			addFlightPassenger(query, passengers.get(i));
+		for (int i = 0; i < travelers.size(); i++) {
+			addFlightTraveler(query, travelers.get(i));
 		}
 
 		// Not sure if required?
@@ -430,10 +430,10 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
-	public TravelerInfoResponse updateTraveler(Traveler passenger) {
+	public TravelerInfoResponse updateTraveler(Traveler traveler) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		query.add(new BasicNameValuePair("tuid", "" + passenger.getTuid()));
+		query.add(new BasicNameValuePair("tuid", "" + traveler.getTuid()));
 		query.add(new BasicNameValuePair("profileTypes", "FLIGHT"));
 
 		return doE3Request("MobileHotel/Webapp/GetMobileTravellerProfile", query,
@@ -537,17 +537,17 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
 	}
 
-	private void addFlightPassenger(List<BasicNameValuePair> query, Traveler passenger) {
+	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler) {
 		//TODO: This is incomplete. There is a bunch of information not currently supported by the API that needs to go here. 
-		// Furthermore, there should be any number of passengers and they shouldn't overwrite one another's birthdays etc. Again, we wait for API updates.
+		// Furthermore, there should be any number of travelers and they shouldn't overwrite one another's birthdays etc. Again, we wait for API updates.
 		SimpleDateFormat isoDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
-		query.add(new BasicNameValuePair("firstName", passenger.getFirstName()));
-		if (!TextUtils.isEmpty(passenger.getMiddleName())) {
-			query.add(new BasicNameValuePair("middleName", passenger.getMiddleName()));
+		query.add(new BasicNameValuePair("firstName", traveler.getFirstName()));
+		if (!TextUtils.isEmpty(traveler.getMiddleName())) {
+			query.add(new BasicNameValuePair("middleName", traveler.getMiddleName()));
 		}
-		query.add(new BasicNameValuePair("lastName", passenger.getLastName()));
-		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(passenger.getBirthDate().getTime())));
-		query.add(new BasicNameValuePair("gender", (passenger.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
+		query.add(new BasicNameValuePair("lastName", traveler.getLastName()));
+		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(traveler.getBirthDate().getTime())));
+		query.add(new BasicNameValuePair("gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
