@@ -18,7 +18,6 @@ import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.utils.DateTimeUtils;
-import com.mobiata.flightlib.utils.FormatUtils;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -67,15 +66,17 @@ public class FlightLegSummarySection extends RelativeLayout {
 			mAirlineTextView.setText(leg.getAirlinesFormatted());
 		}
 		if (mDepartureTimeTextView != null) {
-			mDepartureTimeTextView.setText(formatTime(leg.getSegment(0).mOrigin.getMostRelevantDateTime()));
+			mDepartureTimeTextView.setText(formatTime(leg.getFirstWaypoint().getMostRelevantDateTime()));
 		}
 		if (mArrivalTimeTextView != null) {
-			mArrivalTimeTextView.setText(formatTime(leg.getSegment(leg.getSegmentCount() - 1).mDestination
-					.getMostRelevantDateTime()));
+			mArrivalTimeTextView.setText(formatTime(leg.getLastWaypoint().getMostRelevantDateTime()));
 		}
 
 		if (mPriceTextView != null) {
-			if (trip.hasPricing()) {
+			if (trip == null) {
+				mPriceTextView.setVisibility(View.GONE);
+			}
+			else if (trip.hasPricing()) {
 				mPriceTextView.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
 			}
 			else {
@@ -97,19 +98,11 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	public void bindFlight(Flight flight, Calendar minTime, Calendar maxTime) {
-		Context context = getContext();
+		// Fake a flight leg
+		FlightLeg pseudoLeg = new FlightLeg();
+		pseudoLeg.addSegment(flight);
 
-		if (mAirlineTextView != null) {
-			mAirlineTextView.setText(FormatUtils.formatFlightNumber(flight, context));
-		}
-		if (mPriceTextView != null) {
-			mPriceTextView.setVisibility(View.GONE);
-		}
-
-		mDepartureTimeTextView.setText(formatTime(flight.mOrigin.getMostRelevantDateTime()));
-		mArrivalTimeTextView.setText(formatTime(flight.mDestination.getMostRelevantDateTime()));
-
-		mFlightTripView.setUp(flight, minTime, maxTime);
+		bind(null, pseudoLeg, minTime, maxTime);
 	}
 
 	private String formatTime(Calendar cal) {
