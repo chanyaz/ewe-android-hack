@@ -57,10 +57,12 @@
 	</style>
 
     <style name="Theme.Phone" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarItemBackground">@drawable/bg_actionbar_button</item>
         <item name="actionBarStyle">@style/Dark.ActionBar</item>
         <item name="actionBarTabStyle">@style/ActionBarTabView</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="actionBarTabTextStyle">@style/ActionBarTabText</item>
+        <item name="android:actionBarItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:actionBarStyle">@style/Dark.ActionBar</item>
         <item name="android:actionDropDownStyle">@style/Dark.DropDown</item>
         <item name="android:dropDownListViewStyle">@style/Dark.DropDownListView</item>
