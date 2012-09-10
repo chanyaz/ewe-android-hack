@@ -99,8 +99,6 @@
 		<item name="android:actionBarStyle">@style/FlightActionBar</item>
 		<item name="actionMenuTextColor">@color/action_bar_flight_text_color</item>
 		<item name="android:actionMenuTextColor">@color/action_bar_flight_text_color</item>
-		<item name="actionOverflowButtonStyle">@style/FlightActionBarOverflowButton</item>
-		<item name="android:actionOverflowButtonStyle">@style/FlightActionBarOverflowButton</item>
     </style>
 
     <style name="FlightActionBar" parent="Widget.Sherlock.ActionBar">
@@ -116,10 +114,6 @@
 
     <style name="FlightActionBarTextAppearance" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/action_bar_flight_text_color</item>
-    </style>
-
-    <style name="FlightActionBarOverflowButton" parent="@android:style/Widget.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_action_bar_overflow_menu_button</item>
     </style>
 
     <style name="FlightTheme.Transparent">
