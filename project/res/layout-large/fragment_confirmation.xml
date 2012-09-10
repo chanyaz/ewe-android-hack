@@ -75,20 +75,16 @@
             android:layout_alignParentLeft="true"
             android:background="@drawable/btn_white"
             android:gravity="center"
-            android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_share" />
 
             <TextView
                 style="@style/ConfirmationButtonText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/ic_btn_share"
+                android:drawablePadding="10dp"
+                android:gravity="center"
                 android:text="@string/share_booking_info" />
         </LinearLayout>
 
@@ -102,20 +98,16 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_white"
             android:gravity="center"
-            android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_view_on_map" />
 
             <TextView
                 style="@style/ConfirmationButtonText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/ic_btn_map"
+                android:drawablePadding="10dp"
+                android:gravity="center"
                 android:text="@string/show_on_map" />
         </LinearLayout>
 

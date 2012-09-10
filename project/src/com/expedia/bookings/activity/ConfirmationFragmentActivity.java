@@ -2,16 +2,19 @@ package com.expedia.bookings.activity;
 
 import org.json.JSONObject;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentMapActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
@@ -23,7 +26,6 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirmationFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.utils.ConfirmationFragmentActivityActionBarHelper;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.mobiata.android.Log;
@@ -31,7 +33,8 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 
-public class ConfirmationFragmentActivity extends FragmentMapActivity implements BookingConfirmationFragmentListener {
+public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity implements
+		BookingConfirmationFragmentListener {
 
 	private Context mContext;
 
@@ -42,7 +45,10 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		mContext = this;
 
 		if (AndroidUtils.isTablet(this)) {
-            setTheme(R.style.Theme_Tablet);
+			setTheme(R.style.Theme_Tablet_Confirmation);
+		}
+		else {
+			setTheme(R.style.Theme_Phone);
 		}
 
 		if (savedInstanceState == null) {
@@ -97,13 +103,6 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-
-		configureActionBar();
-	}
-
-	@Override
 	protected void onStop() {
 		super.onStop();
 
@@ -113,23 +112,39 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		}
 	}
 
-	@TargetApi(11)
-	private void configureActionBar() {
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			new ConfirmationFragmentActivityActionBarHelper(this).configure();
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
-
-		configureActionBar();
-
+		if (AndroidUtils.isTablet(this)) {
+			getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
+		}
+		else {
+			getSupportMenuInflater().inflate(R.menu.menu_confirmation, menu);
+		}
 		DebugMenu.onCreateOptionsMenu(this, menu);
+
+		// Configure the ActionBar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(false);
+		actionBar.setHomeButtonEnabled(false);
+
+		if (!AndroidUtils.isTablet(this)) {
+			ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars,
+					null);
+
+			Property property = Db.getSelectedProperty();
+			String title = property.getName();
+			((TextView) titleView.findViewById(R.id.title)).setText(title);
+
+			float rating = (float) property.getHotelRating();
+			((RatingBar) titleView.findViewById(R.id.rating)).setRating(rating);
+
+			actionBar.setCustomView(titleView);
+			actionBar.setDisplayShowCustomEnabled(true);
+		}
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -140,11 +155,24 @@ public class ConfirmationFragmentActivity extends FragmentMapActivity implements
 		case android.R.id.home:
 			//This should never be reached as the actionbar app icon is disabled.
 			return true;
-		case R.id.menu_about: {
+
+		case R.id.menu_share:
+			onShareBooking();
+			return true;
+
+		case R.id.menu_show_on_map:
+			onShowOnMap();
+			return true;
+
+		case R.id.menu_new_search:
+			onNewSearch();
+			return true;
+
+		case R.id.menu_about:
 			Intent intent = new Intent(this, TabletAboutActivity.class);
 			startActivity(intent);
 			return true;
-		}
+
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item)) {

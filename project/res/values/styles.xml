@@ -363,6 +363,11 @@
         <item name="android:background">@drawable/bg_action_bar_light</item>
     </style>
 
+    <style name="Light.ActionBar.Sherlock" parent="Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/bg_action_bar_light</item>
+        <item name="android:background">@drawable/bg_action_bar_light</item>
+    </style>
+
     <style name="Dark.ActionBar" parent="Widget.Sherlock.ActionBar">
         <item name="background">@drawable/bg_action_bar</item>
         <item name="android:background">@drawable/bg_action_bar</item>

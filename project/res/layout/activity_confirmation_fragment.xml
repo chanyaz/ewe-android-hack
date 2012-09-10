@@ -17,11 +17,4 @@
             android:tag="@string/tag_confirmation_receipt" />
     </ScrollView>
 
-    <fragment
-        android:name="com.expedia.bookings.fragment.BookingConfirmationFragment"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_bar_height"
-        android:layout_alignParentBottom="true"
-        android:tag="@string/tag_booking_confirmation" />
-
 </RelativeLayout>
