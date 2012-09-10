@@ -52,8 +52,8 @@ import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightPassenger;
-import com.expedia.bookings.data.FlightPassenger.Gender;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -208,7 +208,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public FlightCheckoutResponse flightCheckout(FlightTrip flightTrip, Itinerary itinerary, BillingInfo billingInfo,
-			List<FlightPassenger> passengers, int flags) {
+			List<Traveler> passengers, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
@@ -430,7 +430,7 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
-	public TravelerInfoResponse updateTraveler(FlightPassenger passenger) {
+	public TravelerInfoResponse updateTraveler(Traveler passenger) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tuid", "" + passenger.getTuid()));
@@ -537,7 +537,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
 	}
 
-	private void addFlightPassenger(List<BasicNameValuePair> query, FlightPassenger passenger) {
+	private void addFlightPassenger(List<BasicNameValuePair> query, Traveler passenger) {
 		//TODO: This is incomplete. There is a bunch of information not currently supported by the API that needs to go here. 
 		// Furthermore, there should be any number of passengers and they shouldn't overwrite one another's birthdays etc. Again, we wait for API updates.
 		SimpleDateFormat isoDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");

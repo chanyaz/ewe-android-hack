@@ -18,7 +18,7 @@ import com.mobiata.android.json.JSONable;
  * @author jdrotos
  *
  */
-public class FlightPassenger implements JSONable {
+public class Traveler implements JSONable {
 
 	private Long mTuid = 0L;
 
@@ -54,7 +54,7 @@ public class FlightPassenger implements JSONable {
 		SUPER_LONG_ASSISTANCE_TYPE
 	}
 
-	public FlightPassenger() {
+	public Traveler() {
 
 	}
 
@@ -63,7 +63,7 @@ public class FlightPassenger implements JSONable {
 	 * into this FlightPassenger instance
 	 * @param info
 	 */
-	public FlightPassenger(BillingInfo info) {
+	public Traveler(BillingInfo info) {
 		if (info == null) {
 			return;
 		}
@@ -80,7 +80,7 @@ public class FlightPassenger implements JSONable {
 	 * into this FlightPassenger instance
 	 * @param info
 	 */
-	public FlightPassenger(User user) {
+	public Traveler(User user) {
 		if (user == null) {
 			return;
 		}

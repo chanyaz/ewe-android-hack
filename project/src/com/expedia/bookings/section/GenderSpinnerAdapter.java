@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightPassenger.Gender;
+import com.expedia.bookings.data.Traveler.Gender;
 import com.mobiata.android.util.Ui;
 
 public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {

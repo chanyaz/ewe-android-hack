@@ -4,7 +4,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.utils.Ui;
@@ -34,7 +34,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	ViewGroup mAssociatedTravelersContainer;
 
 	int mCurrentPassengerIndex;
-	FlightPassenger mCurrentPassenger;
+	Traveler mCurrentPassenger;
 
 	SectionTravelerInfo mPassengerContact;
 	SectionTravelerInfo mPassengerPrefs;
@@ -73,7 +73,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Db.getFlightPassengers().set(mCurrentPassengerIndex, new FlightPassenger());
+				Db.getFlightPassengers().set(mCurrentPassengerIndex, new Traveler());
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 			}
@@ -84,7 +84,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		if (User.isLoggedIn(getActivity())) {
 			Resources res = getResources();
 			for (int i = 0; i < Db.getUser().getAssociatedTravelers().size(); i++) {
-				final FlightPassenger passenger = Db.getUser().getAssociatedTravelers().get(i);
+				final Traveler passenger = Db.getUser().getAssociatedTravelers().get(i);
 				SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
 						R.layout.section_display_traveler_info_name, null);
 				travelerInfo.bind(passenger);

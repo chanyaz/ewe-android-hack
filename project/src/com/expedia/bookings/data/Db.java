@@ -100,7 +100,7 @@ public class Db {
 	private Map<String, Itinerary> mItineraries = new HashMap<String, Itinerary>();
 
 	// Flight Travelers
-	private ArrayList<FlightPassenger> mFlightPassengers = new ArrayList<FlightPassenger>();
+	private ArrayList<Traveler> mFlightPassengers = new ArrayList<Traveler>();
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -353,11 +353,11 @@ public class Db {
 		return sDb.mItineraries.get(itineraryNumber);
 	}
 
-	public static ArrayList<FlightPassenger> getFlightPassengers() {
+	public static ArrayList<Traveler> getFlightPassengers() {
 		return sDb.mFlightPassengers;
 	}
 
-	public static void setFlightPassengers(ArrayList<FlightPassenger> passengers) {
+	public static void setFlightPassengers(ArrayList<Traveler> passengers) {
 		sDb.mFlightPassengers = passengers;
 	}
 
@@ -566,7 +566,7 @@ public class Db {
 			sDb.mSelectedProperty = getJsonable(obj, "selectedProperty", Property.class, sDb.mSelectedProperty);
 			sDb.mSelectedRate = getJsonable(obj, "selectedRate", Rate.class, sDb.mSelectedRate);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
-			sDb.mFlightPassengers = getArrayList(obj, "flightPassengers", FlightPassenger.class, sDb.mFlightPassengers);
+			sDb.mFlightPassengers = getArrayList(obj, "flightPassengers", Traveler.class, sDb.mFlightPassengers);
 		}
 		catch (Exception e) {
 			Log.w("Could not load db testing", e);

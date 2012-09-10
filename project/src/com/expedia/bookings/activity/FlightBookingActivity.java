@@ -11,7 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
@@ -88,7 +88,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
 			//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
 			BillingInfo billingInfo = Db.getBillingInfo();
-			FlightPassenger passenger = Db.getFlightPassengers().get(0);
+			Traveler passenger = Db.getFlightPassengers().get(0);
 			billingInfo.setTelephone(passenger.getPhoneNumber());
 			billingInfo.setTelephoneCountryCode(passenger.getPhoneCountryCode());
 

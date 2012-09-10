@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.TravelerInfoResponse;
@@ -30,7 +30,7 @@ public class TravelerResponseHandler extends JsonResponseHandler<TravelerInfoRes
 			resp.setSuccess(response.optBoolean("success"));
 			
 			if (resp.isSuccess()) {
-				FlightPassenger passenger = new FlightPassenger();
+				Traveler passenger = new Traveler();
 				passenger.fromJson(response);
 				resp.setTraveler(passenger);
 			}

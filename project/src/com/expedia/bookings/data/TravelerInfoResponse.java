@@ -11,7 +11,7 @@ public class TravelerInfoResponse extends Response implements JSONable {
 
 	private boolean mSuccess;
 
-	private FlightPassenger mPassenger;
+	private Traveler mPassenger;
 
 	public void setSuccess(boolean success) {
 		mSuccess = success;
@@ -22,11 +22,11 @@ public class TravelerInfoResponse extends Response implements JSONable {
 		return !hasErrors() && mSuccess;
 	}
 
-	public void setTraveler(FlightPassenger passenger) {
+	public void setTraveler(Traveler passenger) {
 		mPassenger = passenger;
 	}
 
-	public FlightPassenger getTraveler() {
+	public Traveler getTraveler() {
 		return mPassenger;
 	}
 
@@ -56,7 +56,7 @@ public class TravelerInfoResponse extends Response implements JSONable {
 		super.fromJson(obj);
 
 		mSuccess = obj.optBoolean("success", false);
-		mPassenger = (FlightPassenger) JSONUtils.getJSONable(obj, "traveler", FlightPassenger.class);
+		mPassenger = (Traveler) JSONUtils.getJSONable(obj, "traveler", Traveler.class);
 		return true;
 	}
 }

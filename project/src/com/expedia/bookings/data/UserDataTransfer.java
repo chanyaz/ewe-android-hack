@@ -8,7 +8,7 @@ public class UserDataTransfer {
 	 * @param psngr
 	 * @return
 	 */
-	public static FlightPassenger fillPassengerFromUser(User usr, FlightPassenger psngr) {
+	public static Traveler fillPassengerFromUser(User usr, Traveler psngr) {
 		if (usr == null || psngr == null) {
 			return psngr;
 		}
@@ -35,7 +35,7 @@ public class UserDataTransfer {
 	 * @param psngr
 	 * @return
 	 */
-	public static FlightPassenger fillPassengerFromBillingInfo(BillingInfo info, FlightPassenger psngr) {
+	public static Traveler fillPassengerFromBillingInfo(BillingInfo info, Traveler psngr) {
 		if (info == null || psngr == null) {
 			return psngr;
 		}
@@ -63,11 +63,11 @@ public class UserDataTransfer {
 		return psngr;
 	}
 	
-	public static FlightPassenger getBestGuessStoredPassenger(User usr){
+	public static Traveler getBestGuessStoredPassenger(User usr){
 		if(usr.getAssociatedTravelers() != null && usr.getAssociatedTravelers().size() > 0){
 			return usr.getAssociatedTravelers().get(0);
 		}else{
-			return fillPassengerFromUser(usr,new FlightPassenger());
+			return fillPassengerFromUser(usr,new Traveler());
 		}
 		
 	}

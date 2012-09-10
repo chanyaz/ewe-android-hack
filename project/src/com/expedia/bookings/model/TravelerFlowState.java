@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.SectionTravelerInfo;
 
 /***
@@ -32,22 +32,22 @@ public class TravelerFlowState {
 		return new TravelerFlowState(context);
 	}
 
-	private void bind(FlightPassenger travelerInfo) {
+	private void bind(Traveler travelerInfo) {
 		mTravelerInfoOne.bind(travelerInfo);
 		mTravelerInfoTwo.bind(travelerInfo);
 	}
 
-	public boolean hasValidTravelerPartOne(FlightPassenger travelerInfo) {
+	public boolean hasValidTravelerPartOne(Traveler travelerInfo) {
 		bind(travelerInfo);
 		return mTravelerInfoOne.hasValidInput();
 	}
 
-	public boolean hasValidTravelerPartTwo(FlightPassenger travelerInfo) {
+	public boolean hasValidTravelerPartTwo(Traveler travelerInfo) {
 		bind(travelerInfo);
 		return mTravelerInfoTwo.hasValidInput();
 	}
 
-	public boolean allTravelerInfoIsValid(FlightPassenger travelerInfo) {
+	public boolean allTravelerInfoIsValid(Traveler travelerInfo) {
 		bind(travelerInfo);
 		boolean travOne = mTravelerInfoOne.hasValidInput();
 		boolean travTwo = mTravelerInfoTwo.hasValidInput();

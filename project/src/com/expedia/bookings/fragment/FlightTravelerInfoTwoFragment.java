@@ -4,7 +4,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity.Validatable;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.utils.Ui;
@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 public class FlightTravelerInfoTwoFragment extends Fragment implements Validatable {
 
-	FlightPassenger mPassenger;
+	Traveler mPassenger;
 	SectionTravelerInfo mSectionTravelerInfo;
 	int mPassengerIndex = -1;
 

@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightPassenger.SeatPreference;
+import com.expedia.bookings.data.Traveler.SeatPreference;
 import com.mobiata.android.util.Ui;
 
 public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {

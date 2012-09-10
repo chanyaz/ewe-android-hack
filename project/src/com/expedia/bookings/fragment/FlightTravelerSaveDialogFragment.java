@@ -3,7 +3,7 @@ package com.expedia.bookings.fragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightPassenger;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
 
 import android.app.Activity;
@@ -18,7 +18,7 @@ public class FlightTravelerSaveDialogFragment extends DialogFragment {
 	TravelerInfoYoYoListener mListener;
 
 	int mCurrentPassengerIndex;
-	FlightPassenger mPassenger;
+	Traveler mPassenger;
 
 	public static FlightTravelerSaveDialogFragment newInstance() {
 		FlightTravelerSaveDialogFragment frag = new FlightTravelerSaveDialogFragment();

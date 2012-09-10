@@ -37,7 +37,7 @@ public class User implements JSONable {
 	private ArrayList<Phone> mPhoneNumbers;
 	private Location mHomeAddress;
 	private ArrayList<StoredCreditCard> mStoredCreditCards;
-	private ArrayList<FlightPassenger> mAssociatedTravelers;
+	private ArrayList<Traveler> mAssociatedTravelers;
 
 	private String mLoyaltyMembershipNumber;
 	private boolean mIsSmokingPreferred;
@@ -89,7 +89,7 @@ public class User implements JSONable {
 		return mStoredCreditCards;
 	}
 	
-	public List<FlightPassenger> getAssociatedTravelers(){
+	public List<Traveler> getAssociatedTravelers(){
 		return mAssociatedTravelers;
 	}
 
@@ -279,11 +279,11 @@ public class User implements JSONable {
 		}
 
 		JSONArray associatedTravelers = obj.optJSONArray("associatedTravelers");
-		mAssociatedTravelers = new ArrayList<FlightPassenger>();
+		mAssociatedTravelers = new ArrayList<Traveler>();
 		if(associatedTravelers != null){
 			for(int i = 0; i < associatedTravelers.length(); i++){
 				try{
-					FlightPassenger fp = new FlightPassenger();
+					Traveler fp = new Traveler();
 					fp.fromJson(associatedTravelers.getJSONObject(i));
 					mAssociatedTravelers.add(fp);
 				}catch(JSONException e){

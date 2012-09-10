@@ -7,10 +7,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightPassenger;
-import com.expedia.bookings.data.FlightPassenger.AssistanceType;
-import com.expedia.bookings.data.FlightPassenger.Gender;
-import com.expedia.bookings.data.FlightPassenger.SeatPreference;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.Traveler.AssistanceType;
+import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.data.Traveler.SeatPreference;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
@@ -44,12 +44,12 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class SectionTravelerInfo extends LinearLayout implements ISection<FlightPassenger>, ISectionEditable {
+public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>, ISectionEditable {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
-	ArrayList<SectionField<?, FlightPassenger>> mFields = new ArrayList<SectionField<?, FlightPassenger>>();
+	ArrayList<SectionField<?, Traveler>> mFields = new ArrayList<SectionField<?, Traveler>>();
 
-	FlightPassenger mPassenger;
+	Traveler mPassenger;
 	Context mContext;
 
 	public SectionTravelerInfo(Context context) {
@@ -119,29 +119,29 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		for (SectionField<?, FlightPassenger> field : mFields) {
+		for (SectionField<?, Traveler> field : mFields) {
 			field.bindField(this);
 		}
 	}
 
 	@Override
-	public void bind(FlightPassenger passenger) {
+	public void bind(Traveler passenger) {
 		//Update fields
 		mPassenger = passenger;
 
 		if (mPassenger != null) {
-			for (SectionField<?, FlightPassenger> field : mFields) {
+			for (SectionField<?, Traveler> field : mFields) {
 				field.bindData(mPassenger);
 			}
 		}
 	}
 
 	public boolean hasValidInput() {
-		SectionFieldEditable<?, FlightPassenger> editable;
+		SectionFieldEditable<?, Traveler> editable;
 		boolean valid = true;
-		for (SectionField<?, FlightPassenger> field : mFields) {
+		for (SectionField<?, Traveler> field : mFields) {
 			if (field instanceof SectionFieldEditable) {
-				editable = (SectionFieldEditable<?, FlightPassenger>) field;
+				editable = (SectionFieldEditable<?, Traveler>) field;
 				boolean newIsValid = editable.isValid();
 				valid = (valid && newIsValid);
 			}
@@ -176,28 +176,28 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
 
-	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidFirstName = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+	ValidationIndicatorTextColorExclaimation<Traveler> mValidFirstName = new ValidationIndicatorTextColorExclaimation<Traveler>(
 			R.id.edit_first_name);
 
-	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidMiddleName = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+	ValidationIndicatorTextColorExclaimation<Traveler> mValidMiddleName = new ValidationIndicatorTextColorExclaimation<Traveler>(
 			R.id.edit_middle_name);
-	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidLastName = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+	ValidationIndicatorTextColorExclaimation<Traveler> mValidLastName = new ValidationIndicatorTextColorExclaimation<Traveler>(
 			R.id.edit_last_name);
-	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidPhoneNumber = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+	ValidationIndicatorTextColorExclaimation<Traveler> mValidPhoneNumber = new ValidationIndicatorTextColorExclaimation<Traveler>(
 			R.id.edit_phone_number);
-	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidDateOfBirth = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+	ValidationIndicatorTextColorExclaimation<Traveler> mValidDateOfBirth = new ValidationIndicatorTextColorExclaimation<Traveler>(
 			R.id.edit_birth_date_text_btn);
-	ValidationIndicatorTextColorExclaimation<FlightPassenger> mValidRedressNumber = new ValidationIndicatorTextColorExclaimation<FlightPassenger>(
+	ValidationIndicatorTextColorExclaimation<Traveler> mValidRedressNumber = new ValidationIndicatorTextColorExclaimation<Traveler>(
 			R.id.edit_redress_number);
 
 	//////////////////////////////////////
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
-	SectionField<TextView, FlightPassenger> mDisplayFullName = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayFullName = new SectionField<TextView, Traveler>(
 			R.id.display_full_name) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			String fullNameStr = "";
 			fullNameStr += (data.getFirstName() != null) ? data.getFirstName() + " " : "";
 			fullNameStr += (data.getMiddleName() != null) ? data.getMiddleName() + " " : "";
@@ -210,60 +210,60 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayFirstName = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayFirstName = new SectionField<TextView, Traveler>(
 			R.id.display_first_name) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			if (!TextUtils.isEmpty(data.getFirstName())) {
 				field.setText(data.getFirstName());
 			}
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayMiddleName = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayMiddleName = new SectionField<TextView, Traveler>(
 			R.id.display_middle_name) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			if (!TextUtils.isEmpty(data.getMiddleName())) {
 				field.setText(data.getMiddleName());
 			}
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayLastName = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayLastName = new SectionField<TextView, Traveler>(
 			R.id.display_last_name) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			if (!TextUtils.isEmpty(data.getLastName())) {
 				field.setText(data.getLastName());
 			}
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayPhoneCountryCode = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayPhoneCountryCode = new SectionField<TextView, Traveler>(
 			R.id.display_phone_number_country_code) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			if (!TextUtils.isEmpty(data.getPhoneCountryCode())) {
 				field.setText(data.getPhoneCountryCode());
 			}
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayPhoneNumber = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayPhoneNumber = new SectionField<TextView, Traveler>(
 			R.id.display_phone_number) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			if (!TextUtils.isEmpty(data.getPhoneNumber())) {
 				field.setText(PhoneNumberUtils.formatNumber(data.getPhoneNumber()));
 			}
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayPhoneNumberWithCountryCode = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayPhoneNumberWithCountryCode = new SectionField<TextView, Traveler>(
 			R.id.display_phone_number_with_country_code) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			String formatStr = mContext.getResources().getString(R.string.phone_number_with_country_code_TEMPLATE);
 			String retStr = String.format(formatStr,
 					data.getPhoneCountryCode() == null ? "" : data.getPhoneCountryCode(),
@@ -273,20 +273,20 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayGender = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayGender = new SectionField<TextView, Traveler>(
 			R.id.display_gender) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			if (data.getGender() != null && !TextUtils.isEmpty(data.getGender().name())) {
 				field.setText(data.getGender().name());
 			}
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayBirthDay = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayBirthDay = new SectionField<TextView, Traveler>(
 			R.id.display_date_of_birth) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			if (data.getBirthDate() != null) {
 				field.setText(android.text.format.DateUtils.formatDateTime(mContext, data.getBirthDate().getTime()
 						.getTime(), android.text.format.DateUtils.FORMAT_NUMERIC_DATE
@@ -298,10 +298,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayLongFormBirthDay = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayLongFormBirthDay = new SectionField<TextView, Traveler>(
 			R.id.display_born_on) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 
 			if (data.getBirthDate() != null) {
 				String formatStr = mContext.getString(R.string.born_on_TEMPLATE);
@@ -315,36 +315,36 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 			}
 		}
 	};
-	SectionField<TextView, FlightPassenger> mDisplayRedressNumber = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayRedressNumber = new SectionField<TextView, Traveler>(
 			R.id.display_redress_number) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			field.setText(TextUtils.isEmpty(data.getRedressNumber()) ? "" : data.getRedressNumber());
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplayPassportCountry = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplayPassportCountry = new SectionField<TextView, Traveler>(
 			R.id.display_passport_country) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			field.setText(TextUtils.isEmpty(data.getPassportCountry()) ? "" : data.getPassportCountry());
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplaySpecialAssistance = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplaySpecialAssistance = new SectionField<TextView, Traveler>(
 			R.id.display_special_assistance) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			String template = mContext.getString(R.string.special_assistance_label_TEMPLATE);
 			String val = String.format(template, data.getAssistanceString(mContext));
 			field.setText(val);
 		}
 	};
 
-	SectionField<TextView, FlightPassenger> mDisplaySpeatPreference = new SectionField<TextView, FlightPassenger>(
+	SectionField<TextView, Traveler> mDisplaySpeatPreference = new SectionField<TextView, Traveler>(
 			R.id.display_seat_preference) {
 		@Override
-		public void onHasFieldAndData(TextView field, FlightPassenger data) {
+		public void onHasFieldAndData(TextView field, Traveler data) {
 			String template = mContext.getString(R.string.prefers_seat_TEMPLATE);
 			String val = String.format(template, data.getSeatPreferenceString(mContext));
 			field.setText(val);
@@ -355,7 +355,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 	////// EDIT FIELDS
 	//////////////////////////////////////
 
-	SectionFieldEditable<EditText, FlightPassenger> mEditFirstName = new SectionFieldEditable<EditText, FlightPassenger>(
+	SectionFieldEditable<EditText, Traveler> mEditFirstName = new SectionFieldEditable<EditText, Traveler>(
 			R.id.edit_first_name) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -377,20 +377,20 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(EditText field, FlightPassenger data) {
+		protected void onHasFieldAndData(EditText field, Traveler data) {
 			field.setText(data.getFirstName());
 
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
 			retArr.add(mValidFirstName);
 			return retArr;
 		}
 	};
 
-	SectionFieldEditable<EditText, FlightPassenger> mEditMiddleName = new SectionFieldEditable<EditText, FlightPassenger>(
+	SectionFieldEditable<EditText, Traveler> mEditMiddleName = new SectionFieldEditable<EditText, Traveler>(
 			R.id.edit_middle_name) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -411,19 +411,19 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(EditText field, FlightPassenger data) {
+		protected void onHasFieldAndData(EditText field, Traveler data) {
 			field.setText(data.getMiddleName());
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
 			retArr.add(mValidMiddleName);
 			return retArr;
 		}
 	};
 
-	SectionFieldEditable<EditText, FlightPassenger> mEditLastName = new SectionFieldEditable<EditText, FlightPassenger>(
+	SectionFieldEditable<EditText, Traveler> mEditLastName = new SectionFieldEditable<EditText, Traveler>(
 			R.id.edit_last_name) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -444,19 +444,19 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
 			retArr.add(mValidLastName);
 			return retArr;
 		}
 
 		@Override
-		protected void onHasFieldAndData(EditText field, FlightPassenger data) {
+		protected void onHasFieldAndData(EditText field, Traveler data) {
 			field.setText(data.getLastName());
 		}
 	};
 
-	SectionFieldEditable<EditText, FlightPassenger> mEditPhoneNumberCountryCode = new SectionFieldEditable<EditText, FlightPassenger>(
+	SectionFieldEditable<EditText, Traveler> mEditPhoneNumberCountryCode = new SectionFieldEditable<EditText, Traveler>(
 			R.id.edit_phone_number_country_code) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -478,17 +478,17 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
 
 		@Override
-		protected void onHasFieldAndData(EditText field, FlightPassenger data) {
+		protected void onHasFieldAndData(EditText field, Traveler data) {
 			field.setText(data.getPhoneCountryCode());
 		}
 	};
 
-	SectionFieldEditable<TextView, FlightPassenger> mEditBirthDateTextBtn = new SectionFieldEditable<TextView, FlightPassenger>(
+	SectionFieldEditable<TextView, Traveler> mEditBirthDateTextBtn = new SectionFieldEditable<TextView, Traveler>(
 			R.id.edit_birth_date_text_btn) {
 
 		@Override
@@ -541,14 +541,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
 			retArr.add(mValidDateOfBirth);
 			return retArr;
 		}
 
 		@Override
-		protected void onHasFieldAndData(TextView field, FlightPassenger data) {
+		protected void onHasFieldAndData(TextView field, Traveler data) {
 
 			String btnTxt = "";
 			if (data.getBirthDate() != null) {
@@ -595,7 +595,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 	};
 
-	SectionFieldEditable<EditText, FlightPassenger> mEditPhoneNumber = new SectionFieldEditable<EditText, FlightPassenger>(
+	SectionFieldEditable<EditText, Traveler> mEditPhoneNumber = new SectionFieldEditable<EditText, Traveler>(
 			R.id.edit_phone_number) {
 		@Override
 		protected Validator<EditText> getValidator() {
@@ -628,13 +628,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(EditText field, FlightPassenger data) {
+		protected void onHasFieldAndData(EditText field, Traveler data) {
 			field.setText(phoneNumberDisplayer(data.getPhoneNumber()));
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
 			retArr.add(mValidPhoneNumber);
 			return retArr;
 		}
@@ -656,7 +656,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 	};
 
-	SectionFieldEditable<EditText, FlightPassenger> mEditRedressNumber = new SectionFieldEditable<EditText, FlightPassenger>(
+	SectionFieldEditable<EditText, Traveler> mEditRedressNumber = new SectionFieldEditable<EditText, Traveler>(
 			R.id.edit_redress_number) {
 
 		@Override
@@ -678,19 +678,19 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(EditText field, FlightPassenger data) {
+		protected void onHasFieldAndData(EditText field, Traveler data) {
 			field.setText(data.getRedressNumber());
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
 			retArr.add(mValidRedressNumber);
 			return retArr;
 		}
 	};
 
-	SectionFieldEditable<DatePicker, FlightPassenger> mEditBirthDate = new SectionFieldEditable<DatePicker, FlightPassenger>(
+	SectionFieldEditable<DatePicker, Traveler> mEditBirthDate = new SectionFieldEditable<DatePicker, Traveler>(
 			R.id.edit_date_of_birth) {
 
 		Validator<DatePicker> mValidator = new Validator<DatePicker>() {
@@ -728,7 +728,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(DatePicker field, FlightPassenger data) {
+		protected void onHasFieldAndData(DatePicker field, Traveler data) {
 			if (data.getBirthDate() == null) {
 				data.setBirthDate(Calendar.getInstance());
 			}
@@ -737,14 +737,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
 			retArr.add(mValidDateOfBirth);
 			return retArr;
 		}
 	};
 
-	SectionFieldEditable<RadioGroup, FlightPassenger> mEditGender = new SectionFieldEditable<RadioGroup, FlightPassenger>(
+	SectionFieldEditable<RadioGroup, Traveler> mEditGender = new SectionFieldEditable<RadioGroup, Traveler>(
 			R.id.edit_gender_radio) {
 
 		RadioButton mMaleRadio;
@@ -800,7 +800,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
+		protected void onHasFieldAndData(RadioGroup field, Traveler data) {
 			if (data.getGender() != null) {
 				if (data.getGender() == Gender.MALE) {
 					setIsMale(true);
@@ -813,12 +813,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
 	};
 
-	SectionFieldEditable<Spinner, FlightPassenger> mEditPassportCountry = new SectionFieldEditable<Spinner, FlightPassenger>(
+	SectionFieldEditable<Spinner, Traveler> mEditPassportCountry = new SectionFieldEditable<Spinner, Traveler>(
 			R.id.edit_passport_country_spinner) {
 
 		ArrayAdapter<CharSequence> mCountryAdapter;
@@ -867,7 +867,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(Spinner field, FlightPassenger data) {
+		protected void onHasFieldAndData(Spinner field, Traveler data) {
 			if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPassportCountry())) {
 				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
 					if (mCountryAdapter.getItem(i).toString().equalsIgnoreCase(data.getPassportCountry())) {
@@ -888,13 +888,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
 			return retArr;
 		}
 	};
 
-	SectionFieldEditable<ListView, FlightPassenger> mEditPassportCountryListView = new SectionFieldEditable<ListView, FlightPassenger>(
+	SectionFieldEditable<ListView, Traveler> mEditPassportCountryListView = new SectionFieldEditable<ListView, Traveler>(
 			R.id.edit_passport_country_listview) {
 
 		ArrayAdapter<CharSequence> mCountryAdapter;
@@ -940,7 +940,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(ListView field, FlightPassenger data) {
+		protected void onHasFieldAndData(ListView field, Traveler data) {
 			if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPassportCountry())) {
 				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
 					if (mCountryAdapter.getItem(i).toString().equalsIgnoreCase(data.getPassportCountry())) {
@@ -964,13 +964,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> retArr = new ArrayList<SectionFieldValidIndicator<?, FlightPassenger>>();
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
 			return retArr;
 		}
 	};
 
-	SectionFieldEditable<TelephoneSpinner, FlightPassenger> mEditPhoneNumberCountryCodeSpinner = new SectionFieldEditable<TelephoneSpinner, FlightPassenger>(
+	SectionFieldEditable<TelephoneSpinner, Traveler> mEditPhoneNumberCountryCodeSpinner = new SectionFieldEditable<TelephoneSpinner, Traveler>(
 			R.id.edit_phone_number_country_code_spinner) {
 
 		Validator<TelephoneSpinner> mValidator = new Validator<TelephoneSpinner>() {
@@ -1002,7 +1002,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(TelephoneSpinner field, FlightPassenger data) {
+		protected void onHasFieldAndData(TelephoneSpinner field, Traveler data) {
 			TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) field.getAdapter();
 			if (!TextUtils.isEmpty(data.getPhoneCountryCode())) {
 				final String targetCountryCode = data.getPhoneCountryCode();
@@ -1030,13 +1030,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
 	};
 
 
-	SectionFieldEditable<RadioGroup, FlightPassenger> mEditSeatPreference = new SectionFieldEditable<RadioGroup, FlightPassenger>(
+	SectionFieldEditable<RadioGroup, Traveler> mEditSeatPreference = new SectionFieldEditable<RadioGroup, Traveler>(
 			R.id.edit_seating_preference_radio) {
 
 		RadioButton mNoneRadio;
@@ -1081,7 +1081,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
+		protected void onHasFieldAndData(RadioGroup field, Traveler data) {
 			if (data.getSeatPreference() != null) {
 				SeatPreference sp = data.getSeatPreference();
 				if (sp == SeatPreference.WINDOW) {
@@ -1103,12 +1103,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
 	};
 
-	SectionFieldEditable<RadioGroup, FlightPassenger> mEditAssistancePreference = new SectionFieldEditable<RadioGroup, FlightPassenger>(
+	SectionFieldEditable<RadioGroup, Traveler> mEditAssistancePreference = new SectionFieldEditable<RadioGroup, Traveler>(
 			R.id.edit_assistance_radio) {
 
 		RadioButton mNoneRadio;
@@ -1153,7 +1153,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(RadioGroup field, FlightPassenger data) {
+		protected void onHasFieldAndData(RadioGroup field, Traveler data) {
 			if (data.getAssistance() != null) {
 				AssistanceType at = data.getAssistance();
 				if (at == AssistanceType.WHEELCHAIR) {
@@ -1175,12 +1175,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
 	};
 
-	SectionFieldEditable<Spinner, FlightPassenger> mEditGenderSpinner = new SectionFieldEditable<Spinner, FlightPassenger>(
+	SectionFieldEditable<Spinner, Traveler> mEditGenderSpinner = new SectionFieldEditable<Spinner, Traveler>(
 			R.id.edit_gender_spinner) {
 
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
@@ -1219,7 +1219,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(Spinner field, FlightPassenger data) {
+		protected void onHasFieldAndData(Spinner field, Traveler data) {
 			GenderSpinnerAdapter adapter = (GenderSpinnerAdapter) field.getAdapter();
 			if (!TextUtils.isEmpty(data.getFirstName())) {
 				String newFormatStr = String.format(mContext.getString(R.string.gender_name_TEMPLATE),
@@ -1238,12 +1238,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
 	};
 
-	SectionFieldEditable<Spinner, FlightPassenger> mEditSeatPreferenceSpinner = new SectionFieldEditable<Spinner, FlightPassenger>(
+	SectionFieldEditable<Spinner, Traveler> mEditSeatPreferenceSpinner = new SectionFieldEditable<Spinner, Traveler>(
 			R.id.edit_seat_preference_spinner) {
 
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
@@ -1284,7 +1284,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(Spinner field, FlightPassenger data) {
+		protected void onHasFieldAndData(Spinner field, Traveler data) {
 			SeatPreferenceSpinnerAdapter adapter = (SeatPreferenceSpinnerAdapter) field.getAdapter();
 			int pos = adapter.getSeatPreferencePosition(data.getSeatPreference());
 			if (pos >= 0) {
@@ -1299,12 +1299,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
 	};
 
-	SectionFieldEditable<Spinner, FlightPassenger> mEditAssistancePreferenceSpinner = new SectionFieldEditable<Spinner, FlightPassenger>(
+	SectionFieldEditable<Spinner, Traveler> mEditAssistancePreferenceSpinner = new SectionFieldEditable<Spinner, Traveler>(
 			R.id.edit_assistance_preference_spinner) {
 
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
@@ -1344,7 +1344,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected void onHasFieldAndData(Spinner field, FlightPassenger data) {
+		protected void onHasFieldAndData(Spinner field, Traveler data) {
 			AssistanceTypeSpinnerAdapter adapter = (AssistanceTypeSpinnerAdapter) field.getAdapter();
 			int pos = adapter.getAssistanceTypePosition(data.getAssistance());
 			if (pos >= 0) {
@@ -1358,7 +1358,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Flight
 		}
 
 		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, FlightPassenger>> getPostValidators() {
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
 			return null;
 		}
 	};
