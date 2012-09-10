@@ -12,12 +12,16 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
@@ -41,7 +45,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.validation.ValidationError;
 
-public class BookingInfoActivity extends FragmentActivity implements BookingFormFragmentListener,
+public class BookingInfoActivity extends SherlockFragmentActivity implements BookingFormFragmentListener,
 		SignInFragmentListener {
 
 	public static final String BOOKING_DOWNLOAD_KEY = BookingInfoActivity.class.getName() + ".BOOKING";
@@ -129,8 +133,24 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_booking, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_booking, menu);
 		DebugMenu.onCreateOptionsMenu(this, menu);
+
+		ActionBar ab = getSupportActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
+		ab.setDisplayShowTitleEnabled(true);
+		ab.setTitle(R.string.enter_booking_info);
+
+		final MenuItem bookNow = menu.findItem(R.id.menu_book_now);
+		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_book_now, null);
+		tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onOptionsItemSelected(bookNow);
+			}
+		});
+		bookNow.setActionView(tv);
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -143,8 +163,14 @@ public class BookingInfoActivity extends FragmentActivity implements BookingForm
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.clear_private_data:
+		case android.R.id.home:
+			finish();
+			break;
+		case R.id.menu_clear_private_data:
 			showDialog(DIALOG_CLEAR_PRIVATE_DATA);
+			break;
+		case R.id.menu_book_now:
+			mBookingFragment.confirmAndBook();
 			break;
 		}
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
@@ -10,8 +9,7 @@
         android:layout_height="fill_parent"
         android:background="@color/bg_default"
         android:fadingEdge="none"
-        android:fillViewport="true"
-        android:paddingBottom="@dimen/bottom_bar_height" >
+        android:fillViewport="true" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -26,6 +24,7 @@
             <include layout="@layout/include_receipt" />
 
             <!-- Login Section -->
+
             <include
                 android:id="@+id/account_button_root"
                 android:layout_width="fill_parent"
@@ -66,12 +65,15 @@
                 android:visibility="gone" />
 
             <include layout="@layout/include_billing_info_fields" />
+
             <include layout="@layout/include_saved_billing_info" />
 
             <include layout="@layout/include_credit_card_info" />
+
             <include layout="@layout/include_credit_card_security" />
 
             <!-- Coupon codes -->
+
             <include layout="@layout/include_coupon_code" />
 
             <!-- Terms and conditions -->
@@ -129,49 +131,5 @@
                 android:nextFocusDown="@+id/confirm_book_button" />
         </LinearLayout>
     </com.mobiata.android.widget.PaddedScrollView>
-
-    <!-- Bottom button bar -->
-
-    <LinearLayout
-        android:id="@+id/button_bar_layout"
-        style="@android:style/ButtonBar"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/bottom_bar_height"
-        android:layout_alignParentBottom="true"
-	    android:background="@color/bottom_bar_background"
-        android:orientation="horizontal"
-        android:paddingBottom="5dp" >
-
-        <ImageView
-            android:id="@+id/charge_details_lock_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
-            android:src="@drawable/ic_padlock"
-            android:visibility="invisible" />
-
-        <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/charge_details_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            android:maxLines="2"
-            android:textColor="@android:color/white"
-            mobiata:maxTextSize="15dp" />
-
-        <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/confirm_book_button"
-            style="@style/Widget.Button.Orange"
-            android:layout_width="144dp"
-            android:layout_height="48dp"
-            android:maxLines="1"
-            android:nextFocusUp="@+id/security_code_edit_text"
-            android:text="@string/EnterBookingInfo"
-            mobiata:maxTextSize="15dp" />
-    </LinearLayout>
 
 </RelativeLayout>

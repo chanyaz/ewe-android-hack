@@ -110,8 +110,6 @@ public class BookingFormFragment extends DialogFragment {
 	private EditText mSecurityCodeEditText;
 	private TextView mConfirmBookButton;
 	private View mCloseFormButton;
-	private ImageView mChargeDetailsImageView;
-	private TextView mChargeDetailsTextView;
 	private AccountButton mAccountButton;
 	private View mStoredCardContainer;
 	private Spinner mStoredCardSpinner;
@@ -211,8 +209,6 @@ public class BookingFormFragment extends DialogFragment {
 		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
 		mConfirmBookButton = Ui.findView(view, R.id.confirm_book_button);
 		mCloseFormButton = view.findViewById(R.id.close_booking_form);
-		mChargeDetailsImageView = Ui.findView(view, R.id.charge_details_lock_image_view);
-		mChargeDetailsTextView = Ui.findView(view, R.id.charge_details_text_view);
 
 		mStoredCardContainer = view.findViewById(R.id.stored_card_container);
 		if (mStoredCardContainer == null) {
@@ -475,38 +471,7 @@ public class BookingFormFragment extends DialogFragment {
 
 				@Override
 				public void onClick(View v) {
-					syncBillingInfo();
-
-					// Just to make sure, save the billing info when the user clicks submit
-					saveBillingInfo();
-					ValidationProcessor processor = mValidationProcessor;
-
-					if (mUserProfileIsFresh) {
-						StoredCreditCard card;
-						if (mCardAdapter == null) {
-							card = null;
-						}
-						else {
-							card = mCardAdapter.getSelectedCard();
-						}
-						Db.getBillingInfo().setStoredCard(card);
-						if (card != null) {
-							// a valid stored CC and not enter new card
-							// just validate the guest info
-							processor = mGuestInfoValidationProcessor;
-						}
-					}
-
-					List<ValidationError> errors = processor.validate();
-
-					if (errors.size() > 0) {
-						handleFormErrors(errors);
-					}
-					else {
-						dismissKeyboard(v);
-						BookingInfoUtils.onClickSubmit(getActivity());
-						mListener.onCheckout();
-					}
+					confirmAndBook();
 				}
 			});
 		}
@@ -653,26 +618,8 @@ public class BookingFormFragment extends DialogFragment {
 
 	private void updateChargeDetails() {
 		// Change the button text (if not showing as dialog)
-		if (!getShowsDialog()) {
+		if (!getShowsDialog() && mConfirmBookButton != null) {
 			mConfirmBookButton.setText(R.string.confirm_book);
-		}
-
-		// Reveal the charge lock icon
-		if (mChargeDetailsImageView != null) {
-			mChargeDetailsImageView.setVisibility(View.VISIBLE);
-		}
-
-		// Add the charge details text
-		if (mChargeDetailsTextView != null) {
-			Money amountToShow;
-			if (Db.getCreateTripResponse() != null) {
-				amountToShow = Db.getCreateTripResponse().getNewRate().getTotalAmountAfterTax();
-			}
-			else {
-				amountToShow = Db.getSelectedRate().getTotalAmountAfterTax();
-			}
-			CharSequence text = getString(R.string.charge_details_template, amountToShow.getFormattedMoney());
-			mChargeDetailsTextView.setText(text);
 		}
 	}
 
@@ -791,6 +738,41 @@ public class BookingFormFragment extends DialogFragment {
 				spinner.setSelection(n);
 				return;
 			}
+		}
+	}
+
+	public void confirmAndBook() {
+		syncBillingInfo();
+
+		// Just to make sure, save the billing info when the user clicks submit
+		saveBillingInfo();
+		ValidationProcessor processor = mValidationProcessor;
+
+		if (mUserProfileIsFresh) {
+			StoredCreditCard card;
+			if (mCardAdapter == null) {
+				card = null;
+			}
+			else {
+				card = mCardAdapter.getSelectedCard();
+			}
+			Db.getBillingInfo().setStoredCard(card);
+			if (card != null) {
+				// a valid stored CC and not enter new card
+				// just validate the guest info
+				processor = mGuestInfoValidationProcessor;
+			}
+		}
+
+		List<ValidationError> errors = processor.validate();
+
+		if (errors.size() > 0) {
+			handleFormErrors(errors);
+		}
+		else {
+			dismissKeyboard(mRootBillingView);
+			BookingInfoUtils.onClickSubmit(getActivity());
+			mListener.onCheckout();
 		}
 	}
 

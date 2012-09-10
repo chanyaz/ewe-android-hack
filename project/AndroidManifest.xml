@@ -87,7 +87,9 @@
         <activity
             android:name=".activity.RoomsAndRatesListActivity"
             android:theme="@style/Theme.Phone" />
-        <activity android:name=".activity.BookingInfoActivity" />
+        <activity
+            android:name=".activity.BookingInfoActivity"
+            android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.TabletAboutActivity" />
         <activity android:name=".activity.ExpediaBookingPreferenceActivity" />
