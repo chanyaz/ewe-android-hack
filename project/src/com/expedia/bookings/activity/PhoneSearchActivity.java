@@ -48,13 +48,14 @@ import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.TouchDelegate;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.View.MeasureSpec;
 import android.view.ViewStub;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -149,7 +150,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private enum DisplayType {
-		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), DRAWER(false);
+		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), DRAWER(false), FILTER(true);
 
 		private boolean mIsSearchDisplay;
 
@@ -217,6 +218,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private ImageView mViewFlipImage;
 	private NumberPicker mAdultsNumberPicker;
 	private NumberPicker mChildrenNumberPicker;
+	private EditText mFilterHotelNameEditText;
+	private SegmentedControlGroup mRadiusButtonGroup;
+	private SegmentedControlGroup mRatingButtonGroup;
+	private SegmentedControlGroup mPriceButtonGroup;
 	private TextView mDatesTextView;
 	private TextView mGuestsTextView;
 	private TextView mRefinementInfoTextView;
@@ -227,6 +232,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private View mGuestsLayout;
 	private View mChildAgesLayout;
 	private View mRefinementDismissView;
+
+	private View mFilterLayout;
+	private PopupWindow mFilterPopupWindow;
 
 	private View mActionBarCustomView;
 
@@ -254,6 +262,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private Canvas mViewFlipCanvas;
 
 	private int mSortOptionSelectedId;
+	private int mRadiusCheckedId = 0;
+	private int mRatingCheckedId = 0;
+	private int mPriceCheckedId = 0;
 
 	private ArrayList<Address> mAddresses;
 	private SearchParams mOldSearchParams;
@@ -313,7 +324,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				if (!mLoadedSavedResults && searchResponse.getFilteredAndSortedProperties().length <= 10) {
 					Log.i("Initial search results had not many results, expanding search radius filter to show all.");
 					filter.setSearchRadius(SearchRadius.ALL);
-					// TODO: Do this with Action Bar implementation: mRadiusButtonGroup.check(R.id.radius_all_button);
+					mRadiusCheckedId = R.id.radius_all_button;
 					searchResponse.clearCache();
 				}
 				ImageCache.recycleCache(true);
@@ -855,6 +866,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		// Sort
+		case R.id.menu_select_sort: {
+			setDisplayType(DisplayType.NONE);
+			break;
+		}
+
 		case R.id.menu_select_sort_popularity:
 		case R.id.menu_select_sort_price:
 		case R.id.menu_select_sort_user_rating:
@@ -885,6 +901,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				setShowDistance(true);
 				startSearch();
 			}
+			break;
+		}
+
+		// Filters
+		case R.id.menu_select_filter: {
+			setDisplayType(DisplayType.FILTER);
+			break;
 		}
 		}
 
@@ -1049,8 +1072,35 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
-		// Progress bar
+		mFilterLayout= getLayoutInflater().inflate(R.layout.popup_filter_options, null);
+		mFilterHotelNameEditText = (EditText) mFilterLayout.findViewById(R.id.filter_hotel_name_edit_text);
+		mRadiusButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.radius_filter_button_group);
+		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
+		mPriceButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.price_filter_button_group);
 
+                mFilterHotelNameEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+                        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                                        v.clearFocus();
+                                }
+                                return false;
+                        }
+                });
+
+		// Setup popup
+		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(), mFilterLayout.getMeasuredHeight());
+		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
+		mFilterPopupWindow.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss() {
+				setDisplayType(DisplayType.NONE);
+				mRefinementDismissView.setVisibility(View.GONE);
+			}
+		});
+
+		// Progress bar
 		mProgressBar.addOnDrawStartedListener(this);
 
 		// mProgressText is positioned differently based on orientation
@@ -1067,7 +1117,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		//===================================================================
 		// Listeners
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
-		mSearchEditText.setOnClickListener(mSearchEditTextClickListener);
 		mSearchEditText.setOnItemClickListener(mSearchSuggestionsItemClickListner);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
@@ -1091,16 +1140,67 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		Filter currentFilter = filter.copy();
 
 		// Distance
-		// FIXME
-		filter.setSearchRadius(SearchRadius.ALL);
+                switch (mRadiusCheckedId) {
+                case R.id.radius_small_button: {
+                        filter.setSearchRadius(SearchRadius.SMALL);
+                        break;
+                }
+                case R.id.radius_medium_button: {
+                        filter.setSearchRadius(SearchRadius.MEDIUM);
+                        break;
+                }
+                case R.id.radius_large_button: {
+                        filter.setSearchRadius(SearchRadius.LARGE);
+                        break;
+                }
+                default:
+                case R.id.radius_all_button: {
+                        filter.setSearchRadius(SearchRadius.ALL);
+                        break;
+                }
+                }
 
-		// Rating
-		// FIXME
-		filter.setMinimumStarRating(0);
+                // Rating
+                switch (mRatingCheckedId) {
+                case R.id.rating_low_button: {
+                        filter.setMinimumStarRating(3);
+                        break;
+                }
+                case R.id.rating_medium_button: {
+                        filter.setMinimumStarRating(4);
+                        break;
+                }
+                case R.id.rating_high_button: {
+                        filter.setMinimumStarRating(5);
+                        break;
+                }
+                default:
+                case R.id.rating_all_button: {
+                        filter.setMinimumStarRating(0);
+                        break;
+                }
+                }
 
-		// Price
-		// FIXME
-		filter.setPriceRange(PriceRange.ALL);
+                // Price
+                switch (mPriceCheckedId) {
+                case R.id.price_cheap_button: {
+                        filter.setPriceRange(PriceRange.CHEAP);
+                        break;
+                }
+                case R.id.price_moderate_button: {
+                        filter.setPriceRange(PriceRange.MODERATE);
+                        break;
+                }
+                case R.id.price_expensive_button: {
+                        filter.setPriceRange(PriceRange.EXPENSIVE);
+                        break;
+                }
+                default:
+                case R.id.price_all_button: {
+                        filter.setPriceRange(PriceRange.ALL);
+                        break;
+                }
+                }
 
 		// Sort
 		switch (mSortOptionSelectedId) {
@@ -1619,6 +1719,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mFocusLayout.requestFocus();
 
 			hideSoftKeyboard(mSearchEditText);
+			hideFilterOptions();
 
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
@@ -1628,6 +1729,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 		case KEYBOARD: {
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+			hideFilterOptions();
 
 			// 13550: In some cases, the list has been cleared
 			// (like as a result of memory cleanup or rotation). So just
@@ -1645,6 +1747,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchEditText.clearFocus();
 
 			hideSoftKeyboard(mSearchEditText);
+			hideFilterOptions();
 
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
@@ -1660,6 +1763,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchEditText.clearFocus();
 
 			hideSoftKeyboard(mSearchEditText);
+			hideFilterOptions();
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
@@ -1672,11 +1776,26 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchEditText.clearFocus();
 
 			hideSoftKeyboard(mSearchEditText);
+			hideFilterOptions();
 
 			mRefinementDismissView.setVisibility(View.GONE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
+
+			break;
+		}
+		case FILTER: {
+			mSearchEditText.clearFocus();
+
+			hideSoftKeyboard(mSearchEditText);
+
+			mRefinementDismissView.setVisibility(View.VISIBLE);
+			mButtonBarLayout.setVisibility(View.GONE);
+			mDatesLayout.setVisibility(View.GONE);
+			mGuestsLayout.setVisibility(View.GONE);
+
+			showFilterOptions();
 
 			break;
 		}
@@ -1783,6 +1902,44 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				showFragment(newFragmentTag);
 			}
 		}
+	}
+
+	private void showFilterOptions() {
+		if (mFilterPopupWindow.isShowing()) {
+			return;
+		}
+
+		if (mRadiusCheckedId == 0) {
+			mRadiusCheckedId = mRadiusButtonGroup.getCheckedRadioButtonId();
+		}
+		if (mRatingCheckedId == 0) {
+			mRatingCheckedId = mRatingButtonGroup.getCheckedRadioButtonId();
+		}
+		if (mPriceCheckedId == 0) {
+			mPriceCheckedId = mPriceButtonGroup.getCheckedRadioButtonId();
+		}
+
+		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, Db.getFilter());
+
+		mRadiusButtonGroup.check(mRadiusCheckedId);
+		mRatingButtonGroup.check(mRatingCheckedId);
+		mPriceButtonGroup.check(mPriceCheckedId);
+
+		mRadiusButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
+
+		mFilterPopupWindow.showAsDropDown(mContent,
+				(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
+				-mFilterLayout.getMeasuredHeight());
+	}
+
+	private void hideFilterOptions() {
+		if (!mFilterPopupWindow.isShowing()) {
+			return;
+		}
+
+		mFilterPopupWindow.dismiss();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -2168,6 +2325,22 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	};
 
+	private final RadioGroup.OnCheckedChangeListener mFilterButtonGroupCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			if (mRadiusButtonGroup != null) {
+				mRadiusCheckedId = mRadiusButtonGroup.getCheckedRadioButtonId();
+			}
+			if (mRatingButtonGroup != null) {
+				mRatingCheckedId = mRatingButtonGroup.getCheckedRadioButtonId();
+			}
+			if (mPriceButtonGroup != null) {
+				mPriceCheckedId = mPriceButtonGroup.getCheckedRadioButtonId();
+			}
+			buildFilter();
+		}
+	};
+
 	private final TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -2220,15 +2393,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	};
 
-	private final View.OnClickListener mSearchEditTextClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			if (mDisplayType != DisplayType.KEYBOARD) {
-				setDisplayType(DisplayType.KEYBOARD);
-			}
-		}
-	};
-
 	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -2241,7 +2405,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
 				//expandSearchEditText();
-				setDisplayType(DisplayType.KEYBOARD);
+				//setDisplayType(DisplayType.KEYBOARD);
+				startAutocomplete();
 				SearchType searchType = Db.getSearchParams().getSearchType();
 				if (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA) {
 					mSearchEditText.post(new Runnable() {
