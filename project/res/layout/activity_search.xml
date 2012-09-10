@@ -79,19 +79,6 @@
         android:layout_height="wrap_content"
         android:layout="@layout/include_widget_notification" />
 
-    <ListView
-        android:id="@+id/search_suggestions_list_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/white"
-        android:cacheColorHint="@android:color/white"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:drawingCacheQuality="low"
-        android:footerDividersEnabled="false"
-        android:listSelector="@null"
-        android:visibility="gone" />
-
     <include
         android:id="@+id/button_bar_layout"
         layout="@layout/include_button_bar" />
