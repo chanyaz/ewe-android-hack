@@ -546,7 +546,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("middleName", traveler.getMiddleName()));
 		}
 		query.add(new BasicNameValuePair("lastName", traveler.getLastName()));
-		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(traveler.getBirthDate().getTime())));
+		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(traveler.getBirthDateInMillis())));
 		query.add(new BasicNameValuePair("gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
 	}
 

@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,37 +11,43 @@ import android.content.res.Resources;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.Log;
+import com.expedia.bookings.data.UserPreference.Category;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 /**
  * This class represents a traveler for booking
- * @author jdrotos
- *
  */
 public class Traveler implements JSONable {
 
+	// Expedia
 	private Long mTuid = 0L;
+	private String mLoyaltyMembershipNumber;
 
-	//These all come from the api...
+	// General
 	private String mFirstName;
 	private String mMiddleName;
 	private String mLastName;
-	private String mPhoneCountryCode;
-	private String mPhoneNumber;
+	private Location mHomeAddress;
+	private List<Phone> mPhoneNumbers = new ArrayList<Phone>();
 	private String mEmail;
-	private Gender mGender;
 
-	private Calendar mBirthDate;
+	// Hotels
+	private boolean mIsSmokingPreferred;
+
+	// Flights
+	private Gender mGender;
+	private Date mBirthDate;
 	private String mRedressNumber;
 	private String mPassportCountry;
 	private SeatPreference mSeatPreference = SeatPreference.ANY;
 	private AssistanceType mAssistance = AssistanceType.NONE;
 
+	// Utility - not actually coming from the Expedia
 	private boolean mSaveTravelerToExpediaAccount = false;
 
 	public enum Gender {
-		MALE, FEMALE
+		MALE, FEMALE, OTHER
 	}
 
 	public enum SeatPreference {
@@ -55,45 +62,23 @@ public class Traveler implements JSONable {
 	}
 
 	public Traveler() {
-
+		// Default constructor
 	}
 
-	/***
-	 * This constructor copies data from an existing BillingInfo object
-	 * into this Traveler instance
-	 * @param info
-	 */
-	public Traveler(BillingInfo info) {
-		if (info == null) {
-			return;
-		}
-		setFirstName(info.getFirstName());
-		setLastName(info.getLastName());
-		setPhoneCountryCode(info.getTelephoneCountryCode());
-		setPhoneNumber(info.getTelephone());
-		setEmail(info.getEmail());
-
-	}
-
-	/***
-	 * This constructor copies data from an existing User object
-	 * into this Traveler instance
-	 * @param info
-	 */
-	public Traveler(User user) {
-		if (user == null) {
-			return;
-		}
-
-		setFirstName(user.getFirstName());
-		setMiddleName(user.getMiddleName());
-		setLastName(user.getLastName());
-		setEmail(user.getEmail());
-
-	}
-
-	///////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 	// Getters
+
+	public Long getTuid() {
+		return mTuid;
+	}
+
+	public boolean hasTuid() {
+		return (mTuid != 0);
+	}
+
+	public String getLoyaltyMembershipNumber() {
+		return mLoyaltyMembershipNumber;
+	}
 
 	public String getFirstName() {
 		return mFirstName;
@@ -107,24 +92,56 @@ public class Traveler implements JSONable {
 		return mLastName;
 	}
 
-	public String getPhoneCountryCode() {
-		return mPhoneCountryCode;
+	public Location getHomeAddress() {
+		return mHomeAddress;
 	}
 
-	public String getPhoneNumber() {
-		return mPhoneNumber;
+	// Assumes there is only one primary phone number (which should be
+	// a correct assumption).
+	public Phone getPrimaryPhoneNumber() {
+		for (Phone phone : mPhoneNumbers) {
+			if (phone.getCategory() == Category.PRIMARY) {
+				return phone;
+			}
+		}
+
+		// If we got here and still didn't find one, return the first
+		// phone # as the default
+		if (mPhoneNumbers.size() > 0) {
+			return mPhoneNumbers.get(0);
+		}
+
+		return null;
+	}
+
+	public Phone getOrCreatePrimaryPhoneNumber() {
+		Phone phone = getPrimaryPhoneNumber();
+		if (phone == null) {
+			phone = new Phone();
+			phone.setCategory(Category.PRIMARY);
+			mPhoneNumbers.add(phone);
+		}
+		return phone;
+	}
+
+	public List<Phone> getPhoneNumbers() {
+		return mPhoneNumbers;
 	}
 
 	public String getEmail() {
 		return mEmail;
 	}
 
-	public Calendar getBirthDate() {
-		return mBirthDate;
+	public boolean isSmokingPreferred() {
+		return mIsSmokingPreferred;
 	}
 
 	public Gender getGender() {
 		return mGender;
+	}
+
+	public Date getBirthDate() {
+		return mBirthDate;
 	}
 
 	public String getRedressNumber() {
@@ -137,10 +154,6 @@ public class Traveler implements JSONable {
 
 	public SeatPreference getSeatPreference() {
 		return mSeatPreference;
-	}
-
-	public boolean getSaveTravelerToExpediaAccount() {
-		return mSaveTravelerToExpediaAccount;
 	}
 
 	public String getSeatPreferenceString(Context context) {
@@ -193,25 +206,28 @@ public class Traveler implements JSONable {
 		return retStr;
 	}
 
-	public Long getTuid() {
-		return mTuid;
-	}
-
-	public boolean hasTuid() {
-		return (mTuid != 0);
-	}
-
 	/***
 	 * Does the traveler have non-blank first and last name values
 	 * @return
 	 */
 	public boolean hasName() {
 		return !TextUtils.isEmpty(getFirstName()) && !TextUtils.isEmpty(getLastName());
-
 	}
 
-	//////////////////////////
+	public boolean getSaveTravelerToExpediaAccount() {
+		return mSaveTravelerToExpediaAccount;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Setters
+
+	public void setTuid(Long tuid) {
+		mTuid = tuid;
+	}
+
+	public void setLoyaltyMembershipNumber(String loyaltyMembershipNumber) {
+		mLoyaltyMembershipNumber = loyaltyMembershipNumber;
+	}
 
 	public void setFirstName(String firstName) {
 		mFirstName = firstName;
@@ -225,24 +241,28 @@ public class Traveler implements JSONable {
 		mLastName = lastName;
 	}
 
-	public void setPhoneCountryCode(String code) {
-		mPhoneCountryCode = code;
+	public void setHomeAddress(Location homeAddress) {
+		mHomeAddress = homeAddress;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		mPhoneNumber = phoneNumber;
+	public void addPhoneNumber(Phone phoneNumber) {
+		mPhoneNumbers.add(phoneNumber);
 	}
 
 	public void setEmail(String email) {
 		mEmail = email;
 	}
 
-	public void setBirthDate(Calendar cal) {
-		mBirthDate = cal;
+	public void setSmokingPreferred(boolean isPreferred) {
+		mIsSmokingPreferred = isPreferred;
 	}
 
 	public void setGender(Gender gender) {
 		mGender = gender;
+	}
+
+	public void setBirthDate(Date date) {
+		mBirthDate = date;
 	}
 
 	public void setRedressNumber(String redressNumber) {
@@ -261,13 +281,39 @@ public class Traveler implements JSONable {
 		mAssistance = assistance;
 	}
 
-	public void setTuid(Long tuid) {
-		mTuid = tuid;
-	}
-
 	public void setSaveTravelerToExpediaAccount(boolean save) {
 		mSaveTravelerToExpediaAccount = save;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Convenience methods
+
+	// Most of the time we only want to deal with a single, primarly phone #
+	// So the methods below handle that case
+
+	public void setPhoneNumber(String phoneNumber) {
+		getOrCreatePrimaryPhoneNumber().setNumber(phoneNumber);
+	}
+
+	public String getPhoneNumber() {
+		return getOrCreatePrimaryPhoneNumber().getNumber();
+	}
+
+	public void setPhoneCountryCode(String phoneCountryCode) {
+		getOrCreatePrimaryPhoneNumber().setCountryCode(phoneCountryCode);
+	}
+
+	public String getPhoneCountryCode() {
+		return getOrCreatePrimaryPhoneNumber().getCountryCode();
+	}
+
+	// Quick way to get birth date in milliseconds (good for formatting)
+	public long getBirthDateInMillis() {
+		return mBirthDate.getCalendar().getTimeInMillis();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// JSONable
 
 	@Override
 	public JSONObject toJson() {
@@ -275,77 +321,55 @@ public class Traveler implements JSONable {
 
 		try {
 			obj.putOpt("tuid", mTuid);
+			obj.putOpt("loyaltyMembershipNumber", mLoyaltyMembershipNumber);
 
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("middleName", mMiddleName);
 			obj.putOpt("lastName", mLastName);
-
-			//TODO:phone num and country code need to be integers
-			obj.putOpt("phoneCountryCode", mPhoneCountryCode);
-			obj.putOpt("phone", mPhoneNumber);
-
+			JSONUtils.putJSONable(obj, "homeAddress", mHomeAddress);
+			JSONUtils.putJSONableList(obj, "phoneNumbers", mPhoneNumbers);
 			obj.putOpt("email", mEmail);
-			
-			//TODO:"save" is not a valid key, this is not yet defined in the api
-			obj.putOpt("save", mSaveTravelerToExpediaAccount);
 
-			if (mGender != null) {
-				obj.putOpt("gender", mGender.name());
-			}
+			obj.putOpt("isSmokingPreferred", mIsSmokingPreferred);
 
-			//TODO:Calendar 
-			//obj.putOpt("birthDate", mBirthDate);
-
+			JSONUtils.putEnum(obj, "gender", mGender);
+			JSONUtils.putJSONable(obj, "birthDate", mBirthDate);
 			obj.putOpt("redressNumber", mRedressNumber);
 			obj.putOpt("passportCountry", mPassportCountry);
-			if (mSeatPreference != null) {
-				obj.put("seatPreference", mSeatPreference.name());
-			}
-			if (mAssistance != null) {
-				obj.put("assistance", mAssistance.name());
-			}
+			JSONUtils.putEnum(obj, "seatPreference", mSeatPreference);
+			JSONUtils.putEnum(obj, "assistance", mAssistance);
+
+			obj.putOpt("saveToExpediaAccount", mSaveTravelerToExpediaAccount);
 
 			return obj;
 		}
 		catch (JSONException e) {
-			Log.e("Could not convert User to JSON", e);
-			return null;
+			throw new RuntimeException("Could not convert Traveler to JSON", e);
 		}
 	}
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mTuid = obj.optLong("tuid");
+		mLoyaltyMembershipNumber = obj.optString("loyaltyMembershipNumber", null);
 
-		mEmail = obj.optString("email", null);
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);
 		mLastName = obj.optString("lastName", null);
+		mHomeAddress = JSONUtils.getJSONable(obj, "homeAddress", Location.class);
+		mPhoneNumbers = JSONUtils.getJSONableList(obj, "phoneNumbers", Phone.class);
+		mEmail = obj.optString("email", null);
 
-		//TODO:phone num and country code need to be integers
-		mPhoneCountryCode = obj.optString("phoneCountryCode");
-		mPhoneNumber = obj.optString("phone");
+		mIsSmokingPreferred = obj.optBoolean("isSmokingPreferred");
 
-		mSaveTravelerToExpediaAccount = obj.optBoolean("save");
-		
-		String genderStr = obj.optString("gender");
-		if (!TextUtils.isEmpty(genderStr)) {
-			mGender = Gender.valueOf(genderStr);
-		}
-
-		//TODO:Calender stuff for birthday...
-
+		mGender = JSONUtils.getEnum(obj, "gender", Gender.class);
+		mBirthDate = JSONUtils.getJSONable(obj, "birthDate", Date.class);
 		mRedressNumber = obj.optString("redressNumber");
 		mPassportCountry = obj.optString("passportCountry");
+		mSeatPreference = JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class);
+		mAssistance = JSONUtils.getEnum(obj, "assistance", AssistanceType.class);
 
-		String seatPrefStr = obj.optString("seatPreference");
-		if (!TextUtils.isEmpty(seatPrefStr)) {
-			mSeatPreference = SeatPreference.valueOf(seatPrefStr);
-		}
-		String assistanceStr = obj.optString("assistance");
-		if (!TextUtils.isEmpty(assistanceStr)) {
-			mAssistance = AssistanceType.valueOf(assistanceStr);
-		}
+		mSaveTravelerToExpediaAccount = obj.optBoolean("saveToExpediaAccount");
 
 		return true;
 	}

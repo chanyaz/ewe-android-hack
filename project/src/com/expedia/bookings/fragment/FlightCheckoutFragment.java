@@ -22,13 +22,12 @@ import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerInfoResponse;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.UserDataTransfer;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.FlightLegSummarySection;
@@ -43,9 +42,9 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 
 public class FlightCheckoutFragment extends Fragment implements AccountButtonClickListener {
 

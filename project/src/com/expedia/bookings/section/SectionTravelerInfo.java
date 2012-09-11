@@ -3,21 +3,7 @@ package com.expedia.bookings.section;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.Traveler.AssistanceType;
-import com.expedia.bookings.data.Traveler.Gender;
-import com.expedia.bookings.data.Traveler.SeatPreference;
-import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.widget.TelephoneSpinner;
-import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.Ui;
-import com.mobiata.android.validation.ValidationError;
-import com.mobiata.android.validation.Validator;
 
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
@@ -35,14 +21,28 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.DatePicker.OnDateChangedListener;
-import android.widget.LinearLayout;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Date;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.Traveler.AssistanceType;
+import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.data.Traveler.SeatPreference;
+import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.widget.TelephoneSpinner;
+import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.Ui;
+import com.mobiata.android.validation.ValidationError;
+import com.mobiata.android.validation.Validator;
 
 public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>, ISectionEditable {
 
@@ -288,9 +288,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		public void onHasFieldAndData(TextView field, Traveler data) {
 			if (data.getBirthDate() != null) {
-				field.setText(android.text.format.DateUtils.formatDateTime(mContext, data.getBirthDate().getTime()
-						.getTime(), android.text.format.DateUtils.FORMAT_NUMERIC_DATE
-						| android.text.format.DateUtils.FORMAT_SHOW_DATE));
+				field.setText(android.text.format.DateUtils.formatDateTime(mContext, data.getBirthDateInMillis(),
+						android.text.format.DateUtils.FORMAT_NUMERIC_DATE
+								| android.text.format.DateUtils.FORMAT_SHOW_DATE));
 			}
 			else {
 				field.setText("");
@@ -306,7 +306,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			if (data.getBirthDate() != null) {
 				String formatStr = mContext.getString(R.string.born_on_TEMPLATE);
 				DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-				String bdayStr = df.format(data.getBirthDate().getTime());//DateFormat.MEDIUM
+				String bdayStr = df.format(data.getBirthDateInMillis());//DateFormat.MEDIUM
 				String bornStr = String.format(formatStr, bdayStr);
 				field.setText(bornStr);
 			}
@@ -499,34 +499,36 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				@Override
 				public void onClick(View v) {
 
-					Calendar defCal = Calendar.getInstance();
+					
+					Date defDate = null;
 					if (hasBoundData()) {
 						if (getData().getBirthDate() != null) {
-							defCal = getData().getBirthDate();
+							defDate = getData().getBirthDate();
 						}
 					}
+					if (defDate == null) {
+						defDate = new Date(Calendar.getInstance());
+					}
 
-					int year = defCal.get(Calendar.YEAR);
-					int month = defCal.get(Calendar.MONTH);
-					int day = defCal.get(Calendar.DAY_OF_MONTH);
+					int year = defDate.getYear();
+					int month = defDate.getMonth() - 1;
+					int day = defDate.getDayOfMonth();
 
 					OnDateSetListener dsl = new OnDateSetListener() {
 						@Override
 						public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 							if (hasBoundData()) {
-								Calendar cal = new GregorianCalendar(year, monthOfYear, dayOfMonth);
-								getData().setBirthDate(cal);
+								getData().setBirthDate(new Date(year, monthOfYear + 1, dayOfMonth));
 							}
 							refreshText();
 							onChange(SectionTravelerInfo.this);
 						}
 					};
 
-					
 					DatePickerDialog birthDatePicker = new DatePickerDialog(mContext, dsl, year, month, day);
-					if(AndroidUtils.getSdkVersion() >= 11){
+					if (AndroidUtils.getSdkVersion() >= 11) {
 						//We set a max date for new apis, if we are stuck with an old api, they will be allowed to choose any date, but validation will fail
-						birthDatePicker.getDatePicker().setMaxDate((new Date()).getTime());
+						birthDatePicker.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
 					}
 					birthDatePicker.show();
 				}
@@ -554,7 +556,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			if (data.getBirthDate() != null) {
 				String formatStr = mContext.getString(R.string.born_on_colored_TEMPLATE);
 				DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-				String bdayStr = df.format(data.getBirthDate().getTime());//DateFormat.MEDIUM
+				String bdayStr = df.format(data.getBirthDateInMillis());//DateFormat.MEDIUM
 				btnTxt = String.format(formatStr, bdayStr);
 			}
 			field.setText(Html.fromHtml(btnTxt));
@@ -567,9 +569,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				int retVal = ValidationError.NO_ERROR;
 				if (hasBoundData()) {
 					if (getData().getBirthDate() != null) {
-						Calendar cal = getData().getBirthDate();
-						Calendar now = Calendar.getInstance();
-						if (cal.getTimeInMillis() > now.getTimeInMillis()) {
+						long birthDate = getData().getBirthDateInMillis();
+						long now = Calendar.getInstance().getTimeInMillis();
+						if (birthDate > now) {
 							retVal = ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
@@ -718,9 +720,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					new OnDateChangedListener() {
 						@Override
 						public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-							Calendar cal = new GregorianCalendar(year, monthOfYear, dayOfMonth);
 							if (mTraveler != null) {
-								mTraveler.setBirthDate(cal);
+								mTraveler.setBirthDate(new Date(year, monthOfYear + 1, dayOfMonth));
 							}
 							onChange(SectionTravelerInfo.this);
 						}
@@ -730,10 +731,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected void onHasFieldAndData(DatePicker field, Traveler data) {
 			if (data.getBirthDate() == null) {
-				data.setBirthDate(Calendar.getInstance());
+				data.setBirthDate(new Date(Calendar.getInstance()));
 			}
-			Calendar bd = data.getBirthDate();
-			field.updateDate(bd.get(Calendar.YEAR), bd.get(Calendar.MONTH), bd.get(Calendar.DAY_OF_MONTH));
+			Date bd = data.getBirthDate();
+			field.updateDate(bd.getYear(), bd.getMonth() - 1, bd.getDayOfMonth());
 		}
 
 		@Override
@@ -1034,7 +1035,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			return null;
 		}
 	};
-
 
 	SectionFieldEditable<RadioGroup, Traveler> mEditSeatPreference = new SectionFieldEditable<RadioGroup, Traveler>(
 			R.id.edit_seating_preference_radio) {
