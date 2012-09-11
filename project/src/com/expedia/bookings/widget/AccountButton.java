@@ -21,12 +21,12 @@ public class AccountButton extends LinearLayout {
 	private View mLogoutContainer;
 	private View mErrorContainer;
 
-	public AccountButton (Context context, AttributeSet attrs) {
+	public AccountButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
 	}
 
-	public AccountButton (Context context) {
+	public AccountButton(Context context) {
 		super(context);
 		mContext = context;
 	}
@@ -73,7 +73,11 @@ public class AccountButton extends LinearLayout {
 	}
 
 	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
-		Traveler traveler = u.getPrimaryTraveler();
+		Traveler traveler = null;
+		if (u != null) {
+			traveler = u.getPrimaryTraveler();
+		}
+
 		mErrorContainer.setVisibility(View.GONE);
 		if (isLoading) {
 			mAccountLoadingContainer.setVisibility(View.VISIBLE);
@@ -118,6 +122,7 @@ public class AccountButton extends LinearLayout {
 
 	public interface AccountButtonClickListener {
 		public void accountLoginClicked();
+
 		public void accountLogoutClicked();
 	}
 }

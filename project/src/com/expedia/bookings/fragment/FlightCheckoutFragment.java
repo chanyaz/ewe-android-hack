@@ -26,7 +26,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.TravelerInfoResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
@@ -513,7 +512,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	//////////////////////////////////////////////////////////////////////////
 	// Update Traveler
 
-	private class TravelerDownload implements Download<TravelerInfoResponse> {
+	private class TravelerDownload implements Download<SignInResponse> {
 		Traveler mTraveler;
 
 		public void setTraveler(Traveler traveler) {
@@ -521,7 +520,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 
 		@Override
-		public TravelerInfoResponse doDownload() {
+		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_TRAVELER_DATA, services);
 			return services.updateTraveler(mTraveler, 0);
@@ -529,9 +528,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	}
 
 	private final TravelerDownload mGetTravelerInfo = new TravelerDownload();
-	private final OnDownloadComplete<TravelerInfoResponse> mGetTravelerCallback = new OnDownloadComplete<TravelerInfoResponse>() {
+	private final OnDownloadComplete<SignInResponse> mGetTravelerCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
-		public void onDownload(TravelerInfoResponse results) {
+		public void onDownload(SignInResponse results) {
 			if (results == null || results.hasErrors()) {
 				//TODO:If we don't have traveler info do something useful...
 				Ui.showToast(getActivity(), "Fail to update traveler");

@@ -31,6 +31,17 @@ public class SignInResponse extends Response implements JSONable {
 		return mUser;
 	}
 
+	// Shortcut if all we care about is the traveler
+	//
+	// This is the case when we're retrieving profile details
+	// about an associated traveler
+	public Traveler getTraveler() {
+		if (mUser != null) {
+			return mUser.getPrimaryTraveler();
+		}
+		return null;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable interface
 

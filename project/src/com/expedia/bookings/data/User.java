@@ -36,6 +36,10 @@ public class User implements JSONable {
 
 	private static final String[] ADDRESS_LINE_KEYS = new String[] { "firstAddressLine", "secondAddressLine" };
 
+	public User() {
+		// Default constructor
+	}
+
 	public User(Context context) {
 		load(context);
 	}

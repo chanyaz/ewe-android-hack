@@ -52,8 +52,6 @@ import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -70,7 +68,8 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.SuggestResponse;
-import com.expedia.bookings.data.TravelerInfoResponse;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
@@ -430,14 +429,14 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
-	public TravelerInfoResponse updateTraveler(Traveler traveler, int flags) {
+	public SignInResponse updateTraveler(Traveler traveler, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tuid", "" + traveler.getTuid()));
 
 		addProfileTypes(query, flags | F_FLIGHTS | F_HOTELS);
 
-		return doE3Request("api/user/profile", query, new TravelerResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/user/profile", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public void clearCookies() {
