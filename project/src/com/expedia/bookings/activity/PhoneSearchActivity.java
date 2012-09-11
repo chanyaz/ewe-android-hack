@@ -802,6 +802,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		case POPULAR:
 			mSortOptionSelectedId = R.id.menu_select_sort_popularity;
 			break;
+		case DEALS:
+			mSortOptionSelectedId = R.id.menu_select_sort_deals;
+			break;
 		case PRICE:
 			mSortOptionSelectedId = R.id.menu_select_sort_price;
 			break;
@@ -863,6 +866,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		case R.id.menu_select_sort_popularity:
+		case R.id.menu_select_sort_deals:
 		case R.id.menu_select_sort_price:
 		case R.id.menu_select_sort_user_rating:
 		case R.id.menu_select_sort_distance:
@@ -1199,6 +1203,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		switch (mSortOptionSelectedId) {
 		case R.id.menu_select_sort_popularity: {
 			filter.setSort(Sort.POPULAR);
+			break;
+		}
+		case R.id.menu_select_sort_deals: {
+			filter.setSort(Sort.DEALS);
 			break;
 		}
 		case R.id.menu_select_sort_price: {

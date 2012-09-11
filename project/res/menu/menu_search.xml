@@ -16,6 +16,10 @@
                     android:icon="@drawable/ic_sort_popular"
                     android:title="@string/sort_description_popular" />
                 <item
+                    android:id="@+id/menu_select_sort_deals"
+                    android:icon="@drawable/ic_sort_deals"
+                    android:title="@string/sort_description_deals" />
+                <item
                     android:id="@+id/menu_select_sort_price"
                     android:icon="@drawable/ic_sort_price"
                     android:title="@string/sort_description_price" />
