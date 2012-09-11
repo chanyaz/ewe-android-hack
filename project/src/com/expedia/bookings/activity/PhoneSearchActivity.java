@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -16,7 +17,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
-import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -79,6 +79,7 @@ import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.PriceRange;
@@ -1086,7 +1087,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mFilterPopupWindow.setOnDismissListener(new OnDismissListener() {
 			@Override
 			public void onDismiss() {
-				onCloseFilterPanel();
+				onFilterClosed();
 				setDisplayType(DisplayType.NONE);
 				mRefinementDismissView.setVisibility(View.GONE);
 			}
@@ -2332,6 +2333,22 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				mPriceCheckedId = mPriceButtonGroup.getCheckedRadioButtonId();
 			}
 			buildFilter();
+
+			// tracking
+			switch (group.getId()) {
+			case R.id.radius_filter_button_group: {
+				onRadiusFilterChanged();
+				break;
+			}
+			case R.id.rating_filter_button_group: {
+				onRatingFilterChanged();
+				break;
+			}
+			case R.id.price_filter_button_group: {
+				onPriceFilterChanged();
+				break;
+			}
+			}
 		}
 	};
 
@@ -2534,12 +2551,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, "Shopper", null);
 	}
 
-	private void onCloseFilterPanel() {
-		Log.d("Tracking \"App.Hotels.Search.Refine.Name\" change...");
-		String pageName = "App.Hotels.Search.Refine.Name." + mFilterHotelNameEditText.getText().toString();
-		TrackingUtils.trackSimpleEvent(this, pageName, null, "Shopper", null);
-	}
-
 	private void onSwitchToMap() {
 		Log.d("Tracking \"App.Hotels.Search.Map\" pageLoad...");
 		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Search.Map", null, "Shopper", null);
@@ -2552,6 +2563,109 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				+ (mAdultsNumberPicker.getCurrent() + mChildrenNumberPicker.getCurrent());
 
 		TrackingUtils.trackSimpleEvent(this, pageName, null, "Shopper", null);
+	}
+
+	// Filter tracking
+
+	private void onFilterClosed() {
+		Log.d("Tracking \"App.Hotels.Search.Refine.Name\" change...");
+		String pageName = "App.Hotels.Search.Refine.Name." + mFilterHotelNameEditText.getText().toString();
+		TrackingUtils.trackSimpleEvent(this, pageName, null, "Shopper", null);
+	}
+
+	private void onPriceFilterChanged() {
+		Log.d("Tracking \"App.Hotels.Search.Refine.PriceRange\" change...");
+
+		String refinement;
+
+		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.price_cheap_button: {
+			refinement = "App.Hotels.Search.Refine.PriceRange.1$";
+			break;
+		}
+		case R.id.price_moderate_button: {
+			refinement = "App.Hotels.Search.Refine.PriceRange.2$";
+			break;
+		}
+		case R.id.price_expensive_button: {
+			refinement = "App.Hotels.Search.Refine.PriceRange.3$";
+			break;
+		}
+		case R.id.price_all_button:
+		default: {
+			refinement = "App.Hotels.Search.Refine.PriceRange.All";
+			break;
+		}
+		}
+
+		TrackingUtils.trackSimpleEvent(this, refinement, null, "Shopper", null);
+	}
+
+	private void onRadiusFilterChanged() {
+		Log.d("Tracking \"App.Hotels.Search.Refine.SearchRadius\" rating change...");
+
+		String refinement = "App.Hotels.Search.Refine.SearchRadius";
+		SearchRadius searchRadius;
+
+		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.radius_small_button: {
+			searchRadius = Filter.SearchRadius.SMALL;
+			break;
+		}
+		case R.id.radius_medium_button: {
+			searchRadius = Filter.SearchRadius.MEDIUM;
+			break;
+		}
+		case R.id.radius_large_button: {
+			searchRadius = Filter.SearchRadius.LARGE;
+			break;
+		}
+		case R.id.radius_all_button:
+		default: {
+			searchRadius = Filter.SearchRadius.ALL;
+			break;
+		}
+		}
+
+		if (searchRadius != Filter.SearchRadius.ALL) {
+			final DistanceUnit distanceUnit = DistanceUnit.getDefaultDistanceUnit();
+			final String unitString = distanceUnit.equals(DistanceUnit.MILES) ? "mi" : "km";
+
+			refinement += "." + new DecimalFormat("##.#").format(searchRadius.getRadius(distanceUnit)) + unitString;
+		}
+		else {
+			refinement += ".All";
+		}
+
+		TrackingUtils.trackSimpleEvent(this, refinement, null, "Shopper", null);
+	}
+
+	private void onRatingFilterChanged() {
+		Log.d("Tracking \"App.Hotels.Search.Refine\" rating change...");
+
+		String refinement;
+
+		switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
+		case R.id.rating_low_button: {
+			refinement = "App.Hotels.Search.Refine.3Stars";
+			break;
+		}
+		case R.id.rating_medium_button: {
+			refinement = "App.Hotels.Search.Refine.4Stars";
+			break;
+		}
+		case R.id.rating_high_button: {
+			refinement = "App.Hotels.Search.Refine.5Stars";
+			break;
+		}
+		case R.id.rating_all_button:
+		default: {
+			refinement = "App.Hotels.Search.Refine.AllStars";
+			break;
+		}
+		}
+
+		TrackingUtils.trackSimpleEvent(this, refinement, null, "Shopper", null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
