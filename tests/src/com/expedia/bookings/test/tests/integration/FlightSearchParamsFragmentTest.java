@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.test.InstrumentationTestCase;
 import android.test.TouchUtils;
 import android.test.suitebuilder.annotation.MediumTest;
+import android.test.suitebuilder.annotation.SmallTest;
+import android.view.Display;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.expedia.bookings.R;
@@ -321,6 +326,44 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		assertEquals(expectedDepartureAirport, actualDepartureAirport);
 		assertEquals(expectedArrivalAirport, actualArrivalAirport);
 		assertEquals(expectedDepartureDate, actualDepartureDate);
+	}
+
+	@SmallTest
+	public void testActionBarPopupDropdownBackBehavior() {
+		performFlightSearch("ATL", "JFK", 4, R.id.search);
+
+		waitForFlightResults();
+
+		FlightsInputUtils.clickOnActionBarCustomView(mSolo);
+
+		mSolo.goBack();
+
+		assertEquals(FlightSearchResultsActivity.class, mSolo.getCurrentActivity().getClass());
+	}
+
+	@SmallTest
+	public void testActionBarPopupDropdownDismissOnOutsideClick() {
+		performFlightSearch("ATL", "JFK", 4, R.id.search);
+
+		waitForFlightResults();
+
+		FlightsInputUtils.clickOnActionBarCustomView(mSolo);
+
+		View dropDown = mSolo.getView(R.id.nav_dropdown_list);
+		assertNotNull(dropDown);
+
+		// click in the bottom right corner of the screen, theoretically should not be the dropdown
+		Display display = mSolo.getCurrentActivity().getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int width = size.x;
+		int height = size.y;
+		mSolo.clickOnScreen(width * .75f, height * .75f);
+
+		mSolo.sleep(1000);
+
+		View dropDownAgain = mSolo.getView(R.id.nav_dropdown_list);
+		assertNull(dropDownAgain);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

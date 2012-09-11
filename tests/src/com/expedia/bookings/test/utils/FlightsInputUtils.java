@@ -1,13 +1,8 @@
 package com.expedia.bookings.test.utils;
 
-import android.app.Activity;
 import android.app.Instrumentation;
-import android.test.InstrumentationTestCase;
-import android.test.TouchUtils;
-import android.view.View;
 import com.expedia.bookings.R;
 import com.jayway.android.robotium.solo.Solo;
-import com.mobiata.android.Log;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.testutils.CalendarTouchUtils;
 
@@ -16,6 +11,10 @@ import com.mobiata.testutils.CalendarTouchUtils;
  * programmatically via test
  */
 public class FlightsInputUtils {
+
+	public static void clickOnActionBarCustomView(Solo solo) {
+		solo.clickOnView(solo.getView(R.id.image_dropdown));
+	}
 
 	public static Time performFlightSearch(Instrumentation instr, Solo solo, String air1, String air2,
 			int daysOffset,
