@@ -16,6 +16,9 @@ public class Date implements JSONable {
 	private int mMonth;
 	private int mDayOfMonth;
 
+	// Cached data
+	private Calendar mCal;
+
 	public Date() {
 		// Default constructor
 	}
@@ -36,6 +39,7 @@ public class Date implements JSONable {
 
 	public void setYear(int year) {
 		this.mYear = year;
+		mCal = null;
 	}
 
 	public int getMonth() {
@@ -44,6 +48,7 @@ public class Date implements JSONable {
 
 	public void setMonth(int month) {
 		this.mMonth = month;
+		mCal = null;
 	}
 
 	public int getDayOfMonth() {
@@ -52,10 +57,14 @@ public class Date implements JSONable {
 
 	public void setDayOfMonth(int dayOfMonth) {
 		this.mDayOfMonth = dayOfMonth;
+		mCal = null;
 	}
 
 	public Calendar getCalendar() {
-		return new GregorianCalendar(mYear, mMonth - 1, mDayOfMonth);
+		if (mCal == null) {
+			mCal = new GregorianCalendar(mYear, mMonth - 1, mDayOfMonth);
+		}
+		return mCal;
 	}
 
 	public void fromCalendar(Calendar cal) {
@@ -97,6 +106,7 @@ public class Date implements JSONable {
 		mDayOfMonth = obj.optInt("dayOfMonth");
 		mMonth = obj.optInt("month");
 		mYear = obj.optInt("year");
+		mCal = null;
 		return true;
 	}
 
