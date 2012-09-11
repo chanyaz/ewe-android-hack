@@ -591,12 +591,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		public void onSaveInstanceState(Bundle out) {
-			Dialog dialog = getDialog();
-			if (dialog instanceof DatePickerDialog) {
-				out.putInt(DAY_TAG, mDay);
-				out.putInt(MONTH_TAG, mMonth);
-				out.putInt(YEAR_TAG, mYear);
-			}
+
+			out.putInt(DAY_TAG, mDay);
+			out.putInt(MONTH_TAG, mMonth);
+			out.putInt(YEAR_TAG, mYear);
+
 			super.onSaveInstanceState(out);
 		}
 	}

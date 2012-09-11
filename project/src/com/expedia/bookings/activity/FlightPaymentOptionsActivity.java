@@ -64,8 +64,11 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		if (mOptionsFragment == null) {
 			mOptionsFragment = FlightPaymentOptionsFragment.newInstance();
 		}
-		ft.replace(android.R.id.content, mOptionsFragment, OPTIONS_FRAGMENT_TAG);
-		ft.commit();
+		if (!mOptionsFragment.isAdded()) {
+			ft.replace(android.R.id.content, mOptionsFragment, OPTIONS_FRAGMENT_TAG);
+			ft.commit();
+		}
+
 		mPos = YoYoPosition.OPTIONS;
 		mMode = YoYoMode.NONE;
 		displayActionItemBasedOnState();
@@ -77,8 +80,10 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		if (mAddressFragment == null) {
 			mAddressFragment = FlightPaymentAddressFragment.newInstance();
 		}
-		ft.replace(android.R.id.content, mAddressFragment, ADDRESS_FRAGMENT_TAG);
-		ft.commit();
+		if (!mAddressFragment.isAdded()) {
+			ft.replace(android.R.id.content, mAddressFragment, ADDRESS_FRAGMENT_TAG);
+			ft.commit();
+		}
 		mPos = YoYoPosition.ADDRESS;
 		displayActionItemBasedOnState();
 	}
@@ -90,9 +95,11 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		if (mCCFragment == null) {
 			mCCFragment = FlightPaymentCreditCardFragment.newInstance();
 		}
-		ft.replace(android.R.id.content, mCCFragment, CREDIT_CARD_FRAGMENT_TAG);
-		ft.commit();
-		
+		if (!mCCFragment.isAdded()) {
+			ft.replace(android.R.id.content, mCCFragment, CREDIT_CARD_FRAGMENT_TAG);
+			ft.commit();
+		}
+
 		displayActionItemBasedOnState();
 	}
 
@@ -101,13 +108,13 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		displayActionItemBasedOnState();
 		DialogFragment newFragment = FlightPaymentSaveDialogFragment.newInstance();
 		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
-		
+
 	}
-	
-	private void closeSaveDialog(){
+
+	private void closeSaveDialog() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
-		if(dialog != null){
+		if (dialog != null) {
 			ft.remove(dialog);
 		}
 		ft.commit();

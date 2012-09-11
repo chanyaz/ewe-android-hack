@@ -7,8 +7,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -23,15 +27,19 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
 import com.expedia.bookings.section.ValidationIndicatorTextColorExclaimation;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NumberPicker;
 import com.expedia.bookings.widget.NumberPicker.Formatter;
+import com.expedia.bookings.widget.NumberPicker.OnValueChangeListener;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
+import com.mobiata.android.widget.NumberPicker.OnChangedListener;
 
 public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable {
 
@@ -72,7 +80,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayPhoneNumber);
 		mFields.add(this.mDisplayCreditCardBrandName);
 		mFields.add(this.mDisplayAddress);
-		
+
 		//Validation indicator fields
 		mFields.add(mValidCCNum);
 		mFields.add(mValidSecCode);
@@ -614,128 +622,235 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
+	//This is our date picker DialogFragment. The coder has a responsibility to set setOnDateSetListener after any sort of creation event (including rotaiton)
+	public static class ExpirationPickerFragment extends DialogFragment
+	{
+		private int mMonth;
+		private int mYear;
+
+		private static final String MONTH_TAG = "MONTH_TAG";
+		private static final String YEAR_TAG = "YEAR_TAG";
+
+		private OnSetExpirationListener mListener;
+
+		public static interface OnSetExpirationListener {
+			public void onExpirationSet(int month, int year);
+		}
+
+		public static ExpirationPickerFragment newInstance(Calendar cal, OnSetExpirationListener listener) {
+			ExpirationPickerFragment frag = new ExpirationPickerFragment();
+			frag.setOnSetExpirationListener(listener);
+			frag.setDate(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
+			Bundle args = new Bundle();
+			frag.setArguments(args);
+			return frag;
+		}
+
+		/**
+		 * This won't directly update the gui, it will update the state, so that when create dialog is called this is what gets presented
+		 * @param month 1 - 12 (not 0 - 11 like calendar)
+		 * @param year 
+		 */
+		public void setDate(int month, int year) {
+			mMonth = month;
+			mYear = year;
+		}
+
+		public void setOnSetExpirationListener(final OnSetExpirationListener listener) {
+			//We chain the listener
+			OnSetExpirationListener tListener = new OnSetExpirationListener() {
+				@Override
+				public void onExpirationSet(int month, int year) {
+					mMonth = month;
+					mYear = year;
+					listener.onExpirationSet(month, year);
+				}
+			};
+			mListener = tListener;
+		}
+
+		@Override
+		public void onDestroyView() {
+			//This is a workaround for a rotation bug: http://code.google.com/p/android/issues/detail?id=17423
+			if (getDialog() != null && getRetainInstance()) {
+				getDialog().setDismissMessage(null);
+			}
+			super.onDestroyView();
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			setRetainInstance(true);
+
+			if (savedInstanceState != null) {
+				if (savedInstanceState.containsKey(MONTH_TAG)
+						&& savedInstanceState.containsKey(YEAR_TAG)) {
+					setDate(savedInstanceState.getInt(MONTH_TAG),
+							savedInstanceState.getInt(YEAR_TAG));
+				}
+			}
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle(R.string.expiration_date);
+			View exprPickerView;
+			if (AndroidUtils.isHoneycombVersionOrHigher()) {
+				LayoutInflater inflater = (LayoutInflater) getActivity()
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				exprPickerView = inflater.inflate(R.layout.widget_expiration_date_picker, null);
+				final NumberPicker monthPicker = Ui.findView(exprPickerView, R.id.month_picker);
+				final NumberPicker yearPicker = Ui.findView(exprPickerView, R.id.year_picker);
+
+				Calendar now = Calendar.getInstance();
+
+				//Set up month picker
+				monthPicker.setMaxValue(12);
+				monthPicker.setMinValue(1);
+				monthPicker.setValue(mMonth);
+				monthPicker.setFormatter(NumberPicker.TWO_DIGIT_FORMATTER);
+				monthPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+				//Set up year picker
+				yearPicker.setMinValue(now.get(Calendar.YEAR));
+				yearPicker.setMaxValue(now.get(Calendar.YEAR) + 25);
+				yearPicker.setValue(mYear);
+				yearPicker.setFormatter(new Formatter() {
+					@Override
+					public String format(int value) {
+						return "" + value;
+					}
+				});
+				yearPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+				OnValueChangeListener updateDatesListener = new OnValueChangeListener() {
+					@Override
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						mListener.onExpirationSet(monthPicker.getValue(), yearPicker.getValue());
+					}
+				};
+
+				monthPicker.setOnValueChangedListener(updateDatesListener);
+				yearPicker.setOnValueChangedListener(updateDatesListener);
+
+				builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						mListener.onExpirationSet(monthPicker.getValue(), yearPicker.getValue());
+					}
+				});
+			}
+			else {
+				//Older versions of android
+				LayoutInflater inflater = (LayoutInflater) getActivity()
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				exprPickerView = inflater.inflate(R.layout.widget_compat_expiration_date_picker, null);
+				final com.mobiata.android.widget.NumberPicker monthPicker = Ui.findView(exprPickerView,
+						R.id.month_picker);
+				final com.mobiata.android.widget.NumberPicker yearPicker = Ui.findView(exprPickerView,
+						R.id.year_picker);
+
+				Calendar now = Calendar.getInstance();
+
+				//Set up month picker
+				monthPicker.setRange(1, 12);
+				monthPicker.setCurrent(mMonth);
+				monthPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter() {
+					@Override
+					public String toString(int value) {
+						return String.format("%02d", value);
+					}
+
+				});
+
+				//Set up year picker
+				yearPicker.setRange(now.get(Calendar.YEAR), now.get(Calendar.YEAR) + 25);
+				yearPicker.setCurrent(mYear);
+				yearPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter() {
+					@Override
+					public String toString(int value) {
+						return "" + value;
+					}
+
+				});
+
+				OnChangedListener updateDatesListener = new OnChangedListener() {
+					@Override
+					public void onChanged(com.mobiata.android.widget.NumberPicker picker, int oldVal, int newVal) {
+						mListener.onExpirationSet(monthPicker.getCurrent(), yearPicker.getCurrent());
+					}
+				};
+				monthPicker.setOnChangeListener(updateDatesListener);
+				yearPicker.setOnChangeListener(updateDatesListener);
+
+				builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						mListener.onExpirationSet(monthPicker.getCurrent(), yearPicker.getCurrent());
+					}
+				});
+			}
+
+			builder.setView(exprPickerView);
+			return builder.create();
+		}
+
+		@Override
+		public void onSaveInstanceState(Bundle out) {
+			out.putInt(MONTH_TAG, mMonth);
+			out.putInt(YEAR_TAG, mYear);
+			super.onSaveInstanceState(out);
+		}
+	}
+
 	SectionFieldEditable<TextView, BillingInfo> mEditCardExpirationDateTextBtn = new SectionFieldEditable<TextView, BillingInfo>(
 			R.id.edit_creditcard_exp_text_btn) {
+		private final static String TAG_EXPR_DATE_PICKER = "TAG_EXPR_DATE_PICKER";
 
 		@Override
 		public void setChangeListener(TextView field) {
 
-			field.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-					builder.setTitle(R.string.expiration_date);
-					View exprPickerView;
-					if (AndroidUtils.isHoneycombVersionOrHigher()) {
-						LayoutInflater inflater = (LayoutInflater) mContext
-								.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-						exprPickerView = inflater.inflate(R.layout.widget_expiration_date_picker, null);
-						final NumberPicker monthPicker = Ui.findView(exprPickerView, R.id.month_picker);
-						final NumberPicker yearPicker = Ui.findView(exprPickerView, R.id.year_picker);
-
-						Calendar now = Calendar.getInstance();
-
-						//Set up month picker
-						monthPicker.setMaxValue(12);
-						monthPicker.setMinValue(1);
-						if (hasBoundData() && getData().getExpirationDate() != null) {
-							monthPicker.setValue(getData().getExpirationDate().get(Calendar.MONTH) + 1);
+			if (mContext instanceof FragmentActivity) {
+				final FragmentActivity fa = (FragmentActivity) mContext;
+				final OnSetExpirationListener listener = new OnSetExpirationListener() {
+					@Override
+					public void onExpirationSet(int month, int year) {
+						Calendar expr = GregorianCalendar.getInstance();
+						expr.set(year, month - 1, 1);
+						if (hasBoundData()) {
+							getData().setExpirationDate(expr);
+							refreshText();
+							onChange(SectionBillingInfo.this);
 						}
-						else {
-							monthPicker.setValue(now.get(Calendar.MONTH) + 1);
-						}
-						monthPicker.setFormatter(NumberPicker.TWO_DIGIT_FORMATTER);
-						monthPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-						//Set up year picker
-						yearPicker.setMinValue(now.get(Calendar.YEAR));
-						yearPicker.setMaxValue(now.get(Calendar.YEAR) + 25);
-						if (hasBoundData() && getData().getExpirationDate() != null) {
-							yearPicker.setValue(getData().getExpirationDate().get(Calendar.YEAR));
-						}
-						else {
-							yearPicker.setValue(now.get(Calendar.YEAR));
-						}
-						yearPicker.setFormatter(new Formatter() {
-							@Override
-							public String format(int value) {
-								return "" + value;
-							}
-						});
-						yearPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-						builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								Calendar expr = GregorianCalendar.getInstance();
-								expr.set(yearPicker.getValue(), monthPicker.getValue() - 1, 1);
-								if (hasBoundData()) {
-									getData().setExpirationDate(expr);
-									refreshText();
-									onChange(SectionBillingInfo.this);
-								}
-							}
-						});
 					}
-					else {
-						//Older versions of android
+				};
 
-						LayoutInflater inflater = (LayoutInflater) mContext
-								.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-						exprPickerView = inflater.inflate(R.layout.widget_compat_expiration_date_picker, null);
-						final com.mobiata.android.widget.NumberPicker monthPicker = Ui.findView(exprPickerView,
-								R.id.month_picker);
-						final com.mobiata.android.widget.NumberPicker yearPicker = Ui.findView(exprPickerView,
-								R.id.year_picker);
-
-						Calendar now = Calendar.getInstance();
-
-						//Set up month picker
-						monthPicker.setRange(1, 12);
-						monthPicker.setCurrent(hasBoundData() && getData().getExpirationDate() != null ? getData()
-								.getExpirationDate().get(Calendar.MONTH) + 1 : now.get(Calendar.MONTH) + 1);
-						monthPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter() {
-							@Override
-							public String toString(int value) {
-								return String.format("%02d", value);
-							}
-
-						});
-
-						//Set up year picker
-						yearPicker.setRange(now.get(Calendar.YEAR), now.get(Calendar.YEAR) + 25);
-						yearPicker.setCurrent(hasBoundData() && getData().getExpirationDate() != null ? getData()
-								.getExpirationDate().get(Calendar.YEAR) : now.get(Calendar.YEAR));
-						yearPicker.setFormatter(new com.mobiata.android.widget.NumberPicker.Formatter() {
-							@Override
-							public String toString(int value) {
-								return "" + value;
-							}
-
-						});
-
-						builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								Calendar expr = GregorianCalendar.getInstance();
-								expr.set(yearPicker.getCurrent(), monthPicker.getCurrent() - 1, 1);
-								if (hasBoundData()) {
-									getData().setExpirationDate(expr);
-									refreshText();
-									onChange(SectionBillingInfo.this);
-								}
-							}
-						});
-					}
-
-					//Set handler
-					builder.setView(exprPickerView);
-					AlertDialog alert = builder.create();
-					alert.show();
+				//If we already have created the fragment, we need to set the listener again
+				ExpirationPickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_EXPR_DATE_PICKER);
+				if (datePickerFragment != null) {
+					datePickerFragment.setOnSetExpirationListener(listener);
 				}
-			});
 
+				//Finally set the on click listener that shows the dialog
+				field.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Calendar c = Calendar.getInstance();
+						if (hasBoundData()) {
+							if (getData().getExpirationDate() != null) {
+								c = getData().getExpirationDate();
+							}
+						}
+
+						ExpirationPickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_EXPR_DATE_PICKER);
+						if (datePickerFragment == null) {
+							datePickerFragment = ExpirationPickerFragment.newInstance(c, listener);
+						}
+						datePickerFragment.show(fa.getSupportFragmentManager(), TAG_EXPR_DATE_PICKER);
+					}
+				});
+			}
+			else {
+				Log.e("The Expiration picker is expecting a FragmentActivity to be the context. In it's current state, this will do nohting if the context is not a FragmentActivity");
+			}
 		}
 
 		private void refreshText() {
@@ -772,8 +887,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				if (hasBoundData()) {
 					if (getData().getExpirationDate() != null) {
 						Calendar cal = getData().getExpirationDate();
-						Calendar now = Calendar.getInstance();
-						if (cal.getTimeInMillis() < now.getTimeInMillis()) {
+						Calendar lastMonth = Calendar.getInstance();
+						lastMonth.add(Calendar.MONTH, -1);
+						if (cal.getTimeInMillis() < lastMonth.getTimeInMillis()) {
 							retVal = ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
