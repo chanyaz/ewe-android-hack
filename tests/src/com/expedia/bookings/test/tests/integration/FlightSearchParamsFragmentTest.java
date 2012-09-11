@@ -188,7 +188,7 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		mSolo.sleep(1000);
 
 		// click the passengers button to hide calendar and does not take up the whole screen in landscape
-		TouchUtils.clickView(this, Ui.findView(mSolo.getCurrentActivity(), R.id.passengers_button));
+		TouchUtils.clickView(this, Ui.findView(mSolo.getCurrentActivity(), R.id.travelers_button));
 
 		// rotate screen to landscape
 		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -293,7 +293,7 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		mSolo.goBack();
 
 		// click on dates button to remove the calendar as the display/content fragment
-		mSolo.clickOnView(mSolo.getView(R.id.passengers_button));
+		mSolo.clickOnView(mSolo.getView(R.id.travelers_button));
 
 		mSolo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
