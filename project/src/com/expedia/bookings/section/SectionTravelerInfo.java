@@ -5,10 +5,31 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+
 import android.annotation.TargetApi;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.Traveler.AssistanceType;
+import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.data.Traveler.SeatPreference;
+import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.TelephoneSpinner;
+import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.validation.ValidationError;
+import com.mobiata.android.validation.Validator;
+
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.Html;
@@ -40,7 +61,6 @@ import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
@@ -488,52 +508,165 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	SectionFieldEditable<TextView, Traveler> mEditBirthDateTextBtn = new SectionFieldEditable<TextView, Traveler>(
+
+	//This is our date picker DialogFragment. The coder has a responsibility to set setOnDateSetListener after any sort of creation event (including rotaiton)
+	public static class DatePickerFragment extends DialogFragment
+	{
+		private OnDateSetListener mListener = null;
+		private int mDay;
+		private int mMonth;
+		private int mYear;
+
+		private static final String DAY_TAG = "DAY_TAG";
+		private static final String MONTH_TAG = "MONTH_TAG";
+		private static final String YEAR_TAG = "YEAR_TAG";
+
+		public static DatePickerFragment newInstance(Date cal, OnDateSetListener listener) {
+			DatePickerFragment frag = new DatePickerFragment();
+			frag.setOnDateSetListener(listener);
+			frag.setDate(cal.getDayOfMonth(), cal.getMonth(), cal.getYear());
+			Bundle args = new Bundle();
+			frag.setArguments(args);
+			return frag;
+		}
+
+		public void setDate(int day, int month, int year) {
+			mDay = day;
+			mMonth = month;
+			mYear = year;
+		}
+
+		public void setOnDateSetListener(final OnDateSetListener listener) {
+			//We chain the listener
+			OnDateSetListener tListener = new OnDateSetListener() {
+				@Override
+				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+					mDay = dayOfMonth;
+					mMonth = monthOfYear;
+					mYear = year;
+					listener.onDateSet(view, year, monthOfYear, dayOfMonth);
+				}
+			};
+			mListener = tListener;
+		}
+
+		@Override
+		public void onDestroyView() {
+			//This is a workaround for a rotation bug: http://code.google.com/p/android/issues/detail?id=17423
+			if (getDialog() != null && getRetainInstance()) {
+				getDialog().setDismissMessage(null);
+			}
+			super.onDestroyView();
+		}
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+
+		}
+
+		@SuppressLint("NewApi")
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			setRetainInstance(true);
+
+			if (savedInstanceState != null) {
+				if (savedInstanceState.containsKey(DAY_TAG) && savedInstanceState.containsKey(MONTH_TAG)
+						&& savedInstanceState.containsKey(YEAR_TAG)) {
+					setDate(savedInstanceState.getInt(DAY_TAG), savedInstanceState.getInt(MONTH_TAG),
+							savedInstanceState.getInt(YEAR_TAG));
+				}
+			}
+
+			// Create a new instance of DatePickerDialog and return it
+			DatePickerDialog dialog = new DatePickerDialog(getActivity(), mListener, mYear, mMonth, mDay);
+
+			if (AndroidUtils.getSdkVersion() >= 11) {
+				//We set a max date for new apis, if we are stuck with an old api, they will be allowed to choose any date, but validation will fail
+				dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
+			}
+
+			return dialog;
+		}
+
+		@Override
+		public void onSaveInstanceState(Bundle out) {
+			Dialog dialog = getDialog();
+			if (dialog instanceof DatePickerDialog) {
+				out.putInt(DAY_TAG, mDay);
+				out.putInt(MONTH_TAG, mMonth);
+				out.putInt(YEAR_TAG, mYear);
+			}
+			super.onSaveInstanceState(out);
+		}
+	}
+
+	//This class is defined so that we can have both SectionFieldEditable and OnDateSetListener implemented in a single class
+	abstract static class SectionFieldEditableWithDateChangeListener<FieldType extends View, Data extends Object>
+			extends
+			SectionFieldEditable<FieldType, Data> implements DatePickerDialog.OnDateSetListener {
+		public SectionFieldEditableWithDateChangeListener(int fieldId) {
+			super(fieldId);
+		}
+	};
+
+	SectionFieldEditable<TextView, Traveler> mEditBirthDateTextBtn = new SectionFieldEditableWithDateChangeListener<TextView, Traveler>(
 			R.id.edit_birth_date_text_btn) {
+
+		private final static String TAG_DATE_PICKER = "TAG_DATE_PICKER";
 
 		@Override
 		public void setChangeListener(TextView field) {
+			//We are using a fragmentDialog so we need a fragmentActivity...
+			if (mContext instanceof FragmentActivity) {
+				final FragmentActivity fa = (FragmentActivity) mContext;
+				final DatePickerDialog.OnDateSetListener listener = this;
 
-			field.setOnClickListener(new OnClickListener() {
-				@TargetApi(11)
-				@Override
-				public void onClick(View v) {
-
-					
-					Date defDate = null;
-					if (hasBoundData()) {
-						if (getData().getBirthDate() != null) {
-							defDate = getData().getBirthDate();
-						}
-					}
-					if (defDate == null) {
-						defDate = new Date(Calendar.getInstance());
-					}
-
-					int year = defDate.getYear();
-					int month = defDate.getMonth() - 1;
-					int day = defDate.getDayOfMonth();
-
-					OnDateSetListener dsl = new OnDateSetListener() {
-						@Override
-						public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-							if (hasBoundData()) {
-								getData().setBirthDate(new Date(year, monthOfYear + 1, dayOfMonth));
-							}
-							refreshText();
-							onChange(SectionTravelerInfo.this);
-						}
-					};
-
-					DatePickerDialog birthDatePicker = new DatePickerDialog(mContext, dsl, year, month, day);
-					if (AndroidUtils.getSdkVersion() >= 11) {
-						//We set a max date for new apis, if we are stuck with an old api, they will be allowed to choose any date, but validation will fail
-						birthDatePicker.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
-					}
-					birthDatePicker.show();
+				//If we already have created the fragment, we need to set the listener again
+				DatePickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_DATE_PICKER);
+				if (datePickerFragment != null) {
+					datePickerFragment.setOnDateSetListener(listener);
 				}
-			});
 
+				//Finally set the on click listener that shows the dialog
+				field.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Date date = new Date(Calendar.getInstance());
+						if (hasBoundData()) {
+							if (getData().getBirthDate() != null) {
+								date = getData().getBirthDate();
+							}
+						}
+
+
+						DatePickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_DATE_PICKER);
+						if (datePickerFragment == null) {
+							datePickerFragment = DatePickerFragment.newInstance(date, listener);
+						}
+						datePickerFragment.show(fa.getSupportFragmentManager(), TAG_DATE_PICKER);
+					}
+				});
+			}
+			else {
+				Log.e("The Birthday picker is expecting a FragmentActivity to be the context. In it's current state, this will do nohting if the context is not a FragmentActivity");
+			}
+		}
+
+		@Override
+		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+			if (hasBoundData()) {
+				Date date = getData().getBirthDate();
+				if (date == null) {
+					date = new Date(year, monthOfYear, dayOfMonth);
+				}
+				else {
+					date.setDate(year, monthOfYear, dayOfMonth);
+				}
+				getData().setBirthDate(date);
+			}
+			refreshText();
+			onChange(SectionTravelerInfo.this);
 		}
 
 		private void refreshText() {
@@ -595,6 +728,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected Validator<TextView> getValidator() {
 			return mValidator;
 		}
+
 	};
 
 	SectionFieldEditable<EditText, Traveler> mEditPhoneNumber = new SectionFieldEditable<EditText, Traveler>(

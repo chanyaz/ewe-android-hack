@@ -138,6 +138,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -337,8 +338,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (mOptionsFragment == null) {
 			mOptionsFragment = FlightTravelerInfoOptionsFragment.newInstance();
 		}
-		ft.replace(android.R.id.content, mOptionsFragment, OPTIONS_FRAGMENT_TAG);
-		ft.commit();
+		if (!mOptionsFragment.isAdded()) {
+			ft.replace(android.R.id.content, mOptionsFragment, OPTIONS_FRAGMENT_TAG);
+			ft.commit();
+		}
 		mPos = YoYoPosition.OPTIONS;
 		mMode = YoYoMode.NONE;
 		displayActionItemBasedOnState();
@@ -351,8 +354,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (mOneFragment == null) {
 			mOneFragment = FlightTravelerInfoOneFragment.newInstance();
 		}
-		ft.replace(android.R.id.content, mOneFragment, ONE_FRAGMENT_TAG);
-		ft.commit();
+		if (!mOneFragment.isAdded()) {
+			ft.replace(android.R.id.content, mOneFragment, ONE_FRAGMENT_TAG);
+			ft.commit();
+		}
 		mPos = YoYoPosition.ONE;
 		displayActionItemBasedOnState();
 
@@ -365,8 +370,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (mTwoFragment == null) {
 			mTwoFragment = FlightTravelerInfoTwoFragment.newInstance();
 		}
-		ft.replace(android.R.id.content, mTwoFragment, TWO_FRAGMENT_TAG);
-		ft.commit();
+		if (!mTwoFragment.isAdded()) {
+			ft.replace(android.R.id.content, mTwoFragment, TWO_FRAGMENT_TAG);
+			ft.commit();
+		}
 		mPos = YoYoPosition.TWO;
 		displayActionItemBasedOnState();
 
@@ -379,8 +386,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (mThreeFragment == null) {
 			mThreeFragment = FlightTravelerInfoThreeFragment.newInstance();
 		}
-		ft.replace(android.R.id.content, mThreeFragment, THREE_FRAGMENT_TAG);
-		ft.commit();
+		if (!mThreeFragment.isAdded()) {
+			ft.replace(android.R.id.content, mThreeFragment, THREE_FRAGMENT_TAG);
+			ft.commit();
+		}
 		mPos = YoYoPosition.THREE;
 		displayActionItemBasedOnState();
 
@@ -393,11 +402,11 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		DialogFragment newFragment = FlightTravelerSaveDialogFragment.newInstance();
 		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
 	}
-	
-	private void closeSaveDialog(){
+
+	private void closeSaveDialog() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		Fragment dialog = getSupportFragmentManager().findFragmentByTag(SAVE_FRAGMENT_TAG);
-		if(dialog != null){
+		if (dialog != null) {
 			ft.remove(dialog);
 		}
 		ft.commit();
