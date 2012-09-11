@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +17,9 @@ import com.mobiata.android.json.JSONable;
 
 public class User implements JSONable {
 
+	// Version of this User
+	private static final int VERSION = 2;
+
 	static final String SAVED_INFO_FILENAME = "user.dat";
 
 	// For backwards compatibility - not being used in the future
@@ -27,20 +29,10 @@ public class User implements JSONable {
 	// against someone getting the plaintext file but not the app itself.
 	static final String PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9";
 
-	private Long mTuid;
-	private String mEmail;
+	private Traveler mPrimaryTraveler;
+	private List<Traveler> mAssociatedTravelers = new ArrayList<Traveler>();
 
-	private String mFirstName;
-	private String mMiddleName;
-	private String mLastName;
-
-	private ArrayList<Phone> mPhoneNumbers;
-	private Location mHomeAddress;
-	private ArrayList<StoredCreditCard> mStoredCreditCards;
-	private ArrayList<Traveler> mAssociatedTravelers;
-
-	private String mLoyaltyMembershipNumber;
-	private boolean mIsSmokingPreferred;
+	private List<StoredCreditCard> mStoredCreditCards = new ArrayList<StoredCreditCard>();
 
 	private static final String[] ADDRESS_LINE_KEYS = new String[] { "firstAddressLine", "secondAddressLine" };
 
@@ -52,33 +44,16 @@ public class User implements JSONable {
 		this.fromJson(obj);
 	}
 
-	public Long getTuid() {
-		return mTuid;
+	public void setPrimaryTraveler(Traveler traveler) {
+		mPrimaryTraveler = traveler;
 	}
 
-	public String getEmail() {
-		return mEmail;
+	public Traveler getPrimaryTraveler() {
+		return mPrimaryTraveler;
 	}
 
-	public String getFirstName() {
-		return mFirstName;
-	}
-
-	public String getMiddleName() {
-		return mMiddleName;
-	}
-
-	public String getLastName() {
-		return mLastName;
-	}
-
-	public String getLoyaltyMembershipNumber() {
-		if (mLoyaltyMembershipNumber == null || mLoyaltyMembershipNumber.length() == 0) {
-			return null;
-		}
-		else {
-			return mLoyaltyMembershipNumber;
-		}
+	public void addStoredCreditCard(StoredCreditCard cc) {
+		mStoredCreditCards.add(cc);
 	}
 
 	public boolean hasStoredCreditCards() {
@@ -88,31 +63,13 @@ public class User implements JSONable {
 	public List<StoredCreditCard> getStoredCreditCards() {
 		return mStoredCreditCards;
 	}
-	
-	public List<Traveler> getAssociatedTravelers(){
-		return mAssociatedTravelers;
+
+	public void addAssociatedTraveler(Traveler traveler) {
+		mAssociatedTravelers.add(traveler);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Dump out a BillingInfo object for use on the booking screen
-
-	public BillingInfo toBillingInfo() {
-		BillingInfo b = new BillingInfo();
-		b.setFirstName(mFirstName);
-		b.setLastName(mLastName);
-		for (Phone p : mPhoneNumbers) {
-			if (p.getCategory() == UserPreference.Category.PRIMARY) {
-				b.setTelephoneCountryCode(p.getCountryCode());
-				b.setTelephone(p.getAreaCode() + p.getNumber());
-				break;
-			}
-		}
-		b.setEmail(mEmail);
-		b.setLocation(mHomeAddress);
-
-		// TODO: CC info
-
-		return b;
+	public List<Traveler> getAssociatedTravelers() {
+		return mAssociatedTravelers;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -222,18 +179,10 @@ public class User implements JSONable {
 		JSONObject obj = new JSONObject();
 
 		try {
-			obj.putOpt("email", mEmail);
-			obj.putOpt("firstName", mFirstName);
-			obj.putOpt("middleName", mMiddleName);
-			obj.putOpt("lastName", mLastName);
-			JSONUtils.putJSONableList(obj, "phoneNumbers", mPhoneNumbers);
-			JSONUtils.putJSONable(obj, "homeAddress", mHomeAddress);
+			obj.put("version", VERSION);
+			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
 			JSONUtils.putJSONableList(obj, "storedCreditCards", mStoredCreditCards);
 			JSONUtils.putJSONableList(obj, "associatedTravelers", mAssociatedTravelers);
-
-			obj.putOpt("loyaltyMembershipNumber", mLoyaltyMembershipNumber);
-			obj.putOpt("isSmokingPreferred", mIsSmokingPreferred);
-
 			return obj;
 		}
 		catch (JSONException e) {
@@ -244,78 +193,58 @@ public class User implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mTuid = obj.optLong("tuid");
-		mEmail = obj.optString("email", null);
-		mFirstName = obj.optString("firstName", null);
-		mMiddleName = obj.optString("middleName", null);
-		mLastName = obj.optString("lastName", null);
+		int version = obj.optInt("version");
 
-		JSONArray phoneNumbers = obj.optJSONArray("phoneNumbers");
-		mPhoneNumbers = new ArrayList<Phone>();
-		if (phoneNumbers != null) {
-			for (int i = 0; i < phoneNumbers.length(); i++) {
-				try {
-					Phone p = new Phone(phoneNumbers.getJSONObject(i));
-					mPhoneNumbers.add(p);
-				}
-				catch (JSONException e) {
-					Log.e("Could not get phone number at i=" + i + ":", e);
-				}
-			}
-		}
+		// Backwards-compatible version
+		if (version < 2) {
+			mPrimaryTraveler = new Traveler();
 
-		JSONArray creditCards = obj.optJSONArray("storedCreditCards");
-		mStoredCreditCards = new ArrayList<StoredCreditCard>();
-		if (creditCards != null) {
-			for (int i = 0; i < creditCards.length(); i++) {
-				try {
-					StoredCreditCard c = new StoredCreditCard(creditCards.getJSONObject(i));
-					mStoredCreditCards.add(c);
-				}
-				catch (JSONException e) {
-					Log.e("Could not get stored credit card at i=" + i + ":", e);
+			mPrimaryTraveler.setTuid(obj.optLong("tuid"));
+			mPrimaryTraveler.setLoyaltyMembershipNumber(obj.optString("loyaltyMembershipNumber", null));
+
+			mPrimaryTraveler.setFirstName(obj.optString("firstName", null));
+			mPrimaryTraveler.setMiddleName(obj.optString("middleName", null));
+			mPrimaryTraveler.setLastName(obj.optString("lastName", null));
+			mPrimaryTraveler.setEmail(obj.optString("email", null));
+
+			List<Phone> phoneNumbers = JSONUtils.getJSONableList(obj, "phoneNumbers", Phone.class);
+			if (phoneNumbers != null) {
+				for (Phone phoneNumber : phoneNumbers) {
+					mPrimaryTraveler.addPhoneNumber(phoneNumber);
 				}
 			}
-		}
 
-		JSONArray associatedTravelers = obj.optJSONArray("associatedTravelers");
-		mAssociatedTravelers = new ArrayList<Traveler>();
-		if(associatedTravelers != null){
-			for(int i = 0; i < associatedTravelers.length(); i++){
-				try{
-					Traveler fp = new Traveler();
-					fp.fromJson(associatedTravelers.getJSONObject(i));
-					mAssociatedTravelers.add(fp);
-				}catch(JSONException e){
-					Log.e("Could not get associated traveler at i=" + i + ":", e);
+			JSONObject addr = obj.optJSONObject("homeAddress");
+			if (addr != null) {
+				Location loc = new Location();
+
+				loc.setCity(addr.optString("city", null));
+				loc.setStateCode(addr.optString("province", null));
+				loc.setPostalCode(addr.optString("postalCode", null));
+				loc.setCountryCode(addr.optString("countryAlpha3Code", null));
+
+				List<String> addrLines = new ArrayList<String>();
+				for (String key : ADDRESS_LINE_KEYS) {
+					String line = addr.optString(key, null);
+					if (line != null) {
+						addrLines.add(line);
+					}
 				}
+				loc.setStreetAddress(addrLines);
+
+				mPrimaryTraveler.setHomeAddress(loc);
 			}
+
+			mPrimaryTraveler.setSmokingPreferred(obj.optBoolean("isSmokingPreferred", false));
 		}
-		
-		
-		JSONObject addr = obj.optJSONObject("homeAddress");
-		if (addr != null) {
-			Location loc = new Location();
-
-			loc.setCity(addr.optString("city", null));
-			loc.setStateCode(addr.optString("province", null));
-			loc.setPostalCode(addr.optString("postalCode", null));
-			loc.setCountryCode(addr.optString("countryAlpha3Code", null));
-
-			List<String> addrLines = new ArrayList<String>();
-			for (String key : ADDRESS_LINE_KEYS) {
-				String line = addr.optString(key, null);
-				if (line != null) {
-					addrLines.add(line);
-				}
-			}
-			loc.setStreetAddress(addrLines);
-
-			mHomeAddress = loc;
+		else {
+			mPrimaryTraveler = JSONUtils.getJSONable(obj, "primaryTraveler", Traveler.class);
 		}
-		// TODO - frequent guest memberships
-		mLoyaltyMembershipNumber = obj.optString("loyaltyMembershipNumber", null);
-		mIsSmokingPreferred = obj.optBoolean("isSmokingPreferred", false);
+
+		mStoredCreditCards = JSONUtils.getJSONableList(obj, "storedCreditCards", StoredCreditCard.class);
+
+		mAssociatedTravelers = JSONUtils.getJSONableList(obj, "associatedTravelers", Traveler.class);
+
 		return true;
 	}
 

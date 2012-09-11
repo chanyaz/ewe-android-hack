@@ -53,7 +53,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		mBillingInfo = Db.getBillingInfo();
 		
 		if(User.isLoggedIn(getActivity())){
-			mBillingInfo.setEmail(Db.getUser().getEmail());
+			mBillingInfo.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 		}
 
 		mSectionCreditCard = Ui.findView(v, R.id.creditcard_section);

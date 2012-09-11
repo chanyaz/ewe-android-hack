@@ -65,6 +65,23 @@ public class Traveler implements JSONable {
 		// Default constructor
 	}
 
+	public BillingInfo toBillingInfo() {
+		BillingInfo b = new BillingInfo();
+		b.setFirstName(mFirstName);
+		b.setLastName(mLastName);
+
+		Phone p = getPrimaryPhoneNumber();
+		b.setTelephoneCountryCode(p.getCountryCode());
+		b.setTelephone(p.getAreaCode() + p.getNumber());
+
+		b.setEmail(mEmail);
+		b.setLocation(mHomeAddress);
+
+		// TODO: CC info
+
+		return b;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Getters
 
@@ -77,6 +94,9 @@ public class Traveler implements JSONable {
 	}
 
 	public String getLoyaltyMembershipNumber() {
+		if (TextUtils.isEmpty(mLoyaltyMembershipNumber)) {
+			return null;
+		}
 		return mLoyaltyMembershipNumber;
 	}
 

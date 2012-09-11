@@ -194,7 +194,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 			}
 
 			if (Db.getUser() != null) {
-				tuid = Db.getUser().getTuid();
+				tuid = Db.getUser().getPrimaryTraveler().getTuid();
 			}
 
 			return services.reservation(Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate(),

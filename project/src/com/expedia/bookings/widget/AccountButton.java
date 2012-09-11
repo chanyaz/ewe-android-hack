@@ -4,15 +4,13 @@ import android.content.Context;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.server.ExpediaServices;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;
@@ -75,6 +73,7 @@ public class AccountButton extends LinearLayout {
 	}
 
 	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
+		Traveler traveler = u.getPrimaryTraveler();
 		mErrorContainer.setVisibility(View.GONE);
 		if (isLoading) {
 			mAccountLoadingContainer.setVisibility(View.VISIBLE);
@@ -85,16 +84,16 @@ public class AccountButton extends LinearLayout {
 			ImageView card = (ImageView) mLogoutContainer.findViewById(R.id.card_icon);
 			TextView top = (TextView) mLogoutContainer.findViewById(R.id.account_top_textview);
 			TextView bottom = (TextView) mLogoutContainer.findViewById(R.id.account_bottom_textview);
-			if (u.getLoyaltyMembershipNumber() == null) {
+			if (traveler.getLoyaltyMembershipNumber() == null) {
 				// Normal user
 				card.setImageResource(R.drawable.ic_logged_in_no_rewards);
 				top.setText(mContext.getString(R.string.logged_in_as));
-				bottom.setText(Html.fromHtml("<b>" + u.getEmail() + "</b>"));
+				bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 			}
 			else {
 				// Rewards user
 				card.setImageResource(R.drawable.ic_logged_in_with_rewards);
-				top.setText(Html.fromHtml("<b>" + u.getEmail() + "</b>"));
+				top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 				bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 			}
 			mLogoutContainer.setVisibility(View.VISIBLE);

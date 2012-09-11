@@ -1045,7 +1045,7 @@ public class BookingFormFragment extends DialogFragment {
 
 	public void loginCompleted() {
 		mUserProfileIsFresh = true;
-		Db.setBillingInfo(Db.getUser().toBillingInfo());
+		Db.setBillingInfo(Db.getUser().getPrimaryTraveler().toBillingInfo());
 		mAccountButton.bind(false, true, Db.getUser());
 		syncFormFieldsFromBillingInfo(mRootBillingView);
 		syncBillingInfo();
