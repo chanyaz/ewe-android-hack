@@ -62,8 +62,8 @@ public class HotelsHappyPathTest extends ActivityInstrumentationTestCase2<Search
 
 	private void clickInCityList(int line) {
 		Log.d(TAG, "clickInCityList: " + line);
-		ListView lv = (ListView) mSolo.getView(R.id.search_suggestions_list_view);
-		mSolo.clickOnView(lv.getChildAt(line));
+		//		ListView lv = (ListView) mSolo.getView(R.id.search_suggestions_list_view);
+		//		mSolo.clickOnView(lv.getChildAt(line));
 		//mSolo.sleep(5000);
 	}
 
@@ -71,7 +71,7 @@ public class HotelsHappyPathTest extends ActivityInstrumentationTestCase2<Search
 		Log.d(TAG, "starting selectCity()");
 		//typeText seems to be needed by Gingerbread devices
 		mSolo.typeText((EditText) mSolo.getView(R.id.search_edit_text), "San Diego");
-		RobotiumWorkflowUtils.waitForListViewToPopulate(mSolo, R.id.search_suggestions_list_view);
+		//		RobotiumWorkflowUtils.waitForListViewToPopulate(mSolo, R.id.search_suggestions_list_view);
 		//mSolo.typeText((EditText) mSolo.getView(R.id.search_edit_text), "Miami");
 		clickInCityList(0);
 	}
