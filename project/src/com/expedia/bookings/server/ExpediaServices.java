@@ -430,14 +430,14 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
-	public TravelerInfoResponse updateTraveler(Traveler traveler) {
+	public TravelerInfoResponse updateTraveler(Traveler traveler, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tuid", "" + traveler.getTuid()));
-		query.add(new BasicNameValuePair("profileTypes", "FLIGHT"));
 
-		return doE3Request("MobileHotel/Webapp/GetMobileTravellerProfile", query,
-				new TravelerResponseHandler(mContext), F_SECURE_REQUEST);
+		addProfileTypes(query, flags | F_FLIGHTS | F_HOTELS);
+
+		return doE3Request("api/user/profile", query, new TravelerResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public void clearCookies() {

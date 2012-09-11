@@ -524,7 +524,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		public TravelerInfoResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_TRAVELER_DATA, services);
-			return services.updateTraveler(mTraveler);
+			return services.updateTraveler(mTraveler, 0);
 		}
 	}
 
