@@ -12,7 +12,7 @@ import android.widget.PopupWindow;
  *
  */
 public class ImageDropdown extends ImageView {
-	
+
 	View mAnchor;
 	PopupWindow mPopupWindow;
 
@@ -42,14 +42,14 @@ public class ImageDropdown extends ImageView {
 	}
 
 	@Override
-	protected void onDetachedFromWindow(){
+	protected void onDetachedFromWindow() {
 		//We need to dismiss before the parent is destroyed
 		setDisplayDropdown(false);
 		super.onDetachedFromWindow();
 	}
-	
+
 	@Override
-	protected void onAttachedToWindow(){
+	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 	}
 
@@ -101,5 +101,9 @@ public class ImageDropdown extends ImageView {
 	 */
 	public void resetAnchor() {
 		mAnchor = this;
+	}
+
+	public PopupWindow getPopupWindow() {
+		return mPopupWindow;
 	}
 }

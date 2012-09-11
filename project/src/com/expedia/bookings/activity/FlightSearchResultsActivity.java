@@ -5,12 +5,14 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NavigationButton;
@@ -205,9 +208,25 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		// dismiss the custom dropdown on touch outside of its PopupWindow
+		if (ActionBarNavUtils.removePopupDropdownIfNecessaryOnTouch(ev, mNavButton)) {
+			return true;
+		}
+
+		return super.dispatchTouchEvent(ev);
+	}
+
+	@Override
 	public void onBackPressed() {
 		String name = getTopBackStackName();
-		if (name == null || name.equals(BACKSTACK_LOADING) || name.equals(getFlightListBackStackName(0))) {
+
+		// Note: the order of the if blocks matters here as the dismissing the dropdown should have the highest order of
+		// precedence on a back pressed and it should also consume the entire back event
+		if (ActionBarNavUtils.removePopupDropdownIfNecessaryOnBackPressed(mNavButton)) {
+			// block the back press as it was consumed by the presence and removal of the popup dropdown
+		}
+		else if (name == null || name.equals(BACKSTACK_LOADING) || name.equals(getFlightListBackStackName(0))) {
 			finish();
 		}
 		else {
