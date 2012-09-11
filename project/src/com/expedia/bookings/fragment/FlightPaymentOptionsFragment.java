@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightCheckoutActivity;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -17,7 +16,6 @@ import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.utils.Ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -134,8 +132,10 @@ public class FlightPaymentOptionsFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 						Db.getBillingInfo().setStoredCard(storedCard);
-						Intent intent = new Intent(getActivity(), FlightCheckoutActivity.class);
-						startActivity(intent);
+						if (mListener != null) {
+							mListener.setMode(YoYoMode.NONE);
+							mListener.moveBackwards();
+						}
 					}
 				});
 
