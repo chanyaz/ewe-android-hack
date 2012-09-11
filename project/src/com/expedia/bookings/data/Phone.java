@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.UserPreference.Category;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -13,24 +14,54 @@ public class Phone implements JSONable {
 	private String mCountryCode;
 	private String mExtensionNumber;
 
+	public Phone() {
+		// Default constructor
+	}
+
+	public Phone(String number, String countryCode) {
+		mNumber = number;
+		mCountryCode = countryCode;
+		mCategory = Category.PRIMARY;
+	}
+
 	public Phone(JSONObject obj) {
 		this.fromJson(obj);
+	}
+
+	public void setNumber(String number) {
+		mNumber = number;
 	}
 
 	public String getNumber() {
 		return mNumber;
 	}
 
+	public void setAreaCode(String areaCode) {
+		mAreaCode = areaCode;
+	}
+
 	public String getAreaCode() {
 		return mAreaCode;
+	}
+
+	public void setCategory(Category category) {
+		mCategory = category;
 	}
 
 	public UserPreference.Category getCategory() {
 		return mCategory;
 	}
 
+	public void setCountryCode(String countryCode) {
+		mCountryCode = countryCode;
+	}
+
 	public String getCountryCode() {
 		return mCountryCode;
+	}
+
+	public void setExtensionNumber(String extensionNumber) {
+		mExtensionNumber = extensionNumber;
 	}
 
 	public String getExtensionNumber() {
@@ -66,4 +97,3 @@ public class Phone implements JSONable {
 		return true;
 	}
 }
-
