@@ -25,7 +25,9 @@ import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
 public class FilterDialogFragment extends DialogFragment {
@@ -141,12 +143,21 @@ public class FilterDialogFragment extends DialogFragment {
 
 		Dialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(true);
-	 
+
 		return dialog;
 	}
 
+	@Override
+	public void onDismiss(DialogInterface dialog) {
+		super.onDismiss(dialog);
+
+		Log.d("Tracking \"App.Hotels.Search.Refine.Name\" change...");
+		String pageName = "App.Hotels.Search.Refine.Name." + mHotelNameEditText.getText().toString();
+		TrackingUtils.trackSimpleEvent(getActivity(), pageName, null, "Shopper", null);
+	}
+
 	public CharSequence getTitle() {
-		Property[] properties = Db.getSearchResponse().getFilteredAndSortedProperties(); 
+		Property[] properties = Db.getSearchResponse().getFilteredAndSortedProperties();
 		int count = properties == null ? 0 : properties.length;
 		return Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count));
 	}
@@ -259,7 +270,7 @@ public class FilterDialogFragment extends DialogFragment {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment control
-	
+
 	public void notifyFilterChanged() {
 		getDialog().setTitle(getTitle());
 	}

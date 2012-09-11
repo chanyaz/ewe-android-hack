@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.mobiata.android.widget.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,17 +16,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -40,29 +36,22 @@ import android.os.Message;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v4.app.FragmentMapActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Surface;
-import android.view.TouchDelegate;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -72,10 +61,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -137,6 +124,9 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.android.widget.CalendarDatePicker;
+import com.mobiata.android.widget.NumberPicker;
+import com.mobiata.android.widget.SegmentedControlGroup;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
@@ -1072,29 +1062,31 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
-		mFilterLayout= getLayoutInflater().inflate(R.layout.popup_filter_options, null);
+		mFilterLayout = getLayoutInflater().inflate(R.layout.popup_filter_options, null);
 		mFilterHotelNameEditText = (EditText) mFilterLayout.findViewById(R.id.filter_hotel_name_edit_text);
 		mRadiusButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.price_filter_button_group);
 
-                mFilterHotelNameEditText.setOnEditorActionListener(new OnEditorActionListener() {
+		mFilterHotelNameEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
-                        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                                        v.clearFocus();
-                                }
-                                return false;
-                        }
-                });
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					v.clearFocus();
+				}
+				return false;
+			}
+		});
 
 		// Setup popup
 		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(), mFilterLayout.getMeasuredHeight());
+		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(),
+				mFilterLayout.getMeasuredHeight());
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
 		mFilterPopupWindow.setOnDismissListener(new OnDismissListener() {
 			@Override
 			public void onDismiss() {
+				onCloseFilterPanel();
 				setDisplayType(DisplayType.NONE);
 				mRefinementDismissView.setVisibility(View.GONE);
 			}
@@ -1140,67 +1132,67 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		Filter currentFilter = filter.copy();
 
 		// Distance
-                switch (mRadiusCheckedId) {
-                case R.id.radius_small_button: {
-                        filter.setSearchRadius(SearchRadius.SMALL);
-                        break;
-                }
-                case R.id.radius_medium_button: {
-                        filter.setSearchRadius(SearchRadius.MEDIUM);
-                        break;
-                }
-                case R.id.radius_large_button: {
-                        filter.setSearchRadius(SearchRadius.LARGE);
-                        break;
-                }
-                default:
-                case R.id.radius_all_button: {
-                        filter.setSearchRadius(SearchRadius.ALL);
-                        break;
-                }
-                }
+		switch (mRadiusCheckedId) {
+		case R.id.radius_small_button: {
+			filter.setSearchRadius(SearchRadius.SMALL);
+			break;
+		}
+		case R.id.radius_medium_button: {
+			filter.setSearchRadius(SearchRadius.MEDIUM);
+			break;
+		}
+		case R.id.radius_large_button: {
+			filter.setSearchRadius(SearchRadius.LARGE);
+			break;
+		}
+		default:
+		case R.id.radius_all_button: {
+			filter.setSearchRadius(SearchRadius.ALL);
+			break;
+		}
+		}
 
-                // Rating
-                switch (mRatingCheckedId) {
-                case R.id.rating_low_button: {
-                        filter.setMinimumStarRating(3);
-                        break;
-                }
-                case R.id.rating_medium_button: {
-                        filter.setMinimumStarRating(4);
-                        break;
-                }
-                case R.id.rating_high_button: {
-                        filter.setMinimumStarRating(5);
-                        break;
-                }
-                default:
-                case R.id.rating_all_button: {
-                        filter.setMinimumStarRating(0);
-                        break;
-                }
-                }
+		// Rating
+		switch (mRatingCheckedId) {
+		case R.id.rating_low_button: {
+			filter.setMinimumStarRating(3);
+			break;
+		}
+		case R.id.rating_medium_button: {
+			filter.setMinimumStarRating(4);
+			break;
+		}
+		case R.id.rating_high_button: {
+			filter.setMinimumStarRating(5);
+			break;
+		}
+		default:
+		case R.id.rating_all_button: {
+			filter.setMinimumStarRating(0);
+			break;
+		}
+		}
 
-                // Price
-                switch (mPriceCheckedId) {
-                case R.id.price_cheap_button: {
-                        filter.setPriceRange(PriceRange.CHEAP);
-                        break;
-                }
-                case R.id.price_moderate_button: {
-                        filter.setPriceRange(PriceRange.MODERATE);
-                        break;
-                }
-                case R.id.price_expensive_button: {
-                        filter.setPriceRange(PriceRange.EXPENSIVE);
-                        break;
-                }
-                default:
-                case R.id.price_all_button: {
-                        filter.setPriceRange(PriceRange.ALL);
-                        break;
-                }
-                }
+		// Price
+		switch (mPriceCheckedId) {
+		case R.id.price_cheap_button: {
+			filter.setPriceRange(PriceRange.CHEAP);
+			break;
+		}
+		case R.id.price_moderate_button: {
+			filter.setPriceRange(PriceRange.MODERATE);
+			break;
+		}
+		case R.id.price_expensive_button: {
+			filter.setPriceRange(PriceRange.EXPENSIVE);
+			break;
+		}
+		default:
+		case R.id.price_all_button: {
+			filter.setPriceRange(PriceRange.ALL);
+			break;
+		}
+		}
 
 		// Sort
 		switch (mSortOptionSelectedId) {
@@ -1932,6 +1924,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mFilterPopupWindow.showAsDropDown(mContent,
 				(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
 				-mFilterLayout.getMeasuredHeight());
+
+		onOpenFilterPanel();
 	}
 
 	private void hideFilterOptions() {
@@ -2461,7 +2455,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		ValueAnimator animUp = ValueAnimator.ofInt(0, mSearchEditText.getMeasuredHeight());
 		animUp.addUpdateListener(mUpDownListener);
 
-		ValueAnimator animShrink = ValueAnimator.ofInt(getResources().getDimensionPixelSize(R.dimen.actionbar_refinement_width), 0);
+		ValueAnimator animShrink = ValueAnimator.ofInt(
+				getResources().getDimensionPixelSize(R.dimen.actionbar_refinement_width), 0);
 		animShrink.addUpdateListener(mGrowShrinkListener);
 
 		AnimatorSet set = new AnimatorSet();
@@ -2474,7 +2469,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		ValueAnimator animDown = ValueAnimator.ofInt(mSearchEditText.getMeasuredHeight(), 0);
 		animDown.addUpdateListener(mUpDownListener);
 
-		ValueAnimator animGrow = ValueAnimator.ofInt(0, getResources().getDimensionPixelSize(R.dimen.actionbar_refinement_width));
+		ValueAnimator animGrow = ValueAnimator.ofInt(0,
+				getResources().getDimensionPixelSize(R.dimen.actionbar_refinement_width));
 		animGrow.addUpdateListener(mGrowShrinkListener);
 
 		AnimatorSet set = new AnimatorSet();
@@ -2536,6 +2532,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void onOpenFilterPanel() {
 		Log.d("Tracking \"App.Hotels.Search.Refine\" onClick...");
 		TrackingUtils.trackSimpleEvent(this, "App.Hotels.Search.Refine", null, "Shopper", null);
+	}
+
+	private void onCloseFilterPanel() {
+		Log.d("Tracking \"App.Hotels.Search.Refine.Name\" change...");
+		String pageName = "App.Hotels.Search.Refine.Name." + mFilterHotelNameEditText.getText().toString();
+		TrackingUtils.trackSimpleEvent(this, pageName, null, "Shopper", null);
 	}
 
 	private void onSwitchToMap() {
