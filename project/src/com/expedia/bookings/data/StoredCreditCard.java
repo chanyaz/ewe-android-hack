@@ -10,6 +10,10 @@ public class StoredCreditCard implements JSONable {
 	private String mDescription;
 	private String mRemoteId;
 
+	public StoredCreditCard() {
+		// Default constructor
+	}
+
 	public StoredCreditCard(JSONObject obj) {
 		this.fromJson(obj);
 	}
