@@ -2,25 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <include 
+    <include
         android:id="@+id/section_edit_creditcard_security_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        layout="@layout/section_edit_creditcard_security_code"/>
-    
+        layout="@layout/section_edit_creditcard_security_code" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Push to (fake) book!" />
 
-    <TextView
-        android:id="@+id/text"
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp" />
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+    </ScrollView>
 
 </LinearLayout>

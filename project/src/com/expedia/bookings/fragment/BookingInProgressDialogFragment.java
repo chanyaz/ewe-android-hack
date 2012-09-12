@@ -8,6 +8,9 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 
 public class BookingInProgressDialogFragment extends DialogFragment {
+
+	public static final String TAG = BookingInProgressDialogFragment.class.getName();
+
 	public static BookingInProgressDialogFragment newInstance() {
 		BookingInProgressDialogFragment fragment = new BookingInProgressDialogFragment();
 		return fragment;

@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,16 +12,19 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.util.Ui;
+import com.mobiata.android.util.ViewUtils;
 
 // This is just for testing booking using data from the app.  It is
 // not intended to be at all like the final booking activity (should
@@ -29,13 +33,21 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flight.checkout";
 
+	private Context mContext;
+
 	private TextView mTextView;
+
+	private BookingInProgressDialogFragment mProgressFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mContext = this;
+
 		setContentView(R.layout.activity_flight_booking);
+
+		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
 
 		mTextView = Ui.findView(this, R.id.text);
 
@@ -44,7 +56,10 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mTextView.setText("Request in progress...");
+				ViewUtils.hideSoftKeyboard(mContext, mTextView);
+
+				mProgressFragment = new BookingInProgressDialogFragment();
+				mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
 
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
 				bd.cancelDownload(DOWNLOAD_KEY);
@@ -82,7 +97,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 	private Download<FlightCheckoutResponse> mDownload = new Download<FlightCheckoutResponse>() {
 		@Override
 		public FlightCheckoutResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(FlightBookingActivity.this);
+			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
 
 			//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
@@ -101,15 +116,33 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 	private OnDownloadComplete<FlightCheckoutResponse> mCallback = new OnDownloadComplete<FlightCheckoutResponse>() {
 		@Override
 		public void onDownload(FlightCheckoutResponse results) {
+			mProgressFragment.dismiss();
+
+			// This is all just temporary display code while we figure out how to do the conf page 
+			StringBuilder sb = new StringBuilder();
+
 			if (results == null) {
-				mTextView.setText("NULL RESPONSE!");
+				sb.append("Did not get any response from the server!");
 			}
 			else if (results.hasErrors()) {
-				mTextView.setText(results.getErrors().get(0).getPresentableMessage(FlightBookingActivity.this));
+				sb.append("Response came back with errors:");
+
+				for (ServerError error : results.getErrors()) {
+					sb.append("\n\n");
+					sb.append(error.getPresentableMessage(mContext));
+				}
 			}
 			else {
-				mTextView.setText("SUCCESS!");
+				sb.append("Booking success!");
+				sb.append("\n\n");
+				sb.append("orderId: " + results.getOrderId());
+
+				if (!results.getOrderId().equals("000000")) {
+					sb.append("\n\nWARNING: ORDER ID WAS NOT 000000! THIS MEANS THE BOOKING ACTUALLY WENT THROUGH!");
+				}
 			}
+
+			mTextView.setText(sb.toString());
 		}
 	};
 }
