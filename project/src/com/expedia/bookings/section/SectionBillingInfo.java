@@ -215,9 +215,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			if (data.getExpirationDate() != null) {
 				//TODO:Don't hardcode this format string..
-				field.setText(String.format("%02d/%02d", mBillingInfo.getExpirationDate().get(Calendar.MONTH),
-						mBillingInfo
-								.getExpirationDate().get(Calendar.YEAR)));
+				DateFormat df = new SimpleDateFormat("MM/yy");
+				String exprStr = df.format(data.getExpirationDate().getTime());
+				field.setText(exprStr);
 			}
 			else {
 				field.setText("");
