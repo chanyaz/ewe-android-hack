@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.BaggageFeeActivity;
@@ -31,6 +34,11 @@ public class FlightDetailsFragment extends Fragment {
 	public static final String TAG = FlightDetailsFragment.class.getName();
 
 	private static final String ARG_TRIP_LEG = "ARG_TRIP_LEG";
+
+	// Cached views
+	private ScrollView mScrollView;
+	private ViewGroup mInfoContainer;
+	private TextView mBaggageInfoTextView;
 
 	// Cached copies, not to be stored
 	private FlightTripLeg mFlightTripLeg;
@@ -82,49 +90,74 @@ public class FlightDetailsFragment extends Fragment {
 				Html.fromHtml(getString(bookNowResId, trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL))));
 
 		// Format content
-		ViewGroup infoContainer = Ui.findView(v, R.id.flight_info_container);
+		mInfoContainer = Ui.findView(v, R.id.flight_info_container);
 
 		// Depart from row
 		FlightPathSection departFromSection = (FlightPathSection) inflater.inflate(R.layout.section_flight_path,
-				infoContainer, false);
+				mInfoContainer, false);
 		departFromSection.bind(leg.getSegment(0), true);
-		infoContainer.addView(departFromSection);
+		mInfoContainer.addView(departFromSection);
 
 		// Add each card, with layovers in between
-		int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
+		final int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
 		Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
 		Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
 		int segmentCount = leg.getSegmentCount();
 		for (int a = 0; a < segmentCount; a++) {
 			if (a != 0) {
 				FlightLayoverSection flightLayoverSection = (FlightLayoverSection) inflater.inflate(
-						R.layout.section_flight_layover, infoContainer, false);
+						R.layout.section_flight_layover, mInfoContainer, false);
 				flightLayoverSection.bind(leg.getSegment(a - 1), leg.getSegment(a));
-				infoContainer.addView(flightLayoverSection);
+				mInfoContainer.addView(flightLayoverSection);
 			}
 
 			FlightSegmentSection flightSegmentSection = (FlightSegmentSection) inflater.inflate(
-					R.layout.section_flight_segment, infoContainer, false);
+					R.layout.section_flight_segment, mInfoContainer, false);
 			flightSegmentSection.bind(leg.getSegment(a), trip.getFlightSegmentAttributes(leg).get(a), minTime, maxTime);
 			MarginLayoutParams params = (MarginLayoutParams) flightSegmentSection.getLayoutParams();
 			params.setMargins(cardMargins, cardMargins, cardMargins, cardMargins);
-			infoContainer.addView(flightSegmentSection);
+			mInfoContainer.addView(flightSegmentSection);
 		}
 
 		// Arrive at row
 		FlightPathSection arriveAtSection = (FlightPathSection) inflater.inflate(R.layout.section_flight_path,
-				infoContainer, false);
+				mInfoContainer, false);
 		arriveAtSection.bind(leg.getSegment(segmentCount - 1), false);
-		infoContainer.addView(arriveAtSection);
-		
-		Ui.findView(v, R.id.baggage_fee_text_view).setOnClickListener(new OnClickListener(){
+		mInfoContainer.addView(arriveAtSection);
+
+		mBaggageInfoTextView = Ui.findView(v, R.id.baggage_fee_text_view);
+		mBaggageInfoTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				FlightLeg leg = getFlightLeg();
-				Intent baggageIntent = new Intent(getActivity(),BaggageFeeActivity.class);
+				Intent baggageIntent = new Intent(getActivity(), BaggageFeeActivity.class);
 				baggageIntent.putExtra(BaggageFeeActivity.TAG_ORIGIN, leg.getFirstWaypoint().mAirportCode);
 				baggageIntent.putExtra(BaggageFeeActivity.TAG_DESTINATION, leg.getLastWaypoint().mAirportCode);
 				getActivity().startActivity(baggageIntent);
+			}
+		});
+
+		// This is for determining whether the baggage info text view should
+		// appear on the bottom of the screen or scrolling with the content
+		mScrollView = Ui.findView(v, R.id.flight_info_scroll_view);
+		mScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				if (mScrollView.getHeight() < mInfoContainer.getHeight()) {
+					// Move baggage container to the info container 
+					((ViewGroup) mBaggageInfoTextView.getParent()).removeView(mBaggageInfoTextView);
+					mInfoContainer.addView(mBaggageInfoTextView);
+
+					// Reset the layout margins/padding to account for move
+					MarginLayoutParams lp = (MarginLayoutParams) mBaggageInfoTextView.getLayoutParams();
+					mInfoContainer.setPadding(mInfoContainer.getPaddingLeft(), mInfoContainer.getPaddingTop(),
+							mInfoContainer.getPaddingRight(), cardMargins);
+					lp.topMargin = cardMargins;
+					lp.bottomMargin = 0;
+				}
+
+				// Remove the listener so this only happens once
+				mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
 		});
 

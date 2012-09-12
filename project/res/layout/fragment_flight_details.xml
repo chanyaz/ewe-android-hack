@@ -5,7 +5,8 @@
 
     <!-- Details of each flight -->
 
-    <ScrollView
+    <com.expedia.bookings.widget.FadeTopScrollView
+        android:id="@+id/flight_info_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fadingEdge="vertical"
@@ -21,7 +22,7 @@
             android:orientation="vertical"
             android:paddingBottom="36dp"
             android:paddingTop="48dp" />
-    </ScrollView>
+    </com.expedia.bookings.widget.FadeTopScrollView>
 
     <!-- Header stuff -->
 
