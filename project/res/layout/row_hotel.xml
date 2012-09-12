@@ -116,7 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/sale_corner_right" />
+        android:src="@drawable/bg_hotel_cell_sale" />
 
     <com.mobiata.android.widget.TiltedTextView
         android:id="@+id/sale_text_view"
