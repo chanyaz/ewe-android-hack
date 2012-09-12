@@ -29,9 +29,7 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 				return checkoutResponse;
 			}
 
-			checkoutResponse.setItineraryNumber(response.optString("itineraryNumber"));
-			checkoutResponse.setTravelRecordLocator(response.optString("travelRecordLocator"));
-			checkoutResponse.setTripId(response.optString("tripId"));
+			checkoutResponse.setOrderId(response.optString("orderId", null));
 
 			String currencyCode = response.optString("currencyCode");
 			checkoutResponse.setTotalCharges(ParserUtils.createMoney(response.optString("totalCharges"), currencyCode));
