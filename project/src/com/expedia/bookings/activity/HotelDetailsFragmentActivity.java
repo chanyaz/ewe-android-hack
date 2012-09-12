@@ -172,7 +172,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		if (property == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
-			return;
+			return false;
 		}
 		String title = property.getName();
 		((TextView) titleView.findViewById(R.id.title)).setText(title);
