@@ -2,15 +2,18 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.BaggageFeeActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
@@ -113,6 +116,17 @@ public class FlightDetailsFragment extends Fragment {
 				infoContainer, false);
 		arriveAtSection.bind(leg.getSegment(segmentCount - 1), false);
 		infoContainer.addView(arriveAtSection);
+		
+		Ui.findView(v, R.id.baggage_fee_text_view).setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				FlightLeg leg = getFlightLeg();
+				Intent baggageIntent = new Intent(getActivity(),BaggageFeeActivity.class);
+				baggageIntent.putExtra(BaggageFeeActivity.TAG_ORIGIN, leg.getFirstWaypoint().mAirportCode);
+				baggageIntent.putExtra(BaggageFeeActivity.TAG_DESTINATION, leg.getLastWaypoint().mAirportCode);
+				getActivity().startActivity(baggageIntent);
+			}
+		});
 
 		return v;
 	}

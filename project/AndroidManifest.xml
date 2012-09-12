@@ -161,6 +161,9 @@
             android:name=".activity.FlightTravelerInfoOptionsActivity"
             android:theme="@style/FlightTheme" >
         </activity>
+        <activity android:name=".activity.BaggageFeeActivity"
+            android:theme="@style/FlightTheme">
+        </activity>
 
         <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />
@@ -249,6 +252,7 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
+        
     </application>
 
 </manifest>
