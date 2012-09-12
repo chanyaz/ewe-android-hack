@@ -881,7 +881,21 @@ public class ExpediaServices implements DownloadListener {
 		Log.i("Cancelling download!");
 		mCancellingDownload = true;
 		if (mRequest != null) {
-			mRequest.abort();
+			// If we're on the main thread, then run the abort
+			// in its own thread (to avoid network calls in
+			// main thread).  If we're not, feel free to just
+			// abort.
+			if ("main".equals(Thread.currentThread().getName())) {
+				(new Thread(new Runnable() {
+					@Override
+					public void run() {
+						mRequest.abort();
+					}
+				})).start();
+			}
+			else {
+				mRequest.abort();
+			}
 		}
 	}
 
