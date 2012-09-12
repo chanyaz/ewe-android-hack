@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-
-import android.annotation.TargetApi;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
@@ -50,19 +47,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.Traveler.AssistanceType;
-import com.expedia.bookings.data.Traveler.Gender;
-import com.expedia.bookings.data.Traveler.SeatPreference;
-import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.widget.TelephoneSpinner;
-import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.validation.ValidationError;
-import com.mobiata.android.validation.Validator;
 
 public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>, ISectionEditable {
 
@@ -508,7 +493,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-
 	//This is our date picker DialogFragment. The coder has a responsibility to set setOnDateSetListener after any sort of creation event (including rotaiton)
 	public static class DatePickerFragment extends DialogFragment
 	{
@@ -637,7 +621,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 								date = getData().getBirthDate();
 							}
 						}
-
 
 						DatePickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_DATE_PICKER);
 						if (datePickerFragment == null) {
