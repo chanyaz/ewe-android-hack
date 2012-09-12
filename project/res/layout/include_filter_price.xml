@@ -17,6 +17,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="@string/filter_price_cheap"
+        android:textColor="@color/actionbar_text"
         android:textStyle="bold" />
 
     <RadioButton
@@ -25,6 +26,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="@string/filter_price_moderate"
+        android:textColor="@color/actionbar_text"
         android:textStyle="bold" />
 
     <RadioButton
@@ -33,6 +35,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="@string/filter_price_expensive"
+        android:textColor="@color/actionbar_text"
         android:textStyle="bold" />
 
     <RadioButton
@@ -40,8 +43,9 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:checked="true"
         android:text="@string/all"
-        android:textStyle="bold"
-        android:checked="true" />
+        android:textColor="@color/actionbar_text"
+        android:textStyle="bold" />
 
 </com.mobiata.android.widget.SegmentedControlGroup>
