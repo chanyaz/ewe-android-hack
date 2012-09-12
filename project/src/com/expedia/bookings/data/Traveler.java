@@ -71,8 +71,10 @@ public class Traveler implements JSONable {
 		b.setLastName(mLastName);
 
 		Phone p = getPrimaryPhoneNumber();
-		b.setTelephoneCountryCode(p.getCountryCode());
-		b.setTelephone(p.getAreaCode() + p.getNumber());
+		if (p != null) {
+			b.setTelephoneCountryCode(p.getCountryCode());
+			b.setTelephone(p.getAreaCode() + p.getNumber());
+		}
 
 		b.setEmail(mEmail);
 		b.setLocation(mHomeAddress);
