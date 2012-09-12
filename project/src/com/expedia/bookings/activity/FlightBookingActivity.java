@@ -52,7 +52,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			}
 		});
 
-		final SectionBillingInfo ccSecCode = Ui.findView(this, R.id.edit_creditcard_security_code);
+		final SectionBillingInfo ccSecCode = Ui.findView(this, R.id.section_edit_creditcard_security_code);
 		ccSecCode.bind(Db.getBillingInfo());
 		ccSecCode.addChangeListener(new SectionChangeListener() {
 			@Override
