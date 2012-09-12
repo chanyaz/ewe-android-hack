@@ -21,7 +21,7 @@ public class ActionBarNavUtils {
 
 	public static boolean removePopupDropdownIfNecessaryOnTouch(MotionEvent ev, NavigationButton navButton) {
 		boolean dropdownRemoved = false;
-		if (navButton.getImageDropdown().getPopupWindow().isShowing()) {
+		if (navButton != null && navButton.getImageDropdown().getPopupWindow().isShowing()) {
 			Rect bounds = new Rect();
 			navButton.getImageDropdown().getPopupWindow().getContentView().getHitRect(bounds);
 			if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
@@ -33,7 +33,7 @@ public class ActionBarNavUtils {
 	}
 
 	private static boolean isPopupDropdownShowing(final NavigationButton navButton) {
-		return navButton.getImageDropdown().getPopupWindow().isShowing();
+		return navButton == null ? false : navButton.getImageDropdown().getPopupWindow().isShowing();
 	}
 
 	private static void togglePopupDropdown(NavigationButton navButton) {
