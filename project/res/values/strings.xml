@@ -356,7 +356,9 @@
     <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191">Prefers&lt;/font> %1$s Seat</string>
-
+	<!-- loading traveler info -->
+	<string name="loading_traveler_info">Loading traveler information...</string>
+    
     <!-- Seat types -->
     <!-- Window seating preference -->
     <string name="window">Window</string>

@@ -50,7 +50,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
-	private static final String KEY_TRAVELER_DATA = "KEY_TRAVELER_DATA";
 
 	//We only want to load from disk once: when the activity is first started (as it is the first time BillingInfo is seen)
 	private static boolean mLoaded = false;
@@ -389,16 +388,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				//If the first traveler in the list isn't valid, then populate it with data from the User
 				if (!TravelerFlowState.getInstance(getActivity())
 						.allTravelerInfoIsValid(Db.getTravelers().get(0))) {
-					Log.w("SET USER TRAVELER DATA!");
-					//Db.getTravelers().set(0, UserDataTransfer.getBestGuessStoredTraveler(Db.getUser()));
+					Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
 				}
-
-				//TODO:Uncomment this when the traveler api is finished. This may or may not be working correctly.
-				//				mGetTravelerInfo.setTraveler(Db.getTravelers().get(0));
-				//				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				//				if (!bd.isDownloading(KEY_TRAVELER_DATA)) {
-				//					bd.startDownload(KEY_TRAVELER_DATA, mGetTravelerInfo, mGetTravelerCallback);
-				//				}
 			}
 		}
 		else {
@@ -505,48 +496,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 				// Act as if a login just occurred
 				onLoginCompleted();
-			}
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// Update Traveler
-
-	private class TravelerDownload implements Download<SignInResponse> {
-		Traveler mTraveler;
-
-		public void setTraveler(Traveler traveler) {
-			mTraveler = traveler;
-		}
-
-		@Override
-		public SignInResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_TRAVELER_DATA, services);
-			return services.updateTraveler(mTraveler, 0);
-		}
-	}
-
-	private final TravelerDownload mGetTravelerInfo = new TravelerDownload();
-	private final OnDownloadComplete<SignInResponse> mGetTravelerCallback = new OnDownloadComplete<SignInResponse>() {
-		@Override
-		public void onDownload(SignInResponse results) {
-			if (results == null || results.hasErrors()) {
-				//TODO:If we don't have traveler info do something useful...
-				Ui.showToast(getActivity(), "Fail to update traveler");
-			}
-			else {
-				// Update our existing saved data
-				Traveler traveler = results.getTraveler();
-				for (int i = 0; i < Db.getTravelers().size(); i++) {
-					if (traveler.getTuid() == (Db.getTravelers().get(i).hasTuid() ? Db.getTravelers()
-							.get(i).getTuid() : 0)) {
-						Db.getTravelers().set(i, traveler);
-						break;
-					}
-				}
-				bindAll();
-
 			}
 		}
 	};
