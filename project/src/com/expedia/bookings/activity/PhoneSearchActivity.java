@@ -141,7 +141,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private enum DisplayType {
-		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), DRAWER(false), FILTER(true);
+		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), FILTER(true);
 
 		private boolean mIsSearchDisplay;
 
@@ -1729,7 +1729,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case KEYBOARD: {
-			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+			//showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			hideFilterOptions();
 
 			// 13550: In some cases, the list has been cleared
@@ -1745,6 +1745,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case CALENDAR: {
+			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
 			hideSoftKeyboard(mSearchEditText);
@@ -1761,6 +1762,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case GUEST_PICKER: {
+			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
 			hideSoftKeyboard(mSearchEditText);
@@ -1773,20 +1775,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			break;
 		}
-		case DRAWER: {
-			mSearchEditText.clearFocus();
-
-			hideSoftKeyboard(mSearchEditText);
-			hideFilterOptions();
-
-			mRefinementDismissView.setVisibility(View.GONE);
-			mButtonBarLayout.setVisibility(View.GONE);
-			mDatesLayout.setVisibility(View.GONE);
-			mGuestsLayout.setVisibility(View.GONE);
-
-			break;
-		}
 		case FILTER: {
+			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
 			hideSoftKeyboard(mSearchEditText);
@@ -2424,8 +2414,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
 				//expandSearchEditText();
-				//setDisplayType(DisplayType.KEYBOARD);
-				startAutocomplete();
+				setDisplayType(DisplayType.KEYBOARD);
 				SearchType searchType = Db.getSearchParams().getSearchType();
 				if (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA) {
 					mSearchEditText.post(new Runnable() {
