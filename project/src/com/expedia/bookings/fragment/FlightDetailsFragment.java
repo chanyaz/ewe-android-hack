@@ -130,9 +130,9 @@ public class FlightDetailsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				FlightLeg leg = getFlightLeg();
-				Intent baggageIntent = new Intent(getActivity(), BaggageFeeActivity.class);
-				baggageIntent.putExtra(BaggageFeeActivity.TAG_ORIGIN, leg.getFirstWaypoint().mAirportCode);
-				baggageIntent.putExtra(BaggageFeeActivity.TAG_DESTINATION, leg.getLastWaypoint().mAirportCode);
+				Intent baggageIntent = new Intent(getActivity(),BaggageFeeActivity.class);
+				baggageIntent.putExtra(BaggageFeeFragment.TAG_ORIGIN, leg.getFirstWaypoint().mAirportCode);
+				baggageIntent.putExtra(BaggageFeeFragment.TAG_DESTINATION, leg.getLastWaypoint().mAirportCode);
 				getActivity().startActivity(baggageIntent);
 			}
 		});

@@ -91,9 +91,6 @@
     </plurals>
     <!-- Baggage fee loading error -->
     <string name="baggage_fee_loading_error_TEMPLATE">Error loading baggage fee info! Error Message: %1$s</string>
-	<!-- Baggage fee url template -->
-<!-- 	<string name="baggage_fee_url_TEMPLATE">http://expedia.com/mt/www.expedia.com/Flights-BagFees?originapt=%1$s&amp;destinationapt=%2$s</string> -->
-<string name="baggage_fee_url_TEMPLATE">http://www.expedia.com/Flights-BagFees?originapt=%1$s&amp;destinationapt=%2$s</string>
     
     
     <!-- Flight search params fragment -->
