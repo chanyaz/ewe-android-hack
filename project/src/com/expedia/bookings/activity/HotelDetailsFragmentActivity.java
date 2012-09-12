@@ -169,6 +169,11 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars, null);
 
 		Property property = Db.getSelectedProperty();
+		if (property == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
+		}
 		String title = property.getName();
 		((TextView) titleView.findViewById(R.id.title)).setText(title);
 
