@@ -821,7 +821,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		menu.findItem(mSortOptionSelectedId).setChecked(true);
 
 		// Disable distance sort
-		menu.findItem(R.id.menu_select_sort_distance).setEnabled(mShowDistance);
+		menu.findItem(R.id.menu_select_sort_distance).setVisible(mShowDistance);
 
 		// Configure the map/list view action
 		if (mTag == null) {
