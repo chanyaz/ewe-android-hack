@@ -36,7 +36,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
             mobiata:rotation="90"
-            android:src="@drawable/ic_edit_arrow" />
+            android:src="@drawable/btn_collapse_expand" />
     </LinearLayout>
 
     <TextView

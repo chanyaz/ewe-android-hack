@@ -16,7 +16,7 @@
         android:id="@+id/receipt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_ticket_shadow" >
+        android:background="@drawable/bg_receipt" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,11 +24,10 @@
             android:background="@drawable/bg_ticket"
             android:orientation="vertical" >
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/expedia_candy_cane" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="13dp"
+                android:background="@drawable/candy_cane" />
 
             <!-- Header with Expedia images -->
 
@@ -241,11 +240,10 @@
                 android:paddingRight="6dp"
                 android:visibility="gone" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/expedia_candy_cane" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="13dp"
+                android:background="@drawable/candy_cane" />
         </LinearLayout>
     </LinearLayout>
 
