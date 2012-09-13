@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import android.content.res.Resources;
+import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.LayerDrawable;
 import com.actionbarsherlock.app.ActionBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
@@ -29,6 +32,26 @@ public class NavigationButton extends LinearLayout {
 	Context mContext;
 	TextView mTitle;
 
+	public static NavigationButton createNewInstanceAndAttach(Context context, int iconResId, int cornerResId,
+			ActionBar actionBar) {
+		Resources res = context.getResources();
+		return createNewInstanceAndAttach(context, res.getDrawable(iconResId), res.getDrawable(cornerResId), actionBar);
+	}
+
+	public static NavigationButton createNewInstanceAndAttach(Context context, Drawable icon, Drawable corner,
+			ActionBar actionBar) {
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+
+		LayerDrawable iconAndCorner = createActionBarIconDrawable(context, icon, corner);
+
+		NavigationButton nb = createNewInstance(context, iconAndCorner);
+		actionBar.setCustomView(nb);
+		return nb;
+	}
+
 	public static NavigationButton createNewInstance(Context context, int iconResId) {
 		return createNewInstance(context, context.getResources().getDrawable(iconResId));
 	}
@@ -54,6 +77,29 @@ public class NavigationButton extends LinearLayout {
 		return nb;
 	}
 
+	private static LayerDrawable createActionBarIconDrawable(Context context, Drawable icon, Drawable corner) {
+		Drawable[] da = new Drawable[2];
+		Resources res = context.getResources();
+
+		int iconInsetLeft = res.getDimensionPixelOffset(R.dimen.action_bar_nav_icon_inset_left);
+		int iconInsetTop = res.getDimensionPixelOffset(R.dimen.action_bar_nav_icon_inset_top);
+		int iconInsetRight = res.getDimensionPixelOffset(R.dimen.action_bar_nav_icon_inset_right);
+		int iconInsetBottom = res.getDimensionPixelOffset(R.dimen.action_bar_nav_icon_inset_bottom);
+		InsetDrawable iconInset = new InsetDrawable(icon, iconInsetLeft, iconInsetTop, iconInsetRight, iconInsetBottom);
+		da[0] = iconInset;
+
+		int cornerInsetLeft = res.getDimensionPixelOffset(R.dimen.action_bar_nav_corner_inset_left);
+		int cornerInsetTop = res.getDimensionPixelOffset(R.dimen.action_bar_nav_corner_inset_top);
+		int cornerInsetRight = res.getDimensionPixelOffset(R.dimen.action_bar_nav_corner_inset_right);
+		int cornerInsetBottom = res.getDimensionPixelOffset(R.dimen.action_bar_nav_corner_inset_bottom);
+
+		InsetDrawable cornerInset = new InsetDrawable(corner, cornerInsetLeft, cornerInsetTop, cornerInsetRight,
+				cornerInsetBottom);
+		da[1] = cornerInset;
+
+		return new LayerDrawable(da);
+	}
+
 	private NavigationButton(Context context) {
 		super(context);
 		init(context);
@@ -70,8 +116,8 @@ public class NavigationButton extends LinearLayout {
 	}
 
 	private void init(Context context) {
-		setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT));
+		setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT));
 		setOrientation(LinearLayout.HORIZONTAL);
 		setGravity(Gravity.CENTER_VERTICAL);
 

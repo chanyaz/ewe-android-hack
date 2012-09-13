@@ -135,7 +135,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mSelectFlightButton.setOnClickListener(mSelectFlightClick);
 
 		ActionBar ab = this.getSupportActionBar();
-		mNavButton = NavigationButton.createNewInstanceAndAttach(this, R.drawable.ic_action_bar_plane_dropdown, ab);
+		mNavButton = NavigationButton.createNewInstanceAndAttach(this, R.drawable.ic_action_bar_plane,
+				R.drawable.ic_action_bar_triangle, ab);
 		mNavButton.setDropdownAdapter(new NavigationDropdownAdapter(this, NoOpButton.FLIGHTS));
 		mNavButton.setCustomView(customView);
 
