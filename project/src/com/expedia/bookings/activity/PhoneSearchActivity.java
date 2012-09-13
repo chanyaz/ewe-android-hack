@@ -223,6 +223,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private View mGuestsLayout;
 	private View mChildAgesLayout;
 	private View mRefinementDismissView;
+	private View mSearchButton;
 
 	private View mFilterLayout;
 	private PopupWindow mFilterPopupWindow;
@@ -1048,6 +1049,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mGuestsTextView = (TextView) mActionBarCustomView.findViewById(R.id.guests_text_view);
 
 		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
+		mSearchButton = findViewById(R.id.search_button);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
 		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
@@ -1118,6 +1120,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
+		mSearchButton.setOnClickListener(mSearchButtonClickListener);
 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 
@@ -2373,6 +2376,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onClick(View v) {
 			setDisplayType(DisplayType.GUEST_PICKER);
+		}
+	};
+
+	private final View.OnClickListener mSearchButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			startSearch();
 		}
 	};
 
