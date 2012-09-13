@@ -1120,7 +1120,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
-		mSearchButton.setOnClickListener(mSearchButtonClickListener);
+		if (mSearchButton != null) {
+			mSearchButton.setOnClickListener(mSearchButtonClickListener);
+		}
 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 
@@ -1923,9 +1925,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
-		mFilterPopupWindow.showAsDropDown(mContent,
-				(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
-				-mFilterLayout.getMeasuredHeight());
+		mContent.post(new Runnable() {
+			@Override
+			public void run() {
+				mFilterPopupWindow.showAsDropDown(mContent,
+					(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
+					-mFilterLayout.getMeasuredHeight());
+			}
+		});
 
 		onOpenFilterPanel();
 	}
