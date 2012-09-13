@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.utils.StrUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -53,13 +54,13 @@ public class HotelDetailsIntroFragment extends Fragment {
 	}
 
 	private void populateViews(View view) {
-		populateBannerSection(view, DbPropertyHelper.getBestRateProperty());
+		populatePricePromoBar(view, DbPropertyHelper.getBestRateProperty());
 		populateBannerSection(view, DbPropertyHelper.getBestReviewsProperty(),
 				Db.getSelectedReviewsStatisticsResponse());
 		populateIntroParagraph(view, DbPropertyHelper.getBestDescriptionProperty());
 	}
 
-	private void populateBannerSection(View view, Property property) {
+	private void populatePricePromoBar(View view, Property property) {
 		if (property == null) {
 			return;
 		}
@@ -139,39 +140,43 @@ public class HotelDetailsIntroFragment extends Fragment {
 		float percentRecommend = numReviews == 0 ? 0f : statistics.getRecommendedCount() * 100f / numReviews;
 		float userRating = (float) statistics.getAverageOverallRating();
 
-		if (numReviews == 0) {
-			reviewsTextView.setText(resources.getString(R.string.no_reviews));
-		}
-		else {
-			reviewsTextView.setText(resources.getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews));
+		String reviewsText = numReviews == 0
+				? reviewsText = resources.getString(R.string.no_reviews)
+				: resources.getQuantityString(R.plurals.number_of_reviews, numReviews, numReviews);
+		if (!reviewsTextView.getText().equals(reviewsText)) {
+			reviewsTextView.setText(reviewsText);
 		}
 
-		OnClickListener onReviewsClick = (!property.hasExpediaReviews() && numReviews == 0) ? null : new OnClickListener() {
-			public synchronized void onClick(final View v) {
-				Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
-				newIntent.fillIn(getActivity().getIntent(), 0);
-				startActivity(newIntent);
-			}
-		};
+		OnClickListener onReviewsClick = (!property.hasExpediaReviews() && numReviews == 0) ? null
+				: new OnClickListener() {
+					public synchronized void onClick(final View v) {
+						Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
+						newIntent.fillIn(getActivity().getIntent(), 0);
+						startActivity(newIntent);
+					}
+				};
 		reviewsLayout.setOnClickListener(onReviewsClick);
-
-		// User Rating Bar
-		userRatingBar.setRating(0f);
 
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
 
 		// xx booked in the past x hours
 		/*if (TODO: xx booked in the past x hours) {
-			bannerTextView.setText(TODO);
+			String banner = TODO
+			if (!bannerTextView.getText().equals(banner)) {
+			bannerTextView.setText(banner);
 			bannerTextView.setVisibility(View.VISIBLE);
 			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
+			}
 		}*/
 		// Only xx rooms left
 		/*else*/if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
-			bannerTextView.setText(resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
-			bannerTextView.setVisibility(View.VISIBLE);
-			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
+			String banner = resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft);
+			if (!bannerTextView.getText().equals(banner)) {
+				bannerTextView.setText(banner);
+				bannerTextView.setVisibility(View.VISIBLE);
+				bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
+			}
 		}
 
 		// Special case if no urgency and no recommendations: hide this while banner section.
@@ -183,12 +188,17 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 		// xx% recommend this hotel
 		else {
-			bannerTextView.setText(resources.getString(R.string.x_percent_guests_recommend, percentRecommend));
-			bannerTextView.setVisibility(View.VISIBLE);
-			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_users, 0, 0, 0);
+			String banner = resources.getString(R.string.x_percent_guests_recommend, percentRecommend);
+			if (!bannerTextView.getText().equals(banner)) {
+				bannerTextView.setText(banner);
+				bannerTextView.setVisibility(View.VISIBLE);
+				bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_users, 0, 0, 0);
+			}
 		}
 
-		if (mAnimSet == null || !mAnimSet.isRunning()) {
+		// User Rating Bar
+		if (userRatingBar.getRating() != userRating && (mAnimSet == null || !mAnimSet.isRunning())) {
+			userRatingBar.setRating(0f);
 			// Please to be doing all the animations.
 			ObjectAnimator animRating = ObjectAnimator.ofFloat(userRatingBar, "rating", userRating);
 			ObjectAnimator anim1 = ObjectAnimator.ofFloat(reviewsLayout, "alpha", 0f, 1f);
