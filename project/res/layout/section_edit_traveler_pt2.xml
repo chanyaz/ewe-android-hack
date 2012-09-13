@@ -26,7 +26,9 @@
             android:hint="@string/only_if_applicable"
             gridlayout:layout_columnSpan="3"
             android:singleLine="true"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLength="7"
+             />
 
 		<Spinner
             android:id="@+id/edit_assistance_preference_spinner"
