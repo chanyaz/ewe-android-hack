@@ -9,7 +9,6 @@ import com.expedia.bookings.utils.Ui;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,48 +31,45 @@ public class NavigationButton extends LinearLayout {
 	Context mContext;
 	TextView mTitle;
 
+	public static NavigationButton createNewInstanceAndAttach(Context context, int iconResId, ActionBar actionBar) {
+		Drawable icon = context.getResources().getDrawable(iconResId);
+
+		return modifyActionBarPropertiesForCustomView(context, actionBar, icon);
+	}
+
 	public static NavigationButton createNewInstanceAndAttach(Context context, int iconResId, int cornerResId,
 			ActionBar actionBar) {
 		Resources res = context.getResources();
-		return createNewInstanceAndAttach(context, res.getDrawable(iconResId), res.getDrawable(cornerResId), actionBar);
-	}
-
-	public static NavigationButton createNewInstanceAndAttach(Context context, Drawable icon, Drawable corner,
-			ActionBar actionBar) {
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowCustomEnabled(true);
-
+		Drawable icon = res.getDrawable(iconResId);
+		Drawable corner = res.getDrawable(cornerResId);
 		LayerDrawable iconAndCorner = createActionBarIconDrawable(context, icon, corner);
 
-		NavigationButton nb = createNewInstance(context, iconAndCorner);
-		actionBar.setCustomView(nb);
-		return nb;
+		return modifyActionBarPropertiesForCustomView(context, actionBar, iconAndCorner);
 	}
 
-	public static NavigationButton createNewInstance(Context context, int iconResId) {
-		return createNewInstance(context, context.getResources().getDrawable(iconResId));
-	}
-
-	public static NavigationButton createNewInstance(Context context, Drawable icon) {
-		NavigationButton nb = new NavigationButton(context);
-		nb.getImageDropdown().setImageDrawable(icon);
-		return nb;
-	}
-
-	public static NavigationButton createNewInstanceAndAttach(Context context, int iconResId, ActionBar actionBar) {
-		return createNewInstanceAndAttach(context, context.getResources().getDrawable(iconResId), actionBar);
-	}
-
-	public static NavigationButton createNewInstanceAndAttach(Context context, Drawable icon, ActionBar actionBar) {
+	/**
+	 * This updates the ActionBar attributes for setting the custom view. Additionally creates
+	 * @param context
+	 * @param actionBar
+	 * @param drawable - background of the custom view
+	 * @return the NavigationButton to be returned to the user of the constructor
+	 */
+	private static NavigationButton modifyActionBarPropertiesForCustomView(Context context, ActionBar actionBar,
+			Drawable drawable) {
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowCustomEnabled(true);
 
-		NavigationButton nb = createNewInstance(context, icon);
+		NavigationButton nb = createNewInstance(context, drawable);
 		actionBar.setCustomView(nb);
+
+		return nb;
+	}
+
+	private static NavigationButton createNewInstance(Context context, Drawable icon) {
+		NavigationButton nb = new NavigationButton(context);
+		nb.getImageDropdown().setImageDrawable(icon);
 		return nb;
 	}
 
@@ -102,16 +98,6 @@ public class NavigationButton extends LinearLayout {
 
 	private NavigationButton(Context context) {
 		super(context);
-		init(context);
-	}
-
-	private NavigationButton(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(context);
-	}
-
-	private NavigationButton(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
 		init(context);
 	}
 
