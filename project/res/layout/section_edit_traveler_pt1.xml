@@ -27,7 +27,7 @@
                 android:nextFocusDown="@+id/edit_middle_name"
                 android:hint="@string/first_name"
                 android:singleLine="true"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName|textCapWords" />
 
             <EditText
                 android:id="@+id/edit_middle_name"
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:hint="@string/middle_name"
                 android:singleLine="true"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName|textCapWords" />
         </LinearLayout>
 
         <EditText
@@ -46,7 +46,7 @@
             gridlayout:layout_columnSpan="4"
             android:hint="@string/last_name"
             android:singleLine="true"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName|textCapWords" />
     </com.gridlayout.GridLayout>
 
     <com.gridlayout.GridLayout
