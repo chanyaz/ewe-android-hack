@@ -78,12 +78,12 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 
 		// Promo text, i.e. "Mobile Exclusive!" or "Tonight Only!"
-		if (property.isLowestRateMobileExclusive()) {
-			promoTextView.setText(getString(R.string.mobile_exclusive));
+		if (property.isLowestRateTonightOnly()) {
+			promoTextView.setText(getString(R.string.tonight_only));
 			promoTextView.setVisibility(View.VISIBLE);
 		}
-		else if (property.isLowestRateTonightOnly()) {
-			promoTextView.setText(getString(R.string.tonight_only));
+		else if (property.isLowestRateMobileExclusive()) {
+			promoTextView.setText(getString(R.string.mobile_exclusive));
 			promoTextView.setVisibility(View.VISIBLE);
 		}
 		else {
