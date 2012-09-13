@@ -17,10 +17,14 @@
             android:id="@+id/filter_hotel_name_edit_text"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_holo_dark"
             android:gravity="center_vertical"
+            android:hint="@string/filter_hotel_name_hint"
+            android:inputType="text"
             android:singleLine="true"
-            android:textSize="16sp"
-            android:hint="@string/filter_hotel_name_hint" />
+            android:textColor="@color/actionbar_text"
+            android:textCursorDrawable="@null"
+            android:textSize="18dp" />
 
         <include
             android:id="@+id/radius_filter_button_group"

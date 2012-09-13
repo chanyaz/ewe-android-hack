@@ -1079,6 +1079,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					mFocusLayout.requestFocus();
 					v.clearFocus();
 				}
 				return false;
@@ -1096,6 +1097,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				onFilterClosed();
 				setDisplayType(DisplayType.NONE);
 				mRefinementDismissView.setVisibility(View.GONE);
+
+				// Get rid of IME if it appeared for the filter
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(mFilterHotelNameEditText.getWindowToken(), 0);
 			}
 		});
 
@@ -1905,6 +1910,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			return;
 		}
 
+		mFilterHotelNameEditText.removeTextChangedListener(mFilterHotelNameTextWatcher);
+		mFilterHotelNameEditText.setText(Db.getFilter().getHotelName());
+		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
+
 		if (mRadiusCheckedId == 0) {
 			mRadiusCheckedId = mRadiusButtonGroup.getCheckedRadioButtonId();
 		}
@@ -1916,6 +1925,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, Db.getFilter());
+
+		mRadiusButtonGroup.setOnCheckedChangeListener(null);
+		mRatingButtonGroup.setOnCheckedChangeListener(null);
+		mPriceButtonGroup.setOnCheckedChangeListener(null);
 
 		mRadiusButtonGroup.check(mRadiusCheckedId);
 		mRatingButtonGroup.check(mRatingCheckedId);
