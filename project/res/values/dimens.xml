@@ -121,5 +121,5 @@
 
     <dimen name="actionbar_refinement_width">50dp</dimen>
 
-    <dimen name="popup_filter_row_height">45dp</dimen>
+    <dimen name="popup_filter_row_height">50dp</dimen>
 </resources>

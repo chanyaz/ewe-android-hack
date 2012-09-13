@@ -6,7 +6,6 @@
     stlye="@style/Widget.SegmentedControlGroup.DarkFilterControls"
     android:layout_width="fill_parent"
     android:layout_height="@dimen/popup_filter_row_height"
-    android:layout_marginBottom="4dp"
     android:orientation="horizontal"
     android:gravity="center"
     android:paddingTop="5dp" >
