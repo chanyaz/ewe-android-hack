@@ -17,7 +17,7 @@
     <!-- Indicates that a flight itinerary flies on multiple airlines -->
     <string name="multiple_airlines">Multiple Airlines</string>
     <!-- Indicates how long a layover is.  %s is an amount of time, e.g. "3h 33m layover" -->
-    <string name="layover_template">&lt;b>%s&lt;/b> Layover</string>
+    <string name="layover_template">&lt;b&gt;%s&lt;/b&gt; Layover</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">Departure Airport</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
@@ -32,12 +32,12 @@
     <string name="error_no_flights_found">Sorry, we could not find any flights.</string>
     <!-- Pluralization for # of seats left on a flight -->
     <plurals name="seats_left">
-        <item quantity="zero">&lt;b>%d&lt;/b> seats left!</item>
-        <item quantity="one">&lt;b>%d&lt;/b> seat left!</item>
-        <item quantity="two">&lt;b>%d&lt;/b> seats left!</item>
-        <item quantity="few">&lt;b>%d&lt;/b> seats left!</item>
-        <item quantity="many">&lt;b>%d&lt;/b> seats left!</item>
-        <item quantity="other">&lt;b>%d&lt;/b> seats left!</item>
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; seat left!</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
+        <item quantity="few">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; seats left!</item>
     </plurals>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Details</string>
@@ -91,8 +91,7 @@
     </plurals>
     <!-- Baggage fee loading error -->
     <string name="baggage_fee_loading_error_TEMPLATE">Error loading baggage fee info! Error Message: %1$s</string>
-    
-    
+
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Select a departure date</string>
@@ -111,9 +110,9 @@
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">Tap to select your &lt;b>&lt;font color="#3b5998">departure date&lt;/font>&lt;/b>.</string>
+    <string name="calendar_instructions_nothing_selected">Tap to select your &lt;b&gt;&lt;font color="#3b5998"&gt;departure date&lt;/font&gt;&lt;/b&gt;.</string>
     <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">Tap a &lt;b>&lt;font color="#3b5998">return date&lt;/font>&lt;/b>. (Optional)</string>
+    <string name="calendar_instructions_start_selected">Tap a &lt;b&gt;&lt;font color="#3b5998"&gt;return date&lt;/font&gt;&lt;/b&gt;. (Optional)</string>
     <!-- Start date and end date selected -->
     <string name="calendar_instructions_range_selected_TEMPLATE">%1$d night trip selected.</string>
 
@@ -146,7 +145,7 @@
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">Current Payment Details</string>
-    <!-- Or Select a new payment method-->
+    <!-- Or Select a new payment method -->
     <string name="or_select_new_paymet_method">Select a New Payment Method</string>
     <!-- Select Payment -->
     <string name="select_payment">Select Payment</string>
@@ -158,7 +157,7 @@
     <string name="overview_btn">Overview</string>
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Choose a Stored Payment Method</string>
-    
+
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
     <string name="total_price_label">Total Price</string>
@@ -214,13 +213,12 @@
     <string name="enter_traveler_info">Enter Traveler Information</string>
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
-    <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number)-->
+    <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191">Born&lt;/font> %1$s</string>
-
+    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Born&lt;/font&gt; %1$s</string>
 
     <!-- Section edit contact -->
     <!-- first name hint -->
@@ -233,18 +231,18 @@
     <string name="email_address_hint">Email Address</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Phone Number</string>
-    <!--  Cardholder -->
+    <!-- Cardholder -->
     <string name="cardholder">Cardholder</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Your confirmation email will be sent here</string>
-    <!-- Expires on colored template-->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191">Expires&lt;/font> %1$s</string>
+    <!-- Expires on colored template -->
+    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Expires&lt;/font&gt; %1$s</string>
 
     <!-- Section display payment -->
     <!-- Enter payment info button text -->
     <string name="enter_payment_info">Enter Payment Information</string>
     <!-- Template for blanked out Credit Card -->
-    <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b>%2$s&lt;/b></string>
+    <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b&gt;%2$s&lt;/b&gt;</string>
 
     <!-- Section display address -->
     <!-- Enter address info button text -->
@@ -285,14 +283,13 @@
     <string name="save">Save</string>
     <!-- dont save -->
     <string name="dont_save">Don\'t Save</string>
-    
+
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Save Traveler</string>
     <!-- save traveler message -->
     <string name="save_traveler_message">Tap Save to save this traveler to your Expedia account.</string>
-    
-    
+
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
     <string name="traveler_information">Traveler Information</string>
@@ -334,15 +331,13 @@
     <string name="seating">Seating</string>
     <!-- Assistance label -->
     <string name="assistance">Assistance</string>
-    
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
     <string name="none">None</string>
     <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191">%1$s is&lt;/font> %2$s</string>
-    
-    
+    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s is&lt;/font&gt; %2$s</string>
+
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
     <string name="select_a_traveler">Select a traveler</string>
@@ -355,10 +350,10 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191">Prefers&lt;/font> %1$s Seat</string>
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Prefers&lt;/font&gt; %1$s Seat</string>
 	<!-- loading traveler info -->
 	<string name="loading_traveler_info">Loading traveler information...</string>
-    
+
     <!-- Seat types -->
     <!-- Window seating preference -->
     <string name="window">Window</string>
@@ -368,7 +363,7 @@
     <string name="any">Any</string>
 
     <!-- Assistance Types -->
-    <!--  No assistance type -->
+    <!-- No assistance type -->
     <string name="no_assistance">No Special Assistance Required</string>
     <!-- Wheelchair -->
     <string name="wheelchair">Wheelchair</string>
@@ -384,7 +379,6 @@
     <string name="hint_search_location">Search Location</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Loading suggestions...</string>
-    
     <string name="app_name">Expedia</string>
 
     <!-- General -->
@@ -523,7 +517,7 @@
     <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
     <string name="booked_this_in_the_last_hours_template">booked this in the last %d hours</string>
 
-    <!-- Expedia urgency messaging indicating the number of rooms left-->
+    <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
         <item quantity="one">%d Room Left!</item>
         <item quantity="two">%d Rooms Left</item>
@@ -1216,7 +1210,7 @@
     <string name="Settings">Settings</string>
     <!-- Label for "about this app" menu item. -->
     <string name="About">About</string>
-    
+
     <!-- Preferences strings -->
     <!-- String for default preference setting (for any given preference) -->
     <string name="Default">Default</string>
