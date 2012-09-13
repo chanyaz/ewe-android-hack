@@ -3,7 +3,7 @@
 
     <com.expedia.bookings.widget.ImageDropdown
         android:id="@+id/image_dropdown"
-        android:layout_width="32dp"
+        android:layout_width="48dp"
         android:layout_height="32dp"
         android:layout_marginLeft="12.5dp"
         android:layout_marginRight="8dp" />

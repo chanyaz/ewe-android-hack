@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_action_bar_plane_inset_drawable"/>
+    <item android:drawable="@drawable/ic_action_bar_dropdown_inset_drawable"/>
+</layer-list>
