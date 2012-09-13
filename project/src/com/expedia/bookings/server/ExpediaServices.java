@@ -502,7 +502,7 @@ public class ExpediaServices implements DownloadListener {
 
 		// F670: Location can be null if we are using a stored credit card
 		Location location = billingInfo.getLocation();
-		if (location != null) {
+		if (location != null && location.getStreetAddress() != null) {
 			query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
 			if (location.getStreetAddress().size() > 1) {
 				String address2 = location.getStreetAddress().get(1);
