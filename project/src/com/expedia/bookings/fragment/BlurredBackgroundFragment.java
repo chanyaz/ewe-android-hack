@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.security.InvalidParameterException;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.FadingImageView;
 import com.mobiata.android.util.Ui;
 
 public class BlurredBackgroundFragment extends Fragment {
@@ -20,7 +19,7 @@ public class BlurredBackgroundFragment extends Fragment {
 	// Background views
 	private ImageView mBackgroundView;
 	private ImageView mBackgroundBgView;
-	private ImageView mBackgroundFgView;
+	private FadingImageView mBackgroundFgView;
 
 	private Bitmap mHeaderBitmap;
 	private Bitmap mBlurredHeaderBitmap;
@@ -65,15 +64,19 @@ public class BlurredBackgroundFragment extends Fragment {
 		}
 	}
 
-	// Goes from 0.0 - 1.0
-	public void setBlurAmount(float percent) {
-		if (percent < 0 || percent > 1.0) {
-			throw new InvalidParameterException("percent must be between 0 and 1, but was input as " + percent);
-		}
+	public void setFadeRange(int startY, int endY) {
+		mBackgroundFgView.setFadeRange(startY, endY);
 
-		if (mBackgroundFgView != null) {
-			mBackgroundFgView.setAlpha(percent);
-		}
+		// Set this view enabled again
+		mBackgroundBgView.setVisibility(View.VISIBLE);
 	}
 
+	public void setFadeEnabled(boolean enabled) {
+		mBackgroundFgView.setFadeEnabled(enabled);
+
+		// Get rid of a View that's being completely obscured to speed things up
+		if (!enabled && mBackgroundBgView != null) {
+			mBackgroundBgView.setVisibility(View.GONE);
+		}
+	}
 }

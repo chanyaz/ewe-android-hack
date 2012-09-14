@@ -215,7 +215,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			}
 			else {
 				mListView.setOnScrollListener(null);
-				mListener.onBlur(1.0f);
+				mListener.onDisableFade();
 			}
 		}
 
@@ -240,7 +240,9 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 		public void onDeselectFlightLeg();
 
-		public void onBlur(float alpha);
+		public void onDisableFade();
+
+		public void onFadeRangeChange(int startY, int endY);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -254,15 +256,24 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	//////////////////////////////////////////////////////////////////////////
 	// OnScrollListener
 
+	// Cached for faster processing
+	private int mNumFlightsTextViewTop = 0;
+	private int mNumFlightsTextViewBottom = 0;
+
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		if (view.getChildCount() > 0) {
 			if (firstVisibleItem == 0) {
-				View header = view.getChildAt(0);
-				mListener.onBlur((float) -header.getTop() / (float) header.getHeight());
+				if (mNumFlightsTextViewTop == 0) {
+					mNumFlightsTextViewTop = mNumFlightsTextView.getTop();
+					mNumFlightsTextViewBottom = mNumFlightsTextView.getBottom();
+				}
+
+				int parentTop = view.getChildAt(0).getTop();
+				mListener.onFadeRangeChange(mNumFlightsTextViewTop + parentTop, mNumFlightsTextViewBottom + parentTop);
 			}
 			else {
-				mListener.onBlur(1.0f);
+				mListener.onDisableFade();
 			}
 		}
 	}

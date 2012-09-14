@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
@@ -26,6 +25,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.FlightFilter.Sort;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -33,7 +33,6 @@ import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.FlightFilter.Sort;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment;
@@ -510,8 +509,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
-	public void onBlur(float alpha) {
-		mBgFragment.setBlurAmount(alpha);
+	public void onDisableFade() {
+		mBgFragment.setFadeEnabled(false);
+	}
+
+	@Override
+	public void onFadeRangeChange(int startY, int endY) {
+		mBgFragment.setFadeRange(startY, endY);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -543,7 +547,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 
 		if (name.startsWith(BACKSTACK_FLIGHT_DETAILS_PREFIX)) {
-			mBgFragment.setBlurAmount(1.0f);
+			onDisableFade();
 		}
 
 		supportInvalidateOptionsMenu();
