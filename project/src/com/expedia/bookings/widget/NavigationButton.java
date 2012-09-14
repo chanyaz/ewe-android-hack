@@ -74,21 +74,15 @@ public class NavigationButton extends LinearLayout {
 	}
 
 	private static LayerDrawable createActionBarIconDrawable(Context context, Drawable icon, Drawable corner) {
-		Drawable[] da = new Drawable[2];
 		Resources res = context.getResources();
 
-		int iconInsetLeft = res.getDimensionPixelOffset(R.dimen.action_bar_nav_icon_inset_left);
-		int iconInsetTop = res.getDimensionPixelOffset(R.dimen.action_bar_nav_icon_inset_top);
-		int iconInsetRight = res.getDimensionPixelOffset(R.dimen.action_bar_nav_icon_inset_right);
-		int iconInsetBottom = res.getDimensionPixelOffset(R.dimen.action_bar_nav_icon_inset_bottom);
-		InsetDrawable iconInset = new InsetDrawable(icon, iconInsetLeft, iconInsetTop, iconInsetRight, iconInsetBottom);
-		da[0] = iconInset;
+		Drawable[] da = new Drawable[2];
+		da[0] = icon;
 
 		int cornerInsetLeft = res.getDimensionPixelOffset(R.dimen.action_bar_nav_corner_inset_left);
 		int cornerInsetTop = res.getDimensionPixelOffset(R.dimen.action_bar_nav_corner_inset_top);
 		int cornerInsetRight = res.getDimensionPixelOffset(R.dimen.action_bar_nav_corner_inset_right);
 		int cornerInsetBottom = res.getDimensionPixelOffset(R.dimen.action_bar_nav_corner_inset_bottom);
-
 		InsetDrawable cornerInset = new InsetDrawable(corner, cornerInsetLeft, cornerInsetTop, cornerInsetRight,
 				cornerInsetBottom);
 		da[1] = cornerInset;

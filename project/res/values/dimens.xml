@@ -15,16 +15,11 @@
    	<dimen name="flight_segment_margin">16dp</dimen>
 
     <!-- Flights ActionBar dimens -->
-    <dimen name="action_bar_nav_icon_inset_left">-8dp</dimen>
-    <dimen name="action_bar_nav_icon_inset_top">0dp</dimen>
-    <dimen name="action_bar_nav_icon_inset_right">8dp</dimen>
-    <dimen name="action_bar_nav_icon_inset_bottom">0dp</dimen>
-
-    <dimen name="action_bar_nav_corner_inset_left">18dp</dimen>
+    <dimen name="action_bar_nav_corner_inset_left">24dp</dimen>
     <dimen name="action_bar_nav_corner_inset_top">12dp</dimen>
-    <dimen name="action_bar_nav_corner_inset_right">-18dp</dimen>
+    <dimen name="action_bar_nav_corner_inset_right">-24dp</dimen>
     <dimen name="action_bar_nav_corner_inset_bottom">-12dp</dimen>
-    
+
     <!-- Dimensions for the list header fragment -->
     <dimen name="sort_view_max_width">250dp</dimen>
 
