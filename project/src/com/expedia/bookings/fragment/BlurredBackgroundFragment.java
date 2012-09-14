@@ -17,7 +17,6 @@ import com.mobiata.android.util.Ui;
 public class BlurredBackgroundFragment extends Fragment {
 
 	// Background views
-	private ImageView mBackgroundView;
 	private ImageView mBackgroundBgView;
 	private FadingImageView mBackgroundFgView;
 
@@ -28,7 +27,6 @@ public class BlurredBackgroundFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_blurred_bg, container, false);
 
-		mBackgroundView = Ui.findView(v, R.id.background_view);
 		mBackgroundBgView = Ui.findView(v, R.id.background_bg_view);
 		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
 
@@ -50,10 +48,6 @@ public class BlurredBackgroundFragment extends Fragment {
 
 	private void displayBackground() {
 		if (mHeaderBitmap != null && mBlurredHeaderBitmap != null) {
-			if (mBackgroundView != null) {
-				mBackgroundView.setImageDrawable(new BitmapDrawable(getResources(), mBlurredHeaderBitmap));
-			}
-
 			if (mBackgroundBgView != null) {
 				mBackgroundBgView.setImageDrawable(new BitmapDrawable(getResources(), mHeaderBitmap));
 			}

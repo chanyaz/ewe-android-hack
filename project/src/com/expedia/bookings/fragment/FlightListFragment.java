@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.database.DataSetObserver;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
@@ -137,19 +136,10 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	//////////////////////////////////////////////////////////////////////////
 	// Header control
 
-	private boolean usesDynamicBlur() {
-		return Build.VERSION.SDK_INT >= 11;
-	}
-
 	private void displayHeaderLeg() {
 		if (mSectionFlightLeg != null) {
 			if (mLegPosition == 0) {
-				if (usesDynamicBlur()) {
-					mSectionFlightLeg.setVisibility(View.INVISIBLE);
-				}
-				else {
-					mSectionFlightLeg.setVisibility(View.GONE);
-				}
+				mSectionFlightLeg.setVisibility(View.INVISIBLE);
 			}
 			else {
 				mSectionFlightLeg.setVisibility(View.VISIBLE);
@@ -210,7 +200,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 			// Only dynamically blur background if there is no header
 			// flight card being shown.
-			if (mLegPosition == 0 && usesDynamicBlur()) {
+			if (mLegPosition == 0) {
 				mListView.setOnScrollListener(this);
 			}
 			else {
