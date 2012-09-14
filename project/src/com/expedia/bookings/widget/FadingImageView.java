@@ -11,8 +11,6 @@ import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.mobiata.android.Log;
-
 public class FadingImageView extends ImageView {
 
 	private static final int ALPHA_START = 0xFF000000;
@@ -61,8 +59,6 @@ public class FadingImageView extends ImageView {
 			super.onDraw(canvas);
 		}
 		else {
-			long start = System.nanoTime();
-
 			// Save the previously drawn layer (in the fading area)
 			canvas.saveLayer(rect.left, rect.top + mStartFadeY, rect.right, rect.top + mEndFadeY, null, SAVE_FLAGS);
 
@@ -79,13 +75,6 @@ public class FadingImageView extends ImageView {
 
 			// Restore the layer
 			canvas.restore();
-
-			mTotal += (System.nanoTime() - start);
-			mNum++;
-			Log.d("Avg render time: " + ((mTotal / mNum) / 1000000) + " ms");
 		}
 	}
-
-	private long mTotal = 0;
-	private int mNum = 0;
 }
