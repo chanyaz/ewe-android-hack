@@ -11,7 +11,8 @@ import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-// TODO: Test if pre-rendered bitmap is more performant
+import com.mobiata.android.Log;
+
 public class FadingImageView extends ImageView {
 
 	private static final int ALPHA_START = 0xFF000000;
@@ -60,8 +61,13 @@ public class FadingImageView extends ImageView {
 			super.onDraw(canvas);
 		}
 		else {
-			// Save the previously drawn layer
-			canvas.saveLayer(rect.left, rect.top, rect.right, rect.bottom, null, SAVE_FLAGS);
+			long start = System.nanoTime();
+
+			// Save the previously drawn layer (in the fading area)
+			canvas.saveLayer(rect.left, rect.top + mStartFadeY, rect.right, rect.top + mEndFadeY, null, SAVE_FLAGS);
+
+			// Clip to just the area we want to draw (helps performance quite a bit)
+			canvas.clipRect(rect.left, rect.top + mStartFadeY, rect.right, rect.bottom);
 
 			// Draw the blurred image
 			super.onDraw(canvas);
@@ -69,11 +75,17 @@ public class FadingImageView extends ImageView {
 			// Alpha mask the blurred image
 			mFadePaint.setShader(new LinearGradient(0, rect.top + mStartFadeY, 0, rect.top
 					+ mEndFadeY, ALPHA_START, ALPHA_END, Shader.TileMode.CLAMP));
-			canvas.drawRect(rect.left, rect.top, rect.right, rect.top + mEndFadeY,
-					mFadePaint);
+			canvas.drawRect(rect.left, rect.top + mStartFadeY, rect.right, rect.top + mEndFadeY, mFadePaint);
 
 			// Restore the layer
 			canvas.restore();
+
+			mTotal += (System.nanoTime() - start);
+			mNum++;
+			Log.d("Avg render time: " + ((mTotal / mNum) / 1000000) + " ms");
 		}
 	}
+
+	private long mTotal = 0;
+	private int mNum = 0;
 }
