@@ -3,21 +3,22 @@ package com.expedia.bookings.fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.BoundedBottomImageView;
 import com.expedia.bookings.widget.FadingImageView;
 import com.mobiata.android.util.Ui;
 
 public class BlurredBackgroundFragment extends Fragment {
 
 	// Background views
-	private ImageView mBackgroundBgView;
+	private BoundedBottomImageView mBackgroundBgView;
 	private FadingImageView mBackgroundFgView;
 
 	private Bitmap mHeaderBitmap;
@@ -60,6 +61,14 @@ public class BlurredBackgroundFragment extends Fragment {
 
 	public void setFadeRange(int startY, int endY) {
 		mBackgroundFgView.setFadeRange(startY, endY);
+
+		// This optimization is only necessary (and, in fact, only works) on the old
+		// rendering system.  In the new rendering system, this view is only drawn
+		// once anyways (and reused) so it doesn't matter that we're not planning
+		// for overdraw.
+		if (Build.VERSION.SDK_INT < 11) {
+			mBackgroundBgView.setBottomBound(endY);
+		}
 
 		// Set this view enabled again
 		mBackgroundBgView.setVisibility(View.VISIBLE);
