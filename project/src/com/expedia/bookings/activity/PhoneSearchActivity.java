@@ -1102,18 +1102,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(),
 				mFilterLayout.getMeasuredHeight());
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
-		mFilterPopupWindow.setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss() {
-				onFilterClosed();
-				setDisplayType(DisplayType.NONE);
-				mRefinementDismissView.setVisibility(View.GONE);
-
-				// Get rid of IME if it appeared for the filter
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(mFilterHotelNameEditText.getWindowToken(), 0);
-			}
-		});
 
 		// Progress bar
 		mProgressBar.addOnDrawStartedListener(this);
@@ -1922,6 +1910,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			return;
 		}
 
+		mFilterPopupWindow.setOnDismissListener(mFilterPopupOnDismissListener);
+
 		mFilterHotelNameEditText.removeTextChangedListener(mFilterHotelNameTextWatcher);
 		mFilterHotelNameEditText.setText(Db.getFilter().getHotelName());
 		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
@@ -1967,6 +1957,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			return;
 		}
 
+		mFilterPopupWindow.setOnDismissListener(null);
 		mFilterPopupWindow.dismiss();
 	}
 
@@ -2448,6 +2439,18 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onClick(View v) {
 			switchResultsView();
+		}
+	};
+
+	private final OnDismissListener mFilterPopupOnDismissListener = new OnDismissListener() {
+		@Override
+		public void onDismiss() {
+			onFilterClosed();
+			setDisplayType(DisplayType.NONE);
+
+			//// Get rid of IME if it appeared for the filter
+			//InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			//imm.hideSoftInputFromWindow(mFilterHotelNameEditText.getWindowToken(), 0);
 		}
 	};
 
