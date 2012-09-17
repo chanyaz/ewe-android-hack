@@ -908,7 +908,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		// Filters
 		case R.id.menu_select_filter: {
-			setDisplayType(DisplayType.FILTER);
+			if (mFilterPopupWindow.isShowing()) {
+				setDisplayType(DisplayType.NONE);
+			}
+			else {
+				setDisplayType(DisplayType.FILTER);
+			}
 			break;
 		}
 		}
