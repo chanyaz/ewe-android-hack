@@ -821,6 +821,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 		menu.findItem(mSortOptionSelectedId).setChecked(true);
 
+		boolean shouldEnableMenuItems = Db.getSearchResponse() != null;
+		menu.findItem(R.id.menu_select_sort).setEnabled(shouldEnableMenuItems);
+		menu.findItem(R.id.menu_select_filter).setEnabled(shouldEnableMenuItems);
+		menu.findItem(R.id.menu_select_search_map).setEnabled(shouldEnableMenuItems);
+		menu.findItem(R.id.menu_select_change_view).setEnabled(shouldEnableMenuItems);
+
 		// Disable distance sort
 		menu.findItem(R.id.menu_select_sort_distance).setVisible(mShowDistance);
 
@@ -1581,6 +1587,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	private void broadcastSearchStarted() {
+		supportInvalidateOptionsMenu();
 		mHotelListFragment.notifySearchStarted();
 		mHotelMapFragment.notifySearchStarted();
 	}
