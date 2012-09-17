@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Flights colors -->
-    <color name="bg_flight_row">#EEEEEE</color>
     <color name="flight_trip">#0D6599</color>
     <color name="trip_info_text">#FEFEFE</color>
     <color name="airport_text">#9EA8B6</color>
@@ -12,8 +11,6 @@
     <color name="data_entry_heading_divider">#37658D</color>
     <color name="data_review_dark">#333333</color>
     <color name="data_review_grey">#7F7F7F</color>
-    <color name="entry_form_bg">#F0F0F0</color>
-    <color name="yoyo_navigation_text_color">#333333</color><!-- #F9DF7E -->
     <color name="action_bar_text_yellow">#FEE36C</color>
     <color name="dark_blue_travelers_date_bar">#182C3E</color>
     
@@ -38,17 +35,6 @@
 	<color name="divider_strong_holo">#72a3ff</color>
 
 	<color name="suggestion_row_divider">#FFE5E5E5</color>
-
-	<color name="MyLocationBlue">#178BBD</color>
-
-	<color name="user_reviews_text_color">#ffffff</color>
-	<color name="hotel_description_text_color">#333333</color>
-
-	<color name="calendar_actionbar_text_color">#4a5461</color>
-	<color name="guests_actionbar_text_color">#4a5461</color>
-
-	<color name="sort_option_text_color_selected">#004194</color>
-	<color name="sort_option_text_color_normal">#3d404e</color>
 
 	<color name="widget_message_text_color">#214461</color>
 	<color name="widget_text_color">#3d4552</color>
@@ -79,7 +65,6 @@
     <color name="bottom_bar_background">#c000</color>
     
 	<color name="actionbar_button_background_pressed">#60000000</color>
-	<color name="actionbar_text_blue">#8da6eb</color>
 
 	<color name="tab_text">#d7d9dc</color>
 	<color name="actionbar_bg">#232b33</color>
@@ -92,7 +77,6 @@
 	<color name="clickable_row_background">#efefef</color>
 
     <color name="flight_checkout_opaque_white">#BBE8E8E8</color>
-    <color name="flight_checkout_opaque_white_fuller">#DDE8E8E8</color>
 
     <color name="flight_airport_text">@android:color/black</color>
     <color name="flight_airport_text_selected">#135C9A</color>

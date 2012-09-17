@@ -8,9 +8,6 @@
    	<dimen name="data_display_primary_text">18sp</dimen>
    	<dimen name="data_display_sub_text">14sp</dimen>
    	<dimen name="data_form_section_header_text">14sp</dimen>
-   	<dimen name="yoyo_navigation_text_size">14sp</dimen>
-   	<dimen name="yoyo_navigation_img_width">24dp</dimen>
-   	<dimen name="yoyo_navigation_img_height">24dp</dimen>
    	<dimen name="yoyo_navigation_padding_right">10dp</dimen>
    	<dimen name="flight_segment_margin">16dp</dimen>
 
@@ -23,14 +20,9 @@
     <!-- Dimensions for the list header fragment -->
     <dimen name="sort_view_max_width">250dp</dimen>
 
-	<dimen name="action_bar_button_height">48dp</dimen>
-	<dimen name="row_search_suggestion_footer_height">48dp</dimen>
-
 	<!-- This is the amount of padding the bottom of the booking info activity 
 		needs to account for the see-through bar -->
 	<dimen name="bottom_bar_height">50dp</dimen>
-
-	<dimen name="bottom_bar_padding">@dimen/bottom_bar_height</dimen>
 
 	<!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
 	<dimen name="hotel_details_intro_offset">-45dp</dimen>
@@ -46,8 +38,6 @@
 		height of row as well -->
 	<dimen name="hotel_row_thumbnail_width">90dp</dimen>
 	<dimen name="hotel_row_thumbnail_height">90dp</dimen>
-	<dimen name="hotel_row_content_margin">6dp</dimen>
-	<dimen name="hotel_row_from_text_size">11sp</dimen>
 	<dimen name="hotel_row_name_text_size">17sp</dimen>
 	<dimen name="hotel_row_price_text_size">20sp</dimen>
 	<dimen name="hotel_row_price_text_view_max_width">170dp</dimen>
@@ -58,8 +48,6 @@
 	<dimen name="percent_off_corner_text_size">11sp</dimen>
 	<dimen name="percent_off_corner_margin_top">3dp</dimen>
     <dimen name="percent_off_corner_margin_right">2dp</dimen>
-    
-    <dimen name="hotel_header_results_text_size">14sp</dimen>
 
 	<!-- Text sizes for amenities -->
 	<dimen name="amenity_text_size_large">12sp</dimen>
@@ -74,10 +62,8 @@
 	<dimen name="hotel_details_map_visible_size">150dp</dimen>
 
 	<!-- Dimensions for book now button or any other button in the header -->
-	<dimen name="header_button_width">100dp</dimen>
 	<dimen name="header_button_height">38dp</dimen>
 
-	<dimen name="right_padding_for_scroll_bar">30dp</dimen>
 	<dimen name="hotel_description_body_text_size">12sp</dimen>
 	<dimen name="hotel_description_title_text_size">18sp</dimen>
 
@@ -89,7 +75,6 @@
 	<dimen name="max_height_rating_bar_small">16dp</dimen>
 
 	<dimen name="padding_top_sale_ribbon">0dp</dimen>
-	<dimen name="padding_right_sale_ribbon">35dp</dimen>
 
 	<dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
 
