@@ -103,9 +103,10 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			//TODO: This block shouldn't happen. Currently the mocks pair phone number with travelers, but the BillingInfo object contains phone info.
 			//We need to wait on API updates to either A) set phone number as a billing phone number or B) take a bunch of per traveler phone numbers
 			BillingInfo billingInfo = Db.getBillingInfo();
-			Traveler travelers = Db.getTravelers().get(0);
-			billingInfo.setTelephone(travelers.getPhoneNumber());
-			billingInfo.setTelephoneCountryCode(travelers.getPhoneCountryCode());
+			Traveler traveler = Db.getTravelers().get(0);
+			billingInfo.setTelephone(traveler.getPhoneNumber());
+			billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
+			billingInfo.setEmail(traveler.getEmail());
 
 			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 			Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());

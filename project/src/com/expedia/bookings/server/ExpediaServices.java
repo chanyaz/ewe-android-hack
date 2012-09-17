@@ -121,6 +121,9 @@ public class ExpediaServices implements DownloadListener {
 	public static final int F_HOTELS = 8;
 	public static final int F_FLIGHTS = 16;
 
+	// Flags for addBillingInfo()
+	public static final int F_HAS_TRAVELER = 32;
+
 	private Context mContext;
 
 	// For cancelling requests
@@ -214,7 +217,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalFare().getAmount().toString() + ""));
 		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalFare().getCurrency()));
 
-		addBillingInfo(query, billingInfo);
+		addBillingInfo(query, billingInfo, F_HAS_TRAVELER);
 
 		for (int i = 0; i < travelers.size(); i++) {
 			addFlightTraveler(query, travelers.get(i));
@@ -338,7 +341,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addBasicParams(query, params);
 
-		addBillingInfo(query, billingInfo);
+		addBillingInfo(query, billingInfo, 0);
 
 		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
 
@@ -493,9 +496,13 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("profileTypes", StrUtils.join(profileTypes, ",")));
 	}
 
-	private void addBillingInfo(List<BasicNameValuePair> query, BillingInfo billingInfo) {
-		query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
-		query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
+	private void addBillingInfo(List<BasicNameValuePair> query, BillingInfo billingInfo, int flags) {
+		if ((flags & F_HAS_TRAVELER) == 0) {
+			// Don't add firstname/lastname if we're adding it through the traveler interface later
+			query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
+			query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
+		}
+
 		query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
 		query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
