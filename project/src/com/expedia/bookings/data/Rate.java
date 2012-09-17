@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.server.ParserUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;

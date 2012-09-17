@@ -1,8 +1,5 @@
 package com.expedia.bookings.server;
 
-import java.util.Locale;
-import java.util.StringTokenizer;
-
 import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.CookieOrigin;
 import org.apache.http.cookie.MalformedCookieException;
@@ -11,8 +8,8 @@ import org.apache.http.impl.cookie.BasicDomainHandler;
 import android.content.Context;
 
 import com.expedia.bookings.utils.LocaleUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 
 public class ExpediaDomainHandler extends BasicDomainHandler {
 	private Context mContext;

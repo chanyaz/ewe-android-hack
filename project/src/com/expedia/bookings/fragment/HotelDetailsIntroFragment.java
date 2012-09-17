@@ -24,7 +24,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.Log;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.AnimatorSet;

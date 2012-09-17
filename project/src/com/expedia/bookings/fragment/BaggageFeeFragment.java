@@ -1,9 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class BaggageFeeFragment extends Fragment {

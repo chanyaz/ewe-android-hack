@@ -7,11 +7,11 @@ import android.widget.RadioGroup;
 
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.PatternValidator;
+import com.mobiata.android.validation.PatternValidator.EmailValidator;
+import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
-import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
-import com.mobiata.android.validation.PatternValidator.EmailValidator;
 
 public class CommonSectionValidators {
 	public static final Validator<EditText> REQUIRED_FIELD_VALIDATOR_ET = new Validator<EditText>() {

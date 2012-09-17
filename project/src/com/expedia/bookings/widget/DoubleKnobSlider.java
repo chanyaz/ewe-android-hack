@@ -2,9 +2,6 @@ package com.expedia.bookings.widget;
 
 import java.util.Calendar;
 
-import com.expedia.bookings.R;
-import com.mobiata.android.util.Ui;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.expedia.bookings.R;
+import com.mobiata.android.util.Ui;
 
 public class DoubleKnobSlider extends LinearLayout {
 	//State Keys

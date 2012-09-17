@@ -2,10 +2,10 @@ package com.expedia.bookings.section;
 
 import java.util.ArrayList;
 
+import android.view.View;
+
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
-
-import android.view.View;
 
 public abstract class SectionFieldEditable<FieldType extends View, Data extends Object> extends
 		SectionField<FieldType, Data> {

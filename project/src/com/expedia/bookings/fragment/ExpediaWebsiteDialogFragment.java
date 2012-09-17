@@ -1,10 +1,10 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.utils.AboutUtils;
-
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+
+import com.expedia.bookings.utils.AboutUtils;
 
 public class ExpediaWebsiteDialogFragment extends DialogFragment {
 	public static ExpediaWebsiteDialogFragment newInstance() {

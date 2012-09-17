@@ -23,7 +23,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;

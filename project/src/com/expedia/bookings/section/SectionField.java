@@ -1,9 +1,9 @@
 package com.expedia.bookings.section;
 
-import com.mobiata.android.util.Ui;
-
 import android.app.Activity;
 import android.view.View;
+
+import com.mobiata.android.util.Ui;
 
 public abstract class SectionField<FieldType extends View, Data extends Object> {
 

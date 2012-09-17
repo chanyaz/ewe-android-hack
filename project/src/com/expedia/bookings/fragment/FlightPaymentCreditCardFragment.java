@@ -1,20 +1,20 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightPaymentOptionsActivity.Validatable;
-import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.section.SectionBillingInfo;
-import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.utils.Ui;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightPaymentOptionsActivity.Validatable;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.utils.Ui;
 
 public class FlightPaymentCreditCardFragment extends Fragment implements Validatable {
 

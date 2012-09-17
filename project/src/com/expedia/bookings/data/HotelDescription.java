@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.Log;
 
 public class HotelDescription {
 

@@ -1,20 +1,20 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity.Validatable;
-import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.section.SectionTravelerInfo;
-import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.utils.Ui;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity.Validatable;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.utils.Ui;
 
 public class FlightTravelerInfoThreeFragment extends Fragment implements Validatable {
 

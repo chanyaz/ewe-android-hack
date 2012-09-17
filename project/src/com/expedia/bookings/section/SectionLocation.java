@@ -3,14 +3,6 @@ package com.expedia.bookings.section;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Location;
-import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
-import com.expedia.bookings.utils.BookingInfoUtils;
-import com.mobiata.android.Log;
-import com.mobiata.android.validation.ValidationError;
-import com.mobiata.android.validation.Validator;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Editable;
@@ -19,11 +11,19 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
+import com.expedia.bookings.utils.BookingInfoUtils;
+import com.mobiata.android.Log;
+import com.mobiata.android.validation.ValidationError;
+import com.mobiata.android.validation.Validator;
 
 public class SectionLocation extends LinearLayout implements ISection<Location>, ISectionEditable {
 

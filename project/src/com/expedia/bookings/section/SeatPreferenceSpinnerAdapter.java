@@ -1,6 +1,7 @@
 package com.expedia.bookings.section;
 
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;

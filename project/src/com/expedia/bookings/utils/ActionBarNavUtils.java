@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import android.graphics.Rect;
 import android.view.MotionEvent;
+
 import com.expedia.bookings.widget.NavigationButton;
 
 /**

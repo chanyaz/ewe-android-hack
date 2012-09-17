@@ -1,10 +1,10 @@
 package com.expedia.bookings.activity;
 
-import com.expedia.bookings.tracking.AdTracker;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.expedia.bookings.tracking.AdTracker;
 
 public class PosChangedReceiver extends BroadcastReceiver {
 	@Override

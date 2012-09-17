@@ -1,14 +1,10 @@
 package com.expedia.bookings.widget;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
-import com.actionbarsherlock.app.ActionBar;
-import com.expedia.bookings.R;
-import com.expedia.bookings.utils.Ui;
-
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
 
 /**
  * 

@@ -2,12 +2,12 @@ package com.expedia.bookings.model;
 
 import java.util.ArrayList;
 
-import com.mobiata.android.Log;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.mobiata.android.Log;
 
 /**
  * This is a class to control yoyo flows. Basically this is just a wrapper for a

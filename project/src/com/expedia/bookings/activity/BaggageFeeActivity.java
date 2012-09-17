@@ -1,16 +1,16 @@
 package com.expedia.bookings.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.fragment.BaggageFeeFragment;
 import com.expedia.bookings.fragment.BaggageFeeFragment.BaggageFeeListener;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 
 public class BaggageFeeActivity extends SherlockFragmentActivity implements BaggageFeeListener {
 
