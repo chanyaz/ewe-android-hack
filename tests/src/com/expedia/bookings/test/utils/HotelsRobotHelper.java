@@ -102,35 +102,28 @@ public class HotelsRobotHelper {
 		LOCALE_TO_COUNTRY.put(TEST_LOCALES[31], R.string.country_us);
 		LOCALE_TO_COUNTRY.put(TEST_LOCALES[32], R.string.country_vn);
 	}
-	private String TAG;
+	private static final String TAG = "com.expedia.bookings.test";
 	private boolean mAllowScreenshots;
 	private boolean mAllowOrientationChange;
 	private int mScreenShotCount;
 	private Solo mSolo;
 	private Resources mRes;
-	private HotelsBookingUtils user; //user info container
+	private HotelsUserData mUser; //user info container
 
 	//Defaults are set, including the default user booking info
 	//which is set to the qa-ehcc@mobiata.com account's info
 	public HotelsRobotHelper(Solo solo, Resources res) {
-		TAG = "com.expedia.bookings.test";
-		mAllowScreenshots = true;
-		mAllowOrientationChange = true;
-		mScreenShotCount = 1;
-		mSolo = solo;
-		mRes = res;
-		user = new HotelsBookingUtils();
+		this(solo, res, new HotelsUserData());
 	}
 
 	//Constructor for user created book user container
-	public HotelsRobotHelper(Solo solo, Resources res, HotelsBookingUtils customUser) {
-		TAG = "com.expedia.bookings.test";
+	public HotelsRobotHelper(Solo solo, Resources res, HotelsUserData customUser) {
 		mAllowScreenshots = true;
 		mAllowOrientationChange = true;
 		mScreenShotCount = 1;
 		mSolo = solo;
 		mRes = res;
-		user = customUser;
+		mUser = customUser;
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -450,12 +443,12 @@ public class HotelsRobotHelper {
 		delay(1);
 		screenshot("Login Screen Pre Text Entry");
 
-		mSolo.typeText(0, user.getEmail());
+		mSolo.typeText(0, mUser.mLoginEmail);
 
 		landscape();
 		portrait();
 		delay();
-		mSolo.typeText(1, user.getPassword());
+		mSolo.typeText(1, mUser.mLoginPassword );
 		landscape();
 		portrait();
 
@@ -470,13 +463,13 @@ public class HotelsRobotHelper {
 	}
 
 	public void enterPhoneNumber() throws Exception {
-		mSolo.enterText((EditText) mSolo.getView(R.id.telephone_edit_text), user.mPhoneNumber);
+		mSolo.enterText((EditText) mSolo.getView(R.id.telephone_edit_text), mUser.mPhoneNumber);
 	}
 
 	public void enterCCV() throws Exception {
 		mSolo.scrollUp();
 		mSolo.clickOnView(mSolo.getView(R.id.security_code_edit_text));
-		mSolo.enterText((EditText) mSolo.getView(R.id.security_code_edit_text), user.mCCV);
+		mSolo.enterText((EditText) mSolo.getView(R.id.security_code_edit_text), mUser.mCCV);
 		enterLog(TAG, "Entered CCV");
 	}
 
@@ -507,10 +500,10 @@ public class HotelsRobotHelper {
 			EditText lastNameEditText = (EditText) mSolo.getView(R.id.last_name_edit_text);
 
 			mSolo.clearEditText(firstNameEditText);
-			mSolo.enterText(firstNameEditText, user.mFirstName);
+			mSolo.enterText(firstNameEditText, mUser.mFirstName);
 
 			mSolo.clearEditText(lastNameEditText);
-			mSolo.enterText(lastNameEditText, user.mLastName);
+			mSolo.enterText(lastNameEditText, mUser.mLastName);
 		}
 		catch (Exception e) {
 			//Nothing.
@@ -526,25 +519,25 @@ public class HotelsRobotHelper {
 			EditText ExpYear = (EditText) mSolo.getView(R.id.expiration_year_edit_text);
 
 			mSolo.clearEditText(Address1);
-			mSolo.enterText(Address1, user.mAddressLine1);
+			mSolo.enterText(Address1, mUser.mAddressLine1);
 
 			mSolo.clearEditText(City);
-			mSolo.enterText(City, user.mCityName);
+			mSolo.enterText(City, mUser.mCityName);
 
 			mSolo.clearEditText(State);
-			mSolo.enterText(State, user.mStateCode);
+			mSolo.enterText(State, mUser.mStateCode);
 
 			mSolo.clearEditText(ZIP);
-			mSolo.enterText(ZIP, user.mZIPCode);
+			mSolo.enterText(ZIP, mUser.mZIPCode);
 
 			mSolo.clearEditText(CreditCard);
-			mSolo.enterText(CreditCard, user.mCreditCardNumber);
+			mSolo.enterText(CreditCard, mUser.mCreditCardNumber);
 
 			mSolo.clearEditText(ExpMonth);
-			mSolo.enterText(ExpMonth, user.mCardExpMonth);
+			mSolo.enterText(ExpMonth, mUser.mCardExpMonth);
 
 			mSolo.clearEditText(ExpYear);
-			mSolo.enterText(ExpYear, user.mCardExpYear);
+			mSolo.enterText(ExpYear, mUser.mCardExpYear);
 
 		}
 		catch (Exception e) {

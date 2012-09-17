@@ -13,7 +13,7 @@ import android.util.DisplayMetrics;
 
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.HotelsRobotHelper;
-import com.expedia.bookings.test.utils.HotelsBookingUtils;
+import com.expedia.bookings.test.utils.HotelsUserData;
 import com.jayway.android.robotium.solo.Solo;
 
 public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActivity> {

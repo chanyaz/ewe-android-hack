@@ -4,7 +4,7 @@ package com.expedia.bookings.test.utils;
  * and to provide methods to easily change that data as desired.
  */
 
-public class HotelsBookingUtils {
+public class HotelsUserData {
 	//Names
 	public String mFirstName;
 	public String mLastName;
@@ -27,12 +27,12 @@ public class HotelsBookingUtils {
 	public String mFilterText;
 
 	//Log in Information.
-	private String mLoginEmail;
-	private String mLoginPassword;
+	public String mLoginEmail;
+	public String mLoginPassword;
 
 	//Default Constructor sets info
 	// to the qa-ehcc@mobiata.com account info
-	HotelsBookingUtils() {
+	HotelsUserData() {
 		mFirstName = "JexperCC";
 		mLastName = "MobiataTestaverde";
 
@@ -52,25 +52,6 @@ public class HotelsBookingUtils {
 
 		mSearchLocation = "New York City";
 		mFilterText = "Westin";
-	}
-
-	//All fields can be directly accessed/modified
-	//except for Email & Password
-
-	public String getEmail() {
-		return mLoginEmail;
-	}
-
-	public void setEmail(String newEmail) {
-		mLoginEmail = newEmail;
-	}
-
-	public void setPassword(String newPassword) {
-		mLoginPassword = newPassword;
-	}
-
-	public String getPassword() {
-		return mLoginPassword;
 	}
 
 }
