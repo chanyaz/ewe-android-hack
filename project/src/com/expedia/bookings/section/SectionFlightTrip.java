@@ -1,18 +1,14 @@
 package com.expedia.bookings.section;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightTrip;
-import com.mobiata.flightlib.data.Flight;
 
 import android.content.Context;
-import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightTrip;
 
 public class SectionFlightTrip extends LinearLayout implements ISection<FlightTrip> {
 
@@ -45,8 +41,6 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 		mFields.add(this.mDisplaySubTotal);
 		mFields.add(mDisplayTaxesAndFees);
 		mFields.add(mTotalPrice);
-		mFields.add(mDestinationCity);
-		mFields.add(mTripDuration);
 	}
 
 	@Override
@@ -95,39 +89,6 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 		@Override
 		public void onHasFieldAndData(TextView field, FlightTrip data) {
 			field.setText((data.getTotalFare() != null) ? data.getTotalFare().getFormattedMoney() : "");
-		}
-	};
-
-	SectionField<TextView, FlightTrip> mTripDuration = new SectionField<TextView, FlightTrip>(
-			R.id.display_trip_duration) {
-		@Override
-		public void onHasFieldAndData(TextView field, FlightTrip data) {
-			//TODO: More error checking...
-			FlightLeg firstLeg = data.getLeg(0);
-			FlightLeg lastLeg = data.getLeg(data.getLegCount() - 1);
-
-			Flight firstSeg = firstLeg.getSegment(0);
-			Calendar startCal = firstSeg.mOrigin.getMostRelevantDateTime();
-
-			Flight lastSeg = lastLeg.getSegment(lastLeg.getSegmentCount() - 1);
-			Calendar endCal = lastSeg.mDestination.getMostRelevantDateTime();
-
-			String durationStr = DateUtils.formatDateRange(mContext, startCal.getTimeInMillis(),
-					endCal.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY);
-
-			field.setText(durationStr);
-
-		}
-	};
-
-	SectionField<TextView, FlightTrip> mDestinationCity = new SectionField<TextView, FlightTrip>(
-			R.id.display_destination_city) {
-		@Override
-		public void onHasFieldAndData(TextView field, FlightTrip data) {
-			//TODO: More error checking...
-			FlightLeg firstLeg = data.getLeg(0);
-			String cityName = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mDestination.getAirport().mCity;
-			field.setText(cityName);
 		}
 	};
 

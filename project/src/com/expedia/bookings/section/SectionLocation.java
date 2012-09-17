@@ -52,10 +52,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		mContext = context;
 
 		//Display fields
-		mFields.add(this.mDisplayAddressLineOne);
-		mFields.add(this.mDisplayAddressCity);
-		mFields.add(this.mDisplayAddressState);
-		mFields.add(this.mDisplayAddressPostalCode);
 		mFields.add(this.mDisplayAddressCountry);
 		mFields.add(this.mDisplayAddressBothLines);
 		mFields.add(this.mDisplayCityStateZipOneLine);
@@ -136,17 +132,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
-	SectionField<TextView, Location> mDisplayAddressLineOne = new SectionField<TextView, Location>(
-			R.id.display_address_line_one) {
-		@Override
-		public void onHasFieldAndData(TextView field, Location data) {
-			List<String> address = data.getStreetAddress();
-			if (address != null && address.size() > 0) {
-				field.setText((address.get(0) != null) ? address.get(0) : "");
-			}
-		}
-	};
-
 	SectionField<TextView, Location> mDisplayAddressBothLines = new SectionField<TextView, Location>(
 			R.id.display_address_single_line) {
 		@Override
@@ -177,30 +162,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					data.getStateCode() == null ? "" : data.getStateCode(),
 					data.getPostalCode() == null ? "" : data.getPostalCode());
 			field.setText(retStr);
-		}
-	};
-
-	SectionField<TextView, Location> mDisplayAddressCity = new SectionField<TextView, Location>(
-			R.id.display_address_city) {
-		@Override
-		public void onHasFieldAndData(TextView field, Location data) {
-			field.setText((data.getCity() != null) ? data.getCity() : "");
-		}
-	};
-
-	SectionField<TextView, Location> mDisplayAddressState = new SectionField<TextView, Location>(
-			R.id.display_address_state) {
-		@Override
-		public void onHasFieldAndData(TextView field, Location data) {
-			field.setText((data.getStateCode() != null) ? data.getStateCode() : "");
-		}
-	};
-
-	SectionField<TextView, Location> mDisplayAddressPostalCode = new SectionField<TextView, Location>(
-			R.id.display_address_postal_code) {
-		@Override
-		public void onHasFieldAndData(TextView field, Location data) {
-			field.setText((data.getPostalCode() != null) ? data.getPostalCode() : "");
 		}
 	};
 

@@ -3,21 +3,6 @@ package com.expedia.bookings.section;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.Traveler.AssistanceType;
-import com.expedia.bookings.data.Traveler.Gender;
-import com.expedia.bookings.data.Traveler.SeatPreference;
-import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.TelephoneSpinner;
-import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
-import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.validation.ValidationError;
-import com.mobiata.android.validation.Validator;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -38,16 +23,23 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.TelephoneSpinner;
+import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.validation.ValidationError;
+import com.mobiata.android.validation.Validator;
 
 public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>, ISectionEditable {
 
@@ -77,14 +69,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		//Display fields
 		mFields.add(mDisplayFullName);
-		mFields.add(mDisplayFirstName);
-		mFields.add(mDisplayMiddleName);
-		mFields.add(mDisplayLastName);
-		mFields.add(mDisplayPhoneCountryCode);
-		mFields.add(mDisplayPhoneNumber);
-		mFields.add(mDisplayGender);
-		mFields.add(mDisplayBirthDay);
-		mFields.add(mDisplayRedressNumber);
 		mFields.add(mDisplayPassportCountry);
 		mFields.add(mDisplaySpecialAssistance);
 		mFields.add(mDisplayPhoneNumberWithCountryCode);
@@ -103,21 +87,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mEditFirstName);
 		mFields.add(mEditMiddleName);
 		mFields.add(mEditLastName);
-		mFields.add(mEditPhoneNumberCountryCode);
 		mFields.add(mEditPhoneNumberCountryCodeSpinner);
 		mFields.add(mEditPhoneNumber);
-		mFields.add(mEditBirthDate);
 		mFields.add(mEditBirthDateTextBtn);
 		mFields.add(mEditRedressNumber);
-		mFields.add(mEditGender);
 		mFields.add(mEditGenderSpinner);
-		mFields.add(mEditPassportCountry);
 		mFields.add(mEditPassportCountryListView);
-		mFields.add(mEditAssistancePreference);//Old radio...
-		mFields.add(mEditSeatPreference);//Old radio...
 		mFields.add(mEditAssistancePreferenceSpinner);
 		mFields.add(mEditSeatPreferenceSpinner);
-
 	}
 
 	@Override
@@ -215,56 +192,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	SectionField<TextView, Traveler> mDisplayFirstName = new SectionField<TextView, Traveler>(
-			R.id.display_first_name) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (!TextUtils.isEmpty(data.getFirstName())) {
-				field.setText(data.getFirstName());
-			}
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplayMiddleName = new SectionField<TextView, Traveler>(
-			R.id.display_middle_name) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (!TextUtils.isEmpty(data.getMiddleName())) {
-				field.setText(data.getMiddleName());
-			}
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplayLastName = new SectionField<TextView, Traveler>(
-			R.id.display_last_name) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (!TextUtils.isEmpty(data.getLastName())) {
-				field.setText(data.getLastName());
-			}
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplayPhoneCountryCode = new SectionField<TextView, Traveler>(
-			R.id.display_phone_number_country_code) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (!TextUtils.isEmpty(data.getPhoneCountryCode())) {
-				field.setText(data.getPhoneCountryCode());
-			}
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplayPhoneNumber = new SectionField<TextView, Traveler>(
-			R.id.display_phone_number) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (!TextUtils.isEmpty(data.getPhoneNumber())) {
-				field.setText(PhoneNumberUtils.formatNumber(data.getPhoneNumber()));
-			}
-		}
-	};
-
 	SectionField<TextView, Traveler> mDisplayPhoneNumberWithCountryCode = new SectionField<TextView, Traveler>(
 			R.id.display_phone_number_with_country_code) {
 		@Override
@@ -275,31 +202,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					data.getPhoneNumber() == null ? "" : PhoneNumberUtils.formatNumber(data.getPhoneNumber()));
 
 			field.setText(retStr);
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplayGender = new SectionField<TextView, Traveler>(
-			R.id.display_gender) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (data.getGender() != null && !TextUtils.isEmpty(data.getGender().name())) {
-				field.setText(data.getGender().name());
-			}
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplayBirthDay = new SectionField<TextView, Traveler>(
-			R.id.display_date_of_birth) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (data.getBirthDate() != null) {
-				field.setText(android.text.format.DateUtils.formatDateTime(mContext, data.getBirthDateInMillis(),
-						android.text.format.DateUtils.FORMAT_NUMERIC_DATE
-								| android.text.format.DateUtils.FORMAT_SHOW_DATE));
-			}
-			else {
-				field.setText("");
-			}
 		}
 	};
 
@@ -318,13 +220,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			else {
 				field.setText("");
 			}
-		}
-	};
-	SectionField<TextView, Traveler> mDisplayRedressNumber = new SectionField<TextView, Traveler>(
-			R.id.display_redress_number) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			field.setText(TextUtils.isEmpty(data.getRedressNumber()) ? "" : data.getRedressNumber());
 		}
 	};
 
@@ -458,38 +353,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected void onHasFieldAndData(EditText field, Traveler data) {
 			field.setText(data.getLastName());
-		}
-	};
-
-	SectionFieldEditable<EditText, Traveler> mEditPhoneNumberCountryCode = new SectionFieldEditable<EditText, Traveler>(
-			R.id.edit_phone_number_country_code) {
-		@Override
-		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
-		}
-
-		@Override
-		public void setChangeListener(EditText field) {
-			field.addTextChangedListener(new AfterChangeTextWatcher() {
-				@Override
-				public void afterTextChanged(Editable s) {
-					if (hasBoundData()) {
-						getData().setPhoneCountryCode(s.toString());
-					}
-					onChange(SectionTravelerInfo.this);
-				}
-			});
-
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			return null;
-		}
-
-		@Override
-		protected void onHasFieldAndData(EditText field, Traveler data) {
-			field.setText(data.getPhoneCountryCode());
 		}
 	};
 
@@ -808,209 +671,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	SectionFieldEditable<DatePicker, Traveler> mEditBirthDate = new SectionFieldEditable<DatePicker, Traveler>(
-			R.id.edit_date_of_birth) {
-
-		Validator<DatePicker> mValidator = new Validator<DatePicker>() {
-			@Override
-			public int validate(DatePicker obj) {
-				Calendar cal = new GregorianCalendar(obj.getYear(), obj.getMonth(), obj.getDayOfMonth());
-				Calendar now = Calendar.getInstance();
-				if (cal.getTimeInMillis() > now.getTimeInMillis()) {
-					return ValidationError.ERROR_DATA_INVALID;
-				}
-				return ValidationError.NO_ERROR;
-			}
-		};
-
-		@Override
-		protected Validator<DatePicker> getValidator() {
-			return mValidator;
-		}
-
-		@Override
-		public void setChangeListener(DatePicker field) {
-
-			Calendar now = Calendar.getInstance();
-			field.init(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
-					new OnDateChangedListener() {
-						@Override
-						public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-							if (mTraveler != null) {
-								mTraveler.setBirthDate(new Date(year, monthOfYear + 1, dayOfMonth));
-							}
-							onChange(SectionTravelerInfo.this);
-						}
-					});
-		}
-
-		@Override
-		protected void onHasFieldAndData(DatePicker field, Traveler data) {
-			if (data.getBirthDate() == null) {
-				data.setBirthDate(new Date(Calendar.getInstance()));
-			}
-			Date bd = data.getBirthDate();
-			field.updateDate(bd.getYear(), bd.getMonth() - 1, bd.getDayOfMonth());
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
-			retArr.add(mValidDateOfBirth);
-			return retArr;
-		}
-	};
-
-	SectionFieldEditable<RadioGroup, Traveler> mEditGender = new SectionFieldEditable<RadioGroup, Traveler>(
-			R.id.edit_gender_radio) {
-
-		RadioButton mMaleRadio;
-		RadioButton mFemaleRadio;
-
-		Validator<RadioGroup> mValidator = new Validator<RadioGroup>() {
-			@Override
-			public int validate(RadioGroup obj) {
-				if (obj.getCheckedRadioButtonId() < 0) {
-					return ValidationError.ERROR_DATA_MISSING;
-				}
-				return ValidationError.NO_ERROR;
-			}
-		};
-
-		private void setIsMale(boolean isMale) {
-			if (mMaleRadio != null && mFemaleRadio != null) {
-				mMaleRadio.setChecked(isMale);
-				mFemaleRadio.setChecked(!isMale);
-			}
-		}
-
-		@Override
-		protected void onFieldBind() {
-			super.onFieldBind();
-			if (this.hasBoundField()) {
-				mMaleRadio = Ui.findView(getField(), R.id.edit_gender_radio_male);
-				mFemaleRadio = Ui.findView(getField(), R.id.edit_gender_radio_female);
-			}
-		}
-
-		@Override
-		protected Validator<RadioGroup> getValidator() {
-			return mValidator;
-		}
-
-		@Override
-		public void setChangeListener(RadioGroup field) {
-			field.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(RadioGroup group, int checkedId) {
-					if (hasBoundData() && mMaleRadio != null && mFemaleRadio != null) {
-						if (checkedId == mMaleRadio.getId()) {
-							getData().setGender(Gender.MALE);
-						}
-						else if (checkedId == mFemaleRadio.getId()) {
-							getData().setGender(Gender.FEMALE);
-						}
-					}
-					onChange(SectionTravelerInfo.this);
-				}
-			});
-		}
-
-		@Override
-		protected void onHasFieldAndData(RadioGroup field, Traveler data) {
-			if (data.getGender() != null) {
-				if (data.getGender() == Gender.MALE) {
-					setIsMale(true);
-				}
-				else {
-					setIsMale(false);
-				}
-
-			}
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			return null;
-		}
-	};
-
-	SectionFieldEditable<Spinner, Traveler> mEditPassportCountry = new SectionFieldEditable<Spinner, Traveler>(
-			R.id.edit_passport_country_spinner) {
-
-		ArrayAdapter<CharSequence> mCountryAdapter;
-
-		Validator<Spinner> mValidator = new Validator<Spinner>() {
-			@Override
-			public int validate(Spinner obj) {
-				return ValidationError.NO_ERROR;
-			}
-		};
-
-		@Override
-		protected Validator<Spinner> getValidator() {
-			return mValidator;
-		}
-
-		@Override
-		protected void onFieldBind() {
-			super.onFieldBind();
-
-			mCountryAdapter = ArrayAdapter.createFromResource(mContext, R.array.country_names,
-					android.R.layout.simple_spinner_item);
-			mCountryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-			if (hasBoundField()) {
-				getField().setAdapter(mCountryAdapter);
-			}
-		}
-
-		@Override
-		public void setChangeListener(Spinner field) {
-
-			field.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-					if (mCountryAdapter != null && getData() != null) {
-						getData().setPassportCountry(mCountryAdapter.getItem(pos).toString());
-					}
-					onChange(SectionTravelerInfo.this);
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-				}
-			});
-		}
-
-		@Override
-		protected void onHasFieldAndData(Spinner field, Traveler data) {
-			if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPassportCountry())) {
-				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-					if (mCountryAdapter.getItem(i).toString().equalsIgnoreCase(data.getPassportCountry())) {
-						getField().setSelection(i);
-						break;
-					}
-				}
-			}
-			else {
-				final String targetCountry = mContext.getString(LocaleUtils.getDefaultCountryResId(mContext));
-				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-					if (targetCountry.equalsIgnoreCase(mCountryAdapter.getItem(i).toString())) {
-						getField().setSelection(i);
-						break;
-					}
-				}
-			}
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
-			return retArr;
-		}
-	};
-
 	SectionFieldEditable<ListView, Traveler> mEditPassportCountryListView = new SectionFieldEditable<ListView, Traveler>(
 			R.id.edit_passport_country_listview) {
 
@@ -1144,150 +804,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		protected Validator<TelephoneSpinner> getValidator() {
 			return mValidator;
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			return null;
-		}
-	};
-
-	SectionFieldEditable<RadioGroup, Traveler> mEditSeatPreference = new SectionFieldEditable<RadioGroup, Traveler>(
-			R.id.edit_seating_preference_radio) {
-
-		RadioButton mNoneRadio;
-		RadioButton mWindowRadio;
-		RadioButton mAisleRadio;
-
-		@Override
-		protected void onFieldBind() {
-			super.onFieldBind();
-			if (this.hasBoundField()) {
-				mNoneRadio = Ui.findView(getField(), R.id.edit_seating_preference_radio_none);
-				mWindowRadio = Ui.findView(getField(), R.id.edit_seating_preference_radio_window);
-				mAisleRadio = Ui.findView(getField(), R.id.edit_seating_preference_radio_aisle);
-			}
-		}
-
-		@Override
-		protected Validator<RadioGroup> getValidator() {
-			return CommonSectionValidators.RADIO_GROUP_HAS_SELECTION;
-		}
-
-		@Override
-		public void setChangeListener(RadioGroup field) {
-			field.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-					if (hasBoundData()) {
-						if (mWindowRadio != null && checkedId == mWindowRadio.getId()) {
-							getData().setSeatPreference(SeatPreference.WINDOW);
-						}
-						else if (mAisleRadio != null && checkedId == mAisleRadio.getId()) {
-							getData().setSeatPreference(SeatPreference.AISLE);
-						}
-						else {
-							getData().setSeatPreference(SeatPreference.ANY);
-						}
-					}
-					onChange(SectionTravelerInfo.this);
-				}
-			});
-		}
-
-		@Override
-		protected void onHasFieldAndData(RadioGroup field, Traveler data) {
-			if (data.getSeatPreference() != null) {
-				SeatPreference sp = data.getSeatPreference();
-				if (sp == SeatPreference.WINDOW) {
-					mNoneRadio.setChecked(false);
-					mWindowRadio.setChecked(true);
-					mAisleRadio.setChecked(false);
-				}
-				else if (sp == SeatPreference.AISLE) {
-					mNoneRadio.setChecked(false);
-					mWindowRadio.setChecked(false);
-					mAisleRadio.setChecked(true);
-				}
-				else {
-					mNoneRadio.setChecked(true);
-					mWindowRadio.setChecked(false);
-					mAisleRadio.setChecked(false);
-				}
-			}
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			return null;
-		}
-	};
-
-	SectionFieldEditable<RadioGroup, Traveler> mEditAssistancePreference = new SectionFieldEditable<RadioGroup, Traveler>(
-			R.id.edit_assistance_radio) {
-
-		RadioButton mNoneRadio;
-		RadioButton mWheelChairRadio;
-		RadioButton mDefibrillatorRadio;
-
-		@Override
-		protected void onFieldBind() {
-			super.onFieldBind();
-			if (this.hasBoundField()) {
-				mNoneRadio = Ui.findView(getField(), R.id.edit_assistance_radio_none);
-				mWheelChairRadio = Ui.findView(getField(), R.id.edit_assistance_radio_wheelchair);
-				mDefibrillatorRadio = Ui.findView(getField(), R.id.edit_assistance_radio_defibrillator);
-			}
-		}
-
-		@Override
-		protected Validator<RadioGroup> getValidator() {
-			return CommonSectionValidators.RADIO_GROUP_HAS_SELECTION;
-		}
-
-		@Override
-		public void setChangeListener(RadioGroup field) {
-			field.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-					if (hasBoundData()) {
-						if (mWheelChairRadio != null && checkedId == mWheelChairRadio.getId()) {
-							getData().setAssistance(AssistanceType.WHEELCHAIR);
-						}
-						else if (mDefibrillatorRadio != null && checkedId == mDefibrillatorRadio.getId()) {
-							getData().setAssistance(AssistanceType.DEFIBRILLATOR);
-						}
-						else {
-							getData().setAssistance(AssistanceType.NONE);
-						}
-					}
-					onChange(SectionTravelerInfo.this);
-				}
-			});
-		}
-
-		@Override
-		protected void onHasFieldAndData(RadioGroup field, Traveler data) {
-			if (data.getAssistance() != null) {
-				AssistanceType at = data.getAssistance();
-				if (at == AssistanceType.WHEELCHAIR) {
-					mNoneRadio.setChecked(false);
-					mWheelChairRadio.setChecked(true);
-					mDefibrillatorRadio.setChecked(false);
-				}
-				else if (at == AssistanceType.DEFIBRILLATOR) {
-					mNoneRadio.setChecked(false);
-					mWheelChairRadio.setChecked(false);
-					mDefibrillatorRadio.setChecked(true);
-				}
-				else {
-					mNoneRadio.setChecked(true);
-					mWheelChairRadio.setChecked(false);
-					mDefibrillatorRadio.setChecked(false);
-				}
-			}
 		}
 
 		@Override

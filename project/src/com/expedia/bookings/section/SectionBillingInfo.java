@@ -71,13 +71,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		//Display fields
 		mFields.add(this.mDisplayCreditCardBrandIcon);
 		mFields.add(this.mDisplayCreditCardExpiration);
-		mFields.add(this.mDisplayCreditCardNumber);
 		mFields.add(this.mDisplayCreditCardNumberMasked);
-		mFields.add(this.mDisplayCreditCardSecurityCode);
 		mFields.add(this.mDisplayCreditCardSecurityCodeInfo);
 		mFields.add(this.mDisplayFullName);
-		mFields.add(this.mDisplayEmailAddress);
-		mFields.add(this.mDisplayPhoneNumber);
 		mFields.add(this.mDisplayCreditCardBrandName);
 		mFields.add(this.mDisplayAddress);
 
@@ -106,7 +102,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	 * Helper method, so when we update the card number we don't rebind everything
 	 */
 	private void rebindNumDependantFields() {
-		mDisplayCreditCardNumber.bindData(mBillingInfo);
 		mDisplayCreditCardNumberMasked.bindData(mBillingInfo);
 		mDisplayCreditCardBrandIcon.bindData(mBillingInfo);
 		mDisplayCreditCardBrandName.bindData(mBillingInfo);
@@ -173,14 +168,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
-	SectionField<TextView, BillingInfo> mDisplayCreditCardNumber = new SectionField<TextView, BillingInfo>(
-			R.id.display_creditcard_number) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			field.setText((data.getNumber() != null) ? data.getNumber() : "");
-		}
-	};
-
 	SectionField<TextView, BillingInfo> mDisplayCreditCardNumberMasked = new SectionField<TextView, BillingInfo>(
 			R.id.display_creditcard_number_masked) {
 		@Override
@@ -198,14 +185,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			else {
 				field.setText("");
 			}
-		}
-	};
-
-	SectionField<TextView, BillingInfo> mDisplayCreditCardSecurityCode = new SectionField<TextView, BillingInfo>(
-			R.id.display_creditcard_security_code) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			field.setText((data.getSecurityCode() != null) ? data.getSecurityCode() : "");
 		}
 	};
 
@@ -277,22 +256,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			else {
 				field.setText("");
 			}
-		}
-	};
-
-	SectionField<TextView, BillingInfo> mDisplayEmailAddress = new SectionField<TextView, BillingInfo>(
-			R.id.display_email_address) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			field.setText((data.getEmail() != null) ? data.getEmail() : "");
-		}
-	};
-
-	SectionField<TextView, BillingInfo> mDisplayPhoneNumber = new SectionField<TextView, BillingInfo>(
-			R.id.display_phone_number) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			field.setText((data.getTelephone() != null) ? data.getTelephone() : "");
 		}
 	};
 
