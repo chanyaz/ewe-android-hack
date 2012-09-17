@@ -7,9 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.view.ViewGroup;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentMapActivity;
@@ -123,28 +120,13 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		else {
 			getSupportMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		}
-		DebugMenu.onCreateOptionsMenu(this, menu);
 
 		// Configure the ActionBar
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setHomeButtonEnabled(false);
-
-		if (!AndroidUtils.isTablet(this)) {
-			ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars,
-					null);
-
-			Property property = Db.getSelectedProperty();
-			String title = property.getName();
-			((TextView) titleView.findViewById(R.id.title)).setText(title);
-
-			float rating = (float) property.getHotelRating();
-			((RatingBar) titleView.findViewById(R.id.rating)).setRating(rating);
-
-			actionBar.setCustomView(titleView);
-			actionBar.setDisplayShowCustomEnabled(true);
-		}
+		actionBar.setTitle(getString(R.string.booking_complete));
 
 		return super.onCreateOptionsMenu(menu);
 	}

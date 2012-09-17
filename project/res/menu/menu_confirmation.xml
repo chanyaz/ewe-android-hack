@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_share"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@drawable/ic_action_share"
         android:showAsAction="always"
         android:title="@string/share_booking_info"/>
     <item
@@ -14,11 +14,6 @@
     <item
         android:id="@+id/menu_new_search"
         android:showAsAction="always"
-        android:title="@string/new_search"/>
-    <item
-        android:id="@+id/menu_about"
-        android:icon="@android:drawable/ic_menu_info_details"
-        android:showAsAction="never"
-        android:title="@string/About"/>
+        android:title="@string/NEW_SEARCH"/>
 
 </menu>

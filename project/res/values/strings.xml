@@ -954,6 +954,8 @@
     <string name="booking_information_dialog_title">Complete Your Booking</string>
 
     <!-- Confirmation activity -->
+    <!-- Title for confirmation screen -->
+    <string name="booking_complete">Booking Complete</string>
     <!-- Format for a first/last name -->
     <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
@@ -966,6 +968,8 @@
     <string name="confirmation_email">Confirmation Email</string>
     <!-- Label for starting a new search -->
     <string name="new_search">New Search</string>
+    <!-- ActionBar button for starting a new search -->
+    <string name="NEW_SEARCH">NEW SEARCH</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">If you have questions about your reservation, please call Expedia at %s.</string>
 
