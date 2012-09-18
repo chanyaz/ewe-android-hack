@@ -8,10 +8,17 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="6dp">
+        android:orientation="vertical"
+        android:padding="6dp" >
+
+        <LinearLayout
+            android:id="@+id/filter_focus_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
 
         <com.expedia.bookings.widget.CustomEditText
             android:id="@+id/filter_hotel_name_edit_text"
@@ -31,20 +38,21 @@
             layout="@layout/include_filter_radius"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/popup_filter_row_height"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp" />
 
         <include
             android:id="@+id/rating_filter_button_group"
             layout="@layout/include_filter_rating"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/popup_filter_row_height"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="8dp" />
 
         <include
             android:id="@+id/price_filter_button_group"
             layout="@layout/include_filter_price"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/popup_filter_row_height"
-            android:layout_marginBottom="4dp" />
+            android:layout_height="@dimen/popup_filter_row_height" />
+
     </LinearLayout>
 </LinearLayout>

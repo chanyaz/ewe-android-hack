@@ -4,11 +4,10 @@
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/radius_filter_button_group"
     style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/popup_filter_row_height"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="horizontal"
-    android:gravity="center"
-    android:paddingTop="5dp" >
+    android:gravity="center" >
 
     <RadioButton
         android:id="@+id/radius_small_button"

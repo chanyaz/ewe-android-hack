@@ -5,10 +5,9 @@
     android:id="@+id/price_filter_button_group"
     stlye="@style/Widget.SegmentedControlGroup.DarkFilterControls"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/popup_filter_row_height"
+    android:layout_height="fill_parent"
     android:orientation="horizontal"
-    android:gravity="center"
-    android:paddingTop="5dp" >
+    android:gravity="center" >
 
     <RadioButton
         android:id="@+id/price_cheap_button"
