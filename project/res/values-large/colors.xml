@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="user_review_separator">@android:color/transparent</color>
+    <color name="row_background_fade_end">#ffffff</color>
+
+</resources>

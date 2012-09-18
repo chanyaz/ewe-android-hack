@@ -5,7 +5,7 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:paddingTop="10dp"
-    android:background="@drawable/bg_row" >
+    android:background="@drawable/bg_row_user_review" >
 
     <View
         android:id="@+id/user_review_separator"
@@ -13,7 +13,7 @@
         android:layout_height="1dp"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="9dp"
-        android:background="#dddddd" />
+        android:background="@color/user_review_separator" />
 
     <RatingBar
         android:id="@+id/user_review_rating_bar"
@@ -58,7 +58,7 @@
         android:layout_alignLeft="@id/user_review_body_text_view"
         android:layout_alignRight="@id/user_review_body_text_view"
         android:layout_alignTop="@id/user_review_body_text_view"
-        android:background="@drawable/bg_text_fade" />
+        android:background="@drawable/bg_user_review_fade" />
 
     <LinearLayout
         android:id="@+id/read_more_layout"

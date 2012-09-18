@@ -34,7 +34,7 @@
         android:layout_alignLeft="@id/body_text"
         android:layout_alignRight="@id/body_text"
         android:layout_alignTop="@id/body_text"
-        android:background="@drawable/bg_text_fade"
+        android:background="@drawable/bg_user_review_fade"
         android:visibility="gone" />
 
     <TextView
