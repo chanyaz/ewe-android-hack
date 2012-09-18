@@ -17,16 +17,11 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightTripView extends View {
 
-	// Determines how much padding is added on each side to account for
-	// the airport code drawing
-	private static final int PADDING = 30;
-
 	private Paint mTripPaint;
-	private Paint mTextPaint;
+	private TextPaint mTextPaint;
 
 	private FlightLeg mFlightLeg;
 
@@ -34,16 +29,20 @@ public class FlightTripView extends View {
 	private Calendar mMinTime;
 	private Calendar mMaxTime;
 
+	// Dimensions loaded in resources
+	private float mMinPaddingBetweenLabels;
+
 	public FlightTripView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		Resources r = context.getResources();
 
+		mMinPaddingBetweenLabels = r.getDimension(R.dimen.flight_line_min_padding_between_labels);
+
 		mTripPaint = new Paint();
 		mTripPaint.setColor(context.getResources().getColor(R.color.flight_trip));
 		mTripPaint.setStrokeWidth(r.getDimension(R.dimen.flight_trip_view_stroke_width));
 		mTripPaint.setStyle(Style.STROKE);
-		mTripPaint.setAntiAlias(true);
 
 		mTextPaint = new TextPaint();
 		mTextPaint.setTextAlign(Align.CENTER);
@@ -75,193 +74,200 @@ public class FlightTripView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
+		if (mFlightLeg == null) {
+			// If we don't have this setup, don't bother drawing anything!
+			return;
+		}
+
+		// Setup our bounds based on the view's height/width and other factors
 		int width = getWidth();
-
-		// Calculate the bounds based on the min
-		float left, right;
-		if (mMinTime != null && mMaxTime != null) {
-			long minTime = DateTimeUtils.getTimeInGMT(mMinTime).getTime();
-			long maxTime = DateTimeUtils.getTimeInGMT(mMaxTime).getTime();
-			long startTime = DateTimeUtils.getTimeInGMT(mFlightLeg.getSegment(0).mOrigin.getMostRelevantDateTime())
-					.getTime();
-			long endTime = DateTimeUtils.getTimeInGMT(
-					mFlightLeg.getSegment(mFlightLeg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime())
-					.getTime();
-			long duration = maxTime - minTime;
-
-			left = ((float) (startTime - minTime) / (float) duration) * width;
-			right = ((float) (endTime - minTime) / (float) duration) * width;
-		}
-		else {
-			left = 0;
-			right = width;
-		}
-
-		// F662: Ensure that the width is at least as tall as the height
-		// (otherwise drawing doesn't work properly at the moment)
-		float diff = right - left;
 		int height = getHeight();
-		if (diff < height) {
-			float missingWidth = height - diff;
+		float circleDiameter = height / 2.0f;
+		mTextPaint.setTextSize(circleDiameter);
 
-			left -= missingWidth / 2.0f;
-			right += missingWidth / 2.0f;
-		}
-
-		// Fuzz the edges a bit to make sure that we can draw the full airport code without falling
-		// off the edge of the canvas.
-		//
-		// TODO: Does this need to be scaled by density of screen?
-		if (left < PADDING) {
-			diff = PADDING - left;
-			left = PADDING;
-			right = Math.min(right + diff, width - PADDING);
-		}
-
-		if (right > width - PADDING) {
-			diff = width - PADDING - right;
-			right = width - PADDING;
-			left = Math.max(left + diff, PADDING);
-		}
-
-		RectF legBounds = new RectF(left, 0, right, getHeight());
-		drawLeg(canvas, legBounds);
-	}
-
-	// Draws the current FlightLeg within specified bounds
-	private void drawLeg(Canvas canvas, RectF bounds) {
-		// The line has bounds above the airport codes
-		RectF lineBounds = new RectF(bounds);
-		lineBounds.bottom /= 2;
-		RectF airportBounds = new RectF(bounds);
-		airportBounds.top = airportBounds.bottom / 2;
-
-		// Info on the leg
-		int numSegments = mFlightLeg.getSegmentCount();
-
-		// Drawing info
-		RectF[] waypoints = new RectF[numSegments + 1];
-
-		float halfStrokeWidth = mTripPaint.getStrokeWidth() / 2;
-		float width = lineBounds.width();
-		float height = lineBounds.height();
-		float centerY = lineBounds.centerY();
-
-		// Starting point
-		waypoints[0] = drawWaypoint(canvas, new RectF(lineBounds.left, 0, height + lineBounds.left, height));
-
-		// Layovers
-		if (numSegments > 1) {
-			long startTime = DateTimeUtils.getTimeInGMT(mFlightLeg.getSegment(0).mOrigin.getMostRelevantDateTime())
-					.getTime();
-			long endTime = DateTimeUtils.getTimeInGMT(
-					mFlightLeg.getSegment(numSegments - 1).mDestination.getMostRelevantDateTime()).getTime();
-			long duration = endTime - startTime;
-
-			for (int a = 1; a < numSegments; a++) {
-				Flight lastFlight = mFlightLeg.getSegment(a - 1);
-				Flight nextFlight = mFlightLeg.getSegment(a);
-
-				long layoverStart = DateTimeUtils.getTimeInGMT(lastFlight.mDestination.getMostRelevantDateTime())
-						.getTime();
-				long layoverEnd = DateTimeUtils.getTimeInGMT(nextFlight.mOrigin.getMostRelevantDateTime()).getTime();
-				float left = ((float) (layoverStart - startTime) / (float) duration) * width;
-				float right = ((float) (layoverEnd - startTime) / (float) duration) * width;
-
-				waypoints[a] = drawWaypoint(canvas, new RectF(left + lineBounds.left, 0, right + lineBounds.left,
-						height));
-			}
-		}
-
-		// Ending point
-		waypoints[numSegments] = drawWaypoint(canvas, new RectF(width - height + lineBounds.left, 0, width
-				+ lineBounds.left, height));
-
-		// Draw lines between each waypoint
-		for (int a = 1; a < waypoints.length; a++) {
-			canvas.drawLine(waypoints[a - 1].right - halfStrokeWidth, centerY, waypoints[a].left + halfStrokeWidth,
-					centerY, mTripPaint);
-		}
-
-		// Draw an airport at each waypoint
-		for (int a = 0; a < waypoints.length; a++) {
-			String airportCode;
-			if (a == 0) {
-				airportCode = mFlightLeg.getSegment(a).mOrigin.mAirportCode;
+		// Determine the widest text, base the side padding (and min line width) on that 
+		float maxTextWidth = 0;
+		for (int a = -1; a < mFlightLeg.getSegmentCount(); a++) {
+			String text;
+			if (a == -1) {
+				text = mFlightLeg.getFirstWaypoint().mAirportCode;
 			}
 			else {
-				airportCode = mFlightLeg.getSegment(a - 1).mDestination.mAirportCode;
+				text = mFlightLeg.getSegment(a).mDestination.mAirportCode;
 			}
 
-			// Adjust the top/bottom bounds to match where the airports should be drawn
-			waypoints[a].top = airportBounds.top;
-			waypoints[a].bottom = airportBounds.bottom;
-			drawAirportCode(canvas, waypoints[a], airportCode);
+			float textWidth = mTextPaint.measureText(text);
+			if (textWidth > maxTextWidth) {
+				maxTextWidth = textWidth;
+			}
 		}
-	}
+		float sidePadding = Math.max(0, (maxTextWidth - circleDiameter) / 2.0f);
+		float minLineWidth = Math.max(sidePadding * 2 + mMinPaddingBetweenLabels, circleDiameter);
 
-	/**
-	 * Draws a waypoint in the bounds requested.
-	 * 
-	 * If the bounds are too small (in other words, you could not draw a complete circle) it will
-	 * expand the bounds to fit.  The height will remain constant but the width will expand.
-	 * 
-	 * @param canvas the canvas to draw to
-	 * @param bounds the bounds for the waypoint
-	 * @return the bounds of the waypoint ultimately drawn
-	 */
-	private RectF drawWaypoint(Canvas canvas, RectF bounds) {
+		// Make sure we've got a min/max time that represents the entire width of the View
+		Calendar minTime = (mMinTime != null) ? mMinTime : mFlightLeg.getFirstWaypoint().getMostRelevantDateTime();
+		Calendar maxTime = (mMaxTime != null) ? mMaxTime : mFlightLeg.getLastWaypoint().getMostRelevantDateTime();
+
+		// Calculate the ranges.  If there is a min/max time available,
+		// calibrate to that (otherwise assume we have the full width for the trip view)
+		long tripRangeMillis = mFlightLeg.getDuration();
+		long totalRangeMillis = maxTime.getTimeInMillis() - minTime.getTimeInMillis();
+		float totalPossibleWidth = width - (2 * sidePadding);
+		float totalAvailableWidth = width - (2 * sidePadding) - (2 * circleDiameter); // Discount the start/end circles
+		float tripPreferredWidth = (tripRangeMillis / (float) totalRangeMillis) * (float) totalAvailableWidth;
+		float tripActualWidth = tripPreferredWidth;
+
+		// Determine ideal width for each flight/layover + how much extra width can be reallocated
+		int numWidths = mFlightLeg.getSegmentCount() * 2 - 1;
+		float[] widths = new float[numWidths];
+		float totalExtraWidth = 0;
+		for (int a = 0; a < numWidths; a++) {
+			long startMillis, endMillis;
+			boolean isFlight = a % 2 == 0;
+			if (isFlight) {
+				// Flight
+				Flight segment = mFlightLeg.getSegment(a / 2);
+				startMillis = segment.mOrigin.getMostRelevantDateTime().getTimeInMillis();
+				endMillis = segment.mDestination.getMostRelevantDateTime().getTimeInMillis();
+			}
+			else {
+				// Layover
+				Flight flight1 = mFlightLeg.getSegment((a - 1) / 2);
+				Flight flight2 = mFlightLeg.getSegment((a + 1) / 2);
+				startMillis = flight1.mDestination.getMostRelevantDateTime().getTimeInMillis();
+				endMillis = flight2.mOrigin.getMostRelevantDateTime().getTimeInMillis();
+			}
+			long durationMillis = endMillis - startMillis;
+			widths[a] = (durationMillis / (float) totalRangeMillis) * totalAvailableWidth;
+
+			// Now that we know the width, calculate how much we could shrink this width if necessary
+			float minWidth = (isFlight) ? minLineWidth : circleDiameter;
+			if (widths[a] > minWidth) {
+				totalExtraWidth += widths[a] - minWidth;
+			}
+		}
+
+		// Ensure that all widths meet the minimum required length, taking width where there was extra
+		// found before (or increasing the width of the entire graph if there is not enough)
+		for (int a = 0; a < numWidths; a++) {
+			boolean isFlight = a % 2 == 0;
+			float aMinWidth = (isFlight) ? minLineWidth : circleDiameter;
+			if (widths[a] < aMinWidth) {
+				float aWidthNeeded = aMinWidth - widths[a];
+				if (aWidthNeeded >= 0.5) {
+					if (totalExtraWidth >= 0.5) {
+						float extraWidthUsed = 0;
+						for (int b = 0; b < numWidths; b++) {
+							if (a == b) {
+								continue;
+							}
+
+							float bMinWidth = (b % 2 == 0) ? minLineWidth : circleDiameter;
+							if (widths[b] > bMinWidth) {
+								float bExtraWidth = widths[b] - bMinWidth;
+								float bAlteration = (bExtraWidth / totalExtraWidth) * aWidthNeeded;
+								bAlteration = Math.min(bAlteration, bExtraWidth);
+								widths[b] -= bAlteration;
+								extraWidthUsed += bAlteration;
+							}
+						}
+
+						totalExtraWidth -= extraWidthUsed;
+						tripActualWidth += aWidthNeeded - extraWidthUsed;
+					}
+					else {
+						// There is not enough available space, we just increase the size.
+						// This will force us to slide the entire graph left/right by some
+						// amount to minimize the impact of increasing the graph size
+						tripActualWidth += aWidthNeeded;
+					}
+
+					widths[a] = aMinWidth;
+				}
+			}
+		}
+
+		// Determine where to start the graph
+		long startMillis = mFlightLeg.getFirstWaypoint().getMostRelevantDateTime().getTimeInMillis()
+				- minTime.getTimeInMillis();
+		float left = (startMillis / (float) totalRangeMillis) * totalAvailableWidth + sidePadding;
+		if (tripActualWidth > tripPreferredWidth + .1) {
+			left -= (tripActualWidth - tripPreferredWidth) / 2.0;
+		}
+
+		// Make sure we're not overstepping our bounds left/right still
+		if (left - sidePadding + tripActualWidth + (circleDiameter * 2) > totalPossibleWidth + 0.5f) {
+			left -= (left - sidePadding + tripActualWidth + (circleDiameter * 2)) - totalPossibleWidth;
+		}
+		if (left < sidePadding) {
+			left = sidePadding;
+		}
+
+		// Draw each waypoint and flight line
+		float mid = height / 2.0f;
+		float quart = height / 4.0f;
 		float halfStrokeWidth = mTripPaint.getStrokeWidth() / 2;
-		float width = bounds.width();
-		float height = bounds.height();
-		float halfHeight = height / 2;
+		float[] pts = new float[4 * (numWidths * 2 - mFlightLeg.getSegmentCount() + 1)]; // Use upper bound # of lines
+		int numPts = 0;
+		for (int a = -1; a <= numWidths; a++) {
+			boolean isFlight = a % 2 == 0;
+			float currWidth = (a >= 0 && a < numWidths) ? widths[a] : circleDiameter;
 
-		if (width < height) {
-			float diff = (height - width) / 2;
-			bounds = new RectF(bounds.left - diff, bounds.top, bounds.right + diff, bounds.bottom);
-			width = height;
+			if (isFlight) {
+				pts[numPts] = left - 2;
+				pts[numPts + 1] = quart;
+				pts[numPts + 2] = left + currWidth;
+				pts[numPts + 3] = quart;
+				numPts += 4;
+			}
+			else {
+				// Draw circle
+				RectF bounds = new RectF(left + halfStrokeWidth, mTripPaint.getStrokeWidth() / 2.0f, left + currWidth
+						- halfStrokeWidth, mid - halfStrokeWidth);
+				float bHeight = bounds.height();
+				if (bounds.width() - bHeight < .1f) {
+					// Draw a circle (as an oval)
+					canvas.drawOval(bounds, mTripPaint);
+				}
+				else {
+					// Draw the arcs
+					RectF leftArc = new RectF(bounds);
+					leftArc.right = leftArc.left + bHeight;
+					RectF rightArc = new RectF(bounds);
+					rightArc.left = rightArc.right - bHeight;
+					canvas.drawArc(leftArc, 90, 180, false, mTripPaint);
+					canvas.drawArc(rightArc, 270, 180, false, mTripPaint);
+
+					// Draw the lines between the arcs
+					float halfHeight = bHeight / 2;
+					pts[numPts] = leftArc.right - halfHeight - 1;
+					pts[numPts + 1] = halfStrokeWidth;
+					pts[numPts + 2] = rightArc.left + halfHeight;
+					pts[numPts + 3] = halfStrokeWidth;
+					numPts += 4;
+
+					pts[numPts] = leftArc.right - halfHeight - 1;
+					pts[numPts + 1] = bHeight + halfStrokeWidth;
+					pts[numPts + 2] = rightArc.left + halfHeight;
+					pts[numPts + 3] = bHeight + halfStrokeWidth;
+					numPts += 4;
+				}
+
+				// Draw the airport code
+				String airportCode;
+				if (a == -1) {
+					airportCode = mFlightLeg.getFirstWaypoint().mAirportCode;
+				}
+				else {
+					airportCode = mFlightLeg.getSegment(a / 2).mDestination.mAirportCode;
+				}
+				canvas.drawText(airportCode, bounds.centerX(), height - 1, mTextPaint);
+			}
+			left += currWidth;
 		}
 
-		if (width == height) {
-			RectF circle = new RectF(bounds.left + halfStrokeWidth, bounds.top + halfStrokeWidth, bounds.right
-					- halfStrokeWidth, bounds.bottom - halfStrokeWidth);
-			canvas.drawOval(circle, mTripPaint);
-			return bounds;
-		}
-		else {
-			// Draw end arcs
-			RectF left = new RectF(bounds.left + halfStrokeWidth, bounds.top + halfStrokeWidth, bounds.left + height
-					- halfStrokeWidth, bounds.bottom - halfStrokeWidth);
-			RectF right = new RectF(bounds.right - height + halfStrokeWidth, bounds.top + halfStrokeWidth, bounds.right
-					- halfStrokeWidth, bounds.bottom - halfStrokeWidth);
-
-			canvas.drawArc(left, 90, 180, false, mTripPaint);
-			canvas.drawArc(right, 270, 180, false, mTripPaint);
-
-			// Draw lines between arcs
-			canvas.drawLine(left.right - halfHeight, halfStrokeWidth, right.left + halfHeight, halfStrokeWidth,
-					mTripPaint);
-			canvas.drawLine(left.right - halfHeight, height - halfStrokeWidth, right.left + halfHeight, height
-					- halfStrokeWidth, mTripPaint);
-			return bounds;
-		}
-	}
-
-	/**
-	 * Draws an airport code at the specified location.
-	 * 
-	 * It isn't necessarily drawn *within* the bounds horizontally - rather, it's centered
-	 * on those bounds.
-	 * 
-	 * @param canvas
-	 * @param bounds
-	 * @param airportCode
-	 */
-	private void drawAirportCode(Canvas canvas, RectF bounds, String airportCode) {
-		// Setup the text to draw in the entire height of the bounds, minus any extra space needed for the
-		// shadow layer
-		mTextPaint.setTextSize(bounds.height());
-
-		canvas.drawText(airportCode, bounds.centerX(), bounds.bottom, mTextPaint);
+		// We draw all the lines at once later - this really optimizes rendering performance
+		// on GPU-based OSes.
+		canvas.drawLines(pts, 0, numPts, mTripPaint);
 	}
 }

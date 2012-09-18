@@ -47,15 +47,15 @@ public class FlightAdapter extends BaseAdapter {
 				List<FlightTrip> trips = mFlightTripQuery.getTrips();
 				FlightTrip trip = trips.get(0);
 				FlightLeg leg = trip.getLeg(mLegPosition);
-				mMinTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
-				mMaxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
+				mMinTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+				mMaxTime = leg.getLastWaypoint().getMostRelevantDateTime();
 
 				for (int a = 1; a < trips.size(); a++) {
 					trip = trips.get(a);
 					leg = trip.getLeg(mLegPosition);
 
-					Calendar minTime = leg.getSegment(0).mOrigin.getMostRelevantDateTime();
-					Calendar maxTime = leg.getSegment(leg.getSegmentCount() - 1).mDestination.getMostRelevantDateTime();
+					Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+					Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
 
 					if (minTime.before(mMinTime)) {
 						mMinTime = minTime;
@@ -105,7 +105,7 @@ public class FlightAdapter extends BaseAdapter {
 		FlightLegSummarySection section = (FlightLegSummarySection) convertView;
 		FlightTrip trip = getItem(position);
 		FlightLeg leg = trip.getLeg(mLegPosition);
-		section.bind(trip, leg, null, null); // TODO: Temporarily disable min/max metering
+		section.bind(trip, leg, mMinTime, mMaxTime);
 
 		return convertView;
 	}
