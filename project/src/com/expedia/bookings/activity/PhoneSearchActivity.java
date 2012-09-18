@@ -24,6 +24,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -45,8 +46,8 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.view.View.MeasureSpec;
 import android.view.ViewStub;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -226,6 +227,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private View mSearchButton;
 
 	private View mFilterLayout;
+	private View mFilterFocusLayout;
 	private PopupWindow mFilterPopupWindow;
 
 	private View mActionBarCustomView;
@@ -1081,6 +1083,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
 		mFilterLayout = getLayoutInflater().inflate(R.layout.popup_filter_options, null);
+		mFilterFocusLayout = mFilterLayout.findViewById(R.id.filter_focus_layout);
 		mFilterHotelNameEditText = (EditText) mFilterLayout.findViewById(R.id.filter_hotel_name_edit_text);
 		mRadiusButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
@@ -1092,6 +1095,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
 					mFocusLayout.requestFocus();
 					v.clearFocus();
+
+					hideSoftKeyboard((TextView) v);
 				}
 				return false;
 			}
@@ -1101,7 +1106,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(),
 				mFilterLayout.getMeasuredHeight());
+		mFilterPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
+		mFilterPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
+		mFilterPopupWindow.setFocusable(true);
+		mFilterPopupWindow.setOutsideTouchable(false);
 
 		// Progress bar
 		mProgressBar.addOnDrawStartedListener(this);
@@ -1119,6 +1128,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		//===================================================================
 		// Listeners
+		mFilterHotelNameEditText.setOnFocusChangeListener(mFilterHotelNameEditTextFocusChangeListener);
+
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnItemClickListener(mSearchSuggestionsItemClickListner);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
@@ -1653,7 +1664,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case KEYBOARD: {
-			//showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			hideFilterOptions();
 
 			// 13550: In some cases, the list has been cleared
@@ -1823,6 +1834,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		if (mFilterPopupWindow.isShowing()) {
 			return;
 		}
+
+		//mFocusLayout.requestFocus();
+		mFilterHotelNameEditText.clearFocus();
 
 		mFilterPopupWindow.setOnDismissListener(mFilterPopupOnDismissListener);
 
@@ -2398,6 +2412,22 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			}
 			else {
 				//collapseSearchEditText();
+			}
+		}
+	};
+
+	private final View.OnFocusChangeListener mFilterHotelNameEditTextFocusChangeListener = new View.OnFocusChangeListener() {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			TextView tv = (TextView) v;
+			if (hasFocus) {
+				Log.d("HERE hasFocus");
+				showSoftKeyboard(tv, new SoftKeyResultReceiver(mHandler));
+			}
+			else {
+				Log.d("HERE !hasFocus");
+				//mFocusLayout.requestFocus();
+				hideSoftKeyboard(tv);
 			}
 		}
 	};
