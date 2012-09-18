@@ -46,6 +46,9 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 	public void testBooking() throws Exception {
 		mDriver.setAllowScreenshots(true);
 		mDriver.setAllowOrientationChange(false);
+
+		mDriver.setSpoofBookings();
+
 		for (int i = 0; i < mDriver.TEST_LOCALES.length; i++) {
 			mDriver.setAllowScreenshots(true);
 			mDriver.enterLog(TAG, "Starting sweep of " + mDriver.TEST_LOCALES[i].toString());

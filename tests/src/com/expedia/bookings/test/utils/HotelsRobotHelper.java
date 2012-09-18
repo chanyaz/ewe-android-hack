@@ -233,6 +233,21 @@ public class HotelsRobotHelper {
 		mSolo.goBack();
 	}
 
+	public void setSpoofBookings() {
+		mSolo.pressMenuItem(0);
+		try {
+			if (!mSolo.isCheckBoxChecked(0)) {
+				mSolo.clickOnCheckBox(0);
+			}
+			mSolo.goBack();
+
+		}
+		catch (Exception E) {
+			//nothing
+		}
+
+	}
+
 	////////////////////////////////////////////////////////////////
 	// Search Screen Methods
 
@@ -448,7 +463,7 @@ public class HotelsRobotHelper {
 		landscape();
 		portrait();
 		delay();
-		mSolo.typeText(1, mUser.mLoginPassword );
+		mSolo.typeText(1, mUser.mLoginPassword);
 		landscape();
 		portrait();
 
