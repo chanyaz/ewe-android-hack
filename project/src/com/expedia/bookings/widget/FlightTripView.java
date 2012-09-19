@@ -16,9 +16,12 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
+import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 
 public class FlightTripView extends View {
+
+	private static final boolean DEBUG = false;
 
 	private Paint mTripPaint;
 	private TextPaint mTextPaint;
@@ -31,6 +34,13 @@ public class FlightTripView extends View {
 
 	// Dimensions loaded in resources
 	private float mMinPaddingBetweenLabels;
+
+	// These are pre-calculated for each draw routine
+	private boolean mDirty; // If true, means we need to recalculate everything
+	private float mCircleDiameter;
+	private int mNumWidths;
+	private float[] mWidths;
+	private float mStartLeft;
 
 	public FlightTripView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -57,6 +67,8 @@ public class FlightTripView extends View {
 		mMinTime = minTime;
 		mMaxTime = maxTime;
 
+		mDirty = true;
+
 		invalidate();
 	}
 
@@ -71,12 +83,109 @@ public class FlightTripView extends View {
 	// optimize some of the calls
 
 	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+
+		mDirty = true;
+	}
+
+	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
 		if (mFlightLeg == null) {
 			// If we don't have this setup, don't bother drawing anything!
 			return;
+		}
+
+		if (mDirty) {
+			calculateWidths();
+			mDirty = false;
+		}
+
+		long start;
+		if (DEBUG) {
+			start = System.nanoTime();
+		}
+
+		// Draw each waypoint and flight line
+		float height = getHeight();
+		float left = mStartLeft;
+		float mid = height / 2.0f;
+		float quart = height / 4.0f;
+		float halfStrokeWidth = mTripPaint.getStrokeWidth() / 2;
+		float[] pts = new float[4 * (mNumWidths * 2 - mFlightLeg.getSegmentCount() + 1)]; // Use upper bound # of lines
+		int numPts = 0;
+		for (int a = -1; a <= mNumWidths; a++) {
+			boolean isFlight = a % 2 == 0;
+			float currWidth = (a >= 0 && a < mNumWidths) ? mWidths[a] : mCircleDiameter;
+
+			if (isFlight) {
+				pts[numPts] = left - 2;
+				pts[numPts + 1] = quart;
+				pts[numPts + 2] = left + currWidth;
+				pts[numPts + 3] = quart;
+				numPts += 4;
+			}
+			else {
+				// Draw circle
+				RectF bounds = new RectF(left + halfStrokeWidth, mTripPaint.getStrokeWidth() / 2.0f, left + currWidth
+						- halfStrokeWidth, mid - halfStrokeWidth);
+				float bHeight = bounds.height();
+				if (bounds.width() - bHeight < .1f) {
+					// Draw a circle (as an oval)
+					canvas.drawOval(bounds, mTripPaint);
+				}
+				else {
+					// Draw the arcs
+					RectF leftArc = new RectF(bounds);
+					leftArc.right = leftArc.left + bHeight;
+					RectF rightArc = new RectF(bounds);
+					rightArc.left = rightArc.right - bHeight;
+					canvas.drawArc(leftArc, 90, 180, false, mTripPaint);
+					canvas.drawArc(rightArc, 270, 180, false, mTripPaint);
+
+					// Draw the lines between the arcs
+					float halfHeight = bHeight / 2;
+					pts[numPts] = leftArc.right - halfHeight - 1;
+					pts[numPts + 1] = halfStrokeWidth;
+					pts[numPts + 2] = rightArc.left + halfHeight;
+					pts[numPts + 3] = halfStrokeWidth;
+					numPts += 4;
+
+					pts[numPts] = leftArc.right - halfHeight - 1;
+					pts[numPts + 1] = bHeight + halfStrokeWidth;
+					pts[numPts + 2] = rightArc.left + halfHeight;
+					pts[numPts + 3] = bHeight + halfStrokeWidth;
+					numPts += 4;
+				}
+
+				// Draw the airport code
+				String airportCode;
+				if (a == -1) {
+					airportCode = mFlightLeg.getFirstWaypoint().mAirportCode;
+				}
+				else {
+					airportCode = mFlightLeg.getSegment(a / 2).mDestination.mAirportCode;
+				}
+				canvas.drawText(airportCode, bounds.centerX(), height - 1, mTextPaint);
+			}
+			left += currWidth;
+		}
+
+		// We draw all the lines at once later - this really optimizes rendering performance
+		// on GPU-based OSes.
+		canvas.drawLines(pts, 0, numPts, mTripPaint);
+
+		if (DEBUG) {
+			Log.d("FlightTripView render: " + ((System.nanoTime() - start) / 1000) + " microseconds");
+		}
+	}
+
+	private void calculateWidths() {
+		long start;
+		if (DEBUG) {
+			start = System.nanoTime();
 		}
 
 		// Setup our bounds based on the view's height/width and other factors
@@ -203,71 +312,14 @@ public class FlightTripView extends View {
 			left = sidePadding;
 		}
 
-		// Draw each waypoint and flight line
-		float mid = height / 2.0f;
-		float quart = height / 4.0f;
-		float halfStrokeWidth = mTripPaint.getStrokeWidth() / 2;
-		float[] pts = new float[4 * (numWidths * 2 - mFlightLeg.getSegmentCount() + 1)]; // Use upper bound # of lines
-		int numPts = 0;
-		for (int a = -1; a <= numWidths; a++) {
-			boolean isFlight = a % 2 == 0;
-			float currWidth = (a >= 0 && a < numWidths) ? widths[a] : circleDiameter;
+		// Put our calculations into vars for later use
+		mCircleDiameter = circleDiameter;
+		mNumWidths = numWidths;
+		mWidths = widths;
+		mStartLeft = left;
 
-			if (isFlight) {
-				pts[numPts] = left - 2;
-				pts[numPts + 1] = quart;
-				pts[numPts + 2] = left + currWidth;
-				pts[numPts + 3] = quart;
-				numPts += 4;
-			}
-			else {
-				// Draw circle
-				RectF bounds = new RectF(left + halfStrokeWidth, mTripPaint.getStrokeWidth() / 2.0f, left + currWidth
-						- halfStrokeWidth, mid - halfStrokeWidth);
-				float bHeight = bounds.height();
-				if (bounds.width() - bHeight < .1f) {
-					// Draw a circle (as an oval)
-					canvas.drawOval(bounds, mTripPaint);
-				}
-				else {
-					// Draw the arcs
-					RectF leftArc = new RectF(bounds);
-					leftArc.right = leftArc.left + bHeight;
-					RectF rightArc = new RectF(bounds);
-					rightArc.left = rightArc.right - bHeight;
-					canvas.drawArc(leftArc, 90, 180, false, mTripPaint);
-					canvas.drawArc(rightArc, 270, 180, false, mTripPaint);
-
-					// Draw the lines between the arcs
-					float halfHeight = bHeight / 2;
-					pts[numPts] = leftArc.right - halfHeight - 1;
-					pts[numPts + 1] = halfStrokeWidth;
-					pts[numPts + 2] = rightArc.left + halfHeight;
-					pts[numPts + 3] = halfStrokeWidth;
-					numPts += 4;
-
-					pts[numPts] = leftArc.right - halfHeight - 1;
-					pts[numPts + 1] = bHeight + halfStrokeWidth;
-					pts[numPts + 2] = rightArc.left + halfHeight;
-					pts[numPts + 3] = bHeight + halfStrokeWidth;
-					numPts += 4;
-				}
-
-				// Draw the airport code
-				String airportCode;
-				if (a == -1) {
-					airportCode = mFlightLeg.getFirstWaypoint().mAirportCode;
-				}
-				else {
-					airportCode = mFlightLeg.getSegment(a / 2).mDestination.mAirportCode;
-				}
-				canvas.drawText(airportCode, bounds.centerX(), height - 1, mTextPaint);
-			}
-			left += currWidth;
+		if (DEBUG) {
+			Log.d("FlightTripView calc: " + ((System.nanoTime() - start) / 1000) + " microseconds");
 		}
-
-		// We draw all the lines at once later - this really optimizes rendering performance
-		// on GPU-based OSes.
-		canvas.drawLines(pts, 0, numPts, mTripPaint);
 	}
 }
