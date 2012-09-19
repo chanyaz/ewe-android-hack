@@ -1,12 +1,12 @@
 package com.expedia.bookings.test.utils;
 
 import android.test.InstrumentationTestCase;
-import com.mobiata.android.util.IoUtils;
+import com.mobiata.android.debug.MemoryUtils;
 
 public class HprofDump extends InstrumentationTestCase {
 
 	public void testHprofDump() {
-		IoUtils.dumpHprofDataToSdcard("dump.hprof", getInstrumentation().getTargetContext());
+		MemoryUtils.dumpHprofDataToSdcard("dump.hprof", getInstrumentation().getTargetContext());
 	}
 
 }

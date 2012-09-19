@@ -22,6 +22,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.debug.MemoryUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -119,7 +120,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		String exceptionClass = ex == null ? "" : ex.getClass() == null ? "" : ex.getClass().getName();
 		Log.d("ExpediaBookingApp exception handler with exception of class " + exceptionClass);
 		if (OutOfMemoryError.class.equals(ex.getClass())) {
-			IoUtils.dumpHprofDataToSdcard("dump.hprof", getApplicationContext());
+			MemoryUtils.dumpHprofDataToSdcard("dump.hprof", getApplicationContext());
 		}
 
 		// Call the original exception handler
