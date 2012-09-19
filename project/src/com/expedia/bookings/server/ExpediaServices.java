@@ -31,6 +31,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.CookieSpecRegistry;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
@@ -688,6 +689,8 @@ public class ExpediaServices implements DownloadListener {
 		cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory(mContext));
 		httpContext.setAttribute(ClientContext.COOKIESPEC_REGISTRY, cookieSpecRegistry);
 
+		Log.v("Sending cookies: " + cookieStore.toString());
+
 		HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");
 
 		// When not a release build, allow SSL from all connections
@@ -726,6 +729,8 @@ public class ExpediaServices implements DownloadListener {
 		finally {
 			client.close();
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
+
+			Log.v("Received cookies: " + cookieStore.toString());
 
 			cookieStore.save(mContext, COOKIES_FILE);
 		}
