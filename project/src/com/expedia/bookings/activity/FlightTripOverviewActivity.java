@@ -1,13 +1,12 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.TranslateAnimation;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -23,7 +22,10 @@ import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener {
 
@@ -35,7 +37,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
 	public static final String STATE_TAG_STACKED_HEIGHT = "STATE_TAG_STACKED_HEIGHT";
 	public static final String STATE_TAG_UNSTACKED_HEIGHT = "STATE_TAG_UNSTACKED_HEIGHT";
-	
+
 	public static final int ANIMATION_DURATION = 1000;
 
 	private FlightTripOverviewFragment mOverviewFragment;
@@ -69,26 +71,25 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			}
 		}
 
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_MODE)) {
-			mDisplayMode = DisplayMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
-		}
-
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_STACKED_HEIGHT)) {
-			mStackedHeight = savedInstanceState.getInt(STATE_TAG_STACKED_HEIGHT);
-		}
-
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_UNSTACKED_HEIGHT)) {
-			mUnstackedHeight = savedInstanceState.getInt(STATE_TAG_UNSTACKED_HEIGHT);
-		}
-
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
 		mCheckoutContainer = Ui.findView(this, R.id.trip_checkout_container);
 		mPriceContainer = Ui.findView(this, R.id.trip_price_container);
 		mPriceContainerBottom = Ui.findView(this, R.id.trip_price_container_bottom);
 
-		mCheckoutContainer.setPadding(0, mStackedHeight, 0, 0);
-		mOverviewContainer.setMinimumHeight(mUnstackedHeight);
+		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_MODE)) {
+			mDisplayMode = DisplayMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
+		}
+
+		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_STACKED_HEIGHT)) {
+			mStackedHeight = savedInstanceState.getInt(STATE_TAG_STACKED_HEIGHT);
+			mCheckoutContainer.setPadding(0, mStackedHeight, 0, 0);
+		}
+
+		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_UNSTACKED_HEIGHT)) {
+			mUnstackedHeight = savedInstanceState.getInt(STATE_TAG_UNSTACKED_HEIGHT);
+			mOverviewContainer.setMinimumHeight(mUnstackedHeight);
+		}
 
 		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 
@@ -97,9 +98,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (mOverviewFragment == null) {
 			mOverviewFragment = FlightTripOverviewFragment.newInstance(tripKey, mDisplayMode);
 		}
-		if (!mOverviewFragment.isAdded()) {
-			overviewTransaction.add(R.id.trip_overview_container, mOverviewFragment, TAG_OVERVIEW_FRAG);
-		}
+		overviewTransaction.add(R.id.trip_overview_container, mOverviewFragment, TAG_OVERVIEW_FRAG);
 		overviewTransaction.commit();
 
 		FragmentTransaction pricebarTransaction = getSupportFragmentManager().beginTransaction();
@@ -107,9 +106,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (mPriceFragment == null) {
 			mPriceFragment = FlightTripPriceFragment.newInstance();
 		}
-		if (!mPriceFragment.isAdded()) {
-			pricebarTransaction.add(R.id.trip_price_container, mPriceFragment, TAG_PRICE_BAR_FRAG);
-		}
+		pricebarTransaction.add(R.id.trip_price_container, mPriceFragment, TAG_PRICE_BAR_FRAG);
 		pricebarTransaction.commit();
 
 		FragmentTransaction bottomBarTrans = getSupportFragmentManager().beginTransaction();
@@ -117,9 +114,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (priceBottom == null) {
 			priceBottom = FlightTripPriceFragment.newInstance();
 		}
-		if (!priceBottom.isAdded()) {
-			bottomBarTrans.add(R.id.trip_price_container_bottom, priceBottom, TAG_PRICE_BAR_BOTTOM_FRAG);
-		}
+		bottomBarTrans.add(R.id.trip_price_container_bottom, priceBottom, TAG_PRICE_BAR_BOTTOM_FRAG);
 		bottomBarTrans.commit();
 
 		//TODO: for now we attach this here, but we should do it after initial create and before any animation
@@ -128,18 +123,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (mCheckoutFragment == null) {
 			mCheckoutFragment = FlightCheckoutFragment.newInstance();
 		}
-		if (!mCheckoutFragment.isAdded()) {
-			checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
-		}
-		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0 ) {
-			checkoutTransaction.hide(mCheckoutFragment);
-		}else{
-			checkoutTransaction.show(mCheckoutFragment);
-		}
+		checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
 		checkoutTransaction.commit();
-
-		//Important
-		setModeProperties(true);
 
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(tripKey);
 		String cityName = trip.getLeg(0).getLastWaypoint().getAirport().mCity;
@@ -148,7 +133,14 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setTitle(yourTripToStr);
+	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
+			gotoCheckoutMode(false);
+		}
 	}
 
 	@Override
@@ -159,153 +151,195 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		super.onSaveInstanceState(out);
 	}
 
-	private void computeHeights() {
-		if (mOverviewFragment.isAdded()) {
-			mStackedHeight = mOverviewFragment.getStackedHeight();
-			mUnstackedHeight = mOverviewFragment.getUnstackedHeight();
-			mOverviewContainer.setMinimumHeight(mUnstackedHeight);
-			mCheckoutContainer.setPadding(0, mStackedHeight, 0, 0);
+
+	public void gotoOverviewMode(boolean animate) {
+		int duration = animate ? ANIMATION_DURATION : 1;
+
+		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
+			Animator hideCheckout = getCheckoutHideAnimator(false,true);
+			Animator priceSlide = getMovePriceBelowContent();
+
+			AnimatorSet animSet = new AnimatorSet();
+			animSet.playTogether(hideCheckout, priceSlide);
+			animSet.setDuration(duration);
+			mOverviewFragment.unStackCards(animate);
+			animSet.start();
+
+			mOverviewFragment.setCardOnClickListeners(null);
 		}
-	}
-
-	private void showCheckoutFragment() {
-		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
-		checkoutTransaction.setCustomAnimations(R.anim.fragment_checkout_slide_up, R.anim.fragment_checkout_slide_down,
-				R.anim.fragment_checkout_slide_up, R.anim.fragment_checkout_slide_down);
-		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
-		if (mCheckoutFragment == null) {
-			mCheckoutFragment = FlightCheckoutFragment.newInstance();
+		if (mCheckoutMenuItem != null) {
+			mCheckoutMenuItem.setVisible(true);
 		}
-		if (!mCheckoutFragment.isVisible()) {
-			checkoutTransaction.show(mCheckoutFragment);
-		}
-		checkoutTransaction.commit();
-		computeHeights();
-	}
-
-	private void hideCheckoutFragment() {
-		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
-		checkoutTransaction.setCustomAnimations(R.anim.fragment_checkout_slide_down,
-				R.anim.fragment_checkout_slide_down,
-				R.anim.fragment_checkout_slide_down, R.anim.fragment_checkout_slide_down);
-		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
-		if (mCheckoutFragment == null) {
-			mCheckoutFragment = FlightCheckoutFragment.newInstance();
-		}
-		if (mCheckoutFragment.isVisible()) {
-			checkoutTransaction.hide(mCheckoutFragment);
-		}
-		checkoutTransaction.commit();
-		computeHeights();
-	}
-
-	private void setPriceToBelowContent() {
-		int futureTop = mPriceContainer.getTop();
-		int transitionDistance = futureTop - mPriceContainerBottom.getTop();
-		Log.i("futureTop:" + futureTop + " transitionDistance:" + transitionDistance);
-		TranslateAnimation priceanimation = new TranslateAnimation(0, 0, 0, transitionDistance);
-		priceanimation.setDuration(ANIMATION_DURATION);
-		priceanimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				mPriceContainer.setVisibility(View.VISIBLE);
-			}
-
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-			}
-
-			@Override
-			public void onAnimationStart(Animation animation) {
-				mPriceContainerBottom.setVisibility(View.GONE);
-			}
-
-		});
-		mPriceContainerBottom.startAnimation(priceanimation);
-	}
-
-	private void animatePriceToBottom() {
-		int futureTop = mContentScrollView.getHeight() - mPriceContainer.getHeight();
-		int transitionDistance = futureTop - mPriceContainer.getTop();
-		TranslateAnimation priceanimation = new TranslateAnimation(0, 0, 0, transitionDistance);
-		priceanimation.setDuration(ANIMATION_DURATION);
-		priceanimation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				mPriceContainerBottom.setVisibility(View.VISIBLE);
-			}
-
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-			}
-
-			@Override
-			public void onAnimationStart(Animation animation) {
-				mPriceContainer.setVisibility(View.GONE);
-			}
-
-		});
-		mPriceContainer.startAnimation(priceanimation);
-	}
-
-	private void setModeProperties(boolean setPriceVisibilities) {
-		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0) {
-
-			if (setPriceVisibilities) {
-				mPriceContainer.setVisibility(View.VISIBLE);
-				mPriceContainerBottom.setVisibility(View.GONE);
-			}
-			if (mCheckoutMenuItem != null) {
-				mCheckoutMenuItem.setVisible(true);
-			}
-			if (mOverviewFragment != null) {
-				mOverviewFragment.setCardOnClickListeners(null);
-			}
-		}
-		else if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-			if (setPriceVisibilities) {
-				mPriceContainer.setVisibility(View.GONE);
-				mPriceContainerBottom.setVisibility(View.VISIBLE);
-			}
-			if (mCheckoutMenuItem != null) {
-				mCheckoutMenuItem.setVisible(false);
-			}
-			if (mOverviewFragment != null) {
-				mOverviewFragment.setCardOnClickListeners(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						backToOverviewMode();
-					}
-				});
-			}
-		}
-		
-	}
-
-	public void forwardToCheckoutMode() {
-		mDisplayMode = DisplayMode.CHECKOUT;
-
-		animatePriceToBottom();
-		showCheckoutFragment();
-		mOverviewFragment.stackCards(true);
-
-		setModeProperties(false);
-
-	}
-
-	public void backToOverviewMode() {
 		mDisplayMode = DisplayMode.OVERVIEW;
-		setModeProperties(false);
-		
-		hideCheckoutFragment();
-		mOverviewFragment.unStackCards(true);
-		setPriceToBelowContent();
+	}
+
+	public void gotoCheckoutMode(boolean animate) {
+		int duration = animate ? ANIMATION_DURATION : 1;
+
+		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
+			mCheckoutContainer.setPadding(0, mOverviewFragment.getStackedHeight(), 0, 0);
+			Animator slideIn = getCheckoutShowAnimator();
+			Animator priceSlide = getMovePriceToBottomAnimator();
+
+			AnimatorSet animSet = new AnimatorSet();
+			animSet.playTogether(slideIn, priceSlide);
+			animSet.setDuration(duration);
+			mOverviewFragment.stackCards(animate);
+			animSet.start();
+
+			mOverviewFragment.setCardOnClickListeners(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					gotoOverviewMode(true);
+				}
+			});
+		}
+
+		if (mCheckoutMenuItem != null) {
+			mCheckoutMenuItem.setVisible(false);
+		}
+		mDisplayMode = DisplayMode.CHECKOUT;
+	}
+
+	public Animator getMovePriceToBottomAnimator() {
+		ObjectAnimator mover = ObjectAnimator.ofFloat(mPriceContainer, "y", mPriceContainer.getTop(),
+				this.mContentScrollView.getBottom() - mPriceContainer.getHeight());
+		mover.addListener(new AnimatorListener() {
+			@Override
+			public void onAnimationCancel(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				mPriceContainer.setVisibility(View.GONE);
+				mPriceContainerBottom.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				mPriceContainer.setVisibility(View.VISIBLE);
+			}
+		});
+		return mover;
+	}
+
+	public Animator getMovePriceBelowContent() {
+		ObjectAnimator mover = ObjectAnimator.ofFloat(mPriceContainer, "y", this.mContentScrollView.getBottom(),
+				mOverviewContainer.getBottom());
+		mover.addListener(new AnimatorListener() {
+			@Override
+			public void onAnimationCancel(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				mPriceContainer.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				mPriceContainer.setVisibility(View.VISIBLE);
+				mPriceContainerBottom.setVisibility(View.GONE);
+			}
+		});
+		return mover;
+	}
+
+	public Animator getCheckoutShowAnimator() {
+		ObjectAnimator mover = ObjectAnimator.ofFloat(mCheckoutContainer, "y", this.mContentScrollView.getBottom(), 0f);
+		mover.addListener(new AnimatorListener() {
+
+			@Override
+			public void onAnimationCancel(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				mCheckoutContainer.setVisibility(View.VISIBLE);
+			}
+		});
+		return mover;
+	}
+
+	public Animator getCheckoutHideAnimator(boolean slide, boolean fade) {
+		ArrayList<Animator> animators = new ArrayList<Animator>();
+
+		if (slide) {
+			ObjectAnimator mover = ObjectAnimator.ofFloat(mCheckoutContainer, "y", 0f,
+					this.mContentScrollView.getBottom());
+			mover.addListener(new AnimatorListener() {
+
+				@Override
+				public void onAnimationCancel(Animator arg0) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					mCheckoutContainer.setVisibility(View.GONE);
+				}
+
+				@Override
+				public void onAnimationRepeat(Animator arg0) {
+				}
+
+				@Override
+				public void onAnimationStart(Animator arg0) {
+				}
+			});
+			animators.add(mover);
+		}
+
+		if (fade) {
+			ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mCheckoutContainer, "alpha", 1f, 0f);
+			fadeOut.addListener(new AnimatorListener() {
+				@Override
+				public void onAnimationCancel(Animator arg0) {
+				}
+
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					mCheckoutContainer.setVisibility(View.GONE);
+					ObjectAnimator restoreAlpha = ObjectAnimator.ofFloat(mCheckoutContainer, "alpha", 0f, 1f);
+					restoreAlpha.setDuration(1);
+					restoreAlpha.start();
+				}
+
+				@Override
+				public void onAnimationRepeat(Animator arg0) {
+				}
+
+				@Override
+				public void onAnimationStart(Animator arg0) {
+				}
+			});
+			animators.add(fadeOut);
+		}
+
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(animators);
+		return set;
 	}
 
 	@Override
 	public void onBackPressed() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-			backToOverviewMode();
+			gotoOverviewMode(true);
 		}
 		else {
 			super.onBackPressed();
@@ -321,16 +355,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			@Override
 			public void onClick(View v) {
 				if (mOverviewFragment != null) {
-					forwardToCheckoutMode();
+					gotoCheckoutMode(true);
 				}
 			}
 		});
-		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-			mCheckoutMenuItem.setVisible(false);
-		}
-		else {
-			mCheckoutMenuItem.setVisible(true);
-		}
+
 		return true;
 	}
 
