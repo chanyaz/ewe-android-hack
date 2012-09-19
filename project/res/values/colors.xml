@@ -34,7 +34,7 @@
 	https://github.com/android/platform_frameworks_base/blob/master/core/res/res/drawable-hdpi/divider_strong_holo.9.png -->
 	<color name="divider_strong_holo">#72a3ff</color>
 
-	<color name="suggestion_row_divider">#FFE5E5E5</color>
+	<color name="suggestion_row_divider">#FF4F4F4F</color>
 
 	<color name="widget_message_text_color">#214461</color>
 	<color name="widget_text_color">#3d4552</color>
