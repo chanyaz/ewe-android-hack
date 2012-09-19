@@ -77,7 +77,7 @@ public class HotelMapActivity extends SherlockFragmentMapActivity {
 		addressTextView.setText(location.getStreetAddressString() + "\n" + location.toFormattedString());
 
 		// Configure the map
-		mMapView.setBuiltInZoomControls(true);
+		mMapView.setBuiltInZoomControls(false);
 		mMapView.setSatellite(false);
 		mMapView.setClickable(true);
 
