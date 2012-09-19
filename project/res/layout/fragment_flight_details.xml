@@ -40,7 +40,7 @@
             android:singleLine="true"
             android:text="9h 40m - 5,5000 mi"
             android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/book_price_text_view"
@@ -51,7 +51,7 @@
             android:singleLine="true"
             android:text="Book now for $994"
             android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <!-- Bagge fee footer -->
