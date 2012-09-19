@@ -93,6 +93,8 @@ public class HotelMapFragment extends Fragment {
 		overlays.add(mExactLocationOverlay);
 
 		mHotelOverlay = new HotelItemizedOverlay(activity, null, mMapView);
+		mHotelOverlay.setBalloonDrawable(R.drawable.bg_map_balloon);
+
 		StandardBalloonAdapter adapter = new StandardBalloonAdapter(getActivity());
 		adapter.setThumbnailPlaceholderResource(R.drawable.ic_image_placeholder);
 		adapter.setShowChevron(false);
