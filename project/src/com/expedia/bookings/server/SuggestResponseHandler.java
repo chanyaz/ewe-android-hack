@@ -1,35 +1,33 @@
 package com.expedia.bookings.server;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SuggestResponse;
-import com.expedia.bookings.model.Search;
+import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.net.JsonResponseHandler;
 
 public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse> {
 
-	Context mContext;
+	public static enum Type {
+		HOTELS,
+		FLIGHTS,
+	}
 
-	public SuggestResponseHandler(Context context) {
-		mContext = context;
+	// Default to hotels
+	private Type mType = Type.HOTELS;
+
+	public void setType(Type type) {
+		mType = type;
 	}
 
 	@Override
 	public SuggestResponse handleJson(JSONObject response) {
 		SuggestResponse suggestResponse = new SuggestResponse();
-		ArrayList<Search> found = null;
-
-		suggestResponse.setQuery(response.optString("q"));
 
 		if (!response.has("r")) {
 			Log.d("No suggestions.");
@@ -46,49 +44,36 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 		}
 
 		int len = responseSuggestions.length();
-		found = new ArrayList<Search>(len);
 		for (int i = 0; i < len; i++) {
 			try {
 				JSONObject responseSuggestion = responseSuggestions.getJSONObject(i);
-				String locationName = responseSuggestion.getString("f");
-				locationName = StrUtils.removeUSAFromAddress(locationName);
+				Suggestion suggestion = new Suggestion();
 
-				//String cityName = responseSuggestion.getString("s");
-				//String countryName = responseSuggestion.getString("c");
-				String regionId = responseSuggestion.getString("id");
-				String type = responseSuggestion.getString("t");
+				suggestion.setId(responseSuggestion.optString("id"));
+				suggestion.setType(JSONUtils.getEnum(responseSuggestion, "t", Suggestion.Type.class));
 
-				SearchParams searchParams = new SearchParams();
-				searchParams.setQuery(locationName);
-				searchParams.setRegionId(regionId);
-
-				if (type.equals("CITY")) {
-					searchParams.setSearchType(SearchType.CITY);
-				}
-				else if (type.equals("ADDRESS")) {
-					searchParams.setSearchType(SearchType.ADDRESS);
-				}
-				else if (type.equals("ATTRACTION") || type.equals("AIRPORT") || type.equals("HOTEL")) {
-					searchParams.setSearchType(SearchType.POI);
+				if (mType == Type.FLIGHTS) {
+					suggestion.setDisplayName(responseSuggestion.optString("l"));
+					suggestion.setAirportLocationCode(responseSuggestion.optString("a", null));
 				}
 				else {
-					searchParams.setSearchType(SearchType.FREEFORM);
+					String locationName = responseSuggestion.getString("f");
+					locationName = StrUtils.removeUSAFromAddress(locationName);
+					suggestion.setDisplayName(locationName);
 				}
 
 				JSONObject latlng = responseSuggestion.optJSONObject("ll");
 				if (latlng != null) {
-					double latitude = latlng.getDouble("lat");
-					double longitude = latlng.getDouble("lng");
-					searchParams.setSearchLatLon(latitude, longitude);
+					suggestion.setLatitude(latlng.getDouble("lat"));
+					suggestion.setLongitude(latlng.getDouble("lng"));
 				}
 
-				found.add(new Search(searchParams));
+				suggestResponse.addSuggestion(suggestion);
 			}
 			catch (JSONException e) {
 				Log.d("Could not parse JSON autosuggest response item.", e);
 			}
 		}
-		suggestResponse.setSuggestions(found);
 
 		return suggestResponse;
 	}

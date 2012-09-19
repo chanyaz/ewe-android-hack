@@ -31,7 +31,6 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.cookie.CookieSpecRegistry;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
@@ -144,11 +143,14 @@ public class ExpediaServices implements DownloadListener {
 	// Documentation:
 	// http://confluence/display/POS/Expedia+Suggest+%28Type+Ahead%29+API+Family
 	//
-	// Examples:
-	// http://suggest.expedia.com/hint/es/v1/ac/en_US/bellagio?type=31
-	// http://suggest.expedia.com/hint/es/v1/ac/es_MX/seattle?type=31
+	// Examples (hotels):
+	// http://suggest.expedia.com/hint/es/v1/ac/en_US/bellagio?type=30
+	// http://suggest.expedia.com/hint/es/v1/ac/es_MX/seattle?type=30
+	//
+	// Examples (flights):
+	// http://suggest.expedia.com/hint/es/v1/ac/en_US/new%20york?type=95&lob=Flights
 
-	public SuggestResponse suggest(String query) {
+	public SuggestResponse suggest(String query, int flags) {
 		if (query == null || query.length() < 3) {
 			return null;
 		}
@@ -159,16 +161,28 @@ public class ExpediaServices implements DownloadListener {
 		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_BASE_URL + localeString + "/" + query);
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", "30")); // city & multi-city & neighborhood & POI
+
+		SuggestResponseHandler responseHandler = new SuggestResponseHandler();
+
+		if ((flags & F_FLIGHTS) != 0) {
+			// 95 is all regions (AIRPORT, CITY, MULTICITY, NEIGHBORHOOD, POI, METROCODE) 
+			params.add(new BasicNameValuePair("type", "95"));
+			params.add(new BasicNameValuePair("lob", "Flights"));
+
+			responseHandler.setType(SuggestResponseHandler.Type.FLIGHTS);
+		}
+		else {
+			// 30 is all regions (CITY, MULTICITY, NEIGHBORHOOD, POI)
+			params.add(new BasicNameValuePair("type", "30"));
+
+			responseHandler.setType(SuggestResponseHandler.Type.HOTELS);
+		}
 
 		HttpGet get = NetUtils.createHttpGet(url, params);
 		get.addHeader("Accept", "application/json");
-		get.addHeader("Accept-Encoding", "gzip");
 
 		// Some logging before passing the request along^M
 		Log.d("Autosuggest request: " + url + "?" + NetUtils.getParamsForLogging(params));
-
-		SuggestResponseHandler responseHandler = new SuggestResponseHandler(mContext);
 
 		return doRequest(get, responseHandler, 0);
 	}

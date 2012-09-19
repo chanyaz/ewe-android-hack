@@ -26,6 +26,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.SuggestResponse;
+import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
@@ -89,10 +90,11 @@ public class AutocompleteProvider extends ContentProvider {
 		// Don't bother hitting the network in some cases
 		if (!recentSearchesContainsQuery && !query.equals(currentLocation) && !TextUtils.isEmpty(query)) {
 			ExpediaServices services = new ExpediaServices(context);
-			SuggestResponse response = services.suggest(query);
+			SuggestResponse response = services.suggest(query, ExpediaServices.F_HOTELS);
 
 			if (response != null) {
-				for (Search search : response.getSuggestions()) {
+				for (Suggestion suggestion : response.getSuggestions()) {
+					Search search = suggestion.toSearch();
 					String freeformLocation = search.getQuery();
 					suggestedLocations.add(freeformLocation);
 					JSONObject json = search.toJson();
