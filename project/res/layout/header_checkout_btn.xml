@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:drawableLeft="@drawable/ic_action_bar_checkout_arrow"
+    android:gravity="center_vertical"
+    android:paddingRight="@dimen/yoyo_navigation_padding_right"
+    android:text="@string/checkout_btn"
+    android:textAllCaps="true"
+    android:textColor="@color/action_bar_text_yellow" />

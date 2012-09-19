@@ -1,10 +1,9 @@
 package com.expedia.bookings.section;
 
 import java.text.DateFormat;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 import android.content.Context;
-import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -80,25 +79,18 @@ public class SectionFlightLeg extends LinearLayout {
 
 		mFlightLegSummary.bind(trip, leg);
 
-		// Arrival/departure time formatted display
 		String formatted = "";
-		String formatString = "";
-		Calendar cal = null;
-		if (isOutbound()) {
-			cal = leg.getFirstWaypoint().getMostRelevantDateTime();
-			formatString = getResources().getString(R.string.departs_with_date_TEMPLATE);
-		}
-		else {
-			cal = leg.getLastWaypoint().getMostRelevantDateTime();
-			formatString = getResources().getString(R.string.arrives_with_date_TEMPLATE);
-		}
-
-		String shortMonth = DateUtils.getMonthString(cal.get(Calendar.MONTH), DateUtils.LENGTH_SHORT);
-		String day = "" + cal.get(Calendar.DAY_OF_MONTH);
-		formatted = String.format(formatString, shortMonth, day);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EE, MMM dd");
+		String formattedDate = dateFormat.format((isOutbound()?leg.getFirstWaypoint():leg.getLastWaypoint()).getMostRelevantDateTime().getTime());
+		formatted = String.format(getResources().getString(R.string.trip_to_with_date), formattedDate,leg.getFirstWaypoint().getAirport().mCity, leg.getLastWaypoint().getAirport().mCity);
+		
 		mArriveOrDepartWithDateTextView.setText(formatted);
 
-		// TODO: Handle mInboundOutboundArrow once we get assets
+		if(isOutbound()){
+			mInboundOutboundArrow.setImageResource(R.drawable.ic_departure_arrow);
+		}else{
+			mInboundOutboundArrow.setImageResource(R.drawable.ic_return_arrow);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

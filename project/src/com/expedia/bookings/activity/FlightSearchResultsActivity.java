@@ -477,7 +477,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 			else {
 				Intent intent = new Intent(mContext, FlightTripOverviewActivity.class);
-				intent.putExtra(FlightTripOverviewActivity.EXTRA_TRIP_KEY, ftl.getFlightTrip().getProductKey());
 				startActivity(intent);
 			}
 		}

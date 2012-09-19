@@ -8,12 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightBookingActivity;
@@ -22,17 +19,13 @@ import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
-import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.SectionBillingInfo;
-import com.expedia.bookings.section.SectionFlightTrip;
-import com.expedia.bookings.section.SectionGeneralFlightInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
@@ -54,24 +47,18 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	//We only want to load from disk once: when the activity is first started (as it is the first time BillingInfo is seen)
 	private static boolean mLoaded = false;
 
-	private FlightTrip mTrip;
 	private BillingInfo mBillingInfo;
 
 	private ArrayList<SectionTravelerInfo> mTravelerSections = new ArrayList<SectionTravelerInfo>();
-	private ArrayList<FlightLegSummarySection> mFlights = new ArrayList<FlightLegSummarySection>();
 
 	private AccountButton mAccountButton;
 	private SectionBillingInfo mCreditCardSectionButton;
-	private SectionFlightTrip mFlightTripSectionPriceBar;
-	private SectionGeneralFlightInfo mFlightDateAndTravCount;
 	private SectionStoredCreditCard mStoredCreditCard;
 
 	private Button mReviewBtn;
 	private ViewGroup mTravelerContainer;
 	private ViewGroup mTravelerButton;
 	private ViewGroup mPaymentButton;
-	private RelativeLayout mFlightContainer;
-	private LinearLayout mPaymentContainer;
 
 	private boolean mRefreshedUser;
 
@@ -123,12 +110,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mStoredCreditCard = Ui.findView(v, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(v, R.id.creditcard_section_button);
 		mTravelerContainer = Ui.findView(v, R.id.travelers_container);
-		mFlightContainer = Ui.findView(v, R.id.flight_legs_container);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mReviewBtn = Ui.findView(v, R.id.review_btn);
-		mPaymentContainer = Ui.findView(v, R.id.payment_container);
-		mFlightTripSectionPriceBar = Ui.findView(v, R.id.price_bar);
-		mFlightDateAndTravCount = Ui.findView(v, R.id.date_and_travlers);
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
@@ -166,11 +149,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			}
 		});
 
-		mTrip = Db.getFlightSearch().getSelectedFlightTrip();
-		mFlightDateAndTravCount.bind(mTrip,
-				(Db.getTravelers() != null && Db.getTravelers().size() != 0) ? Db.getTravelers()
-						.size() : 1);
-
 		return v;
 	}
 
@@ -185,7 +163,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
 		buildTravelerSections();
-		buildLegSections();
 
 		bindAll();
 		updateViewVisibilities();
@@ -218,7 +195,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	public void bindAll() {
 		mCreditCardSectionButton.bind(mBillingInfo);
 		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
-		mFlightTripSectionPriceBar.bind(mTrip);
 
 		ArrayList<Traveler> travelers = Db.getTravelers();
 		if (travelers.size() != mTravelerSections.size()) {
@@ -230,36 +206,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			for (int i = 0; i < travelers.size(); i++) {
 				mTravelerSections.get(i).bind(travelers.get(i));
 			}
-		}
-	}
-
-	private void buildLegSections() {
-		//Inflate and store the sections
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		FlightLegSummarySection tempFlight = null;
-		mFlightContainer.removeAllViews();
-		mFlights.clear();
-		int padding = 20;
-		int alphaMin = 100;
-		int alphaMax = 225;
-		for (int i = mTrip.getLegCount() - 1; i >= 0; i--) {
-			tempFlight = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_summary_short, null);
-			tempFlight.setPadding(tempFlight.getPaddingLeft(),
-					tempFlight.getPaddingTop() > padding ? tempFlight.getPaddingTop() : padding,
-					tempFlight.getPaddingRight(), tempFlight.getPaddingBottom());
-			tempFlight.bind(mTrip, mTrip.getLeg(mTrip.getLegCount() - 1 - i));
-			tempFlight.getBackground().setAlpha(
-					Math.max(alphaMin, Math.min((mTrip.getLegCount() - 1 - i) * 150 + 75, alphaMax)));
-			mFlights.add(0, tempFlight);
-			mFlightContainer.addView(tempFlight, 0);
-
-			int widthMeasureSpec = MeasureSpec.makeMeasureSpec(RelativeLayout.LayoutParams.MATCH_PARENT,
-					MeasureSpec.EXACTLY);
-			int heightMeasureSpec = MeasureSpec.makeMeasureSpec(RelativeLayout.LayoutParams.WRAP_CONTENT,
-					MeasureSpec.EXACTLY);
-			tempFlight.measure(widthMeasureSpec, heightMeasureSpec);
-
-			padding += tempFlight.getMeasuredHeight();
 		}
 	}
 

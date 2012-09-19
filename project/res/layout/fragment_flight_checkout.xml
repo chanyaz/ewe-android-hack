@@ -1,195 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_inbound_flight"
-    android:fillViewport="true"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#33000000"
-        android:orientation="vertical" >
+        android:layout_marginBottom="-10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/expedia_account"
+        android:textAllCaps="true"
+        android:textColor="#BBFFFFFF"
+        android:textSize="@dimen/data_form_section_header_text" />
 
-        <include
-            android:id="@+id/date_and_travlers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/section_display_flight_info_travelers_date_bar" />
+    <include
+        android:id="@+id/account_button_root"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        layout="@layout/include_account_button" />
 
-        <!-- <LinearLayout -->
-        <!-- android:layout_width="match_parent" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:orientation="vertical" -->
-        <!-- android:paddingBottom="10dp" -->
-        <!-- android:paddingLeft="10dp" -->
-        <!-- android:paddingRight="10dp" -->
-        <!-- android:paddingTop="0dp" > -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/checkout_information"
+        android:textAllCaps="true"
+        android:textColor="#BBFFFFFF"
+        android:textSize="@dimen/data_form_section_header_text" />
 
-        <RelativeLayout
-            android:id="@+id/flight_legs_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="0dp" >
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="-10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/expedia_account"
-            android:textAllCaps="true"
-            android:textColor="#BBFFFFFF"
-            android:textSize="@dimen/data_form_section_header_text" />
-
-        <include
-            android:id="@+id/account_button_root"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            layout="@layout/include_account_button" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/checkout_information"
-            android:textAllCaps="true"
-            android:textColor="#BBFFFFFF"
-            android:textSize="@dimen/data_form_section_header_text" />
+    <LinearLayout
+        android:id="@+id/payment_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@color/flight_checkout_opaque_white"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:showDividers="middle" >
 
         <LinearLayout
-            android:id="@+id/payment_container"
+            android:id="@+id/traveler_info_btn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="@color/flight_checkout_opaque_white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="visible" >
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0"
+                android:src="@drawable/ic_traveler" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/enter_traveler_info"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/travelers_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:showDividers="middle" >
+            android:visibility="gone" >
 
-            <LinearLayout
-                android:id="@+id/traveler_info_btn"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+            <!-- This container gets filled with travelers -->
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/payment_div_one"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#661F1F1F" />
+
+        <LinearLayout
+            android:id="@+id/payment_info_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="visible" >
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="visible" >
+                android:layout_weight="0"
+                android:src="@drawable/ic_credit_card" />
 
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="0"
-                    android:src="@drawable/ic_traveler" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/enter_traveler_info"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/travelers_container"
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="vertical"
-                android:visibility="gone" >
-
-                <!-- This container gets filled with travelers -->
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/payment_div_one"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:background="#661F1F1F" />
-
-            <LinearLayout
-                android:id="@+id/payment_info_btn"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="visible" >
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="0"
-                    android:src="@drawable/ic_credit_card" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/enter_payment_info"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <include
-                android:id="@+id/creditcard_section_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                layout="@layout/section_display_creditcard_btn" />
-
-            <include
-                android:id="@+id/stored_creditcard_section_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                layout="@layout/section_display_stored_credit_card" />
+                android:layout_weight="1"
+                android:text="@string/enter_payment_info"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <include
-            android:id="@+id/price_bar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            layout="@layout/section_display_flight_trip_price_bar" />
-
-        <Button
-            android:id="@+id/review_btn"
+            android:id="@+id/creditcard_section_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/btn_small_yellow"
-            android:text="@string/review_btn" />
-        <!-- </LinearLayout> -->
+            layout="@layout/section_display_creditcard_btn" />
+
+        <include
+            android:id="@+id/stored_creditcard_section_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            layout="@layout/section_display_stored_credit_card" />
     </LinearLayout>
 
-</ScrollView>
+    <Button
+        android:id="@+id/review_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/btn_small_yellow"
+        android:text="@string/review_btn" />
+    <!-- </LinearLayout> -->
+
+</LinearLayout>

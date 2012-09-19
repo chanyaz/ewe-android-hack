@@ -158,11 +158,16 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Choose a Stored Payment Method</string>
 
+
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
     <string name="total_price_label">Total Price</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Your trip to %1$s</string>
+    <!-- Includes taxes and fees -->
+    <string name="includes_taxes_and_fees">Includes taxes and fees.</string>
+    <!-- Date and trip from _ to _ -->
+    <string name="trip_to_with_date">%1$s: %2$s to %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
