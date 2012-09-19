@@ -181,7 +181,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		// Special case if no urgency and no recommendations: hide this while banner section.
 		else if (percentRecommend == 0 && numReviews == 0) {
 			view.findViewById(R.id.reviews_summary_layout).setVisibility(View.GONE);
-			view.findViewById(R.id.horizontal_sep).setVisibility(View.GONE);
+			view.findViewById(R.id.reviews_banner_divider).setVisibility(View.GONE);
 			return;
 		}
 

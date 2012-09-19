@@ -72,6 +72,7 @@
     <color name="row_background">#ececec</color>
     <color name="row_background_review">#f1f1f1</color>
     <color name="user_review_separator">#dddddd</color>
+    <color name="hotel_details_separator">#d1d1d1</color>
     <color name="row_background_fade_end">#f1f1f1</color>
     <color name="header_background">#ccc</color>
     <color name="header_text">#777</color>

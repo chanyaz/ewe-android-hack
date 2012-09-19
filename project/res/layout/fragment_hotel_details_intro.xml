@@ -61,7 +61,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
             android:layout_toLeftOf="@+id/user_review_layout"
-            android:background="#d1d1d1"
+            android:background="@color/hotel_details_separator"
             android:visibility="gone" />
 
         <TextView
@@ -80,7 +80,7 @@
     </RelativeLayout>
 
     <FrameLayout
-        android:id="@+id/horizontal_sep"
+        android:id="@+id/reviews_banner_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/one_di_pixel"
         android:background="#efefef" >
@@ -90,7 +90,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="#d1d1d1" />
+            android:background="@color/hotel_details_separator" />
     </FrameLayout>
 
     <!-- Hotel intro paragraph -->

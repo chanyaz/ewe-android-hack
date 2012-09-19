@@ -8,14 +8,20 @@
         layout="@layout/include_amenities"
         android:visibility="visible" />
 
-    <View
+    <FrameLayout
         android:id="@+id/amenities_divider"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/two_pixels"
-        android:layout_marginBottom="6dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/divider"
-        android:visibility="visible" />
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one_di_pixel"
+        android:layout_marginTop="5dp"
+        android:background="#efefef" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/hotel_details_separator" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/description_details_sections_container"
