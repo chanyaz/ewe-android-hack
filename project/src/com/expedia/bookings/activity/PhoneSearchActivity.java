@@ -847,6 +847,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
 		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
 
+		// Push actions into the overflow in landscape mode
+		int orientation = getWindowManager().getDefaultDisplay().getOrientation();
+		final boolean shouldShowMenuItems = orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180;
+		final int menuFlags = shouldShowMenuItems ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_NEVER;
+		menu.findItem(R.id.menu_select_sort).setShowAsActionFlags(menuFlags);
+		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
+		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
