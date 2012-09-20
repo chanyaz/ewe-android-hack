@@ -19,7 +19,7 @@
             android:id="@+id/thumbnail_image_view"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:background="@drawable/thumbnail_border"
+            android:background="@drawable/bg_rooms_hotel_photo"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image_placeholder" />
 

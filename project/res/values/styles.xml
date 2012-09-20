@@ -129,6 +129,14 @@
 
     <!-- TODO: get rid of all RatingBarSmall <<<<<<< -->
 
+	<style name="ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/progress_large_holo</item>
+        <item name="android:minWidth">76dp</item>
+        <item name="android:maxWidth">76dp</item>
+        <item name="android:minHeight">76dp</item>
+        <item name="android:maxHeight">76dp</item>
+	</style>
+	
     <style name="RatingBar">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:thumb">@null</item>
