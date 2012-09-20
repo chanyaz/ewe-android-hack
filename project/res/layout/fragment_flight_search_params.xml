@@ -48,6 +48,7 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_departure_airport"
                 android:imeOptions="flagNoExtractUi|actionNext"
+                android:inputType="textNoSuggestions"
                 android:singleLine="true" />
 
             <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
@@ -58,6 +59,7 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_arrival_airport"
                 android:imeOptions="flagNoExtractUi|actionNext"
+                android:inputType="textNoSuggestions"
                 android:singleLine="true" />
         </LinearLayout>
 
@@ -81,17 +83,16 @@
                     android:hint="@string/hint_select_departure"
                     android:singleLine="true"
                     android:textColor="#999999" />
-                
+
                 <ImageView
                     android:id="@+id/clear_dates_btn"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/btn_cancel_normal"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:visibility="gone"
-                    />
+                    android:src="@drawable/btn_cancel_normal"
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <ImageButton
