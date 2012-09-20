@@ -150,7 +150,21 @@ public class Location implements JSONable {
 
 		Location other = (Location) o;
 
-		return toJson().equals(other.toJson());
+		return (mStreetAddress == null) == (other.mStreetAddress == null)
+				&& (mStreetAddress == null || mStreetAddress.equals(other.mStreetAddress))
+				&& ((mDescription == null) == (other.mDescription == null))
+				&& (mDescription == null || mDescription.equals(other.mDescription))
+				&& ((mCity == null) == (other.mCity == null))
+				&& (mCity == null || mCity.equals(other.mCity))
+				&& ((mStateCode == null) == (other.mStateCode == null))
+				&& (mStateCode == null || mStateCode.equals(other.mStateCode))
+				&& ((mCountryCode == null) == (other.mCountryCode == null))
+				&& (mCountryCode == null || mCountryCode.equals(other.mCountryCode))
+				&& ((mPostalCode == null) == (other.mPostalCode == null))
+				&& (mPostalCode == null || mPostalCode.equals(other.mPostalCode))
+				&& ((mDestinationId == null) == (other.mDestinationId == null))
+				&& (mDestinationId == null || mDestinationId.equals(other.mDestinationId))
+				&& mLatitude == other.mLatitude && mLongitude == other.mLongitude;
 	}
 
 	@Override
