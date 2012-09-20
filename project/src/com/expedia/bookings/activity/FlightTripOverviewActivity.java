@@ -22,6 +22,7 @@ import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -42,6 +43,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	private FlightTripOverviewFragment mOverviewFragment;
 	private FlightTripPriceFragment mPriceFragment;
+	private FlightTripPriceFragment mPriceBottomFragment;
 	private FlightCheckoutFragment mCheckoutFragment;
 
 	private ViewGroup mOverviewContainer;
@@ -110,11 +112,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		pricebarTransaction.commit();
 
 		FragmentTransaction bottomBarTrans = getSupportFragmentManager().beginTransaction();
-		FlightTripPriceFragment priceBottom = Ui.findSupportFragment(this, TAG_PRICE_BAR_BOTTOM_FRAG);
-		if (priceBottom == null) {
-			priceBottom = FlightTripPriceFragment.newInstance();
+		mPriceBottomFragment = Ui.findSupportFragment(this, TAG_PRICE_BAR_BOTTOM_FRAG);
+		if (mPriceBottomFragment == null) {
+			mPriceBottomFragment = FlightTripPriceFragment.newInstance();
 		}
-		bottomBarTrans.add(R.id.trip_price_container_bottom, priceBottom, TAG_PRICE_BAR_BOTTOM_FRAG);
+		bottomBarTrans.add(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
 		bottomBarTrans.commit();
 
 		//TODO: for now we attach this here, but we should do it after initial create and before any animation
@@ -140,6 +142,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		super.onResume();
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
 			gotoCheckoutMode(false);
+		}else{
+			gotoOverviewMode(false);
 		}
 	}
 
@@ -175,7 +179,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	public void gotoCheckoutMode(boolean animate) {
 		int duration = animate ? ANIMATION_DURATION : 1;
-
+		
 		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 			mCheckoutContainer.setPadding(0, mOverviewFragment.getStackedHeight(), 0, 0);
 			Animator slideIn = getCheckoutShowAnimator();
@@ -184,6 +188,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			AnimatorSet animSet = new AnimatorSet();
 			animSet.playTogether(slideIn, priceSlide);
 			animSet.setDuration(duration);
+			
 			mOverviewFragment.stackCards(animate);
 			animSet.start();
 
@@ -212,6 +217,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			@Override
 			public void onAnimationEnd(Animator arg0) {
 				mPriceContainer.setVisibility(View.GONE);
+				mPriceContainer.invalidate();
 				mPriceContainerBottom.setVisibility(View.VISIBLE);
 			}
 
@@ -237,7 +243,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				mPriceContainer.setVisibility(View.VISIBLE);
 			}
 
 			@Override
@@ -272,6 +277,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			@Override
 			public void onAnimationStart(Animator arg0) {
 				mCheckoutContainer.setVisibility(View.VISIBLE);
+				ObjectAnimator restoreAlpha = ObjectAnimator.ofFloat(mCheckoutContainer, "alpha", 0f, 1f);
+				restoreAlpha.setDuration(1);
+				restoreAlpha.start();
 			}
 		});
 		return mover;
@@ -315,9 +323,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				@Override
 				public void onAnimationEnd(Animator arg0) {
 					mCheckoutContainer.setVisibility(View.GONE);
-					ObjectAnimator restoreAlpha = ObjectAnimator.ofFloat(mCheckoutContainer, "alpha", 0f, 1f);
-					restoreAlpha.setDuration(1);
-					restoreAlpha.start();
 				}
 
 				@Override

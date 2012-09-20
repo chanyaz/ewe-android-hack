@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -8,6 +8,7 @@
         android:id="@+id/date_and_travlers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         layout="@layout/section_display_flight_info_travelers_date_bar" />
 
     <RelativeLayout
@@ -16,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_alignParentTop="true"
         android:orientation="vertical" >
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
