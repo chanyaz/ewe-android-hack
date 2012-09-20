@@ -400,8 +400,8 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 		// grab and assert values from FlightSearchParams (from Db)
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 
-		assertEquals(air1, params.getDepartureAirportCode());
-		assertEquals(air2, params.getArrivalAirportCode());
+		assertEquals(air1, params.getDepartureLocation().getDestinationId());
+		assertEquals(air2, params.getArrivalLocation().getDestinationId());
 		if (assertDate) {
 			assertEquals(expectedDay, new Time(params.getDepartureDate().getCalendar()));
 		}

@@ -1,11 +1,13 @@
 package com.expedia.bookings.test.tests.unit;
 
+import java.util.LinkedList;
+
+import junit.framework.TestCase;
+
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.FlightSearchLeg;
 import com.expedia.bookings.data.FlightSearchParams;
-import junit.framework.TestCase;
-
-import java.util.LinkedList;
+import com.expedia.bookings.data.Location;
 
 public class FlightSearchParamsTest extends TestCase {
 
@@ -74,24 +76,30 @@ public class FlightSearchParamsTest extends TestCase {
 
 	public void testDepartureAirportCode() {
 		String airport = "DTW";
+		Location location = new Location();
+		location.setDestinationId(airport);
 		FlightSearchParams searchParams = new FlightSearchParams();
-		searchParams.setDepartureAirportCode(airport);
+		searchParams.setDepartureLocation(location);
 
-		assertEquals(airport, searchParams.getDepartureAirportCode());
+		assertEquals(airport, searchParams.getDepartureLocation().getDestinationId());
 	}
 
 	public void testSetReturnDateTriggersEnsureRoundTripMode() {
 		String airport1 = "DTW";
 		String airport2 = "SFO";
+		Location location1 = new Location();
+		location1.setDestinationId(airport1);
+		Location location2 = new Location();
+		location2.setDestinationId(airport2);
 		FlightSearchParams searchParams = new FlightSearchParams();
-		searchParams.setDepartureAirportCode(airport1);
-		searchParams.setArrivalAirportCode(airport2);
+		searchParams.setDepartureLocation(location1);
+		searchParams.setArrivalLocation(location2);
 
 		searchParams.setDepartureDate(new Date());
 		searchParams.setReturnDate(new Date());
 
-		assertEquals(airport1, searchParams.getQueryLeg(1).getArrivalAirportCode());
-		assertEquals(airport2, searchParams.getQueryLeg(1).getDepartureAirportCode());
+		assertEquals(airport1, searchParams.getQueryLeg(1).getArrivalLocation().getDestinationId());
+		assertEquals(airport2, searchParams.getQueryLeg(1).getDepartureLocation().getDestinationId());
 	}
 
 	public void testDepartureDate() {
@@ -104,10 +112,12 @@ public class FlightSearchParamsTest extends TestCase {
 
 	public void testArrivalAirportCode() {
 		String airport = "SFO";
+		Location location = new Location();
+		location.setDestinationId(airport);
 		FlightSearchParams searchParams = new FlightSearchParams();
-		searchParams.setArrivalAirportCode(airport);
+		searchParams.setArrivalLocation(location);
 
-		assertEquals(airport, searchParams.getArrivalAirportCode());
+		assertEquals(airport, searchParams.getArrivalLocation().getDestinationId());
 	}
 
 }
