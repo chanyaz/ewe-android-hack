@@ -110,6 +110,11 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 	public Location getLocation(int position) {
 		Cursor c = getCursor();
+
+		if (c == null || c.getCount() <= position) {
+			return null;
+		}
+
 		c.moveToPosition(position);
 
 		Location loc = new Location();

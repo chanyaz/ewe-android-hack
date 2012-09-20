@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -338,7 +339,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 		int titleStrId = (mLegPosition == 0) ? R.string.outbound_TEMPLATE : R.string.inbound_TEMPLATE;
 		Location location = (mLegPosition == 0) ? params.getArrivalLocation() : params.getDepartureLocation();
-		mTitleTextView.setText(getString(titleStrId, location.getCity()));
+		String city = location.getCity();
+		if (TextUtils.isEmpty(city)) {
+			city = location.getDestinationId();
+		}
+		mTitleTextView.setText(getString(titleStrId, city));
 
 		// Configure subtitle based on which user the leg is selecting
 		Date date = (mLegPosition == 0) ? params.getDepartureDateWithDefault() : params.getReturnDate();

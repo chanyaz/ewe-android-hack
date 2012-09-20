@@ -277,11 +277,32 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				mItemClicked = false;
 			}
 			else {
-				// We lost focus, but the user did not select a new airport - revert to the old one
+				// We lost focus, but the user did not select a new airport.  Here's the logic:
+				// 
+				// 1. If the autocomplete has suggestions, use the first one.
+				// 2. If there are no suggestions but there was text, just use that
+				// 3. If the textview was empty, revert back to the original search param
+				Location location = mAirportAdapter.getLocation(0);
+				if (location == null) {
+					TextView tv = (TextView) v;
+					if (!TextUtils.isEmpty(tv.getText())) {
+						location = new Location();
+						location.setDestinationId(tv.getText().toString());
+					}
+				}
+
 				if (v == mDepartureAirportEditText) {
+					if (location != null) {
+						mSearchParams.setDepartureLocation(location);
+					}
+
 					updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
 				}
 				else {
+					if (location != null) {
+						mSearchParams.setArrivalLocation(location);
+					}
+
 					updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
 				}
 			}
@@ -294,7 +315,12 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void updateAirportText(TextView textView, Location location) {
-		textView.setText(location.getDescription());
+		if (!TextUtils.isEmpty(location.getDescription())) {
+			textView.setText(location.getDescription());
+		}
+		else {
+			textView.setText(location.getDestinationId());
+		}
 	}
 
 	private void expandAirportEditText(View focusView) {

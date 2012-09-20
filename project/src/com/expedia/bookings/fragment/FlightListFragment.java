@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,6 +156,10 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			else {
 				FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 				Location location = (mLegPosition == 0) ? params.getArrivalLocation() : params.getDepartureLocation();
+				String city = location.getCity();
+				if (TextUtils.isEmpty(city)) {
+					city = location.getDestinationId();
+				}
 				mNumFlightsTextView.setText(getResources().getQuantityString(R.plurals.num_flights_to_destination,
 						count, count, location.getCity()).toUpperCase());
 			}
