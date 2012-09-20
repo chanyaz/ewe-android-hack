@@ -7,9 +7,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +20,25 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.AirportAutocompleteProvider;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.RecentList;
 import com.mobiata.android.util.Ui;
 
 public class AirportDropDownAdapter extends CursorAdapter {
+	// Where we save the recent airport searches
+	public static final String RECENT_AIRPORTS_FILE = "recent-airports-list.dat";
 
 	private Map<String, String> mCountryCodeMap;
 
 	private ContentResolver mContent;
 
+	private RecentList<Location> mRecentSearches;
+
 	public AirportDropDownAdapter(Context context) {
 		super(context, null, 0);
 
 		mContent = context.getContentResolver();
+
+		mRecentSearches = new RecentList<Location>(Location.class, context, RECENT_AIRPORTS_FILE);
 
 		Resources r = context.getResources();
 		mCountryCodeMap = new HashMap<String, String>();
@@ -42,11 +51,26 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 	@Override
 	public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
-		Uri uri = Uri.withAppendedPath(
-				AirportAutocompleteProvider.CONTENT_FILTER_URI,
-				Uri.encode(constraint.toString()));
+		if (TextUtils.isEmpty(constraint)) {
+			int a = 0;
+			MatrixCursor cursor = new MatrixCursor(AirportAutocompleteProvider.COLUMNS);
+			for (Location location : mRecentSearches.getList()) {
+				Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
+				row[0] = a++;
+				row[1] = location.getCity();
+				row[2] = location.getDescription();
+				row[3] = location.getDestinationId();
+				cursor.addRow(row);
+			}
+			return cursor;
+		}
+		else {
+			Uri uri = Uri.withAppendedPath(
+					AirportAutocompleteProvider.CONTENT_FILTER_URI,
+					Uri.encode(constraint.toString()));
 
-		return mContent.query(uri, null, null, null, null);
+			return mContent.query(uri, null, null, null, null);
+		}
 	}
 
 	@Override
@@ -99,8 +123,15 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	//////////////////////////////////////////////////////////////////////////
 	// RecentSearchList interaction
 
-	public void onAirportSelected(String airportCode) {
-		// TODO: Save airport code to recents?
+	public void onAirportSelected(Location location) {
+		mRecentSearches.addItem(location);
+
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				mRecentSearches.saveList(mContext, RECENT_AIRPORTS_FILE);
+			}
+		})).start();
 	}
 
 }

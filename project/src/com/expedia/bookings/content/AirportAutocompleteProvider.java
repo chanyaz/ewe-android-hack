@@ -52,13 +52,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 
 		MatrixCursor cursor = new MatrixCursor(COLUMNS);
 
-		if (TextUtils.isEmpty(query)) {
-			// TODO: Re-add recent search list
-		}
-		else {
-			// Cancel the last request, if there was one.
-			mServices.onCancel();
-
+		if (!TextUtils.isEmpty(query)) {
 			// Start a new request
 			SuggestResponse response = mServices.suggest(query, ExpediaServices.F_FLIGHTS);
 			if (response != null) {

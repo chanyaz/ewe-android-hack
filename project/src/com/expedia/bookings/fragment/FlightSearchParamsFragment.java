@@ -128,7 +128,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				Location location = mAirportAdapter.getLocation(position);
 				if (location != null) {
 					mSearchParams.setDepartureLocation(location);
-					// TODO: Save to recents
+					mAirportAdapter.onAirportSelected(location);
 				}
 				updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
 
@@ -144,7 +144,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				Location location = mAirportAdapter.getLocation(position);
 				if (location != null) {
 					mSearchParams.setArrivalLocation(location);
-					// TODO: Save to recents
+					mAirportAdapter.onAirportSelected(location);
 				}
 				updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
 
