@@ -213,6 +213,19 @@
     <!-- Checkout Information label -->
     <string name="checkout_information">Checkout Information</string>
 
+    
+    <!-- Cost breakdown dialog -->
+    <!-- Cost Summary -->
+    <string name="cost_summary">Cost Summary</string>
+    <!-- Expedia booking fee -->
+    <string name="expedia_booking_fee">Expedia Booking Fee</string>
+    <!-- Flight -->
+    <string name="flight">Flight</string>
+    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
+    <string name="traveler_num_and_category_TEMPLATE">Traveler %1$d - %2$s</string>
+    <!-- Adult -->
+    <string name="adult">Adult</string>
+    
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Enter Traveler Information</string>

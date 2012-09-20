@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionFlightTrip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <com.gridlayout.GridLayout
+        android:id="@+id/grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        gridlayout:alignmentMode="alignMargins"
+        gridlayout:columnCount="2"
+        gridlayout:rowOrderPreserved="false"
+        gridlayout:useDefaultMargins="true" >
+
+        <TextView
+            android:id="@+id/travler_num_and_category"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/display_total_price"
+            android:textSize="18sp"
+            android:layout_gravity="right"
+            android:textStyle="bold" />
+
+        <TextView
+            android:text="@string/flight"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/display_subtotal"
+            android:layout_gravity="right"
+            android:textSize="18sp" />
+
+        <TextView
+            android:text="@string/TaxesAndFees"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/display_taxes_and_fees"
+            android:layout_gravity="right"
+            android:textSize="18sp" />
+    </com.gridlayout.GridLayout>
+
+</com.expedia.bookings.section.SectionFlightTrip>

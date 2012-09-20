@@ -56,7 +56,6 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 	public void bind(FlightTrip trip) {
 		//Update fields
 		mTrip = trip;
-
 		if (mTrip != null) {
 			for (SectionField<?, FlightTrip> field : mFields) {
 				field.bindData(mTrip);
@@ -91,7 +90,8 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 			field.setText((data.getTotalFare() != null) ? data.getTotalFare().getFormattedMoney() : "");
 		}
 	};
-
+	
+	
 	//////////////////////////////////////
 	////// EDIT FIELDS
 	//////////////////////////////////////

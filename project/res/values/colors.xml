@@ -5,7 +5,7 @@
     <color name="trip_info_text">#FEFEFE</color>
     <color name="airport_text">#9EA8B6</color>
     <color name="airport_text_shadow">#F3F3F3</color>
-    <color name="divider_grey">#B3B3B3</color>
+    <color name="divider_grey">#DCDCDC</color>
     <color name="data_entry_text">#121212</color>
     <color name="data_entry_heading">#1D5380</color>
     <color name="data_entry_heading_divider">#37658D</color>
