@@ -47,16 +47,14 @@ public class SectionGeneralFlightInfo extends LinearLayout {
 		if (trip != null) {
 			mTrip = trip;
 			Calendar depDate = mTrip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
+			Calendar retDate = mTrip.getLeg(mTrip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
 			mNumberOfTravlers = numTravelers;
 
 			if (mDepartureDateTextView != null) {
-				String monthStr = DateUtils.getMonthString(depDate.get(Calendar.MONTH), DateUtils.LENGTH_LONG);
-				int day = depDate.get(Calendar.DAY_OF_MONTH);
-				int year = depDate.get(Calendar.YEAR);
-
-				String date = String
-						.format(getResources().getString(R.string.long_form_date_TEMPLATE), monthStr, day, year);
-				mDepartureDateTextView.setText(date);
+				String dateRange = DateUtils.formatDateRange(getContext(), depDate.getTimeInMillis(),
+						retDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
+								| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+				mDepartureDateTextView.setText(dateRange);
 			}
 		}
 
