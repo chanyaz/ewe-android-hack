@@ -211,6 +211,10 @@
             android:name="com.expedia.bookings.content.AutocompleteProvider"
             android:authorities="com.expedia.booking.autocomplete" />
 
+        <provider
+            android:name="com.expedia.bookings.content.AirportAutocompleteProvider"
+            android:authorities="com.expedia.booking.autocomplete.air" />
+
         <!-- Boot stuff -->
         <receiver android:name=".activity.LocaleChangeReceiver" >
             <intent-filter>

@@ -747,6 +747,8 @@ public class ExpediaServices implements DownloadListener {
 			Log.v("Received cookies: " + cookieStore.toString());
 
 			cookieStore.save(mContext, COOKIES_FILE);
+
+			mRequest = null;
 		}
 
 		return null;
@@ -904,9 +906,10 @@ public class ExpediaServices implements DownloadListener {
 
 	@Override
 	public void onCancel() {
-		Log.i("Cancelling download!");
-		mCancellingDownload = true;
 		if (mRequest != null) {
+			Log.i("Cancelling download!");
+			mCancellingDownload = true;
+
 			// If we're on the main thread, then run the abort
 			// in its own thread (to avoid network calls in
 			// main thread).  If we're not, feel free to just
@@ -916,11 +919,13 @@ public class ExpediaServices implements DownloadListener {
 					@Override
 					public void run() {
 						mRequest.abort();
+						mRequest = null;
 					}
 				})).start();
 			}
 			else {
 				mRequest.abort();
+				mRequest = null;
 			}
 		}
 	}

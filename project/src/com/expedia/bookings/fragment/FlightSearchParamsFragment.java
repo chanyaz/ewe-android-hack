@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -97,14 +96,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		mAirportAdapter = new AirportDropDownAdapter(activity);
-		mAirportAdapter.openDb();
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_flight_search_params, container, false);
 
@@ -124,6 +115,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mDimmerView.setVisibility(View.VISIBLE);
 		}
 
+		mAirportAdapter = new AirportDropDownAdapter(getActivity());
 		mDepartureAirportEditText.setAdapter(mAirportAdapter);
 		mArrivalAirportEditText.setAdapter(mAirportAdapter);
 
@@ -245,13 +237,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		outState.putBoolean(INSTANCE_SHOW_CALENDAR, mCalendarDatePicker.getVisibility() == View.VISIBLE);
 		JSONUtils.putJSONable(outState, INSTANCE_PARAMS, mSearchParams);
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-
-		mAirportAdapter.closeDb();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
