@@ -127,30 +127,30 @@ public class FlightSearchParams implements JSONable {
 		}
 	}
 
-	public void setDepartureAirportCode(String airportCode) {
-		mQueryLegs.get(0).setDepartureAirportCode(airportCode);
+	public void setDepartureLocation(Location location) {
+		mQueryLegs.get(0).setDepartureLocation(location);
 
 		// set up the return leg arrival airport code in anticipation
 		if (isRoundTrip()) {
-			mQueryLegs.get(1).setArrivalAirportCode(airportCode);
+			mQueryLegs.get(1).setArrivalLocation(location);
 		}
 	}
 
-	public String getDepartureAirportCode() {
-		return mQueryLegs.get(0).getDepartureAirportCode();
+	public Location getDepartureLocation() {
+		return mQueryLegs.get(0).getDepartureLocation();
 	}
 
-	public void setArrivalAirportCode(String airportCode) {
-		mQueryLegs.get(0).setArrivalAirportCode(airportCode);
+	public void setArrivalLocation(Location location) {
+		mQueryLegs.get(0).setArrivalLocation(location);
 
 		// set up the return leg departure airport code in anticipation
 		if (isRoundTrip()) {
-			mQueryLegs.get(1).setDepartureAirportCode(airportCode);
+			mQueryLegs.get(1).setDepartureLocation(location);
 		}
 	}
 
-	public String getArrivalAirportCode() {
-		return mQueryLegs.get(0).getArrivalAirportCode();
+	public Location getArrivalLocation() {
+		return mQueryLegs.get(0).getArrivalLocation();
 	}
 
 	// If we want this to be a round trip flight, ensures that we have round trip data
@@ -159,8 +159,8 @@ public class FlightSearchParams implements JSONable {
 			FlightSearchLeg departureLeg = mQueryLegs.get(0);
 			FlightSearchLeg returnLeg = new FlightSearchLeg();
 
-			returnLeg.setDepartureAirportCode(departureLeg.getArrivalAirportCode());
-			returnLeg.setArrivalAirportCode(departureLeg.getDepartureAirportCode());
+			returnLeg.setDepartureLocation(departureLeg.getArrivalLocation());
+			returnLeg.setArrivalLocation(departureLeg.getDepartureLocation());
 
 			mQueryLegs.add(returnLeg);
 		}

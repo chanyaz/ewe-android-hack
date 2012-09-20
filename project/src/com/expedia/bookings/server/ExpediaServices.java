@@ -197,8 +197,8 @@ public class ExpediaServices implements DownloadListener {
 		// even though FlightSearchParams can be configured to handle multi-leg flights.
 		//
 		// Once e3 can handle these as well, we will want to update this code.
-		query.add(new BasicNameValuePair("departureAirport", params.getDepartureAirportCode()));
-		query.add(new BasicNameValuePair("arrivalAirport", params.getArrivalAirportCode()));
+		query.add(new BasicNameValuePair("departureAirport", params.getDepartureLocation().getDestinationId()));
+		query.add(new BasicNameValuePair("arrivalAirport", params.getArrivalLocation().getDestinationId()));
 
 		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
 

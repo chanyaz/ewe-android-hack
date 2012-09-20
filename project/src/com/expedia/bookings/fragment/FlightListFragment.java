@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,11 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.SectionFlightLeg.SectionFlightLegListener;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
-import com.mobiata.flightlib.data.Airport;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
@@ -156,15 +154,9 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			}
 			else {
 				FlightSearchParams params = Db.getFlightSearch().getSearchParams();
-				String airportCode = (mLegPosition == 0) ? params.getArrivalAirportCode() : params
-						.getDepartureAirportCode();
-				Airport airport = FlightStatsDbUtils.getAirport(airportCode);
-				String city = airport.mCity;
-				if (TextUtils.isEmpty(city)) {
-					city = airportCode;
-				}
+				Location location = (mLegPosition == 0) ? params.getArrivalLocation() : params.getDepartureLocation();
 				mNumFlightsTextView.setText(getResources().getQuantityString(R.plurals.num_flights_to_destination,
-						count, count, city).toUpperCase());
+						count, count, location.getCity()).toUpperCase());
 			}
 		}
 	}

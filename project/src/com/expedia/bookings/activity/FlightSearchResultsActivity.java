@@ -32,6 +32,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
@@ -52,7 +53,6 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener {
@@ -337,9 +337,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		// Configure the title based on which leg the user is selecting
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 		int titleStrId = (mLegPosition == 0) ? R.string.outbound_TEMPLATE : R.string.inbound_TEMPLATE;
-		String airportCode = (mLegPosition == 0) ? params.getArrivalAirportCode() : params.getDepartureAirportCode();
-		String city = FlightStatsDbUtils.getAirport(airportCode).mCity;
-		mTitleTextView.setText(getString(titleStrId, city != null ? city : airportCode));
+		Location location = (mLegPosition == 0) ? params.getArrivalLocation() : params.getDepartureLocation();
+		mTitleTextView.setText(getString(titleStrId, location.getCity()));
 
 		// Configure subtitle based on which user the leg is selecting
 		Date date = (mLegPosition == 0) ? params.getDepartureDateWithDefault() : params.getReturnDate();

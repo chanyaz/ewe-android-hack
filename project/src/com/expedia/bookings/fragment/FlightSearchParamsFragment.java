@@ -32,14 +32,13 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
-import com.mobiata.flightlib.data.Airport;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
@@ -95,6 +94,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 	}
 
+	private boolean mItemClicked = false;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_flight_search_params, container, false);
@@ -122,6 +123,15 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mDepartureAirportEditText.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				mItemClicked = true;
+
+				Location location = mAirportAdapter.getLocation(position);
+				if (location != null) {
+					mSearchParams.setDepartureLocation(location);
+					// TODO: Save to recents
+				}
+				updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
+
 				mArrivalAirportEditText.requestFocus();
 			}
 		});
@@ -129,6 +139,15 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mArrivalAirportEditText.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				mItemClicked = true;
+
+				Location location = mAirportAdapter.getLocation(position);
+				if (location != null) {
+					mSearchParams.setArrivalLocation(location);
+					// TODO: Save to recents
+				}
+				updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
+
 				mDatesTextView.performClick();
 			}
 		});
@@ -254,45 +273,28 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 				expandAirportEditText(v);
 			}
+			else if (mItemClicked) {
+				mItemClicked = false;
+			}
 			else {
+				// We lost focus, but the user did not select a new airport - revert to the old one
 				if (v == mDepartureAirportEditText) {
-					String airportCode = mDepartureAirportEditText.getText().toString().toUpperCase();
-					if (!TextUtils.isEmpty(airportCode)) {
-						mSearchParams.setDepartureAirportCode(airportCode);
-						mAirportAdapter.onAirportSelected(airportCode);
-					}
-					updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureAirportCode());
+					updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
 				}
 				else {
-					String airportCode = mArrivalAirportEditText.getText().toString().toUpperCase();
-					if (!TextUtils.isEmpty(airportCode)) {
-						mSearchParams.setArrivalAirportCode(airportCode);
-						mAirportAdapter.onAirportSelected(airportCode);
-					}
-					updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalAirportCode());
+					updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
 				}
 			}
 		}
 	};
 
 	private void updateAirportText() {
-		updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureAirportCode());
-		updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalAirportCode());
+		updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
+		updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
 	}
 
-	private void updateAirportText(TextView textView, String airportCode) {
-		Airport airport = FlightStatsDbUtils.getAirport(airportCode);
-		if (airport == null) {
-			textView.setText(null);
-		}
-		else {
-			String city = airport.mCity;
-			if (TextUtils.isEmpty(city)) {
-				city = getString(R.string.custom_code);
-			}
-			String str = getString(R.string.search_airport_TEMPLATE, airport.mAirportCode, city);
-			textView.setText(Html.fromHtml(str));
-		}
+	private void updateAirportText(TextView textView, Location location) {
+		textView.setText(location.getDescription());
 	}
 
 	private void expandAirportEditText(View focusView) {

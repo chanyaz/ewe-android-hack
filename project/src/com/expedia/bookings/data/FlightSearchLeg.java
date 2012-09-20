@@ -3,8 +3,6 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
-
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -12,8 +10,8 @@ public class FlightSearchLeg implements JSONable {
 
 	private Date mDepartureDate;
 
-	private String mDepartureAirportCode;
-	private String mArrivalAirportCode;
+	private Location mDepartureLocation;
+	private Location mArrivalLocation;
 
 	public FlightSearchLeg() {
 	}
@@ -26,29 +24,37 @@ public class FlightSearchLeg implements JSONable {
 		mDepartureDate = departureDate;
 	}
 
-	public String getDepartureAirportCode() {
-		if (TextUtils.isEmpty(mDepartureAirportCode)) {
+	public Location getDepartureLocation() {
+		if (mDepartureLocation == null) {
 			// Default return if we haven't had a departure setup yet
-			return "MSP";
+			Location loc = new Location();
+			loc.setDestinationId("MSP");
+			loc.setCity("Minneapolis - Default");
+			loc.setDescription("MSP - Default");
+			return loc;
 		}
-		return mDepartureAirportCode;
+		return mDepartureLocation;
 	}
 
-	public void setDepartureAirportCode(String departureAirportCode) {
-		mDepartureAirportCode = departureAirportCode;
+	public void setDepartureLocation(Location departureAirportCode) {
+		mDepartureLocation = departureAirportCode;
 	}
 
-	public String getArrivalAirportCode() {
-		if (TextUtils.isEmpty(mArrivalAirportCode)) {
+	public Location getArrivalLocation() {
+		if (mArrivalLocation == null) {
 			// Default return if we haven't had an arrival setup yet
-			return "SMF";
+			Location loc = new Location();
+			loc.setDestinationId("SMF");
+			loc.setCity("Sacramento - Default");
+			loc.setDescription("SMF - Default");
+			return loc;
 		}
 
-		return mArrivalAirportCode;
+		return mArrivalLocation;
 	}
 
-	public void setArrivalAirportCode(String arrivalAirportCode) {
-		mArrivalAirportCode = arrivalAirportCode;
+	public void setArrivalLocation(Location arrivalAirportCode) {
+		mArrivalLocation = arrivalAirportCode;
 	}
 
 	@Override
@@ -61,12 +67,12 @@ public class FlightSearchLeg implements JSONable {
 
 		return ((this.mDepartureDate == null) == (other.mDepartureDate == null))
 				&& (this.mDepartureDate == null || this.mDepartureDate.equals(other.mDepartureDate))
-				&& ((this.mDepartureAirportCode == null) == (other.mDepartureAirportCode == null))
-				&& (this.mDepartureAirportCode == null || this.mDepartureAirportCode
-						.equals(other.mDepartureAirportCode))
-				&& ((this.mArrivalAirportCode == null) == (other.mArrivalAirportCode == null))
-				&& (this.mArrivalAirportCode == null || this.mArrivalAirportCode
-						.equals(other.mArrivalAirportCode));
+				&& ((this.mDepartureLocation == null) == (other.mDepartureLocation == null))
+				&& (this.mDepartureLocation == null || this.mDepartureLocation
+						.equals(other.mDepartureLocation))
+				&& ((this.mArrivalLocation == null) == (other.mArrivalLocation == null))
+				&& (this.mArrivalLocation == null || this.mArrivalLocation
+						.equals(other.mArrivalLocation));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -77,8 +83,8 @@ public class FlightSearchLeg implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONable(obj, "departureDate", mDepartureDate);
-			obj.putOpt("departureAirportCode", mDepartureAirportCode);
-			obj.putOpt("arrivalAirportCode", mArrivalAirportCode);
+			JSONUtils.putJSONable(obj, "departureLocation", mDepartureLocation);
+			JSONUtils.putJSONable(obj, "arrivalLocation", mArrivalLocation);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -89,8 +95,8 @@ public class FlightSearchLeg implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mDepartureDate = JSONUtils.getJSONable(obj, "departureDate", Date.class);
-		mDepartureAirportCode = obj.optString("departureAirportCode");
-		mArrivalAirportCode = obj.optString("arrivalAirportCode");
+		mDepartureLocation = JSONUtils.getJSONable(obj, "departureLocation", Location.class);
+		mArrivalLocation = JSONUtils.getJSONable(obj, "arrivalLocation", Location.class);
 		return true;
 	}
 }

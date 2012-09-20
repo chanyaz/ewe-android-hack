@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.AirportAutocompleteProvider;
+import com.expedia.bookings.data.Location;
 import com.mobiata.android.util.Ui;
 
 public class AirportDropDownAdapter extends CursorAdapter {
@@ -81,6 +82,18 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	private static class ViewHolder {
 		private TextView mTextView1;
 		private TextView mTextView2;
+	}
+
+	public Location getLocation(int position) {
+		Cursor c = getCursor();
+		c.moveToPosition(position);
+
+		Location loc = new Location();
+		loc.setDestinationId(c.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_QUERY));
+		loc.setCity(c.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_1));
+		loc.setDescription(c.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_2));
+
+		return loc;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

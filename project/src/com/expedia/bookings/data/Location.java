@@ -21,6 +21,8 @@ public class Location implements JSONable {
 	private double mLongitude;
 
 	// The destination id, used for disambiguation of geocoding results
+	//
+	// Also sometimes used for airport/metro codes
 	private String mDestinationId;
 
 	public List<String> getStreetAddress() {
@@ -138,6 +140,17 @@ public class Location implements JSONable {
 		mLongitude = obj.optDouble("longitude");
 		mDestinationId = obj.optString("destinationId", null);
 		return true;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Location)) {
+			return false;
+		}
+
+		Location other = (Location) o;
+
+		return toJson().equals(other.toJson());
 	}
 
 	@Override
