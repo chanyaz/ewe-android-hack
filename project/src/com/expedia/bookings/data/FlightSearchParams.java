@@ -23,6 +23,10 @@ public class FlightSearchParams implements JSONable {
 		reset();
 	}
 
+	public FlightSearchParams(FlightSearchParams params) {
+		fromJson(params.toJson());
+	}
+
 	public void reset() {
 		mAdults = 1;
 		mChildren.clear();

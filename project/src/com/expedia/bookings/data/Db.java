@@ -479,14 +479,6 @@ public class Db {
 	}
 
 	public static void kickOffBackgroundSave(final Context context) {
-		// #517: Trying to track down issues
-		try {
-			throw new RuntimeException("FAKE EXCEPTION FOR STACK TRACE");
-		}
-		catch (Exception e) {
-			Log.d("Kicking off background flight data save", e);
-		}
-
 		// Kick off a search to cache results to disk, in case app is killed
 		(new Thread(new Runnable() {
 			@Override

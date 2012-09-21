@@ -11,6 +11,8 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.utils.DebugMenu;
@@ -34,12 +36,25 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	// this activity and comes back later (e.g., did a search).
 	private boolean mUpdateOnResume = false;
 
+	// Determines whether we should save the state on pause.  We want to save
+	// when the user is leaving the app, but not if they're simply progressing
+	// forward or they're rotating the screen.
+	private boolean mConfigChange = false;
+	private boolean mSaveState = true;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// On first launch, try to restore cached flight data (in this case, just for the search params)
+		if (savedInstanceState == null) {
+			if (Db.loadCachedFlightData(this)) {
+				Log.i("Restoring search params from disk...");
+			}
+		}
 
 		if (savedInstanceState != null) {
 			mUpdateOnResume = savedInstanceState.getBoolean(INSTANCE_UPDATE_ON_RESUME);
@@ -78,13 +93,35 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	protected void onResume() {
 		super.onResume();
 
+		mSaveState = true;
+
 		//HockeyApp crash
 		mHockeyPuck.onResume();
 
 		if (mUpdateOnResume) {
-			mSearchParamsFragment.setSearchParams(Db.getFlightSearch().getSearchParams());
+			mSearchParamsFragment.setSearchParams(new FlightSearchParams(Db.getFlightSearch().getSearchParams()));
 			mUpdateOnResume = false;
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		// Save the current search params to disc
+		if (mSaveState && !mConfigChange) {
+			FlightSearch search = Db.getFlightSearch();
+			search.reset();
+			search.setSearchParams(mSearchParamsFragment.getSearchParams());
+			Db.kickOffBackgroundSave(this);
+			Log.i("Saved search params to disk.");
+		}
+	}
+
+	@Override
+	public Object onRetainCustomNonConfigurationInstance() {
+		mConfigChange = true;
+		return super.onRetainCustomNonConfigurationInstance();
 	}
 
 	@Override
@@ -127,6 +164,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 			Db.getFlightSearch().setSearchParams(mSearchParamsFragment.getSearchParams());
 			startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 			mUpdateOnResume = true;
+			mSaveState = false;
 			return true;
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
