@@ -295,6 +295,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				if (v == mDepartureAirportEditText) {
 					if (location != null) {
 						mSearchParams.setDepartureLocation(location);
+						mAirportAdapter.onAirportSelected(location);
 					}
 
 					updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
@@ -302,6 +303,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				else {
 					if (location != null) {
 						mSearchParams.setArrivalLocation(location);
+						mAirportAdapter.onAirportSelected(location);
 					}
 
 					updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
