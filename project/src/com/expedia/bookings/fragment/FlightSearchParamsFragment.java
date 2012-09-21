@@ -268,8 +268,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		// Clear adapter so we don't fire off unnecessary requests to it
 		// during a configuration change
 		mFirstAdapterLocation = mAirportAdapter.getLocation(0);
-		mDepartureAirportEditText.setAdapter(null);
-		mArrivalAirportEditText.setAdapter(null);
+		mDepartureAirportEditText.setAdapter((AirportDropDownAdapter) null);
+		mArrivalAirportEditText.setAdapter((AirportDropDownAdapter) null);
 	}
 
 	@Override
