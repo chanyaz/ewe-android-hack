@@ -69,6 +69,13 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			}
 		});
 
+		if (savedInstanceState == null && !ExpediaServices.suppressFinalBooking(this)) {
+			button.setText("Push to book!");
+
+			mTextView.setText("WARNING!  WARNING!\n\nFlight bookings are NOT being suppressed - "
+					+ "a real booking will occur when you hit go!");
+		}
+
 		final SectionBillingInfo ccSecCode = Ui.findView(this, R.id.section_edit_creditcard_security_code);
 		ccSecCode.bind(Db.getBillingInfo());
 		ccSecCode.addChangeListener(new SectionChangeListener() {

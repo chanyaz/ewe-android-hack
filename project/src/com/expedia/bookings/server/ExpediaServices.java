@@ -241,12 +241,19 @@ public class ExpediaServices implements DownloadListener {
 		// Not sure if required?
 		query.add(new BasicNameValuePair("nameOnCard", billingInfo.getNameOnCard()));
 
-		// IMPORTANT: DO NOT REMOVE UNTIL INITIAL TESTING IS DONE.
 		// Checkout calls without this flag can make ACTUAL bookings!
-		query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
+		if (suppressFinalBooking(mContext)) {
+			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
+		}
 
 		return doFlightsRequest("api/flight/checkout2", query, new FlightCheckoutResponseHandler(mContext), flags
 				+ F_SECURE_REQUEST);
+	}
+
+	// Suppress final bookings if we're not in release mode and the preference is set to suppress
+	public static boolean suppressFinalBooking(Context context) {
+		return !AndroidUtils.isRelease(context)
+				&& SettingUtils.get(context, context.getString(R.string.preference_suppress_bookings), true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -23,6 +23,12 @@
             android:key="@string/preference_filter_merchant_properties"
             android:summary="Only return non-merchant hotels for testing"
             android:title="Filter Merchant Hotels" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_suppress_bookings"
+            android:summary="Do flight bookings, but suppress any actual booking from going through"
+            android:title="Suppress Flight Bookings"
+            android:defaultValue="true" />
     </PreferenceCategory>
 
 </PreferenceScreen>
