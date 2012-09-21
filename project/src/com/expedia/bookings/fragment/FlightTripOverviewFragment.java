@@ -242,10 +242,10 @@ public class FlightTripOverviewFragment extends Fragment {
 		if (getActivity() != null && mFlightContainer != null) {
 			int w = getActivity().getResources().getDisplayMetrics().widthPixels;
 			int h = getActivity().getResources().getDisplayMetrics().heightPixels;
-			Log.i("measuring flight container... w:" + w + " h:" + h);
+			Log.v("measuring flight container... w:" + w + " h:" + h);
 			mFlightContainer.measure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.AT_MOST),
 					MeasureSpec.makeMeasureSpec(h, MeasureSpec.AT_MOST));
-			Log.i("FlightContainer MeasuredHeight:" + mFlightContainer.getMeasuredHeight() + " Height:" + mFlightContainer.getHeight());
+			Log.v("FlightContainer MeasuredHeight:" + mFlightContainer.getMeasuredHeight() + " Height:" + mFlightContainer.getHeight());
 		}
 	}
 	
