@@ -1,5 +1,7 @@
 package com.expedia.bookings.server;
 
+import java.util.Iterator;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,6 +11,7 @@ import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
@@ -53,6 +56,24 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 			offer.setPriceChangeAmount(priceChangeAmount);
 		}
 		createItinerary.setOffer(offer);
+
+		// Parse rules
+		JSONObject rulesJson = response.optJSONObject("rules");
+		if (rulesJson != null) {
+			JSONObject rulesTextMap = rulesJson.optJSONObject("RuleToTextMap");
+			JSONObject rulesUrlMap = rulesJson.optJSONObject("RuleToUrlMap");
+
+			@SuppressWarnings("unchecked")
+			Iterator<String> keys = rulesTextMap.keys();
+			while (keys.hasNext()) {
+				String key = keys.next();
+				Rule rule = new Rule();
+				rule.setName(key);
+				rule.setText(rulesTextMap.optString(key));
+				rule.setUrl(rulesUrlMap.optString(key, null));
+				offer.addRule(rule);
+			}
+		}
 
 		// Link the offer/itinerary
 		offer.setItineraryNumber(itinerary.getItineraryNumber());

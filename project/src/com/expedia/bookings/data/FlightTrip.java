@@ -39,6 +39,9 @@ public class FlightTrip implements JSONable {
 	// The associated itinerary (not created until requested)
 	private String mItineraryNumber;
 
+	// Rules associated with offer (will not exist until we have an itinerary)
+	private List<Rule> mRules;
+
 	public String getProductKey() {
 		return mProductKey;
 	}
@@ -134,6 +137,17 @@ public class FlightTrip implements JSONable {
 
 	public void setItineraryNumber(String itineraryNumber) {
 		mItineraryNumber = itineraryNumber;
+	}
+
+	public void addRule(Rule rule) {
+		if (mRules == null) {
+			mRules = new ArrayList<Rule>();
+		}
+		mRules.add(rule);
+	}
+
+	public List<Rule> getRules() {
+		return mRules;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -388,6 +402,8 @@ public class FlightTrip implements JSONable {
 
 			obj.putOpt("itineraryNumber", mItineraryNumber);
 
+			JSONUtils.putJSONableList(obj, "rules", mRules);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -412,6 +428,9 @@ public class FlightTrip implements JSONable {
 		}
 
 		mItineraryNumber = obj.optString("itineraryNumber");
+
+		mRules = JSONUtils.getJSONableList(obj, "rules", Rule.class);
+
 		return true;
 	}
 }
