@@ -3,7 +3,10 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +43,7 @@ public class FlightTrip implements JSONable {
 	private String mItineraryNumber;
 
 	// Rules associated with offer (will not exist until we have an itinerary)
-	private List<Rule> mRules;
+	private Map<String, Rule> mRules;
 
 	public String getProductKey() {
 		return mProductKey;
@@ -141,13 +144,20 @@ public class FlightTrip implements JSONable {
 
 	public void addRule(Rule rule) {
 		if (mRules == null) {
-			mRules = new ArrayList<Rule>();
+			mRules = new HashMap<String, Rule>();
 		}
-		mRules.add(rule);
+		mRules.put(rule.getName(), rule);
 	}
 
-	public List<Rule> getRules() {
-		return mRules;
+	public Rule getRule(String name) {
+		if (mRules == null) {
+			return null;
+		}
+		return mRules.get(name);
+	}
+
+	public Set<String> getRules() {
+		return mRules.keySet();
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -402,7 +412,7 @@ public class FlightTrip implements JSONable {
 
 			obj.putOpt("itineraryNumber", mItineraryNumber);
 
-			JSONUtils.putJSONableList(obj, "rules", mRules);
+			JSONUtils.putJSONableList(obj, "rules", new ArrayList<Rule>(mRules.values()));
 
 			return obj;
 		}
@@ -429,7 +439,12 @@ public class FlightTrip implements JSONable {
 
 		mItineraryNumber = obj.optString("itineraryNumber");
 
-		mRules = JSONUtils.getJSONableList(obj, "rules", Rule.class);
+		List<Rule> rules = JSONUtils.getJSONableList(obj, "rules", Rule.class);
+		if (rules != null) {
+			for (Rule rule : rules) {
+				addRule(rule);
+			}
+		}
 
 		return true;
 	}
