@@ -37,14 +37,6 @@
                 android:orientation="vertical"
                 android:visibility="gone"
                  />
-
-            <LinearLayout
-                android:id="@+id/trip_price_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_below="@id/trip_overview_container"
-                android:orientation="vertical" />
             
         </RelativeLayout>
     </ScrollView>
@@ -54,7 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="0"  
-        android:visibility="gone" />
+        android:layout_weight="0" />
 
 </LinearLayout>
