@@ -195,9 +195,21 @@ public class HotelsRobotHelper {
 
 	public void changePOS(Locale locale) throws Exception {
 		enterLog(TAG, "Changing POS");
-
-		mSolo.pressMenuItem(0); // e.g. "Settings"
-
+		String settingsString = mRes.getString(R.string.Settings);
+		//Sometimes the text displayed hasn't matched the string
+		//for the update locale
+		//This try catch block is a messy fix to be able to do more than one booking
+		try{
+			mSolo.clickOnMenuItem(settingsString, false);
+		}catch(AssertionFailedError E){
+			mSolo.goBack();
+			delay();
+			mSolo.pressMenuItem(1);
+			delay();
+			mSolo.goBack();
+			mSolo.pressMenuItem(0);
+		}
+		
 		String countryHeader = mRes.getString(R.string.preference_point_of_sale_title);
 		mSolo.clickOnText(countryHeader);
 
@@ -206,7 +218,9 @@ public class HotelsRobotHelper {
 		delay(1);
 		mSolo.clickOnText(countrySelection);
 		mSolo.clickOnButton(0);
+		delay(1);
 		mSolo.clickOnButton(0);
+		setSpoofBookings();
 		mSolo.goBack();
 		delay();
 		setLocale(locale);
@@ -234,12 +248,10 @@ public class HotelsRobotHelper {
 	}
 
 	public void setSpoofBookings() {
-		mSolo.pressMenuItem(0);
 		try {
 			if (!mSolo.isCheckBoxChecked(0)) {
 				mSolo.clickOnCheckBox(0);
 			}
-			mSolo.goBack();
 
 		}
 		catch (Exception E) {
@@ -265,9 +277,11 @@ public class HotelsRobotHelper {
 
 	public void selectLocation(String location) throws Exception {
 		enterLog(TAG, "Searching for destination " + location);
-		delay(1);
+		delay(5);
 		mSolo.clickOnEditText(0);
+		delay(1);
 		mSolo.clearEditText(0);
+		delay(1);
 		mSolo.typeText(0, location);
 		delay(3);
 		enterLog(TAG, "Before clicking search button");
@@ -292,15 +306,18 @@ public class HotelsRobotHelper {
 		//solo.clickOnText(getStringFromR(R.string.filter_hotels));
 
 		String filter = mRes.getString(R.string.FILTER);
-
-		enterLog(TAG, "Clicking on label: " + filter);
-		mSolo.clickOnText(filter);
-		mSolo.enterText(0, filterText);
-		delay(1);
-		screenshot("Filtering for " + filterText);
-		mSolo.goBack();
-		delay(1);
-		screenshot("After Filtering for " + filterText);
+		//Korea and Japan do not support filtering because 
+		//most hotel names are in their respective languages' characters
+		if(mRes.getConfiguration().locale != TEST_LOCALES[18] && mRes.getConfiguration().locale != TEST_LOCALES[19]){
+			enterLog(TAG, "Clicking on label: " + filter);
+			mSolo.clickOnText(filter);
+			mSolo.enterText(0, filterText);
+			delay(1);
+			screenshot("Filtering for " + filterText);
+			mSolo.goBack();
+			delay(1);
+			screenshot("After Filtering for " + filterText);
+		}
 	}
 
 	public void pressSort() {
@@ -404,8 +421,10 @@ public class HotelsRobotHelper {
 			enterLog(TAG, "On Rooms and Rates Screen");
 			delay();
 		}
-		else
+		else{
 			enterLog(TAG, "Didn't load after 20 seconds.");
+			delay(5); 
+		}
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -582,7 +601,13 @@ public class HotelsRobotHelper {
 		else {
 			enterLog(TAG, "Never got to confirmation screen.");
 		}
-		mSolo.clickOnText(mRes.getString(R.string.new_search));
+		try {
+			mSolo.clickOnText(mRes.getString(R.string.new_search));
+		}
+		catch (AssertionFailedError E) {
+			enterLog(TAG, "New Search string not localized.");
+			mSolo.clickOnText("NEW SEARCH");
+		}
 		enterLog(TAG, "Back at search!");
 		delay(5);
 	}

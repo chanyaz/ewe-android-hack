@@ -116,7 +116,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	////////////////////////////////////////////////////////////////
 	// Test Driver 
 
-	public void testDriver() throws Exception {
+	public void testMethod() throws Exception {
 		mDriver.setAllowOrientationChange(true);
 		mDriver.setAllowScreenshots(false);
 

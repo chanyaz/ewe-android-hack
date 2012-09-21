@@ -41,23 +41,22 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 	}
 
 	//////////////////////////////////////////////////////////////// 
-	// 
+	// Test Driver
 
 	public void testBooking() throws Exception {
 		mDriver.setAllowScreenshots(true);
 		mDriver.setAllowOrientationChange(false);
 
-		mDriver.setSpoofBookings();
-
 		for (int i = 0; i < mDriver.TEST_LOCALES.length; i++) {
-			mDriver.setAllowScreenshots(true);
+
 			mDriver.enterLog(TAG, "Starting sweep of " + mDriver.TEST_LOCALES[i].toString());
 
 			Locale testingLocale = mDriver.TEST_LOCALES[i];
 			mDriver.setLocale(testingLocale);
 
 			mDriver.setScreenshotCount(1);
-
+			mDriver.setLocale(testingLocale);
+			mDriver.delay();
 			mDriver.changePOS(mDriver.TEST_LOCALES[i]);
 			mDriver.changeAPI("Production");
 			mDriver.delay(2);
@@ -71,7 +70,7 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.pressSort();
 			mDriver.filterFor("Westin");
 
-			mDriver.selectHotel(1);
+			mDriver.selectHotel(0);
 			mDriver.delay();
 
 			mDriver.pressBookRoom();
@@ -82,7 +81,6 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.bookingScreenShots();
 			mDriver.logInAndBook();
 			mDriver.captureInfoScreen();
-
 		}
 	}
 
