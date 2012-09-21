@@ -51,6 +51,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private static final String INSTANCE_SHOW_CALENDAR = "INSTANCE_SHOW_CALENDAR";
 	private static final String INSTANCE_PARAMS = "INSTANCE_PARAMS";
+	private static final String INSTANCE_FIRST_LOCATION = "INSTANCE_FIRST_LOCATION";
 
 	// Controls the ratio of how large a selected EditText should take up
 	// 1 == takes up the full size, 0 == takes up 50%.
@@ -73,6 +74,13 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private AirportDropDownAdapter mAirportAdapter;
 
+	// We have to store this due to the way the airport adapter works.
+	// If you've rotated the screen, we prevent the adapter from
+	// firing another autocomplete request (as it's not shown anyways)
+	// but we still need to know what the first "match" was in case
+	// the user clicks away from the edit text without selecting a location.
+	private Location mFirstAdapterLocation;
+
 	public static FlightSearchParamsFragment newInstance(FlightSearchParams initialParams, boolean dimBackground) {
 		FlightSearchParamsFragment fragment = new FlightSearchParamsFragment();
 		Bundle args = new Bundle();
@@ -91,6 +99,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 		else {
 			mSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_PARAMS, FlightSearchParams.class);
+			mFirstAdapterLocation = JSONUtils.getJSONable(savedInstanceState, INSTANCE_FIRST_LOCATION, Location.class);
 		}
 	}
 
@@ -117,8 +126,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		mAirportAdapter = new AirportDropDownAdapter(getActivity());
-		mDepartureAirportEditText.setAdapter(mAirportAdapter);
-		mArrivalAirportEditText.setAdapter(mAirportAdapter);
 
 		mDepartureAirportEditText.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -245,9 +252,24 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		super.onResume();
 
 		// Don't set the focus change listener until now, so that we can properly
-		// restore the state of the views
+		// restore the state of the views.  Same with the adapter (so it doesn't
+		// constantly fire queries when nothing has changed).
 		mDepartureAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
 		mArrivalAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
+
+		mDepartureAirportEditText.setAdapter(mAirportAdapter);
+		mArrivalAirportEditText.setAdapter(mAirportAdapter);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		// Clear adapter so we don't fire off unnecessary requests to it
+		// during a configuration change
+		mFirstAdapterLocation = mAirportAdapter.getLocation(0);
+		mDepartureAirportEditText.setAdapter(null);
+		mArrivalAirportEditText.setAdapter(null);
 	}
 
 	@Override
@@ -256,6 +278,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		outState.putBoolean(INSTANCE_SHOW_CALENDAR, mCalendarDatePicker.getVisibility() == View.VISIBLE);
 		JSONUtils.putJSONable(outState, INSTANCE_PARAMS, mSearchParams);
+		JSONUtils.putJSONable(outState, INSTANCE_FIRST_LOCATION, mFirstAdapterLocation);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -287,8 +310,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				if (!TextUtils.isEmpty(tv.getText())) {
 					location = mAirportAdapter.getLocation(0);
 					if (location == null) {
-						location = new Location();
-						location.setDestinationId(tv.getText().toString());
+						location = mFirstAdapterLocation;
+						if (location == null) {
+							location = new Location();
+							location.setDestinationId(tv.getText().toString());
+						}
 					}
 				}
 
@@ -309,6 +335,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 					updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
 				}
 			}
+
+			// Regardless anything else, we don't care about the first adapter location at this point
+			mFirstAdapterLocation = null;
 		}
 	};
 
