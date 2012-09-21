@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -160,11 +161,17 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.search:
-			Log.i("Initial search requested!");
-			Db.getFlightSearch().setSearchParams(mSearchParamsFragment.getSearchParams());
-			startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
-			mUpdateOnResume = true;
-			mSaveState = false;
+			FlightSearchParams params = mSearchParamsFragment.getSearchParams();
+			if (!params.isFilled()) {
+				Toast.makeText(this, R.string.toast_flight_search_params_missing, Toast.LENGTH_SHORT).show();
+			}
+			else {
+				Log.i("Initial search requested!");
+				Db.getFlightSearch().setSearchParams(params);
+				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
+				mUpdateOnResume = true;
+				mSaveState = false;
+			}
 			return true;
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);

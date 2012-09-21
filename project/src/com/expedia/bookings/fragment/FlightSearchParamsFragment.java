@@ -316,7 +316,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void updateAirportText(TextView textView, Location location) {
-		if (!TextUtils.isEmpty(location.getDescription())) {
+		if (location == null) {
+			textView.setText(null);
+		}
+		else if (!TextUtils.isEmpty(location.getDescription())) {
 			textView.setText(location.getDescription());
 		}
 		else {

@@ -25,14 +25,6 @@ public class FlightSearchLeg implements JSONable {
 	}
 
 	public Location getDepartureLocation() {
-		if (mDepartureLocation == null) {
-			// Default return if we haven't had a departure setup yet
-			Location loc = new Location();
-			loc.setDestinationId("MSP");
-			loc.setCity("Minneapolis - Default");
-			loc.setDescription("MSP - Default");
-			return loc;
-		}
 		return mDepartureLocation;
 	}
 
@@ -41,15 +33,6 @@ public class FlightSearchLeg implements JSONable {
 	}
 
 	public Location getArrivalLocation() {
-		if (mArrivalLocation == null) {
-			// Default return if we haven't had an arrival setup yet
-			Location loc = new Location();
-			loc.setDestinationId("SMF");
-			loc.setCity("Sacramento - Default");
-			loc.setDescription("SMF - Default");
-			return loc;
-		}
-
 		return mArrivalLocation;
 	}
 

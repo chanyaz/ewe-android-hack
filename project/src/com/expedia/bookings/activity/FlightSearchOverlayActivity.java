@@ -5,12 +5,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
@@ -67,10 +69,16 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.search:
-			Intent intent = new Intent();
-			JSONUtils.putJSONable(intent, EXTRA_SEARCH_PARAMS, mSearchParamsFragment.getSearchParams());
-			setResult(RESULT_OK, intent);
-			finish();
+			FlightSearchParams params = mSearchParamsFragment.getSearchParams();
+			if (!params.isFilled()) {
+				Toast.makeText(this, R.string.toast_flight_search_params_missing, Toast.LENGTH_SHORT).show();
+			}
+			else {
+				Intent intent = new Intent();
+				JSONUtils.putJSONable(intent, EXTRA_SEARCH_PARAMS, params);
+				setResult(RESULT_OK, intent);
+				finish();
+			}
 			return true;
 		case android.R.id.home:
 			setResult(RESULT_CANCELED);
