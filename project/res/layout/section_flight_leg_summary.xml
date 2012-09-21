@@ -65,11 +65,11 @@
     <com.expedia.bookings.widget.FlightTripView
         android:id="@+id/flight_trip_view"
         android:layout_width="wrap_content"
-        android:layout_height="28dp"
+        android:layout_height="24dp"
         android:layout_below="@+id/airline_text_view"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="4dp"
         android:layout_toLeftOf="@+id/arrival_time_text_view"
         android:layout_toRightOf="@+id/departure_time_text_view" />
 

@@ -11,7 +11,7 @@
    	<dimen name="flight_segment_margin">16dp</dimen>
 
    	<!-- FlightTripView dimensions -->
-   	<dimen name="flight_trip_view_stroke_width">4dp</dimen>
+   	<dimen name="flight_trip_view_stroke_width">2dp</dimen>
    	<dimen name="flight_line_min_padding_between_labels">2dp</dimen>
 
     <!-- Flights ActionBar dimens -->
