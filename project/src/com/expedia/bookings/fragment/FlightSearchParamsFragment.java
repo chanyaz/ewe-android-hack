@@ -282,10 +282,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				// 1. If the autocomplete has suggestions, use the first one.
 				// 2. If there are no suggestions but there was text, just use that
 				// 3. If the textview was empty, revert back to the original search param
-				Location location = mAirportAdapter.getLocation(0);
-				if (location == null) {
-					TextView tv = (TextView) v;
-					if (!TextUtils.isEmpty(tv.getText())) {
+				TextView tv = (TextView) v;
+				Location location = null;
+				if (!TextUtils.isEmpty(tv.getText())) {
+					location = mAirportAdapter.getLocation(0);
+					if (location == null) {
 						location = new Location();
 						location.setDestinationId(tv.getText().toString());
 					}
@@ -360,6 +361,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void resetAirportEditTexts() {
+		if (!isAdded()) {
+			return;
+		}
+
 		// Animate both views back to 50/50
 		final float halfWeight = mAirportsContainer.getWeightSum() / 2;
 
