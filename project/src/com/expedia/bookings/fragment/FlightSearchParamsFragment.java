@@ -445,7 +445,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			textWithFocus = mArrivalAirportEditText;
 		}
 
-		if (textWithFocus != null) {
+		if (textWithFocus != null && isAdded()) {
 			mFocusStealer.requestFocus();
 
 			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
