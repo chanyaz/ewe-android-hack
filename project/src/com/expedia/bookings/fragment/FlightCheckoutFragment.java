@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -196,7 +197,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mCreditCardSectionButton.bind(mBillingInfo);
 		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
 
-		ArrayList<Traveler> travelers = Db.getTravelers();
+		List<Traveler> travelers = Db.getTravelers();
 		if (travelers.size() != mTravelerSections.size()) {
 			Ui.showToast(getActivity(), "Traveler info out of date...");
 			Log.e("Traveler info fail... travelers size():" + travelers.size() + " sections:"
@@ -210,7 +211,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	}
 
 	private void populateTravelerData() {
-		ArrayList<Traveler> travelers = Db.getTravelers();
+		List<Traveler> travelers = Db.getTravelers();
 		if (travelers == null) {
 			travelers = new ArrayList<Traveler>();
 			Db.setTravelers(travelers);
@@ -226,7 +227,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mTravelerContainer.removeAllViews();
 		mTravelerSections.clear();
 
-		ArrayList<Traveler> travelers = Db.getTravelers();
+		List<Traveler> travelers = Db.getTravelers();
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		for (int i = 0; i < travelers.size(); i++) {
 			final int travelerNum = i;
@@ -266,7 +267,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				travelerValid = false;
 			}
 			else {
-				ArrayList<Traveler> travelers = Db.getTravelers();
+				List<Traveler> travelers = Db.getTravelers();
 				for (int i = 0; i < travelers.size(); i++) {
 					travelerValid &= (TravelerFlowState.getInstance(getActivity()).allTravelerInfoIsValid(
 							travelers.get(i)));
