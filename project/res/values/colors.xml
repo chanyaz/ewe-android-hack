@@ -19,7 +19,7 @@
     <color name="cvv_error">#D4472B</color>
 
 	<!-- These colors are ripped from the iOS version, and are not finalized -->
-	<color name="window_background">#FF666666</color>
+	<color name="window_background">#2D3742</color>
 	<color name="light_gray">#777777</color>
 	<color name="dark_blue">#1C3061</color>
 
@@ -33,6 +33,9 @@
 
 	<!-- The color for text hints on input -->
 	<color name="hint_color">#808080</color>
+	
+	<!-- BookingOverviewFragment -->
+    <color name="overview_receipt_divider">#666D6D6D</color>
 	
 	<!-- Divider on tablet dialog box (not public accessible)
 	https://github.com/android/platform_frameworks_base/blob/master/core/res/res/drawable-hdpi/divider_strong_holo.9.png -->

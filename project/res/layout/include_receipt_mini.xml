@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.MiniReceiptWidget xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/receipt_mini"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#DBDBDB" >
+
+    <TextView
+        android:id="@+id/room_type_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@+id/guests_text_view"
+        android:ellipsize="end"
+        android:textColor="@color/dark_blue"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@id/guests_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/room_type_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/light_gray"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/dates_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/room_type_text_view"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/dark_blue"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/total_cost_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/dates_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/dark_blue"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/dates_text_view"
+        android:background="#E0CB79" />
+
+</com.expedia.bookings.widget.MiniReceiptWidget>

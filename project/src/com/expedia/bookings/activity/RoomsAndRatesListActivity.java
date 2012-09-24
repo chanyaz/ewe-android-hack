@@ -240,7 +240,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	public void onRateSelected(Rate rate) {
 		Db.setSelectedRate(rate);
 
-		Intent intent = new Intent(this, BookingInfoActivity.class);
+		Intent intent = new Intent(this, BookingOverviewActivity.class);
 		startActivity(intent);
 	}
 

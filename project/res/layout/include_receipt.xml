@@ -3,21 +3,12 @@
     android:id="@+id/receipt"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp"
-    android:layout_marginTop="3dp"
-    android:layout_marginBottom="4dp"
-    android:background="@drawable/bg_receipt" >
+    android:background="@drawable/bg_overview_receipt" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="13dp"
-            android:background="@drawable/candy_cane_top_rounded" />
 
         <!-- Top Section: snapshot, expedia logo, hotel name and address -->
 
@@ -86,12 +77,9 @@
 
         <View
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/two_pixels"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="2dp"
-            android:background="#e5e5e5" />
+            android:layout_height="1dp"
+            android:layout_margin="8dp"
+            android:background="@color/overview_receipt_divider" />
 
         <!-- Details Section: Room type, bed type, dates, rates, taxes & fees -->
 
@@ -105,9 +93,9 @@
 
         <View
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/two_pixels"
+            android:layout_height="1dp"
             android:layout_margin="8dp"
-            android:background="@drawable/divider" />
+            android:background="@color/overview_receipt_divider" />
 
         <!-- Total Cost Section -->
 

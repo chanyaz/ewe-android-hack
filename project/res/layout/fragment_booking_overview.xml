@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" >
+
+        <include
+            android:id="@+id/receipt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            layout="@layout/include_receipt" />
+
+        <TextView
+            android:id="@android:id/text1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/receipt"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="Readymade whatever echo park bicycle rights, gastropub gentrify mustache +1 quinoa. Synth put a bird on it leggings locavore etsy wes anderson."
+            android:textColor="@android:color/white" />
+
+        <include
+            android:id="@+id/receipt_mini"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/include_receipt_mini"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/checkout_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/receipt_mini"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:visibility="invisible" >
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_expedia_login"
+                android:gravity="center"
+                android:text="Log in for faster booking."
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="GUEST CHECKOUT"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

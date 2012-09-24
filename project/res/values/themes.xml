@@ -82,6 +82,7 @@
 	</style>
 
     <style name="Theme.Phone" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+		<item name="android:windowBackground">@color/window_background</item>
         <item name="actionBarItemBackground">@drawable/bg_actionbar_button</item>
         <item name="actionBarStyle">@style/Dark.ActionBar</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
