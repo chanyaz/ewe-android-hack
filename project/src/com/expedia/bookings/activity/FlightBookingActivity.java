@@ -1,8 +1,8 @@
 package com.expedia.bookings.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,7 +17,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -115,16 +114,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			Traveler traveler = Db.getTravelers().get(0);
 			billingInfo.setTelephone(traveler.getPhoneNumber());
 			billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-			// Set the email - either from the traveler himself, or from the primary account email
-			String email = traveler.getEmail();
-			if (TextUtils.isEmpty(email)) {
-				User user = Db.getUser();
-				if (user != null) {
-					email = user.getPrimaryTraveler().getEmail();
-				}
-			}
-			billingInfo.setEmail(email);
+			billingInfo.setEmail(Db.getFlightBookingEmail());
 
 			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 			Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
@@ -136,6 +126,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 		@Override
 		public void onDownload(FlightCheckoutResponse results) {
 			mProgressFragment.dismiss();
+
+			Db.setFlightCheckout(results);
 
 			// This is all just temporary display code while we figure out how to do the conf page 
 			StringBuilder sb = new StringBuilder();
@@ -152,13 +144,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 				}
 			}
 			else {
-				sb.append("Booking success!");
-				sb.append("\n\n");
-				sb.append("orderId: " + results.getOrderId());
-
-				if (!results.getOrderId().equals("000000")) {
-					sb.append("\n\nWARNING: ORDER ID WAS NOT 000000! THIS MEANS THE BOOKING ACTUALLY WENT THROUGH!");
-				}
+				// Launch the conf page
+				startActivity(new Intent(mContext, FlightConfirmationActivity.class));
 			}
 
 			mTextView.setText(sb.toString());

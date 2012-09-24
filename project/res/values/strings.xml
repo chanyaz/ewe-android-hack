@@ -391,6 +391,28 @@
     <string name="defibrillator">Defibrillator</string>
     <!-- Super long for test purposes -->
     <string name="super_long_assistance">Super long assistance type that will be ellipsized</string>
+    
+    <!-- Flight confirmation page -->
+    <!-- Title for flight confirmation page -->
+    <string name="booking_complete">Booking Complete</string>
+    <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
+    <string name="yay_going_somewhere_TEMPLATE">You\'re going to %s!</string>
+    <!-- Message telling user itinerary # and where it was sent.  %1$s is the itinerary number, %2$s is the email it was sent, e.g. "Itinerary #5123532 sent to me@gmail.com" -->
+    <string name="itinerary_confirmation_TEMPLATE">&lt;b&gt;Itinerary #%1$s sent to&lt;/b&gt;&lt;br/&gt;%2$s</string>
+    <!-- Title for section helping users get hotel rooms after booking a flight -->
+    <string name="get_a_room">Get A Room</string>
+    <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
+    <string name="hotels_in_TEMPLATE">Hotels in %s</string>
+    <!-- Title for section helping users in other various ways -->
+    <string name="more_actions">More Actions</string>
+    <!-- Button label for sharing your recently booked trip -->
+    <string name="share_trip">Share Trip</string>
+    <!-- Button label for adding a recently booked flight to the calendar -->
+    <string name="add_to_calendar">Add to Calendar</string>
+    <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
+    <string name="add_to_flighttrack">Track with FlightTrack</string>
+    <!-- Button label for calling expedia customer support -->
+    <string name="call_expedia_customer_support">Call Expedia Customer Support</string>
 
     <!-- Flight Rules -->
     <!-- Legal information header -->

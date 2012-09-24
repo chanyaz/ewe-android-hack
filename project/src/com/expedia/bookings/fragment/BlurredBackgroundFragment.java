@@ -17,6 +17,8 @@ import com.mobiata.android.util.Ui;
 
 public class BlurredBackgroundFragment extends Fragment {
 
+	public static final String TAG = BlurredBackgroundFragment.class.getName();
+
 	// Background views
 	private BoundedBottomImageView mBackgroundBgView;
 	private FadingImageView mBackgroundFgView;

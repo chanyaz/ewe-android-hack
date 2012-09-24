@@ -176,6 +176,16 @@
             android:name=".activity.FlightRulesActivity"
             android:theme="@style/FlightTheme">
         </activity>
+        <activity
+            android:name=".activity.FlightConfirmationActivity"
+            android:theme="@style/FlightTheme" >
+                        <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />

@@ -129,14 +129,14 @@
 
     <!-- TODO: get rid of all RatingBarSmall <<<<<<< -->
 
-	<style name="ProgressBar">
+    <style name="ProgressBar">
         <item name="android:indeterminateDrawable">@drawable/progress_large_holo</item>
         <item name="android:minWidth">76dp</item>
         <item name="android:maxWidth">76dp</item>
         <item name="android:minHeight">76dp</item>
         <item name="android:maxHeight">76dp</item>
-	</style>
-	
+    </style>
+
     <style name="RatingBar">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:thumb">@null</item>
@@ -468,6 +468,44 @@
         <item name="leftButton">@drawable/segmented_left</item>
         <item name="rightButton">@drawable/segmented_right</item>
         <item name="textColor">@color/actionbar_text</item>
+    </style>
+
+    <style name="FlightConfirmationHeader">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="FlightConfirmationAction">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="FlightConfirmationHeaderDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@color/confirmation_header_divider</item>
+    </style>
+
+    <style name="FlightConfirmationActionDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:background">@color/confirmation_item_divider</item>
     </style>
 
 </resources>

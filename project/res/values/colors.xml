@@ -96,4 +96,7 @@
 	<color name="text_sub_header">#3d4453</color>
 
 	<color name="action_bar_flight_text_color">#F5F5F5</color>
+
+	<color name="confirmation_header_divider">#7D7ab6f5</color>
+	<color name="confirmation_item_divider">#7DFFFFFF</color>
 </resources>
