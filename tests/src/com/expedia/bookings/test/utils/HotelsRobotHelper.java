@@ -235,6 +235,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(clearPrivateData);
 		mSolo.clickOnButton(0);
 		mSolo.clickOnButton(0);
+		setSpoofBookings();
 		mSolo.goBack();
 	}
 
@@ -605,7 +606,7 @@ public class HotelsRobotHelper {
 			mSolo.clickOnText(mRes.getString(R.string.new_search));
 		}
 		catch (AssertionFailedError E) {
-			enterLog(TAG, "New Search string not localized.");
+			enterLog(TAG, "New Search string not localized: No " + mRes.getString(R.string.new_search) );
 			mSolo.clickOnText("NEW SEARCH");
 		}
 		enterLog(TAG, "Back at search!");
