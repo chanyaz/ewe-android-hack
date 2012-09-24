@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
+import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
@@ -153,6 +154,11 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mChangeListeners.clear();
 
 	}
+	
+	public String phoneToStringHelper(Phone phone){
+		String number = (phone.getAreaCode() == null ? "" : phone.getAreaCode()) +  (phone.getNumber() == null ? "" : phone.getNumber());
+		return number;
+	}
 
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
@@ -197,9 +203,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		public void onHasFieldAndData(TextView field, Traveler data) {
 			String formatStr = mContext.getResources().getString(R.string.phone_number_with_country_code_TEMPLATE);
+			String number = phoneToStringHelper(data.getPrimaryPhoneNumber());
 			String retStr = String.format(formatStr,
 					data.getPhoneCountryCode() == null ? "" : data.getPhoneCountryCode(),
-					data.getPhoneNumber() == null ? "" : PhoneNumberUtils.formatNumber(data.getPhoneNumber()));
+							 number.trim().compareToIgnoreCase("") == 0 ? "" : PhoneNumberUtils.formatNumber(number));
 
 			field.setText(retStr);
 		}
@@ -589,7 +596,15 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				@Override
 				public void afterTextChanged(Editable s) {
 					if (hasBoundData()) {
-						getData().setPhoneNumber(getNumbersOnly(s.toString()));
+						//TODO:This is assuming that the first 3 digits are the area code. This may or may not cause issues down the  line.
+						String numbersOnly = getNumbersOnly(s.toString());
+						if(numbersOnly.length() <= 3){
+							getData().getPrimaryPhoneNumber().setAreaCode(numbersOnly);
+							getData().getPrimaryPhoneNumber().setNumber("");
+						}else{
+							getData().getPrimaryPhoneNumber().setAreaCode(numbersOnly.substring(0, 3));
+							getData().getPrimaryPhoneNumber().setNumber(numbersOnly.substring(3));
+						}
 					}
 					onChange(SectionTravelerInfo.this);
 				}
@@ -601,7 +616,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					if (!hasFocus) {
 						if (v instanceof EditText) {
 							EditText f = (EditText) v;
-							f.setText(phoneNumberDisplayer(getData().getPhoneNumber()));
+							String number = phoneToStringHelper(getData().getPrimaryPhoneNumber());
+							f.setText(phoneNumberDisplayer(number));
 						}
 					}
 				}
@@ -610,7 +626,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		protected void onHasFieldAndData(EditText field, Traveler data) {
-			field.setText(phoneNumberDisplayer(data.getPhoneNumber()));
+			field.setText(phoneNumberDisplayer(phoneToStringHelper(data.getPrimaryPhoneNumber())));
 		}
 
 		@Override
