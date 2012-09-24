@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.widget.TextView;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightBookingActivity;
-import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
-import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
+import com.expedia.bookings.activity.*;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -48,6 +49,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	//We only want to load from disk once: when the activity is first started (as it is the first time BillingInfo is seen)
 	private static boolean mLoaded = false;
 
+	private Context mContext;
+
 	private BillingInfo mBillingInfo;
 
 	private ArrayList<SectionTravelerInfo> mTravelerSections = new ArrayList<SectionTravelerInfo>();
@@ -74,6 +77,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mContext = getActivity();
 
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
@@ -134,6 +139,18 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		else {
 			mAccountButton.bind(false, false, null);
 		}
+
+		// rules and restrictions link stuff
+		TextView tv = Ui.findView(v, R.id.legal_blurb);
+		tv.setText(Html.fromHtml(mContext.getString(R.string.fare_rules_link)));
+
+		tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, FlightRulesActivity.class);
+				startActivity(intent);
+			}
+		});
 
 		mCreditCardSectionButton.setOnClickListener(gotoBillingAddress);
 		mStoredCreditCard.setOnClickListener(gotoBillingAddress);

@@ -172,6 +172,10 @@
         <activity android:name=".activity.BaggageFeeActivity"
             android:theme="@style/FlightTheme">
         </activity>
+        <activity
+            android:name=".activity.FlightRulesActivity"
+            android:theme="@style/FlightTheme">
+        </activity>
 
         <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />

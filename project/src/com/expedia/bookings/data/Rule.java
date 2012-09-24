@@ -39,6 +39,21 @@ public class Rule implements JSONable {
 		mUrl = url;
 	}
 
+	@Override
+	public String toString() {
+		JSONObject obj = new JSONObject();
+		try {
+			obj.putOpt("name", mName);
+			obj.putOpt("text", mText);
+			obj.putOpt("url", mUrl);
+		}
+		catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return obj.toString();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 

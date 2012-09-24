@@ -392,6 +392,20 @@
     <!-- Super long for test purposes -->
     <string name="super_long_assistance">Super long assistance type that will be ellipsized</string>
 
+    <!-- Flight Rules -->
+    <!-- Legal information header -->
+    <string name="legal_information">Legal Information</string>
+    <!-- Rules and Restrictions for flight -->
+    <string name="rules_and_restrictions">Rules and Restrictions</string>
+    <!-- Terms and Conditions for flight -->
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <!-- Privacy policy -->
+    <string name="privacy_policy">Privacy Policy</string>
+    <!-- Fare information header -->
+    <string name="fare_information">FARE INFORMATION</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">By completing this booking I agree that I have read and accept the &lt;u&gt;&lt;u&gt;&lt;b&gt;Rules and Restrictions,&lt;/b&gt; the &lt;b&gt;Terms and Conditions,&lt;/b&gt; the &lt;b&gt;Privacy Policy&lt;/b&gt; and &lt;b&gt;Fare Information.&lt;/b&gt;&lt;/u&gt;</string>
+
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
     <string name="enter_search_location">Enter search location...</string>

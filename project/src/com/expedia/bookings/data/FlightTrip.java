@@ -386,6 +386,10 @@ public class FlightTrip implements JSONable {
 		if (!TextUtils.isEmpty(other.mItineraryNumber)) {
 			mItineraryNumber = other.mItineraryNumber;
 		}
+
+		if (other.mRules != null) {
+			mRules = other.mRules;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
