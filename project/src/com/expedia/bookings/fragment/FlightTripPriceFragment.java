@@ -31,8 +31,10 @@ public class FlightTripPriceFragment extends Fragment {
 	private static final String TAG_PRICE_BREAKDOWN_DIALOG = "TAG_PRICE_BREAKDOWN_DIALOG";
 	private static final String INSTANCE_REQUESTED_DETAILS = "INSTANCE_REQUESTED_DETAILS";
 	private static final String KEY_DETAILS = "KEY_DETAILS";
+	private static final String INSTANCE_PRICE_CHANGE = "INSTANCE_PRICE_CHANGE";
 
 	private boolean mRequestedDetails = false;
+	private String mPriceChangeString = "";
 	private FlightTrip mTrip;
 	private SectionFlightTrip mTripSection;
 	private TextView mPriceChangedTv;
@@ -52,6 +54,7 @@ public class FlightTripPriceFragment extends Fragment {
 
 		if (savedInstanceState != null) {
 			mRequestedDetails = savedInstanceState.getBoolean(INSTANCE_REQUESTED_DETAILS, false);
+			mPriceChangeString = savedInstanceState.getString(INSTANCE_PRICE_CHANGE);
 		}
 	}
 	
@@ -60,6 +63,7 @@ public class FlightTripPriceFragment extends Fragment {
 	}
 	public void showPriceChange(){
 		if(mTrip != null && mTrip.notifyPriceChanged()){
+			mPriceChangedTv.setText(mPriceChangeString);
 			mPriceChangeContainer.setVisibility(View.VISIBLE);
 		}
 	}
@@ -136,6 +140,7 @@ public class FlightTripPriceFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(INSTANCE_REQUESTED_DETAILS, mRequestedDetails);
+		outState.putString(INSTANCE_PRICE_CHANGE, mPriceChangeString);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -180,8 +185,7 @@ public class FlightTripPriceFragment extends Fragment {
 
 				if (mTrip.notifyPriceChanged()) {
 					String priceChangeTemplate = getResources().getString(R.string.price_changed_from_TEMPLATE);
-					String priceChangeText = String.format(priceChangeTemplate, originalPrice.getFormattedMoney());
-					mPriceChangedTv.setText(priceChangeText);
+					mPriceChangeString = String.format(priceChangeTemplate, originalPrice.getFormattedMoney());
 					showPriceChange();
 				}
 			}
