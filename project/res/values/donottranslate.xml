@@ -15,6 +15,7 @@
     <string name="tag_hotel_map">HOTEL_MAP</string>
     <string name="tag_mini_details">MINI_DETAILS</string>
     <string name="tag_details">DETAILS</string>
+    <string name="tag_single_hotel_map">SINGLE_HOTEL_MAP</string>
     <string name="tag_rooms_and_rates">ROOMS_AND_RATES</string>
     <string name="tag_booking_info">BOOKING_INFO</string>
     <string name="tag_booking_form">BOOKING_FORM</string>

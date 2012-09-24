@@ -63,6 +63,13 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		setBalloonAdapter(new HotelBalloonAdapter());
 	}
 
+	public void setSingleProperty(Property property) {
+		mProperties = new ArrayList<Property>();
+		mProperties.add(property);
+		setLastFocusedIndex(-1);
+		populate();
+	}
+
 	public void setProperties(SearchResponse searchResponse) {
 		hideBalloon();
 		if (searchResponse != null) {

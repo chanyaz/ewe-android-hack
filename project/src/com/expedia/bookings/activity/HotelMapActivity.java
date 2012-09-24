@@ -1,10 +1,6 @@
 package com.expedia.bookings.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,32 +18,19 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.fragment.HotelMapFragment;
+import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.MapUtils;
-import com.mobiata.android.util.Ui;
-import com.mobiata.android.widget.BalloonItemizedOverlay;
-import com.mobiata.android.widget.StandardBalloonAdapter;
 import com.omniture.AppMeasurement;
 
-public class HotelMapActivity extends SherlockFragmentMapActivity {
+public class HotelMapActivity extends SherlockFragmentMapActivity implements HotelMapFragmentListener {
 
-	private Context mContext;
+	private HotelMapFragment mHotelMapFragment;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
-
-	// save instance variables
-	private static final String CURRENT_ZOOM_LEVEL = "CURRENT_ZOOM_LEVEL";
-
-	// saved information for map
-	private int mSavedZoomLevel;
-	private MapView mMapView;
-	private HotelItemizedOverlay mOverlay;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,51 +43,18 @@ public class HotelMapActivity extends SherlockFragmentMapActivity {
 			return;
 		}
 
-		mContext = this;
-
 		setContentView(R.layout.activity_hotel_map);
+
+		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_single_hotel_map));
+		mHotelMapFragment.setShowSingleProperty(true);
+		mHotelMapFragment.notifySearchLocationFound();
 
 		Property property = Db.getSelectedProperty();
 		Location location = property.getLocation();
 
-		// Create the map and add it to the layout
-		mMapView = MapUtils.createMapView(this);
-		ViewGroup mapContainer = (ViewGroup) findViewById(R.id.map_layout);
-		mapContainer.addView(mMapView);
-		
 		// Display the address
 		TextView addressTextView = Ui.findView(this, R.id.address_text_view);
 		addressTextView.setText(location.getStreetAddressString() + "\n" + location.toFormattedString());
-
-		// Configure the map
-		mMapView.setBuiltInZoomControls(false);
-		mMapView.setSatellite(false);
-		mMapView.setClickable(true);
-
-		List<Property> properties = new ArrayList<Property>();
-		properties.add(property);
-		mOverlay = new HotelItemizedOverlay(this, properties, mMapView);
-		mOverlay.setBalloonDrawable(R.drawable.bg_map_balloon);
-		mOverlay.setClickable(false);
-		StandardBalloonAdapter adapter = new StandardBalloonAdapter(this);
-		adapter.setThumbnailPlaceholderResource(R.drawable.ic_image_placeholder);
-		adapter.setShowChevron(false);
-		mOverlay.setBalloonAdapter(adapter);
-
-		List<Overlay> overlays = mMapView.getOverlays();
-		overlays.add(mOverlay);
-
-		// Set the center point
-		if (savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
-			restoreMapState(savedInstanceState);
-		}
-		else {
-			MapController mc = mMapView.getController();
-			mc.setZoom(16);
-			mc.setCenter(mOverlay.getCenter());
-		}
-
-		mOverlay.showBalloon(0, BalloonItemizedOverlay.F_FOCUS + BalloonItemizedOverlay.F_OFFSET_MARKER); // Open the popup initially
 
 		if (savedInstanceState == null) {
 			onPageLoad();
@@ -156,11 +106,11 @@ public class HotelMapActivity extends SherlockFragmentMapActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// app icon in action bar clicked; go back
-            Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-            return true;
+			Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			finish();
+			return true;
 		case R.id.menu_select_hotel:
 			Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
 			startActivity(roomsRatesIntent);
@@ -170,6 +120,7 @@ public class HotelMapActivity extends SherlockFragmentMapActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
 	@Override
 	protected void onStop() {
 		super.onStop();
@@ -190,12 +141,6 @@ public class HotelMapActivity extends SherlockFragmentMapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putInt(CURRENT_ZOOM_LEVEL, mMapView.getZoomLevel());
-		super.onSaveInstanceState(outState);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -220,11 +165,15 @@ public class HotelMapActivity extends SherlockFragmentMapActivity {
 		s.track();
 	}
 
-	private void restoreMapState(Bundle savedInstanceState) {
-		if (savedInstanceState != null && savedInstanceState.containsKey(CURRENT_ZOOM_LEVEL)) {
-			mSavedZoomLevel = savedInstanceState.getInt(CURRENT_ZOOM_LEVEL);
-			mMapView.getController().setZoom(mSavedZoomLevel);
-		}
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// HotelMapFragmentListener
+
+	@Override
+	public void onBalloonShown(Property property) {
+	}
+
+	@Override
+	public void onBalloonClicked(Property property) {
 	}
 
 }

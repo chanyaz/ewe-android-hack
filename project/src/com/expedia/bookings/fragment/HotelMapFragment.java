@@ -22,6 +22,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.widget.BalloonItemizedOverlay;
 import com.mobiata.android.widget.BalloonItemizedOverlay.BalloonListener;
@@ -39,6 +40,9 @@ public class HotelMapFragment extends Fragment {
 	// Member variables
 
 	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
+	private static final String INSTANCE_SHOW_SINGLE_PROPERTY = "INSTANCE_SHOW_SINGLE_PROPERTY";
+	private static final String INSTANCE_ZOOM_LEVEL = "INSTANCE_ZOOM_LEVEL";
+	private static final String INSTANCE_LAT_LNG = "INSTANCE_LAT_LNG";
 
 	private HotelMapFragmentListener mListener;
 
@@ -47,7 +51,14 @@ public class HotelMapFragment extends Fragment {
 	private DoubleTapToZoomListenerOverlay mDoubleTapToZoomOverlay;
 	private ExactLocationItemizedOverlay mExactLocationOverlay;
 
-	private boolean mShowDistances;
+	private boolean mShowDistances = false;
+	private boolean mShowSingleProperty = false;
+
+	// We need to save these explicitly because if this fragment is used
+	// more than once (as we do in PhoneSearchActivity and HotelMapActivity),
+	// the map will inherit the last used values.
+	private int mSavedZoomLevel = -1;
+	private GeoPoint mSavedMapCenter = null;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -58,6 +69,7 @@ public class HotelMapFragment extends Fragment {
 
 		if (savedInstanceState != null) {
 			mShowDistances = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES);
+			mShowSingleProperty = savedInstanceState.getBoolean(INSTANCE_SHOW_SINGLE_PROPERTY);
 		}
 	}
 
@@ -77,13 +89,20 @@ public class HotelMapFragment extends Fragment {
 		Activity activity = getActivity();
 
 		LinearLayout mapLayout = new LinearLayout(activity);
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT);
 		mapLayout.setLayoutParams(params);
 
 		mMapView = MapUtils.createMapView(activity);
 		mMapView.setClickable(true);
 		mapLayout.addView(mMapView);
+
+		// Restore the mapview's location and zoom
+		if (savedInstanceState != null) {
+			mSavedZoomLevel = savedInstanceState.getInt(INSTANCE_ZOOM_LEVEL);
+			int[] latlng = savedInstanceState.getIntArray(INSTANCE_LAT_LNG);
+			mSavedMapCenter = new GeoPoint(latlng[0], latlng[1]);
+		}
 
 		// Add the initial overlays
 		List<Overlay> overlays = mMapView.getOverlays();
@@ -114,6 +133,7 @@ public class HotelMapFragment extends Fragment {
 				// Do nothing
 			}
 		});
+		mHotelOverlay.setBalloonAdapter(adapter);
 
 		mHotelOverlay.setCenterOffset(0, getResources().getDimensionPixelSize(R.dimen.center_vertical_offset));
 		overlays.add(mHotelOverlay);
@@ -129,12 +149,28 @@ public class HotelMapFragment extends Fragment {
 		super.onResume();
 		updateView();
 		selectBalloonForProperty();
+
+		if (mSavedZoomLevel != -1 && mSavedMapCenter != null) {
+			MapController mc = mMapView.getController();
+			mc.setZoom(mSavedZoomLevel);
+			mc.setCenter(mSavedMapCenter);
+		}
+	}
+
+	public void onPause() {
+		super.onPause();
+		mSavedZoomLevel = mMapView.getZoomLevel();
+		mSavedMapCenter = mMapView.getMapCenter();
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(INSTANCE_SHOW_DISTANCES, mShowDistances);
+		outState.putBoolean(INSTANCE_SHOW_SINGLE_PROPERTY, mShowSingleProperty);
+		outState.putInt(INSTANCE_ZOOM_LEVEL, mSavedZoomLevel);
+		int[] latlng = { mSavedMapCenter.getLatitudeE6(), mSavedMapCenter.getLongitudeE6() };
+		outState.putIntArray(INSTANCE_LAT_LNG, latlng);
 	}
 
 	@Override
@@ -158,6 +194,10 @@ public class HotelMapFragment extends Fragment {
 
 	public void setShowDistances(boolean showDistances) {
 		mShowDistances = showDistances;
+	}
+
+	public void setShowSingleProperty(boolean showSingleProperty) {
+		mShowSingleProperty = showSingleProperty;
 	}
 
 	public void notifySearchStarted() {
@@ -190,11 +230,24 @@ public class HotelMapFragment extends Fragment {
 	private void updateView() {
 		// only update the view if the map view exists
 		// and if there are overlay items to show on the map
-		SearchResponse searchResponse = Db.getSearchResponse();
-		if (mHotelOverlay != null && mMapView != null && searchResponse != null) {
-			mHotelOverlay.setShowDistance(mShowDistances);
-			mHotelOverlay.setProperties(searchResponse);
-			mMapView.invalidate();
+		if (mHotelOverlay != null && mMapView != null) {
+			if (mShowSingleProperty) {
+				Property property = Db.getSelectedProperty();
+				if (property != null) {
+					mHotelOverlay.setSingleProperty(property);
+					mMapView.invalidate();
+					mHotelOverlay.showBalloon(0, BalloonItemizedOverlay.F_FOCUS
+							+ BalloonItemizedOverlay.F_OFFSET_MARKER); // Open the popup initially
+				}
+			}
+			else {
+				SearchResponse searchResponse = Db.getSearchResponse();
+				if (searchResponse != null) {
+					mHotelOverlay.setShowDistance(mShowDistances);
+					mHotelOverlay.setProperties(searchResponse);
+					mMapView.invalidate();
+				}
+			}
 		}
 
 		// Only show exact location overlay if we have a search lat/lng, and we're showing distance
@@ -212,12 +265,18 @@ public class HotelMapFragment extends Fragment {
 
 	private void animateToSearchLocation() {
 		if (mMapView != null) {
-			SearchParams params = Db.getSearchParams();
-			GeoPoint searchPoint = MapUtils.convertToGeoPoint(params.getSearchLatitude(), params.getSearchLongitude());
 			MapController mc = mMapView.getController();
-			mc.animateTo(searchPoint);
-			mc.setZoom(12);
-
+			if (mShowSingleProperty) {
+				mc.setZoom(16);
+				mc.setCenter(mHotelOverlay.getCenter());
+			}
+			else {
+				SearchParams params = Db.getSearchParams();
+				GeoPoint searchPoint = MapUtils.convertToGeoPoint(params.getSearchLatitude(),
+						params.getSearchLongitude());
+				mc.animateTo(searchPoint);
+				mc.setZoom(12);
+			}
 			updateView();
 		}
 	}

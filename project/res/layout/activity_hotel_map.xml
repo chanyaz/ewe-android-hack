@@ -14,19 +14,24 @@
         android:padding="10dp"
         android:textColor="@android:color/white" />
 
-    <!-- The MapView is added dynamically to this layout -->
-
     <FrameLayout
         android:id="@+id/map_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/address_text_view" />
+        android:layout_above="@id/address_text_view" >
+
+        <fragment
+            android:name="com.expedia.bookings.fragment.HotelMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tag="@string/tag_single_hotel_map" />
+    </FrameLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/shadow"
-        android:contentDescription="@null" />
+        android:src="@drawable/shadow" />
 
 </RelativeLayout>
