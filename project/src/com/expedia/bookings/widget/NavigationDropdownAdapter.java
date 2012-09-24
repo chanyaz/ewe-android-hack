@@ -52,7 +52,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 		navItems = new ArrayList<NavItem>();
 		Resources res = context.getResources();
 
-		addItem(new NavItem(res.getDrawable(R.drawable.icon), res
+		addItem(new NavItem(res.getDrawable(R.drawable.ic_launcher), res
 				.getString(R.string.nav_home), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
