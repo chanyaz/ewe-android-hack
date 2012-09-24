@@ -303,6 +303,16 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		displayActionItemBasedOnState();
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			return moveBackwards();
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
 	public void setMenuItemVisibilities(boolean showDone) {
 		if (mMenuNext != null) {
@@ -361,5 +371,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
 		super.onRestoreInstanceState(savedInstanceState);
 	}
+	
+	
 
 }
