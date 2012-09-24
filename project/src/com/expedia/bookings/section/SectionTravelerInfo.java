@@ -154,10 +154,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mChangeListeners.clear();
 
 	}
-	
-	public String phoneToStringHelper(Phone phone){
-		String number = (phone.getAreaCode() == null ? "" : phone.getAreaCode()) +  (phone.getNumber() == null ? "" : phone.getNumber());
-		return number;
+
+	public String phoneToStringHelper(Phone phone) {
+		if (phone != null) {
+			String number = (phone.getAreaCode() == null ? "" : phone.getAreaCode())
+					+ (phone.getNumber() == null ? "" : phone.getNumber());
+			return number;
+		}
+		return "";
 	}
 
 	//////////////////////////////////////
@@ -203,10 +207,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		public void onHasFieldAndData(TextView field, Traveler data) {
 			String formatStr = mContext.getResources().getString(R.string.phone_number_with_country_code_TEMPLATE);
-			String number = phoneToStringHelper(data.getPrimaryPhoneNumber());
+			String number = phoneToStringHelper(data.getOrCreatePrimaryPhoneNumber());
 			String retStr = String.format(formatStr,
 					data.getPhoneCountryCode() == null ? "" : data.getPhoneCountryCode(),
-							 number.trim().compareToIgnoreCase("") == 0 ? "" : PhoneNumberUtils.formatNumber(number));
+					number.trim().compareToIgnoreCase("") == 0 ? "" : PhoneNumberUtils.formatNumber(number));
 
 			field.setText(retStr);
 		}
@@ -598,12 +602,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					if (hasBoundData()) {
 						//TODO:This is assuming that the first 3 digits are the area code. This may or may not cause issues down the  line.
 						String numbersOnly = getNumbersOnly(s.toString());
-						if(numbersOnly.length() <= 3){
-							getData().getPrimaryPhoneNumber().setAreaCode(numbersOnly);
-							getData().getPrimaryPhoneNumber().setNumber("");
-						}else{
-							getData().getPrimaryPhoneNumber().setAreaCode(numbersOnly.substring(0, 3));
-							getData().getPrimaryPhoneNumber().setNumber(numbersOnly.substring(3));
+						if (numbersOnly.length() <= 3) {
+							getData().getOrCreatePrimaryPhoneNumber().setAreaCode(numbersOnly);
+							getData().getOrCreatePrimaryPhoneNumber().setNumber("");
+						}
+						else {
+							getData().getOrCreatePrimaryPhoneNumber().setAreaCode(numbersOnly.substring(0, 3));
+							getData().getOrCreatePrimaryPhoneNumber().setNumber(numbersOnly.substring(3));
 						}
 					}
 					onChange(SectionTravelerInfo.this);
@@ -616,7 +621,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					if (!hasFocus) {
 						if (v instanceof EditText) {
 							EditText f = (EditText) v;
-							String number = phoneToStringHelper(getData().getPrimaryPhoneNumber());
+							String number = phoneToStringHelper(getData().getOrCreatePrimaryPhoneNumber());
 							f.setText(phoneNumberDisplayer(number));
 						}
 					}
@@ -626,7 +631,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		protected void onHasFieldAndData(EditText field, Traveler data) {
-			field.setText(phoneNumberDisplayer(phoneToStringHelper(data.getPrimaryPhoneNumber())));
+			field.setText(phoneNumberDisplayer(phoneToStringHelper(data.getOrCreatePrimaryPhoneNumber())));
 		}
 
 		@Override
