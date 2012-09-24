@@ -412,7 +412,9 @@ public class FlightTrip implements JSONable {
 
 			obj.putOpt("itineraryNumber", mItineraryNumber);
 
-			JSONUtils.putJSONableList(obj, "rules", new ArrayList<Rule>(mRules.values()));
+			if (mRules != null) {
+				JSONUtils.putJSONableList(obj, "rules", new ArrayList<Rule>(mRules.values()));
+			}
 
 			return obj;
 		}
