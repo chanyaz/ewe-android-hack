@@ -190,6 +190,8 @@
     <string name="plus_symbol">+</string>
     <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
     <string name="equals_symbol">=</string>
+    <!-- Price changed from -->
+    <string name="price_changed_from_TEMPLATE">Price changed from %1$s</string>
 
     <!-- Section Display Flights -->
     <!-- Departs label with date (e.g. Depart: Aug 2nd) -->

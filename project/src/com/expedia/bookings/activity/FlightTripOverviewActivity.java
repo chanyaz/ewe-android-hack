@@ -152,7 +152,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 			Animator hideCheckout = getCheckoutHideAnimator(true,false);
-
+			mPriceBottomFragment.showPriceChange();
 			AnimatorSet animSet = new AnimatorSet();
 			animSet.playTogether(hideCheckout);
 			animSet.setDuration(duration);
@@ -173,7 +173,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 			mCheckoutContainer.setPadding(0, mOverviewFragment.getStackedHeight(), 0, 0);
 			Animator slideIn = getCheckoutShowAnimator();
-
+			mPriceBottomFragment.hidePriceChange();
 			AnimatorSet animSet = new AnimatorSet();
 			animSet.playTogether(slideIn);
 			animSet.setDuration(duration);
@@ -194,7 +194,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 		mDisplayMode = DisplayMode.CHECKOUT;
 	}
-
+	
 	public Animator getCheckoutShowAnimator() {
 		ObjectAnimator mover = ObjectAnimator.ofFloat(mCheckoutContainer, "y", this.mContentScrollView.getBottom(), 0f);
 		mover.addListener(new AnimatorListener() {

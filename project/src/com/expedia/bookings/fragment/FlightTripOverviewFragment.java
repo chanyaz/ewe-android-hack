@@ -40,10 +40,6 @@ public class FlightTripOverviewFragment extends Fragment {
 	private static final String ARG_TRIP_KEY = "ARG_TRIP_KEY";
 	private static final String ARG_DISPLAY_MODE = "ARG_DISPLAY_MODE";
 
-	private static final String KEY_DETAILS = "KEY_DETAILS";
-
-	private static final String INSTANCE_REQUESTED_DETAILS = "INSTANCE_REQUESTED_DETAILS";
-
 	private static final int ID_START_RANGE = Integer.MAX_VALUE - 100;
 
 	private static final int ANIMATION_DURATION = 1000;
@@ -54,8 +50,6 @@ public class FlightTripOverviewFragment extends Fragment {
 	private FlightTrip mTrip;
 	private RelativeLayout mFlightContainer;
 	private SectionGeneralFlightInfo mFlightDateAndTravCount;
-
-	private boolean mRequestedDetails = false;
 
 	private DisplayMode mDisplayMode = DisplayMode.OVERVIEW;
 
@@ -76,9 +70,6 @@ public class FlightTripOverviewFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null) {
-			mRequestedDetails = savedInstanceState.getBoolean(INSTANCE_REQUESTED_DETAILS, false);
-		}
 		if (savedInstanceState != null && savedInstanceState.containsKey(ARG_DISPLAY_MODE)) {
 			mDisplayMode = DisplayMode.valueOf(savedInstanceState.getString(ARG_DISPLAY_MODE));
 		}
@@ -96,21 +87,6 @@ public class FlightTripOverviewFragment extends Fragment {
 
 		String tripKey = getArguments().getString(ARG_TRIP_KEY);
 		mTrip = Db.getFlightSearch().getFlightTrip(tripKey);
-		
-
-		// See if we have flight details we can use, first.
-		if (TextUtils.isEmpty(mTrip.getItineraryNumber())) {
-
-			// Begin loading flight details in the background, if we haven't already
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			if (!bd.isDownloading(KEY_DETAILS) && !mRequestedDetails) {
-				// Show a loading dialog
-				LoadingDetailsDialogFragment df = new LoadingDetailsDialogFragment();
-				df.show(getFragmentManager(), LoadingDetailsDialogFragment.TAG);
-
-				bd.startDownload(KEY_DETAILS, mFlightDetailsDownload, mFlightDetailsCallback);
-			}
-		}
 
 		mFlightDateAndTravCount.bind(mTrip,
 				(Db.getTravelers() != null && Db.getTravelers().size() != 0) ? Db.getTravelers()
@@ -123,11 +99,6 @@ public class FlightTripOverviewFragment extends Fragment {
 	@Override
 	public void onResume(){
 		super.onResume();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_DETAILS)) {
-			bd.registerDownloadCallback(KEY_DETAILS, mFlightDetailsCallback);
-		}
 		
 		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0) {
 			unStackCards(false);
@@ -140,13 +111,6 @@ public class FlightTripOverviewFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		if (getActivity().isFinishing()) {
-			BackgroundDownloader.getInstance().cancelDownload(KEY_DETAILS);
-		}
-		else {
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_DETAILS);
-		}
 	}
 
 	@Override
@@ -154,7 +118,6 @@ public class FlightTripOverviewFragment extends Fragment {
 		super.onSaveInstanceState(outState);
 
 		outState.putString(ARG_DISPLAY_MODE, this.mDisplayMode.name());
-		outState.putBoolean(INSTANCE_REQUESTED_DETAILS, mRequestedDetails);
 	}
 
 	private void buildCards(LayoutInflater inflater) {
@@ -441,86 +404,5 @@ public class FlightTripOverviewFragment extends Fragment {
 	}
 
 
-	//////////////////////////////////////////////////////////////////////////
-	// Flight details download
-
-	private Download<CreateItineraryResponse> mFlightDetailsDownload = new Download<CreateItineraryResponse>() {
-		@Override
-		public CreateItineraryResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_DETAILS, services);
-			return services.createItinerary(mTrip.getProductKey(), 0);
-		}
-	};
-
-	private OnDownloadComplete<CreateItineraryResponse> mFlightDetailsCallback = new OnDownloadComplete<CreateItineraryResponse>() {
-		@Override
-		public void onDownload(CreateItineraryResponse results) {
-			LoadingDetailsDialogFragment df = Ui.findSupportFragment(getCompatibilityActivity(),
-					LoadingDetailsDialogFragment.TAG);
-			df.dismiss();
-
-			if (results == null) {
-				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
-						getString(R.string.error_server));
-				dialogFragment.show(getFragmentManager(), "errorFragment");
-			}
-			else if (results.hasErrors()) {
-				String error = results.getErrors().get(0).getPresentableMessage(getActivity());
-				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null, error);
-				dialogFragment.show(getFragmentManager(), "errorFragment");
-			}
-			else {
-				Db.addItinerary(results.getItinerary());
-				mTrip.updateFrom(results.getOffer());
-				mRequestedDetails = true;
-
-				Db.kickOffBackgroundSave(getActivity());
-
-				//TODO:Enable the menu checkout button (by default it should be disabled)...
-
-				if (mTrip.notifyPriceChanged()) {
-					String newFare = mTrip.getTotalFare().getFormattedMoney();
-					Money oldAmount = new Money(mTrip.getTotalFare());
-					oldAmount.subtract(mTrip.getPriceChangeAmount());
-					String oldFare = oldAmount.getFormattedMoney();
-					String msg = getString(R.string.price_change_alert_TEMPLATE, oldFare, newFare);
-
-					DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null, msg);
-					dialogFragment.show(getFragmentManager(), "noticeFragment");
-				}
-			}
-		}
-	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// Progress dialog
-
-	public static class LoadingDetailsDialogFragment extends DialogFragment {
-
-		public static final String TAG = LoadingDetailsDialogFragment.class.getName();
-
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
-
-			setCancelable(true);
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			ProgressDialog pd = new ProgressDialog(getActivity());
-			pd.setMessage(getString(R.string.loading_flight_details));
-			pd.setCanceledOnTouchOutside(false);
-			return pd;
-		}
-
-		@Override
-		public void onCancel(DialogInterface dialog) {
-			super.onCancel(dialog);
-
-			// If the dialog is canceled without finishing loading, don't show this page.
-			getActivity().finish();
-		}
-	}
+	
 }
