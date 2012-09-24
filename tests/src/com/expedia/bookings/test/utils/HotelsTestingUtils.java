@@ -31,7 +31,7 @@ public class HotelsTestingUtils {
 	public static void selectCity(Solo solo, String city) {
 		Log.d(TAG, "selectCity()");
 		RobotiumWorkflowUtils.enterText(solo, R.id.search_edit_text, city);
-		RobotiumWorkflowUtils.waitForListViewToPopulate(solo, R.id.class.getFields());
+		//RobotiumWorkflowUtils.waitForListViewToPopulate(solo, R.id.class.getFields());
 		//RobotiumWorkflowUtils.waitForListViewToPopulate(solo, R.id.search_suggestions_list_view);
 		//clickInCityList(solo, 0);
 	}
