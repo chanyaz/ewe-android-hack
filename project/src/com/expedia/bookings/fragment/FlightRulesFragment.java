@@ -142,25 +142,30 @@ public class FlightRulesFragment extends SherlockFragment {
 	}
 
 	private void appendBodyWithRule(Rule rule, StringBuilder builder) {
-		String text = rule.getText();
-		builder.append(text);
-		builder.append("<br><br>");
+		if (rule != null) {
+			builder.append(rule.getText());
+			builder.append("<br><br>");
+		}
 	}
 
 	private void appendBodyWithBoldedRule(Rule rule, StringBuilder builder) {
-		builder.append("<b>");
-		builder.append(rule.getText());
-		builder.append("</b>");
-		builder.append("&nbsp;&nbsp;");
+		if (rule != null) {
+			builder.append("<b>");
+			builder.append(rule.getText());
+			builder.append("</b>");
+			builder.append("&nbsp;&nbsp;");
+		}
 	}
 
 	private void appendBodyWithRuleContainingUrl(Rule rule, StringBuilder builder) {
-		builder.append("<a href=\"");
-		builder.append(rule.getUrl());
-		builder.append("\">");
-		builder.append(rule.getText());
-		builder.append("</a>");
-		builder.append("<br><br>");
+		if (rule != null) {
+			builder.append("<a href=\"");
+			builder.append(rule.getUrl());
+			builder.append("\">");
+			builder.append(rule.getText());
+			builder.append("</a>");
+			builder.append("<br><br>");
+		}
 	}
 
 }
