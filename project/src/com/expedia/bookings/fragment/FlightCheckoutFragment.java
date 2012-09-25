@@ -58,13 +58,14 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private AccountButton mAccountButton;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
-
-	private Button mReviewBtn;
+	
 	private ViewGroup mTravelerContainer;
 	private ViewGroup mTravelerButton;
 	private ViewGroup mPaymentButton;
 
 	private boolean mRefreshedUser;
+	
+	private CheckoutInformationListener mListener;
 
 	public static FlightCheckoutFragment newInstance() {
 		FlightCheckoutFragment fragment = new FlightCheckoutFragment();
@@ -73,11 +74,21 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		fragment.setArguments(args);
 		return fragment;
 	}
+	
+	@Override
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+		if(activity instanceof CheckoutInformationListener){
+			mListener = (CheckoutInformationListener) activity;
+		}else{
+			throw new RuntimeException("FlightCheckoutFragment must bind to an activity that implements CheckoutInformationListener");
+		}
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		mContext = getActivity();
 
 		if (savedInstanceState != null) {
@@ -117,7 +128,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mCreditCardSectionButton = Ui.findView(v, R.id.creditcard_section_button);
 		mTravelerContainer = Ui.findView(v, R.id.travelers_container);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
-		mReviewBtn = Ui.findView(v, R.id.review_btn);
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
@@ -156,16 +166,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mStoredCreditCard.setOnClickListener(gotoBillingAddress);
 		mPaymentButton.setOnClickListener(gotoBillingAddress);
 		mTravelerButton.setOnClickListener(new OnTravelerClickListener(0));
-		mReviewBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mBillingInfo != null) {
-					mBillingInfo.save(getActivity());
-				}
-				Intent intent = new Intent(getActivity(), FlightBookingActivity.class);
-				startActivity(intent);
-			}
-		});
 
 		return v;
 	}
@@ -338,10 +338,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 
 		if (paymentAddressValid && paymentCCValid && travelerValid) {
-			mReviewBtn.setEnabled(true);
+			mListener.checkoutInformationIsValid();
 		}
 		else {
-			mReviewBtn.setEnabled(false);
+			mListener.checkoutInformationIsNotValid();
 		}
 	}
 
@@ -476,4 +476,13 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			}
 		}
 	};
+	
+	///////////////////////////////////
+	// Interfaces
+	//////////////////////////////////
+	
+	public interface CheckoutInformationListener{
+		public void checkoutInformationIsValid();
+		public void checkoutInformationIsNotValid();
+	}
 }

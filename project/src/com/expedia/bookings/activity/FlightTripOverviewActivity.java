@@ -16,6 +16,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
+import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
+import com.expedia.bookings.fragment.FlightSlideToPurchaseFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
@@ -27,12 +29,13 @@ import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
-public class FlightTripOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener {
+public class FlightTripOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener,
+		CheckoutInformationListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
-	public static final String TAG_PRICE_BAR_FRAG = "TAG_PRICE_BAR_FRAG";
 	public static final String TAG_PRICE_BAR_BOTTOM_FRAG = "TAG_PRICE_BAR_BOTTOM_FRAG";
+	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
 
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
 	public static final String STATE_TAG_STACKED_HEIGHT = "STATE_TAG_STACKED_HEIGHT";
@@ -43,9 +46,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private boolean mTransitionHappening = false;
 
 	private FlightTripOverviewFragment mOverviewFragment;
-	//private FlightTripPriceFragment mPriceFragment;
 	private FlightTripPriceFragment mPriceBottomFragment;
 	private FlightCheckoutFragment mCheckoutFragment;
+	private FlightSlideToPurchaseFragment mSlideToPurchaseFragment;
 
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
@@ -128,8 +131,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		actionBar.setTitle(yourTripToStr);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
-	
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -159,8 +161,34 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		out.putInt(STATE_TAG_UNSTACKED_HEIGHT, mUnstackedHeight);
 		super.onSaveInstanceState(out);
 	}
-	
-	private AnimatorListener mTransitionInProgressAnimatorListener = new AnimatorListener(){
+
+	public void replacePriceBarWithSlideToCheckout() {
+		FragmentTransaction showSlideToCheckoutTransaction = getSupportFragmentManager().beginTransaction();
+		mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
+		if (mSlideToPurchaseFragment == null) {
+			mSlideToPurchaseFragment = FlightSlideToPurchaseFragment.newInstance();
+		}
+		if (!mSlideToPurchaseFragment.isAdded()) {
+			showSlideToCheckoutTransaction.replace(R.id.trip_price_container_bottom, mSlideToPurchaseFragment,
+					TAG_SLIDE_TO_PURCHASE_FRAG);
+			showSlideToCheckoutTransaction.commit();
+		}
+		
+	}
+
+	public void replaceSlideToCheckoutWithPriceBar() {
+		FragmentTransaction bottomBarTrans = getSupportFragmentManager().beginTransaction();
+		mPriceBottomFragment = Ui.findSupportFragment(this, TAG_PRICE_BAR_BOTTOM_FRAG);
+		if (mPriceBottomFragment == null) {
+			mPriceBottomFragment = FlightTripPriceFragment.newInstance();
+		}
+		if (!mPriceBottomFragment.isAdded()) {
+			bottomBarTrans.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
+			bottomBarTrans.commit();
+		}
+	}
+
+	private AnimatorListener mTransitionInProgressAnimatorListener = new AnimatorListener() {
 
 		@Override
 		public void onAnimationCancel(Animator arg0) {
@@ -173,14 +201,15 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 
 		@Override
-		public void onAnimationRepeat(Animator arg0) {}
+		public void onAnimationRepeat(Animator arg0) {
+		}
 
 		@Override
 		public void onAnimationStart(Animator arg0) {
 			mTransitionHappening = true;
-			
+
 		}
-		
+
 	};
 
 	public void gotoOverviewMode(boolean animate) {
@@ -194,7 +223,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				animSet.playTogether(hideCheckout);
 				animSet.setDuration(duration);
 				animSet.addListener(mTransitionInProgressAnimatorListener);
-				
+
 				mOverviewFragment.unStackCards(animate);
 				animSet.start();
 
@@ -219,7 +248,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				animSet.playTogether(slideIn);
 				animSet.setDuration(duration);
 				animSet.addListener(mTransitionInProgressAnimatorListener);
-				
+
 				mOverviewFragment.stackCards(animate);
 				animSet.start();
 
@@ -361,5 +390,16 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void onLoginFailed() {
 		// TODO: Update UI to show that we're no longer logged in
+	}
+
+	//Checkout listener	
+	@Override
+	public void checkoutInformationIsValid() {
+		replacePriceBarWithSlideToCheckout();
+	}
+
+	@Override
+	public void checkoutInformationIsNotValid() {
+		replaceSlideToCheckoutWithPriceBar();
 	}
 }

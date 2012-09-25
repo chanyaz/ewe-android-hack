@@ -146,14 +146,4 @@
         android:layout_marginTop="8dp"
         android:textColor="@android:color/white" />
 
-    <Button
-        android:id="@+id/review_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/btn_small_yellow"
-        android:text="@string/review_btn" />
-    <!-- </LinearLayout> -->
-
 </LinearLayout>
