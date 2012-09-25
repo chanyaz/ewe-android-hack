@@ -105,6 +105,16 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(null, pseudoLeg, minTime, maxTime);
 	}
 
+	// Makes the card invisible - good for laying cards on top of each other
+	public void makeInvisible() {
+		mAirlineTextView.setVisibility(View.INVISIBLE);
+		mPriceTextView.setVisibility(View.INVISIBLE);
+		mDepartureTimeTextView.setVisibility(View.INVISIBLE);
+		mArrivalTimeTextView.setVisibility(View.INVISIBLE);
+		mMultiDayTextView.setVisibility(View.INVISIBLE);
+		mFlightTripView.setVisibility(View.INVISIBLE);
+	}
+
 	private String formatTime(Calendar cal) {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());
 		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
