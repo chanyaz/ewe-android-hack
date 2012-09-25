@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -111,6 +112,14 @@ public class NavigationButton extends LinearLayout {
 		mDropDownContent = inflater.inflate(R.layout.snippet_nav_dropdown, null);
 		mSideViews = Ui.findView(this, R.id.image_dropdown_side_container);
 		mImageDropdown.setDropdownView(mDropDownContent);
+
+		// Set the title appearance automatically
+		TypedArray a = context.obtainStyledAttributes(null, R.styleable.SherlockActionBar, R.attr.actionBarStyle, 0);
+		int titleStyleRes = a.getResourceId(R.styleable.SherlockActionBar_titleTextStyle, 0);
+		if (titleStyleRes != 0) {
+			mTitle.setTextAppearance(context, titleStyleRes);
+		}
+		a.recycle();
 	}
 
 	public void setDropdownAdapter(ListAdapter adapter) {
