@@ -213,7 +213,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
 			bd.registerDownloadCallback(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsCallback);
-		}
+		}	
 	}
 
 	@Override

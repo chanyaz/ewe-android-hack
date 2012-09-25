@@ -188,7 +188,6 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		mSectionCurrentBillingAddress.bind(mBillingInfo.getLocation());
 		mSectionCurrentCreditCard.bind(mBillingInfo);
 		mSectionStoredPayment.bind(mBillingInfo.getStoredCard());
-
 	}
 
 	@Override

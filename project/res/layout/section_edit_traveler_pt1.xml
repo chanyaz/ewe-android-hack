@@ -23,11 +23,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:nextFocusRight="@+id/edit_middle_name"
-                android:nextFocusDown="@+id/edit_middle_name"
                 android:hint="@string/first_name"
-                android:singleLine="true"
-                android:inputType="textPersonName|textCapWords" />
+                android:inputType="textPersonName|textCapWords"
+                android:nextFocusDown="@+id/edit_middle_name"
+                android:nextFocusRight="@+id/edit_middle_name"
+                android:singleLine="true" >
+
+                <requestFocus />
+            </EditText>
 
             <EditText
                 android:id="@+id/edit_middle_name"
@@ -35,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/middle_name"
-                android:singleLine="true"
-                android:inputType="textPersonName|textCapWords" />
+                android:inputType="textPersonName|textCapWords"
+                android:singleLine="true" />
         </LinearLayout>
 
         <EditText
@@ -45,8 +48,8 @@
             android:layout_gravity="fill_horizontal"
             gridlayout:layout_columnSpan="4"
             android:hint="@string/last_name"
-            android:singleLine="true"
-            android:inputType="textPersonName|textCapWords" />
+            android:inputType="textPersonName|textCapWords"
+            android:singleLine="true" />
     </com.gridlayout.GridLayout>
 
     <com.gridlayout.GridLayout
@@ -68,17 +71,17 @@
             android:layout_gravity="fill_horizontal"
             gridlayout:layout_columnSpan="2"
             android:hint="@string/phone_number_hint"
-            android:singleLine="true"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/edit_birth_date_text_btn"
             style="@style/SpinnerStyle"
             android:layout_gravity="fill_horizontal"
             gridlayout:layout_columnSpan="3"
+            android:bufferType="spannable"
             android:gravity="center_vertical"
             android:hint="@string/date_of_birth"
-            android:bufferType="spannable"
             android:paddingLeft="5dp"
             android:textSize="18dp" />
     </com.gridlayout.GridLayout>

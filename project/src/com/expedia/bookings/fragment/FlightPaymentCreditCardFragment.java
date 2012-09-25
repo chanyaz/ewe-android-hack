@@ -1,11 +1,14 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.Validatable;
@@ -44,15 +47,13 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		View v = inflater.inflate(
 				User.isLoggedIn(getActivity()) ? R.layout.fragment_flight_payment_creditcard_logged_in
 						: R.layout.fragment_flight_payment_creditcard, container, false);
-		
-		
 
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
 				false) : false;
 
 		mBillingInfo = Db.getBillingInfo();
-		
-		if(User.isLoggedIn(getActivity())){
+
+		if (User.isLoggedIn(getActivity())) {
 			mBillingInfo.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 		}
 
@@ -81,12 +82,18 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		super.onResume();
 		mBillingInfo = Db.getBillingInfo();
 		bindAll();
-		//		if(mAttemptToLeaveMade){
-		//			//We need to call this after bind...
-		//			mSectionCreditCard.hasValidInput();
-		//		}
-	}
 
+		//We get the focused field, if it's an edittext we show the keyboard and move the cursor to the end position
+		View focused = mSectionCreditCard.findFocus();
+		if (focused != null && focused instanceof EditText) {
+			InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(
+					Context.INPUT_METHOD_SERVICE);
+			keyboard.showSoftInput(focused, 0);
+			((EditText) focused).setSelection(((EditText) focused).length());
+		}
+
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();

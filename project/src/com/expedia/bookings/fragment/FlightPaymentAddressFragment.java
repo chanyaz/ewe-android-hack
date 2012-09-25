@@ -1,11 +1,14 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.Validatable;
@@ -72,6 +75,15 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 		super.onResume();
 		mBillingInfo = Db.getBillingInfo();
 		mSectionLocation.bind(mBillingInfo.getLocation());
+
+		//We get the focused field, if it's an edittext we show the keyboard and move the cursor to the end position
+		View focused = mSectionLocation.findFocus();
+		if (focused != null && focused instanceof EditText) {
+			InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(
+					Context.INPUT_METHOD_SERVICE);
+			keyboard.showSoftInput(focused, 0);
+			((EditText) focused).setSelection(((EditText) focused).length());
+		}
 	}
 
 	@Override
