@@ -220,7 +220,7 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", productKey));
 
-		return doFlightsRequest("api/flight/trip/create2", query, new CreateItineraryResponseHandler(mContext), flags
+		return doFlightsRequest("api/flight/trip/create", query, new CreateItineraryResponseHandler(mContext), flags
 				| F_SECURE_REQUEST);
 	}
 
@@ -246,7 +246,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 		}
 
-		return doFlightsRequest("api/flight/checkout2", query, new FlightCheckoutResponseHandler(mContext), flags
+		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
 				+ F_SECURE_REQUEST);
 	}
 
