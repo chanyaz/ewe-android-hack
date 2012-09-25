@@ -286,7 +286,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			else {
 				List<Traveler> travelers = Db.getTravelers();
 				for (int i = 0; i < travelers.size(); i++) {
-					travelerValid &= (TravelerFlowState.getInstance(getActivity()).allTravelerInfoIsValid(
+					travelerValid &= (TravelerFlowState.getInstance(getActivity()).allTravelerInfoIsValidForDomesticFlight(
 							travelers.get(i)));
 				}
 			}
@@ -349,10 +349,23 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		if (User.isLoggedIn(getActivity())) {
 			//Populate traveler data
 			if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
-				//If the first traveler in the list isn't valid, then populate it with data from the User
-				if (!TravelerFlowState.getInstance(getActivity())
-						.allTravelerInfoIsValid(Db.getTravelers().get(0))) {
-					Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
+				//If the first traveler is not already all the way filled out, and the default profile for the expedia account has all required data, use the account profile
+				boolean isInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+				TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+				if(isInternational){
+					//International
+					if(!state.allTravelerInfoIsValidForInternationalFlight(Db.getTravelers().get(0))){
+						if(state.allTravelerInfoIsValidForInternationalFlight(Db.getUser().getPrimaryTraveler())){
+							Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
+						}
+					}
+				}else{
+					//Domestic
+					if(!state.allTravelerInfoIsValidForDomesticFlight(Db.getTravelers().get(0))){
+						if(state.allTravelerInfoIsValidForDomesticFlight(Db.getUser().getPrimaryTraveler())){
+							Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
+						}
+					}
 				}
 			}
 		}

@@ -19,6 +19,7 @@ public class TravelerFlowState {
 
 	SectionTravelerInfo mTravelerInfoOne;
 	SectionTravelerInfo mTravelerInfoTwo;
+	SectionTravelerInfo mTravelerInfoThree;
 
 	private TravelerFlowState(Context context) {
 		mContext = context;
@@ -26,6 +27,8 @@ public class TravelerFlowState {
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mTravelerInfoOne = (SectionTravelerInfo) inflater.inflate(R.layout.section_edit_traveler_pt1, null);
 		mTravelerInfoTwo = (SectionTravelerInfo) inflater.inflate(R.layout.section_edit_traveler_pt2, null);
+		mTravelerInfoThree = (SectionTravelerInfo) inflater.inflate(R.layout.section_edit_traveler_pt3, null);
+		mTravelerInfoThree.setAutoChoosePassportCountryEnabled(false);//Turn off auto select passport country for validation purposes
 	}
 
 	public static TravelerFlowState getInstance(Context context) {
@@ -35,23 +38,37 @@ public class TravelerFlowState {
 	private void bind(Traveler travelerInfo) {
 		mTravelerInfoOne.bind(travelerInfo);
 		mTravelerInfoTwo.bind(travelerInfo);
+		mTravelerInfoThree.bind(travelerInfo);
 	}
 
 	public boolean hasValidTravelerPartOne(Traveler travelerInfo) {
-		bind(travelerInfo);
+		mTravelerInfoOne.bind(travelerInfo);
 		return mTravelerInfoOne.hasValidInput();
 	}
 
 	public boolean hasValidTravelerPartTwo(Traveler travelerInfo) {
-		bind(travelerInfo);
+		mTravelerInfoTwo.bind(travelerInfo);
 		return mTravelerInfoTwo.hasValidInput();
 	}
+	
+	public boolean hasValidTravelerPartThree(Traveler travelerInfo){
+		mTravelerInfoThree.bind(travelerInfo);
+		return mTravelerInfoThree.hasValidInput();
+	}
 
-	public boolean allTravelerInfoIsValid(Traveler travelerInfo) {
+	public boolean allTravelerInfoIsValidForDomesticFlight(Traveler travelerInfo) {
 		bind(travelerInfo);
 		boolean travOne = mTravelerInfoOne.hasValidInput();
 		boolean travTwo = mTravelerInfoTwo.hasValidInput();
 		return travOne && travTwo;
+	}
+	
+	public boolean allTravelerInfoIsValidForInternationalFlight(Traveler travelerInfo) {
+		bind(travelerInfo);
+		boolean travOne = mTravelerInfoOne.hasValidInput();
+		boolean travTwo = mTravelerInfoTwo.hasValidInput();
+		boolean travThree = mTravelerInfoThree.hasValidInput();
+		return travOne && travTwo && travThree;
 	}
 
 }

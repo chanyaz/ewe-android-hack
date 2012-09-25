@@ -49,6 +49,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	Traveler mTraveler;
 	Context mContext;
+	boolean mAutoChoosePassportCountry = true;
 
 	public SectionTravelerInfo(Context context) {
 		super(context);
@@ -153,6 +154,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	public void clearChangeListeners() {
 		mChangeListeners.clear();
 
+	}
+
+	/**
+	 * Helper for validation purposes, this must be called before bind
+	 * @param enabled
+	 */
+	public void setAutoChoosePassportCountryEnabled(boolean enabled) {
+		mAutoChoosePassportCountry = enabled;
 	}
 
 	public String phoneToStringHelper(Phone phone) {
@@ -700,7 +709,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		Validator<ListView> mValidator = new Validator<ListView>() {
 			@Override
 			public int validate(ListView obj) {
-				return ValidationError.NO_ERROR;
+				if (obj.getCheckedItemPosition() != ListView.INVALID_POSITION) {
+					return ValidationError.NO_ERROR;
+				}
+				else {
+					return ValidationError.ERROR_DATA_MISSING;
+				}
 			}
 		};
 
@@ -732,7 +746,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					}
 					onChange(SectionTravelerInfo.this);
 				}
-
 			});
 
 		}
@@ -748,7 +761,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					}
 				}
 			}
-			else {
+			else if (mAutoChoosePassportCountry) {
 				final String targetCountry = mContext.getString(LocaleUtils.getDefaultCountryResId(mContext));
 				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
 					if (targetCountry.equalsIgnoreCase(mCountryAdapter.getItem(i).toString())) {

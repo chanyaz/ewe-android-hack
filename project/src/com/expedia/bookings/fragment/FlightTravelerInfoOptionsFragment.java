@@ -303,10 +303,20 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				if (traveler != null) {
 					mCurrentTraveler = traveler;
 					Db.getTravelers().set(mCurrentTravelerIndex, traveler);
-					if (TravelerFlowState.getInstance(getActivity()).allTravelerInfoIsValid(mCurrentTraveler)) {
-						mListener.displayCheckout();
-					}
-					else {
+					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+					if(state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)){
+						boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+						if(!flightIsInternational){
+							mListener.displayCheckout();
+						}else{
+							if(state.allTravelerInfoIsValidForInternationalFlight(mCurrentTraveler)){
+								mListener.displayCheckout();
+							}else{
+								mListener.setMode(YoYoMode.YOYO);
+								mListener.displayTravelerEntryThree();
+							}
+						}
+					}else{
 						mListener.setMode(YoYoMode.YOYO);
 						mListener.displayTravelerEntryOne();
 					}
