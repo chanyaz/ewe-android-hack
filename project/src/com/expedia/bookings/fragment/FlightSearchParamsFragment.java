@@ -479,6 +479,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 					.getCalendar();
 			Calendar dateEnd = mSearchParams.getReturnDate() == null ? null : mSearchParams.getReturnDate()
 					.getCalendar();
+			boolean researchMode = mCalendarDatePicker.getOneWayResearchMode();
 
 			if (dateStart != null && dateEnd != null) {
 				int nightCount = Time.getJulianDay(dateEnd.getTimeInMillis(), dateEnd.getTimeZone().getRawOffset())
@@ -486,6 +487,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				String nightsStr = String.format(getString(R.string.calendar_instructions_range_selected_TEMPLATE),
 						nightCount);
 				mCalendarDatePicker.setHeaderInstructionText(nightsStr);
+			}
+			else if (dateStart != null && researchMode) {
+				mCalendarDatePicker
+						.setHeaderInstructionText(getString(R.string.calendar_instructions_nothing_selected));
 			}
 			else if (dateStart != null) {
 				mCalendarDatePicker.setHeaderInstructionText(getString(R.string.calendar_instructions_start_selected));
