@@ -126,6 +126,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 				final StoredCreditCard storedCard = cards.get(i);
 				SectionStoredCreditCard card = (SectionStoredCreditCard) inflater.inflate(
 						R.layout.section_display_stored_credit_card, null);
+				card.setUseActiveCardIcon(false,false);
 				card.bind(cards.get(i));
 				card.setPadding(0, 5, 0, (i == cards.size() - 1) ? 10 : 5);
 				card.setOnClickListener(new OnClickListener() {
