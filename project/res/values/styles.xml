@@ -471,24 +471,25 @@
     </style>
 
     <style name="FlightConfirmationHeader">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">17dp</item>
-        <item name="android:layout_marginLeft">24dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">17dp</item>
     </style>
 
     <style name="FlightConfirmationAction">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/abs__item_background_holo_dark</item>
         <item name="android:drawablePadding">12dp</item>
-        <item name="android:layout_marginLeft">24dp</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginTop">12dp</item>
-        <item name="android:layout_marginBottom">12dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
     </style>
 
     <style name="FlightConfirmationHeaderDivider">

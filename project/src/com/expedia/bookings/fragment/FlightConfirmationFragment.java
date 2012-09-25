@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
@@ -40,6 +41,40 @@ public class FlightConfirmationFragment extends Fragment {
 						Db.getFlightBookingEmail())));
 
 		Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationAirport.mCity));
+		Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Ui.showToast(getActivity(), "TODO: Search for hotels");
+			}
+		});
+
+		Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Ui.showToast(getActivity(), "TODO: Share booking");
+			}
+		});
+
+		Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Ui.showToast(getActivity(), "TODO: Add to calendar");
+			}
+		});
+
+		Ui.setOnClickListener(v, R.id.flighttrack_action_text_view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Ui.showToast(getActivity(), "TODO: Track on FT");
+			}
+		});
+
+		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Ui.showToast(getActivity(), "TODO: Call Expedia");
+			}
+		});
 
 		// We need to capitalize in code because the all_caps field isn't until a later API
 		Ui.setText(v, R.id.get_a_room_text_view, getString(R.string.get_a_room).toUpperCase());
