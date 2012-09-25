@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/btn_signin"
+            android:background="@drawable/btn_expedia_login"
             android:text="@string/log_in"
             android:textColor="@color/btn_signin_text_color" />
         <Button

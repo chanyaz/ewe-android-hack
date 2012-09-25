@@ -235,7 +235,7 @@ public class CustomEditText extends EditText {
 	}
 
 	public void setClearFieldButton() {
-		Drawable icon = getContext().getResources().getDrawable(R.drawable.btn_cancel_normal);
+		Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_clear_edittext);
 
 		icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
 
@@ -593,7 +593,7 @@ public class CustomEditText extends EditText {
 			return;
 		}
 
-		Drawable cancelDrawable = getContext().getResources().getDrawable(R.drawable.btn_cancel_normal);
+		Drawable cancelDrawable = getContext().getResources().getDrawable(R.drawable.ic_clear_edittext);
 		Drawable transparentDrawable = new ColorDrawable(android.R.color.transparent);
 		transparentDrawable.setBounds(0, 0, cancelDrawable.getIntrinsicWidth(), cancelDrawable.getIntrinsicHeight());
 

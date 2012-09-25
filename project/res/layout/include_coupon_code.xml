@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:drawablePadding="5dp"
-        android:drawableRight="@drawable/ic_expand"
+        android:drawableRight="@drawable/ic_expand_coupon"
         android:text="@string/coupon_code"
         android:textColor="@color/text_blue_dark"
         android:textSize="15dp"
