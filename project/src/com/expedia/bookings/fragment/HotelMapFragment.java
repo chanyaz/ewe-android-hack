@@ -168,7 +168,11 @@ public class HotelMapFragment extends Fragment {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(INSTANCE_SHOW_DISTANCES, mShowDistances);
 		outState.putBoolean(INSTANCE_SHOW_SINGLE_PROPERTY, mShowSingleProperty);
+
+		mSavedZoomLevel = mMapView.getZoomLevel();
 		outState.putInt(INSTANCE_ZOOM_LEVEL, mSavedZoomLevel);
+
+		mSavedMapCenter = mMapView.getMapCenter();
 		int[] latlng = { mSavedMapCenter.getLatitudeE6(), mSavedMapCenter.getLongitudeE6() };
 		outState.putIntArray(INSTANCE_LAT_LNG, latlng);
 	}
