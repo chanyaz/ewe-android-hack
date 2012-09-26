@@ -6,9 +6,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Service;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -31,6 +33,14 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 		Bundle args = new Bundle();
 		frag.setArguments(args);
 		return frag;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		// Fixed inability to cancel by touching outside of dialog
+		getDialog().setCanceledOnTouchOutside(true);
 	}
 
 	@Override
@@ -57,15 +67,15 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 		expediaFeeAmount.setAmount(new BigDecimal(0));
 		expediaFeeAmount.setCurrency("USD");
 		expediaFees.setText(expediaFeeAmount.getFormattedMoney());
-
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		AlertDialog dialog = builder.setCancelable(false)
-				.setView(body)
 				.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.dismiss();
 					}
 				}).create();
+		dialog.setView(body,0,0,0,0);
 		return dialog;
 
 	}
