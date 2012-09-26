@@ -58,6 +58,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private MenuItem mCheckoutMenuItem;
 
 	private DisplayMode mDisplayMode = DisplayMode.OVERVIEW;
+	private boolean mShowingSlideToPurchase = false; //Slide to purchase is showing
+	private boolean mOverviewIsHidden = false; //No flight cards are visible
 
 	private int mStackedHeight = 0;
 	private int mUnstackedHeight = 0;
@@ -350,15 +352,34 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		return set;
 	}
 
+	
+	
 	@Override
 	public void onBackPressed() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-			gotoOverviewMode(true);
+			if(mOverviewIsHidden){
+				bringBackOverview();
+			}else{
+				gotoOverviewMode(true);
+			}
 		}
 		else {
 			super.onBackPressed();
 		}
 	}
+	
+	public void hideOverviewEntirely(){
+		mOverviewIsHidden = true;
+		this.mOverviewContainer.setVisibility(View.GONE);
+		mCheckoutContainer.setPadding(0, 0, 0, 0);
+	}
+	
+	public void bringBackOverview(){
+		mOverviewIsHidden = false;
+		mCheckoutContainer.setPadding(0, mOverviewFragment.getStackedHeight(), 0, 0);
+		this.mOverviewContainer.setVisibility(View.VISIBLE);
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -373,7 +394,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				}
 			}
 		});
-
 		return true;
 	}
 
@@ -395,11 +415,14 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	//Checkout listener	
 	@Override
 	public void checkoutInformationIsValid() {
+		mShowingSlideToPurchase = true;
+		hideOverviewEntirely();
 		replacePriceBarWithSlideToCheckout();
 	}
 
 	@Override
 	public void checkoutInformationIsNotValid() {
+		
 		replaceSlideToCheckoutWithPriceBar();
 	}
 }
