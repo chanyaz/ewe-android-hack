@@ -177,17 +177,17 @@ public class HotelsRobotHelper {
 
 	public void landscape() {
 		if (mAllowOrientationChange) {
-			delay(1);
+			delay(2);
 			mSolo.setActivityOrientation(Solo.LANDSCAPE);
-			delay(1);
+			delay(2);
 		}
 	}
 
 	public void portrait() {
 		if (mAllowOrientationChange) {
-			delay(1);
+			delay(2);
 			mSolo.setActivityOrientation(Solo.PORTRAIT);
-			delay(1);
+			delay(2);
 		}
 	}
 
@@ -284,6 +284,9 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "Searching for destination " + location);
 		delay(5);
 		mSolo.clickOnEditText(0);
+		landscape();
+		delay(1);
+		portrait();
 		delay(1);
 		mSolo.clearEditText(0);
 		delay(1);
@@ -316,10 +319,12 @@ public class HotelsRobotHelper {
 		if (mRes.getConfiguration().locale != TEST_LOCALES[18] && mRes.getConfiguration().locale != TEST_LOCALES[19]) {
 			enterLog(TAG, "Clicking on label: " + filter);
 			mSolo.clickOnText(filter);
+			landscape();
+			portrait();
+			delay(5);
 			mSolo.enterText(0, filterText);
 			delay(1);
 			screenshot("Filtering for " + filterText);
-			mSolo.goBack();
 			delay(1);
 			screenshot("After Filtering for " + filterText);
 		}
@@ -329,6 +334,11 @@ public class HotelsRobotHelper {
 		delay(1);
 		String sortText = mRes.getString(R.string.SORT);
 		enterLog(TAG, "Clicking on label: " + sortText);
+		mSolo.clickOnText(sortText);
+
+		landscape();
+		portrait();
+
 		mSolo.clickOnText(sortText);
 		//solo.clickOnText(getStringFromR(R.string.sort_description_distance));
 		delay(1);
@@ -372,6 +382,8 @@ public class HotelsRobotHelper {
 	public void pressCalendar() {
 		mSolo.clickOnImageButton(1);
 		delay(1);
+		landscape();
+		portrait();
 		screenshot("Calendar");
 		mSolo.goBack();
 	}
@@ -379,6 +391,8 @@ public class HotelsRobotHelper {
 	public void pressGuestPicker() {
 		mSolo.clickOnImageButton(0);
 		delay(2);
+		landscape();
+		portrait();
 		screenshot("Guest Picker");
 		mSolo.clickOnImageButton(2); // Adult +1
 		delay(1);
@@ -392,6 +406,9 @@ public class HotelsRobotHelper {
 
 	public void selectHotel(int hotelIndex) throws Exception {
 		enterLog(TAG, "Picking hotel at index " + hotelIndex);
+
+		landscape();
+		portrait();
 
 		mSolo.clickInList(hotelIndex);
 		mSolo.waitForActivity("HotelDetailsFragmentActivity");
@@ -414,9 +431,26 @@ public class HotelsRobotHelper {
 
 	////////////////////////////////////////////////////////////////
 	// Hotel Info Screen Methods
+	public void checkReviews() {
+		mSolo.clickOnView(mSolo.getView(R.id.user_rating_text_view));
+		mSolo.waitForDialogToClose(10000);
+		delay(1);
+		landscape();
+		portrait();
+		delay();
+		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_favorable));
+		delay(1);
+
+		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical));
+
+		mSolo.goBack();
+	}
 
 	public void pressBookRoom() {
 		String bookNowString = mRes.getString(R.string.SELECT);
+
+		landscape();
+		portrait();
 
 		enterLog(TAG, "Pressing Book Room Button: " + bookNowString);
 		mSolo.clickOnText(bookNowString);
@@ -438,7 +472,8 @@ public class HotelsRobotHelper {
 	public void selectRoom(int roomIndex) throws Exception {
 		enterLog(TAG, "About to select room at index " + roomIndex);
 		delay();
-
+		landscape();
+		portrait();
 		screenshot("Rooms and Rates Screen");
 		mSolo.clickInList(roomIndex);
 		delay();
@@ -639,6 +674,7 @@ public class HotelsRobotHelper {
 		for (int i = 0; i < numberOfHotels / 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				selectHotel(j);
+				checkReviews();
 				delay(3);
 				mSolo.goBack();
 				delay(3);
@@ -658,6 +694,9 @@ public class HotelsRobotHelper {
 
 	public void captureInfoScreen() {
 		mSolo.clickOnMenuItem(mRes.getString(R.string.About));
+		landscape();
+		delay(2);
+		portrait();
 		delay(2);
 		screenshot("Info Screen 1");
 		delay(1);

@@ -72,7 +72,7 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 
 			mDriver.selectHotel(0);
 			mDriver.delay();
-
+			mDriver.checkReviews();
 			mDriver.pressBookRoom();
 			mDriver.selectRoom(0);
 
