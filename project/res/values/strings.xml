@@ -414,6 +414,18 @@
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Call Expedia Customer Support</string>
 
+    <!-- Add to calendar -->
+    <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
+    <string name="calendar_flight_title_TEMPLATE">%1$s to %2$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
+    <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia Itinerary #: %s</string>
+    <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
+    <string name="calendar_flight_desc_directions_TEMPLATE">Directions to airport: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE">Expedia Customer Support: %s</string>
+
     <!-- Flight Rules -->
     <!-- Legal information header -->
     <string name="legal_information">Legal Information</string>

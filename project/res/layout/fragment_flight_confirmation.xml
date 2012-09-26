@@ -83,7 +83,9 @@
                 android:drawableLeft="@drawable/ic_calendar_add"
                 android:text="@string/add_to_calendar" />
 
-            <View style="@style/FlightConfirmationActionDivider" />
+            <View
+                android:id="@+id/calendar_divider"
+                style="@style/FlightConfirmationActionDivider" />
 
             <TextView
                 android:id="@+id/flighttrack_action_text_view"

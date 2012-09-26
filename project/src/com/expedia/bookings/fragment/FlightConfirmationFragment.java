@@ -1,7 +1,16 @@
 package com.expedia.bookings.fragment;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -10,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -18,8 +28,10 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.Waypoint;
 
 // We can assume that if this fragment loaded we successfully booked, so most
 // data we need to grab is available.
@@ -98,12 +110,18 @@ public class FlightConfirmationFragment extends Fragment {
 			}
 		});
 
-		Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Ui.showToast(getActivity(), "TODO: Add to calendar");
-			}
-		});
+		if (supportsCalendar()) {
+			Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					addToCalendar();
+				}
+			});
+		}
+		else {
+			Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
+			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
+		}
 
 		Ui.setOnClickListener(v, R.id.flighttrack_action_text_view, new OnClickListener() {
 			@Override
@@ -124,5 +142,71 @@ public class FlightConfirmationFragment extends Fragment {
 		Ui.setText(v, R.id.more_actions_text_view, getString(R.string.more_actions).toUpperCase());
 
 		return v;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Add to Calendar
+
+	private boolean supportsCalendar() {
+		Uri data = null;
+		try {
+			Class<?> clz = Class.forName("android.provider.CalendarContract");
+			for (Class<?> c : clz.getDeclaredClasses()) {
+				if (c.getName().equals("android.provider.CalendarContract$Events")) {
+					Field f = c.getField("CONTENT_URI");
+					data = (Uri) f.get(null);
+				}
+			}
+		}
+		catch (Exception e) {
+			Log.d("Reflection error trying to look for calendar support", e);
+		}
+		finally {
+			if (data == null) {
+				Log.d("Device does not support calendaring.");
+				return false;
+			}
+		}
+
+		Intent dummy = new Intent(Intent.ACTION_INSERT);
+		dummy.setData(data);
+
+		PackageManager packageManager = getActivity().getPackageManager();
+		List<ResolveInfo> list = packageManager.queryIntentActivities(dummy, PackageManager.MATCH_DEFAULT_ONLY);
+		return list.size() > 0;
+	}
+
+	private void addToCalendar() {
+		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		for (int a = 0; a < trip.getLegCount(); a++) {
+			Intent intent = generateCalendarInsertIntent(trip.getLeg(a));
+			startActivity(intent);
+		}
+	}
+
+	private Intent generateCalendarInsertIntent(FlightLeg leg) {
+		Waypoint origin = leg.getFirstWaypoint();
+		Airport originAirport = origin.getAirport();
+		Waypoint destination = leg.getLastWaypoint();
+		String itineraryNumber = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
+
+		Intent intent = new Intent(Intent.ACTION_INSERT);
+		intent.setData(Events.CONTENT_URI);
+		intent.putExtra(Events.TITLE,
+				getString(R.string.calendar_flight_title_TEMPLATE, origin.mAirportCode, destination.mAirportCode));
+		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, origin.getMostRelevantDateTime().getTimeInMillis());
+		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, destination.getMostRelevantDateTime().getTimeInMillis());
+		intent.putExtra(Events.EVENT_LOCATION,
+				getString(R.string.calendar_flight_location_TEMPLATE, originAirport.mName, originAirport.mCity));
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(getString(R.string.calendar_flight_desc_itinerary_TEMPLATE, itineraryNumber));
+		sb.append("\n\n");
+		sb.append(getString(R.string.calendar_flight_desc_directions_TEMPLATE, "http://url-to-directions.com"));
+		sb.append("\n\n");
+		sb.append(getString(R.string.calendar_flight_desc_support_TEMPLATE, "<insert phone # here, once we know it>"));
+		sb.append("\n\n");
+		intent.putExtra(Events.DESCRIPTION, sb.toString());
+		return intent;
 	}
 }
