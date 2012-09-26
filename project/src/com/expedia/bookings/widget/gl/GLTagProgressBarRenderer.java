@@ -149,7 +149,6 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	private GLSprite[] mSprites;
 	private GLSprite mTagSprite;
-	private GLSprite mRingSprite;
 	private GLSprite mRingFillSprite;
 	private GLSprite mKnobSprite;
 	private GLSprite mKnobBgSprite;
@@ -168,18 +167,16 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 
 		mTagSprite = new GLSprite(R.drawable.gl_progress_tag);
-		mRingSprite = new GLSprite(R.drawable.gl_progress_ring);
 		mRingFillSprite = new GLSprite(R.drawable.gl_progress_ring_fill);
 		mKnobSprite = new GLSprite(R.drawable.gl_progress_knob);
 		mKnobBgSprite = new GLSprite(R.drawable.gl_progress_knob_bg);
 
 		// Setup sprites
-		mSprites = new GLSprite[5];
+		mSprites = new GLSprite[4];
 		mSprites[0] = mKnobBgSprite;
 		mSprites[1] = mTagSprite;
-		mSprites[2] = mRingSprite;
-		mSprites[3] = mRingFillSprite;
-		mSprites[4] = mKnobSprite;
+		mSprites[2] = mRingFillSprite;
+		mSprites[3] = mKnobSprite;
 	}
 
 	@Override
@@ -478,7 +475,6 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 	public void setShowProgress(boolean showProgress) {
 		mShowProgress = showProgress;
-		mRingSprite.visible = showProgress;
 		mRingFillSprite.visible = showProgress;
 	}
 
@@ -605,11 +601,6 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mKnobSprite.x = mKnobDestRect.left;
 		mKnobSprite.y = mHeight - mKnobDestRect.bottom;
 
-		mRingSprite.x = mRingDestRect.left;
-		mRingSprite.y = mHeight - mRingDestRect.bottom;
-		mRingSprite.rotationX = mRingWidth / 2;
-		mRingSprite.rotationY = mRingHeight / 2;
-
 		mRingFillSprite.x = mRingFillDestRect.left;
 		mRingFillSprite.y = mHeight - mRingFillDestRect.bottom;
 		mRingFillSprite.rotationX = mRingFillWidth / 2;
@@ -711,10 +702,6 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mRingFillSprite.x = mRingFillDestRect.left + (float) offsetX;
 		mRingFillSprite.y = mHeight - mRingFillDestRect.bottom + (float) offsetY;
 		mRingFillSprite.rotation = -ringAngle;
-
-		mRingSprite.x = mRingFillSprite.x;
-		mRingSprite.y = mRingFillSprite.y;
-		mRingSprite.rotation = mRingFillSprite.rotation;
 	}
 
 	/**
