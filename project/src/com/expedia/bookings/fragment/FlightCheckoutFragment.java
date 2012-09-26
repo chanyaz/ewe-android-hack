@@ -302,7 +302,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	};
 
-	private void updateViewVisibilities() {
+	public void updateViewVisibilities() {
 
 		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
 		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : PaymentFlowState.getInstance(getActivity())

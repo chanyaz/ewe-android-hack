@@ -58,8 +58,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private MenuItem mCheckoutMenuItem;
 
 	private DisplayMode mDisplayMode = DisplayMode.OVERVIEW;
-	private boolean mShowingSlideToPurchase = false; //Slide to purchase is showing
-	private boolean mOverviewIsHidden = false; //No flight cards are visible
 
 	private int mStackedHeight = 0;
 	private int mUnstackedHeight = 0;
@@ -112,7 +110,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (mPriceBottomFragment == null) {
 			mPriceBottomFragment = FlightTripPriceFragment.newInstance();
 		}
-		bottomBarTrans.add(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
+		bottomBarTrans.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
 		bottomBarTrans.commit();
 
 		//TODO: for now we attach this here, but we should do it after initial create and before any animation
@@ -158,10 +156,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	@Override
 	public void onSaveInstanceState(Bundle out) {
+		super.onSaveInstanceState(out);
 		out.putString(STATE_TAG_MODE, mDisplayMode.name());
 		out.putInt(STATE_TAG_STACKED_HEIGHT, mStackedHeight);
 		out.putInt(STATE_TAG_UNSTACKED_HEIGHT, mUnstackedHeight);
-		super.onSaveInstanceState(out);
 	}
 
 	public void replacePriceBarWithSlideToCheckout() {
@@ -218,6 +216,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (!mTransitionHappening) {
 			int duration = animate ? ANIMATION_DURATION : 1;
 
+			replaceSlideToCheckoutWithPriceBar();
+			
 			if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 				Animator hideCheckout = getCheckoutHideAnimator(true, false);
 				mPriceBottomFragment.showPriceChange();
@@ -279,6 +279,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
+				//This will force checkout to validate call the listener methods if need be
+				mCheckoutFragment.updateViewVisibilities();
 			}
 
 			@Override
@@ -357,27 +359,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void onBackPressed() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-			if(mOverviewIsHidden){
-				bringBackOverview();
-			}else{
-				gotoOverviewMode(true);
-			}
+			gotoOverviewMode(true);
 		}
 		else {
 			super.onBackPressed();
 		}
-	}
-	
-	public void hideOverviewEntirely(){
-		mOverviewIsHidden = true;
-		this.mOverviewContainer.setVisibility(View.GONE);
-		mCheckoutContainer.setPadding(0, 0, 0, 0);
-	}
-	
-	public void bringBackOverview(){
-		mOverviewIsHidden = false;
-		mCheckoutContainer.setPadding(0, mOverviewFragment.getStackedHeight(), 0, 0);
-		this.mOverviewContainer.setVisibility(View.VISIBLE);
 	}
 	
 
@@ -415,14 +401,16 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	//Checkout listener	
 	@Override
 	public void checkoutInformationIsValid() {
-		mShowingSlideToPurchase = true;
-		hideOverviewEntirely();
-		replacePriceBarWithSlideToCheckout();
+		if(mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0){
+			
+			replacePriceBarWithSlideToCheckout();
+		}
 	}
 
 	@Override
 	public void checkoutInformationIsNotValid() {
-		
-		replaceSlideToCheckoutWithPriceBar();
+		if(mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0){
+			replaceSlideToCheckoutWithPriceBar();
+		}
 	}
 }
