@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -243,7 +246,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			int duration = animate ? ANIMATION_DURATION : 1;
 
 			if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
-				mCheckoutContainer.setPadding(0, mOverviewFragment.getStackedHeight(), 0, 0);
+				mStackedHeight = mOverviewFragment.getStackedHeight();
+				mCheckoutContainer.setPadding(0, mStackedHeight, 0, 0);
 				Animator slideIn = getCheckoutShowAnimator();
 				mPriceBottomFragment.hidePriceChange();
 				AnimatorSet animSet = new AnimatorSet();
@@ -403,14 +407,29 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public void checkoutInformationIsValid() {
 		if(mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0){
 			
+			//We scroll the overview stuff off screen (adding padding to the container to allow this)
+			int scrollViewHeight = mContentScrollView.getHeight();
+			int checkoutHeight = mCheckoutContainer.getHeight();
+			int diff = scrollViewHeight - checkoutHeight;
+			ViewGroup vg = Ui.findView(this, R.id.scroll_container);
+			vg.setPadding(vg.getPaddingLeft(), vg.getPaddingTop(), vg.getPaddingRight(), diff + mStackedHeight);
+			mContentScrollView.scrollTo(0, mStackedHeight);
+			
+			//Bring in the slide to checkout view
 			replacePriceBarWithSlideToCheckout();
 		}
 	}
+
 
 	@Override
 	public void checkoutInformationIsNotValid() {
 		if(mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0){
 			replaceSlideToCheckoutWithPriceBar();
+			
+			//Remove the padding added in checkoutInformationIsValid() and scroll to the top
+			ViewGroup vg = Ui.findView(this, R.id.scroll_container);
+			vg.setPadding(vg.getPaddingLeft(), vg.getPaddingTop(), vg.getPaddingRight(), 0);
+			mContentScrollView.scrollTo(0, 0);
 		}
 	}
 }
