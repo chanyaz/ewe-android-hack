@@ -92,7 +92,8 @@
             android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.TabletAboutActivity" />
-        <activity android:name=".activity.ExpediaBookingPreferenceActivity" />
+        <activity android:name=".activity.ExpediaBookingPreferenceActivity" 
+            android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.SignInActivity" />
         <activity
             android:name=".activity.TabletPreferenceActivity"

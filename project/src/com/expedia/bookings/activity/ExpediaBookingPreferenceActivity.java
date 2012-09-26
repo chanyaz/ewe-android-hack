@@ -9,18 +9,24 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.view.View;
+import android.widget.Button;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.util.AndroidUtils;
 
-public class ExpediaBookingPreferenceActivity extends PreferenceActivity implements ClearPrivateDataListener {
+public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity implements ClearPrivateDataListener {
 	public static final int RESULT_POS_CHANGED = 1;
 
 	private static final int DIALOG_CLEAR_DATA = 0;
@@ -66,6 +72,26 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 
 		// If the result is canceled, means no prefs were modified
 		setResult(RESULT_CANCELED);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		ActionBar ab = getSupportActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
+		ab.setDisplayShowTitleEnabled(true);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
