@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.tests.mock;
 
-import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
@@ -37,11 +36,10 @@ public class HotelsSearchWithProxy extends ActivityInstrumentationTestCase2<Sear
 
 	public void testSearchWithProxy() throws Exception {
 
-		city = "Miami";
+		city = "Miami (and vicinity), Florida";
 		expectedHotelName = "Rodeway Inn Miami Airport";
 				
 		RobotiumWorkflowUtils.setEnvironment(solo, ENVIRONMENT);
-		//RobotiumWorkflowUtils.clearMenu(solo);
 		HotelsTestingUtils.selectCity(solo, city);
 		HotelsTestingUtils.setCalendar(solo, RESERVATION_DATE);
 		actualHotelName = HotelsTestingUtils.getHotelName(solo);
@@ -54,11 +52,8 @@ public class HotelsSearchWithProxy extends ActivityInstrumentationTestCase2<Sear
 	@Override
 	protected void tearDown() throws Exception {
 		Log.d(TAG, "in tearDown()");
-		//Log.d(TAG, "last checkpoint: " + lastCheckpoint);
-		//assertTrue(testRanThroughCompletion);
 		Log.d(TAG, "sleeping");
 		solo.sleep(10000);
-		//Robotium will finish all the activities that have been opened
 		solo.finishOpenedActivities();
 	}
 
