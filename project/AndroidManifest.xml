@@ -93,6 +93,10 @@
         <activity
             android:name=".activity.BookingOverviewActivity"
             android:theme="@style/Theme.Phone" />
+        <activity
+            android:name=".activity.HotelTravelerInfoOptionsActivity"
+            android:label="Add Traveler"
+            android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.TabletAboutActivity" />
         <activity

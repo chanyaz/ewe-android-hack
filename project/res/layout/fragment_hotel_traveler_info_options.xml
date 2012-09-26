@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/flight_checkout_opaque_white"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="@string/enter_traveler_info"
+        android:textAllCaps="true"
+        android:textColor="@color/data_entry_heading"
+        android:textSize="@dimen/data_form_section_header_text"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/data_entry_heading_divider" />
+
+    <EditText
+        android:id="@+id/name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name"
+        android:inputType="textPersonName|textCapWords"
+        android:nextFocusDown="@+id/phone_number_edit_text"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/phone_number_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/phone_number_hint"
+        android:inputType="phone"
+        android:nextFocusDown="@+id/email_address_edit_text"
+        android:nextFocusUp="@+id/name_edit_text"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/email_address_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email_address_hint"
+        android:inputType="textEmailAddress"
+        android:nextFocusUp="@+id/phone_number_edit_text"
+        android:singleLine="true" />
+
+</LinearLayout>

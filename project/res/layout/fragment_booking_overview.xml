@@ -10,22 +10,28 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp" >
 
-        <include
-            android:id="@+id/receipt"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:id="@+id/overview_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            layout="@layout/include_receipt" />
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@android:id/text1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/receipt"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="Readymade whatever echo park bicycle rights, gastropub gentrify mustache +1 quinoa. Synth put a bird on it leggings locavore etsy wes anderson."
-            android:textColor="@android:color/white" />
+            <include
+                android:id="@+id/receipt"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                layout="@layout/include_receipt" />
+
+            <TextView
+                android:id="@android:id/text1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="Readymade whatever echo park bicycle rights, gastropub gentrify mustache +1 quinoa. Synth put a bird on it leggings locavore etsy wes anderson."
+                android:textColor="@android:color/white" />
+        </LinearLayout>
 
         <include
             android:id="@+id/receipt_mini"
@@ -39,13 +45,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/receipt_mini"
-            android:layout_marginTop="16dp"
             android:orientation="vertical"
             android:visibility="invisible" >
 
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/btn_expedia_login"
                 android:gravity="center"
                 android:text="Log in for faster booking."
@@ -54,9 +61,69 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="GUEST CHECKOUT"
                 android:textColor="@android:color/white" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#DBDBDB"
+                android:orientation="vertical"
+                android:showDividers="middle" >
+
+                <LinearLayout
+                    android:id="@+id/traveler_info_linear_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:visibility="visible" >
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/ic_traveler" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/enter_traveler_info"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#C4C4C4" />
+
+                <LinearLayout
+                    android:id="@+id/payment_info_linear_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:visibility="visible" >
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/ic_credit_card" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/enter_payment_info"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 

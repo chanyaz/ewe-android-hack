@@ -36,7 +36,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity {
 		if (mBookingOverviewFragment.inCheckout()) {
 			mBookingOverviewFragment.endCheckout();
 			mCheckoutMenuItem.setVisible(true);
-			
+
 			return;
 		}
 
