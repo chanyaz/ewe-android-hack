@@ -47,6 +47,15 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		}
 	}
 
+	/**
+	 * Sets whether or not the plane is "grounded"
+	 * 
+	 * Make sure to call before SurfaceView's initialization.
+	 */
+	public void setGrounded(boolean isGrounded) {
+		mThread.mIsGrounded = isGrounded;
+	}
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (mThread != null && mThread.onTouchEvent(event)) {
@@ -184,6 +193,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		private double mSkyOffset = 0;
 
+		// For the "grounded" look (instead of flying)
+		private boolean mIsGrounded;
+		private Bitmap mGroundedBitmap;
+
 		// For the accelerometer
 		private int mDisplayRotation;
 		private float mSensorX = 0;
@@ -266,17 +279,6 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				mVisibleFrameRect.right = mVisibleFrameRect.left + mVisibleFrameWidth;
 				mVisibleFrameRect.bottom = mVisibleFrameRect.top + mVisibleFrameHeight;
 
-				// Figure out the rotation skybox, which is larger than the actual visible
-				// skybox.  This is because if we rotate the image, we want it to still draw
-				// the entire space.
-				double diagonal = Math.sqrt(Math.pow(mVisibleFrameWidth, 2) + Math.pow(mVisibleFrameHeight, 2)) / 2;
-				double padLeftRight = diagonal - (mVisibleFrameWidth / 2);
-				double padTopBot = diagonal - (mVisibleFrameHeight / 2);
-				mSkyDstFull = new Rect((int) (mVisibleFrameRect.left - padLeftRight),
-						(int) (mVisibleFrameRect.top - padTopBot - MAX_TRANSLATION_Y),
-						(int) (mVisibleFrameRect.right + padLeftRight),
-						(int) (mVisibleFrameRect.bottom + padTopBot + MAX_TRANSLATION_Y));
-
 				// Common options for decoding bitmaps
 				BitmapFactory.Options opts = new BitmapFactory.Options();
 				opts.inScaled = false;
@@ -286,17 +288,36 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					opts.inPreferQualityOverSpeed = true;
 				}
 
-				// Pre-scale sky bitmap
-				mSkyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading_repeating_sky, opts);
-				int skyWidth = (int) Math.round(mSkyBitmap.getWidth()
-						* ((double) mSkyDstFull.height() / (double) mSkyBitmap.getHeight()));
-				mSkyBitmap = Bitmap.createScaledBitmap(mSkyBitmap, skyWidth, mSkyDstFull.height(), true);
-				mSkyWidth = mSkyBitmap.getWidth();
-				mSkyOffsetPerNano = (double) mSkyWidth / SKY_LOOP_TIME;
+				if (!mIsGrounded) {
+					// Figure out the rotation skybox, which is larger than the actual visible
+					// skybox.  This is because if we rotate the image, we want it to still draw
+					// the entire space.
+					double diagonal = Math.sqrt(Math.pow(mVisibleFrameWidth, 2) + Math.pow(mVisibleFrameHeight, 2)) / 2;
+					double padLeftRight = diagonal - (mVisibleFrameWidth / 2);
+					double padTopBot = diagonal - (mVisibleFrameHeight / 2);
+					mSkyDstFull = new Rect((int) (mVisibleFrameRect.left - padLeftRight),
+							(int) (mVisibleFrameRect.top - padTopBot - MAX_TRANSLATION_Y),
+							(int) (mVisibleFrameRect.right + padLeftRight),
+							(int) (mVisibleFrameRect.bottom + padTopBot + MAX_TRANSLATION_Y));
 
-				// Pre-configure pitch pivot points
-				mPitchPivotX = mVisibleFrameRect.left + (mVisibleFrameWidth / 2f);
-				mPitchPivotY = mVisibleFrameRect.top + (mVisibleFrameHeight / 2f);
+					// Pre-scale sky bitmap
+					mSkyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading_repeating_sky, opts);
+					int skyWidth = (int) Math.round(mSkyBitmap.getWidth()
+							* ((double) mSkyDstFull.height() / (double) mSkyBitmap.getHeight()));
+					mSkyBitmap = Bitmap.createScaledBitmap(mSkyBitmap, skyWidth, mSkyDstFull.height(), true);
+					mSkyWidth = mSkyBitmap.getWidth();
+					mSkyOffsetPerNano = (double) mSkyWidth / SKY_LOOP_TIME;
+
+					// Pre-configure pitch pivot points
+					mPitchPivotX = mVisibleFrameRect.left + (mVisibleFrameWidth / 2f);
+					mPitchPivotY = mVisibleFrameRect.top + (mVisibleFrameHeight / 2f);
+				}
+				else {
+					// Setup simple image to be drawn, as the plane is grounded
+					mGroundedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading_grounded, opts);
+					mGroundedBitmap = Bitmap.createScaledBitmap(mGroundedBitmap, mVisibleFrameWidth,
+							mVisibleFrameHeight, true);
+				}
 
 				// Pre-scale shade
 				mWindowShadeBitmap = BitmapFactory
@@ -332,9 +353,11 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 
 				if (rendering) {
-					Sensor accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-					mSensorListenerProxy = new SensorListenerProxy();
-					sm.registerListener(mSensorListenerProxy, accelerometer, SensorManager.SENSOR_DELAY_UI);
+					if (!mIsGrounded) {
+						Sensor accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+						mSensorListenerProxy = new SensorListenerProxy();
+						sm.registerListener(mSensorListenerProxy, accelerometer, SensorManager.SENSOR_DELAY_UI);
+					}
 
 					// Use deprecated getOrientation() because it's exactly
 					// the same as getRotation()
@@ -344,8 +367,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					mHasRendered = false;
 				}
 				else {
-					sm.unregisterListener(mSensorListenerProxy);
-					mSensorListenerProxy = null;
+					if (!mIsGrounded) {
+						sm.unregisterListener(mSensorListenerProxy);
+						mSensorListenerProxy = null;
+					}
 				}
 			}
 
@@ -397,7 +422,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 						synchronized (mSurfaceHolder) {
 							mPreviousTick = mCurrentTick;
 							mCurrentTick = System.nanoTime();
-							updateState(mCurrentTick - mPreviousTick);
+
+							if (!mIsGrounded) {
+								updateState(mCurrentTick - mPreviousTick);
+							}
 
 							doDraw(c);
 						}
@@ -500,19 +528,24 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			// Fill the background color
 			canvas.drawARGB(255, 202, 202, 202);
 
-			// Draw the sky
-			canvas.save();
+			if (!mIsGrounded) {
+				// Draw the sky
+				canvas.save();
 
-			// Apply clip/rotation for the sky
-			canvas.clipRect(mVisibleFrameRect);
-			canvas.rotate((float) mPitch, mPitchPivotX, mPitchPivotY);
-			canvas.translate((int) -mSkyOffset, (float) (mRollPercent * MAX_TRANSLATION_Y));
+				// Apply clip/rotation for the sky
+				canvas.clipRect(mVisibleFrameRect);
+				canvas.rotate((float) mPitch, mPitchPivotX, mPitchPivotY);
+				canvas.translate((int) -mSkyOffset, (float) (mRollPercent * MAX_TRANSLATION_Y));
 
-			// Draw two skies, one after another, and let the clipping handle what should be shown
-			canvas.drawBitmap(mSkyBitmap, 0, mSkyDstFull.top, mSkyPaint);
-			canvas.drawBitmap(mSkyBitmap, mSkyWidth, mSkyDstFull.top, mSkyPaint);
+				// Draw two skies, one after another, and let the clipping handle what should be shown
+				canvas.drawBitmap(mSkyBitmap, 0, mSkyDstFull.top, mSkyPaint);
+				canvas.drawBitmap(mSkyBitmap, mSkyWidth, mSkyDstFull.top, mSkyPaint);
 
-			canvas.restore();
+				canvas.restore();
+			}
+			else {
+				canvas.drawBitmap(mGroundedBitmap, null, mVisibleFrameRect, null);
+			}
 
 			// Draw the shade
 			mShadeSrc.top = mShadeHeight - mShadeY;

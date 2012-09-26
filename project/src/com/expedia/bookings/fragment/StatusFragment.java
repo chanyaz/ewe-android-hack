@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +16,23 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 
 	public static final String TAG = StatusFragment.class.toString();
 
-	private static final String INSTANCE_LOADING_TEXT = "INSTANCE_LOADING_TEXT";
-	private static final String INSTANCE_ERROR_TEXT = "INSTANCE_ERROR_TEXT";
+	private static final String INSTANCE_TEXT = "INSTANCE_TEXT";
+	private static final String INSTANCE_IS_GROUNDED = "INSTANCE_IS_GROUNDED";
 
 	private PlaneWindowView mPlaneWindowView;
 	private TextView mMessageTextView;
 	private View mCoverUpView;
 
-	private CharSequence mLoadingText;
-	private CharSequence mErrorText;
+	private CharSequence mText;
+	private boolean mIsGrounded;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		if (savedInstanceState != null) {
-			mLoadingText = savedInstanceState.getCharSequence(INSTANCE_LOADING_TEXT);
-			mErrorText = savedInstanceState.getCharSequence(INSTANCE_ERROR_TEXT);
+			mText = savedInstanceState.getCharSequence(INSTANCE_TEXT);
+			mIsGrounded = savedInstanceState.getBoolean(INSTANCE_IS_GROUNDED);
 		}
 	}
 
@@ -63,8 +62,8 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putCharSequence(INSTANCE_LOADING_TEXT, mLoadingText);
-		outState.putCharSequence(INSTANCE_ERROR_TEXT, mErrorText);
+		outState.putCharSequence(INSTANCE_TEXT, mText);
+		outState.putBoolean(INSTANCE_IS_GROUNDED, mIsGrounded);
 	}
 
 	@Override
@@ -85,27 +84,31 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 	}
 
 	public void showLoading(CharSequence loadingText) {
-		mLoadingText = loadingText;
-		mErrorText = null;
+		mText = loadingText;
 
 		displayStatus();
 	}
 
 	public void showError(CharSequence errorText) {
-		mLoadingText = null;
-		mErrorText = errorText;
+		mText = errorText;
+
+		displayStatus();
+	}
+
+	public void showGrounded(CharSequence groundedText) {
+		mText = groundedText;
+		mIsGrounded = true;
 
 		displayStatus();
 	}
 
 	private void displayStatus() {
 		if (mMessageTextView != null) {
-			if (!TextUtils.isEmpty(mErrorText)) {
-				mMessageTextView.setText(mErrorText);
-			}
-			else {
-				mMessageTextView.setText(mLoadingText);
-			}
+			mMessageTextView.setText(mText);
+		}
+
+		if (mPlaneWindowView != null) {
+			mPlaneWindowView.setGrounded(mIsGrounded);
 		}
 	}
 

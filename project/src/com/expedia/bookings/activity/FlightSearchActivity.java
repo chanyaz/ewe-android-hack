@@ -165,6 +165,10 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 			if (!params.isFilled()) {
 				Toast.makeText(this, R.string.toast_flight_search_params_missing, Toast.LENGTH_SHORT).show();
 			}
+			else if (!FlightUnsupportedPOSActivity.isSupportedPOS(this)) {
+				Log.i("Search requested from unsupported POS");
+				startActivity(new Intent(this, FlightUnsupportedPOSActivity.class));
+			}
 			else {
 				Log.i("Initial search requested!");
 				Db.getFlightSearch().setSearchParams(params);
