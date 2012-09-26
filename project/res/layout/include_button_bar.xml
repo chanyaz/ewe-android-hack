@@ -8,7 +8,6 @@
     android:background="@drawable/bg_dark_transparent_bar"
     android:clickable="true"
     android:orientation="horizontal"
-    android:padding="6dp"
     android:visibility="gone" >
 
     <com.mobiata.android.widget.AutoResizeTextView
@@ -19,9 +18,12 @@
         android:layout_weight="1"
         android:gravity="center_vertical|left"
         android:maxLines="1"
+        android:paddingBottom="6dp"
+        android:paddingLeft="6dp"
+        android:paddingTop="6dp"
+        android:textColor="@android:color/white"
         mobiata:maxTextSize="16sp"
-        mobiata:minTextSize="6sp"
-        android:textColor="@android:color/white" />
+        mobiata:minTextSize="6sp" />
 
     <Button xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/search_button"
@@ -31,6 +33,9 @@
         android:background="@drawable/bg_actionbar_button"
         android:drawableLeft="@drawable/ic_menu_select_hotel"
         android:gravity="center_vertical"
+        android:paddingBottom="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp"
         android:text="@string/SEARCH"
         android:textColor="#ffeb8b"
         android:textSize="12dp"
