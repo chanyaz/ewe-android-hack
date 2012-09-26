@@ -62,15 +62,11 @@ public class SignInFragment extends DialogFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.fragment_sign_in, null);
 
-		Dialog dialog;
-		if (AndroidUtils.isTablet(mContext)) {
-			dialog = new Dialog(getActivity(), R.style.Theme_Light_Fullscreen_Panel);
-			dialog.requestWindowFeature(STYLE_NO_TITLE);
-		}
-		else {
-			dialog = new Dialog(getActivity(), R.style.ExpediaLoginDialog);
-		}
-		dialog.setTitle(R.string.expedia_account);
+		int themeResId = AndroidUtils.isTablet(mContext)
+				? R.style.Theme_Light_Fullscreen_Panel
+				: R.style.ExpediaLoginDialog;
+		Dialog dialog = new Dialog(getActivity(), themeResId);
+		dialog.requestWindowFeature(STYLE_NO_TITLE);
 		dialog.setContentView(view);
 
 		mLoginFailed = (TextView) view.findViewById(R.id.login_failed_textview);
