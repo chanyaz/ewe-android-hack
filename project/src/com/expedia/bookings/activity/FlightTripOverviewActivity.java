@@ -412,13 +412,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void checkoutInformationIsValid() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-			//We scroll the overview stuff off screen (adding padding to the container to allow this)
-			int scrollViewHeight = mContentScrollView.getHeight();
-			int checkoutHeight = mCheckoutContainer.getHeight();
-			int diff = scrollViewHeight - checkoutHeight;
-			ViewGroup vg = Ui.findView(this, R.id.scroll_container);
-			vg.setPadding(vg.getPaddingLeft(), vg.getPaddingTop(), vg.getPaddingRight(), diff + mStackedHeight);
-			mContentScrollView.scrollTo(0, mStackedHeight);
 
 			//Bring in the slide to checkout view
 			replacePriceBarWithSlideToCheckout();
@@ -430,11 +423,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
 			//Bring in the price bar
 			replaceSlideToCheckoutWithPriceBar();
-
-			//Remove the padding added in checkoutInformationIsValid() and scroll to the top
-			ViewGroup vg = Ui.findView(this, R.id.scroll_container);
-			vg.setPadding(vg.getPaddingLeft(), vg.getPaddingTop(), vg.getPaddingRight(), 0);
-			mContentScrollView.scrollTo(0, 0);
 		}
 	}
 
