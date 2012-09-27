@@ -24,6 +24,7 @@ import com.expedia.bookings.fragment.FlightTravelerInfoThreeFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener {
@@ -194,7 +195,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(tripKey);
-		String cityName = trip.getLeg(0).getLastWaypoint().getAirport().mCity;
+		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
 		//Actionbar

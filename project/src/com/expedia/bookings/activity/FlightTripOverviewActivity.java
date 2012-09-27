@@ -27,6 +27,7 @@ import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
@@ -135,7 +136,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		//}
 
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(tripKey);
-		String cityName = trip.getLeg(0).getLastWaypoint().getAirport().mCity;
+		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
 		//Actionbar

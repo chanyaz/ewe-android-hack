@@ -22,6 +22,7 @@ import com.expedia.bookings.fragment.FlightPaymentOptionsFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
 import com.expedia.bookings.fragment.FlightPaymentSaveDialogFragment;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightPaymentOptionsActivity extends SherlockFragmentActivity implements FlightPaymentYoYoListener {
@@ -275,7 +276,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(tripKey);
-		String cityName = trip.getLeg(0).getLastWaypoint().getAirport().mCity;
+		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
 		//Actionbar

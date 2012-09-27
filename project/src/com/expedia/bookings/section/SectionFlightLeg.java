@@ -14,6 +14,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -66,8 +67,9 @@ public class SectionFlightLeg extends LinearLayout {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EE, MMM dd");
 		String formattedDate = dateFormat.format((isOutbound() ? leg.getFirstWaypoint() : leg.getLastWaypoint())
 				.getMostRelevantDateTime().getTime());
-		formatted = String.format(getResources().getString(R.string.trip_to_with_date), formattedDate, leg
-				.getFirstWaypoint().getAirport().mCity, leg.getLastWaypoint().getAirport().mCity);
+		formatted = String.format(getResources().getString(R.string.trip_to_with_date), formattedDate,
+				StrUtils.getWaypointCityOrCode(leg.getFirstWaypoint()),
+				StrUtils.getWaypointCityOrCode(leg.getLastWaypoint()));
 
 		mArriveOrDepartWithDateTextView.setText(formatted);
 

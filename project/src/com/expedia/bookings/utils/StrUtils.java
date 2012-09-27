@@ -187,11 +187,20 @@ public class StrUtils {
 				}
 			}
 		}
-		else {
+
+		if (sb.length() == 0) {
 			sb.append(waypoint.mAirportCode);
 		}
 
 		return sb.toString();
+	}
+
+	public static String getWaypointCityOrCode(Waypoint waypoint) {
+		Airport airport = waypoint.getAirport();
+		if (airport != null && !TextUtils.isEmpty(airport.mCity)) {
+			return airport.mCity;
+		}
+		return waypoint.mAirportCode;
 	}
 
 	/**
