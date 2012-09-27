@@ -26,6 +26,9 @@ public class FlightSegmentAttributes implements JSONable {
 		if (mCabinCode.equals("coach")) {
 			return R.string.cabin_code_coach;
 		}
+		else if (mCabinCode.equals("premium coach")) {
+			return R.string.cabin_code_premium_coach;
+		}
 		else if (mCabinCode.equals("business")) {
 			return R.string.cabin_code_business;
 		}
