@@ -50,10 +50,13 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 	/**
 	 * Sets whether or not the plane is "grounded"
 	 * 
-	 * Make sure to call before SurfaceView's initialization.
+	 * Make sure to call before SurfaceView starts rendering, 
+	 * but after the thread has been initialized
 	 */
 	public void setGrounded(boolean isGrounded) {
-		mThread.mIsGrounded = isGrounded;
+		if (mThread != null) {
+			mThread.mIsGrounded = isGrounded;
+		}
 	}
 
 	@Override
