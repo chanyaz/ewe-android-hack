@@ -43,7 +43,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
-
+	
 	//Define the states of navigation
 	public enum YoYoMode {
 		NONE, YOYO, EDIT
@@ -57,6 +57,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	public interface Validatable {
 		public boolean attemptToLeave();
 	}
+	
 
 	public void displayOptions() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -180,6 +181,9 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	public void setMode(YoYoMode mode) {
 		mMode = mode;
 	}
+	
+	
+	
 
 	public boolean moveBackwards() {
 		if (mMode.equals(YoYoMode.YOYO)) {

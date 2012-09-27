@@ -22,10 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/credit_card_hint"
-            android:inputType="number" >
+            android:inputType="number"
+            android:singleLine="true" >
 
-            <requestFocus />
         </EditText>
     </LinearLayout>
 

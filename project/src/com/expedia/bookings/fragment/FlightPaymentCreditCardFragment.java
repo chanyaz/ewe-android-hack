@@ -1,13 +1,13 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
@@ -82,21 +82,30 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		super.onResume();
 		mBillingInfo = Db.getBillingInfo();
 		bindAll();
-
-		//We get the focused field, if it's an edittext we show the keyboard and move the cursor to the end position
-		View focused = mSectionCreditCard.findFocus();
-		if (focused != null && focused instanceof EditText) {
-			InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(
-					Context.INPUT_METHOD_SERVICE);
-			keyboard.showSoftInput(focused, 0);
-			((EditText) focused).setSelection(((EditText) focused).length());
+		
+		View focused = this.getView().findFocus();
+		if(focused == null || !(focused instanceof EditText)){
+			focused = Ui.findView(mSectionCreditCard, R.id.edit_creditcard_number);
 		}
-
+		final View finalFocused = focused;
+		if(finalFocused != null && finalFocused instanceof EditText){
+			finalFocused.postDelayed(new Runnable(){
+				@Override
+				public void run() {
+					//Dumb but effective - show the keyboard by emulating a click on the view
+					finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
+					finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
+				}
+			}, 200);
+		}
+		
+		
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
+
 	}
 
 	@Override

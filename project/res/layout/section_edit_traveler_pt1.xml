@@ -23,13 +23,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:hint="@string/first_name"
                 android:inputType="textPersonName|textCapWords"
                 android:nextFocusDown="@+id/edit_middle_name"
                 android:nextFocusRight="@+id/edit_middle_name"
                 android:singleLine="true" >
-
-                <requestFocus />
             </EditText>
 
             <EditText
