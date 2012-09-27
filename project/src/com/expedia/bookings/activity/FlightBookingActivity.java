@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -114,7 +116,14 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			Traveler traveler = Db.getTravelers().get(0);
 			billingInfo.setTelephone(traveler.getPhoneNumber());
 			billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-			billingInfo.setEmail(Db.getFlightBookingEmail());
+			//TODO: This also shouldn't happen, we should expect billingInfo to have a valid email address at this point...
+			if (TextUtils.isEmpty(billingInfo.getEmail())
+					|| (User.isLoggedIn(FlightBookingActivity.this) && Db.getUser() != null
+							&& Db.getUser().getPrimaryTraveler() != null
+							&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
+							.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
+				billingInfo.setEmail(Db.getFlightBookingEmail());
+			}
 
 			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 			Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
