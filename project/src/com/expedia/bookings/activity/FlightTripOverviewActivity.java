@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -100,21 +98,26 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 
+		//if (savedInstanceState == null) {
 		FragmentTransaction overviewTransaction = getSupportFragmentManager().beginTransaction();
 		mOverviewFragment = Ui.findSupportFragment(this, TAG_OVERVIEW_FRAG);
 		if (mOverviewFragment == null) {
 			mOverviewFragment = FlightTripOverviewFragment.newInstance(tripKey, mDisplayMode);
 		}
-		overviewTransaction.add(R.id.trip_overview_container, mOverviewFragment, TAG_OVERVIEW_FRAG);
-		overviewTransaction.commit();
+		if (!mOverviewFragment.isAdded()) {
+			overviewTransaction.add(R.id.trip_overview_container, mOverviewFragment, TAG_OVERVIEW_FRAG);
+			overviewTransaction.commit();
+		}
 
 		FragmentTransaction bottomBarTrans = getSupportFragmentManager().beginTransaction();
 		mPriceBottomFragment = Ui.findSupportFragment(this, TAG_PRICE_BAR_BOTTOM_FRAG);
 		if (mPriceBottomFragment == null) {
 			mPriceBottomFragment = FlightTripPriceFragment.newInstance();
 		}
-		bottomBarTrans.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
-		bottomBarTrans.commit();
+		if (!mPriceBottomFragment.isAdded()) {
+			bottomBarTrans.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
+			bottomBarTrans.commit();
+		}
 
 		//TODO: for now we attach this here, but we should do it after initial create and before any animation
 		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
@@ -122,8 +125,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (mCheckoutFragment == null) {
 			mCheckoutFragment = FlightCheckoutFragment.newInstance();
 		}
-		checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
-		checkoutTransaction.commit();
+		if (!mCheckoutFragment.isAdded()) {
+			checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
+			checkoutTransaction.commit();
+		}
+		//}
 
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(tripKey);
 		String cityName = trip.getLeg(0).getLastWaypoint().getAirport().mCity;
@@ -176,7 +182,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 					TAG_SLIDE_TO_PURCHASE_FRAG);
 			showSlideToCheckoutTransaction.commit();
 		}
-		
+
 	}
 
 	public void replaceSlideToCheckoutWithPriceBar() {
@@ -220,7 +226,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			int duration = animate ? ANIMATION_DURATION : 1;
 
 			replaceSlideToCheckoutWithPriceBar();
-			
+
 			if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 				Animator hideCheckout = getCheckoutHideAnimator(true, false);
 				mPriceBottomFragment.showPriceChange();
@@ -358,8 +364,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		return set;
 	}
 
-	
-	
 	@Override
 	public void onBackPressed() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
@@ -369,7 +373,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			super.onBackPressed();
 		}
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -405,31 +408,20 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	//Checkout listener	
 	@Override
 	public void checkoutInformationIsValid() {
-		if(mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0){
-			
-			//We scroll the overview stuff off screen (adding padding to the container to allow this)
-			int scrollViewHeight = mContentScrollView.getHeight();
-			int checkoutHeight = mCheckoutContainer.getHeight();
-			int diff = scrollViewHeight - checkoutHeight;
-			ViewGroup vg = Ui.findView(this, R.id.scroll_container);
-			vg.setPadding(vg.getPaddingLeft(), vg.getPaddingTop(), vg.getPaddingRight(), diff + mStackedHeight);
-			mContentScrollView.scrollTo(0, mStackedHeight);
+		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
 			
 			//Bring in the slide to checkout view
 			replacePriceBarWithSlideToCheckout();
 		}
 	}
 
-
 	@Override
 	public void checkoutInformationIsNotValid() {
-		if(mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0){
-			replaceSlideToCheckoutWithPriceBar();
+		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
 			
-			//Remove the padding added in checkoutInformationIsValid() and scroll to the top
-			ViewGroup vg = Ui.findView(this, R.id.scroll_container);
-			vg.setPadding(vg.getPaddingLeft(), vg.getPaddingTop(), vg.getPaddingRight(), 0);
-			mContentScrollView.scrollTo(0, 0);
+			//Bring in the price bar
+			replaceSlideToCheckoutWithPriceBar();
+
 		}
 	}
 }
