@@ -18,7 +18,7 @@
         android:id="@+id/display_full_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:gravity="left"
         android:text="@string/enter_traveler_info"
         android:textSize="18sp"
          />
