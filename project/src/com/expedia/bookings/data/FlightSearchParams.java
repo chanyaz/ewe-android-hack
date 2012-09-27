@@ -1,11 +1,13 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -84,6 +86,22 @@ public class FlightSearchParams implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Utility methods
 	//
+
+	/**
+	 * Ensures we have a valid search date entered.  If we do not, we simply
+	 * clear out the dates entered
+	 * @return
+	 */
+	public void ensureValidDates() {
+		Date start = getDepartureDate();
+		Date now = new Date(Calendar.getInstance());
+
+		if (start.getCalendar().before(now.getCalendar())) {
+			Log.i("Search dates are invalid, resetting.");
+			setDepartureDate(null);
+			setReturnDate(null);
+		}
+	}
 
 	/**
 	 * @return true if we can do a search with the data we currently have

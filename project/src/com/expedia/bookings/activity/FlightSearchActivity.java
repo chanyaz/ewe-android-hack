@@ -54,6 +54,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 		if (savedInstanceState == null) {
 			if (Db.loadCachedFlightData(this)) {
 				Log.i("Restoring search params from disk...");
+
+				Db.getFlightSearch().getSearchParams().ensureValidDates();
 			}
 		}
 
@@ -100,6 +102,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 		mHockeyPuck.onResume();
 
 		if (mUpdateOnResume) {
+			Db.getFlightSearch().getSearchParams().ensureValidDates();
 			mSearchParamsFragment.setSearchParams(new FlightSearchParams(Db.getFlightSearch().getSearchParams()));
 			mUpdateOnResume = false;
 		}
