@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.mobiata.android.DebugUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.omniture.AppMeasurement;
 
@@ -88,75 +90,75 @@ public class FlightsOmnitureTracking {
 		internalTrackLink(context, link);
 	}
 
-	private static void trackLinkFlightOutboundSelect(Context context, String sortType, int position) {
+	public static void trackLinkFlightOutboundSelect(Context context, String sortType, int position) {
 		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SELECT + "." + sortType + "." + Integer.toString(position);
 		internalTrackLink(context, link);
 	}
 
-	private static void trackLinkFlightOutboundSort(Context context, String sortType) {
+	public static void trackLinkFlightOutboundSort(Context context, String sortType) {
 		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SORT + "." + sortType;
 		internalTrackLink(context, link);
 	}
 
-	private static void trackLinkFlightOutboundRefine(Context context) {
+	public static void trackLinkFlightOutboundRefine(Context context) {
 		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_REFINE);
 	}
 
-	private static void trackLinkFlightInboundSelect(Context context, String sortType, int position) {
+	public static void trackLinkFlightInboundSelect(Context context, String sortType, int position) {
 		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SELECT + "." + sortType + "." + Integer.toString(position);
 		internalTrackLink(context, link);
 	}
 
-	private static void trackLinkFlightInboundSort(Context context, String sortType) {
+	public static void trackLinkFlightInboundSort(Context context, String sortType) {
 		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT + "." + sortType;
 		internalTrackLink(context, link);
 	}
 
-	private static void trackLinkFlightInboundRefine(Context context) {
+	public static void trackLinkFlightInboundRefine(Context context) {
 		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE);
 	}
 
-	private static void trackLinkFlightRemoveOutboundSelection(Context context) {
+	public static void trackLinkFlightRemoveOutboundSelection(Context context) {
 		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT);
 	}
 
-	private static void trackLinkFlightRateDetailsRemoveOut(Context context) {
+	public static void trackLinkFlightRateDetailsRemoveOut(Context context) {
 		internalTrackLink(context, FLIGHT_RATE_DETAILS_REMOVE_OUT);
 	}
 
-	private static void trackLinkFlightRateDetailsRemoveIn(Context context) {
+	public static void trackLinkFlightRateDetailsRemoveIn(Context context) {
 		internalTrackLink(context, FLIGHT_RATE_DETAILS_REMOVE_IN);
 	}
 
-	private static void trackLinkFlightCheckoutSuccess(Context context) {
+	public static void trackLinkFlightCheckoutSuccess(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_LOGIN_SUCCESS);
 	}
 
-	private static void trackLinkFlightCheckoutCancel(Context context) {
+	public static void trackLinkFlightCheckoutCancel(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_LOGIN_CANCEL);
 	}
 
-	private static void trackLinkFlightCheckoutForgot(Context context) {
+	public static void trackLinkFlightCheckoutForgot(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_LOGIN_FORGOT);
 	}
 
-	private static void trackLinkFlightCheckoutTravelerSelectExisting(Context context) {
+	public static void trackLinkFlightCheckoutTravelerSelectExisting(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_SELECT_EXISTING);
 	}
 
-	private static void trackLinkFlightCheckoutTravelerSelectFromContacts(Context context) {
+	public static void trackLinkFlightCheckoutTravelerSelectFromContacts(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_SELECT_FROM_CONTACTS);
 	}
 
-	private static void trackLinkFlightCheckoutTravelerEnterManually(Context context) {
+	public static void trackLinkFlightCheckoutTravelerEnterManually(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_ENTER_MANUALLY);
 	}
 
-	private static void trackLinkFlightCheckoutPaymentSelectExisting(Context context) {
+	public static void trackLinkFlightCheckoutPaymentSelectExisting(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_PAYMENT_SELECT_EXISTING);
 	}
 
-	private static void trackLinkFlightCheckoutPaymentEnterManually(Context context) {
+	public static void trackLinkFlightCheckoutPaymentEnterManually(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY);
 	}
 
@@ -164,11 +166,7 @@ public class FlightsOmnitureTracking {
 	// private stuff
 
 	private static void internalTrackLink(Context context, String link) {
-		AppMeasurement s = createTrackLinkBase(context, link);
-		s.trackLink(null, "o", s.eVar28);
-	}
-
-	private static AppMeasurement createTrackLinkBase(Context context, String link) {
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + link + "\" linkClick");
 		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
 
 		// TPID
@@ -177,7 +175,7 @@ public class FlightsOmnitureTracking {
 		// link
 		s.eVar28 = s.prop16 = link;
 
-		return s;
+		s.trackLink(null, "o", s.eVar28);
 	}
 
 	public static void trackErrorPageLoadFlightUnsupportedPOS(Context context) {
@@ -381,14 +379,17 @@ public class FlightsOmnitureTracking {
 	// Private helper methods
 
 	private static void internalTrackPageLoadEventStandard(Context context, String pageName) {
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventStandardAsShopper(context, pageName).track();
 	}
 
 	private static void internalTrackPageLoadEventStandardNoVars25And25LobShopper(Context context, String pageName) {
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventBase(context, pageName).track();
 	}
 
 	private static void internalTrackPageLoadEventPriceChange(Context context, String pageName) {
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventPriceChange(context, pageName).track();
 	}
 
@@ -402,9 +403,11 @@ public class FlightsOmnitureTracking {
 		s.prop7 = LocaleUtils.getTPID(context);
 
 		// TUID
-		long tuid = Db.getUser().getPrimaryTraveler().getTuid();
-		if (tuid != 0) {
-			s.prop11 = Long.toString(tuid);
+		if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
+			long tuid = Db.getUser().getPrimaryTraveler().getTuid();
+			if (tuid != 0) {
+				s.prop11 = Long.toString(tuid);
+			}
 		}
 
 		// App version
@@ -429,6 +432,16 @@ public class FlightsOmnitureTracking {
 
 		// Experience segmentation TODO remove the hardcoded value
 		s.eVar50 = "app.phone.android";
+
+		// TODO verify this is needed
+
+		// Add debugging flag if not release
+		if (!AndroidUtils.isRelease(context) || DebugUtils.isLogEnablerInstalled(context)) {
+			s.debugTracking = true;
+		}
+
+		// Add offline tracking, so user doesn't have to be online to be tracked
+		s.trackOffline = true;
 
 		return s;
 	}
