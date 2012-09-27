@@ -376,12 +376,16 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	//This is our date picker DialogFragment. The coder has a responsibility to set setOnDateSetListener after any sort of creation event (including rotaiton)
+	/*
+	 * This is our date picker DialogFragment. The coder has a responsibility to set setOnDateSetListener after any sort of creation event (including rotaiton)
+	 * 
+	 * Note this DatePickerFragment uses a regular datePickerDialog which depends on Calendar objects, meaning that the OnDateSet call will return off by one months...
+	 */
 	public static class DatePickerFragment extends DialogFragment
 	{
 		private OnDateSetListener mListener = null;
 		private int mDay;
-		private int mMonth;
+		private int mMonth;//0 indexed like calendar
 		private int mYear;
 
 		private static final String DAY_TAG = "DAY_TAG";
@@ -391,13 +395,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		public static DatePickerFragment newInstance(Date cal, OnDateSetListener listener) {
 			DatePickerFragment frag = new DatePickerFragment();
 			frag.setOnDateSetListener(listener);
-			frag.setDate(cal.getDayOfMonth(), cal.getMonth(), cal.getYear());
+			frag.setDate(cal.getDayOfMonth(), cal.getMonth() - 1, cal.getYear());
 			Bundle args = new Bundle();
 			frag.setArguments(args);
 			return frag;
 		}
 
-		public void setDate(int day, int month, int year) {
+		private void setDate(int day, int month, int year) {
 			mDay = day;
 			mMonth = month;
 			mYear = year;
@@ -520,6 +524,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+			monthOfYear++;//DatePicker uses calendars...
 			if (hasBoundData()) {
 				Date date = getData().getBirthDate();
 				if (date == null) {
