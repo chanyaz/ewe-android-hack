@@ -33,18 +33,6 @@
             android:textScaleX="0.8"
             android:textSize="18sp"
              />
-
-        <Button
-            android:id="@+id/deselect_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginRight="10dp"
-            android:background="#66000000"
-            android:text="X"
-            android:textColor="#FCFCFC"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout

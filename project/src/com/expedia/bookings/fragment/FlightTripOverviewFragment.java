@@ -1,35 +1,26 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
-import com.expedia.bookings.data.Money;
+import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.SectionGeneralFlightInfo;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -95,11 +86,11 @@ public class FlightTripOverviewFragment extends Fragment {
 		buildCards(inflater);
 		return v;
 	}
-	
+
 	@Override
-	public void onResume(){
+	public void onResume() {
 		super.onResume();
-		
+
 		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0) {
 			unStackCards(false);
 		}
@@ -107,7 +98,7 @@ public class FlightTripOverviewFragment extends Fragment {
 			stackCards(false);
 		}
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -121,6 +112,13 @@ public class FlightTripOverviewFragment extends Fragment {
 	}
 
 	private void buildCards(LayoutInflater inflater) {
+		Activity activity = getActivity();
+		if (!(activity instanceof FlightLegSummarySectionListener)) {
+			throw new RuntimeException(
+					"FlightTripOverviewFragment Activity must implement FlightLegSummarySectionListener!  " + activity);
+		}
+		FlightLegSummarySectionListener listener = (FlightLegSummarySectionListener) activity;
+
 		//Inflate and store the sections
 		mFlightContainer.removeAllViews();
 		SectionFlightLeg tempFlight;
@@ -128,41 +126,42 @@ public class FlightTripOverviewFragment extends Fragment {
 			tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
 			tempFlight.setId(ID_START_RANGE + i);
 
-			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)), false);
+			tempFlight.setListener(listener);
+			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));
 
 			mFlightContainer.addView(tempFlight);
 		}
 		mFlightContainer.setMinimumHeight(getUnstackedHeight());
 		mFlightContainer.invalidate();
 	}
-	
-	public int getStackedHeight(){
-		return getHeightFromMargins(getStackedTopMargins(),false);
+
+	public int getStackedHeight() {
+		return getHeightFromMargins(getStackedTopMargins(), false);
 	}
-	
-	public int getUnstackedHeight(){
+
+	public int getUnstackedHeight() {
 		return getHeightFromMargins(getNormalTopMargins(), true);
 	}
-	
-	private int getHeightFromMargins(int[] margins, boolean includeTravBar){
+
+	private int getHeightFromMargins(int[] margins, boolean includeTravBar) {
 		int retHeight = 0;
-		
+
 		int lastInd = margins.length - 1;
 		int lastMargin = margins[lastInd];
 		SectionFlightLeg lastFlight = Ui.findView(mFlightContainer, lastInd + ID_START_RANGE);
 
-		if(includeTravBar){
+		if (includeTravBar) {
 			measureDateAndTravelers();
-			retHeight += Math.max(mFlightDateAndTravCount.getMeasuredHeight(),mFlightDateAndTravCount.getHeight());
+			retHeight += Math.max(mFlightDateAndTravCount.getMeasuredHeight(), mFlightDateAndTravCount.getHeight());
 		}
 		retHeight += lastMargin;
-		retHeight += Math.max(lastFlight.getMeasuredHeight(),lastFlight.getHeight());
-		
+		retHeight += Math.max(lastFlight.getMeasuredHeight(), lastFlight.getHeight());
+
 		Log.i("getHeightFromMargins:" + retHeight);
-		
+
 		return retHeight;
 	}
-	
+
 	public void stackCards(boolean animate) {
 		mDisplayMode = DisplayMode.CHECKOUT;
 		if (animate) {
@@ -175,7 +174,7 @@ public class FlightTripOverviewFragment extends Fragment {
 			Ui.findView(mFlightContainer, ID_START_RANGE + i).bringToFront();
 		}
 		mFlightContainer.invalidate();
-		
+
 	}
 
 	public void unStackCards(boolean animate) {
@@ -190,10 +189,10 @@ public class FlightTripOverviewFragment extends Fragment {
 	}
 
 	public void setCardOnClickListeners(OnClickListener listener) {
-		if(mFlightContainer == null){
+		if (mFlightContainer == null) {
 			return;
 		}
-			
+
 		SectionFlightLeg tempFlight;
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
@@ -208,18 +207,20 @@ public class FlightTripOverviewFragment extends Fragment {
 			Log.v("measuring flight container... w:" + w + " h:" + h);
 			mFlightContainer.measure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.AT_MOST),
 					MeasureSpec.makeMeasureSpec(h, MeasureSpec.AT_MOST));
-			Log.v("FlightContainer MeasuredHeight:" + mFlightContainer.getMeasuredHeight() + " Height:" + mFlightContainer.getHeight());
+			Log.v("FlightContainer MeasuredHeight:" + mFlightContainer.getMeasuredHeight() + " Height:"
+					+ mFlightContainer.getHeight());
 		}
 	}
-	
-	private void measureDateAndTravelers(){
-		if(mFlightDateAndTravCount != null && mFlightDateAndTravCount.getMeasuredHeight() <= 0){
+
+	private void measureDateAndTravelers() {
+		if (mFlightDateAndTravCount != null && mFlightDateAndTravCount.getMeasuredHeight() <= 0) {
 			int w = getActivity().getResources().getDisplayMetrics().widthPixels;
 			int h = getActivity().getResources().getDisplayMetrics().heightPixels;
 			Log.i("measuring date and traveler bar... w:" + w + " h:" + h);
 			mFlightDateAndTravCount.measure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.AT_MOST),
 					MeasureSpec.makeMeasureSpec(h, MeasureSpec.AT_MOST));
-			Log.i("mFlightDateAndTravCount MeasuredHeight:" + mFlightDateAndTravCount.getMeasuredHeight() + " Height:" + mFlightDateAndTravCount.getHeight());
+			Log.i("mFlightDateAndTravCount MeasuredHeight:" + mFlightDateAndTravCount.getMeasuredHeight() + " Height:"
+					+ mFlightDateAndTravCount.getHeight());
 		}
 	}
 
@@ -231,7 +232,7 @@ public class FlightTripOverviewFragment extends Fragment {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
 			currentTop += FLIGHT_LEG_TOP_MARGIN;
 			retVal[i] = currentTop;
-			currentTop += Math.max(tempFlight.getMeasuredHeight(),tempFlight.getHeight());
+			currentTop += Math.max(tempFlight.getMeasuredHeight(), tempFlight.getHeight());
 
 		}
 		return retVal;
@@ -247,22 +248,21 @@ public class FlightTripOverviewFragment extends Fragment {
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
 
-			int headerUnused = Math.max(header.getMeasuredHeight(),header.getHeight());
-			int innerUnused = Math.max(Math.max(price.getMeasuredHeight(),price.getHeight()),Math.max( airline.getMeasuredHeight(),airline.getHeight()));
+			int headerUnused = Math.max(header.getMeasuredHeight(), header.getHeight());
+			int innerUnused = Math.max(Math.max(price.getMeasuredHeight(), price.getHeight()),
+					Math.max(airline.getMeasuredHeight(), airline.getHeight()));
 			int totalUnusedHeight = headerUnused + innerUnused;
 
 			currentTop -= totalUnusedHeight;
 			retVal[i] = currentTop;
-			currentTop += Math.max(tempFlight.getMeasuredHeight(),tempFlight.getHeight());
+			currentTop += Math.max(tempFlight.getMeasuredHeight(), tempFlight.getHeight());
 		}
 		return retVal;
 	}
 
-	
-
 	////////////////////////////////
 	//Placements without animations
-	
+
 	private void placeCardsUnStacked() {
 		int[] tops = getNormalTopMargins();
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
@@ -293,17 +293,17 @@ public class FlightTripOverviewFragment extends Fragment {
 				tempFlightLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
 						RelativeLayout.LayoutParams.WRAP_CONTENT);
 			}
-			
+
 			Log.i("settingTopMargin:" + tops[i]);
 			tempFlightLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 			tempFlightLayoutParams.topMargin = tops[i];
-			
+
 			tempFlight.setLayoutParams(tempFlightLayoutParams);
 			tempFlight.requestLayout();
 		}
 		mFlightContainer.invalidate();
 	}
-	
+
 	@SuppressLint("NewApi")
 	private void setCardAlphas(float alpha) {
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
@@ -316,26 +316,25 @@ public class FlightTripOverviewFragment extends Fragment {
 			airline.setAlpha(alpha);
 		}
 	}
-	
 
 	////////////////////////////////
 	//Animations
-	
+
 	private void animateCardsToStacked(int duration) {
 		ArrayList<Animator> animators = new ArrayList<Animator>();
 		animators.addAll(getCardTextAlphaAnimators(1f, 0f));
-		animators.addAll(getCardAnimators(getNormalTopMargins(),getStackedTopMargins()));
+		animators.addAll(getCardAnimators(getNormalTopMargins(), getStackedTopMargins()));
 		animators.addAll(getDateTravelerBarAnimators(true));
 		AnimatorSet animSet = new AnimatorSet();
 		animSet.playTogether(animators);
 		animSet.setDuration(duration);
 		animSet.start();
 	}
-	
+
 	private void animateCardsToUnStacked(int duration) {
 		ArrayList<Animator> animators = new ArrayList<Animator>();
 		animators.addAll(getCardTextAlphaAnimators(0f, 1f));
-		animators.addAll(getCardAnimators(getStackedTopMargins(),getNormalTopMargins()));
+		animators.addAll(getCardAnimators(getStackedTopMargins(), getNormalTopMargins()));
 		animators.addAll(getDateTravelerBarAnimators(false));
 		AnimatorSet animSet = new AnimatorSet();
 		animSet.playTogether(animators);
@@ -360,7 +359,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		}
 		return animators;
 	}
-	
+
 	private ArrayList<Animator> getCardAnimators(int[] startTops, int[] endTops) {
 		ArrayList<Animator> animators = new ArrayList<Animator>();
 
@@ -373,36 +372,35 @@ public class FlightTripOverviewFragment extends Fragment {
 		}
 		return animators;
 	}
-	
-	private ArrayList<Animator> getDateTravelerBarAnimators(boolean hide){
+
+	private ArrayList<Animator> getDateTravelerBarAnimators(boolean hide) {
 		ArrayList<Animator> animators = new ArrayList<Animator>();
-		
-		int barHeight = Math.max(mFlightDateAndTravCount.getMeasuredHeight(),mFlightDateAndTravCount.getHeight());
+
+		int barHeight = Math.max(mFlightDateAndTravCount.getMeasuredHeight(), mFlightDateAndTravCount.getHeight());
 		int start = 0;
 		int end = -barHeight;
 		float alphaStart = 1f;
 		float alphaEnd = 0f;
-		if(!hide){
+		if (!hide) {
 			start = -barHeight;
 			end = 0;
 			alphaStart = 0f;
 			alphaEnd = 1f;
 		}
-		
+
 		//move and hide the traveler price bar
 		ObjectAnimator mover = ObjectAnimator.ofFloat(mFlightDateAndTravCount, "y", start, end);
 		animators.add(mover);
-	
-		ObjectAnimator dateTravBarAlpha = ObjectAnimator.ofFloat(mFlightDateAndTravCount, "alpha", alphaStart, alphaEnd);
+
+		ObjectAnimator dateTravBarAlpha = ObjectAnimator
+				.ofFloat(mFlightDateAndTravCount, "alpha", alphaStart, alphaEnd);
 		animators.add(dateTravBarAlpha);
-		
+
 		//move up the flights container
 		ObjectAnimator flightsMover = ObjectAnimator.ofFloat(mFlightContainer, "y", start + barHeight, end + barHeight);
 		animators.add(flightsMover);
-		
+
 		return animators;
 	}
 
-
-	
 }

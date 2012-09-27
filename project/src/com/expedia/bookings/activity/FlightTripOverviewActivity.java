@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
@@ -23,6 +25,7 @@ import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
+import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
@@ -31,7 +34,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener,
-		CheckoutInformationListener {
+		CheckoutInformationListener, FlightLegSummarySectionListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -409,7 +412,14 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void checkoutInformationIsValid() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-			
+			//We scroll the overview stuff off screen (adding padding to the container to allow this)
+			int scrollViewHeight = mContentScrollView.getHeight();
+			int checkoutHeight = mCheckoutContainer.getHeight();
+			int diff = scrollViewHeight - checkoutHeight;
+			ViewGroup vg = Ui.findView(this, R.id.scroll_container);
+			vg.setPadding(vg.getPaddingLeft(), vg.getPaddingTop(), vg.getPaddingRight(), diff + mStackedHeight);
+			mContentScrollView.scrollTo(0, mStackedHeight);
+
 			//Bring in the slide to checkout view
 			replacePriceBarWithSlideToCheckout();
 		}
@@ -418,10 +428,30 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void checkoutInformationIsNotValid() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-			
 			//Bring in the price bar
 			replaceSlideToCheckoutWithPriceBar();
 
+			//Remove the padding added in checkoutInformationIsValid() and scroll to the top
+			ViewGroup vg = Ui.findView(this, R.id.scroll_container);
+			vg.setPadding(vg.getPaddingLeft(), vg.getPaddingTop(), vg.getPaddingRight(), 0);
+			mContentScrollView.scrollTo(0, 0);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FlightLegSummarySectionListener
+
+	private boolean mDeselecting = false;
+
+	@Override
+	public void onDeselect(FlightLeg flightLeg) {
+		if (!mDeselecting) {
+			// Relaunch the flight search results activity, deselecting the leg chosen
+			Intent intent = new Intent(this, FlightSearchResultsActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, flightLeg.getLegId());
+			startActivity(intent);
+			mDeselecting = true;
 		}
 	}
 }
