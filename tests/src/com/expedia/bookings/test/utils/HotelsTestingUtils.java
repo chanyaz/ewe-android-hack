@@ -1,8 +1,11 @@
 package com.expedia.bookings.test.utils;
 
+import java.lang.reflect.Field;
+
 import android.util.Log;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
@@ -12,6 +15,12 @@ import com.mobiata.testutils.RobotiumWorkflowUtils;
 public class HotelsTestingUtils {
 	
 	public static final String TAG = "HotelsTestingUtils";
+	private static final int CITY_SUGGESTION_MAX_WAIT = 10;
+	
+	public static void waitForListViewHelper(Solo solo, int listViewid) {
+		Field[] fa = R.id.class.getFields(); 
+		RobotiumWorkflowUtils.waitForListViewToPopulate(solo, fa);
+	}
 	
 	public static String getHotelName(Solo solo) {
 		return RobotiumWorkflowUtils.getTextViewValue(solo, R.id.class.getFields(), R.id.name_text_view);
@@ -21,19 +30,23 @@ public class HotelsTestingUtils {
 		return RobotiumWorkflowUtils.getTextViewValue(solo, R.id.class.getFields(), R.id.price_text_view);
 	}
 
-	public static void clickInCityList(Solo solo, int line) {
-		Log.d(TAG, "clickInCityList: " + line);
-		//		ListView lv = (ListView) solo.getView(R.id.search_suggestions_list_view);
-		//		solo.clickOnView(lv.getChildAt(line));
-		//solo.sleep(5000);
-	}
-
 	public static void selectCity(Solo solo, String city) {
 		Log.d(TAG, "selectCity()");
 		RobotiumWorkflowUtils.enterText(solo, R.id.search_edit_text, city);
-		//RobotiumWorkflowUtils.waitForListViewToPopulate(solo, R.id.class.getFields());
-		//RobotiumWorkflowUtils.waitForListViewToPopulate(solo, R.id.search_suggestions_list_view);
-		//clickInCityList(solo, 0);
+		solo.clickOnView(solo.getView(R.id.search_edit_text));
+		
+		AlwaysFilterAutoCompleteTextView mAlwaysFilterAutoCompleteTextView = 
+				(AlwaysFilterAutoCompleteTextView) solo.getView(R.id.search_edit_text);
+
+		for (int i=0; i < CITY_SUGGESTION_MAX_WAIT; i++) {
+			Log.d(TAG, "city suggestion listadapter getCount(): " + mAlwaysFilterAutoCompleteTextView.getAdapter().getCount());
+			if ( mAlwaysFilterAutoCompleteTextView.getAdapter().getCount() > 0 ) {
+				break;
+			} else {
+				solo.sleep(1000);
+			}
+		}
+		solo.clickOnText(city);
 	}
 
 	public static void setCalendar(Solo solo, Time reservationDate) {
@@ -71,7 +84,6 @@ public class HotelsTestingUtils {
 		RobotiumWorkflowUtils.enterText(solo, R.id.address1_edit_text, "1 Rincon Hill");
 		RobotiumWorkflowUtils.enterText(solo, R.id.address2_edit_text, "Apt 4709");
 		RobotiumWorkflowUtils.enterText(solo, R.id.city_edit_text, "San Francisco");
-		//RobotiumWorkflowUtils.enterText(solo, R.id.state_edit_text, "CA");
 		RobotiumWorkflowUtils.enterText(solo, R.id.postal_code_edit_text, "94107");
 
 		//will always need to enter security code, regardless of login state

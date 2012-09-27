@@ -36,7 +36,7 @@ public class HotelsSearchWithProxy extends ActivityInstrumentationTestCase2<Sear
 
 	public void testSearchWithProxy() throws Exception {
 
-		city = "Miami (and vicinity), Florida";
+		city = "Miami";
 		expectedHotelName = "Rodeway Inn Miami Airport";
 				
 		RobotiumWorkflowUtils.setEnvironment(solo, ENVIRONMENT);
