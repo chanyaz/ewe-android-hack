@@ -32,6 +32,9 @@ public class TravelerFlowState {
 	}
 
 	public static TravelerFlowState getInstance(Context context) {
+		if(context == null){
+			return null;
+		}
 		return new TravelerFlowState(context);
 	}
 

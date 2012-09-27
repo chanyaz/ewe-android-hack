@@ -57,13 +57,13 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private AccountButton mAccountButton;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
-	
+
 	private ViewGroup mTravelerContainer;
 	private ViewGroup mTravelerButton;
 	private ViewGroup mPaymentButton;
 
 	private boolean mRefreshedUser;
-	
+
 	private CheckoutInformationListener mListener;
 
 	public static FlightCheckoutFragment newInstance() {
@@ -73,21 +73,23 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		fragment.setArguments(args);
 		return fragment;
 	}
-	
+
 	@Override
-	public void onAttach(Activity activity){
+	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		if(activity instanceof CheckoutInformationListener){
+		if (activity instanceof CheckoutInformationListener) {
 			mListener = (CheckoutInformationListener) activity;
-		}else{
-			throw new RuntimeException("FlightCheckoutFragment must bind to an activity that implements CheckoutInformationListener");
+		}
+		else {
+			throw new RuntimeException(
+					"FlightCheckoutFragment must bind to an activity that implements CheckoutInformationListener");
 		}
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		mContext = getActivity();
 
 		if (savedInstanceState != null) {
@@ -285,7 +287,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			else {
 				List<Traveler> travelers = Db.getTravelers();
 				for (int i = 0; i < travelers.size(); i++) {
-					travelerValid &= (TravelerFlowState.getInstance(getActivity()).allTravelerInfoIsValidForDomesticFlight(
+					travelerValid &= (TravelerFlowState.getInstance(getActivity())
+							.allTravelerInfoIsValidForDomesticFlight(
 							travelers.get(i)));
 				}
 			}
@@ -303,12 +306,15 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	public void updateViewVisibilities() {
 
+		PaymentFlowState state = PaymentFlowState.getInstance(getActivity());
+		if (state == null) {
+			//This is a rare case that happens when the fragment is attached and then detached quickly
+			return;
+		}
+
 		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
-		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : PaymentFlowState.getInstance(getActivity())
-				.hasValidBillingAddress(mBillingInfo);
-		boolean paymentCCValid = hasStoredCard ? hasStoredCard : PaymentFlowState.getInstance(getActivity())
-				.hasValidCardInfo(
-						mBillingInfo);
+		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
+		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
 		boolean travelerValid = hasValidTravlers();
 
 		if (travelerValid) {
@@ -351,17 +357,18 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				//If the first traveler is not already all the way filled out, and the default profile for the expedia account has all required data, use the account profile
 				boolean isInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
 				TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-				if(isInternational){
+				if (isInternational) {
 					//International
-					if(!state.allTravelerInfoIsValidForInternationalFlight(Db.getTravelers().get(0))){
-						if(state.allTravelerInfoIsValidForInternationalFlight(Db.getUser().getPrimaryTraveler())){
+					if (!state.allTravelerInfoIsValidForInternationalFlight(Db.getTravelers().get(0))) {
+						if (state.allTravelerInfoIsValidForInternationalFlight(Db.getUser().getPrimaryTraveler())) {
 							Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
 						}
 					}
-				}else{
+				}
+				else {
 					//Domestic
-					if(!state.allTravelerInfoIsValidForDomesticFlight(Db.getTravelers().get(0))){
-						if(state.allTravelerInfoIsValidForDomesticFlight(Db.getUser().getPrimaryTraveler())){
+					if (!state.allTravelerInfoIsValidForDomesticFlight(Db.getTravelers().get(0))) {
+						if (state.allTravelerInfoIsValidForDomesticFlight(Db.getUser().getPrimaryTraveler())) {
 							Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
 						}
 					}
@@ -475,13 +482,14 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			}
 		}
 	};
-	
+
 	///////////////////////////////////
 	// Interfaces
 	//////////////////////////////////
-	
-	public interface CheckoutInformationListener{
+
+	public interface CheckoutInformationListener {
 		public void checkoutInformationIsValid();
+
 		public void checkoutInformationIsNotValid();
 	}
 }
