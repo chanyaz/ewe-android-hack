@@ -246,11 +246,13 @@ public class FlightTripOverviewFragment extends Fragment {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
 			View header = Ui.findView(tempFlight, R.id.display_flight_leg_header);
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
+			View cancel = Ui.findView(tempFlight, R.id.cancel_button);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
 
 			int headerUnused = Math.max(header.getMeasuredHeight(), header.getHeight());
 			int innerUnused = Math.max(Math.max(price.getMeasuredHeight(), price.getHeight()),
 					Math.max(airline.getMeasuredHeight(), airline.getHeight()));
+			innerUnused = Math.max(innerUnused, Math.max(cancel.getMeasuredHeight(), cancel.getHeight()));
 			int totalUnusedHeight = headerUnused + innerUnused;
 
 			currentTop -= totalUnusedHeight;
@@ -310,9 +312,11 @@ public class FlightTripOverviewFragment extends Fragment {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
 			View header = Ui.findView(tempFlight, R.id.display_flight_leg_header);
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
+			View cancel = Ui.findView(tempFlight, R.id.cancel_button);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
 			header.setAlpha(alpha);
 			price.setAlpha(alpha);
+			cancel.setAlpha(alpha);
 			airline.setAlpha(alpha);
 		}
 	}
@@ -348,13 +352,16 @@ public class FlightTripOverviewFragment extends Fragment {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
 			View header = Ui.findView(tempFlight, R.id.display_flight_leg_header);
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
+			View cancel = Ui.findView(tempFlight, R.id.cancel_button);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
 
 			ObjectAnimator headerOut = ObjectAnimator.ofFloat(header, "alpha", start, end);
 			ObjectAnimator priceOut = ObjectAnimator.ofFloat(price, "alpha", start, end);
+			ObjectAnimator cancelOut = ObjectAnimator.ofFloat(cancel, "alpha", start, end);
 			ObjectAnimator airlineOut = ObjectAnimator.ofFloat(airline, "alpha", start, end);
 			animators.add(headerOut);
 			animators.add(priceOut);
+			animators.add(cancelOut);
 			animators.add(airlineOut);
 		}
 		return animators;
