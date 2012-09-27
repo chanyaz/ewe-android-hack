@@ -380,8 +380,8 @@
     <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Prefers&lt;/font&gt; %1$s Seat</string>
-	<!-- loading traveler info -->
-	<string name="loading_traveler_info">Loading traveler information...</string>
+    <!-- loading traveler info -->
+    <string name="loading_traveler_info">Loading traveler information...</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -894,6 +894,8 @@
     <string name="common_value_add_template">All rooms include %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Select a Room</string>
+    <!-- The text we use when the search date it tonight -->
+    <string name="Tonight">Tonight</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -1213,6 +1215,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">Launch the Expedia mobile website?</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">Visit the Expedia support website?</string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">Subscribe</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">Follow</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">Like</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
