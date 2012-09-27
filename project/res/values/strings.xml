@@ -1031,6 +1031,8 @@
     <!-- Confirmation activity -->
     <!-- Title for confirmation screen -->
     <string name="booking_complete">Booking Complete</string>
+    <!-- Friendly message at the top of the receipt -->
+    <string name="Enjoy_your_stay">Enjoy your stay.</string>
     <!-- Format for a first/last name -->
     <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
