@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <fragment
-        android:id="@+id/booking_overview_fragment"
+        android:id="@+id/hotel_traveler_info_options_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment" />

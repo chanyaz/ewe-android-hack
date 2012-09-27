@@ -89,6 +89,7 @@
                         android:src="@drawable/ic_traveler" />
 
                     <TextView
+                        android:id="@+id/traveler_info_text_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

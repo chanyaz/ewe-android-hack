@@ -7,41 +7,62 @@
     android:orientation="vertical"
     android:padding="10dp" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="@string/enter_traveler_info"
-        android:textAllCaps="true"
-        android:textColor="@color/data_entry_heading"
-        android:textSize="@dimen/data_form_section_header_text"
-        android:textStyle="bold" />
+        android:orientation="horizontal" >
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/data_entry_heading_divider" />
+        <EditText
+            android:id="@+id/first_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/first_name"
+            android:inputType="textPersonName|textCapWords"
+            android:nextFocusDown="@+id/middle_name_edit_text"
+            android:nextFocusRight="@+id/middle_name_edit_text"
+            android:singleLine="true" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/middle_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/middle_name"
+            android:inputType="textPersonName|textCapWords"
+            android:singleLine="true" />
+    </LinearLayout>
 
     <EditText
-        android:id="@+id/name_edit_text"
-        android:layout_width="match_parent"
+        android:id="@+id/last_name_edit_text"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/name"
+        android:hint="@string/last_name"
         android:inputType="textPersonName|textCapWords"
-        android:nextFocusDown="@+id/phone_number_edit_text"
         android:singleLine="true" />
 
-    <EditText
-        android:id="@+id/phone_number_edit_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/phone_number_hint"
-        android:inputType="phone"
-        android:nextFocusDown="@+id/email_address_edit_text"
-        android:nextFocusUp="@+id/name_edit_text"
-        android:singleLine="true" />
+        android:orientation="horizontal" >
+
+        <com.expedia.bookings.widget.TelephoneSpinner
+            android:id="@+id/phone_number_country_code_spinner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/phone_number_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/phone_number_hint"
+            android:inputType="phone"
+            android:singleLine="true" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/email_address_edit_text"
@@ -49,7 +70,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/email_address_hint"
         android:inputType="textEmailAddress"
-        android:nextFocusUp="@+id/phone_number_edit_text"
         android:singleLine="true" />
 
 </LinearLayout>

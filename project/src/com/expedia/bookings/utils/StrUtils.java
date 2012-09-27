@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.Traveler;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
@@ -169,6 +170,10 @@ public class StrUtils {
 
 	public static String formatHotelPrice(Money money, String currencyCode) {
 		return money.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN, currencyCode);
+	}
+
+	public static String formatTravelerName(Traveler traveler) {
+		return traveler.getFirstName() + " " + traveler.getLastName();
 	}
 
 	public static String formatWaypoint(Waypoint waypoint) {

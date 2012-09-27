@@ -6,13 +6,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.MiniReceiptWidget;
 import com.expedia.bookings.widget.ReceiptWidget;
+import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -23,8 +27,9 @@ public class BookingOverviewFragment extends Fragment {
 
 	private View mOverviewLayout;
 	private View mCheckoutLayout;
-
 	private View mReceiptView;
+
+	private TextView mTravelerInfoTextView;
 
 	private ReceiptWidget mReceiptWidget;
 	private MiniReceiptWidget mMiniReceiptWidget;
@@ -33,9 +38,11 @@ public class BookingOverviewFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_booking_overview, container, false);
 
-		mReceiptView = view.findViewById(R.id.receipt);
-		mOverviewLayout = view.findViewById(R.id.overview_layout);
-		mCheckoutLayout = view.findViewById(R.id.checkout_layout);
+		mOverviewLayout = Ui.findView(view, R.id.overview_layout);
+		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
+		mReceiptView = Ui.findView(view, R.id.receipt);
+
+		mTravelerInfoTextView = Ui.findView(view, R.id.traveler_info_text_view);
 
 		mReceiptWidget = new ReceiptWidget(getActivity(), mReceiptView, false);
 		mMiniReceiptWidget = (MiniReceiptWidget) view.findViewById(R.id.receipt_mini);
@@ -48,7 +55,22 @@ public class BookingOverviewFragment extends Fragment {
 		// Listeners
 		view.findViewById(R.id.traveler_info_linear_layout).setOnClickListener(mOnClickListener);
 
+		updateViews();
+
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		updateViews();
+	}
+
+	private void updateViews() {
+		if (Db.getTravelers() != null && Db.getTravelers().size() > 0) {
+			Traveler traveler = Db.getTravelers().get(0);
+			mTravelerInfoTextView.setText(StrUtils.formatTravelerName(traveler));
+		}
 	}
 
 	public void updateReceiptWidget() {
@@ -59,9 +81,6 @@ public class BookingOverviewFragment extends Fragment {
 
 		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
 		mMiniReceiptWidget.bind(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
-
-		//BookingInfoUtils.determineExpediaPointsDisclaimer(getActivity(), mRootView);
-		//ConfirmationUtils.determineCancellationPolicy(Db.getSelectedRate(), mRootView);
 	}
 
 	public boolean inCheckout() {
