@@ -1,5 +1,7 @@
 package com.expedia.bookings.data;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -243,6 +245,23 @@ public class FlightTrip implements JSONable {
 			}
 		}
 		return retVal;
+	}
+
+	public String computePercentagePriceChangeForOmnitureTracking() {
+		if (mPriceChangeAmount == null) {
+			return null;
+		}
+		else {
+			BigDecimal currentPrice = mTotalFare.copy().getAmount();
+			BigDecimal priceChange = mPriceChangeAmount.copy().getAmount();
+			BigDecimal oldPrice = currentPrice.subtract(priceChange);
+			BigDecimal percentageChange = priceChange.divide(oldPrice, RoundingMode.HALF_UP);
+
+			String percentChange = Integer.toString(percentageChange.intValue() * 100);
+			percentChange += "%";
+
+			return percentChange;
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////
