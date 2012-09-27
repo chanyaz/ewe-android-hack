@@ -19,15 +19,15 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.section.SectionFlightLeg;
-import com.expedia.bookings.section.SectionFlightLeg.SectionFlightLegListener;
+import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
 // will need to rewrite a good portion of it.
-public class FlightListFragment extends ListFragment implements SectionFlightLegListener, OnScrollListener {
+public class FlightListFragment extends ListFragment implements FlightLegSummarySectionListener, OnScrollListener {
 
 	public static final String TAG = FlightListFragment.class.getName();
 
@@ -39,7 +39,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 
 	private ListView mListView;
 	private TextView mNumFlightsTextView;
-	private SectionFlightLeg mSectionFlightLeg;
+	private FlightLegSummarySection mSectionFlightLeg;
 
 	private int mLegPosition;
 
@@ -81,6 +81,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, mListView, false);
 		mNumFlightsTextView = Ui.findView(header, R.id.num_flights_text_view);
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
+		mSectionFlightLeg.setBackgroundResource(R.drawable.bg_flight_card_search_results);
 		mSectionFlightLeg.setListener(this);
 		mListView.addHeaderView(header);
 		mListView.setHeaderDividersEnabled(false);
@@ -142,7 +143,7 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 			}
 			else {
 				mSectionFlightLeg.setVisibility(View.VISIBLE);
-				mSectionFlightLeg.bind(Db.getFlightSearch().getSelectedLegs()[0], true);
+				mSectionFlightLeg.bind(null, Db.getFlightSearch().getSelectedLegs()[0].getFlightLeg());
 			}
 		}
 	}
@@ -233,10 +234,10 @@ public class FlightListFragment extends ListFragment implements SectionFlightLeg
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// SectionFlightLegListener
+	// FlightLegSummarySectionListener
 
 	@Override
-	public void onDeselect() {
+	public void onDeselect(FlightLeg leg) {
 		mListener.onDeselectFlightLeg();
 	}
 

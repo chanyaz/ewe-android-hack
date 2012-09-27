@@ -8,10 +8,11 @@
         android:id="@+id/flight_leg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="11dp"
-        android:layout_marginRight="11dp"
-        android:layout_marginTop="12dp"
-        layout="@layout/section_display_flight_leg" />
+        android:layout_marginBottom="64dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="-6dp"
+        layout="@layout/section_flight_leg_summary" />
 
     <TextView
         android:id="@+id/num_flights_text_view"

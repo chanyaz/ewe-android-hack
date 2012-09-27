@@ -3,13 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
+    <ImageView
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="20dp"
+        android:paddingTop="12dp"
+        android:src="@drawable/btn_flight_card_cancel" />
+
     <TextView
         android:id="@+id/price_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:gravity="right"
         android:textColor="#22599C"
         android:textSize="24sp"
@@ -21,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:layout_toLeftOf="@+id/price_text_view"
         android:ellipsize="end"
         android:singleLine="true"

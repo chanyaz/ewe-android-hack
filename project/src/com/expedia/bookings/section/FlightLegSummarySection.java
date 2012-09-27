@@ -7,6 +7,7 @@ import java.util.Calendar;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,6 +34,9 @@ public class FlightLegSummarySection extends RelativeLayout {
 		sDaySpanFormatter.setPositivePrefix("+");
 	}
 
+	private FlightLegSummarySectionListener mListener;
+
+	private ImageView mCancelView;
 	private TextView mAirlineTextView;
 	private TextView mPriceTextView;
 	private TextView mDepartureTimeTextView;
@@ -44,11 +48,20 @@ public class FlightLegSummarySection extends RelativeLayout {
 		super(context, attrs);
 	}
 
+	/**
+	 * Setting a listener implicitly sets this section as deselectable, 
+	 * showing the "X" button instead of showing the price.
+	 */
+	public void setListener(FlightLegSummarySectionListener listener) {
+		mListener = listener;
+	}
+
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
 		// Cache views
+		mCancelView = Ui.findView(this, R.id.cancel_button);
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
 		mDepartureTimeTextView = Ui.findView(this, R.id.departure_time_text_view);
@@ -61,7 +74,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(trip, leg, null, null);
 	}
 
-	public void bind(FlightTrip trip, FlightLeg leg, Calendar minTime, Calendar maxTime) {
+	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime) {
 		if (mAirlineTextView != null) {
 			mAirlineTextView.setText(leg.getAirlinesFormatted());
 		}
@@ -73,7 +86,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		if (mPriceTextView != null) {
-			if (trip == null) {
+			if (trip == null || mListener != null) {
 				mPriceTextView.setVisibility(View.GONE);
 			}
 			else if (trip.hasPricing()) {
@@ -82,6 +95,19 @@ public class FlightLegSummarySection extends RelativeLayout {
 			else {
 				mPriceTextView.setText(null);
 			}
+		}
+
+		if (mListener != null) {
+			mCancelView.setVisibility(View.VISIBLE);
+			mCancelView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mListener.onDeselect(leg);
+				}
+			});
+		}
+		else {
+			mCancelView.setVisibility(View.GONE);
 		}
 
 		int daySpan = leg.getDaySpan();
@@ -118,5 +144,12 @@ public class FlightLegSummarySection extends RelativeLayout {
 	private String formatTime(Calendar cal) {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());
 		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface FlightLegSummarySectionListener {
+		public void onDeselect(FlightLeg flightLeg);
 	}
 }
