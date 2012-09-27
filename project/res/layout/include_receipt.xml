@@ -54,7 +54,7 @@
                     android:layout_gravity="right"
                     android:layout_marginTop="7dp"
                     android:layout_marginRight="1dp"
-                    android:src="@drawable/expedia_logo" />
+                    android:src="@drawable/expedia_logo_126dp" />
 
                 <TextView
                     android:id="@+id/name_text_view"
