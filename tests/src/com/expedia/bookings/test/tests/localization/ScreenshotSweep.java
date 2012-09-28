@@ -58,6 +58,7 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.setLocale(testingLocale);
 			mDriver.delay();
 			mDriver.changePOS(mDriver.TEST_LOCALES[i]);
+
 			mDriver.changeAPI("Production");
 			mDriver.delay(2);
 			mDriver.setLocale(testingLocale);
@@ -81,6 +82,7 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.bookingScreenShots();
 			mDriver.logInAndBook();
 			mDriver.captureInfoScreen();
+
 		}
 	}
 

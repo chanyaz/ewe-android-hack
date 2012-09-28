@@ -110,6 +110,7 @@ public class HotelsRobotHelper {
 	private Solo mSolo;
 	private Resources mRes;
 	private HotelsUserData mUser; //user info container
+	private ScreenshotUtils mScreen;
 
 	//Defaults are set, including the default user booking info
 	//which is set to the qa-ehcc@mobiata.com account's info
@@ -125,6 +126,7 @@ public class HotelsRobotHelper {
 		mSolo = solo;
 		mRes = res;
 		mUser = customUser;
+		mScreen = new ScreenshotUtils("Robotium-Screenshots", mSolo);
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -170,7 +172,7 @@ public class HotelsRobotHelper {
 		if (mAllowScreenshots) {
 			String currentLocale = mRes.getConfiguration().locale.toString();
 
-			mSolo.takeScreenshot(currentLocale + " " + String.format("%02d", mScreenShotCount) + " " + fileName);
+			mScreen.screenshot(currentLocale + " " + String.format("%02d", mScreenShotCount) + " " + fileName);
 			mScreenShotCount++;
 		}
 	}
@@ -219,7 +221,7 @@ public class HotelsRobotHelper {
 		Log.d(TAG, "Our countrySelection is: " + countrySelection);
 		delay(1);
 		mSolo.clickOnText(countrySelection);
-		mSolo.clickOnButton(0);
+		mSolo.clickOnButton(1);
 		delay(1);
 		mSolo.clickOnButton(0);
 		setSpoofBookings();
@@ -327,6 +329,7 @@ public class HotelsRobotHelper {
 			screenshot("Filtering for " + filterText);
 			delay(1);
 			screenshot("After Filtering for " + filterText);
+			mSolo.goBack();
 		}
 	}
 
@@ -339,7 +342,12 @@ public class HotelsRobotHelper {
 		landscape();
 		portrait();
 
-		mSolo.clickOnText(sortText);
+		try {
+			mSolo.clickOnText(sortText);
+		}catch(AssertionFailedError E){
+			//Sometimes after rotating, the sort fragment disappears and needs to be pressed again
+			//Other times, not.
+		}
 		//solo.clickOnText(getStringFromR(R.string.sort_description_distance));
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_popular));
@@ -432,17 +440,22 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Hotel Info Screen Methods
 	public void checkReviews() {
+		delay();
+		mSolo.scrollToTop();
 		mSolo.clickOnView(mSolo.getView(R.id.user_rating_text_view));
 		mSolo.waitForDialogToClose(10000);
+		screenshot("All reviews");
 		delay(1);
 		landscape();
 		portrait();
 		delay();
 		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_favorable));
 		delay(1);
-
+		screenshot("Favorable Reviews.");
+		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical));
-
+		screenshot("Critical Reviews.");
+		delay(1);
 		mSolo.goBack();
 	}
 
@@ -530,7 +543,7 @@ public class HotelsRobotHelper {
 
 		screenshot("Login Screen Post Text Entry");
 
-		mSolo.clickOnButton(0); //Log in button.
+		mSolo.clickOnButton(1); //Log in button.
 		delay();
 		screenshot("Booking Info Post-Login");
 		mSolo.scrollToTop();
