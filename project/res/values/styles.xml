@@ -144,22 +144,16 @@
     </style>
 
     <style name="RatingBar.Star">
-        <item name="android:minHeight">14dip</item>
-        <item name="android:maxHeight">14dip</item>
+        <item name="android:minHeight">16dip</item>
+        <item name="android:maxHeight">16dip</item>
     </style>
-
-    <style name="RatingBar.Star.Yellow" />
 
     <style name="RatingBar.Star.White">
         <item name="android:progressDrawable">@drawable/ratingbar_star_white</item>
-        <item name="android:minHeight">16dp</item>
-        <item name="android:maxHeight">16dp</item>
     </style>
 
     <style name="RatingBar.Star.Gray">
         <item name="android:progressDrawable">@drawable/ratingbar_star_gray</item>
-        <item name="android:minHeight">16dp</item>
-        <item name="android:maxHeight">16dp</item>
     </style>
 
     <style name="RatingBar.UserReview">
