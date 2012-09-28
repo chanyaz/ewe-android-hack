@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import java.util.Calendar;
-import java.util.List;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -43,27 +42,8 @@ public class FlightAdapter extends BaseAdapter {
 			if (mFlightTripQuery != null) {
 				mFlightTripQuery.registerDataSetObserver(mDataSetObserver);
 
-				// Calculate the min/max time
-				List<FlightTrip> trips = mFlightTripQuery.getTrips();
-				FlightTrip trip = trips.get(0);
-				FlightLeg leg = trip.getLeg(mLegPosition);
-				mMinTime = leg.getFirstWaypoint().getMostRelevantDateTime();
-				mMaxTime = leg.getLastWaypoint().getMostRelevantDateTime();
-
-				for (int a = 1; a < trips.size(); a++) {
-					trip = trips.get(a);
-					leg = trip.getLeg(mLegPosition);
-
-					Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
-					Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
-
-					if (minTime.before(mMinTime)) {
-						mMinTime = minTime;
-					}
-					if (maxTime.after(mMaxTime)) {
-						mMaxTime = maxTime;
-					}
-				}
+				mMinTime = mFlightTripQuery.getMinTime();
+				mMaxTime = mFlightTripQuery.getMaxTime();
 			}
 
 			notifyDataSetChanged();

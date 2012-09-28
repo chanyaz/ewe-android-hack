@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
@@ -143,7 +145,10 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 			}
 			else {
 				mSectionFlightLeg.setVisibility(View.VISIBLE);
-				mSectionFlightLeg.bind(null, Db.getFlightSearch().getSelectedLegs()[0].getFlightLeg());
+				FlightSearch search = Db.getFlightSearch();
+				FlightTripQuery query = search.queryTrips(0);
+				mSectionFlightLeg.bind(null, search.getSelectedLegs()[0].getFlightLeg(), query.getMinTime(),
+						query.getMaxTime());
 			}
 		}
 	}

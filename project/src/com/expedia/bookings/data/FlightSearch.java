@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -237,6 +238,9 @@ public class FlightSearch implements JSONable {
 
 		private List<FlightTrip> mTrips;
 
+		private Calendar mMinTime;
+		private Calendar mMaxTime;
+
 		public FlightTripQuery(int legPosition) {
 			mLegPosition = legPosition;
 		}
@@ -284,6 +288,27 @@ public class FlightSearch implements JSONable {
 					break;
 				}
 				Collections.sort(mTrips, comparator);
+
+				// Calculate the min/max time
+				FlightTrip trip = mTrips.get(0);
+				FlightLeg leg = trip.getLeg(mLegPosition);
+				mMinTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+				mMaxTime = leg.getLastWaypoint().getMostRelevantDateTime();
+
+				for (int a = 1; a < mTrips.size(); a++) {
+					trip = mTrips.get(a);
+					leg = trip.getLeg(mLegPosition);
+
+					Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+					Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
+
+					if (minTime.before(mMinTime)) {
+						mMinTime = minTime;
+					}
+					if (maxTime.after(mMaxTime)) {
+						mMaxTime = maxTime;
+					}
+				}
 			}
 
 			return mTrips;
@@ -291,6 +316,22 @@ public class FlightSearch implements JSONable {
 
 		public int getCount() {
 			return getTrips().size();
+		}
+
+		public Calendar getMinTime() {
+			if (mMinTime == null) {
+				getTrips();
+			}
+
+			return mMinTime;
+		}
+
+		public Calendar getMaxTime() {
+			if (mMinTime == null) {
+				getTrips();
+			}
+
+			return mMaxTime;
 		}
 
 		public void notifyFilterChanged() {
