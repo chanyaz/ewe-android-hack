@@ -285,11 +285,13 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				travelerValid = false;
 			}
 			else {
+				TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+				if (state == null) {
+					return false;
+				}
 				List<Traveler> travelers = Db.getTravelers();
 				for (int i = 0; i < travelers.size(); i++) {
-					travelerValid &= (TravelerFlowState.getInstance(getActivity())
-							.allTravelerInfoIsValidForDomesticFlight(
-							travelers.get(i)));
+					travelerValid &= (state.allTravelerInfoIsValidForDomesticFlight(travelers.get(i)));
 				}
 			}
 			return travelerValid;
