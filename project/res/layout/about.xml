@@ -107,7 +107,7 @@
 
         <TextView
             android:id="@+id/action_bar_title"
-            style="@style/FauxActionBarTitleText"
+            style="@style/TextAppearance.Dark.ActionBar.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -147,6 +147,7 @@
 
             <TextView
                 android:id="@+id/follow_email_text"
+                style="@style/TextAppearance.Dark.ActionBar.Title.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_alignBottom="@id/follow_email_image"
@@ -154,10 +155,7 @@
                 android:layout_toRightOf="@id/follow_email_image"
                 android:duplicateParentState="true"
                 android:gravity="center"
-                android:text="@string/Subscribe"
-                android:textColor="#dcdee2"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                android:text="@string/Subscribe" />
         </RelativeLayout>
 
         <ImageView
@@ -184,6 +182,7 @@
 
             <TextView
                 android:id="@+id/follow_twitter_text"
+                style="@style/TextAppearance.Dark.ActionBar.Title.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_alignBottom="@id/follow_twitter_image"
@@ -191,10 +190,7 @@
                 android:layout_toRightOf="@id/follow_twitter_image"
                 android:duplicateParentState="true"
                 android:gravity="center"
-                android:text="@string/Follow"
-                android:textColor="#dcdee2"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                android:text="@string/Follow" />
         </RelativeLayout>
 
         <ImageView
@@ -221,6 +217,7 @@
 
             <TextView
                 android:id="@+id/follow_facebook_text"
+                style="@style/TextAppearance.Dark.ActionBar.Title.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_alignBottom="@id/follow_facebook_image"
@@ -228,10 +225,7 @@
                 android:layout_toRightOf="@id/follow_facebook_image"
                 android:duplicateParentState="true"
                 android:gravity="center"
-                android:text="@string/Like"
-                android:textColor="#dcdee2"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                android:text="@string/Like" />
         </RelativeLayout>
     </LinearLayout>
 
