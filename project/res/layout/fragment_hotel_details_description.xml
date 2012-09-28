@@ -13,13 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/one_di_pixel"
         android:layout_marginTop="5dp"
-        android:background="#efefef" >
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" >
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:background="@color/hotel_details_separator" />
     </FrameLayout>
 
