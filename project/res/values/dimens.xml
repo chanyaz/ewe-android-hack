@@ -9,6 +9,9 @@
    	<dimen name="data_form_section_header_text">14sp</dimen>
    	<dimen name="yoyo_navigation_padding_right">10dp</dimen>
    	<dimen name="flight_segment_margin">16dp</dimen>
+
+   	<!-- We need to increase the margins because of the animation -->
+   	<dimen name="flight_card_initial_offset">64dp</dimen>
    	<dimen name="flight_card_overlap_offset">16dp</dimen>
 
    	<!-- FlightTripView dimensions -->

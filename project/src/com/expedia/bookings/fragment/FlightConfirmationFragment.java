@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,8 +19,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -49,9 +51,20 @@ public class FlightConfirmationFragment extends Fragment {
 		Airport destinationAirport = leg1.getLastWaypoint().getAirport();
 		Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
 
-		// Format the flight cards (no animation at this point)
+		// Format the flight cards
 		RelativeLayout cardContainer = Ui.findView(v, R.id.flight_card_container);
-		float offset = getResources().getDimension(R.dimen.flight_card_overlap_offset);
+
+		// Only display the animation the first time the page loads
+		if (savedInstanceState == null) {
+			LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(),
+					R.anim.layout_card_slide);
+			cardContainer.setLayoutAnimation(controller);
+		}
+
+		Resources res = getResources();
+
+		float initialOffset = res.getDimension(R.dimen.flight_card_initial_offset);
+		float offset = res.getDimension(R.dimen.flight_card_overlap_offset);
 		int numLegs = trip.getLegCount();
 		for (int a = 0; a < numLegs; a++) {
 			FlightLegSummarySection card = (FlightLegSummarySection) inflater.inflate(
@@ -59,7 +72,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 			// Each card is offset below the last one
 			MarginLayoutParams params = (MarginLayoutParams) card.getLayoutParams();
-			params.topMargin = Math.round(offset * a);
+			params.topMargin = (int) (initialOffset + Math.round(offset * a));
 
 			// Set a custom bg
 			card.setBackgroundResource(R.drawable.bg_flight_row);
