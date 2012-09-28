@@ -76,6 +76,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				moveForward();
 			}
 		});
+		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 		return true;
 	}
@@ -129,6 +130,26 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			//TODO: This should set both to invisible, but then they never return, so for now we display done
 			setMenuItemVisibilities(true);
 		}
+	}
+	
+	public void displayActionBarTitleBasedOnState(){
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+		String titleStr = getString(R.string.traveler_information);
+		if(mPos != null){
+			switch (mPos) {
+			case THREE:
+				titleStr = getString(R.string.passport);
+				break;
+			case ONE:
+			case TWO:
+			case SAVE:
+			case OPTIONS:
+			default:
+				titleStr = getString(R.string.traveler_information);
+			}
+		}
+		actionBar.setTitle(titleStr);
 	}
 
 	@Override
@@ -355,6 +376,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		}
 		mPos = YoYoPosition.OPTIONS;
 		mMode = YoYoMode.NONE;
+		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 	}
 
@@ -370,6 +392,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			ft.commit();
 		}
 		mPos = YoYoPosition.ONE;
+		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 
 	}
@@ -386,6 +409,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			ft.commit();
 		}
 		mPos = YoYoPosition.TWO;
+		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 
 	}
@@ -402,6 +426,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			ft.commit();
 		}
 		mPos = YoYoPosition.THREE;
+		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 
 	}

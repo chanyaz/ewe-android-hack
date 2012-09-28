@@ -163,13 +163,19 @@
     <string name="overview_btn">Overview</string>
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Choose a Stored Payment Method</string>
+    <!-- Payment Method -->
+    <string name="payment_method">Payment Method</string>
+    <!-- Billing Address -->
+    <string name="billing_address">Billing Address</string>
+    <!-- Card Info -->
+    <string name="card_info">Card Info</string>
 
 
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
     <string name="total_price_label">Total Price</string>
     <!-- Your trip to template -->
-    <string name="your_trip_to_TEMPLATE">Your trip to %1$s</string>
+    <string name="your_trip_to_TEMPLATE">Trip to %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Includes taxes and fees.</string>
     <!-- Date and trip from _ to _ -->
@@ -382,6 +388,11 @@
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Prefers&lt;/font&gt; %1$s Seat</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Loading traveler information...</string>
+    <!-- Traveler Information -->
+    <string name="traveler_information">Traveler Information</string>
+    <!-- Passport -->
+	<string name="passport">Passport</string>
+
 
     <!-- Seat types -->
     <!-- Window seating preference -->

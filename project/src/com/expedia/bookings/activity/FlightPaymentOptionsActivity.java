@@ -1,9 +1,11 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -73,6 +75,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 		mPos = YoYoPosition.OPTIONS;
 		mMode = YoYoMode.NONE;
+		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 	}
 
@@ -87,6 +90,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			ft.commit();
 		}
 		mPos = YoYoPosition.ADDRESS;
+		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 	}
 
@@ -101,7 +105,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			ft.replace(android.R.id.content, mCCFragment, CREDIT_CARD_FRAGMENT_TAG);
 			ft.commit();
 		}
-
+		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 	}
 
@@ -305,6 +309,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				moveForward();
 			}
 		});
+		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 		return true;
 	}
@@ -337,14 +342,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		}
 		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
-			case ADDRESS:
-				setMenuItemVisibilities(false);
-				break;
-			case CREDITCARD:
-			case SAVE:
-			case OPTIONS:
-			default:
-				setMenuItemVisibilities(true);
+			
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
@@ -354,6 +352,32 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			//TODO: This should set both to invisible, but then they never return, so for now we display done
 			setMenuItemVisibilities(true);
 		}
+	}
+	
+	public void displayActionBarTitleBasedOnState(){
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+		String titleStr = getString(R.string.payment_method);
+		if(mPos != null){
+			switch (mPos) {
+			case ADDRESS:
+				titleStr = getString(R.string.billing_address);
+				actionBar.setTitle(titleStr);
+				break;
+			case CREDITCARD:
+				actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+				actionBar.setCustomView(R.layout.action_bar_card_info);
+				break;
+			case SAVE:
+			case OPTIONS:
+			default:
+				titleStr = getString(R.string.payment_method);
+				actionBar.setTitle(titleStr);
+			}
+		}else{
+			actionBar.setTitle(titleStr);
+		}
+		
 	}
 
 	@Override
