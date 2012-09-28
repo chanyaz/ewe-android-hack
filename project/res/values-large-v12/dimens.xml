@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="padding_top_sale_ribbon">1dp</dimen>
+    <dimen name="padding_top_rooms_rates_ribbon">1dp</dimen>
     <dimen name="booking_form_saved_field_text_size">16sp</dimen>
     <dimen name="booking_form_saved_section_padding">10dp</dimen>
     <dimen name="hotel_description_title_text_size">22sp</dimen>

@@ -78,7 +78,7 @@
 	<dimen name="min_height_rating_bar_small">16dp</dimen>
 	<dimen name="max_height_rating_bar_small">16dp</dimen>
 
-	<dimen name="padding_top_sale_ribbon">0dp</dimen>
+	<dimen name="padding_top_rooms_rates_ribbon">3dp</dimen>
 
 	<dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
 
