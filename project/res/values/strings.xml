@@ -1174,6 +1174,8 @@
     <string name="cancellation_policy">Cancellation Policy</string>
 
     <!-- About activity -->
+    <!-- Section Header for expedia section -->
+    <string name="EXPEDIA">EXPEDIA</string>
     <!-- Label for "contact Expedia" button in info page -->
     <string name="contact_expedia">Contact Expedia</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
@@ -1194,6 +1196,8 @@
     <string name="expedia_website_description">Visit the website to book flights, cars, packages and more.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">Let us know what you think about the app.</string>
+    <!-- Section Header for interaction section -->
+    <string name="INTERACT">INTERACT</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App Support</string>
     <!-- Extra description for "app support" button, when space allows -->
@@ -1202,10 +1206,14 @@
     <string name="tell_a_friend_description">Like amazing hotel deals? Tell your friends about the app.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Travel smart</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">ALSO BY MOBIATA</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
     <string name="tell_a_friend_body">Hi there,\n\nCheck out Expedia Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.\n\nhttp://www.expedia.com/app</string>
+    <!-- Section Header for our Rules and Restrictions -->
+    <string name="RULES_AND_RESTRICTIONS">RULES AND RESTRICTIONS</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terms and Conditions</string>
     <!-- Label for link to privacy policy -->

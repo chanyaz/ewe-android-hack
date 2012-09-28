@@ -105,4 +105,20 @@
 
 	<color name="confirmation_header_divider">#7D7ab6f5</color>
 	<color name="confirmation_item_divider">#7DFFFFFF</color>
+
+
+    <!-- About Screen -->
+    <color name="info_selected">#eb6000</color>
+    <color name="info_pressed">#eba200</color>
+    <color name="info_normal">#232323</color>
+    <color name="about_row_bg_normal">#0000</color>
+    <color name="about_row_bg_pressed">#7caae5</color>
+    <color name="AboutBackground">#333</color>
+    <color name="AboutTitleTextColor">#dcdcdc</color>
+    <color name="AboutRowTitleTextColor">#232323</color>
+    <color name="AboutRowTextColor">#232323</color>
+    <color name="AboutRowSelectedColor">#cfcfcf</color>
+    <color name="AboutAppsTitleTextColor">#232323</color>
+    <color name="AboutAppsTextColor">#454545</color>
+    <color name="AboutTextSelectedStateColor">#d79100</color>
 </resources>

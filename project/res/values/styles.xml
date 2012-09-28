@@ -502,4 +502,61 @@
         <item name="android:background">@color/confirmation_item_divider</item>
     </style>
 
+    <style name="FauxActionBarTitleText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">#f3f3f3</item>
+    </style>
+
+    <style name="EtchedText">
+        <item name="android:textColor">@color/info_color</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="AboutTextTitle">
+        <item name="android:textColor">@color/AboutTitleTextColor</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="AboutRowTitleText">
+        <item name="android:textColor">@color/honeycomb_row_title_color</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="AboutRowAppsTitle">
+        <item name="android:textColor">@color/honeycomb_app_title_color</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="AboutRowText">
+        <item name="android:textColor">@color/AboutRowTitleTextColor</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="AboutFooterText">
+        <item name="android:textColor">@color/AboutFooterTextColor</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="AboutText" parent="EtchedText">
+        <item name="android:textColor">@color/info_normal</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+    </style>
+
 </resources>

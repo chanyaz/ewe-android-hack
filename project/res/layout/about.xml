@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/social_bar"
+        android:layout_below="@+id/action_bar"
+        android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp" >
+
+            <LinearLayout
+                android:id="@+id/sections_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="6dp"
+                android:paddingTop="2dp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+
+                <ImageButton
+                    android:id="@+id/MobiataButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_about_row"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/mobiata" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/AboutAppTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:textColor="#232323"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/AboutAppHtml"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:textColor="#232323" />
+
+            <TextView
+                android:id="@+id/AboutAppText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:textColor="#232323" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@id/action_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_action_bar" >
+
+        <LinearLayout
+            android:id="@+id/action_bar_up_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_actionbar_button"
+            android:clickable="false"
+            android:focusable="false"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/action_bar_button_vertical_padding"
+            android:paddingRight="@dimen/action_bar_up_button_right_padding"
+            android:paddingTop="@dimen/action_bar_button_vertical_padding" >
+
+            <ImageView
+                android:id="@+id/action_bar_up_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:duplicateParentState="true"
+                android:paddingLeft="@dimen/action_bar_up_button_left_padding"
+                android:src="@drawable/ic_back" />
+
+            <ImageView
+                android:id="@+id/action_bar_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_logo" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/action_bar_title"
+            style="@style/FauxActionBarTitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/action_bar_up_button" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/action_bar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/action_bar"
+        android:background="@drawable/action_bar_shadow" />
+
+    <LinearLayout
+        android:id="@id/social_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_action_bar_bottom"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/follow_email_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_actionbar_button"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/follow_email_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_menu_subscribe" />
+
+            <TextView
+                android:id="@+id/follow_email_text"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_alignBottom="@id/follow_email_image"
+                android:layout_alignTop="@id/follow_email_image"
+                android:layout_toRightOf="@id/follow_email_image"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:text="@string/Subscribe"
+                android:textColor="#dcdee2"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/social_bar_divider_1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/action_bar_divider_free" />
+
+        <RelativeLayout
+            android:id="@+id/follow_twitter_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_actionbar_button"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/follow_twitter_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_menu_twitter" />
+
+            <TextView
+                android:id="@+id/follow_twitter_text"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_alignBottom="@id/follow_twitter_image"
+                android:layout_alignTop="@id/follow_twitter_image"
+                android:layout_toRightOf="@id/follow_twitter_image"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:text="@string/Follow"
+                android:textColor="#dcdee2"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/social_bar_divider_2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/action_bar_divider_free" />
+
+        <RelativeLayout
+            android:id="@+id/follow_facebook_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_actionbar_button"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/follow_facebook_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_menu_facebook" />
+
+            <TextView
+                android:id="@+id/follow_facebook_text"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_alignBottom="@id/follow_facebook_image"
+                android:layout_alignTop="@id/follow_facebook_image"
+                android:layout_toRightOf="@id/follow_facebook_image"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:text="@string/Like"
+                android:textColor="#dcdee2"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

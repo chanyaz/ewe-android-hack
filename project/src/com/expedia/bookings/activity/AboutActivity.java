@@ -4,13 +4,15 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.Ui;
 
 public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
@@ -29,7 +31,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		mUtils = new AboutUtils(this);
 
 		// Section about Expedia
-		ViewGroup expediaSection = addSection();
+		ViewGroup expediaSection = addSection(getString(R.string.EXPEDIA));
 		addSimpleRow(expediaSection, getString(R.string.contact_expedia), new OnClickListener() {
 			public void onClick(View v) {
 				showDialog(DIALOG_CONTACT_EXPEDIA);
@@ -42,7 +44,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		});
 
 		// Section about this app
-		ViewGroup appSection = addSection();
+		ViewGroup appSection = addSection(getString(R.string.INTERACT));
 		addSimpleRow(appSection, getString(R.string.app_feedback), new OnClickListener() {
 			public void onClick(View v) {
 				mUtils.openAppFeedback();
@@ -66,7 +68,12 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		});
 
 		// Section about some of our other apps
-		ViewGroup otherAppsSection = addSection(getString(R.string.travel_smart));
+		ViewGroup otherAppsSection = addSection(getString(R.string.ALSO_BY_MOBIATA));
+		addAppAbout(otherAppsSection, APP_FLIGHTTRACKFREE, 0, new OnClickListener() {
+			public void onClick(View v) {
+				mUtils.trackFlightTrackLink();
+			}
+		});
 		addAppAbout(otherAppsSection, APP_FLIGHTTRACK, 0, new OnClickListener() {
 			public void onClick(View v) {
 				mUtils.trackFlightTrackLink();
@@ -78,7 +85,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			}
 		});
 
-		ViewGroup rulesRestrictionsSection = addSection();
+		ViewGroup rulesRestrictionsSection = addSection(getString(R.string.RULES_AND_RESTRICTIONS));
 		addSimpleRow(rulesRestrictionsSection, getString(R.string.info_label_terms_conditions), new OnClickListener() {
 			public void onClick(View v) {
 				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext));
@@ -89,6 +96,34 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext));
 			}
 		});
+
+		TextView title = Ui.findView(this, R.id.action_bar_title);
+		if (title != null) {
+			title.setText(getString(R.string.about_title_template, getString(R.string.app_name)));
+		}
+
+		View upButton = Ui.findView(this, R.id.action_bar_up_button);
+		if (upButton != null) {
+			upButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
+		}
+
+                ViewGroup emailButton = Ui.findView(this, R.id.follow_email_button);
+                emailButton.setOnClickListener(new OnClickListener() {
+                        public void onClick(View v) {
+                                showDialog(DIALOG_MAILCHIMP);
+                        }
+                });
+
+                ViewGroup twitterButton = Ui.findView(this, R.id.follow_twitter_button);
+                twitterButton.setOnClickListener(getTwitterButtonClickedListener());
+
+                ViewGroup facebookButton = Ui.findView(this, R.id.follow_facebook_button);
+                facebookButton.setOnClickListener(getFacebookButtonClickedListener());
 
 		// Tracking
 		if (savedInstanceState == null) {
