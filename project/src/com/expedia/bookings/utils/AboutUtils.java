@@ -192,6 +192,11 @@ public class AboutUtils {
 		TrackingUtils.trackSimpleEvent(mActivity, null, null, null, "App.Info.TellAFriend");
 	}
 
+	public void trackFlightTrackFreeLink() {
+		Log.d("Tracking \"flighttrackfree\" onClick");
+		TrackingUtils.trackSimpleEvent(mActivity, null, null, null, "App.Link.FlightTrackFree");
+	}
+
 	public void trackFlightTrackLink() {
 		Log.d("Tracking \"flighttrack\" onClick");
 		TrackingUtils.trackSimpleEvent(mActivity, null, null, null, "App.Link.FlightTrack");

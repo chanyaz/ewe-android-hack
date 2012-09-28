@@ -71,7 +71,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		ViewGroup otherAppsSection = addSection(getString(R.string.ALSO_BY_MOBIATA));
 		addAppAbout(otherAppsSection, APP_FLIGHTTRACKFREE, 0, new OnClickListener() {
 			public void onClick(View v) {
-				mUtils.trackFlightTrackLink();
+				mUtils.trackFlightTrackFreeLink();
 			}
 		});
 		addAppAbout(otherAppsSection, APP_FLIGHTTRACK, 0, new OnClickListener() {
