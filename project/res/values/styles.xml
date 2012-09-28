@@ -384,7 +384,7 @@
         <item name="android:background">@drawable/bg_action_bar</item>
         <item name="backgroundSplit">@drawable/bg_action_bar_bottom</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom</item>
-        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="titleTextStyle">@style/TextAppearance.Dark.ActionBar.Title</item>
         <item name="android:titleTextStyle">@style/TextAppearance.Dark.ActionBar.Title</item>
     </style>
 
