@@ -17,14 +17,14 @@ import java.util.Calendar;
  * The spec behind this class can be found here: http://confluence/display/Omniture/Mobile+App+Flight+Tracking
  */
 
-public class FlightsOmnitureTracking {
+public class OmnitureTracking {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// STANDARD PAGE NAME CONSTANTS
 
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
-	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search-Interstitial";
+	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN = "App.Flight.Search.Roundtrip.In";
@@ -323,6 +323,8 @@ public class FlightsOmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightSearchResultsOutboundList(Context context) {
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
+
 		AppMeasurement s = createTrackPageLoadEventBase(context, FLIGHT_SEARCH_ROUNDTRIP_OUT);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
@@ -338,7 +340,8 @@ public class FlightsOmnitureTracking {
 
 		// day computation date, TODO test this stuff
 		final Calendar departureDate = searchParams.getDepartureDate().getCalendar();
-		final Calendar returnDate = searchParams.getReturnDate().getCalendar();
+		final Calendar returnDate = searchParams.getReturnDate() == null ? null : searchParams.getReturnDate()
+				.getCalendar();
 		final Calendar now = Calendar.getInstance();
 
 		// num days between current day (now) and flight departure date
@@ -351,11 +354,8 @@ public class FlightsOmnitureTracking {
 
 		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
 		// e.g. FLT|RT|A2|C1
-		FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
-		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(flightTrip.getLegCount());
-
 		// TODO this will need to be changed once we support multiple travelers
-		s.eVar47 = "FLT|" + tripType + "|A1|C0";
+		s.eVar47 = "FLT|RT|A1|C0";
 
 		// Success event for 'Search'
 		s.events = "event30";
@@ -442,6 +442,15 @@ public class FlightsOmnitureTracking {
 
 		// Add offline tracking, so user doesn't have to be online to be tracked
 		s.trackOffline = true;
+
+		// Server
+		s.trackingServer = "om.expedia.com";
+		s.trackingServerSecure = "oms.expedia.com";
+
+		s.account = "expedia1androidcom";
+		if (!AndroidUtils.isRelease(context)) {
+			s.account += "dev";
+		}
 
 		return s;
 	}
