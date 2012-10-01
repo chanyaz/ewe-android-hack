@@ -225,7 +225,7 @@
     <!-- Expedia Account label -->
     <string name="expedia_account">Expedia Account</string>
     <!-- Checkout Information label -->
-    <string name="checkout_information">Checkout Information</string>
+    <string name="checkout_information">CHECKOUT INFORMATION</string>
 	<!-- Slide to purchase -->
 	<string name="slide_to_purchase">Slide to purchase.</string>
 	<!-- Your card will be charged -->
@@ -245,7 +245,7 @@
     
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
-    <string name="enter_traveler_info">Enter Traveler Information</string>
+    <string name="enter_traveler_info">Traveler Information</string>
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
@@ -274,8 +274,6 @@
     <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Expires&lt;/font&gt; %1$s</string>
 
     <!-- Section display payment -->
-    <!-- Enter payment info button text -->
-    <string name="enter_payment_info">Enter Payment Information</string>
     <!-- Template for blanked out Credit Card -->
     <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b&gt;%2$s&lt;/b&gt;</string>
 
