@@ -67,6 +67,7 @@
         <item name="actionBarTabStyle">@style/ActionBarTabView</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="actionBarTabTextStyle">@style/ActionBarTabText</item>
+        <item name="actionMenuTextColor">@color/actionbar_text</item>
         <item name="android:actionBarItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:actionBarStyle">@style/Dark.ActionBar</item>
         <item name="android:actionDropDownStyle">@style/Dark.DropDown</item>
