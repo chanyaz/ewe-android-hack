@@ -18,6 +18,8 @@ import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
 
 public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
+	private static final boolean QUICKLAUNCH = false;
+
 	private BlurredBackgroundFragment mBgFragment;
 
 	private NavigationButton mNavButton;
@@ -28,12 +30,14 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 		// This is temporary testing code that makes it easy to save/load testing data
 		// so that we can quickly test this activity.  DELETE when finished dev!
-		if (savedInstanceState == null) {
-			if (Intent.ACTION_MAIN.equals(getIntent().getAction())) {
-				Db.loadTestData(this);
-			}
-			else {
-				Db.saveDbForTesting(this);
+		if (QUICKLAUNCH) {
+			if (savedInstanceState == null) {
+				if (Intent.ACTION_MAIN.equals(getIntent().getAction())) {
+					Db.loadTestData(this);
+				}
+				else {
+					Db.saveDbForTesting(this);
+				}
 			}
 		}
 
