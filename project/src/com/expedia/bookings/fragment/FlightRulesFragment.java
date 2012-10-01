@@ -136,7 +136,10 @@ public class FlightRulesFragment extends SherlockFragment {
 
 		// additional rules
 		Rule additionalRules = mFlightTrip.getRule(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey());
-		rulesBodyBuilder.append(additionalRules.getText());
+		// Sometimes additional rules are not included in the API, null check here
+		if (additionalRules != null) {
+			rulesBodyBuilder.append(additionalRules.getText());
+		}
 
 		return rulesBodyBuilder.toString();
 	}
