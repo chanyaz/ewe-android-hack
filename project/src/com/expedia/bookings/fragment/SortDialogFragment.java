@@ -54,6 +54,7 @@ public class SortDialogFragment extends DialogFragment {
 
 		List<CharSequence> items = new ArrayList<CharSequence>();
 		items.add(getString(R.string.sort_description_popular));
+		items.add(getString(R.string.sort_description_deals));
 		items.add(getString(R.string.sort_description_price));
 		items.add(getString(R.string.sort_description_rating));
 
@@ -69,12 +70,15 @@ public class SortDialogFragment extends DialogFragment {
 					newSort = Sort.POPULAR;
 					break;
 				case 1:
-					newSort = Sort.PRICE;
+					newSort = Sort.DEALS;
 					break;
 				case 2:
-					newSort = Sort.RATING;
+					newSort = Sort.PRICE;
 					break;
 				case 3:
+					newSort = Sort.RATING;
+					break;
+				case 4:
 					newSort = Sort.DISTANCE;
 					break;
 				}
