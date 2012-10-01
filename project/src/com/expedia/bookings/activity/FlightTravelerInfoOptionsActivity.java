@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment.TravelerI
 import com.expedia.bookings.fragment.FlightTravelerInfoThreeFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -36,6 +38,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
 	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
+
+	private Context mContext;
 
 	private FlightTravelerInfoOptionsFragment mOptionsFragment;
 	private FlightTravelerInfoOneFragment mOneFragment;
@@ -178,6 +182,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mContext = this;
+
 		// Recover data if it was flushed from memory
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(this)) {
@@ -224,6 +230,9 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		actionBar.setTitle(yourTripToStr);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
+		if (savedInstanceState == null) {
+			OmnitureTracking.trackPageLoadFlightTravelerSelect(mContext);
+		}
 	}
 
 	public boolean validate(Validatable validatable) {
@@ -276,6 +285,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				}
 				break;
 			case SAVE:
+				OmnitureTracking.trackPageLoadFlightTravelerEditSave(mContext);
 				displayCheckout();
 				break;
 			default:

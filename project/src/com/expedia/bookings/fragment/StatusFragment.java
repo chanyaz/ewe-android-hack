@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.PlaneWindowView;
 import com.expedia.bookings.widget.PlaneWindowView.PlaneWindowListener;
 import com.mobiata.android.util.Ui;
@@ -34,6 +35,10 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 			mText = savedInstanceState.getCharSequence(INSTANCE_TEXT);
 			mIsGrounded = savedInstanceState.getBoolean(INSTANCE_IS_GROUNDED);
 		}
+		else {
+			OmnitureTracking.trackPageLoadFlightSearchResultsPlaneLoadingFragment(getActivity());
+		}
+
 	}
 
 	@Override

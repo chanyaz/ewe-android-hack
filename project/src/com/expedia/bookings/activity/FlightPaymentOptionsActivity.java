@@ -23,6 +23,7 @@ import com.expedia.bookings.fragment.FlightPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
 import com.expedia.bookings.fragment.FlightPaymentSaveDialogFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -153,6 +154,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				break;
 			case SAVE:
 				displayCheckout();
+				OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditSave(getApplicationContext());
 				break;
 			default:
 				Ui.showToast(this, "FAIL");
@@ -287,7 +289,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setTitle(yourTripToStr);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-
 	}
 
 	@Override
@@ -313,7 +314,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		displayActionItemBasedOnState();
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -400,7 +401,5 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
 		super.onRestoreInstanceState(savedInstanceState);
 	}
-	
-	
 
 }

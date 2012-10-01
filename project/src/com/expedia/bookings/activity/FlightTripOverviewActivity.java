@@ -31,6 +31,7 @@ import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -141,6 +142,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 		//}
 
+		if (savedInstanceState == null) {
+			OmnitureTracking.trackPageLoadFlightOverview(this);
+		}
 	}
 
 	@Override
@@ -245,8 +249,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 				mOverviewFragment.setCardOnClickListeners(null);
 			}
-			
+
 			mDisplayMode = DisplayMode.OVERVIEW;
+
+			OmnitureTracking.trackPageLoadFlightOverview(this);
 		}
 	}
 
@@ -278,23 +284,25 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				});
 			}
 
-			
 			mDisplayMode = DisplayMode.CHECKOUT;
+
+			OmnitureTracking.trackPageLoadFlightCheckout(this);
 		}
 	}
-	
-	private void setActionBarOverviewMode(){
+
+	private void setActionBarOverviewMode() {
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setCustomView(null);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
+				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		actionBar.setTitle(getString(R.string.overview_btn));
-		
+
 		if (mCheckoutMenuItem != null) {
 			mCheckoutMenuItem.setVisible(true);
 		}
 	}
-	
-	private void setActionBarCheckoutMode(){
+
+	private void setActionBarCheckoutMode() {
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(mTripKey);
 		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
@@ -304,24 +312,24 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		String dateRange = DateUtils.formatDateRange(this, depDate.getTimeInMillis(),
 				retDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
 						| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
-		
+
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
 		TextView titleTextView = Ui.findView(customView, R.id.title_text_view);
 		TextView subtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
-		
+
 		titleTextView.setText(yourTripToStr);
 		subtitleTextView.setText(dateRange);
 
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP
+				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		actionBar.setCustomView(customView);
-		
+
 		if (mCheckoutMenuItem != null) {
 			mCheckoutMenuItem.setVisible(false);
 		}
 	}
-	
 
 	public Animator getCheckoutShowAnimator() {
 		ObjectAnimator mover = ObjectAnimator.ofFloat(mCheckoutContainer, "y", this.mContentScrollView.getBottom(), 0f);

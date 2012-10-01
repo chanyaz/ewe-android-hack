@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightTravelerInfoOneFragment extends Fragment implements Validatable {
@@ -38,6 +39,10 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState == null) {
+			OmnitureTracking.trackPageLoadFlightTravelerEditInfo(getActivity());
+		}
 	}
 
 	@Override

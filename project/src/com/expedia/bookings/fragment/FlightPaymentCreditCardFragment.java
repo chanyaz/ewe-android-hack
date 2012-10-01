@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightPaymentCreditCardFragment extends Fragment implements Validatable {
@@ -40,6 +41,10 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState == null) {
+			OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard(getActivity());
+		}
 	}
 
 	@Override

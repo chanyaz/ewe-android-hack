@@ -16,6 +16,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -57,6 +58,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 
 				Db.getFlightSearch().getSearchParams().ensureValidDates();
 			}
+
+			OmnitureTracking.trackPageLoadFlightSearch(this);
 		}
 
 		if (savedInstanceState != null) {

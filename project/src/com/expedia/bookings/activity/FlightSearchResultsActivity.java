@@ -43,6 +43,7 @@ import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -496,6 +497,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			Db.kickOffBackgroundSave(mContext);
 
 			if (flightSearch.getSelectedFlightTrip() == null) {
+				OmnitureTracking.trackPageLoadFlightSearchResultsInboundList(mContext);
 				mLegPosition++;
 
 				mListFragment.setLegPosition(mLegPosition);
@@ -526,6 +528,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition) {
+		if (mLegPosition == 0) {
+			OmnitureTracking.trackPageLoadFlightSearchResultsOutboundDetail(mContext);
+		}
+		else if (mLegPosition == 1) {
+			OmnitureTracking.trackPageLoadFlightSearchResultsInboundDetails(mContext);
+		}
+
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg);
 		ft.replace(R.id.content_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);

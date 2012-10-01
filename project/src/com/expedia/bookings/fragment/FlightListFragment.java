@@ -23,6 +23,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
 
@@ -51,9 +52,19 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 
 		if (savedInstanceState != null) {
 			mLegPosition = savedInstanceState.getInt(INSTANCE_LEG_POSITION);
+			if (mLegPosition == 1) {
+				// TODO uhhh, make sure this does not get invoked on orientation change
+				OmnitureTracking.trackPageLoadFlightSearchResultsInboundList(getActivity());
+			}
 		}
 		else {
 			mLegPosition = 0;
+			if (Db.getFlightSearch().getSearchParams().getReturnDate() != null) {
+				OmnitureTracking.trackPageLoadFlightSearchResultsOutboundList(getActivity());
+			}
+			else {
+				// TODO: add the "oneway" search tracking
+			}
 		}
 	}
 

@@ -262,9 +262,10 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_SAVE);
 	}
 
-	public static void trackPageLoadFlightCheckoutPaymentEditEmail(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_EMAIL);
-	}
+    // TODO: does not exist
+	//public static void trackPageLoadFlightCheckoutPaymentEditEmail(Context context) {
+	//	internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_EMAIL);
+	//}
 
 	public static void trackPageLoadFlightCheckoutPaymentEditCard(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD);

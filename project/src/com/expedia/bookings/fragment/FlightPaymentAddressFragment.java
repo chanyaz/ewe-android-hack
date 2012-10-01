@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionLocation;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightPaymentAddressFragment extends Fragment implements Validatable {
@@ -38,6 +39,10 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState == null) {
+			OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditAddress(getActivity());
+		}
 	}
 
 	@Override

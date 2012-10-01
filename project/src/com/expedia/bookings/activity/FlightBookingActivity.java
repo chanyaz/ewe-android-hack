@@ -23,6 +23,7 @@ import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -155,6 +156,17 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 			else {
 				// Launch the conf page
 				startActivity(new Intent(mContext, FlightConfirmationActivity.class));
+
+				sb.append("Booking success!");
+				sb.append("\n\n");
+				sb.append("orderId: " + results.getOrderId());
+
+				if (!results.getOrderId().equals("000000")) {
+					sb.append("\n\nWARNING: ORDER ID WAS NOT 000000! THIS MEANS THE BOOKING ACTUALLY WENT THROUGH!");
+				}
+
+				// Make sure to track this shit in Omniture
+				OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(mContext, results.getOrderId());
 			}
 
 			mTextView.setText(sb.toString());

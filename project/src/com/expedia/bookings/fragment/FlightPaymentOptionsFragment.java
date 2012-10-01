@@ -26,6 +26,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightPaymentOptionsFragment extends Fragment {
@@ -58,6 +59,10 @@ public class FlightPaymentOptionsFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState == null) {
+			OmnitureTracking.trackPageLoadFlightCheckoutPaymentSelect(getActivity());
+		}
 	}
 
 	@Override
