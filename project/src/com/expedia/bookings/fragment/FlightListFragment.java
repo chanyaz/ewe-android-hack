@@ -14,17 +14,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.*;
 import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
-import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.FlightAdapter;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
@@ -144,6 +140,18 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		FlightTrip trip = mAdapter.getItem(position - numHeaderViews);
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		mListener.onFlightLegClick(trip, leg, mLegPosition);
+
+		if (mLegPosition == 0) {
+			FlightFilter filter = Db.getFlightSearch().getFilter(mLegPosition);
+			OmnitureTracking.trackLinkFlightOutboundSelect(getActivity(), filter.getSort().name(), position
+					- numHeaderViews + 1);
+
+		}
+		else if (mLegPosition == 1) {
+			FlightFilter filter = Db.getFlightSearch().getFilter(mLegPosition);
+			OmnitureTracking.trackLinkFlightInboundSelect(getActivity(), filter.getSort().name(), position
+					- numHeaderViews + 1);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

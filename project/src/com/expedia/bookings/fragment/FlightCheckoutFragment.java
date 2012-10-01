@@ -30,6 +30,7 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AccountButton;
@@ -445,6 +446,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		populateTravelerDataFromUser();
 		bindAll();
 		updateViewVisibilities();
+
+		OmnitureTracking.trackLinkFlightCheckoutLoginSuccess(mContext);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

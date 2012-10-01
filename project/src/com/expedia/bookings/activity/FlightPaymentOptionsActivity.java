@@ -47,7 +47,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
-	
+
 	//Define the states of navigation
 	public enum YoYoMode {
 		NONE, YOYO, EDIT
@@ -61,7 +61,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	public interface Validatable {
 		public boolean attemptToLeave();
 	}
-	
 
 	public void displayOptions() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -188,9 +187,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	public void setMode(YoYoMode mode) {
 		mMode = mode;
 	}
-	
-	
-	
 
 	public boolean moveBackwards() {
 		if (mMode.equals(YoYoMode.YOYO)) {
@@ -343,7 +339,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		}
 		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
-			
+
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
@@ -354,19 +350,21 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			setMenuItemVisibilities(true);
 		}
 	}
-	
-	public void displayActionBarTitleBasedOnState(){
+
+	public void displayActionBarTitleBasedOnState() {
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
+				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		String titleStr = getString(R.string.payment_method);
-		if(mPos != null){
+		if (mPos != null) {
 			switch (mPos) {
 			case ADDRESS:
 				titleStr = getString(R.string.billing_address);
 				actionBar.setTitle(titleStr);
 				break;
 			case CREDITCARD:
-				actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+				actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP
+						| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 				actionBar.setCustomView(R.layout.action_bar_card_info);
 				break;
 			case SAVE:
@@ -375,10 +373,11 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				titleStr = getString(R.string.payment_method);
 				actionBar.setTitle(titleStr);
 			}
-		}else{
+		}
+		else {
 			actionBar.setTitle(titleStr);
 		}
-		
+
 	}
 
 	@Override

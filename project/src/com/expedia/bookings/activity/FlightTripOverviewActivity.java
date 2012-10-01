@@ -23,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.FlightSlideToPurchaseFragment;
@@ -489,6 +490,22 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, flightLeg.getLegId());
 			startActivity(intent);
 			mDeselecting = true;
+
+			FlightTripLeg selectedLegs[] = Db.getFlightSearch().getSelectedLegs();
+			int deselectLegPos;
+			for (deselectLegPos = 0; deselectLegPos < selectedLegs.length; deselectLegPos++) {
+				if (selectedLegs[deselectLegPos].getFlightLeg().getLegId().equals(flightLeg.getLegId())) {
+					break;
+				}
+			}
+
+			if (deselectLegPos == 0) {
+				OmnitureTracking.trackLinkFlightRateDetailsRemoveOut(this);
+			}
+			else {
+				OmnitureTracking.trackLinkFlightRateDetailsRemoveIn(this);
+			}
+
 		}
 	}
 }

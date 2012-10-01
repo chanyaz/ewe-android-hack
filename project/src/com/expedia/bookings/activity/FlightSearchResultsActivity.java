@@ -351,10 +351,27 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 			filter.notifyFilterChanged();
 			item.setChecked(true);
+
+			// Omniture tracking stuff
+			if (mLegPosition == 0) {
+				OmnitureTracking.trackLinkFlightOutboundSort(mContext, filter.getSort().name());
+			}
+			else if (mLegPosition == 1) {
+				OmnitureTracking.trackLinkFlightInboundSort(mContext, filter.getSort().name());
+			}
+
 			return true;
 		case R.id.menu_search: {
 			Intent intent = new Intent(this, FlightSearchOverlayActivity.class);
 			startActivityForResult(intent, REQUEST_CODE_SEARCH_PARAMS);
+
+			if (mLegPosition == 0) {
+				OmnitureTracking.trackLinkFlightOutboundRefine(mContext);
+			}
+			else if (mLegPosition == 1) {
+				OmnitureTracking.trackLinkFlightInboundRefine(mContext);
+			}
+
 			return true;
 		}
 		}
@@ -545,6 +562,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	public void onDeselectFlightLeg() {
 		getSupportFragmentManager().popBackStack(getFlightListBackStackName(0), 0);
+
+		if (mLegPosition == 0) {
+			OmnitureTracking.trackLinkFlightRemoveOutboundSelection(mContext);
+		}
 	}
 
 	@Override

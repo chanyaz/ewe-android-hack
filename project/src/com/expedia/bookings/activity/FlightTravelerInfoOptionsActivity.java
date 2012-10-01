@@ -135,12 +135,13 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			setMenuItemVisibilities(true);
 		}
 	}
-	
-	public void displayActionBarTitleBasedOnState(){
+
+	public void displayActionBarTitleBasedOnState() {
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
+				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		String titleStr = getString(R.string.traveler_information);
-		if(mPos != null){
+		if (mPos != null) {
 			switch (mPos) {
 			case THREE:
 				titleStr = getString(R.string.passport);

@@ -26,6 +26,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -91,6 +92,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				Db.getTravelers().set(mCurrentTravelerIndex, new Traveler());
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
+
+				OmnitureTracking.trackLinkFlightCheckoutTravelerEnterManually(getActivity());
 			}
 		});
 
@@ -131,6 +134,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 							df.show(getFragmentManager(), LoadingTravelerDialogFragment.TAG);
 							bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
 									mTravelerDetailsCallback);
+
+							OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
 						}
 
 					}
@@ -213,7 +218,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
 			bd.registerDownloadCallback(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsCallback);
-		}	
+		}
 	}
 
 	@Override
@@ -304,19 +309,22 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 					mCurrentTraveler = traveler;
 					Db.getTravelers().set(mCurrentTravelerIndex, traveler);
 					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-					if(state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)){
+					if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
 						boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
-						if(!flightIsInternational){
+						if (!flightIsInternational) {
 							mListener.displayCheckout();
-						}else{
-							if(state.allTravelerInfoIsValidForInternationalFlight(mCurrentTraveler)){
+						}
+						else {
+							if (state.allTravelerInfoIsValidForInternationalFlight(mCurrentTraveler)) {
 								mListener.displayCheckout();
-							}else{
+							}
+							else {
 								mListener.setMode(YoYoMode.YOYO);
 								mListener.displayTravelerEntryThree();
 							}
 						}
-					}else{
+					}
+					else {
 						mListener.setMode(YoYoMode.YOYO);
 						mListener.displayTravelerEntryOne();
 					}

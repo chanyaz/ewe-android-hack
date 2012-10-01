@@ -7,6 +7,7 @@ import android.text.Html;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.StatusFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 
@@ -27,6 +28,10 @@ public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
 		}
 
 		fragment.showGrounded(Html.fromHtml(getString(R.string.invalid_flights_pos)));
+
+		if (savedInstanceState == null) {
+			OmnitureTracking.trackErrorPageLoadFlightUnsupportedPOS(this);
+		}
 	}
 
 	public static boolean isSupportedPOS(Context context) {

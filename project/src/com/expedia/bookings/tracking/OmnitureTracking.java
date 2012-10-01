@@ -130,15 +130,15 @@ public class OmnitureTracking {
 		internalTrackLink(context, FLIGHT_RATE_DETAILS_REMOVE_IN);
 	}
 
-	public static void trackLinkFlightCheckoutSuccess(Context context) {
+	public static void trackLinkFlightCheckoutLoginSuccess(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_LOGIN_SUCCESS);
 	}
 
-	public static void trackLinkFlightCheckoutCancel(Context context) {
+	public static void trackLinkFlightCheckoutLoginCancel(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_LOGIN_CANCEL);
 	}
 
-	public static void trackLinkFlightCheckoutForgot(Context context) {
+	public static void trackLinkFlightCheckoutLoginForgot(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_LOGIN_FORGOT);
 	}
 
@@ -146,9 +146,10 @@ public class OmnitureTracking {
 		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_SELECT_EXISTING);
 	}
 
-	public static void trackLinkFlightCheckoutTravelerSelectFromContacts(Context context) {
-		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_SELECT_FROM_CONTACTS);
-	}
+	// DOES NOT EXIST ON ANDROID
+	//	public static void trackLinkFlightCheckoutTravelerSelectFromContacts(Context context) {
+	//		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_SELECT_FROM_CONTACTS);
+	//	}
 
 	public static void trackLinkFlightCheckoutTravelerEnterManually(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_ENTER_MANUALLY);
@@ -160,22 +161,6 @@ public class OmnitureTracking {
 
 	public static void trackLinkFlightCheckoutPaymentEnterManually(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY);
-	}
-
-	////////////////
-	// private stuff
-
-	private static void internalTrackLink(Context context, String link) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + link + "\" linkClick");
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
-
-		// TPID
-		s.prop7 = LocaleUtils.getTPID(context);
-
-		// link
-		s.eVar28 = s.prop16 = link;
-
-		s.trackLink(null, "o", s.eVar28);
 	}
 
 	public static void trackErrorPageLoadFlightUnsupportedPOS(Context context) {
@@ -262,7 +247,7 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_SAVE);
 	}
 
-    // TODO: does not exist
+	// TODO: does not exist
 	//public static void trackPageLoadFlightCheckoutPaymentEditEmail(Context context) {
 	//	internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_EMAIL);
 	//}
@@ -392,6 +377,19 @@ public class OmnitureTracking {
 	private static void internalTrackPageLoadEventPriceChange(Context context, String pageName) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventPriceChange(context, pageName).track();
+	}
+
+	private static void internalTrackLink(Context context, String link) {
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + link + "\" linkClick");
+		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+
+		// TPID
+		s.prop7 = LocaleUtils.getTPID(context);
+
+		// link
+		s.eVar28 = s.prop16 = link;
+
+		s.trackLink(null, "o", s.eVar28);
 	}
 
 	private static AppMeasurement createTrackPageLoadEventBase(Context context, String pageName) {
