@@ -148,17 +148,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.FlightCheckoutActivity"
-            android:label="Checkout"
-            android:theme="@style/FlightTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".activity.FlightBookingActivity"
             android:theme="@style/FlightTheme" />
         <activity
@@ -183,14 +172,7 @@
         <activity
             android:name=".activity.FlightConfirmationActivity"
             android:label="Flights Confirmation"
-            android:theme="@style/FlightTheme" >
-                        <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/FlightTheme" />
 
         <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />
