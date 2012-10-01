@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
@@ -75,8 +76,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mCurrentTravelerIndex = getActivity().getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
 
 		//Selected traveler
-		mCurrentTraveler = Db.getTravelers().get(mCurrentTravelerIndex);
-
+		mCurrentTraveler = WorkingTravelerManager.getInstance().getWorkingTraveler();
+		
 		mEditTravelerContainer = Ui.findView(v, R.id.edit_traveler_container);
 		mEditTravelerLabel = Ui.findView(v, R.id.edit_traveler_label);
 		mEditTravelerLabelDiv = Ui.findView(v, R.id.edit_traveler_label_div);
@@ -89,7 +90,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Db.getTravelers().set(mCurrentTravelerIndex, new Traveler());
+				WorkingTravelerManager.getInstance().clearWorkingTraveler(getActivity());
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 
@@ -306,8 +307,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			else {
 				Traveler traveler = results.getTraveler();
 				if (traveler != null) {
-					mCurrentTraveler = traveler;
-					Db.getTravelers().set(mCurrentTravelerIndex, traveler);
+					WorkingTravelerManager.getInstance().rebaseWorkingTraveler(traveler);
+					mCurrentTraveler = WorkingTravelerManager.getInstance().getWorkingTraveler();
 					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 					if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
 						boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();

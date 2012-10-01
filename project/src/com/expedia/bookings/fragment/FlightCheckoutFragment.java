@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -271,7 +272,16 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		public void onClick(View v) {
 			Intent editTravelerIntent = new Intent(getActivity(),
 					FlightTravelerInfoOptionsActivity.class);
+			
+			//We tell the traveler edit activity which index we are editing.
 			editTravelerIntent.putExtra(Codes.TRAVELER_INDEX, mTravelerIndex);
+			
+			//We setup the checkout manager to have the correct working traveler
+			if(Db.getTravelers().size() > mTravelerIndex && Db.getTravelers().get(mTravelerIndex) != null){
+				WorkingTravelerManager.getInstance().rebaseWorkingTraveler(Db.getTravelers().get(mTravelerIndex));
+			}else{
+				WorkingTravelerManager.getInstance().rebaseWorkingTraveler(new Traveler());
+			}
 			startActivity(editTravelerIntent);
 		}
 	}

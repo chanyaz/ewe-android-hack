@@ -444,7 +444,6 @@ public class Db {
 				Log.e("Ran out of memory trying to save flight data cache", err);
 				throw new RuntimeException(err);
 			}
-
 		}
 	}
 

@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity.Validatable;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -48,11 +48,6 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 		mAttemptToLeaveMade = false;
 		mSectionTravelerInfo = Ui.findView(v, R.id.traveler_info);
 
-		mTravelerIndex = getActivity().getIntent().getIntExtra(Codes.TRAVELER_INDEX, -1);
-		if (mTravelerIndex >= 0) {
-			mTraveler = Db.getTravelers().get(mTravelerIndex);
-		}
-
 		//We don't need to show redress number field if we aren't passing through the US
 		if (!Db.getFlightSearch().getSelectedFlightTrip().passesThroughCountry("US")) {
 			View redressEntry = Ui.findView(mSectionTravelerInfo, R.id.edit_redress_number);
@@ -68,6 +63,7 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionTravelerInfo.hasValidInput();
 				}
+				WorkingTravelerManager.getInstance().attemptWorkingTravelerSave(getActivity(), false);
 			}
 		});
 
@@ -83,6 +79,7 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 	@Override
 	public void onResume() {
 		super.onResume();
+		mTraveler = WorkingTravelerManager.getInstance().getWorkingTraveler();
 		mSectionTravelerInfo.bind(mTraveler);
 	}
 

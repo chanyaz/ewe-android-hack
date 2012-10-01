@@ -15,6 +15,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
@@ -25,6 +26,7 @@ import com.expedia.bookings.fragment.FlightTravelerInfoThreeFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -52,6 +54,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
 
+	private int mTravelerIndex;
+	
 	//Where we want to return to after our action
 	private enum YoYoPosition {
 		OPTIONS, ONE, TWO, THREE, SAVE
@@ -190,6 +194,17 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			if (!Db.loadCachedFlightData(this)) {
 				NavUtils.onDataMissing(this);
 				return;
+			}
+		}
+		
+		//Which traveler are we working with
+		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
+		
+		//If we have a working traveler that was cached we try to load it from disk... 
+		if(WorkingTravelerManager.getInstance().hasTravelerOnDisk(this)){
+			WorkingTravelerManager.getInstance().loadWorkingTravelerFromDisk(this);
+			if( mPos.compareTo(YoYoPosition.OPTIONS) == 0){
+				//TODO: We want to load travelers from disk here, but really only if the in memory version is out of date
 			}
 		}
 
@@ -461,6 +476,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	@Override
 	public void displayCheckout() {
+		WorkingTravelerManager.getInstance().commitWorkingTravelerToDB(mTravelerIndex);
+		WorkingTravelerManager.getInstance().clearWorkingTraveler(this);
 		finish();
 	}
 }
