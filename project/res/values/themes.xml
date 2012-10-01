@@ -76,6 +76,8 @@
         <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="android:actionBarTabTextStyle">@style/ActionBarTabText</item>
         <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
+        <item name="android:buttonStyle">@style/Widget.Button.Phone</item>
+        <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
     </style>
 
     <style name="Theme.Phone.WithStackedTabs">
