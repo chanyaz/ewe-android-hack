@@ -96,7 +96,7 @@ public class FlightSearchParams implements JSONable {
 		Date start = getDepartureDate();
 		Date now = new Date(Calendar.getInstance());
 
-		if (start.getCalendar().before(now.getCalendar())) {
+		if (start == null || start.getCalendar().before(now.getCalendar())) {
 			Log.i("Search dates are invalid, resetting.");
 			setDepartureDate(null);
 			setReturnDate(null);
