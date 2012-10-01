@@ -323,7 +323,7 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 	@Override
 	public void onLoginStarted() {
 		if (getSupportFragmentManager().findFragmentByTag(getString(R.string.tag_signin)) == null) {
-			SignInFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.tag_signin));
+			SignInFragment.newInstance(false).show(getSupportFragmentManager(), getString(R.string.tag_signin));
 		}
 	}
 

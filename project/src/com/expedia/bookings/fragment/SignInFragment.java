@@ -49,12 +49,15 @@ public class SignInFragment extends DialogFragment {
 	private boolean mEmptyUsername = true;
 	private boolean mEmptyPassword = true;
 
+	private boolean mIsFlights = false;
+
 	private final String SIGNIN_LOGIN_CLICKED = "SIGNIN_LOGIN_CLICKED";
 	private final String SIGNIN_EMPTY_USERNAME = "SIGNIN_EMPTY_USERNAME";
 	private final String SIGNIN_EMPTY_PASSWORD = "SIGNIN_EMPTY_PASSWORD";
 
-	public static SignInFragment newInstance() {
+	public static SignInFragment newInstance(boolean isFlights) {
 		SignInFragment dialog = new SignInFragment();
+		dialog.mIsFlights = isFlights;
 		return dialog;
 	}
 
@@ -84,7 +87,9 @@ public class SignInFragment extends DialogFragment {
 		forgotLink.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackLinkFlightCheckoutLoginForgot(mContext);
+				if (mIsFlights) {
+					OmnitureTracking.trackLinkFlightCheckoutLoginForgot(mContext);
+				}
 			}
 		});
 
@@ -113,7 +118,9 @@ public class SignInFragment extends DialogFragment {
 			public void onClick(View v) {
 				dismiss();
 
-				OmnitureTracking.trackLinkFlightCheckoutLoginCancel(mContext);
+				if (mIsFlights) {
+					OmnitureTracking.trackLinkFlightCheckoutLoginCancel(mContext);
+				}
 			}
 		});
 

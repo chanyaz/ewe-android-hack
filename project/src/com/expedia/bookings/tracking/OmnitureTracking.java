@@ -67,7 +67,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_REFINE = "App.Flight.Search.Roundtrip.Out.RefineSearch";
 
 	private static final String PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SELECT = "App.Flight.Search.Roundtrip.In.Select";
-	private static final String PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT = "App.Flight.Search.Roundtrip.Out.Sort";
+	private static final String PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT = "App.Flight.Search.Roundtrip.In.Sort";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE = "App.Flight.Search.Roundtrip.In.RefineSearch";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT = "App.Flight.Search.Roundtrip.In.RemoveOut";
 
@@ -95,12 +95,30 @@ public class OmnitureTracking {
 		internalTrackLink(context, link);
 	}
 
-	public static void trackLinkFlightOutboundSort(Context context, String sortType) {
+	private static void trackLinkFlightOutboundSort(Context context, String sortType) {
 		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SORT + "." + sortType;
 		internalTrackLink(context, link);
 	}
 
-	public static void trackLinkFlightOutboundRefine(Context context) {
+	public static void trackLinkFlightRefine(Context context, int legPosition) {
+		if (legPosition == 0) {
+			OmnitureTracking.trackLinkFlightOutboundRefine(context);
+		}
+		else if (legPosition == 1) {
+			OmnitureTracking.trackLinkFlightInboundRefine(context);
+		}
+	}
+
+	public static void trackLinkFlightSort(Context context, String sortType, int legPosition) {
+		if (legPosition == 0) {
+			trackLinkFlightOutboundSort(context, sortType);
+		}
+		else if (legPosition == 1) {
+			trackLinkFlightInboundSort(context, sortType);
+		}
+	}
+
+	private static void trackLinkFlightOutboundRefine(Context context) {
 		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_REFINE);
 	}
 
@@ -109,12 +127,12 @@ public class OmnitureTracking {
 		internalTrackLink(context, link);
 	}
 
-	public static void trackLinkFlightInboundSort(Context context, String sortType) {
+	private static void trackLinkFlightInboundSort(Context context, String sortType) {
 		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT + "." + sortType;
 		internalTrackLink(context, link);
 	}
 
-	public static void trackLinkFlightInboundRefine(Context context) {
+	private static void trackLinkFlightInboundRefine(Context context) {
 		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE);
 	}
 

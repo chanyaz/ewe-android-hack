@@ -292,7 +292,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	public void onLoginStarted() {
 		FragmentManager fm = getSupportFragmentManager();
 		if (fm.findFragmentByTag(getString(R.string.tag_signin)) == null) {
-			SignInFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.tag_signin));
+			SignInFragment.newInstance(false).show(getSupportFragmentManager(), getString(R.string.tag_signin));
 		}
 	}
 

@@ -86,6 +86,10 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 				button.setEnabled(ccSecCode.hasValidInput());
 			}
 		});
+
+		if (savedInstanceState == null) {
+			OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid(this);
+		}
 	}
 
 	@Override

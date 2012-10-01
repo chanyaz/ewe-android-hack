@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.tracking.OmnitureTracking;
-import com.mobiata.android.Log;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;
@@ -44,8 +42,6 @@ public class AccountButton extends LinearLayout {
 			public void onClick(View v) {
 				if (mListener != null) {
 					mListener.accountLoginClicked();
-
-					OmnitureTracking.trackPageLoadFlightLogin(mContext);
 				}
 			}
 		};

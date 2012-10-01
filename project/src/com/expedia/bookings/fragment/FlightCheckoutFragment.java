@@ -412,9 +412,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	@Override
 	public void accountLoginClicked() {
+		SignInFragment.newInstance(true).show(getFragmentManager(), getString(R.string.tag_signin));
 
-		SignInFragment.newInstance().show(getFragmentManager(), getString(R.string.tag_signin));
-
+		OmnitureTracking.trackPageLoadFlightLogin(mContext);
 	}
 
 	@Override
