@@ -90,20 +90,20 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			});
 		}
 
-                ViewGroup emailButton = Ui.findView(this, R.id.follow_email_button);
-                emailButton.setOnClickListener(new OnClickListener() {
-                        public void onClick(View v) {
-                                showDialog(DIALOG_MAILCHIMP);
-                        }
-                });
+		ViewGroup emailButton = Ui.findView(this, R.id.follow_email_button);
+		emailButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				showDialog(DIALOG_MAILCHIMP);
+			}
+		});
 		ViewUtils.setAllCaps(emailButton);
 
-                ViewGroup twitterButton = Ui.findView(this, R.id.follow_twitter_button);
-                twitterButton.setOnClickListener(getTwitterButtonClickedListener());
+		ViewGroup twitterButton = Ui.findView(this, R.id.follow_twitter_button);
+		twitterButton.setOnClickListener(getTwitterButtonClickedListener());
 		ViewUtils.setAllCaps(twitterButton);
 
-                ViewGroup facebookButton = Ui.findView(this, R.id.follow_facebook_button);
-                facebookButton.setOnClickListener(getFacebookButtonClickedListener());
+		ViewGroup facebookButton = Ui.findView(this, R.id.follow_facebook_button);
+		facebookButton.setOnClickListener(getFacebookButtonClickedListener());
 		ViewUtils.setAllCaps(facebookButton);
 
 		// Tracking
