@@ -814,12 +814,6 @@ public class ExpediaServices implements DownloadListener {
 	public String getE3EndpointUrl(int flags) {
 		EndPoint endPoint = getEndPoint(mContext);
 
-		if ((flags & F_FLIGHTS) != 0 && endPoint != EndPoint.TRUNK && endPoint != EndPoint.PROXY) {
-			// Note: Currently, flights only works with TRUNK or PROXY.  So automatically
-			// set endpoint to TRUNK if not otherwise set correctly.
-			endPoint = EndPoint.TRUNK;
-		}
-
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
