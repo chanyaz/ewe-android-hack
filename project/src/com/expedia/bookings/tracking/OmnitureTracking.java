@@ -40,7 +40,6 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_PAYMENT_SELECT = "App.Flight.Checkout.Payment.Select";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_EDIT_ADDRESS = "App.Flight.Checkout.Payment.Edit.Address";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD = "App.Flight.Checkout.Payment.Edit.Card";
-	private static final String FLIGHT_CHECKOUT_PAYMENT_EDIT_EMAIL = "App.Flight.Checkout.Payment.Edit.Email";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_EDIT_SAVE = "App.Flight.Checkout.Payment.Edit.Save";
 	private static final String FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE = "App.Flight.Checkout.SlideToPurchase";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
@@ -79,7 +78,6 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_LOGIN_FORGOT = "App.Flight.Checkout.Login.Forgot";
 
 	private static final String FLIGHT_CHECKOUT_TRAVELER_SELECT_EXISTING = "App.Flight.Checkout.Traveler.Select.Existing";
-	private static final String FLIGHT_CHECKOUT_TRAVELER_SELECT_FROM_CONTACTS = "App.Flight.Checkout.Traveler.Select.FromContacts";
 	private static final String FLIGHT_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Flight.Checkout.Traveler.EnterManually";
 
 	private static final String FLIGHT_CHECKOUT_PAYMENT_SELECT_EXISTING = "App.Flight.Checkout.Payment.Select.Existing";
@@ -163,11 +161,6 @@ public class OmnitureTracking {
 	public static void trackLinkFlightCheckoutTravelerSelectExisting(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_SELECT_EXISTING);
 	}
-
-	// DOES NOT EXIST ON ANDROID
-	//	public static void trackLinkFlightCheckoutTravelerSelectFromContacts(Context context) {
-	//		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_SELECT_FROM_CONTACTS);
-	//	}
 
 	public static void trackLinkFlightCheckoutTravelerEnterManually(Context context) {
 		internalTrackLink(context, FLIGHT_CHECKOUT_TRAVELER_ENTER_MANUALLY);
@@ -264,11 +257,6 @@ public class OmnitureTracking {
 	public static void trackPageLoadFlightCheckoutPaymentEditSave(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_SAVE);
 	}
-
-	// TODO: does not exist
-	//public static void trackPageLoadFlightCheckoutPaymentEditEmail(Context context) {
-	//	internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_EMAIL);
-	//}
 
 	public static void trackPageLoadFlightCheckoutPaymentEditCard(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD);
