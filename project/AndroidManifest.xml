@@ -182,6 +182,7 @@
         </activity>
         <activity
             android:name=".activity.FlightConfirmationActivity"
+            android:label="Flights Confirmation"
             android:theme="@style/FlightTheme" >
                         <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
