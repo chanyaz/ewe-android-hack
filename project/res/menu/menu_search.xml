@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menu_select_sort"
         android:showAsAction="always|withText"
-        android:title="@string/SORT">
+        android:title="@string/sort">
         <menu>
             <group
                 android:id="@+id/menu_select_sort_group"
@@ -38,11 +38,11 @@
     <item
         android:id="@+id/menu_select_search_map"
         android:showAsAction="always|withText"
-        android:title="@string/SEARCH_MAP" />
+        android:title="@string/map_search_button" />
     <item
         android:id="@+id/menu_select_filter"
         android:showAsAction="always|withText"
-        android:title="@string/FILTER" />
+        android:title="@string/filter" />
     <item
         android:id="@+id/menu_select_change_view"
         android:icon="@drawable/ic_menu_map"
