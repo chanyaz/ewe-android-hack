@@ -2,7 +2,10 @@ package com.expedia.bookings.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -30,38 +33,24 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 		mUtils = new AboutUtils(this);
 
-		// Section about Expedia
-		ViewGroup expediaSection = addSection(getString(R.string.EXPEDIA));
-		addSimpleRow(expediaSection, getString(R.string.contact_expedia), new OnClickListener() {
+		ViewGroup firstSection = addSection();
+		firstSection.setBackgroundDrawable((Drawable) null);
+		addSimpleRow(firstSection, getString(R.string.contact_expedia), new OnClickListener() {
 			public void onClick(View v) {
 				showDialog(DIALOG_CONTACT_EXPEDIA);
 			}
 		});
-		addSimpleRow(expediaSection, getString(R.string.expedia_website), new OnClickListener() {
-			public void onClick(View v) {
-				showDialog(DIALOG_EXPEDIA_WEBSITE);
-			}
-		});
-
-		// Section about this app
-		ViewGroup appSection = addSection(getString(R.string.INTERACT));
-		addSimpleRow(appSection, getString(R.string.app_feedback), new OnClickListener() {
-			public void onClick(View v) {
-				mUtils.openAppFeedback();
-			}
-		});
-		addSimpleRow(appSection, getString(R.string.app_support), new OnClickListener() {
+		addSimpleRow(firstSection, getString(R.string.app_support), new OnClickListener() {
 			public void onClick(View v) {
 				mUtils.openAppSupport();
 			}
 		});
-		addSimpleRow(appSection, getString(R.string.TellAFriend), new OnClickListener() {
+		addSimpleRow(firstSection, getString(R.string.app_feedback), new OnClickListener() {
 			public void onClick(View v) {
-				mUtils.tellAFriend();
+				mUtils.openAppFeedback();
 			}
 		});
-
-		addHiringPitch(appSection, new OnClickListener() {
+		addHiringPitch(firstSection, new OnClickListener() {
 			public void onClick(View v) {
 				mUtils.trackHiringLink();
 			}
@@ -82,18 +71,6 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		addAppAbout(otherAppsSection, APP_FLIGHTBOARD, 0, new OnClickListener() {
 			public void onClick(View v) {
 				mUtils.trackFlightBoardLink();
-			}
-		});
-
-		ViewGroup rulesRestrictionsSection = addSection(getString(R.string.RULES_AND_RESTRICTIONS));
-		addSimpleRow(rulesRestrictionsSection, getString(R.string.info_label_terms_conditions), new OnClickListener() {
-			public void onClick(View v) {
-				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext));
-			}
-		});
-		addSimpleRow(rulesRestrictionsSection, getString(R.string.info_label_privacy_policy), new OnClickListener() {
-			public void onClick(View v) {
-				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext));
 			}
 		});
 
@@ -129,6 +106,16 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		if (savedInstanceState == null) {
 			mUtils.trackAboutActivityPageLoad();
 		}
+
+		TextView tac_link = Ui.findView(this, R.id.terms_and_conditions_link);
+		tac_link.setText(Html.fromHtml(String.format("<a href=\"%s\">%s</a>",
+					RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext), mContext.getString(R.string.info_label_terms_conditions))));
+		tac_link.setMovementMethod(LinkMovementMethod.getInstance());
+
+		TextView privacy_policy_link = Ui.findView(this, R.id.privacy_policy_link);
+		privacy_policy_link.setText(Html.fromHtml(String.format("<a href=\"%s\">%s</a>",
+					RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext), mContext.getString(R.string.info_label_privacy_policy))));
+		privacy_policy_link.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override

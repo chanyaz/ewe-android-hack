@@ -573,6 +573,8 @@
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SORT</string>
     <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Sort</string>
+    <!-- Label for sort hotels in hotel list -->
     <string name="SORT">SORT</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Switch View</string>

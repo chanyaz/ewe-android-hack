@@ -14,7 +14,7 @@ public class SupportUtils {
 	private static Map<String, String> sInfoSupportNumbers;
 
 	public static String getAppSupportUrl(Context context) {
-		return getContactExpediaUrl(context);
+		return "http://www.mobiata.com/support/expediahotels-android";
 	}
 
 	public static String getContactExpediaUrl(Context context) {

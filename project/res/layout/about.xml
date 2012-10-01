@@ -64,6 +64,19 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:textColor="#232323" />
+
+            <TextView
+                android:id="@+id/terms_and_conditions_link"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp" />
+            <TextView
+                android:id="@+id/privacy_policy_link"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp" />
         </LinearLayout>
     </ScrollView>
 
