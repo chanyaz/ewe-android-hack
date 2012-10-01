@@ -16,6 +16,7 @@ import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
+import com.mobiata.android.util.ViewUtils;
 
 public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
@@ -95,12 +96,15 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
                                 showDialog(DIALOG_MAILCHIMP);
                         }
                 });
+		ViewUtils.setAllCaps(emailButton);
 
                 ViewGroup twitterButton = Ui.findView(this, R.id.follow_twitter_button);
                 twitterButton.setOnClickListener(getTwitterButtonClickedListener());
+		ViewUtils.setAllCaps(twitterButton);
 
                 ViewGroup facebookButton = Ui.findView(this, R.id.follow_facebook_button);
                 facebookButton.setOnClickListener(getFacebookButtonClickedListener());
+		ViewUtils.setAllCaps(facebookButton);
 
 		// Tracking
 		if (savedInstanceState == null) {
