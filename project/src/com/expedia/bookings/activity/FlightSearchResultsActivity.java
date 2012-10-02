@@ -534,24 +534,20 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition) {
-		if (mLegPosition == 0) {
-			OmnitureTracking.trackPageLoadFlightSearchResultsOutboundDetail(mContext);
-		}
-		else if (mLegPosition == 1) {
-			OmnitureTracking.trackPageLoadFlightSearchResultsInboundDetails(mContext);
-		}
-
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg);
+		mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg, mLegPosition);
 		ft.replace(R.id.content_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
 		ft.addToBackStack(getFlightDetailsBackStackName(mLegPosition));
 		ft.commit();
+
+		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(mContext, mLegPosition);
 	}
 
 	@Override
 	public void onDeselectFlightLeg() {
 		getSupportFragmentManager().popBackStack(getFlightListBackStackName(0), 0);
 
+		// Note: For now, deselecting a flight here always means it is the outbound flight that is removed
 		OmnitureTracking.trackLinkFlightRemoveOutboundSelection(mContext);
 	}
 

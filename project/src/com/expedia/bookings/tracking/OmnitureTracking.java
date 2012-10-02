@@ -15,6 +15,12 @@ import java.util.Calendar;
 
 /**
  * The spec behind this class can be found here: http://confluence/display/Omniture/Mobile+App+Flight+Tracking
+ * 
+ * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
+ * can be inserted into the business logic as cleanly as possible. The events rely on Db.java to populate values when
+ * needed, and exceptions are made to accommodate the events that require extra parameters to be sent. This is why there
+ * exist so many methods, one for each event that is being tracked.
+ * 
  */
 
 public class OmnitureTracking {
@@ -27,8 +33,10 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
+	private static final String FLIGHT_SEARCH_OUTBOUND_BAGGAGE_FEE = "App.Flight.Search.Roundtrip.Out.BaggageFee";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN = "App.Flight.Search.Roundtrip.In";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS = "App.Flight.Search.Roundtrip.In.Details";
+	private static final String FLIGHT_SEARCH_INBOUND_BAGGAGE_FEE = "App.Flight.Search.Roundtrip.In.BaggageFee";
 	private static final String FLIGHT_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHT_CHECKOUT_INFO = "App.Flight.Checkout.Info";
 	private static final String FLIGHT_CHECKOUT_LOGIN = "App.Flight.Checkout.Login";
@@ -44,6 +52,16 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE = "App.Flight.Checkout.SlideToPurchase";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
 	private static final String FLIGHT_CHECKOUT_CONFIRMATION = "App.Flight.Checkout.Confirmation";
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ONEWAY PAGE NAME AND TRACK LINK CONSTANTS
+
+	private static final String FLIGHT_SEARCH_RESULTS_ONE_WAY = "App.Flight.Search.OneWay";
+	private static final String PREFIX_FLIGHT_SEARCH_ONE_WAY_SELECT = "App.Flight.Search.OneWay.Select";
+	private static final String PREFIX_FLIGHT_SEARCH_ONE_WAY_SORT = "App.Flight.Search.OneWay.Sort";
+	private static final String FLIGHT_SEARCH_ONE_WAY_REFINE = "App.Flight.Search.OneWay.RefineSearch";
+	private static final String FLIGHT_SEARCH_ONE_WAY_DETAILS = "App.Flight.Search.OneWay.Details";
+	private static final String FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE = "App.Flight.Search.OneWay.BaggageFee";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ERROR PAGE NAME CONSTANTS
@@ -79,7 +97,6 @@ public class OmnitureTracking {
 
 	private static final String FLIGHT_CHECKOUT_TRAVELER_SELECT_EXISTING = "App.Flight.Checkout.Traveler.Select.Existing";
 	private static final String FLIGHT_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Flight.Checkout.Traveler.EnterManually";
-
 	private static final String FLIGHT_CHECKOUT_PAYMENT_SELECT_EXISTING = "App.Flight.Checkout.Payment.Select.Existing";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Flight.Checkout.Payment.EnterManually";
 
@@ -88,50 +105,58 @@ public class OmnitureTracking {
 		internalTrackLink(context, link);
 	}
 
-	public static void trackLinkFlightOutboundSelect(Context context, String sortType, int position) {
-		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SELECT + "." + sortType + "." + Integer.toString(position);
-		internalTrackLink(context, link);
-	}
+	public static void trackLinkFlightSearchSelect(Context context, int selectPos, int legPos) {
+		String prefix = "";
 
-	private static void trackLinkFlightOutboundSort(Context context, String sortType) {
-		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SORT + "." + sortType;
+		if (legPos == 0) {
+			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+				prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SELECT;
+			}
+			else {
+				prefix = PREFIX_FLIGHT_SEARCH_ONE_WAY_SELECT;
+			}
+		}
+		else if (legPos == 1) {
+			prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SELECT;
+		}
+
+		FlightFilter filter = Db.getFlightSearch().getFilter(legPos);
+		String link = prefix + "." + filter.getSort().name() + "." + Integer.toString(selectPos);
+
 		internalTrackLink(context, link);
 	}
 
 	public static void trackLinkFlightRefine(Context context, int legPosition) {
 		if (legPosition == 0) {
-			OmnitureTracking.trackLinkFlightOutboundRefine(context);
+			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+				internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_REFINE);
+			}
+			else {
+				internalTrackLink(context, FLIGHT_SEARCH_ONE_WAY_REFINE);
+			}
 		}
 		else if (legPosition == 1) {
-			OmnitureTracking.trackLinkFlightInboundRefine(context);
+			internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE);
 		}
 	}
 
 	public static void trackLinkFlightSort(Context context, String sortType, int legPosition) {
+		String prefix = "";
+
 		if (legPosition == 0) {
-			trackLinkFlightOutboundSort(context, sortType);
+			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+				prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SORT;
+			}
+			else {
+				prefix = PREFIX_FLIGHT_SEARCH_ONE_WAY_SORT;
+			}
 		}
 		else if (legPosition == 1) {
-			trackLinkFlightInboundSort(context, sortType);
+			prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT;
 		}
-	}
 
-	private static void trackLinkFlightOutboundRefine(Context context) {
-		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_REFINE);
-	}
-
-	public static void trackLinkFlightInboundSelect(Context context, String sortType, int position) {
-		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SELECT + "." + sortType + "." + Integer.toString(position);
+		String link = prefix + "." + sortType;
 		internalTrackLink(context, link);
-	}
-
-	private static void trackLinkFlightInboundSort(Context context, String sortType) {
-		String link = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SORT + "." + sortType;
-		internalTrackLink(context, link);
-	}
-
-	private static void trackLinkFlightInboundRefine(Context context) {
-		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE);
 	}
 
 	public static void trackLinkFlightRemoveOutboundSelection(Context context) {
@@ -213,12 +238,9 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Flights tracking events
 
-	// Note: this method looks slightly different than the rest, as it has an extra parameter - orderId. We need to send
-	// this parameter in with the method call because we do not save FlightCheckout to the Db. All of the other methods
-	// rely on Db.java to grab the information it desires
 	public static void trackPageLoadFlightCheckoutConfirmation(Context context, final String orderId) {
 		AppMeasurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_CONFIRMATION);
-		addVars25And26LobAsConfirmer(s);
+		_addVars25And26LobAsConfirmer(s);
 
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 
@@ -302,22 +324,47 @@ public class OmnitureTracking {
 		createTrackPageLoadEventPriceChangeAsShopper(context, FLIGHT_RATE_DETAILS).track();
 	}
 
-	public static void trackPageLoadFlightSearchResultsInboundDetails(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS);
+	public static void trackPageLoadFlightSearchResultsOneWay(Context context) {
+		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_RESULTS_ONE_WAY);
+	}
+
+	public static void trackPageLoadFlightBaggageFee(Context context, int legPosition) {
+		if (legPosition == 0) {
+			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_OUTBOUND_BAGGAGE_FEE);
+			}
+			else {
+				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE);
+			}
+		}
+		else if (legPosition == 1) {
+			internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_INBOUND_BAGGAGE_FEE);
+		}
+	}
+
+	public static void trackPageLoadFlightSearchResultsDetails(Context context, int legPosition) {
+		if (legPosition == 0) {
+			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS);
+			}
+			else {
+				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_DETAILS);
+			}
+		}
+		else if (legPosition == 1) {
+			internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS);
+
+		}
 	}
 
 	public static void trackPageLoadFlightSearchResultsInboundList(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN);
 	}
 
-	public static void trackPageLoadFlightSearchResultsOutboundDetail(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS);
-	}
-
 	public static void trackPageLoadFlightSearchResultsOutboundList(Context context) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
 
-		AppMeasurement s = createTrackPageLoadEventBase(context, FLIGHT_SEARCH_ROUNDTRIP_OUT);
+		AppMeasurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_ROUNDTRIP_OUT);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
@@ -341,8 +388,6 @@ public class OmnitureTracking {
 
 		// num days between departure and return dates
 		s.eVar6 = s.prop6 = Long.toString(CalendarUtils.getDaysBetween(departureDate, returnDate));
-
-		_addVars25And26LobAsShopper(s);
 
 		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
 		// e.g. FLT|RT|A2|C1
@@ -474,23 +519,11 @@ public class OmnitureTracking {
 
 	private static AppMeasurement createTrackPageLoadEventPriceChange(Context context, String pageName) {
 		AppMeasurement s = createTrackPageLoadEventBase(context, pageName);
-		addEventPriceChange(s);
+		_addEventPriceChange(s);
 		return s;
 	}
 
-	private static AppMeasurement _addVars25And26LobAsShopper(AppMeasurement s) {
-		s.eVar25 = s.prop25 = "Shopper";
-		s.eVar26 = s.prop26 = "FLT Shopper";
-		return s;
-	}
-
-	private static AppMeasurement addVars25And26LobAsConfirmer(AppMeasurement s) {
-		s.eVar25 = s.prop25 = "Confirmer";
-		s.eVar26 = s.prop26 = "CKO Shopper";
-		return s;
-	}
-
-	private static AppMeasurement addEventPriceChange(AppMeasurement s) {
+	private static AppMeasurement _addEventPriceChange(AppMeasurement s) {
 		// flag notifying price change occurred
 		s.events = "event62";
 
@@ -503,6 +536,18 @@ public class OmnitureTracking {
 			s.prop9 = priceChange;
 		}
 
+		return s;
+	}
+
+	private static AppMeasurement _addVars25And26LobAsShopper(AppMeasurement s) {
+		s.eVar25 = s.prop25 = "Shopper";
+		s.eVar26 = s.prop26 = "FLT Shopper";
+		return s;
+	}
+
+	private static AppMeasurement _addVars25And26LobAsConfirmer(AppMeasurement s) {
+		s.eVar25 = s.prop25 = "Confirmer";
+		s.eVar26 = s.prop26 = "CKO Shopper";
 		return s;
 	}
 

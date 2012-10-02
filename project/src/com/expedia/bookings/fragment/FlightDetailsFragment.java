@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.section.FlightLayoverSection;
 import com.expedia.bookings.section.FlightPathSection;
 import com.expedia.bookings.section.FlightSegmentSection;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -34,6 +35,7 @@ public class FlightDetailsFragment extends Fragment {
 	public static final String TAG = FlightDetailsFragment.class.getName();
 
 	private static final String ARG_TRIP_LEG = "ARG_TRIP_LEG";
+	private static final String ARG_LEG_POSITION = "ARG_LEG_POSITION";
 
 	// Cached views
 	private ScrollView mScrollView;
@@ -45,9 +47,12 @@ public class FlightDetailsFragment extends Fragment {
 	private FlightTrip mFlightTrip;
 	private FlightLeg mFlightLeg;
 
-	public static FlightDetailsFragment newInstance(FlightTrip trip, FlightLeg leg) {
+	private int mLegPosition;
+
+	public static FlightDetailsFragment newInstance(FlightTrip trip, FlightLeg leg, int legPosition) {
 		FlightDetailsFragment fragment = new FlightDetailsFragment();
 		Bundle args = new Bundle();
+		args.putInt(ARG_LEG_POSITION, legPosition);
 		JSONUtils.putJSONable(args, ARG_TRIP_LEG, new FlightTripLeg(trip, leg));
 		fragment.setArguments(args);
 		return fragment;
@@ -125,15 +130,18 @@ public class FlightDetailsFragment extends Fragment {
 		arriveAtSection.bind(leg.getSegment(segmentCount - 1), false);
 		mInfoContainer.addView(arriveAtSection);
 
+		mLegPosition = getArguments().getInt(ARG_LEG_POSITION);
 		mBaggageInfoTextView = Ui.findView(v, R.id.baggage_fee_text_view);
 		mBaggageInfoTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				FlightLeg leg = getFlightLeg();
-				Intent baggageIntent = new Intent(getActivity(),BaggageFeeActivity.class);
+				Intent baggageIntent = new Intent(getActivity(), BaggageFeeActivity.class);
 				baggageIntent.putExtra(BaggageFeeFragment.TAG_ORIGIN, leg.getFirstWaypoint().mAirportCode);
 				baggageIntent.putExtra(BaggageFeeFragment.TAG_DESTINATION, leg.getLastWaypoint().mAirportCode);
 				getActivity().startActivity(baggageIntent);
+
+				OmnitureTracking.trackPageLoadFlightBaggageFee(getActivity(), mLegPosition);
 			}
 		});
 

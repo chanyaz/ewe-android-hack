@@ -49,7 +49,6 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		if (savedInstanceState != null) {
 			mLegPosition = savedInstanceState.getInt(INSTANCE_LEG_POSITION);
 			if (mLegPosition == 1) {
-				// TODO uhhh, make sure this does not get invoked on orientation change
 				OmnitureTracking.trackPageLoadFlightSearchResultsInboundList(getActivity());
 			}
 		}
@@ -59,7 +58,7 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 				OmnitureTracking.trackPageLoadFlightSearchResultsOutboundList(getActivity());
 			}
 			else {
-				// TODO: add the "oneway" search tracking
+				OmnitureTracking.trackPageLoadFlightSearchResultsOneWay(getActivity());
 			}
 		}
 	}
@@ -141,17 +140,8 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		mListener.onFlightLegClick(trip, leg, mLegPosition);
 
-		if (mLegPosition == 0) {
-			FlightFilter filter = Db.getFlightSearch().getFilter(mLegPosition);
-			OmnitureTracking.trackLinkFlightOutboundSelect(getActivity(), filter.getSort().name(), position
-					- numHeaderViews + 1);
-
-		}
-		else if (mLegPosition == 1) {
-			FlightFilter filter = Db.getFlightSearch().getFilter(mLegPosition);
-			OmnitureTracking.trackLinkFlightInboundSelect(getActivity(), filter.getSort().name(), position
-					- numHeaderViews + 1);
-		}
+		// TODO: Maybe move to the listener onFlightLegClick once fully tested?
+		OmnitureTracking.trackLinkFlightSearchSelect(getActivity(), position - numHeaderViews + 1, mLegPosition);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
