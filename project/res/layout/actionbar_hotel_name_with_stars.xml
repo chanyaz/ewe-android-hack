@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textSize="14dip" />
 
     <RatingBar
         android:id="@+id/rating"
