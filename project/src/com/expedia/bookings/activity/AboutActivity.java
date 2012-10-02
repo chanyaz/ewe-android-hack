@@ -20,8 +20,8 @@ import com.mobiata.android.util.ViewUtils;
 
 public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
-	private static final int DIALOG_CONTACT_EXPEDIA = 1;
-	private static final int DIALOG_EXPEDIA_WEBSITE = 2;
+	private static final int DIALOG_CONTACT_EXPEDIA = 100;
+	private static final int DIALOG_EXPEDIA_WEBSITE = 200;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
