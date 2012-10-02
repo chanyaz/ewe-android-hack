@@ -92,10 +92,6 @@ public class User implements JSONable {
 	}
 
 	public static void signOut(Context context) {
-		// Sign out cookies
-		ExpediaServices services = new ExpediaServices(context);
-		services.clearCookies();
-
 		// Delete User
 		delete(context);
 

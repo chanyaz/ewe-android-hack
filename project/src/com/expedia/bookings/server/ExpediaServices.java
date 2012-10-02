@@ -435,7 +435,9 @@ public class ExpediaServices implements DownloadListener {
 		addProfileTypes(query, flags);
 
 		// Make sure we're signed out before we try to sign in again
-		User.signOut(mContext);
+		if (User.isLoggedIn(mContext)) {
+			User.signOut(mContext);
+		}
 
 		return doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
@@ -465,6 +467,8 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public void clearCookies() {
+		Log.d("Clearing cookies!");
+
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
 		cookieStore.clear();
 		cookieStore.save(mContext, COOKIES_FILE);
