@@ -238,8 +238,10 @@ public class ExpediaServices implements DownloadListener {
 			addFlightTraveler(query, travelers.get(i));
 		}
 
-		// Not sure if required?
-		query.add(new BasicNameValuePair("nameOnCard", billingInfo.getNameOnCard()));
+		String nameOnCard = billingInfo.getNameOnCard();
+		if (!TextUtils.isEmpty(nameOnCard)) {
+			query.add(new BasicNameValuePair("nameOnCard", nameOnCard));
+		}
 
 		// Checkout calls without this flag can make ACTUAL bookings!
 		if (suppressFinalBooking(mContext)) {
@@ -583,6 +585,20 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("lastName", traveler.getLastName()));
 		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(traveler.getBirthDateInMillis())));
 		query.add(new BasicNameValuePair("gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
+
+		// TODO: We barely have assistance options represented at the moment, update later
+		String assistanceOption;
+		switch (traveler.getAssistance()) {
+		case WHEELCHAIR:
+			assistanceOption = "WHEELCHAIRCANNOTCLIMBSTAIRS";
+			break;
+		default:
+			assistanceOption = "NONE";
+			break;
+		}
+
+		query.add(new BasicNameValuePair("specialAssistanceOption", assistanceOption));
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////
