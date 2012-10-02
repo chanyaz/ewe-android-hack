@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        layout="@layout/include_hotel_list_fixed_header_num_hotels_text_view" />
+        layout="@layout/include_hotel_list_header_num_hotels_text_view" />
 
     <include
         android:id="@+id/lawyer_label_text_view"
@@ -23,6 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        layout="@layout/include_hotel_list_fixed_header_lawyer_label_text_view" />
+        layout="@layout/include_hotel_list_header_lawyer_label_text_view" />
 
 </RelativeLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="43dp"
     android:background="@drawable/bg_list_header"
     android:paddingBottom="6dp"
@@ -11,25 +11,25 @@
     <include
         android:id="@+id/num_hotels_text_view_tablet"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        layout="@layout/include_hotel_list_fixed_header_num_hotels_text_view" />
+        layout="@layout/include_hotel_list_header_num_hotels_text_view"
+        android:gravity="center_vertical" />
 
     <include
         android:id="@+id/lawyer_label_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/num_hotels_text_view_tablet"
+        android:layout_height="match_parent"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/num_hotels_text_view_tablet"
-        layout="@layout/include_hotel_list_fixed_header_lawyer_label_text_view"
+        layout="@layout/include_hotel_list_header_lawyer_label_text_view"
+        android:gravity="center_vertical"
         android:text="@string/prices_avg_per_night_short" />
 
     <TextView
         android:id="@+id/sort_type_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:background="@drawable/btn_sort"
         android:ellipsize="end"
@@ -49,17 +49,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/sort_arrow" />
-
-    <!--
-         <RelativeLayout
-        android:id="@+id/header_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:background="@drawable/bg_list_header"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
-
-    </RelativeLayout>
-    -->
 
 </RelativeLayout>

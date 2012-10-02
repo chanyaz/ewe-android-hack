@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
@@ -44,7 +46,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	private HotelAdapter mAdapter;
 
-	private ViewGroup mHeaderLayout;
+	private ViewGroup mHotelListHeader;
 	private TextView mNumHotelsTextView;
 	private TextView mNumHotelsTextViewTablet;
 	private TextView mSortTypeTextView;
@@ -72,9 +74,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 			mStatus = savedInstanceState.getString(INSTANCE_STATUS);
 			mShowDistances = savedInstanceState.getBoolean(INSTANCE_SHOW_DISTANCES);
 		}
-
-		mAdapter = new HotelAdapter(getActivity());
-		setListAdapter(mAdapter);
 	}
 
 	@Override
@@ -86,20 +85,42 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		}
 
 		mListener = (HotelListFragmentListener) activity;
+
+		mAdapter = new HotelAdapter(getActivity());
+
+		// Disable highlighting if we're on phone UI
+		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(activity));
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_list, container, false);
 
-		mHeaderLayout = (ViewGroup) view.findViewById(R.id.header_layout);
+		// Configure ListView
+		ListView listView = Ui.findView(view, android.R.id.list);
+		listView.setOnScrollListener(this);
+
+		mHotelListHeader = (ViewGroup) view.findViewById(R.id.hotel_list_header);
+
+		// We expect hotel_list_header to be missing on phone. In this case, add it as a list header
+		if (mHotelListHeader == null) {
+			mHotelListHeader = (ViewGroup) inflater.inflate(R.layout.include_hotel_list_header, null, false);
+
+			// In order for setVisibility() to work consistently on mHeaderLayout as an
+			// official headerView, it needs to be wrapped in another ViewGroup.
+			FrameLayout layout = new FrameLayout(getActivity());
+			layout.addView(mHotelListHeader);
+
+			listView.addHeaderView(layout);
+		}
+
 		// 306: Text overlaps. Being removed in next version anyways so we just care about the lawyer label
-		//mNumHotelsTextView = (TextView) view.findViewById(R.id.num_hotels_text_view);
-		//mNumHotelsTextViewTablet = (TextView) view.findViewById(R.id.num_hotels_text_view_tablet);
+		//mNumHotelsTextView = (TextView) mHeaderLayout.findViewById(R.id.num_hotels_text_view);
+		//mNumHotelsTextViewTablet = (TextView) mHeaderLayout.findViewById(R.id.num_hotels_text_view_tablet);
 		mNumHotelsTextView = null;
 		mNumHotelsTextViewTablet = null;
-		mSortTypeTextView = (TextView) view.findViewById(R.id.sort_type_text_view);
-		mLawyerLabelTextView = (TextView) view.findViewById(R.id.lawyer_label_text_view);
+		mSortTypeTextView = (TextView) mHotelListHeader.findViewById(R.id.sort_type_text_view);
+		mLawyerLabelTextView = (TextView) mHotelListHeader.findViewById(R.id.lawyer_label_text_view);
 
 		ViewGroup placeholderContainer = (ViewGroup) view.findViewById(R.id.placeholder_container);
 		ProgressBar placeholderProgressBar = (ProgressBar) view.findViewById(R.id.placeholder_progress_bar);
@@ -119,13 +140,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 		updateLawyerLabel();
 
-		// Configure ListView
-		ListView listView = Ui.findView(view, android.R.id.list);
-		listView.setOnScrollListener(this);
-
-		// Disable highlighting if we're on phone UI
-		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(getActivity()));
-
 		// Configure the phone vs. tablet ui different
 		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
 			mSearchProgressBar.setVisibility(View.GONE);
@@ -134,6 +148,13 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		}
 
 		return view;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		setListAdapter(mAdapter);
 	}
 
 	@Override
@@ -317,13 +338,8 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	}
 
 	private void setHeaderVisibility(int visibility) {
-		if (mHeaderLayout != null) {
-			// Never display the header on non-tablet UIs
-			if (!AndroidUtils.isHoneycombTablet(getActivity())) {
-				visibility = View.GONE;
-			}
-
-			mHeaderLayout.setVisibility(visibility);
+		if (mHotelListHeader != null) {
+			mHotelListHeader.setVisibility(visibility);
 		}
 	}
 

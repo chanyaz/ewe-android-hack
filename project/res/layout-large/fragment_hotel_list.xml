@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/hotel_list_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -7,22 +7,32 @@
     android:gravity="center"
     android:orientation="vertical" >
 
+    <include
+        android:id="@+id/hotel_list_header"
+        layout="@layout/include_hotel_list_header" />
+
     <com.expedia.bookings.widget.MeasureListView
         android:id="@android:id/list"
         style="@style/ExpediaList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@id/hotel_list_header"
         android:divider="@drawable/divider_horizontal_dark_opaque" />
 
     <LinearLayout
         android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@+id/header_layout" >
 
         <TextView
             android:id="@+id/no_filter_results_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:gravity="center"
             android:padding="24dp"
             android:text="@string/no_filter_results"
@@ -36,4 +46,4 @@
             layout="@layout/include_placeholder_progress" />
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>
