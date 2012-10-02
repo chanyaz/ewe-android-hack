@@ -48,15 +48,14 @@
             android:orientation="vertical"
             android:visibility="invisible" >
 
-            <Button
+            <include
+                android:id="@+id/account_button_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/btn_expedia_login"
-                android:gravity="center"
-                android:text="Log in for faster booking."
-                android:textColor="@android:color/white" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                layout="@layout/include_account_button" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -121,9 +120,25 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/enter_payment_info"
+                        android:text="@string/payment_method"
                         android:textSize="16sp" />
                 </LinearLayout>
+
+                <include
+                    android:id="@+id/creditcard_section_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    layout="@layout/section_display_creditcard_btn" />
+
+                <include
+                    android:id="@+id/stored_creditcard_section_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    layout="@layout/section_display_stored_credit_card" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

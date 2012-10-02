@@ -16,9 +16,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.BookingOverviewFragment;
+import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.mobiata.android.Log;
 
-public class BookingOverviewActivity extends SherlockFragmentActivity {
+public class BookingOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener {
 	private BookingOverviewFragment mBookingOverviewFragment;
 	private MenuItem mCheckoutMenuItem;
 
@@ -101,5 +102,20 @@ public class BookingOverviewActivity extends SherlockFragmentActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	// SignInFragmentListener implementation
+
+	@Override
+	public void onLoginStarted() {
+	}
+
+	@Override
+	public void onLoginCompleted() {
+		mBookingOverviewFragment.updateViews();
+	}
+
+	@Override
+	public void onLoginFailed() {
 	}
 }
