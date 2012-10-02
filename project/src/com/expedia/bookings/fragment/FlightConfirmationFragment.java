@@ -106,7 +106,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 		Ui.setText(v, R.id.itinerary_text_view,
 				Html.fromHtml(getString(R.string.itinerary_confirmation_TEMPLATE, itinerary.getItineraryNumber(),
-						Db.getFlightBookingEmail())));
+						Db.getBillingInfo().getEmail())));
 
 		Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationAirport.mCity));
 		Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {

@@ -14,13 +14,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.*;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.FlightAdapter;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
@@ -89,7 +94,7 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, mListView, false);
 		mNumFlightsTextView = Ui.findView(header, R.id.num_flights_text_view);
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
-		mSectionFlightLeg.setBackgroundResource(R.drawable.bg_flight_card_search_results);
+		mSectionFlightLeg.setBackgroundResource(R.drawable.bg_flight_card_search_results_top);
 		mSectionFlightLeg.setListener(this);
 		mListView.addHeaderView(header);
 		mListView.setHeaderDividersEnabled(false);

@@ -12,7 +12,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Process;
-import android.text.TextUtils;
 
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.Log;
@@ -405,18 +404,6 @@ public class Db {
 
 		sDb.mFlightSearch.reset();
 		sDb.mTravelers.clear();
-	}
-
-	// Flight booking email is tough - it's either the email of the primary traveler, or the email
-	// of the logged in user's primary traveler.
-	public static String getFlightBookingEmail() {
-		String email = sDb.mTravelers.get(0).getEmail();
-		if (TextUtils.isEmpty(email)) {
-			if (sDb.mUser != null) {
-				email = sDb.mUser.getPrimaryTraveler().getEmail();
-			}
-		}
-		return email;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
