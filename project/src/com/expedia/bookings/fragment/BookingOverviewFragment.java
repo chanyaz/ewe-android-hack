@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
@@ -54,6 +55,7 @@ public class BookingOverviewFragment extends Fragment {
 
 		// Listeners
 		view.findViewById(R.id.traveler_info_linear_layout).setOnClickListener(mOnClickListener);
+		view.findViewById(R.id.payment_info_linear_layout).setOnClickListener(mOnClickListener);
 
 		updateViews();
 
@@ -141,6 +143,11 @@ public class BookingOverviewFragment extends Fragment {
 			switch (v.getId()) {
 			case R.id.traveler_info_linear_layout: {
 				startActivity(new Intent(getActivity(), HotelTravelerInfoOptionsActivity.class));
+				break;
+			}
+			case R.id.payment_info_linear_layout: {
+				startActivity(new Intent(getActivity(), HotelPaymentOptionsActivity.class));
+				break;
 			}
 			}
 		}
