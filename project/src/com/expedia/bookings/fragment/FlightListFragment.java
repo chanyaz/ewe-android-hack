@@ -181,7 +181,7 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 					city = location.getDestinationId();
 				}
 				mNumFlightsTextView.setText(getResources().getQuantityString(R.plurals.num_flights_to_destination,
-						count, count, location.getCity()).toUpperCase());
+						count, count, city).toUpperCase());
 			}
 		}
 	}
