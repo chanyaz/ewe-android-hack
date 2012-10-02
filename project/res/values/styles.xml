@@ -7,11 +7,13 @@
 
     <style name="Widget.Button.Phone">
         <item name="android:background">@drawable/btn_default_holo_light</item>
-        <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">64dip</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Small.Inverse</item>
         <item name="android:textColor">@color/btn_black_text_color</item>
-        <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
 
     <style name="Widget.ImageButton" />
