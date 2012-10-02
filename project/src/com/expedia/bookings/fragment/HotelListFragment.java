@@ -1,9 +1,11 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.text.Html;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,11 +20,11 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
@@ -41,14 +43,12 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	private String mStatus;
 
 	private boolean mShowDistances;
-	private boolean mIsTablet;
 	private boolean mListNeedsReset = false;
 
 	private HotelAdapter mAdapter;
 
 	private ViewGroup mHotelListHeader;
-	private TextView mNumHotelsTextView;
-	private TextView mNumHotelsTextViewTablet;
+	private TextView mSearchDateRangeText;
 	private TextView mSortTypeTextView;
 	private TextView mLawyerLabelTextView;
 
@@ -114,11 +114,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 			listView.addHeaderView(layout);
 		}
 
-		// 306: Text overlaps. Being removed in next version anyways so we just care about the lawyer label
-		//mNumHotelsTextView = (TextView) mHeaderLayout.findViewById(R.id.num_hotels_text_view);
-		//mNumHotelsTextViewTablet = (TextView) mHeaderLayout.findViewById(R.id.num_hotels_text_view_tablet);
-		mNumHotelsTextView = null;
-		mNumHotelsTextViewTablet = null;
+		mSearchDateRangeText = (TextView) mHotelListHeader.findViewById(R.id.search_date_range_text);
 		mSortTypeTextView = (TextView) mHotelListHeader.findViewById(R.id.sort_type_text_view);
 		mLawyerLabelTextView = (TextView) mHotelListHeader.findViewById(R.id.lawyer_label_text_view);
 
@@ -127,8 +123,6 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		TextView placeholderProgressTextView = (TextView) view.findViewById(R.id.placeholder_progress_text_view);
 		mSearchProgressBar = new PlaceholderTagProgressBar(placeholderContainer, placeholderProgressBar,
 				placeholderProgressTextView);
-
-		mIsTablet = mNumHotelsTextViewTablet != null;
 
 		if (mSortTypeTextView != null) {
 			mSortTypeTextView.setOnClickListener(new OnClickListener() {
@@ -194,8 +188,9 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 	}
 
 	private void updateLawyerLabel() {
+		boolean isTablet = AndroidUtils.isTablet(getActivity());
 		if (LocaleUtils.doesPointOfSaleHaveInclusivePricing(getActivity())) {
-			if (mIsTablet) {
+			if (isTablet) {
 				mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay_punctuated));
 			}
 			else {
@@ -203,7 +198,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 			}
 		}
 		else {
-			if (mIsTablet) {
+			if (isTablet) {
 				mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night_short));
 			}
 			else {
@@ -272,15 +267,11 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 	private void updateNumHotels() {
 		// only update if view has been initialized
-		if (mNumHotelsTextView != null) {
-			mNumHotelsTextView
-					.setText(String.format(getString(R.string.search_header_num_hotels), mAdapter.getCount()));
-		}
-
-		if (mNumHotelsTextViewTablet != null) {
-			int count = mAdapter.getCount();
-			mNumHotelsTextViewTablet.setText(Html.fromHtml(getResources().getQuantityString(
-					R.plurals.number_of_results, count, count)));
+		if (mSearchDateRangeText != null) {
+			SearchParams params = Db.getSearchParams();
+			CharSequence from = DateFormat.format("MMM d", params.getCheckInDate());
+			CharSequence to = DateFormat.format("MMM d", params.getCheckOutDate());
+			mSearchDateRangeText.setText(getString(R.string.date_range_TEMPLATE, from, to));
 		}
 	}
 

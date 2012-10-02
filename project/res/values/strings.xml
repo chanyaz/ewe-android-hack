@@ -546,6 +546,8 @@
     </plurals>
     <!-- Search header, Example: "42 Hotels Found" -->
     <string name="search_header_num_hotels">%d Hotels Found</string>
+    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
+    <string name="date_range_TEMPLATE">%1$s to %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filter by hotel name</string>
     <!-- Label indicating that there are no results matching their current filter -->

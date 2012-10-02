@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="#cccccc"
     android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:paddingBottom="6dp"
     android:paddingLeft="@dimen/hotel_row_cell_padding"
     android:paddingRight="@dimen/hotel_row_cell_padding"
     android:paddingTop="6dp" >
 
-    <include
-        android:id="@+id/num_hotels_text_view"
+    <TextView
+        android:id="@+id/search_date_range_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        layout="@layout/include_hotel_list_header_num_hotels_text_view" />
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="#394552"
+        android:textSize="14sp" />
 
-    <include
+    <TextView
         android:id="@+id/lawyer_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        layout="@layout/include_hotel_list_header_lawyer_label_text_view" />
+        android:gravity="right|center_vertical"
+        android:singleLine="true"
+        android:text="@string/prices_avg_per_night"
+        android:textColor="#394552"
+        android:textSize="14sp" />
 
-</RelativeLayout>
+</LinearLayout>

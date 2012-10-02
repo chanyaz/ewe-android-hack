@@ -8,23 +8,17 @@
     android:paddingRight="@dimen/hotel_row_cell_padding"
     android:paddingTop="6dp" >
 
-    <include
-        android:id="@+id/num_hotels_text_view_tablet"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        layout="@layout/include_hotel_list_header_num_hotels_text_view"
-        android:gravity="center_vertical" />
-
-    <include
+    <TextView
         android:id="@+id/lawyer_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@id/num_hotels_text_view_tablet"
-        layout="@layout/include_hotel_list_header_lawyer_label_text_view"
         android:gravity="center_vertical"
-        android:text="@string/prices_avg_per_night_short" />
+        android:singleLine="true"
+        android:text="@string/prices_avg_per_night_short"
+        android:textColor="#394552"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/sort_type_text_view"
