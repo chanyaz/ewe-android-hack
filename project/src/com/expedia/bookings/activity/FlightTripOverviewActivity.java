@@ -231,6 +231,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public void gotoOverviewMode(boolean animate) {
 		if (!mTransitionHappening) {
 
+			mDisplayMode = DisplayMode.OVERVIEW;
 			setActionBarOverviewMode();
 
 			int duration = animate ? ANIMATION_DURATION : 1;
@@ -251,8 +252,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				mOverviewFragment.setCardOnClickListeners(null);
 			}
 
-			mDisplayMode = DisplayMode.OVERVIEW;
-
 			OmnitureTracking.trackPageLoadFlightOverview(this);
 		}
 	}
@@ -260,6 +259,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public void gotoCheckoutMode(boolean animate) {
 		if (!mTransitionHappening) {
 
+			mDisplayMode = DisplayMode.CHECKOUT;
 			setActionBarCheckoutMode();
 
 			int duration = animate ? ANIMATION_DURATION : 1;
@@ -285,8 +285,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				});
 			}
 
-			mDisplayMode = DisplayMode.CHECKOUT;
-
 			OmnitureTracking.trackPageLoadFlightCheckout(this);
 		}
 	}
@@ -298,9 +296,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		actionBar.setTitle(getString(R.string.overview_btn));
 
-		if (mCheckoutMenuItem != null) {
-			mCheckoutMenuItem.setVisible(true);
-		}
+		this.supportInvalidateOptionsMenu();
+
 	}
 
 	private void setActionBarCheckoutMode() {
@@ -327,9 +324,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		actionBar.setCustomView(customView);
 
-		if (mCheckoutMenuItem != null) {
-			mCheckoutMenuItem.setVisible(false);
-		}
+		this.supportInvalidateOptionsMenu();
+
 	}
 
 	public Animator getCheckoutShowAnimator() {
@@ -427,19 +423,47 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
+	public void displayCheckoutButton(boolean visible) {
+		if (mCheckoutMenuItem != null) {
+			if (visible) {
+				mCheckoutMenuItem.setVisible(true);
+				mCheckoutMenuItem.setEnabled(true);
+			}
+			else {
+				mCheckoutMenuItem.setVisible(false);
+				mCheckoutMenuItem.setEnabled(false);
+			}
+		}
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (menu != null) {
+			mCheckoutMenuItem = menu.findItem(R.id.menu_checkout);
+
+			if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
+				displayCheckoutButton(false);
+			}
+			else {
+				displayCheckoutButton(true);
+			}
+
+			mCheckoutMenuItem.getActionView().setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (mOverviewFragment != null) {
+						gotoCheckoutMode(true);
+					}
+				}
+			});
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = this.getSupportMenuInflater();
 		inflater.inflate(R.menu.menu_checkout, menu);
-		mCheckoutMenuItem = menu.findItem(R.id.menu_checkout);
-		mCheckoutMenuItem.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mOverviewFragment != null) {
-					gotoCheckoutMode(true);
-				}
-			}
-		});
 		return true;
 	}
 
