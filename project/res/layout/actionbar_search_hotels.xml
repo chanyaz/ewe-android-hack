@@ -13,7 +13,7 @@
         android:background="@drawable/edit_text_holo_dark"
         android:dropDownHorizontalOffset="-38dp"
         android:dropDownWidth="fill_parent"
-        android:imeOptions="actionSearch"
+        android:imeOptions="actionSearch|flagNoExtractUi|flagNoFullscreen"
         android:inputType="textFilter|textNoSuggestions"
         android:popupBackground="@drawable/bg_popup_dark"
         android:singleLine="true"
