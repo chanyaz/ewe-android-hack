@@ -42,7 +42,7 @@
     <item
         android:id="@+id/menu_select_filter"
         android:showAsAction="always|withText"
-        android:title="@string/FILTER" />
+        android:title="@string/filter" />
     <item
         android:id="@+id/menu_select_change_view"
         android:icon="@drawable/ic_menu_map"
