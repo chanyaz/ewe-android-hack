@@ -334,6 +334,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getNumber())) {
 				field.setText(data.getNumber());
 			}
+			else {
+				field.setText("");
+			}
 		}
 
 		@Override
@@ -427,6 +430,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getFirstName())) {
 				field.setText(data.getFirstName());
 			}
+			else {
+				field.setText("");
+			}
 		}
 
 		@Override
@@ -462,6 +468,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected void onHasFieldAndData(EditText field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getLastName())) {
 				field.setText(data.getLastName());
+			}
+			else {
+				field.setText("");
 			}
 		}
 
@@ -533,6 +542,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			if (!TextUtils.isEmpty(data.getEmail())) {
 				field.setText(data.getEmail());
 			}
+			else {
+				field.setText("");
+			}
 		}
 
 		@Override
@@ -568,6 +580,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected void onHasFieldAndData(EditText field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getTelephone())) {
 				field.setText(data.getTelephone());
+			}
+			else {
+				field.setText("");
 			}
 		}
 

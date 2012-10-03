@@ -52,11 +52,11 @@ public class WorkingTravelerManager {
 				try {
 					if (hasTravelerOnDisk(context)) {
 						JSONObject obj = new JSONObject(IoUtils.readStringFromFile(WORKING_TRAVELER_FILE_NAME, context));
-						if(obj.has(WORKING_TRAVELER_TAG)){
+						if (obj.has(WORKING_TRAVELER_TAG)) {
 							mWorkingTraveler = JSONUtils.getJSONable(obj, WORKING_TRAVELER_TAG, Traveler.class);
 						}
 
-						if(obj.has(BASE_TRAVELER_TAG)){
+						if (obj.has(BASE_TRAVELER_TAG)) {
 							mBaseTraveler = JSONUtils.getJSONable(obj, BASE_TRAVELER_TAG, Traveler.class);
 						}
 					}
@@ -92,13 +92,13 @@ public class WorkingTravelerManager {
 		mBaseTraveler.fromJson(json);
 		mAttemptLoadFromDisk = false;
 	}
-	
+
 	/**
 	 * Set the working traveler to be the traveler argument but keep the current working traveler and set it as the base traveler
 	 * @param traveler
 	 */
-	public void shiftWorkingTraveler(Traveler traveler){
-		if(mBaseTraveler == null){
+	public void shiftWorkingTraveler(Traveler traveler) {
+		if (mBaseTraveler == null) {
 			mBaseTraveler = new Traveler();
 		}
 		mBaseTraveler.fromJson(getWorkingTraveler().toJson());
@@ -183,11 +183,11 @@ public class WorkingTravelerManager {
 			public void run() {
 				try {
 					JSONObject obj = new JSONObject();
-					if(mWorkingTraveler != null){
+					if (mWorkingTraveler != null) {
 						JSONUtils.putJSONable(obj, WORKING_TRAVELER_TAG, mWorkingTraveler);
 					}
-					if(mBaseTraveler != null){
-						JSONUtils.putJSONable(obj,BASE_TRAVELER_TAG , mBaseTraveler);
+					if (mBaseTraveler != null) {
+						JSONUtils.putJSONable(obj, BASE_TRAVELER_TAG, mBaseTraveler);
 					}
 					String json = obj.toString();
 					IoUtils.writeStringToFile(WORKING_TRAVELER_FILE_NAME, json, context);
@@ -221,11 +221,11 @@ public class WorkingTravelerManager {
 		context.deleteFile(WORKING_TRAVELER_FILE_NAME);
 		mAttemptLoadFromDisk = false;
 	}
-	
+
 	/**
 	 * Delete working traveler file (useful if we know the file is stale)
 	 */
-	public void deleteWorkingTravelerFile(final Context context){
+	public void deleteWorkingTravelerFile(final Context context) {
 		Runnable deleteWorkingTavelerRunnable = new Runnable() {
 			@Override
 			public void run() {
@@ -250,6 +250,6 @@ public class WorkingTravelerManager {
 			mTravelerSaveSemaphore.acquireUninterruptibly();
 			mTravelerSaveSemaphore.release();
 		}
-		
+
 	}
 }

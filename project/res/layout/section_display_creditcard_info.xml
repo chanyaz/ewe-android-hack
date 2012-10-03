@@ -19,39 +19,45 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical" >
-		
+
         <TextView
             android:id="@+id/display_creditcard_brand_name"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
             android:gravity="center_horizontal"
             android:text="@string/enter_traveler_info"
             android:textColor="@color/data_review_dark"
             android:textScaleX="0.9"
             android:textSize="@dimen/data_display_primary_text"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp" />
-        
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/display_creditcard_number_masked"
-           android:layout_width="match_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/data_review_grey"
-            android:textSize="@dimen/data_display_sub_text"
+            android:layout_marginBottom="0dp"
             android:layout_marginTop="-3dp"
-            android:layout_marginBottom="0dp" />
-        
+            android:textColor="@color/data_review_grey"
+            android:textSize="@dimen/data_display_sub_text" />
+
         <TextView
             android:id="@+id/display_creditcard_expiration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/data_review_grey"
-            android:textSize="@dimen/data_display_sub_text"
+            android:layout_marginBottom="0dp"
             android:layout_marginTop="-3dp"
-            android:layout_marginBottom="0dp" />
-
-        
+            android:textColor="@color/data_review_grey"
+            android:textSize="@dimen/data_display_sub_text" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/error_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:src="@drawable/ic_error"
+        android:visibility="gone" />
 
 </com.expedia.bookings.section.SectionBillingInfo>

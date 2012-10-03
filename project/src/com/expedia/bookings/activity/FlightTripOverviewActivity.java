@@ -2,11 +2,13 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +22,14 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.FlightSlideToPurchaseFragment;
@@ -55,6 +61,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	public static final int ANIMATION_DURATION = 1000;
 
+	//We only want to load from disk once: when the activity is first started
+	private static boolean sLoaded = false;
+
 	private boolean mTransitionHappening = false;
 
 	private FlightTripOverviewFragment mOverviewFragment;
@@ -85,9 +94,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(this)) {
 				NavUtils.onDataMissing(this);
-				return;
 			}
 		}
+
+		//This activity is the first time we see any billingInfo/traveler stuff.
+		loadCachedData();
 
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
@@ -176,6 +187,85 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		out.putString(STATE_TAG_MODE, mDisplayMode.name());
 		out.putInt(STATE_TAG_STACKED_HEIGHT, mStackedHeight);
 		out.putInt(STATE_TAG_UNSTACKED_HEIGHT, mUnstackedHeight);
+	}
+
+	private void loadCachedData() {
+		if (!sLoaded) {
+
+			BillingInfo billingInfo = Db.getBillingInfo();
+
+			//Load billing info (only if we don't have a valid card already)
+			if (billingInfo == null || TextUtils.isEmpty(billingInfo.getNumber())) {
+				billingInfo.load(this);
+				StoredCreditCard stored = billingInfo.getStoredCard();
+				if (stored != null) {
+					if (User.isLoggedIn(this)) {
+						if (Db.getUser() == null) {
+							Db.loadUser(this);
+						}
+						List<StoredCreditCard> usrCards = Db.getUser().getStoredCreditCards();
+						boolean cardFound = false;
+						for (int i = 0; i < usrCards.size(); i++) {
+							if (stored.getId().compareTo(usrCards.get(i).getId()) == 0) {
+								cardFound = true;
+								break;
+							}
+						}
+						//If the storedcard is not part of the user's collection of stored cards, we can't use it
+						if (!cardFound) {
+							Db.resetBillingInfo();
+						}
+					}
+					else {
+						//If we have an expedia account card, but we aren't logged in, we get rid of it
+						Db.resetBillingInfo();
+					}
+				}
+			}
+
+			//Load traveler info (only if we don't have traveler info already)
+			if (Db.getTravelers() == null || Db.getTravelers().size() == 0 || !Db.getTravelers().get(0).hasName()) {
+				Db.loadTravelers(this);
+				List<Traveler> travelers = Db.getTravelers();
+				if (travelers != null && travelers.size() > 0) {
+					if (User.isLoggedIn(this)) {
+						//If we are logged in, we need to ensure that any expedia account users are associated with the currently logged in account
+						if (Db.getUser() == null) {
+							Db.loadUser(this);
+						}
+						List<Traveler> userTravelers = Db.getUser().getAssociatedTravelers();
+						for (int i = 0; i < travelers.size(); i++) {
+							Traveler trav = travelers.get(i);
+							if (trav.hasTuid()) {
+								boolean travFound = false;
+								for (int j = 0; j < userTravelers.size(); j++) {
+									Traveler usrTrav = userTravelers.get(j);
+									if (usrTrav.getTuid().compareTo(trav.getTuid()) == 0) {
+										travFound = true;
+										break;
+									}
+								}
+								if (!travFound) {
+									travelers.set(i, new Traveler());
+								}
+							}
+						}
+					}
+					else {
+						//Remove logged in travelers (because the user is not logged in)
+						for (int i = 0; i < travelers.size(); i++) {
+							Traveler trav = travelers.get(i);
+							if (trav.hasTuid()) {
+								travelers.set(i, new Traveler());
+							}
+						}
+					}
+				}
+			}
+
+			//We only load from disk once
+			sLoaded = true;
+		}
 	}
 
 	public void replacePriceBarWithSlideToCheckout() {

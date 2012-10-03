@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Process;
 
+import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.Log;
@@ -73,6 +74,9 @@ public class Db {
 	// The billing info.  Make sure to properly clear this out when requested 
 	private BillingInfo mBillingInfo;
 
+	//Is the billingInfo object dirty? This is to help the coder manage saves, and it is up to them to set it when needed
+	private boolean mBillingInfoIsDirty = false;
+
 	// The booking response.  Make sure to properly clear this out after finishing booking.
 	private BookingResponse mBookingResponse;
 
@@ -105,9 +109,12 @@ public class Db {
 	// Flight Travelers (this is the list of travelers going on the trip, these must be valid for checking out)
 	private List<Traveler> mTravelers = new ArrayList<Traveler>();
 	private boolean mTravelersAreDirty = false;
-	
+
 	// The current traveler manager this helps us save state and edit a copy of the working traveler
 	private WorkingTravelerManager mWorkingTravelerManager;
+
+	//The working copy manager of billingInfo
+	private WorkingBillingInfoManager mWorkingBillingInfoManager;
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -375,23 +382,47 @@ public class Db {
 	public static void setTravelers(List<Traveler> travelers) {
 		sDb.mTravelers = travelers;
 	}
-	
-	public static void setTravelersAreDirty(boolean dirty){
+
+	public static void setTravelersAreDirty(boolean dirty) {
 		sDb.mTravelersAreDirty = dirty;
 	}
-	
-	public static boolean getTravelersAreDirty(){
+
+	public static boolean getTravelersAreDirty() {
 		return sDb.mTravelersAreDirty;
 	}
-	
+
+	public static void setBillingInfoIsDirty(boolean dirty) {
+		sDb.mBillingInfoIsDirty = dirty;
+	}
+
+	public static boolean getBillingInfoIsDirty() {
+		return sDb.mBillingInfoIsDirty;
+	}
+
+	////////
+	// Save the BillingInfo object...
+	///////
+	public static void kickOffBackgroundBillingInfoSave(final Context context) {
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+				if (Db.getBillingInfo() != null && context != null) {
+					BillingInfo tempBi = new BillingInfo(Db.getBillingInfo());
+					tempBi.save(context);
+				}
+			}
+		})).start();
+	}
+
 	////////
 	// Saving and loading traveler data.
 	///////
-	
+
 	private static final String SAVED_TRAVELER_DATA_FILE = "travelers.db";
 	private static final String SAVED_TRAVELERS_TAG = "SAVED_TRAVELERS_TAG";
-	
-	public static void kickOffBackgroundTravelerSave(final Context context){
+
+	public static void kickOffBackgroundTravelerSave(final Context context) {
 		(new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -400,8 +431,8 @@ public class Db {
 			}
 		})).start();
 	}
-	
-	public static boolean saveTravelers(Context context){
+
+	public static boolean saveTravelers(Context context) {
 		synchronized (sDb) {
 			Log.d("Saving traveler data cache...");
 			long start = System.currentTimeMillis();
@@ -432,8 +463,8 @@ public class Db {
 			}
 		}
 	}
-	
-	public static boolean loadTravelers(Context context){
+
+	public static boolean loadTravelers(Context context) {
 		long start = System.currentTimeMillis();
 
 		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
@@ -443,7 +474,7 @@ public class Db {
 
 		try {
 			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SAVED_TRAVELER_DATA_FILE, context));
-			if(obj.has(SAVED_TRAVELERS_TAG)){
+			if (obj.has(SAVED_TRAVELERS_TAG)) {
 				List<Traveler> travelers = JSONUtils.getJSONableList(obj, SAVED_TRAVELERS_TAG, Traveler.class);
 				Db.setTravelers(travelers);
 			}
@@ -453,16 +484,23 @@ public class Db {
 			return true;
 		}
 		catch (Exception e) {
-			Log.e("Exception loading traveler data",e);
+			Log.e("Exception loading traveler data", e);
 			return false;
 		}
 	}
-	
-	public static WorkingTravelerManager getWorkingTravelerManager(){
-		if(sDb.mWorkingTravelerManager == null){
+
+	public static WorkingTravelerManager getWorkingTravelerManager() {
+		if (sDb.mWorkingTravelerManager == null) {
 			sDb.mWorkingTravelerManager = new WorkingTravelerManager();
 		}
 		return sDb.mWorkingTravelerManager;
+	}
+
+	public static WorkingBillingInfoManager getWorkingBillingInfoManager() {
+		if (sDb.mWorkingBillingInfoManager == null) {
+			sDb.mWorkingBillingInfoManager = new WorkingBillingInfoManager();
+		}
+		return sDb.mWorkingBillingInfoManager;
 	}
 
 	public static void setCreateTripResponse(CreateTripResponse response) {

@@ -1,11 +1,9 @@
 package com.expedia.bookings.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -23,6 +21,7 @@ import com.expedia.bookings.fragment.FlightPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
 import com.expedia.bookings.fragment.FlightPaymentSaveDialogFragment;
+import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -127,6 +126,8 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	}
 
 	public void displayCheckout() {
+		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
 		finish();
 	}
 
@@ -195,6 +196,11 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 				displayCheckout();
 				break;
 			case ADDRESS:
+				//If we are backing up we want to restore the base billing info...
+				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+				}
 				displayOptions();
 				break;
 			case CREDITCARD:
@@ -247,8 +253,23 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(this)) {
 				NavUtils.onDataMissing(this);
-				return;
 			}
+		}
+
+		//If we have a working BillingInfo object that was cached we try to load it from disk
+		WorkingBillingInfoManager billMan = Db.getWorkingBillingInfoManager();
+		if (billMan.getAttemptToLoadFromDisk() && billMan.hasBillingInfoOnDisk(this)) {
+			//Load working billing info from disk
+			billMan.loadWorkingBillingInfoFromDisk(this);
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
+				//If we don't have a saved state, but we do have a saved temp billingInfo go ahead to the entry screens
+				mPos = YoYoPosition.ADDRESS;
+				mMode = YoYoMode.YOYO;
+			}
+		}
+		else {
+			//If we don't load from disk, then we delete the file
+			billMan.deleteWorkingBillingInfoFile(this);
 		}
 
 		//Show the options fragment

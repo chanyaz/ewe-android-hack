@@ -56,7 +56,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
 				false) : false;
 
-		mBillingInfo = Db.getBillingInfo();
+		mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 
 		if (User.isLoggedIn(getActivity())) {
 			mBillingInfo.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
@@ -70,6 +70,8 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionCreditCard.hasValidInput();
 				}
+				//Attempt to save on change
+				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 			}
 		});
 
@@ -85,26 +87,27 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	@Override
 	public void onResume() {
 		super.onResume();
-		mBillingInfo = Db.getBillingInfo();
+		mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 		bindAll();
-		
+
 		View focused = this.getView().findFocus();
-		if(focused == null || !(focused instanceof EditText)){
+		if (focused == null || !(focused instanceof EditText)) {
 			focused = Ui.findView(mSectionCreditCard, R.id.edit_creditcard_number);
 		}
 		final View finalFocused = focused;
-		if(finalFocused != null && finalFocused instanceof EditText){
-			finalFocused.postDelayed(new Runnable(){
+		if (finalFocused != null && finalFocused instanceof EditText) {
+			finalFocused.postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					//Dumb but effective - show the keyboard by emulating a click on the view
-					finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
-					finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
+					finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
+							SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
+					finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
+							SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0));
 				}
 			}, 200);
 		}
-		
-		
+
 	}
 
 	@Override

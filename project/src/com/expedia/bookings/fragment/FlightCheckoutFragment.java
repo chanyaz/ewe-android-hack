@@ -22,7 +22,6 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.PaymentFlowState;
@@ -46,9 +45,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
-
-	//We only want to load from disk once: when the activity is first started
-	private static boolean mLoaded = false;
 
 	private Context mContext;
 
@@ -99,77 +95,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	}
 
-	private void loadCachedData() {
-		if (!mLoaded) {
-
-			//Load billing info
-			mBillingInfo.load(getActivity());
-			StoredCreditCard stored = mBillingInfo.getStoredCard();
-			if (stored != null) {
-				if (User.isLoggedIn(getActivity())) {
-					List<StoredCreditCard> usrCards = Db.getUser().getStoredCreditCards();
-					boolean cardFound = false;
-					for (int i = 0; i < usrCards.size(); i++) {
-						if (stored.getId().compareTo(usrCards.get(i).getId()) == 0) {
-							cardFound = true;
-							break;
-						}
-					}
-					//If the storedcard is not part of the user's collection of stored cards, we can't use it
-					if (!cardFound) {
-						Db.resetBillingInfo();
-						mBillingInfo = Db.getBillingInfo();
-					}
-				}
-				else {
-					//If we have an expedia account card, but we aren't logged in, we get rid of it
-					Db.resetBillingInfo();
-					mBillingInfo = Db.getBillingInfo();
-				}
-			}
-
-			//Load traveler info (only if we don't have traveler info already)
-			if (Db.getTravelers() == null || Db.getTravelers().size() == 0 || !Db.getTravelers().get(0).hasName()) {
-				Db.loadTravelers(getActivity());
-				List<Traveler> travelers = Db.getTravelers();
-				if (travelers != null && travelers.size() > 0) {
-					if (User.isLoggedIn(getActivity())) {
-						//If we are logged in, we need to ensure that any expedia account users are associated with the currently logged in account
-						List<Traveler> userTravelers = Db.getUser().getAssociatedTravelers();
-						for (int i = 0; i < travelers.size(); i++) {
-							Traveler trav = travelers.get(i);
-							if (trav.hasTuid()) {
-								boolean travFound = false;
-								for (int j = 0; j < userTravelers.size(); j++) {
-									Traveler usrTrav = userTravelers.get(j);
-									if (usrTrav.getTuid().compareTo(trav.getTuid()) == 0) {
-										travFound = true;
-										break;
-									}
-								}
-								if (!travFound) {
-									travelers.set(i, new Traveler());
-								}
-							}
-						}
-					}
-					else {
-						//Remove logged in travelers (because the user is not logged in)
-						for (int i = 0; i < travelers.size(); i++) {
-							Traveler trav = travelers.get(i);
-							if (trav.hasTuid()) {
-								travelers.set(i, new Traveler());
-							}
-						}
-					}
-				}
-			}
-
-			//We only load from disk once
-			mLoaded = true;
-		}
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_flight_checkout, container, false);
@@ -185,8 +110,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 		}
 
+		//If we had data on disk, it should already be loaded at this point
 		mBillingInfo = Db.getBillingInfo();
-		loadCachedData();
 
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());
@@ -232,9 +157,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			}
 		});
 
-		mCreditCardSectionButton.setOnClickListener(gotoBillingAddress);
-		mStoredCreditCard.setOnClickListener(gotoBillingAddress);
-		mPaymentButton.setOnClickListener(gotoBillingAddress);
+		mCreditCardSectionButton.setOnClickListener(gotoPaymentOptions);
+		mStoredCreditCard.setOnClickListener(gotoPaymentOptions);
+		mPaymentButton.setOnClickListener(gotoPaymentOptions);
 		mTravelerButton.setOnClickListener(new OnTravelerClickListener(0, true));
 
 		return v;
@@ -269,8 +194,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			Db.kickOffBackgroundTravelerSave(getActivity());
 		}
 
-		//this should be on a background thread...
-		Db.getBillingInfo().save(getActivity());
+		if (Db.getBillingInfoIsDirty()) {
+			Db.kickOffBackgroundBillingInfoSave(getActivity());
+		}
 
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
@@ -389,11 +315,12 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	}
 
-	OnClickListener gotoBillingAddress = new OnClickListener() {
+	OnClickListener gotoPaymentOptions = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Intent editAddress = new Intent(getActivity(), FlightPaymentOptionsActivity.class);
-			startActivity(editAddress);
+			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(mBillingInfo);
+			Intent editPaymentIntent = new Intent(getActivity(), FlightPaymentOptionsActivity.class);
+			startActivity(editPaymentIntent);
 		}
 	};
 

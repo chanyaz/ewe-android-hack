@@ -76,7 +76,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		//Selected traveler
 		mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-		
+
 		mEditTravelerContainer = Ui.findView(v, R.id.edit_traveler_container);
 		mEditTravelerLabel = Ui.findView(v, R.id.edit_traveler_label);
 		mEditTravelerLabelDiv = Ui.findView(v, R.id.edit_traveler_label_div);
@@ -229,7 +229,9 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	public void refreshCurrentTraveler() {
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 		boolean international = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
-		boolean validTraveler = state == null ? false : international ? state.allTravelerInfoIsValidForInternationalFlight(mCurrentTraveler) : state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
+		boolean validTraveler = state == null ? false : international ? state
+				.allTravelerInfoIsValidForInternationalFlight(mCurrentTraveler) : state
+				.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
 		if (!validTraveler) {
 			mEditTravelerContainer.setVisibility(View.GONE);
 			mEditTravelerLabel.setVisibility(View.GONE);

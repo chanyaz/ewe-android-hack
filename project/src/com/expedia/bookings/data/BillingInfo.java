@@ -43,6 +43,32 @@ public class BillingInfo implements JSONable {
 	public BillingInfo() {
 	}
 
+	//Copy constructor
+	public BillingInfo(BillingInfo base) {
+		mFirstName = base.getFirstName();
+		mLastName = base.getLastName();
+		mNameOnCard = base.getNameOnCard();
+		mTelephoneCountryCode = base.getTelephoneCountryCode();
+		mTelephoneCountry = base.getTelephoneCountry();
+		mTelephone = base.getTelephone();
+		mEmail = base.getEmail();
+		Location loc = new Location();
+		if (base.getLocation() != null) {
+			loc.fromJson(base.getLocation().toJson());
+		}
+		mLocation = loc;
+		mBrandName = base.getBrandName();
+		mBrandCode = base.getBrandCode();
+		mNumber = base.getNumber();
+		mSecurityCode = base.getSecurityCode();
+		mExpirationDate = base.getExpirationDate();
+		if (base.getStoredCard() != null) {
+			mStoredCard = new StoredCreditCard();
+			mStoredCard.fromJson(base.getStoredCard().toJson());
+		}
+		mSaveCardToExpediaAccount = base.getSaveCardToExpediaAccount();
+	}
+
 	public String getFirstName() {
 		return mFirstName;
 	}
@@ -276,7 +302,7 @@ public class BillingInfo implements JSONable {
 			obj.putOpt("number", mNumber);
 			obj.putOpt("securityCode", mSecurityCode);
 			obj.putOpt("storeCreditCardInUserProfile", mSaveCardToExpediaAccount);
-			
+
 			if (mExpirationDate != null) {
 				obj.putOpt("expMonth", mExpirationDate.get(Calendar.MONTH));
 				obj.putOpt("expYear", mExpirationDate.get(Calendar.YEAR));
@@ -308,7 +334,7 @@ public class BillingInfo implements JSONable {
 		mNumber = obj.optString("number", null);
 		mSecurityCode = obj.optString("securityCode", null);
 		mSaveCardToExpediaAccount = obj.optBoolean("storeCreditCardInUserProfile");
-		
+
 		if (obj.has("expMonth") && obj.has("expYear")) {
 			int expMonth = obj.optInt("expMonth");
 			int expYear = obj.optInt("expYear");

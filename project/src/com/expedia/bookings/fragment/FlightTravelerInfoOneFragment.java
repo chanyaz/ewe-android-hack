@@ -76,7 +76,7 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 		super.onResume();
 		mTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		mSectionTravelerInfo.bind(mTraveler);
-		
+
 		View focused = this.getView().findFocus();
 		if (focused == null || !(focused instanceof EditText)) {
 			focused = Ui.findView(mSectionTravelerInfo, R.id.edit_first_name);

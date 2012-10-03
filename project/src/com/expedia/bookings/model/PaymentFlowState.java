@@ -15,15 +15,11 @@ import com.expedia.bookings.section.SectionLocation;
  *
  */
 public class PaymentFlowState {
-	Context mContext;
-
 	SectionLocation mBillingAddress;
 	SectionBillingInfo mCardInfo;
 
 	private PaymentFlowState(Context context) {
-		mContext = context;
-
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mBillingAddress = (SectionLocation) inflater.inflate(R.layout.section_edit_address, null);
 		mCardInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard, null);
 	}

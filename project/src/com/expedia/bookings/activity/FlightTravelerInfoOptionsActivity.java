@@ -213,12 +213,13 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (travMan.getAttemptToLoadFromDisk() && travMan.hasTravelerOnDisk(this)) {
 			//Load up the traveler from disk
 			travMan.loadWorkingTravelerFromDisk(this);
-			if(mPos.compareTo(YoYoPosition.OPTIONS) == 0){
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
 				//If we don't have a saved state, but we do have a saved temp traveler go ahead to the entry screens
 				mPos = YoYoPosition.ONE;
 				mMode = YoYoMode.YOYO;
 			}
-		}else{
+		}
+		else {
 			//If we don't load it from disk, then we delete the file.
 			travMan.deleteWorkingTravelerFile(this);
 		}
@@ -360,8 +361,9 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				break;
 			case ONE:
 				//If we are backing up we want to restore the base traveler...
-				if(Db.getWorkingTravelerManager().getBaseTraveler() != null){
-					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getWorkingTravelerManager().getBaseTraveler());
+				if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+							Db.getWorkingTravelerManager().getBaseTraveler());
 				}
 				displayOptions();
 				break;
