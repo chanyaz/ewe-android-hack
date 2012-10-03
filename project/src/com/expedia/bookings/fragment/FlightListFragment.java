@@ -145,7 +145,6 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		mListener.onFlightLegClick(trip, leg, mLegPosition);
 
-		// TODO: Maybe move to the listener onFlightLegClick once fully tested?
 		OmnitureTracking.trackLinkFlightSearchSelect(getActivity(), position - numHeaderViews + 1, mLegPosition);
 	}
 

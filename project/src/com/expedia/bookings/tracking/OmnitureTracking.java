@@ -321,7 +321,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightOverview(Context context) {
-		createTrackPageLoadEventPriceChangeAsShopper(context, FLIGHT_RATE_DETAILS).track();
+		internalTrackPageLoadEventPriceChangeAsShopper(context, FLIGHT_RATE_DETAILS);
 	}
 
 	public static void trackPageLoadFlightSearchResultsOneWay(Context context) {
@@ -428,6 +428,11 @@ public class OmnitureTracking {
 	private static void internalTrackPageLoadEventPriceChange(Context context, String pageName) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventPriceChange(context, pageName).track();
+	}
+
+	private static void internalTrackPageLoadEventPriceChangeAsShopper(Context context, String pageName) {
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
+		createTrackPageLoadEventPriceChangeAsShopper(context, pageName).track();
 	}
 
 	private static void internalTrackLink(Context context, String link) {
