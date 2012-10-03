@@ -156,6 +156,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 					}
 				};
 		reviewsLayout.setOnClickListener(onReviewsClick);
+		bannerTextView.setOnClickListener(onReviewsClick);
 
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
