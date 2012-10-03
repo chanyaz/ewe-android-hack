@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Process;
 
+import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -101,8 +102,12 @@ public class Db {
 	// Itineraries (for flights and someday hotels)
 	private Map<String, Itinerary> mItineraries = new HashMap<String, Itinerary>();
 
-	// Flight Travelers
+	// Flight Travelers (this is the list of travelers going on the trip, these must be valid for checking out)
 	private List<Traveler> mTravelers = new ArrayList<Traveler>();
+	private boolean mTravelersAreDirty = false;
+	
+	// The current traveler manager this helps us save state and edit a copy of the working traveler
+	private WorkingTravelerManager mWorkingTravelerManager;
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -369,6 +374,95 @@ public class Db {
 
 	public static void setTravelers(List<Traveler> travelers) {
 		sDb.mTravelers = travelers;
+	}
+	
+	public static void setTravelersAreDirty(boolean dirty){
+		sDb.mTravelersAreDirty = dirty;
+	}
+	
+	public static boolean getTravelersAreDirty(){
+		return sDb.mTravelersAreDirty;
+	}
+	
+	////////
+	// Saving and loading traveler data.
+	///////
+	
+	private static final String SAVED_TRAVELER_DATA_FILE = "travelers.db";
+	private static final String SAVED_TRAVELERS_TAG = "SAVED_TRAVELERS_TAG";
+	
+	public static void kickOffBackgroundTravelerSave(final Context context){
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+				Db.saveTravelers(context);
+			}
+		})).start();
+	}
+	
+	public static boolean saveTravelers(Context context){
+		synchronized (sDb) {
+			Log.d("Saving traveler data cache...");
+			long start = System.currentTimeMillis();
+			try {
+				JSONObject obj = new JSONObject();
+
+				List<Traveler> travelersList = new ArrayList<Traveler>(Db.getTravelers());
+				JSONUtils.putJSONableList(obj, SAVED_TRAVELERS_TAG, travelersList);
+
+				String json = obj.toString();
+				IoUtils.writeStringToFile(SAVED_TRAVELER_DATA_FILE, json, context);
+
+				Log.d("Saved traveler data cache in " + (System.currentTimeMillis() - start)
+						+ " ms.  Size of data cache: "
+						+ json.length() + " chars");
+
+				Db.setTravelersAreDirty(false);
+				return true;
+			}
+			catch (Exception e) {
+				// It's not a severe issue if this all fails - just 
+				Log.w("Failed to save traveler data", e);
+				return false;
+			}
+			catch (OutOfMemoryError err) {
+				Log.e("Ran out of memory trying to save traveler data cache", err);
+				throw new RuntimeException(err);
+			}
+		}
+	}
+	
+	public static boolean loadTravelers(Context context){
+		long start = System.currentTimeMillis();
+
+		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
+		if (!file.exists()) {
+			return false;
+		}
+
+		try {
+			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(SAVED_TRAVELER_DATA_FILE, context));
+			if(obj.has(SAVED_TRAVELERS_TAG)){
+				List<Traveler> travelers = JSONUtils.getJSONableList(obj, SAVED_TRAVELERS_TAG, Traveler.class);
+				Db.setTravelers(travelers);
+			}
+
+			Log.d("Loaded cached traveler data in " + (System.currentTimeMillis() - start) + " ms");
+
+			return true;
+		}
+		catch (Exception e) {
+			Log.e("Exception loading traveler data",e);
+			return false;
+		}
+	}
+	
+	public static WorkingTravelerManager getWorkingTravelerManager(){
+		if(sDb.mWorkingTravelerManager == null){
+			sDb.mWorkingTravelerManager = new WorkingTravelerManager();
+		}
+		return sDb.mWorkingTravelerManager;
 	}
 
 	public static void setCreateTripResponse(CreateTripResponse response) {

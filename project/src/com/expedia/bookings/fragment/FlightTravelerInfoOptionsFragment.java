@@ -23,7 +23,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
@@ -76,7 +75,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mCurrentTravelerIndex = getActivity().getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
 
 		//Selected traveler
-		mCurrentTraveler = WorkingTravelerManager.getInstance().getWorkingTraveler();
+		mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		
 		mEditTravelerContainer = Ui.findView(v, R.id.edit_traveler_container);
 		mEditTravelerLabel = Ui.findView(v, R.id.edit_traveler_label);
@@ -90,7 +89,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				WorkingTravelerManager.getInstance().clearWorkingTraveler(getActivity());
+				Db.getWorkingTravelerManager().shiftWorkingTraveler(new Traveler());
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 
@@ -228,7 +227,10 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	public void refreshCurrentTraveler() {
-		if (!mCurrentTraveler.hasName()) {
+		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+		boolean international = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+		boolean validTraveler = state == null ? false : international ? state.allTravelerInfoIsValidForInternationalFlight(mCurrentTraveler) : state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
+		if (!validTraveler) {
 			mEditTravelerContainer.setVisibility(View.GONE);
 			mEditTravelerLabel.setVisibility(View.GONE);
 			mSelectTravelerLabel.setText(getString(R.string.select_a_traveler));
@@ -307,8 +309,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			else {
 				Traveler traveler = results.getTraveler();
 				if (traveler != null) {
-					WorkingTravelerManager.getInstance().rebaseWorkingTraveler(traveler);
-					mCurrentTraveler = WorkingTravelerManager.getInstance().getWorkingTraveler();
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler);
+					mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 					if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
 						boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();

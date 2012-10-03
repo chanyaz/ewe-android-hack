@@ -1,10 +1,6 @@
 package com.expedia.bookings.model;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.File;
 import java.util.concurrent.Semaphore;
 
 import org.json.JSONObject;
@@ -13,65 +9,56 @@ import android.content.Context;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.IoUtils;
 
 public class WorkingTravelerManager {
 
 	private static final String WORKING_TRAVELER_FILE_NAME = "working_traveler";
+	private static final String WORKING_TRAVELER_TAG = "WORKING_TRAVELER_TAG";
+	private static final String BASE_TRAVELER_TAG = "BASE_TRAVELER_TAG";
 
-	private WorkingTravelerManager() {
+	public WorkingTravelerManager() {
 	}
 
-	private static WorkingTravelerManager mManager;
 	private Traveler mWorkingTraveler; //The traveler we want to use
 	private Traveler mBaseTraveler; //The traveler the working traveler was copied from... this is to give us an idea of what changed...
 	private Semaphore mTravelerSaveSemaphore;
-
-	public static WorkingTravelerManager getInstance() {
-		if (mManager == null) {
-			mManager = new WorkingTravelerManager();
-		}
-		return mManager;
-	}
+	private boolean mAttemptLoadFromDisk = true;//By default yes, because after a crash we do want to attempt to load from disk
 
 	public boolean hasTravelerOnDisk(Context context) {
-		String[] files = context.fileList();
-		for (String filename : files) {
-			if (filename.compareTo(WORKING_TRAVELER_FILE_NAME) == 0) {
-				return true;
-			}
+		File file = context.getFileStreamPath(WORKING_TRAVELER_FILE_NAME);
+		if (!file.exists()) {
+			return false;
 		}
-		return false;
+		return true;
+	}
+
+	public boolean getAttemptToLoadFromDisk() {
+		return mAttemptLoadFromDisk;
+	}
+
+	public void setAttemptToLoadFromDisk(boolean attemptToLoad) {
+		mAttemptLoadFromDisk = attemptToLoad;
 	}
 
 	/**
 	 * If there is a working traveler stored on disk, load it in
 	 */
 	public void loadWorkingTravelerFromDisk(final Context context) {
-
 		Runnable loadTravalerFromDisk = new Runnable() {
 			@Override
 			public void run() {
 				try {
-					if (mWorkingTraveler == null) {
-						//If traveler is null attemp to load the traveler from the cache
-						if (hasTravelerOnDisk(context)) {
-							//We have found our cache file which indicates we should load it up...
-							FileInputStream stream = context.openFileInput(WORKING_TRAVELER_FILE_NAME);
-							InputStreamReader reader = new InputStreamReader(stream);
-							BufferedReader bufferedReader = new BufferedReader(reader);
-							String contents = "";
-							String line = bufferedReader.readLine();
-							while (line != null) {
-								contents += line;
-								line = bufferedReader.readLine();
-							}
-							reader.close();
-							stream.close();
-
-							JSONObject json = new JSONObject(contents);
-							getWorkingTraveler().fromJson(json);
+					if (hasTravelerOnDisk(context)) {
+						JSONObject obj = new JSONObject(IoUtils.readStringFromFile(WORKING_TRAVELER_FILE_NAME, context));
+						if(obj.has(WORKING_TRAVELER_TAG)){
+							mWorkingTraveler = JSONUtils.getJSONable(obj, WORKING_TRAVELER_TAG, Traveler.class);
 						}
 
+						if(obj.has(BASE_TRAVELER_TAG)){
+							mBaseTraveler = JSONUtils.getJSONable(obj, BASE_TRAVELER_TAG, Traveler.class);
+						}
 					}
 				}
 				catch (Exception ex) {
@@ -79,6 +66,7 @@ public class WorkingTravelerManager {
 				}
 				finally {
 					mTravelerSaveSemaphore.release();
+					mAttemptLoadFromDisk = false;//We tried for better or worse
 				}
 			}
 		};
@@ -93,15 +81,30 @@ public class WorkingTravelerManager {
 	}
 
 	/**
-	 * Set the current "working" traveler to be a copy of the traveler argument
+	 * Set the current "working" traveler to be a copy of the traveler argument and set it's base traveler to be the same
 	 * @param traveler
 	 */
-	public void rebaseWorkingTraveler(Traveler traveler) {
+	public void setWorkingTravelerAndBase(Traveler traveler) {
 		mWorkingTraveler = new Traveler();
 		mBaseTraveler = new Traveler();
 		JSONObject json = traveler.toJson();
 		mWorkingTraveler.fromJson(json);
 		mBaseTraveler.fromJson(json);
+		mAttemptLoadFromDisk = false;
+	}
+	
+	/**
+	 * Set the working traveler to be the traveler argument but keep the current working traveler and set it as the base traveler
+	 * @param traveler
+	 */
+	public void shiftWorkingTraveler(Traveler traveler){
+		if(mBaseTraveler == null){
+			mBaseTraveler = new Traveler();
+		}
+		mBaseTraveler.fromJson(getWorkingTraveler().toJson());
+		mWorkingTraveler = new Traveler();
+		mWorkingTraveler.fromJson(traveler.toJson());
+		mAttemptLoadFromDisk = false;
 	}
 
 	/**
@@ -126,7 +129,7 @@ public class WorkingTravelerManager {
 
 	/**
 	 * Save the current working traveler to the Db object effectively commiting the changes locally.
-	 * @param travelerNumber
+	 * @param travelerNumber (0 indexed)
 	 */
 	public void commitWorkingTravelerToDB(int travelerNumber) {
 		while (travelerNumber >= Db.getTravelers().size()) {
@@ -135,6 +138,7 @@ public class WorkingTravelerManager {
 		Traveler commitTrav = new Traveler();
 		commitTrav.fromJson(mWorkingTraveler.toJson());
 		Db.getTravelers().set(travelerNumber, commitTrav);
+		Db.setTravelersAreDirty(true);
 	}
 
 	/**
@@ -178,14 +182,17 @@ public class WorkingTravelerManager {
 			@Override
 			public void run() {
 				try {
-					//TODO: remove any private data we don't want to write to disk
-					String travelerString = mWorkingTraveler.toJson().toString();
-					FileOutputStream fos = context.openFileOutput(WORKING_TRAVELER_FILE_NAME, Context.MODE_PRIVATE);
-					fos.write(travelerString.getBytes());
-					fos.flush();
-					fos.close();
+					JSONObject obj = new JSONObject();
+					if(mWorkingTraveler != null){
+						JSONUtils.putJSONable(obj, WORKING_TRAVELER_TAG, mWorkingTraveler);
+					}
+					if(mBaseTraveler != null){
+						JSONUtils.putJSONable(obj,BASE_TRAVELER_TAG , mBaseTraveler);
+					}
+					String json = obj.toString();
+					IoUtils.writeStringToFile(WORKING_TRAVELER_FILE_NAME, json, context);
 				}
-				catch (IOException e) {
+				catch (Exception e) {
 					Log.e("Error saving working traveler.", e);
 				}
 				finally {
@@ -212,6 +219,37 @@ public class WorkingTravelerManager {
 		mWorkingTraveler = null;
 		mBaseTraveler = null;
 		context.deleteFile(WORKING_TRAVELER_FILE_NAME);
+		mAttemptLoadFromDisk = false;
 	}
+	
+	/**
+	 * Delete working traveler file (useful if we know the file is stale)
+	 */
+	public void deleteWorkingTravelerFile(final Context context){
+		Runnable deleteWorkingTavelerRunnable = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					if (hasTravelerOnDisk(context)) {
+						context.deleteFile(WORKING_TRAVELER_FILE_NAME);
+					}
+				}
+				catch (Exception ex) {
+					Log.e("Exception deleting saved traveler file.", ex);
+				}
+				finally {
+					mTravelerSaveSemaphore.release();
+				}
+			}
+		};
 
+		if (tryAquireSaveTravelerSemaphore()) {
+			Thread deleteSavedTravelerThread = new Thread(deleteWorkingTavelerRunnable);
+			deleteSavedTravelerThread.start();
+			//Block until our operation is done.
+			mTravelerSaveSemaphore.acquireUninterruptibly();
+			mTravelerSaveSemaphore.release();
+		}
+		
+	}
 }

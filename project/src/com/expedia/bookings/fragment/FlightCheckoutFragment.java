@@ -22,9 +22,9 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -47,7 +47,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
-	//We only want to load from disk once: when the activity is first started (as it is the first time BillingInfo is seen)
+	//We only want to load from disk once: when the activity is first started
 	private static boolean mLoaded = false;
 
 	private Context mContext;
@@ -99,6 +99,77 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	}
 
+	private void loadCachedData() {
+		if (!mLoaded) {
+
+			//Load billing info
+			mBillingInfo.load(getActivity());
+			StoredCreditCard stored = mBillingInfo.getStoredCard();
+			if (stored != null) {
+				if (User.isLoggedIn(getActivity())) {
+					List<StoredCreditCard> usrCards = Db.getUser().getStoredCreditCards();
+					boolean cardFound = false;
+					for (int i = 0; i < usrCards.size(); i++) {
+						if (stored.getId().compareTo(usrCards.get(i).getId()) == 0) {
+							cardFound = true;
+							break;
+						}
+					}
+					//If the storedcard is not part of the user's collection of stored cards, we can't use it
+					if (!cardFound) {
+						Db.resetBillingInfo();
+						mBillingInfo = Db.getBillingInfo();
+					}
+				}
+				else {
+					//If we have an expedia account card, but we aren't logged in, we get rid of it
+					Db.resetBillingInfo();
+					mBillingInfo = Db.getBillingInfo();
+				}
+			}
+
+			//Load traveler info (only if we don't have traveler info already)
+			if (Db.getTravelers() == null || Db.getTravelers().size() == 0 || !Db.getTravelers().get(0).hasName()) {
+				Db.loadTravelers(getActivity());
+				List<Traveler> travelers = Db.getTravelers();
+				if (travelers != null && travelers.size() > 0) {
+					if (User.isLoggedIn(getActivity())) {
+						//If we are logged in, we need to ensure that any expedia account users are associated with the currently logged in account
+						List<Traveler> userTravelers = Db.getUser().getAssociatedTravelers();
+						for (int i = 0; i < travelers.size(); i++) {
+							Traveler trav = travelers.get(i);
+							if (trav.hasTuid()) {
+								boolean travFound = false;
+								for (int j = 0; j < userTravelers.size(); j++) {
+									Traveler usrTrav = userTravelers.get(j);
+									if (usrTrav.getTuid().compareTo(trav.getTuid()) == 0) {
+										travFound = true;
+										break;
+									}
+								}
+								if (!travFound) {
+									travelers.set(i, new Traveler());
+								}
+							}
+						}
+					}
+					else {
+						//Remove logged in travelers (because the user is not logged in)
+						for (int i = 0; i < travelers.size(); i++) {
+							Traveler trav = travelers.get(i);
+							if (trav.hasTuid()) {
+								travelers.set(i, new Traveler());
+							}
+						}
+					}
+				}
+			}
+
+			//We only load from disk once
+			mLoaded = true;
+		}
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_flight_checkout, container, false);
@@ -107,7 +178,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(getActivity())) {
 				NavUtils.onDataMissing(getActivity());
-				//return;
 			}
 		}
 
@@ -116,10 +186,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 
 		mBillingInfo = Db.getBillingInfo();
-		//		if (!mLoaded) {
-		//			mBillingInfo.load(this);
-		//			mLoaded = true;
-		//		}
+		loadCachedData();
 
 		if (mBillingInfo.getLocation() == null) {
 			mBillingInfo.setLocation(new Location());
@@ -168,7 +235,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mCreditCardSectionButton.setOnClickListener(gotoBillingAddress);
 		mStoredCreditCard.setOnClickListener(gotoBillingAddress);
 		mPaymentButton.setOnClickListener(gotoBillingAddress);
-		mTravelerButton.setOnClickListener(new OnTravelerClickListener(0));
+		mTravelerButton.setOnClickListener(new OnTravelerClickListener(0, true));
 
 		return v;
 	}
@@ -197,6 +264,13 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		if (Db.getTravelersAreDirty()) {
+			Db.kickOffBackgroundTravelerSave(getActivity());
+		}
+
+		//this should be on a background thread...
+		Db.getBillingInfo().save(getActivity());
 
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
@@ -253,7 +327,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			final int travelerNum = i;
 			SectionTravelerInfo traveler = (SectionTravelerInfo) inflater.inflate(
 					R.layout.section_display_traveler_info_btn, null);
-			traveler.setOnClickListener(new OnTravelerClickListener(travelerNum));
+			traveler.setOnClickListener(new OnTravelerClickListener(travelerNum, false));
 			mTravelerSections.add(traveler);
 			mTravelerContainer.addView(traveler);
 		}
@@ -261,26 +335,32 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	private class OnTravelerClickListener implements OnClickListener {
 		int mTravelerIndex = 0;
+		boolean mAttemptDiskLoad = false;
 
-		public OnTravelerClickListener(int travelerIndex) {
+		public OnTravelerClickListener(int travelerIndex, boolean attemptDiskLoad) {
 			if (travelerIndex >= 0) {
 				mTravelerIndex = travelerIndex;
 			}
+			mAttemptDiskLoad = attemptDiskLoad;
 		}
 
 		@Override
 		public void onClick(View v) {
 			Intent editTravelerIntent = new Intent(getActivity(),
 					FlightTravelerInfoOptionsActivity.class);
-			
+
 			//We tell the traveler edit activity which index we are editing.
 			editTravelerIntent.putExtra(Codes.TRAVELER_INDEX, mTravelerIndex);
-			
+
 			//We setup the checkout manager to have the correct working traveler
-			if(Db.getTravelers().size() > mTravelerIndex && Db.getTravelers().get(mTravelerIndex) != null){
-				WorkingTravelerManager.getInstance().rebaseWorkingTraveler(Db.getTravelers().get(mTravelerIndex));
-			}else{
-				WorkingTravelerManager.getInstance().rebaseWorkingTraveler(new Traveler());
+			if (Db.getTravelers().size() > mTravelerIndex && Db.getTravelers().get(mTravelerIndex) != null) {
+				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(mTravelerIndex));
+			}
+			else {
+				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
+			}
+			if (mAttemptDiskLoad) {
+				Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(mAttemptDiskLoad);
 			}
 			startActivity(editTravelerIntent);
 		}

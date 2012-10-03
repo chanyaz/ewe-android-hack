@@ -55,7 +55,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
 
 	private int mTravelerIndex;
-	
+
 	//Where we want to return to after our action
 	private enum YoYoPosition {
 		OPTIONS, ONE, TWO, THREE, SAVE
@@ -193,18 +193,6 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (Db.getFlightSearch().getSearchResponse() == null) {
 			if (!Db.loadCachedFlightData(this)) {
 				NavUtils.onDataMissing(this);
-				return;
-			}
-		}
-		
-		//Which traveler are we working with
-		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
-		
-		//If we have a working traveler that was cached we try to load it from disk... 
-		if(WorkingTravelerManager.getInstance().hasTravelerOnDisk(this)){
-			WorkingTravelerManager.getInstance().loadWorkingTravelerFromDisk(this);
-			if( mPos.compareTo(YoYoPosition.OPTIONS) == 0){
-				//TODO: We want to load travelers from disk here, but really only if the in memory version is out of date
 			}
 		}
 
@@ -212,27 +200,46 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
 			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 			mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
-			switch (mPos) {
-			case OPTIONS:
-				displayOptions();
-				break;
-			case ONE:
-				displayTravelerEntryOne();
-				break;
-			case TWO:
-				displayTravelerEntryTwo();
-				break;
-			case THREE:
-				displayTravelerEntryThree();
-				break;
-			case SAVE:
-				displaySaveDialog();
-				break;
-			default:
-				displayOptions();
-			}
 		}
 		else {
+			mPos = YoYoPosition.OPTIONS;
+		}
+
+		//Which traveler are we working with
+		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
+
+		//If we have a working traveler that was cached we try to load it from disk... 
+		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
+		if (travMan.getAttemptToLoadFromDisk() && travMan.hasTravelerOnDisk(this)) {
+			//Load up the traveler from disk
+			travMan.loadWorkingTravelerFromDisk(this);
+			if(mPos.compareTo(YoYoPosition.OPTIONS) == 0){
+				//If we don't have a saved state, but we do have a saved temp traveler go ahead to the entry screens
+				mPos = YoYoPosition.ONE;
+				mMode = YoYoMode.YOYO;
+			}
+		}else{
+			//If we don't load it from disk, then we delete the file.
+			travMan.deleteWorkingTravelerFile(this);
+		}
+
+		switch (mPos) {
+		case OPTIONS:
+			displayOptions();
+			break;
+		case ONE:
+			displayTravelerEntryOne();
+			break;
+		case TWO:
+			displayTravelerEntryTwo();
+			break;
+		case THREE:
+			displayTravelerEntryThree();
+			break;
+		case SAVE:
+			displaySaveDialog();
+			break;
+		default:
 			displayOptions();
 		}
 
@@ -352,6 +359,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				displayCheckout();
 				break;
 			case ONE:
+				//If we are backing up we want to restore the base traveler...
+				if(Db.getWorkingTravelerManager().getBaseTraveler() != null){
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getWorkingTravelerManager().getBaseTraveler());
+				}
 				displayOptions();
 				break;
 			case TWO:
@@ -476,8 +487,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	@Override
 	public void displayCheckout() {
-		WorkingTravelerManager.getInstance().commitWorkingTravelerToDB(mTravelerIndex);
-		WorkingTravelerManager.getInstance().clearWorkingTraveler(this);
+		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex);
+		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
 		finish();
 	}
 }
