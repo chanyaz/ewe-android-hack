@@ -240,7 +240,7 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadFlightCheckoutConfirmation(Context context, final String orderId) {
 		AppMeasurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_CONFIRMATION);
-		_addVars25And26LobAsConfirmer(s);
+		addVars25And26LobAsConfirmer(s);
 
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 
@@ -512,23 +512,19 @@ public class OmnitureTracking {
 
 	private static AppMeasurement createTrackPageLoadEventStandardAsShopper(Context context, String pageName) {
 		AppMeasurement s = createTrackPageLoadEventBase(context, pageName);
-		_addVars25And26LobAsShopper(s);
+		addVars25And26LobAsShopper(s);
 		return s;
 	}
 
 	private static AppMeasurement createTrackPageLoadEventPriceChangeAsShopper(Context context, String pageName) {
 		AppMeasurement s = createTrackPageLoadEventPriceChange(context, pageName);
-		_addVars25And26LobAsShopper(s);
+		addVars25And26LobAsShopper(s);
 		return s;
 	}
 
 	private static AppMeasurement createTrackPageLoadEventPriceChange(Context context, String pageName) {
 		AppMeasurement s = createTrackPageLoadEventBase(context, pageName);
-		_addEventPriceChange(s);
-		return s;
-	}
 
-	private static AppMeasurement _addEventPriceChange(AppMeasurement s) {
 		// flag notifying price change occurred
 		s.events = "event62";
 
@@ -544,18 +540,24 @@ public class OmnitureTracking {
 		return s;
 	}
 
-	private static AppMeasurement _addVars25And26LobAsShopper(AppMeasurement s) {
+	// Note: The following addVars methods are intended to be used only from within the private, internal event create
+	// methods found above, NOT to be used from within the public methods used in the business logic. If you find
+	// yourself wanting to use these methods in a new public event method, think about creating an internal method that
+	// uses these methods.
+
+	private static AppMeasurement addVars25And26LobAsShopper(AppMeasurement s) {
 		s.eVar25 = s.prop25 = "Shopper";
 		s.eVar26 = s.prop26 = "FLT Shopper";
 		return s;
 	}
 
-	private static AppMeasurement _addVars25And26LobAsConfirmer(AppMeasurement s) {
+	private static AppMeasurement addVars25And26LobAsConfirmer(AppMeasurement s) {
 		s.eVar25 = s.prop25 = "Confirmer";
 		s.eVar26 = s.prop26 = "CKO Shopper";
 		return s;
 	}
 
+	// This method will eventually become more useful when we support multi-destination flights
 	private static String getOmnitureStringCodeRepresentingTripTypeByNumLegs(final int numLegs) {
 		switch (numLegs) {
 		case 1:
