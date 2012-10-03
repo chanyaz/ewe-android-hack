@@ -1665,7 +1665,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			hideSoftKeyboard(mSearchEditText);
 			hideFilterOptions();
 
-			mRefinementDismissView.setVisibility(View.GONE);
+			mRefinementDismissView.setVisibility(View.INVISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
@@ -1879,7 +1879,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mContent.post(new Runnable() {
 			@Override
 			public void run() {
-				mFilterPopupWindow.showAsDropDown(mContent,
+				mFilterPopupWindow.showAsDropDown(mRefinementDismissView,
 					(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
 					-mFilterLayout.getMeasuredHeight());
 			}

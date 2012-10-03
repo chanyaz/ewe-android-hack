@@ -71,7 +71,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/dismiss"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
     <ViewStub
         android:id="@+id/widget_notification_stub"
