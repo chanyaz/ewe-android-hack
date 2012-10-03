@@ -16,13 +16,13 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.section.SectionHotelTravelerInfo;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelTravelerInfoOneFragment extends Fragment implements Validatable {
 
 	Traveler mTraveler;
-	SectionTravelerInfo mSectionTravelerInfo;
+	SectionHotelTravelerInfo mSectionTravelerInfo;
 	int mTravelerIndex = -1;
 
 	boolean mAttemptToLeaveMade = false;
@@ -42,7 +42,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_traveler_info_step1, container, false);
+		View v = inflater.inflate(R.layout.fragment_hotel_traveler_info_step1, container, false);
 		mAttemptToLeaveMade = false;
 		mSectionTravelerInfo = Ui.findView(v, R.id.traveler_info);
 
@@ -74,7 +74,7 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 	public void onResume() {
 		super.onResume();
 		mSectionTravelerInfo.bind(mTraveler);
-		
+
 		View focused = this.getView().findFocus();
 		if (focused == null || !(focused instanceof EditText)) {
 			focused = Ui.findView(mSectionTravelerInfo, R.id.edit_first_name);

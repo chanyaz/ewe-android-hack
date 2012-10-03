@@ -23,7 +23,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
@@ -166,7 +165,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				mListener.setMode(YoYoMode.EDIT);
-				mListener.displayTravelerEntryTwo();
+				mListener.displayTravelerEntryOne();
 			}
 		});
 
@@ -174,7 +173,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				mListener.setMode(YoYoMode.EDIT);
-				mListener.displayTravelerEntryTwo();
+				mListener.displayTravelerEntryOne();
 			}
 		});
 
@@ -260,8 +259,6 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 		public void displayTravelerEntryOne();
 
-		public void displayTravelerEntryTwo();
-
 		public void displaySaveDialog();
 
 		public void displayCheckout();
@@ -301,26 +298,8 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 				if (traveler != null) {
 					mCurrentTraveler = traveler;
 					Db.getTravelers().set(mCurrentTravelerIndex, traveler);
-					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-					if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
-						boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
-						if (!flightIsInternational) {
-							mListener.displayCheckout();
-						}
-						else {
-							if (state.allTravelerInfoIsValidForInternationalFlight(mCurrentTraveler)) {
-								mListener.displayCheckout();
-							}
-							else {
-								mListener.setMode(YoYoMode.YOYO);
-								mListener.displayTravelerEntryTwo();
-							}
-						}
-					}
-					else {
-						mListener.setMode(YoYoMode.YOYO);
-						mListener.displayTravelerEntryOne();
-					}
+					mListener.setMode(YoYoMode.YOYO);
+					mListener.displayCheckout();
 				}
 			}
 		}

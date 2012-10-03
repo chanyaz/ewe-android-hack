@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -89,8 +92,13 @@ public class BookingOverviewFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		populateTravelerData();
+
 		updateViews();
 	}
+
+	// Public methods
 
 	public void updateViews() {
 		// Detect user state, update account button accordingly
@@ -200,6 +208,21 @@ public class BookingOverviewFragment extends Fragment {
 				ObjectAnimator.ofFloat(mCheckoutLayout, "translationY", 0, mCheckoutLayout.getBottom()),
 				ObjectAnimator.ofFloat(mCheckoutLayout, "alpha", 1, 0));
 		set.start();
+	}
+
+	// Private methods
+
+	private void populateTravelerData() {
+		List<Traveler> travelers = Db.getTravelers();
+		if (travelers == null) {
+			travelers = new ArrayList<Traveler>();
+			Db.setTravelers(travelers);
+		}
+
+		if (travelers.size() == 0) {
+			Traveler fp = new Traveler();
+			travelers.add(fp);
+		}
 	}
 
 	private View.OnClickListener mOnClickListener = new View.OnClickListener() {

@@ -18,14 +18,12 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.HotelTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
-import com.expedia.bookings.fragment.HotelTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.HotelTravelerSaveDialogFragment;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener {
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String ONE_FRAGMENT_TAG = "ONE_FRAGMENT_TAG";
-	public static final String TWO_FRAGMENT_TAG = "TWO_FRAGMENT_TAG";
 	public static final String SAVE_FRAGMENT_TAG = "SAVE_FRAGMENT_TAG";
 
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
@@ -33,17 +31,15 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	private HotelTravelerInfoOptionsFragment mOptionsFragment;
 	private HotelTravelerInfoOneFragment mOneFragment;
-	private HotelTravelerInfoTwoFragment mTwoFragment;
 
 	private MenuItem mMenuDone;
-	private MenuItem mMenuNext;
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
 
 	//Where we want to return to after our action
 	private enum YoYoPosition {
-		OPTIONS, ONE, TWO, SAVE
+		OPTIONS, ONE, SAVE
 	}
 
 	public interface Validatable {
@@ -54,13 +50,6 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = this.getSupportMenuInflater();
 		inflater.inflate(R.menu.menu_yoyo, menu);
-		mMenuNext = menu.findItem(R.id.menu_next);
-		mMenuNext.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				moveForward();
-			}
-		});
 
 		mMenuDone = menu.findItem(R.id.menu_done);
 		mMenuDone.getActionView().setOnClickListener(new OnClickListener() {
@@ -69,27 +58,25 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 				moveForward();
 			}
 		});
+
 		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
+
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
+		case android.R.id.home: {
 			return moveBackwards();
-		default:
-			return super.onOptionsItemSelected(item);
 		}
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void setMenuItemVisibilities(boolean showDone) {
-		if (mMenuNext != null) {
-			mMenuNext.setVisible(!showDone);
-			mMenuNext.setEnabled(!showDone);
-
-		}
 		if (mMenuDone != null) {
 			mMenuDone.setVisible(showDone);
 			mMenuDone.setEnabled(showDone);
@@ -102,16 +89,15 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		}
 		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
-			case ONE:
-				setMenuItemVisibilities(false);
-				break;
-			case TWO:
+			case ONE: {
 				setMenuItemVisibilities(!User.isLoggedIn(this));
 				break;
+			}
 			case SAVE:
 			case OPTIONS:
-			default:
+			default: {
 				setMenuItemVisibilities(true);
+			}
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
@@ -131,7 +117,6 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		if (mPos != null) {
 			switch (mPos) {
 			case ONE:
-			case TWO:
 			case SAVE:
 			case OPTIONS:
 			default:
@@ -172,20 +157,21 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 			mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
 			switch (mPos) {
-			case OPTIONS:
+			case OPTIONS: {
 				displayOptions();
 				break;
-			case ONE:
+			}
+			case ONE: {
 				displayTravelerEntryOne();
 				break;
-			case TWO:
-				displayTravelerEntryTwo();
-				break;
-			case SAVE:
+			}
+			case SAVE: {
 				displaySaveDialog();
 				break;
-			default:
+			}
+			default: {
 				displayOptions();
+			}
 			}
 		}
 		else {
@@ -214,16 +200,12 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	public void moveForward() {
 		if (mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
-			case OPTIONS:
+			case OPTIONS: {
 				displayTravelerEntryOne();
 				break;
-			case ONE:
+			}
+			case ONE: {
 				if (validate(mOneFragment)) {
-					displayTravelerEntryTwo();
-				}
-				break;
-			case TWO:
-				if (validate(mTwoFragment)) {
 					if (User.isLoggedIn(this)) {
 						displaySaveDialog();
 					}
@@ -232,37 +214,36 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 					}
 				}
 				break;
-			case SAVE:
+			}
+			case SAVE: {
 				displayCheckout();
 				break;
-			default:
+			}
+			default: {
 				Ui.showToast(this, "FAIL");
 				break;
+			}
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
 			switch (mPos) {
-			case ONE:
+			case ONE: {
 				if (validate(mOneFragment)) {
 					displayOptions();
 				}
 				break;
-			case TWO:
-				if (validate(mTwoFragment)) {
-					displayOptions();
-				}
-				break;
+			}
 			case OPTIONS:
 			case SAVE:
-			default:
+			default: {
 				Ui.showToast(this, "FAIL");
 				break;
+			}
 			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
 			displayCheckout();
 		}
-
 	}
 
 	@Override
@@ -274,33 +255,34 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	public boolean moveBackwards() {
 		if (mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
-			case OPTIONS:
+			case OPTIONS: {
 				displayCheckout();
 				break;
-			case ONE:
+			}
+			case ONE: {
 				displayOptions();
 				break;
-			case TWO:
+			}
+			case SAVE: {
+				closeSaveDialog();
 				displayTravelerEntryOne();
 				break;
-			case SAVE:
-				closeSaveDialog();
-				displayTravelerEntryTwo();
-				break;
-			default:
+			}
+			default: {
 				Ui.showToast(this, "FAIL");
 				return false;
+			}
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
 			switch (mPos) {
 			case ONE:
-			case TWO:
 			case OPTIONS:
 			case SAVE:
-			default:
+			default: {
 				Ui.showToast(this, "FAIL");
 				return false;
+			}
 			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
@@ -338,23 +320,6 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 			ft.commit();
 		}
 		mPos = YoYoPosition.ONE;
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
-
-	}
-
-	@Override
-	public void displayTravelerEntryTwo() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mTwoFragment = Ui.findSupportFragment(this, TWO_FRAGMENT_TAG);
-		if (mTwoFragment == null) {
-			mTwoFragment = HotelTravelerInfoTwoFragment.newInstance();
-		}
-		if (!mTwoFragment.isAdded()) {
-			ft.replace(android.R.id.content, mTwoFragment, TWO_FRAGMENT_TAG);
-			ft.commit();
-		}
-		mPos = YoYoPosition.TWO;
 		displayActionBarTitleBasedOnState();
 		displayActionItemBasedOnState();
 

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionHotelTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <com.gridlayout.GridLayout
+        android:id="@+id/grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        gridlayout:alignmentMode="alignMargins"
+        gridlayout:columnCount="4"
+        gridlayout:columnOrderPreserved="false"
+        gridlayout:useDefaultMargins="false" >
+
+        <LinearLayout
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="4" >
+
+            <EditText
+                android:id="@+id/edit_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/first_name"
+                android:inputType="textPersonName|textCapWords"
+                android:nextFocusDown="@+id/edit_middle_name"
+                android:nextFocusRight="@+id/edit_middle_name"
+                android:singleLine="true" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/edit_middle_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/middle_name"
+                android:inputType="textPersonName|textCapWords"
+                android:singleLine="true" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edit_last_name"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="4"
+            android:hint="@string/last_name"
+            android:inputType="textPersonName|textCapWords"
+            android:singleLine="true" />
+    </com.gridlayout.GridLayout>
+
+    <com.gridlayout.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        gridlayout:alignmentMode="alignMargins"
+        gridlayout:columnCount="3"
+        gridlayout:columnOrderPreserved="false"
+        gridlayout:useDefaultMargins="false" >
+
+        <com.expedia.bookings.widget.TelephoneSpinner
+            android:id="@+id/edit_phone_number_country_code_spinner"
+            android:layout_width="100dp"
+            gridlayout:layout_columnSpan="1" />
+
+        <EditText
+            android:id="@+id/edit_phone_number"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal"
+            gridlayout:layout_columnSpan="2"
+            android:hint="@string/phone_number_hint"
+            android:inputType="phone"
+            android:singleLine="true" />
+    </com.gridlayout.GridLayout>
+
+</com.expedia.bookings.section.SectionHotelTravelerInfo>
