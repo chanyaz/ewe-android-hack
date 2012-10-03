@@ -17,14 +17,13 @@
         android:id="@+id/reviews_summary_layout"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:background="#efefef" >
+        android:background="@drawable/bg_clickable_row" >
 
         <TextView
             android:id="@+id/banner_message_text_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/bg_clickable_row"
             android:drawableLeft="@drawable/rating_good"
             android:drawablePadding="8dp"
             android:gravity="left|center_vertical"
@@ -46,7 +45,6 @@
             android:id="@+id/user_review_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_clickable_row"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingLeft="20dp"

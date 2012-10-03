@@ -118,6 +118,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 
 		Resources resources = getResources();
+		View reviewsSummaryLayout = Ui.findView(view, R.id.reviews_summary_layout);
 		View reviewsLayout = Ui.findView(view, R.id.user_review_layout);
 		TextView reviewsTextView = Ui.findView(view, R.id.user_rating_text_view);
 		View verticalSep = Ui.findView(view, R.id.vertical_sep);
@@ -155,8 +156,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 						startActivity(newIntent);
 					}
 				};
-		reviewsLayout.setOnClickListener(onReviewsClick);
-		bannerTextView.setOnClickListener(onReviewsClick);
+		reviewsSummaryLayout.setOnClickListener(onReviewsClick);
 
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
@@ -182,7 +182,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 		// Special case if no urgency and no recommendations: hide this while banner section.
 		else if (percentRecommend == 0 && numReviews == 0) {
-			view.findViewById(R.id.reviews_summary_layout).setVisibility(View.GONE);
+			reviewsSummaryLayout.setVisibility(View.GONE);
 			view.findViewById(R.id.reviews_banner_divider).setVisibility(View.GONE);
 			return;
 		}
