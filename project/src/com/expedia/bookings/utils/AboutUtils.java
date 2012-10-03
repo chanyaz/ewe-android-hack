@@ -35,7 +35,13 @@ public class AboutUtils {
 	// Handling clicks on different items
 
 	public Dialog createContactExpediaDialog(final Runnable onDismiss) {
-		AlertDialog.Builder builder = new Builder(mActivity, R.style.LightDialog);
+		AlertDialog.Builder builder;
+		if (AndroidUtils.getSdkVersion() < 11) {
+			builder = new Builder(mActivity);
+		}
+		else {
+			builder = new Builder(mActivity, R.style.LightDialog);
+		}
 
 		builder.setTitle(R.string.contact_expedia_via);
 
@@ -99,7 +105,13 @@ public class AboutUtils {
 	}
 
 	public Dialog createExpediaWebsiteDialog(final Runnable onDismiss) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.LightDialog);
+		AlertDialog.Builder builder;
+		if (AndroidUtils.getSdkVersion() < 11) {
+			builder = new AlertDialog.Builder(mActivity);
+		}
+		else {
+			builder = new AlertDialog.Builder(mActivity, R.style.LightDialog);
+		}
 		builder.setMessage(R.string.dialog_message_launch_expedia_mobile_site);
 		builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 			@Override
