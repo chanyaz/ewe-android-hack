@@ -92,7 +92,8 @@
             android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.TabletAboutActivity" />
-        <activity android:name=".activity.ExpediaBookingPreferenceActivity" 
+        <activity
+            android:name=".activity.ExpediaBookingPreferenceActivity"
             android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.SignInActivity" />
         <activity
@@ -162,12 +163,13 @@
             android:name=".activity.FlightTravelerInfoOptionsActivity"
             android:theme="@style/FlightTheme" >
         </activity>
-        <activity android:name=".activity.BaggageFeeActivity"
-            android:theme="@style/FlightTheme">
+        <activity
+            android:name=".activity.BaggageFeeActivity"
+            android:theme="@style/FlightTheme" >
         </activity>
         <activity
             android:name=".activity.FlightRulesActivity"
-            android:theme="@style/FlightTheme">
+            android:theme="@style/FlightTheme" >
         </activity>
         <activity
             android:name=".activity.FlightConfirmationActivity"
@@ -211,7 +213,6 @@
         <provider
             android:name="com.expedia.bookings.content.AutocompleteProvider"
             android:authorities="com.expedia.booking.autocomplete" />
-
         <provider
             android:name="com.expedia.bookings.content.AirportAutocompleteProvider"
             android:authorities="com.expedia.booking.autocomplete.air" />
@@ -238,7 +239,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.expedia.bookings.tracking.MdotmReceiver"
+            android:name="com.somo.apptimiser.SomoMarketBroadcastReceiver"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
@@ -252,7 +253,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.somo.apptimiser.SomoMarketBroadcastReceiver"
+            android:name="com.expedia.bookings.tracking.MdotmReceiver"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
@@ -265,7 +266,6 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
-        
     </application>
 
 </manifest>
