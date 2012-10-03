@@ -1,75 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/flight_checkout_opaque_white"
     android:fillViewport="true"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:fillViewport="true"
+        android:orientation="vertical"
+        android:padding="8dp" >
 
-        <EditText
-            android:id="@+id/first_name_edit_text"
+        <TextView
+            android:id="@+id/edit_traveler_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/first_name"
-            android:inputType="textPersonName|textCapWords"
-            android:nextFocusDown="@+id/middle_name_edit_text"
-            android:nextFocusRight="@+id/middle_name_edit_text"
-            android:singleLine="true" >
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/edit_current_traveler"
+            android:textAllCaps="true"
+            android:textColor="@color/data_entry_heading"
+            android:textSize="@dimen/data_form_section_header_text"
+            android:textStyle="bold" />
 
-            <requestFocus />
-        </EditText>
+        <View
+            android:id="@+id/edit_traveler_label_div"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/data_entry_heading_divider" />
 
-        <EditText
-            android:id="@+id/middle_name_edit_text"
+        <LinearLayout
+            android:id="@+id/edit_traveler_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/middle_name"
-            android:inputType="textPersonName|textCapWords"
-            android:singleLine="true" />
-    </LinearLayout>
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/last_name_edit_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/last_name"
-        android:inputType="textPersonName|textCapWords"
-        android:singleLine="true" />
+            <include
+                android:id="@+id/current_traveler_contact"
+                android:layout_marginLeft="15dp"
+                layout="@layout/section_display_traveler_info_contact" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/simple_grey_divider_height"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/divider_grey" />
+        </LinearLayout>
 
-        <com.expedia.bookings.widget.TelephoneSpinner
-            android:id="@+id/phone_number_country_code_spinner"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/phone_number_edit_text"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/select_traveler_label"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/phone_number_hint"
-            android:inputType="phone"
-            android:singleLine="true" />
+            android:layout_marginLeft="8dp"
+            android:text="@string/select_a_traveler"
+            android:textAllCaps="true"
+            android:textColor="@color/data_entry_heading"
+            android:textSize="@dimen/data_form_section_header_text"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/select_traveler_label_div"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/data_entry_heading_divider" />
+
+        <LinearLayout
+            android:id="@+id/new_traveler_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp" >
+
+            <LinearLayout
+                android:id="@+id/enter_info_manually_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0"
+                    android:src="@drawable/ic_traveler_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/enter_new_traveler"
+                    android:textColor="@color/data_entry_text"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/email_address_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/email_address_hint"
-        android:inputType="textEmailAddress"
-        android:singleLine="true" />
-
-</LinearLayout>
+</ScrollView>

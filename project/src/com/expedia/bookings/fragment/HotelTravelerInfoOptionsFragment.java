@@ -68,7 +68,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_traveler_info_options, container, false);
+		View v = inflater.inflate(R.layout.fragment_hotel_traveler_info_options, container, false);
 
 		mCurrentTravelerIndex = getActivity().getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
 
