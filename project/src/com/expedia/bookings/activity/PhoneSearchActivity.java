@@ -109,6 +109,7 @@ import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
+import com.expedia.bookings.widget.SimpleNumberPicker;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
 import com.google.android.maps.GeoPoint;
@@ -127,7 +128,6 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.android.widget.NumberPicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -208,8 +208,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private ImageButton mGuestsButton;
 	private ImageButton mViewButton;
 	private ImageView mViewFlipImage;
-	private NumberPicker mAdultsNumberPicker;
-	private NumberPicker mChildrenNumberPicker;
+	private SimpleNumberPicker mAdultsNumberPicker;
+	private SimpleNumberPicker mChildrenNumberPicker;
 	private EditText mFilterHotelNameEditText;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mRatingButtonGroup;
@@ -487,12 +487,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		actionBar.setCustomView(mActionBarCustomView);
 
 		SearchParams searchParams = Db.getSearchParams();
-		mAdultsNumberPicker.setTextEnabled(false);
-		mChildrenNumberPicker.setTextEnabled(false);
-		mAdultsNumberPicker.setRange(1, GuestsPickerUtils.getMaxPerType());
-		mChildrenNumberPicker.setRange(0, GuestsPickerUtils.getMaxPerType());
-		mAdultsNumberPicker.setCurrent(searchParams.getNumAdults());
-		mChildrenNumberPicker.setCurrent(searchParams.getNumChildren());
+
+		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
+		mAdultsNumberPicker.setMinValue(1);
+		mAdultsNumberPicker.setMaxValue(GuestsPickerUtils.getMaxPerType());
+		mAdultsNumberPicker.setValue(searchParams.getNumAdults());
+
+		mChildrenNumberPicker.setFormatter(mChildrenNumberPickerFormatter);
+		mChildrenNumberPicker.setMinValue(0);
+		mChildrenNumberPicker.setMaxValue(GuestsPickerUtils.getMaxPerType());
+		mChildrenNumberPicker.setValue(searchParams.getNumChildren());
 
 		showFragment(mTag);
 		setShowDistance(mShowDistance);
@@ -1079,8 +1083,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mDatesCalendarDatePicker = (CalendarDatePicker) findViewById(R.id.dates_date_picker);
 		mGuestsLayout = findViewById(R.id.guests_layout);
 		mChildAgesLayout = findViewById(R.id.child_ages_layout);
-		mAdultsNumberPicker = (NumberPicker) findViewById(R.id.adults_number_picker);
-		mChildrenNumberPicker = (NumberPicker) findViewById(R.id.children_number_picker);
+		mAdultsNumberPicker = (SimpleNumberPicker) findViewById(R.id.adults_number_picker);
+		mChildrenNumberPicker = (SimpleNumberPicker) findViewById(R.id.children_number_picker);
 
 		mButtonBarLayout = findViewById(R.id.button_bar_layout);
 		mRefinementInfoTextView = (TextView) findViewById(R.id.refinement_info_text_view);
@@ -1153,8 +1157,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
-		mAdultsNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
-		mChildrenNumberPicker.setOnChangeListener(mNumberPickerChangedListener);
+		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
+		mChildrenNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 	}
 
 	//----------------------------------
@@ -2046,8 +2050,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				SearchParams searchParams = Db.getSearchParams();
 				int numAdults = searchParams.getNumAdults();
 				int numChildren = searchParams.getNumChildren();
-				mAdultsNumberPicker.setRange(numAdults, numAdults);
-				mChildrenNumberPicker.setRange(numChildren, numChildren);
+				mAdultsNumberPicker.setMinValue(numAdults);
+				mAdultsNumberPicker.setMaxValue(numAdults);
+				mChildrenNumberPicker.setMinValue(numChildren);
+				mChildrenNumberPicker.setMaxValue(numChildren);
 				GuestsPickerUtils.configureAndUpdateDisplayedValues(PhoneSearchActivity.this, mAdultsNumberPicker,
 						mChildrenNumberPicker);
 			}
@@ -2258,11 +2264,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		searchParams.setCheckOutDate(endCalendar);
 	}
 
-	private final NumberPicker.OnChangedListener mNumberPickerChangedListener = new NumberPicker.OnChangedListener() {
+	private final SimpleNumberPicker.OnValueChangeListener mNumberPickerChangedListener = new SimpleNumberPicker.OnValueChangeListener() {
 		@Override
-		public void onChanged(NumberPicker picker, int oldVal, int newVal) {
-			int numAdults = mAdultsNumberPicker.getCurrent();
-			int numChildren = mChildrenNumberPicker.getCurrent();
+		public void onValueChange(SimpleNumberPicker picker, int oldVal, int newVal) {
+			int numAdults = mAdultsNumberPicker.getValue();
+			int numChildren = mChildrenNumberPicker.getValue();
 			SearchParams searchParams = Db.getSearchParams();
 			searchParams.setNumAdults(numAdults);
 			GuestsPickerUtils.resizeChildrenList(PhoneSearchActivity.this, searchParams.getChildren(), numChildren);
@@ -2560,7 +2566,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		Log.d("Tracking \"App.Hotels.Search.Refine.NumberTravelers\" change");
 
 		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
-				+ (mAdultsNumberPicker.getCurrent() + mChildrenNumberPicker.getCurrent());
+				+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
 
 		TrackingUtils.trackSimpleEvent(this, pageName, null, "Shopper", null);
 	}
@@ -2741,4 +2747,19 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+
+	// Number picker formatters
+	private final SimpleNumberPicker.Formatter mAdultsNumberPickerFormatter = new SimpleNumberPicker.Formatter() {
+		@Override
+		public String format(int value) {
+			return mContext.getResources().getQuantityString(R.plurals.number_of_adults, value, value);
+		}
+	};
+
+	private final SimpleNumberPicker.Formatter mChildrenNumberPickerFormatter = new SimpleNumberPicker.Formatter() {
+		@Override
+		public String format(int value) {
+			return mContext.getResources().getQuantityString(R.plurals.number_of_children, value, value);
+		}
+	};
 }

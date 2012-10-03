@@ -94,6 +94,21 @@ public class GuestsPickerUtils {
 		childrenNumberPicker.setCurrent(numChildren);
 	}
 
+	public static void configureAndUpdateDisplayedValues(Context context,
+			com.expedia.bookings.widget.SimpleNumberPicker adultsNumberPicker,
+			com.expedia.bookings.widget.SimpleNumberPicker childrenNumberPicker) {
+		int numAdults = adultsNumberPicker.getValue();
+		int numChildren = childrenNumberPicker.getValue();
+
+		adultsNumberPicker.setMinValue(MIN_ADULTS);
+		adultsNumberPicker.setMaxValue(getMaxAdults(numChildren));
+		childrenNumberPicker.setMinValue(MIN_CHILDREN);
+		childrenNumberPicker.setMaxValue(getMaxChildren(numAdults));
+
+		adultsNumberPicker.setValue(numAdults);
+		childrenNumberPicker.setValue(numChildren);
+	}
+
 	public static void showOrHideChildAgeSpinners(Context context, List<Integer> children, View container,
 			OnItemSelectedListener listener) {
 		if (container == null) {
