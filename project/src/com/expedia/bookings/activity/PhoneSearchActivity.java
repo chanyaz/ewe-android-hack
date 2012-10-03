@@ -562,7 +562,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		Db.getFilter().addOnFilterChangedListener(this);
 
-		mProgressBar.onResume();
+		if (mDisplayType != DisplayType.CALENDAR) {
+			mProgressBar.onResume();
+			mProgressBar.reset();
+		}
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
@@ -1665,6 +1668,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			hideSoftKeyboard(mSearchEditText);
 			hideFilterOptions();
 
+			mProgressBar.onResume();
+			mProgressBar.reset();
 			mRefinementDismissView.setVisibility(View.INVISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1697,6 +1702,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
 
+			mProgressBar.onPause();
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.VISIBLE);
