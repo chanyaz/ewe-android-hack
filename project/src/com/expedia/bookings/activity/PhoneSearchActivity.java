@@ -2350,14 +2350,24 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private final View.OnClickListener mDatesButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			setDisplayType(DisplayType.CALENDAR);
+			if (mDisplayType == DisplayType.CALENDAR) {
+				setDisplayType(DisplayType.NONE);
+			}
+			else {
+				setDisplayType(DisplayType.CALENDAR);
+			}
 		}
 	};
 
 	private final View.OnClickListener mGuestsButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			setDisplayType(DisplayType.GUEST_PICKER);
+			if (mDisplayType == DisplayType.GUEST_PICKER) {
+				setDisplayType(DisplayType.NONE);
+			}
+			else {
+				setDisplayType(DisplayType.GUEST_PICKER);
+			}
 		}
 	};
 
