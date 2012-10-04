@@ -62,6 +62,14 @@ public class MdotmReceiver extends BroadcastReceiver {
 			packageName = packageObj.getName();
 		}
 
+		if (deviceId == null) {
+			deviceId = "0";
+		}
+
+		if (androidId == null) {
+			androidId = "0";
+		}
+
 		postBackUrl = "http://ads.mdotm.com/ads/receiver.php?referrer=" + URLEncoder.encode(referrer) + "&package="
 				+ URLEncoder.encode(packageName) + "&deviceid=" + URLEncoder.encode(deviceId) + "&androidid="
 				+ URLEncoder.encode(androidId);
