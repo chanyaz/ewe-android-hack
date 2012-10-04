@@ -1,8 +1,11 @@
 package com.expedia.bookings.section;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -81,7 +84,22 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			R.id.display_stored_card_desc) {
 		@Override
 		public void onHasFieldAndData(TextView field, StoredCreditCard data) {
-			field.setText(data.getDescription() == null ? "" : data.getDescription());
+			String desc = data.getDescription();
+			if(TextUtils.isEmpty(desc)){
+				field.setText("");
+			}else{
+				//We replace american express with amex. Why? Because there is a mingle card for it, that's why!
+				String amexRegex ="american\\s*express";
+				String replacement = "AMEX";
+				Pattern amexPattern = Pattern.compile(amexRegex,Pattern.CASE_INSENSITIVE);
+				Matcher amexPatternMatcher = amexPattern.matcher(desc);
+				StringBuffer sb = new StringBuffer();
+				while (amexPatternMatcher.find()) {
+				  amexPatternMatcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+				}
+				amexPatternMatcher.appendTail(sb);
+				field.setText(sb.toString());	
+			}
 		}
 	};
 
