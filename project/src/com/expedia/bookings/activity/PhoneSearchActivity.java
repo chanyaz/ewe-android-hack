@@ -259,6 +259,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private int mRadiusCheckedId = 0;
 	private int mRatingCheckedId = 0;
 	private int mPriceCheckedId = 0;
+	private int mDefaultRadiusCheckedId = 0;
+	private int mDefaultRatingCheckedId = 0;
+	private int mDefaultPriceCheckedId = 0;
 
 	private ArrayList<Address> mAddresses;
 	private SearchParams mOldSearchParams;
@@ -1104,6 +1107,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.price_filter_button_group);
 
+		mDefaultRadiusCheckedId = mRadiusButtonGroup.getCheckedRadioButtonId();
+		mDefaultRatingCheckedId = mRatingButtonGroup.getCheckedRadioButtonId();
+		mDefaultPriceCheckedId = mPriceButtonGroup.getCheckedRadioButtonId();
+
 		mFilterHotelNameEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -1292,6 +1299,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mOriginalSearchParams = null;
 		Db.setSearchResponse(null);
 		Db.clearAvailabilityResponses();
+
+		mRadiusCheckedId = mDefaultRadiusCheckedId;
+		mPriceCheckedId = mDefaultPriceCheckedId;
+		mRatingCheckedId = mDefaultRatingCheckedId;
 
 		broadcastSearchStarted();
 
