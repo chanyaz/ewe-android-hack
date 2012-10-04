@@ -431,6 +431,16 @@ public class Db {
 			}
 		})).start();
 	}
+	
+	public static boolean deleteTravelers(Context context){
+		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
+		if (!file.exists()) {
+			return true;
+		}
+		else {
+			return file.delete();
+		}
+	}
 
 	public static boolean saveTravelers(Context context) {
 		synchronized (sDb) {

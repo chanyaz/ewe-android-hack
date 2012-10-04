@@ -45,28 +45,30 @@ public class BillingInfo implements JSONable {
 
 	//Copy constructor
 	public BillingInfo(BillingInfo base) {
-		mFirstName = base.getFirstName();
-		mLastName = base.getLastName();
-		mNameOnCard = base.getNameOnCard();
-		mTelephoneCountryCode = base.getTelephoneCountryCode();
-		mTelephoneCountry = base.getTelephoneCountry();
-		mTelephone = base.getTelephone();
-		mEmail = base.getEmail();
-		Location loc = new Location();
-		if (base.getLocation() != null) {
-			loc.fromJson(base.getLocation().toJson());
+		if (base != null) {
+			mFirstName = base.getFirstName();
+			mLastName = base.getLastName();
+			mNameOnCard = base.getNameOnCard();
+			mTelephoneCountryCode = base.getTelephoneCountryCode();
+			mTelephoneCountry = base.getTelephoneCountry();
+			mTelephone = base.getTelephone();
+			mEmail = base.getEmail();
+			Location loc = new Location();
+			if (base.getLocation() != null) {
+				loc.fromJson(base.getLocation().toJson());
+			}
+			mLocation = loc;
+			mBrandName = base.getBrandName();
+			mBrandCode = base.getBrandCode();
+			mNumber = base.getNumber();
+			mSecurityCode = base.getSecurityCode();
+			mExpirationDate = base.getExpirationDate();
+			if (base.getStoredCard() != null) {
+				mStoredCard = new StoredCreditCard();
+				mStoredCard.fromJson(base.getStoredCard().toJson());
+			}
+			mSaveCardToExpediaAccount = base.getSaveCardToExpediaAccount();
 		}
-		mLocation = loc;
-		mBrandName = base.getBrandName();
-		mBrandCode = base.getBrandCode();
-		mNumber = base.getNumber();
-		mSecurityCode = base.getSecurityCode();
-		mExpirationDate = base.getExpirationDate();
-		if (base.getStoredCard() != null) {
-			mStoredCard = new StoredCreditCard();
-			mStoredCard.fromJson(base.getStoredCard().toJson());
-		}
-		mSaveCardToExpediaAccount = base.getSaveCardToExpediaAccount();
 	}
 
 	public String getFirstName() {

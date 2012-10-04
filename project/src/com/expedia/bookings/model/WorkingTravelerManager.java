@@ -87,9 +87,11 @@ public class WorkingTravelerManager {
 	public void setWorkingTravelerAndBase(Traveler traveler) {
 		mWorkingTraveler = new Traveler();
 		mBaseTraveler = new Traveler();
-		JSONObject json = traveler.toJson();
-		mWorkingTraveler.fromJson(json);
-		mBaseTraveler.fromJson(json);
+		if (traveler != null) {
+			JSONObject json = traveler.toJson();
+			mWorkingTraveler.fromJson(json);
+			mBaseTraveler.fromJson(json);
+		}
 		mAttemptLoadFromDisk = false;
 	}
 
@@ -136,7 +138,7 @@ public class WorkingTravelerManager {
 			Db.getTravelers().add(new Traveler());
 		}
 		Traveler commitTrav = new Traveler();
-		commitTrav.fromJson(mWorkingTraveler.toJson());
+		commitTrav.fromJson(getWorkingTraveler().toJson());
 		Db.getTravelers().set(travelerNumber, commitTrav);
 		Db.setTravelersAreDirty(true);
 	}
