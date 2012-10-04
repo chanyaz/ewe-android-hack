@@ -88,6 +88,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setTitle(R.string.search_flights);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
@@ -166,6 +167,9 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
 		case R.id.search:
 			FlightSearchParams params = mSearchParamsFragment.getSearchParams();
 			if (!params.isFilled()) {
