@@ -84,8 +84,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				moveForward();
 			}
 		});
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+
 		return true;
 	}
 
@@ -99,15 +98,31 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		}
 	}
 
-	public void setMenuItemVisibilities(boolean showDone) {
-		if (mMenuNext != null) {
-			mMenuNext.setVisible(!showDone);
-			mMenuNext.setEnabled(!showDone);
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (menu != null) {
+			mMenuNext = menu.findItem(R.id.menu_next);
+			mMenuDone = menu.findItem(R.id.menu_done);
+
+			displayActionBarTitleBasedOnState();
+			displayActionItemBasedOnState();
 
 		}
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	public void setShowNextButton(boolean showNext) {
+		if (mMenuNext != null) {
+			mMenuNext.setEnabled(showNext);
+			mMenuNext.setVisible(showNext);
+		}
+	}
+
+	public void setShowDoneButton(boolean showDone) {
 		if (mMenuDone != null) {
-			mMenuDone.setVisible(showDone);
 			mMenuDone.setEnabled(showDone);
+			mMenuDone.setVisible(showDone);
 		}
 	}
 
@@ -118,25 +133,46 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
 			case ONE:
-				setMenuItemVisibilities(false);
+				setShowNextButton(true);
+				setShowDoneButton(false);
 				break;
 			case TWO:
-				setMenuItemVisibilities(!User.isLoggedIn(this));
+				if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+					setShowNextButton(true);
+					setShowDoneButton(false);
+				}
+				else {
+					setShowNextButton(false);
+					setShowDoneButton(true);
+				}
 				break;
 			case THREE:
-				setMenuItemVisibilities(!User.isLoggedIn(this));
-			case SAVE:
+				setShowNextButton(false);
+				setShowDoneButton(true);
+				break;
 			case OPTIONS:
+				setShowNextButton(false);
+				setShowDoneButton(false);
+				break;
+			case SAVE:
 			default:
-				setMenuItemVisibilities(true);
+				setShowNextButton(false);
+				setShowDoneButton(true);
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
-			setMenuItemVisibilities(true);
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
+				setShowNextButton(false);
+				setShowDoneButton(false);
+			}
+			else {
+				setShowNextButton(false);
+				setShowDoneButton(true);
+			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
-			//TODO: This should set both to invisible, but then they never return, so for now we display done
-			setMenuItemVisibilities(true);
+			setShowNextButton(false);
+			setShowDoneButton(false);
 		}
 	}
 
@@ -415,8 +451,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		}
 		mPos = YoYoPosition.OPTIONS;
 		mMode = YoYoMode.NONE;
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 	}
 
 	@Override
@@ -431,8 +466,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			ft.commit();
 		}
 		mPos = YoYoPosition.ONE;
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 
 	}
 
@@ -448,8 +482,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			ft.commit();
 		}
 		mPos = YoYoPosition.TWO;
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 
 	}
 
@@ -465,8 +498,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			ft.commit();
 		}
 		mPos = YoYoPosition.THREE;
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 
 	}
 

@@ -515,14 +515,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	public void displayCheckoutButton(boolean visible) {
 		if (mCheckoutMenuItem != null) {
-			if (visible) {
-				mCheckoutMenuItem.setVisible(true);
-				mCheckoutMenuItem.setEnabled(true);
-			}
-			else {
-				mCheckoutMenuItem.setVisible(false);
-				mCheckoutMenuItem.setEnabled(false);
-			}
+			mCheckoutMenuItem.setVisible(visible);
+			mCheckoutMenuItem.setEnabled(visible);
 		}
 	}
 
