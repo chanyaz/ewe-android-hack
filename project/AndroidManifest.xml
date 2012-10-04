@@ -99,7 +99,7 @@
         <activity
             android:name=".activity.TabletPreferenceActivity"
             android:excludeFromRecents="true"
-            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar" />
+            android:theme="@style/Theme.Tablet.Preferences" />
         <activity
             android:name=".activity.AppFeedbackActivity"
             android:windowSoftInputMode="adjustResize" />
