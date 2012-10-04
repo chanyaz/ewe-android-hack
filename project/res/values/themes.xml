@@ -79,10 +79,10 @@
         <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:buttonStyle">@style/Widget.Button.Phone</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
-
         <item name="numberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
         <item name="numberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
         <item name="numberPickerInputTextStyle">@style/NumberPickerText</item>
+        <item name="android:spinnerStyle">@style/Widget.Spinner.Phone</item>
     </style>
 
     <style name="Theme.Phone.WithStackedTabs">

@@ -79,6 +79,7 @@
             android:id="@+id/country_spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="-1dp"
             android:layout_weight="@integer/country_width_weight"
             android:entries="@array/country_names"
             android:nextFocusDown="@+id/postal_code_edit_text"
@@ -90,8 +91,8 @@
             android:id="@+id/postal_code_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="@integer/postal_code_weight"
             android:layout_marginTop="1dp"
+            android:layout_weight="@integer/postal_code_weight"
             android:hint="@string/PostalCode"
             android:imeOptions="flagNoExtractUi"
             android:inputType="textPostalAddress|textCapCharacters"
@@ -99,7 +100,7 @@
             android:nextFocusLeft="@+id/country_spinner"
             android:nextFocusRight="@+id/card_number_edit_text"
             android:nextFocusUp="@+id/state_edit_text"
-            android:textColorHint="@color/hint_color"/>
+            android:textColorHint="@color/hint_color" />
     </LinearLayout>
 
 </LinearLayout>

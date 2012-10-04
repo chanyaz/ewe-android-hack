@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:visibility="gone" >
-    
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            mobiata:errorTextColor="@android:color/black"
             android:hint="@string/FirstName"
             android:imeOptions="flagNoExtractUi"
             android:inputType="textPersonName|textCapWords"
@@ -25,14 +24,14 @@
             android:nextFocusLeft="@+id/first_name_edit_text"
             android:nextFocusRight="@+id/last_name_edit_text"
             android:nextFocusUp="@+id/first_name_edit_text"
-            android:textColorHint="@color/hint_color" />
+            android:textColorHint="@color/hint_color"
+            mobiata:errorTextColor="@android:color/black" />
 
         <com.expedia.bookings.widget.CustomEditText
             android:id="@+id/last_name_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            mobiata:errorTextColor="@android:color/black"
             android:hint="@string/LastName"
             android:imeOptions="flagNoExtractUi"
             android:inputType="textPersonName|textCapWords"
@@ -40,7 +39,8 @@
             android:nextFocusLeft="@+id/first_name_edit_text"
             android:nextFocusRight="@+id/telephone_country_code_spinner"
             android:nextFocusUp="@+id/first_name_edit_text"
-            android:textColorHint="@color/hint_color" />
+            android:textColorHint="@color/hint_color"
+            mobiata:errorTextColor="@android:color/black" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,6 +52,7 @@
         <com.expedia.bookings.widget.TelephoneSpinner
             android:id="@+id/telephone_country_code_spinner"
             android:layout_width="100dp"
+            android:layout_marginBottom="-1dp"
             android:layout_height="wrap_content"
             android:nextFocusDown="@+id/telephone_edit_text"
             android:nextFocusLeft="@+id/last_name_edit_text"
@@ -62,7 +63,6 @@
             android:id="@+id/telephone_edit_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            mobiata:errorTextColor="@android:color/black"
             android:hint="@string/Telephone"
             android:imeOptions="flagNoExtractUi"
             android:inputType="phone"
@@ -70,14 +70,14 @@
             android:nextFocusLeft="@+id/telephone_country_code_spinner"
             android:nextFocusRight="@+id/email_edit_text"
             android:nextFocusUp="@+id/telephone_country_code_spinner"
-            android:textColorHint="@color/hint_color" />
+            android:textColorHint="@color/hint_color"
+            mobiata:errorTextColor="@android:color/black" />
     </LinearLayout>
 
     <com.expedia.bookings.widget.CustomEditText
         android:id="@+id/email_edit_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        mobiata:errorTextColor="@android:color/black"
         android:hint="@string/EmailForConf"
         android:imeOptions="flagNoExtractUi"
         android:inputType="textEmailAddress"
@@ -85,6 +85,7 @@
         android:nextFocusLeft="@+id/telephone_edit_text"
         android:nextFocusRight="@+id/address1_edit_text"
         android:nextFocusUp="@+id/telephone_edit_text"
-        android:textColorHint="@color/hint_color" />
+        android:textColorHint="@color/hint_color"
+        mobiata:errorTextColor="@android:color/black" />
 
 </LinearLayout>
