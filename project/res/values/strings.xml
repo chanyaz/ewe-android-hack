@@ -11,6 +11,10 @@
     <!-- Account -->
     <string name="nav_account">Account</string>
 
+    <!-- Launch screen -->
+    <string name="launch_hotel_secondary_text">Get a room.</string>
+    <string name="launch_flight_secondary_text">Get away.</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Search Flights</string>

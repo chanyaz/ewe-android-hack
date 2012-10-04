@@ -1,121 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/availability_list_shadow"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:background="@android:color/black">
+    android:id="@+id/availability_list_shadow"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical" >
 
     <LinearLayout
-            android:id="@+id/header_container"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:orientation="horizontal">
+        android:id="@+id/header_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/launch_header_height"
+        android:layout_marginTop="@dimen/launch_tile_space_width"
+        android:orientation="horizontal" >
+        <RelativeLayout
+            android:id="@+id/hotels_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_launch_link_tile" >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/ic_big_hotels" />
 
-        <Button
-                android:id="@+id/hotels_button"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="1dp"
-                android:text="Hotels"
-                android:background="@android:color/holo_blue_bright"/>
+            <TextView
+                android:id="@+id/hotels_label_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/launch_header_primary_text_margin"
+                android:layout_marginRight="@dimen/launch_header_primary_text_margin"
+                android:text="@string/nav_hotels"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/launch_header_primary_text_size" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/hotels_label_text_view"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/launch_header_secondary_text_margin"
+                android:layout_marginRight="@dimen/launch_header_primary_text_margin"
+                android:text="@string/launch_hotel_secondary_text"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/launch_header_secondary_text_size" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/flights_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_launch_link_tile" >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/ic_big_flights" />
 
-        <Button
-                android:id="@+id/flights_button"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
-                android:text="Flights"
-                android:background="@android:color/holo_blue_dark"/>
-
+            <TextView
+                android:id="@+id/flights_label_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/launch_header_primary_text_margin"
+                android:layout_marginRight="@dimen/launch_header_primary_text_margin"
+                android:text="@string/nav_flights"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/launch_header_primary_text_size" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/flights_label_text_view"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/launch_header_secondary_text_margin"
+                android:layout_marginRight="@dimen/launch_header_primary_text_margin"
+                android:text="@string/launch_flight_secondary_text"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/launch_header_secondary_text_size" />
+        </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
-            android:id="@+id/scroll_container"
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <View
+            android:id="@+id/divider"
+            android:layout_width="@dimen/launch_tile_space_width"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" />
+
+        <ScrollView
+            android:id="@+id/scroll_left"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <ScrollView
-                android:id="@+id/scroll_left"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/divider"
+            android:overScrollMode="never"
+            android:scrollbars="none" >
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
+                    android:layout_height="200dp"
+                    android:background="@android:color/holo_blue_dark" />
                 <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginRight="1dp"
-                        android:background="@android:color/holo_blue_dark"/>
-
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@android:color/holo_blue_bright" />
                 <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginRight="1dp"
-                        android:background="@android:color/holo_blue_bright"/>
-
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@android:color/holo_blue_dark" />
                 <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginRight="1dp"
-                        android:background="@android:color/holo_blue_dark"/>
-
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginRight="1dp"
-                        android:background="@android:color/holo_blue_bright"/>
-
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@android:color/holo_blue_bright" />
             </LinearLayout>
-
+        </ScrollView>
+        <ScrollView
+            android:id="@+id/scroll_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/divider"
+            android:overScrollMode="never"
+            android:scrollbars="none" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@android:color/holo_blue_bright" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@android:color/holo_blue_dark" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@android:color/holo_blue_bright" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@android:color/holo_blue_dark" />
+            </LinearLayout>
         </ScrollView>
 
-        <ScrollView
-                android:id="@+id/scroll_right"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
+        <!--
+        Note: It seems as though the ordering of these views within this RelativeLayout matters. It must be
+        ScrollView specific behavior in that if the below view is placed above the ScrollViews, the shadow does not
+        in fact appear, the ScrollView is drawn "on top" (z axis) of the shadow.
+        -->
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginLeft="1dp"
-                        android:background="@android:color/holo_blue_bright"/>
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginLeft="1dp"
-                        android:background="@android:color/holo_blue_dark"/>
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginLeft="1dp"
-                        android:background="@android:color/holo_blue_bright"/>
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginLeft="1dp"
-                        android:background="@android:color/holo_blue_dark"/>
-
-            </LinearLayout>
-
-        </ScrollView>
-
-    </LinearLayout>
+        <View
+            android:id="@+id/content_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/launch_content_top_shadow" />
+    </RelativeLayout>
 
 </LinearLayout>
