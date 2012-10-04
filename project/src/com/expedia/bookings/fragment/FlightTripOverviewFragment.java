@@ -253,7 +253,9 @@ public class FlightTripOverviewFragment extends Fragment {
 			int innerUnused = Math.max(Math.max(price.getMeasuredHeight(), price.getHeight()),
 					Math.max(airline.getMeasuredHeight(), airline.getHeight()));
 			innerUnused = Math.max(innerUnused, Math.max(cancel.getMeasuredHeight(), cancel.getHeight()));
-			int totalUnusedHeight = headerUnused + innerUnused;
+
+			//We don't use the header space (above the card) and we don't use 2/3 of the inside the card header space ( price/airline/X) but we leave some because we want it to look nice
+			int totalUnusedHeight = (int) (headerUnused + Math.floor((2 * innerUnused) / 3));
 
 			currentTop -= totalUnusedHeight;
 			retVal[i] = currentTop;
