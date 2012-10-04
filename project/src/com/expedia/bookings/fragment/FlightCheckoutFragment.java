@@ -52,6 +52,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	private ArrayList<SectionTravelerInfo> mTravelerSections = new ArrayList<SectionTravelerInfo>();
 
+	private TextView mAccountLabel;
 	private AccountButton mAccountButton;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
@@ -123,6 +124,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mCreditCardSectionButton = Ui.findView(v, R.id.creditcard_section_button);
 		mTravelerContainer = Ui.findView(v, R.id.travelers_container);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
+		mAccountLabel = Ui.findView(v, R.id.expedia_account_label);
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
@@ -367,6 +369,13 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 		else {
 			mListener.checkoutInformationIsNotValid();
+		}
+
+		if (User.isLoggedIn(getActivity())) {
+			mAccountLabel.setVisibility(View.VISIBLE);
+		}
+		else {
+			mAccountLabel.setVisibility(View.GONE);
 		}
 	}
 
