@@ -154,7 +154,7 @@ public class ReceiptWidget {
 		}
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();
-		if (totalMandatoryFees != null && totalMandatoryFees.isZero()
+		if (totalMandatoryFees != null && !totalMandatoryFees.isZero()
 				&& LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
 			addRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
 		}
