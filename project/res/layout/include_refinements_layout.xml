@@ -88,23 +88,19 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#eeeeee"
-            android:orientation="horizontal"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp" >
+            android:orientation="horizontal" >
 
             <com.expedia.bookings.widget.SimpleNumberPicker
                 android:id="@+id/adults_number_picker"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="14dp" />
+                android:layout_weight="1" />
 
             <com.expedia.bookings.widget.SimpleNumberPicker
                 android:id="@+id/children_number_picker"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="14dp" />
+                android:layout_weight="1" />
 
         </LinearLayout>
     </LinearLayout>
