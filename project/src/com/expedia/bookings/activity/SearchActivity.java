@@ -47,9 +47,7 @@ public class SearchActivity extends Activity {
 		}
 
 		else {
-			// #11076 - for Android 3.0, we still use the phone version of the app due to crippling bugs.
-			routingTarget = ExpediaBookingApp.useTabletInterface(this) ? SearchFragmentActivity.class
-					: PhoneSearchActivity.class;
+			routingTarget = LaunchActivity.class;
 		}
 
 		Intent intent = new Intent(this, routingTarget);
