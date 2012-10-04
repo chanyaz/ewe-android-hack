@@ -115,6 +115,16 @@
         <!-- Expedia Flights -->
 
         <activity
+            android:name=".activity.LaunchActivity"
+            android:label="Expedia Launcher"
+            android:theme="@style/LaunchTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.FlightSearchActivity"
             android:label="Expedia Flights"
             android:theme="@style/FlightTheme"
