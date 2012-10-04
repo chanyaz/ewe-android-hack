@@ -128,4 +128,8 @@
     <dimen name="action_bar_tab_padding">20dp</dimen>
     <dimen name="action_bar_up_button_right_padding">8dp</dimen>
     <dimen name="action_bar_up_button_left_padding">2dp</dimen>
+
+    <!-- Left/right padding for receipt in tablet portrait mode  -->
+    <dimen name="receipt_portrait_horizontal_margin">30dp</dimen>
+
 </resources>

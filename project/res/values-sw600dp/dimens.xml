@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Special dimensions for 7" tablets -->
+    <dimen name="receipt_portrait_horizontal_margin">0dp</dimen>
+
+</resources>
