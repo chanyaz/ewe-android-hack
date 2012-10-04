@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.CreditCardSection xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_credit_card_back"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    android:paddingRight="8dp"
+    android:paddingTop="68dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/hologram_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:scaleType="center"
+            android:src="@drawable/ic_credit_card_hologram" />
+
+        <View
+            android:id="@+id/credit_card_signature_bg_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/hologram_image_view"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/hologram_image_view"
+            android:layout_marginBottom="6dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_toLeftOf="@+id/hologram_image_view"
+            android:background="@drawable/bg_credit_card_signature_tile" />
+
+        <TextView
+            android:id="@+id/signature_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/credit_card_signature_bg_view"
+            android:layout_alignRight="@+id/credit_card_signature_bg_view"
+            android:layout_alignTop="@+id/credit_card_signature_bg_view"
+            android:layout_marginLeft="-32dp"
+            android:layout_marginRight="112dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="start"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textScaleX=".8"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <!-- Fill space, make room for the text that goes on top -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.mobiata.test.CreditCardImprintTextView
+        android:id="@+id/name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="-32dp"
+        android:layout_marginRight="6dp"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="#231F23"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="6dp"
+        android:src="@drawable/ic_visa_grey_cvv" />
+
+</com.expedia.bookings.section.CreditCardSection>

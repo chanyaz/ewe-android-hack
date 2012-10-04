@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.CVVSection xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The marginTop of this view is specifically set to hit the right spot -->
+
+    <TextView
+        android:id="@+id/cvv_text_view"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
+        android:background="@drawable/textfield_activated_holo"
+        android:freezesText="true"
+        android:gravity="center_horizontal"
+        android:maxLength="4"
+        android:paddingTop="14dp"
+        android:textColor="#326096"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/cvv_explanation_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cvv_text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:shadowColor="#2D000000"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius=".1"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="15dp" />
+
+</com.expedia.bookings.section.CVVSection>

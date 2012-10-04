@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- This is a dummy center view, from which we can align things above/below -->
+
+    <View
+        android:id="@+id/center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
+
+    <!-- Credit card at top of screen -->
+
+    <include
+        android:id="@+id/credit_card_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/center"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="41dp"
+        android:layout_marginTop="40dp"
+        layout="@layout/section_credit_card" />
+
+    <!-- The entry overlay/shade, included here for z-order -->
+
+    <include
+        android:id="@+id/cvv_entry_section"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/section_cvv" />
+
+    <!-- Input buttons at bottom -->
+
+    <include
+        android:id="@+id/credit_card_input_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/center"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="24dp"
+        layout="@layout/section_credit_card_input" />
+
+</RelativeLayout>

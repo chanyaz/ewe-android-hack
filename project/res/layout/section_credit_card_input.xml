@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.CreditCardInputSection xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="*" >
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <Button
+            android:id="@+id/one_button"
+            style="@style/CreditCardButton"
+            android:text="@string/one" />
+
+        <Button
+            android:id="@+id/two_button"
+            style="@style/CreditCardButton"
+            android:text="@string/two" />
+
+        <Button
+            android:id="@+id/three_button"
+            style="@style/CreditCardButton"
+            android:text="@string/three" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <Button
+            android:id="@+id/four_button"
+            style="@style/CreditCardButton"
+            android:text="@string/four" />
+
+        <Button
+            android:id="@+id/five_button"
+            style="@style/CreditCardButton"
+            android:text="@string/five" />
+
+        <Button
+            android:id="@+id/six_button"
+            style="@style/CreditCardButton"
+            android:text="@string/six" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <Button
+            android:id="@+id/seven_button"
+            style="@style/CreditCardButton"
+            android:text="@string/seven" />
+
+        <Button
+            android:id="@+id/eight_button"
+            style="@style/CreditCardButton"
+            android:text="@string/eight" />
+
+        <Button
+            android:id="@+id/nine_button"
+            style="@style/CreditCardButton"
+            android:text="@string/nine" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <ImageButton
+            android:id="@+id/delete_button"
+            style="@style/CreditCardButton"
+            android:src="@drawable/ic_keypad_delete" />
+
+        <Button
+            android:id="@+id/zero_button"
+            style="@style/CreditCardButton"
+            android:text="@string/zero" />
+
+        <Button
+            android:id="@+id/book_button"
+            style="@style/CreditCardButton"
+            android:background="@drawable/btn_cvv_keypad_done_normal"
+            android:includeFontPadding="true"
+            android:text="@string/book"
+            android:textColor="@android:color/black"
+            android:textSize="18dp" />
+    </TableRow>
+
+</com.expedia.bookings.section.CreditCardInputSection>
