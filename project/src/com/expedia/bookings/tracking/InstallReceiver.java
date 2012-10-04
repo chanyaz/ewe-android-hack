@@ -15,9 +15,10 @@ public class InstallReceiver extends BroadcastReceiver {
 
 		if (intent.getAction().equals("com.android.vending.INSTALL_REFERRER")) {
 			intent.setComponent(null);
+			intent.setPackage(context.getPackageName());
 			intent.putExtra(RECEIVER_FORWARDED, true);
 
-			context.sendOrderedBroadcast(intent, null);
+			context.sendBroadcast(intent);
 		}
 	}
 }
