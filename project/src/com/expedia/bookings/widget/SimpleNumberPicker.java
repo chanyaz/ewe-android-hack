@@ -49,14 +49,18 @@ public class SimpleNumberPicker extends LinearLayout {
 	}
 
 	public SimpleNumberPicker(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		mContext = context;
+		init();
 	}
 
 	public SimpleNumberPicker(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
 		mContext = context;
+		init();
+	}
 
+	private void init() {
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.simple_number_picker, this, true);
 
