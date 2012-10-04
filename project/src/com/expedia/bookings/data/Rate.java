@@ -543,8 +543,7 @@ public class Rate implements JSONable {
 
 	private Money getMandatoryBaseRate() {
 		if (mMandatoryFeesBaseRate == null) {
-			mMandatoryFeesBaseRate = new Money();
-			mMandatoryFeesBaseRate.add(mStrikethroughPriceToShowUsers);
+			mMandatoryFeesBaseRate = new Money(mStrikethroughPriceToShowUsers);
 			mMandatoryFeesBaseRate.add(mTotalMandatoryFees);
 		}
 		return mMandatoryFeesBaseRate;
