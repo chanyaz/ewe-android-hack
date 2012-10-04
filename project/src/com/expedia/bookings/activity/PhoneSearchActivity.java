@@ -259,9 +259,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private int mRadiusCheckedId = 0;
 	private int mRatingCheckedId = 0;
 	private int mPriceCheckedId = 0;
-	private int mDefaultRadiusCheckedId = 0;
-	private int mDefaultRatingCheckedId = 0;
-	private int mDefaultPriceCheckedId = 0;
 
 	private ArrayList<Address> mAddresses;
 	private SearchParams mOldSearchParams;
@@ -1107,10 +1104,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.price_filter_button_group);
 
-		mDefaultRadiusCheckedId = mRadiusButtonGroup.getCheckedRadioButtonId();
-		mDefaultRatingCheckedId = mRatingButtonGroup.getCheckedRadioButtonId();
-		mDefaultPriceCheckedId = mPriceButtonGroup.getCheckedRadioButtonId();
-
 		mFilterHotelNameEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -1300,10 +1293,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		Db.setSearchResponse(null);
 		Db.clearAvailabilityResponses();
 
-		mRadiusCheckedId = mDefaultRadiusCheckedId;
-		mPriceCheckedId = mDefaultPriceCheckedId;
-		mRatingCheckedId = mDefaultRatingCheckedId;
-
 		broadcastSearchStarted();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -1484,6 +1473,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
 		// stay visible, it's easier here just to hide it between activity shifts.
 		outState.putInt(INSTANCE_DISPLAY_TYPE, mDisplayType.ordinal());
+
 		return outState;
 	}
 
@@ -1873,14 +1863,48 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mFilterHotelNameEditText.setText(Db.getFilter().getHotelName());
 		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
 
-		if (mRadiusCheckedId == 0) {
-			mRadiusCheckedId = mRadiusButtonGroup.getCheckedRadioButtonId();
+		switch (Db.getFilter().getSearchRadius()) {
+		case SMALL:
+			mRadiusCheckedId = R.id.radius_small_button;
+			break;
+		case MEDIUM:
+			mRadiusCheckedId = R.id.radius_medium_button;
+			break;
+		case LARGE:
+			mRadiusCheckedId = R.id.radius_large_button;
+			break;
+		case ALL:
+			mRadiusCheckedId = R.id.radius_all_button;
+			break;
 		}
-		if (mRatingCheckedId == 0) {
-			mRatingCheckedId = mRatingButtonGroup.getCheckedRadioButtonId();
+
+		switch (Db.getFilter().getPriceRange()) {
+		case CHEAP:
+			mPriceCheckedId = R.id.price_cheap_button;
+			break;
+		case MODERATE:
+			mPriceCheckedId = R.id.price_moderate_button;
+			break;
+		case EXPENSIVE:
+			mPriceCheckedId = R.id.price_expensive_button;
+			break;
+		case ALL:
+			mPriceCheckedId = R.id.price_all_button;
+			break;
 		}
-		if (mPriceCheckedId == 0) {
-			mPriceCheckedId = mPriceButtonGroup.getCheckedRadioButtonId();
+
+		double minStarRating = Db.getFilter().getMinimumStarRating();
+		if (minStarRating >= 5) {
+			mRatingCheckedId = R.id.rating_high_button;
+		}
+		else if (minStarRating >= 4) {
+			mRatingCheckedId = R.id.rating_medium_button;
+		}
+		else if (minStarRating >= 3) {
+			mRatingCheckedId = R.id.rating_low_button;
+		}
+		else {
+			mRatingCheckedId = R.id.rating_all_button;
 		}
 
 		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, Db.getFilter());
