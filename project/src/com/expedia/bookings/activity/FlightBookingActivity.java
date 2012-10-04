@@ -3,11 +3,8 @@ package com.expedia.bookings.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
@@ -17,30 +14,32 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
-import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.fragment.CVVEntryFragment;
+import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
+import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.util.ViewUtils;
 
 // This is just for testing booking using data from the app.  It is
 // not intended to be at all like the final booking activity (should
 // use fragments, not just use all pre-filled data, etc.)
-public class FlightBookingActivity extends SherlockFragmentActivity {
+public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flight.checkout";
 
 	private Context mContext;
 
-	private TextView mTextView;
-
+	private BlurredBackgroundFragment mBgFragment;
+	private CVVEntryFragment mCVVEntryFragment;
 	private BookingInProgressDialogFragment mProgressFragment;
 
 	@Override
@@ -51,41 +50,33 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 
 		setContentView(R.layout.activity_flight_booking);
 
+		mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
+		mCVVEntryFragment = Ui.findSupportFragment(this, CVVEntryFragment.TAG);
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
 
-		mTextView = Ui.findView(this, R.id.text);
+		if (savedInstanceState == null) {
+			mBgFragment = new BlurredBackgroundFragment();
 
-		final Button button = Ui.findView(this, R.id.button);
-		button.setEnabled(false);
-		button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ViewUtils.hideSoftKeyboard(mContext, mTextView);
-
-				mProgressFragment = new BookingInProgressDialogFragment();
-				mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
-
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				bd.cancelDownload(DOWNLOAD_KEY);
-				bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
+			// Determine the data displayed on the CVVEntryFragment
+			Traveler traveler = Db.getTravelers().get(0);
+			String personName = traveler.getFirstName() + " " + traveler.getLastName();
+			BillingInfo billingInfo = Db.getBillingInfo();
+			StoredCreditCard cc = billingInfo.getStoredCard();
+			String cardName;
+			if (cc != null) {
+				cardName = cc.getDescription();
 			}
-		});
+			else {
+				String ccNumber = billingInfo.getNumber();
+				cardName = getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
+			}
+			mCVVEntryFragment = CVVEntryFragment.newInstance(personName, cardName);
 
-		if (savedInstanceState == null && !ExpediaServices.suppressFinalBooking(this)) {
-			button.setText("Push to book!");
-
-			mTextView.setText("WARNING!  WARNING!\n\nFlight bookings are NOT being suppressed - "
-					+ "a real booking will occur when you hit go!");
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.add(R.id.bg_frame, mBgFragment, BlurredBackgroundFragment.TAG);
+			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
+			ft.commit();
 		}
-
-		final SectionBillingInfo ccSecCode = Ui.findView(this, R.id.section_edit_creditcard_security_code);
-		ccSecCode.bind(Db.getBillingInfo());
-		ccSecCode.addChangeListener(new SectionChangeListener() {
-			@Override
-			public void onChange() {
-				button.setEnabled(ccSecCode.hasValidInput());
-			}
-		});
 
 		if (savedInstanceState == null) {
 			OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid(this);
@@ -166,19 +157,33 @@ public class FlightBookingActivity extends SherlockFragmentActivity {
 				// Launch the conf page
 				startActivity(new Intent(mContext, FlightConfirmationActivity.class));
 
-				sb.append("Booking success!");
-				sb.append("\n\n");
-				sb.append("orderId: " + results.getOrderId());
-
-				if (!results.getOrderId().equals("000000")) {
-					sb.append("\n\nWARNING: ORDER ID WAS NOT 000000! THIS MEANS THE BOOKING ACTUALLY WENT THROUGH!");
-				}
-
 				// Make sure to track this shit in Omniture
 				OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(mContext, results.getOrderId());
 			}
 
-			mTextView.setText(sb.toString());
+			// There were errors, display them in a dialog
+			if (sb.length() != 0) {
+				SimpleSupportDialogFragment sdf = SimpleSupportDialogFragment.newInstance(
+						getString(R.string.error_booking_title), sb.toString());
+				sdf.show(getSupportFragmentManager(), "error");
+			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// CVVEntryFragmentListener
+
+	@Override
+	public void onBook(String cvv) {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+		if (!bd.isDownloading(DOWNLOAD_KEY)) {
+			Db.getBillingInfo().setSecurityCode(cvv);
+
+			mProgressFragment = new BookingInProgressDialogFragment();
+			mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+
+			bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
+		}
+	}
 }

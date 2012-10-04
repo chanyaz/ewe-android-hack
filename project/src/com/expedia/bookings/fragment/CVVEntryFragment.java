@@ -19,6 +19,9 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	public static final String TAG = CVVEntryFragment.class.getName();
 
+	private static final String ARG_PERSON_NAME = "ARG_PERSON_NAME";
+	private static final String ARG_CARD_NAME = "ARG_CARD_NAME";
+
 	private CreditCardSection mCreditCardSection;
 
 	private CVVSection mCVVSection;
@@ -26,6 +29,15 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	private CreditCardInputSection mCreditCardInputSection;
 
 	private CVVEntryFragmentListener mListener;
+
+	public static CVVEntryFragment newInstance(String personName, String cardName) {
+		CVVEntryFragment fragment = new CVVEntryFragment();
+		Bundle args = new Bundle();
+		args.putString(ARG_PERSON_NAME, personName);
+		args.putString(ARG_CARD_NAME, cardName);
+		fragment.setArguments(args);
+		return fragment;
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -51,10 +63,12 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		// Set this up to listen to the credit card IME
 		mCreditCardInputSection.setListener(this);
 
-		// TODO: This is temporary test data we're binding
-		String cardName = getString(R.string.card_ending_TEMPLATE, "1234");
+		// Bind data to views
+		Bundle args = getArguments();
+		String personName = args.getString(ARG_PERSON_NAME);
+		String cardName = args.getString(ARG_CARD_NAME);
 		mCVVSection.setExplanationText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
-		mCreditCardSection.setName("Daniel Lew");
+		mCreditCardSection.setName(personName);
 
 		return v;
 	}

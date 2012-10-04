@@ -150,7 +150,8 @@
         </activity>
         <activity
             android:name=".activity.FlightBookingActivity"
-            android:theme="@style/FlightTheme" />
+            android:theme="@style/FlightTheme"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FlightPaymentOptionsActivity"
             android:theme="@style/FlightTheme" >

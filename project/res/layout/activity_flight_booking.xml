@@ -1,33 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <include
-        android:id="@+id/section_edit_creditcard_security_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/section_edit_creditcard_security_code" />
+    <FrameLayout
+        android:id="@+id/bg_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Push to (fake) book!" />
+    <FrameLayout
+        android:id="@+id/cvv_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        android:layout_weight="1" >
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center" />
-    </ScrollView>
-
-</LinearLayout>
+</FrameLayout>
