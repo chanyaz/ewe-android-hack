@@ -53,9 +53,9 @@ public class LaunchFragment extends Fragment {
 			mSearchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 
 			// kick off hotels search
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			bd.cancelDownload(KEY_SEARCH);
-			bd.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
+			//			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			//			bd.cancelDownload(KEY_SEARCH);
+			//			bd.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
 		}
 
 	}
