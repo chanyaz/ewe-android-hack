@@ -58,6 +58,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 
 				Db.getFlightSearch().getSearchParams().ensureValidDates();
 			}
+
+			OmnitureTracking.trackPageLoadFlightSearch(this);
 		}
 
 		if (savedInstanceState != null) {
@@ -95,30 +97,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		Log.d("ExpediaBookingsTracking", "onStart");
-
-		ActivityState state = (ActivityState) getLastCustomNonConfigurationInstance();
-
-		if (state == null || state.invokeOmnitureTracking) {
-			if (state == null) {
-				Log.d("ExpediaBookingsTracking", "state == null");
-			}
-			OmnitureTracking.trackPageLoadFlightSearch(this);
-		}
-	}
-
-	private class ActivityState {
-
-		public ActivityState() {
-			this.invokeOmnitureTracking = false;
-		}
-
-		public boolean invokeOmnitureTracking;
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 
@@ -150,14 +128,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 
 	@Override
 	public Object onRetainCustomNonConfigurationInstance() {
-		//		Log.d("ExpediaBookingsTracking", "onRetainCustomNon");
-		//		mConfigChange = true;
-		//		return super.onRetainCustomNonConfigurationInstance();
-
-		ActivityState state = new ActivityState();
-		state.invokeOmnitureTracking = false;
-
-		return state;
+		mConfigChange = true;
+		return super.onRetainCustomNonConfigurationInstance();
 	}
 
 	@Override
