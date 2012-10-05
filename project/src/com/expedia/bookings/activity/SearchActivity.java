@@ -46,6 +46,12 @@ public class SearchActivity extends Activity {
 			routingTarget = BookingFragmentActivity.class;
 		}
 
+		// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
+		else if (ExpediaBookingApp.useTabletInterface(this)) {
+			routingTarget = SearchFragmentActivity.class;
+		}
+
+		// Note: User is on a phone and app is launching "normally" to launch screen
 		else {
 			routingTarget = LaunchActivity.class;
 		}
