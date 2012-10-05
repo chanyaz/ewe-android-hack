@@ -102,7 +102,6 @@ import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
-import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
@@ -121,7 +120,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
@@ -280,8 +278,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// The last selection for the search EditText.  Used to maintain between rotations
 	private int mSearchTextSelectionStart = -1;
 	private int mSearchTextSelectionEnd = -1;
-
-	private HockeyPuck mHockeyPuck;
 
 	//----------------------------------
 	// THREADS/CALLBACKS
@@ -512,10 +508,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			// Mark that we've read the change
 			SettingUtils.save(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
 		}
-
-		// HockeyApp init
-		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(mContext));
-		mHockeyPuck.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -619,9 +611,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		mIsActivityResumed = true;
-
-		//HockeyApp crash
-		mHockeyPuck.onResume();
 	}
 
 	@Override
@@ -691,8 +680,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		super.onSaveInstanceState(outState);
 
 		outState.putAll(saveActivityState());
-
-		mHockeyPuck.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -794,8 +781,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_search, menu);
 
-		DebugMenu.onCreateOptionsMenu(this, menu);
-		mHockeyPuck.onCreateOptionsMenu(menu);
 		boolean ret = super.onCreateOptionsMenu(menu);
 
 		mIsOptionsMenuCreated = true;
@@ -804,9 +789,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		DebugMenu.onPrepareOptionsMenu(this, menu);
-		mHockeyPuck.onPrepareOptionsMenu(menu);
-
 		// Configure the sort buttons
 		switch (Db.getFilter().getSort()) {
 		case POPULAR:
@@ -942,10 +924,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		if (invalidateOptionsMenu) {
 			supportInvalidateOptionsMenu();
-		}
-
-		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
-			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -1890,8 +1868,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			@Override
 			public void run() {
 				mFilterPopupWindow.showAsDropDown(mRefinementDismissView,
-					(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
-					-mFilterLayout.getMeasuredHeight());
+						(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
+						-mFilterLayout.getMeasuredHeight());
 			}
 		});
 
