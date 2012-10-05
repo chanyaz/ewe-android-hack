@@ -165,8 +165,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private static final int DIALOG_CLIENT_DEPRECATED = 1;
 	private static final int DIALOG_ENABLE_LOCATIONS = 2;
 
-	private static final int REQUEST_CODE_SETTINGS = 1;
-
 	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 
 	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
@@ -682,17 +680,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		outState.putAll(saveActivityState());
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == RESULT_OK) {
-			// This indicates that settings have changed; we should start a new search,
-			// as the currency (or possibly other settings in the future) have changed.
-			startSearch();
-		}
-	}
-
 	//----------------------------------
 	// DIALOGS
 	//----------------------------------
@@ -853,18 +840,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		boolean invalidateOptionsMenu = false;
 
 		switch (item.getItemId()) {
-		// Overflow items
-		case R.id.settings: {
-			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
-			startActivityForResult(intent, REQUEST_CODE_SETTINGS);
-			break;
-		}
-		case R.id.about: {
-			Intent intent = new Intent(this, AboutActivity.class);
-			startActivity(intent);
-			break;
-		}
-
 		// Sort
 		case R.id.menu_select_sort: {
 			setDisplayType(DisplayType.NONE);
