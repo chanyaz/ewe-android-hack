@@ -8,15 +8,12 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
 
 public class FlightPaymentSaveDialogFragment extends DialogFragment {
 
 	FlightPaymentYoYoListener mListener;
-
-	BillingInfo mBillingInfo;
 
 	public static FlightPaymentSaveDialogFragment newInstance() {
 		FlightPaymentSaveDialogFragment frag = new FlightPaymentSaveDialogFragment();
@@ -28,20 +25,18 @@ public class FlightPaymentSaveDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		mBillingInfo = Db.getBillingInfo();
-
 		return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.save_billing_info)
 				.setMessage(R.string.save_billing_info_message)
 				.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						mBillingInfo.setSaveCardToExpediaAccount(true);
+						Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setSaveCardToExpediaAccount(true);
 						mListener.moveForward();
 					}
 				})
-				.setNegativeButton(R.string.dont_save, new DialogInterface.OnClickListener() {
+				.setNegativeButton(R.string.no_thanks, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						mBillingInfo.setSaveCardToExpediaAccount(false);
+						Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setSaveCardToExpediaAccount(false);
 						mListener.moveForward();
 					}
 				}).create();

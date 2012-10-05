@@ -14,7 +14,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
-public class BillingInfo implements JSONable {
+public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
 	private static final String SAVED_INFO_FILENAME = "billing.dat";
 
@@ -355,5 +355,21 @@ public class BillingInfo implements JSONable {
 		catch (JSONException e) {
 			return obj.toString();
 		}
+	}
+
+	/**
+	 * Use the toJson() method for both objects and compare the strings.
+	 */
+	@Override
+	public int compareTo(BillingInfo another) {
+		//TODO: We should really improve this compareto method, but it currently meets our needs with very little code
+		if (this == another) {
+			return 0;
+		}
+		if (another == null) {
+			return -1;
+		}
+		return toJson().toString().compareTo(another.toJson().toString());
+
 	}
 }

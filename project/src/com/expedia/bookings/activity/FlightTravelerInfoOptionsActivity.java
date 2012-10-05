@@ -518,6 +518,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 					default:
 						displayOptions();
 					}
+				}else{
+					displayOptions();
 				}
 				break;
 			case OPTIONS:
@@ -600,7 +602,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	public void displaySaveDialog() {
 		mBeforeSaveDialogPos = mPos;
 		mPos = YoYoPosition.SAVE;
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 		DialogFragment newFragment = FlightTravelerSaveDialogFragment.newInstance();
 		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
 	}

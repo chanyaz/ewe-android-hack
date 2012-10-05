@@ -46,6 +46,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
+	private YoYoPosition mBeforeSaveDialogPos;
 
 	//Define the states of navigation
 	public enum YoYoMode {
@@ -106,6 +107,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	}
 
 	public void displaySaveDialog() {
+		mBeforeSaveDialogPos = mPos;
 		mPos = YoYoPosition.SAVE;
 		supportInvalidateOptionsMenu();
 		DialogFragment newFragment = FlightPaymentSaveDialogFragment.newInstance();
@@ -126,6 +128,14 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
 		finish();
+	}
+
+	private boolean workingBillingInfoChanged() {
+		if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
+					.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
+		}
+		return false;
 	}
 
 	public void moveForward() {
@@ -162,16 +172,38 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			switch (mPos) {
 			case ADDRESS:
 				if (validate(mAddressFragment)) {
-					displayOptions();
+					if (User.isLoggedIn(this)
+							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+							&& workingBillingInfoChanged()) {
+						displaySaveDialog();
+					}
+					else {
+						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+						displayOptions();
+					}
 				}
 				break;
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
-					displayOptions();
+					if (User.isLoggedIn(this)
+							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+							&& workingBillingInfoChanged()) {
+						displaySaveDialog();
+					}
+					else {
+						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+						displayOptions();
+					}
 				}
 				break;
-			case OPTIONS:
 			case SAVE:
+				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+						Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+				displayOptions();
+				break;
+			case OPTIONS:
 			default:
 				Ui.showToast(this, "FAIL");
 				break;
@@ -215,13 +247,32 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		else if (mMode.equals(YoYoMode.EDIT)) {
 			switch (mPos) {
 			case ADDRESS:
+			case CREDITCARD:
+				//If we are backing up we want to restore the base billing info...
+				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+				}
 				displayOptions();
 				break;
-			case CREDITCARD:
-				displayOptions();
+			case SAVE:
+				//Back on save means cancel
+				if (mBeforeSaveDialogPos != null) {
+					switch (mBeforeSaveDialogPos) {
+					case ADDRESS:
+						displayAddress();
+						break;
+					case CREDITCARD:
+						displayCreditCard();
+						break;
+					default:
+						displayOptions();
+					}
+				}else{
+					displayOptions();
+				}
 				break;
 			case OPTIONS:
-			case SAVE:
 			default:
 				Ui.showToast(this, "FAIL");
 				return false;
@@ -389,19 +440,21 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
-			if(mPos.compareTo(YoYoPosition.OPTIONS) == 0){
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
 				setShowNextButton(false);
 				setShowDoneButton(false);
-			}else{
+			}
+			else {
 				setShowNextButton(false);
 				setShowDoneButton(true);
 			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
-			if(mPos.compareTo(YoYoPosition.OPTIONS) == 0){
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
 				setShowNextButton(false);
 				setShowDoneButton(false);
-			}else{
+			}
+			else {
 				setShowNextButton(false);
 				setShowDoneButton(true);
 			}

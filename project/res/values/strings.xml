@@ -315,7 +315,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">Save Billing Info</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Tap Save to save your billing details to your Expedia account.</string>
+    <string name="save_billing_info_message">Save this payment method under your Expedia account to speed up future purchases?</string>
     <!-- save -->
     <string name="save">Save</string>
     <!-- dont save -->
@@ -324,8 +324,6 @@
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Save Traveler</string>
-    <!-- save traveler message -->
-    <string name="save_traveler_message">Tap Save to save this traveler to your Expedia account.</string>
     <!-- Save traveler name Template -->
     <string name="save_traveler_message_TEMPLATE">Save %1$s\'s information under your Expedia account to speed up future purchases?</string>
     <!-- no thanks -->
