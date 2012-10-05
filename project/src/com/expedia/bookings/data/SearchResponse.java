@@ -325,7 +325,8 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 				// Filter search radius
 				if (searchDistance != null) {
 					if (property.getDistanceFromUser() != null) {
-						Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property.getDistanceFromUser().getUnit());
+						Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property
+								.getDistanceFromUser().getUnit());
 						distanceFromUser.setDistance(Math.rint(distanceFromUser.getDistance() * 10.0d) / 10.0d);
 						if (distanceFromUser == null || distanceFromUser.compareTo(searchDistance) > 0) {
 							continue;
@@ -376,11 +377,11 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			int i = 0;
 			for (Property p : deals) {
 				filteredProperties[i] = p;
-				i ++;
+				i++;
 			}
 			for (Property p : others) {
 				filteredProperties[i] = p;
-				i ++;
+				i++;
 			}
 			break;
 		case RATING:
@@ -396,6 +397,13 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 		}
 
 		return filteredProperties;
+	}
+
+	public Property[] getFilteredAndSortedProperties(Sort sort) {
+		mFilter = new Filter();
+		mFilter.setSort(sort);
+
+		return getFilteredAndSortedProperties();
 	}
 
 	public void onFilterChanged() {
