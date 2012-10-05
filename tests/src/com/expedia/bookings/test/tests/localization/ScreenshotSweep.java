@@ -61,8 +61,6 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 
 			mDriver.changeAPI("Production");
 			mDriver.delay(2);
-			mDriver.setLocale(testingLocale);
-			mDriver.closeBanner();
 			mDriver.pressCalendar();
 			mDriver.pressGuestPicker();
 
@@ -71,7 +69,7 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.pressSort();
 			mDriver.filterFor("Westin");
 
-			mDriver.selectHotel(0);
+			mDriver.selectHotel(2);
 			mDriver.delay();
 			mDriver.checkReviews();
 			mDriver.pressBookRoom();
