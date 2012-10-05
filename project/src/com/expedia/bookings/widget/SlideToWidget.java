@@ -51,7 +51,7 @@ public class SlideToWidget extends RelativeLayout {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View widget = inflater.inflate(R.layout.widget_slide_to, this);
 
-		mContainer = Ui.findView(widget, R.id.slider_container);
+		mContainer = this;
 		mSlider = Ui.findView(widget, R.id.slider_image);
 		mSliderText = Ui.findView(widget, R.id.slider_text);
 		mHiddenImage = Ui.findView(widget, R.id.hidden_image);
