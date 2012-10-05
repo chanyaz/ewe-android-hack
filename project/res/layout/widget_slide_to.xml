@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slider_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/slider_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+         />
+
+    <!-- Used as a spacer, dumb but effective -->
+    <ImageView
+        android:id="@+id/hidden_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+         />
+
+    <TextView
+        android:id="@+id/slider_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/hidden_image"
+        android:layout_centerVertical="true"
+        android:textColor="#FCFCFC"
+        android:textSize="26sp" />
+
+</RelativeLayout>

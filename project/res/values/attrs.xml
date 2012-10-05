@@ -29,6 +29,10 @@
         <!-- Defines how much extra area around the "X" allows touch (for clearing the content) -->
         <attr name="touchAreaPadding" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="SlideToWidget">
+        <attr name="sliderText" format="string" />
+        <attr name="sliderImage" format="reference" />
+    </declare-styleable>
 
     <!-- NumberPicker style. -->
     <attr name="numberPickerStyle" format="reference" />

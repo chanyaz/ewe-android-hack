@@ -6,16 +6,20 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightBookingActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.SlideToWidget;
+import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 
 public class FlightSlideToPurchaseFragment extends Fragment {
+
+	private SlideToWidget mSlider;
 
 	public static FlightSlideToPurchaseFragment newInstance() {
 		FlightSlideToPurchaseFragment fragment = new FlightSlideToPurchaseFragment();
@@ -35,15 +39,31 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_flight_slide_to_purchase, container, false);
 
-		View slideToPurchaseView = Ui.findView(v, R.id.slider_container);
-		slideToPurchaseView.setOnClickListener(new OnClickListener() {
+		TextView price = Ui.findView(v, R.id.trip_price);
+		String template = getResources().getString(R.string.your_card_will_be_charged_TEMPLATE);
+		String text = String.format(template, Db.getFlightSearch().getSelectedFlightTrip().getTotalFare()
+				.getFormattedMoney());
+		price.setText(text);
+
+		mSlider = Ui.findView(v, R.id.slide_to_wid);
+		mSlider.addSlideToListener(new ISlideToListener() {
+
 			@Override
-			public void onClick(View v) {
-				//Kick off info save...
+			public void onSlideStart() {
+			}
+
+			@Override
+			public void onSlideAllTheWay() {
 				Db.getBillingInfo().save(getActivity());
 				Intent intent = new Intent(getActivity(), FlightBookingActivity.class);
 				startActivity(intent);
+
 			}
+
+			@Override
+			public void onSlideAbort() {
+			}
+
 		});
 
 		return v;
@@ -57,6 +77,9 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		if (mSlider != null) {
+			mSlider.resetSlider();
+		}
 	}
 
 	@Override

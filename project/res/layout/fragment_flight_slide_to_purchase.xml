@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:slideto="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#66000000"
     android:gravity="center_horizontal"
-    android:paddingTop="15dp"
+    android:orientation="vertical"
     android:paddingBottom="15dp"
-    android:orientation="vertical" >
+    android:paddingTop="15dp" >
 
-    <LinearLayout
-        android:id="@+id/slider_container"
+    <com.expedia.bookings.widget.SlideToWidget
+        android:id="@+id/slide_to_wid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical|center_horizontal"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/ic_slide_to_purchase" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/slide_to_purchase"
-            android:textColor="#FCFCFC"
-            android:textSize="26sp" />
-    </LinearLayout>
+        slideto:sliderImage="@drawable/ic_slide_to_purchase"
+        slideto:sliderText="@string/slide_to_purchase" />
 
     <TextView
+        android:id="@+id/trip_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/your_card_will_be_charged_TEMPLATE"
