@@ -326,6 +326,10 @@
     <string name="save_traveler">Save Traveler</string>
     <!-- save traveler message -->
     <string name="save_traveler_message">Tap Save to save this traveler to your Expedia account.</string>
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_message_TEMPLATE">Save %1$s\'s information under your Expedia account to speed up future purchases?</string>
+    <!-- no thanks -->
+    <string name="no_thanks">No Thanks</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->

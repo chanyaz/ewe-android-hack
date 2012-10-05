@@ -314,6 +314,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				if (traveler != null) {
 					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler);
 					mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+					mCurrentTraveler.setSaveTravelerToExpediaAccount(true);//We default account travelers to save, unless the user alters the name
 					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 					if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
 						boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();

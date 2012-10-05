@@ -18,6 +18,7 @@ import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.FlightTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment;
@@ -53,6 +54,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
+	private YoYoPosition mBeforeSaveDialogPos;
 
 	private int mTravelerIndex;
 
@@ -300,6 +302,29 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		}
 	}
 
+	private boolean workingTravelerNameChanged() {
+		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+			Traveler working = Db.getWorkingTravelerManager().getWorkingTraveler();
+			Traveler base = Db.getWorkingTravelerManager().getBaseTraveler();
+			if (base.getFirstName().trim().compareTo(working.getFirstName().trim()) == 0
+					&& base.getLastName().trim().compareTo(working.getLastName().trim()) == 0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean workingTravelerChanged() {
+		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+			return Db.getWorkingTravelerManager().getWorkingTraveler()
+					.compareTo(Db.getWorkingTravelerManager().getBaseTraveler()) != 0;
+		}
+		return false;
+	}
+
 	//////////////////////////////////////////
 	////
 
@@ -312,6 +337,13 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				break;
 			case ONE:
 				if (validate(mOneFragment)) {
+					if (Db.getWorkingTravelerManager().getWorkingTraveler().getSaveTravelerToExpediaAccount()) {
+						if (workingTravelerNameChanged()) {
+							//If we had already set the save flag, but we now changed the first or last name, we now unset the save flag, and show the dialog again in the future
+							Db.getWorkingTravelerManager().getWorkingTraveler().resetTuid();//If we changed the name, we don't consider them the same traveler
+							Db.getWorkingTravelerManager().getWorkingTraveler().setSaveTravelerToExpediaAccount(false);
+						}
+					}
 					displayTravelerEntryTwo();
 				}
 				break;
@@ -321,7 +353,9 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 						displayTravelerEntryThree();
 					}
 					else {
-						if (User.isLoggedIn(this)) {
+						if (User.isLoggedIn(this)
+								&& !Db.getWorkingTravelerManager().getWorkingTraveler()
+										.getSaveTravelerToExpediaAccount()) {
 							displaySaveDialog();
 						}
 						else {
@@ -332,7 +366,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				break;
 			case THREE:
 				if (validate(mThreeFragment)) {
-					if (User.isLoggedIn(this)) {
+					if (User.isLoggedIn(this)
+							&& !Db.getWorkingTravelerManager().getWorkingTraveler().getSaveTravelerToExpediaAccount()) {
 						displaySaveDialog();
 					}
 					else {
@@ -353,21 +388,63 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			switch (mPos) {
 			case ONE:
 				if (validate(mOneFragment)) {
-					displayOptions();
+					if (User.isLoggedIn(this)) {
+						if (workingTravelerNameChanged()) {
+							//If we changed the name, we don't consider them the same traveler
+							Db.getWorkingTravelerManager().getWorkingTraveler().resetTuid();
+							displaySaveDialog();
+						}
+						else if (workingTravelerChanged()
+								&& !Db.getWorkingTravelerManager().getWorkingTraveler()
+										.getSaveTravelerToExpediaAccount()) {
+							//If the traveler changed and we weren't saving before, ask again.
+							displaySaveDialog();
+						}
+						else {
+							Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+									Db.getWorkingTravelerManager().getWorkingTraveler());
+							displayOptions();
+						}
+					}
+					else {
+						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+								Db.getWorkingTravelerManager().getWorkingTraveler());
+						displayOptions();
+					}
 				}
 				break;
 			case TWO:
 				if (validate(mTwoFragment)) {
-					displayOptions();
+					if (User.isLoggedIn(this) && workingTravelerChanged()
+							&& !Db.getWorkingTravelerManager().getWorkingTraveler().getSaveTravelerToExpediaAccount()) {
+						displaySaveDialog();
+					}
+					else {
+						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+								Db.getWorkingTravelerManager().getWorkingTraveler());
+						displayOptions();
+					}
 				}
 				break;
 			case THREE:
 				if (validate(mThreeFragment)) {
-					displayOptions();
+					if (User.isLoggedIn(this) && workingTravelerChanged()
+							&& !Db.getWorkingTravelerManager().getWorkingTraveler().getSaveTravelerToExpediaAccount()) {
+						displaySaveDialog();
+					}
+					else {
+						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+								Db.getWorkingTravelerManager().getWorkingTraveler());
+						displayOptions();
+					}
 				}
 				break;
-			case OPTIONS:
 			case SAVE:
+				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+						Db.getWorkingTravelerManager().getWorkingTraveler());
+				displayOptions();
+				break;
+			case OPTIONS:
 			default:
 				Ui.showToast(this, "FAIL");
 				break;
@@ -419,10 +496,31 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			case ONE:
 			case TWO:
 			case THREE:
+				//If we are backing up we want to restore the base traveler...
+				if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+							Db.getWorkingTravelerManager().getBaseTraveler());
+				}
 				displayOptions();
 				break;
-			case OPTIONS:
 			case SAVE:
+				if(mBeforeSaveDialogPos != null){
+					switch(mBeforeSaveDialogPos){
+					case ONE:
+						displayTravelerEntryOne();
+						break;
+					case TWO:
+						displayTravelerEntryTwo();
+						break;
+					case THREE:
+						displayTravelerEntryThree();
+						break;
+					default:
+						displayOptions();
+					}
+				}
+				break;
+			case OPTIONS:
 			default:
 				Ui.showToast(this, "FAIL");
 				return false;
@@ -500,6 +598,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	@Override
 	public void displaySaveDialog() {
+		mBeforeSaveDialogPos = mPos;
 		mPos = YoYoPosition.SAVE;
 		displayActionItemBasedOnState();
 		DialogFragment newFragment = FlightTravelerSaveDialogFragment.newInstance();

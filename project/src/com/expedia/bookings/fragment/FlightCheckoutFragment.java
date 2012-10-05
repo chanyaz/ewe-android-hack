@@ -405,12 +405,15 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			}
 		}
 		else {
-			//Travelers that have tuids are from the account and thus should be removed.
 			for (int i = 0; i < Db.getTravelers().size(); i++) {
+				//Travelers that have tuids are from the account and thus should be removed.
 				if (Db.getTravelers().get(i).hasTuid()) {
 					Db.getTravelers().set(i, new Traveler());
 				}
+				//We can't save travelers to an account if we aren't logged in, so we unset the flag
+				Db.getTravelers().get(i).setSaveTravelerToExpediaAccount(false);
 			}
+			
 		}
 	}
 
@@ -430,6 +433,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		else {
 			//Remove stored card(s)
 			Db.getBillingInfo().setStoredCard(null);
+			//Turn off the save to expedia account flag
+			Db.getBillingInfo().setSaveCardToExpediaAccount(false);
 		}
 	}
 

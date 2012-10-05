@@ -18,7 +18,7 @@ import com.mobiata.android.json.JSONable;
 /**
  * This class represents a traveler for booking
  */
-public class Traveler implements JSONable {
+public class Traveler implements JSONable, Comparable<Traveler> {
 
 	// Expedia
 	private Long mTuid = 0L;
@@ -93,6 +93,10 @@ public class Traveler implements JSONable {
 
 	public boolean hasTuid() {
 		return (mTuid != 0);
+	}
+
+	public void resetTuid() {
+		mTuid = 0L;
 	}
 
 	public String getLoyaltyMembershipNumber() {
@@ -405,5 +409,91 @@ public class Traveler implements JSONable {
 		catch (JSONException e) {
 			return obj.toString();
 		}
+	}
+
+	@Override
+	public int compareTo(Traveler another) {
+		final int BEFORE = -1;
+		final int EQUAL = 0;
+		//final int AFTER = 1;
+
+		if (this == another) {
+			//same ref
+			return EQUAL;
+		}
+		if (another == null) {
+			return BEFORE;
+		}
+
+		if ((getFirstName() == null && another.getFirstName() != null)
+				|| (getFirstName() != null && getFirstName().compareTo(another.getFirstName()) != 0)) {
+			return getFirstName() == null ? BEFORE : getFirstName().compareTo(another.getFirstName());
+		}
+
+		if ((getMiddleName() == null && another.getMiddleName() != null)
+				|| (getMiddleName() != null && getMiddleName().compareTo(another.getMiddleName()) != 0)) {
+			return getMiddleName() == null ? BEFORE : getMiddleName().compareTo(another.getMiddleName());
+		}
+
+		if ((getLastName() == null && another.getLastName() != null)
+				|| (getLastName() != null && getLastName().compareTo(another.getLastName()) != 0)) {
+			return getLastName() == null ? BEFORE : getLastName().compareTo(another.getLastName());
+		}
+
+		if ((getHomeAddress() == null && another.getHomeAddress() != null)
+				|| (getHomeAddress() != null && getHomeAddress().toJson().toString()
+						.compareTo(another.getHomeAddress().toJson().toString()) != 0)) {
+			return getHomeAddress() == null ? BEFORE :  getHomeAddress().toJson().toString()
+					.compareTo(another.getHomeAddress().toJson().toString());
+		}
+
+		if ((getPhoneNumber() == null && another.getPhoneNumber() != null)
+				|| (getPhoneNumber() != null && getPhoneNumber().compareTo(another.getPhoneNumber()) != 0)) {
+			return getPhoneNumber() == null ? BEFORE : getPhoneNumber().compareTo(another.getPhoneNumber());
+		}
+		if ((getPhoneCountryCode() == null && another.getPhoneCountryCode() != null)
+				|| (getPhoneCountryCode() != null && getPhoneCountryCode().compareTo(another.getPhoneCountryCode()) != 0)) {
+			return getPhoneCountryCode() == null ? BEFORE : getPhoneCountryCode().compareTo(another.getPhoneCountryCode());
+		}
+		if ((getEmail() == null && another.getEmail() != null)
+				|| (getEmail() != null && getEmail().compareTo(another.getEmail()) != 0)) {
+			return getEmail() == null ? BEFORE : getEmail().compareTo(another.getEmail());
+		}
+
+		if (isSmokingPreferred() != another.isSmokingPreferred()) {
+			return  BEFORE;
+		}
+
+		if ((getGender() == null && another.getGender() != null)
+				|| (getGender() != null && getGender().compareTo(another.getGender()) != 0)) {
+			return getGender() == null ? BEFORE : getGender().compareTo(another.getGender());
+		}
+
+		if ((getBirthDate() == null && another.getBirthDate() != null)
+				|| (getBirthDate() != null && getBirthDate().toJson().toString()
+						.compareTo(another.getBirthDate().toJson().toString()) != 0)) {
+			return getBirthDate() == null ? BEFORE : getBirthDate().toJson().toString()
+					.compareTo(another.getBirthDate().toJson().toString());
+		}
+		if ((getRedressNumber() == null && another.getRedressNumber() != null)
+				|| (getRedressNumber() != null && getRedressNumber().compareTo(another.getRedressNumber()) != 0)) {
+			return getRedressNumber() == null ? BEFORE : getRedressNumber().compareTo(another.getRedressNumber());
+		}
+		if ((getPassportCountry() == null && another.getPassportCountry() != null)
+				|| (getPassportCountry() != null && getPassportCountry().compareTo(another.getPassportCountry()) != 0)) {
+			return getPassportCountry() == null ? BEFORE : getPassportCountry().compareTo(another.getPassportCountry());
+		}
+
+		if ((getSeatPreference() == null && another.getSeatPreference() != null)
+				|| (getSeatPreference() != null && getSeatPreference().compareTo(another.getSeatPreference()) != 0)) {
+			return getSeatPreference() == null ? BEFORE : getSeatPreference().compareTo(another.getSeatPreference());
+		}
+
+		if ((getAssistance() == null && another.getAssistance() != null)
+				|| (getAssistance() != null && getAssistance().compareTo(another.getAssistance()) != 0)) {
+			return getAssistance() == null ? BEFORE : getAssistance().compareTo(another.getAssistance());
+		}
+
+		return EQUAL;
 	}
 }
