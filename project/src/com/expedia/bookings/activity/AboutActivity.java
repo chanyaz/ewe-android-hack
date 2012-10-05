@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 
@@ -59,11 +60,13 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 
 		// Section about some of our other apps
 		ViewGroup otherAppsSection = addSection(getString(R.string.ALSO_BY_MOBIATA));
-		addAppAbout(otherAppsSection, APP_FLIGHTTRACKFREE, 0, new OnClickListener() {
-			public void onClick(View v) {
-				mUtils.trackFlightTrackFreeLink();
-			}
-		});
+		if (AndroidUtils.getSdkVersion() >= 9) {
+			addAppAbout(otherAppsSection, APP_FLIGHTTRACKFREE, 0, new OnClickListener() {
+				public void onClick(View v) {
+					mUtils.trackFlightTrackFreeLink();
+				}
+			});
+		}
 		addAppAbout(otherAppsSection, APP_FLIGHTTRACK, 0, new OnClickListener() {
 			public void onClick(View v) {
 				mUtils.trackFlightTrackLink();
