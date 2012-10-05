@@ -2,15 +2,20 @@ package com.expedia.bookings.tracking;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.omniture.AppMeasurement;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 
 /**
@@ -99,6 +104,9 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Flight.Checkout.Traveler.EnterManually";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_SELECT_EXISTING = "App.Flight.Checkout.Payment.Select.Existing";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Flight.Checkout.Payment.EnterManually";
+
+	private static final String EMAIL_HASH_KEY = "email_hash_flights";
+	private static final String NO_EMAIL = "NO EMAIL PROVIDED FLIGHTS";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC TRACK LINK METHODS
@@ -458,6 +466,8 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", s.eVar28);
 	}
 
+	// Note: a lot of this is taken from TrackingUtils. Eventually the code should be unified. Avoiding now in interest
+	// of time and priorities (and not wanting to break Hotels tracking)
 	private static AppMeasurement createTrackPageLoadEventBase(Context context, String pageName) {
 		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
 
@@ -467,12 +477,21 @@ public class OmnitureTracking {
 		// TPID
 		s.prop7 = LocaleUtils.getTPID(context);
 
-		// TUID
-		if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
-			long tuid = Db.getUser().getPrimaryTraveler().getTuid();
-			if (tuid != 0) {
-				s.prop11 = Long.toString(tuid);
+		// Hashed email
+		String emailHashed = null;
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		if (!prefs.contains(EMAIL_HASH_KEY)) {
+			String email = null;
+			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
+				email = Db.getUser().getPrimaryTraveler().getEmail();
 			}
+			saveEmailForTracking(context, email);
+		}
+		else {
+			emailHashed = prefs.getString(EMAIL_HASH_KEY, null);
+		}
+		if (emailHashed != null && !emailHashed.equals(NO_EMAIL)) {
+			s.prop11 = emailHashed;
 		}
 
 		// App version
@@ -497,8 +516,6 @@ public class OmnitureTracking {
 
 		// Experience segmentation TODO remove the hardcoded value
 		s.eVar50 = "app.phone.android";
-
-		// TODO verify this is needed
 
 		// Add debugging flag if not release
 		if (!AndroidUtils.isRelease(context) || DebugUtils.isLogEnablerInstalled(context)) {
@@ -540,7 +557,7 @@ public class OmnitureTracking {
 
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 
-		// This is only to be included when there is a price change shown on the page. This should be the % increase or 
+		// This is only to be included when there is a price change shown on the page. This should be the % increase or
 		// decrease in price. Round to whole integers.
 		String priceChange = trip.computePercentagePriceChangeForOmnitureTracking();
 		if (priceChange != null) {
@@ -578,4 +595,34 @@ public class OmnitureTracking {
 			return "MD";
 		}
 	}
+
+	private static void saveEmailForTracking(Context context, String email) {
+		if (email != null && email.length() > 0) {
+			SettingUtils.save(context, EMAIL_HASH_KEY, md5(email));
+		}
+		else {
+			SettingUtils.save(context, EMAIL_HASH_KEY, NO_EMAIL);
+		}
+	}
+
+	private static String md5(String s) {
+		try {
+			// Create MD5 Hash
+			MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+			digest.update(s.getBytes());
+			byte messageDigest[] = digest.digest();
+
+			// Create Hex String
+			StringBuffer hexString = new StringBuffer();
+			for (int i = 0; i < messageDigest.length; i++)
+				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+			return hexString.toString();
+		}
+		catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 }
