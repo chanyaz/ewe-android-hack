@@ -9,10 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.FlightSearchActivity;
-import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.activity.SearchFragmentActivity;
+import com.expedia.bookings.activity.*;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -103,7 +100,12 @@ public class LaunchFragment extends Fragment {
 				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
 				break;
 			case R.id.flights_button:
-				startActivity(new Intent(getActivity(), FlightSearchActivity.class));
+				if (FlightUnsupportedPOSActivity.isSupportedPOS(getActivity())) {
+					startActivity(new Intent(getActivity(), FlightSearchActivity.class));
+				}
+				else {
+					startActivity(new Intent(getActivity(), FlightUnsupportedPOSActivity.class));
+				}
 
 				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
 				break;
