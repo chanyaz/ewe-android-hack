@@ -456,7 +456,7 @@
     <!-- Fare information header -->
     <string name="fare_information">FARE INFORMATION</string>
     <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">By completing this booking I agree that I have read and accept the &lt;u&gt;&lt;u&gt;&lt;b&gt;Rules and Restrictions,&lt;/b&gt; the &lt;b&gt;Terms and Conditions,&lt;/b&gt; the &lt;b&gt;Privacy Policy&lt;/b&gt; and &lt;b&gt;Fare Information.&lt;/b&gt;&lt;/u&gt;</string>
+    <string name="fare_rules_link">By completing this booking I agree that I have read and accept the &lt;u&gt;&lt;b&gt;Rules and Restrictions,&lt;/b&gt; the &lt;b&gt;Terms and Conditions,&lt;/b&gt; the &lt;b&gt;Privacy Policy&lt;/b&gt; and &lt;b&gt;Fare Information.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
