@@ -41,7 +41,8 @@ public class BaggageFeeActivity extends SherlockFragmentActivity implements Bagg
 
 		mFragment = Ui.findSupportFragment(this, FRAG_TAG);
 		if (mFragment == null) {
-			mFragment = BaggageFeeFragment.newInstance(origin, destination);
+			mFragment = BaggageFeeFragment.newInstance(origin, destination,
+					intent.getIntExtra(BaggageFeeFragment.ARG_LEG_POSITION, 0));
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.add(android.R.id.content, mFragment, FRAG_TAG);
 			ft.commit();

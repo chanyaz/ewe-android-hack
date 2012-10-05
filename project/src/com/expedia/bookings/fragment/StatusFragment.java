@@ -35,10 +35,6 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 			mText = savedInstanceState.getCharSequence(INSTANCE_TEXT);
 			mIsGrounded = savedInstanceState.getBoolean(INSTANCE_IS_GROUNDED);
 		}
-		else {
-			OmnitureTracking.trackPageLoadFlightSearchResultsPlaneLoadingFragment(getActivity());
-		}
-
 	}
 
 	@Override
@@ -61,6 +57,8 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 		super.onStart();
 
 		mPlaneWindowView.setRendering(true);
+
+		OmnitureTracking.trackPageLoadFlightSearchResultsPlaneLoadingFragment(getActivity());
 	}
 
 	@Override

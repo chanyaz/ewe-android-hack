@@ -64,8 +64,9 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightTravelerSelect(getActivity());
 	}
 
 	@Override

@@ -39,12 +39,9 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard(getActivity());
-		}
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard(getActivity());
 	}
 
 	@Override

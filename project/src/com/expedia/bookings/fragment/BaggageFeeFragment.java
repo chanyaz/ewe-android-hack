@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
@@ -21,21 +22,24 @@ public class BaggageFeeFragment extends Fragment {
 
 	public static final String TAG_ORIGIN = "TAG_ORIGIN";
 	public static final String TAG_DESTINATION = "TAG_DESTINATION";
+	public static final String ARG_LEG_POSITION = "ARG_LEG_POSITION";
 
 	BaggageFeeListener mListener;
 
-	public static BaggageFeeFragment newInstance(String origin, String destination) {
+	public static BaggageFeeFragment newInstance(String origin, String destination, int legPosition) {
 		BaggageFeeFragment fragment = new BaggageFeeFragment();
 		Bundle args = new Bundle();
 		args.putString(TAG_ORIGIN, origin);
 		args.putString(TAG_DESTINATION, destination);
+		args.putInt(ARG_LEG_POSITION, legPosition);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightBaggageFee(getActivity(), getArguments().getInt(ARG_LEG_POSITION, 0));
 	}
 
 	@Override

@@ -58,8 +58,6 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 
 				Db.getFlightSearch().getSearchParams().ensureValidDates();
 			}
-
-			OmnitureTracking.trackPageLoadFlightSearch(this);
 		}
 
 		if (savedInstanceState != null) {
@@ -94,6 +92,12 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
 
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightSearch(this);
 	}
 
 	@Override

@@ -32,12 +32,9 @@ public class FlightTravelerInfoThreeFragment extends Fragment implements Validat
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadFlightTravelerEditPassport(getActivity());
-		}
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightTravelerEditPassport(getActivity());
 	}
 
 	@Override

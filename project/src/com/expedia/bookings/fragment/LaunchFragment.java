@@ -15,6 +15,7 @@ import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.ILastLocationFinder;
@@ -98,9 +99,13 @@ public class LaunchFragment extends Fragment {
 						: PhoneSearchActivity.class;
 
 				startActivity(new Intent(getActivity(), routingTarget));
+
+				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
 				break;
 			case R.id.flights_button:
 				startActivity(new Intent(getActivity(), FlightSearchActivity.class));
+
+				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
 				break;
 			}
 		}

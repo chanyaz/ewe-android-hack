@@ -28,10 +28,12 @@ public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
 		}
 
 		fragment.showGrounded(Html.fromHtml(getString(R.string.invalid_flights_pos)));
+	}
 
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackErrorPageLoadFlightUnsupportedPOS(this);
-		}
+	@Override
+	protected void onStart() {
+		super.onStart();
+		OmnitureTracking.trackErrorPageLoadFlightUnsupportedPOS(this);
 	}
 
 	public static boolean isSupportedPOS(Context context) {

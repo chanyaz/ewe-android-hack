@@ -47,8 +47,6 @@ public class FlightDetailsFragment extends Fragment {
 	private FlightTrip mFlightTrip;
 	private FlightLeg mFlightLeg;
 
-	private int mLegPosition;
-
 	public static FlightDetailsFragment newInstance(FlightTrip trip, FlightLeg leg, int legPosition) {
 		FlightDetailsFragment fragment = new FlightDetailsFragment();
 		Bundle args = new Bundle();
@@ -130,7 +128,6 @@ public class FlightDetailsFragment extends Fragment {
 		arriveAtSection.bind(leg.getSegment(segmentCount - 1), false);
 		mInfoContainer.addView(arriveAtSection);
 
-		mLegPosition = getArguments().getInt(ARG_LEG_POSITION);
 		mBaggageInfoTextView = Ui.findView(v, R.id.baggage_fee_text_view);
 		mBaggageInfoTextView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -139,9 +136,8 @@ public class FlightDetailsFragment extends Fragment {
 				Intent baggageIntent = new Intent(getActivity(), BaggageFeeActivity.class);
 				baggageIntent.putExtra(BaggageFeeFragment.TAG_ORIGIN, leg.getFirstWaypoint().mAirportCode);
 				baggageIntent.putExtra(BaggageFeeFragment.TAG_DESTINATION, leg.getLastWaypoint().mAirportCode);
+				baggageIntent.putExtra(BaggageFeeFragment.ARG_LEG_POSITION, getArguments().getInt(ARG_LEG_POSITION, 0));
 				getActivity().startActivity(baggageIntent);
-
-				OmnitureTracking.trackPageLoadFlightBaggageFee(getActivity(), mLegPosition);
 			}
 		});
 
@@ -170,6 +166,12 @@ public class FlightDetailsFragment extends Fragment {
 		});
 
 		return v;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(getActivity(), getArguments().getInt(ARG_TRIP_LEG, 0));
 	}
 
 	public FlightTripLeg getFlightTripLeg() {

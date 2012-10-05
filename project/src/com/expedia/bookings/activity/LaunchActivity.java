@@ -4,6 +4,7 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.expedia.bookings.fragment.LaunchFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 
@@ -23,6 +24,12 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		else {
 			mLaunchFragment = Ui.findSupportFragment(this, LaunchFragment.TAG);
 		}
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadLaunchScreen(this);
 	}
 
 	@Override

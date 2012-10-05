@@ -10,6 +10,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightConfirmationFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NavigationButton;
@@ -60,6 +61,12 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 				R.drawable.ic_action_bar_triangle, getSupportActionBar());
 		mNavButton.setDropdownAdapter(new NavigationDropdownAdapter(this, NoOpButton.FLIGHTS));
 		mNavButton.setTitle(R.string.booking_complete);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(this);
 	}
 
 	@Override

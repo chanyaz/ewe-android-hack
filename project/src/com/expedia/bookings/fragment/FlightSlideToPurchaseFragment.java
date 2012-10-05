@@ -26,12 +26,9 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase(getActivity());
-		}
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase(getActivity());
 	}
 
 	@Override

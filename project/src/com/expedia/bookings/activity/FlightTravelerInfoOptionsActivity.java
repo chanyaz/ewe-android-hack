@@ -289,10 +289,6 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setTitle(yourTripToStr);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadFlightTravelerSelect(mContext);
-		}
 	}
 
 	public boolean validate(Validatable validatable) {

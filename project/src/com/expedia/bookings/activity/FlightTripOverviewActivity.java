@@ -153,10 +153,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			checkoutTransaction.commit();
 		}
 		//}
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadFlightOverview(this);
-		}
 	}
 
 	@Override

@@ -61,12 +61,9 @@ public class FlightPaymentOptionsFragment extends Fragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadFlightCheckoutPaymentSelect(getActivity());
-		}
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentSelect(getActivity());
 	}
 
 	@Override

@@ -539,8 +539,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		ft.replace(R.id.content_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
 		ft.addToBackStack(getFlightDetailsBackStackName(mLegPosition));
 		ft.commit();
-
-		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(mContext, mLegPosition);
 	}
 
 	@Override

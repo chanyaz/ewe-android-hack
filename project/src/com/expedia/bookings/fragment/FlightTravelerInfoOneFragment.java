@@ -36,12 +36,9 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadFlightTravelerEditInfo(getActivity());
-		}
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightTravelerEditInfo(getActivity());
 	}
 
 	@Override

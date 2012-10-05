@@ -77,10 +77,12 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			ft.commit();
 		}
+	}
 
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid(this);
-		}
+	@Override
+	protected void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid(this);
 	}
 
 	@Override
@@ -156,9 +158,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			else {
 				// Launch the conf page
 				startActivity(new Intent(mContext, FlightConfirmationActivity.class));
-
-				// Make sure to track this shit in Omniture
-				OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(mContext, results.getOrderId());
 			}
 
 			// There were errors, display them in a dialog

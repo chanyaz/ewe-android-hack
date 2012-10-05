@@ -36,12 +36,9 @@ public class FlightPaymentAddressFragment extends Fragment implements Validatabl
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditAddress(getActivity());
-		}
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditAddress(getActivity());
 	}
 
 	@Override

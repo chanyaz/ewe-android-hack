@@ -100,8 +100,16 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_PAYMENT_SELECT_EXISTING = "App.Flight.Checkout.Payment.Select.Existing";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Flight.Checkout.Payment.EnterManually";
 
-	public static void trackLinkLaunchScreenToNextScreen(Context context, String flightOrHotelString) {
-		String link = LAUNCH_SCREEN + "." + flightOrHotelString;
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// PUBLIC TRACK LINK METHODS
+
+	public static void trackLinkLaunchScreenToHotels(Context context) {
+		String link = LAUNCH_SCREEN + "." + "Hotel";
+		internalTrackLink(context, link);
+	}
+
+	public static void trackLinkLaunchScreenToFlights(Context context) {
+		String link = LAUNCH_SCREEN + "." + "Flight";
 		internalTrackLink(context, link);
 	}
 
@@ -238,7 +246,8 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Flights tracking events
 
-	public static void trackPageLoadFlightCheckoutConfirmation(Context context, final String orderId) {
+	public static void trackPageLoadFlightCheckoutConfirmation(Context context) {
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
 		AppMeasurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_CONFIRMATION);
 		addVars25And26LobAsConfirmer(s);
 
@@ -256,6 +265,7 @@ public class OmnitureTracking {
 		s.events = "purchase";
 
 		// order number with an "onum" prefix, described here: http://confluence/pages/viewpage.action?pageId=419913476
+		final String orderId = Db.getFlightCheckout().getOrderId();
 		s.purchaseID = "onum" + orderId;
 
 		// TRL
