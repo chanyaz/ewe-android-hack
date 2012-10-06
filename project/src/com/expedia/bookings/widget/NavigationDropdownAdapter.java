@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightSearchActivity;
+import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.NavItem;
 import com.expedia.bookings.utils.Ui;
@@ -57,7 +58,9 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				if (mNoOpBtn != NoOpButton.HOME) {
-					Intent intent = new Intent(mContext, FlightSearchActivity.class);
+					Intent intent = new Intent(mContext, SearchActivity.class);
+					// TODO: clear task was introduced in Honeycomb, must figure out a solution for 2.1+
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 					mContext.startActivity(intent);
 				}
 			}
@@ -68,7 +71,8 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				if (mNoOpBtn != NoOpButton.HOTELS) {
-					Intent intent = new Intent(mContext, SearchActivity.class);
+					// TODO: make this smarter for future when user can access EH tablet from this dropdown
+					Intent intent = new Intent(mContext, PhoneSearchActivity.class);
 					mContext.startActivity(intent);
 				}
 			}
