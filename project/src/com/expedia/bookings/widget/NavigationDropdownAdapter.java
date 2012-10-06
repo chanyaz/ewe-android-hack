@@ -59,8 +59,9 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				if (mNoOpBtn != NoOpButton.HOME) {
 					Intent intent = new Intent(mContext, SearchActivity.class);
-					// TODO: clear task was introduced in Honeycomb, must figure out a solution for 2.1+
-					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+					// Note: FLAG_ACTIVITY_CLEAR_TASK was introduced in 3.0, must use IntentCompat for 2.1+ support
+					intent.addFlags(android.support.v4.content.IntentCompat.FLAG_ACTIVITY_CLEAR_TASK
+							| Intent.FLAG_ACTIVITY_NEW_TASK);
 					mContext.startActivity(intent);
 				}
 			}
