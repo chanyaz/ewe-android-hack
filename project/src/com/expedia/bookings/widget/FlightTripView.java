@@ -168,7 +168,7 @@ public class FlightTripView extends View {
 				else {
 					airportCode = mFlightLeg.getSegment(a / 2).mDestination.mAirportCode;
 				}
-				canvas.drawText(airportCode, bounds.centerX(), height - 1, mTextPaint);
+				canvas.drawText(airportCode, bounds.centerX(), height - mTextPaint.descent(), mTextPaint);
 			}
 			left += currWidth;
 		}
@@ -192,7 +192,10 @@ public class FlightTripView extends View {
 		int width = getWidth();
 		int height = getHeight();
 		float circleDiameter = height / 2.0f;
-		mTextPaint.setTextSize(circleDiameter);
+
+		// F856: Make sure that the font padding is accounted for in the text size
+		float fontPadding = (mTextPaint.descent() - mTextPaint.ascent()) - mTextPaint.getTextSize();
+		mTextPaint.setTextSize(circleDiameter - fontPadding);
 
 		// Determine the widest text, base the side padding (and min line width) on that 
 		float maxTextWidth = 0;
