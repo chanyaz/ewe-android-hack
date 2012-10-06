@@ -72,6 +72,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
@@ -246,6 +247,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private HotelListFragment mHotelListFragment;
 	private HotelMapFragment mHotelMapFragment;
+
+	private ActionMode mActionMode = null;
 
 	private String mTag;
 
@@ -641,6 +644,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		((ExpediaBookingApp) getApplicationContext())
 				.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
+
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
 		if (isFinishing() && !ConfirmationUtils.hasSavedConfirmationData(this)) {
@@ -957,6 +964,39 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			super.supportInvalidateOptionsMenu();
 		}
 	}
+
+	private ActionMode.Callback mSearchActionMode = new ActionMode.Callback() {
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			// Inflate a menu resource providing context menu items
+			mode.getMenuInflater().inflate(R.menu.action_mode_search, menu);
+			return true;
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			switch (item.getItemId()) {
+			case R.id.menu_select_search:
+				startSearch();
+				mode.finish(); // Action picked, so close the CAB
+				return true;
+			default:
+				return false;
+			}
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			mActionMode = null;
+			setDisplayType(DisplayType.NONE);
+		}
+	};
 
 	//----------------------------------
 	// KEY EVENTS
@@ -1664,6 +1704,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		mDisplayType = displayType;
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
 
 		switch (mDisplayType) {
 		case NONE: {
@@ -1713,6 +1756,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mDatesLayout.setVisibility(View.VISIBLE);
 			mGuestsLayout.setVisibility(View.GONE);
 
+			if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+				mActionMode = startActionMode(mSearchActionMode);
+			}
+
 			break;
 		}
 		case GUEST_PICKER: {
@@ -1726,6 +1773,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.VISIBLE);
+
+			if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+				mActionMode = startActionMode(mSearchActionMode);
+			}
 
 			break;
 		}
@@ -2018,14 +2069,15 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	private void displayRefinementInfo() {
+		CharSequence text;
 		if (mDisplayType == DisplayType.CALENDAR) {
-			mRefinementInfoTextView.setText(CalendarUtils.getCalendarDatePickerTitle(this, mDatesCalendarDatePicker));
+			text = CalendarUtils.getCalendarDatePickerTitle(this, mDatesCalendarDatePicker);
 		}
 		else if (mDisplayType == DisplayType.GUEST_PICKER) {
 			SearchParams searchParams = Db.getSearchParams();
 			final int numAdults = searchParams.getNumAdults();
 			final int numChildren = searchParams.getNumChildren();
-			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, numAdults, numChildren));
+			text = StrUtils.formatGuests(this, numAdults, numChildren);
 
 			mChildAgesLayout.setVisibility(numChildren == 0 ? View.GONE : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
@@ -2035,7 +2087,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					mChildAgesLayout, mChildAgeSelectedListener);
 		}
 		else {
-			mRefinementInfoTextView.setText(null);
+			text = null;
+		}
+
+		mRefinementInfoTextView.setText(text);
+		if (mActionMode != null) {
+			mActionMode.setTitle(text);
 		}
 	}
 
