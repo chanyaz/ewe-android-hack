@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -50,6 +51,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		setContentView(R.layout.activity_flight_booking);
 
+		setTitle(R.string.title_complete_booking);
+
 		mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
 		mCVVEntryFragment = Ui.findSupportFragment(this, CVVEntryFragment.TAG);
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
@@ -77,6 +80,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			ft.commit();
 		}
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -101,6 +106,22 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Action bar
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Booking downloads
 
 	private Download<FlightCheckoutResponse> mDownload = new Download<FlightCheckoutResponse>() {
 		@Override
