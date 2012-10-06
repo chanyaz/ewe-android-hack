@@ -632,4 +632,8 @@
         <item name="android:background">@drawable/btn_cvv_keypad_normal</item>
     </style>
 
+    <style name="ActionBarButton">
+        <item name="android:background">@drawable/abs__item_background_holo_dark</item>
+    </style>
+
 </resources>

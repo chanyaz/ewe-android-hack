@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ActionBarButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:paddingRight="@dimen/yoyo_navigation_padding_right"
     android:drawableLeft="@drawable/ic_action_bar_checkmark"
     android:gravity="center_vertical"
+    android:minHeight="?attr/actionBarSize"
+    android:paddingRight="@dimen/yoyo_navigation_padding_right"
     android:text="@string/button_done"
     android:textAllCaps="true"
     android:textColor="@color/action_bar_text_yellow" />
-

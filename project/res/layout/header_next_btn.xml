@@ -1,35 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ActionBarButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:drawableLeft="@drawable/ic_action_bar_checkout_arrow"
     android:gravity="center_vertical"
+    android:minHeight="?attr/actionBarSize"
     android:paddingRight="@dimen/yoyo_navigation_padding_right"
     android:text="@string/next"
     android:textAllCaps="true"
     android:textColor="@color/action_bar_text_yellow" />
-
-<!-- <?xml version="1.0" encoding="utf-8"?> -->
-<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
-<!-- android:layout_width="wrap_content" -->
-<!-- android:layout_height="wrap_content" -->
-<!-- android:gravity="center_vertical" -->
-<!-- android:orientation="horizontal" -->
-<!-- android:paddingRight="@dimen/yoyo_navigation_padding_right" > -->
-
-<!-- <ImageView -->
-<!-- android:layout_width="@dimen/yoyo_navigation_img_width" -->
-<!-- android:layout_height="@dimen/yoyo_navigation_img_height" -->
-<!-- android:src="@drawable/btn_widget_next" -->
-<!-- /> -->
-
-<!-- <TextView -->
-<!-- android:textAllCaps="true" -->
-<!-- android:layout_width="wrap_content" -->
-<!-- android:layout_height="wrap_content" -->
-<!-- android:textColor="@color/yoyo_navigation_text_color" -->
-<!-- android:textSize="@dimen/yoyo_navigation_text_size" -->
-<!-- android:text="@string/next" /> -->
-
-<!-- </LinearLayout> -->
