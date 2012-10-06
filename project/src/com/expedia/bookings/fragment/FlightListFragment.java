@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
@@ -46,6 +45,9 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 	private FlightLegSummarySection mSectionFlightLeg;
 
 	private int mLegPosition;
+
+	// Used for solving a timing issue with scrolling to the top
+	private boolean mScrollToTopOnResume;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,15 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		onLegPositionChanged();
 
 		return v;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		if (mScrollToTopOnResume) {
+			mListView.setSelection(0);
+		}
 	}
 
 	@Override
@@ -194,10 +205,14 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 	}
 
 	public void setLegPosition(int legPosition) {
-		mLegPosition = legPosition;
+		if (mLegPosition != legPosition) {
+			mLegPosition = legPosition;
 
-		if (isAdded()) {
-			onLegPositionChanged();
+			mScrollToTopOnResume = true;
+
+			if (isAdded()) {
+				onLegPositionChanged();
+			}
 		}
 	}
 
@@ -212,8 +227,6 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 
 		// Scroll to top after reloading list with new results
 		if (mListView != null) {
-			mListView.setSelection(0);
-
 			// Only dynamically blur background if there is no header
 			// flight card being shown.
 			if (mLegPosition == 0) {
