@@ -27,7 +27,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
@@ -67,7 +66,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private AutoCompleteTextView mArrivalAirportEditText;
 	private TextView mDatesTextView;
 	private View mClearDatesButton;
-	private View mTravelersButton;
 	private CalendarDatePicker mCalendarDatePicker;
 
 	private FlightSearchParams mSearchParams;
@@ -116,7 +114,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mDepartureAirportEditText = Ui.findView(v, R.id.departure_airport_edit_text);
 		mArrivalAirportEditText = Ui.findView(v, R.id.arrival_airport_edit_text);
 		mDatesTextView = Ui.findView(v, R.id.dates_button);
-		mTravelersButton = Ui.findView(v, R.id.travelers_button);
 		mCalendarDatePicker = Ui.findView(v, R.id.calendar_date_picker);
 		mClearDatesButton = Ui.findView(v, R.id.clear_dates_btn);
 
@@ -202,17 +199,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-		});
-
-		mTravelersButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				clearEditTextFocus();
-
-				toggleCalendarDatePicker(false);
-
-				Toast.makeText(getActivity(), "TODO: Design & implement traveler picker", Toast.LENGTH_SHORT).show();
 			}
 		});
 

@@ -63,46 +63,32 @@
                 android:singleLine="true" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_weight="1" >
 
-            <RelativeLayout
-                android:layout_width="0dp"
+            <EditText
+                android:id="@+id/dates_button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" >
-
-                <EditText
-                    android:id="@+id/dates_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:hint="@string/hint_select_departure"
-                    android:singleLine="true"
-                    android:textColor="#999999" />
-
-                <ImageView
-                    android:id="@+id/clear_dates_btn"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_clear_edittext"
-                    android:visibility="gone" />
-            </RelativeLayout>
-
-            <ImageButton
-                android:id="@+id/travelers_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:scaleType="center"
+                android:ellipsize="end"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/hint_select_departure"
                 android:singleLine="true"
-                android:src="@drawable/ic_action_guests" />
-        </LinearLayout>
+                android:textColor="#999999" />
+
+            <ImageView
+                android:id="@+id/clear_dates_btn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_clear_edittext"
+                android:visibility="gone" />
+        </RelativeLayout>
     </LinearLayout>
 
     <!-- Calendar pop-up -->
