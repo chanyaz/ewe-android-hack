@@ -65,7 +65,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		mHockeyPuck.onCreateOptionsMenu(menu);
@@ -89,6 +89,10 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivity(intent);
 			return true;
+		case R.id.about:
+			Intent aboutIntent = new Intent(this, AboutActivity.class);
+			startActivity(aboutIntent);
+			return true;
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
@@ -97,5 +101,4 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
-
 }
