@@ -273,8 +273,15 @@ public class LayoutUtils {
 			a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
 					R.attr.actionBarStyle, 0);
 			int heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
-			extraTopPadding = (int) Math.round(res.getDimension(heightRes));
 			a.recycle();
+			if (heightRes != 0) {
+				extraTopPadding = (int) Math.round(res.getDimension(heightRes));
+			}
+			else {
+				// Getting here indicates that we're not using ABS for the action bar;
+				// get the height directly.
+				extraTopPadding = activity.getActionBar().getHeight();
+			}
 
 			// Get bottom padding (if in split action bar mode)
 			if (hasMenuItems) {
@@ -284,7 +291,13 @@ public class LayoutUtils {
 					a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
 							R.attr.actionBarSplitStyle, 0);
 					heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
-					extraBottomPadding = (int) Math.round(res.getDimension(heightRes));
+					if (heightRes != 0) {
+						extraBottomPadding = (int) Math.round(res.getDimension(heightRes));
+					}
+					else {
+						// See comment above for explanation on this similar code
+						extraBottomPadding = activity.getActionBar().getHeight();
+					}
 					a.recycle();
 				}
 			}
