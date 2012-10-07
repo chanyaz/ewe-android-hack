@@ -9,6 +9,7 @@ import java.util.Currency;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.mobiata.android.Log;
@@ -303,6 +304,12 @@ public class Money implements JSONable {
 			else if (formatted.endsWith(BRL_CURRENCY_STRING) && formatted.charAt(formatted.length() - 3) != ' ') {
 				formatted = formatted.substring(0, formatted.length() - BRL_CURRENCY_STRING.length()) + " R$";
 			}
+		}
+
+		// F830: Remove trailing decimal.  In Android 2.1, it seems to remain
+		// even if there is no fractional component.
+		if (Build.VERSION.SDK_INT == 7 && (flags & F_NO_DECIMAL) != 0 && formatted.endsWith(".")) {
+			formatted = formatted.substring(0, formatted.length() - 1);
 		}
 
 		return formatted;
