@@ -25,6 +25,7 @@ import com.expedia.bookings.section.FlightLayoverSection;
 import com.expedia.bookings.section.FlightPathSection;
 import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -59,6 +60,8 @@ public class FlightDetailsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_flight_details, container, false);
+
+		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
 
 		FlightTrip trip = getFlightTrip();
 		FlightLeg leg = getFlightLeg();

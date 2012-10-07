@@ -138,9 +138,8 @@
         </activity>
         <activity
             android:name=".activity.FlightSearchResultsActivity"
-            android:theme="@style/FlightTheme"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustPan" />
+            android:theme="@style/FlightTheme.OverlayMode"
+            android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name=".activity.FlightUnsupportedPOSActivity"
             android:theme="@style/FlightTheme" />

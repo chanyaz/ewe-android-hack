@@ -7,9 +7,12 @@ import java.util.TimeZone;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
 import android.graphics.Shader.TileMode;
 import android.graphics.Typeface;
@@ -27,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
@@ -239,5 +243,55 @@ public class LayoutUtils {
 			return config.screenWidthDp <= 800;
 		}
 		return config.orientation == Configuration.ORIENTATION_PORTRAIT;
+	}
+
+	/**
+	 * Adjusts the top and bottom padding of a View based on its Activity and state.
+	 * 
+	 * This method makes a few assumptions, namely that you're setting things like the
+	 * action bar/split's height and the uiOptions in the XML rather than dynamically.
+	 * If you're doing it dynamically then you're on your own (but I can't see any use
+	 * for a *more* dynamic version of this method at the moment).
+	 *  
+	 * @param activity the Activity who made have overlay
+	 * @param rootView the root view to add padding to
+	 * @param hasMenuItems there appears to be no easy way to tell if the menu actually has any items,
+	 *        so we use this variable to determine whether or not to adjust for bottom padding
+	 */
+	public static void adjustPaddingForOverlayMode(Activity activity, View rootView,
+			boolean hasMenuItems) {
+		TypedArray a = activity.getTheme().obtainStyledAttributes(R.styleable.SherlockTheme);
+		boolean inOverlayMode = a.getBoolean(R.styleable.SherlockTheme_windowActionBarOverlay, false);
+		a.recycle();
+
+		if (inOverlayMode) {
+			Resources res = activity.getResources();
+			int extraTopPadding = 0;
+			int extraBottomPadding = 0;
+
+			// Get top padding
+			a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
+					R.attr.actionBarStyle, 0);
+			int heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
+			extraTopPadding = (int) Math.round(res.getDimension(heightRes));
+			a.recycle();
+
+			// Get bottom padding (if in split action bar mode)
+			if (hasMenuItems) {
+				int uiOptions = ActionBarSherlockCompat.loadUiOptionsFromManifest(activity);
+				boolean splitWhenNarrow = (uiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 0;
+				if (splitWhenNarrow && res.getBoolean(R.bool.abs__split_action_bar_is_narrow)) {
+					a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
+							R.attr.actionBarSplitStyle, 0);
+					heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
+					extraBottomPadding = (int) Math.round(res.getDimension(heightRes));
+					a.recycle();
+				}
+			}
+
+			// Reset the padding with the additional top (and maybe bottom) padding
+			rootView.setPadding(rootView.getPaddingLeft(), rootView.getPaddingTop() + extraTopPadding,
+					rootView.getPaddingRight(), rootView.getPaddingBottom() + extraBottomPadding);
+		}
 	}
 }

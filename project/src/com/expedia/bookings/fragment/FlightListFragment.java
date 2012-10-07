@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
 
@@ -89,6 +90,8 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		}
 
 		View v = inflater.inflate(R.layout.fragment_flight_list, container, false);
+
+		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, true);
 
 		// Configure the header
 		mListView = Ui.findView(v, android.R.id.list);
@@ -288,8 +291,8 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 					mNumFlightsTextViewBottom = mNumFlightsTextView.getBottom();
 				}
 
-				int parentTop = view.getChildAt(0).getTop();
-				mListener.onFadeRangeChange(mNumFlightsTextViewTop + parentTop, mNumFlightsTextViewBottom + parentTop);
+				int padTop = view.getTop() + view.getChildAt(0).getTop();
+				mListener.onFadeRangeChange(mNumFlightsTextViewTop + padTop, mNumFlightsTextViewBottom + padTop);
 			}
 			else {
 				mListener.onDisableFade();
