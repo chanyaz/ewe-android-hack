@@ -96,7 +96,10 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	@Override
 	public void onBackPressed() {
 		if (!ActionBarNavUtils.removePopupDropdownIfNecessaryOnBackPressed(mNavButton)) {
-			super.onBackPressed();
+			// F854: Do not let users go back to the previous screens if they successfully booked
+			Intent intent = new Intent(this, FlightSearchActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 		}
 	}
 
