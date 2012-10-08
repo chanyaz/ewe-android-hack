@@ -156,6 +156,20 @@ public class NavigationButton extends LinearLayout {
 	////////////////////////////////////////
 	// These methods replicate the methods found in the action bar
 
+	public void setDisplayShowCustomEnabled(boolean showCustom) {
+		// We make an assumption that we don't ever want to show
+		// both the title + custom view.  If that assumption changes
+		// then we should change this code.
+		if (showCustom) {
+			mTitle.setVisibility(View.GONE);
+			mSideViews.setVisibility(View.VISIBLE);
+		}
+		else {
+			mTitle.setVisibility(View.VISIBLE);
+			mSideViews.setVisibility(View.GONE);
+		}
+	}
+
 	public void setTitle(CharSequence title) {
 		mTitle.setText(title);
 		mTitle.setVisibility(View.VISIBLE);

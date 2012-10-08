@@ -3,10 +3,8 @@ package com.expedia.bookings.activity;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
@@ -153,6 +151,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				R.drawable.ic_action_bar_triangle, ab);
 		mNavButton.setDropdownAdapter(new NavigationDropdownAdapter(this, NoOpButton.FLIGHTS));
 		mNavButton.setCustomView(customView);
+		mNavButton.setTitle(R.string.searching);
 
 		if (savedInstanceState == null) {
 			// On first launch, start a search
@@ -291,10 +290,12 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		// Either show standard action bar options, or just show the custom
 		// flight details action view, depending on whether flight details
 		// are currently visible
+		boolean isSearching = BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY);
 		boolean areFlightDetailsShowing = areFlightDetailsShowing();
 		mFlightSummaryContainer.setVisibility(areFlightDetailsShowing ? View.GONE : View.VISIBLE);
 		mFlightDetailsActionContainer.setVisibility(areFlightDetailsShowing ? View.VISIBLE : View.GONE);
 		mNavButton.setDisplayShowHomeEnabled(!areFlightDetailsShowing);
+		mNavButton.setDisplayShowCustomEnabled(!isSearching);
 		for (int a = 0; a < menu.size(); a++) {
 			menu.getItem(a).setVisible(!areFlightDetailsShowing);
 		}

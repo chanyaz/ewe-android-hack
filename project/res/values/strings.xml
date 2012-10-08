@@ -30,6 +30,8 @@
     <string name="dates_prompt">No dates selected</string>
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Loading flights...</string>
+    <!-- Label for screen that is doing searches -->
+    <string name="searching">Searching…</string>
     <!-- TEMPORARY generic error message when loading flights fails -->
     <string name="error_loading_flights_TEMPLATE">DEBUG: Error loading flights: %s</string>
     <!-- Error message when we find no flights -->
