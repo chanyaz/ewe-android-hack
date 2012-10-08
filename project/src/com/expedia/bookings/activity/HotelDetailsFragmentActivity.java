@@ -367,6 +367,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	@Override
 	public void onMiniMapClicked() {
 		Intent intent = new Intent(this, HotelMapActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.explode);
 	}
