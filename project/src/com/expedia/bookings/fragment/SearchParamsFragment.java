@@ -645,11 +645,11 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 			if (location.equals(getString(R.string.current_location))) {
 				mLocation.setTypeface(Typeface.DEFAULT_BOLD);
-				mIcon.setImageResource(R.drawable.ic_autocomplete_location);
+				mIcon.setImageResource(R.drawable.ic_suggestion_current_location);
 			}
 			else {
 				mLocation.setTypeface(Typeface.DEFAULT);
-				mIcon.setImageResource(R.drawable.ic_autocomplete_pin);
+				mIcon.setImageResource(R.drawable.ic_suggestion_place);
 			}
 		}
 
