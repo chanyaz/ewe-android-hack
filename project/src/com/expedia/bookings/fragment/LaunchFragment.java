@@ -13,6 +13,7 @@ import com.expedia.bookings.activity.*;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.ILastLocationFinder;
@@ -91,21 +92,12 @@ public class LaunchFragment extends Fragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.hotels_button:
-				// #11076 - for Android 3.0, we still use the phone version of the app due to crippling bugs.
-				Class<? extends Activity> routingTarget = ExpediaBookingApp.useTabletInterface(getActivity()) ? SearchFragmentActivity.class
-						: PhoneSearchActivity.class;
-
-				startActivity(new Intent(getActivity(), routingTarget));
+				NavUtils.goToHotels(getActivity());
 
 				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
 				break;
 			case R.id.flights_button:
-				if (FlightUnsupportedPOSActivity.isSupportedPOS(getActivity())) {
-					startActivity(new Intent(getActivity(), FlightSearchActivity.class));
-				}
-				else {
-					startActivity(new Intent(getActivity(), FlightUnsupportedPOSActivity.class));
-				}
+				NavUtils.goToFlights(getActivity());
 
 				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
 				break;

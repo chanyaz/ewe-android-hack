@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.ConfirmationUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.BackgroundDownloader;
 
 /**
@@ -16,6 +17,9 @@ import com.mobiata.android.BackgroundDownloader;
  * It is named SearchActivity for historical reasons; this was the original
  * starting Activity for older versions of EH, and we don't want to break any
  * future installs (which may have setup quick links to EH).
+ * 
+ * http://android-developers.blogspot.com/2011/06/things-that-cannot-change.html
+ * 
  */
 public class SearchActivity extends Activity {
 
@@ -27,39 +31,13 @@ public class SearchActivity extends Activity {
 		Tracker.trackAppLoading(this);
 		AdTracker.trackLaunch();
 
-		// Determine where to route the app
-		Class<? extends Activity> routingTarget;
-
-		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
-		//        then we should forward the user to the ConfirmationActivity
-		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
-			routingTarget = ConfirmationFragmentActivity.class;
+		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
+			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 		}
-
-		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
-		else if (BackgroundDownloader.getInstance().isDownloading(BookingInfoActivity.BOOKING_DOWNLOAD_KEY)) {
-			routingTarget = BookingInfoActivity.class;
-		}
-
-		// 13820: Check if a booking is in process at this moment (in case BookingFragmentActivity died)
-		else if (BackgroundDownloader.getInstance().isDownloading(BookingFragmentActivity.BOOKING_DOWNLOAD_KEY)) {
-			routingTarget = BookingFragmentActivity.class;
-		}
-
-		// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
-		else if (ExpediaBookingApp.useTabletInterface(this)) {
-			routingTarget = SearchFragmentActivity.class;
-		}
-
-		// Note: User is on a phone and app is launching "normally" to launch screen
 		else {
-			routingTarget = LaunchActivity.class;
+			// On default, go to launch screen
+			NavUtils.goToLaunchScreen(this);
 		}
-
-		Intent intent = new Intent(this, routingTarget);
-
-		// Start the routing intent
-		startActivity(intent);
 
 		// Finish this Activity after routing
 		finish();

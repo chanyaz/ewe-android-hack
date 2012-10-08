@@ -79,8 +79,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				if (mNoOpBtn != NoOpButton.FLIGHTS) {
-					Intent intent = new Intent(mContext, FlightSearchActivity.class);
-					mContext.startActivity(intent);
+					NavUtils.goToFlights(mContext);
 				}
 			}
 		}));
