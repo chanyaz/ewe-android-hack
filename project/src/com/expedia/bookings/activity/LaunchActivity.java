@@ -1,23 +1,16 @@
 package com.expedia.bookings.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -26,14 +19,10 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	private LaunchFragment mLaunchFragment;
 
 	private HockeyPuck mHockeyPuck;
-	private ActivityKillReceiver mKillReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mKillReceiver = new ActivityKillReceiver(this);
-		mKillReceiver.onCreate();
 
 		if (savedInstanceState == null) {
 			mLaunchFragment = LaunchFragment.newInstance();
@@ -61,13 +50,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	public void onStart() {
 		super.onStart();
 		OmnitureTracking.trackPageLoadLaunchScreen(this);
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		mKillReceiver.onDestroy();
 	}
 
 	@Override
