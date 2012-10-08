@@ -18,14 +18,14 @@
     <item
         android:state_checked="true"
         android:state_window_focused="false"
-        android:drawable="@drawable/bg_segment_left_on" />
+        android:drawable="@drawable/bg_dark_segment_left_on" />
     <item
         android:state_checked="false" android:state_window_focused="false"
-        android:drawable="@drawable/bg_segment_left_off" />
+        android:drawable="@drawable/bg_dark_segment_left_off" />
     <item
         android:state_checked="false"
-        android:drawable="@drawable/bg_segment_left_off" />
+        android:drawable="@drawable/bg_dark_segment_left_off" />
     <item
         android:state_checked="true"
-        android:drawable="@drawable/bg_segment_left_on" />
+        android:drawable="@drawable/bg_dark_segment_left_on" />
 </selector>

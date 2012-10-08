@@ -515,10 +515,17 @@
         <item name="android:paddingLeft">20dp</item>
     </style>
 
-    <style name="Widget.SegmentedControlGroup.DarkFilterControls">
+    <style name="Widget.SegmentedControlGroup.TabletFilterControls">
         <item name="centerButton">@drawable/segmented_center</item>
         <item name="leftButton">@drawable/segmented_left</item>
         <item name="rightButton">@drawable/segmented_right</item>
+        <item name="textColor">@color/actionbar_text</item>
+    </style>
+
+    <style name="Widget.SegmentedControlGroup.DarkFilterControls">
+        <item name="centerButton">@drawable/dark_segmented_center</item>
+        <item name="leftButton">@drawable/dark_segmented_left</item>
+        <item name="rightButton">@drawable/dark_segmented_right</item>
         <item name="textColor">@color/actionbar_text</item>
     </style>
 

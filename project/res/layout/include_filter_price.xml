@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/price_filter_button_group"
-    stlye="@style/Widget.SegmentedControlGroup.DarkFilterControls"
+    style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
@@ -15,7 +15,6 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="@string/filter_price_cheap"
-        android:textColor="@color/actionbar_text"
         android:textStyle="bold" />
 
     <RadioButton
@@ -24,7 +23,6 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="@string/filter_price_moderate"
-        android:textColor="@color/actionbar_text"
         android:textStyle="bold" />
 
     <RadioButton
@@ -33,7 +31,6 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="@string/filter_price_expensive"
-        android:textColor="@color/actionbar_text"
         android:textStyle="bold" />
 
     <RadioButton
@@ -43,7 +40,6 @@
         android:layout_weight="1"
         android:checked="true"
         android:text="@string/all"
-        android:textColor="@color/actionbar_text"
         android:textStyle="bold" />
 
 </com.mobiata.android.widget.SegmentedControlGroup>
