@@ -51,6 +51,16 @@ public class FlightSearch implements JSONable {
 	public void setSearchResponse(FlightSearchResponse searchResponse) {
 		mSearchResponse = searchResponse;
 
+		// If we got search locations from this, set them here
+		if (searchResponse != null) {
+			List<Location> searchCities = searchResponse.getSearchCities();
+			if (searchCities != null && searchCities.size() == 2) {
+				// We can assume (for now) that searchCity[0] == origin and searchCity[1] == destination
+				mSearchParams.getDepartureLocation().updateFrom(searchCities.get(0));
+				mSearchParams.getArrivalLocation().updateFrom(searchCities.get(1));
+			}
+		}
+
 		// Reset the FlightTrip and FlightLeg maps
 		mFlightTripMap.clear();
 		if (mSearchResponse != null && mSearchResponse.getTripCount() > 0) {

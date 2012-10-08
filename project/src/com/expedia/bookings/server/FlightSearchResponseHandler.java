@@ -15,6 +15,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightSegmentAttributes;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -69,6 +70,16 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			}
 
 			parsePricingInfoArray(response.optJSONArray("offers"));
+		}
+
+		// Parse the searchCities
+		JSONArray searchCities = response.optJSONArray("searchCities");
+		for (int a = 0; a < searchCities.length(); a++) {
+			JSONObject cityJson = searchCities.optJSONObject(a);
+			Location location = new Location();
+			location.setCity(cityJson.optString("city"));
+			location.setStateCode(cityJson.optString("province"));
+			mResponse.addSearchCity(location);
 		}
 
 		Log.d("Flight search response parse time: " + (System.currentTimeMillis() - start) + " ms");

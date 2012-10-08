@@ -5,6 +5,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -107,6 +109,38 @@ public class Location implements JSONable {
 
 	public void setDestinationId(String destinationId) {
 		this.mDestinationId = destinationId;
+	}
+
+	// Update this Location's fields with data from another, without blowing
+	// away any data currently stored here (if there's no new value)
+	public void updateFrom(Location other) {
+		if (other.mStreetAddress != null && other.mStreetAddress.size() > 0) {
+			mStreetAddress = other.mStreetAddress;
+		}
+		if (!TextUtils.isEmpty(other.mDescription)) {
+			mDescription = other.mDescription;
+		}
+		if (!TextUtils.isEmpty(other.mCity)) {
+			mCity = other.mCity;
+		}
+		if (!TextUtils.isEmpty(other.mStateCode)) {
+			mStateCode = other.mStateCode;
+		}
+		if (!TextUtils.isEmpty(other.mCountryCode)) {
+			mCountryCode = other.mCountryCode;
+		}
+		if (!TextUtils.isEmpty(other.mPostalCode)) {
+			mPostalCode = other.mPostalCode;
+		}
+		if (other.mLatitude != 0) {
+			mLatitude = other.mLatitude;
+		}
+		if (other.mLongitude != 0) {
+			mLongitude = other.mLongitude;
+		}
+		if (!TextUtils.isEmpty(other.mDestinationId)) {
+			mDestinationId = other.mDestinationId;
+		}
 	}
 
 	public JSONObject toJson() {

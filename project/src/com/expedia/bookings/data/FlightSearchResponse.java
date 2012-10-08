@@ -12,6 +12,8 @@ public class FlightSearchResponse extends Response {
 
 	private List<FlightTrip> mTrips;
 
+	private List<Location> mSearchCities;
+
 	public FlightSearchResponse() {
 		mTrips = new ArrayList<FlightTrip>();
 	}
@@ -36,6 +38,17 @@ public class FlightSearchResponse extends Response {
 		return mTrips.size();
 	}
 
+	public void addSearchCity(Location location) {
+		if (mSearchCities == null) {
+			mSearchCities = new ArrayList<Location>();
+		}
+		mSearchCities.add(location);
+	}
+
+	public List<Location> getSearchCities() {
+		return mSearchCities;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -48,6 +61,7 @@ public class FlightSearchResponse extends Response {
 
 		try {
 			JSONUtils.putJSONableList(obj, "trips", mTrips);
+			JSONUtils.putJSONableList(obj, "searchCities", mSearchCities);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -59,6 +73,7 @@ public class FlightSearchResponse extends Response {
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 		mTrips = JSONUtils.getJSONableList(obj, "trips", FlightTrip.class);
+		mSearchCities = JSONUtils.getJSONableList(obj, "searchCities", Location.class);
 		return true;
 	}
 }
