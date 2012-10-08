@@ -129,14 +129,17 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	// RecentSearchList interaction
 
 	public void onAirportSelected(Location location) {
-		mRecentSearches.addItem(location);
+		// Don't save if it's a completely custom code and we don't have any info on it
+		if (!TextUtils.isEmpty(location.getCity()) && !TextUtils.isEmpty(location.getDescription())) {
+			mRecentSearches.addItem(location);
 
-		(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				mRecentSearches.saveList(mContext, RECENT_AIRPORTS_FILE);
-			}
-		})).start();
+			(new Thread(new Runnable() {
+				@Override
+				public void run() {
+					mRecentSearches.saveList(mContext, RECENT_AIRPORTS_FILE);
+				}
+			})).start();
+		}
 	}
 
 }
