@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/rating_filter_button_group"
-    style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
@@ -14,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:drawableBottom="@drawable/btn_filter_rating_dark_low"
+        android:drawableBottom="@drawable/btn_filter_rating_low"
         android:text="@string/filter_stars_three"
         android:textStyle="bold" />
 
@@ -23,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:drawableBottom="@drawable/btn_filter_rating_dark_medium"
+        android:drawableBottom="@drawable/btn_filter_rating_medium"
         android:text="@string/filter_stars_four"
         android:textStyle="bold" />
 
@@ -32,7 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:drawableBottom="@drawable/btn_filter_rating_dark_high"
+        android:drawableBottom="@drawable/btn_filter_rating_high"
         android:text="@string/filter_stars_five"
         android:textStyle="bold" />
 

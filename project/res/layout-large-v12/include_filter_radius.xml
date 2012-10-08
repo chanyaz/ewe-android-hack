@@ -2,47 +2,40 @@
 <com.mobiata.android.widget.SegmentedControlGroup
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
-    android:id="@+id/rating_filter_button_group"
-    style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
+    android:id="@+id/radius_filter_button_group"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
     android:gravity="center" >
 
     <RadioButton
-        android:id="@+id/rating_low_button"
+        android:id="@+id/radius_small_button"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:drawableBottom="@drawable/btn_filter_rating_dark_low"
-        android:text="@string/filter_stars_three"
         android:textStyle="bold" />
 
     <RadioButton
-        android:id="@+id/rating_medium_button"
+        android:id="@+id/radius_medium_button"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:drawableBottom="@drawable/btn_filter_rating_dark_medium"
-        android:text="@string/filter_stars_four"
         android:textStyle="bold" />
 
     <RadioButton
-        android:id="@+id/rating_high_button"
+        android:id="@+id/radius_large_button"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:drawableBottom="@drawable/btn_filter_rating_dark_high"
-        android:text="@string/filter_stars_five"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:checked="true" />
 
     <RadioButton
-        android:id="@+id/rating_all_button"
+        android:id="@+id/radius_all_button"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:text="@string/all"
-        android:textStyle="bold"
-        android:checked="true" />
+        android:textStyle="bold" />
 
 </com.mobiata.android.widget.SegmentedControlGroup>
