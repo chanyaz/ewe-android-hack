@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/popup_filter_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -31,7 +32,8 @@
             android:singleLine="true"
             android:textColor="@color/actionbar_text"
             android:textCursorDrawable="@null"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            mobiata:clearFieldDrawable="@drawable/ic_clear_edittext_dark" />
 
         <include
             android:id="@+id/radius_filter_button_group"
