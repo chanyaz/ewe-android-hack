@@ -69,9 +69,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				if (mNoOpBtn != NoOpButton.HOTELS) {
-					// TODO: make this smarter for future when user can access EH tablet from this dropdown
-					Intent intent = new Intent(mContext, PhoneSearchActivity.class);
-					mContext.startActivity(intent);
+					NavUtils.goToHotels(mContext);
 				}
 			}
 		}));
