@@ -18,7 +18,6 @@ public class NavUtils {
 	public static void goToLaunchScreen(Context context) {
 		sendKillActivityBroadcast(context);
 
-		// Start the LaunchActivity
 		Intent intent = new Intent(context, LaunchActivity.class);
 		context.startActivity(intent);
 	}
