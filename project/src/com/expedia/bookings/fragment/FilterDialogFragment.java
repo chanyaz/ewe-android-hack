@@ -152,7 +152,10 @@ public class FilterDialogFragment extends DialogFragment {
 
 	@Override
 	public void onDismiss(DialogInterface dialog) {
-		onFilterClosed();
+		if (isAdded()) {
+			onFilterClosed();
+		}
+
 		super.onDismiss(dialog);
 	}
 
