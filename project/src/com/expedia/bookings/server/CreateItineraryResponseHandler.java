@@ -28,6 +28,8 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 	public CreateItineraryResponse handleJson(JSONObject response) {
 		CreateItineraryResponse createItinerary = new CreateItineraryResponse();
 
+		ParserUtils.logActivityId(response);
+
 		try {
 			createItinerary.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.CREATE_FLIGHT_ITINERARY, response));
 			if (!createItinerary.isSuccess()) {

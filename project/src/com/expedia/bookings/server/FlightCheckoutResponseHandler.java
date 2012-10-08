@@ -22,6 +22,8 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 	public FlightCheckoutResponse handleJson(JSONObject response) {
 		FlightCheckoutResponse checkoutResponse = new FlightCheckoutResponse();
 
+		ParserUtils.logActivityId(response);
+
 		try {
 			// Check for errors, return if found
 			checkoutResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.FLIGHT_CHECKOUT, response));

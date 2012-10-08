@@ -13,6 +13,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.mobiata.android.Log;
 
 public class ParserUtils {
 
@@ -25,6 +26,21 @@ public class ParserUtils {
 		money.setAmount(amount);
 		money.setCurrency(currencyCode);
 		return money;
+	}
+
+	/**
+	 * activityId is useful for debugging API issues
+	 */
+	public static void logActivityId(JSONObject jsonResponse) {
+		if (jsonResponse == null) {
+			Log.d("activityId: Null response, thus no activityId.");
+		}
+		else if (!jsonResponse.has("activityId")) {
+			Log.d("activityId: Response had no activityId");
+		}
+		else {
+			Log.d("activityId: " + jsonResponse.optString("activityId"));
+		}
 	}
 
 	public static boolean parseServerErrors(Context context, ApiMethod apiMethod, JSONObject jsonResponse,

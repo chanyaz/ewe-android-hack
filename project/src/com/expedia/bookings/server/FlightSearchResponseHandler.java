@@ -42,6 +42,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		mResponse = new FlightSearchResponse();
 		mLegs = new HashMap<String, FlightLeg>();
 
+		ParserUtils.logActivityId(response);
+
 		// Handle errors
 		try {
 			mResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.FLIGHT_SEARCH, response));

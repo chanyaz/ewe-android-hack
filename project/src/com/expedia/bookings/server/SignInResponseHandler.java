@@ -42,6 +42,9 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 	@Override
 	public SignInResponse handleJson(JSONObject response) {
 		SignInResponse signInResponse = new SignInResponse();
+
+		ParserUtils.logActivityId(response);
+
 		try {
 			// Check for errors
 			signInResponse.addErrors(ParserUtils.parseErrors(mContext, ServerError.ApiMethod.SIGN_IN, response));
