@@ -3,8 +3,10 @@ package com.expedia.bookings.activity;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
@@ -101,11 +103,16 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private View mCancelButton;
 	private View mSelectFlightButton;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		// Recover data if it was flushed from memory
 		if (savedInstanceState != null && !BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)
@@ -260,6 +267,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		else {
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		mKillReceiver.onDestroy();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

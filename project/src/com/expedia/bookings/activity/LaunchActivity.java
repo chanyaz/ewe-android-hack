@@ -1,6 +1,9 @@
 package com.expedia.bookings.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -23,10 +26,14 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	private LaunchFragment mLaunchFragment;
 
 	private HockeyPuck mHockeyPuck;
+	private ActivityKillReceiver mKillReceiver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		if (savedInstanceState == null) {
 			mLaunchFragment = LaunchFragment.newInstance();
@@ -54,6 +61,13 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	public void onStart() {
 		super.onStart();
 		OmnitureTracking.trackPageLoadLaunchScreen(this);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		mKillReceiver.onDestroy();
 	}
 
 	@Override

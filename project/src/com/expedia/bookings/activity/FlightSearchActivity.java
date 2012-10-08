@@ -1,6 +1,9 @@
 package com.expedia.bookings.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -38,12 +41,17 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	private boolean mConfigChange = false;
 	private boolean mSaveState = true;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		// On first launch, try to restore cached flight data (in this case, just for the search params)
 		if (savedInstanceState == null) {
@@ -106,6 +114,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 
+		mKillReceiver.onDestroy();
+
 		// Save the current search params to disc
 		if (mSaveState && !mConfigChange) {
 			FlightSearch search = Db.getFlightSearch();
@@ -165,4 +175,5 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
+
 }

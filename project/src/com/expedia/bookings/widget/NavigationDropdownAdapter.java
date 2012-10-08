@@ -18,6 +18,7 @@ import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.NavItem;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 
 /**
@@ -58,11 +59,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				if (mNoOpBtn != NoOpButton.HOME) {
-					Intent intent = new Intent(mContext, SearchActivity.class);
-					// Note: FLAG_ACTIVITY_CLEAR_TASK was introduced in 3.0, must use IntentCompat for 2.1+ support
-					intent.addFlags(android.support.v4.content.IntentCompat.FLAG_ACTIVITY_CLEAR_TASK
-							| Intent.FLAG_ACTIVITY_NEW_TASK);
-					mContext.startActivity(intent);
+					NavUtils.goToLaunchScreen(mContext);
 				}
 			}
 		}));
