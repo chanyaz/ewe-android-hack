@@ -64,7 +64,9 @@ public class HotelsRobotHelper {
 			new Locale("zh", "TW"),
 			new Locale("en", "UK"),
 			new Locale("en", "US"),
-			new Locale("vi", "VN")
+			new Locale("vi", "VN"),
+			new Locale("tl", "PH"),
+			new Locale("zh", "CN")
 	};
 
 	public static final Map<Locale, Integer> LOCALE_TO_COUNTRY = new HashMap<Locale, Integer>();
@@ -102,6 +104,8 @@ public class HotelsRobotHelper {
 		LOCALE_TO_COUNTRY.put(TEST_LOCALES[30], R.string.country_gb);
 		LOCALE_TO_COUNTRY.put(TEST_LOCALES[31], R.string.country_us);
 		LOCALE_TO_COUNTRY.put(TEST_LOCALES[32], R.string.country_vn);
+		LOCALE_TO_COUNTRY.put(TEST_LOCALES[33], R.string.country_ph);
+		LOCALE_TO_COUNTRY.put(TEST_LOCALES[34], R.string.country_hk);
 	}
 	private static final String TAG = "com.expedia.bookings.test";
 	private boolean mAllowScreenshots;
@@ -203,7 +207,7 @@ public class HotelsRobotHelper {
 		//for the update locale
 		//This try catch block is a messy fix to be able to do more than one booking
 		try {
-			mSolo.clickOnMenuItem(settingsString, false);
+			mSolo.pressMenuItem(0);
 		}
 		catch (AssertionFailedError E) {
 			mSolo.goBack();
@@ -221,6 +225,7 @@ public class HotelsRobotHelper {
 		Log.d(TAG, "Our countrySelection is: " + countrySelection);
 		delay(1);
 		mSolo.clickOnText(countrySelection);
+		delay(1);
 		mSolo.clickOnButton(1);
 		delay(1);
 		mSolo.clickOnButton(0);
@@ -320,7 +325,8 @@ public class HotelsRobotHelper {
 		//most hotel names are in their respective languages' characters
 		if (mRes.getConfiguration().locale != TEST_LOCALES[18] && mRes.getConfiguration().locale != TEST_LOCALES[19]) {
 			enterLog(TAG, "Clicking on label: " + filter);
-			mSolo.clickOnText(filter);
+			//mSolo.clickOnText(filter);
+			mSolo.clickOnButton(1);
 			landscape();
 			portrait();
 			delay(5);
@@ -337,18 +343,12 @@ public class HotelsRobotHelper {
 		delay(1);
 		String sortText = mRes.getString(R.string.SORT);
 		enterLog(TAG, "Clicking on label: " + sortText);
-		mSolo.clickOnText(sortText);
 
+		//mSolo.clickOnText(sortText);
+		mSolo.clickOnButton(0);
 		landscape();
 		portrait();
 
-		try {
-			mSolo.clickOnText(sortText);
-		}catch(AssertionFailedError E){
-			//Sometimes after rotating, the sort fragment disappears and needs to be pressed again
-			//Other times, not.
-		}
-		//solo.clickOnText(getStringFromR(R.string.sort_description_distance));
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_popular));
 		screenshot("Sort by Popular Results");
@@ -362,20 +362,23 @@ public class HotelsRobotHelper {
 		delay(solo, 1);
 		 */
 
-		mSolo.clickOnText(sortText);
+		//mSolo.clickOnText(sortText);
+		mSolo.clickOnButton(0);
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_price));
 		screenshot("Sort by Price Results");
 		delay(1);
 
-		mSolo.clickOnText(sortText);
+		//mSolo.clickOnText(sortText);
+		mSolo.clickOnButton(0);
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_rating));
 		screenshot("Sort by Rating Results");
 		delay(1);
 
 		try {
-			mSolo.clickOnText(sortText);
+			//mSolo.clickOnText(sortText);
+			mSolo.clickOnButton(0);
 			delay(1);
 			mSolo.clickOnText(mRes.getString(R.string.sort_description_deals));
 			screenshot("Sort by Deals Results");
