@@ -468,6 +468,16 @@
     <!-- Link from checkout screen to legal information page -->
     <string name="fare_rules_link">By completing this booking I agree that I have read and accept the &lt;u&gt;&lt;u&gt;&lt;b&gt;Rules and Restrictions,&lt;/b&gt; the &lt;b&gt;Terms and Conditions,&lt;/b&gt; the &lt;b&gt;Privacy Policy&lt;/b&gt; and &lt;b&gt;Fare Information.&lt;/b&gt;&lt;/u&gt;</string>
 
+    <!-- Flight booking activity errors -->
+    <!-- Button label for cancelling on error -->
+    <string name="cancel">Cancel</string>
+    <!-- Button label for accepting an error and moving forward -->
+    <string name="accept">Accept</string>
+    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
+    <string name="error_flight_price_increased">It looks like the airline just rasied the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
+    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
+    <string name="error_flight_price_decreased">We just found your requested flights on sale for %1$s less. Are you happy for us to charge you a new total of %2$s?</string>
+
     <!-- Credit card input section -->
     <string name="one">1</string>
     <string name="two">2</string>

@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +24,8 @@ import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
+import com.expedia.bookings.fragment.PriceChangeDialogFragment;
+import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -33,7 +37,8 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 // This is just for testing booking using data from the app.  It is
 // not intended to be at all like the final booking activity (should
 // use fragments, not just use all pre-filled data, etc.)
-public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener {
+public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
+		PriceChangeDialogFragmentListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flight.checkout";
 
@@ -129,6 +134,16 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	//////////////////////////////////////////////////////////////////////////
 	// Booking downloads
 
+	private void doBooking() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (!bd.isDownloading(DOWNLOAD_KEY)) {
+			mProgressFragment = new BookingInProgressDialogFragment();
+			mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+
+			bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
+		}
+	}
+
 	private Download<FlightCheckoutResponse> mDownload = new Download<FlightCheckoutResponse>() {
 		@Override
 		public FlightCheckoutResponse doDownload() {
@@ -168,48 +183,82 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 			Db.setFlightCheckout(results);
 
-			// This is all just temporary display code while we figure out how to do the conf page 
-			StringBuilder sb = new StringBuilder();
-
 			if (results == null) {
-				sb.append("Did not get any response from the server!");
+				SimpleSupportDialogFragment sdf = SimpleSupportDialogFragment.newInstance(
+						getString(R.string.error_booking_title), "LOCALIZE: Did not get any response from the server!");
+				sdf.show(getSupportFragmentManager(), "noResultsErrorDialog");
 			}
 			else if (results.hasErrors()) {
-				sb.append("Response came back with errors:");
-
-				for (ServerError error : results.getErrors()) {
-					sb.append("\n\n");
-					sb.append(error.getPresentableMessage(mContext));
-				}
+				handleErrorResponse(results);
 			}
 			else {
 				// Launch the conf page
 				startActivity(new Intent(mContext, FlightConfirmationActivity.class));
 			}
-
-			// There were errors, display them in a dialog
-			if (sb.length() != 0) {
-				SimpleSupportDialogFragment sdf = SimpleSupportDialogFragment.newInstance(
-						getString(R.string.error_booking_title), sb.toString());
-				sdf.show(getSupportFragmentManager(), "error");
-			}
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Error handling code
+	//
+	// Split out just for ease-of-reading
+
+	public void handleErrorResponse(FlightCheckoutResponse response) {
+		boolean handledError = true;
+		List<ServerError> errors = response.getErrors();
+		if (errors.size() == 1) {
+			ServerError error = errors.get(0);
+
+			switch (error.getErrorCode()) {
+			case PRICE_CHANGE:
+				FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
+				FlightTrip newOffer = response.getNewOffer();
+				PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
+				fragment.show(getSupportFragmentManager(), PriceChangeDialogFragment.TAG);
+				break;
+			default:
+				handledError = false;
+				break;
+			}
+		}
+
+		// For unhandled errors, use this default dialog
+		if (!handledError) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("TEMP ERROR: Response came back with errors:");
+
+			for (ServerError error : response.getErrors()) {
+				sb.append("\n\n");
+				sb.append(error.getPresentableMessage(mContext));
+			}
+
+			SimpleSupportDialogFragment sdf = SimpleSupportDialogFragment.newInstance(
+					getString(R.string.error_booking_title), sb.toString());
+			sdf.show(getSupportFragmentManager(), "multipleErrorsDialog");
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// CVVEntryFragmentListener
 
 	@Override
 	public void onBook(String cvv) {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		Db.getBillingInfo().setSecurityCode(cvv);
 
-		if (!bd.isDownloading(DOWNLOAD_KEY)) {
-			Db.getBillingInfo().setSecurityCode(cvv);
+		doBooking();
+	}
 
-			mProgressFragment = new BookingInProgressDialogFragment();
-			mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
+	//////////////////////////////////////////////////////////////////////////
+	// PriceChangeDialogFragmentListener
 
-			bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
-		}
+	@Override
+	public void onAcceptPriceChange() {
+		doBooking();
+	}
+
+	@Override
+	public void onCancelPriceChange() {
+		finish();
 	}
 }

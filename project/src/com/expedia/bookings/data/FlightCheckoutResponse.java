@@ -12,6 +12,9 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 
 	private Money mTotalCharges;
 
+	// A new offer can be returned in some error cases, like price changes
+	private FlightTrip mNewOffer;
+
 	public void setOrderId(String orderId) {
 		mOrderId = orderId;
 	}
@@ -20,12 +23,20 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 		return mOrderId;
 	}
 
+	public void setTotalCharges(Money totalCharges) {
+		mTotalCharges = totalCharges;
+	}
+
 	public Money getTotalCharges() {
 		return mTotalCharges;
 	}
 
-	public void setTotalCharges(Money totalCharges) {
-		mTotalCharges = totalCharges;
+	public void setNewOffer(FlightTrip newOffer) {
+		mNewOffer = newOffer;
+	}
+
+	public FlightTrip getNewOffer() {
+		return mNewOffer;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -41,6 +52,7 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 		try {
 			obj.put("orderId", mOrderId);
 			JSONUtils.putJSONable(obj, "totalCharges", mTotalCharges);
+			JSONUtils.putJSONable(obj, "newOffer", mNewOffer);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -54,6 +66,8 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 
 		mOrderId = obj.optString("mTotalCharges", null);
 		mTotalCharges = JSONUtils.getJSONable(obj, "totalCharges", Money.class);
+		mNewOffer = JSONUtils.getJSONable(obj, "newOffer", FlightTrip.class);
+
 		return true;
 	}
 }

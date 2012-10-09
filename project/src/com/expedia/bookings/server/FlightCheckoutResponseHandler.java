@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.expedia.bookings.data.FlightCheckoutResponse;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
@@ -28,6 +29,14 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 			// Check for errors, return if found
 			checkoutResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.FLIGHT_CHECKOUT, response));
 			if (!checkoutResponse.isSuccess()) {
+				// Some errors require special parsing
+				JSONObject detailResponse = response.optJSONObject("flightDetailResponse");
+				if (detailResponse != null && detailResponse.has("offer")) {
+					FlightTrip newOffer = FlightSearchResponseHandler.parseTrip(detailResponse.optJSONObject("offer"));
+					checkoutResponse.setNewOffer(newOffer);
+				}
+
+				// Return before parsing any normal filds
 				return checkoutResponse;
 			}
 

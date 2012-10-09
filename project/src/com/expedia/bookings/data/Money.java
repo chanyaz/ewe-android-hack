@@ -234,6 +234,22 @@ public class Money implements JSONable {
 		}
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Money)) {
+			return false;
+		}
+
+		Money other = (Money) o;
+
+		return ((mAmount == null) == (other.mAmount == null))
+				&& (mAmount == null || mAmount.equals(other.mAmount))
+				&& ((mCurrency == null) == (other.mCurrency == null))
+				&& (mCurrency == null || mCurrency.equals(other.mCurrency))
+				&& ((mFormattedMoney == null) == (other.mFormattedMoney == null))
+				&& (mFormattedMoney == null || mFormattedMoney.equals(other.mFormattedMoney));
+	}
+
 	public Money copy() {
 		return new Money(toJson());
 	}

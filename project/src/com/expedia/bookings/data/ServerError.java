@@ -44,7 +44,8 @@ public class ServerError implements JSONable {
 		UNKNOWN_ERROR, // Catch-all error code
 		USER_SERVICE_FATAL_FAILURE,
 		INVALID_INPUT_COUPON_CODE,
-		APPLY_COUPON_ERROR
+		APPLY_COUPON_ERROR,
+		PRICE_CHANGE
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
