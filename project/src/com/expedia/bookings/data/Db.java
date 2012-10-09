@@ -590,10 +590,13 @@ public class Db {
 	}
 
 	public static boolean loadCachedFlightData(Context context) {
+		Log.d("Trying to load cached flight data...");
+
 		long start = System.currentTimeMillis();
 
 		File file = context.getFileStreamPath(SAVED_FLIGHT_DATA_FILE);
 		if (!file.exists()) {
+			Log.d("There is no cached flight data to load!");
 			return false;
 		}
 
@@ -615,6 +618,7 @@ public class Db {
 			return true;
 		}
 		catch (Exception e) {
+			Log.w("Could not load cached flight data", e);
 			return false;
 		}
 	}
@@ -625,6 +629,7 @@ public class Db {
 			return true;
 		}
 		else {
+			Log.i("Deleting cached flight data.");
 			return file.delete();
 		}
 	}
