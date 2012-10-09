@@ -19,6 +19,7 @@ import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.mobiata.flightlib.utils.FormatUtils;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -70,17 +71,37 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mFlightTripView = Ui.findView(this, R.id.flight_trip_view);
 	}
 
+	public void bindFlight(Flight flight, Calendar minTime, Calendar maxTime) {
+		// Fake a flight leg
+		FlightLeg pseudoLeg = new FlightLeg();
+		pseudoLeg.addSegment(flight);
+
+		bind(null, pseudoLeg, minTime, maxTime, true);
+	}
+
 	public void bind(FlightTrip trip, FlightLeg leg) {
-		bind(trip, leg, null, null);
+		bind(trip, leg, null, null, false);
 	}
 
 	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime) {
+		bind(trip, leg, minTime, maxTime, false);
+	}
+
+	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime, boolean showFlightNumber) {
 		if (mAirlineTextView != null) {
-			mAirlineTextView.setText(leg.getAirlinesFormatted());
+			if (showFlightNumber && leg.getSegmentCount() == 1) {
+				Flight flight = leg.getSegment(0);
+				mAirlineTextView.setText(FormatUtils.formatFlightNumber(flight, getContext()));
+			}
+			else {
+				mAirlineTextView.setText(leg.getAirlinesFormatted());
+			}
 		}
+
 		if (mDepartureTimeTextView != null) {
 			mDepartureTimeTextView.setText(formatTime(leg.getFirstWaypoint().getMostRelevantDateTime()));
 		}
+
 		if (mArrivalTimeTextView != null) {
 			mArrivalTimeTextView.setText(formatTime(leg.getLastWaypoint().getMostRelevantDateTime()));
 		}
@@ -129,14 +150,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		mFlightTripView.setUp(leg, minTime, maxTime);
-	}
-
-	public void bindFlight(Flight flight, Calendar minTime, Calendar maxTime) {
-		// Fake a flight leg
-		FlightLeg pseudoLeg = new FlightLeg();
-		pseudoLeg.addSegment(flight);
-
-		bind(null, pseudoLeg, minTime, maxTime);
 	}
 
 	// Makes the card invisible - good for laying cards on top of each other
