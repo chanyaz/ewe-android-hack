@@ -54,11 +54,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		ANY, WINDOW, AISLE
 	}
 
+	//These names should be consistance with valid api values
 	public enum AssistanceType {
 		NONE,
-		WHEELCHAIR,
-		DEFIBRILLATOR,
-		SUPER_LONG_ASSISTANCE_TYPE
+		BLIND_WITH_SEEING_EYE_DOG,
+		DEAF_WITH_HEARING_DOG,
+		WHEELCHAIR_CAN_CLIMB_STAIRS,
+		WHEELCHAIR_CANNOT_CLIMB_STAIRS,
+		WHEELCHAIR_IMMOBILE
 	}
 
 	public Traveler() {
@@ -213,14 +216,20 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		String retStr = "";
 
 		switch (assistanceType) {
-		case WHEELCHAIR:
-			retStr = res.getString(R.string.wheelchair);
+		case WHEELCHAIR_IMMOBILE:
+			retStr = res.getString(R.string.wheelchair_immobile);
 			break;
-		case DEFIBRILLATOR:
-			retStr = res.getString(R.string.defibrillator);
+		case WHEELCHAIR_CANNOT_CLIMB_STAIRS:
+			retStr = res.getString(R.string.wheelchair_no_stairs);
 			break;
-		case SUPER_LONG_ASSISTANCE_TYPE:
-			retStr = res.getString(R.string.super_long_assistance);
+		case WHEELCHAIR_CAN_CLIMB_STAIRS:
+			retStr = res.getString(R.string.wheelchair_stairs_ok);
+			break;
+		case DEAF_WITH_HEARING_DOG:
+			retStr = res.getString(R.string.deaf_with_hearing_dog);
+			break;
+		case BLIND_WITH_SEEING_EYE_DOG:
+			retStr = res.getString(R.string.blind_with_seeing_eye_dog);
 			break;
 		case NONE:
 			retStr = res.getString(R.string.none);
@@ -443,7 +452,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		if ((getHomeAddress() == null && another.getHomeAddress() != null)
 				|| (getHomeAddress() != null && getHomeAddress().toJson().toString()
 						.compareTo(another.getHomeAddress().toJson().toString()) != 0)) {
-			return getHomeAddress() == null ? BEFORE :  getHomeAddress().toJson().toString()
+			return getHomeAddress() == null ? BEFORE : getHomeAddress().toJson().toString()
 					.compareTo(another.getHomeAddress().toJson().toString());
 		}
 
@@ -453,7 +462,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 		if ((getPhoneCountryCode() == null && another.getPhoneCountryCode() != null)
 				|| (getPhoneCountryCode() != null && getPhoneCountryCode().compareTo(another.getPhoneCountryCode()) != 0)) {
-			return getPhoneCountryCode() == null ? BEFORE : getPhoneCountryCode().compareTo(another.getPhoneCountryCode());
+			return getPhoneCountryCode() == null ? BEFORE : getPhoneCountryCode().compareTo(
+					another.getPhoneCountryCode());
 		}
 		if ((getEmail() == null && another.getEmail() != null)
 				|| (getEmail() != null && getEmail().compareTo(another.getEmail()) != 0)) {
@@ -461,7 +471,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		if (isSmokingPreferred() != another.isSmokingPreferred()) {
-			return  BEFORE;
+			return BEFORE;
 		}
 
 		if ((getGender() == null && another.getGender() != null)

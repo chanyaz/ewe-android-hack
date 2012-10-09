@@ -176,7 +176,6 @@
     <!-- Card Info -->
     <string name="card_info">Card Info</string>
 
-
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
     <string name="total_price_label">Total Price</string>
@@ -232,11 +231,11 @@
     <string name="expedia_account">Expedia Account</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">CHECKOUT INFORMATION</string>
-	<!-- Slide to purchase -->
-	<string name="slide_to_purchase">Slide to purchase.</string>
-	<!-- Your card will be charged -->
-	<string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
-    
+    <!-- Slide to purchase -->
+    <string name="slide_to_purchase">Slide to purchase.</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
+
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">Cost Summary</string>
@@ -248,7 +247,7 @@
     <string name="traveler_num_and_category_TEMPLATE">Traveler %1$d - %2$s</string>
     <!-- Adult -->
     <string name="adult">Adult</string>
-    
+
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
@@ -397,8 +396,7 @@
     <!-- Traveler Information -->
     <string name="traveler_information">Traveler Information</string>
     <!-- Passport -->
-	<string name="passport">Passport</string>
-
+    <string name="passport">Passport</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -411,13 +409,17 @@
     <!-- Assistance Types -->
     <!-- No assistance type -->
     <string name="no_assistance">No Special Assistance Required</string>
-    <!-- Wheelchair -->
-    <string name="wheelchair">Wheelchair</string>
-    <!-- DEFIBRILLATOR -->
-    <string name="defibrillator">Defibrillator</string>
-    <!-- Super long for test purposes -->
-    <string name="super_long_assistance">Super long assistance type that will be ellipsized</string>
-    
+    <!-- Blind with seeing eye dog -->
+    <string name="blind_with_seeing_eye_dog">Blind with seeing eye dog</string>
+    <!-- Deaf with hearing dog -->
+    <string name="deaf_with_hearing_dog">Deaf with hearing dog</string>
+    <!-- Wheelchair needed (cannot climb/descend stairs) -->
+    <string name="wheelchair_no_stairs">Wheelchair needed (cannot climb/descend stairs)</string>
+    <!-- Wheelchair needed (can climb/descend stairs) -->
+    <string name="wheelchair_stairs_ok">Wheelchair needed (can climb/descend stairs)</string>
+    <!-- Wheelchair (immobile) -->
+    <string name="wheelchair_immobile">Wheelchair (immobile)</string>
+
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">Booking Complete</string>
@@ -465,7 +467,7 @@
     <string name="fare_information">FARE INFORMATION</string>
     <!-- Link from checkout screen to legal information page -->
     <string name="fare_rules_link">By completing this booking I agree that I have read and accept the &lt;u&gt;&lt;u&gt;&lt;b&gt;Rules and Restrictions,&lt;/b&gt; the &lt;b&gt;Terms and Conditions,&lt;/b&gt; the &lt;b&gt;Privacy Policy&lt;/b&gt; and &lt;b&gt;Fare Information.&lt;/b&gt;&lt;/u&gt;</string>
-    
+
     <!-- Credit card input section -->
     <string name="one">1</string>
     <string name="two">2</string>

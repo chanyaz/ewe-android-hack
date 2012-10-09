@@ -69,6 +69,7 @@ import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -587,17 +588,12 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(traveler.getBirthDateInMillis())));
 		query.add(new BasicNameValuePair("gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
 
-		// TODO: We barely have assistance options represented at the moment, update later
 		String assistanceOption;
-		switch (traveler.getAssistance()) {
-		case WHEELCHAIR:
-			assistanceOption = "WHEELCHAIRCANNOTCLIMBSTAIRS";
-			break;
-		default:
-			assistanceOption = "NONE";
-			break;
+		if(traveler.getAssistance() != null){
+			assistanceOption = traveler.getAssistance().name();
+		}else{
+			assistanceOption = AssistanceType.NONE.name();
 		}
-
 		query.add(new BasicNameValuePair("specialAssistanceOption", assistanceOption));
 
 	}
