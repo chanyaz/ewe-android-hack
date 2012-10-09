@@ -33,7 +33,8 @@
             android:textColor="@color/actionbar_text"
             android:textCursorDrawable="@null"
             android:textSize="18dp"
-            mobiata:clearFieldDrawable="@drawable/ic_clear_edittext_dark" />
+            mobiata:clearFieldDrawable="@drawable/ic_clear_edittext_dark"
+            mobiata:touchAreaPadding="25dp" />
 
         <include
             android:id="@+id/radius_filter_button_group"
