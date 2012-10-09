@@ -58,13 +58,13 @@ public class FilterDialogFragment extends DialogFragment {
 		mPriceButtonGroup = (SegmentedControlGroup) view.findViewById(R.id.price_filter_button_group);
 
 		// Configure labels
-		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, Db.getSearchResponse().getFilter());
+		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, Db.getFilter());
 
 		// Need to set title in constructor or it will never show up
 		builder.setTitle(getTitle());
 
 		// Configure initial settings (based on the filter)
-		Filter filter = Db.getSearchResponse().getFilter();
+		Filter filter = Db.getFilter();
 		mHotelNameEditText.setText(filter.getHotelName());
 
 		int checkId;
@@ -170,7 +170,7 @@ public class FilterDialogFragment extends DialogFragment {
 
 	private final TextWatcher mHotelNameTextWatcher = new TextWatcher() {
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			Filter filter = Db.getSearchResponse().getFilter();
+			Filter filter = Db.getFilter();
 			filter.setHotelName(s.toString());
 			filter.notifyFilterChanged();
 		}
@@ -207,7 +207,7 @@ public class FilterDialogFragment extends DialogFragment {
 			}
 			}
 
-			Filter filter = Db.getSearchResponse().getFilter();
+			Filter filter = Db.getFilter();
 			filter.setSearchRadius(searchRadius);
 			filter.notifyFilterChanged();
 
@@ -238,7 +238,7 @@ public class FilterDialogFragment extends DialogFragment {
 			}
 			}
 
-			Filter filter = Db.getSearchResponse().getFilter();
+			Filter filter = Db.getFilter();
 			filter.setMinimumStarRating(minStarRating);
 			filter.notifyFilterChanged();
 
@@ -269,7 +269,7 @@ public class FilterDialogFragment extends DialogFragment {
 			}
 			}
 
-			Filter filter = Db.getSearchResponse().getFilter();
+			Filter filter = Db.getFilter();
 			filter.setPriceRange(priceRange);
 			filter.notifyFilterChanged();
 
