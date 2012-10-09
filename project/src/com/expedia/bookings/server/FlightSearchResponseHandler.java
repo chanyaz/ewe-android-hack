@@ -74,12 +74,14 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 		// Parse the searchCities
 		JSONArray searchCities = response.optJSONArray("searchCities");
-		for (int a = 0; a < searchCities.length(); a++) {
-			JSONObject cityJson = searchCities.optJSONObject(a);
-			Location location = new Location();
-			location.setCity(cityJson.optString("city"));
-			location.setStateCode(cityJson.optString("province"));
-			mResponse.addSearchCity(location);
+		if (searchCities != null) {
+			for (int a = 0; a < searchCities.length(); a++) {
+				JSONObject cityJson = searchCities.optJSONObject(a);
+				Location location = new Location();
+				location.setCity(cityJson.optString("city"));
+				location.setStateCode(cityJson.optString("province"));
+				mResponse.addSearchCity(location);
+			}
 		}
 
 		Log.d("Flight search response parse time: " + (System.currentTimeMillis() - start) + " ms");
