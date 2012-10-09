@@ -307,13 +307,13 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 				return false;
 			}
 		});
-
-		Db.getFilter().addOnFilterChangedListener(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		Db.getFilter().addOnFilterChangedListener(this);
 
 		invalidateOptionsMenu();
 	}
@@ -366,6 +366,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	protected void onPause() {
 		super.onPause();
 
+		Db.getFilter().removeOnFilterChangedListener(this);
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_GEOCODE);
 		bd.unregisterDownloadCallback(KEY_SEARCH);
@@ -379,8 +381,6 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	@Override
 	protected void onStop() {
 		super.onStop();
-
-		Db.getFilter().removeOnFilterChangedListener(this);
 	}
 
 	@Override
