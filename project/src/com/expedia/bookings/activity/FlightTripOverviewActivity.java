@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -13,7 +12,9 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -24,9 +25,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -37,7 +36,6 @@ import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
-import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -48,7 +46,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener,
-		CheckoutInformationListener, FlightLegSummarySectionListener {
+		CheckoutInformationListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -75,6 +73,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private ViewGroup mCheckoutContainer;
 	private ViewGroup mPriceContainerBottom;
 	private ViewGroup mContentScrollView;
+	private View mBackToOverviewArea;
 
 	private MenuItem mCheckoutMenuItem;
 
@@ -104,6 +103,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
 		mCheckoutContainer = Ui.findView(this, R.id.trip_checkout_container);
 		mPriceContainerBottom = Ui.findView(this, R.id.trip_price_container_bottom);
+		mBackToOverviewArea = Ui.findView(this, R.id.back_to_overview_area);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_MODE)) {
 			mDisplayMode = DisplayMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
@@ -112,16 +112,17 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_STACKED_HEIGHT)) {
 			mStackedHeight = savedInstanceState.getInt(STATE_TAG_STACKED_HEIGHT);
 			mCheckoutContainer.setPadding(0, mStackedHeight, 0, 0);
+			setBackToOverviewAreaHeight(mStackedHeight);
 		}
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_UNSTACKED_HEIGHT)) {
 			mUnstackedHeight = savedInstanceState.getInt(STATE_TAG_UNSTACKED_HEIGHT);
 			mOverviewContainer.setMinimumHeight(mUnstackedHeight);
+
 		}
 
 		mTripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 
-		//if (savedInstanceState == null) {
 		FragmentTransaction overviewTransaction = getSupportFragmentManager().beginTransaction();
 		mOverviewFragment = Ui.findSupportFragment(this, TAG_OVERVIEW_FRAG);
 		if (mOverviewFragment == null) {
@@ -143,16 +144,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 
 		//TODO: for now we attach this here, but we should do it after initial create and before any animation
-		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
-		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
-		if (mCheckoutFragment == null) {
-			mCheckoutFragment = FlightCheckoutFragment.newInstance();
-		}
-		if (!mCheckoutFragment.isAdded()) {
-			checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
-			checkoutTransaction.commit();
-		}
-		//}
+		attachCheckout();
 	}
 
 	@Override
@@ -264,6 +256,27 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
+	public void attachCheckout() {
+		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
+		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
+		if (mCheckoutFragment == null) {
+			mCheckoutFragment = FlightCheckoutFragment.newInstance();
+		}
+		if (!mCheckoutFragment.isAdded()) {
+			checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
+			checkoutTransaction.commit();
+		}
+	}
+
+	public void detachCheckout() {
+		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
+		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
+		if (mCheckoutFragment != null && mCheckoutFragment.isAdded()) {
+			checkoutTransaction.remove(mCheckoutFragment);
+			checkoutTransaction.commit();
+		}
+	}
+
 	public void replacePriceBarWithSlideToCheckout() {
 		FragmentTransaction showSlideToCheckoutTransaction = getSupportFragmentManager().beginTransaction();
 		mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
@@ -290,6 +303,16 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
+	public void setBackToOverviewAreaHeight(int height) {
+		RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) this.mBackToOverviewArea
+				.getLayoutParams();
+		if (params == null) {
+			params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		}
+		params.height = height;
+		mBackToOverviewArea.setLayoutParams(params);
+	}
+
 	private AnimatorListener mTransitionInProgressAnimatorListener = new AnimatorListener() {
 
 		@Override
@@ -314,6 +337,27 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	};
 
+	private AnimatorListener mDetachCheckoutAnimatorListener = new AnimatorListener() {
+
+		@Override
+		public void onAnimationCancel(Animator arg0) {
+		}
+
+		@Override
+		public void onAnimationEnd(Animator arg0) {
+			detachCheckout();
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator arg0) {
+		}
+
+		@Override
+		public void onAnimationStart(Animator arg0) {
+		}
+
+	};
+
 	public void gotoOverviewMode(boolean animate) {
 		if (!mTransitionHappening) {
 
@@ -325,17 +369,19 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			replaceSlideToCheckoutWithPriceBar();
 
 			if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
+				mBackToOverviewArea.setOnClickListener(null);
+
 				Animator hideCheckout = getCheckoutHideAnimator(true, false);
 				mPriceBottomFragment.showPriceChange();
 				AnimatorSet animSet = new AnimatorSet();
 				animSet.playTogether(hideCheckout);
 				animSet.setDuration(duration);
 				animSet.addListener(mTransitionInProgressAnimatorListener);
+				animSet.addListener(mDetachCheckoutAnimatorListener);
 
 				mOverviewFragment.unStackCards(animate);
 				animSet.start();
 
-				mOverviewFragment.setCardOnClickListeners(null);
 			}
 
 			OmnitureTracking.trackPageLoadFlightOverview(this);
@@ -347,6 +393,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			mDisplayMode = DisplayMode.CHECKOUT;
 			setActionBarCheckoutMode();
+			attachCheckout();
 
 			int duration = animate ? ANIMATION_DURATION : 1;
 
@@ -363,7 +410,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				mOverviewFragment.stackCards(animate);
 				animSet.start();
 
-				mOverviewFragment.setCardOnClickListeners(new OnClickListener() {
+				setBackToOverviewAreaHeight(mStackedHeight);//(mStackedHeight);
+				mBackToOverviewArea.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						gotoOverviewMode(true);
@@ -580,36 +628,4 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// FlightLegSummarySectionListener
-
-	private boolean mDeselecting = false;
-
-	@Override
-	public void onDeselect(FlightLeg flightLeg) {
-		if (!mDeselecting) {
-			// Relaunch the flight search results activity, deselecting the leg chosen
-			Intent intent = new Intent(this, FlightSearchResultsActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, flightLeg.getLegId());
-			startActivity(intent);
-			mDeselecting = true;
-
-			FlightTripLeg selectedLegs[] = Db.getFlightSearch().getSelectedLegs();
-			int deselectLegPos;
-			for (deselectLegPos = 0; deselectLegPos < selectedLegs.length; deselectLegPos++) {
-				if (selectedLegs[deselectLegPos].getFlightLeg().getLegId().equals(flightLeg.getLegId())) {
-					break;
-				}
-			}
-
-			if (deselectLegPos == 0) {
-				OmnitureTracking.trackLinkFlightRateDetailsRemoveOut(this);
-			}
-			else {
-				OmnitureTracking.trackLinkFlightRateDetailsRemoveIn(this);
-			}
-
-		}
-	}
 }

@@ -2,31 +2,34 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.SectionGeneralFlightInfo;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
-public class FlightTripOverviewFragment extends Fragment {
+public class FlightTripOverviewFragment extends Fragment implements FlightLegSummarySectionListener {
 
 	private static final String ARG_TRIP_KEY = "ARG_TRIP_KEY";
 	private static final String ARG_DISPLAY_MODE = "ARG_DISPLAY_MODE";
@@ -90,13 +93,6 @@ public class FlightTripOverviewFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0) {
-			unStackCards(false);
-		}
-		else {
-			stackCards(false);
-		}
 	}
 
 	@Override
@@ -111,28 +107,55 @@ public class FlightTripOverviewFragment extends Fragment {
 		outState.putString(ARG_DISPLAY_MODE, this.mDisplayMode.name());
 	}
 
+	//We build and add cards in the Overview configuration
 	private void buildCards(LayoutInflater inflater) {
-		Activity activity = getActivity();
-		if (!(activity instanceof FlightLegSummarySectionListener)) {
-			throw new RuntimeException(
-					"FlightTripOverviewFragment Activity must implement FlightLegSummarySectionListener!  " + activity);
-		}
-		FlightLegSummarySectionListener listener = (FlightLegSummarySectionListener) activity;
-
 		//Inflate and store the sections
 		mFlightContainer.removeAllViews();
+		int currentTop = 0;
+
+		measureDateAndTravelers();
+		currentTop += Math.max(mFlightDateAndTravCount.getMeasuredHeight(), mFlightDateAndTravCount.getHeight());
+
 		SectionFlightLeg tempFlight;
 		for (int i = 0; i < mTrip.getLegCount(); i++) {
 			tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
 			tempFlight.setId(ID_START_RANGE + i);
 
-			tempFlight.setListener(listener);
+			tempFlight.setListener(this);
 			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));
 
-			mFlightContainer.addView(tempFlight);
+			currentTop += FLIGHT_LEG_TOP_MARGIN;
+
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+					RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+			params.topMargin = currentTop;
+			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+
+			mFlightContainer.addView(tempFlight, params);
+			Log.d("Added card with topMargin:" + currentTop);
+
+			measureCard(tempFlight);
+			currentTop += Math.max(tempFlight.getMeasuredHeight(), tempFlight.getHeight());
+
 		}
-		mFlightContainer.setMinimumHeight(getUnstackedHeight());
+
+		//NOTE: The +50 is pretty unscientific, but we only need it to handle cases where text wraps, and causes things to be pushed down below the fold of the container
+		// 50 seems to be sufficient
+		mFlightContainer.setMinimumHeight(getUnstackedHeight() + 50);
 		mFlightContainer.invalidate();
+	}
+
+	private void measureCard(SectionFlightLeg card) {
+		if (getActivity() != null) {
+			//We are just guessing here, we know the cards don't take up the full screen...
+			int lMargin = 10;
+			int rMargin = 10;
+			int w = getActivity().getResources().getDisplayMetrics().widthPixels - lMargin - rMargin;
+			int h = getActivity().getResources().getDisplayMetrics().heightPixels;
+			Log.d("Measuring card with w:" + w + " h:" + h);
+			card.measure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.AT_MOST),
+					MeasureSpec.makeMeasureSpec(h, MeasureSpec.AT_MOST));
+		}
 	}
 
 	public int getStackedHeight() {
@@ -165,10 +188,12 @@ public class FlightTripOverviewFragment extends Fragment {
 	public void stackCards(boolean animate) {
 		mDisplayMode = DisplayMode.CHECKOUT;
 		if (animate) {
-			animateCardsToStacked(ANIMATION_DURATION);
+			animateCardsToStacked(ANIMATION_DURATION, 0);
 		}
 		else {
-			animateCardsToStacked(1);
+			//This seems a bit counter intuitive, but we set an animation delay when animation is turned off for older versions of android
+			//which prevents some layout wierdness
+			animateCardsToStacked(0, AndroidUtils.isHoneycombVersionOrHigher() ? 0 : 250);
 		}
 		for (int i = mFlightContainer.getChildCount() - 1; i >= 0; i--) {
 			Ui.findView(mFlightContainer, ID_START_RANGE + i).bringToFront();
@@ -178,25 +203,16 @@ public class FlightTripOverviewFragment extends Fragment {
 	}
 
 	public void unStackCards(boolean animate) {
-		mDisplayMode = DisplayMode.OVERVIEW;
-		if (animate) {
-			animateCardsToUnStacked(ANIMATION_DURATION);
-		}
-		else {
-			animateCardsToUnStacked(1);
-		}
-		getView().invalidate();
-	}
-
-	public void setCardOnClickListeners(OnClickListener listener) {
-		if (mFlightContainer == null) {
-			return;
-		}
-
-		SectionFlightLeg tempFlight;
-		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
-			tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			tempFlight.setOnClickListener(listener);
+		//We default to overview mode, so there shouldn't be a time when we need to animate to overview if we are already in overview
+		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) != 0) {
+			mDisplayMode = DisplayMode.OVERVIEW;
+			if (animate) {
+				animateCardsToUnStacked(ANIMATION_DURATION);
+			}
+			else {
+				animateCardsToUnStacked(0);
+			}
+			getView().invalidate();
 		}
 	}
 
@@ -264,88 +280,62 @@ public class FlightTripOverviewFragment extends Fragment {
 		return retVal;
 	}
 
-	////////////////////////////////
-	//Placements without animations
+	private boolean mCardsAnimating = false;
+	private AnimatorListener mCardsAnimatingListener = new AnimatorListener() {
 
-	private void placeCardsUnStacked() {
-		int[] tops = getNormalTopMargins();
-		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
-			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			RelativeLayout.LayoutParams tempFlightLayoutParams = (android.widget.RelativeLayout.LayoutParams) tempFlight
-					.getLayoutParams();
-			if (tempFlightLayoutParams == null) {
-				tempFlightLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-						RelativeLayout.LayoutParams.WRAP_CONTENT);
-			}
-
-			Log.i("settingTopMargin:" + tops[i]);
-			tempFlightLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			tempFlightLayoutParams.topMargin = tops[i];
-
-			tempFlight.setLayoutParams(tempFlightLayoutParams);
+		@Override
+		public void onAnimationCancel(Animator arg0) {
+			mCardsAnimating = false;
 		}
-		mFlightContainer.invalidate();
-	}
 
-	private void placeCardsStacked() {
-		int[] tops = getStackedTopMargins();
-		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
-			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			RelativeLayout.LayoutParams tempFlightLayoutParams = (android.widget.RelativeLayout.LayoutParams) tempFlight
-					.getLayoutParams();
-			if (tempFlightLayoutParams == null) {
-				tempFlightLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-						RelativeLayout.LayoutParams.WRAP_CONTENT);
-			}
-
-			Log.i("settingTopMargin:" + tops[i]);
-			tempFlightLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			tempFlightLayoutParams.topMargin = tops[i];
-
-			tempFlight.setLayoutParams(tempFlightLayoutParams);
-			tempFlight.requestLayout();
+		@Override
+		public void onAnimationEnd(Animator arg0) {
+			mCardsAnimating = false;
 		}
-		mFlightContainer.invalidate();
-	}
 
-	@SuppressLint("NewApi")
-	private void setCardAlphas(float alpha) {
-		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
-			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			View header = Ui.findView(tempFlight, R.id.display_flight_leg_header);
-			View price = Ui.findView(tempFlight, R.id.price_text_view);
-			View cancel = Ui.findView(tempFlight, R.id.cancel_button);
-			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
-			header.setAlpha(alpha);
-			price.setAlpha(alpha);
-			cancel.setAlpha(alpha);
-			airline.setAlpha(alpha);
+		@Override
+		public void onAnimationRepeat(Animator arg0) {
+
 		}
-	}
+
+		@Override
+		public void onAnimationStart(Animator arg0) {
+			mCardsAnimating = true;
+
+		}
+
+	};
 
 	////////////////////////////////
 	//Animations
 
-	private void animateCardsToStacked(int duration) {
-		ArrayList<Animator> animators = new ArrayList<Animator>();
-		animators.addAll(getCardTextAlphaAnimators(1f, 0f));
-		animators.addAll(getCardAnimators(getNormalTopMargins(), getStackedTopMargins()));
-		animators.addAll(getDateTravelerBarAnimators(true));
-		AnimatorSet animSet = new AnimatorSet();
-		animSet.playTogether(animators);
-		animSet.setDuration(duration);
-		animSet.start();
+	private void animateCardsToStacked(int duration, int delay) {
+		if (!mCardsAnimating) {
+			ArrayList<Animator> animators = new ArrayList<Animator>();
+			animators.addAll(getCardTextAlphaAnimators(1f, 0f));
+			animators.addAll(getCardAnimators(getNormalTopMargins(), getStackedTopMargins()));
+			animators.addAll(getDateTravelerBarAnimators(true));
+			AnimatorSet animSet = new AnimatorSet();
+			animSet.playTogether(animators);
+			animSet.setDuration(duration);
+			animSet.addListener(mCardsAnimatingListener);
+			animSet.setStartDelay(delay);
+			animSet.start();
+		}
 	}
 
 	private void animateCardsToUnStacked(int duration) {
-		ArrayList<Animator> animators = new ArrayList<Animator>();
-		animators.addAll(getCardTextAlphaAnimators(0f, 1f));
-		animators.addAll(getCardAnimators(getStackedTopMargins(), getNormalTopMargins()));
-		animators.addAll(getDateTravelerBarAnimators(false));
-		AnimatorSet animSet = new AnimatorSet();
-		animSet.playTogether(animators);
-		animSet.setDuration(duration);
-		animSet.start();
+		if (!mCardsAnimating) {
+			ArrayList<Animator> animators = new ArrayList<Animator>();
+			animators.addAll(getCardTextAlphaAnimators(0f, 1f));
+			animators.addAll(getCardAnimators(getStackedTopMargins(), getNormalTopMargins()));
+			animators.addAll(getDateTravelerBarAnimators(false));
+			AnimatorSet animSet = new AnimatorSet();
+			animSet.playTogether(animators);
+			animSet.setDuration(duration);
+			animSet.addListener(mCardsAnimatingListener);
+			animSet.start();
+		}
 	}
 
 	private ArrayList<Animator> getCardTextAlphaAnimators(float start, float end) {
@@ -410,6 +400,38 @@ public class FlightTripOverviewFragment extends Fragment {
 		animators.add(flightsMover);
 
 		return animators;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FlightLegSummarySectionListener
+
+	private boolean mDeselecting = false;
+
+	@Override
+	public void onDeselect(FlightLeg flightLeg) {
+		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0 && !mDeselecting) {
+			// Relaunch the flight search results activity, deselecting the leg chosen
+			Intent intent = new Intent(getActivity(), FlightSearchResultsActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, flightLeg.getLegId());
+			startActivity(intent);
+			mDeselecting = true;
+
+			FlightTripLeg selectedLegs[] = Db.getFlightSearch().getSelectedLegs();
+			int deselectLegPos;
+			for (deselectLegPos = 0; deselectLegPos < selectedLegs.length; deselectLegPos++) {
+				if (selectedLegs[deselectLegPos].getFlightLeg().getLegId().equals(flightLeg.getLegId())) {
+					break;
+				}
+			}
+
+			if (deselectLegPos == 0) {
+				OmnitureTracking.trackLinkFlightRateDetailsRemoveOut(getActivity());
+			}
+			else {
+				OmnitureTracking.trackLinkFlightRateDetailsRemoveIn(getActivity());
+			}
+		}
 	}
 
 }

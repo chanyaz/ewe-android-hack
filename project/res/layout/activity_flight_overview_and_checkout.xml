@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:scrollbars="vertical"
-        android:fillViewport="true" >
+        android:fillViewport="true"
+        android:scrollbars="vertical" >
 
         <RelativeLayout
             android:id="@+id/scroll_container"
@@ -26,19 +26,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:orientation="vertical"
                 android:clipChildren="false"
-                 />
-            
+                android:orientation="vertical" />
+
             <LinearLayout
                 android:id="@+id/trip_checkout_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:orientation="vertical"
-                android:visibility="gone"
-                 />
-            
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/back_to_overview_area"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_alignParentTop="true" />
         </RelativeLayout>
     </ScrollView>
 
@@ -46,7 +49,7 @@
         android:id="@+id/trip_price_container_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="0" />
+        android:layout_weight="0"
+        android:orientation="vertical" />
 
 </LinearLayout>
