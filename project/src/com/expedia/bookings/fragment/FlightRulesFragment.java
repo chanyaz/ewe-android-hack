@@ -2,9 +2,9 @@ package com.expedia.bookings.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightPenaltyRulesActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Rule;
@@ -46,6 +47,13 @@ public class FlightRulesFragment extends SherlockFragment {
 	private Context mContext;
 	private FlightTrip mFlightTrip;
 
+	private TextView mCompletePenaltyRulesTextView;
+	private TextView mLiabilitiesLinkTextView;
+
+	public static FlightRulesFragment newInstance() {
+		return new FlightRulesFragment();
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,9 +68,15 @@ public class FlightRulesFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_flight_rules, container, false);
 
+		mCompletePenaltyRulesTextView = Ui.findView(v, R.id.complete_penalty_rules_link_text_view);
+		mLiabilitiesLinkTextView = Ui.findView(v, R.id.liabilities_link_text_view);
+
 		if (mFlightTrip != null) {
 			populateHeaderRows(v);
 			populateBody(v);
+
+			populateCompletePenaltyRulesTextView();
+			populateLiabilitiesTextView();
 		}
 
 		return v;
@@ -76,10 +90,9 @@ public class FlightRulesFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				Rule completeRule = mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
-				Intent i = new Intent(Intent.ACTION_VIEW);
-				i.setData(Uri.parse(completeRule.getUrl()));
-				startActivity(i);
-
+				Intent intent = new Intent(mContext, FlightPenaltyRulesActivity.class);
+				intent.putExtra(FlightPenaltyRulesActivity.ARG_URL, completeRule.getUrl());
+				mContext.startActivity(intent);
 			}
 
 		});
@@ -105,13 +118,13 @@ public class FlightRulesFragment extends SherlockFragment {
 
 	private void populateBody(View v) {
 		TextView tv = Ui.findView(v, R.id.flight_rules_text_view);
-		String body = constructHtmlBody();
+		String body = constructHtmlBodySectionOne();
 
 		tv.setText(Html.fromHtml(body));
 		tv.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
-	private String constructHtmlBody() {
+	private String constructHtmlBodySectionOne() {
 		StringBuilder rulesBodyBuilder = new StringBuilder();
 
 		// intro rule
@@ -124,11 +137,31 @@ public class FlightRulesFragment extends SherlockFragment {
 
 		// change penalty
 		Rule penaltyRule = mFlightTrip.getRule(RulesKeys.CHANGE_PENALTY_TEXT.getKey());
-		appendBodyWithRule(penaltyRule, rulesBodyBuilder);
+		appendBodyWithRuleWithoutBreaks(penaltyRule, rulesBodyBuilder);
 
-		// complete penalty rules
+		return rulesBodyBuilder.toString();
+	}
+
+	private void populateCompletePenaltyRulesTextView() {
 		Rule completeRule = mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
-		appendBodyWithRuleContainingUrl(completeRule, rulesBodyBuilder);
+
+		mCompletePenaltyRulesTextView.setText(getDummyHtmlLink(completeRule));
+		mLiabilitiesLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		final String url = completeRule.getUrl();
+
+		mCompletePenaltyRulesTextView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, FlightPenaltyRulesActivity.class);
+				intent.putExtra(FlightPenaltyRulesActivity.ARG_URL, url);
+				mContext.startActivity(intent);
+			}
+		});
+	}
+
+	private void populateLiabilitiesTextView() {
+		StringBuilder rulesBodyBuilder = new StringBuilder();
 
 		// airline liability
 		Rule airlineRule = mFlightTrip.getRule(RulesKeys.AIRLINE_LIABILITY_LIMITATIONS.getKey());
@@ -141,13 +174,20 @@ public class FlightRulesFragment extends SherlockFragment {
 			rulesBodyBuilder.append(additionalRules.getText());
 		}
 
-		return rulesBodyBuilder.toString();
+		mLiabilitiesLinkTextView.setText(Html.fromHtml(rulesBodyBuilder.toString()));
+		mLiabilitiesLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	private void appendBodyWithRule(Rule rule, StringBuilder builder) {
 		if (rule != null) {
 			builder.append(rule.getText());
 			builder.append("<br><br>");
+		}
+	}
+
+	private void appendBodyWithRuleWithoutBreaks(Rule rule, StringBuilder builder) {
+		if (rule != null) {
+			builder.append(rule.getText());
 		}
 	}
 
@@ -169,6 +209,17 @@ public class FlightRulesFragment extends SherlockFragment {
 			builder.append("</a>");
 			builder.append("<br><br>");
 		}
+	}
+
+	// This method just makes the TextView look like a link, doesn't contain actual link
+	private Spanned getDummyHtmlLink(Rule rule) {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("<a href=\"\">");
+		builder.append(rule.getText());
+		builder.append("</a>");
+
+		return Html.fromHtml(builder.toString());
 	}
 
 }
