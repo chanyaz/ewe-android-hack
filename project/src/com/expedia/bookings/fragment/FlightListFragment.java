@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
 
@@ -189,12 +189,8 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 			else {
 				FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 				Location location = (mLegPosition == 0) ? params.getArrivalLocation() : params.getDepartureLocation();
-				String city = location.getCity();
-				if (TextUtils.isEmpty(city)) {
-					city = location.getDestinationId();
-				}
 				mNumFlightsTextView.setText(getResources().getQuantityString(R.plurals.num_flights_to_destination,
-						count, count, city).toUpperCase());
+						count, count, StrUtils.getLocationCityOrCode(location)).toUpperCase());
 			}
 		}
 	}

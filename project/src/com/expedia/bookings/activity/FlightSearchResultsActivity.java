@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -46,6 +45,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NavigationButton;
 import com.expedia.bookings.widget.NavigationDropdownAdapter;
@@ -388,11 +388,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 		int titleStrId = (mLegPosition == 0) ? R.string.outbound_TEMPLATE : R.string.inbound_TEMPLATE;
 		Location location = (mLegPosition == 0) ? params.getArrivalLocation() : params.getDepartureLocation();
-		String city = location.getCity();
-		if (TextUtils.isEmpty(city)) {
-			city = location.getDestinationId();
-		}
-		mTitleTextView.setText(getString(titleStrId, city));
+		mTitleTextView.setText(getString(titleStrId, StrUtils.getLocationCityOrCode(location)));
 
 		// Configure subtitle based on which user the leg is selecting
 		Date date = (mLegPosition == 0) ? params.getDepartureDate() : params.getReturnDate();

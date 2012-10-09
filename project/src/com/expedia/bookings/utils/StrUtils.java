@@ -203,6 +203,14 @@ public class StrUtils {
 		return waypoint.mAirportCode;
 	}
 
+	public static String getLocationCityOrCode(Location location) {
+		String city = location.getCity();
+		if (!TextUtils.isEmpty(location.getCity())) {
+			return city;
+		}
+		return location.getDestinationId();
+	}
+
 	/**
 	 * Joins together a bunch of Strings, much like in Python
 	 * 

@@ -30,6 +30,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
@@ -47,8 +48,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 		FlightSearch search = Db.getFlightSearch();
 		FlightTrip trip = search.getSelectedFlightTrip();
-		FlightLeg leg1 = trip.getLeg(0);
-		Airport destinationAirport = leg1.getLastWaypoint().getAirport();
+		String destinationCity = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
 
 		// Format the flight cards
@@ -102,13 +102,13 @@ public class FlightConfirmationFragment extends Fragment {
 
 		// Fill out all the actions
 		Ui.setText(v, R.id.going_to_text_view,
-				getString(R.string.yay_going_somewhere_TEMPLATE, destinationAirport.mCity));
+				getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
 
 		Ui.setText(v, R.id.itinerary_text_view,
 				Html.fromHtml(getString(R.string.itinerary_confirmation_TEMPLATE, itinerary.getItineraryNumber(),
 						Db.getBillingInfo().getEmail())));
 
-		Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationAirport.mCity));
+		Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
 		Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -210,7 +210,8 @@ public class FlightConfirmationFragment extends Fragment {
 		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, origin.getMostRelevantDateTime().getTimeInMillis());
 		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, destination.getMostRelevantDateTime().getTimeInMillis());
 		intent.putExtra(Events.EVENT_LOCATION,
-				getString(R.string.calendar_flight_location_TEMPLATE, originAirport.mName, originAirport.mCity));
+				getString(R.string.calendar_flight_location_TEMPLATE, originAirport.mName,
+						StrUtils.getWaypointCityOrCode(origin)));
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getString(R.string.calendar_flight_desc_itinerary_TEMPLATE, itineraryNumber));
