@@ -540,8 +540,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		Db.getFilter().removeOnFilterChangedListener(this);
 
-		mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
-
 		if (!isFinishing()) {
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
 			downloader.unregisterDownloadCallback(KEY_GEOCODE);
@@ -581,10 +579,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		displayRefinementInfo();
 		setActionBarBookingInfoText();
-
-		// #9103: Must add this after onResume(); otherwise it gets called when mSearchEditText
-		// automagically restores its previous state.
-		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
 
 		if (mStartSearchOnResume) {
 			startSearch();
@@ -1710,6 +1704,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		switch (mDisplayType) {
 		case NONE: {
+			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
+
 			// Reset focus
 			mFocusLayout.requestFocus();
 
@@ -1728,6 +1724,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			hideFilterOptions();
 
+			mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
+
 			// 13550: In some cases, the list has been cleared
 			// (like as a result of memory cleanup or rotation). So just
 			// populate it here just in case that happens.
@@ -1741,6 +1739,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case CALENDAR: {
+			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
@@ -1763,6 +1762,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case GUEST_PICKER: {
+			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
@@ -1781,6 +1781,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case FILTER: {
+			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
