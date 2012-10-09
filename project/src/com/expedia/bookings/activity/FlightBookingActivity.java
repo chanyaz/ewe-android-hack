@@ -61,18 +61,24 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			mBgFragment = new BlurredBackgroundFragment();
 
 			// Determine the data displayed on the CVVEntryFragment
-			Traveler traveler = Db.getTravelers().get(0);
-			String personName = traveler.getFirstName() + " " + traveler.getLastName();
 			BillingInfo billingInfo = Db.getBillingInfo();
 			StoredCreditCard cc = billingInfo.getStoredCard();
+
+			String personName;
 			String cardName;
 			if (cc != null) {
+				Traveler traveler = Db.getTravelers().get(0);
+				personName = traveler.getFirstName() + " " + traveler.getLastName();
+
 				cardName = cc.getDescription();
 			}
 			else {
+				personName = billingInfo.getNameOnCard();
+
 				String ccNumber = billingInfo.getNumber();
 				cardName = getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
 			}
+
 			mCVVEntryFragment = CVVEntryFragment.newInstance(personName, cardName);
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
