@@ -1972,12 +1972,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
+		mRadiusButtonGroup.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
+
 		mContent.post(new Runnable() {
 			@Override
 			public void run() {
+				mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 				mFilterPopupWindow.showAsDropDown(mRefinementDismissView,
 					(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
 					-mFilterLayout.getMeasuredHeight());
+				mFilterPopupWindow.update(mFilterLayout.getMeasuredWidth(), mFilterLayout.getMeasuredHeight());
 			}
 		});
 
