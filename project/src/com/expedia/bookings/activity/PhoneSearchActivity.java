@@ -431,9 +431,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
 		boolean localeChanged = SettingUtils.get(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
+		boolean startNewSearch = getIntent().getBooleanExtra(Codes.EXTRA_NEW_SEARCH, false);
+
+		if (startNewSearch) {
+			Db.clear();
+			saveParams();
+		}
 
 		boolean toBroadcastSearchCompleted = false;
 		SearchResponse searchResponse = Db.getSearchResponse();
+
 		if (savedInstanceState != null && !localeChanged) {
 			restoreActivityState(savedInstanceState);
 
@@ -471,8 +478,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			if (AndroidUtils.getAppCodeFromFilePath(SEARCH_RESULTS_VERSION_FILE, mContext) >= AndroidUtils.APP_CODE_E3) {
 				versionGood = true;
 			}
+
 			// Attempt to load saved search results; if we fail, start a new search
-			if (!localeChanged && versionGood) {
+			if (!localeChanged && versionGood && !startNewSearch) {
 				BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
 						mLoadSavedResultsCallback);
 				broadcastSearchStarted();

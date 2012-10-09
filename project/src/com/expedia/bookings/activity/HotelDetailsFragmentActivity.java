@@ -199,7 +199,14 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// app icon in action bar clicked; go back
+			// If opened from the widget, then "up" means to start a current location search
+			if (getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+				// Launch the PhoneSearchActivity action, with EXTRA_NEW_SEARCH flag
+				Intent intent = new Intent(this, PhoneSearchActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
+				startActivity(intent);
+			}
 			finish();
 			return true;
 		case R.id.menu_select_hotel:
