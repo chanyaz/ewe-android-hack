@@ -17,9 +17,8 @@ import com.mobiata.android.Log;
 public class NavUtils {
 
 	public static void goToLaunchScreen(Context context) {
-		sendKillActivityBroadcast(context);
-
 		Intent intent = new Intent(context, LaunchActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		context.startActivity(intent);
 	}
 
