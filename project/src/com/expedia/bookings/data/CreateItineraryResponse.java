@@ -3,6 +3,8 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.mobiata.android.json.JSONUtils;
+
 public class CreateItineraryResponse extends Response {
 
 	private Itinerary mItinerary;
@@ -36,11 +38,8 @@ public class CreateItineraryResponse extends Response {
 		}
 
 		try {
-			// TODO: SAVE STUFF HERE
-			if (Math.random() == 0) {
-				throw new JSONException("");
-			}
-
+			JSONUtils.putJSONable(obj, "itinerary", mItinerary);
+			JSONUtils.putJSONable(obj, "offer", mOffer);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -52,7 +51,8 @@ public class CreateItineraryResponse extends Response {
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 
-		// TODO: LOAD STUFF HERE
+		mItinerary = JSONUtils.getJSONable(obj, "itinerary", Itinerary.class);
+		mOffer = JSONUtils.getJSONable(obj, "offer", FlightTrip.class);
 
 		return true;
 	}
