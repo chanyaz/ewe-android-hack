@@ -49,6 +49,7 @@
                 android:hint="@string/hint_departure_airport"
                 android:imeOptions="flagNoExtractUi|actionNext"
                 android:inputType="textNoSuggestions"
+                android:popupBackground="@drawable/bg_autocomplete"
                 android:singleLine="true" />
 
             <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
@@ -60,6 +61,7 @@
                 android:hint="@string/hint_arrival_airport"
                 android:imeOptions="flagNoExtractUi|actionNext"
                 android:inputType="textNoSuggestions"
+                android:popupBackground="@drawable/bg_autocomplete"
                 android:singleLine="true" />
         </LinearLayout>
 

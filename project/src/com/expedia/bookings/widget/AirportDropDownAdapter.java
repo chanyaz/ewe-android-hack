@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
@@ -94,11 +93,6 @@ public class AirportDropDownAdapter extends CursorAdapter {
 		vh.mTextView1 = Ui.findView(v, android.R.id.text1);
 		vh.mTextView2 = Ui.findView(v, android.R.id.text2);
 		v.setTag(vh);
-
-		// TODO: Style the rows
-		// For now, we have to set this text black (for some reason it's white-on-white in some OSes)
-		vh.mTextView1.setTextColor(Color.BLACK);
-		vh.mTextView2.setTextColor(Color.BLACK);
 
 		return v;
 	}

@@ -636,4 +636,9 @@
         <item name="android:background">@drawable/abs__item_background_holo_dark</item>
     </style>
 
+    <style name="DropDownListView" parent="@android:style/Widget.ListView">
+        <item name="android:divider">#4F4F4F</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
 </resources>
