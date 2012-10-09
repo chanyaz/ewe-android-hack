@@ -64,6 +64,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/name_on_card_hint"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName|textCapWords" />
 
 </com.expedia.bookings.section.SectionBillingInfo>
