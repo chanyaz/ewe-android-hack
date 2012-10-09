@@ -502,7 +502,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				field.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Date date = new Date(Calendar.getInstance());
+						Date date = new Date(1970,1,1);
 						if (hasBoundData()) {
 							if (getData().getBirthDate() != null) {
 								date = getData().getBirthDate();
