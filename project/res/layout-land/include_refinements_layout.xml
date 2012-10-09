@@ -22,9 +22,11 @@
             mobiata:cellTextColor="@color/cell_text"
             mobiata:drawGridLines="false"
             mobiata:calendarHeaderBackground="@color/calendar_header"
+            mobiata:nextMonthBackground="@drawable/bg_calendar_next"
             mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell"
             mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
             mobiata:popupBackground="@drawable/calendar_date_picker_popup"
+            mobiata:previousMonthBackground="@drawable/bg_calendar_previous"
             mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
             mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
             mobiata:todayCellBackground="@drawable/bg_calendar_cell_today" />
