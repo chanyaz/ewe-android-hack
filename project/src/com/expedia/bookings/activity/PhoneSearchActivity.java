@@ -2133,21 +2133,20 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchEditText.setSelection(mSearchTextSelectionStart, mSearchTextSelectionEnd);
 		}
 
-		if (mDisplayType != DisplayType.CALENDAR) {
-			// Temporarily remove the OnDateChangedListener so that it is not fired
-			// while we manually update the start/end dates
-			mDatesCalendarDatePicker.setOnDateChangedListener(null);
+		// Temporarily remove the OnDateChangedListener so that it is not fired
+		// while we manually update the start/end dates
+		mDatesCalendarDatePicker.setOnDateChangedListener(null);
 
-			Calendar checkIn = searchParams.getCheckInDate();
-			mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
-					checkIn.get(Calendar.DAY_OF_MONTH));
+		Calendar checkIn = searchParams.getCheckInDate();
+		mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
+				checkIn.get(Calendar.DAY_OF_MONTH));
 
-			Calendar checkOut = searchParams.getCheckOutDate();
-			mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
-					checkOut.get(Calendar.DAY_OF_MONTH));
+		Calendar checkOut = searchParams.getCheckOutDate();
+		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
+				checkOut.get(Calendar.DAY_OF_MONTH));
 
-			mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
-		}
+		mDatesCalendarDatePicker.updateStateCache();
+		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		mGuestsLayout.post(new Runnable() {
 			@Override
