@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -504,8 +505,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				displayOptions();
 				break;
 			case SAVE:
-				if(mBeforeSaveDialogPos != null){
-					switch(mBeforeSaveDialogPos){
+				if (mBeforeSaveDialogPos != null) {
+					switch (mBeforeSaveDialogPos) {
 					case ONE:
 						displayTravelerEntryOne();
 						break;
@@ -518,7 +519,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 					default:
 						displayOptions();
 					}
-				}else{
+				}
+				else {
 					displayOptions();
 				}
 				break;
@@ -536,6 +538,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	@Override
 	public void displayOptions() {
+		hideKeyboard();
+
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
 		if (mOptionsFragment == null) {
@@ -621,5 +625,13 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex);
 		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
 		finish();
+	}
+
+	private void hideKeyboard() {
+		if (this.getCurrentFocus() != null) {
+			//Oh silly stupid InputMethodManager...
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 	}
 }

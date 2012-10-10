@@ -1,11 +1,13 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -62,7 +64,17 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		public boolean attemptToLeave();
 	}
 
+	private void hideKeyboard() {
+		if (this.getCurrentFocus() != null) {
+			//Oh silly stupid InputMethodManager...
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
 	public void displayOptions() {
+		hideKeyboard();
+
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
 		if (mOptionsFragment == null) {
@@ -268,7 +280,8 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 					default:
 						displayOptions();
 					}
-				}else{
+				}
+				else {
 					displayOptions();
 				}
 				break;
