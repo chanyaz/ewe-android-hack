@@ -431,7 +431,13 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 			else {
 				OmnitureTracking.trackLinkFlightRateDetailsRemoveIn(getActivity());
 			}
+			
+			//This should be handled by the activity, but better safe than sorry.
+			try{
+				Db.getBillingInfo().setNumber(null);
+			}catch(Exception ex){
+				Log.e("Error clearing billingInfo card number",ex);
+			}
 		}
 	}
-
 }

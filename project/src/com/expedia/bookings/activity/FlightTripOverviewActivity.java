@@ -40,6 +40,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -168,6 +169,16 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			gotoOverviewMode(false);
 		}
 	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+
+		//In the case that we go back to the start of the app, we want the CC number to be cleared when we return
+		if(this.isFinishing()){
+			clearCCNumber();
+		}
+	}
 
 	@Override
 	public void onSaveInstanceState(Bundle out) {
@@ -175,6 +186,14 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		out.putString(STATE_TAG_MODE, mDisplayMode.name());
 		out.putInt(STATE_TAG_STACKED_HEIGHT, mStackedHeight);
 		out.putInt(STATE_TAG_UNSTACKED_HEIGHT, mUnstackedHeight);
+	}
+	
+	private void clearCCNumber(){
+		try{
+			Db.getBillingInfo().setNumber(null);
+		}catch(Exception ex){
+			Log.e("Error clearing billingInfo card number",ex);
+		}
 	}
 
 	private void loadCachedData() {
@@ -552,6 +571,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			gotoOverviewMode(true);
 		}
 		else {
+			clearCCNumber();
 			super.onBackPressed();
 		}
 	}
