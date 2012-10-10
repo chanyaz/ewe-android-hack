@@ -136,10 +136,11 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 		getSupportMenuInflater().inflate(R.menu.menu_booking, menu);
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
-		ActionBar ab = getSupportActionBar();
-		ab.setDisplayHomeAsUpEnabled(true);
-		ab.setDisplayShowTitleEnabled(true);
-		ab.setTitle(R.string.enter_booking_info);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setTitle(R.string.enter_booking_info);
+		actionBar.setDisplayUseLogoEnabled(!AndroidUtils.isTablet(this));
 
 		final MenuItem bookNow = menu.findItem(R.id.menu_book_now);
 		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_book_now, null);

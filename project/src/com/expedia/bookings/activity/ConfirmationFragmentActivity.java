@@ -127,6 +127,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setTitle(getString(R.string.booking_complete));
+		actionBar.setDisplayUseLogoEnabled(!AndroidUtils.isTablet(this));
 
 		return super.onCreateOptionsMenu(menu);
 	}

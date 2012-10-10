@@ -38,6 +38,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.validation.ValidationError;
 
 public class BookingFragmentActivity extends FragmentActivity implements RoomsAndRatesFragmentListener,
@@ -101,6 +102,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
 	}
 
 	@Override
