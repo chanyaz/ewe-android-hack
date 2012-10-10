@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -413,20 +414,41 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				//We can't save travelers to an account if we aren't logged in, so we unset the flag
 				Db.getTravelers().get(i).setSaveTravelerToExpediaAccount(false);
 			}
-			
+
 		}
+	}
+
+	private boolean hasSomeManuallyEnteredData(BillingInfo info) {
+		if (info.getLocation() == null) {
+			return false;
+		}
+		//Checkout the major fields, if any of them have data, then we know some data has been manually enetered
+		if (!TextUtils.isEmpty(info.getLocation().getStreetAddressString().trim())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getLocation().getCity().trim())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getLocation().getPostalCode().trim())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getLocation().getStateCode().trim())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getNameOnCard().trim())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getNumber().trim())) {
+			return true;
+		}
+		return false;
 	}
 
 	private void populatePaymentDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
-			//Populate Credit Card
-			PaymentFlowState paymentState = PaymentFlowState.getInstance(getActivity());
-			boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
-			boolean paymentAddressValid = hasStoredCard ? hasStoredCard : paymentState
-					.hasValidBillingAddress(mBillingInfo);
-			boolean paymentCCValid = hasStoredCard ? hasStoredCard : paymentState.hasValidCardInfo(mBillingInfo);
+			//Populate Credit Card only if the user doesn't have any manually entered data
 			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0
-					&& !(paymentAddressValid && paymentCCValid)) {
+					&& !hasSomeManuallyEnteredData(mBillingInfo)) {
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
 		}
