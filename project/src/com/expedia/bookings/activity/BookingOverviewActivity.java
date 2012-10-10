@@ -16,10 +16,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.BookingOverviewFragment;
+import com.expedia.bookings.fragment.BookingOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.mobiata.android.Log;
 
-public class BookingOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener {
+public class BookingOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
+		SignInFragmentListener {
 	private BookingOverviewFragment mBookingOverviewFragment;
 	private MenuItem mCheckoutMenuItem;
 
@@ -87,7 +89,6 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 		case android.R.id.home: {
 			if (mBookingOverviewFragment.inCheckout()) {
 				mBookingOverviewFragment.endCheckout();
-				mCheckoutMenuItem.setVisible(true);
 				return true;
 			}
 
@@ -95,8 +96,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 			return true;
 		}
 		case R.id.menu_checkout: {
-			mBookingOverviewFragment.beginCheckout();
-			mCheckoutMenuItem.setVisible(false);
+			mBookingOverviewFragment.startCheckout();
 			return true;
 		}
 		}
@@ -105,6 +105,16 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	}
 
 	// SignInFragmentListener implementation
+
+	@Override
+	public void checkoutStarted() {
+		mCheckoutMenuItem.setVisible(false);
+	}
+
+	@Override
+	public void checkoutEnded() {
+		mCheckoutMenuItem.setVisible(true);
+	}
 
 	@Override
 	public void onLoginStarted() {

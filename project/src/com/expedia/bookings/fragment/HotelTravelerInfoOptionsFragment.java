@@ -36,7 +36,6 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 	View mOverviewBtn;
 	View mEnterManuallyBtn;
-	View mInternationalDivider;
 
 	TextView mEditTravelerLabel;
 	View mEditTravelerLabelDiv;
@@ -49,8 +48,6 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	Traveler mCurrentTraveler;
 
 	SectionTravelerInfo mTravelerContact;
-	SectionTravelerInfo mTravelerPrefs;
-	SectionTravelerInfo mTravelerPassportCountry;
 
 	TravelerInfoYoYoListener mListener;
 
@@ -81,7 +78,6 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 		mSelectTravelerLabel = Ui.findView(v, R.id.select_traveler_label);
 		mSelectTravelerLabelDiv = Ui.findView(v, R.id.select_traveler_label_div);
 		mAssociatedTravelersContainer = Ui.findView(v, R.id.associated_travelers_container);
-		mInternationalDivider = Ui.findView(v, R.id.current_traveler_passport_country_divider);
 
 		mEnterManuallyBtn = Ui.findView(v, R.id.enter_info_manually_button);
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
@@ -150,26 +146,8 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 		}
 
 		mTravelerContact = Ui.findView(v, R.id.current_traveler_contact);
-		mTravelerPrefs = Ui.findView(v, R.id.current_traveler_prefs);
-		mTravelerPassportCountry = Ui.findView(v, R.id.current_traveler_passport_country);
 
 		mTravelerContact.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mListener.setMode(YoYoMode.EDIT);
-				mListener.displayTravelerEntryOne();
-			}
-		});
-
-		mTravelerPrefs.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mListener.setMode(YoYoMode.EDIT);
-				mListener.displayTravelerEntryOne();
-			}
-		});
-
-		mTravelerPassportCountry.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mListener.setMode(YoYoMode.EDIT);
@@ -230,22 +208,12 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			mEditTravelerContainer.setVisibility(View.VISIBLE);
 			mEditTravelerLabel.setVisibility(View.VISIBLE);
 			mSelectTravelerLabel.setText(getString(R.string.select_a_different_traveler));
-			if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
-				mInternationalDivider.setVisibility(View.VISIBLE);
-				mTravelerPassportCountry.setVisibility(View.VISIBLE);
-			}
-			else {
-				mInternationalDivider.setVisibility(View.GONE);
-				mTravelerPassportCountry.setVisibility(View.GONE);
-			}
 		}
 
 		mEditTravelerLabelDiv.setVisibility(mEditTravelerLabel.getVisibility());
 		mSelectTravelerLabelDiv.setVisibility(mSelectTravelerLabel.getVisibility());
 
 		mTravelerContact.bind(mCurrentTraveler);
-		mTravelerPrefs.bind(mCurrentTraveler);
-		mTravelerPassportCountry.bind(mCurrentTraveler);
 	}
 
 	public interface TravelerInfoYoYoListener {

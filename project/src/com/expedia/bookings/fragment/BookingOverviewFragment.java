@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
@@ -41,12 +43,21 @@ import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.HotelReceiptMini;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
+import com.expedia.bookings.widget.SlideToWidget;
+import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.view.ViewHelper;
 
 public class BookingOverviewFragment extends Fragment {
+	public interface BookingOverviewFragmentListener {
+		public void checkoutStarted();
+
+		public void checkoutEnded();
+	}
+
 	private boolean mInCheckout = false;
+	private BookingOverviewFragmentListener mBookingOverviewFragmentListener;
 
 	private BillingInfo mBillingInfo;
 
@@ -70,7 +81,20 @@ public class BookingOverviewFragment extends Fragment {
 	private View mSlideToPurchaseLayout;
 	private TextView mCancelationPolicyTextView;
 
+	private SlideToWidget mSlideToPurchaseWidget;
 	private TextView mPurchaseTotalTextView;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof BookingOverviewFragmentListener)) {
+			throw new RuntimeException(
+					"BookingOverviewFragment Activity must implement BookingOverviewFragmentListener");
+		}
+
+		mBookingOverviewFragmentListener = (BookingOverviewFragmentListener) activity;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,11 +118,15 @@ public class BookingOverviewFragment extends Fragment {
 
 		mHotelReceiptMini = Ui.findView(view, R.id.sticky_receipt_mini);
 		mSlideToPurchaseLayout = Ui.findView(view, R.id.slide_to_purchase_layout);
+
+		mSlideToPurchaseWidget = Ui.findView(view, R.id.slide_to_purchase_widget);
 		mPurchaseTotalTextView = Ui.findView(view, R.id.purchase_total_text_view);
 
 		mScrollViewListener = new ScrollViewListener(mScrollView.getContext());
 		mScrollView.setOnScrollListener(mScrollViewListener);
 		mScrollView.setOnTouchListener(mScrollViewListener);
+
+		mSlideToPurchaseWidget.addSlideToListener(mSlideToListener);
 
 		ViewHelper.setAlpha(mCheckoutLayout, 0);
 
@@ -218,15 +246,30 @@ public class BookingOverviewFragment extends Fragment {
 		return mInCheckout;
 	}
 
-	public void beginCheckout() {
+	public void startCheckout() {
+		if (mInCheckout) {
+			return;
+		}
+
+		if (mBookingOverviewFragmentListener != null) {
+			mBookingOverviewFragmentListener.checkoutStarted();
+		}
+
 		mInCheckout = true;
 
 		showSlideToPurchsaeView();
 	}
 
 	public void endCheckout() {
-		mInCheckout = false;
+		if (!mInCheckout) {
+			return;
+		}
 
+		if (mBookingOverviewFragmentListener != null) {
+			mBookingOverviewFragmentListener.checkoutEnded();
+		}
+
+		mInCheckout = false;
 		hideSlideToPurchaseView();
 	}
 
@@ -319,6 +362,21 @@ public class BookingOverviewFragment extends Fragment {
 		}
 	};
 
+	private SlideToWidget.ISlideToListener mSlideToListener = new ISlideToListener() {
+		@Override
+		public void onSlideStart() {
+		}
+
+		@Override
+		public void onSlideAllTheWay() {
+			startActivity(new Intent(getActivity(), HotelBookingActivity.class));
+		}
+
+		@Override
+		public void onSlideAbort() {
+		}
+	};
+
 	// Scroll Listener
 
 	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
@@ -326,7 +384,7 @@ public class BookingOverviewFragment extends Fragment {
 
 		private static final float RANGE = 100.0f;
 
-		private static final int SWIPE_MIN_DISTANCE = 120;
+		private static final int SWIPE_MIN_DISTANCE = 100;
 		private static final int SWIPE_MAX_OFF_PATH = 250;
 		private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
@@ -335,6 +393,7 @@ public class BookingOverviewFragment extends Fragment {
 		private final float mScaledRange;
 		private final float mMarginTop;
 
+		private boolean mTouchDown = false;
 		private int mScrollY = 0;
 
 		public ScrollViewListener(Context context) {
@@ -350,27 +409,34 @@ public class BookingOverviewFragment extends Fragment {
 				return false;
 			}
 
-			if (event.getAction() == MotionEvent.ACTION_UP) {
+			if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+				mTouchDown = true;
+			}
+			else if (event.getAction() == MotionEvent.ACTION_UP) {
+				mTouchDown = false;
+
 				final float midPoint = (mHotelReceipt.getHeight() + mMarginTop) / 2;
 				final float maxY = mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight();
 
 				if (mScrollY < midPoint) {
-					mScrollView.scrollTo(0, mScrollY);
 					mScrollView.post(new Runnable() {
 						@Override
 						public void run() {
 							mScrollView.smoothScrollTo(0, 0);
 						}
 					});
+
+					endCheckout();
 				}
 				else if (mScrollY > midPoint && mScrollY < maxY) {
-					mScrollView.scrollTo(0, mScrollY);
 					mScrollView.post(new Runnable() {
 						@Override
 						public void run() {
 							mScrollView.smoothScrollTo(0, (int) maxY);
 						}
 					});
+
+					startCheckout();
 				}
 			}
 
@@ -381,15 +447,23 @@ public class BookingOverviewFragment extends Fragment {
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			mScrollY = y;
 
-			float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledRange) / 2)) / mScaledRange;
+			final float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledRange) / 2))
+					/ mScaledRange;
+			final int maxY = (int) (mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight());
 
 			ViewHelper.setAlpha(mHotelDetailsTextView, 1.0f - alpha);
 			ViewHelper.setAlpha(mCheckoutLayout, alpha);
 
-			final float maxY = mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight();
-			mHotelReceiptMini.setVisibility(y > maxY ? View.VISIBLE : View.GONE);
+			mHotelReceiptMini.setVisibility(y >= maxY ? View.VISIBLE : View.GONE);
 
-			if (y >= maxY) {
+			// If we've lifted our finger that means the scroll view is scrolling
+			// with the remaining momentum. If it's scrolling down, and it's gone
+			// past the checkout state, stop it at the checkout position.
+			if (!mTouchDown && y <= oldy && oldy >= maxY) {
+				mScrollView.scrollTo(0, (int) maxY);
+			}
+
+			if (y > maxY - mScaledRange) {
 				mHotelReceipt.showMiniDetailsLayout();
 				mHotelReceiptMini.showMiniDetailsLayout();
 			}
@@ -401,29 +475,14 @@ public class BookingOverviewFragment extends Fragment {
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
+			if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH) {
 				return false;
 			}
 
-			final float midPoint = (mHotelReceipt.getHeight() + mMarginTop) / 2;
 			final float maxY = mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight();
 
 			if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
 				if (mScrollY < maxY) {
-					mScrollView.scrollTo(0, mScrollY);
-					mScrollView.post(new Runnable() {
-						@Override
-						public void run() {
-							mScrollView.smoothScrollTo(0, 0);
-						}
-					});
-
-					return true;
-				}
-			}
-			else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-				if (mScrollY > midPoint) {
-					mScrollView.scrollTo(0, mScrollY);
 					mScrollView.post(new Runnable() {
 						@Override
 						public void run() {
@@ -431,12 +490,27 @@ public class BookingOverviewFragment extends Fragment {
 						}
 					});
 
+					startCheckout();
+
+					return true;
+				}
+			}
+			else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+				if (mScrollY < maxY) {
+					mScrollView.post(new Runnable() {
+						@Override
+						public void run() {
+							mScrollView.smoothScrollTo(0, 0);
+						}
+					});
+
+					endCheckout();
+
 					return true;
 				}
 			}
 
 			return false;
-
 		}
 	}
 }

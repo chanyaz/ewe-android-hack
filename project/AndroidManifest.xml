@@ -101,6 +101,10 @@
             android:name=".activity.HotelPaymentOptionsActivity"
             android:label="Add Payment"
             android:theme="@style/Theme.Phone" />
+        <activity
+            android:name=".activity.HotelBookingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Phone" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.TabletAboutActivity" />
         <activity
