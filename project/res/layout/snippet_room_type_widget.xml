@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
-            mobiata:rotation="90"
             android:src="@drawable/btn_collapse_expand" />
     </LinearLayout>
 
