@@ -3,12 +3,20 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -16,65 +24,89 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
+import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
-import com.expedia.bookings.widget.MiniReceiptWidget;
-import com.expedia.bookings.widget.ReceiptWidget;
+import com.expedia.bookings.widget.HotelReceipt;
+import com.expedia.bookings.widget.HotelReceiptMini;
+import com.expedia.bookings.widget.ScrollView;
+import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.view.ViewHelper;
 
 public class BookingOverviewFragment extends Fragment {
 	private boolean mInCheckout = false;
 
 	private BillingInfo mBillingInfo;
 
-	private View mOverviewLayout;
+	private ScrollView mScrollView;
+	private ScrollViewListener mScrollViewListener;
+
+	private HotelReceipt mHotelReceipt;
+	private TextView mHotelDetailsTextView;
 	private View mCheckoutLayout;
-	private View mReceiptView;
 
 	private AccountButton mAccountButton;
-
 	private TextView mTravelerInfoTextView;
 	private View mPaymentInfoLayout;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
+	private TextView mRulesRestrictionsTextView;
+	private TextView mExpediaPointsDisclaimerTextView;
+	private View mSlideToPurchaseLayoutSpacerView;
 
-	private ReceiptWidget mReceiptWidget;
-	private MiniReceiptWidget mMiniReceiptWidget;
+	private HotelReceiptMini mHotelReceiptMini;
+	private View mSlideToPurchaseLayout;
+	private TextView mCancelationPolicyTextView;
+
+	private TextView mPurchaseTotalTextView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_booking_overview, container, false);
 
-		mOverviewLayout = Ui.findView(view, R.id.overview_layout);
+		mScrollView = Ui.findView(view, R.id.scroll_view);
+
+		mHotelReceipt = Ui.findView(view, R.id.receipt);
+		mHotelDetailsTextView = Ui.findView(view, R.id.hotel_details_text_view);
 		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
-		mReceiptView = Ui.findView(view, R.id.receipt);
 
 		mAccountButton = Ui.findView(view, R.id.account_button_layout);
 		mTravelerInfoTextView = Ui.findView(view, R.id.traveler_info_text_view);
 		mPaymentInfoLayout = Ui.findView(view, R.id.payment_info_linear_layout);
 		mStoredCreditCard = Ui.findView(view, R.id.stored_creditcard_section_layout);
 		mCreditCardSectionButton = Ui.findView(view, R.id.creditcard_section_layout);
+		mRulesRestrictionsTextView = Ui.findView(view, R.id.rules_restrictions_text_view);
+		mExpediaPointsDisclaimerTextView = Ui.findView(view, R.id.expedia_points_disclaimer_text_view);
+		mCancelationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
+		mSlideToPurchaseLayoutSpacerView = Ui.findView(view, R.id.slide_to_purchase_layout_spacer_view);
 
-		mReceiptWidget = new ReceiptWidget(getActivity(), mReceiptView, false);
-		mMiniReceiptWidget = (MiniReceiptWidget) view.findViewById(R.id.receipt_mini);
+		mHotelReceiptMini = Ui.findView(view, R.id.sticky_receipt_mini);
+		mSlideToPurchaseLayout = Ui.findView(view, R.id.slide_to_purchase_layout);
+		mPurchaseTotalTextView = Ui.findView(view, R.id.purchase_total_text_view);
+
+		mScrollViewListener = new ScrollViewListener(mScrollView.getContext());
+		mScrollView.setOnScrollListener(mScrollViewListener);
+		mScrollView.setOnTouchListener(mScrollViewListener);
+
+		ViewHelper.setAlpha(mCheckoutLayout, 0);
 
 		mBillingInfo = Db.getBillingInfo();
 
 		if (Db.getSelectedProperty() != null && Db.getSelectedRate() != null) {
 			updateReceiptWidget();
-			mReceiptWidget.restoreInstanceState(savedInstanceState);
+			mHotelReceipt.restoreInstanceState(savedInstanceState);
 		}
 
 		// Listeners
@@ -146,6 +178,30 @@ public class BookingOverviewFragment extends Fragment {
 			mPaymentInfoLayout.setVisibility(View.VISIBLE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
 		}
+
+		// Disclaimers
+		mRulesRestrictionsTextView.setText(RulesRestrictionsUtils.getRulesRestrictionsConfirmation(getActivity()));
+		mExpediaPointsDisclaimerTextView.setText(R.string.disclaimer_expedia_points);
+
+		Policy cancellationPolicy = Db.getSelectedRate().getRateRules().getPolicy(Policy.TYPE_CANCEL);
+		if (cancellationPolicy != null) {
+			mCancelationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+		}
+		else {
+			mCancelationPolicyTextView.setVisibility(View.GONE);
+		}
+
+		// Purchase total
+		Money displayedTotal;
+		if (LocaleUtils.shouldDisplayMandatoryFees(getActivity())) {
+			displayedTotal = Db.getSelectedRate().getTotalPriceWithMandatoryFees();
+		}
+		else {
+			displayedTotal = Db.getSelectedRate().getTotalAmountAfterTax();
+		}
+
+		mPurchaseTotalTextView.setText(getString(R.string.your_card_will_be_charged_TEMPLATE,
+				displayedTotal.getFormattedMoney()));
 	}
 
 	public void updateReceiptWidget() {
@@ -154,8 +210,8 @@ public class BookingOverviewFragment extends Fragment {
 			discountRate = Db.getCreateTripResponse().getNewRate();
 		}
 
-		mReceiptWidget.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
-		mMiniReceiptWidget.bind(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
+		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
+		mHotelReceiptMini.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
 	}
 
 	public boolean inCheckout() {
@@ -165,49 +221,13 @@ public class BookingOverviewFragment extends Fragment {
 	public void beginCheckout() {
 		mInCheckout = true;
 
-		mMiniReceiptWidget.setVisibility(View.VISIBLE);
-		mCheckoutLayout.setVisibility(View.VISIBLE);
-
-		AnimatorSet set = new AnimatorSet();
-		set.playTogether(ObjectAnimator.ofFloat(mOverviewLayout, "translationY", 0, -mReceiptView.getBottom()),
-				ObjectAnimator.ofFloat(mOverviewLayout, "alpha", 1, 0),
-				ObjectAnimator.ofFloat(mMiniReceiptWidget, "translationY", -mMiniReceiptWidget.getHeight(), 0),
-				ObjectAnimator.ofFloat(mMiniReceiptWidget, "alpha", 0, 1),
-				ObjectAnimator.ofFloat(mCheckoutLayout, "translationY", mCheckoutLayout.getBottom(), 0),
-				ObjectAnimator.ofFloat(mCheckoutLayout, "alpha", 0, 1));
-		set.start();
+		showSlideToPurchsaeView();
 	}
 
 	public void endCheckout() {
 		mInCheckout = false;
 
-		AnimatorSet set = new AnimatorSet();
-		set.addListener(new AnimatorListener() {
-			@Override
-			public void onAnimationStart(Animator arg0) {
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator arg0) {
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				mMiniReceiptWidget.setVisibility(View.INVISIBLE);
-				mCheckoutLayout.setVisibility(View.INVISIBLE);
-			}
-
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-			}
-		});
-		set.playTogether(ObjectAnimator.ofFloat(mOverviewLayout, "translationY", -mReceiptView.getBottom(), 0),
-				ObjectAnimator.ofFloat(mOverviewLayout, "alpha", 0, 1),
-				ObjectAnimator.ofFloat(mMiniReceiptWidget, "translationY", 0, -mMiniReceiptWidget.getHeight()),
-				ObjectAnimator.ofFloat(mMiniReceiptWidget, "alpha", 1, 0),
-				ObjectAnimator.ofFloat(mCheckoutLayout, "translationY", 0, mCheckoutLayout.getBottom()),
-				ObjectAnimator.ofFloat(mCheckoutLayout, "alpha", 1, 0));
-		set.start();
+		hideSlideToPurchaseView();
 	}
 
 	// Private methods
@@ -224,6 +244,38 @@ public class BookingOverviewFragment extends Fragment {
 			travelers.add(fp);
 		}
 	}
+
+	// Hide/show slide to purchase view
+
+	private void showSlideToPurchsaeView() {
+		mSlideToPurchaseLayout.setVisibility(View.VISIBLE);
+		mSlideToPurchaseLayoutSpacerView.setVisibility(View.VISIBLE);
+
+		mSlideToPurchaseLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up));
+	}
+
+	private void hideSlideToPurchaseView() {
+		Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+		animation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				mSlideToPurchaseLayoutSpacerView.setVisibility(View.GONE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mSlideToPurchaseLayout.setVisibility(View.GONE);
+			}
+		});
+
+		mSlideToPurchaseLayout.startAnimation(animation);
+	}
+
+	// Listeners
 
 	private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 		@Override
@@ -266,4 +318,125 @@ public class BookingOverviewFragment extends Fragment {
 			Log.i("SignInFragment shown");
 		}
 	};
+
+	// Scroll Listener
+
+	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
+			OnTouchListener {
+
+		private static final float RANGE = 100.0f;
+
+		private static final int SWIPE_MIN_DISTANCE = 120;
+		private static final int SWIPE_MAX_OFF_PATH = 250;
+		private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+		private GestureDetector mGestureDetector;
+
+		private final float mScaledRange;
+		private final float mMarginTop;
+
+		private int mScrollY = 0;
+
+		public ScrollViewListener(Context context) {
+			mGestureDetector = new GestureDetector(context, this);
+
+			mScaledRange = RANGE * getResources().getDisplayMetrics().density;
+			mMarginTop = 16 * getResources().getDisplayMetrics().density;
+		}
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			if (mGestureDetector.onTouchEvent(event)) {
+				return false;
+			}
+
+			if (event.getAction() == MotionEvent.ACTION_UP) {
+				final float midPoint = (mHotelReceipt.getHeight() + mMarginTop) / 2;
+				final float maxY = mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight();
+
+				if (mScrollY < midPoint) {
+					mScrollView.scrollTo(0, mScrollY);
+					mScrollView.post(new Runnable() {
+						@Override
+						public void run() {
+							mScrollView.smoothScrollTo(0, 0);
+						}
+					});
+				}
+				else if (mScrollY > midPoint && mScrollY < maxY) {
+					mScrollView.scrollTo(0, mScrollY);
+					mScrollView.post(new Runnable() {
+						@Override
+						public void run() {
+							mScrollView.smoothScrollTo(0, (int) maxY);
+						}
+					});
+				}
+			}
+
+			return false;
+		}
+
+		@Override
+		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			mScrollY = y;
+
+			float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledRange) / 2)) / mScaledRange;
+
+			ViewHelper.setAlpha(mHotelDetailsTextView, 1.0f - alpha);
+			ViewHelper.setAlpha(mCheckoutLayout, alpha);
+
+			final float maxY = mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight();
+			mHotelReceiptMini.setVisibility(y > maxY ? View.VISIBLE : View.GONE);
+
+			if (y >= maxY) {
+				mHotelReceipt.showMiniDetailsLayout();
+				mHotelReceiptMini.showMiniDetailsLayout();
+			}
+			else {
+				mHotelReceipt.showTotalCostLayout();
+				mHotelReceiptMini.showTotalCostLayout();
+			}
+		}
+
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
+				return false;
+			}
+
+			final float midPoint = (mHotelReceipt.getHeight() + mMarginTop) / 2;
+			final float maxY = mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight();
+
+			if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+				if (mScrollY < maxY) {
+					mScrollView.scrollTo(0, mScrollY);
+					mScrollView.post(new Runnable() {
+						@Override
+						public void run() {
+							mScrollView.smoothScrollTo(0, 0);
+						}
+					});
+
+					return true;
+				}
+			}
+			else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+				if (mScrollY > midPoint) {
+					mScrollView.scrollTo(0, mScrollY);
+					mScrollView.post(new Runnable() {
+						@Override
+						public void run() {
+							mScrollView.smoothScrollTo(0, (int) maxY);
+						}
+					});
+
+					return true;
+				}
+			}
+
+			return false;
+
+		}
+	}
 }

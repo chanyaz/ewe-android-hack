@@ -1,146 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <RelativeLayout
+    <com.expedia.bookings.widget.ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp" >
+        android:layout_height="match_parent" >
 
         <LinearLayout
-            android:id="@+id/overview_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" >
 
-            <include
+            <com.expedia.bookings.widget.HotelReceipt
                 android:id="@+id/receipt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                layout="@layout/include_receipt" />
+                android:layout_marginTop="16dp" />
 
-            <TextView
-                android:id="@android:id/text1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="Readymade whatever echo park bicycle rights, gastropub gentrify mustache +1 quinoa. Synth put a bird on it leggings locavore etsy wes anderson."
-                android:textColor="@android:color/white" />
-        </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <include
-            android:id="@+id/receipt_mini"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/include_receipt_mini"
-            android:visibility="invisible" />
-
-        <LinearLayout
-            android:id="@+id/checkout_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/receipt_mini"
-            android:orientation="vertical"
-            android:visibility="invisible" >
-
-            <include
-                android:id="@+id/account_button_layout"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                layout="@layout/include_account_button" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:text="GUEST CHECKOUT"
-                android:textColor="@android:color/white" />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="#DBDBDB"
-                android:orientation="vertical"
-                android:showDividers="middle" >
+                <TextView
+                    android:id="@+id/hotel_details_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="PBR banh mi umami, cliche fixie you probably haven&apos;t heard of them 3 wolf moon ennui before they sold out authentic. Beard you probably haven&apos;t heard of them kogi, post-ironic biodiesel wolf synth pickled. Chambray keffiyeh gentrify gluten-free, leggings sartorial quinoa jean shorts stumptown keytar authentic mcsweeney&apos;s. Wayfarers tattooed mumblecore, vegan forage tofu typewriter. Mlkshk tofu artisan mumblecore portland."
+                    android:textColor="@android:color/white" />
 
                 <LinearLayout
-                    android:id="@+id/traveler_info_linear_layout"
-                    android:layout_width="fill_parent"
+                    android:id="@+id/checkout_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="8dp"
-                    android:visibility="visible" >
+                    android:orientation="vertical" >
 
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginRight="8dp"
-                        android:src="@drawable/ic_traveler" />
+                    <include
+                        android:id="@+id/account_button_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
+                        layout="@layout/include_account_button" />
 
                     <TextView
-                        android:id="@+id/traveler_info_text_view"
-                        android:layout_width="0dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/enter_traveler_info"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="GUEST CHECKOUT"
+                        android:textColor="@android:color/white" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#C4C4C4" />
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#DBDBDB"
+                        android:orientation="vertical"
+                        android:showDividers="middle" >
 
-                <LinearLayout
-                    android:id="@+id/payment_info_linear_layout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="8dp"
-                    android:visibility="visible" >
+                        <LinearLayout
+                            android:id="@+id/traveler_info_linear_layout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="8dp"
+                            android:visibility="visible" >
 
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginRight="8dp"
-                        android:src="@drawable/ic_credit_card" />
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginRight="8dp"
+                                android:src="@drawable/ic_traveler" />
+
+                            <TextView
+                                android:id="@+id/traveler_info_text_view"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/enter_traveler_info"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#C4C4C4" />
+
+                        <LinearLayout
+                            android:id="@+id/payment_info_linear_layout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="8dp"
+                            android:visibility="visible" >
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginRight="8dp"
+                                android:src="@drawable/ic_credit_card" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/payment_method"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <include
+                            android:id="@+id/creditcard_section_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            layout="@layout/section_display_creditcard_btn" />
+
+                        <include
+                            android:id="@+id/stored_creditcard_section_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            layout="@layout/section_display_stored_credit_card" />
+                    </LinearLayout>
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:id="@id/rules_restrictions_text_view"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/payment_method"
-                        android:textSize="16sp" />
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@id/expedia_points_disclaimer_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/cancellation_policy_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@android:color/white" />
+
+                    <View
+                        android:id="@+id/slide_to_purchase_layout_spacer_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp" />
                 </LinearLayout>
-
-                <include
-                    android:id="@+id/creditcard_section_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    layout="@layout/section_display_creditcard_btn" />
-
-                <include
-                    android:id="@+id/stored_creditcard_section_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    layout="@layout/section_display_stored_credit_card" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </com.expedia.bookings.widget.ScrollView>
 
-</ScrollView>
+    <com.expedia.bookings.widget.HotelReceiptMini
+        android:id="@+id/sticky_receipt_mini"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_overview_receipt_mini"
+        android:paddingTop="8dp"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:id="@+id/slide_to_purchase_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#CC000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:paddingTop="16dp"
+        android:visibility="gone" >
+
+        <com.expedia.bookings.widget.SlideToWidget
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:sliderImage="@drawable/ic_slide_to_purchase"
+            app:sliderText="Slide to purchase." />
+
+        <TextView
+            android:id="@+id/purchase_total_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/slide_to_purchase_price_text_size" />
+    </LinearLayout>
+
+</RelativeLayout>

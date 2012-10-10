@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>
     <dimen name="launch_header_height">100dp</dimen>
@@ -22,13 +23,13 @@
    	<dimen name="cvv_keypad_book_text_size">16dp</dimen>
    	<dimen name="flight_list_blur_height">70dp</dimen>
 
-   	<!-- We need to increase the margins because of the animation -->
-   	<dimen name="flight_card_initial_offset">64dp</dimen>
-   	<dimen name="flight_card_overlap_offset">16dp</dimen>
+    <!-- We need to increase the margins because of the animation -->
+    <dimen name="flight_card_initial_offset">64dp</dimen>
+    <dimen name="flight_card_overlap_offset">16dp</dimen>
 
-   	<!-- FlightTripView dimensions -->
-   	<dimen name="flight_trip_view_stroke_width">2dp</dimen>
-   	<dimen name="flight_line_min_padding_between_labels">2dp</dimen>
+    <!-- FlightTripView dimensions -->
+    <dimen name="flight_trip_view_stroke_width">2dp</dimen>
+    <dimen name="flight_line_min_padding_between_labels">2dp</dimen>
 
     <!-- Flights ActionBar dimens -->
     <dimen name="action_bar_nav_corner_inset_left">24dp</dimen>
@@ -39,87 +40,80 @@
     <!-- Dimensions for the list header fragment -->
     <dimen name="sort_view_max_width">250dp</dimen>
 
-	<!-- This is the amount of padding the bottom of the booking info activity 
-		needs to account for the see-through bar -->
-	<dimen name="bottom_bar_height">50dp</dimen>
+    <!--
+         This is the amount of padding the bottom of the booking info activity 
+		needs to account for the see-through bar
+    -->
+    <dimen name="bottom_bar_height">50dp</dimen>
 
-	<!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
-	<dimen name="hotel_details_intro_offset">-45dp</dimen>
-	<dimen name="price_promo_banner_height">45dp</dimen>
+    <!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
+    <dimen name="hotel_details_intro_offset">-45dp</dimen>
+    <dimen name="price_promo_banner_height">45dp</dimen>
 
-	<!-- Radius of the blue circle drawn on the hotel details mini map fragment -->
-	<dimen name="mini_map_circle_radius">7dp</dimen>
-	<!-- Vertical portion of the mini map that we want to be always displayed -->
-	<dimen name="mini_map_critical_section">20dp</dimen>
+    <!-- Radius of the blue circle drawn on the hotel details mini map fragment -->
+    <dimen name="mini_map_circle_radius">7dp</dimen>
+    <!-- Vertical portion of the mini map that we want to be always displayed -->
+    <dimen name="mini_map_critical_section">20dp</dimen>
 
-	<!-- Dimensions for hotel rows -->
-	<!-- This is the height/width of the image in a hotel row. Height determines 
-		height of row as well -->
-	<dimen name="hotel_row_thumbnail_width">90dp</dimen>
-	<dimen name="hotel_row_thumbnail_height">90dp</dimen>
-	<dimen name="hotel_row_name_text_size">17sp</dimen>
-	<dimen name="hotel_row_price_text_size">20sp</dimen>
-	<dimen name="hotel_row_price_text_view_max_width">170dp</dimen>
-	<dimen name="hotel_row_price_per_night_text_size">12sp</dimen>
-	<dimen name="hotel_row_proximity_text_size">14sp</dimen>
-	<dimen name="hotel_row_cell_padding">12dp</dimen>
-	
-	<dimen name="percent_off_corner_text_size">11sp</dimen>
-	<dimen name="percent_off_corner_margin_top">3dp</dimen>
+    <!-- Dimensions for hotel rows -->
+    <!--
+         This is the height/width of the image in a hotel row. Height determines 
+		height of row as well
+    -->
+    <dimen name="hotel_row_thumbnail_width">90dp</dimen>
+    <dimen name="hotel_row_thumbnail_height">90dp</dimen>
+    <dimen name="hotel_row_name_text_size">17sp</dimen>
+    <dimen name="hotel_row_price_text_size">20sp</dimen>
+    <dimen name="hotel_row_price_text_view_max_width">170dp</dimen>
+    <dimen name="hotel_row_price_per_night_text_size">12sp</dimen>
+    <dimen name="hotel_row_proximity_text_size">14sp</dimen>
+    <dimen name="hotel_row_cell_padding">12dp</dimen>
+    <dimen name="percent_off_corner_text_size">11sp</dimen>
+    <dimen name="percent_off_corner_margin_top">3dp</dimen>
     <dimen name="percent_off_corner_margin_right">2dp</dimen>
 
-	<!-- Text sizes for amenities -->
-	<dimen name="amenity_text_size_large">12sp</dimen>
-	<dimen name="amenity_text_size_small">10sp</dimen>
-	<dimen name="amenity_layout_width">60dp</dimen>
+    <!-- Text sizes for amenities -->
+    <dimen name="amenity_text_size_large">12sp</dimen>
+    <dimen name="amenity_text_size_small">10sp</dimen>
+    <dimen name="amenity_layout_width">60dp</dimen>
 
-	<!-- The limiting dimension of the gallery (either height or width, depending 
-		on orientation) -->
-	<dimen name="gallery_size">200dp</dimen>
+    <!--
+         The limiting dimension of the gallery (either height or width, depending 
+		on orientation)
+    -->
+    <dimen name="gallery_size">200dp</dimen>
 
-	<!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
-	<dimen name="hotel_details_map_visible_size">150dp</dimen>
+    <!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
+    <dimen name="hotel_details_map_visible_size">150dp</dimen>
 
-    <!-- The total height of the map on the Hotel Details screen that can be scrolled to -->
-	<dimen name="hotel_details_map_total_size">300dp</dimen>
+    <!-- Dimensions for book now button or any other button in the header -->
+    <dimen name="header_button_height">38dp</dimen>
+    <dimen name="hotel_description_body_text_size">12sp</dimen>
+    <dimen name="hotel_description_title_text_size">18sp</dimen>
+    <dimen name="mini_details_height">320dp</dimen>
+    <dimen name="min_height_per_row_review">70dp</dimen>
+    <dimen name="min_height_rating_bar_small">16dp</dimen>
+    <dimen name="max_height_rating_bar_small">16dp</dimen>
+    <dimen name="padding_top_rooms_rates_ribbon">3dp</dimen>
+    <dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
 
-	<!-- Dimensions for book now button or any other button in the header -->
-	<dimen name="header_button_height">38dp</dimen>
+    <!-- Dimensions for the placeholder progress bar throbber -->
+    <dimen name="placeholder_throbber_size">76dp</dimen>
+    <!-- Offset for placeholder tag -->
+    <dimen name="placeholder_tag_margin_top">15dp</dimen>
+    <!-- Offset for placeholder tag -->
+    <dimen name="placeholder_tag_margin_top">44dp</dimen>
+    <dimen name="booking_form_saved_field_text_size">14dp</dimen>
+    <dimen name="booking_form_saved_section_padding">5dp</dimen>
+    <dimen name="max_height_room_details_container">400dp</dimen>
+    <dimen name="dialog_view_spacing">16dp</dimen>
 
-	<dimen name="hotel_description_body_text_size">12sp</dimen>
-	<dimen name="hotel_description_title_text_size">18sp</dimen>
+    <!-- The child ages button gets animated in height from 5dp to 60dp -->
+    <dimen name="child_ages_button_height_minimized">5dp</dimen>
+    <dimen name="child_ages_button_height_restored">60dp</dimen>
 
-	<dimen name="mini_details_height">320dp</dimen>
-
-	<dimen name="min_height_per_row_review">70dp</dimen>
-
-	<dimen name="min_height_rating_bar_small">16dp</dimen>
-	<dimen name="max_height_rating_bar_small">16dp</dimen>
-
-	<dimen name="padding_top_rooms_rates_ribbon">3dp</dimen>
-
-	<dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
-
-	<!-- Dimensions for the placeholder progress bar throbber -->
-	<dimen name="placeholder_throbber_size">76dp</dimen>
-	<!-- Offset for placeholder tag -->
-	<dimen name="placeholder_tag_margin_top">15dp</dimen>
-	<!-- Offset for placeholder tag -->
-	<dimen name="placeholder_tag_margin_top">44dp</dimen>
-	
-	<dimen name="booking_form_saved_field_text_size">14dp</dimen>
-	<dimen name="booking_form_saved_section_padding">5dp</dimen>
-	
-	<dimen name="max_height_room_details_container">400dp</dimen>
-
-	<dimen name="dialog_view_spacing">16dp</dimen>
-
-	<!-- The child ages button gets animated in height from 5dp to 60dp -->
-	<dimen name="child_ages_button_height_minimized">5dp</dimen>
-	<dimen name="child_ages_button_height_restored">60dp</dimen>
-	
-	<!-- HotelMapFragment -->
-	<dimen name="center_vertical_offset">0dp</dimen>
+    <!-- HotelMapFragment -->
+    <dimen name="center_vertical_offset">0dp</dimen>
 
     <!-- Account support dimensions -->
     <dimen name="card_icon_padding">5dp</dimen>
@@ -127,14 +121,13 @@
     <!-- Coupon code dimensions -->
     <dimen name="coupon_code_right_width">120dp</dimen>
     <dimen name="coupon_code_right_height">60dp</dimen>
-
-	<dimen name="one_di_pixel">1dip</dimen>
-
+    <dimen name="one_di_pixel">1dip</dimen>
     <dimen name="hotel_row_strikethrough_price_text_size">12dp</dimen>
-
     <dimen name="actionbar_refinement_width">50dp</dimen>
-
     <dimen name="popup_filter_row_height">50dp</dimen>
+
+    <!-- BookingOverviewActivity -->
+    <dimen name="slide_to_purchase_price_text_size">16dp</dimen>
 
     <!-- These are for the about screen -->
     <dimen name="action_bar_button_vertical_padding">8dp</dimen>
