@@ -55,6 +55,16 @@ public class Db {
 	// has changed).
 	private SearchResponse mSearchResponse;
 
+	private SearchResponse mLaunchHotelSearchResponse;
+
+	public static void setLaunchHotelSearchResponse(SearchResponse response) {
+		sDb.mLaunchHotelSearchResponse = response;
+	}
+
+	public static SearchResponse getLaunchHotelSearchResponse() {
+		return sDb.mLaunchHotelSearchResponse;
+	}
+
 	// The filter applied to SearchResponse.  Note that this Filter can cause a memory leak;
 	// One has to be sure to change the listeners on the Filter whenever appropriate.
 	private Filter mFilter = new Filter();
@@ -431,8 +441,8 @@ public class Db {
 			}
 		})).start();
 	}
-	
-	public static boolean deleteTravelers(Context context){
+
+	public static boolean deleteTravelers(Context context) {
 		File file = context.getFileStreamPath(SAVED_TRAVELER_DATA_FILE);
 		if (!file.exists()) {
 			return true;
