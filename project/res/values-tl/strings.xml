@@ -485,6 +485,8 @@
     <string name="sort_hotels">&quot;Uriin:&quot;</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">AYUSIN</string>
+	<!-- Label for sort hotels in hotel list -->
+	<string name="sort">Pag-uri-uriin</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">AYUSIN</string>
     <!-- Label to swtich between map and list search results -->
@@ -901,6 +903,8 @@
     <string name="rules_restrictions">Mga Alituntunin &amp; Restriksiyon</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Kung mayroon kayong Expedia Rewards account, mangyaring mag-book gamit ang parehong email address at awtomatikong mapo-post ang inyong points pagkatapos ng inyong pananatili. Pakitandaan na maaaring tumagal nang hanggang 30 araw upang lumitaw ang inyong points.</string>
+	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+	<string name="charges_info">Ang kabuuang singil sa hotel, kasama na ang mga buwis, ay sisingilin sa hotel.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Ipasok ang Info ng Booking</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -981,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Mga Bisita</string>
-    <!-- Label for the taxes & fees for this booking. -->
-    <string name="TaxesAndFees">Mga Buwis &amp; Bayarin</string>
+	<!-- Label indicating taxes are included for this booking. -->
+	<string name="TaxesAndFees">Mga Kasamang Buwis</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Mga Babayarin sa Hotel (Babayaran sa hotel)</string>
     <!-- Label for the rate per room per night. -->

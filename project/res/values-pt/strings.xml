@@ -485,6 +485,8 @@
     <string name="sort_hotels">&quot;Ordenar por:&quot;</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">ORDENAR</string>
+	<!-- Label for sort hotels in hotel list -->
+	<string name="sort">Organizar</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">ORDENAR</string>
     <!-- Label to swtich between map and list search results -->
@@ -901,6 +903,8 @@
     <string name="rules_restrictions">Regras e restrições</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Se você possui uma conta Expedia Rewards, faça sua reserva com o mesmo endereço de e-mail e seus pontos serão automaticamente acreditados após sua estadia. Porém, pode levar até mais de 30 dias para que os pontos apareçam na sua conta.</string>
+	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+	<string name="charges_info">A cobrança total da reserva, incluindo impostos, é feita no hotel.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Info da reserva</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -981,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Hóspedes</string>
-    <!-- Label for the taxes & fees for this booking. -->
-    <string name="TaxesAndFees">Impostos e taxas</string>
+	<!-- Label indicating taxes are included for this booking. -->
+	<string name="TaxesAndFees">Impostos incluídos</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Tarifas do hotel (pagas no hotel)</string>
     <!-- Label for the rate per room per night. -->

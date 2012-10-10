@@ -485,6 +485,8 @@
     <string name="sort_hotels">&quot;Sortera: &quot;</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SORTERA</string>
+	<!-- Label for sort hotels in hotel list -->
+	<string name="sort">Sortera</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">SORTERA</string>
     <!-- Label to swtich between map and list search results -->
@@ -901,6 +903,8 @@
     <string name="rules_restrictions">Regler och bestämmelser</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Om du har ett Expedia Rewards-konto och bokar med samma e-postadress registreras dina poäng automatiskt efter vistelsen. Tänk på att det kan ta upp till 30 dagar innan poängen visas. </string>
+	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+	<string name="charges_info">Totala hotellkostnader, inklusive skatter, betalas på hotellet. </string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Ange bokningsinformation</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -981,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Gäster</string>
-    <!-- Label for the taxes & fees for this booking. -->
-    <string name="TaxesAndFees">Skatter och avgifter</string>
+	<!-- Label indicating taxes are included for this booking. -->
+	<string name="TaxesAndFees">Inkl. skatter</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hotellavgifter (betalas på hotellet)</string>
     <!-- Label for the rate per room per night. -->
