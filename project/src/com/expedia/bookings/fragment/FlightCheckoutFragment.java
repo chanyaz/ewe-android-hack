@@ -419,26 +419,30 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	}
 
 	private boolean hasSomeManuallyEnteredData(BillingInfo info) {
+		if(info == null){
+			return false;
+		}
+		
 		if (info.getLocation() == null) {
 			return false;
 		}
 		//Checkout the major fields, if any of them have data, then we know some data has been manually enetered
-		if (!TextUtils.isEmpty(info.getLocation().getStreetAddressString().trim())) {
+		if (!TextUtils.isEmpty(info.getLocation().getStreetAddressString())) {
 			return true;
 		}
-		if (!TextUtils.isEmpty(info.getLocation().getCity().trim())) {
+		if (!TextUtils.isEmpty(info.getLocation().getCity())) {
 			return true;
 		}
-		if (!TextUtils.isEmpty(info.getLocation().getPostalCode().trim())) {
+		if (!TextUtils.isEmpty(info.getLocation().getPostalCode())) {
 			return true;
 		}
-		if (!TextUtils.isEmpty(info.getLocation().getStateCode().trim())) {
+		if (!TextUtils.isEmpty(info.getLocation().getStateCode())) {
 			return true;
 		}
-		if (!TextUtils.isEmpty(info.getNameOnCard().trim())) {
+		if (!TextUtils.isEmpty(info.getNameOnCard())) {
 			return true;
 		}
-		if (!TextUtils.isEmpty(info.getNumber().trim())) {
+		if (!TextUtils.isEmpty(info.getNumber())) {
 			return true;
 		}
 		return false;
