@@ -1150,10 +1150,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					mFocusLayout.requestFocus();
-					v.clearFocus();
-
-					hideSoftKeyboard((TextView) v);
+					setDisplayType(DisplayType.NONE);
 				}
 				return false;
 			}
@@ -1183,8 +1180,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		//===================================================================
 		// Listeners
-		mFilterHotelNameEditText.setOnFocusChangeListener(mFilterHotelNameEditTextFocusChangeListener);
-
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnItemClickListener(mSearchSuggestionsItemClickListner);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
@@ -1673,11 +1668,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//----------------------------------
 
 	void hideSoftKeyboard(TextView v) {
+		Log.d("HERE hideSoftKeyboard");
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
 
 	private void showSoftKeyboard(View view, ResultReceiver resultReceiver) {
+		Log.d("HERE showSoftKeyboard");
 		Configuration config = getResources().getConfiguration();
 		if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
 			InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -1715,7 +1712,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			// Reset focus
 			mFocusLayout.requestFocus();
 
-			hideSoftKeyboard(mSearchEditText);
 			hideFilterOptions();
 
 			mProgressBar.onResume();
@@ -1727,7 +1723,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case KEYBOARD: {
-			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			hideFilterOptions();
 
 			mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
@@ -1749,7 +1744,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
-			hideSoftKeyboard(mSearchEditText);
 			hideFilterOptions();
 
 			// make sure to draw/redraw the calendar
@@ -1772,7 +1766,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
-			hideSoftKeyboard(mSearchEditText);
 			hideFilterOptions();
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
@@ -1790,8 +1783,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
-
-			hideSoftKeyboard(mSearchEditText);
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
@@ -1911,9 +1902,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		if (mFilterPopupWindow.isShowing()) {
 			return;
 		}
-
-		//mFocusLayout.requestFocus();
-		mFilterHotelNameEditText.clearFocus();
 
 		mFilterPopupWindow.setOnDismissListener(mFilterPopupOnDismissListener);
 
@@ -2544,19 +2532,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			}
 			else {
 				//collapseSearchEditText();
-			}
-		}
-	};
-
-	private final View.OnFocusChangeListener mFilterHotelNameEditTextFocusChangeListener = new View.OnFocusChangeListener() {
-		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
-			TextView tv = (TextView) v;
-			if (hasFocus) {
-				showSoftKeyboard(tv, new SoftKeyResultReceiver(mHandler));
-			}
-			else {
-				hideSoftKeyboard(tv);
 			}
 		}
 	};
