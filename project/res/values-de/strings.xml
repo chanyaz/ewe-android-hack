@@ -485,8 +485,8 @@
     <string name="sort_hotels">&quot;Sortieren: &quot;</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">Sortieren</string>
-	<!-- Label for sort hotels in hotel list -->
-	<string name="sort">Sortieren</string>
+    <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Sortieren</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">SORTIEREN</string>
     <!-- Label to swtich between map and list search results -->
@@ -903,8 +903,8 @@
     <string name="rules_restrictions">Richtlinien &amp; Beschränkungen</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Wenn Sie ein Expedia Rewards-Konto haben, buchen Sie bitte über die betreffende E-Mail-Adresse und nach Ihrem Aufenthalt werden Ihnen automatisch Punkte gutgeschrieben. Bitte beachten Sie, dass es bis zu 30 Tage dauern kann bis Sie Ihre Punkte erhalten.</string>
-	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
-	<string name="charges_info">Die Gesamtkosten (inkl. Steuern) sind im Hotel zu zahlen.</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">Die Gesamtkosten (inkl. Steuern) sind im Hotel zu zahlen.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Buchungsinfos eingeben</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -985,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Gäste</string>
-	<!-- Label indicating taxes are included for this booking. -->
-	<string name="TaxesAndFees">Inklusive Steuern</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Inklusive Steuern</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hotelgebühren (im Hotel zu entrichten) </string>
     <!-- Label for the rate per room per night. -->

@@ -485,8 +485,8 @@
     <string name="sort_hotels">&quot;並べ替え： &quot;</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">並べ替え</string>
-	<!-- Label for sort hotels in hotel list -->
-	<string name="sort">並べ替え</string>
+    <!-- Label for sort hotels in hotel list -->
+    <string name="sort">並べ替え</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">並べ替え</string>
     <!-- Label to swtich between map and list search results -->
@@ -903,8 +903,8 @@
     <string name="rules_restrictions">規則および制限事項</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Expedia Rewards アカウントをお持ちの方は、アカウント登録時に使用した電子メールアドレスでご予約いただくと、ご滞在後にポイントが自動的に付与されます。ポイントが反映されるまでには最長 30 日間かかりますので予めご了承ください。</string>
-	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
-	<string name="charges_info">税込みの合計宿泊料金をホテルでお支払いください。</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">税込みの合計宿泊料金をホテルでお支払いください。</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">予約情報を入力</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -985,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">宿泊者</string>
-	<!-- Label indicating taxes are included for this booking. -->
-	<string name="TaxesAndFees">税込み</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">税込み</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">ホテル手数料 (ホテルで支払)</string>
     <!-- Label for the rate per room per night. -->

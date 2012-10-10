@@ -485,8 +485,8 @@
     <string name="sort_hotels">&quot;Urutkan: &quot;</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">URUTKAN</string>
-	<!-- Label for sort hotels in hotel list -->
-	<string name="sort">Urutkan</string>
+    <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Urutkan</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">URUTKAN</string>
     <!-- Label to swtich between map and list search results -->
@@ -903,8 +903,8 @@
     <string name="rules_restrictions">Aturan &amp; Pembatasan</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Jika Anda memiliki akun Expedia Rewards, lakukan pemesanan dengan alamat email yang sama dan poin akan dikirim secara otomatis setelah masa menginap Anda. Kemungkinan perlu waktu hingga 30 hari untuk dapat melihat poin Anda.</string>
-	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
-	<string name="charges_info">Biaya hotel total, termasuk pajak, ditagihkan di hotel.</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">Biaya hotel total, termasuk pajak, ditagihkan di hotel.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Masukkan Info Pemesanan</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -985,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Tamu</string>
-	<!-- Label indicating taxes are included for this booking. -->
-	<string name="TaxesAndFees">Pajak Termasuk</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Pajak Termasuk</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Biaya Hotel (Dibayar di hotel)</string>
     <!-- Label for the rate per room per night. -->

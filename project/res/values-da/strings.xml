@@ -488,7 +488,7 @@
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Sorter</string>
     <!-- Label for sort hotels in hotel list -->
-	<string name="SORT">SORTER</string>
+    <string name="SORT">SORTER</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Skift visning visning</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
@@ -985,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Gæster</string>
-	<!-- Label indicating taxes are included for this booking. -->
-	<string name="TaxesAndFees">Skatter inkluderet</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Skatter inkluderet</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hotelgebyr (betales på hotellet)</string>
     <!-- Label for the rate per room per night. -->

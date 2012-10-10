@@ -485,8 +485,8 @@
     <string name="sort_hotels">« Tri : »</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">TRI</string>
-	<!-- Label for sort hotels in hotel list -->
-	<string name="sort">Trier</string>
+    <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Trier</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">TRI</string>
     <!-- Label to swtich between map and list search results -->
@@ -903,8 +903,8 @@
     <string name="rules_restrictions">Règles et restrictions</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Si vous avez un compte Expedia Rewards, veuillez réserver en utilisant la même adresse courriel et vos points seront enregistrés automatiquement après votre séjour. Veuillez noter que l\&apos;enregistrement de vos points peut prendre jusqu\&apos;à 30 jours.</string>
-	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
-	<string name="charges_info">Tous les frais d’hôtel, incluant les taxes, sont facturés à l’hôtel.</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">Tous les frais d’hôtel, incluant les taxes, sont facturés à l’hôtel.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Entrer les renseignements de réservation</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -985,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Personnes</string>
-	<!-- Label indicating taxes are included for this booking. -->
-	<string name="TaxesAndFees">Taxes comprises</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Taxes comprises</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Frais d\&apos;hôtel (dus à l\&apos;hôtel)</string>
     <!-- Label for the rate per room per night. -->

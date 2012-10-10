@@ -226,10 +226,10 @@
     <string name="expedia_account">Expedia Account</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">CHECKOUT INFORMATION</string>
-	<!-- Slide to purchase -->
-	<string name="slide_to_purchase">Slide to purchase.</string>
-	<!-- Your card will be charged -->
-	<string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
+    <!-- Slide to purchase -->
+    <string name="slide_to_purchase">Slide to purchase.</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
     
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
@@ -389,7 +389,7 @@
     <!-- Traveler Information -->
     <string name="traveler_information">Traveler Information</string>
     <!-- Passport -->
-	<string name="passport">Passport</string>
+    <string name="passport">Passport</string>
 
 
     <!-- Seat types -->

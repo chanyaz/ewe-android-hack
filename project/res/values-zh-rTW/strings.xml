@@ -485,8 +485,8 @@
     <string name="sort_hotels">「排序：」</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">排序</string>
-	<!-- Label for sort hotels in hotel list -->
-	<string name="sort">排序</string>
+    <!-- Label for sort hotels in hotel list -->
+    <string name="sort">排序</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">排序</string>
     <!-- Label to swtich between map and list search results -->
@@ -903,8 +903,8 @@
     <string name="rules_restrictions">規定與限制</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">如果您有 Expedia Rewards 帳戶，請以相同的電子郵件地址預訂，這樣在您住宿後，便會自動計入您的積分。請注意，最多可能需要 30 天才會顯示您的積分。</string>
-	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
-	<string name="charges_info">所有飯店費用 (包括稅金) 將由飯店收取。</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">所有飯店費用 (包括稅金) 將由飯店收取。</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">輸入預訂資訊</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -985,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">旅客人數</string>
-	<!-- Label indicating taxes are included for this booking. -->
-	<string name="TaxesAndFees">含稅</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">含稅</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">飯店費用 (已於飯店支付)</string>
     <!-- Label for the rate per room per night. -->

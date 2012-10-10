@@ -485,8 +485,8 @@
     <string name="sort_hotels">&quot;Sorter:&quot;</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SORTER</string>
-	<!-- Label for sort hotels in hotel list -->
-	<string name="sort">Sorter</string>
+    <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Sorter</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">SORTER</string>
     <!-- Label to swtich between map and list search results -->
@@ -903,8 +903,8 @@
     <string name="rules_restrictions">Regler og begrensninger</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Dersom du har en Expedia Rewards-konto, må du bestille med den samme e-postadressen for at poengene dine automatisk skal bli lagt til etter endt opphold. Vær oppmerksom på at det kan ta opptil 30 dager før poengene dine vises.</string>
-	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
-	<string name="charges_info">Totalprisen for hotellet, inkludert skatt, blir fakturert på hotellet</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">Totalprisen for hotellet, inkludert skatt, blir fakturert på hotellet</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Oppgi bestillingsopplysninger</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -985,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Gjester</string>
-	<!-- Label indicating taxes are included for this booking. -->
-	<string name="TaxesAndFees">Skatter inkludert</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Skatter inkludert</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hotellgebyrer (Betales på hotell)</string>
     <!-- Label for the rate per room per night. -->

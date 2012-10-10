@@ -485,8 +485,8 @@
     <string name="sort_hotels">&quot;Sắp xếp: &quot;</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SẮP XẾP</string>
-	<!-- Label for sort hotels in hotel list -->
-	<string name="sort">Sắp xếp</string>
+    <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Sắp xếp</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">SẮP XẾP</string>
     <!-- Label to swtich between map and list search results -->
@@ -903,8 +903,8 @@
     <string name="rules_restrictions">Quy tắc &amp; Giới hạn</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Nếu đã có tài khoản Expedia Rewards, vui lòng đặt chỗ với cùng địa chỉ email và điểm của quý vị sẽ tự động được cập nhật sau khi thời gian lưu trú. Xin lưu ý rằng có thể mất tối đa 30 ngày để điểm tích lũy xuất hiện.</string>
-	<!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
-	<string name="charges_info">Thanh toán mọi chi phí phòng, bao gồm thuế, tại khách sạn.</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">Thanh toán mọi chi phí phòng, bao gồm thuế, tại khách sạn.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Nhập thông tin đặt phòng</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -985,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Khách</string>
-	<!-- Label indicating taxes are included for this booking. -->
-	<string name="TaxesAndFees">Bao gồm thuế</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Bao gồm thuế</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Phí khách sạn (Thanh toán tại khách sạn)</string>
     <!-- Label for the rate per room per night. -->
