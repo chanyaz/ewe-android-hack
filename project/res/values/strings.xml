@@ -479,6 +479,10 @@
     <string name="error_flight_price_increased">It looks like the airline just rasied the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">We just found your requested flights on sale for %1$s less. Are you happy for us to charge you a new total of %2$s?</string>
+    <!-- Error shown to user if their credit card number is invalid -->
+    <string name="error_invalid_card_number">The credit card number you entered is invalid, please try again.</string>
+    <!-- Error shown to user if their credit card has expired -->
+    <string name="error_expired_payment">The credit card you tried to use has expired, please use a different credit card.</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>

@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 
@@ -28,6 +29,8 @@ import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -39,11 +42,14 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
-		PriceChangeDialogFragmentListener {
+		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flight.checkout";
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
+
+	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
+	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
 
 	private Context mContext;
 
@@ -273,10 +279,16 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 					setCvvErrorMode(true);
 				}
 				else if ("creditCardNumber".equals(field)) {
-					// TODO
+					DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+							getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
+							DIALOG_CALLBACK_INVALID_CC);
+					frag.show(getSupportFragmentManager(), "badCcNumberDialog");
 				}
 				else if ("expirationDate".equals(field)) {
-					// TODO
+					DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+							getString(R.string.error_expired_payment), getString(android.R.string.ok),
+							DIALOG_CALLBACK_EXPIRED_CC);
+					frag.show(getSupportFragmentManager(), "expiredCcDialog");
 				}
 				else {
 					handledError = false;
@@ -327,5 +339,19 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	public void onCancelPriceChange() {
 		finish();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SimpleCallbackDialogFragmentListener 
+
+	@Override
+	public void onSimpleDialogClick(int callbackId) {
+		switch (callbackId) {
+		case DIALOG_CALLBACK_INVALID_CC:
+		case DIALOG_CALLBACK_EXPIRED_CC:
+			// For now, do the same thing - leave this activity
+			finish();
+			break;
+		}
 	}
 }
