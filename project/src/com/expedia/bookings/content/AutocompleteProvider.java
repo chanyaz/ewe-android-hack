@@ -1,6 +1,5 @@
 package com.expedia.bookings.content;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,7 +62,8 @@ public class AutocompleteProvider extends ContentProvider {
 		String query = "";
 
 		if (uri.getPathSegments().size() > 1) {
-			query = URLDecoder.decode(uri.getLastPathSegment());
+			// uri.getLastPathSegment automatically URLDecodes
+			query = uri.getLastPathSegment();
 		}
 
 		return getSuggestions(getContext(), query);
