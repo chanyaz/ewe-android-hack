@@ -1162,12 +1162,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// Setup popup
 		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(),
-				mFilterLayout.getMeasuredHeight());
+				mFilterLayout.getMeasuredHeight(), true);
 		mFilterPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
 		mFilterPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
-		mFilterPopupWindow.setFocusable(true);
-		mFilterPopupWindow.setOutsideTouchable(false);
 
 		// Progress bar
 		mProgressBar.addOnDrawStartedListener(this);
