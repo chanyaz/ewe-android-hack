@@ -1293,6 +1293,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			mFilterDialogFragment.notifyFilterChanged();
 		}
 
+		hideDetails();
+
 		onSearchResultsChanged();
 	}
 
