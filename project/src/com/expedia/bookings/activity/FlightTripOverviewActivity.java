@@ -288,7 +288,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 					TAG_SLIDE_TO_PURCHASE_FRAG);
 			showSlideToCheckoutTransaction.commit();
 		}
-
 	}
 
 	public void replaceSlideToCheckoutWithPriceBar() {
@@ -617,6 +616,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			//Bring in the slide to checkout view
 			replacePriceBarWithSlideToCheckout();
+
+			//Scroll to bottom to display legal text
+			mContentScrollView.scrollTo(0, this.mCheckoutContainer.getBottom());
 		}
 	}
 
