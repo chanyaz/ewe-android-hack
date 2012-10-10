@@ -629,7 +629,7 @@
         <item name="android:textSize">28dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@drawable/btn_cvv_keypad_normal</item>
+        <item name="android:background">@drawable/btn_cvv_keypad</item>
     </style>
 
     <style name="ActionBarButton">

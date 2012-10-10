@@ -85,7 +85,7 @@
         <Button
             android:id="@+id/book_button"
             style="@style/CreditCardButton"
-            android:background="@drawable/btn_cvv_keypad_done_normal"
+            android:background="@drawable/btn_cvv_keypad_book"
             android:includeFontPadding="true"
             android:text="@string/book"
             android:textColor="@android:color/black"
