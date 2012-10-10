@@ -626,7 +626,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_margin">4.5dp</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">28dp</item>
+        <item name="android:textSize">@dimen/cvv_keypad_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/btn_cvv_keypad</item>
