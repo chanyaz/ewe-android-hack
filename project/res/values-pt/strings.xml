@@ -1111,6 +1111,8 @@
     <string name="tell_a_friend_description">Gosta das fantásticas ofertas de hotéis? Diga a um amigo.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Viaje com facilidade</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">TAMBÉM DA MOBIATA</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hoteis</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1135,6 +1137,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">Abrir o site móvel da Expedia?</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">Visitar o website de atendimento da Expedia?</string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">Inscreva-se</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">Siga</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">Curta</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

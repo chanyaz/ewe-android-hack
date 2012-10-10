@@ -1111,6 +1111,8 @@
     <string name="tell_a_friend_description">想不想享有超抵的酒店優惠？向好友推薦此應用程式。</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">精明計劃旅遊行程</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">Mobiata 的其他應用程式</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia 酒店</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1135,6 +1137,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">推出 Expedia 手機網站嗎？</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">瀏覽 Expedia 支援網站嗎？</string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">訂閱</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">關注</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">讚</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

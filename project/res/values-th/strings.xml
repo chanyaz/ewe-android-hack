@@ -1112,6 +1112,8 @@
     <string name="tell_a_friend_description">หากคุณและเพื่อนชอบข้อเสนอทริปสุดพิเศษ บอกให้พวกเขาดาวน์โหลดแอพนี้ </string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">เที่ยวแบบมือโปร </string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">โดย MOBIATA</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">โรงแรม Expedia </string>
     <!-- Message body for "tell a friend" feature -->
@@ -1136,6 +1138,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ Expedia หรือไม่</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">ต้องการไปที่เว็บไซต์ฝ่ายบริการลูกค้า Expedia หรือไม่ </string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">สมัครรับข่าวสาร</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">ติดตาม</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">ถูกใจ</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

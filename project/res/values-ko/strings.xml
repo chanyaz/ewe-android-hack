@@ -1111,6 +1111,8 @@
     <string name="tell_a_friend_description">놀라운 호텔 상품이 마음에 드신다고요? 주변 친구들에게도 이 앱에 대해 알려주세요.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">똑똑한 여행을 위한 선택</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">Mobiata의 다른 앱 보기</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1135,6 +1137,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">Expedia 모바일 웹사이트를 실행할까요?</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">Expedia 지원 웹사이트를 방문하시겠어요?</string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">가입하기</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">팔로우하기</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">좋아요</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
