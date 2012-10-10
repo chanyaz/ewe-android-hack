@@ -2555,12 +2555,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		public void onFocusChange(View v, boolean hasFocus) {
 			TextView tv = (TextView) v;
 			if (hasFocus) {
-				Log.d("HERE hasFocus");
 				showSoftKeyboard(tv, new SoftKeyResultReceiver(mHandler));
 			}
 			else {
-				Log.d("HERE !hasFocus");
-				//mFocusLayout.requestFocus();
 				hideSoftKeyboard(tv);
 			}
 		}
