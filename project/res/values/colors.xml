@@ -15,6 +15,10 @@
     <color name="dark_blue_travelers_date_bar">#182C3E</color>
     <color name="dialog_background_light">#F5F5F5</color>
     
+    <!-- CVV entry colors -->
+    <color name="cvv_normal">#326096</color>
+    <color name="cvv_error">#D4472B</color>
+
 	<!-- These colors are ripped from the iOS version, and are not finalized -->
 	<color name="window_background">#FF666666</color>
 	<color name="light_gray">#777777</color>

@@ -84,6 +84,10 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		mCreditCardInputSection.setBookButtonEnabled(mCVVSection.getCvv().length() >= 3);
 	}
 
+	public void setCvvErrorMode(boolean enabled) {
+		mCVVSection.setCvvErrorMode(enabled);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// CreditCardInputListener
 

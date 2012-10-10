@@ -51,6 +51,21 @@ public class CVVSection extends RelativeLayout implements CreditCardInputListene
 		mCvvExplanationTextView.setText(text);
 	}
 
+	public void setCvvErrorMode(boolean enabled) {
+		int colorResId = (enabled) ? R.color.cvv_error : R.color.cvv_normal;
+		mCvvTextView.setTextColor(getContext().getResources().getColor(colorResId));
+
+		// For some reason, the padding gets lost when you set a background to a 9-patch.  Preserve
+		// the padding and reset it after we update the bg.
+		int left = mCvvTextView.getPaddingLeft();
+		int top = mCvvTextView.getPaddingTop();
+		int right = mCvvTextView.getPaddingRight();
+		int bottom = mCvvTextView.getPaddingBottom();
+		int bgResId = (enabled) ? R.drawable.div_cvv_error : R.drawable.div_cvv;
+		mCvvTextView.setBackgroundResource(bgResId);
+		mCvvTextView.setPadding(left, top, right, bottom);
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);

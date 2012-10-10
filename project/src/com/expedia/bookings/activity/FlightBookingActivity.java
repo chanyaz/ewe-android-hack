@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
@@ -37,13 +38,12 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
-// This is just for testing booking using data from the app.  It is
-// not intended to be at all like the final booking activity (should
-// use fragments, not just use all pre-filled data, etc.)
 public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
 		PriceChangeDialogFragmentListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flight.checkout";
+
+	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
 	private Context mContext;
 
@@ -51,11 +51,17 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	private CVVEntryFragment mCVVEntryFragment;
 	private BookingInProgressDialogFragment mProgressFragment;
 
+	private boolean mCvvErrorModeEnabled;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
+
+		if (savedInstanceState != null) {
+			mCvvErrorModeEnabled = savedInstanceState.getBoolean(STATE_CVV_ERROR_MODE);
+		}
 
 		setContentView(R.layout.activity_flight_booking);
 
@@ -108,10 +114,19 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	protected void onResume() {
 		super.onResume();
 
+		setCvvErrorMode(mCvvErrorModeEnabled);
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(DOWNLOAD_KEY)) {
 			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
 		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putBoolean(STATE_CVV_ERROR_MODE, mCvvErrorModeEnabled);
 	}
 
 	@Override
@@ -135,9 +150,31 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Invalid CVV modes
+
+	public void setCvvErrorMode(boolean enabled) {
+		mCvvErrorModeEnabled = enabled;
+
+		// Set header bg
+		int bgResId = (enabled) ? R.drawable.bg_flight_action_bar_top_red : R.drawable.bg_action_bar_flight_top;
+
+		ActionBar ab = getSupportActionBar();
+		ab.setBackgroundDrawable(getResources().getDrawable(bgResId));
+
+		// Set the new title
+		int titleResId = (enabled) ? R.string.title_invalid_security_code : R.string.title_complete_booking;
+		ab.setTitle(titleResId);
+
+		// Pass this along to the fragment
+		mCVVEntryFragment.setCvvErrorMode(enabled);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Booking downloads
 
 	private void doBooking() {
+		setCvvErrorMode(false);
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(DOWNLOAD_KEY)) {
 			mProgressFragment = new BookingInProgressDialogFragment();
@@ -227,6 +264,24 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				FlightTrip newOffer = response.getNewOffer();
 				PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
 				fragment.show(getSupportFragmentManager(), PriceChangeDialogFragment.TAG);
+				break;
+			case PAYMENT_FAILED:
+				String field = error.getExtra("field");
+
+				// Handle each type of failure differently
+				if ("cvv".equals(field)) {
+					setCvvErrorMode(true);
+				}
+				else if ("creditCardNumber".equals(field)) {
+					// TODO
+				}
+				else if ("expirationDate".equals(field)) {
+					// TODO
+				}
+				else {
+					handledError = false;
+				}
+
 				break;
 			default:
 				handledError = false;

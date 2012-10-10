@@ -469,6 +469,8 @@
     <string name="fare_rules_link">By completing this booking I agree that I have read and accept the &lt;u&gt;&lt;u&gt;&lt;b&gt;Rules and Restrictions,&lt;/b&gt; the &lt;b&gt;Terms and Conditions,&lt;/b&gt; the &lt;b&gt;Privacy Policy&lt;/b&gt; and &lt;b&gt;Fare Information.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight booking activity errors -->
+    <!-- Title of screen if user entered an invalid security code -->
+    <string name="title_invalid_security_code">Invalid Security Code</string>
     <!-- Button label for cancelling on error -->
     <string name="cancel">Cancel</string>
     <!-- Button label for accepting an error and moving forward -->

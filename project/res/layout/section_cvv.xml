@@ -12,12 +12,12 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="110dp"
-        android:background="@drawable/textfield_activated_holo"
+        android:background="@drawable/div_cvv"
         android:freezesText="true"
         android:gravity="center_horizontal"
         android:maxLength="4"
         android:paddingTop="14dp"
-        android:textColor="#326096"
+        android:textColor="@color/cvv_normal"
         android:textSize="20dp" />
 
     <TextView
