@@ -174,6 +174,26 @@ public class Money implements JSONable {
 		return true;
 	}
 
+	public boolean add(BigDecimal amount) {
+		if (!canManipulate(this)) {
+			return false;
+		}
+
+		mAmount = mAmount.add(amount);
+
+		return true;
+	}
+
+	public boolean subtract(BigDecimal amount) {
+		if (!canManipulate(this)) {
+			return false;
+		}
+
+		mAmount = mAmount.subtract(amount);
+
+		return true;
+	}
+
 	private boolean canManipulate(Money money) {
 		if (money == null) {
 			Log.w("Could not add/subtract Moneys together; adding/subtracting Money is null.");

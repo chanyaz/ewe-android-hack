@@ -14,21 +14,26 @@
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
             android:title="Server/Proxy Address" />
 
+        <EditTextPreference
+            android:defaultValue="@string/preference_flight_fake_price_change_default"
+            android:inputType="numberDecimal"
+            android:key="@string/preference_flight_fake_price_change"
+            android:summary="Fake a price change during a flight checkout (e.g., 10.25 for a $10.25 price change)"
+            android:title="Fake Flight Price Change" />
+
         <CheckBoxPreference
             android:key="@string/preference_spoof_bookings"
             android:summary="Do not actually perform bookings. Instead, simulate a successful booking response."
             android:title="Spoof bookings" />
-
         <CheckBoxPreference
             android:key="@string/preference_filter_merchant_properties"
             android:summary="Only return non-merchant hotels for testing"
             android:title="Filter Merchant Hotels" />
-
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="@string/preference_suppress_bookings"
             android:summary="Do flight bookings, but suppress any actual booking from going through"
-            android:title="Suppress Flight Bookings"
-            android:defaultValue="true" />
+            android:title="Suppress Flight Bookings" />
     </PreferenceCategory>
 
 </PreferenceScreen>

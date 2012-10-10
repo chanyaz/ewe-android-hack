@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import android.content.Context;
@@ -33,6 +34,8 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 
 // This is just for testing booking using data from the app.  It is
 // not intended to be at all like the final booking activity (should
@@ -172,6 +175,15 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 			Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
+
+			// If the debug setting is made to fake a price change, then fake the current price 
+			if (!AndroidUtils.isRelease(mContext)) {
+				String val = SettingUtils.get(mContext,
+						getString(R.string.preference_flight_fake_price_change),
+						getString(R.string.preference_flight_fake_price_change_default));
+				trip.getTotalFare().add(new BigDecimal(val));
+			}
+
 			return services.flightCheckout(trip, itinerary, billingInfo, Db.getTravelers(), 0);
 		}
 	};
