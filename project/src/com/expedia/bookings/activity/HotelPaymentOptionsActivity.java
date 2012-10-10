@@ -236,14 +236,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Recover data if it was flushed from memory
-		if (Db.getFlightSearch().getSearchResponse() == null) {
-			if (!Db.loadCachedFlightData(this)) {
-				NavUtils.onDataMissing(this);
-				return;
-			}
-		}
-
 		//Show the options fragment
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
 			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
