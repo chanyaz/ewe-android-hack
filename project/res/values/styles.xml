@@ -506,10 +506,6 @@
         <item name="android:textScaleX">.9</item>
     </style>
 
-    <style name="SpinnerStyle" parent="@android:style/Widget.Holo.Spinner">
-        <item name="android:background">@drawable/spinner_default_holo_light</item>
-    </style>
-
     <style name="Widget.Spinner.Phone" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_holo_light</item>
         <item name="android:paddingLeft">20dp</item>
