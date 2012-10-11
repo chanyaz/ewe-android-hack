@@ -2075,7 +2075,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			final int numChildren = searchParams.getNumChildren();
 			text = StrUtils.formatGuests(this, numAdults, numChildren);
 
-			mChildAgesLayout.setVisibility(numChildren == 0 ? View.GONE : View.VISIBLE);
+			int orientation = getWindowManager().getDefaultDisplay().getOrientation();
+			final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE : View.INVISIBLE;
+			mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
 					numChildren));
 
