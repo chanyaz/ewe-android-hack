@@ -40,4 +40,14 @@ public class SupportUtils {
 	public static boolean hasInfoSupportNumber(Context context) {
 		return !TextUtils.isEmpty(getInfoSupportNumber(context));
 	}
+
+	public static String getFlightSupportNumber(Context context) {
+		// NOTE: While this currently returns a static number, I anticipate
+		// that it will eventually return a much more dynamic result someday
+		// in the future (much like the hotels side of the app).  Thus
+		// this preparatory function.
+
+		// TODO: Insert real # once we get it.
+		return "867-5309";
+	}
 }

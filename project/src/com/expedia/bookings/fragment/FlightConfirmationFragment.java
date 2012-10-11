@@ -31,7 +31,9 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
@@ -146,7 +148,7 @@ public class FlightConfirmationFragment extends Fragment {
 		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Ui.showToast(getActivity(), "TODO: Call Expedia");
+				SocialUtils.call(getActivity(), SupportUtils.getFlightSupportNumber(getActivity()));
 			}
 		});
 
