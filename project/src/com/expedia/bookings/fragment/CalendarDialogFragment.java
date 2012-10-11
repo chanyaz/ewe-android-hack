@@ -113,6 +113,8 @@ public class CalendarDialogFragment extends DialogFragment {
 				dateInfo.getInt(KEY_START_MONTH), dateInfo.getInt(KEY_START_DAY_OF_MONTH));
 		mCalendarDatePicker.updateEndDate(dateInfo.getInt(KEY_END_YEAR),
 				dateInfo.getInt(KEY_END_MONTH), dateInfo.getInt(KEY_END_DAY_OF_MONTH));
+		mCalendarDatePicker.updateStateCache();
+		mCalendarDatePicker.markAllCellsDirty();
 
 		// The listener changes based on whether this is a dialog or not.  If it's a dialog, we just update
 		// the title (and depend on a button press to indicate the dates changing).  For a normal fragment,
