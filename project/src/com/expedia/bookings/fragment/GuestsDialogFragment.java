@@ -23,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.SimpleNumberPicker;
+import com.mobiata.android.Log;
 
 @TargetApi(11)
 public class GuestsDialogFragment extends DialogFragment {
@@ -71,9 +72,6 @@ public class GuestsDialogFragment extends DialogFragment {
 
 		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
 		mChildrenNumberPicker.setFormatter(mChildrenNumberPickerFormatter);
-
-		// Configure the display values on the pickers
-		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 
 		// Set initial values for pickers
 		if (savedInstanceState != null) {
@@ -137,7 +135,7 @@ public class GuestsDialogFragment extends DialogFragment {
 		if (dialog != null) {
 			dialog.setTitle(getTitleText());
 		}
-		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
+		GuestsPickerUtils.configureAndUpdateDisplayedValues(getActivity(), mAdultsNumberPicker, mChildrenNumberPicker);
 		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), mChildren, mChildAgesLayout,
 				mChildAgeSelectedListener, View.INVISIBLE);
 		mChildAgesLayout.setVisibility(mChildren != null && mChildren.size() > 0 ? View.VISIBLE : View.INVISIBLE);
