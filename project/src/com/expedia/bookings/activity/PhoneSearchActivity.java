@@ -1669,13 +1669,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//----------------------------------
 
 	void hideSoftKeyboard(TextView v) {
-		Log.d("HERE hideSoftKeyboard");
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
 
 	private void showSoftKeyboard(View view, ResultReceiver resultReceiver) {
-		Log.d("HERE showSoftKeyboard");
 		Configuration config = getResources().getConfiguration();
 		if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
 			InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
