@@ -105,24 +105,24 @@ public class ReceiptWidget {
 		// Configure the details
 		if (billingInfo != null && bookingResponse != null) {
 			if (!TextUtils.isEmpty(bookingResponse.getHotelConfNumber())) {
-				addRow(mDetailsLayout, R.string.confirmation_number, bookingResponse.getHotelConfNumber());
+				addRateRow(mDetailsLayout, R.string.confirmation_number, bookingResponse.getHotelConfNumber());
 			}
-			addRow(mDetailsLayout, R.string.itinerary_number, bookingResponse.getItineraryId());
-			addRow(mDetailsLayout, R.string.confirmation_email, billingInfo.getEmail());
+			addRateRow(mDetailsLayout, R.string.itinerary_number, bookingResponse.getItineraryId());
+			addRateRow(mDetailsLayout, R.string.confirmation_email, billingInfo.getEmail());
 		}
 
 		mDetailsLayout.addView(mRoomTypeWidget.getView());
 
-		View bedTypeRow = addRow(mDetailsLayout, R.string.bed_type, rate.getRatePlanName());
+		View bedTypeRow = addTextRow(mDetailsLayout, R.string.bed_type, rate.getRatePlanName());
 		mRoomTypeWidget.addClickableView(bedTypeRow);
 
-		addRow(mDetailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(mContext, searchParams));
+		addTextRow(mDetailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(mContext, searchParams));
 
-		addRow(mDetailsLayout, R.string.CheckIn, formatCheckInOutDate(searchParams.getCheckInDate()));
-		addRow(mDetailsLayout, R.string.CheckOut, formatCheckInOutDate(searchParams.getCheckOutDate()));
+		addTextRow(mDetailsLayout, R.string.CheckIn, formatCheckInOutDate(searchParams.getCheckInDate()));
+		addTextRow(mDetailsLayout, R.string.CheckOut, formatCheckInOutDate(searchParams.getCheckOutDate()));
 
 		int numDays = searchParams.getStayDuration();
-		addRow(mDetailsLayout, R.string.stay_duration,
+		addTextRow(mDetailsLayout, R.string.stay_duration,
 				mContext.getResources().getQuantityString(R.plurals.length_of_stay, numDays, numDays));
 
 		addSpace(mDetailsLayout, 8);
@@ -135,28 +135,28 @@ public class ReceiptWidget {
 				String label = mContext.getString(R.string.room_rate_template, dateFormat.format(date));
 				Money amount = breakdown.getAmount();
 				if (amount.isZero()) {
-					addRow(mDetailsLayout, label, mContext.getString(R.string.free));
+					addRateRow(mDetailsLayout, label, mContext.getString(R.string.free));
 				}
 				else {
-					addRow(mDetailsLayout, label, amount.getFormattedMoney());
+					addRateRow(mDetailsLayout, label, amount.getFormattedMoney());
 				}
 			}
 		}
 
 		Money extraGuestFee = rate.getExtraGuestFee();
 		if (extraGuestFee != null) {
-			addRow(mDetailsLayout, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
+			addRateRow(mDetailsLayout, R.string.extra_guest_charge, extraGuestFee.getFormattedMoney());
 		}
 
 		Money totalSurcharge = rate.getTotalSurcharge();
 		if (totalSurcharge != null) {
-			addRow(mDetailsLayout, R.string.TaxesAndFees, totalSurcharge.getFormattedMoney());
+			addRateRow(mDetailsLayout, R.string.TaxesAndFees, totalSurcharge.getFormattedMoney());
 		}
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();
 		if (totalMandatoryFees != null && !totalMandatoryFees.isZero()
 				&& LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
-			addRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
+			addRateRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
 		}
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
@@ -181,13 +181,13 @@ public class ReceiptWidget {
 			}
 
 			rate = discountRate;
-			addRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
+			addTextRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
 		}
 
 		Money displayedTotal;
 		if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
-			addRow(mBelowTotalCostLayout, R.string.PayToExpedia, rate.getTotalAmountAfterTax().getFormattedMoney());
+			addTextRow(mBelowTotalCostLayout, R.string.PayToExpedia, rate.getTotalAmountAfterTax().getFormattedMoney());
 			displayedTotal = rate.getTotalPriceWithMandatoryFees();
 		}
 		else {
@@ -207,16 +207,36 @@ public class ReceiptWidget {
 		mBelowTotalCostLayout.removeAllViews();
 	}
 
-	private View addRow(ViewGroup parent, int labelStrId, CharSequence value) {
-		return addRow(parent, mContext.getString(labelStrId), value);
+	/**
+	 * This adds a row, using snippet_booking_detail_text, where the LEFT column has a
+	 * width of wrap_content and the RIGHT column is wrapped if too long.
+	 */
+	private View addTextRow(ViewGroup parent, int labelStrId, CharSequence value) {
+		return addRow(parent, mContext.getString(labelStrId), value, R.layout.snippet_booking_detail_text);
 	}
 
-	private View addRow(ViewGroup parent, CharSequence label, CharSequence value) {
+	/**
+	 * This adds a row, using snippet_booking_detail_rate, where the RIGHT column has a
+	 * width of wrap_content and the LEFT column is wrapped if too long.
+	 */
+	private View addRateRow(ViewGroup parent, int labelStrId, CharSequence value) {
+		return addRow(parent, mContext.getString(labelStrId), value, R.layout.snippet_booking_detail_rate);
+	}
+
+	/**
+	 * This adds a row, using snippet_booking_detail_rate, where the RIGHT column has a
+	 * width of wrap_content and the LEFT column is wrapped if too long.
+	 */
+	private View addRateRow(ViewGroup parent, CharSequence label, CharSequence value) {
+		return addRow(parent, label, value, R.layout.snippet_booking_detail_rate);
+	}
+
+	private View addRow(ViewGroup parent, CharSequence label, CharSequence value, int layoutResId) {
 		if (value == null || value.length() == 0) {
 			return null;
 		}
 
-		View detailRow = mInflator.inflate(R.layout.snippet_booking_detail, parent, false);
+		View detailRow = mInflator.inflate(layoutResId, parent, false);
 		TextView labelView = (TextView) detailRow.findViewById(R.id.label_text_view);
 		labelView.setText(label);
 		TextView valueView = (TextView) detailRow.findViewById(R.id.value_text_view);
