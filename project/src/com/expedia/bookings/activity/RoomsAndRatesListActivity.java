@@ -99,7 +99,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		// Only display nights header if orientation landscape
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			TextView nightsView = (TextView) findViewById(R.id.nights_text_view);
-			int numNights = searchParams.getStayDuration();
+			int numNights = Math.max(1, searchParams.getStayDuration());
 			nightsView.setText(getResources().getQuantityString(R.plurals.staying_nights, numNights, numNights));
 
 			TextView datesView = (TextView) findViewById(R.id.dates_text_view);
