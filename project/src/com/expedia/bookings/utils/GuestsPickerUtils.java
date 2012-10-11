@@ -108,11 +108,19 @@ public class GuestsPickerUtils {
 		adultsNumberPicker.setValue(numAdults);
 		childrenNumberPicker.setValue(numChildren);
 	}
-
 	public static void showOrHideChildAgeSpinners(Context context, List<Integer> children, View container,
 			OnItemSelectedListener listener) {
+		showOrHideChildAgeSpinners(context, children, container, listener, View.GONE);
+	}
+
+	public static void showOrHideChildAgeSpinners(Context context, List<Integer> children, View container,
+			OnItemSelectedListener listener, int hiddenState) {
 		if (container == null) {
 			return;
+		}
+
+		if (hiddenState != View.GONE && hiddenState != View.INVISIBLE) {
+			throw new IllegalArgumentException("hiddenState must be one of View.GONE or View.INVISIBLE");
 		}
 
 		int numChildren = children == null ? 0 : children.size();
@@ -123,7 +131,7 @@ public class GuestsPickerUtils {
 
 		for (int i = 0; i < GuestsPickerUtils.getMaxPerType(); i++) {
 			View row = GuestsPickerUtils.getChildAgeLayout(container, i);
-			int visibility = i < numChildren ? View.VISIBLE : View.GONE;
+			int visibility = i < numChildren ? View.VISIBLE : hiddenState;
 			row.setVisibility(visibility);
 
 			// This is needed for landscape view

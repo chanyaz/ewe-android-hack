@@ -141,8 +141,8 @@ public class GuestsDialogFragment extends DialogFragment {
 		}
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), mChildren, mChildAgesLayout,
-				mChildAgeSelectedListener);
-		mChildAgesLayout.setVisibility(mChildren != null && mChildren.size() > 0 ? View.VISIBLE : View.GONE);
+				mChildAgeSelectedListener, View.INVISIBLE);
+		mChildAgesLayout.setVisibility(mChildren != null && mChildren.size() > 0 ? View.VISIBLE : View.INVISIBLE);
 
 		String labelSelectEachChildsAge = getResources().getQuantityString(R.plurals.select_each_childs_age,
 				mChildren.size());
