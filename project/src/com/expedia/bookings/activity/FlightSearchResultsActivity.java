@@ -278,27 +278,19 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	//////////////////////////////////////////////////////////////////////////
 	// Action bar
 
+	private MenuItem mSearchMenuItem;
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
 
-		final MenuItem searchItem = menu.findItem(R.id.menu_search);
-		searchItem.getActionView().setOnClickListener(new OnClickListener() {
+		mSearchMenuItem = menu.findItem(R.id.menu_search);
+		mSearchMenuItem.getActionView().setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onOptionsItemSelected(searchItem);
+				onOptionsItemSelected(mSearchMenuItem);
 			}
 		});
-
-		// Crazy hack to get the item view to take up space.
-		//
-		// ASSUMPTIONS:
-		// 1. You can detect split action bar status using ABS
-		// 2. There are only two menu items
-		// 3. The action bar is the full window width
-		if (getResources().getBoolean(R.bool.abs__split_action_bar_is_narrow)) {
-			searchItem.getActionView().setMinimumWidth(getWindowManager().getDefaultDisplay().getWidth() / 2);
-		}
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -325,6 +317,23 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			FlightSearchResponse response = Db.getFlightSearch().getSearchResponse();
 			boolean resultsVisible = response != null && !response.hasErrors();
 			menu.setGroupVisible(R.id.group_results, resultsVisible);
+
+			// Crazy hack to get the item view to take up space.
+			//
+			// ASSUMPTIONS:
+			// 1. You can detect split action bar status using ABS
+			// 2. There are a detectable # of menu items
+			// 3. The action bar is the full window width
+			if (getResources().getBoolean(R.bool.abs__split_action_bar_is_narrow)) {
+				int numVisible = 0;
+				for (int a = 0; a < menu.size(); a++) {
+					if (menu.getItem(a).isVisible()) {
+						numVisible++;
+					}
+				}
+				mSearchMenuItem.getActionView().setMinimumWidth(
+						getWindowManager().getDefaultDisplay().getWidth() / numVisible);
+			}
 
 			if (resultsVisible) {
 				// Configure the checked sort button
