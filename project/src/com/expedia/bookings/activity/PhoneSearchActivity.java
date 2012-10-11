@@ -43,6 +43,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
@@ -1973,9 +1974,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			@Override
 			public void run() {
 				mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-				mFilterPopupWindow.showAsDropDown(mRefinementDismissView,
-					(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
-					-mFilterLayout.getMeasuredHeight());
+				mFilterPopupWindow.showAtLocation(mRefinementDismissView, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, Math.round(73.0f * getResources().getDisplayMetrics().density));
 				mFilterPopupWindow.update(mFilterLayout.getMeasuredWidth(), mFilterLayout.getMeasuredHeight());
 			}
 		});
