@@ -145,7 +145,7 @@
 
         <RelativeLayout
             android:id="@+id/follow_email_button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_actionbar_button"
@@ -180,7 +180,7 @@
 
         <RelativeLayout
             android:id="@+id/follow_twitter_button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_actionbar_button"
@@ -215,7 +215,7 @@
 
         <RelativeLayout
             android:id="@+id/follow_facebook_button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_actionbar_button"
