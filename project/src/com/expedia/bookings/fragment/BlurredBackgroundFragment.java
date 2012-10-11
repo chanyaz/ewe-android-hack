@@ -43,8 +43,8 @@ public class BlurredBackgroundFragment extends Fragment {
 
 	public void setBitmap(Bitmap bitmap) {
 		// TODO: Actually implement dynamic loading of images/blurring
-		mHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.san_francisco);
-		mBlurredHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.san_francisco_blurred);
+		mHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.auckland);
+		mBlurredHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.auckland_blurred);
 
 		displayBackground();
 	}

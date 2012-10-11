@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_inbound_flight"
+    android:background="@drawable/auckland_blurred"
     android:fillViewport="true"
     android:orientation="vertical" >
 
