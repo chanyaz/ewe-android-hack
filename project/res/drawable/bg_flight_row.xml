@@ -6,20 +6,9 @@
     android:insetTop="10dp" >
 
     <selector>
-        <item android:state_focused="true">
-            <shape android:shape="rectangle" >
-                <solid android:color="#D555" />
-
-                <corners android:radius="5dp" />
-            </shape>
-        </item>
-        <item android:state_pressed="true">
-            <shape android:shape="rectangle" >
-                <solid android:color="#D999" />
-
-                <corners android:radius="5dp" />
-            </shape>
-        </item>
+        <item
+            android:drawable="@drawable/bg_flight_card_search_results_top"
+            android:state_pressed="true"/>
         <item android:drawable="@drawable/bg_flight_card_search_results"/>
     </selector>
 
