@@ -1,8 +1,10 @@
 package com.expedia.bookings.fragment;
 
 import java.lang.reflect.Field;
+import java.util.Calendar;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -14,6 +16,7 @@ import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,11 +27,15 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
@@ -114,7 +121,7 @@ public class FlightConfirmationFragment extends Fragment {
 		Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Ui.showToast(getActivity(), "TODO: Search for hotels");
+				searchForHotels();
 			}
 		});
 
@@ -160,6 +167,56 @@ public class FlightConfirmationFragment extends Fragment {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Search for hotels
+
+	private void searchForHotels() {
+		//Where flights meets hotels
+		SearchParams sp = new SearchParams();
+		sp.setSearchType(SearchType.CITY);
+		sp.setNumAdults(Db.getTravelers().size());
+
+		int legCount = Db.getFlightSearch().getSelectedFlightTrip().getLegCount();
+		FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
+		Calendar checkinDate = firstLeg.getLastWaypoint().getMostRelevantDateTime();
+		sp.setCheckInDate(checkinDate);
+
+		if (legCount > 1) {
+			//Round trip
+			FlightLeg lastLeg = Db.getFlightSearch().getSelectedFlightTrip()
+					.getLeg(Db.getFlightSearch().getSelectedFlightTrip().getLegCount() - 1);
+			Calendar checkoutDate = lastLeg.getFirstWaypoint().getMostRelevantDateTime();
+			sp.setCheckOutDate(checkoutDate);
+		}
+		else {
+			//One way trip
+			Calendar checkoutDate = Calendar.getInstance();
+			checkoutDate.setTime(checkinDate.getTime());
+			checkoutDate.add(Calendar.DAY_OF_MONTH, 1);
+			sp.setCheckOutDate(checkoutDate);
+		}
+
+		String cityStr = firstLeg.getLastWaypoint().getAirport().mCity;
+		if (TextUtils.isEmpty(cityStr)) {
+			cityStr = firstLeg.getLastWaypoint().mAirportCode;
+		}
+
+		//Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
+		sp.setUserQuery(cityStr);
+		sp.setQuery(cityStr);
+		sp.setSearchLatLon(firstLeg.getLastWaypoint().getAirport().getLatE6() / 1E6, firstLeg.getLastWaypoint()
+				.getAirport().getLonE6() / 1E6);
+		sp.setSearchLatLonUpToDate();
+
+		//Update the Db object to have our search params (which will be used by hotels search)
+		Db.setSearchParams(sp);
+
+		Intent searchHotelsIntent = new Intent(getActivity(), PhoneSearchActivity.class);
+		searchHotelsIntent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+		searchHotelsIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(searchHotelsIntent);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Add to Calendar
 
 	private boolean supportsCalendar() {
@@ -199,6 +256,7 @@ public class FlightConfirmationFragment extends Fragment {
 		}
 	}
 
+	@SuppressLint("NewApi")
 	private Intent generateCalendarInsertIntent(FlightLeg leg) {
 		Waypoint origin = leg.getFirstWaypoint();
 		Airport originAirport = origin.getAirport();

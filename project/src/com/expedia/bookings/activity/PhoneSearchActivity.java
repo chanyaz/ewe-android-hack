@@ -425,7 +425,17 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		boolean toBroadcastSearchCompleted = false;
 		SearchResponse searchResponse = Db.getSearchResponse();
-		if (savedInstanceState != null && !localeChanged) {
+		if (getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+			//If this is a search coming from flights, we expect the Db.searchParams to already be valid
+			mSearchEditText.setText(Db.getSearchParams().getUserQuery());
+			Log.i("searchEditText...:" + mSearchEditText.getText().toString());
+			Db.resetFilter();
+			mTag = mHotelListFragment.getTag();
+			mShowDistance = false;
+			startSearch();
+			getIntent().removeExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
+		}
+		else if (savedInstanceState != null && !localeChanged) {
 			restoreActivityState(savedInstanceState);
 
 			if (searchResponse != null) {
