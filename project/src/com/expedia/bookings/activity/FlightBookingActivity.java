@@ -23,7 +23,6 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
@@ -57,7 +56,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	private Context mContext;
 
-	private BlurredBackgroundFragment mBgFragment;
 	private CVVEntryFragment mCVVEntryFragment;
 	private BookingInProgressDialogFragment mProgressFragment;
 
@@ -77,13 +75,10 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		setTitle(R.string.title_complete_booking);
 
-		mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
 		mCVVEntryFragment = Ui.findSupportFragment(this, CVVEntryFragment.TAG);
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
 
 		if (savedInstanceState == null) {
-			mBgFragment = new BlurredBackgroundFragment();
-
 			// Determine the data displayed on the CVVEntryFragment
 			BillingInfo billingInfo = Db.getBillingInfo();
 			StoredCreditCard cc = billingInfo.getStoredCard();
@@ -106,7 +101,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			mCVVEntryFragment = CVVEntryFragment.newInstance(personName, cardName);
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.add(R.id.bg_frame, mBgFragment, BlurredBackgroundFragment.TAG);
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			ft.commit();
 		}
