@@ -75,7 +75,7 @@
             <TextView
                 android:id="@+id/label_select_each_childs_age"
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text=""
