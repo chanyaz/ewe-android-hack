@@ -271,6 +271,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	public boolean mStartSearchOnResume;
 	private long mLastSearchTime = -1;
 	private boolean mIsWidgetNotificationShowing;
+	private boolean mWasOnDestroyCalled = false;
 
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
 
@@ -633,6 +634,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		mWasOnDestroyCalled = true;
 
 		// #9018: There was an insidious memory leak happening on rotation.  There might be a number of 
 		// ListView rows that were trying to load images.  The callbacks for these loads involved an ImageView
@@ -997,7 +1000,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			mActionMode = null;
-			setDisplayType(DisplayType.NONE);
+			if (!mWasOnDestroyCalled) {
+				setDisplayType(DisplayType.NONE);
+			}
 		}
 	};
 
