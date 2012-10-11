@@ -100,9 +100,9 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 		// Configure the ActionBar
 		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setTitle(R.string.booking_information_title);
 	}
 
 	@Override
@@ -147,12 +147,6 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
-
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_TITLE,
-				ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_TITLE);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(R.string.booking_information_title);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
