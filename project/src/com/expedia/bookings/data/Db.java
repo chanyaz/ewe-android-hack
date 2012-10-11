@@ -57,14 +57,6 @@ public class Db {
 
 	private SearchResponse mLaunchHotelSearchResponse;
 
-	public static void setLaunchHotelSearchResponse(SearchResponse response) {
-		sDb.mLaunchHotelSearchResponse = response;
-	}
-
-	public static SearchResponse getLaunchHotelSearchResponse() {
-		return sDb.mLaunchHotelSearchResponse;
-	}
-
 	// The filter applied to SearchResponse.  Note that this Filter can cause a memory leak;
 	// One has to be sure to change the listeners on the Filter whenever appropriate.
 	private Filter mFilter = new Filter();
@@ -152,6 +144,14 @@ public class Db {
 
 	public static SearchResponse getSearchResponse() {
 		return sDb.mSearchResponse;
+	}
+
+	public static void setLaunchHotelSearchResponse(SearchResponse response) {
+		sDb.mLaunchHotelSearchResponse = response;
+	}
+
+	public static SearchResponse getLaunchHotelSearchResponse() {
+		return sDb.mLaunchHotelSearchResponse;
 	}
 
 	public static void resetFilter() {
@@ -551,6 +551,7 @@ public class Db {
 		sDb.mSelectedRateKey = null;
 		sDb.mSelectedRate = null;
 		sDb.mSearchResponse = null;
+		sDb.mLaunchHotelSearchResponse = null;
 		sDb.mBookingResponse = null;
 		sDb.mUser = null;
 

@@ -98,7 +98,7 @@
             android:layout_centerHorizontal="true"
             android:background="@android:color/black"/>
 
-        <ListView
+        <com.expedia.bookings.widget.MeasureListView
             android:id="@+id/hotels_stream_list_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

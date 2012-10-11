@@ -10,9 +10,10 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.utils.StrUtils;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.util.Ui;
 
-public class LaunchStreamAdapter extends BaseAdapter {
+public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private final int NUM_PROPERTIES_DEFAULT = 10;
 
@@ -22,6 +23,7 @@ public class LaunchStreamAdapter extends BaseAdapter {
 
 	private Distance.DistanceUnit mDistanceUnit;
 
+	private boolean mIsMeasuring = false;
 	private boolean mHasRealProperties = false;
 
 	public LaunchStreamAdapter(Context context) {
@@ -87,45 +89,72 @@ public class LaunchStreamAdapter extends BaseAdapter {
 
 			holder = new TileHolder();
 
-			holder.mContainer = Ui.findView(convertView, R.id.launch_tile_container);
-			holder.mTitleTextView = Ui.findView(convertView, R.id.launch_tile_title_text_view);
-			holder.mDistanceTextView = Ui.findView(convertView, R.id.launch_tile_distance_text_view);
-			holder.mPriceTextView = Ui.findView(convertView, R.id.launch_tile_price_text_view);
+			holder.container = Ui.findView(convertView, R.id.launch_tile_container);
+			holder.titleTextView = Ui.findView(convertView, R.id.launch_tile_title_text_view);
+			holder.distanceTextView = Ui.findView(convertView, R.id.launch_tile_distance_text_view);
+			holder.priceTextView = Ui.findView(convertView, R.id.launch_tile_price_text_view);
 
 			convertView.setTag(holder);
 		}
 		else {
 			holder = (TileHolder) convertView.getTag();
+			holder.container.setVisibility(View.INVISIBLE);
+		}
+
+		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
+		if (mIsMeasuring) {
+			return convertView;
 		}
 
 		if (mHasRealProperties) {
 			Property property = mProperties[position];
 
-			holder.mTitleTextView.setText(property.getName());
+			holder.titleTextView.setText(property.getName());
 
-			holder.mDistanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
+			holder.distanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
 					true));
 
-			// We assume we have a lowest rate here; this may not be a safe assumption
 			Rate lowestRate = property.getLowestRate();
 			final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
-			holder.mPriceTextView.setText(hotelPrice);
+			holder.priceTextView.setText(hotelPrice);
 
-			holder.mContainer.setVisibility(View.VISIBLE);
+			// See if there's a first image; if there is, use that as the thumbnail
+			// Don't try to load the thumbnail if we're just measuring the height of the ListView
+			boolean imageSet = false;
+			if (holder.container != null && !mIsMeasuring && property.getThumbnail() != null) {
+				String url = property.getThumbnail().getUrl(Media.IMAGE_BIG_SUFFIX);
+				imageSet = ImageCache.loadImageForLaunchStream(url, holder.container);
+			}
+			if (holder.container != null && !imageSet) {
+				holder.container.setBackgroundColor(android.R.color.transparent);
+				holder.container.setVisibility(View.INVISIBLE);
+			}
 		}
 		else {
-			holder.mContainer.setVisibility(View.INVISIBLE);
+			holder.container.setVisibility(View.INVISIBLE);
 		}
 
 		return convertView;
 	}
 
 	private class TileHolder {
-
-		public RelativeLayout mContainer;
-		public TextView mTitleTextView;
-		public TextView mDistanceTextView;
-		public TextView mPriceTextView;
-
+		public RelativeLayout container;
+		public TextView titleTextView;
+		public TextView distanceTextView;
+		public TextView priceTextView;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnMeasureListener
+
+	@Override
+	public void onStartMeasure() {
+		mIsMeasuring = true;
+	}
+
+	@Override
+	public void onStopMeasure() {
+		mIsMeasuring = false;
+	}
+
 }
