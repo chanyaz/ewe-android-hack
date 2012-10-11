@@ -475,6 +475,10 @@
     <string name="cancel">Cancel</string>
     <!-- Button label for accepting an error and moving forward -->
     <string name="accept">Accept</string>
+    <!-- Button label for retrying after getting an error -->
+    <string name="retry">Retry</string>
+    <!-- Button label for calling  -->
+    <string name="call_support">Call Customer Support</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_increased">It looks like the airline just rasied the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -483,6 +487,10 @@
     <string name="error_invalid_card_number">The credit card number you entered is invalid, please try again.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">The credit card you tried to use has expired, please use a different credit card.</string>
+    <!-- Error shown to user if we don't know what exaclty what went wrong. -->
+    <string name="error_flight_unhandled">Sorry, we don\’t seem to be able to process your order right now. Please try again.</string>
+    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is a special number users can quote to allow agents to pull up their case. -->
+    <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\’t seem to be able to process your order right now. Please try again or call Expedia Customer Support and quote this number: %s</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>

@@ -31,18 +31,22 @@ import com.expedia.bookings.fragment.PriceChangeDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
-import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
+import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
+import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
-		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener {
+		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flight.checkout";
 
@@ -183,6 +187,9 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(DOWNLOAD_KEY)) {
+			// Clear current results (if any)
+			Db.setFlightCheckout(null);
+
 			mProgressFragment = new BookingInProgressDialogFragment();
 			mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
 
@@ -239,9 +246,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			Db.setFlightCheckout(results);
 
 			if (results == null) {
-				SimpleSupportDialogFragment sdf = SimpleSupportDialogFragment.newInstance(
-						getString(R.string.error_booking_title), "LOCALIZE: Did not get any response from the server!");
-				sdf.show(getSupportFragmentManager(), "noResultsErrorDialog");
+				DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
+				df.show(getSupportFragmentManager(), "noResultsErrorDialog");
 			}
 			else if (results.hasErrors()) {
 				handleErrorResponse(results);
@@ -259,63 +265,57 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	// Split out just for ease-of-reading
 
 	public void handleErrorResponse(FlightCheckoutResponse response) {
-		boolean handledError = true;
 		List<ServerError> errors = response.getErrors();
-		if (errors.size() == 1) {
-			ServerError error = errors.get(0);
 
-			switch (error.getErrorCode()) {
-			case PRICE_CHANGE:
-				FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
-				FlightTrip newOffer = response.getNewOffer();
-				PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
-				fragment.show(getSupportFragmentManager(), PriceChangeDialogFragment.TAG);
-				break;
-			case PAYMENT_FAILED:
-				String field = error.getExtra("field");
-
-				// Handle each type of failure differently
-				if ("cvv".equals(field)) {
-					setCvvErrorMode(true);
-				}
-				else if ("creditCardNumber".equals(field)) {
-					DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-							getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
-							DIALOG_CALLBACK_INVALID_CC);
-					frag.show(getSupportFragmentManager(), "badCcNumberDialog");
-				}
-				else if ("expirationDate".equals(field)) {
-					DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-							getString(R.string.error_expired_payment), getString(android.R.string.ok),
-							DIALOG_CALLBACK_EXPIRED_CC);
-					frag.show(getSupportFragmentManager(), "expiredCcDialog");
-				}
-				else {
-					handledError = false;
-				}
-
-				break;
-			default:
-				handledError = false;
-				break;
-			}
+		// Log all errors, in case we need to see them
+		for (int a = 0; a < errors.size(); a++) {
+			Log.v("SERVER ERROR " + a + ": " + errors.get(a).toJson().toString());
 		}
 
-		// For unhandled errors, use this default dialog
-		if (!handledError) {
-			StringBuilder sb = new StringBuilder();
+		// We make the assumption that if we get an error we can handle in a special manner
+		// that it will be the first one.  If there are multiple errors, we assume right
+		// now that it will require a generic response.
+		ServerError firstError = errors.get(0);
 
-			sb.append("TEMP ERROR: Response came back with errors:");
+		// Check for special errors; return if we handled it
+		switch (firstError.getErrorCode()) {
+		case PRICE_CHANGE:
+			FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
+			FlightTrip newOffer = response.getNewOffer();
+			PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
+			fragment.show(getSupportFragmentManager(), PriceChangeDialogFragment.TAG);
+			return;
+		case PAYMENT_FAILED:
+			String field = firstError.getExtra("field");
 
-			for (ServerError error : response.getErrors()) {
-				sb.append("\n\n");
-				sb.append(error.getPresentableMessage(mContext));
+			// Handle each type of failure differently
+			if ("cvv".equals(field)) {
+				setCvvErrorMode(true);
+				return;
+			}
+			else if ("creditCardNumber".equals(field)) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_CC);
+				frag.show(getSupportFragmentManager(), "badCcNumberDialog");
+				return;
+			}
+			else if ("expirationDate".equals(field)) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_expired_payment), getString(android.R.string.ok),
+						DIALOG_CALLBACK_EXPIRED_CC);
+				frag.show(getSupportFragmentManager(), "expiredCcDialog");
+				return;
 			}
 
-			SimpleSupportDialogFragment sdf = SimpleSupportDialogFragment.newInstance(
-					getString(R.string.error_booking_title), sb.toString());
-			sdf.show(getSupportFragmentManager(), "multipleErrorsDialog");
+			break;
+		default:
+			break;
 		}
+
+		// At this point, we haven't handled the error - use a generic response
+		DialogFragment df = UnhandledErrorDialogFragment.newInstance("NEED FROM API");
+		df.show(getSupportFragmentManager(), "unhandledErrorDialog");
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -353,5 +353,23 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			finish();
 			break;
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// UnhandledErrorDialogFragmentListener
+
+	@Override
+	public void onRetryUnhandledException() {
+		doBooking();
+	}
+
+	@Override
+	public void onCallCustomerSupport() {
+		SocialUtils.call(this, SupportUtils.getFlightSupportNumber(this));
+	}
+
+	@Override
+	public void onCancelUnhandledException() {
+		finish();
 	}
 }
