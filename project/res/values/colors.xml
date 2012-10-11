@@ -97,7 +97,7 @@
     
     <color name="nav_dropdown_background">#333333</color>
     <color name="nav_dropdown_text">#CFCFCF</color>
-    <color name="nav_dropdown_dividers">#999999</color>
+    <color name="nav_dropdown_dividers">#26ffffff</color>
 	
 	<color name="price_promo_banner_text_color">#fff</color>
 	<color name="price_promo_banner_strikethrough_text_color">#aaa</color>

@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightSearchActivity;
-import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.NavItem;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -54,7 +50,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 		navItems = new ArrayList<NavItem>();
 		Resources res = context.getResources();
 
-		addItem(new NavItem(res.getDrawable(R.drawable.ic_launcher), res
+		addItem(new NavItem(res.getDrawable(R.drawable.ic_expedia_drop_down), res
 				.getString(R.string.nav_home), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -64,7 +60,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 			}
 		}));
 
-		addItem(new NavItem(res.getDrawable(R.drawable.search_center_purple), res
+		addItem(new NavItem(res.getDrawable(R.drawable.ic_hotels_drop_down), res
 				.getString(R.string.nav_hotels), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -74,7 +70,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 			}
 		}));
 
-		addItem(new NavItem(res.getDrawable(R.drawable.radar), res
+		addItem(new NavItem(res.getDrawable(R.drawable.ic_flights_drop_down), res
 				.getString(R.string.nav_flights), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -83,7 +79,7 @@ public class NavigationDropdownAdapter extends BaseAdapter {
 				}
 			}
 		}));
-		addItem(new NavItem(res.getDrawable(R.drawable.ic_logged_in_no_rewards), res
+		addItem(new NavItem(res.getDrawable(R.drawable.ic_account_drop_down), res
 				.getString(R.string.nav_account), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
