@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -50,6 +51,12 @@ import com.mobiata.flightlib.data.Waypoint;
 public class FlightConfirmationFragment extends Fragment {
 
 	public static final String TAG = FlightConfirmationFragment.class.getName();
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		clearImportantBillingInfo();
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -167,6 +174,33 @@ public class FlightConfirmationFragment extends Fragment {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Clear some billing information
+
+	private void clearImportantBillingInfo() {
+		try {
+			BillingInfo bi = Db.getBillingInfo();
+
+			if (bi != null) {
+				if (bi.getSaveCardToExpediaAccount()) {
+					//If the user saved the card to their account, we would rather that they log in and use the stored card, thus we clear the BillingInfo
+					bi.delete(getActivity());
+				}
+				else {
+					//Always clear this stuff...
+					bi.setNumber(null);
+					bi.setSecurityCode(null);
+					bi.setBrandCode(null);
+					bi.setBrandName(null);
+					bi.setSaveCardToExpediaAccount(false);
+				}
+			}
+		}
+		catch (Exception ex) {
+			Log.e("Exception clearing BillingInfo");
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Search for hotels
 
 	private void searchForHotels() {
@@ -212,7 +246,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 		Intent searchHotelsIntent = new Intent(getActivity(), PhoneSearchActivity.class);
 		searchHotelsIntent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-		searchHotelsIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		searchHotelsIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(searchHotelsIntent);
 	}
 
