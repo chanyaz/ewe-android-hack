@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/popup_filter_container"
     android:layout_width="fill_parent"
@@ -25,6 +24,7 @@
             android:id="@+id/filter_hotel_name_edit_text"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/edit_text_holo_dark"
             android:gravity="center_vertical"
             android:hint="@string/filter_hotel_name_hint"
@@ -38,24 +38,23 @@
 
         <include
             android:id="@+id/radius_filter_button_group"
-            layout="@layout/include_filter_radius"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/popup_filter_row_height"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp" />
+            layout="@layout/include_filter_radius" />
 
         <include
             android:id="@+id/rating_filter_button_group"
-            layout="@layout/include_filter_rating"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/popup_filter_row_height"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            layout="@layout/include_filter_rating" />
 
         <include
             android:id="@+id/price_filter_button_group"
-            layout="@layout/include_filter_price"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/popup_filter_row_height" />
-
+            android:layout_height="@dimen/popup_filter_row_height"
+            layout="@layout/include_filter_price" />
     </LinearLayout>
+
 </LinearLayout>
