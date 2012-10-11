@@ -80,6 +80,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 				Location location = new Location();
 				location.setCity(cityJson.optString("city"));
 				location.setStateCode(cityJson.optString("province"));
+				location.setDestinationId(cityJson.optString("code"));
 				mResponse.addSearchCity(location);
 			}
 		}
