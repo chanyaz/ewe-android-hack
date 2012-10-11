@@ -2532,6 +2532,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			}
 			else {
 				//collapseSearchEditText();
+				TextView tv = (TextView) v;
+				hideSoftKeyboard(tv);
 			}
 		}
 	};
