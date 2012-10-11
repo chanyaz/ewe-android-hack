@@ -282,6 +282,24 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
 
+		final MenuItem searchItem = menu.findItem(R.id.menu_search);
+		searchItem.getActionView().setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onOptionsItemSelected(searchItem);
+			}
+		});
+
+		// Crazy hack to get the item view to take up space.
+		//
+		// ASSUMPTIONS:
+		// 1. You can detect split action bar status using ABS
+		// 2. There are only two menu items
+		// 3. The action bar is the full window width
+		if (getResources().getBoolean(R.bool.abs__split_action_bar_is_narrow)) {
+			searchItem.getActionView().setMinimumWidth(getWindowManager().getDefaultDisplay().getWidth() / 2);
+		}
+
 		return super.onCreateOptionsMenu(menu);
 	}
 

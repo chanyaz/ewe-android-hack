@@ -34,8 +34,7 @@
 
     <item
         android:id="@+id/menu_search"
-        android:icon="@drawable/ic_action_bar_magnifying_glass"
-        android:showAsAction="always|withText"
-        android:title="@string/search"/>
+        android:actionLayout="@layout/header_search_btn2"
+        android:showAsAction="always"/>
 
 </menu>
