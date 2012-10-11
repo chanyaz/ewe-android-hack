@@ -19,10 +19,13 @@
 		
 		<!-- NumberPicker styles -->
 		<item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
-		<item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton
-		</item>
+		<item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
 		<item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
 		<item name="numberPickerStyle">@style/Widget.NumberPicker</item>
+
+        <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
+        <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
+        <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
 	</style>
 
 	<style name="Theme.Tablet.Dark" parent="@android:style/Theme.Holo">
@@ -103,9 +106,9 @@
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone</item>
-        <item name="numberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
-        <item name="numberPickerInputTextStyle">@style/NumberPickerText</item>
-        <item name="numberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
+        <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
+        <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
+        <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
     </style>
 
     <style name="Theme.Phone.WithStackedTabs">

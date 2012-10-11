@@ -40,6 +40,13 @@
     <!-- NumberPicker input text style. -->
     <attr name="numberPickerInputTextStyle" format="reference" />
 
+    <!-- SimpleNumberPicker up button style. -->
+    <attr name="simpleNumberPickerUpButtonStyle" format="reference" />
+    <!-- SimpleNumberPicker down button style. -->
+    <attr name="simpleNumberPickerDownButtonStyle" format="reference" />
+    <!-- SimpleNumberPicker input text style. -->
+    <attr name="simpleNumberPickerInputTextStyle" format="reference" />
+
     <declare-styleable name="NumberPicker">
 
         <!-- @hide Color for the solid color background if such for optimized rendering. -->
