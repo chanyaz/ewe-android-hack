@@ -2428,12 +2428,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private final TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				startSearch();
-				return true;
-			}
-
-			return false;
+			startSearch();
+			return true;
 		}
 	};
 
