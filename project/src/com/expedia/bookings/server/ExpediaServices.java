@@ -138,6 +138,14 @@ public class ExpediaServices implements DownloadListener {
 		mContext = context;
 	}
 
+	// Allows one to get the cookie store out of services, in case we need to
+	// inject the cookies elsewhere (e.g., a WebView)
+	public static PersistantCookieStore getCookieStore(Context context) {
+		PersistantCookieStore cookieStore = new PersistantCookieStore();
+		cookieStore.load(context, COOKIES_FILE);
+		return cookieStore;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	//// Expedia Suggest API
 
@@ -716,8 +724,7 @@ public class ExpediaServices implements DownloadListener {
 		HttpConnectionParams.setSoTimeout(httpParameters, 100000);
 
 		// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
-		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.load(mContext, COOKIES_FILE);
+		PersistantCookieStore cookieStore = getCookieStore(mContext);
 		HttpContext httpContext = new BasicHttpContext();
 		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
 		CookieSpecRegistry cookieSpecRegistry = new CookieSpecRegistry();
