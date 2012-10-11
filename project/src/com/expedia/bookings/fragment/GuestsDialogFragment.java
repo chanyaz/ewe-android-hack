@@ -17,13 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.NumberPicker;
-import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.SimpleNumberPicker;
 
 @TargetApi(11)
 public class GuestsDialogFragment extends DialogFragment {
@@ -31,8 +30,8 @@ public class GuestsDialogFragment extends DialogFragment {
 	private static final String KEY_NUM_ADULTS = "numAdults";
 	private static final String KEY_CHILDREN = "children";
 
-	private NumberPicker mAdultsNumberPicker;
-	private NumberPicker mChildrenNumberPicker;
+	private SimpleNumberPicker mAdultsNumberPicker;
+	private SimpleNumberPicker mChildrenNumberPicker;
 	private TextView mSelectChildAgeTextView;
 	private View mChildAgesLayout;
 
@@ -65,17 +64,15 @@ public class GuestsDialogFragment extends DialogFragment {
 		// Inflate the main content
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View parent = inflater.inflate(R.layout.fragment_dialog_guests, null);
-		mAdultsNumberPicker = (NumberPicker) parent.findViewById(R.id.adults_number_picker);
-		mChildrenNumberPicker = (NumberPicker) parent.findViewById(R.id.children_number_picker);
+		mAdultsNumberPicker = (SimpleNumberPicker) parent.findViewById(R.id.adults_number_picker);
+		mChildrenNumberPicker = (SimpleNumberPicker) parent.findViewById(R.id.children_number_picker);
 		mSelectChildAgeTextView = (TextView) parent.findViewById(R.id.label_select_each_childs_age);
 		mChildAgesLayout = parent.findViewById(R.id.child_ages_layout);
 
-		// Block NumberPickers from being editable
-		mAdultsNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-		mChildrenNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
+		mChildrenNumberPicker.setFormatter(mChildrenNumberPickerFormatter);
 
 		// Configure the display values on the pickers
-		GuestsPickerUtils.configureDisplayedValues(getActivity(), mAdultsNumberPicker, mChildrenNumberPicker);
 		GuestsPickerUtils.updateNumberPickerRanges(mAdultsNumberPicker, mChildrenNumberPicker);
 
 		// Set initial values for pickers
@@ -83,10 +80,11 @@ public class GuestsDialogFragment extends DialogFragment {
 			mAdultCount = savedInstanceState.getInt(KEY_NUM_ADULTS);
 			mChildren = savedInstanceState.getIntegerArrayList(KEY_CHILDREN);
 		}
+
 		mAdultsNumberPicker.setValue(mAdultCount);
 		mChildrenNumberPicker.setValue(mChildren.size());
-		mAdultsNumberPicker.setOnValueChangedListener(mPersonCountChangeListener);
-		mChildrenNumberPicker.setOnValueChangedListener(mPersonCountChangeListener);
+		mAdultsNumberPicker.setOnValueChangeListener(mPersonCountChangeListener);
+		mChildrenNumberPicker.setOnValueChangeListener(mPersonCountChangeListener);
 		displayGuestCountViews();
 
 		// Setup initial value for title (FYI, need to call this or else the title never appears)
@@ -151,9 +149,9 @@ public class GuestsDialogFragment extends DialogFragment {
 	}
 
 	// Configure number pickers to dynamically change the layout on value changes
-	private final OnValueChangeListener mPersonCountChangeListener = new OnValueChangeListener() {
+	private final SimpleNumberPicker.OnValueChangeListener mPersonCountChangeListener = new SimpleNumberPicker.OnValueChangeListener() {
 
-		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+		public void onValueChange(SimpleNumberPicker picker, int oldVal, int newVal) {
 			mAdultCount = mAdultsNumberPicker.getValue();
 			GuestsPickerUtils.resizeChildrenList(getActivity(), mChildren, mChildrenNumberPicker.getValue());
 			displayGuestCountViews();
@@ -179,6 +177,21 @@ public class GuestsDialogFragment extends DialogFragment {
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 		}
 
+	};
+
+	// Number picker formatters
+	private final SimpleNumberPicker.Formatter mAdultsNumberPickerFormatter = new SimpleNumberPicker.Formatter() {
+		@Override
+		public String format(int value) {
+			return getActivity().getResources().getQuantityString(R.plurals.number_of_adults, value, value);
+		}
+	};
+
+	private final SimpleNumberPicker.Formatter mChildrenNumberPickerFormatter = new SimpleNumberPicker.Formatter() {
+		@Override
+		public String format(int value) {
+			return getActivity().getResources().getQuantityString(R.plurals.number_of_children, value, value);
+		}
 	};
 
 	//////////////////////////////////////////////////////////////////////////

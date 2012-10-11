@@ -69,6 +69,14 @@ public class GuestsPickerUtils {
 		childrenNumberPicker.setMaxValue(getMaxChildren(adultsNumberPicker.getValue()));
 	}
 
+	public static void updateNumberPickerRanges(com.expedia.bookings.widget.SimpleNumberPicker adultsNumberPicker,
+			com.expedia.bookings.widget.SimpleNumberPicker childrenNumberPicker) {
+		adultsNumberPicker.setMinValue(MIN_ADULTS);
+		adultsNumberPicker.setMaxValue(getMaxAdults(childrenNumberPicker.getValue()));
+		childrenNumberPicker.setMinValue(MIN_CHILDREN);
+		childrenNumberPicker.setMaxValue(getMaxChildren(adultsNumberPicker.getValue()));
+	}
+
 	public static int getMaxPerType() {
 		return MAX_PER_TYPE;
 	}
