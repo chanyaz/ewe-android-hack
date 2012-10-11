@@ -205,6 +205,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private CalendarDatePicker mDatesCalendarDatePicker;
 	private AutoCompleteTextView mSearchEditText;
+	private ImageView mClearSearchButton;
 	private FrameLayout mContent;
 	private ImageButton mDatesButton;
 	private ImageButton mGuestsButton;
@@ -285,6 +286,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// The last selection for the search EditText.  Used to maintain between rotations
 	private int mSearchTextSelectionStart = -1;
 	private int mSearchTextSelectionEnd = -1;
+
+	private int mSearchEditTextPaddingRight = -1;
 
 	private HockeyPuck mHockeyPuck;
 
@@ -1119,6 +1122,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// Handled in the actionbar's custom view now
 		mActionBarCustomView = getLayoutInflater().inflate(R.layout.actionbar_search_hotels, null);
 		mSearchEditText = (AutoCompleteTextView) mActionBarCustomView.findViewById(R.id.search_edit_text);
+		mClearSearchButton = (ImageView) mActionBarCustomView.findViewById(R.id.clear_search_button);
 		mDatesButton = (ImageButton) mActionBarCustomView.findViewById(R.id.dates_button);
 		mDatesTextView = (TextView) mActionBarCustomView.findViewById(R.id.dates_text_view);
 		mGuestsButton = (ImageButton) mActionBarCustomView.findViewById(R.id.guests_button);
@@ -1194,6 +1198,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		if (mSearchButton != null) {
 			mSearchButton.setOnClickListener(mSearchButtonClickListener);
 		}
+
+		mClearSearchButton.setOnClickListener(mClearSearchButtonOnClickListener);
 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 
@@ -2507,10 +2513,45 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	};
 
+	private final View.OnClickListener mClearSearchButtonOnClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			mSearchEditText.setText(null);
+		}
+	};
+
+	private void showClearSearchButton() {
+		mClearSearchButton.setVisibility(View.VISIBLE);
+		mClearSearchButton.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		// Adjust search edit text padding so the clear button doesn't overlap text
+		{
+			mSearchEditTextPaddingRight = mSearchEditText.getPaddingRight();
+			int left = mSearchEditText.getPaddingLeft();
+			int top = mSearchEditText.getPaddingTop();
+			int right = mSearchEditTextPaddingRight + mClearSearchButton.getMeasuredWidth();
+			int bottom = mSearchEditText.getPaddingBottom();
+			mSearchEditText.setPadding(left, top, right, bottom);
+		}
+	}
+
+	private void hideClearSeachButton() {
+		mClearSearchButton.setVisibility(View.GONE);
+		{
+			int left = mSearchEditText.getPaddingLeft();
+			int top = mSearchEditText.getPaddingTop();
+			int right = mSearchEditTextPaddingRight;
+			int bottom = mSearchEditText.getPaddingBottom();
+			mSearchEditText.setPadding(left, top, right, bottom);
+		}
+		mSearchEditTextPaddingRight = -1;
+	}
+
 	private final View.OnFocusChangeListener mSearchEditTextFocusChangeListener = new View.OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
+				showClearSearchButton();
+
 				//expandSearchEditText();
 				setDisplayType(DisplayType.KEYBOARD);
 				SearchType searchType = Db.getSearchParams().getSearchType();
@@ -2536,6 +2577,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				}
 			}
 			else {
+				hideClearSeachButton();
+
 				//collapseSearchEditText();
 				TextView tv = (TextView) v;
 				hideSoftKeyboard(tv);
