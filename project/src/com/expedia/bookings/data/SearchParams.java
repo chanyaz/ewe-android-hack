@@ -124,7 +124,7 @@ public class SearchParams implements JSONable {
 	 */
 	public boolean setSearchType(SearchType searchType) {
 		boolean changed = mSearchType != searchType;
-		if (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA) {
+		if (changed && (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA)) {
 			clearQuery();
 		}
 		mSearchType = searchType;
