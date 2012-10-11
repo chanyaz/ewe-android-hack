@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import android.R.attr;
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -245,6 +246,8 @@ public class LayoutUtils {
 		return config.orientation == Configuration.ORIENTATION_PORTRAIT;
 	}
 
+	private static final int[] STYLEABLE_ACTION_BAR_SIZE = new int[] { android.R.attr.actionBarSize };
+
 	/**
 	 * Adjusts the top and bottom padding of a View based on its Activity and state.
 	 * 
@@ -279,8 +282,11 @@ public class LayoutUtils {
 			}
 			else {
 				// Getting here indicates that we're not using ABS for the action bar;
-				// get the height directly.
-				extraTopPadding = activity.getActionBar().getHeight();
+				// get the height directly.  Use attributes (as height may not be set
+				// yet on the action bar, depending on timing - F911).
+				a = activity.obtainStyledAttributes(null, STYLEABLE_ACTION_BAR_SIZE);
+				extraTopPadding = a.getDimensionPixelSize(0, 0);
+				a.recycle();
 			}
 
 			// Get bottom padding (if in split action bar mode)
