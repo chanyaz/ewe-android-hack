@@ -57,20 +57,15 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			return null;
 		}
 
-		if (response.has("journeys")) {
-			// Parse as a linear response
-			parseJourneys(response.optJSONArray("journeys"));
-		}
-		else {
-			// Parse as a matrix response
-			List<FlightLeg> legs = parseLegs(response.optJSONArray("legs"));
+		// Parse each individual leg
+		List<FlightLeg> legs = parseLegs(response.optJSONArray("legs"));
 
-			for (FlightLeg leg : legs) {
-				mLegs.put(leg.getLegId(), leg);
-			}
-
-			parsePricingInfoArray(response.optJSONArray("offers"));
+		for (FlightLeg leg : legs) {
+			mLegs.put(leg.getLegId(), leg);
 		}
+
+		// Parse offers and associate them with legs
+		parsePricingInfoArray(response.optJSONArray("offers"));
 
 		// Parse the searchCities
 		JSONArray searchCities = response.optJSONArray("searchCities");
@@ -88,21 +83,6 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		Log.d("Flight search response parse time: " + (System.currentTimeMillis() - start) + " ms");
 
 		return mResponse;
-	}
-
-	private void parseJourneys(JSONArray journeysJson) {
-		int len = journeysJson.length();
-		for (int a = 0; a < len; a++) {
-			JSONObject tripJson = journeysJson.optJSONObject(a);
-			FlightTrip trip = parseTrip(tripJson);
-
-			List<FlightLeg> legs = parseLegs(tripJson.optJSONArray("legs"));
-			for (FlightLeg leg : legs) {
-				trip.addLeg(leg);
-			}
-
-			mResponse.addTrip(trip);
-		}
 	}
 
 	private List<FlightLeg> parseLegs(JSONArray legsJson) {
@@ -230,13 +210,5 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 	private FlightLeg getLeg(String legId) {
 		return mLegs.get(legId);
-	}
-
-	// FOR TESTING PURPOSES ONLY
-
-	public FlightLeg getRandomLeg() {
-		String[] keys = mLegs.keySet().toArray(new String[0]);
-		String key = keys[(int) Math.floor(Math.random() * keys.length)];
-		return mLegs.get(key);
 	}
 }

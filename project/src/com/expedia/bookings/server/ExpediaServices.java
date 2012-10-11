@@ -211,9 +211,6 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("returnDate", df.format(retDate)));
 		}
 
-		// TODO: Delete this once no longer valid (all results will eventually be returned as a matrix)
-		query.add(new BasicNameValuePair("matrix", "true"));
-
 		return doFlightsRequest("api/flight/search", query, new FlightSearchResponseHandler(mContext), flags);
 	}
 
