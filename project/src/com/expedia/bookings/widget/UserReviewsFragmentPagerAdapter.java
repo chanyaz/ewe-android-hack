@@ -35,7 +35,7 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 		mFragments.add(null);
 
 		if (savedInstanceState != null) {
-			for (int i = 0; i <= 2; i++) {
+			for (int i = 0; i < TABS.length; i++) {
 				Fragment fragment = fm.getFragment(savedInstanceState, TAGS[i]);
 				if (fragment != null) {
 					mFragments.set(i, (UserReviewsFragment) fragment);
@@ -45,7 +45,7 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 	}
 
 	public void onSaveInstanceState(FragmentManager fm, Bundle outState) {
-		for (int i = 0; i <= 2; i++) {
+		for (int i = 0; i < TABS.length; i++) {
 			if (mFragments.get(i) != null) {
 				fm.putFragment(outState, TAGS[i], mFragments.get(i));
 			}
@@ -70,14 +70,18 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 	// populate the list header for all three fragments
 	public void populateReviewsStats() {
 		for (UserReviewsFragment f : mFragments) {
-			f.populateListHeader();
+			if (f != null) {
+				f.populateListHeader();
+			}
 		}
 		mFragments.get(0).attemptReviewsDownload();
 	}
 
 	public void cancelDownloads() {
 		for (UserReviewsFragment f : mFragments) {
-			f.cancelReviewsDownload();
+			if (f != null) {
+				f.cancelReviewsDownload();
+			}
 		}
 	}
 
