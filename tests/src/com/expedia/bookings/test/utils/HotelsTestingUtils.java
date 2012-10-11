@@ -2,7 +2,9 @@ package com.expedia.bookings.test.utils;
 
 import java.lang.reflect.Field;
 
+import android.opengl.GLSurfaceView;
 import android.util.Log;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
@@ -16,6 +18,34 @@ public class HotelsTestingUtils {
 	
 	public static final String TAG = "HotelsTestingUtils";
 	private static final int CITY_SUGGESTION_MAX_WAIT = 10;
+	private static final int SEARCH_RESULTS_MAX_WAIT = 10;
+	private static final int ROOMS_AND_RATES_MAX_WAIT = 10;
+	private static final int VIEW_IS_VISIBLE = 0;
+
+
+	public static void waitForElement(Solo solo, int rfileid, String logDescription ) {
+		View v = solo.getView(rfileid);
+		int visibility = -1;
+		for (int i=0; i < 15; i++ ){
+			visibility = v.getVisibility();
+			if (visibility == VIEW_IS_VISIBLE) {
+				Log.d(TAG, logDescription + " is visible, sleeping");
+				solo.sleep(1000);
+			} else {
+				Log.d(TAG, logDescription + " is gone, moving on");
+				break;
+			}
+		}
+	}
+	
+	public static void waitForSearchResultsSpinner(Solo solo) {
+		waitForElement(solo, R.id.search_progress_bar, "search progress spinner");
+	}
+	
+	public static void waitForProgressBar(Solo solo) {
+		waitForElement(solo, R.id.progress_bar, "progress bar");
+	}
+
 	
 	public static void waitForListViewHelper(Solo solo, int listViewid) {
 		Field[] fa = R.id.class.getFields(); 
@@ -60,8 +90,9 @@ public class HotelsTestingUtils {
 
 	public static void selectHotel(Solo solo) {
 		Log.d(TAG, "selectHotel()");
-		solo.clickInList(0);
-		solo.clickOnView(solo.getView(R.id.menu_select_hotel));	}
+		solo.clickInList(2);
+		solo.clickOnView(solo.getView(R.id.menu_select_hotel));
+	}
 
 	public static void selectRoom(Solo solo) {
 		Log.d(TAG, "selectRoom()");

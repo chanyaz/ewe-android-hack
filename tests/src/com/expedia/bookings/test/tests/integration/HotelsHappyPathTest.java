@@ -1,8 +1,8 @@
 package com.expedia.bookings.test.tests.integration;
 
 import java.lang.reflect.Field;
-import java.util.concurrent.TimeoutException;
 
+import android.opengl.GLSurfaceView;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
@@ -35,11 +35,7 @@ public class HotelsHappyPathTest extends ActivityInstrumentationTestCase2<Search
 		mExpediaBookingsRfileFields = R.id.class.getFields();
 		testRanThroughCompletion = false;
 		Log.d(TAG, "################### BEGIN TEST ######################");
-		//Db.clear() doesn't seem to do anything
-		//Log.d(TAG, "clearing history with Db.clear()");
-		//com.expedia.bookings.data.Db.clear();
 	}
-
 
 	public void testBooking() throws Exception {
 		Log.d(TAG, "testBooking()");
@@ -49,51 +45,46 @@ public class HotelsHappyPathTest extends ActivityInstrumentationTestCase2<Search
 		reservationDate = new Time("2013-01-15");
 		city = "Miami";
 		
-		try {
-			//hotel name to assert at each page
-			String mHotelName;
+		//hotel name to assert at each page
+		String mHotelName;
 
-			//one-time setup + prep
-			Log.d(TAG, "environment configured as: " + environment);
-			//RobotiumWorkflowUtils.setEnvironment(solo, environment);
-			//RobotiumWorkflowUtils.clearMenu(solo);
+		//one-time setup + prep
+		Log.d(TAG, "environment configured as: " + environment);
+		RobotiumWorkflowUtils.setEnvironment(solo, environment);
+		RobotiumWorkflowUtils.clearMenu(solo);
 
-			//city
-			HotelsTestingUtils.selectCity(solo, city);
-			
-			//calendar
-			HotelsTestingUtils.setCalendar(solo, reservationDate);
+		solo.clickOnText("Hotel");
+		
+		//city
+		HotelsTestingUtils.selectCity(solo, city);
 
+		//calendar
+		HotelsTestingUtils.setCalendar(solo, reservationDate);
 
-			//let it all stabilize
-			RobotiumWorkflowUtils.waitForListViewToPopulate(solo, mExpediaBookingsRfileFields);
+		HotelsTestingUtils.waitForSearchResultsSpinner(solo);
 
-			//hotel name
-			HotelsTestingUtils.selectHotel(solo);
-			mHotelName = HotelsTestingUtils.getHotelName(solo);
-			RobotiumWorkflowUtils.waitForListViewToPopulate(solo, mExpediaBookingsRfileFields);
-			
-			//hotel room
-			HotelsTestingUtils.selectRoom(solo);
-			assertEquals(mHotelName, HotelsTestingUtils.getHotelName(solo));
+		//hotel name
+		HotelsTestingUtils.selectHotel(solo);
+		mHotelName = HotelsTestingUtils.getHotelName(solo);
+		
+		
+		//hotel room
+		HotelsTestingUtils.waitForProgressBar(solo);
+		HotelsTestingUtils.selectRoom(solo);
+		assertEquals(mHotelName, HotelsTestingUtils.getHotelName(solo));
 
-			//book and check out
-			HotelsTestingUtils.enterBookingInfo(solo);
-			assertEquals(mHotelName, HotelsTestingUtils.getHotelName(solo));
-			HotelsTestingUtils.completeBooking(solo, environment);
-			//assertEquals(mHotelName, getHotelName());
+		//book and check out
+		HotelsTestingUtils.enterBookingInfo(solo);
+		assertEquals(mHotelName, HotelsTestingUtils.getHotelName(solo));
+		HotelsTestingUtils.completeBooking(solo, environment);
+		assertEquals(mHotelName, HotelsTestingUtils.getHotelName(solo));
 
-			//return to first page 
-			HotelsTestingUtils.leaveConfirmationPage(solo, environment);
+		//return to first page 
+		HotelsTestingUtils.leaveConfirmationPage(solo, environment);
 
-			//this is the final method of the test; set completion flag
-			testRanThroughCompletion = true;
+		//this is the final method of the test; set completion flag
+		testRanThroughCompletion = true;
 
-		} catch ( TimeoutException e ) {
-			Log.d(TAG, "testBooking() --> caught TimeoutException: " + e.getMessage());
-			Log.d(TAG, "testRanThroughCompletion: " + testRanThroughCompletion);
-			//tk.screenshot();
-		}
 	}
 
 
@@ -101,8 +92,7 @@ public class HotelsHappyPathTest extends ActivityInstrumentationTestCase2<Search
 	protected void tearDown() throws Exception {
 		Log.d(TAG, "in tearDown()");
 		Log.d(TAG, "testRanThrougCompletion: " + testRanThroughCompletion);
-
-		//assertTrue(testRanThroughCompletion);
+		assertTrue(testRanThroughCompletion);
 		Log.d(TAG, "sleeping");
 		solo.sleep(5000);
 		//Robotium will finish all the activities that have been opened
