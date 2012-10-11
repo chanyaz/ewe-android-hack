@@ -50,9 +50,13 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 	// Used for solving a timing issue with scrolling to the top
 	private boolean mScrollToTopOnResume;
 
+	private int mFlightListBlurHeight;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mFlightListBlurHeight = (int) getResources().getDimension(R.dimen.flight_list_blur_height);
 
 		if (savedInstanceState != null) {
 			mLegPosition = savedInstanceState.getInt(INSTANCE_LEG_POSITION);
@@ -275,20 +279,18 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 	// OnScrollListener
 
 	// Cached for faster processing
-	private int mNumFlightsTextViewTop = 0;
 	private int mNumFlightsTextViewBottom = 0;
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		if (view.getChildCount() > 0) {
 			if (firstVisibleItem == 0) {
-				if (mNumFlightsTextViewTop == 0) {
-					mNumFlightsTextViewTop = mNumFlightsTextView.getTop();
+				if (mNumFlightsTextViewBottom == 0) {
 					mNumFlightsTextViewBottom = mNumFlightsTextView.getBottom();
 				}
 
-				int padTop = view.getTop() + view.getChildAt(0).getTop();
-				mListener.onFadeRangeChange(mNumFlightsTextViewTop + padTop, mNumFlightsTextViewBottom + padTop);
+				int bottom = mNumFlightsTextViewBottom + view.getTop() + view.getChildAt(0).getTop();
+				mListener.onFadeRangeChange(bottom - mFlightListBlurHeight, bottom);
 			}
 			else {
 				mListener.onDisableFade();
