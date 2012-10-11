@@ -1404,7 +1404,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private final Download<List<Address>> mGeocodeDownload = new Download<List<Address>>() {
 		public List<Address> doDownload() {
-			return LocationServices.geocode(mContext, Db.getSearchParams().getQuery());
+			return LocationServices.geocodeGoogle(mContext, Db.getSearchParams().getQuery());
 		}
 	};
 
