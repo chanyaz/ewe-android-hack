@@ -478,7 +478,7 @@
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Retry</string>
     <!-- Button label for calling  -->
-    <string name="call_support">Call Customer Support</string>
+    <string name="call_support">Call Support</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_increased">It looks like the airline just rasied the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
