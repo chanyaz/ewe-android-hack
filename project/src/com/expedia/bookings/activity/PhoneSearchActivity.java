@@ -25,7 +25,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
@@ -45,7 +44,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
@@ -225,6 +223,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private View mDatesLayout;
 	private View mFocusLayout;
 	private View mGuestsLayout;
+	private View mRefinementDismissView;
 	private View mChildAgesLayout;
 	private View mSearchButton;
 
@@ -1127,6 +1126,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mGuestsButton = (ImageButton) mActionBarCustomView.findViewById(R.id.guests_button);
 		mGuestsTextView = (TextView) mActionBarCustomView.findViewById(R.id.guests_text_view);
 
+		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
 		mSearchButton = findViewById(R.id.search_button);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
@@ -1199,6 +1199,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		mClearSearchButton.setOnClickListener(mClearSearchButtonOnClickListener);
+
+		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
@@ -1723,6 +1725,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			mProgressBar.onResume();
 			mProgressBar.reset();
+			mRefinementDismissView.setVisibility(View.INVISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
@@ -1738,6 +1741,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			// populate it here just in case that happens.
 			startAutocomplete();
 
+			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
@@ -1755,6 +1759,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mDatesCalendarDatePicker.markAllCellsDirty();
 
 			mProgressBar.onPause();
+			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.VISIBLE);
 			mGuestsLayout.setVisibility(View.GONE);
@@ -1772,6 +1777,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			hideFilterOptions();
 
+			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.VISIBLE);
@@ -2482,6 +2488,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onClick(View v) {
 			startSearch();
+		}
+	};
+
+	private final View.OnClickListener mRefinementDismissViewClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			setDisplayType(DisplayType.NONE);
 		}
 	};
 
