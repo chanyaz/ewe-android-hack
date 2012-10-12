@@ -95,6 +95,15 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 
 				traveler.setSmokingPreferred(response.optBoolean("isSmokingPreferred"));
 
+				if (response.has("passports")) {
+					JSONArray passports = response.optJSONArray("passports");
+					int len = passports.length();
+					for (int a = 0; a < len; a++) {
+						JSONObject passport = passports.optJSONObject(a);
+						traveler.addPassportCountry(passport.optString("countryCode"));
+					}
+				}
+
 				JSONObject tsaDetails = response.optJSONObject("tsaDetails");
 				if (tsaDetails != null) {
 					String gender = tsaDetails.optString("gender", null);

@@ -440,6 +440,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
 		query.add(new BasicNameValuePair("staySignedIn", "true"));
+		query.add(new BasicNameValuePair("includeFullPaymentProfile", "true"));
 
 		addProfileTypes(query, flags);
 
@@ -594,9 +595,10 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
 
 		String assistanceOption;
-		if(traveler.getAssistance() != null){
+		if (traveler.getAssistance() != null) {
 			assistanceOption = traveler.getAssistance().name();
-		}else{
+		}
+		else {
 			assistanceOption = AssistanceType.NONE.name();
 		}
 		query.add(new BasicNameValuePair("specialAssistanceOption", assistanceOption));

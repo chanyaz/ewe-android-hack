@@ -39,7 +39,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private Gender mGender;
 	private Date mBirthDate;
 	private String mRedressNumber;
-	private String mPassportCountry;
+	private List<String> mPassportCountries;
 	private SeatPreference mSeatPreference = SeatPreference.ANY;
 	private AssistanceType mAssistance = AssistanceType.NONE;
 
@@ -177,8 +177,19 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mRedressNumber;
 	}
 
-	public String getPassportCountry() {
-		return mPassportCountry;
+	public boolean hasPassportCountry() {
+		return mPassportCountries != null && mPassportCountries.size() != 0;
+	}
+
+	public String getPrimaryPassportCountry() {
+		if (mPassportCountries == null || mPassportCountries.size() == 0) {
+			return null;
+		}
+		return mPassportCountries.get(0);
+	}
+
+	public List<String> getPassportCountries() {
+		return mPassportCountries;
 	}
 
 	public SeatPreference getSeatPreference() {
@@ -304,8 +315,22 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mRedressNumber = redressNumber;
 	}
 
-	public void setPassportCountry(String passportCountry) {
-		mPassportCountry = passportCountry;
+	public void setPrimaryPassportCountry(String passportCountry) {
+		if (mPassportCountries != null && mPassportCountries.size() > 0) {
+			mPassportCountries.remove(0);
+			mPassportCountries.add(0, passportCountry);
+		}
+		else {
+			addPassportCountry(passportCountry);
+		}
+	}
+
+	public void addPassportCountry(String passportCountry) {
+		if (mPassportCountries == null) {
+			mPassportCountries = new ArrayList<String>();
+		}
+
+		mPassportCountries.add(passportCountry);
 	}
 
 	public void setSeatPreference(SeatPreference pref) {
@@ -370,7 +395,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			JSONUtils.putEnum(obj, "gender", mGender);
 			JSONUtils.putJSONable(obj, "birthDate", mBirthDate);
 			obj.putOpt("redressNumber", mRedressNumber);
-			obj.putOpt("passportCountry", mPassportCountry);
+			JSONUtils.putStringList(obj, "passportCountries", mPassportCountries);
 			JSONUtils.putEnum(obj, "seatPreference", mSeatPreference);
 			JSONUtils.putEnum(obj, "assistance", mAssistance);
 
@@ -400,7 +425,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mGender = JSONUtils.getEnum(obj, "gender", Gender.class);
 		mBirthDate = JSONUtils.getJSONable(obj, "birthDate", Date.class);
 		mRedressNumber = obj.optString("redressNumber");
-		mPassportCountry = obj.optString("passportCountry");
+		mPassportCountries = JSONUtils.getStringList(obj, "passportCountries");
 		mSeatPreference = JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class);
 		mAssistance = JSONUtils.getEnum(obj, "assistance", AssistanceType.class);
 
@@ -424,7 +449,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	public int compareTo(Traveler another) {
 		final int BEFORE = -1;
 		final int EQUAL = 0;
-		//final int AFTER = 1;
+		final int AFTER = 1;
 
 		if (this == another) {
 			//same ref
@@ -489,9 +514,27 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 				|| (getRedressNumber() != null && getRedressNumber().compareTo(another.getRedressNumber()) != 0)) {
 			return getRedressNumber() == null ? BEFORE : getRedressNumber().compareTo(another.getRedressNumber());
 		}
-		if ((getPassportCountry() == null && another.getPassportCountry() != null)
-				|| (getPassportCountry() != null && getPassportCountry().compareTo(another.getPassportCountry()) != 0)) {
-			return getPassportCountry() == null ? BEFORE : getPassportCountry().compareTo(another.getPassportCountry());
+
+		if (((mPassportCountries == null) == (another.mPassportCountries == null))
+				|| (mPassportCountries != null && !mPassportCountries.equals(another.mPassportCountries))) {
+			if (mPassportCountries == null) {
+				return BEFORE;
+			}
+			else {
+				// Compare list length
+				int mySize = mPassportCountries.size();
+				if (mySize != another.mPassportCountries.size()) {
+					return mySize < another.mPassportCountries.size() ? BEFORE : AFTER;
+				}
+
+				// Compare each item
+				for (int a = 0; a < mySize; a++) {
+					int compared = mPassportCountries.get(a).compareTo(another.mPassportCountries.get(a));
+					if (compared != 0) {
+						return compared;
+					}
+				}
+			}
 		}
 
 		if ((getSeatPreference() == null && another.getSeatPreference() != null)

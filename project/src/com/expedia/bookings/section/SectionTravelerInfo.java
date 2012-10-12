@@ -247,7 +247,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			R.id.display_passport_country) {
 		@Override
 		public void onHasFieldAndData(TextView field, Traveler data) {
-			field.setText(TextUtils.isEmpty(data.getPassportCountry()) ? "" : data.getPassportCountry());
+			field.setText(TextUtils.isEmpty(data.getPrimaryPassportCountry()) ? "" : data.getPrimaryPassportCountry());
 		}
 	};
 
@@ -747,7 +747,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 					if (mCountryAdapter != null && getData() != null) {
-						getData().setPassportCountry(mCountryAdapter.getItem(pos).toString());
+						getData().setPrimaryPassportCountry(mCountryAdapter.getItem(pos).toString());
 					}
 					onChange(SectionTravelerInfo.this);
 				}
@@ -757,9 +757,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		@Override
 		protected void onHasFieldAndData(ListView field, Traveler data) {
-			if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPassportCountry())) {
+			if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
 				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-					if (mCountryAdapter.getItem(i).toString().equalsIgnoreCase(data.getPassportCountry())) {
+					if (mCountryAdapter.getItem(i).toString().equalsIgnoreCase(data.getPrimaryPassportCountry())) {
 						getField().setItemChecked(i, true);
 						getField().setSelection(i);
 						break;
@@ -772,7 +772,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					if (targetCountry.equalsIgnoreCase(mCountryAdapter.getItem(i).toString())) {
 						getField().setItemChecked(i, true);
 						getField().setSelection(i);
-						getData().setPassportCountry(mCountryAdapter.getItem(i).toString());
+						getData().setPrimaryPassportCountry(mCountryAdapter.getItem(i).toString());
 						break;
 					}
 				}
