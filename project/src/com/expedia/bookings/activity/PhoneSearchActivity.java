@@ -43,6 +43,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Surface;
@@ -1160,6 +1161,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				return false;
 			}
 		});
+
+		// Special case for HTC keyboards, which seem to ignore the android:inputType="textFilter|textNoSuggestions" xml flag
+		mSearchEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+				| InputType.TYPE_TEXT_VARIATION_FILTER);
 
 		// Setup popup
 		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
@@ -2341,6 +2346,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 			Cursor c = mSearchSuggestionAdapter.getCursor();
+			c.moveToPosition(position);
 
 			if (c.getString(AutocompleteProvider.COLUMN_TEXT_INDEX).equals(getString(R.string.current_location))) {
 				Db.getSearchParams().setSearchType(SearchType.MY_LOCATION);
