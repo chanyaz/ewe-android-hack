@@ -54,7 +54,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 
 		mDriver.selectLocation("New York City");
 
-		//mDriver.filterFor("Westin");
+		mDriver.filterFor("Hilton");
 		mDriver.pressSort();
 
 		mDriver.selectHotel(0);
