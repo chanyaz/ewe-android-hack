@@ -18,6 +18,7 @@
    	<dimen name="yoyo_navigation_padding_right">10dp</dimen>
    	<dimen name="flight_segment_margin">16dp</dimen>
    	<dimen name="cvv_keypad_text_size">24dp</dimen>
+   	<dimen name="cvv_keypad_book_text_size">16dp</dimen>
    	<dimen name="flight_list_blur_height">70dp</dimen>
 
    	<!-- We need to increase the margins because of the animation -->

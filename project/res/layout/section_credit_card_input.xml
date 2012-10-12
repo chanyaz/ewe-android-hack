@@ -89,7 +89,7 @@
             android:includeFontPadding="true"
             android:text="@string/book"
             android:textColor="@android:color/black"
-            android:textSize="18dp" />
+            android:textSize="@dimen/cvv_keypad_book_text_size" />
     </TableRow>
 
 </com.expedia.bookings.section.CreditCardInputSection>

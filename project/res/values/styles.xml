@@ -624,7 +624,6 @@
     <style name="CreditCardButton">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_margin">4.5dp</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">@dimen/cvv_keypad_text_size</item>
         <item name="android:textStyle">bold</item>
