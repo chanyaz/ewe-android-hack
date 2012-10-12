@@ -312,7 +312,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			else {
 				Traveler traveler = results.getTraveler();
 				if (traveler != null) {
-					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler);
+					Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
 					mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 					mCurrentTraveler.setSaveTravelerToExpediaAccount(true);//We default account travelers to save, unless the user alters the name
 					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
