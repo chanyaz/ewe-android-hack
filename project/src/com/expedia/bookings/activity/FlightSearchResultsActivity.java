@@ -11,11 +11,11 @@ import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -44,13 +44,9 @@ import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListen
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.NavigationButton;
-import com.expedia.bookings.widget.NavigationDropdownAdapter;
-import com.expedia.bookings.widget.NavigationDropdownAdapter.NoOpButton;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -94,7 +90,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private int mDeselectLegPos = -1;
 
 	// Action bar views
-	private NavigationButton mNavButton;
 	private ViewGroup mFlightSummaryContainer;
 	private TextView mTitleTextView;
 	private TextView mSubtitleTextView;
@@ -147,12 +142,14 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mCancelButton.setOnClickListener(mOnCancelClick);
 		mSelectFlightButton.setOnClickListener(mSelectFlightClick);
 
-		ActionBar ab = this.getSupportActionBar();
-		mNavButton = NavigationButton.createNewInstanceAndAttach(this, R.drawable.ic_action_bar_plane,
-				R.drawable.ic_action_bar_triangle, ab);
-		mNavButton.setDropdownAdapter(new NavigationDropdownAdapter(this, NoOpButton.FLIGHTS));
-		mNavButton.setCustomView(customView);
-		mNavButton.setTitle(R.string.searching);
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(customView);
+		actionBar.setTitle(R.string.searching);
+
+		// Need to do this, or else the custom view won't take up the entire space available
+		customView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
 		if (savedInstanceState == null) {
 			// On first launch, start a search
@@ -243,25 +240,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		// dismiss the custom dropdown on touch outside of its PopupWindow
-		if (ActionBarNavUtils.removePopupDropdownIfNecessaryOnTouch(ev, mNavButton)) {
-			return true;
-		}
-
-		return super.dispatchTouchEvent(ev);
-	}
-
-	@Override
 	public void onBackPressed() {
 		String name = getTopBackStackName();
 
-		// Note: the order of the if blocks matters here as the dismissing the dropdown should have the highest order of
-		// precedence on a back pressed and it should also consume the entire back event
-		if (ActionBarNavUtils.removePopupDropdownIfNecessaryOnBackPressed(mNavButton)) {
-			// block the back press as it was consumed by the presence and removal of the popup dropdown
-		}
-		else if (name == null || name.equals(BACKSTACK_LOADING) || name.equals(getFlightListBackStackName(0))) {
+		if (name == null || name.equals(BACKSTACK_LOADING) || name.equals(getFlightListBackStackName(0))) {
 			finish();
 		}
 		else {
@@ -305,8 +287,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		boolean areFlightDetailsShowing = areFlightDetailsShowing();
 		mFlightSummaryContainer.setVisibility(areFlightDetailsShowing ? View.GONE : View.VISIBLE);
 		mFlightDetailsActionContainer.setVisibility(areFlightDetailsShowing ? View.VISIBLE : View.GONE);
-		mNavButton.setDisplayShowHomeEnabled(!areFlightDetailsShowing);
-		mNavButton.setDisplayShowCustomEnabled(!isSearching);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowHomeEnabled(!areFlightDetailsShowing);
+		actionBar.setDisplayShowCustomEnabled(!isSearching);
+		actionBar.setDisplayShowTitleEnabled(isSearching);
 		for (int a = 0; a < menu.size(); a++) {
 			menu.getItem(a).setVisible(!areFlightDetailsShowing);
 		}
