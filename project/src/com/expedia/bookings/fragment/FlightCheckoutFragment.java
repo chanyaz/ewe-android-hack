@@ -523,15 +523,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		@Override
 		public void onDownload(SignInResponse results) {
 			if (results == null || results.hasErrors()) {
-				// TODO: Figure out how to properly handle an error refresh
-				//
-				// Currently, the app just forces you to log in again.  But I'm not
-				// convinced that's the best solution for now, especially since
-				// you can get a lot of errors on integration while trying to
-				// re-sign in.
-
-				mAccountButton.error();
-				//onLoginFailed();
+				//The refresh failed, so we just log them out. They can always try to login again.
+				accountLogoutClicked();
 			}
 			else {
 				// Update our existing saved data
