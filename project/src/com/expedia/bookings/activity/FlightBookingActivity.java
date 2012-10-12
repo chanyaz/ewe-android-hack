@@ -308,7 +308,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		}
 
 		// At this point, we haven't handled the error - use a generic response
-		DialogFragment df = UnhandledErrorDialogFragment.newInstance("NEED FROM API");
+		DialogFragment df = UnhandledErrorDialogFragment.newInstance(Db.getFlightSearch().getSelectedFlightTrip()
+				.getItineraryNumber());
 		df.show(getSupportFragmentManager(), "unhandledErrorDialog");
 	}
 

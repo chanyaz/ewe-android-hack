@@ -489,8 +489,8 @@
     <string name="error_expired_payment">The credit card you tried to use has expired, please use a different credit card.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Sorry, we don\’t seem to be able to process your order right now. Please try again.</string>
-    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is a special number users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\’t seem to be able to process your order right now. Please try again or call Expedia Customer Support and quote this number: %s</string>
+    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\’t seem to be able to process your order right now. Please try again or call Expedia Customer Support and quote this itinerary number: %s</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
