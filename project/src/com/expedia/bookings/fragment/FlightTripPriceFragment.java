@@ -59,10 +59,11 @@ public class FlightTripPriceFragment extends Fragment {
 	}
 	
 	public void hidePriceChange(){
+		mPriceChangedTv.setText("");
 		mPriceChangeContainer.setVisibility(View.GONE);
 	}
 	public void showPriceChange(){
-		if(mTrip != null && mTrip.notifyPriceChanged()){
+		if(mTrip != null && mTrip.notifyPriceChanged() && !TextUtils.isEmpty(mPriceChangeString)){
 			mPriceChangedTv.setText(mPriceChangeString);
 			mPriceChangeContainer.setVisibility(View.VISIBLE);
 		}
@@ -76,7 +77,6 @@ public class FlightTripPriceFragment extends Fragment {
 		mTripSection = Ui.findView(mFragmentContent, R.id.price_section);
 		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
 			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
-			mTripSection.bind(mTrip);
 		}
 
 		mPriceChangeContainer = Ui.findView(mFragmentContent, R.id.price_change_notification_container);
@@ -117,6 +117,11 @@ public class FlightTripPriceFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
+		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
+			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
+			mTripSection.bind(mTrip);
+		}
+		
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_DETAILS)) {
 			bd.registerDownloadCallback(KEY_DETAILS, mFlightDetailsCallback);
@@ -186,7 +191,10 @@ public class FlightTripPriceFragment extends Fragment {
 				if (mTrip.notifyPriceChanged()) {
 					String priceChangeTemplate = getResources().getString(R.string.price_changed_from_TEMPLATE);
 					mPriceChangeString = String.format(priceChangeTemplate, originalPrice.getFormattedMoney());
-					showPriceChange();
+					showPriceChange(); 
+				}else{
+					mPriceChangeString = null;
+					hidePriceChange();
 				}
 			}
 		}
