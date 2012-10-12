@@ -1244,6 +1244,8 @@
     <string name="Follow">Follow</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">Like</string>
+    <!-- Credits to the open source libraries we use -->
+    <string name="open_source_credits">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

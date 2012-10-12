@@ -77,6 +77,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="10dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:text="@string/open_source_credits"
+                android:textColor="#232323" />
         </LinearLayout>
     </ScrollView>
 
