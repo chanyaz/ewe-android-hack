@@ -94,21 +94,12 @@
 
             <!-- Hotel overview -->
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="14dp" >
-
-                <TextView
-                    android:id="@+id/name_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxWidth="240dp"
-                    android:paddingRight="6dp"
-                    android:textColor="#333333"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
 
                 <RatingBar
                     android:id="@+id/hotel_rating_bar"
@@ -116,10 +107,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
                     android:isIndicator="true"
                     android:numStars="5"
                     android:stepSize=".5" />
-            </LinearLayout>
+                
+                <TextView
+                    android:id="@+id/name_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/hotel_rating_bar"
+                    android:maxWidth="240dp"
+                    android:paddingRight="6dp"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/address1_text_view"

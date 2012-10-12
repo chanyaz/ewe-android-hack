@@ -110,27 +110,15 @@ public class ConfirmationReceiptFragment extends Fragment {
 		mMapView.setEnabled(false);
 	}
 
-	private void configureRatingsSection(final ViewGroup container) {
-		// Post this as a runnable because we need to know the view widths
-		container.post(new Runnable() {
-			@Override
-			public void run() {
-				// Ratings
-				RatingBar hotelRating = (RatingBar) container.findViewById(R.id.hotel_rating_bar);
-				if (hotelRating != null) {
-					hotelRating.setRating((float) Db.getSelectedProperty().getHotelRating());
-
-					View parent = (View) hotelRating.getParent();
-					TextView name = Ui.findView(container, R.id.name_text_view);
-					int margins = (int)(10f * getResources().getDisplayMetrics().density);
-
-					name.setMaxWidth(parent.getWidth() - hotelRating.getWidth() - margins);
-				}
-				RatingBar userRating = (RatingBar) container.findViewById(R.id.user_rating_bar);
-				if (userRating != null) {
-					userRating.setRating((float) Db.getSelectedProperty().getAverageExpediaRating());
-				}
-			}
-		});
+	private void configureRatingsSection(ViewGroup container) {
+		// Ratings
+		RatingBar hotelRating = (RatingBar) container.findViewById(R.id.hotel_rating_bar);
+		if (hotelRating != null) {
+			hotelRating.setRating((float) Db.getSelectedProperty().getHotelRating());
+		}
+		RatingBar userRating = (RatingBar) container.findViewById(R.id.user_rating_bar);
+		if (userRating != null) {
+			userRating.setRating((float) Db.getSelectedProperty().getAverageExpediaRating());
+		}
 	}
 }
