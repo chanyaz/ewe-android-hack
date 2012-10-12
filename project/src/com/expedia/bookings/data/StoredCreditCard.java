@@ -7,6 +7,8 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
 public class StoredCreditCard implements JSONable {
+
+	private String mType;
 	private String mDescription;
 	private String mRemoteId;
 
@@ -16,6 +18,10 @@ public class StoredCreditCard implements JSONable {
 
 	public StoredCreditCard(JSONObject obj) {
 		this.fromJson(obj);
+	}
+
+	public String getType() {
+		return mType;
 	}
 
 	public String getId() {
@@ -31,6 +37,7 @@ public class StoredCreditCard implements JSONable {
 		JSONObject obj = new JSONObject();
 
 		try {
+			obj.putOpt("creditCardType", mType);
 			obj.putOpt("description", mDescription);
 			obj.putOpt("paymentsInstrumentsId", mRemoteId);
 			return obj;
@@ -43,6 +50,7 @@ public class StoredCreditCard implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
+		mType = obj.optString("creditCardType", null);
 		mDescription = obj.optString("description", null);
 		mRemoteId = obj.optString("paymentsInstrumentsId", null);
 		return true;
