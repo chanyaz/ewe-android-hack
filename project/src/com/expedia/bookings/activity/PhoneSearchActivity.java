@@ -443,6 +443,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		if (startNewSearch) {
 			Db.clear();
 			saveParams();
+			// Remove it so we don't keep doing this on rotation
+			getIntent().removeExtra(Codes.EXTRA_NEW_SEARCH);
 		}
 
 		boolean toBroadcastSearchCompleted = false;
@@ -534,15 +536,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(mContext));
 		mHockeyPuck.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-
-		if (intent.getBooleanExtra(Codes.EXTRA_NEW_SEARCH, false)) {
-			mStartSearchOnResume = true;
-		}
 	}
 
 	@Override
