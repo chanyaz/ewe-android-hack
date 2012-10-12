@@ -1797,6 +1797,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
+			mRefinementDismissView.setVisibility(View.INVISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
