@@ -49,6 +49,7 @@ import android.view.Surface;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -201,6 +202,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// VIEWS
 	//----------------------------------
 
+	private ViewTreeObserver mViewTreeObserver;
+
 	private CalendarDatePicker mDatesCalendarDatePicker;
 	private AutoCompleteTextView mSearchEditText;
 	private ImageView mClearSearchButton;
@@ -230,6 +233,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private View mFilterLayout;
 	private View mFilterFocusLayout;
 	private PopupWindow mFilterPopupWindow;
+	private PopupWindowPreDrawListener mPopupWindowPreDrawLisetner;
 
 	private View mActionBarCustomView;
 
@@ -2002,8 +2006,20 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				// Get anchor view and horizontal offset
 				View anchor = findViewById(R.id.menu_select_filter);
 				if (anchor != null) {
+					// Really hacky solution to a bug in <2.3 devices, where the ViewTreeObserver doesn't
+					// call onScrollChanged when the screen is resized. Instead we must listen for
+					// onPreDraw and manually re-anchor the PopupWindow to the correct view. For this we
+					// use a private class that implements the listener, and holds the anchor view and
+					// the width and height. We add the listener when the PopupWindow is show, and remove
+					// it on dismissal of the PopupWindow.
+
 					anchor = (View) anchor.getParent();
 					offsetX = (anchor.getWidth() - width) / 2;
+
+					mViewTreeObserver = anchor.getViewTreeObserver();
+					mPopupWindowPreDrawLisetner = new PopupWindowPreDrawListener(anchor, width, height);
+
+					mViewTreeObserver.addOnPreDrawListener(mPopupWindowPreDrawLisetner);
 				}
 				else {
 					anchor = findViewById(R.id.menu_select_change_view);
@@ -2501,6 +2517,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private final OnDismissListener mFilterPopupOnDismissListener = new OnDismissListener() {
 		@Override
 		public void onDismiss() {
+			if (mViewTreeObserver != null) {
+				mViewTreeObserver.removeOnPreDrawListener(mPopupWindowPreDrawLisetner);
+			}
+
 			onFilterClosed();
 			setDisplayType(DisplayType.NONE);
 
@@ -2893,4 +2913,22 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			return mContext.getResources().getQuantityString(R.plurals.number_of_children, value, value);
 		}
 	};
+
+	private class PopupWindowPreDrawListener implements ViewTreeObserver.OnPreDrawListener {
+		public View mAnchor;
+		public int mWidth;
+		public int mHeight;
+
+		public PopupWindowPreDrawListener(View anchor, int width, int height) {
+			mAnchor = anchor;
+			mWidth = width;
+			mHeight = height;
+		}
+
+		@Override
+		public boolean onPreDraw() {
+			mFilterPopupWindow.update(mAnchor, mWidth, mHeight);
+			return true;
+		}
+	}
 }

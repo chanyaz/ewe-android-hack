@@ -42,7 +42,8 @@
         <activity
             android:name=".activity.PhoneSearchActivity"
             android:theme="@style/Theme.Phone"
-            android:uiOptions="splitActionBarWhenNarrow" />
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.SearchFragmentActivity"
             android:theme="@style/Theme.Tablet.NoActionBar"
