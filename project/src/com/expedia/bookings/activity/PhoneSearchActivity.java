@@ -2185,8 +2185,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
 				checkOut.get(Calendar.DAY_OF_MONTH));
 
-		mDatesCalendarDatePicker.updateStateCache();
-		mDatesCalendarDatePicker.markAllCellsDirty();
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		mGuestsLayout.post(new Runnable() {
