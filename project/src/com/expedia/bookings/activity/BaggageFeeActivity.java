@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.fragment.BaggageFeeFragment;
 import com.expedia.bookings.fragment.BaggageFeeFragment.BaggageFeeListener;
@@ -48,6 +50,10 @@ public class BaggageFeeActivity extends SherlockFragmentActivity implements Bagg
 			ft.commit();
 		}
 
+		//Actionbar
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
 	}
 
 	@Override
@@ -58,6 +64,17 @@ public class BaggageFeeActivity extends SherlockFragmentActivity implements Bagg
 	@Override
 	public void setLoading(boolean loading) {
 		getSherlock().setProgressBarIndeterminateVisibility(loading);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 }

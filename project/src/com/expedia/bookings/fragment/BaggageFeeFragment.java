@@ -24,7 +24,11 @@ public class BaggageFeeFragment extends Fragment {
 	public static final String TAG_DESTINATION = "TAG_DESTINATION";
 	public static final String ARG_LEG_POSITION = "ARG_LEG_POSITION";
 
-	BaggageFeeListener mListener;
+	public static final String INSTANCE_LOADED = "INSTANCE_LOADED";
+
+	private BaggageFeeListener mListener;
+	private WebView mWebView;
+	private boolean mWebViewLoaded = false;
 
 	public static BaggageFeeFragment newInstance(String origin, String destination, int legPosition) {
 		BaggageFeeFragment fragment = new BaggageFeeFragment();
@@ -44,9 +48,8 @@ public class BaggageFeeFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		WebView webview = new WebView(getActivity());
-
-		webview.getSettings().setJavaScriptEnabled(true);
+		mWebView = new WebView(getActivity());
+		mWebView.getSettings().setJavaScriptEnabled(true);
 
 		String origin = "";
 		String destination = "";
@@ -61,7 +64,7 @@ public class BaggageFeeFragment extends Fragment {
 			mListener.exit();
 		}
 
-		webview.setWebViewClient(new WebViewClient() {
+		mWebView.setWebViewClient(new WebViewClient() {
 
 			private boolean mLoaded = false;
 
@@ -75,6 +78,7 @@ public class BaggageFeeFragment extends Fragment {
 			public void onPageFinished(WebView webview, String url)
 			{
 				//Stop progress spinner
+				mWebViewLoaded = true;
 				mListener.setLoading(false);
 
 				//We insert javascript to remove the signin button
@@ -99,15 +103,20 @@ public class BaggageFeeFragment extends Fragment {
 			}
 		});
 
-		//TODO:We need to set the correct url based on Point of Sale
-		String urlFormat = "http://www.expedia.com/Flights-BagFees?originapt=%s&destinationapt=%s";
-		String url = String.format(urlFormat, origin, destination);
-		Log.i("Loading url: " + url);
-		mListener.setLoading(true);
+		
+		if (savedInstanceState != null && savedInstanceState.getBoolean(INSTANCE_LOADED, false)) {
+			mWebView.restoreState(savedInstanceState);
+		}
+		else {
+			//TODO:We need to set the correct url based on Point of Sale
+			String urlFormat = "http://www.expedia.com/Flights-BagFees?originapt=%s&destinationapt=%s";
+			String url = String.format(urlFormat, origin, destination);
+			Log.i("Loading url: " + url);
+			mListener.setLoading(true);
+			mWebView.loadUrl(url);
+		}
 
-		webview.loadUrl(url);
-
-		return webview;
+		return mWebView;
 	}
 
 	@Override
@@ -126,5 +135,14 @@ public class BaggageFeeFragment extends Fragment {
 		public void exit();
 
 		public void setLoading(boolean loading);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle out) {
+		super.onSaveInstanceState(out);
+		if (mWebView != null) {
+			out.putBoolean(INSTANCE_LOADED, this.mWebViewLoaded);
+			mWebView.saveState(out);
+		}
 	}
 }
