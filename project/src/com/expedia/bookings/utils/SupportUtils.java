@@ -46,8 +46,6 @@ public class SupportUtils {
 		// that it will eventually return a much more dynamic result someday
 		// in the future (much like the hotels side of the app).  Thus
 		// this preparatory function.
-
-		// TODO: Insert real # once we get it.
-		return "867-5309";
+		return "1-877-222-6503";
 	}
 }
