@@ -1974,6 +1974,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mContent.post(new Runnable() {
 			@Override
 			public void run() {
+				mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+
 				int width = mFilterLayout.getMeasuredWidth();
 				int height = mFilterLayout.getMeasuredHeight();
 				int offsetX = 0;
@@ -2001,7 +2003,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					anchor = findViewById(R.id.menu_select_change_view);
 				}
 
-				mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 				mFilterPopupWindow.showAsDropDown(anchor, offsetX, offsetY);
 				mFilterPopupWindow.update(width, height);
 			}
