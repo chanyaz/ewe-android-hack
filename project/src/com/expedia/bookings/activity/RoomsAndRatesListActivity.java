@@ -130,7 +130,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	protected void onStart() {
 		super.onStart();
 
-		if (mWasStopped) {
+		if (mWasStopped && Db.getSelectedProperty() != null) {
 			Tracker.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), null);
 			mWasStopped = false;
 		}
