@@ -160,7 +160,9 @@ public class LaunchFragment extends Fragment implements LocationListener {
 	private final BackgroundDownloader.OnDownloadComplete<SearchResponse> mSearchCallback = new BackgroundDownloader.OnDownloadComplete<SearchResponse>() {
 		@Override
 		public void onDownload(SearchResponse searchResponse) {
-			Log.d("Search complete: " + searchResponse.getPropertiesCount());
+			if (searchResponse != null) {
+				Log.d("Search complete: " + searchResponse.getPropertiesCount());
+			}
 
 			Db.setLaunchHotelSearchResponse(searchResponse);
 
