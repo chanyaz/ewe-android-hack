@@ -24,7 +24,9 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -47,9 +49,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.MeasureSpec;
-import android.view.ViewStub;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -69,7 +70,6 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentMapActivity;
@@ -226,7 +226,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private View mFocusLayout;
 	private View mGuestsLayout;
 	private View mChildAgesLayout;
-	private View mRefinementDismissView;
 	private View mSearchButton;
 
 	private View mFilterLayout;
@@ -1128,7 +1127,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mGuestsButton = (ImageButton) mActionBarCustomView.findViewById(R.id.guests_button);
 		mGuestsTextView = (TextView) mActionBarCustomView.findViewById(R.id.guests_text_view);
 
-		mRefinementDismissView = findViewById(R.id.refinement_dismiss_view);
 		mSearchButton = findViewById(R.id.search_button);
 
 		mDatesLayout = findViewById(R.id.dates_layout);
@@ -1170,7 +1168,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(),
 				mFilterLayout.getMeasuredHeight(), true);
-		mFilterPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
+		mFilterPopupWindow.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.abs__menu_dropdown_panel_holo_dark));
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
 		mFilterPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
 
@@ -1200,8 +1199,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		mClearSearchButton.setOnClickListener(mClearSearchButtonOnClickListener);
-
-		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 
 		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
@@ -1726,7 +1723,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			mProgressBar.onResume();
 			mProgressBar.reset();
-			mRefinementDismissView.setVisibility(View.INVISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
@@ -1742,7 +1738,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			// populate it here just in case that happens.
 			startAutocomplete();
 
-			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
@@ -1760,7 +1755,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mDatesCalendarDatePicker.markAllCellsDirty();
 
 			mProgressBar.onPause();
-			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.VISIBLE);
 			mGuestsLayout.setVisibility(View.GONE);
@@ -1778,7 +1772,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			hideFilterOptions();
 
-			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.VISIBLE);
@@ -1794,7 +1787,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
-			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
@@ -1982,9 +1974,36 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mContent.post(new Runnable() {
 			@Override
 			public void run() {
+				int width = mFilterLayout.getMeasuredWidth();
+				int height = mFilterLayout.getMeasuredHeight();
+				int offsetX = 0;
+				int offsetY = 0;
+
+				// Get vertical offset
+				Drawable background = mFilterPopupWindow.getBackground();
+				if (background != null) {
+					Rect padding = new Rect();
+					background.getPadding(padding);
+
+					width += padding.left + padding.right;
+					height += padding.top + padding.bottom;
+
+					offsetY = -padding.top;
+				}
+
+				// Get anchor view and horizontal offset
+				View anchor = findViewById(R.id.menu_select_filter);
+				if (anchor != null) {
+					anchor = (View) anchor.getParent();
+					offsetX = (anchor.getWidth() - width) / 2;
+				}
+				else {
+					anchor = findViewById(R.id.menu_select_change_view);
+				}
+
 				mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-				mFilterPopupWindow.showAtLocation(mRefinementDismissView, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, Math.round(73.0f * getResources().getDisplayMetrics().density));
-				mFilterPopupWindow.update(mFilterLayout.getMeasuredWidth(), mFilterLayout.getMeasuredHeight());
+				mFilterPopupWindow.showAsDropDown(anchor, offsetX, offsetY);
+				mFilterPopupWindow.update(width, height);
 			}
 		});
 
@@ -2087,7 +2106,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			text = StrUtils.formatGuests(this, numAdults, numChildren);
 
 			int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-			final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE : View.INVISIBLE;
+			final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE
+					: View.INVISIBLE;
 			mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
 					numChildren));
@@ -2461,39 +2481,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onClick(View v) {
 			startSearch();
-		}
-	};
-
-	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			SearchParams searchParams = Db.getSearchParams();
-			searchParams.clearQuery();
-
-			if (mHotelMapFragment != null) {
-				GeoPoint center = mHotelMapFragment.getCenter();
-				searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
-
-				double lat = MapUtils.getLatitude(center);
-				double lng = MapUtils.getLongitude(center);
-				searchParams.setSearchLatLon(lat, lng);
-				setShowDistance(true);
-				startSearch();
-			}
-		}
-	};
-
-	private final View.OnClickListener mRefinementDismissViewClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			setDisplayType(DisplayType.NONE);
-		}
-	};
-
-	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			switchResultsView();
 		}
 	};
 

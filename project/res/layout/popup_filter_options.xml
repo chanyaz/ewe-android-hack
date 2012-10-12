@@ -4,7 +4,6 @@
     android:id="@+id/popup_filter_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_popup_dark"
     android:orientation="vertical" >
 
     <LinearLayout
