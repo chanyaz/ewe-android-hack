@@ -21,10 +21,17 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 
 	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType) {
 		super(context, R.layout.simple_spinner_item);
+		init(context, displayType, R.layout.simple_spinner_dropdown_item);
+	}
 
+	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int resource) {
+		super(context, resource);
+		init(context, displayType, resource);
+	}
+
+	private void init(Context context, CountryDisplayType displayType, int dropDownResId) {
 		mContext = context;
-
-		setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+		setDropDownViewResource(dropDownResId);
 		setDisplayType(displayType, context);
 	}
 
@@ -59,10 +66,19 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 	public String getItemValue(int position, CountryDisplayType displayType) {
 		return mCountries[position].getValue(displayType);
 	}
-	
-	public int getPositionByCountryName(String countryName){
-		for(int i = 0; i < mCountries.length; i++){
-			if(mCountries[i].mName.compareToIgnoreCase(countryName) == 0){
+
+	public int getPositionByCountryName(String countryName) {
+		for (int i = 0; i < mCountries.length; i++) {
+			if (mCountries[i].mName.compareToIgnoreCase(countryName) == 0) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public int getPositionByCountryThreeLetterCode(String countryCode) {
+		for (int i = 0; i < mCountries.length; i++) {
+			if (mCountries[i].mThreeLetter.compareToIgnoreCase(countryCode) == 0) {
 				return i;
 			}
 		}

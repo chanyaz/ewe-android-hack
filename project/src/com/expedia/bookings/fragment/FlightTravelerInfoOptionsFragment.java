@@ -322,7 +322,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 							mListener.displayCheckout();
 						}
 						else {
-							if (state.allTravelerInfoIsValidForInternationalFlight(mCurrentTraveler)) {
+							//Because we know we have valid domestic flight, we only need to check the third screen
+							if (state.hasValidTravelerPartThree(mCurrentTraveler)) {
 								mListener.displayCheckout();
 							}
 							else {

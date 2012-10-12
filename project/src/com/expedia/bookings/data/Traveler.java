@@ -317,8 +317,22 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setPrimaryPassportCountry(String passportCountry) {
 		if (mPassportCountries != null && mPassportCountries.size() > 0) {
-			mPassportCountries.remove(0);
-			mPassportCountries.add(0, passportCountry);
+			boolean countryFound = false;
+
+			//See if the country is already in the list, if so set it as primary and move old primary
+			for (int i = 0; i < mPassportCountries.size(); i++) {
+				if (passportCountry.compareToIgnoreCase(mPassportCountries.get(i)) == 0) {
+					mPassportCountries.set(i, mPassportCountries.get(0));
+					mPassportCountries.set(0, passportCountry);
+					countryFound = true;
+					break;
+				}
+			}
+
+			//It wasn't in the list, so we just add it to the front making it the first one.
+			if (!countryFound) {
+				mPassportCountries.add(0, passportCountry);
+			}
 		}
 		else {
 			addPassportCountry(passportCountry);

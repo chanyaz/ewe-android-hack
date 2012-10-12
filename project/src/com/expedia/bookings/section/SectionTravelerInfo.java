@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -33,6 +32,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
@@ -247,7 +247,20 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			R.id.display_passport_country) {
 		@Override
 		public void onHasFieldAndData(TextView field, Traveler data) {
-			field.setText(TextUtils.isEmpty(data.getPrimaryPassportCountry()) ? "" : data.getPrimaryPassportCountry());
+			if (TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
+				field.setText("");
+			}
+			else {
+				//TODO: Slow but it already has all the data we need... sigh...
+				CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(getContext(), CountryDisplayType.FULL_NAME);
+				int pos = adapter.getPositionByCountryThreeLetterCode(data.getPrimaryPassportCountry());
+				if (pos > 0) {
+					field.setText(adapter.getItemValue(pos, CountryDisplayType.FULL_NAME));
+				}
+				else {
+					field.setText("");
+				}
+			}
 		}
 	};
 
@@ -709,12 +722,16 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	SectionFieldEditable<ListView, Traveler> mEditPassportCountryListView = new SectionFieldEditable<ListView, Traveler>(
 			R.id.edit_passport_country_listview) {
 
-		ArrayAdapter<CharSequence> mCountryAdapter;
+		CountrySpinnerAdapter mCountryAdapter;
 
 		Validator<ListView> mValidator = new Validator<ListView>() {
 			@Override
 			public int validate(ListView obj) {
 				if (obj.getCheckedItemPosition() != ListView.INVALID_POSITION) {
+					return ValidationError.NO_ERROR;
+				}
+				else if (getData() != null && getData().getPrimaryPassportCountry() != null) {
+					//referring to data instead of gui elements sort of breaks our paradigm, but meh
 					return ValidationError.NO_ERROR;
 				}
 				else {
@@ -732,7 +749,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onFieldBind() {
 			super.onFieldBind();
 
-			mCountryAdapter = ArrayAdapter.createFromResource(mContext, R.array.country_names,
+			mCountryAdapter = new CountrySpinnerAdapter(mContext, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
 					android.R.layout.simple_list_item_single_choice);
 
 			if (hasBoundField()) {
@@ -747,7 +764,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 					if (mCountryAdapter != null && getData() != null) {
-						getData().setPrimaryPassportCountry(mCountryAdapter.getItem(pos).toString());
+						getData().setPrimaryPassportCountry(
+								mCountryAdapter.getItemValue(pos, CountryDisplayType.THREE_LETTER));
 					}
 					onChange(SectionTravelerInfo.this);
 				}
@@ -759,7 +777,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onHasFieldAndData(ListView field, Traveler data) {
 			if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
 				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-					if (mCountryAdapter.getItem(i).toString().equalsIgnoreCase(data.getPrimaryPassportCountry())) {
+					if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
+							data.getPrimaryPassportCountry())) {
 						getField().setItemChecked(i, true);
 						getField().setSelection(i);
 						break;
@@ -767,15 +786,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			}
 			else if (mAutoChoosePassportCountry) {
-				final String targetCountry = mContext.getString(LocaleUtils.getDefaultCountryResId(mContext));
-				for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-					if (targetCountry.equalsIgnoreCase(mCountryAdapter.getItem(i).toString())) {
-						getField().setItemChecked(i, true);
-						getField().setSelection(i);
-						getData().setPrimaryPassportCountry(mCountryAdapter.getItem(i).toString());
-						break;
-					}
-				}
+				int pos = mCountryAdapter.getDefaultLocalePosition();
+				getField().setItemChecked(pos, true);
+				getField().setSelection(pos);
+				getData().setPrimaryPassportCountry(mCountryAdapter.getItemValue(pos, CountryDisplayType.THREE_LETTER));
 			}
 		}
 
