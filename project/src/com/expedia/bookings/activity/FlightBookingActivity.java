@@ -103,6 +103,14 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			ft.commit();
+
+			// If the debug setting is made to fake a price change, then fake the current price 
+			if (!AndroidUtils.isRelease(mContext)) {
+				String val = SettingUtils.get(mContext,
+						getString(R.string.preference_flight_fake_price_change),
+						getString(R.string.preference_flight_fake_price_change_default));
+				Db.getFlightSearch().getSelectedFlightTrip().getTotalFare().add(new BigDecimal(val));
+			}
 		}
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -219,14 +227,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 			Itinerary itinerary = Db.getItinerary(trip.getItineraryNumber());
-
-			// If the debug setting is made to fake a price change, then fake the current price 
-			if (!AndroidUtils.isRelease(mContext)) {
-				String val = SettingUtils.get(mContext,
-						getString(R.string.preference_flight_fake_price_change),
-						getString(R.string.preference_flight_fake_price_change_default));
-				trip.getTotalFare().add(new BigDecimal(val));
-			}
 
 			return services.flightCheckout(trip, itinerary, billingInfo, Db.getTravelers(), 0);
 		}

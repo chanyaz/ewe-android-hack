@@ -16,7 +16,7 @@
 
         <EditTextPreference
             android:defaultValue="@string/preference_flight_fake_price_change_default"
-            android:inputType="numberDecimal"
+            android:inputType="numberDecimal|numberSigned"
             android:key="@string/preference_flight_fake_price_change"
             android:summary="Fake a price change during a flight checkout (e.g., 10.25 for a $10.25 price change)"
             android:title="Fake Flight Price Change" />
