@@ -59,6 +59,7 @@ public class FlightTripPriceFragment extends Fragment {
 	}
 	
 	public void hidePriceChange(){
+		mPriceChangeString = null;
 		mPriceChangedTv.setText("");
 		mPriceChangeContainer.setVisibility(View.GONE);
 	}
@@ -193,7 +194,6 @@ public class FlightTripPriceFragment extends Fragment {
 					mPriceChangeString = String.format(priceChangeTemplate, originalPrice.getFormattedMoney());
 					showPriceChange(); 
 				}else{
-					mPriceChangeString = null;
 					hidePriceChange();
 				}
 			}
