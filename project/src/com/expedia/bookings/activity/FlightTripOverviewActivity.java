@@ -169,13 +169,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			gotoOverviewMode(false);
 		}
 	}
-
+	
 	@Override
-	public void onPause() {
+	public void onPause(){
 		super.onPause();
 
 		//In the case that we go back to the start of the app, we want the CC number to be cleared when we return
-		if (this.isFinishing()) {
+		if(this.isFinishing()){
 			clearCCNumber();
 		}
 	}
@@ -187,13 +187,12 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		out.putInt(STATE_TAG_STACKED_HEIGHT, mStackedHeight);
 		out.putInt(STATE_TAG_UNSTACKED_HEIGHT, mUnstackedHeight);
 	}
-
-	private void clearCCNumber() {
-		try {
+	
+	private void clearCCNumber(){
+		try{
 			Db.getBillingInfo().setNumber(null);
-		}
-		catch (Exception ex) {
-			Log.e("Error clearing billingInfo card number", ex);
+		}catch(Exception ex){
+			Log.e("Error clearing billingInfo card number",ex);
 		}
 	}
 
@@ -408,10 +407,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	public void gotoCheckoutMode(boolean animate) {
-		//TODO: We need an itinerary number to continue, and the user should never get to a point where they are allowed to
-		//click the checkout button without one, still if we somehow end up in that situation we should maybe display a dialog
-		if (!mTransitionHappening
-				&& !TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())) {
+		if (!mTransitionHappening) {
 
 			mDisplayMode = DisplayMode.CHECKOUT;
 			setActionBarCheckoutMode();

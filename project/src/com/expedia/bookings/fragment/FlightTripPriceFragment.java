@@ -5,14 +5,12 @@ import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.fragment.OverviewPriceChangeFailureDialogFragment.IPriceChangeFailureDialogListener;
 import com.expedia.bookings.section.SectionFlightTrip;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -28,17 +26,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class FlightTripPriceFragment extends Fragment implements IPriceChangeFailureDialogListener {
+public class FlightTripPriceFragment extends Fragment {
 
 	private static final String TAG_PRICE_BREAKDOWN_DIALOG = "TAG_PRICE_BREAKDOWN_DIALOG";
-	private static final String TAG_PRICE_CHECK_FAILURE_DIALOG = "TAG_PRICE_CHECK_FAILURE_DIALOG";
 	private static final String INSTANCE_REQUESTED_DETAILS = "INSTANCE_REQUESTED_DETAILS";
 	private static final String KEY_DETAILS = "KEY_DETAILS";
 	private static final String INSTANCE_PRICE_CHANGE = "INSTANCE_PRICE_CHANGE";
-	private static final String INSTANCE_SHOW_FAILURE_DIALOG = "INSTANCE_SHOW_FAILURE_DIALOG";
 
 	private boolean mRequestedDetails = false;
-	private boolean mShowingPriceCheckFailureDialog = false;
 	private String mPriceChangeString = "";
 	private FlightTrip mTrip;
 	private SectionFlightTrip mTripSection;
@@ -54,14 +49,29 @@ public class FlightTripPriceFragment extends Fragment implements IPriceChangeFai
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
 		if (savedInstanceState != null) {
 			mRequestedDetails = savedInstanceState.getBoolean(INSTANCE_REQUESTED_DETAILS, false);
 			mPriceChangeString = savedInstanceState.getString(INSTANCE_PRICE_CHANGE);
-			mShowingPriceCheckFailureDialog = savedInstanceState.getBoolean(INSTANCE_SHOW_FAILURE_DIALOG, false);
 		}
+	}
+	
+	public void hidePriceChange(){
+		mPriceChangeString = null;
+		mPriceChangedTv.setText("");
+		mPriceChangeContainer.setVisibility(View.GONE);
+	}
+	public void showPriceChange(){
+		if(mTrip != null && mTrip.notifyPriceChanged() && !TextUtils.isEmpty(mPriceChangeString)){
+			mPriceChangedTv.setText(mPriceChangeString);
+			mPriceChangeContainer.setVisibility(View.VISIBLE);
+		}
+	}
 
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mFragmentContent = inflater.inflate(R.layout.fragment_flight_price_bar,
 				container, false);
 
@@ -75,11 +85,15 @@ public class FlightTripPriceFragment extends Fragment implements IPriceChangeFai
 
 		// See if we have flight details we can use, first.
 		if (TextUtils.isEmpty(mTrip.getItineraryNumber())) {
-			if (mShowingPriceCheckFailureDialog) {
-				showPriceCheckFailureDialog();
-			}
-			else {
-				startPriceCheckDownload();
+
+			// Begin loading flight details in the background, if we haven't already
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (!bd.isDownloading(KEY_DETAILS) && !mRequestedDetails) {
+				// Show a loading dialog
+				LoadingDetailsDialogFragment df = new LoadingDetailsDialogFragment();
+				df.show(getFragmentManager(), LoadingDetailsDialogFragment.TAG);
+
+				bd.startDownload(KEY_DETAILS, mFlightDetailsDownload, mFlightDetailsCallback);
 			}
 		}
 
@@ -108,7 +122,7 @@ public class FlightTripPriceFragment extends Fragment implements IPriceChangeFai
 			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
 			mTripSection.bind(mTrip);
 		}
-
+		
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_DETAILS)) {
 			bd.registerDownloadCallback(KEY_DETAILS, mFlightDetailsCallback);
@@ -119,10 +133,6 @@ public class FlightTripPriceFragment extends Fragment implements IPriceChangeFai
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		if (mShowingPriceCheckFailureDialog) {
-			dismissPriceCheckFailureDialog(mShowingPriceCheckFailureDialog);
-		}
 
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(KEY_DETAILS);
@@ -137,20 +147,6 @@ public class FlightTripPriceFragment extends Fragment implements IPriceChangeFai
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(INSTANCE_REQUESTED_DETAILS, mRequestedDetails);
 		outState.putString(INSTANCE_PRICE_CHANGE, mPriceChangeString);
-		outState.putBoolean(INSTANCE_SHOW_FAILURE_DIALOG, mShowingPriceCheckFailureDialog);
-	}
-
-	public void hidePriceChange() {
-		mPriceChangeString = null;
-		mPriceChangedTv.setText("");
-		mPriceChangeContainer.setVisibility(View.GONE);
-	}
-
-	public void showPriceChange() {
-		if (mTrip != null && mTrip.notifyPriceChanged() && !TextUtils.isEmpty(mPriceChangeString)) {
-			mPriceChangedTv.setText(mPriceChangeString);
-			mPriceChangeContainer.setVisibility(View.VISIBLE);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -171,16 +167,16 @@ public class FlightTripPriceFragment extends Fragment implements IPriceChangeFai
 			LoadingDetailsDialogFragment df = Ui.findSupportFragment(getCompatibilityActivity(),
 					LoadingDetailsDialogFragment.TAG);
 			df.dismiss();
-			getFragmentManager().beginTransaction().remove(df).commit();
 
 			if (results == null) {
-				Log.e("results for price check are null");
-				showPriceCheckFailureDialog();
+				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
+						getString(R.string.error_server));
+				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else if (results.hasErrors()) {
 				String error = results.getErrors().get(0).getPresentableMessage(getActivity());
-				Log.e(error);
-				showPriceCheckFailureDialog();
+				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null, error);
+				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else {
 				Db.addItinerary(results.getItinerary());
@@ -196,37 +192,13 @@ public class FlightTripPriceFragment extends Fragment implements IPriceChangeFai
 				if (mTrip.notifyPriceChanged()) {
 					String priceChangeTemplate = getResources().getString(R.string.price_changed_from_TEMPLATE);
 					mPriceChangeString = String.format(priceChangeTemplate, originalPrice.getFormattedMoney());
-					showPriceChange();
-				}
-				else {
+					showPriceChange(); 
+				}else{
 					hidePriceChange();
 				}
 			}
 		}
 	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// Error dialog
-
-	private void showPriceCheckFailureDialog() {
-		mShowingPriceCheckFailureDialog = true;
-		OverviewPriceChangeFailureDialogFragment dialogFragment = (OverviewPriceChangeFailureDialogFragment) getFragmentManager()
-				.findFragmentByTag(TAG_PRICE_CHECK_FAILURE_DIALOG);
-		if (dialogFragment == null) {
-			dialogFragment = OverviewPriceChangeFailureDialogFragment.newInstance(FlightTripPriceFragment.this);
-		}
-		dialogFragment.setListener(this);
-		dialogFragment.show(getFragmentManager(), TAG_PRICE_CHECK_FAILURE_DIALOG);
-	}
-
-	private void dismissPriceCheckFailureDialog(boolean showState) {
-		mShowingPriceCheckFailureDialog = showState;
-		OverviewPriceChangeFailureDialogFragment dialogFragment = (OverviewPriceChangeFailureDialogFragment) getFragmentManager()
-				.findFragmentByTag(TAG_PRICE_CHECK_FAILURE_DIALOG);
-		if (dialogFragment != null) {
-			dialogFragment.dismissAllowingStateLoss();
-		}
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Progress dialog
@@ -256,38 +228,6 @@ public class FlightTripPriceFragment extends Fragment implements IPriceChangeFai
 
 			// If the dialog is canceled without finishing loading, don't show this page.
 			getActivity().finish();
-		}
-	}
-
-	//////////////////////////////////////////////
-	// IPriceChangeFailureDialogListener
-
-	@Override
-	public void priceChangeFailureCancel() {
-		mShowingPriceCheckFailureDialog = false;
-		if (getActivity() != null) {
-			//We get out of here
-
-			getActivity().finish();
-		}
-
-	}
-
-	@Override
-	public void priceChangeFailureRetry() {
-		mShowingPriceCheckFailureDialog = false;
-		startPriceCheckDownload();
-	}
-
-	private void startPriceCheckDownload() {
-		// Begin loading flight details in the background, if we haven't already
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(KEY_DETAILS) && !mRequestedDetails) {
-			// Show a loading dialog
-			LoadingDetailsDialogFragment df = new LoadingDetailsDialogFragment();
-			df.show(getFragmentManager(), LoadingDetailsDialogFragment.TAG);
-
-			bd.startDownload(KEY_DETAILS, mFlightDetailsDownload, mFlightDetailsCallback);
 		}
 	}
 

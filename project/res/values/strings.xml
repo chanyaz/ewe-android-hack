@@ -210,14 +210,6 @@
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Price changed from %1$s</string>
 
-    <!-- Overview price check failure dialog -->
-    <!-- price check failure dialog title -->
-    <string name="dialog_price_check_failure_title">Connection Error</string>
-    <!-- price check failure dialog message -->
-    <string name="dialog_price_check_failure_message">We\'re having trouble confirming the price of this flight.</string>
-    <!-- price check failure dialog try again button -->
-    <string name="try_again">Try Again</string>
-
     <!-- Section Display Flights -->
     <!-- Departs label with date (e.g. Depart: Aug 2nd) -->
     <string name="departs_with_date_TEMPLATE">Depart: %1$s %2$s</string>
@@ -485,7 +477,7 @@
     <string name="accept">Accept</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Retry</string>
-    <!-- Button label for calling -->
+    <!-- Button label for calling  -->
     <string name="call_support">Call Support</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_increased">It looks like the airline just rasied the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
