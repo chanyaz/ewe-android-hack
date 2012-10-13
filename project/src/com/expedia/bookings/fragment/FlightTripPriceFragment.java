@@ -1,17 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.CreateItineraryResponse;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.section.SectionFlightTrip;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -19,12 +7,26 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.CreateItineraryResponse;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.section.SectionFlightTrip;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 
 public class FlightTripPriceFragment extends Fragment {
 
@@ -57,14 +59,15 @@ public class FlightTripPriceFragment extends Fragment {
 			mPriceChangeString = savedInstanceState.getString(INSTANCE_PRICE_CHANGE);
 		}
 	}
-	
-	public void hidePriceChange(){
+
+	public void hidePriceChange() {
 		mPriceChangeString = null;
 		mPriceChangedTv.setText("");
 		mPriceChangeContainer.setVisibility(View.GONE);
 	}
-	public void showPriceChange(){
-		if(mTrip != null && mTrip.notifyPriceChanged() && !TextUtils.isEmpty(mPriceChangeString)){
+
+	public void showPriceChange() {
+		if (mTrip != null && mTrip.notifyPriceChanged() && !TextUtils.isEmpty(mPriceChangeString)) {
 			mPriceChangedTv.setText(mPriceChangeString);
 			mPriceChangeContainer.setVisibility(View.VISIBLE);
 		}
@@ -87,13 +90,8 @@ public class FlightTripPriceFragment extends Fragment {
 		if (TextUtils.isEmpty(mTrip.getItineraryNumber())) {
 
 			// Begin loading flight details in the background, if we haven't already
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			if (!bd.isDownloading(KEY_DETAILS) && !mRequestedDetails) {
-				// Show a loading dialog
-				LoadingDetailsDialogFragment df = new LoadingDetailsDialogFragment();
-				df.show(getFragmentManager(), LoadingDetailsDialogFragment.TAG);
-
-				bd.startDownload(KEY_DETAILS, mFlightDetailsDownload, mFlightDetailsCallback);
+			if (!mRequestedDetails) {
+				startCreateTripDownload();
 			}
 		}
 
@@ -122,7 +120,7 @@ public class FlightTripPriceFragment extends Fragment {
 			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
 			mTripSection.bind(mTrip);
 		}
-		
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_DETAILS)) {
 			bd.registerDownloadCallback(KEY_DETAILS, mFlightDetailsCallback);
@@ -152,6 +150,20 @@ public class FlightTripPriceFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Flight details download
 
+	public void startCreateTripDownload() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (!bd.isDownloading(KEY_DETAILS)) {
+			mRequestedDetails = false;
+
+			// Show a loading dialog
+			LoadingDetailsDialogFragment df = new LoadingDetailsDialogFragment();
+			df.show(getFragmentManager(), LoadingDetailsDialogFragment.TAG);
+
+			BackgroundDownloader.getInstance().startDownload(KEY_DETAILS, mFlightDetailsDownload,
+					mFlightDetailsCallback);
+		}
+	}
+
 	private Download<CreateItineraryResponse> mFlightDetailsDownload = new Download<CreateItineraryResponse>() {
 		@Override
 		public CreateItineraryResponse doDownload() {
@@ -168,15 +180,13 @@ public class FlightTripPriceFragment extends Fragment {
 					LoadingDetailsDialogFragment.TAG);
 			df.dismiss();
 
+			mRequestedDetails = true;
+
 			if (results == null) {
-				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
-						getString(R.string.error_server));
-				dialogFragment.show(getFragmentManager(), "errorFragment");
+				showUnhandledErrorDialog();
 			}
 			else if (results.hasErrors()) {
-				String error = results.getErrors().get(0).getPresentableMessage(getActivity());
-				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null, error);
-				dialogFragment.show(getFragmentManager(), "errorFragment");
+				handleErrors(results);
 			}
 			else {
 				Db.addItinerary(results.getItinerary());
@@ -185,20 +195,43 @@ public class FlightTripPriceFragment extends Fragment {
 				mTrip.updateFrom(results.getOffer());
 				mTripSection.bind(mTrip);//rebind to update price
 
-				mRequestedDetails = true;
-
 				Db.kickOffBackgroundSave(getActivity());
 
 				if (mTrip.notifyPriceChanged()) {
 					String priceChangeTemplate = getResources().getString(R.string.price_changed_from_TEMPLATE);
 					mPriceChangeString = String.format(priceChangeTemplate, originalPrice.getFormattedMoney());
-					showPriceChange(); 
-				}else{
+					showPriceChange();
+				}
+				else {
 					hidePriceChange();
 				}
 			}
 		}
 	};
+
+	private void handleErrors(CreateItineraryResponse response) {
+		ServerError firstError = response.getErrors().get(0);
+
+		switch (firstError.getErrorCode()) {
+		case FLIGHT_PRODUCT_NOT_FOUND:
+		case FLIGHT_SOLD_OUT:
+		case SESSION_TIMEOUT: {
+			boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
+			FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural);
+			df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "unavailableErrorDialog");
+			return;
+		}
+		default: {
+			showUnhandledErrorDialog();
+			break;
+		}
+		}
+	}
+
+	private void showUnhandledErrorDialog() {
+		DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
+		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "unhandledErrorDialog");
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Progress dialog

@@ -12,8 +12,8 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,18 +36,21 @@ import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
+import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener,
-		CheckoutInformationListener {
+		CheckoutInformationListener, UnhandledErrorDialogFragmentListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -169,13 +172,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			gotoOverviewMode(false);
 		}
 	}
-	
+
 	@Override
-	public void onPause(){
+	public void onPause() {
 		super.onPause();
 
 		//In the case that we go back to the start of the app, we want the CC number to be cleared when we return
-		if(this.isFinishing()){
+		if (this.isFinishing()) {
 			clearCCNumber();
 		}
 	}
@@ -187,12 +190,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		out.putInt(STATE_TAG_STACKED_HEIGHT, mStackedHeight);
 		out.putInt(STATE_TAG_UNSTACKED_HEIGHT, mUnstackedHeight);
 	}
-	
-	private void clearCCNumber(){
-		try{
+
+	private void clearCCNumber() {
+		try {
 			Db.getBillingInfo().setNumber(null);
-		}catch(Exception ex){
-			Log.e("Error clearing billingInfo card number",ex);
+		}
+		catch (Exception ex) {
+			Log.e("Error clearing billingInfo card number", ex);
 		}
 	}
 
@@ -648,6 +652,24 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			//Bring in the price bar
 			replaceSlideToCheckoutWithPriceBar();
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// UnhandledErrorDialogFragmentListener
+
+	@Override
+	public void onRetryUnhandledException() {
+		mPriceBottomFragment.startCreateTripDownload();
+	}
+
+	@Override
+	public void onCallCustomerSupport() {
+		throw new RuntimeException("You should not be able to call support from here.");
+	}
+
+	@Override
+	public void onCancelUnhandledException() {
+		finish();
 	}
 
 }

@@ -47,6 +47,9 @@ public class ServerError implements JSONable {
 		APPLY_COUPON_ERROR,
 		PRICE_CHANGE,
 		TRIP_ALREADY_BOOKED,
+		FLIGHT_SOLD_OUT,
+		FLIGHT_PRODUCT_NOT_FOUND,
+		SESSION_TIMEOUT,
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";

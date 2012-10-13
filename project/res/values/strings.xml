@@ -468,7 +468,7 @@
     <!-- Link from checkout screen to legal information page -->
     <string name="fare_rules_link">By completing this booking I agree that I have read and accept the &lt;u&gt;&lt;u&gt;&lt;b&gt;Rules and Restrictions,&lt;/b&gt; the &lt;b&gt;Terms and Conditions,&lt;/b&gt; the &lt;b&gt;Privacy Policy&lt;/b&gt; and &lt;b&gt;Fare Information.&lt;/b&gt;&lt;/u&gt;</string>
 
-    <!-- Flight booking activity errors -->
+    <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Invalid Security Code</string>
     <!-- Button label for cancelling on error -->
@@ -488,9 +488,17 @@
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">The credit card you tried to use has expired, please use a different credit card.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
-    <string name="error_flight_unhandled">Sorry, we don\’t seem to be able to process your order right now. Please try again.</string>
+    <string name="error_flight_unhandled">Sorry, we don\'t seem to be able to process your order right now. Please try again.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\’t seem to be able to process your order right now. Please try again or call Expedia Customer Support and quote this itinerary number: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call Expedia Customer Support and quote this itinerary number: %s</string>
+    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
+    <string name="error_flight_no_longer_available">We\'re really sorry, your flight is no longer available.</string>
+    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
+    <string name="error_flights_no_longer_available">We\'re really sorry, one of your flights is no longer available.</string>
+    <!-- Button label imploring users to pick a new flight due to unavailability -->
+    <string name="pick_new_flight">Pick a New Flight</string>
+    <!-- Button label imploring users to pick flights due to unavailability -->
+    <string name="pick_new_flights">Pick New Flights</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>

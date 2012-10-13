@@ -3,9 +3,20 @@ package com.expedia.bookings.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-
 import android.support.v4.content.LocalBroadcastManager;
-import com.expedia.bookings.activity.*;
+
+import com.expedia.bookings.activity.ActivityKillReceiver;
+import com.expedia.bookings.activity.BookingFragmentActivity;
+import com.expedia.bookings.activity.BookingInfoActivity;
+import com.expedia.bookings.activity.ConfirmationFragmentActivity;
+import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.FlightSearchActivity;
+import com.expedia.bookings.activity.FlightSearchResultsActivity;
+import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
+import com.expedia.bookings.activity.LaunchActivity;
+import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.activity.SearchFragmentActivity;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -58,6 +69,19 @@ public class NavUtils {
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
 			context.startActivity(new Intent(context, FlightUnsupportedPOSActivity.class));
 		}
+	}
+
+	// Assumes we are already searching in flights, but are not on the flight
+	// search screen anymore
+	public static void restartFlightSearch(Context context) {
+		// Clear out old data
+		Db.setBillingInfo(new BillingInfo());
+		Db.getFlightSearch().setSearchResponse(null);
+
+		// Launch search activity (new search should start automatically due to blank data)
+		Intent intent = new Intent(context, FlightSearchResultsActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		context.startActivity(intent);
 	}
 
 	/**
