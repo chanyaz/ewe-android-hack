@@ -23,7 +23,6 @@ import com.expedia.bookings.section.SectionGeneralFlightInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -191,9 +190,8 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 			animateCardsToStacked(ANIMATION_DURATION, 0);
 		}
 		else {
-			//This seems a bit counter intuitive, but we set an animation delay when animation is turned off for older versions of android
-			//which prevents some layout wierdness
-			animateCardsToStacked(0, AndroidUtils.isHoneycombVersionOrHigher() ? 0 : 250);
+			//Adding a delay here prevents some display strangeness
+			animateCardsToStacked(0, 250);
 		}
 		for (int i = mFlightContainer.getChildCount() - 1; i >= 0; i--) {
 			Ui.findView(mFlightContainer, ID_START_RANGE + i).bringToFront();
