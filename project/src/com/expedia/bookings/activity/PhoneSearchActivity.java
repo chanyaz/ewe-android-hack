@@ -281,6 +281,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private boolean mIsActivityResumed = false;
 	private boolean mIsOptionsMenuCreated = false;
+	private boolean mIsSearchEditTextTextWatcherEnabled = false;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
@@ -521,7 +522,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		showFragment(mTag);
 		setShowDistance(mShowDistance);
-		setDisplayType(mDisplayType, false);
 
 		// 9028:t only broadcast search completed once all 
 		// elements have been setup
@@ -582,6 +582,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
+
+		// setDisplayType here because it could possibly add a TextWatcher before the view has restored causing the listener to fire
+		setDisplayType(mDisplayType, false);
 
 		setSearchEditViews();
 		GuestsPickerUtils.configureAndUpdateDisplayedValues(this, mAdultsNumberPicker, mChildrenNumberPicker);
@@ -1718,8 +1721,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		switch (mDisplayType) {
 		case NONE: {
-			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
-
 			// Reset focus
 			mFocusLayout.requestFocus();
 
@@ -1736,8 +1737,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		case KEYBOARD: {
 			hideFilterOptions();
 
-			mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
-
 			// 13550: In some cases, the list has been cleared
 			// (like as a result of memory cleanup or rotation). So just
 			// populate it here just in case that happens.
@@ -1751,7 +1750,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case CALENDAR: {
-			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
@@ -1773,7 +1771,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case GUEST_PICKER: {
-			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
@@ -1791,7 +1788,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case FILTER: {
-			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
@@ -1804,6 +1800,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			break;
 		}
+		}
+
+		if (mDisplayType == DisplayType.KEYBOARD) {
+			addSearchTextWatcher();
+		}
+		else {
+			removeSearchTextWatcher();
 		}
 
 		setSearchEditViews();
@@ -2166,7 +2169,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		}
 
-		mSearchEditText.setText(searchParams.getSearchDisplayText(this));
+		setSearchText(searchParams.getSearchDisplayText(this));
 		if (mSearchTextSelectionStart != -1 && mSearchTextSelectionEnd != -1) {
 			mSearchEditText.setSelection(mSearchTextSelectionStart, mSearchTextSelectionEnd);
 		}
@@ -2258,6 +2261,30 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// TEXT WATCHERS
 	//----------------------------------
 
+	private void setSearchText(String str) {
+		if (mIsSearchEditTextTextWatcherEnabled) {
+			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
+		}
+		mSearchEditText.setText(str);
+		if (mIsSearchEditTextTextWatcherEnabled) {
+			mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
+		}
+	}
+
+	private void addSearchTextWatcher() {
+		if (!mIsSearchEditTextTextWatcherEnabled) {
+			mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
+			mIsSearchEditTextTextWatcherEnabled = true;
+		}
+	}
+
+	private void removeSearchTextWatcher() {
+		if (mIsSearchEditTextTextWatcherEnabled) {
+			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
+			mIsSearchEditTextTextWatcherEnabled = false;
+		}
+	}
+
 	private final TextWatcher mSearchEditTextTextWatcher = new TextWatcher() {
 		@Override
 		public void afterTextChanged(Editable s) {
@@ -2274,6 +2301,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			int len = s.length();
 			boolean changed = false;
 			SearchParams searchParams = Db.getSearchParams();
+			Log.d("HERE str=" + str);
+			Log.d("HERE len=" + len);
 			if (str.equals(searchParams.getQuery())) {
 				// SearchParams hasn't changed
 			}
@@ -2531,7 +2560,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private final View.OnClickListener mClearSearchButtonOnClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			mSearchEditText.setText(null);
+			setSearchText(null);
 		}
 	};
 
@@ -2574,7 +2603,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					mSearchEditText.post(new Runnable() {
 						@Override
 						public void run() {
-							mSearchEditText.setText(null);
+							setSearchText(null);
 						}
 					});
 				}
