@@ -1155,15 +1155,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.price_filter_button_group);
 
-		mFilterHotelNameEditText.setOnEditorActionListener(new OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					setDisplayType(DisplayType.NONE);
-				}
-				return false;
-			}
-		});
+		mFilterHotelNameEditText.setOnEditorActionListener(mEditorActionLisenter);
 
 		// Special case for HTC keyboards, which seem to ignore the android:inputType="textFilter|textNoSuggestions" xml flag
 		mSearchEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
@@ -1723,6 +1715,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		case NONE: {
 			// Reset focus
 			mFocusLayout.requestFocus();
+			mSearchEditText.clearFocus();
 
 			hideFilterOptions();
 
@@ -1803,9 +1796,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		if (mDisplayType == DisplayType.KEYBOARD) {
+			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			addSearchTextWatcher();
 		}
 		else {
+			hideSoftKeyboard(mSearchEditText);
 			removeSearchTextWatcher();
 		}
 
@@ -2320,6 +2315,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			if (changed) {
 				startAutocomplete();
 			}
+		}
+	};
+
+	private final OnEditorActionListener mEditorActionLisenter = new OnEditorActionListener() {
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+				setDisplayType(DisplayType.NONE);
+			}
+			return false;
 		}
 	};
 
