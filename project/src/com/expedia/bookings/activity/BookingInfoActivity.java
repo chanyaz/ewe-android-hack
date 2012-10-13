@@ -306,6 +306,11 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 			}
 
 			startActivity(ConfirmationFragmentActivity.createIntent(mContext));
+
+			// By this point, we never want to see this same activity
+			// (with credit card and cvv info filled in), no matter what happens 
+			// to the back stack. So just to be safe, let's finish it right now.
+			finish();
 		}
 	};
 

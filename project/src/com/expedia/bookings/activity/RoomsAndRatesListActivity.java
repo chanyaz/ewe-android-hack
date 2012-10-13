@@ -146,6 +146,13 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			return;
 		}
 
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return;
+		}
+
 		// #14135, set a 1 hour timeout on this screen
 		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
 			finish();
