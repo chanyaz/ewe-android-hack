@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -35,15 +36,17 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 					FlightTrip newOffer = FlightSearchResponseHandler.parseTrip(detailResponse.optJSONObject("offer"));
 					checkoutResponse.setNewOffer(newOffer);
 				}
-
-				// Return before parsing any normal filds
-				return checkoutResponse;
 			}
 
+			// Continue parsing other fields even if we got an error.  This is
+			// important when we get a TRIP_ALREADY_BOOKED error.
 			checkoutResponse.setOrderId(response.optString("orderId", null));
 
 			String currencyCode = response.optString("currencyCode");
-			checkoutResponse.setTotalCharges(ParserUtils.createMoney(response.optString("totalCharges"), currencyCode));
+			if (!TextUtils.isEmpty(currencyCode) && response.has("totalCharges")) {
+				checkoutResponse.setTotalCharges(ParserUtils.createMoney(response.optString("totalCharges"),
+						currencyCode));
+			}
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse flight checkout response", e);

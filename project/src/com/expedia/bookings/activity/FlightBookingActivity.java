@@ -147,6 +147,10 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 	}
+	
+	private void launchConfirmationActivity() {
+		startActivity(new Intent(this, FlightConfirmationActivity.class));
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Action bar
@@ -247,8 +251,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				handleErrorResponse(results);
 			}
 			else {
-				// Launch the conf page
-				startActivity(new Intent(mContext, FlightConfirmationActivity.class));
+				launchConfirmationActivity();
 			}
 		}
 	};
@@ -301,8 +304,11 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				frag.show(getSupportFragmentManager(), "expiredCcDialog");
 				return;
 			}
-
 			break;
+		case TRIP_ALREADY_BOOKED:
+			// If the trip was already booked, just act like everything is hunky-dory
+			launchConfirmationActivity();
+			return;
 		default:
 			break;
 		}
