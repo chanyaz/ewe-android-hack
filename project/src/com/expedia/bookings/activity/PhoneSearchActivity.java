@@ -2301,8 +2301,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			int len = s.length();
 			boolean changed = false;
 			SearchParams searchParams = Db.getSearchParams();
-			Log.d("HERE str=" + str);
-			Log.d("HERE len=" + len);
 			if (str.equals(searchParams.getQuery())) {
 				// SearchParams hasn't changed
 			}
