@@ -172,16 +172,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	public void onResume() {
 		super.onResume();
 
-		mBillingInfo = Db.getBillingInfo();
-
-		//Set values
-		populateTravelerData();
-		populatePaymentDataFromUser();
-		populateTravelerDataFromUser();
-		buildTravelerSections();
-
-		bindAll();
-		updateViewVisibilities();
+		refreshData();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
@@ -216,7 +207,25 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
 	}
 
-	public void bindAll() {
+	/**
+	 * We refresh the billingInfo from Db and bind all the views.
+	 * This is what happens to initally set the state on resume, so if data changes are made after resume is called
+	 * we should call this method
+	 */
+	public void refreshData(){
+		mBillingInfo = Db.getBillingInfo();
+
+		//Set values
+		populateTravelerData();
+		populatePaymentDataFromUser();
+		populateTravelerDataFromUser();
+		buildTravelerSections();
+
+		bindAll();
+		updateViewVisibilities();
+	}
+	
+	private void bindAll() {
 		mCreditCardSectionButton.bind(mBillingInfo);
 		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
 

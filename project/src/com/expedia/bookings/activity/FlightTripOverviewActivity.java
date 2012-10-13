@@ -100,9 +100,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			}
 		}
 
-		//This activity is the first time we see any billingInfo/traveler stuff.
-		loadCachedData();
-
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
 		mCheckoutContainer = Ui.findView(this, R.id.trip_checkout_container);
@@ -147,8 +144,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			bottomBarTrans.commit();
 		}
 
-		//TODO: for now we attach this here, but we should do it after initial create and before any animation
-		attachCheckout();
+		//We load things from disk in the background
+		startLoadChain();
 	}
 
 	@Override
@@ -198,6 +195,30 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		catch (Exception ex) {
 			Log.e("Error clearing billingInfo card number", ex);
 		}
+	}
+	
+	
+	//We do some work on separate threads to keep the UI nice and snappy
+	private void startLoadChain(){
+		
+		final Runnable attachCheckoutRunnable = new Runnable(){
+			@Override
+			public void run() {
+				attachCheckout();
+			}
+			
+		};
+		
+		Runnable loadCacheRunnable = new Runnable(){
+			@Override
+			public void run() {
+				loadCachedData();
+				runOnUiThread(attachCheckoutRunnable);
+			}
+		};
+		
+		Thread startUpThread = new Thread(loadCacheRunnable);
+		startUpThread.start();
 	}
 
 	private void loadCachedData() {
@@ -280,12 +301,21 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	public void attachCheckout() {
+		boolean refreshCheckoutData = !sLoaded;
+		loadCachedData();//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
 		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
 		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 		if (mCheckoutFragment == null) {
 			mCheckoutFragment = FlightCheckoutFragment.newInstance();
+		}else if(refreshCheckoutData){
+			//Incase we only now finished loading cached data...
+			mCheckoutFragment.refreshData();
 		}
-		if (!mCheckoutFragment.isAdded()) {
+		
+		if(mCheckoutFragment.isDetached()){
+			checkoutTransaction.attach(mCheckoutFragment);
+			checkoutTransaction.commit();
+		}else if (!mCheckoutFragment.isAdded()) {
 			checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
 			checkoutTransaction.commit();
 		}
@@ -295,7 +325,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
 		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 		if (mCheckoutFragment != null && mCheckoutFragment.isAdded()) {
-			checkoutTransaction.remove(mCheckoutFragment);
+			checkoutTransaction.detach(mCheckoutFragment);
 			checkoutTransaction.commit();
 		}
 	}
