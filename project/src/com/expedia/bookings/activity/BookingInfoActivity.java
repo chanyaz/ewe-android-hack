@@ -76,12 +76,7 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 			Db.loadTestData(this);
 		}
 
-		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return;
-		}
+		if (checkFinishConditionsAndFinish()) return;
 
 		mBookingFragment = Ui.findOrAddSupportFragment(this, BookingFormFragment.class,
 				getString(R.string.tag_booking_form));
@@ -91,18 +86,7 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 	protected void onResume() {
 		super.onResume();
 
-		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
-			finish();
-			return;
-		}
-
-		// #14135, set a 1 hour timeout on this screen
-		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
-			finish();
-			return;
-		}
-		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+		if (checkFinishConditionsAndFinish()) return;
 
 		// If we were booking, re-hook the download 
 		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
@@ -126,6 +110,29 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 		if (isFinishing()) {
 			Db.setCreateTripResponse(null);
 		}
+	}
+
+	private boolean checkFinishConditionsAndFinish() {
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return true;
+		}
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return true;
+		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return true;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

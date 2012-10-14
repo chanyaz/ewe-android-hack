@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +32,7 @@ import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
@@ -37,9 +40,13 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 
 public class UserReviewsListActivity extends SherlockFragmentActivity implements UserReviewsFragmentListener,
 		TabListener, OnPageChangeListener {
+
+	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
+	private long mLastResumeTime = -1;
 
 	// Download keys
 	private static final String REVIEWS_STATISTICS_DOWNLOAD = UserReviewsListActivity.class.getName() + ".stats";
@@ -60,12 +67,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return;
-		}
+		if (checkFinishConditionsAndFinish()) return;
 
 		if (savedInstanceState != null) {
 			mViewedReviews = new HashSet<String>(savedInstanceState.getStringArrayList(INSTANCE_VIEWED_REVIEWS));
@@ -84,6 +86,8 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	protected void onResume() {
 		super.onResume();
 
+		if (checkFinishConditionsAndFinish()) return;
+
 		// Start the download of the user reviews statistics (if needed)
 		/*if (Db.getSelectedReviewsStatisticsResponse() != null) {
 			populateReviewsStats();
@@ -96,6 +100,29 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 			mBackgroundDownloader.startDownload(REVIEWS_STATISTICS_DOWNLOAD, mReviewStatisticsDownload,
 					mReviewStatisticsDownloadCallback);
 		}
+	}
+
+	private boolean checkFinishConditionsAndFinish() {
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return true;
+		}
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return true;
+		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return true;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
+		return false;
 	}
 
 	@TargetApi(11)
