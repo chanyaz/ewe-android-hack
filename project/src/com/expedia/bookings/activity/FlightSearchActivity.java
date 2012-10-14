@@ -3,7 +3,7 @@ package com.expedia.bookings.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+import android.view.View.OnClickListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -14,12 +14,13 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
+import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchParamsFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class FlightSearchActivity extends SherlockFragmentActivity {
+public class FlightSearchActivity extends SherlockFragmentActivity implements FlightSearchParamsFragmentListener {
 
 	public static final String EXTRA_DATA_EXPIRED = "EXTRA_DATA_EXPIRED";
 
@@ -139,10 +140,29 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 	//////////////////////////////////////////////////////////////////////////
 	// Action bar
 
+	private MenuItem mSearchMenuItem;
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_flight_search, menu);
+
+		mSearchMenuItem = menu.findItem(R.id.search);
+		mSearchMenuItem.getActionView().setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onOptionsItemSelected(mSearchMenuItem);
+			}
+		});
+
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		FlightSearchParams params = mSearchParamsFragment.getSearchParams();
+		mSearchMenuItem.setVisible(params.isFilled());
+
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -154,11 +174,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 		case R.id.search:
 			FlightSearchParams params = mSearchParamsFragment.getSearchParams();
 			if (!params.isFilled()) {
-				Toast.makeText(this, R.string.toast_flight_search_params_missing, Toast.LENGTH_SHORT).show();
-			}
-			else if (!FlightUnsupportedPOSActivity.isSupportedPOS(this)) {
-				Log.i("Search requested from unsupported POS");
-				startActivity(new Intent(this, FlightUnsupportedPOSActivity.class));
+				throw new RuntimeException("You should not be able to search unless you have filled out all the search params!");
 			}
 			else {
 				Log.i("Initial search requested!");
@@ -173,4 +189,11 @@ public class FlightSearchActivity extends SherlockFragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// FlightSearchParamsFragmentListener
+
+	@Override
+	public void onParamsChanged() {
+		supportInvalidateOptionsMenu();
+	}
 }

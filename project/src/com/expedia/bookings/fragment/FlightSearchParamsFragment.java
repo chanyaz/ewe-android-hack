@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -59,6 +60,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	// TODO: Localize this date format
 	private static final String DATE_FORMAT = "MMM d";
 
+	private FlightSearchParamsFragmentListener mListener;
+
 	private View mFocusStealer;
 	private View mDimmerView;
 	private LinearLayout mAirportsContainer;
@@ -98,6 +101,18 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		else {
 			mSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_PARAMS, FlightSearchParams.class);
 			mFirstAdapterLocation = JSONUtils.getJSONable(savedInstanceState, INSTANCE_FIRST_LOCATION, Location.class);
+		}
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (activity instanceof FlightSearchParamsFragmentListener) {
+			mListener = (FlightSearchParamsFragmentListener) activity;
+		}
+		else {
+			throw new RuntimeException("FlightSearchParamsFragment Activity requires a listener!");
 		}
 	}
 
@@ -223,6 +238,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				updateCalendarText();
 				updateAirportTextColors();
 				updateCalendarInstructionText();
+
+				updateListener();
 			}
 		});
 
@@ -324,6 +341,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 			// Regardless anything else, we don't care about the first adapter location at this point
 			mFirstAdapterLocation = null;
+
+			if (!hasFocus) {
+				updateListener();
+			}
 		}
 	};
 
@@ -589,5 +610,18 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		updateCalendarText();
 		updateAirportTextColors();
 		updateCalendarInstructionText();
+
+		updateListener();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Interface
+
+	private void updateListener() {
+		mListener.onParamsChanged();
+	}
+
+	public interface FlightSearchParamsFragmentListener {
+		public void onParamsChanged();
 	}
 }

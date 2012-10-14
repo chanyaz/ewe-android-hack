@@ -115,8 +115,6 @@
     <string name="sort_flights">Sort Flights</string>
     <!-- Edit search title -->
     <string name="edit_search">Edit Search</string>
-    <!-- Warning message if user has not filled out all fields -->
-    <string name="toast_flight_search_params_missing">Please enter ALL the data!</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
