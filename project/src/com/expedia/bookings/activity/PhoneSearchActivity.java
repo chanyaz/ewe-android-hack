@@ -410,7 +410,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onSearchParamsChanged(SearchParams searchParams) {
 			Db.setSearchParams(searchParams);
-			searchParams.ensureValidCheckInDate();
+			if (searchParams != null) {
+				searchParams.ensureValidCheckInDate();
+			}
+			else {
+				Db.resetSearchParams();
+			}
 			mStartSearchOnResume = true;
 		}
 	};
