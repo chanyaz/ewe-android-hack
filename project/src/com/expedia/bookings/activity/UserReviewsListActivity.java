@@ -26,6 +26,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.fragment.UserReviewsFragment;
@@ -150,6 +151,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		case android.R.id.home: {
 			Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.putExtra(Codes.OPENED_FROM_WIDGET, getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false));
 			startActivity(intent);
 			finish();
 			return true;

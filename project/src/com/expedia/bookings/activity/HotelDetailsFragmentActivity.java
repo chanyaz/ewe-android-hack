@@ -82,7 +82,13 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		mApp = (ExpediaBookingApp) getApplicationContext();
 
 		if (getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
-			Db.setSelectedProperty((Property) JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY, Property.class));
+			Property property = (Property) JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY, Property.class);
+			if (property != null) {
+				Db.setSelectedProperty(property);
+			}
+			else {
+				// It means we came back from the reviews activity and Db.getSelectedProperty is already valid
+			}
 		}
 
 		if (checkFinishConditionsAndFinish()) return;
