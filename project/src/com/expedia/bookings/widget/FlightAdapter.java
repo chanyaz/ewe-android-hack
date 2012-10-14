@@ -15,8 +15,12 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.utils.LayoutUtils;
 
 public class FlightAdapter extends BaseAdapter {
+
+	private static final int ROW_TYPE_FIRST = 0;
+	private static final int ROW_TYPE_OTHER = 1;
 
 	private LayoutInflater mInflater;
 
@@ -74,12 +78,32 @@ public class FlightAdapter extends BaseAdapter {
 	}
 
 	@Override
+	public int getViewTypeCount() {
+		return 2;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		if (position == 0) {
+			return ROW_TYPE_FIRST;
+		}
+		else {
+			return ROW_TYPE_OTHER;
+		}
+	}
+
+	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.section_flight_leg_summary, parent, false);
 
 			// Set a custom, interactive bg
-			convertView.setBackgroundResource(R.drawable.bg_flight_row);
+			if (getItemViewType(position) == ROW_TYPE_FIRST) {
+				LayoutUtils.setBackgroundResource(convertView, R.drawable.bg_flight_row_first);
+			}
+			else {
+				LayoutUtils.setBackgroundResource(convertView, R.drawable.bg_flight_row);
+			}
 		}
 
 		FlightLegSummarySection section = (FlightLegSummarySection) convertView;

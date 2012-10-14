@@ -38,6 +38,7 @@ import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
@@ -91,7 +92,7 @@ public class FlightConfirmationFragment extends Fragment {
 			params.topMargin = (int) (initialOffset + Math.round(offset * a));
 
 			// Set a custom bg
-			card.setBackgroundResource(R.drawable.bg_flight_row);
+			LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_row);
 
 			// Bind data
 			if (a + 1 == numLegs) {

@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import android.R.attr;
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -44,6 +43,27 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
 public class LayoutUtils {
+
+	/**
+	 * If you set a background resource it can sometimes blow away the old padding on the
+	 * View.  This method ensures that both the old padding from the View and the new
+	 * padding that may have been introduced (via InsetDrawable) are preserved after
+	 * setting a background resource.
+	 * 
+	 * @param v
+	 * @param resId
+	 */
+	public static void setBackgroundResource(View v, int resId) {
+		int left = v.getPaddingLeft();
+		int top = v.getPaddingTop();
+		int right = v.getPaddingRight();
+		int bottom = v.getPaddingBottom();
+
+		v.setBackgroundResource(resId);
+
+		v.setPadding(v.getPaddingLeft() + left, v.getPaddingTop() + top, v.getPaddingRight() + right,
+				v.getPaddingBottom() + bottom);
+	}
 
 	public static float getSaleTextSize(Context context) {
 		TextPaint textPaint = new TextPaint();
