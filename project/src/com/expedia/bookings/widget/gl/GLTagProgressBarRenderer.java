@@ -282,8 +282,6 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		gl.glEnable(GL10.GL_DITHER);
 		gl.glEnable(GL10.GL_MULTISAMPLE);
 
-		gl.glHint(GL10.GL_POLYGON_SMOOTH_HINT, GL10.GL_DONT_CARE);
-
 		if (mSprites != null) {
 
 			// If we are using hardware buffers and the screen lost context
