@@ -42,7 +42,7 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_status, container, false);
 
-		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, true);
+		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
 
 		mPlaneWindowView = Ui.findView(v, R.id.plane_window_view);
 		mMessageTextView = Ui.findView(v, R.id.message_text_view);

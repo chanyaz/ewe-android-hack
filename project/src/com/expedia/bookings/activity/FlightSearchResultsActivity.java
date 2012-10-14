@@ -295,6 +295,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			menu.getItem(a).setVisible(!areFlightDetailsShowing);
 		}
 
+		// Search item has slightly different rules for visibility
+		mSearchMenuItem.setVisible(!isSearching && !areFlightDetailsShowing);
+
 		if (!areFlightDetailsShowing) {
 			updateTitleBar();
 
@@ -309,7 +312,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			// 1. You can detect split action bar status using ABS
 			// 2. There are a detectable # of menu items
 			// 3. The action bar is the full window width
-			if (ResourcesCompat.getResources_getBoolean(this, R.bool.abs__split_action_bar_is_narrow)) {
+			if (ResourcesCompat.getResources_getBoolean(this, R.bool.abs__split_action_bar_is_narrow)
+					&& mSearchMenuItem.isVisible()) {
 				int numVisible = 0;
 				for (int a = 0; a < menu.size(); a++) {
 					if (menu.getItem(a).isVisible()) {
