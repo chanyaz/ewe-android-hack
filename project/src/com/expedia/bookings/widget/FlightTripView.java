@@ -53,6 +53,7 @@ public class FlightTripView extends View {
 		mTripPaint.setColor(context.getResources().getColor(R.color.flight_trip));
 		mTripPaint.setStrokeWidth(r.getDimension(R.dimen.flight_trip_view_stroke_width));
 		mTripPaint.setStyle(Style.STROKE);
+		mTripPaint.setAntiAlias(true);
 
 		mTextPaint = new TextPaint();
 		mTextPaint.setTextAlign(Align.CENTER);
@@ -120,9 +121,9 @@ public class FlightTripView extends View {
 			float currWidth = (a >= 0 && a < mNumWidths) ? mWidths[a] : mCircleDiameter;
 
 			if (isFlight) {
-				pts[numPts] = left - 2;
+				pts[numPts] = left - halfStrokeWidth;
 				pts[numPts + 1] = quart;
-				pts[numPts + 2] = left + currWidth;
+				pts[numPts + 2] = left + currWidth + halfStrokeWidth;
 				pts[numPts + 3] = quart;
 				numPts += 4;
 			}
@@ -148,13 +149,13 @@ public class FlightTripView extends View {
 					float halfHeight = bHeight / 2;
 					pts[numPts] = leftArc.right - halfHeight - 1;
 					pts[numPts + 1] = halfStrokeWidth;
-					pts[numPts + 2] = rightArc.left + halfHeight;
+					pts[numPts + 2] = rightArc.left + halfHeight + 1;
 					pts[numPts + 3] = halfStrokeWidth;
 					numPts += 4;
 
 					pts[numPts] = leftArc.right - halfHeight - 1;
 					pts[numPts + 1] = bHeight + halfStrokeWidth;
-					pts[numPts + 2] = rightArc.left + halfHeight;
+					pts[numPts + 2] = rightArc.left + halfHeight + 1;
 					pts[numPts + 3] = bHeight + halfStrokeWidth;
 					numPts += 4;
 				}
