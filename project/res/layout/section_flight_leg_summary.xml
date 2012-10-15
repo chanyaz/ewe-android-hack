@@ -2,8 +2,8 @@
 <com.expedia.bookings.section.FlightLegSummarySection xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="8dp"
-    android:paddingTop="8dp" >
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp" >
 
     <ImageView
         android:id="@+id/cancel_button"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/operating_carrier_text_view"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="6dp"
         android:paddingBottom="16dp"
         android:textColor="#3D4652"
         android:textSize="14dp" />
@@ -73,7 +73,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/operating_carrier_text_view"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="6dp"
         android:textColor="#3D4652"
         android:textSize="14dp" />
 
@@ -97,7 +97,7 @@
         android:layout_below="@+id/operating_carrier_text_view"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="10dp"
         android:layout_toLeftOf="@+id/arrival_time_text_view"
         android:layout_toRightOf="@+id/departure_time_text_view" />
 
