@@ -2,8 +2,8 @@
 <com.expedia.bookings.section.FlightLegSummarySection xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp" >
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp" >
 
     <ImageView
         android:id="@+id/cancel_button"
@@ -25,7 +25,7 @@
         android:layout_marginTop="4dp"
         android:gravity="right"
         android:textColor="#22599C"
-        android:textSize="24sp"
+        android:textSize="20dp"
         android:textStyle="bold" />
 
     <TextView
@@ -34,11 +34,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="#3D4652"
-        android:textSize="24sp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
     <TextView
@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/airline_text_view"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="9dp"
         android:paddingBottom="16dp"
         android:textColor="#3D4652"
         android:textSize="14dp" />
@@ -58,6 +59,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/airline_text_view"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="9dp"
         android:textColor="#3D4652"
         android:textSize="14dp" />
 
@@ -70,7 +72,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="-2dp"
         android:textColor="#22599C"
-        android:textSize="12sp"
+        android:textSize="12dp"
         android:textStyle="bold"
         android:visibility="invisible" />
 
@@ -81,7 +83,7 @@
         android:layout_below="@+id/airline_text_view"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="13dp"
         android:layout_toLeftOf="@+id/arrival_time_text_view"
         android:layout_toRightOf="@+id/departure_time_text_view" />
 
