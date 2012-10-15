@@ -1,9 +1,12 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,6 +14,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.Log;
+import com.mobiata.android.Params;
 import com.mobiata.android.util.Ui;
 
 public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListener {
@@ -123,7 +128,7 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 			boolean imageSet = false;
 			if (holder.container != null && !mIsMeasuring && property.getThumbnail() != null) {
 				String url = property.getThumbnail().getUrl(Media.IMAGE_BIG_SUFFIX);
-				imageSet = ImageCache.loadImageForLaunchStream(url, holder.container);
+				imageSet = loadImageForLaunchStream(url, holder.container);
 			}
 			if (holder.container != null && !imageSet) {
 				holder.container.setBackgroundColor(android.R.color.transparent);
@@ -142,6 +147,30 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 		public TextView titleTextView;
 		public TextView distanceTextView;
 		public TextView priceTextView;
+	}
+
+	public boolean loadImageForLaunchStream(String url, final RelativeLayout layout) {
+		String key = layout.toString();
+		Log.v(Params.LOGGING_TAG, "Loading RelativeLayout bg " + key + " with " + url);
+
+		// Begin a load on the ImageView
+		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
+			public void onImageLoaded(String url, Bitmap bitmap) {
+				layout.setVisibility(View.VISIBLE);
+				layout.setBackgroundDrawable(new BitmapDrawable(bitmap));
+				AlphaAnimation alpha = new AlphaAnimation(0.0F, 1.0F);
+				alpha.setDuration(2000);
+				alpha.setFillAfter(true);
+				layout.startAnimation(alpha);
+			}
+
+			public void onImageLoadFailed(String url) {
+				// Do nothing
+			}
+		};
+
+		return ImageCache.loadImage(key, url, callback);
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////
