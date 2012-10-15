@@ -67,6 +67,7 @@ public class Rate implements JSONable {
 	private String mPromoDescription;
 	private int mNumRoomsLeft;
 	private List<String> mValueAdds = new ArrayList<String>();
+	private boolean mHasFreeCancellation = false;
 	private boolean mNonRefundable = false;
 
 	// For Expedia, RateRules are provided with with availability response
@@ -515,6 +516,14 @@ public class Rate implements JSONable {
 		return getQualifier(false);
 	}
 
+	public void setHasFreeCancellation(boolean b) {
+		mHasFreeCancellation = b;
+	}
+
+	public boolean hasFreeCancellation() {
+		return mHasFreeCancellation;
+	}
+
 	public void setNonRefundable(boolean b) {
 		mNonRefundable = b;
 	}
@@ -611,6 +620,7 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "strikethroughPriceToShowUsers", mStrikethroughPriceToShowUsers);
 			obj.putOpt("numberOfNights", mNumberOfNights);
 			obj.putOpt("numRoomsLeft", mNumRoomsLeft);
+			obj.putOpt("hasFreeCancellation", mHasFreeCancellation);
 			obj.putOpt("nonRefundable", mNonRefundable);
 			JSONUtils.putStringList(obj, "valueAdds", mValueAdds);
 
@@ -632,6 +642,7 @@ public class Rate implements JSONable {
 
 		mRateBreakdown = (List<RateBreakdown>) JSONUtils.getJSONableList(obj, "rateBreakdown", RateBreakdown.class);
 		mRateChange = obj.optBoolean("rateChange", false);
+		mHasFreeCancellation = obj.optBoolean("hasFreeCancellation", false);
 		mNonRefundable = obj.optBoolean("nonRefundable", false);
 
 		mDailyAmountBeforeTax = (Money) JSONUtils.getJSONable(obj, "dailyAmountBeforeTax", Money.class);

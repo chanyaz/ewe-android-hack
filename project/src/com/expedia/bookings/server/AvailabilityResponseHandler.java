@@ -283,6 +283,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));
 		rate.setNumberOfNights(numberOfNights);
 
+		rate.setHasFreeCancellation(jsonRate.optBoolean("hasFreeCancellation", false));
 		rate.setNonRefundable(jsonRate.optBoolean("nonRefundable", false));
 
 		String currencyCode = chargeableRateInfo.getString("currencyCode");
