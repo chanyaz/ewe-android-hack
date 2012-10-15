@@ -275,6 +275,7 @@ public class ExpediaServices implements DownloadListener {
 		if (User.isLoggedIn(mContext)) {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 			addFlightTraveler(query, traveler);
+			Log.i("update-travler body:" + NetUtils.getParamsForLogging(query));
 			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
 					traveler),
 					F_SECURE_REQUEST);
@@ -626,7 +627,8 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("phoneCountryCode", traveler.getPhoneCountryCode()));
 		}
 		if (!TextUtils.isEmpty(traveler.getPhoneNumber())) {
-			query.add(new BasicNameValuePair("phone", traveler.getPhoneNumber()));
+			
+			query.add(new BasicNameValuePair("phone",traveler.getPrimaryPhoneNumber().getAreaCode() +  traveler.getPrimaryPhoneNumber().getNumber()));
 		}
 
 		//Email is required (but there is no traveler email entry)
