@@ -42,25 +42,24 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 
 	//////////////////////////////////////////////////////////////// 
 	// Test Driver
-	
-	public void testBookingsAPAC() throws Exception{
+
+	public void testBookingsAPAC() throws Exception {
 		testBookings(mDriver.APAC_LOCALES);
 	}
-	
-	public void testBookingsWestern() throws Exception{
+
+	public void testBookingsWestern() throws Exception {
 		testBookings(mDriver.WESTERN_LOCALES);
 	}
-	
-	public void testBookingsAmericas() throws Exception{
+
+	public void testBookingsAmericas() throws Exception {
 		testBookings(mDriver.AMERICAN_LOCALES);
 	}
-	
+
 	private void testBookings(Locale[] locales) throws Exception {
 		mDriver.setAllowScreenshots(true);
 		mDriver.setAllowOrientationChange(false);
 
-		for (int i = 0; i < mDriver.APAC_LOCALES.length; i++) {
-			mSolo.finishInactiveActivities();
+		for (int i = 0; i < locales.length; i++) {
 			mDriver.enterLog(TAG, "Starting sweep of " + locales[i].toString());
 
 			Locale testingLocale = locales[i];

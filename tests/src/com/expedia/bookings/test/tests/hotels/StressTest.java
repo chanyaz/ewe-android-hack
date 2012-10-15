@@ -9,11 +9,11 @@ import com.expedia.bookings.test.utils.HotelsRobotHelper;
 import com.jayway.android.robotium.solo.Solo;
 
 public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity> {
-	
-	public StressTest(){
+
+	public StressTest() {
 		super("com.expedia.bookings", SearchActivity.class);
 	}
-	
+
 	private static final String TAG = "StressTest";
 
 	private Solo mSolo;
@@ -23,6 +23,7 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 	private HotelsRobotHelper mDriver;
 
 	public static int NUMBER_OF_HOTELS = 48;
+
 	protected void setUp() throws Exception {
 		super.setUp();
 		mSolo = new Solo(getInstrumentation(), getActivity());
@@ -36,9 +37,9 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 	public void testMethod() throws Exception {
 		mDriver.setAllowScreenshots(false);
 		mDriver.setAllowOrientationChange(false);
-		
+
 		mDriver.browseRooms(52, "New York City", false);
-		
+
 	}
 	
 	protected void tearDown() throws Exception {
@@ -47,5 +48,5 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 
 		mSolo.finishOpenedActivities();
 	}
-	
+
 }

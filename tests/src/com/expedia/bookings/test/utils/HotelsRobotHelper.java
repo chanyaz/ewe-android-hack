@@ -32,7 +32,6 @@ public class HotelsRobotHelper {
 			"tl_PH", "zh_CN"
 	};
 
-
 	public static Locale[] AMERICAN_LOCALES = new Locale[] {
 			new Locale("es", "AR"),
 			new Locale("pt", "BR"),
@@ -87,7 +86,7 @@ public class HotelsRobotHelper {
 		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[3], R.string.country_ca);
 		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[4], R.string.country_mx);
 		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[5], R.string.country_us);
-		
+
 		LOCALE_TO_COUNTRY.put(APAC_LOCALES[0], R.string.country_hk);
 		LOCALE_TO_COUNTRY.put(APAC_LOCALES[1], R.string.country_hk);
 		LOCALE_TO_COUNTRY.put(APAC_LOCALES[2], R.string.country_id);
@@ -104,7 +103,7 @@ public class HotelsRobotHelper {
 		LOCALE_TO_COUNTRY.put(APAC_LOCALES[13], R.string.country_vn);
 		LOCALE_TO_COUNTRY.put(APAC_LOCALES[14], R.string.country_ph);
 		LOCALE_TO_COUNTRY.put(APAC_LOCALES[15], R.string.country_cn);
-		
+
 		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[0], R.string.country_at);
 		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[1], R.string.country_au);
 		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[2], R.string.country_be);
@@ -118,7 +117,7 @@ public class HotelsRobotHelper {
 		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[10], R.string.country_nl);
 		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[11], R.string.country_no);
 		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[12], R.string.country_nz);
-		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[13], R.string.country_gb);	
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[13], R.string.country_gb);
 	}
 
 	private static final String TAG = "com.expedia.bookings.test";
@@ -256,7 +255,7 @@ public class HotelsRobotHelper {
 		portrait();
 		String clearPrivateData = mRes.getString(R.string.clear_private_data);
 		mSolo.clickOnText(clearPrivateData);
-		delay(1);
+		delay(2);
 		mSolo.clickOnButton(0);
 		delay(1);
 		mSolo.clickOnButton(0);
@@ -362,7 +361,8 @@ public class HotelsRobotHelper {
 		mSolo.clickOnButton(0);
 		landscape();
 		portrait();
-
+		if (mAllowOrientationChange)
+			mSolo.clickOnButton(0);
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_popular));
 		screenshot("Sort by Popular Results");
@@ -473,7 +473,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical));
 		screenshot("Critical Reviews.");
 		delay(1);
-		mSolo.goBack();
+		mSolo.goBack(); 
 	}
 
 	public void pressBookRoom() {
