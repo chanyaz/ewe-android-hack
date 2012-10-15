@@ -13,6 +13,7 @@ public class BookingInProgressDialogFragment extends DialogFragment {
 
 	public static BookingInProgressDialogFragment newInstance() {
 		BookingInProgressDialogFragment fragment = new BookingInProgressDialogFragment();
+		fragment.setCancelable(false);
 		return fragment;
 	}
 

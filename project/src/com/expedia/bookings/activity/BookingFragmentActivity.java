@@ -38,7 +38,6 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.validation.ValidationError;
 
 public class BookingFragmentActivity extends FragmentActivity implements RoomsAndRatesFragmentListener,
@@ -120,7 +119,6 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		if (bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
 			bd.registerDownloadCallback(BOOKING_DOWNLOAD_KEY, mBookingCallback);
 			DialogFragment dialog = BookingInProgressDialogFragment.newInstance();
-			dialog.setCancelable(false);
 			dialog.show(getSupportFragmentManager(), getString(R.string.tag_booking_progress));
 		}
 	}
@@ -310,7 +308,6 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	@Override
 	public void onCheckout() {
 		DialogFragment dialog = BookingInProgressDialogFragment.newInstance();
-		dialog.setCancelable(false);
 		dialog.show(getSupportFragmentManager(), getString(R.string.tag_booking_progress));
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();

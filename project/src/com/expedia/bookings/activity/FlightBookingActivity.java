@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 
@@ -26,8 +25,8 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
-import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
+import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
