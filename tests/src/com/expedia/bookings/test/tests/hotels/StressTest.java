@@ -37,11 +37,14 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 	public void testMethod() throws Exception {
 		mDriver.setAllowScreenshots(false);
 		mDriver.setAllowOrientationChange(false);
-
-		mDriver.browseRooms(52, "New York City", false);
+		mDriver.changeAPI("Production");
+		mDriver.changePOS(mDriver.AMERICAN_LOCALES[5]);
+		mDriver.launchHotels();
+		mDriver.delay();
+		mDriver.browseRooms(NUMBER_OF_HOTELS, "New York City", false);
 
 	}
-	
+
 	protected void tearDown() throws Exception {
 		//Robotium will finish all the activities that have been opened
 		mDriver.enterLog(TAG, "tearing down...");

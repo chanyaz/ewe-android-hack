@@ -159,6 +159,13 @@ public class HotelsRobotHelper {
 
 	////////////////////////////////////////////////////////////////
 	// Helpful Methods
+	public void launchHotels() throws Exception {
+		mSolo.clickOnText(mSolo.getString(R.string.launch_hotel_secondary_text));
+	}
+
+	public void launchFlights() throws Exception {
+		mSolo.clickOnText(mSolo.getString(R.string.launch_flight_secondary_text));
+	}
 
 	public void enterLog(String TAG, String logText) {
 		Log.d(TAG, "Robotium: " + logText);
@@ -256,7 +263,7 @@ public class HotelsRobotHelper {
 		String clearPrivateData = mRes.getString(R.string.clear_private_data);
 		mSolo.clickOnText(clearPrivateData);
 		delay(2);
-		mSolo.clickOnButton(0);
+		mSolo.clickOnButton(1);
 		delay(1);
 		mSolo.clickOnButton(0);
 		setSpoofBookings();
@@ -304,13 +311,17 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "Searching for destination " + location);
 		delay(5);
 		mSolo.clickOnEditText(0);
+		enterLog(TAG, "After clicking EDIT TEXT");
 		landscape();
 		delay(1);
 		portrait();
 		delay(1);
 		mSolo.clearEditText(0);
+		enterLog(TAG, "After clearing EDIT TEXT");
 		delay(1);
+		enterLog(TAG, "BEFORE TYPING TEXT");
 		mSolo.typeText(0, location);
+		enterLog(TAG, "AFTER TYPING TEXT");
 		delay(3);
 		enterLog(TAG, "Before clicking search button");
 		mSolo.clickInList(2);//Selecting search suggestion results
@@ -473,7 +484,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical));
 		screenshot("Critical Reviews.");
 		delay(1);
-		mSolo.goBack(); 
+		mSolo.goBack();
 	}
 
 	public void pressBookRoom() {
@@ -697,8 +708,7 @@ public class HotelsRobotHelper {
 	//browseRooms goes into approximately numberOfHotels hotels, looks at hotels details
 	//if completeABooking is true, it will complete a booking on one of the rooms.
 	public void browseRooms(int numberOfHotels, String location, boolean completeABooking) throws Exception {
-		changeAPI("Production");
-		clearPrivateData();
+		enterLog(TAG, "Pre select location");
 		selectLocation(location);
 
 		for (int i = 0; i < numberOfHotels / 4; i++) {
