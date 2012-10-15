@@ -864,8 +864,10 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		}
 		case DEV: {
-			builder.append("www.");
-			builder.append(LocaleUtils.getPointOfSale(mContext));
+			builder.append("www");
+			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
+				builder.append(s);
+			}
 			builder.append(".chelwebestr37.bgb.karmalab.net/");
 			break;
 		}
