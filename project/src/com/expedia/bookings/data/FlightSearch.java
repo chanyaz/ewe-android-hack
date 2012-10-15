@@ -274,7 +274,7 @@ public class FlightSearch implements JSONable {
 						FlightTrip trip = iterator.next();
 						FlightLeg leg = trip.getLeg(mLegPosition);
 
-						if (Collections.disjoint(preferredAirlines, leg.getOperatingAirlines())) {
+						if (Collections.disjoint(preferredAirlines, leg.getPrimaryAirlines())) {
 							iterator.remove();
 						}
 					}

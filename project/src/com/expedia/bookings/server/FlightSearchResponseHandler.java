@@ -112,6 +112,14 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			flightCode.mNumber = segmentJson.optString("flightNumber");
 			segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
 
+			// Parse possible operating flight code
+			if (segmentJson.has("operatingAirlineCode")) {
+				FlightCode opFlightCode = new FlightCode();
+				opFlightCode.mAirlineCode = segmentJson.optString("operatingAirlineCode");
+				opFlightCode.mNumber = segmentJson.optString("operatingAirlineFlightNumber");
+				segment.addFlightCode(opFlightCode, Flight.F_OPERATING_AIRLINE_CODE);
+			}
+
 			// Parse departure
 			Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
 			departure.mAirportCode = segmentJson.optString("departureAirportCode");

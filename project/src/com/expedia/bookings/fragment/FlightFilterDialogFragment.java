@@ -191,7 +191,7 @@ public class FlightFilterDialogFragment extends DialogFragment {
 
 		for (FlightTrip trip : trips) {
 			FlightLeg leg = trip.getLeg(legPosition);
-			airlines.addAll(leg.getOperatingAirlines());
+			airlines.addAll(leg.getPrimaryAirlines());
 		}
 
 		return airlines;

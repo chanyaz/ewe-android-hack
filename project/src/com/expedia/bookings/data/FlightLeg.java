@@ -99,12 +99,12 @@ public class FlightLeg implements JSONable {
 	}
 
 	// Returns all operating airlines for the flights in this leg
-	public Set<String> getOperatingAirlines() {
+	public Set<String> getPrimaryAirlines() {
 		Set<String> airlines = new HashSet<String>();
 
 		if (mSegments != null) {
 			for (Flight flight : mSegments) {
-				airlines.add(flight.getOperatingFlightCode().mAirlineCode);
+				airlines.add(flight.getPrimaryFlightCode().mAirlineCode);
 			}
 		}
 
@@ -113,7 +113,7 @@ public class FlightLeg implements JSONable {
 
 	public String getAirlinesFormatted() {
 		StringBuilder sb = new StringBuilder();
-		for (String airlineCode : getOperatingAirlines()) {
+		for (String airlineCode : getPrimaryAirlines()) {
 			if (sb.length() != 0) {
 				sb.append(", ");
 			}

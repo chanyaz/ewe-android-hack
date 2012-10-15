@@ -42,10 +42,24 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/operating_carrier_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/airline_text_view"
+        android:layout_below="@+id/airline_text_view"
+        android:layout_marginLeft="6dp"
+        android:drawableLeft="@drawable/ic_operating_carrier"
+        android:drawablePadding="4dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#7F8286"
+        android:visibility="gone" />
+
+    <TextView
         android:id="@+id/departure_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/airline_text_view"
+        android:layout_below="@+id/operating_carrier_text_view"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="9dp"
         android:paddingBottom="16dp"
@@ -57,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/airline_text_view"
+        android:layout_below="@+id/operating_carrier_text_view"
         android:layout_marginRight="10dp"
         android:layout_marginTop="9dp"
         android:textColor="#3D4652"
@@ -80,7 +94,7 @@
         android:id="@+id/flight_trip_view"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
-        android:layout_below="@+id/airline_text_view"
+        android:layout_below="@+id/operating_carrier_text_view"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="13dp"

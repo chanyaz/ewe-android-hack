@@ -17,7 +17,9 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.android.util.Ui;
+import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
@@ -39,6 +41,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 	private ImageView mCancelView;
 	private TextView mAirlineTextView;
+	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
 	private TextView mDepartureTimeTextView;
 	private TextView mArrivalTimeTextView;
@@ -64,6 +67,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		// Cache views
 		mCancelView = Ui.findView(this, R.id.cancel_button);
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
+		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
 		mDepartureTimeTextView = Ui.findView(this, R.id.departure_time_text_view);
 		mArrivalTimeTextView = Ui.findView(this, R.id.arrival_time_text_view);
@@ -87,16 +91,46 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(trip, leg, minTime, maxTime, false);
 	}
 
-	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime, boolean showFlightNumber) {
+	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime,
+			boolean isIndividualFlight) {
+		Context context = getContext();
+
+		// Don't lie to me!
+		Flight firstFlight = leg.getSegment(0);
+		if (isIndividualFlight && leg.getSegmentCount() != 1) {
+			isIndividualFlight = false;
+		}
+
 		if (mAirlineTextView != null) {
-			if (showFlightNumber && leg.getSegmentCount() == 1) {
-				Flight flight = leg.getSegment(0);
-				mAirlineTextView.setText(FormatUtils.formatFlightNumber(flight, getContext()));
+			if (isIndividualFlight) {
+				mAirlineTextView.setText(FormatUtils.formatFlightNumber(firstFlight, context));
 			}
 			else {
 				mAirlineTextView.setText(leg.getAirlinesFormatted());
 			}
 		}
+
+		int belowTarget;
+		if (isIndividualFlight && !firstFlight.getPrimaryFlightCode().equals(firstFlight.getOperatingFlightCode())) {
+			Airline airline = FlightStatsDbUtils.getAirline(firstFlight.getOperatingFlightCode().mAirlineCode);
+			mOperatingCarrierTextView.setText(context.getString(R.string.operated_by_TEMPLATE,
+					FormatUtils.formatAirline(airline, context)));
+
+			mOperatingCarrierTextView.setVisibility(View.VISIBLE);
+
+			belowTarget = mOperatingCarrierTextView.getId();
+		}
+		else {
+			belowTarget = mAirlineTextView.getId();
+		}
+
+		// Adjust rules depending on what we need to be below
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mDepartureTimeTextView.getLayoutParams();
+		params.addRule(RelativeLayout.BELOW, belowTarget);
+		params = (RelativeLayout.LayoutParams) mArrivalTimeTextView.getLayoutParams();
+		params.addRule(RelativeLayout.BELOW, belowTarget);
+		params = (RelativeLayout.LayoutParams) mFlightTripView.getLayoutParams();
+		params.addRule(RelativeLayout.BELOW, belowTarget);
 
 		if (mDepartureTimeTextView != null) {
 			mDepartureTimeTextView.setText(formatTime(leg.getFirstWaypoint().getMostRelevantDateTime()));
@@ -136,7 +170,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 		// F794: We need the airline text view to not overlap
 		// either the price or the cancel button, whichever one is showing.
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mAirlineTextView.getLayoutParams();
+		params = (RelativeLayout.LayoutParams) mAirlineTextView.getLayoutParams();
 		params.addRule(RelativeLayout.LEFT_OF, airlineLeftOfId);
 
 		int daySpan = leg.getDaySpan();

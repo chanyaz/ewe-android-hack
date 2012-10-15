@@ -262,7 +262,7 @@ public class OmnitureTracking {
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 
 		// products variable, described here: http://confluence/display/Omniture/Product+string+format
-		String airlineCode = trip.getLeg(0).getOperatingAirlines().iterator().next();
+		String airlineCode = trip.getLeg(0).getPrimaryAirlines().iterator().next();
 		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(trip.getLegCount());
 		String numTravelers = "1"; // TODO: note this hardcoded as 1 for the time being as it is always one now
 		String price = trip.getTotalFare().getFormattedMoney();
