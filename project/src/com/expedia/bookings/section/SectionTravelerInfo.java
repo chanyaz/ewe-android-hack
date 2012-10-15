@@ -462,17 +462,25 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			}
 
-			// The Compat lib has a bug that causes savedInstanceState to be null on old versions of android
-			// Because we are retaining instance, we can set the dates in the onDateChanged function to fix this issue
-			DatePickerDialog dialog = new DatePickerDialog(getActivity(), mListener, mYear, mMonth, mDay) {
-				@Override
-				public void onDateChanged(DatePicker view, int year, int month, int day) {
-					super.onDateChanged(view, year, month, day);
-					mYear = year;
-					mMonth = month;
-					mDay = day;
-				}
-			};
+			
+			DatePickerDialog dialog;
+			if(AndroidUtils.getSdkVersion() <= 14){
+				// We do this because of a bug in ICS : http://code.google.com/p/android/issues/detail?id=25838
+				dialog = new DatePickerDialog(getActivity(), mListener, mYear, mMonth, mDay) {
+					@Override
+					public void onDateChanged(DatePicker view, int year, int month, int day) {
+						super.onDateChanged(view, year, month, day);
+						// The Compat lib has a bug that causes savedInstanceState to be null on old versions of android
+						// Because we are retaining instance, we can set the dates in the onDateChanged function to fix this issue
+						mYear = year;
+						mMonth = month;
+						mDay = day;
+					}
+				};
+			}else{
+				dialog = new DatePickerDialog(getActivity(), mListener, mYear, mMonth, mDay);
+			}
+			
 
 			if (AndroidUtils.getSdkVersion() >= 11) {
 				//We set a max date for new apis, if we are stuck with an old api, they will be allowed to choose any date, but validation will fail
