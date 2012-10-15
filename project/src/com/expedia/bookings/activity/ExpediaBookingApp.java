@@ -19,6 +19,7 @@ import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -73,6 +74,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			SettingUtils.save(this, posKey, LocaleUtils.getDefaultPointOfSale(this));
 		}
 
+		FontCache.initialize(this);
 		LocaleUtils.onPointOfSaleChanged(this);
 		AdTracker.initialize(this);
 
