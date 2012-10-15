@@ -238,9 +238,21 @@ public class FlightConfirmationFragment extends Fragment {
 		//Because we are adding a lat/lon parameter, it doesn't matter too much if our query isn't perfect
 		sp.setUserQuery(cityStr);
 		sp.setQuery(cityStr);
-		sp.setSearchLatLon(firstLeg.getLastWaypoint().getAirport().getLatE6() / 1E6, firstLeg.getLastWaypoint()
-				.getAirport().getLonE6() / 1E6);
-		sp.setSearchLatLonUpToDate();
+
+		double lat = firstLeg.getLastWaypoint().getAirport().getLatE6() / 1E6;
+		double lon = firstLeg.getLastWaypoint().getAirport().getLonE6() / 1E6;
+
+		if (lat == 0 && lon == 0) {
+			//We try the origin of the last segment - this isn't great, but in the case of a bus ride, it might be about all we have
+			lat = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mOrigin.getAirport().getLatE6() / 1E6;
+			lon = firstLeg.getSegment(firstLeg.getSegmentCount() - 1).mOrigin.getAirport().getLonE6() / 1E6;
+		}
+
+		//These should only be zero in rare cases, at which time we just use our cityStr
+		if (lat != 0 || lon != 0) {
+			sp.setSearchLatLon(lat, lon);
+			sp.setSearchLatLonUpToDate();
+		}
 
 		//Update the Db object to have our search params (which will be used by hotels search)
 		Db.setSearchParams(sp);
