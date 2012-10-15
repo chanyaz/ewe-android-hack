@@ -55,7 +55,8 @@
                 android:imeOptions="flagNoExtractUi|actionNext"
                 android:inputType="textNoSuggestions"
                 android:popupBackground="@drawable/bg_autocomplete"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
 
             <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
                 android:id="@+id/arrival_airport_edit_text"
@@ -70,7 +71,8 @@
                 android:imeOptions="flagNoExtractUi|actionNext"
                 android:inputType="textNoSuggestions"
                 android:popupBackground="@drawable/bg_autocomplete"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
         <RelativeLayout

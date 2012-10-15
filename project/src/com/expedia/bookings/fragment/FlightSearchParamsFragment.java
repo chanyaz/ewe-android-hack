@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -236,7 +235,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 				//Refresh things
 				updateCalendarText();
-				updateAirportTextColors();
 				updateCalendarInstructionText();
 
 				updateListener();
@@ -244,7 +242,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		});
 
 		updateCalendarText();
-		updateAirportTextColors();
 		updateCalendarInstructionText();
 
 		return v;
@@ -462,24 +459,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		resetAirportEditTexts();
 	}
 
-	private void updateAirportTextColors() {
-		Resources res = getResources();
-		int defColor = res.getColor(R.color.flight_airport_text);
-		mDepartureAirportEditText.setTextColor(defColor);
-		mArrivalAirportEditText.setTextColor(defColor);
-
-		// If the calendar is open, highlight whichever leg we're selecting a date for
-		if (mCalendarDatePicker.getVisibility() == View.VISIBLE) {
-			int selectedColor = res.getColor(R.color.flight_airport_text_selected);
-			if (mCalendarDatePicker.getStartTime() == null) {
-				mDepartureAirportEditText.setTextColor(selectedColor);
-			}
-			else if (mCalendarDatePicker.getEndTime() == null) {
-				mArrivalAirportEditText.setTextColor(selectedColor);
-			}
-		}
-	}
-
 	private void updateCalendarInstructionText() {
 		if (mCalendarDatePicker != null) {
 			Calendar dateStart = mSearchParams.getDepartureDate() == null ? null : mSearchParams.getDepartureDate()
@@ -533,7 +512,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		mCalendarDatePicker.setVisibility(enabled ? View.VISIBLE : View.GONE);
-		updateAirportTextColors();
 		updateCalendarInstructionText();
 	}
 
@@ -582,7 +560,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		updateAirportText();
 		updateCalendarText();
-		updateAirportTextColors();
 		updateCalendarInstructionText();
 	}
 
@@ -608,7 +585,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		updateCalendarText();
-		updateAirportTextColors();
 		updateCalendarInstructionText();
 
 		updateListener();

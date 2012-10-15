@@ -91,9 +91,6 @@
 	<color name="clickable_row_background">#efefef</color>
 
     <color name="flight_checkout_opaque_white">#BBE8E8E8</color>
-
-    <color name="flight_airport_text">@android:color/black</color>
-    <color name="flight_airport_text_selected">#135C9A</color>
     
     <color name="nav_dropdown_background">#333333</color>
     <color name="nav_dropdown_text">#CFCFCF</color>
