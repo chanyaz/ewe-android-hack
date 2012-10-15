@@ -141,7 +141,7 @@ public class HotelReceiptMini extends FrameLayout {
 		Money displayedTotal;
 		if (LocaleUtils.shouldDisplayMandatoryFees(getContext())) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
-			addRow(mBelowTotalCostLayout, R.string.PayToExpedia, selectedRate.getTotalAmountAfterTax()
+			addTextRow(mBelowTotalCostLayout, R.string.PayToExpedia, selectedRate.getTotalAmountAfterTax()
 					.getFormattedMoney());
 			displayedTotal = selectedRate.getTotalPriceWithMandatoryFees();
 		}
@@ -158,24 +158,41 @@ public class HotelReceiptMini extends FrameLayout {
 		mBelowTotalCostLayout.removeAllViews();
 	}
 
-	private View addRow(ViewGroup parent, int labelStrId, CharSequence value) {
-		return addRow(parent, getContext().getString(labelStrId), value);
+	/**
+	 * This adds a row, using snippet_booking_detail_text, where the LEFT column has a
+	 * width of wrap_content and the RIGHT column is wrapped if too long.
+	 */
+	private View addTextRow(ViewGroup parent, int labelStrId, CharSequence value) {
+		return addRow(parent, getContext().getString(labelStrId), value, R.layout.snippet_booking_detail_text);
 	}
 
-	private View addRow(ViewGroup parent, CharSequence label, CharSequence value) {
+	/**
+	 * This adds a row, using snippet_booking_detail_rate, where the RIGHT column has a
+	 * width of wrap_content and the LEFT column is wrapped if too long.
+	 */
+	private View addRateRow(ViewGroup parent, int labelStrId, CharSequence value) {
+		return addRow(parent, getContext().getString(labelStrId), value, R.layout.snippet_booking_detail_rate);
+	}
+
+	/**
+	 * This adds a row, using snippet_booking_detail_rate, where the RIGHT column has a
+	 * width of wrap_content and the LEFT column is wrapped if too long.
+	 */
+	private View addRateRow(ViewGroup parent, CharSequence label, CharSequence value) {
+		return addRow(parent, label, value, R.layout.snippet_booking_detail_rate);
+	}
+
+	private View addRow(ViewGroup parent, CharSequence label, CharSequence value, int layoutResId) {
 		if (value == null || value.length() == 0) {
 			return null;
 		}
 
-		View detailRow = mInflater.inflate(R.layout.snippet_booking_detail, parent, false);
+		View detailRow = mInflater.inflate(layoutResId, parent, false);
 		TextView labelView = (TextView) detailRow.findViewById(R.id.label_text_view);
 		labelView.setText(label);
-
 		TextView valueView = (TextView) detailRow.findViewById(R.id.value_text_view);
 		valueView.setText(value);
-
 		parent.addView(detailRow);
-
 		return detailRow;
 	}
 }
