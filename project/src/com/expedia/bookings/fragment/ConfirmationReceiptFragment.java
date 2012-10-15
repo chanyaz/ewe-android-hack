@@ -16,6 +16,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.ConfirmationUtils;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.ReceiptWidget;
 import com.google.android.maps.GeoPoint;
@@ -47,8 +49,7 @@ public class ConfirmationReceiptFragment extends Fragment {
 
 		// Font face can't be set in xml
 		TextView enjoyYourStay = Ui.findView(receipt, R.id.text_enjoy_your_stay);
-		final Typeface type = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
-		enjoyYourStay.setTypeface(type);
+		enjoyYourStay.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
 
 		TextView contactView = Ui.findView(receipt, R.id.contact_text_view);
 		String contactText = ConfirmationUtils.determineContactText(getActivity());

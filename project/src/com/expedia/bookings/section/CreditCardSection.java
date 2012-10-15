@@ -8,7 +8,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.FontCache.Font;
 
 public class CreditCardSection extends LinearLayout {
 
@@ -29,8 +31,8 @@ public class CreditCardSection extends LinearLayout {
 
 		// Configure custom typefaces
 		AssetManager am = getContext().getAssets();
-		mSignatureTextView.setTypeface(Typeface.createFromAsset(am, "fonts/Signerica_Fat.ttf"), Typeface.BOLD);
-		mNameTextView.setTypeface(Typeface.createFromAsset(am, "fonts/OCRAStd.otf"));
+		mSignatureTextView.setTypeface(FontCache.getTypeface(Font.SIGNERICA_FAT), Typeface.BOLD);
+		mNameTextView.setTypeface(FontCache.getTypeface(Font.OCRA_STD));
 	}
 
 	public void setName(String name) {

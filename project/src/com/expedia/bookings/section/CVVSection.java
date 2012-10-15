@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.section.CreditCardInputSection.CreditCardInputListener;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
 
 public class CVVSection extends RelativeLayout implements CreditCardInputListener {
@@ -44,7 +46,7 @@ public class CVVSection extends RelativeLayout implements CreditCardInputListene
 		mCvvTextView = Ui.findView(this, R.id.cvv_text_view);
 		mCvvExplanationTextView = Ui.findView(this, R.id.cvv_explanation_text_view);
 
-		mCvvTextView.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/OCRAStd.otf"));
+		mCvvTextView.setTypeface(FontCache.getTypeface(Font.OCRA_STD));
 	}
 
 	public void setExplanationText(CharSequence text) {
