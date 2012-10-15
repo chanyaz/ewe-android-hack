@@ -53,9 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@android:string/cancel"
-                android:textAllCaps="true"
-                android:textColor="#E9E9E9"
-                android:textStyle="bold" />
+                android:textAppearance="?attr/actionMenuTextAppearance"
+                android:textColor="#E9E9E9" />
         </LinearLayout>
 
         <View
@@ -83,9 +82,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/select_flight"
-                android:textAllCaps="true"
-                android:textColor="@color/action_bar_text_yellow"
-                android:textStyle="bold" />
+                android:textAppearance="?attr/actionMenuTextAppearance"
+                android:textColor="@color/action_bar_text_yellow" />
         </LinearLayout>
     </LinearLayout>
 

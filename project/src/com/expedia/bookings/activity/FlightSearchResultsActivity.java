@@ -10,12 +10,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -130,8 +129,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mFlightDetailsFragment = Ui.findSupportFragment(this, FlightDetailsFragment.TAG);
 
 		// Configure the custom action bar view
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
+		ActionBar actionBar = this.getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.action_bar_flight_results);
+		actionBar.setTitle(R.string.searching);
+
+		View customView = actionBar.getCustomView();
 		mFlightSummaryContainer = Ui.findView(customView, R.id.flight_summary_container);
 		mTitleTextView = Ui.findView(customView, R.id.title_text_view);
 		mSubtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
@@ -141,12 +145,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		mCancelButton.setOnClickListener(mOnCancelClick);
 		mSelectFlightButton.setOnClickListener(mSelectFlightClick);
-
-		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setCustomView(customView);
-		actionBar.setTitle(R.string.searching);
 
 		// Need to do this, or else the custom view won't take up the entire space available
 		customView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
