@@ -65,10 +65,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:drawableLeft="@drawable/ic_suitcase_small"
-        android:drawablePadding="8dp"
+        android:drawablePadding="5dp"
         android:gravity="center_vertical"
         android:text="@string/baggage_fee_info"
         android:textColor="@android:color/white"
+        android:textSize="14dp"
         android:textStyle="bold" />
 
 </RelativeLayout>
