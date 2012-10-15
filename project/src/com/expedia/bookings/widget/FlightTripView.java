@@ -59,7 +59,6 @@ public class FlightTripView extends View {
 		mTextPaint.setColor(r.getColor(R.color.airport_text));
 		mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		mTextPaint.setAntiAlias(true);
-		mTextPaint.setShadowLayer(.1f, 0, 1, r.getColor(R.color.airport_text_shadow));
 	}
 
 	public void setUp(FlightLeg flightLeg, Calendar minTime, Calendar maxTime) {
