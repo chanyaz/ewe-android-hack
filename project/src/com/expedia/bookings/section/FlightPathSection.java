@@ -6,7 +6,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 
@@ -23,6 +25,7 @@ public class FlightPathSection extends LinearLayout {
 		super.onFinishInflate();
 
 		mInfoTextView = Ui.findView(this, R.id.info_text_view);
+		mInfoTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
 	}
 
 	public void bind(Flight flight, boolean isDeparting) {

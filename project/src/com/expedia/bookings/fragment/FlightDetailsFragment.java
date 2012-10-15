@@ -25,6 +25,8 @@ import com.expedia.bookings.section.FlightLayoverSection;
 import com.expedia.bookings.section.FlightPathSection;
 import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
@@ -67,15 +69,20 @@ public class FlightDetailsFragment extends Fragment {
 		FlightLeg leg = getFlightLeg();
 
 		// Format header
+		TextView durationDistanceTextView = Ui.findView(v, R.id.duration_distance_text_view);
+		TextView bookPriceTextView = Ui.findView(v, R.id.book_price_text_view);
+		durationDistanceTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
+		bookPriceTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
+
 		String duration = DateTimeUtils.formatDuration(getResources(), (int) (leg.getDuration() / 60000));
 		int distanceInMiles = leg.getDistanceInMiles();
 		if (distanceInMiles <= 0) {
-			Ui.setText(v, R.id.duration_distance_text_view, Html.fromHtml(getString(R.string.bold_template, duration)));
+			durationDistanceTextView.setText(Html.fromHtml(getString(R.string.bold_template, duration)));
 		}
 		else {
 			String distance = FormatUtils.formatDistance(getActivity(), leg.getDistanceInMiles());
-			Ui.setText(v, R.id.duration_distance_text_view,
-					Html.fromHtml(getString(R.string.time_distance_TEMPLATE, duration, distance)));
+			durationDistanceTextView.setText(Html.fromHtml(getString(R.string.time_distance_TEMPLATE, duration,
+					distance)));
 		}
 
 		// Figure out which string to use for the upper-right label
@@ -92,8 +99,8 @@ public class FlightDetailsFragment extends Fragment {
 			}
 		}
 
-		Ui.setText(v, R.id.book_price_text_view,
-				Html.fromHtml(getString(bookNowResId, trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL))));
+		bookPriceTextView.setText(Html.fromHtml(getString(bookNowResId,
+				trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL))));
 
 		// Format content
 		mInfoContainer = Ui.findView(v, R.id.flight_info_container);

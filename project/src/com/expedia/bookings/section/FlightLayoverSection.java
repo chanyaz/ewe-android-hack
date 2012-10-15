@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
@@ -27,6 +29,7 @@ public class FlightLayoverSection extends LinearLayout {
 		super.onFinishInflate();
 
 		mLayoverTextView = Ui.findView(this, R.id.layover_text_view);
+		mLayoverTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
 	}
 
 	public void bind(Flight flight1, Flight flight2) {
