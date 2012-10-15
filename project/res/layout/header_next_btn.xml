@@ -9,5 +9,5 @@
     android:minHeight="?attr/actionBarSize"
     android:paddingRight="@dimen/yoyo_navigation_padding_right"
     android:text="@string/next"
-    android:textAllCaps="true"
+    android:textAppearance="?attr/actionMenuTextAppearance"
     android:textColor="@color/action_bar_text_yellow" />

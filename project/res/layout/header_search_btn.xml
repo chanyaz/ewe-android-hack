@@ -11,5 +11,5 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:text="@string/search"
-    android:textAllCaps="true"
+    android:textAppearance="?attr/actionMenuTextAppearance"
     android:textColor="@color/action_bar_text_yellow" />
