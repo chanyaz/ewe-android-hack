@@ -486,6 +486,8 @@
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">URUTKAN</string>
     <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Urutkan</string>
+    <!-- Label for sort hotels in hotel list -->
     <string name="SORT">URUTKAN</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Ganti Tampilan</string>
@@ -901,6 +903,8 @@
     <string name="rules_restrictions">Aturan &amp; Pembatasan</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Jika Anda memiliki akun Expedia Rewards, lakukan pemesanan dengan alamat email yang sama dan poin akan dikirim secara otomatis setelah masa menginap Anda. Kemungkinan perlu waktu hingga 30 hari untuk dapat melihat poin Anda.</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">Biaya hotel total, termasuk pajak, ditagihkan di hotel.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Masukkan Info Pemesanan</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -981,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Tamu</string>
-    <!-- Label for the taxes & fees for this booking. -->
-    <string name="TaxesAndFees">Pajak &amp; Biaya</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Pajak Termasuk</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Biaya Hotel (Dibayar di hotel)</string>
     <!-- Label for the rate per room per night. -->
@@ -1107,6 +1111,8 @@
     <string name="tell_a_friend_description">Suka dengan tawaran hotel yang menakjubkan? Beri tahu teman Anda tentang aplikasi ini.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Bepergian dengan pintar</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">JUGA DARI MOBIATA</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1131,6 +1137,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">Buka situs web ponsel Expedia?</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">Ingin mengunjungi situs web dukungan Expedia?</string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">Daftar</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">Ikuti</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">Suka</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

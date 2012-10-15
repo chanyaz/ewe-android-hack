@@ -486,6 +486,8 @@
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">排序</string>
     <!-- Label for sort hotels in hotel list -->
+    <string name="sort">排序</string>
+    <!-- Label for sort hotels in hotel list -->
     <string name="SORT">排序</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">切換檢視</string>
@@ -901,6 +903,8 @@
     <string name="rules_restrictions">規定與限制</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">如果您有 Expedia Rewards 帳戶，請以相同的電子郵件地址預訂，這樣在您住宿後，便會自動計入您的積分。請注意，最多可能需要 30 天才會顯示您的積分。</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">所有飯店費用 (包括稅金) 將由飯店收取。</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">輸入預訂資訊</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -981,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">旅客人數</string>
-    <!-- Label for the taxes & fees for this booking. -->
-    <string name="TaxesAndFees">稅金與費用</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">含稅</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">飯店費用 (已於飯店支付)</string>
     <!-- Label for the rate per room per night. -->
@@ -1107,6 +1111,8 @@
     <string name="tell_a_friend_description">喜歡這些超值的飯店特惠？將這個應用程式告訴您的朋友。</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">聰明旅行</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">MOBIATA 的其他應用程式</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1131,6 +1137,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">啟用 Expedia 行動版網站？</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">瀏覽 Expedia 支援網站？</string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">訂閱</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">關注</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">讚</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

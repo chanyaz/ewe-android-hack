@@ -60,12 +60,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			Db.loadTestData(this);
 		}
 
-		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return;
-		}
+		if (checkFinishConditionsAndFinish()) return;
 
 		setContentView(R.layout.activity_rooms_and_rates);
 
@@ -99,7 +94,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		// Only display nights header if orientation landscape
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			TextView nightsView = (TextView) findViewById(R.id.nights_text_view);
-			int numNights = searchParams.getStayDuration();
+			int numNights = Math.max(1, searchParams.getStayDuration());
 			nightsView.setText(getResources().getQuantityString(R.plurals.staying_nights, numNights, numNights));
 
 			TextView datesView = (TextView) findViewById(R.id.dates_text_view);
@@ -130,7 +125,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	protected void onStart() {
 		super.onStart();
 
-		if (mWasStopped) {
+		if (mWasStopped && Db.getSelectedProperty() != null) {
 			Tracker.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), null);
 			mWasStopped = false;
 		}
@@ -140,18 +135,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	protected void onResume() {
 		super.onResume();
 
-		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
-			finish();
-			return;
-		}
-
-		// #14135, set a 1 hour timeout on this screen
-		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
-			finish();
-			return;
-		}
-		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+		if (checkFinishConditionsAndFinish()) return;
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(DOWNLOAD_KEY)) {
@@ -189,6 +173,30 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		super.onStop();
 
 		mWasStopped = true;
+	}
+
+	private boolean checkFinishConditionsAndFinish() {
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return true;
+		}
+
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return true;
+		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return true;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

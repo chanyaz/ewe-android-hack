@@ -486,6 +486,8 @@
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SẮP XẾP</string>
     <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Sắp xếp</string>
+    <!-- Label for sort hotels in hotel list -->
     <string name="SORT">SẮP XẾP</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Chuyển màn hình hiển thị</string>
@@ -901,6 +903,8 @@
     <string name="rules_restrictions">Quy tắc &amp; Giới hạn</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Nếu đã có tài khoản Expedia Rewards, vui lòng đặt chỗ với cùng địa chỉ email và điểm của quý vị sẽ tự động được cập nhật sau khi thời gian lưu trú. Xin lưu ý rằng có thể mất tối đa 30 ngày để điểm tích lũy xuất hiện.</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">Thanh toán mọi chi phí phòng, bao gồm thuế, tại khách sạn.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Nhập thông tin đặt phòng</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -981,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Khách</string>
-    <!-- Label for the taxes & fees for this booking. -->
-    <string name="TaxesAndFees">Thuế &amp; Phí</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Bao gồm thuế</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Phí khách sạn (Thanh toán tại khách sạn)</string>
     <!-- Label for the rate per room per night. -->
@@ -1107,6 +1111,8 @@
     <string name="tell_a_friend_description">Thích những deal khách sạn tuyệt vời? Giới thiệu với bạn bè về ứng dụng này.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Du lịch một cách thông minh</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">CŨNG TẠO BỞI MOBIATA</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1131,6 +1137,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">Mở trang web cho di động của Expedia?</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">Truy cập trang web hỗ trợ của Expedia?</string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">Đăng ký</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">Kết nối</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">Thích</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

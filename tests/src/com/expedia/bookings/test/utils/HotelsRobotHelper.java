@@ -28,81 +28,99 @@ public class HotelsRobotHelper {
 			"nl_NL", "en_NZ", "nb_NO",
 			"en_SG", "en_PH", "ko_KR",
 			"es_ES", "sv_SE", "zh_TW",
-			"en_US", "th_TH", "vi_VN"
+			"en_US", "th_TH", "vi_VN",
+			"tl_PH", "zh_CN"
 	};
 
-	public static Locale[] TEST_LOCALES = new Locale[] {
+
+	public static Locale[] AMERICAN_LOCALES = new Locale[] {
 			new Locale("es", "AR"),
+			new Locale("pt", "BR"),
+			new Locale("en", "CA"),
+			new Locale("fr", "CA"),
+			new Locale("es", "MX"),
+			new Locale("en", "US")
+	};
+
+	public static Locale[] APAC_LOCALES = new Locale[] {
+			new Locale("en", "HK"),
+			new Locale("zh", "HK"),
+			new Locale("id", "ID"),
+			new Locale("en", "IN"),
+			new Locale("ja", "JP"),
+			new Locale("ko", "KR"),
+			new Locale("en", "MY"),
+			new Locale("ms", "MY"),
+			new Locale("en", "PH"),
+			new Locale("en", "SG"),
+			new Locale("th", "TH"),
+			new Locale("en", "TW"),
+			new Locale("zh", "TW"),
+			new Locale("vi", "VN"),
+			new Locale("tl", "PH"),
+			new Locale("zh", "CN")
+	};
+
+	public static Locale[] WESTERN_LOCALES = new Locale[] {
 			new Locale("de", "AT"),
 			new Locale("en", "AU"),
 			new Locale("fr", "BE"),
 			new Locale("nl", "BE"),
-			new Locale("pt", "BR"),
-			new Locale("en", "CA"),
-			new Locale("fr", "CA"),
 			new Locale("de", "DE"),
 			new Locale("da", "DK"),
 			new Locale("es", "ES"),
 			new Locale("fr", "FR"),
-			new Locale("en", "HK"),
-			new Locale("zh", "HK"),
-			new Locale("id", "ID"),
 			new Locale("en", "IE"),
-			new Locale("en", "IN"),
 			new Locale("it", "IT"),
-			new Locale("ja", "JP"),
-			new Locale("ko", "KR"),
-			new Locale("es", "MX"),
-			new Locale("ms", "MY"),
 			new Locale("nl", "NL"),
 			new Locale("nb", "NO"),
 			new Locale("en", "NZ"),
-			new Locale("en", "PH"),
 			new Locale("sv", "SE"),
-			new Locale("th", "TH"),
-			new Locale("en", "TW"),
-			new Locale("zh", "TW"),
-			new Locale("en", "UK"),
-			new Locale("en", "US"),
-			new Locale("vi", "VN")
+			new Locale("en", "UK")
 	};
 
 	public static final Map<Locale, Integer> LOCALE_TO_COUNTRY = new HashMap<Locale, Integer>();
 	static {
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[0], R.string.country_ar);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[1], R.string.country_at);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[2], R.string.country_au);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[3], R.string.country_be);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[4], R.string.country_be);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[5], R.string.country_br);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[6], R.string.country_ca);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[7], R.string.country_ca);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[8], R.string.country_de);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[9], R.string.country_dk);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[10], R.string.country_es);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[11], R.string.country_fr);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[12], R.string.country_hk);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[13], R.string.country_hk);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[14], R.string.country_id);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[15], R.string.country_ie);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[16], R.string.country_in);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[17], R.string.country_it);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[18], R.string.country_jp);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[19], R.string.country_kr);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[20], R.string.country_mx);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[21], R.string.country_my);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[22], R.string.country_nl);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[23], R.string.country_no);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[24], R.string.country_nz);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[25], R.string.country_ph);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[26], R.string.country_se);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[27], R.string.country_th);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[28], R.string.country_tw);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[29], R.string.country_tw);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[30], R.string.country_gb);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[31], R.string.country_us);
-		LOCALE_TO_COUNTRY.put(TEST_LOCALES[32], R.string.country_vn);
+		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[0], R.string.country_ar);
+		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[1], R.string.country_br);
+		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[2], R.string.country_ca);
+		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[3], R.string.country_ca);
+		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[4], R.string.country_mx);
+		LOCALE_TO_COUNTRY.put(AMERICAN_LOCALES[5], R.string.country_us);
+		
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[0], R.string.country_hk);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[1], R.string.country_hk);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[2], R.string.country_id);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[3], R.string.country_in);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[4], R.string.country_jp);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[5], R.string.country_kr);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[6], R.string.country_my);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[7], R.string.country_my);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[8], R.string.country_ph);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[9], R.string.country_sg);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[10], R.string.country_th);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[11], R.string.country_tw);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[12], R.string.country_tw);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[13], R.string.country_vn);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[14], R.string.country_ph);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[15], R.string.country_cn);
+		
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[0], R.string.country_at);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[1], R.string.country_au);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[2], R.string.country_be);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[3], R.string.country_be);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[4], R.string.country_de);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[5], R.string.country_dk);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[6], R.string.country_es);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[7], R.string.country_fr);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[8], R.string.country_ie);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[9], R.string.country_it);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[10], R.string.country_nl);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[11], R.string.country_no);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[12], R.string.country_nz);
+		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[13], R.string.country_gb);	
 	}
+
 	private static final String TAG = "com.expedia.bookings.test";
 	private boolean mAllowScreenshots;
 	private boolean mAllowOrientationChange;
@@ -221,6 +239,7 @@ public class HotelsRobotHelper {
 		Log.d(TAG, "Our countrySelection is: " + countrySelection);
 		delay(1);
 		mSolo.clickOnText(countrySelection);
+		delay(1);
 		mSolo.clickOnButton(1);
 		delay(1);
 		mSolo.clickOnButton(0);
@@ -295,7 +314,7 @@ public class HotelsRobotHelper {
 		mSolo.typeText(0, location);
 		delay(3);
 		enterLog(TAG, "Before clicking search button");
-		mSolo.clickInList(1);//Selecting search suggestion results
+		mSolo.clickInList(2);//Selecting search suggestion results
 		enterLog(TAG, "After clicking search button");
 
 		mSolo.waitForActivity("ExpediaBookingApp");
@@ -318,7 +337,7 @@ public class HotelsRobotHelper {
 		String filter = mRes.getString(R.string.FILTER);
 		//Korea and Japan do not support filtering because 
 		//most hotel names are in their respective languages' characters
-		if (mRes.getConfiguration().locale != TEST_LOCALES[18] && mRes.getConfiguration().locale != TEST_LOCALES[19]) {
+		if (mRes.getConfiguration().locale != APAC_LOCALES[4] && mRes.getConfiguration().locale != APAC_LOCALES[5]) {
 			enterLog(TAG, "Clicking on label: " + filter);
 			//mSolo.clickOnText(filter);
 			mSolo.clickOnButton(1);
@@ -338,7 +357,7 @@ public class HotelsRobotHelper {
 		delay(1);
 		String sortText = mRes.getString(R.string.SORT);
 		enterLog(TAG, "Clicking on label: " + sortText);
-		
+
 		//mSolo.clickOnText(sortText);
 		mSolo.clickOnButton(0);
 		landscape();
@@ -356,7 +375,7 @@ public class HotelsRobotHelper {
 		screenshot(mRes, solo, "Sort by Distance Results");
 		delay(solo, 1);
 		 */
-		
+
 		//mSolo.clickOnText(sortText);
 		mSolo.clickOnButton(0);
 		delay(1);

@@ -74,11 +74,11 @@ public class RoomTypeWidget {
 
 	private void setDetailsState(boolean expanded) {
 		if (expanded) {
-			mDisplayArrow.setRotation(0);
+			mDisplayArrow.setRotation(180);
 			mRoomDetailsTextView.setVisibility(View.VISIBLE);
 		}
 		else {
-			mDisplayArrow.setRotation(90);
+			mDisplayArrow.setRotation(0);
 			mRoomDetailsTextView.setVisibility(View.GONE);
 		}
 	}

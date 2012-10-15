@@ -119,7 +119,7 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 
 	@Override
 	public String getAboutHtml() {
-		return getString(R.string.copyright);
+		return getString(R.string.copyright) + "<br/>" + getString(R.string.open_source_credits);
 	}
 
 	@Override

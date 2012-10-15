@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
 import android.util.FloatMath;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -240,6 +242,22 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 						i.putExtra(Codes.DISPLAY_MODAL_VIEW, true);
 						startActivity(i);
 					}
+				}
+			});
+
+			// H551: Increase the touchable region for the "see all reviews" button
+			//http://stackoverflow.com/questions/1343222/is-there-an-example-of-how-to-use-a-touchdelegate-in-android-to-increase-the-siz
+			mReviewsSection.post(new Runnable() {
+				// Post in the parent's message queue to make sure the parent
+				// lays out its children before we call getHitRect()
+				public void run() {
+					final Rect r = new Rect();
+					mSeeAllReviewsButton.getHitRect(r);
+					r.top -= 20;
+					r.bottom += 20;
+					r.left -= 20;
+					r.right += 20;
+					mReviewsSection.setTouchDelegate(new TouchDelegate(r, mSeeAllReviewsButton));
 				}
 			});
 

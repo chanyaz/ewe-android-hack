@@ -42,7 +42,8 @@
         <activity
             android:name=".activity.PhoneSearchActivity"
             android:theme="@style/Theme.Phone"
-            android:uiOptions="splitActionBarWhenNarrow" />
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.SearchFragmentActivity"
             android:theme="@style/Theme.Tablet.NoActionBar"
@@ -99,7 +100,7 @@
         <activity
             android:name=".activity.TabletPreferenceActivity"
             android:excludeFromRecents="true"
-            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar" />
+            android:theme="@style/Theme.Tablet.Preferences" />
         <activity
             android:name=".activity.AppFeedbackActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -130,12 +131,6 @@
             android:label="Expedia Flights"
             android:theme="@style/FlightTheme"
             android:windowSoftInputMode="adjustPan" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.FlightSearchResultsActivity"
@@ -151,12 +146,6 @@
             android:name=".activity.FlightTripOverviewActivity"
             android:label="Overview"
             android:theme="@style/FlightTheme" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.FlightBookingActivity"

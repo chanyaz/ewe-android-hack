@@ -77,7 +77,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_share" />
+                android:src="@drawable/ic_btn_share" />
 
             <TextView
 				style="@style/ConfirmationButtonText"
@@ -105,7 +105,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_view_on_map" />
+                android:src="@drawable/ic_btn_map" />
 
             <TextView
 				style="@style/ConfirmationButtonText"

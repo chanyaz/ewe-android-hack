@@ -29,6 +29,11 @@ public class SearchSuggestionAdapter extends CursorAdapter {
 	}
 
 	@Override
+	public CharSequence convertToString (Cursor cursor) {
+		return cursor.getString(AutocompleteProvider.COLUMN_TEXT_INDEX);
+	}
+
+	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		View convertView = mInflater.inflate(R.layout.row_suggestion, parent, false);
 

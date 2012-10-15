@@ -80,6 +80,19 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		mContext = this;
 		mApp = (ExpediaBookingApp) getApplicationContext();
+
+		if (getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+			Property property = (Property) JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY, Property.class);
+			if (property != null) {
+				Db.setSelectedProperty(property);
+			}
+			else {
+				// It means we came back from the reviews activity and Db.getSelectedProperty is already valid
+			}
+		}
+
+		if (checkFinishConditionsAndFinish()) return;
+
 		setupHotelActivity(savedInstanceState);
 	}
 
@@ -97,18 +110,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	protected void onResume() {
 		super.onResume();
 
-		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
-			finish();
-			return;
-		}
-
-		// #14135, set a 1 hour timeout on this screen
-		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
-			finish();
-			return;
-		}
-		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+		if (checkFinishConditionsAndFinish()) return;
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
@@ -153,6 +155,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		setIntent(intent);
+
+		if (checkFinishConditionsAndFinish()) return;
+
 		setupHotelActivity(null);
 	}
 
@@ -160,6 +165,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
+
+		if (checkFinishConditionsAndFinish()) return super.onCreateOptionsMenu(menu);
 
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
@@ -169,11 +176,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars, null);
 
 		Property property = Db.getSelectedProperty();
-		if (property == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return false;
-		}
 		String title = property.getName();
 		((TextView) titleView.findViewById(R.id.title)).setText(title);
 
@@ -199,7 +201,14 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// app icon in action bar clicked; go back
+			// If opened from the widget, then "up" means to start a current location search
+			if (getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+				// Launch the PhoneSearchActivity action, with EXTRA_NEW_SEARCH flag
+				Intent intent = new Intent(this, PhoneSearchActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
+				startActivity(intent);
+			}
 			finish();
 			return true;
 		case R.id.menu_select_hotel:
@@ -236,17 +245,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		final Intent intent = getIntent();
 
 		setContentView(R.layout.hotel_details_main);
-
-		if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
-			Db.setSelectedProperty((Property) JSONUtils.parseJSONableFromIntent(intent, Codes.PROPERTY, Property.class));
-		}
-
-		Property property = Db.getSelectedProperty();
-		if (property == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return;
-		}
 
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction ft = manager.beginTransaction();
@@ -295,6 +293,30 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	public void startRoomRatesActivity() {
 		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
 		startActivity(roomsRatesIntent);
+	}
+
+	public boolean checkFinishConditionsAndFinish() {
+		Property property = Db.getSelectedProperty();
+		if (property == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return true;
+		}
+
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return true;
+		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return true;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -367,6 +389,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	@Override
 	public void onMiniMapClicked() {
 		Intent intent = new Intent(this, HotelMapActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.explode);
 	}

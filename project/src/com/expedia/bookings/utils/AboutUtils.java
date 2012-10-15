@@ -36,7 +36,7 @@ public class AboutUtils {
 
 	public Dialog createContactExpediaDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder;
-		if (AndroidUtils.getSdkVersion() < 11) {
+		if (AndroidUtils.getSdkVersion() < 14) {
 			builder = new Builder(mActivity);
 		}
 		else {
@@ -106,7 +106,7 @@ public class AboutUtils {
 
 	public Dialog createExpediaWebsiteDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder;
-		if (AndroidUtils.getSdkVersion() < 11) {
+		if (AndroidUtils.getSdkVersion() < 14) {
 			builder = new AlertDialog.Builder(mActivity);
 		}
 		else {

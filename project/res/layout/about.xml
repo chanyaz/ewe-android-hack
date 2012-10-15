@@ -77,6 +77,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="10dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:text="@string/open_source_credits"
+                android:textColor="#232323" />
         </LinearLayout>
     </ScrollView>
 
@@ -145,7 +153,7 @@
 
         <RelativeLayout
             android:id="@+id/follow_email_button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_actionbar_button"
@@ -180,7 +188,7 @@
 
         <RelativeLayout
             android:id="@+id/follow_twitter_button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_actionbar_button"
@@ -215,7 +223,7 @@
 
         <RelativeLayout
             android:id="@+id/follow_facebook_button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_actionbar_button"

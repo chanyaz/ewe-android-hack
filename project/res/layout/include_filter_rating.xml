@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.mobiata.android.widget.SegmentedControlGroup
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.mobiata.android.widget.SegmentedControlGroup xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/rating_filter_button_group"
     style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:gravity="center" >
+    android:gravity="center"
+    android:orientation="horizontal" >
 
     <RadioButton
         android:id="@+id/rating_low_button"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:drawableBottom="@drawable/btn_filter_rating_low"
+        android:drawableBottom="@drawable/btn_filter_rating_dark_low"
+        android:drawablePadding="-6dp"
         android:text="@string/filter_stars_three"
         android:textStyle="bold" />
 
@@ -23,7 +23,8 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:drawableBottom="@drawable/btn_filter_rating_medium"
+        android:drawableBottom="@drawable/btn_filter_rating_dark_medium"
+        android:drawablePadding="-6dp"
         android:text="@string/filter_stars_four"
         android:textStyle="bold" />
 
@@ -32,7 +33,8 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:drawableBottom="@drawable/btn_filter_rating_high"
+        android:drawableBottom="@drawable/btn_filter_rating_dark_high"
+        android:drawablePadding="-6dp"
         android:text="@string/filter_stars_five"
         android:textStyle="bold" />
 
@@ -41,8 +43,8 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
+        android:checked="true"
         android:text="@string/all"
-        android:textStyle="bold"
-        android:checked="true" />
+        android:textStyle="bold" />
 
 </com.mobiata.android.widget.SegmentedControlGroup>

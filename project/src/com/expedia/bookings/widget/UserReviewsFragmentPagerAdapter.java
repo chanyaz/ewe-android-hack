@@ -16,65 +16,77 @@ import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	// Instance variable names
-	private static final String INSTANCE_RECENT_REVIEWS_FRAGMENT = "INSTANCE_RECENT_REVIEWS_FRAGMENT";
-	private static final String INSTANCE_FAVORABLE_REVIEWS_FRAGMENT = "INSTANCE_FAVORABLE_REVIEWS_FRAGMENT";
-	private static final String INSTANCE_CRITICAL_REVIEWS_FRAGMENT = "INSTANCE_CRITICAL_REVIEWS_FRAGMENT";
+	private static final String FRAGMENT_RECENT = "FRAGMENT_RECENT";
+	private static final String FRAGMENT_FAVORABLE = "FRAGMENT_FAVORABLE";
+	private static final String FRAGMENT_CRITICAL = "FRAGMENT_CRITICAL";
+
+	private static final String[] TAGS = { FRAGMENT_RECENT, FRAGMENT_FAVORABLE, FRAGMENT_CRITICAL };
+	private static final ReviewSort[] TABS = { ReviewSort.NEWEST_REVIEW_FIRST, ReviewSort.HIGHEST_RATING_FIRST,
+			ReviewSort.LOWEST_RATING_FIRST };
 
 	private List<UserReviewsFragment> mFragments;
 
 	public UserReviewsFragmentPagerAdapter(FragmentManager fm, Bundle savedInstanceState) {
 		super(fm);
 
-		mFragments = new ArrayList<UserReviewsFragment>();
+		mFragments = new ArrayList<UserReviewsFragment>(TABS.length);
+		mFragments.add(null);
+		mFragments.add(null);
+		mFragments.add(null);
 
 		if (savedInstanceState != null) {
-			mFragments.add((UserReviewsFragment) fm.getFragment(savedInstanceState, INSTANCE_RECENT_REVIEWS_FRAGMENT));
-			mFragments.add((UserReviewsFragment) fm
-					.getFragment(savedInstanceState, INSTANCE_FAVORABLE_REVIEWS_FRAGMENT));
-			mFragments
-					.add((UserReviewsFragment) fm.getFragment(savedInstanceState, INSTANCE_CRITICAL_REVIEWS_FRAGMENT));
+			for (int i = 0; i < TABS.length; i++) {
+				Fragment fragment = fm.getFragment(savedInstanceState, TAGS[i]);
+				if (fragment != null) {
+					mFragments.set(i, (UserReviewsFragment) fragment);
+				}
+			}
 		}
-		else {
-			Property property = Db.getSelectedProperty();
-			mFragments.add(UserReviewsFragment.newInstance(property, ReviewSort.NEWEST_REVIEW_FIRST));
-			mFragments.add(UserReviewsFragment.newInstance(property, ReviewSort.HIGHEST_RATING_FIRST));
-			mFragments.add(UserReviewsFragment.newInstance(property, ReviewSort.LOWEST_RATING_FIRST));
-		}
-
 	}
 
 	public void onSaveInstanceState(FragmentManager fm, Bundle outState) {
-		fm.putFragment(outState, INSTANCE_RECENT_REVIEWS_FRAGMENT, getItem(0));
-		fm.putFragment(outState, INSTANCE_FAVORABLE_REVIEWS_FRAGMENT, getItem(1));
-		fm.putFragment(outState, INSTANCE_CRITICAL_REVIEWS_FRAGMENT, getItem(2));
+		for (int i = 0; i < TABS.length; i++) {
+			if (mFragments.get(i) != null) {
+				fm.putFragment(outState, TAGS[i], mFragments.get(i));
+			}
+		}
 	}
 
 	@Override
 	public Fragment getItem(int position) {
+		if (mFragments.get(position) == null) {
+			Property property = Db.getSelectedProperty();
+			UserReviewsFragment fragment = UserReviewsFragment.newInstance(property, TABS[position]);
+			mFragments.set(position, fragment);
+		}
 		return mFragments.get(position);
 	}
 
 	@Override
 	public int getCount() {
-		return mFragments.size();
+		return TABS.length;
 	}
 
 	// populate the list header for all three fragments
 	public void populateReviewsStats() {
 		for (UserReviewsFragment f : mFragments) {
-			f.populateListHeader();
+			if (f != null) {
+				f.populateListHeader();
+			}
 		}
 		mFragments.get(0).attemptReviewsDownload();
 	}
 
 	public void cancelDownloads() {
 		for (UserReviewsFragment f : mFragments) {
-			f.cancelReviewsDownload();
+			if (f != null) {
+				f.cancelReviewsDownload();
+			}
 		}
 	}
 
 	public void attemptNextDownload(UserReviewsFragment fragmentDone) {
-		int indexStart = (mFragments.indexOf(fragmentDone) + 1) % mFragments.size();
+		int indexStart = (mFragments.indexOf(fragmentDone) + 1) % TABS.length;
 		mFragments.get(indexStart).attemptReviewsDownload();
 	}
 }

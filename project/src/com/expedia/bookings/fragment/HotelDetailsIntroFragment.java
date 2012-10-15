@@ -148,15 +148,20 @@ public class HotelDetailsIntroFragment extends Fragment {
 			reviewsTextView.setText(reviewsText);
 		}
 
-		OnClickListener onReviewsClick = (!property.hasExpediaReviews() && numReviews == 0) ? null
-				: new OnClickListener() {
-					public synchronized void onClick(final View v) {
-						Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
-						newIntent.fillIn(getActivity().getIntent(), 0);
-						startActivity(newIntent);
-					}
-				};
-		reviewsSummaryLayout.setOnClickListener(onReviewsClick);
+		if (!property.hasExpediaReviews() && numReviews == 0) {
+			reviewsSummaryLayout.setBackgroundResource(R.color.clickable_row_background);
+			reviewsSummaryLayout.setOnClickListener(null);
+		}
+		else {
+			reviewsSummaryLayout.setBackgroundResource(R.drawable.bg_clickable_row);
+			reviewsSummaryLayout.setOnClickListener(new OnClickListener() {
+				public synchronized void onClick(final View v) {
+					Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
+					newIntent.fillIn(getActivity().getIntent(), 0);
+					startActivity(newIntent);
+				}
+			});
+		}
 
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();

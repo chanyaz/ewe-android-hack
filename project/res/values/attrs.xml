@@ -25,6 +25,7 @@
 		clear field functionality set up as a right drawable
         -->
         <attr name="useClearFieldDrawable" format="boolean" />
+        <attr name="clearFieldDrawable" format="reference|color" />
         <attr name="errorTextColor" format="reference" />
         <!-- Defines how much extra area around the "X" allows touch (for clearing the content) -->
         <attr name="touchAreaPadding" format="dimension" />
@@ -42,6 +43,13 @@
     <attr name="numberPickerDownButtonStyle" format="reference" />
     <!-- NumberPicker input text style. -->
     <attr name="numberPickerInputTextStyle" format="reference" />
+
+    <!-- SimpleNumberPicker up button style. -->
+    <attr name="simpleNumberPickerUpButtonStyle" format="reference" />
+    <!-- SimpleNumberPicker down button style. -->
+    <attr name="simpleNumberPickerDownButtonStyle" format="reference" />
+    <!-- SimpleNumberPicker input text style. -->
+    <attr name="simpleNumberPickerInputTextStyle" format="reference" />
 
     <declare-styleable name="NumberPicker">
 

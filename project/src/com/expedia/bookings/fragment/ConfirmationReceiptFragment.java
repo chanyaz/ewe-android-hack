@@ -49,7 +49,10 @@ public class ConfirmationReceiptFragment extends Fragment {
 
 		// Font face can't be set in xml
 		TextView enjoyYourStay = Ui.findView(receipt, R.id.text_enjoy_your_stay);
-		enjoyYourStay.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
+		if (enjoyYourStay != null) {
+			final Typeface type = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
+			enjoyYourStay.setTypeface(type);
+		}
 
 		TextView contactView = Ui.findView(receipt, R.id.contact_text_view);
 		String contactText = ConfirmationUtils.determineContactText(getActivity());

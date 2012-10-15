@@ -76,12 +76,7 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 			Db.loadTestData(this);
 		}
 
-		// #13365: If the Db expired, finish out of this activity
-		if (Db.getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return;
-		}
+		if (checkFinishConditionsAndFinish()) return;
 
 		mBookingFragment = Ui.findOrAddSupportFragment(this, BookingFormFragment.class,
 				getString(R.string.tag_booking_form));
@@ -91,18 +86,7 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 	protected void onResume() {
 		super.onResume();
 
-		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
-			finish();
-			return;
-		}
-
-		// #14135, set a 1 hour timeout on this screen
-		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
-			finish();
-			return;
-		}
-		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+		if (checkFinishConditionsAndFinish()) return;
 
 		// If we were booking, re-hook the download 
 		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
@@ -128,6 +112,29 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 		}
 	}
 
+	private boolean checkFinishConditionsAndFinish() {
+		// #13365: If the Db expired, finish out of this activity
+		if (Db.getSelectedProperty() == null) {
+			Log.i("Detected expired DB, finishing activity.");
+			finish();
+			return true;
+		}
+		// Haxxy fix for #13798, only required on pre-Honeycomb
+		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+			finish();
+			return true;
+		}
+
+		// #14135, set a 1 hour timeout on this screen
+		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
+			finish();
+			return true;
+		}
+		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
+		return false;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Menus
 
@@ -136,10 +143,11 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 		getSupportMenuInflater().inflate(R.menu.menu_booking, menu);
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
-		ActionBar ab = getSupportActionBar();
-		ab.setDisplayHomeAsUpEnabled(true);
-		ab.setDisplayShowTitleEnabled(true);
-		ab.setTitle(R.string.enter_booking_info);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+		actionBar.setTitle(R.string.enter_booking_info);
+		actionBar.setDisplayUseLogoEnabled(!AndroidUtils.isTablet(this));
 
 		final MenuItem bookNow = menu.findItem(R.id.menu_book_now);
 		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_book_now, null);
@@ -305,6 +313,11 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 			}
 
 			startActivity(ConfirmationFragmentActivity.createIntent(mContext));
+
+			// By this point, we never want to see this same activity
+			// (with credit card and cvv info filled in), no matter what happens 
+			// to the back stack. So just to be safe, let's finish it right now.
+			finish();
 		}
 	};
 

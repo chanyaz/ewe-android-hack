@@ -16,8 +16,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="@dimen/receipt_portrait_horizontal_margin"
+            android:layout_marginRight="@dimen/receipt_portrait_horizontal_margin"
             layout="@layout/include_receipt" />
 
         <Button

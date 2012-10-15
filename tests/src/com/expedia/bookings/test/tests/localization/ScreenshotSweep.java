@@ -42,34 +42,46 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 
 	//////////////////////////////////////////////////////////////// 
 	// Test Driver
-
-	public void testBooking() throws Exception {
+	
+	public void testBookingsAPAC() throws Exception{
+		testBookings(mDriver.APAC_LOCALES);
+	}
+	
+	public void testBookingsWestern() throws Exception{
+		testBookings(mDriver.WESTERN_LOCALES);
+	}
+	
+	public void testBookingsAmericas() throws Exception{
+		testBookings(mDriver.AMERICAN_LOCALES);
+	}
+	
+	private void testBookings(Locale[] locales) throws Exception {
 		mDriver.setAllowScreenshots(true);
 		mDriver.setAllowOrientationChange(false);
 
-		for (int i = 0; i < mDriver.TEST_LOCALES.length; i++) {
+		for (int i = 0; i < mDriver.APAC_LOCALES.length; i++) {
+			mSolo.finishInactiveActivities();
+			mDriver.enterLog(TAG, "Starting sweep of " + locales[i].toString());
 
-			mDriver.enterLog(TAG, "Starting sweep of " + mDriver.TEST_LOCALES[i].toString());
-
-			Locale testingLocale = mDriver.TEST_LOCALES[i];
+			Locale testingLocale = locales[i];
 			mDriver.setLocale(testingLocale);
 
 			mDriver.setScreenshotCount(1);
 			mDriver.setLocale(testingLocale);
 			mDriver.delay();
-			mDriver.changePOS(mDriver.TEST_LOCALES[i]);
+			mDriver.changePOS(locales[i]);
 
 			mDriver.changeAPI("Production");
-			mDriver.delay(2);
+			mDriver.delay(1);
 			mDriver.pressCalendar();
 			mDriver.pressGuestPicker();
 
 			mDriver.selectLocation("New York City");
 
 			mDriver.pressSort();
-			mDriver.filterFor("Westin");
+			mDriver.filterFor("Hilton");
 
-			mDriver.selectHotel(2);
+			mDriver.selectHotel(3);
 			mDriver.delay();
 			mDriver.checkReviews();
 			mDriver.pressBookRoom();

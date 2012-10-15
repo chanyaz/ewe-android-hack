@@ -156,7 +156,6 @@ public class Db {
 
 	public static void resetFilter() {
 		sDb.mFilter.reset();
-		sDb.mFilter.clearOnFilterChangedListeners();
 	}
 
 	public static void setFilter(Filter filter) {

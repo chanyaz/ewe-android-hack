@@ -19,10 +19,13 @@
 		
 		<!-- NumberPicker styles -->
 		<item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
-		<item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton
-		</item>
+		<item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
 		<item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
 		<item name="numberPickerStyle">@style/Widget.NumberPicker</item>
+
+        <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
+        <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
+        <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
 	</style>
 
 	<style name="Theme.Tablet.Dark" parent="@android:style/Theme.Holo">
@@ -53,6 +56,23 @@
 		<item name="android:actionBarStyle">@style/Light.ActionBar.Sherlock</item>
 		<item name="actionBarStyle">@style/Light.ActionBar.Sherlock</item>
 	</style>
+	
+	<style name="Theme.Tablet.Preferences" parent="@style/Theme.Sherlock.Light.Dialog">
+		<item name="android:windowNoTitle">true</item>
+		<item name="windowNoTitle">true</item>
+		<item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
+	</style>
+
+	<style name="TabletPreferenceSeparator">
+        <item name="android:background">@drawable/light_header_with_margin</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+	    <item name="android:textColor">#000000</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">8dp</item>
+	</style>
 
 	<style name="ActivityAnimation">
 		<item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
@@ -64,25 +84,31 @@
     <style name="Theme.Phone" parent="@style/Theme.Sherlock.Light.DarkActionBar">
         <item name="actionBarItemBackground">@drawable/bg_actionbar_button</item>
         <item name="actionBarStyle">@style/Dark.ActionBar</item>
-        <item name="actionBarTabStyle">@style/ActionBarTabView</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabView</item>
         <item name="actionBarTabTextStyle">@style/ActionBarTabText</item>
         <item name="actionMenuTextColor">@color/actionbar_text</item>
+        <item name="actionModeBackground">@drawable/bg_action_mode</item>
+        <item name="actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionModeCloseMode</item>
         <item name="android:actionBarItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:actionBarStyle">@style/Dark.ActionBar</item>
-        <item name="android:actionDropDownStyle">@style/Dark.DropDown</item>
-        <item name="android:dropDownListViewStyle">@style/Dark.DropDownListView</item>
-        <item name="android:actionMenuTextColor">@color/actionbar_text</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabView</item>
         <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabView</item>
         <item name="android:actionBarTabTextStyle">@style/ActionBarTabText</item>
-        <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
+        <item name="android:actionDropDownStyle">@style/Dark.DropDown</item>
+        <item name="android:actionMenuTextColor">@color/actionbar_text</item>
+        <item name="android:actionModeBackground">@drawable/bg_action_mode</item>
+        <item name="android:actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionModeCloseMode</item>
         <item name="android:buttonStyle">@style/Widget.Button.Phone</item>
+        <item name="android:dropDownListViewStyle">@style/Dark.DropDownListView</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
-        <item name="numberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
-        <item name="numberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
-        <item name="numberPickerInputTextStyle">@style/NumberPickerText</item>
+        <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone</item>
+        <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
+        <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
+        <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
     </style>
 
     <style name="Theme.Phone.WithStackedTabs">

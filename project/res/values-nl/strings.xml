@@ -486,6 +486,8 @@
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SORTEREN</string>
     <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Sorteren</string>
+    <!-- Label for sort hotels in hotel list -->
     <string name="SORT">SORTEREN</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Weergave wijzigen</string>
@@ -901,6 +903,8 @@
     <string name="rules_restrictions">Regels &amp; beperkingen</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Als je een Expedia Rewards-account hebt, boek dan met hetzelfde e-mailadres om je punten automatisch na je verblijf toe te voegen. Let op: het kan maximaal 30 dagen duren voordat je punten verschijnen. </string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">Het totaalbedrag, incl. belastingen, wordt in het hotel in rekening gebracht. </string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Voer boekingsinfo in</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -981,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Gasten</string>
-    <!-- Label for the taxes & fees for this booking. -->
-    <string name="TaxesAndFees">Belastingen &amp; Toeslagen</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Belastingen inbegrepen</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hoteltoeslagen (te betalen aan het hotel)</string>
     <!-- Label for the rate per room per night. -->
@@ -1107,6 +1111,8 @@
     <string name="tell_a_friend_description">Hou je van geweldige hotelaanbiedingen? Vertel je vrienden over onze app.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Reis slim</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">OOK VAN MOBIATA</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1131,6 +1137,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">Wil je Expedia\&apos;s mobiele website opstarten?</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">De support-website van Expedia bezoeken?</string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">Abonneren</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">Volgen</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">Like</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

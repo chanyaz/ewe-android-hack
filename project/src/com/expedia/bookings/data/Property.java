@@ -403,7 +403,7 @@ public class Property implements JSONable {
 			Rate right = rightProperty.getLowestRate();
 
 			if (left.getDiscountPercent() == right.getDiscountPercent()) {
-				return 1;
+				return 0;
 			}
 			else if (left.getDiscountPercent() > right.getDiscountPercent()) {
 				// We want to show larger percentage discounts first

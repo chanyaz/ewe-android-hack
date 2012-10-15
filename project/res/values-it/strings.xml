@@ -486,6 +486,8 @@
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">ORDINA</string>
     <!-- Label for sort hotels in hotel list -->
+    <string name="sort">Ordina</string>
+    <!-- Label for sort hotels in hotel list -->
     <string name="SORT">ORDINA</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Alterna visualizzazione</string>
@@ -901,6 +903,8 @@
     <string name="rules_restrictions">Regolamento e limitazioni</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Se disponi di un account Expedia Rewards, prenota usando lo stesso indirizzo email e i tuoi punti verranno aggiunti automaticamente dopo il tuo soggiorno. I punti risulteranno sul tuo account entro i prossimi 30 giorni.</string>
+    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
+    <string name="charges_info">I costi totali del soggiorno, tasse incluse, sono fatturati in hotel.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
     <string name="EnterBookingInfo">Inserisci dati prenotazione</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
@@ -981,8 +985,8 @@
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
     <string name="GuestsLabel">Ospiti</string>
-    <!-- Label for the taxes & fees for this booking. -->
-    <string name="TaxesAndFees">Tasse e spese di gestione</string>
+    <!-- Label indicating taxes are included for this booking. -->
+    <string name="TaxesAndFees">Tasse comprese</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Tasse e tariffe locali (da pagare in hotel)</string>
     <!-- Label for the rate per room per night. -->
@@ -1107,6 +1111,8 @@
     <string name="tell_a_friend_description">Ti piacciono le nostre offerte? Consiglia l\&apos;app ai tuoi amici!</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Viaggi intelligenti</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="ALSO_BY_MOBIATA">Altre app Mobiata</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1131,6 +1137,12 @@
     <string name="dialog_message_launch_expedia_mobile_site">Passare al sito mobile di Expedia?</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">Caricare il sito dell\&apos;assistenza clienti Expedia?</string>
+    <!-- Action button label to Subscribe to our mailing list -->
+    <string name="Subscribe">Iscriviti</string>
+    <!-- Action button label to follow on twitter -->
+    <string name="Follow">Seguici</string>
+    <!-- Action button label to like on facebook -->
+    <string name="Like">Mi piace</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

@@ -32,11 +32,11 @@ public class Money implements JSONable {
 	public static int F_NO_DECIMAL = 2;
 
 	private BigDecimal mAmount;
-	private String mCurrency;
+	private String mCurrency = null;
 	private String mFormattedMoney;
 
 	public Money() {
-		// Default constructor
+		mAmount = BigDecimal.ZERO;
 	}
 
 	public Money(Money oldMoney) {

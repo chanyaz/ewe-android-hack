@@ -24,7 +24,8 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -42,13 +43,14 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.MeasureSpec;
-import android.view.ViewStub;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -68,10 +70,10 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
@@ -120,6 +122,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
@@ -197,8 +200,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// VIEWS
 	//----------------------------------
 
+	private ViewTreeObserver mViewTreeObserver;
+
 	private CalendarDatePicker mDatesCalendarDatePicker;
 	private AutoCompleteTextView mSearchEditText;
+	private ImageView mClearSearchButton;
 	private FrameLayout mContent;
 	private ImageButton mDatesButton;
 	private ImageButton mGuestsButton;
@@ -218,13 +224,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private View mDatesLayout;
 	private View mFocusLayout;
 	private View mGuestsLayout;
-	private View mChildAgesLayout;
 	private View mRefinementDismissView;
+	private View mChildAgesLayout;
 	private View mSearchButton;
 
 	private View mFilterLayout;
 	private View mFilterFocusLayout;
 	private PopupWindow mFilterPopupWindow;
+	private PopupWindowPreDrawListener mPopupWindowPreDrawLisetner;
 
 	private View mActionBarCustomView;
 
@@ -242,6 +249,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private HotelListFragment mHotelListFragment;
 	private HotelMapFragment mHotelMapFragment;
+
+	private ActionMode mActionMode = null;
 
 	private String mTag;
 
@@ -263,11 +272,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	public boolean mStartSearchOnResume;
 	private long mLastSearchTime = -1;
 	private boolean mIsWidgetNotificationShowing;
+	private boolean mWasOnDestroyCalled = false;
 
 	private SearchSuggestionAdapter mSearchSuggestionAdapter;
 
 	private boolean mIsActivityResumed = false;
 	private boolean mIsOptionsMenuCreated = false;
+	private boolean mIsSearchEditTextTextWatcherEnabled = false;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
@@ -276,6 +287,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// The last selection for the search EditText.  Used to maintain between rotations
 	private int mSearchTextSelectionStart = -1;
 	private int mSearchTextSelectionEnd = -1;
+
+	private int mSearchEditTextPaddingRight = -1;
+
+	private HockeyPuck mHockeyPuck;
 
 	//----------------------------------
 	// THREADS/CALLBACKS
@@ -392,7 +407,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onSearchParamsChanged(SearchParams searchParams) {
 			Db.setSearchParams(searchParams);
-			searchParams.ensureValidCheckInDate();
+			if (searchParams != null) {
+				searchParams.ensureValidCheckInDate();
+			}
+			else {
+				Db.resetSearchParams();
+			}
 			mStartSearchOnResume = true;
 		}
 	};
@@ -422,6 +442,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
 		boolean localeChanged = SettingUtils.get(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
+		boolean startNewSearch = getIntent().getBooleanExtra(Codes.EXTRA_NEW_SEARCH, false);
+
+		if (startNewSearch) {
+			Db.clear();
+			saveParams();
+			// Remove it so we don't keep doing this on rotation
+			getIntent().removeExtra(Codes.EXTRA_NEW_SEARCH);
+		}
 
 		boolean toBroadcastSearchCompleted = false;
 		SearchResponse searchResponse = Db.getSearchResponse();
@@ -472,8 +500,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			if (AndroidUtils.getAppCodeFromFilePath(SEARCH_RESULTS_VERSION_FILE, mContext) >= AndroidUtils.APP_CODE_E3) {
 				versionGood = true;
 			}
+
 			// Attempt to load saved search results; if we fail, start a new search
-			if (!localeChanged && versionGood) {
+			if (!localeChanged && versionGood && !startNewSearch) {
 				BackgroundDownloader.getInstance().startDownload(KEY_LOADING_PREVIOUS, mLoadSavedResults,
 						mLoadSavedResultsCallback);
 				broadcastSearchStarted();
@@ -504,7 +533,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		showFragment(mTag);
 		setShowDistance(mShowDistance);
-		setDisplayType(mDisplayType, false);
 
 		// 9028:t only broadcast search completed once all 
 		// elements have been setup
@@ -519,15 +547,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	@Override
-	public void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-
-		if (intent.getBooleanExtra(Codes.EXTRA_NEW_SEARCH, false)) {
-			mStartSearchOnResume = true;
-		}
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 		mIsActivityResumed = false;
@@ -536,8 +555,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		stopLocationListener();
 
 		Db.getFilter().removeOnFilterChangedListener(this);
-
-		mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
 
 		if (!isFinishing()) {
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
@@ -573,15 +590,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
+		// setDisplayType here because it could possibly add a TextWatcher before the view has restored causing the listener to fire
+		setDisplayType(mDisplayType, false);
+
 		setSearchEditViews();
 		GuestsPickerUtils.configureAndUpdateDisplayedValues(this, mAdultsNumberPicker, mChildrenNumberPicker);
 
 		displayRefinementInfo();
 		setActionBarBookingInfoText();
-
-		// #9103: Must add this after onResume(); otherwise it gets called when mSearchEditText
-		// automagically restores its previous state.
-		mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
 
 		if (mStartSearchOnResume) {
 			startSearch();
@@ -625,6 +641,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	protected void onDestroy() {
 		super.onDestroy();
 
+		mWasOnDestroyCalled = true;
+
 		// #9018: There was an insidious memory leak happening on rotation.  There might be a number of 
 		// ListView rows that were trying to load images.  The callbacks for these loads involved an ImageView
 		// which (in turn) held onto the Activity.  On rotation, these callbacks would be retained until the
@@ -637,6 +655,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		((ExpediaBookingApp) getApplicationContext())
 				.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
+
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
 
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
@@ -921,6 +943,41 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	}
 
+	private ActionMode.Callback mSearchActionMode = new ActionMode.Callback() {
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			// Inflate a menu resource providing context menu items
+			mode.getMenuInflater().inflate(R.menu.action_mode_search, menu);
+			return true;
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			switch (item.getItemId()) {
+			case R.id.menu_select_search:
+				startSearch();
+				mode.finish(); // Action picked, so close the CAB
+				return true;
+			default:
+				return false;
+			}
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			mActionMode = null;
+			if (!mWasOnDestroyCalled) {
+				setDisplayType(DisplayType.NONE);
+			}
+		}
+	};
+
 	//----------------------------------
 	// KEY EVENTS
 	//----------------------------------
@@ -1034,6 +1091,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// Handled in the actionbar's custom view now
 		mActionBarCustomView = getLayoutInflater().inflate(R.layout.actionbar_search_hotels, null);
 		mSearchEditText = (AutoCompleteTextView) mActionBarCustomView.findViewById(R.id.search_edit_text);
+		mClearSearchButton = (ImageView) mActionBarCustomView.findViewById(R.id.clear_search_button);
 		mDatesButton = (ImageButton) mActionBarCustomView.findViewById(R.id.dates_button);
 		mDatesTextView = (TextView) mActionBarCustomView.findViewById(R.id.dates_text_view);
 		mGuestsButton = (ImageButton) mActionBarCustomView.findViewById(R.id.guests_button);
@@ -1067,28 +1125,20 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
 		mPriceButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.price_filter_button_group);
 
-		mFilterHotelNameEditText.setOnEditorActionListener(new OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					mFocusLayout.requestFocus();
-					v.clearFocus();
+		mFilterHotelNameEditText.setOnEditorActionListener(mEditorActionLisenter);
 
-					hideSoftKeyboard((TextView) v);
-				}
-				return false;
-			}
-		});
+		// Special case for HTC keyboards, which seem to ignore the android:inputType="textFilter|textNoSuggestions" xml flag
+		mSearchEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+				| InputType.TYPE_TEXT_VARIATION_FILTER);
 
 		// Setup popup
 		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(),
-				mFilterLayout.getMeasuredHeight());
-		mFilterPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
+				mFilterLayout.getMeasuredHeight(), true);
+		mFilterPopupWindow.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.abs__menu_dropdown_panel_holo_dark));
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
 		mFilterPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
-		mFilterPopupWindow.setFocusable(true);
-		mFilterPopupWindow.setOutsideTouchable(false);
 
 		// Progress bar
 		mProgressBar.addOnDrawStartedListener(this);
@@ -1106,8 +1156,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		//===================================================================
 		// Listeners
-		mFilterHotelNameEditText.setOnFocusChangeListener(mFilterHotelNameEditTextFocusChangeListener);
-
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
 		mSearchEditText.setOnItemClickListener(mSearchSuggestionsItemClickListner);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
@@ -1116,6 +1164,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		if (mSearchButton != null) {
 			mSearchButton.setOnClickListener(mSearchButtonClickListener);
 		}
+
+		mClearSearchButton.setOnClickListener(mClearSearchButtonOnClickListener);
 
 		mRefinementDismissView.setOnClickListener(mRefinementDismissViewClickListener);
 
@@ -1331,7 +1381,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private final Download<List<Address>> mGeocodeDownload = new Download<List<Address>>() {
 		public List<Address> doDownload() {
-			return LocationServices.geocode(mContext, Db.getSearchParams().getQuery());
+			return LocationServices.geocodeGoogle(mContext, Db.getSearchParams().getQuery());
 		}
 	};
 
@@ -1436,6 +1486,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
 		// stay visible, it's easier here just to hide it between activity shifts.
 		outState.putInt(INSTANCE_DISPLAY_TYPE, mDisplayType.ordinal());
+
 		return outState;
 	}
 
@@ -1626,13 +1677,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		mDisplayType = displayType;
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
 
 		switch (mDisplayType) {
 		case NONE: {
 			// Reset focus
 			mFocusLayout.requestFocus();
+			mSearchEditText.clearFocus();
 
-			hideSoftKeyboard(mSearchEditText);
 			hideFilterOptions();
 
 			mProgressBar.onResume();
@@ -1644,7 +1698,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			break;
 		}
 		case KEYBOARD: {
-			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
 			hideFilterOptions();
 
 			// 13550: In some cases, the list has been cleared
@@ -1663,7 +1716,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
-			hideSoftKeyboard(mSearchEditText);
 			hideFilterOptions();
 
 			// make sure to draw/redraw the calendar
@@ -1675,13 +1727,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mDatesLayout.setVisibility(View.VISIBLE);
 			mGuestsLayout.setVisibility(View.GONE);
 
+			if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+				mActionMode = startActionMode(mSearchActionMode);
+			}
+
 			break;
 		}
 		case GUEST_PICKER: {
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
-			hideSoftKeyboard(mSearchEditText);
 			hideFilterOptions();
 
 			mRefinementDismissView.setVisibility(View.VISIBLE);
@@ -1689,15 +1744,17 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.VISIBLE);
 
+			if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+				mActionMode = startActionMode(mSearchActionMode);
+			}
+
 			break;
 		}
 		case FILTER: {
 			mFocusLayout.requestFocus();
 			mSearchEditText.clearFocus();
 
-			hideSoftKeyboard(mSearchEditText);
-
-			mRefinementDismissView.setVisibility(View.VISIBLE);
+			mRefinementDismissView.setVisibility(View.INVISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
 			mGuestsLayout.setVisibility(View.GONE);
@@ -1706,6 +1763,15 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			break;
 		}
+		}
+
+		if (mDisplayType == DisplayType.KEYBOARD) {
+			showSoftKeyboard(mSearchEditText, new SoftKeyResultReceiver(mHandler));
+			addSearchTextWatcher();
+		}
+		else {
+			hideSoftKeyboard(mSearchEditText);
+			removeSearchTextWatcher();
 		}
 
 		setSearchEditViews();
@@ -1816,23 +1882,54 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			return;
 		}
 
-		//mFocusLayout.requestFocus();
-		mFilterHotelNameEditText.clearFocus();
-
 		mFilterPopupWindow.setOnDismissListener(mFilterPopupOnDismissListener);
 
 		mFilterHotelNameEditText.removeTextChangedListener(mFilterHotelNameTextWatcher);
 		mFilterHotelNameEditText.setText(Db.getFilter().getHotelName());
 		mFilterHotelNameEditText.addTextChangedListener(mFilterHotelNameTextWatcher);
 
-		if (mRadiusCheckedId == 0) {
-			mRadiusCheckedId = mRadiusButtonGroup.getCheckedRadioButtonId();
+		switch (Db.getFilter().getSearchRadius()) {
+		case SMALL:
+			mRadiusCheckedId = R.id.radius_small_button;
+			break;
+		case MEDIUM:
+			mRadiusCheckedId = R.id.radius_medium_button;
+			break;
+		case LARGE:
+			mRadiusCheckedId = R.id.radius_large_button;
+			break;
+		case ALL:
+			mRadiusCheckedId = R.id.radius_all_button;
+			break;
 		}
-		if (mRatingCheckedId == 0) {
-			mRatingCheckedId = mRatingButtonGroup.getCheckedRadioButtonId();
+
+		switch (Db.getFilter().getPriceRange()) {
+		case CHEAP:
+			mPriceCheckedId = R.id.price_cheap_button;
+			break;
+		case MODERATE:
+			mPriceCheckedId = R.id.price_moderate_button;
+			break;
+		case EXPENSIVE:
+			mPriceCheckedId = R.id.price_expensive_button;
+			break;
+		case ALL:
+			mPriceCheckedId = R.id.price_all_button;
+			break;
 		}
-		if (mPriceCheckedId == 0) {
-			mPriceCheckedId = mPriceButtonGroup.getCheckedRadioButtonId();
+
+		double minStarRating = Db.getFilter().getMinimumStarRating();
+		if (minStarRating >= 5) {
+			mRatingCheckedId = R.id.rating_high_button;
+		}
+		else if (minStarRating >= 4) {
+			mRatingCheckedId = R.id.rating_medium_button;
+		}
+		else if (minStarRating >= 3) {
+			mRatingCheckedId = R.id.rating_low_button;
+		}
+		else {
+			mRatingCheckedId = R.id.rating_all_button;
 		}
 
 		LayoutUtils.configureRadiusFilterLabels(this, mRadiusButtonGroup, Db.getFilter());
@@ -1849,12 +1946,54 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mRatingButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mFilterButtonGroupCheckedChangeListener);
 
+		mRadiusButtonGroup.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
+
 		mContent.post(new Runnable() {
 			@Override
 			public void run() {
-				mFilterPopupWindow.showAsDropDown(mRefinementDismissView,
-						(mContent.getMeasuredWidth() - mFilterLayout.getMeasuredWidth()) / 2,
-						-mFilterLayout.getMeasuredHeight());
+				mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+
+				int width = mFilterLayout.getMeasuredWidth();
+				int height = mFilterLayout.getMeasuredHeight();
+				int offsetX = 0;
+				int offsetY = 0;
+
+				// Get vertical offset
+				Drawable background = mFilterPopupWindow.getBackground();
+				if (background != null) {
+					Rect padding = new Rect();
+					background.getPadding(padding);
+
+					width += padding.left + padding.right;
+					height += padding.top + padding.bottom;
+
+					offsetY = -padding.top;
+				}
+
+				// Get anchor view and horizontal offset
+				View anchor = findViewById(R.id.menu_select_filter);
+				if (anchor != null) {
+					// Really hacky solution to a bug in <2.3 devices, where the ViewTreeObserver doesn't
+					// call onScrollChanged when the screen is resized. Instead we must listen for
+					// onPreDraw and manually re-anchor the PopupWindow to the correct view. For this we
+					// use a private class that implements the listener, and holds the anchor view and
+					// the width and height. We add the listener when the PopupWindow is show, and remove
+					// it on dismissal of the PopupWindow.
+
+					anchor = (View) anchor.getParent();
+					offsetX = (anchor.getWidth() - width) / 2;
+
+					mViewTreeObserver = anchor.getViewTreeObserver();
+					mPopupWindowPreDrawLisetner = new PopupWindowPreDrawListener(anchor, width, height);
+
+					mViewTreeObserver.addOnPreDrawListener(mPopupWindowPreDrawLisetner);
+				}
+				else {
+					anchor = findViewById(R.id.menu_select_change_view);
+				}
+
+				mFilterPopupWindow.showAsDropDown(anchor, offsetX, offsetY);
+				mFilterPopupWindow.update(width, height);
 			}
 		});
 
@@ -1946,16 +2085,20 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	private void displayRefinementInfo() {
+		CharSequence text;
 		if (mDisplayType == DisplayType.CALENDAR) {
-			mRefinementInfoTextView.setText(CalendarUtils.getCalendarDatePickerTitle(this, mDatesCalendarDatePicker));
+			text = CalendarUtils.getCalendarDatePickerTitle(this, mDatesCalendarDatePicker);
 		}
 		else if (mDisplayType == DisplayType.GUEST_PICKER) {
 			SearchParams searchParams = Db.getSearchParams();
 			final int numAdults = searchParams.getNumAdults();
 			final int numChildren = searchParams.getNumChildren();
-			mRefinementInfoTextView.setText(StrUtils.formatGuests(this, numAdults, numChildren));
+			text = StrUtils.formatGuests(this, numAdults, numChildren);
 
-			mChildAgesLayout.setVisibility(numChildren == 0 ? View.GONE : View.VISIBLE);
+			int orientation = getWindowManager().getDefaultDisplay().getOrientation();
+			final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE
+					: View.INVISIBLE;
+			mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
 					numChildren));
 
@@ -1963,7 +2106,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					mChildAgesLayout, mChildAgeSelectedListener);
 		}
 		else {
-			mRefinementInfoTextView.setText(null);
+			text = null;
+		}
+
+		mRefinementInfoTextView.setText(text);
+		if (mActionMode != null) {
+			mActionMode.setTitle(text);
 		}
 	}
 
@@ -1986,26 +2134,24 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		}
 
-		mSearchEditText.setText(searchParams.getSearchDisplayText(this));
+		setSearchText(searchParams.getSearchDisplayText(this));
 		if (mSearchTextSelectionStart != -1 && mSearchTextSelectionEnd != -1) {
 			mSearchEditText.setSelection(mSearchTextSelectionStart, mSearchTextSelectionEnd);
 		}
 
-		if (mDisplayType != DisplayType.CALENDAR) {
-			// Temporarily remove the OnDateChangedListener so that it is not fired
-			// while we manually update the start/end dates
-			mDatesCalendarDatePicker.setOnDateChangedListener(null);
+		// Temporarily remove the OnDateChangedListener so that it is not fired
+		// while we manually update the start/end dates
+		mDatesCalendarDatePicker.setOnDateChangedListener(null);
 
-			Calendar checkIn = searchParams.getCheckInDate();
-			mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
-					checkIn.get(Calendar.DAY_OF_MONTH));
+		Calendar checkIn = searchParams.getCheckInDate();
+		mDatesCalendarDatePicker.updateStartDate(checkIn.get(Calendar.YEAR), checkIn.get(Calendar.MONTH),
+				checkIn.get(Calendar.DAY_OF_MONTH));
 
-			Calendar checkOut = searchParams.getCheckOutDate();
-			mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
-					checkOut.get(Calendar.DAY_OF_MONTH));
+		Calendar checkOut = searchParams.getCheckOutDate();
+		mDatesCalendarDatePicker.updateEndDate(checkOut.get(Calendar.YEAR), checkOut.get(Calendar.MONTH),
+				checkOut.get(Calendar.DAY_OF_MONTH));
 
-			mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
-		}
+		mDatesCalendarDatePicker.setOnDateChangedListener(mDatesDateChangedListener);
 
 		mGuestsLayout.post(new Runnable() {
 			@Override
@@ -2080,6 +2226,30 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// TEXT WATCHERS
 	//----------------------------------
 
+	private void setSearchText(String str) {
+		if (mIsSearchEditTextTextWatcherEnabled) {
+			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
+		}
+		mSearchEditText.setText(str);
+		if (mIsSearchEditTextTextWatcherEnabled) {
+			mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
+		}
+	}
+
+	private void addSearchTextWatcher() {
+		if (!mIsSearchEditTextTextWatcherEnabled) {
+			mSearchEditText.addTextChangedListener(mSearchEditTextTextWatcher);
+			mIsSearchEditTextTextWatcherEnabled = true;
+		}
+	}
+
+	private void removeSearchTextWatcher() {
+		if (mIsSearchEditTextTextWatcherEnabled) {
+			mSearchEditText.removeTextChangedListener(mSearchEditTextTextWatcher);
+			mIsSearchEditTextTextWatcherEnabled = false;
+		}
+	}
+
 	private final TextWatcher mSearchEditTextTextWatcher = new TextWatcher() {
 		@Override
 		public void afterTextChanged(Editable s) {
@@ -2115,6 +2285,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			if (changed) {
 				startAutocomplete();
 			}
+		}
+	};
+
+	private final OnEditorActionListener mEditorActionLisenter = new OnEditorActionListener() {
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+				setDisplayType(DisplayType.NONE);
+			}
+			return false;
 		}
 	};
 
@@ -2168,6 +2348,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 			Cursor c = mSearchSuggestionAdapter.getCursor();
+			c.moveToPosition(position);
 
 			if (c.getString(AutocompleteProvider.COLUMN_TEXT_INDEX).equals(getString(R.string.current_location))) {
 				Db.getSearchParams().setSearchType(SearchType.MY_LOCATION);
@@ -2290,26 +2471,32 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private final TextView.OnEditorActionListener mSearchEditorActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				startSearch();
-				return true;
-			}
-
-			return false;
+			startSearch();
+			return true;
 		}
 	};
 
 	private final View.OnClickListener mDatesButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			setDisplayType(DisplayType.CALENDAR);
+			if (mDisplayType == DisplayType.CALENDAR) {
+				setDisplayType(DisplayType.NONE);
+			}
+			else {
+				setDisplayType(DisplayType.CALENDAR);
+			}
 		}
 	};
 
 	private final View.OnClickListener mGuestsButtonClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			setDisplayType(DisplayType.GUEST_PICKER);
+			if (mDisplayType == DisplayType.GUEST_PICKER) {
+				setDisplayType(DisplayType.NONE);
+			}
+			else {
+				setDisplayType(DisplayType.GUEST_PICKER);
+			}
 		}
 	};
 
@@ -2320,25 +2507,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	};
 
-	private final View.OnClickListener mMapSearchButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			SearchParams searchParams = Db.getSearchParams();
-			searchParams.clearQuery();
-
-			if (mHotelMapFragment != null) {
-				GeoPoint center = mHotelMapFragment.getCenter();
-				searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
-
-				double lat = MapUtils.getLatitude(center);
-				double lng = MapUtils.getLongitude(center);
-				searchParams.setSearchLatLon(lat, lng);
-				setShowDistance(true);
-				startSearch();
-			}
-		}
-	};
-
 	private final View.OnClickListener mRefinementDismissViewClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -2346,16 +2514,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	};
 
-	private final View.OnClickListener mViewButtonClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			switchResultsView();
-		}
-	};
-
 	private final OnDismissListener mFilterPopupOnDismissListener = new OnDismissListener() {
 		@Override
 		public void onDismiss() {
+			if (mViewTreeObserver != null) {
+				mViewTreeObserver.removeOnPreDrawListener(mPopupWindowPreDrawLisetner);
+			}
+
 			onFilterClosed();
 			setDisplayType(DisplayType.NONE);
 
@@ -2365,10 +2530,45 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	};
 
+	private final View.OnClickListener mClearSearchButtonOnClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			setSearchText(null);
+		}
+	};
+
+	private void showClearSearchButton() {
+		mClearSearchButton.setVisibility(View.VISIBLE);
+		mClearSearchButton.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		// Adjust search edit text padding so the clear button doesn't overlap text
+		{
+			mSearchEditTextPaddingRight = mSearchEditText.getPaddingRight();
+			int left = mSearchEditText.getPaddingLeft();
+			int top = mSearchEditText.getPaddingTop();
+			int right = mSearchEditTextPaddingRight + mClearSearchButton.getMeasuredWidth();
+			int bottom = mSearchEditText.getPaddingBottom();
+			mSearchEditText.setPadding(left, top, right, bottom);
+		}
+	}
+
+	private void hideClearSeachButton() {
+		mClearSearchButton.setVisibility(View.GONE);
+		{
+			int left = mSearchEditText.getPaddingLeft();
+			int top = mSearchEditText.getPaddingTop();
+			int right = mSearchEditTextPaddingRight;
+			int bottom = mSearchEditText.getPaddingBottom();
+			mSearchEditText.setPadding(left, top, right, bottom);
+		}
+		mSearchEditTextPaddingRight = -1;
+	}
+
 	private final View.OnFocusChangeListener mSearchEditTextFocusChangeListener = new View.OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
+				showClearSearchButton();
+
 				//expandSearchEditText();
 				setDisplayType(DisplayType.KEYBOARD);
 				SearchType searchType = Db.getSearchParams().getSearchType();
@@ -2376,7 +2576,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					mSearchEditText.post(new Runnable() {
 						@Override
 						public void run() {
-							mSearchEditText.setText(null);
+							setSearchText(null);
 						}
 					});
 				}
@@ -2394,22 +2594,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				}
 			}
 			else {
-				//collapseSearchEditText();
-			}
-		}
-	};
+				hideClearSeachButton();
 
-	private final View.OnFocusChangeListener mFilterHotelNameEditTextFocusChangeListener = new View.OnFocusChangeListener() {
-		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
-			TextView tv = (TextView) v;
-			if (hasFocus) {
-				Log.d("HERE hasFocus");
-				showSoftKeyboard(tv, new SoftKeyResultReceiver(mHandler));
-			}
-			else {
-				Log.d("HERE !hasFocus");
-				//mFocusLayout.requestFocus();
+				//collapseSearchEditText();
+				TextView tv = (TextView) v;
 				hideSoftKeyboard(tv);
 			}
 		}
@@ -2725,4 +2913,22 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			return mContext.getResources().getQuantityString(R.plurals.number_of_children, value, value);
 		}
 	};
+
+	private class PopupWindowPreDrawListener implements ViewTreeObserver.OnPreDrawListener {
+		public View mAnchor;
+		public int mWidth;
+		public int mHeight;
+
+		public PopupWindowPreDrawListener(View anchor, int width, int height) {
+			mAnchor = anchor;
+			mWidth = width;
+			mHeight = height;
+		}
+
+		@Override
+		public boolean onPreDraw() {
+			mFilterPopupWindow.update(mAnchor, mWidth, mHeight);
+			return true;
+		}
+	}
 }
