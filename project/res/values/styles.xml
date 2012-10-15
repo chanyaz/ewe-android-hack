@@ -493,13 +493,12 @@
     </style>
 
     <style name="FlightDetailsText">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/roboto_light</item>
+        <item name="android:textSize">18dp</item>
         <item name="android:shadowColor">@android:color/black</item>
         <item name="android:shadowRadius">.1</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
-        <item name="android:textScaleX">.9</item>
     </style>
 
     <style name="SpinnerStyle" parent="@android:style/Widget.Holo.Spinner">
