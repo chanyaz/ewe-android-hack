@@ -51,6 +51,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
@@ -71,6 +72,7 @@ import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
@@ -262,6 +264,25 @@ public class ExpediaServices implements DownloadListener {
 	public static boolean suppressFinalBooking(Context context) {
 		return !AndroidUtils.isRelease(context)
 				&& SettingUtils.get(context, context.getString(R.string.preference_suppress_bookings), true);
+	}
+
+	/**
+	 * Update (or create) an expedia account traveler
+	 * @param traveler 
+	 * @return
+	 */
+	public TravelerCommitResponse commitTraveler(Traveler traveler) {
+		if (User.isLoggedIn(mContext)) {
+			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+			addFlightTraveler(query, traveler);
+			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
+					traveler),
+					F_SECURE_REQUEST);
+		}
+		else {
+			return null;
+		}
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -582,9 +603,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler) {
-		//TODO: This is incomplete. There is a bunch of information not currently supported by the API that needs to go here. 
-		// Furthermore, there should be any number of travelers and they shouldn't overwrite one another's birthdays etc. Again, we wait for API updates.
-		SimpleDateFormat isoDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
+		SimpleDateFormat isoDateFormatter = new SimpleDateFormat(ISO_FORMAT);//new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
 		query.add(new BasicNameValuePair("firstName", traveler.getFirstName()));
 		if (!TextUtils.isEmpty(traveler.getMiddleName())) {
 			query.add(new BasicNameValuePair("middleName", traveler.getMiddleName()));
@@ -601,6 +620,34 @@ public class ExpediaServices implements DownloadListener {
 			assistanceOption = AssistanceType.NONE.name();
 		}
 		query.add(new BasicNameValuePair("specialAssistanceOption", assistanceOption));
+		query.add(new BasicNameValuePair("seatPreference", traveler.getSeatPreference().name()));
+
+		if (!TextUtils.isEmpty(traveler.getPhoneCountryCode())) {
+			query.add(new BasicNameValuePair("phoneCountryCode", traveler.getPhoneCountryCode()));
+		}
+		if (!TextUtils.isEmpty(traveler.getPhoneNumber())) {
+			query.add(new BasicNameValuePair("phone", traveler.getPhoneNumber()));
+		}
+
+		//Email is required (but there is no traveler email entry)
+		String email = traveler.getEmail();
+		if (TextUtils.isEmpty(email)) {
+			email = Db.getBillingInfo().getEmail();
+		}
+		if (TextUtils.isEmpty(email)) {
+			email = Db.getUser().getPrimaryTraveler().getEmail();
+		}
+		query.add(new BasicNameValuePair("email", email));
+
+		if (!TextUtils.isEmpty(traveler.getPrimaryPassportCountry())) {
+			query.add(new BasicNameValuePair("passportCountryCode", traveler.getPrimaryPassportCountry()));
+		}
+		if (!TextUtils.isEmpty(traveler.getRedressNumber())) {
+			query.add(new BasicNameValuePair("TSARedressNumber", traveler.getRedressNumber()));
+		}
+		if (traveler.hasTuid()) {
+			query.add(new BasicNameValuePair("tuid", traveler.getTuid().toString()));
+		}
 
 	}
 

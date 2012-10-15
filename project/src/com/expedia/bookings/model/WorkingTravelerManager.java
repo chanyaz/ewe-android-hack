@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.IoUtils;
@@ -24,6 +26,7 @@ public class WorkingTravelerManager {
 	private Traveler mWorkingTraveler; //The traveler we want to use
 	private Traveler mBaseTraveler; //The traveler the working traveler was copied from... this is to give us an idea of what changed...
 	private Semaphore mTravelerSaveSemaphore;
+	private Semaphore mCommitTravelerSem;
 	private boolean mAttemptLoadFromDisk = true;//By default yes, because after a crash we do want to attempt to load from disk
 
 	public boolean hasTravelerOnDisk(Context context) {
@@ -131,9 +134,10 @@ public class WorkingTravelerManager {
 
 	/**
 	 * Save the current working traveler to the Db object effectively commiting the changes locally.
+	 * We also kick off a save call to the server (which runs in the background)
 	 * @param travelerNumber (0 indexed)
 	 */
-	public void commitWorkingTravelerToDB(int travelerNumber) {
+	public void commitWorkingTravelerToDB(int travelerNumber, Context context) {
 		while (travelerNumber >= Db.getTravelers().size()) {
 			Db.getTravelers().add(new Traveler());
 		}
@@ -141,6 +145,49 @@ public class WorkingTravelerManager {
 		commitTrav.fromJson(getWorkingTraveler().toJson());
 		Db.getTravelers().set(travelerNumber, commitTrav);
 		Db.setTravelersAreDirty(true);
+		if (commitTrav.getSaveTravelerToExpediaAccount()) {
+			commitTravelerToAccount(context, commitTrav);
+		}
+	}
+
+	/**
+	 * Start a thread, and try to commit the traveler changes. We use a semaphore, so only one request will run at a time.
+	 * 
+	 * @param context
+	 * @param trav
+	 */
+	private void commitTravelerToAccount(final Context context, final Traveler trav) {
+		if (User.isLoggedIn(context)) {
+			if (mCommitTravelerSem == null) {
+				mCommitTravelerSem = new Semaphore(1);
+			}
+
+			Runnable commitTravelerRunner = new Runnable() {
+				@Override
+				public void run() {
+					boolean semGot = false;
+					try {
+						mCommitTravelerSem.acquire();
+						semGot = true;
+
+						ExpediaServices services = new ExpediaServices(context);
+						Log.i("Commit traveler succeeded:" + services.commitTraveler(trav).isSucceeded());
+					}
+					catch (Exception ex) {
+						Log.e("Exception commiting the traveler.", ex);
+					}
+					finally {
+						if (semGot) {
+							mCommitTravelerSem.release();
+						}
+					}
+				}
+			};
+
+			Thread commitTravelerThread = new Thread(commitTravelerRunner);
+			commitTravelerThread.setPriority(Thread.MIN_PRIORITY);
+			commitTravelerThread.start();
+		}
 	}
 
 	/**

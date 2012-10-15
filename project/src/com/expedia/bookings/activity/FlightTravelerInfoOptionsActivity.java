@@ -42,6 +42,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
 	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
+	private static final String STATE_TAG_START_FIRST_NAME = "STATE_TAG_START_FIRST_NAME";
+	private static final String STATE_TAG_START_LAST_NAME = "STATE_TAG_START_LAST_NAME";
 
 	private Context mContext;
 
@@ -58,6 +60,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	private YoYoPosition mBeforeSaveDialogPos;
 
 	private int mTravelerIndex;
+
+	//for determining if the name changed...
+	private String mStartFirstName = "";
+	private String mStartLastName = "";
 
 	//Where we want to return to after our action
 	private enum YoYoPosition {
@@ -211,6 +217,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putString(STATE_TAG_MODE, mMode.name());
 		outState.putString(STATE_TAG_DEST, mPos.name());
+		outState.putString(STATE_TAG_START_FIRST_NAME, mStartFirstName);
+		outState.putString(STATE_TAG_START_LAST_NAME, mStartLastName);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -218,6 +226,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+		mStartFirstName = savedInstanceState.getString(STATE_TAG_START_FIRST_NAME) != null ? savedInstanceState
+				.getString(STATE_TAG_START_FIRST_NAME) : "";
+		mStartLastName = savedInstanceState.getString(STATE_TAG_START_LAST_NAME) != null ? savedInstanceState
+				.getString(STATE_TAG_START_LAST_NAME) : "";
 
 		super.onRestoreInstanceState(savedInstanceState);
 	}
@@ -306,9 +318,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	private boolean workingTravelerNameChanged() {
 		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
 			Traveler working = Db.getWorkingTravelerManager().getWorkingTraveler();
-			Traveler base = Db.getWorkingTravelerManager().getBaseTraveler();
-			if (base.getFirstName().trim().compareTo(working.getFirstName().trim()) == 0
-					&& base.getLastName().trim().compareTo(working.getLastName().trim()) == 0) {
+			if (mStartFirstName.trim().compareTo(working.getFirstName().trim()) == 0
+					&& mStartLastName.trim().compareTo(working.getLastName().trim()) == 0) {
 				return false;
 			}
 			else {
@@ -318,7 +329,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		return false;
 	}
 
-	private boolean workingTravelerChanged() {
+	private boolean workingTravelerDiffersFromBase() {
 		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
 			return Db.getWorkingTravelerManager().getWorkingTraveler()
 					.compareTo(Db.getWorkingTravelerManager().getBaseTraveler()) != 0;
@@ -395,7 +406,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 							Db.getWorkingTravelerManager().getWorkingTraveler().resetTuid();
 							displaySaveDialog();
 						}
-						else if (workingTravelerChanged()
+						else if (workingTravelerDiffersFromBase()
 								&& !Db.getWorkingTravelerManager().getWorkingTraveler()
 										.getSaveTravelerToExpediaAccount()) {
 							//If the traveler changed and we weren't saving before, ask again.
@@ -416,7 +427,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				break;
 			case TWO:
 				if (validate(mTwoFragment)) {
-					if (User.isLoggedIn(this) && workingTravelerChanged()
+					if (User.isLoggedIn(this) && workingTravelerDiffersFromBase()
 							&& !Db.getWorkingTravelerManager().getWorkingTraveler().getSaveTravelerToExpediaAccount()) {
 						displaySaveDialog();
 					}
@@ -429,7 +440,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				break;
 			case THREE:
 				if (validate(mThreeFragment)) {
-					if (User.isLoggedIn(this) && workingTravelerChanged()
+					if (User.isLoggedIn(this) && workingTravelerDiffersFromBase()
 							&& !Db.getWorkingTravelerManager().getWorkingTraveler().getSaveTravelerToExpediaAccount()) {
 						displaySaveDialog();
 					}
@@ -556,6 +567,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	@Override
 	public void displayTravelerEntryOne() {
+		mStartFirstName = Db.getWorkingTravelerManager().getWorkingTraveler().getFirstName();
+		mStartLastName = Db.getWorkingTravelerManager().getWorkingTraveler().getLastName();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mOneFragment = Ui.findSupportFragment(this, ONE_FRAGMENT_TAG);
 		if (mOneFragment == null) {
@@ -622,7 +635,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	@Override
 	public void displayCheckout() {
-		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex);
+		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
 		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
 		finish();
 	}

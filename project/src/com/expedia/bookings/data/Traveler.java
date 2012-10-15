@@ -40,7 +40,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private Date mBirthDate;
 	private String mRedressNumber;
 	private List<String> mPassportCountries;
-	private SeatPreference mSeatPreference = SeatPreference.ANY;
+	private SeatPreference mSeatPreference = SeatPreference.WINDOW;
 	private AssistanceType mAssistance = AssistanceType.NONE;
 
 	// Utility - not actually coming from the Expedia
@@ -50,8 +50,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		MALE, FEMALE, OTHER
 	}
 
+	//This is silly, we only want to offer WINDOW and AISLE, but when downloading from an expedia account 
+	//ANY is the default. When commiting a traveler to the account ANY is invalid and we must use UNASSIGNED
 	public enum SeatPreference {
-		ANY, WINDOW, AISLE
+		ANY, WINDOW, AISLE, UNASSIGNED
 	}
 
 	//These names should be consistance with valid api values
@@ -202,15 +204,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		String retStr = "";
 
 		switch (pref) {
-		case ANY:
-			retStr = res.getString(R.string.any);
-			break;
 		case WINDOW:
 			retStr = res.getString(R.string.window);
 			break;
 		case AISLE:
 			retStr = res.getString(R.string.aisle);
 			break;
+		case ANY:
+		case UNASSIGNED:
 		default:
 			retStr = res.getString(R.string.any);
 		}
@@ -410,7 +411,13 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			JSONUtils.putJSONable(obj, "birthDate", mBirthDate);
 			obj.putOpt("redressNumber", mRedressNumber);
 			JSONUtils.putStringList(obj, "passportCountries", mPassportCountries);
-			JSONUtils.putEnum(obj, "seatPreference", mSeatPreference);
+			if (mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
+				//We only want to support window and AISLE with window being the default
+				JSONUtils.putEnum(obj, "seatPreference", SeatPreference.WINDOW);
+			}
+			else {
+				JSONUtils.putEnum(obj, "seatPreference", mSeatPreference);
+			}
 			JSONUtils.putEnum(obj, "assistance", mAssistance);
 
 			obj.putOpt("saveToExpediaAccount", mSaveTravelerToExpediaAccount);
@@ -441,6 +448,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mRedressNumber = obj.optString("redressNumber");
 		mPassportCountries = JSONUtils.getStringList(obj, "passportCountries");
 		mSeatPreference = JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class);
+		if (mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
+			//We only want to support window and AISLE with window being the default
+			mSeatPreference = SeatPreference.WINDOW;
+		}
 		mAssistance = JSONUtils.getEnum(obj, "assistance", AssistanceType.class);
 
 		mSaveTravelerToExpediaAccount = obj.optBoolean("saveToExpediaAccount");
