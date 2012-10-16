@@ -85,22 +85,22 @@ public class FlightConfirmationFragment extends Fragment {
 		float initialOffset = res.getDimension(R.dimen.flight_card_initial_offset);
 		float offset = res.getDimension(R.dimen.flight_card_overlap_offset);
 		int numLegs = trip.getLegCount();
-		for (int a = 0; a < numLegs; a++) {
+		for (int a = numLegs - 1; a >= 0; a--) {
 			FlightLegSummarySection card = (FlightLegSummarySection) inflater.inflate(
 					R.layout.section_flight_leg_summary, cardContainer, false);
 
 			// Each card is offset below the last one
 			MarginLayoutParams params = (MarginLayoutParams) card.getLayoutParams();
-			params.topMargin = (int) (initialOffset + Math.round(offset * a));
+			params.topMargin = (int) (initialOffset + Math.round(offset * (numLegs - 1 - a)));
 
 			// Set a custom bg
 			LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_row);
 
 			// Bind data
-			if (a + 1 == numLegs) {
+			if (a == 0) {
 				card.bind(trip, trip.getLeg(a));
 			}
-			if (a + 1 != numLegs) {
+			else {
 				card.bind(null, trip.getLeg(a));
 
 				// We can't arbitrarily make views more transparent until API 11,
