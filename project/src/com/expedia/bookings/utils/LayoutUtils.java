@@ -324,7 +324,9 @@ public class LayoutUtils {
 					}
 					else {
 						// See comment above for explanation on this similar code
-						extraBottomPadding = activity.getActionBar().getHeight();
+						a = activity.obtainStyledAttributes(null, STYLEABLE_ACTION_BAR_SIZE);
+						extraBottomPadding = a.getDimensionPixelSize(0, 0);
+						a.recycle();
 					}
 					a.recycle();
 				}
