@@ -42,7 +42,7 @@ public class HotelPaymentAddressFragment extends Fragment implements Validatable
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_payment_address, container, false);
+		View v = inflater.inflate(R.layout.fragment_hotel_payment_address, container, false);
 		mAttemptToLeaveMade = false;
 		mSectionLocation = Ui.findView(v, R.id.address_section);
 

@@ -10,11 +10,11 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
+import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
 
 public class HotelPaymentSaveDialogFragment extends DialogFragment {
 
-	FlightPaymentYoYoListener mListener;
+	HotelPaymentYoYoListener mListener;
 
 	BillingInfo mBillingInfo;
 
@@ -52,12 +52,12 @@ public class HotelPaymentSaveDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof FlightPaymentYoYoListener)) {
+		if (!(activity instanceof HotelPaymentYoYoListener)) {
 			throw new RuntimeException(
 					"FlightPaymentSaveDialogFragment activity must implement FlightPaymentYoYoListener!");
 		}
 
-		mListener = (FlightPaymentYoYoListener) activity;
+		mListener = (HotelPaymentYoYoListener) activity;
 	}
 	
 	@Override

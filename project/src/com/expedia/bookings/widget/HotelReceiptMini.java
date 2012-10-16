@@ -166,22 +166,6 @@ public class HotelReceiptMini extends FrameLayout {
 		return addRow(parent, getContext().getString(labelStrId), value, R.layout.snippet_booking_detail_text);
 	}
 
-	/**
-	 * This adds a row, using snippet_booking_detail_rate, where the RIGHT column has a
-	 * width of wrap_content and the LEFT column is wrapped if too long.
-	 */
-	private View addRateRow(ViewGroup parent, int labelStrId, CharSequence value) {
-		return addRow(parent, getContext().getString(labelStrId), value, R.layout.snippet_booking_detail_rate);
-	}
-
-	/**
-	 * This adds a row, using snippet_booking_detail_rate, where the RIGHT column has a
-	 * width of wrap_content and the LEFT column is wrapped if too long.
-	 */
-	private View addRateRow(ViewGroup parent, CharSequence label, CharSequence value) {
-		return addRow(parent, label, value, R.layout.snippet_booking_detail_rate);
-	}
-
 	private View addRow(ViewGroup parent, CharSequence label, CharSequence value, int layoutResId) {
 		if (value == null || value.length() == 0) {
 			return null;

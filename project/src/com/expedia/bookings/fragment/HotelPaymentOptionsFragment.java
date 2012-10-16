@@ -62,7 +62,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_payment_options, container, false);
+		View v = inflater.inflate(R.layout.fragment_hotel_payment_options, container, false);
 
 		mSectionCurrentBillingAddress = Ui.findView(v, R.id.current_payment_address_section);
 		mSectionCurrentCreditCard = Ui.findView(v, R.id.current_payment_cc_section);
