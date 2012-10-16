@@ -89,9 +89,12 @@ public class InfoBarSection extends LinearLayout {
 		Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
 		Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
 
-		String dateRange = DateUtils.formatDateRange(getContext(), depDate.getTimeInMillis(),
-				retDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
-						| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+		long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
+		long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
+
+		String dateRange = DateUtils.formatDateRange(getContext(), start, end,
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
+						| DateUtils.FORMAT_ABBREV_MONTH);
 		mLeftTextView.setText(dateRange);
 
 		// Bind right label (# travelers)
