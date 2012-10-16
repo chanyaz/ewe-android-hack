@@ -47,9 +47,15 @@ public class FlightPenaltyRulesFragment extends Fragment {
 		CookieManager cookieManager = CookieManager.getInstance();
 
 		PersistantCookieStore persistantCookieStore = ExpediaServices.getCookieStore(getActivity());
+		cookieManager.setAcceptCookie(true);
+		cookieManager.removeSessionCookie();
 		if (persistantCookieStore != null) {
 			for (Cookie cookie : persistantCookieStore.getCookies()) {
 				String cookieString = cookie.getName() + "=" + cookie.getValue() + "; domain=" + cookie.getDomain();
+
+				// Note: this is getting set to two different URLs for Android compatibility reasons. ".expedia.com"
+				//       works with ICS, using the url works with 2.1
+				cookieManager.setCookie(mUrl, cookieString);
 				cookieManager.setCookie(".expedia.com", cookieString);
 			}
 
