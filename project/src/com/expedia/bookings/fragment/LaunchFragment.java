@@ -88,7 +88,6 @@ public class LaunchFragment extends Fragment implements LocationListener {
 
 			else {
 				startHotelSearch(loc);
-
 			}
 		}
 		else {

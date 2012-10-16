@@ -20,7 +20,13 @@ import com.mobiata.android.util.Ui;
 
 public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListener {
 
-	private final int NUM_PROPERTIES_DEFAULT = 10;
+	private static final int TYPE_EMPTY = 0;
+	private static final int TYPE_LOADED = 1;
+	private static final int NUM_ROW_TYPES = 2;
+
+	private static final int NUM_PROPERTIES_DEFAULT = 10;
+
+	private static final String THUMBNAIL_SIZE = Media.IMAGE_BIG_SUFFIX;
 
 	private Context mContext;
 
@@ -84,11 +90,31 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 	}
 
 	@Override
+	public int getViewTypeCount() {
+		return NUM_ROW_TYPES;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		if (mProperties != null && mHasRealProperties) {
+			Property property = mProperties[position];
+			String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
+
+			if (ImageCache.containsImage(url)) {
+				return TYPE_LOADED;
+			}
+			else {
+				return TYPE_EMPTY;
+			}
+		}
+		return TYPE_EMPTY;
+	}
+
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		TileHolder holder;
-
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.row_launch_tile, parent, false);
 
@@ -107,39 +133,56 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 		}
 
 		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
-		if (mIsMeasuring) {
+		if (mIsMeasuring || !mHasRealProperties) {
 			return convertView;
 		}
 
-		if (mHasRealProperties) {
-			Property property = mProperties[position];
+		Property property = mProperties[position];
 
-			holder.titleTextView.setText(property.getName());
+		holder.titleTextView.setText(property.getName());
+		holder.distanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
+				true));
 
-			holder.distanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
-					true));
+		Rate lowestRate = property.getLowestRate();
+		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
+		holder.priceTextView.setText(hotelPrice);
 
-			Rate lowestRate = property.getLowestRate();
-			final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
-			holder.priceTextView.setText(hotelPrice);
-
-			// See if there's a first image; if there is, use that as the thumbnail
-			// Don't try to load the thumbnail if we're just measuring the height of the ListView
-			boolean imageSet = false;
-			if (holder.container != null && !mIsMeasuring && property.getThumbnail() != null) {
-				String url = property.getThumbnail().getUrl(Media.IMAGE_BIG_SUFFIX);
-				imageSet = loadImageForLaunchStream(url, holder.container);
-			}
-			if (holder.container != null && !imageSet) {
-				holder.container.setBackgroundColor(android.R.color.transparent);
-				holder.container.setVisibility(View.INVISIBLE);
-			}
+		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
+		if (ImageCache.containsImage(url)) {
+			holder.container.setBackgroundDrawable(new BitmapDrawable(ImageCache.getImage(url)));
+			holder.container.setVisibility(View.VISIBLE);
 		}
 		else {
 			holder.container.setVisibility(View.INVISIBLE);
+			loadImageForLaunchStream(url, holder.container);
 		}
 
 		return convertView;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Private methods and stuff
+
+	private boolean loadImageForLaunchStream(String url, final RelativeLayout layout) {
+		String key = layout.toString();
+		Log.v(Params.LOGGING_TAG, "Loading RelativeLayout bg " + key + " with " + url);
+
+		// Begin a load on the ImageView
+		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
+			public void onImageLoaded(String url, Bitmap bitmap) {
+				layout.setBackgroundDrawable(new BitmapDrawable(bitmap));
+				AlphaAnimation alpha = new AlphaAnimation(0.0F, 1.0F);
+				alpha.setDuration(1000);
+				alpha.setFillAfter(true);
+				layout.startAnimation(alpha);
+			}
+
+			public void onImageLoadFailed(String url) {
+				Log.v("Image load failed: " + url);
+			}
+		};
+
+		return ImageCache.loadImage(key, url, callback);
 	}
 
 	private class TileHolder {
@@ -147,30 +190,6 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 		public TextView titleTextView;
 		public TextView distanceTextView;
 		public TextView priceTextView;
-	}
-
-	public boolean loadImageForLaunchStream(String url, final RelativeLayout layout) {
-		String key = layout.toString();
-		Log.v(Params.LOGGING_TAG, "Loading RelativeLayout bg " + key + " with " + url);
-
-		// Begin a load on the ImageView
-		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
-			public void onImageLoaded(String url, Bitmap bitmap) {
-				layout.setVisibility(View.VISIBLE);
-				layout.setBackgroundDrawable(new BitmapDrawable(bitmap));
-				AlphaAnimation alpha = new AlphaAnimation(0.0F, 1.0F);
-				alpha.setDuration(2000);
-				alpha.setFillAfter(true);
-				layout.startAnimation(alpha);
-			}
-
-			public void onImageLoadFailed(String url) {
-				// Do nothing
-			}
-		};
-
-		return ImageCache.loadImage(key, url, callback);
-
 	}
 
 	//////////////////////////////////////////////////////////////////////////
