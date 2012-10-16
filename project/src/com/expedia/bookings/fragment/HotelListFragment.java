@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
@@ -269,9 +270,17 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 		// only update if view has been initialized
 		if (mSearchDateRangeText != null) {
 			SearchParams params = Db.getSearchParams();
-			CharSequence from = DateFormat.format("MMM d", params.getCheckInDate());
-			CharSequence to = DateFormat.format("MMM d", params.getCheckOutDate());
-			mSearchDateRangeText.setText(getString(R.string.date_range_TEMPLATE, from, to));
+
+			Date today = new Date(Calendar.getInstance());
+			Date checkIn = new Date(params.getCheckInDate());
+			if (params.getStayDuration() == 1 && today.equals(checkIn)) {
+				mSearchDateRangeText.setText(getString(R.string.Tonight));
+			}
+			else {
+				CharSequence from = DateFormat.format("MMM d", params.getCheckInDate());
+				CharSequence to = DateFormat.format("MMM d", params.getCheckOutDate());
+				mSearchDateRangeText.setText(getString(R.string.date_range_TEMPLATE, from, to));
+			}
 		}
 	}
 

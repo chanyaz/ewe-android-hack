@@ -19,7 +19,8 @@
         android:gravity="center_vertical"
         android:singleLine="true"
         android:textColor="#394552"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/lawyer_label_text_view"
