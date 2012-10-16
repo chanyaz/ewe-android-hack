@@ -8,8 +8,10 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.*;
@@ -40,6 +42,7 @@ public class LaunchFragment extends Fragment implements LocationListener {
 	private ListView mHotelsStreamListView;
 	private LaunchStreamAdapter mHotelsStreamAdapter;
 	private ListView mFlightsStreamListView;
+	private LaunchStreamAdapter mFlightsStreamAdapter;
 
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
@@ -60,12 +63,16 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
 
 		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
-
 		mHotelsStreamAdapter = new LaunchStreamAdapter(mContext);
 		mHotelsStreamListView.setAdapter(mHotelsStreamAdapter);
 
-		//		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
-		//		mFlightsStreamListView.setAdapter(new LaunchStreamAdapter(mContext));
+		mHotelsStreamListView.setOnTouchListener(mHotelsListViewOnTouchListener);
+
+		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
+		mFlightsStreamAdapter = new LaunchStreamAdapter(mContext);
+		mFlightsStreamListView.setAdapter(mFlightsStreamAdapter);
+
+		mFlightsStreamListView.setOnTouchListener(mFlightsListViewOnTouchListener);
 
 		return v;
 	}
@@ -196,6 +203,51 @@ public class LaunchFragment extends Fragment implements LocationListener {
 			}
 		}
 
+	};
+
+	// Note: there is a lot of code duplication between these two onTouchListeners TODO: refactor to one class
+
+	private final View.OnTouchListener mHotelsListViewOnTouchListener = new View.OnTouchListener() {
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// Set the other ListView onTouchListener to null to ensure there does not exist resonance in touch dispatch
+			mFlightsStreamListView.setOnTouchListener(null);
+
+			// dispatch the touch event to the other ListView such that they will scroll in unison
+			mFlightsStreamListView.dispatchTouchEvent(event);
+
+			// post the resetting of the onTouchListener on ACTION_UP as that is when the ListView is no longer touched
+			if (event.getAction() == MotionEvent.ACTION_UP) {
+				mFlightsStreamListView.post(new Runnable() {
+					@Override
+					public void run() {
+						mFlightsStreamListView.setOnTouchListener(mFlightsListViewOnTouchListener);
+					}
+				});
+			}
+
+			return false;
+		}
+	};
+
+	private final View.OnTouchListener mFlightsListViewOnTouchListener = new View.OnTouchListener() {
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			mHotelsStreamListView.setOnTouchListener(null);
+
+			mHotelsStreamListView.dispatchTouchEvent(event);
+
+			if (event.getAction() == MotionEvent.ACTION_UP) {
+				mHotelsStreamListView.post(new Runnable() {
+					@Override
+					public void run() {
+						mHotelsStreamListView.setOnTouchListener(mHotelsListViewOnTouchListener);
+					}
+				});
+			}
+
+			return false;
+		}
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

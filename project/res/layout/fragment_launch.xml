@@ -25,7 +25,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/ic_big_hotels" />
-
             <TextView
                 android:id="@+id/hotels_label_text_view"
                 android:layout_width="wrap_content"
@@ -61,7 +60,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/ic_big_flights" />
-
             <TextView
                 android:id="@+id/flights_label_text_view"
                 android:layout_width="wrap_content"
@@ -90,90 +88,36 @@
         android:id="@+id/scroll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_search_nyc">
+        android:background="@drawable/bg_search_nyc" >
+
         <View
             android:id="@+id/divider"
             android:layout_width="@dimen/launch_tile_space_width"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:background="@android:color/black"/>
+            android:background="@android:color/black" />
 
         <com.expedia.bookings.widget.MeasureListView
             android:id="@+id/hotels_stream_list_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:dividerHeight="2dp"
-            android:divider="@android:color/black"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@id/divider"
-            android:scrollbars="none"
-            android:overScrollMode="never"/>
+            android:divider="@android:color/black"
+            android:dividerHeight="2dp"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
 
-        <!--<ListView-->
-            <!--android:id="@+id/flights_stream_list_view"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_toRightOf="@id/divider" />-->
-
-        <!--<ScrollView-->
-            <!--android:id="@+id/scroll_left"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_toLeftOf="@id/divider"-->
-            <!--android:overScrollMode="never"-->
-            <!--android:scrollbars="none" >-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical" >-->
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="200dp"/>-->
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="100dp"-->
-                    <!--android:background="@android:color/holo_blue_bright" />-->
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="200dp" />-->
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="100dp"-->
-                    <!--android:background="@android:color/holo_blue_bright" />-->
-            <!--</LinearLayout>-->
-        <!--</ScrollView>-->
-        <ScrollView
-            android:id="@+id/scroll_right"
+        <com.expedia.bookings.widget.MeasureListView
+            android:id="@+id/flights_stream_list_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@id/divider"
+            android:divider="@android:color/black"
+            android:dividerHeight="2dp"
             android:overScrollMode="never"
-            android:scrollbars="none" >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@android:color/holo_blue_bright" />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@android:color/holo_blue_dark" />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@android:color/holo_blue_bright" />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@android:color/holo_blue_dark" />
-            </LinearLayout>
-        </ScrollView>
+            android:scrollbars="none" />
 
         <!--
         Note: It seems as though the ordering of these views within this RelativeLayout matters. It must be
