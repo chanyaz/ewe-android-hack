@@ -71,14 +71,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayCreditCardBrandIcon);
 		mFields.add(this.mDisplayCreditCardExpiration);
 		mFields.add(this.mDisplayCreditCardNumberMasked);
-		mFields.add(this.mDisplayCreditCardSecurityCodeInfo);
 		mFields.add(this.mDisplayFullName);
 		mFields.add(this.mDisplayCreditCardBrandName);
 		mFields.add(this.mDisplayAddress);
 
 		//Validation indicator fields
 		mFields.add(mValidCCNum);
-		mFields.add(mValidSecCode);
 		mFields.add(mValidNameOnCard);
 		mFields.add(mValidFirstName);
 		mFields.add(mValidLastName);
@@ -88,7 +86,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		//Edit fields
 		mFields.add(this.mEditCreditCardNumber);
-		mFields.add(this.mEditCreditCardSecurityCode);
 		mFields.add(this.mEditFirstName);
 		mFields.add(this.mEditLastName);
 		mFields.add(this.mEditNameOnCard);
@@ -104,7 +101,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mDisplayCreditCardNumberMasked.bindData(mBillingInfo);
 		mDisplayCreditCardBrandIcon.bindData(mBillingInfo);
 		mDisplayCreditCardBrandName.bindData(mBillingInfo);
-		mDisplayCreditCardSecurityCodeInfo.bindData(mBillingInfo);
 	}
 
 	@Override
@@ -222,25 +218,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionField<TextView, BillingInfo> mDisplayCreditCardSecurityCodeInfo = new SectionField<TextView, BillingInfo>(
-			R.id.display_creditcard_security_code_info) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getBrandName())) {
-				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
-				if (cardType != null) {
-					field.setText(BookingInfoUtils.CREDIT_CARD_SECURITY_LOCATION.get(cardType));
-				}
-				else {
-					field.setText("");
-				}
-			}
-			else {
-				field.setText("");
-			}
-		}
-	};
-
 	SectionField<TextView, BillingInfo> mDisplayFullName = new SectionField<TextView, BillingInfo>(
 			R.id.display_full_name) {
 		@Override
@@ -281,8 +258,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////////////////////////////////////
 	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
 			R.id.edit_creditcard_number);
-	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidSecCode = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
-			R.id.edit_creditcard_security_code);
 	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
 			R.id.edit_name_on_card);
 	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
@@ -366,45 +341,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
 			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
 			retArr.add(mValidCCNum);
-			return retArr;
-		}
-	};
-
-	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardSecurityCode = new SectionFieldEditable<EditText, BillingInfo>(
-			R.id.edit_creditcard_security_code) {
-
-		@Override
-		public void setChangeListener(EditText field) {
-			field.addTextChangedListener(new AfterChangeTextWatcher() {
-				@Override
-				public void afterTextChanged(Editable s) {
-					if (hasBoundData()) {
-						getData().setSecurityCode(s.toString());
-					}
-					onChange(SectionBillingInfo.this);
-				}
-			});
-		}
-
-		@Override
-		protected void onHasFieldAndData(EditText field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getSecurityCode())) {
-				field.setText(data.getSecurityCode());
-			}
-			else {
-				field.setText("");
-			}
-		}
-
-		@Override
-		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
-			retArr.add(mValidSecCode);
 			return retArr;
 		}
 	};
