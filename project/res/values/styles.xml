@@ -490,6 +490,17 @@
 
     <!-- Expedia Flights styles -->
 
+    <style name="ExpediaLaunchList">
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:divider">@android:color/black</item>
+        <item name="android:dividerHeight">2dp</item>
+        <item name="android:footerDividersEnabled">false</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:overScrollFooter">@null</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:scrollbars">none</item>
+    </style>
+
     <style name="FlightFilterLabel">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>

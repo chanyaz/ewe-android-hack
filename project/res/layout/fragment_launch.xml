@@ -25,6 +25,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/ic_big_hotels" />
+
             <TextView
                 android:id="@+id/hotels_label_text_view"
                 android:layout_width="wrap_content"
@@ -60,6 +61,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/ic_big_flights" />
+
             <TextView
                 android:id="@+id/flights_label_text_view"
                 android:layout_width="wrap_content"
@@ -89,7 +91,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_search_nyc" >
-
         <View
             android:id="@+id/divider"
             android:layout_width="@dimen/launch_tile_space_width"
@@ -99,25 +100,18 @@
 
         <com.expedia.bookings.widget.MeasureListView
             android:id="@+id/hotels_stream_list_view"
+            style="@style/ExpediaLaunchList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/divider"
-            android:divider="@android:color/black"
-            android:dividerHeight="2dp"
-            android:overScrollMode="never"
-            android:scrollbars="none" />
-
+            android:layout_toLeftOf="@id/divider" />
         <com.expedia.bookings.widget.MeasureListView
             android:id="@+id/flights_stream_list_view"
+            style="@style/ExpediaLaunchList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/divider"
-            android:divider="@android:color/black"
-            android:dividerHeight="2dp"
-            android:overScrollMode="never"
-            android:scrollbars="none" />
+            android:layout_toRightOf="@id/divider" />
 
         <!--
         Note: It seems as though the ordering of these views within this RelativeLayout matters. It must be
