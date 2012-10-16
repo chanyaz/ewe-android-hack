@@ -51,7 +51,6 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	public HotelDetailsScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
-		mGalleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
 		mIntroOffset = getResources().getDimensionPixelSize(R.dimen.hotel_details_intro_offset);
 	}
 
@@ -63,8 +62,11 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		mIGalleryScale = null;
 		mIMapScroll = null;
 
-		int h = b - t;
-		mInitialScrollTop = h - mGalleryHeight;
+		if (hasGallery()) {
+			mGalleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_size);
+			int h = b - t;
+			mInitialScrollTop = h - mGalleryHeight;
+		}
 
 		if (!mHasBeenTouched) {
 			scrollTo(0, mInitialScrollTop);
@@ -77,10 +79,25 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 
-		mInitialScrollTop = h - mGalleryHeight;
+		initGallery(h);
+		initMap();
+	}
 
+	/**
+	 * A side effect of this function is that mGalleryContainer gets initialized
+	 * if the gallery view is present.
+	 * @return
+	 */
+	private boolean hasGallery() {
 		if (mGalleryContainer == null) {
 			mGalleryContainer = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
+		}
+		return mGalleryContainer != null;
+	}
+
+	private void initGallery(int h) {
+		if (!hasGallery()) {
+			return;
 		}
 		if (mGallery == null) {
 			mGallery = (HotelDetailsGallery) findViewById(R.id.images_gallery);
@@ -90,13 +107,15 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			mGalleryAnimatorProxy = AnimatorProxy.wrap(mGalleryContainer);
 		}
 
-		if (mMapScrollView == null) {
-			mMapScrollView = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_container);
-		}
-
 		ViewGroup.LayoutParams lp = mGalleryContainer.getLayoutParams();
 		lp.height = h;
 		mGalleryContainer.setLayoutParams(lp);
+
+		mInitialScrollTop = h - mGalleryHeight;
+	}
+
+	private void initMap() {
+		mMapScrollView = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_container);
 	}
 
 	@Override
@@ -122,8 +141,12 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	private void doCounterscroll() {
 		int t = getScrollY();
-		galleryCounterscroll(t);
-		mapCounterscroll(t);
+		if (mGalleryContainer != null) {
+			galleryCounterscroll(t);
+		}
+		if (mMapScrollView != null) {
+			mapCounterscroll(t);
+		}
 	}
 
 	public void snapGallery() {
@@ -200,7 +223,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		if (mIMapScroll == null) {
 			// The middle portion of the map that we want visible as long as possible
 			int mapCriticalHeight = getResources().getDimensionPixelSize(R.dimen.mini_map_critical_section);
-			int mapHeight = mMapScrollView.getChildAt(0).getHeight();
+			int mapHeight = mMapScrollView.findViewById(R.id.mini_map).getHeight();
 			int frameHeight = mMapScrollView.getHeight();
 			PointF p1 = new PointF(mMapScrollView.getTop() - this.getHeight(), (mapHeight - mapCriticalHeight) / 2);
 			PointF p2 = new PointF(mMapScrollView.getBottom(), frameHeight - (mapHeight - mapCriticalHeight) / 2);

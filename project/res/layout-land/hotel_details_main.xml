@@ -24,7 +24,7 @@
             android:background="#80000000" />
     </FrameLayout>
 
-    <ScrollView
+    <com.expedia.bookings.widget.HotelDetailsScrollView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="55" >
@@ -32,6 +32,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#efefef"
             android:orientation="vertical" >
 
             <FrameLayout
@@ -42,9 +43,9 @@
             <FrameLayout
                 android:id="@+id/hotel_details_map_fragment_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#efefef"
-                android:padding="12dp" />
+                android:layout_height="@dimen/hotel_details_map_visible_size"
+                android:layout_margin="12dp"
+                android:background="@drawable/map_frame" />
 
             <LinearLayout
                 android:id="@+id/hotel_details_description_fragment_container"
@@ -53,6 +54,6 @@
                 android:background="#efefef"
                 android:minHeight="100dp" />
         </LinearLayout>
-    </ScrollView>
+    </com.expedia.bookings.widget.HotelDetailsScrollView>
 
 </LinearLayout>
