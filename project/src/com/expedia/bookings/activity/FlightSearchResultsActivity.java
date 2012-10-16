@@ -40,6 +40,8 @@ import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
+import com.expedia.bookings.fragment.RetryErrorDialogFragment;
+import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -53,7 +55,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
-		OnBackStackChangedListener {
+		OnBackStackChangedListener, RetryErrorDialogFragmentListener {
 
 	public static final String EXTRA_DESELECT_LEG_ID = "EXTRA_DESELECT_LEG_ID";
 
@@ -471,8 +473,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			search.setSearchResponse(response);
 
 			if (response.hasErrors()) {
-				mStatusFragment.showError(getString(R.string.error_loading_flights_TEMPLATE, response.getErrors()
-						.get(0).getPresentableMessage(mContext)));
+				RetryErrorDialogFragment df = new RetryErrorDialogFragment();
+				df.show(getSupportFragmentManager(), "retryErrorDialog");
+				mStatusFragment.showError(null);
 			}
 			else if (response.getTripCount() == 0) {
 				mStatusFragment.showError(getString(R.string.error_no_flights_found));
@@ -648,4 +651,16 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		return sb.toString();
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// RetryErrorDialogFragmentListener
+
+	@Override
+	public void onRetryError() {
+		startSearch();
+	}
+
+	@Override
+	public void onCancelErorr() {
+		finish();
+	}
 }

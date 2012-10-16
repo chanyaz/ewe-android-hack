@@ -183,7 +183,7 @@ public class FlightTripPriceFragment extends Fragment {
 			mRequestedDetails = true;
 
 			if (results == null) {
-				showUnhandledErrorDialog();
+				showRetryErrorDialog();
 			}
 			else if (results.hasErrors()) {
 				handleErrors(results);
@@ -222,15 +222,15 @@ public class FlightTripPriceFragment extends Fragment {
 			return;
 		}
 		default: {
-			showUnhandledErrorDialog();
+			showRetryErrorDialog();
 			break;
 		}
 		}
 	}
 
-	private void showUnhandledErrorDialog() {
-		DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
-		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "unhandledErrorDialog");
+	private void showRetryErrorDialog() {
+		DialogFragment df = new RetryErrorDialogFragment();
+		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "retryErrorDialog");
 	}
 
 	//////////////////////////////////////////////////////////////////////////

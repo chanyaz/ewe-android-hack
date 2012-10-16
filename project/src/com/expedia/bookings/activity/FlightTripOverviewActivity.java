@@ -35,22 +35,20 @@ import com.expedia.bookings.fragment.FlightSlideToPurchaseFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
+import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
-import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.SocialUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener,
-		CheckoutInformationListener, UnhandledErrorDialogFragmentListener {
+		CheckoutInformationListener, RetryErrorDialogFragmentListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -685,20 +683,15 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// UnhandledErrorDialogFragmentListener
+	// showRetryErrorDialog
 
 	@Override
-	public void onRetryUnhandledException() {
+	public void onRetryError() {
 		mPriceBottomFragment.startCreateTripDownload();
 	}
 
 	@Override
-	public void onCallCustomerSupport() {
-		throw new RuntimeException("You should not be able to call support from here.");
-	}
-
-	@Override
-	public void onCancelUnhandledException() {
+	public void onCancelErorr() {
 		finish();
 	}
 
