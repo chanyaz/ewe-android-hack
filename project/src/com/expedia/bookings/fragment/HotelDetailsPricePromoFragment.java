@@ -80,7 +80,6 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 		}
 		else {
 			promoTextView.setVisibility(View.GONE);
-
 		}
 
 		// "<strike>$400</strike>" (if it's on sale)

@@ -15,12 +15,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/hotel_details_price_promo_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/price_promo_banner_height"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/hotel_details_intro_offset"
             android:background="#80000000" />
     </FrameLayout>
 
