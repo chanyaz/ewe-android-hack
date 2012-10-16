@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -46,6 +47,7 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 // We can assume that if this fragment loaded we successfully booked, so most
 // data we need to grab is available.
@@ -204,6 +206,15 @@ public class FlightConfirmationFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Search for hotels
 
+	private Calendar waypointTimeToHotelTime(Calendar in){
+		Date localTzTime = DateTimeUtils.getTimeInLocalTimeZone(in);
+		Calendar tCal = Calendar.getInstance();
+		tCal.setTime(localTzTime);
+		Calendar retCal = Calendar.getInstance();
+		retCal.set(tCal.get(Calendar.YEAR), tCal.get(Calendar.MONTH), tCal.get(Calendar.DAY_OF_MONTH));
+		return retCal;
+	}
+	
 	private void searchForHotels() {
 		//Where flights meets hotels
 		SearchParams sp = new SearchParams();
@@ -219,7 +230,7 @@ public class FlightConfirmationFragment extends Fragment {
 			//Round trip
 			FlightLeg lastLeg = Db.getFlightSearch().getSelectedFlightTrip()
 					.getLeg(Db.getFlightSearch().getSelectedFlightTrip().getLegCount() - 1);
-			Calendar checkoutDate = lastLeg.getFirstWaypoint().getMostRelevantDateTime();
+			Calendar checkoutDate = waypointTimeToHotelTime(lastLeg.getFirstWaypoint().getMostRelevantDateTime());
 			sp.setCheckOutDate(checkoutDate);
 		}
 		else {
