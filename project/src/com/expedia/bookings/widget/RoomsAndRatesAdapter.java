@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -37,6 +38,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 
+	private Property mProperty;
 	private List<Rate> mRates;
 
 	private List<CharSequence> mValueAdds;
@@ -56,6 +58,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+		mProperty = response.getProperty();
 		mRates = response.getRates();
 
 		// #12669: Somehow we're getting back null rates.  At the very least, we just want to show *no* results
@@ -208,16 +211,23 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 				holder.beds.getPaddingBottom());
 
 		mBuilder.setLength(0);
-		mBuilder.append(rate.getRatePlanName());
+
+		if (mProperty.isMerchant()) {
+			mBuilder.append(rate.getRatePlanName());
+		}
 
 		if (rate.isNonRefundable()) {
-			mBuilder.append('\n');
+			if (mBuilder.length() > 0) {
+				mBuilder.append('\n');
+			}
 			mBuilder.append(mResources.getString(R.string.non_refundable));
 		}
 		// If there are < ROOMS_LEFT_CUTOFF rooms left, show a warning to the user
 		else if (showRoomsLeft(rate)) {
 			int numRoomsLeft = rate.getNumRoomsLeft();
-			mBuilder.append('\n');
+			if (mBuilder.length() > 0) {
+				mBuilder.append('\n');
+			}
 			mBuilder.append(mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft));
 
 			// move the sale label up so as to accomodate the multiple lines for the bed text
