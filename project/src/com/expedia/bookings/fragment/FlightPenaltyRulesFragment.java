@@ -68,6 +68,8 @@ public class FlightPenaltyRulesFragment extends Fragment {
 		mWebView = new WebView(getActivity());
 
 		mWebView.getSettings().setJavaScriptEnabled(true);
+		mWebView.getSettings().setLoadWithOverviewMode(true);
+		mWebView.getSettings().setUseWideViewPort(true);
 		mWebView.setWebViewClient(new WebViewClient() {
 
 			@Override
