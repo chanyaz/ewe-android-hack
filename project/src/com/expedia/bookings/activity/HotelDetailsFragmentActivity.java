@@ -22,6 +22,8 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.ConfirmationState;
+import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
@@ -35,14 +37,12 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFra
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.omniture.AppMeasurement;
 
 public class HotelDetailsFragmentActivity extends SherlockFragmentActivity implements HotelMiniMapFragmentListener,
@@ -318,7 +318,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 
 		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
+		if (ConfirmationState.hasSavedData(this, Type.HOTEL)) {
 			finish();
 			return true;
 		}

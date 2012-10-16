@@ -22,6 +22,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.ConfirmationState;
+import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
@@ -46,11 +48,14 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 
 	private Context mContext;
 
+	private ConfirmationState mConfState;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
+		mConfState = new ConfirmationState(this, Type.HOTEL);
 
 		if (AndroidUtils.isTablet(this)) {
 			setTheme(R.style.Theme_Tablet_Confirmation);
@@ -60,13 +65,13 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		}
 
 		if (savedInstanceState == null) {
-			if (ConfirmationUtils.hasSavedConfirmationData(this)) {
+			if (mConfState.hasSavedData()) {
 				// Load saved data from disk
-				if (!ConfirmationUtils.loadSavedConfirmationData(this)) {
+				if (!mConfState.load()) {
 					// If we failed to load the saved confirmation data, we should
 					// delete the file and go back (since we are only here if we were called
 					// directly from a startup).
-					ConfirmationUtils.deleteSavedConfirmationData(this);
+					mConfState.delete();
 					finish();
 				}
 			}
@@ -78,7 +83,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 						if (Db.getCreateTripResponse() != null) {
 							discountRate = Db.getCreateTripResponse().getNewRate();
 						}
-						ConfirmationUtils.saveConfirmationData(mContext, Db.getSearchParams(),
+						mConfState.save(Db.getSearchParams(),
 								Db.getSelectedProperty(), Db.getSelectedRate(), Db.getBillingInfo(),
 								Db.getBookingResponse(), discountRate);
 					}
@@ -99,7 +104,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		// 1. It's not the first launch of the activity (savedInstanceState != null)
 		// 2. We're re-launching the activity with saved confirmation data
 		if (Db.getBookingResponse().succeededWithErrors() && savedInstanceState == null
-				&& !ConfirmationUtils.hasSavedConfirmationData(this)) {
+				&& !mConfState.hasSavedData()) {
 			showSucceededWithErrorsDialog();
 		}
 
@@ -199,7 +204,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		Tracker.trackNewSearch(this);
 
 		// Ensure we can't come back here again
-		ConfirmationUtils.deleteSavedConfirmationData(mContext);
+		mConfState.delete();
 		Db.clear();
 
 		Class<? extends Activity> routingTarget = ExpediaBookingApp.useTabletInterface(this)

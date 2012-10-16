@@ -17,6 +17,8 @@ import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.ConfirmationState;
+import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -40,7 +42,7 @@ public class NavUtils {
 
 		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
 		//        then we should forward the user to the ConfirmationActivity
-		if (ConfirmationUtils.hasSavedConfirmationData(context)) {
+		if (ConfirmationState.hasSavedData(context, Type.HOTEL)) {
 			routingTarget = ConfirmationFragmentActivity.class;
 		}
 
@@ -92,7 +94,7 @@ public class NavUtils {
 	public static boolean skipLaunchScreenAndStartEHTablet(Context context) {
 		// #7090: First, check to see if the user last confirmed a booking.  If that is the case,
 		//        then we should forward the user to the ConfirmationActivity
-		if (ExpediaBookingApp.useTabletInterface(context) && ConfirmationUtils.hasSavedConfirmationData(context)) {
+		if (ExpediaBookingApp.useTabletInterface(context) && ConfirmationState.hasSavedData(context, Type.HOTEL)) {
 			Intent intent = new Intent(context, ConfirmationFragmentActivity.class);
 			context.startActivity(intent);
 			return true;

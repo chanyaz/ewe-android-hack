@@ -81,6 +81,8 @@ import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWi
 import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.ConfirmationState;
+import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
@@ -103,7 +105,6 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
@@ -574,7 +575,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		super.onResume();
 
 		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
+		if (ConfirmationState.hasSavedData(this, Type.HOTEL)) {
 			finish();
 			return;
 		}
@@ -663,7 +664,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		// do not attempt to save parameters if the user was short circuited to the
 		// confirmation screen when the search activity started
-		if (isFinishing() && !ConfirmationUtils.hasSavedConfirmationData(this)) {
+		if (isFinishing() && !ConfirmationState.hasSavedData(this, Type.HOTEL)) {
 			saveParams();
 
 			File savedSearchResults = getFileStreamPath(SEARCH_RESULTS_FILE);

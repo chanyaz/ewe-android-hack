@@ -16,6 +16,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.ConfirmationState;
+import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -25,7 +27,6 @@ import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragment
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -34,7 +35,6 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 public class RoomsAndRatesListActivity extends SherlockFragmentActivity implements RoomsAndRatesFragmentListener {
 
@@ -179,7 +179,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 
 	private boolean checkFinishConditionsAndFinish() {
 		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
+		if (ConfirmationState.hasSavedData(this, Type.HOTEL)) {
 			finish();
 			return true;
 		}
