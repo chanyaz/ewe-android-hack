@@ -18,10 +18,16 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
+            android:id="@+id/hotel_details_price_promo_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/price_promo_banner_height"
+            android:layout_marginTop="@dimen/hotel_details_intro_offset"
+            android:background="#80000000" />
+
+        <LinearLayout
             android:id="@+id/hotel_details_intro_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/hotel_details_intro_offset" />
+            android:layout_height="wrap_content" />
 
         <FrameLayout
             android:id="@+id/hotel_details_map_fragment_container"

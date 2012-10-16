@@ -32,6 +32,7 @@ import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment.HotelMiniGalleryFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFragmentListener;
+import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -49,6 +50,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 	// Tags for this activity's fragments
 	private static final String FRAGMENT_MINI_GALLERY_TAG = "FRAGMENT_MINI_GALLERY_TAG";
+	private static final String FRAGMENT_PRICE_PROMO_TAG = "FRAGMENT_PRICE_PROMO_TAG";
 	private static final String FRAGMENT_INTRO_TAG = "FRAGMENT_INTRO_TAG";
 	private static final String FRAGMENT_MINI_MAP_TAG = "FRAGMENT_MINI_MAP_TAG";
 	private static final String FRAGMENT_DESCRIPTION_TAG = "FRAGMENT_DESCRIPTION_TAG";
@@ -65,6 +67,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	private ExpediaBookingApp mApp;
 
 	private HotelDetailsMiniGalleryFragment mGalleryFragment;
+	private HotelDetailsPricePromoFragment mPricePromoFragment;
 	private HotelDetailsIntroFragment mIntroFragment;
 	private HotelDetailsMiniMapFragment mMapFragment;
 	private HotelDetailsDescriptionFragment mDescriptionFragment;
@@ -255,6 +258,12 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 		ft.add(R.id.hotel_details_mini_gallery_fragment_container, mGalleryFragment, FRAGMENT_MINI_GALLERY_TAG);
 
+		mPricePromoFragment = (HotelDetailsPricePromoFragment)manager.findFragmentByTag(FRAGMENT_PRICE_PROMO_TAG);
+		if (mPricePromoFragment == null) {
+			mPricePromoFragment = HotelDetailsPricePromoFragment.newInstance();
+		}
+		ft.add(R.id.hotel_details_price_promo_fragment_container, mPricePromoFragment, FRAGMENT_PRICE_PROMO_TAG);
+
 		mIntroFragment = (HotelDetailsIntroFragment) manager.findFragmentByTag(FRAGMENT_INTRO_TAG);
 		if (mIntroFragment == null) {
 			mIntroFragment = HotelDetailsIntroFragment.newInstance();
@@ -401,7 +410,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	@Override
 	public void onMiniGalleryItemClicked(Property property, Object item) {
 		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_main);
-		scrollView.toggleFullScreenGallery();
+		if (scrollView != null) {
+			scrollView.toggleFullScreenGallery();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

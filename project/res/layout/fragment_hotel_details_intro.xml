@@ -4,13 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <!-- Promo banner -->
-
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/price_promo_banner_height"
-        layout="@layout/include_price_promo_banner" />
-
     <!-- Urgency messages / user reviews -->
 
     <LinearLayout

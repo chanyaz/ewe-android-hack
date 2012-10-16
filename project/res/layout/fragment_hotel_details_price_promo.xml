@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingRight="15dp" >
+
+    <TextView
+        android:id="@+id/sale_banner_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/bg_sale_ribbon"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp"
+        android:textColor="@color/price_promo_banner_text_color"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/promo_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:textColor="@color/price_promo_banner_text_color" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/strikethrough_price_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:paddingRight="6dp"
+        android:textColor="@color/price_promo_banner_strikethrough_text_color"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/rate_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textColor="@color/price_promo_banner_text_color"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/per_nt_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/per_nt"
+        android:textColor="@color/price_promo_banner_text_color"
+        android:textSize="12sp" />
+
+</LinearLayout>

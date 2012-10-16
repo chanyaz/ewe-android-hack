@@ -74,7 +74,6 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activity.HotelDetailsFragmentActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone" />
         <activity
             android:name=".activity.HotelMapActivity"

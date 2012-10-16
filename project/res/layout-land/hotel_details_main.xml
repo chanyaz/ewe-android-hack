@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#262626"
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="45" >
+
+        <FrameLayout
+            android:id="@+id/hotel_details_mini_gallery_fragment_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/hotel_details_price_promo_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/price_promo_banner_height"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/hotel_details_intro_offset"
+            android:background="#80000000" />
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="55" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:id="@+id/hotel_details_intro_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@+id/hotel_details_map_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#efefef"
+                android:padding="12dp" />
+
+            <LinearLayout
+                android:id="@+id/hotel_details_description_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#efefef"
+                android:minHeight="100dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
