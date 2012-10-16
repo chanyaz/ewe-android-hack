@@ -180,7 +180,7 @@ public class FlightTrip implements JSONable {
 
 		double changeAmount = mPriceChangeAmount.getAmount().doubleValue();
 		double newAmount = mTotalFare.getAmount().doubleValue();
-		double oldAmount = newAmount + changeAmount;
+		double oldAmount = newAmount - changeAmount;
 
 		if (newAmount > oldAmount) {
 			return true;
