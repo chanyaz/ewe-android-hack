@@ -19,7 +19,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.section.SectionFlightLeg;
-import com.expedia.bookings.section.SectionGeneralFlightInfo;
+import com.expedia.bookings.section.InfoBarSection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -42,7 +42,7 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 
 	private FlightTrip mTrip;
 	private RelativeLayout mFlightContainer;
-	private SectionGeneralFlightInfo mFlightDateAndTravCount;
+	private InfoBarSection mFlightDateAndTravCount;
 
 	private DisplayMode mDisplayMode = DisplayMode.OVERVIEW;
 
@@ -81,7 +81,7 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 		String tripKey = getArguments().getString(ARG_TRIP_KEY);
 		mTrip = Db.getFlightSearch().getFlightTrip(tripKey);
 
-		mFlightDateAndTravCount.bind(mTrip,
+		mFlightDateAndTravCount.bindTripOverview(mTrip,
 				(Db.getTravelers() != null && Db.getTravelers().size() != 0) ? Db.getTravelers()
 						.size() : 1);
 

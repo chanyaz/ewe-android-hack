@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.InfoBarSection xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_info_bar"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/left_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4.5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4.5dp"
+        android:singleLine="true"
+        android:textColor="@color/roboto_light"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/right_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4.5dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4.5dp"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:singleLine="true"
+        android:textColor="@color/roboto_light"
+        android:textSize="14dp" />
+
+</com.expedia.bookings.section.InfoBarSection>

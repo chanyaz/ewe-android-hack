@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        layout="@layout/section_display_flight_info_travelers_date_bar" />
+        layout="@layout/section_info_bar" />
 
     <RelativeLayout
         android:id="@+id/flight_legs_container"
