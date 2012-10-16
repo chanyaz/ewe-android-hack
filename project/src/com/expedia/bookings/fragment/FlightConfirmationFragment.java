@@ -40,6 +40,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
@@ -206,7 +207,7 @@ public class FlightConfirmationFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Search for hotels
 
-	private Calendar waypointTimeToHotelTime(Calendar in){
+	private Calendar waypointTimeToHotelTime(Calendar in) {
 		Date localTzTime = DateTimeUtils.getTimeInLocalTimeZone(in);
 		Calendar tCal = Calendar.getInstance();
 		tCal.setTime(localTzTime);
@@ -214,7 +215,7 @@ public class FlightConfirmationFragment extends Fragment {
 		retCal.set(tCal.get(Calendar.YEAR), tCal.get(Calendar.MONTH), tCal.get(Calendar.DAY_OF_MONTH));
 		return retCal;
 	}
-	
+
 	private void searchForHotels() {
 		//Where flights meets hotels
 		SearchParams sp = new SearchParams();
@@ -270,8 +271,12 @@ public class FlightConfirmationFragment extends Fragment {
 
 		Intent searchHotelsIntent = new Intent(getActivity(), PhoneSearchActivity.class);
 		searchHotelsIntent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-		searchHotelsIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(searchHotelsIntent);
+
+		// Finish this activity when navigating in-app to hotels search. The rest of the backstack should already be
+		// cleared when launching this activity to account for hitting back from this Activity so the KILL_ACTIVITY
+		// broadcast does not need to be sent.
+		getActivity().finish();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

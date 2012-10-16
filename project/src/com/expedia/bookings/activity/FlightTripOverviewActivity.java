@@ -85,11 +85,16 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private int mStackedHeight = 0;
 	private int mUnstackedHeight = 0;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_flight_overview_and_checkout);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		// Recover data if it was flushed from memory
 		if (Db.getFlightSearch().getSearchResponse() == null) {
@@ -179,6 +184,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		mKillReceiver.onDestroy();
+	}
+
+	@Override
 	public void onSaveInstanceState(Bundle out) {
 		super.onSaveInstanceState(out);
 		out.putString(STATE_TAG_MODE, mDisplayMode.name());
@@ -194,27 +206,26 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			Log.e("Error clearing billingInfo card number", ex);
 		}
 	}
-	
-	
+
 	//We do some work on separate threads to keep the UI nice and snappy
-	private void startLoadChain(){
-		
-		final Runnable attachCheckoutRunnable = new Runnable(){
+	private void startLoadChain() {
+
+		final Runnable attachCheckoutRunnable = new Runnable() {
 			@Override
 			public void run() {
 				attachCheckout();
 			}
-			
+
 		};
-		
-		Runnable loadCacheRunnable = new Runnable(){
+
+		Runnable loadCacheRunnable = new Runnable() {
 			@Override
 			public void run() {
 				loadCachedData();
 				runOnUiThread(attachCheckoutRunnable);
 			}
 		};
-		
+
 		Thread startUpThread = new Thread(loadCacheRunnable);
 		startUpThread.start();
 	}
@@ -305,15 +316,17 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 		if (mCheckoutFragment == null) {
 			mCheckoutFragment = FlightCheckoutFragment.newInstance();
-		}else if(refreshCheckoutData){
+		}
+		else if (refreshCheckoutData) {
 			//Incase we only now finished loading cached data...
 			mCheckoutFragment.refreshData();
 		}
-		
-		if(mCheckoutFragment.isDetached()){
+
+		if (mCheckoutFragment.isDetached()) {
 			checkoutTransaction.attach(mCheckoutFragment);
 			checkoutTransaction.commit();
-		}else if (!mCheckoutFragment.isAdded()) {
+		}
+		else if (!mCheckoutFragment.isAdded()) {
 			checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
 			checkoutTransaction.commit();
 		}

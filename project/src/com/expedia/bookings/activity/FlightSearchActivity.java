@@ -174,7 +174,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		case R.id.search:
 			FlightSearchParams params = mSearchParamsFragment.getSearchParams();
 			if (!params.isFilled()) {
-				throw new RuntimeException("You should not be able to search unless you have filled out all the search params!");
+				throw new RuntimeException(
+						"You should not be able to search unless you have filled out all the search params!");
 			}
 			else {
 				Log.i("Initial search requested!");

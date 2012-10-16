@@ -30,9 +30,14 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 	private ConfirmationState mConfState;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		mConfState = new ConfirmationState(this, Type.FLIGHT);
 
@@ -91,6 +96,13 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		super.onResume();
 
 		mBgFragment.setFadeEnabled(true);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		mKillReceiver.onDestroy();
 	}
 
 	@Override

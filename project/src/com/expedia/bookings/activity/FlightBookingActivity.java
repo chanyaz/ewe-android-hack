@@ -35,6 +35,7 @@ import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
@@ -62,9 +63,14 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	private boolean mCvvErrorModeEnabled;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		mContext = this;
 
@@ -149,8 +155,18 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		mKillReceiver.onDestroy();
+	}
+
 	private void launchConfirmationActivity() {
 		startActivity(new Intent(this, FlightConfirmationActivity.class));
+
+		// Destroy the activity backstack
+		NavUtils.sendKillActivityBroadcast(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

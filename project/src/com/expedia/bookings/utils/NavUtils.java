@@ -141,7 +141,7 @@ public class NavUtils {
 		activity.finish();
 	}
 
-	private static void sendKillActivityBroadcast(Context context) {
+	public static void sendKillActivityBroadcast(Context context) {
 		// Send the kill activity broadcast to ensure the activity backstack is erased
 		//
 		// Note: All activities must register a LocalBroadcastReceiver on the KILL_ACTIVITY
