@@ -58,65 +58,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/section_display_flight_trip_price_breakdown_for_traveler" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/divider_grey" />
-
-            <LinearLayout
-                android:id="@+id/expedia_fees_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/expedia_fees_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/expedia_booking_fee"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/expedia_fee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/divider_grey" />
-
-            <com.expedia.bookings.section.SectionFlightTrip
-                android:id="@+id/total_price_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/total_price_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/total_price_label"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/display_total_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:textSize="22sp" />
-            </com.expedia.bookings.section.SectionFlightTrip>
         </LinearLayout>
     </ScrollView>
 

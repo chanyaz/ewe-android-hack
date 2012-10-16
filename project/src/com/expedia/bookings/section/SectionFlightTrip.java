@@ -39,8 +39,9 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 
 		//Display fields
 		mFields.add(this.mDisplaySubTotal);
-		mFields.add(mDisplayTaxesAndFees);
+		mFields.add(mDisplayTaxes);
 		mFields.add(mTotalPrice);
+		mFields.add(mDisplayFees);
 	}
 
 	@Override
@@ -75,11 +76,19 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 		}
 	};
 
-	SectionField<TextView, FlightTrip> mDisplayTaxesAndFees = new SectionField<TextView, FlightTrip>(
-			R.id.display_taxes_and_fees) {
+	SectionField<TextView, FlightTrip> mDisplayTaxes = new SectionField<TextView, FlightTrip>(
+			R.id.display_taxes) {
 		@Override
 		public void onHasFieldAndData(TextView field, FlightTrip data) {
 			field.setText((data.getTaxes() != null) ? data.getTaxes().getFormattedMoney() : "");
+		}
+	};
+	
+	SectionField<TextView, FlightTrip> mDisplayFees = new SectionField<TextView, FlightTrip>(
+			R.id.display_fees) {
+		@Override
+		public void onHasFieldAndData(TextView field, FlightTrip data) {
+			field.setText((data.getFees() != null) ? data.getFees().getFormattedMoney() : "");
 		}
 	};
 

@@ -19,11 +19,11 @@
             android:id="@+id/travler_num_and_category"
             android:textSize="18sp"
             android:textStyle="bold" />
-        
+
         <TextView
             android:id="@+id/display_total_price"
-            android:textSize="18sp"
             android:layout_gravity="right"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -40,9 +40,42 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/display_taxes_and_fees"
+            android:id="@+id/display_taxes"
             android:layout_gravity="right"
             android:textSize="18sp" />
+
+        <View
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            gridlayout:layout_columnSpan="2"
+            android:background="@color/divider_grey" />
+
+        <TextView
+            android:text="@string/expedia_booking_fee"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/display_fees"
+            android:layout_gravity="right"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            gridlayout:layout_columnSpan="2"
+            android:background="@color/divider_grey" />
+
+        <TextView
+            android:text="@string/total_price_label"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/display_total_price_bottom"
+            android:layout_gravity="right"
+            android:textSize="22sp" />
     </com.gridlayout.GridLayout>
 
 </com.expedia.bookings.section.SectionFlightTrip>

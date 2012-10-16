@@ -47,25 +47,24 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 
 		View body = inflater.inflate(R.layout.fragment_dialog_trip_price_breakdown, null);
 		SectionFlightTrip travTrip = Ui.findView(body, R.id.traveler_price_breakdown);
-		SectionFlightTrip totalPrice = Ui.findView(body, R.id.total_price_section);
-		TextView expediaFees = Ui.findView(body, R.id.expedia_fee);
+		TextView totalPriceBottom = Ui.findView(travTrip, R.id.display_total_price_bottom);
 		TextView travTripLabel = Ui.findView(travTrip, R.id.travler_num_and_category);
 
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 		travTrip.bind(trip);
-		totalPrice.bind(trip);
 
 		//TODO: Flights currently only supports single adult travlers this logic must change someday
 		String travLabelFormat = getResources().getString(R.string.traveler_num_and_category_TEMPLATE);
 		String travLabel = String.format(travLabelFormat, 1, getResources().getString(R.string.adult));
 		travTripLabel.setText(travLabel);
-
-		//TODO: Currently we only support the US point of sale, in the future we will have real fees and different currencies
-		Money expediaFeeAmount = new Money();
-		expediaFeeAmount.setAmount(new BigDecimal(0));
-		expediaFeeAmount.setCurrency("USD");
-		expediaFees.setText(expediaFeeAmount.getFormattedMoney());
 		
+		if(trip.getTotalFare() != null){
+			totalPriceBottom.setText(trip.getTotalFare().getFormattedMoney());
+		}else{
+			totalPriceBottom.setText("");
+		}
+
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		AlertDialog dialog = builder.setCancelable(false)
 				.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
@@ -73,7 +72,7 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 						dialog.dismiss();
 					}
 				}).create();
-		dialog.setView(body,0,0,0,0);
+		dialog.setView(body, 0, 0, 0, 0);
 		return dialog;
 
 	}
