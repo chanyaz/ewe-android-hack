@@ -116,14 +116,8 @@
 
         <activity
             android:name=".activity.LaunchActivity"
-            android:label="Expedia Launcher"
             android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:theme="@style/LaunchTheme" >
         </activity>
         <activity
             android:name=".activity.FlightSearchActivity"
@@ -148,8 +142,8 @@
         </activity>
         <activity
             android:name=".activity.FlightBookingActivity"
-            android:theme="@style/FlightTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/FlightTheme" />
         <activity
             android:name=".activity.FlightPaymentOptionsActivity"
             android:theme="@style/FlightTheme" >
@@ -172,7 +166,7 @@
         </activity>
         <activity
             android:name=".activity.FlightPenaltyRulesActivity"
-            android:theme="@style/FlightTheme">
+            android:theme="@style/FlightTheme" >
         </activity>
         <activity
             android:name=".activity.FlightConfirmationActivity"
