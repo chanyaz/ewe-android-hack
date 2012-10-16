@@ -79,6 +79,9 @@
 	<!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
 	<dimen name="hotel_details_map_visible_size">150dp</dimen>
 
+    <!-- The total height of the map on the Hotel Details screen that can be scrolled to -->
+	<dimen name="hotel_details_map_total_size">300dp</dimen>
+
 	<!-- Dimensions for book now button or any other button in the header -->
 	<dimen name="header_button_height">38dp</dimen>
 
