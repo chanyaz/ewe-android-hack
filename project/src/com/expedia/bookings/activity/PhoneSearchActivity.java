@@ -464,7 +464,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			startSearch();
 			getIntent().removeExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
 		}
-		else if (savedInstanceState != null && !localeChanged) {
+		else if (!localeChanged) {
 			restoreActivityState(savedInstanceState);
 
 			if (searchResponse != null) {
@@ -2837,6 +2837,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	public void showFragment(String tag) {
 		Log.d("Showing fragment with tag: " + tag);
+
+		if (tag == null) {
+			// #13543: Bundle.getString() with defaults not supported until API 12, have to
+			// write code like this instead.
+			tag = getString(R.string.tag_hotel_list);
+		}
 
 		if (tag.equals(mHotelMapFragment.getTag())) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.*;
@@ -36,8 +35,6 @@ public class LaunchFragment extends Fragment implements LocationListener {
 	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 
 	private Context mContext;
-
-	private SearchParams mSearchParams;
 
 	private ListView mHotelsStreamListView;
 	private LaunchStreamAdapter mHotelsStreamAdapter;
@@ -81,15 +78,17 @@ public class LaunchFragment extends Fragment implements LocationListener {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		SearchResponse searchResponse = Db.getLaunchHotelSearchResponse();
+		SearchResponse searchResponse = Db.getSearchResponse();
 
 		if (searchResponse == null) {
 			Location loc = getLocationAndFindLocationIfNull();
 
 			// TODO: sends off a request for hardcoded location to make debugging easier, find way to properly manage
 			if (loc == null) {
-				mSearchParams = new SearchParams();
-				mSearchParams.setSearchLatLon(37.774541, -122.419453);
+				SearchParams searchParams = new SearchParams();
+				searchParams.setSearchLatLon(37.774541, -122.419453);
+				Db.setSearchParams(searchParams);
+
 				startHotelSearch();
 			}
 
@@ -126,8 +125,9 @@ public class LaunchFragment extends Fragment implements LocationListener {
 	}
 
 	private void startHotelSearch(Location loc) {
-		mSearchParams = new SearchParams();
-		mSearchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
+		SearchParams searchParams = new SearchParams();
+		searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
+		Db.setSearchParams(searchParams);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_SEARCH);
@@ -159,7 +159,7 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		public SearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
-			return services.search(mSearchParams, 0);
+			return services.search(Db.getSearchParams(), 0);
 		}
 	};
 
@@ -170,7 +170,7 @@ public class LaunchFragment extends Fragment implements LocationListener {
 				Log.d("Search complete: " + searchResponse.getPropertiesCount());
 			}
 
-			Db.setLaunchHotelSearchResponse(searchResponse);
+			Db.setSearchResponse(searchResponse);
 
 			// Response was good, we are going to use this stuff
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
