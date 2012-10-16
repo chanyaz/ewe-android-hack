@@ -974,6 +974,8 @@
     <string name="select_a_room_instruction">Select a Room</string>
     <!-- The text we use when the search date it tonight -->
     <string name="Tonight">Tonight</string>
+    <!-- The text we use when the search date it tonight -->
+    <string name="free_cancellation">Free Cancellation</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
