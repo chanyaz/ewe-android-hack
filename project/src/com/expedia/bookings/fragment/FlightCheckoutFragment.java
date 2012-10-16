@@ -212,7 +212,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	 * This is what happens to initally set the state on resume, so if data changes are made after resume is called
 	 * we should call this method
 	 */
-	public void refreshData(){
+	public void refreshData() {
 		mBillingInfo = Db.getBillingInfo();
 
 		//Set values
@@ -224,7 +224,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		bindAll();
 		updateViewVisibilities();
 	}
-	
+
 	private void bindAll() {
 		mCreditCardSectionButton.bind(mBillingInfo);
 		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
@@ -428,10 +428,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	}
 
 	private boolean hasSomeManuallyEnteredData(BillingInfo info) {
-		if(info == null){
+		if (info == null) {
 			return false;
 		}
-		
+
 		if (info.getLocation() == null) {
 			return false;
 		}
@@ -459,9 +459,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	private void populatePaymentDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
-			//Populate Credit Card only if the user doesn't have any manually entered data
+			//Populate Credit Card only if the user doesn't have any manually entered (or selected) data
 			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0
-					&& !hasSomeManuallyEnteredData(mBillingInfo)) {
+					&& !hasSomeManuallyEnteredData(mBillingInfo) && mBillingInfo.getStoredCard() == null) {
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
 		}
