@@ -123,6 +123,8 @@
     <string name="calendar_instructions_start_selected">Tap a &lt;b&gt;&lt;font color="#3b5998"&gt;return date&lt;/font&gt;&lt;/b&gt;. (Optional)</string>
     <!-- Start date and end date selected -->
     <string name="calendar_instructions_range_selected_TEMPLATE">%1$d night trip selected.</string>
+    <!-- Start date and end date sameday -->
+    <string name="calendar_instructions_range_selected_same_day">Same-day trip selected.</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
