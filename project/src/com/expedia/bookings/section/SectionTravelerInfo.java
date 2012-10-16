@@ -1,6 +1,7 @@
 package com.expedia.bookings.section;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -462,24 +463,44 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			}
 
-			
-			DatePickerDialog dialog;
-			if(AndroidUtils.getSdkVersion() <= 14){
-				// We do this because of a bug in ICS : http://code.google.com/p/android/issues/detail?id=25838
-				dialog = new DatePickerDialog(getActivity(), mListener, mYear, mMonth, mDay) {
-					@Override
-					public void onDateChanged(DatePicker view, int year, int month, int day) {
+			DatePickerDialog dialog = new DatePickerDialog(getActivity(), mListener, mYear, mMonth, mDay) {
+				
+				// The Compat lib has a bug that causes savedInstanceState to be null on old versions of android
+				// Because we are retaining instance, we can set the dates in the onDateChanged function to fix this issue
+				// however a bug in ICS causes super.onDateChanged() to unset the listener. Basically Pre ICS, ICS, And > JB all behave differently
+				
+				@Override
+				public void onDateChanged(DatePicker view, int year, int month, int day) {
+					// We do this because of a bug in ICS : http://code.google.com/p/android/issues/detail?id=25838
+					if(AndroidUtils.getSdkVersion() <= 14 || AndroidUtils.getSdkVersion() > 15){
 						super.onDateChanged(view, year, month, day);
-						// The Compat lib has a bug that causes savedInstanceState to be null on old versions of android
-						// Because we are retaining instance, we can set the dates in the onDateChanged function to fix this issue
-						mYear = year;
-						mMonth = month;
-						mDay = day;
+					}else{
+						setDate(year, month, day);
+						customUpdateTitle(year, month, day);
 					}
-				};
-			}else{
-				dialog = new DatePickerDialog(getActivity(), mListener, mYear, mMonth, mDay);
-			}
+					
+					mYear = year;
+					mMonth = month;
+					mDay = day;
+				}
+				
+				//old versions of onDateChanged call updateTitle (which we don't have access to)
+				public void customUpdateTitle(int year, int month, int day){
+					//e.g. Tue, Apr 4, 1978
+					String format = "E, MMM dd, yyyy";
+					SimpleDateFormat df = new SimpleDateFormat(format);
+					java.util.Date d = new java.util.Date();
+					Calendar cal = Calendar.getInstance();
+					cal.set(year, month, day);
+					d.setTime(cal.getTimeInMillis());
+					if(d != null){
+						String formattedDate = df.format(d);
+						setTitle(formattedDate);
+					}
+				}
+			};
+			
+			dialog.updateDate(mYear, mMonth, mDay);
 			
 
 			if (AndroidUtils.getSdkVersion() >= 11) {
