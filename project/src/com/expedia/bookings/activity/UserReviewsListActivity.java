@@ -68,7 +68,8 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (checkFinishConditionsAndFinish()) return;
+		if (checkFinishConditionsAndFinish())
+			return;
 
 		if (savedInstanceState != null) {
 			mViewedReviews = new HashSet<String>(savedInstanceState.getStringArrayList(INSTANCE_VIEWED_REVIEWS));
@@ -87,7 +88,8 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	protected void onResume() {
 		super.onResume();
 
-		if (checkFinishConditionsAndFinish()) return;
+		if (checkFinishConditionsAndFinish())
+			return;
 
 		// Start the download of the user reviews statistics (if needed)
 		/*if (Db.getSelectedReviewsStatisticsResponse() != null) {
@@ -111,7 +113,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 			return true;
 		}
 		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 			finish();
 			return true;
 		}

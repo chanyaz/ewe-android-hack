@@ -189,16 +189,6 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 	//////////////////////////////////////////////////////////////////////////
 	// Actions
 
-	/**
-	 * Create an intent to start this activity. It should be started with
-	 * FLAG_ACTIVITY_CLEAR_TASK and FLAG_ACTIVITY_NEW_TASK, so this makes it easy.
-	 */
-	public static Intent createIntent(Context context) {
-		Intent intent = new Intent(context, ConfirmationFragmentActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-		return intent;
-	}
-
 	public void showSucceededWithErrorsDialog() {
 		FragmentManager fm = getSupportFragmentManager();
 		String dialogTag = getString(R.string.tag_simple_dialog);

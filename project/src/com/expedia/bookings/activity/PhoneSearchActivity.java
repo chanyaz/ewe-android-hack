@@ -574,7 +574,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		super.onResume();
 
 		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 			finish();
 			return;
 		}

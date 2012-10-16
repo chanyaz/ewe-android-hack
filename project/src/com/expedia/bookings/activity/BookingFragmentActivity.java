@@ -249,7 +249,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 			}
 
 			// Start the conf activity
-			startActivity(ConfirmationFragmentActivity.createIntent(mContext));
+			startActivity(new Intent(mContext, ConfirmationFragmentActivity.class));
 		}
 	};
 

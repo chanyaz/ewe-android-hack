@@ -76,7 +76,8 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 			Db.loadTestData(this);
 		}
 
-		if (checkFinishConditionsAndFinish()) return;
+		if (checkFinishConditionsAndFinish())
+			return;
 
 		mBookingFragment = Ui.findOrAddSupportFragment(this, BookingFormFragment.class,
 				getString(R.string.tag_booking_form));
@@ -86,7 +87,8 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 	protected void onResume() {
 		super.onResume();
 
-		if (checkFinishConditionsAndFinish()) return;
+		if (checkFinishConditionsAndFinish())
+			return;
 
 		// If we were booking, re-hook the download 
 		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
@@ -120,7 +122,7 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 			return true;
 		}
 		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 			finish();
 			return true;
 		}
@@ -312,7 +314,7 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
 			}
 
-			startActivity(ConfirmationFragmentActivity.createIntent(mContext));
+			startActivity(new Intent(mContext, ConfirmationFragmentActivity.class));
 
 			// By this point, we never want to see this same activity
 			// (with credit card and cvv info filled in), no matter what happens 

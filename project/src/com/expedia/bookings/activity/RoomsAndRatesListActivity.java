@@ -60,7 +60,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			Db.loadTestData(this);
 		}
 
-		if (checkFinishConditionsAndFinish()) return;
+		if (checkFinishConditionsAndFinish())
+			return;
 
 		setContentView(R.layout.activity_rooms_and_rates);
 
@@ -135,7 +136,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	protected void onResume() {
 		super.onResume();
 
-		if (checkFinishConditionsAndFinish()) return;
+		if (checkFinishConditionsAndFinish())
+			return;
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(DOWNLOAD_KEY)) {
@@ -177,7 +179,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 
 	private boolean checkFinishConditionsAndFinish() {
 		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 			finish();
 			return true;
 		}

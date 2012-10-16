@@ -85,7 +85,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		mApp = (ExpediaBookingApp) getApplicationContext();
 
 		if (getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
-			Property property = (Property) JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY, Property.class);
+			Property property = (Property) JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY,
+					Property.class);
 			if (property != null) {
 				Db.setSelectedProperty(property);
 			}
@@ -94,7 +95,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			}
 		}
 
-		if (checkFinishConditionsAndFinish()) return;
+		if (checkFinishConditionsAndFinish())
+			return;
 
 		setupHotelActivity(savedInstanceState);
 	}
@@ -113,7 +115,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	protected void onResume() {
 		super.onResume();
 
-		if (checkFinishConditionsAndFinish()) return;
+		if (checkFinishConditionsAndFinish())
+			return;
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
@@ -159,7 +162,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		super.onNewIntent(intent);
 		setIntent(intent);
 
-		if (checkFinishConditionsAndFinish()) return;
+		if (checkFinishConditionsAndFinish())
+			return;
 
 		setupHotelActivity(null);
 	}
@@ -169,7 +173,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
-		if (checkFinishConditionsAndFinish()) return super.onCreateOptionsMenu(menu);
+		if (checkFinishConditionsAndFinish())
+			return super.onCreateOptionsMenu(menu);
 
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
@@ -258,7 +263,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 		ft.add(R.id.hotel_details_mini_gallery_fragment_container, mGalleryFragment, FRAGMENT_MINI_GALLERY_TAG);
 
-		mPricePromoFragment = (HotelDetailsPricePromoFragment)manager.findFragmentByTag(FRAGMENT_PRICE_PROMO_TAG);
+		mPricePromoFragment = (HotelDetailsPricePromoFragment) manager.findFragmentByTag(FRAGMENT_PRICE_PROMO_TAG);
 		if (mPricePromoFragment == null) {
 			mPricePromoFragment = HotelDetailsPricePromoFragment.newInstance();
 		}
@@ -313,7 +318,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 
 		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (AndroidUtils.getSdkVersion() <= 10 && ConfirmationUtils.hasSavedConfirmationData(this)) {
+		if (ConfirmationUtils.hasSavedConfirmationData(this)) {
 			finish();
 			return true;
 		}
