@@ -515,6 +515,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		// Setup custom action bar view
 		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setCustomView(mActionBarCustomView);
@@ -872,6 +873,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		boolean invalidateOptionsMenu = false;
 
 		switch (item.getItemId()) {
+		// Home as up
+		case android.R.id.home:
+			finish();
+			break;
+
 		// Sort
 		case R.id.menu_select_sort: {
 			setDisplayType(DisplayType.NONE);
