@@ -9,37 +9,54 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.ConfirmationState;
+import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightConfirmationFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
-	private static final boolean QUICKLAUNCH = false;
-
 	private static final int REQUEST_CODE_SEARCH_PARAMS = 1;
 
 	private BlurredBackgroundFragment mBgFragment;
+
+	private ConfirmationState mConfState;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// This is temporary testing code that makes it easy to save/load testing data
-		// so that we can quickly test this activity.  DELETE when finished dev!
-		if (QUICKLAUNCH) {
-			if (savedInstanceState == null) {
-				if (Intent.ACTION_MAIN.equals(getIntent().getAction())) {
-					Db.loadTestData(this);
+		mConfState = new ConfirmationState(this, Type.FLIGHT);
+
+		if (savedInstanceState == null) {
+			if (mConfState.hasSavedData()) {
+				// Load saved data from disk
+				if (!mConfState.load()) {
+					// If we failed to load the saved confirmation data, we should
+					// delete the file and go back (since we are only here if we were called
+					// directly from a startup).
+					mConfState.delete();
+					finish();
 				}
-				else {
-					Db.saveDbForTesting(this);
-				}
+			}
+			else {
+				// Start a background thread to save this data to the disk
+				new Thread(new Runnable() {
+					public void run() {
+						FlightSearch search = Db.getFlightSearch();
+						String itinNum = search.getSelectedFlightTrip().getItineraryNumber();
+						mConfState.save(search, Db.getItinerary(itinNum), Db.getBillingInfo(), Db.getTravelers(),
+								Db.getFlightCheckout());
+					}
+				}).start();
 			}
 		}
 
@@ -79,9 +96,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	@Override
 	public void onBackPressed() {
 		// F854: Do not let users go back to the previous screens if they successfully booked
-		Intent intent = new Intent(this, FlightSearchActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
+		NavUtils.goToLaunchScreen(this);
 	}
 
 	@Override
@@ -91,16 +106,17 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		if (requestCode == REQUEST_CODE_SEARCH_PARAMS && resultCode == RESULT_OK) {
 			Log.i("New search requested");
 
+			// Ensure we can't come back here again
+			mConfState.delete();
+			Db.clear();
+
+			// Configure new search params
 			FlightSearchParams params = JSONUtils.getJSONable(data, FlightSearchOverlayActivity.EXTRA_SEARCH_PARAMS,
 					FlightSearchParams.class);
 			Db.getFlightSearch().setSearchParams(params);
 
-			Intent intent = new Intent(this, FlightSearchResultsActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-
-			// Make sure to finish this class, in case 
-			// the user launched directly to the conf page
+			// Launch flight search
+			NavUtils.goToFlightSearch(this);
 			finish();
 		}
 	}

@@ -1,7 +1,10 @@
 package com.expedia.bookings.data;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -16,14 +19,18 @@ import com.mobiata.android.util.IoUtils;
  */
 public class ConfirmationState {
 
-	private static final String CONFIRMATION_DATA_FILE = "confirmation.dat";
-
-	private static final String CONFIRMATION_DATA_VERSION_FILE = "confirmation-version.dat";
-
 	public enum Type {
-		HOTEL,
-		FLIGHT,
+		HOTEL("confirmation.dat"),
+		FLIGHT("flight-confirmation.dat");
+
+		private String mFilename;
+
+		private Type(String filename) {
+			mFilename = filename;
+		}
 	}
+
+	private static final String FIELD_VERSION = "ConfirmationState.Version";
 
 	private Context mContext;
 	private Type mType;
@@ -35,58 +42,103 @@ public class ConfirmationState {
 
 	public boolean save(SearchParams searchParams, Property property, Rate rate, BillingInfo billingInfo,
 			BookingResponse bookingResponse, Rate discountRate) {
-		Log.i("Saving confirmation data...");
+		if (mType != Type.HOTEL) {
+			throw new RuntimeException("Tried to save " + Type.HOTEL + " data into " + mType + " state");
+		}
+
+		Log.i("Saving confirmation data of type " + mType);
 
 		try {
 			JSONObject data = new JSONObject();
-			data.put(Codes.SEARCH_PARAMS, searchParams.toJson());
-			data.put(Codes.PROPERTY, property.toJson());
-			data.put(Codes.RATE, rate.toJson());
-			data.put(Codes.BILLING_INFO, billingInfo.toJson());
-			data.put(Codes.BOOKING_RESPONSE, bookingResponse.toJson());
+			JSONUtils.putJSONable(data, Codes.SEARCH_PARAMS, searchParams);
+			JSONUtils.putJSONable(data, Codes.PROPERTY, property);
+			JSONUtils.putJSONable(data, Codes.RATE, rate);
+			JSONUtils.putJSONable(data, Codes.BILLING_INFO, billingInfo);
+			JSONUtils.putJSONable(data, Codes.BOOKING_RESPONSE, bookingResponse);
 			if (discountRate != null) {
-				data.put(Codes.DISCOUNT_RATE, discountRate.toJson());
+				JSONUtils.putJSONable(data, Codes.DISCOUNT_RATE, discountRate);
 			}
 
-			IoUtils.writeStringToFile(CONFIRMATION_DATA_VERSION_FILE,
-					Integer.toString(AndroidUtils.getAppCode(mContext)), mContext);
-			IoUtils.writeStringToFile(CONFIRMATION_DATA_FILE, data.toString(0), mContext);
+			writeData(data);
 
 			return true;
 		}
 		catch (Exception e) {
-			Log.e("Could not save hotel confirmation data state.", e);
+			Log.e("Could not save confirmation data state of type " + mType, e);
 			return false;
 		}
 	}
 
-	public boolean load() {
-		Log.i("Loading saved confirmation data...");
+	public boolean save(FlightSearch flightSearch, Itinerary itinerary, BillingInfo billingInfo,
+			List<Traveler> travelers, FlightCheckoutResponse checkoutResponse) {
+		if (mType != Type.FLIGHT) {
+			throw new RuntimeException("Tried to save " + Type.FLIGHT + " data into " + mType + " state");
+		}
+
+		Log.i("Saving confirmation data of type " + mType);
+
 		try {
-			JSONObject data = new JSONObject(IoUtils.readStringFromFile(CONFIRMATION_DATA_FILE,
-					mContext));
-			Db.setSearchParams((SearchParams) JSONUtils.getJSONable(data, Codes.SEARCH_PARAMS, SearchParams.class));
-			Db.setSelectedProperty((Property) JSONUtils.getJSONable(data, Codes.PROPERTY, Property.class));
-			Db.setSelectedRate((Rate) JSONUtils.getJSONable(data, Codes.RATE, Rate.class));
-			Db.setBillingInfo((BillingInfo) JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class));
-			Db.setBookingResponse((BookingResponse) JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE,
-					BookingResponse.class));
+			JSONObject data = new JSONObject();
+			JSONUtils.putJSONable(data, "flightSearch", flightSearch);
+			JSONUtils.putJSONable(data, "itinerary", itinerary);
+			JSONUtils.putJSONable(data, "billingInfo", billingInfo);
+			JSONUtils.putJSONableList(data, "travelers", travelers);
+			JSONUtils.putJSONable(data, "checkoutResponse", checkoutResponse);
+
+			writeData(data);
+
 			return true;
 		}
 		catch (Exception e) {
-			Log.e("Could not load hotel confirmation data state.", e);
+			Log.e("Could not save confirmation data state of type " + mType, e);
+			return false;
+		}
+	}
+
+	private void writeData(JSONObject data) throws JSONException, IOException {
+		// Put version, just in case this might be useful
+		data.put(FIELD_VERSION, Integer.toString(AndroidUtils.getAppCode(mContext)));
+
+		IoUtils.writeStringToFile(mType.mFilename, data.toString(0), mContext);
+	}
+
+	public boolean load() {
+		Log.i("Loading saved confirmation data of type " + mType);
+
+		try {
+			JSONObject data = new JSONObject(IoUtils.readStringFromFile(mType.mFilename, mContext));
+
+			if (mType == Type.HOTEL) {
+				Db.setSearchParams(JSONUtils.getJSONable(data, Codes.SEARCH_PARAMS, SearchParams.class));
+				Db.setSelectedProperty(JSONUtils.getJSONable(data, Codes.PROPERTY, Property.class));
+				Db.setSelectedRate(JSONUtils.getJSONable(data, Codes.RATE, Rate.class));
+				Db.setBillingInfo(JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class));
+				Db.setBookingResponse(JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE, BookingResponse.class));
+			}
+			else if (mType == Type.FLIGHT) {
+				Db.setFlightSearch(JSONUtils.getJSONable(data, "flightSearch", FlightSearch.class));
+				Db.addItinerary(JSONUtils.getJSONable(data, "itinerary", Itinerary.class));
+				Db.setBillingInfo(JSONUtils.getJSONable(data, "billingInfo", BillingInfo.class));
+				Db.setTravelers(JSONUtils.getJSONableList(data, "travelers", Traveler.class));
+				Db.setFlightCheckout(JSONUtils.getJSONable(data, "checkoutResponse", FlightCheckoutResponse.class));
+			}
+
+			return true;
+		}
+		catch (Exception e) {
+			Log.e("Could not load confirmation data state of type " + mType, e);
 			return false;
 		}
 	}
 
 	public boolean delete() {
-		Log.i("Deleting saved confirmation data.");
-		File savedConfResults = mContext.getFileStreamPath(CONFIRMATION_DATA_FILE);
+		Log.i("Deleting saved confirmation data of type " + mType);
+		File savedConfResults = mContext.getFileStreamPath(mType.mFilename);
 		return savedConfResults.delete();
 	}
 
 	public boolean hasSavedData() {
-		File savedConfResults = mContext.getFileStreamPath(CONFIRMATION_DATA_FILE);
+		File savedConfResults = mContext.getFileStreamPath(mType.mFilename);
 		return savedConfResults.exists();
 	}
 

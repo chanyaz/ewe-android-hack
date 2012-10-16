@@ -10,6 +10,7 @@ import com.expedia.bookings.activity.BookingFragmentActivity;
 import com.expedia.bookings.activity.BookingInfoActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.FlightConfirmationActivity;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
@@ -62,15 +63,24 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context) {
-		if (FlightUnsupportedPOSActivity.isSupportedPOS(context)) {
-			sendKillActivityBroadcast(context);
-			context.startActivity(new Intent(context, FlightSearchActivity.class));
-		}
-		else {
+		if (!FlightUnsupportedPOSActivity.isSupportedPOS(context)) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
 			context.startActivity(new Intent(context, FlightUnsupportedPOSActivity.class));
 		}
+		else if (ConfirmationState.hasSavedData(context, Type.FLIGHT)) {
+			sendKillActivityBroadcast(context);
+			context.startActivity(new Intent(context, FlightConfirmationActivity.class));
+		}
+		else {
+			sendKillActivityBroadcast(context);
+			context.startActivity(new Intent(context, FlightSearchActivity.class));
+		}
+	}
+
+	public static void goToFlightSearch(Context context) {
+		sendKillActivityBroadcast(context);
+		context.startActivity(new Intent(context, FlightSearchResultsActivity.class));
 	}
 
 	// Assumes we are already searching in flights, but are not on the flight
