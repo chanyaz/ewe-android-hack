@@ -7,13 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
@@ -95,41 +96,40 @@ public class FlightConfirmationFragment extends Fragment {
 
 		Resources res = getResources();
 
+		// Measure the frontmost card - we need to know its height to correctly size the fake cards
+		FlightLegSummarySection card = (FlightLegSummarySection) inflater.inflate(
+				R.layout.section_flight_leg_summary, cardContainer, false);
+		card.bind(trip, trip.getLeg(0));
+		LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_conf_row);
+		card.measure(MeasureSpec.makeMeasureSpec(LayoutParams.MATCH_PARENT, MeasureSpec.EXACTLY),
+				MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY));
+		int cardHeight = card.getMeasuredHeight();
+
 		float initialOffset = res.getDimension(R.dimen.flight_card_initial_offset);
 		float offset = res.getDimension(R.dimen.flight_card_overlap_offset);
 		int numLegs = trip.getLegCount();
 		for (int a = numLegs - 1; a >= 0; a--) {
-			FlightLegSummarySection card = (FlightLegSummarySection) inflater.inflate(
-					R.layout.section_flight_leg_summary, cardContainer, false);
+			View view;
 
-			// Each card is offset below the last one
-			MarginLayoutParams params = (MarginLayoutParams) card.getLayoutParams();
-			params.topMargin = (int) (initialOffset + Math.round(offset * (numLegs - 1 - a)));
-
-			// Set a custom bg
-			LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_row);
-
-			// Bind data
 			if (a == 0) {
-				card.bind(trip, trip.getLeg(a));
+				cardContainer.addView(card);
+				view = card;
 			}
 			else {
-				card.bind(null, trip.getLeg(a));
+				view = new View(getActivity());
+				cardContainer.addView(view);
 
-				// We can't arbitrarily make views more transparent until API 11,
-				// which is what actually looks best.  So before that, we just
-				// make everything in the card invisible (so it doesn't look like
-				// some overlapping mess).
-				if (Build.VERSION.SDK_INT >= 11) {
-					card.setAlpha(.5f);
-				}
-				else {
-					card.makeInvisible();
-				}
+				// Set a custom bg
+				LayoutUtils.setBackgroundResource(view, R.drawable.bg_flight_conf_row);
+
+				// For some reason, I can't get this layout to work unless I set an explicit
+				// height (probably because of a RelativeLayout circular dependency).
+				view.getLayoutParams().height = cardHeight + Math.round(offset * a);
 			}
 
-			// Add card to view
-			cardContainer.addView(card);
+			// Each card is offset below the last one
+			MarginLayoutParams params = (MarginLayoutParams) view.getLayoutParams();
+			params.topMargin = (int) (initialOffset + Math.round(offset * (numLegs - 1 - a)));
 		}
 
 		// Fill out all the actions
