@@ -133,13 +133,13 @@ public class FlightConfirmationFragment extends Fragment {
 		}
 
 		// Fill out all the actions
-		TextView goingToTextView = Ui.findView(v, R.id.going_to_text_view);
-		goingToTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
-		goingToTextView.setText(getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
+		setTextAndRobotoFont(v, R.id.going_to_text_view,
+				getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
 
 		Ui.setText(v, R.id.itinerary_text_view,
-				Html.fromHtml(getString(R.string.itinerary_confirmation_TEMPLATE, itinerary.getItineraryNumber(),
-						Db.getBillingInfo().getEmail())));
+				getString(R.string.itinerary_confirmation_TEMPLATE, itinerary.getItineraryNumber()));
+
+		setTextAndRobotoFont(v, R.id.email_text_view, Db.getBillingInfo().getEmail());
 
 		Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
 		Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
@@ -190,10 +190,16 @@ public class FlightConfirmationFragment extends Fragment {
 		});
 
 		// We need to capitalize in code because the all_caps field isn't until a later API
-		Ui.setText(v, R.id.get_a_room_text_view, getString(R.string.get_a_room).toUpperCase());
-		Ui.setText(v, R.id.more_actions_text_view, getString(R.string.more_actions).toUpperCase());
+		setTextAndRobotoFont(v, R.id.get_a_room_text_view, getString(R.string.get_a_room).toUpperCase());
+		setTextAndRobotoFont(v, R.id.more_actions_text_view, getString(R.string.more_actions).toUpperCase());
 
 		return v;
+	}
+
+	private void setTextAndRobotoFont(View root, int resId, CharSequence text) {
+		TextView tv = Ui.findView(root, resId);
+		tv.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
+		tv.setText(text);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

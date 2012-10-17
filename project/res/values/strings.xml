@@ -437,8 +437,8 @@
     <string name="booking_complete">Booking Complete</string>
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">You\'re going to %s!</string>
-    <!-- Message telling user itinerary # and where it was sent.  %1$s is the itinerary number, %2$s is the email it was sent, e.g. "Itinerary #5123532 sent to me@gmail.com" -->
-    <string name="itinerary_confirmation_TEMPLATE">&lt;b&gt;Itinerary #%1$s sent to&lt;/b&gt;&lt;br/&gt;%2$s</string>
+    <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
+    <string name="itinerary_confirmation_TEMPLATE">Itinerary #%s sent to</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Get A Room</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
