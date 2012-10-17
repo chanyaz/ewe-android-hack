@@ -25,6 +25,8 @@ public class FadingImageView extends ImageView {
 
 	private Paint mFadePaint;
 
+	private Rect mBounds;
+
 	public FadingImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
@@ -50,8 +52,17 @@ public class FadingImageView extends ImageView {
 	}
 
 	@Override
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		super.onLayout(changed, left, top, right, bottom);
+
+		if (changed) {
+			mBounds = new Rect(left, top, right, bottom);
+		}
+	}
+
+	@Override
 	protected void onDraw(Canvas canvas) {
-		Rect rect = canvas.getClipBounds();
+		Rect rect = mBounds;
 		int size = mEndFadeY - mStartFadeY;
 
 		if (!mEnabled || size <= 0 || mStartFadeY < rect.top - size || mEndFadeY > rect.bottom + size) {
