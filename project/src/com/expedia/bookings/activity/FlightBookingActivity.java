@@ -15,6 +15,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -35,6 +36,7 @@ import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
@@ -86,26 +88,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
 
 		if (savedInstanceState == null) {
-			// Determine the data displayed on the CVVEntryFragment
-			BillingInfo billingInfo = Db.getBillingInfo();
-			StoredCreditCard cc = billingInfo.getStoredCard();
-
-			String personName;
-			String cardName;
-			if (cc != null) {
-				Traveler traveler = Db.getTravelers().get(0);
-				personName = traveler.getFirstName() + " " + traveler.getLastName();
-
-				cardName = cc.getDescription();
-			}
-			else {
-				personName = billingInfo.getNameOnCard();
-
-				String ccNumber = billingInfo.getNumber();
-				cardName = getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
-			}
-
-			mCVVEntryFragment = CVVEntryFragment.newInstance(personName, cardName);
+			mCVVEntryFragment = CVVEntryFragment.newInstance(this, Db.getBillingInfo());
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);

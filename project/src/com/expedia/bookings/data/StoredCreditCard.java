@@ -32,6 +32,40 @@ public class StoredCreditCard implements JSONable {
 		return mDescription;
 	}
 
+	public CreditCardType getCardType() {
+		// Code lovingly stolen from iOS, where they note that these
+		// values are not yet verified from the API folks.
+		if (mType.equals("AmericanExpress")) {
+			return CreditCardType.AMERICAN_EXPRESS;
+		}
+		else if (mType.equals("CarteBlanche")) {
+			return CreditCardType.CARTE_BLANCHE;
+		}
+		else if (mType.equals("ChinaUnionPay")) {
+			return CreditCardType.CHINA_UNION_PAY;
+		}
+		else if (mType.equals("DinersClub")) {
+			return CreditCardType.DINERS_CLUB;
+		}
+		else if (mType.equals("Discover")) {
+			return CreditCardType.DISCOVER;
+		}
+		else if (mType.equals("JCB")) {
+			return CreditCardType.JAPAN_CREDIT_BUREAU;
+		}
+		else if (mType.equals("Maestro")) {
+			return CreditCardType.MAESTRO;
+		}
+		else if (mType.equals("MasterCard")) {
+			return CreditCardType.MASTERCARD;
+		}
+		else if (mType.equals("Visa")) {
+			return CreditCardType.VISA;
+		}
+
+		return null;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();

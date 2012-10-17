@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -9,11 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.CVVSection;
 import com.expedia.bookings.section.CreditCardInputSection;
 import com.expedia.bookings.section.CreditCardInputSection.CreditCardInputListener;
 import com.expedia.bookings.section.CreditCardSection;
+import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.json.JSONUtils;
 
 public class CVVEntryFragment extends Fragment implements CreditCardInputListener {
 
@@ -21,6 +29,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	private static final String ARG_PERSON_NAME = "ARG_PERSON_NAME";
 	private static final String ARG_CARD_NAME = "ARG_CARD_NAME";
+	private static final String ARG_CARD_TYPE = "ARG_CARD_TYPE";
 
 	private CreditCardSection mCreditCardSection;
 
@@ -30,11 +39,39 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	private CVVEntryFragmentListener mListener;
 
-	public static CVVEntryFragment newInstance(String personName, String cardName) {
+	public static CVVEntryFragment newInstance(Context context, BillingInfo billingInfo) {
+		// Determine the data displayed on the CVVEntryFragment
+		StoredCreditCard cc = billingInfo.getStoredCard();
+
+		String personName;
+		String cardName;
+		CreditCardType cardType;
+		if (cc != null) {
+			Traveler traveler = Db.getTravelers().get(0);
+			personName = traveler.getFirstName() + " " + traveler.getLastName();
+
+			cardName = cc.getDescription();
+
+			cardType = cc.getCardType();
+		}
+		else {
+			personName = billingInfo.getNameOnCard();
+
+			String ccNumber = billingInfo.getNumber();
+			cardName = context.getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
+
+			cardType = CurrencyUtils.detectCreditCardBrand(context, ccNumber);
+		}
+
+		return CVVEntryFragment.newInstance(personName, cardName, cardType);
+	}
+
+	public static CVVEntryFragment newInstance(String personName, String cardName, CreditCardType cardType) {
 		CVVEntryFragment fragment = new CVVEntryFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PERSON_NAME, personName);
 		args.putString(ARG_CARD_NAME, cardName);
+		JSONUtils.putEnum(args, ARG_CARD_TYPE, cardType);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -67,8 +104,9 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		Bundle args = getArguments();
 		String personName = args.getString(ARG_PERSON_NAME);
 		String cardName = args.getString(ARG_CARD_NAME);
+		CreditCardType cardType = JSONUtils.getEnum(args, ARG_CARD_TYPE, CreditCardType.class);
 		mCVVSection.setExplanationText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
-		mCreditCardSection.setName(personName);
+		mCreditCardSection.bind(personName, cardType);
 
 		return v;
 	}
