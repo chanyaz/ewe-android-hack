@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.lang.reflect.Field;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +29,7 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity;
@@ -45,6 +45,8 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -131,8 +133,9 @@ public class FlightConfirmationFragment extends Fragment {
 		}
 
 		// Fill out all the actions
-		Ui.setText(v, R.id.going_to_text_view,
-				getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
+		TextView goingToTextView = Ui.findView(v, R.id.going_to_text_view);
+		goingToTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
+		goingToTextView.setText(getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
 
 		Ui.setText(v, R.id.itinerary_text_view,
 				Html.fromHtml(getString(R.string.itinerary_confirmation_TEMPLATE, itinerary.getItineraryNumber(),

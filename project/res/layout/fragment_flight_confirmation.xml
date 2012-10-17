@@ -73,7 +73,9 @@
                 android:drawableLeft="@drawable/ic_social_share"
                 android:text="@string/share_trip" />
 
-            <View style="@style/FlightConfirmationActionDivider" />
+            <View
+                android:id="@+id/calendar_divider"
+                style="@style/FlightConfirmationActionDivider" />
 
             <TextView
                 android:id="@+id/calendar_action_text_view"
@@ -82,7 +84,7 @@
                 android:text="@string/add_to_calendar" />
 
             <View
-                android:id="@+id/calendar_divider"
+                android:id="@+id/flighttrack_divider"
                 style="@style/FlightConfirmationActionDivider" />
 
             <TextView
@@ -91,15 +93,16 @@
                 android:drawableLeft="@drawable/ic_flight_track"
                 android:text="@string/add_to_flighttrack" />
 
-            <View
-                android:id="@+id/flighttrack_divider"
-                style="@style/FlightConfirmationActionDivider" />
-
             <TextView
                 android:id="@+id/call_action_text_view"
                 style="@style/FlightConfirmationAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
                 android:drawableLeft="@drawable/ic_phone"
-                android:text="@string/call_expedia_customer_support" />
+                android:text="@string/call_expedia_customer_support"
+                android:textSize="14dp" />
         </LinearLayout>
     </RelativeLayout>
 
