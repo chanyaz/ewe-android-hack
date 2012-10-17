@@ -402,7 +402,6 @@ public class FlightConfirmationFragment extends Fragment {
 	private void addShareLeg(StringBuilder sb, FlightLeg flightLeg) {
 		Context context = getActivity();
 		Resources res = context.getResources();
-		DateFormat df = android.text.format.DateFormat.getMediumDateFormat(context);
 		int segCount = flightLeg.getSegmentCount();
 
 		for (int a = 0; a < segCount; a++) {
@@ -419,9 +418,10 @@ public class FlightConfirmationFragment extends Fragment {
 			sb.append(getString(R.string.path_template, formatAirport(flight.mOrigin.getAirport()),
 					formatAirport(flight.mDestination.getAirport())));
 			sb.append("\n");
-			sb.append(df.format(DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getMostRelevantDateTime())));
-			sb.append("\n");
 			long start = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getMostRelevantDateTime()).getTime();
+			sb.append(DateUtils.formatDateTime(context, start, DateUtils.FORMAT_SHOW_DATE
+					| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
+			sb.append("\n");
 			long end = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getMostRelevantDateTime()).getTime();
 			sb.append(DateUtils.formatDateRange(context, start, end, DateUtils.FORMAT_SHOW_TIME));
 			sb.append("\n");
