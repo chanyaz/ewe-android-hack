@@ -1,6 +1,9 @@
 package com.expedia.bookings.activity;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -29,9 +32,11 @@ import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.model.WorkingTravelerManager;
+import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener {
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
@@ -67,7 +72,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	//Where we want to return to after our action
 	private enum YoYoPosition {
-		OPTIONS, ONE, TWO, THREE, SAVE
+		OPTIONS, ONE, TWO, THREE, SAVE, SAVING
 	}
 
 	public interface Validatable {
@@ -291,6 +296,15 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		case SAVE:
 			displaySaveDialog();
 			break;
+		case SAVING:
+			if (Db.getWorkingTravelerManager() != null
+					&& Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
+				displaySavingDialog();
+			}
+			else {
+				displayOptions();
+			}
+			break;
 		default:
 			displayOptions();
 		}
@@ -498,6 +512,12 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				closeSaveDialog();
 				displayTravelerEntryThree();
 				break;
+			case SAVING:
+				if (!Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
+					//if we aren't actually saving this is a bunk state, and we let people leave...
+					displayOptions();
+				}
+				break;
 			default:
 				Ui.showToast(this, "FAIL");
 				return false;
@@ -532,6 +552,12 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 					}
 				}
 				else {
+					displayOptions();
+				}
+				break;
+			case SAVING:
+				if (!Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
+					//if we aren't actually saving this is a bunk state, and we let people leave...
 					displayOptions();
 				}
 				break;
@@ -633,11 +659,53 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		ft.commit();
 	}
 
+	private void displaySavingDialog() {
+		mPos = YoYoPosition.SAVING;
+		SavingTravelerDialogFragment df = new SavingTravelerDialogFragment();
+		df.show(this.getSupportFragmentManager(), SavingTravelerDialogFragment.TAG);
+	}
+
 	@Override
 	public void displayCheckout() {
-		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
+		//First we commit our traveler stuff...
+		Traveler trav = Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
 		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
-		finish();
+		if (trav.getSaveTravelerToExpediaAccount() && User.isLoggedIn(this)) {
+			if (trav.hasTuid()) {
+				//Background save..
+				Db.getWorkingTravelerManager().commitTravelerToAccount(this, trav, false, null);
+				finish();
+			}
+			else {
+				//Display spinner and wait...
+				displaySavingDialog();
+				ITravelerUpdateListener travelerupdatedListener = new ITravelerUpdateListener() {
+					@Override
+					public void onTravelerUpdateFinished() {
+						SavingTravelerDialogFragment df = Ui.findSupportFragment(
+								FlightTravelerInfoOptionsActivity.this,
+								SavingTravelerDialogFragment.TAG);
+						if (df != null) {
+							df.dismiss();
+						}
+						finish();
+					}
+
+					@Override
+					public void onTravelerUpdateFailed() {
+						//TODO: we should maybe do more, however all of the local information will still be submitted as checkout info, 
+						//	so the account update
+						Log.e("Saving traveler failure.");
+						finish();
+					}
+				};
+
+				Db.getWorkingTravelerManager().commitTravelerToAccount(this, trav, false, travelerupdatedListener);
+			}
+		}
+		else {
+			finish();
+		}
 	}
 
 	private void hideKeyboard() {
@@ -645,6 +713,32 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			//Oh silly stupid InputMethodManager...
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
+	public static class SavingTravelerDialogFragment extends DialogFragment {
+
+		public static final String TAG = SavingTravelerDialogFragment.class.getName();
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setCancelable(false);
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			ProgressDialog pd = new ProgressDialog(getActivity());
+			pd.setMessage(getString(R.string.saving_traveler));
+			pd.setCanceledOnTouchOutside(false);
+			return pd;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			// If the dialog is canceled without finishing loading, don't show this page.
+			getActivity().finish();
 		}
 	}
 }

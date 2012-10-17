@@ -20,6 +20,8 @@ public class WorkingTravelerManager {
 	private static final String WORKING_TRAVELER_TAG = "WORKING_TRAVELER_TAG";
 	private static final String BASE_TRAVELER_TAG = "BASE_TRAVELER_TAG";
 
+	private static final int COMMIT_TRAVELER_TO_ACCOUNT_RETRY_MAX = 2;
+
 	public WorkingTravelerManager() {
 	}
 
@@ -137,7 +139,7 @@ public class WorkingTravelerManager {
 	 * We also kick off a save call to the server (which runs in the background)
 	 * @param travelerNumber (0 indexed)
 	 */
-	public void commitWorkingTravelerToDB(int travelerNumber, Context context) {
+	public Traveler commitWorkingTravelerToDB(int travelerNumber, Context context) {
 		while (travelerNumber >= Db.getTravelers().size()) {
 			Db.getTravelers().add(new Traveler());
 		}
@@ -145,8 +147,47 @@ public class WorkingTravelerManager {
 		commitTrav.fromJson(getWorkingTraveler().toJson());
 		Db.getTravelers().set(travelerNumber, commitTrav);
 		Db.setTravelersAreDirty(true);
-		if (commitTrav.getSaveTravelerToExpediaAccount()) {
-			commitTravelerToAccount(context, commitTrav);
+		return commitTrav;
+	}
+
+	/**
+	 * This commits the traveler to the user account.
+	 * @param context
+	 * @param trav - the traveler to commit
+	 * @param wait - do we block until the call finishes?
+	 * @return the traveler passed in (and it will be updated if wait is set to true)
+	 */
+	public Traveler commitTravelerToAccount(Context context, Traveler trav, boolean wait,
+			ITravelerUpdateListener listener) {
+		commitTravelerToAccount(context, trav, listener);
+		if (wait) {
+			try {
+				mCommitTravelerSem.acquire();
+				mCommitTravelerSem.release();
+			}
+			catch (Exception ex) {
+				Log.e("Exception waiting for semaphore", ex);
+			}
+		}
+		return trav;
+	}
+
+	public interface ITravelerUpdateListener {
+		public void onTravelerUpdateFinished();
+
+		public void onTravelerUpdateFailed();
+	}
+
+	public boolean isCommittingTravelerToAccount() {
+		if (mCommitTravelerSem == null) {
+			return false;
+		}
+		if (mCommitTravelerSem.tryAcquire()) {
+			mCommitTravelerSem.release();
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 
@@ -156,7 +197,8 @@ public class WorkingTravelerManager {
 	 * @param context
 	 * @param trav
 	 */
-	private void commitTravelerToAccount(final Context context, final Traveler trav) {
+	private void commitTravelerToAccount(final Context context, final Traveler trav,
+			final ITravelerUpdateListener listener) {
 		if (User.isLoggedIn(context)) {
 			if (mCommitTravelerSem == null) {
 				mCommitTravelerSem = new Semaphore(1);
@@ -166,12 +208,21 @@ public class WorkingTravelerManager {
 				@Override
 				public void run() {
 					boolean semGot = false;
+					boolean success = false;
 					try {
 						mCommitTravelerSem.acquire();
-						semGot = true;
-
-						ExpediaServices services = new ExpediaServices(context);
-						Log.i("Commit traveler succeeded:" + services.commitTraveler(trav).isSucceeded());
+						int tryNum = 0;
+						while (tryNum < COMMIT_TRAVELER_TO_ACCOUNT_RETRY_MAX && !success) {
+							Log.i("Attempting to save traveler - attempt #" + tryNum);
+							tryNum++;
+							semGot = true;
+							ExpediaServices services = new ExpediaServices(context);
+							success = services.commitTraveler(trav).isSucceeded();
+							Log.i("Commit traveler succeeded:" + success);
+							if (success) {
+								break;
+							}
+						}
 					}
 					catch (Exception ex) {
 						Log.e("Exception commiting the traveler.", ex);
@@ -180,6 +231,14 @@ public class WorkingTravelerManager {
 						if (semGot) {
 							mCommitTravelerSem.release();
 						}
+						if (listener != null) {
+							if (success) {
+								listener.onTravelerUpdateFinished();
+							}
+							else {
+								listener.onTravelerUpdateFailed();
+							}
+						}
 					}
 				}
 			};
@@ -187,6 +246,11 @@ public class WorkingTravelerManager {
 			Thread commitTravelerThread = new Thread(commitTravelerRunner);
 			commitTravelerThread.setPriority(Thread.MIN_PRIORITY);
 			commitTravelerThread.start();
+		}
+		else {
+			if (listener != null) {
+				listener.onTravelerUpdateFinished();
+			}
 		}
 	}
 
