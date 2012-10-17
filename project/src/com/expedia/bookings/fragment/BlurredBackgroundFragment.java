@@ -23,8 +23,8 @@ public class BlurredBackgroundFragment extends Fragment {
 	private BoundedBottomImageView mBackgroundBgView;
 	private FadingImageView mBackgroundFgView;
 
-	private Bitmap mHeaderBitmap;
-	private Bitmap mBlurredHeaderBitmap;
+	private Bitmap mBgBitmap;
+	private Bitmap mBlurredBgBitmap;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,29 +34,33 @@ public class BlurredBackgroundFragment extends Fragment {
 		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
 
 		// TODO: Remove this at some point, let people set it on their own!
-		setBitmap(null);
+		setBitmap(null, null);
 
 		displayBackground();
 
 		return v;
 	}
 
-	public void setBitmap(Bitmap bitmap) {
+	public void setBitmap(Bitmap bgBitmap, Bitmap blurredBgBitmap) {
+		mBgBitmap = bgBitmap;
+		mBlurredBgBitmap = blurredBgBitmap;
+
 		// TODO: Actually implement dynamic loading of images/blurring
-		mHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.auckland);
-		mBlurredHeaderBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.auckland_blurred);
+		mBgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.auckland);
+		mBlurredBgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.auckland_blurred);
+		// TODO: DELETE ME ONCE YOU ACTUALLY IMPLEMENT THIS
 
 		displayBackground();
 	}
 
 	private void displayBackground() {
-		if (mHeaderBitmap != null && mBlurredHeaderBitmap != null) {
+		if (mBgBitmap != null && mBlurredBgBitmap != null) {
 			if (mBackgroundBgView != null) {
-				mBackgroundBgView.setImageDrawable(new BitmapDrawable(getResources(), mHeaderBitmap));
+				mBackgroundBgView.setImageDrawable(new BitmapDrawable(getResources(), mBgBitmap));
 			}
 
 			if (mBackgroundFgView != null) {
-				mBackgroundFgView.setImageDrawable(new BitmapDrawable(getResources(), mBlurredHeaderBitmap));
+				mBackgroundFgView.setImageDrawable(new BitmapDrawable(getResources(), mBlurredBgBitmap));
 			}
 		}
 	}
