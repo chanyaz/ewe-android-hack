@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -63,6 +65,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private View mFocusStealer;
 	private View mDimmerView;
+	private ViewGroup mHeaderGroup;
 	private LinearLayout mAirportsContainer;
 	private AutoCompleteTextView mDepartureAirportEditText;
 	private AutoCompleteTextView mArrivalAirportEditText;
@@ -124,6 +127,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		// Cache views
 		mFocusStealer = Ui.findView(v, R.id.focus_stealer);
 		mDimmerView = Ui.findView(v, R.id.dimmer_view);
+		mHeaderGroup = Ui.findView(v, R.id.header);
 		mAirportsContainer = Ui.findView(v, R.id.airports_container);
 		mDepartureAirportEditText = Ui.findView(v, R.id.departure_airport_edit_text);
 		mArrivalAirportEditText = Ui.findView(v, R.id.arrival_airport_edit_text);
@@ -518,8 +522,42 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		}
 
+		if (enabled) {
+			// If all the data is available now, fix height - otherwise we have to wait for a layout
+			// pass to fix the height.
+			if (getView() != null && getView().getHeight() != 0) {
+				fixCalendarHeight();
+			}
+			else {
+				mCalendarDatePicker.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						fixCalendarHeight();
+						mCalendarDatePicker.requestLayout();
+						mCalendarDatePicker.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					}
+				});
+			}
+		}
+
 		mCalendarDatePicker.setVisibility(enabled ? View.VISIBLE : View.GONE);
 		updateCalendarInstructionText();
+	}
+
+	private void fixCalendarHeight() {
+		// Depends on the calendar date picker having a preset height
+		int totalHeight = getView().getHeight();
+		int headerHeight = mHeaderGroup.getHeight();
+		int maxHeight = totalHeight - headerHeight;
+		LayoutParams params = mCalendarDatePicker.getLayoutParams();
+		if (params.height > maxHeight) {
+			params.height = maxHeight;
+
+			int minHeight = getResources().getDimensionPixelSize(R.dimen.flight_calendar_min_height);
+			if (params.height < minHeight) {
+				params.height = minHeight;
+			}
+		}
 	}
 
 	private void updateCalendarText() {
