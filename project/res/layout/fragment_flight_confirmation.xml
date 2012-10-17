@@ -91,7 +91,9 @@
                 android:drawableLeft="@drawable/ic_flight_track"
                 android:text="@string/add_to_flighttrack" />
 
-            <View style="@style/FlightConfirmationActionDivider" />
+            <View
+                android:id="@+id/flighttrack_divider"
+                style="@style/FlightConfirmationActionDivider" />
 
             <TextView
                 android:id="@+id/call_action_text_view"

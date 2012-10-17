@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.lang.reflect.Field;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +46,7 @@ import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
@@ -54,6 +56,7 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.data.Waypoint;
+import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
@@ -163,12 +166,18 @@ public class FlightConfirmationFragment extends Fragment {
 			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
 		}
 
-		Ui.setOnClickListener(v, R.id.flighttrack_action_text_view, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Ui.showToast(getActivity(), "TODO: Track on FT");
-			}
-		});
+		if (canTrackWithFlightTrack()) {
+			Ui.setOnClickListener(v, R.id.flighttrack_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startActivity(getFlightTrackIntent());
+				}
+			});
+		}
+		else {
+			Ui.findView(v, R.id.flighttrack_action_text_view).setVisibility(View.GONE);
+			Ui.findView(v, R.id.flighttrack_divider).setVisibility(View.GONE);
+		}
 
 		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
 			@Override
@@ -491,5 +500,21 @@ public class FlightConfirmationFragment extends Fragment {
 		sb.append("\n\n");
 		intent.putExtra(Events.DESCRIPTION, sb.toString());
 		return intent;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FlightTrack integration
+
+	public Intent getFlightTrackIntent() {
+		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		List<Flight> flights = new ArrayList<Flight>();
+		for (int a = 0; a < trip.getLegCount(); a++) {
+			flights.addAll(trip.getLeg(a).getSegments());
+		}
+		return AddFlightsIntentUtils.getIntent(flights);
+	}
+
+	public boolean canTrackWithFlightTrack() {
+		return NavUtils.isIntentAvailable(getActivity(), getFlightTrackIntent());
 	}
 }
