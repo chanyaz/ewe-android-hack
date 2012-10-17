@@ -416,7 +416,8 @@ public class FlightConfirmationFragment extends Fragment {
 				sb.append("\n\n");
 			}
 
-			sb.append(FormatUtils.formatFlightPath(flight, context));
+			sb.append(getString(R.string.path_template, formatAirport(flight.mOrigin.getAirport()),
+					formatAirport(flight.mDestination.getAirport())));
 			sb.append("\n");
 			sb.append(df.format(DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getMostRelevantDateTime())));
 			sb.append("\n");
@@ -429,6 +430,15 @@ public class FlightConfirmationFragment extends Fragment {
 			if (a + 1 != segCount) {
 				sb.append("\n\n");
 			}
+		}
+	}
+
+	private String formatAirport(Airport airport) {
+		if (!TextUtils.isEmpty(airport.mCity)) {
+			return airport.mCity + " (" + airport.mAirportCode + ")";
+		}
+		else {
+			return airport.mAirportCode;
 		}
 	}
 
