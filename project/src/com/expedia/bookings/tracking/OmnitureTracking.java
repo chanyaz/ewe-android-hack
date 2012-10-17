@@ -50,6 +50,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_TRAVELER_EDIT_DETAILS = "App.Flight.Checkout.Traveler.Edit.Details";
 	private static final String FLIGHT_CHECKOUT_TRAVELER_EDIT_PASSPORT = "App.Flight.Checkout.Traveler.Edit.Passport";
 	private static final String FLIGHT_CHECKOUT_TRAVELER_EDIT_SAVE = "App.Flight.Checkout.Traveler.Edit.Save";
+	private static final String FLIGHT_CHECKOUT_WARSAW = "App.Flight.Checkout.Warsaw";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_SELECT = "App.Flight.Checkout.Payment.Select";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_EDIT_ADDRESS = "App.Flight.Checkout.Payment.Edit.Address";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD = "App.Flight.Checkout.Payment.Edit.Card";
@@ -293,6 +294,10 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadFlightCheckoutPaymentSelect(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_SELECT);
+	}
+
+	public static void trackPageLoadFlightCheckoutWarsaw(Context context) {
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_WARSAW);
 	}
 
 	public static void trackPageLoadFlightTravelerEditSave(Context context) {

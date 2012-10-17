@@ -4,6 +4,7 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.OmnitureTracking;
 
 public class FlightRulesActivity extends SherlockFragmentActivity {
 
@@ -15,6 +16,13 @@ public class FlightRulesActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_flight_rules);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		OmnitureTracking.trackPageLoadFlightCheckoutWarsaw(this);
 	}
 
 	@Override
