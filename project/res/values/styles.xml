@@ -655,6 +655,7 @@
     <style name="DropDownListView" parent="@android:style/Widget.ListView">
         <item name="android:divider">#4F4F4F</item>
         <item name="android:dividerHeight">1dp</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
     </style>
 
 </resources>
