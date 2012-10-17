@@ -326,6 +326,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			// If the trip was already booked, just act like everything is hunky-dory
 			launchConfirmationActivity();
 			return;
+		case FLIGHT_SOLD_OUT:
 		case SESSION_TIMEOUT:
 			boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
 			FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural);
