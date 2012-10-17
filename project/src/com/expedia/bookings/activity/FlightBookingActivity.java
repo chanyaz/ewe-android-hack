@@ -333,17 +333,11 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			launchConfirmationActivity();
 			return;
 		case FLIGHT_SOLD_OUT:
-			boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-			FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural);
-			df.show(getSupportFragmentManager(), "unavailableErrorDialog");
-
+			showUnavailableErrorDialog();
 			OmnitureTracking.trackErrorPageLoadFlightSoldOut(mContext);
 			return;
 		case SESSION_TIMEOUT:
-			isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-			df = FlightUnavailableDialogFragment.newInstance(isPlural);
-			df.show(getSupportFragmentManager(), "unavailableErrorDialog");
-
+			showUnavailableErrorDialog();
 			OmnitureTracking.trackErrorPageLoadFlightSearchExpired(mContext);
 			return;
 		default:
@@ -354,6 +348,12 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		DialogFragment df = UnhandledErrorDialogFragment.newInstance(Db.getFlightSearch().getSelectedFlightTrip()
 				.getItineraryNumber());
 		df.show(getSupportFragmentManager(), "unhandledErrorDialog");
+	}
+
+	private void showUnavailableErrorDialog() {
+		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
+		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural);
+		df.show(getSupportFragmentManager(), "unavailableErrorDialog");
 	}
 
 	//////////////////////////////////////////////////////////////////////////
