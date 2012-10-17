@@ -355,10 +355,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			// Push user back to search page if they hit the home button
-			Intent intent = new Intent(this, FlightSearchActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_CLEAR_TASK
-					+ Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			startActivity(intent);
+			NavUtils.goToFlights(this);
 			return true;
 		}
 		case R.id.menu_select_sort_price:
