@@ -73,13 +73,10 @@ public class OmnitureTracking {
 
 	private static final String FLIGHT_ERROR_NOT_YET_AVAILABLE = "App.Flight.Error.NotYetAvailable";
 	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_PRICE_CHANGE_TICKET = "App.Flight.Error.Checkout.Payment.PriceChange.Ticket";
-	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_PRICE_CHANGE_FEE = "App.Flight.Error.Checkout.Payment.PriceChange.Fee";
 	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_FAILED = "App.Flight.Error.Checkout.Payment.Failed";
 	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_CVV = "App.Flight.Error.Checkout.Payment.CVV";
 	private static final String FLIGHT_ERROR_SOLD_OUT = "App.Flight.Error.SoldOut";
 	private static final String FLIGHT_ERROR_SEARCH_EXPIRED = "App.Flight.Error.Search.Expired";
-	private static final String FLIGHT_ERROR_CHECKOUT_TRAVELER_INFO_MISSING = "App.Flight.Error.Checkout.Traveler.InfoMissing";
-	private static final String FLIGHT_ERROR_CHECKOUT_TRAVELER_UNACCOMPANIED_MINOR = "App.Flight.Error.Checkout.Traveler.UnaccompaniedMinor";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// TRACK LINK RFFR ACTION ID CONSTANTS
@@ -223,10 +220,6 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventPriceChange(context, FLIGHT_ERROR_CHECKOUT_PAYMENT_PRICE_CHANGE_TICKET);
 	}
 
-	public static void trackErrorPageLoadFlightPriceChangeFree(Context context) {
-		internalTrackPageLoadEventPriceChange(context, FLIGHT_ERROR_CHECKOUT_PAYMENT_PRICE_CHANGE_FEE);
-	}
-
 	public static void trackErrorPageLoadFlightPaymentFailed(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_CHECKOUT_PAYMENT_FAILED);
 	}
@@ -241,14 +234,6 @@ public class OmnitureTracking {
 
 	public static void trackErrorPageLoadFlightSearchExpired(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_SEARCH_EXPIRED);
-	}
-
-	public static void trackErrorPageLoadFlightTravelerInfoMissing(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_CHECKOUT_TRAVELER_INFO_MISSING);
-	}
-
-	public static void trackErrorPageLoadFlightTravelerUnaccompaniedMinor(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_CHECKOUT_TRAVELER_UNACCOMPANIED_MINOR);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
