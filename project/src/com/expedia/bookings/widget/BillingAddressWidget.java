@@ -86,7 +86,7 @@ public class BillingAddressWidget {
 		Resources r = mContext.getResources();
 		String[] twoLetterCountryCodes = r.getStringArray(R.array.country_codes);
 		String[] threeLetterCountryCodes = new String[twoLetterCountryCodes.length];
-		for (int i = 0; i < twoLetterCountryCodes.length; i++){
+		for (int i = 0; i < twoLetterCountryCodes.length; i++) {
 			threeLetterCountryCodes[i] = LocaleUtils.convertCountryCode(twoLetterCountryCodes[i]);
 		}
 		mCountryCodes = threeLetterCountryCodes;
@@ -297,7 +297,7 @@ public class BillingAddressWidget {
 	}
 
 	public boolean isExpanded() {
-		return mKeepExpanded || mUserExpanded || ! isComplete();
+		return mKeepExpanded || mUserExpanded || !isComplete();
 	}
 
 	public void clear() {
@@ -343,4 +343,3 @@ public class BillingAddressWidget {
 	}
 
 }
-
