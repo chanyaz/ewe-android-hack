@@ -987,7 +987,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
 		onClickIntent.putExtra(Codes.SEARCH_PARAMS, mWidgetDeals.getSearchParams().toJson().toString());
 		onClickIntent.putExtra(Codes.OPENED_FROM_WIDGET, true);
-		onClickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		if (property != null) {
 			onClickIntent.putExtra(Codes.PROPERTY, property.toJson().toString());
 		}

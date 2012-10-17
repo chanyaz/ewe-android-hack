@@ -61,12 +61,17 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 
 	private long mLastResumeTime = -1;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		mContext = this;
 
@@ -109,6 +114,8 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		mKillReceiver.onDestroy();
 
 		if (isFinishing()) {
 			Db.setCreateTripResponse(null);

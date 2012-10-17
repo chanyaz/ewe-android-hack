@@ -37,6 +37,7 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFra
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -77,6 +78,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 	private long mLastResumeTime = -1;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,6 +88,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		mApp = (ExpediaBookingApp) getApplicationContext();
 
 		if (getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+			NavUtils.sendKillActivityBroadcast(mContext);
+
 			Property property = (Property) JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY,
 					Property.class);
 			if (property != null) {
@@ -99,6 +104,11 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			return;
 
 		setupHotelActivity(savedInstanceState);
+
+		// Note: the ordering here matters. We want to register the kill receiver after the KILL_ACTIVITY broadcast is
+		// sent such that instances of this Activity loaded from the widget do not get finished just as they are loaded
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 	}
 
 	@Override
@@ -241,6 +251,10 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 
 		if (isFinishing()) {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();

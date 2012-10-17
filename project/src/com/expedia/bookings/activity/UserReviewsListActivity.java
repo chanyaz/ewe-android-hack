@@ -63,9 +63,14 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 	private Set<String> mViewedReviews;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		if (checkFinishConditionsAndFinish())
 			return;
@@ -176,6 +181,8 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		mKillReceiver.onDestroy();
 
 		if (isFinishing()) {
 			UserReviewsUtils.getInstance().clearCache();

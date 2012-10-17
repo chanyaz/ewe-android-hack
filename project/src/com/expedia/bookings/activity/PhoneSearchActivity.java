@@ -291,7 +291,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private int mSearchEditTextPaddingRight = -1;
 
-	private HockeyPuck mHockeyPuck;
+	private ActivityKillReceiver mKillReceiver;
 
 	//----------------------------------
 	// THREADS/CALLBACKS
@@ -429,6 +429,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		mContext = this;
 
@@ -642,6 +645,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		mKillReceiver.onDestroy();
 
 		mWasOnDestroyCalled = true;
 

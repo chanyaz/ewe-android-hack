@@ -49,9 +49,14 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 
 	private long mLastResumeTime = -1;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		// This code allows us to test the RoomsAndRatesListActivity standalone, for layout purposes.
 		// Just point the default launcher activity towards this instead of SearchActivity
@@ -175,6 +180,13 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		super.onStop();
 
 		mWasStopped = true;
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		mKillReceiver.onDestroy();
 	}
 
 	private boolean checkFinishConditionsAndFinish() {

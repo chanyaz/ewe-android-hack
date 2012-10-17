@@ -32,9 +32,14 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
 
 		// #13365: If the Db expired, finish out of this activity
 		if (Db.getSelectedProperty() == null) {
@@ -136,6 +141,13 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 			onPageLoad();
 			mWasStopped = false;
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		mKillReceiver.onDestroy();
 	}
 
 	@Override
