@@ -298,6 +298,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			FlightTrip newOffer = response.getNewOffer();
 			PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
 			fragment.show(getSupportFragmentManager(), PriceChangeDialogFragment.TAG);
+
+			OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket(mContext);
 			return;
 		case PAYMENT_FAILED:
 			String field = firstError.getExtra("field");
@@ -305,6 +307,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			// Handle each type of failure differently
 			if ("cvv".equals(field)) {
 				setCvvErrorMode(true);
+
+				OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(mContext);
 				return;
 			}
 			else if ("creditCardNumber".equals(field)) {
@@ -321,16 +325,26 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				frag.show(getSupportFragmentManager(), "expiredCcDialog");
 				return;
 			}
+
+			OmnitureTracking.trackErrorPageLoadFlightPaymentFailed(mContext);
 			break;
 		case TRIP_ALREADY_BOOKED:
 			// If the trip was already booked, just act like everything is hunky-dory
 			launchConfirmationActivity();
 			return;
 		case FLIGHT_SOLD_OUT:
-		case SESSION_TIMEOUT:
 			boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
 			FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural);
 			df.show(getSupportFragmentManager(), "unavailableErrorDialog");
+
+			OmnitureTracking.trackErrorPageLoadFlightSoldOut(mContext);
+			return;
+		case SESSION_TIMEOUT:
+			isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
+			df = FlightUnavailableDialogFragment.newInstance(isPlural);
+			df.show(getSupportFragmentManager(), "unavailableErrorDialog");
+
+			OmnitureTracking.trackErrorPageLoadFlightSearchExpired(mContext);
 			return;
 		default:
 			break;
