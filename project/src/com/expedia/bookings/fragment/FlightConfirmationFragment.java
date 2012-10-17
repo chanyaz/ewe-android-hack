@@ -482,9 +482,9 @@ public class FlightConfirmationFragment extends Fragment {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getString(R.string.calendar_flight_desc_itinerary_TEMPLATE, itineraryNumber));
-		// TODO: Once we have URL directions, uncomment this line.
-		// sb.append("\n\n");
-		// sb.append(getString(R.string.calendar_flight_desc_directions_TEMPLATE, "http://url-to-directions.com"));
+		sb.append("\n\n");
+		sb.append(getString(R.string.calendar_flight_desc_directions_TEMPLATE, "https://maps.google.com/maps?q="
+				+ origin.mAirportCode));
 		sb.append("\n\n");
 		sb.append(getString(R.string.calendar_flight_desc_support_TEMPLATE,
 				SupportUtils.getFlightSupportNumber(getActivity())));
