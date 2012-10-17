@@ -359,9 +359,25 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	SectionFieldEditable<EditText, Traveler> mEditLastName = new SectionFieldEditable<EditText, Traveler>(
 			R.id.edit_last_name) {
+		
+		Validator<EditText> mValidator = new Validator<EditText>(){
+			@Override
+			public int validate(EditText obj) {
+				if(obj == null){
+					return ValidationError.ERROR_DATA_MISSING;
+				}else{
+					String text = obj.getText().toString();
+					if(text.length() < 2){
+						return ValidationError.ERROR_DATA_INVALID;
+					}
+				}
+				return ValidationError.NO_ERROR;
+			}
+		};
+		
 		@Override
 		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+			return mValidator;
 		}
 
 		@Override
