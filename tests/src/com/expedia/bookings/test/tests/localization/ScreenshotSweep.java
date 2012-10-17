@@ -11,6 +11,7 @@ import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.HotelsRobotHelper;
 import com.expedia.bookings.test.utils.HotelsUserData;
@@ -59,6 +60,8 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver.setAllowScreenshots(true);
 		mDriver.setAllowOrientationChange(false);
 
+		mDriver.changeAPI("Production");
+
 		for (int i = 0; i < locales.length; i++) {
 			mDriver.enterLog(TAG, "Starting sweep of " + locales[i].toString());
 
@@ -69,9 +72,12 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.setLocale(testingLocale);
 			mDriver.delay();
 			mDriver.changePOS(locales[i]);
+			mDriver.launchHotels();
+			mDriver.delay();
+			mSolo.goBack();
+			mDriver.launchHotels();
 
-			mDriver.changeAPI("Production");
-			mDriver.delay(1);
+			mDriver.delay();
 			mDriver.pressCalendar();
 			mDriver.pressGuestPicker();
 
@@ -90,8 +96,10 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 
 			mDriver.bookingScreenShots();
 			mDriver.logInAndBook();
-			mDriver.captureInfoScreen();
 
+			mDriver.delay(5);
+			mDriver.captureInfoScreen();
+			mDriver.checkFlightsScreen();
 		}
 	}
 

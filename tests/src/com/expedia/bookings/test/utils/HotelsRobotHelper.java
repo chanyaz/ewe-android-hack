@@ -159,11 +159,11 @@ public class HotelsRobotHelper {
 
 	////////////////////////////////////////////////////////////////
 	// Helpful Methods
-	public void launchHotels() throws Exception {
+	public void launchHotels(){
 		mSolo.clickOnText(mSolo.getString(R.string.launch_hotel_secondary_text));
 	}
 
-	public void launchFlights() throws Exception {
+	public void launchFlights(){
 		mSolo.clickOnText(mSolo.getString(R.string.launch_flight_secondary_text));
 	}
 
@@ -554,7 +554,12 @@ public class HotelsRobotHelper {
 		}
 
 		enterLog(TAG, "Pressing button: " + loginButtonText);
-		mSolo.clickOnText(loginButtonText);
+		try{
+			mSolo.clickOnText(loginButtonText);
+		}catch(Error e){
+			delay(5);
+			mSolo.clickOnText(loginButtonText);
+		}
 		delay(1);
 		screenshot("Login Screen Pre Text Entry");
 
@@ -691,6 +696,7 @@ public class HotelsRobotHelper {
 		}
 		enterLog(TAG, "Back at search!");
 		delay(5);
+		mSolo.goBack();
 	}
 
 	public void logInAndBook() throws Exception {
@@ -703,6 +709,7 @@ public class HotelsRobotHelper {
 		enterCCV();
 
 		confirmAndBook();
+
 	}
 
 	//browseRooms goes into approximately numberOfHotels hotels, looks at hotels details
@@ -733,7 +740,8 @@ public class HotelsRobotHelper {
 	// Info Screen Methods
 
 	public void captureInfoScreen() {
-		mSolo.clickOnMenuItem(mRes.getString(R.string.About));
+		delay();
+		mSolo.pressMenuItem(1);
 		landscape();
 		delay(2);
 		portrait();
@@ -747,4 +755,14 @@ public class HotelsRobotHelper {
 		mSolo.goBack();
 	}
 
+
+
+
+	public void checkFlightsScreen(){
+		launchFlights();
+		delay(5);
+		screenshot("Flights screen");
+		mSolo.goBack();
+	}
+	
 }
