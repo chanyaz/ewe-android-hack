@@ -55,7 +55,7 @@ public class CalendarUtils {
 	}
 
 	/**
-	 * Configures the calendar date picker for the app
+	 * Configures the calendar date picker for Hotels
 	 * 
 	 * @param calendarDatePicker
 	 * @param mode
@@ -68,6 +68,38 @@ public class CalendarUtils {
 
 		/* Set the min calendar date
 		 * 
+		 * 7880: initializing the date on the calendar to 1 day prior to
+		 * the current date so that the date is selectable by the user
+		 * for searches in other timezones where its still a day behind
+		 */
+		Calendar yesterday = Calendar.getInstance();
+		yesterday.add(Calendar.DAY_OF_MONTH, -1);
+
+		calendarDatePicker.setMinDate(yesterday.get(Calendar.YEAR), yesterday.get(Calendar.MONTH),
+				yesterday.get(Calendar.DAY_OF_MONTH));
+
+		// Set max calendar date
+		Time maxTime = new Time(System.currentTimeMillis());
+		maxTime.monthDay += 330;
+		maxTime.normalize(true);
+
+		calendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
+	}
+
+	/**
+	 * Configures the calendar date picker for Flights
+	 *
+	 * @param calendarDatePicker
+	 * @param mode
+	 */
+	public static void configureCalendarDatePickerForFlights(CalendarDatePicker calendarDatePicker,
+			CalendarDatePicker.SelectionMode mode) {
+		// Always set these variables
+		calendarDatePicker.setSelectionMode(mode);
+		calendarDatePicker.setMaxRange(330);
+
+		/* Set the min calendar date
+		 *
 		 * 7880: initializing the date on the calendar to 1 day prior to
 		 * the current date so that the date is selectable by the user
 		 * for searches in other timezones where its still a day behind

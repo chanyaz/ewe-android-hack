@@ -217,7 +217,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		});
 
 		// Initial calendar date picker variables
-		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID);
+		CalendarUtils.configureCalendarDatePickerForFlights(mCalendarDatePicker,
+				CalendarDatePicker.SelectionMode.HYBRID);
 		mCalendarDatePicker.setOnDateChangedListener(this);
 
 		if (savedInstanceState != null) {
