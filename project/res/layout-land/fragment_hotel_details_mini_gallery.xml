@@ -2,7 +2,7 @@
 <com.expedia.bookings.widget.HotelDetailsGallery xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/images_gallery"
-    android:layout_width="400dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/placeholder_lg"
     android:fadingEdge="none"

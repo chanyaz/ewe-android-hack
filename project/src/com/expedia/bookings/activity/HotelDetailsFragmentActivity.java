@@ -44,7 +44,10 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.animation.AnimatorProxy;
@@ -320,6 +323,36 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 						Codes.SEARCH_PARAMS, SearchParams.class));
 			}
 		}
+
+		initLandscapeGalleryLayout();
+	}
+
+	// Initialize the gallery if we're in landscape mode. The gallery should be scooched
+	// a little to the left to center it within the left 45% of the screen, and the 
+	// price promo banner should take up the left 45% of the screen. "post" it to make
+	// sure that windowWidth is populated when this runs.
+	@TargetApi(11)
+	private void initLandscapeGalleryLayout() {
+		final View details = findViewById(R.id.hotel_details_landscape);
+		if (details != null) {
+			details.post(new Runnable() {
+				@Override
+				public void run() {
+					View gallery = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
+					View pricePromo = findViewById(R.id.hotel_details_price_promo_fragment_container);
+					int windowWidth = getWindow().getDecorView().getWidth();
+					if (AndroidUtils.getSdkVersion() >= 11) {
+						gallery.setTranslationX(-windowWidth * 0.275f);
+					}
+					else {
+						AnimatorProxy.wrap(gallery).setTranslationX(-windowWidth * 0.275f);
+					}
+					ViewGroup.LayoutParams lp = pricePromo.getLayoutParams();
+					lp.width = (int) (windowWidth * .45f) + 1;
+					pricePromo.setLayoutParams(lp);
+				}
+			});
+		}
 	}
 
 	public void startRoomRatesActivity() {
@@ -430,8 +463,11 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// HotelMiniGalleryFragmentListener implementation
 
+	boolean isGalleryFullscreen = false;
+
 	@Override
 	public void onMiniGalleryItemClicked(Property property, Object item) {
+		// Do this if in portrait
 		HotelDetailsScrollView scrollView = Ui.findView(this, R.id.hotel_details_portrait);
 		if (scrollView != null) {
 			scrollView.toggleFullScreenGallery();
@@ -439,26 +475,61 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 
 		View details = findViewById(R.id.hotel_details_landscape);
-		View gallery = findViewById(R.id.hotel_details_gallery_layout_landscape);
 		if (details != null) {
-			if (AnimatorProxy.wrap(details).getTranslationX() == 0) {
-				int windowWidth = getWindow().getDecorView().getWidth();
-				ObjectAnimator anim1 = ObjectAnimator.ofFloat(details, "translationX", windowWidth);
-				ObjectAnimator anim2 = ObjectAnimator.ofFloat(gallery, "translationX",
-						(windowWidth - gallery.getWidth()) / 2);
-				AnimatorSet animatorSet = new AnimatorSet();
-				animatorSet.play(anim1).with(anim2);
-				animatorSet.start();
-
-			}
-			else {
-				ObjectAnimator anim1 = ObjectAnimator.ofFloat(details, "translationX", 0f);
-				ObjectAnimator anim2 = ObjectAnimator.ofFloat(gallery, "translationX", 0f);
-				AnimatorSet animatorSet = new AnimatorSet();
-				animatorSet.play(anim1).with(anim2);
-				animatorSet.start();
-			}
+			toggleFullScreenGalleryLandscape();
 		}
+	}
+
+	private void toggleFullScreenGalleryLandscape() {
+		// Do this if in landscape
+		final View details = findViewById(R.id.hotel_details_landscape);
+		final View gallery = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
+		final View pricePromo = findViewById(R.id.hotel_details_price_promo_fragment_container);
+		final int windowWidth = getWindow().getDecorView().getWidth();
+
+		if (!isGalleryFullscreen) {
+			ObjectAnimator anim1 = ObjectAnimator.ofFloat(details, "translationX", windowWidth);
+			ObjectAnimator anim2 = ObjectAnimator.ofFloat(gallery, "translationX", 0f);
+			AnimatorSet animatorSet = new AnimatorSet();
+			animatorSet.play(anim1).with(anim2);
+			animatorSet.start();
+			ViewGroup.LayoutParams lp = pricePromo.getLayoutParams();
+			lp.width = windowWidth;
+			pricePromo.setLayoutParams(lp);
+		}
+		else {
+			ObjectAnimator anim1 = ObjectAnimator.ofFloat(details, "translationX", 0f);
+			ObjectAnimator anim2 = ObjectAnimator.ofFloat(gallery, "translationX", -windowWidth * 0.275f);
+			AnimatorSet animatorSet = new AnimatorSet();
+			animatorSet.play(anim1).with(anim2);
+			animatorSet.addListener(new AnimatorListener() {
+
+				@Override
+				public void onAnimationCancel(Animator arg0) {
+					// Intentionally left blank
+				}
+
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					ViewGroup.LayoutParams lp = pricePromo.getLayoutParams();
+					lp.width = (int) (windowWidth * .45f) + 1;
+					pricePromo.setLayoutParams(lp);
+				}
+
+				@Override
+				public void onAnimationRepeat(Animator arg0) {
+					// Intentionally left blank
+				}
+
+				@Override
+				public void onAnimationStart(Animator arg0) {
+					// Intentionally left blank
+				}
+			});
+			animatorSet.start();
+		}
+
+		isGalleryFullscreen = !isGalleryFullscreen;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
