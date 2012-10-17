@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/flight_card_container"
+            android:layout_marginTop="-26dp"
             android:background="@drawable/bg_confirmation_mask"
             android:orientation="vertical" >
 
@@ -112,6 +113,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
                 android:drawableLeft="@drawable/ic_phone"
+                android:drawablePadding="5dp"
                 android:text="@string/call_expedia_customer_support"
                 android:textSize="14dp"
                 android:textStyle="bold" />
