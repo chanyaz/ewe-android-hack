@@ -239,7 +239,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			R.id.display_creditcard_brand_name) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			field.setText((data.getBrandName() != null) ? data.getBrandName() : "");
+			field.setText((data.getBrandName() != null) ? data.getBrandName().replace("_", " ") : "");
 		}
 	};
 
