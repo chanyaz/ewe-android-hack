@@ -39,10 +39,7 @@ import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.section.FlightLegSummarySection;
-import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.SupportUtils;
+import com.expedia.bookings.utils.*;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
@@ -232,6 +229,18 @@ public class FlightConfirmationFragment extends Fragment {
 			FlightLeg lastLeg = Db.getFlightSearch().getSelectedFlightTrip()
 					.getLeg(Db.getFlightSearch().getSelectedFlightTrip().getLegCount() - 1);
 			Calendar checkoutDate = waypointTimeToHotelTime(lastLeg.getFirstWaypoint().getMostRelevantDateTime());
+
+			// Note: this is pretty slow and might not be acceptable for dates with a long range. It does produce the
+			// correct results, though.
+			int nightCount = (int) CalendarUtils.getDaysBetween(checkinDate, checkoutDate);
+
+			Log.i("HotelSearch from Flights confirmation nightCount: " + nightCount);
+			if (nightCount > 28) {
+				checkoutDate = Calendar.getInstance();
+				checkoutDate.setTime(checkinDate.getTime());
+				checkoutDate.add(Calendar.DAY_OF_MONTH, 28);
+			}
+
 			sp.setCheckOutDate(checkoutDate);
 		}
 		else {
