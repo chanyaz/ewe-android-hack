@@ -230,18 +230,17 @@ public class FlightConfirmationFragment extends Fragment {
 					.getLeg(Db.getFlightSearch().getSelectedFlightTrip().getLegCount() - 1);
 			Calendar checkoutDate = waypointTimeToHotelTime(lastLeg.getFirstWaypoint().getMostRelevantDateTime());
 
-			// Note: this is pretty slow and might not be acceptable for dates with a long range. It does produce the
-			// correct results, though.
-			int nightCount = (int) CalendarUtils.getDaysBetween(checkinDate, checkoutDate);
+			Calendar checkoutDateCeiling = Calendar.getInstance();
+			checkoutDateCeiling.setTime(checkinDate.getTime());
+			checkoutDateCeiling.add(Calendar.DAY_OF_MONTH, 28);
 
-			Log.i("HotelSearch from Flights confirmation nightCount: " + nightCount);
-			if (nightCount > 28) {
-				checkoutDate = Calendar.getInstance();
-				checkoutDate.setTime(checkinDate.getTime());
-				checkoutDate.add(Calendar.DAY_OF_MONTH, 28);
+			// f934 do not kick off a hotel search for a more than 28 day stay
+			if (checkoutDate.after(checkoutDateCeiling)) {
+				sp.setCheckOutDate(checkoutDateCeiling);
 			}
-
-			sp.setCheckOutDate(checkoutDate);
+			else {
+				sp.setCheckOutDate(checkoutDate);
+			}
 		}
 		else {
 			//One way trip
