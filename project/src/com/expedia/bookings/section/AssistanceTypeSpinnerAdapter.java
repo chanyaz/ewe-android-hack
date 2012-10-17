@@ -5,16 +5,19 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.mobiata.android.util.Ui;
 
-public class AssistanceTypeSpinnerAdapter extends ArrayAdapter<CharSequence> {
+public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
+
+	private Context mContext;
 
 	class AssistanceSpinnerHelper {
 		AssistanceType mAssistanceType;
@@ -46,8 +49,7 @@ public class AssistanceTypeSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	private String mFormatString = "%s";
 
 	public AssistanceTypeSpinnerAdapter(Context context) {
-		super(context, R.layout.simple_spinner_traveler_item);
-		setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+		mContext = context;
 		fillAssistanceTypes(context);
 	}
 
@@ -65,9 +67,20 @@ public class AssistanceTypeSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		return mAssistanceTypes.get(position).getAssistanceTypeString();
 	}
 
+	public AssistanceType getItemAssistanceType(int position) {
+		return mAssistanceTypes.get(position).getAssistanceType();
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View retView = super.getView(position, convertView, parent);
+		View retView;
+		if (convertView == null) {
+			LayoutInflater inflater = LayoutInflater.from(mContext);
+			retView = inflater.inflate(R.layout.simple_spinner_traveler_item, null);
+		}
+		else {
+			retView = convertView;
+		}
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		tv.setText(Html.fromHtml(String.format(mFormatString, getItem(position))));
 		return retView;
@@ -75,8 +88,41 @@ public class AssistanceTypeSpinnerAdapter extends ArrayAdapter<CharSequence> {
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		View retView = super.getDropDownView(position, convertView, parent);
-		//We can set formatting here if we want to
+		View retView;
+		if (convertView == null) {
+			LayoutInflater inflater = LayoutInflater.from(mContext);
+			retView = inflater.inflate(R.layout.simple_dropdown_item_2line_dark, null);
+		}
+		else {
+			retView = convertView;
+		}
+
+		//Wheel chair types are long, so we use the second line
+		TextView tv1 = Ui.findView(retView, android.R.id.text1);
+		TextView tv2 = Ui.findView(retView, android.R.id.text2);
+		AssistanceType type = getItemAssistanceType(position);
+		if (type.equals(AssistanceType.WHEELCHAIR_CAN_CLIMB_STAIRS)
+				|| type.equals(AssistanceType.WHEELCHAIR_CANNOT_CLIMB_STAIRS)
+				|| type.equals(AssistanceType.WHEELCHAIR_IMMOBILE)) {
+
+			tv2.setVisibility(View.VISIBLE);
+			tv1.setText(R.string.wheel_chair_needed);
+			if (type.equals(AssistanceType.WHEELCHAIR_IMMOBILE)) {
+				tv2.setText(R.string.immobile);
+			}
+			else if (type.equals(AssistanceType.WHEELCHAIR_CANNOT_CLIMB_STAIRS)) {
+				tv2.setText(R.string.cannot_climb_stairs);
+			}
+			else if (type.equals(AssistanceType.WHEELCHAIR_CAN_CLIMB_STAIRS)) {
+				tv2.setText(R.string.can_climb_stairs);
+			}
+		}
+		else {
+			tv1.setText(getItem(position));
+			tv2.setVisibility(View.GONE);
+			tv2.setText("");
+		}
+
 		return retView;
 	}
 
@@ -112,5 +158,11 @@ public class AssistanceTypeSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.BLIND_WITH_SEEING_EYE_DOG, res
 				.getString(R.string.blind_with_seeing_eye_dog)));
 
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

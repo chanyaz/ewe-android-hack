@@ -417,6 +417,14 @@
     <string name="blind_with_seeing_eye_dog">Blind with seeing eye dog</string>
     <!-- Deaf with hearing dog -->
     <string name="deaf_with_hearing_dog">Deaf with hearing dog</string>
+    <!-- Wheelchair needed -->
+    <string name="wheel_chair_needed">Wheelchair needed</string>
+    <!-- Cannot climb/descend stairs -->
+    <string name="cannot_climb_stairs">Cannot climb/descend stairs</string>
+    <!-- Can climb/descent stairs -->
+    <string name="can_climb_stairs">Can climb/descend stairs</string>
+    <!-- Immobile -->
+    <string name="immobile">Immobile</string>
     <!-- Wheelchair needed (cannot climb/descend stairs) -->
     <string name="wheelchair_no_stairs">Wheelchair needed (cannot climb/descend stairs)</string>
     <!-- Wheelchair needed (can climb/descend stairs) -->
@@ -524,7 +532,7 @@
     <string name="card_ending_TEMPLATE">card ending in %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Complete Booking</string>
-    
+
     <!-- Flight booking sharing -->
     <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
     <string name="share_flight_title_TEMPLATE">Expedia Itinerary - %1$s (%2$s)</string>
