@@ -6,6 +6,7 @@
     android:orientation="horizontal" >
 
     <FrameLayout
+        android:id="@+id/hotel_details_gallery_layout_landscape"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="45" >
@@ -24,6 +25,7 @@
     </FrameLayout>
 
     <com.expedia.bookings.widget.HotelDetailsScrollView
+        android:id="@+id/hotel_details_landscape"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="55" >

@@ -44,6 +44,10 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.view.animation.AnimatorProxy;
 import com.omniture.AppMeasurement;
 
 public class HotelDetailsFragmentActivity extends SherlockFragmentActivity implements HotelMiniMapFragmentListener,
@@ -428,9 +432,32 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 	@Override
 	public void onMiniGalleryItemClicked(Property property, Object item) {
-		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_main);
+		HotelDetailsScrollView scrollView = Ui.findView(this, R.id.hotel_details_portrait);
 		if (scrollView != null) {
 			scrollView.toggleFullScreenGallery();
+			return;
+		}
+
+		View details = findViewById(R.id.hotel_details_landscape);
+		View gallery = findViewById(R.id.hotel_details_gallery_layout_landscape);
+		if (details != null) {
+			if (AnimatorProxy.wrap(details).getTranslationX() == 0) {
+				int windowWidth = getWindow().getDecorView().getWidth();
+				ObjectAnimator anim1 = ObjectAnimator.ofFloat(details, "translationX", windowWidth);
+				ObjectAnimator anim2 = ObjectAnimator.ofFloat(gallery, "translationX",
+						(windowWidth - gallery.getWidth()) / 2);
+				AnimatorSet animatorSet = new AnimatorSet();
+				animatorSet.play(anim1).with(anim2);
+				animatorSet.start();
+
+			}
+			else {
+				ObjectAnimator anim1 = ObjectAnimator.ofFloat(details, "translationX", 0f);
+				ObjectAnimator anim2 = ObjectAnimator.ofFloat(gallery, "translationX", 0f);
+				AnimatorSet animatorSet = new AnimatorSet();
+				animatorSet.play(anim1).with(anim2);
+				animatorSet.start();
+			}
 		}
 	}
 
