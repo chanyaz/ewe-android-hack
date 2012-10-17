@@ -128,7 +128,6 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 		}
 		else {
 			holder = (TileHolder) convertView.getTag();
-			holder.container.setVisibility(View.INVISIBLE);
 		}
 
 		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
@@ -148,10 +147,12 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 
 		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
 		if (ImageCache.containsImage(url)) {
+			Log.i("imageContained: " + position + " url: " + url);
 			holder.container.setBackgroundDrawable(new BitmapDrawable(ImageCache.getImage(url)));
 			holder.container.setVisibility(View.VISIBLE);
 		}
 		else {
+			Log.i("imageNotContained: " + position + " url: " + url);
 			holder.container.setVisibility(View.INVISIBLE);
 			loadImageForLaunchStream(url, holder.container);
 		}
@@ -164,14 +165,16 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 
 	private boolean loadImageForLaunchStream(String url, final RelativeLayout layout) {
 		String key = layout.toString();
-		Log.v(Params.LOGGING_TAG, "Loading RelativeLayout bg " + key + " with " + url);
+		Log.v("Loading RelativeLayout bg " + key + " with " + url);
 
 		// Begin a load on the ImageView
 		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
 			public void onImageLoaded(String url, Bitmap bitmap) {
+				Log.v("ImageLoaded: " + url);
+				layout.setVisibility(View.VISIBLE);
 				layout.setBackgroundDrawable(new BitmapDrawable(bitmap));
 				AlphaAnimation alpha = new AlphaAnimation(0.0F, 1.0F);
-				alpha.setDuration(1000);
+				alpha.setDuration(350);
 				alpha.setFillAfter(true);
 				layout.startAnimation(alpha);
 			}

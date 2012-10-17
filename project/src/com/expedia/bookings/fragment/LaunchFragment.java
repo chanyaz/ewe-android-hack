@@ -60,16 +60,9 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
 
 		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
-		mHotelsStreamAdapter = new LaunchStreamAdapter(mContext);
-		mHotelsStreamListView.setAdapter(mHotelsStreamAdapter);
-
-		mHotelsStreamListView.setOnTouchListener(mHotelsListViewOnTouchListener);
-
 		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
-		mFlightsStreamAdapter = new LaunchStreamAdapter(mContext);
-		mFlightsStreamListView.setAdapter(mFlightsStreamAdapter);
 
-		mFlightsStreamListView.setOnTouchListener(mFlightsListViewOnTouchListener);
+		initViews();
 
 		return v;
 	}
@@ -106,6 +99,9 @@ public class LaunchFragment extends Fragment implements LocationListener {
 	public void onResume() {
 		super.onResume();
 
+		// Note: We call this here to avoid reusing recycled Bitmaps. Not ideal, but a simple fix for now
+		initViews();
+
 		startLocationListener();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -122,6 +118,23 @@ public class LaunchFragment extends Fragment implements LocationListener {
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
+	}
+
+	private void initViews() {
+		mHotelsStreamAdapter = new LaunchStreamAdapter(mContext);
+		mHotelsStreamListView.setAdapter(mHotelsStreamAdapter);
+
+		mHotelsStreamListView.setOnTouchListener(mHotelsListViewOnTouchListener);
+
+		mFlightsStreamAdapter = new LaunchStreamAdapter(mContext);
+		mFlightsStreamListView.setAdapter(mFlightsStreamAdapter);
+
+		mFlightsStreamListView.setOnTouchListener(mFlightsListViewOnTouchListener);
+
+		SearchResponse searchResponse = Db.getSearchResponse();
+		if (Db.getSearchResponse() != null) {
+			mHotelsStreamAdapter.setProperties(searchResponse);
+		}
 	}
 
 	private void startHotelSearch(Location loc) {
