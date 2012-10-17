@@ -48,4 +48,9 @@ public class SupportUtils {
 		// this preparatory function.
 		return "1-877-222-6503";
 	}
+
+	public static String getBaggageFeeUrl(String origin, String destination) {
+		String urlFormat = "http://www.expedia.com/Flights-BagFees?originapt=%s&destinationapt=%s";
+		return String.format(urlFormat, origin, destination);
+	}
 }

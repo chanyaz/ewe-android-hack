@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
@@ -109,8 +110,7 @@ public class BaggageFeeFragment extends Fragment {
 		}
 		else {
 			//TODO:We need to set the correct url based on Point of Sale
-			String urlFormat = "http://www.expedia.com/Flights-BagFees?originapt=%s&destinationapt=%s";
-			String url = String.format(urlFormat, origin, destination);
+			String url = SupportUtils.getBaggageFeeUrl(origin, destination);
 			Log.i("Loading url: " + url);
 			mListener.setLoading(true);
 			mWebView.loadUrl(url);
