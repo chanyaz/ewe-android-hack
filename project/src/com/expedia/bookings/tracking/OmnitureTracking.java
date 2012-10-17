@@ -328,7 +328,37 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightSearchResultsOneWay(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_RESULTS_ONE_WAY);
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
+
+		AppMeasurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_RESULTS_ONE_WAY);
+
+		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
+
+		// Search Type: value always 'Flight'
+		s.eVar2 = s.prop2 = "Flight";
+
+		// Search Origin: 3 letter airport code of origin
+		s.eVar3 = s.prop3 = searchParams.getDepartureLocation().getDestinationId();
+
+		// Search Destination: 3 letter airport code of destination
+		s.eVar4 = s.prop4 = searchParams.getArrivalLocation().getDestinationId();
+
+		// day computation date, TODO test this stuff
+		final Calendar departureDate = searchParams.getDepartureDate().getCalendar();
+		final Calendar now = Calendar.getInstance();
+
+		// num days between current day (now) and flight departure date
+		s.eVar5 = s.prop5 = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
+
+		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
+		// e.g. FLT|RT|A2|C1
+		// TODO this will need to be changed once we support multiple travelers
+		s.eVar47 = "FLT|OW|A1|C0";
+
+		// Success event for 'Search'
+		s.events = "event30";
+
+		s.track();
 	}
 
 	public static void trackPageLoadFlightBaggageFee(Context context, int legPosition) {
