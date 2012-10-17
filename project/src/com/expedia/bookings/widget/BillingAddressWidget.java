@@ -200,11 +200,13 @@ public class BillingAddressWidget {
 		addressView.setText(address);
 
 		// Sync the editable billing info fields
-		if (newLocation.getStreetAddress().size() > 0) {
-			mAddress1EditText.setText(newLocation.getStreetAddress().get(0));
-		}
-		if (newLocation.getStreetAddress().size() > 1) {
-			mAddress2EditText.setText(newLocation.getStreetAddress().get(1));
+		if (newLocation.getStreetAddress() != null) {
+			if (newLocation.getStreetAddress().size() > 0) {
+				mAddress1EditText.setText(newLocation.getStreetAddress().get(0));
+			}
+			if (newLocation.getStreetAddress().size() > 1) {
+				mAddress2EditText.setText(newLocation.getStreetAddress().get(1));
+			}
 		}
 		mCityEditText.setText(newLocation.getCity());
 		mPostalCodeEditText.setText(newLocation.getPostalCode());
