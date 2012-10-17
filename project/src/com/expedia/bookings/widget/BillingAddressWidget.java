@@ -210,7 +210,9 @@ public class BillingAddressWidget {
 		}
 		mCityEditText.setText(newLocation.getCity());
 		mPostalCodeEditText.setText(newLocation.getPostalCode());
-		setSpinnerSelection(mCountrySpinner, mCountryCodes, newLocation.getCountryCode());
+		if (newLocation.getCountryCode() != null) {
+			setSpinnerSelection(mCountrySpinner, mCountryCodes, newLocation.getCountryCode());
+		}
 		mStateEditText.setText(newLocation.getStateCode());
 
 		if (isExpanded()) {
