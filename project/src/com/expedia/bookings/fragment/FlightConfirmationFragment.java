@@ -346,10 +346,12 @@ public class FlightConfirmationFragment extends Fragment {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getString(R.string.calendar_flight_desc_itinerary_TEMPLATE, itineraryNumber));
+		// TODO: Once we have URL directions, uncomment this line.
+		// sb.append("\n\n");
+		// sb.append(getString(R.string.calendar_flight_desc_directions_TEMPLATE, "http://url-to-directions.com"));
 		sb.append("\n\n");
-		sb.append(getString(R.string.calendar_flight_desc_directions_TEMPLATE, "http://url-to-directions.com"));
-		sb.append("\n\n");
-		sb.append(getString(R.string.calendar_flight_desc_support_TEMPLATE, "<insert phone # here, once we know it>"));
+		sb.append(getString(R.string.calendar_flight_desc_support_TEMPLATE,
+				SupportUtils.getFlightSupportNumber(getActivity())));
 		sb.append("\n\n");
 		intent.putExtra(Events.DESCRIPTION, sb.toString());
 		return intent;
