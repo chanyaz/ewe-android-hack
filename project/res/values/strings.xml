@@ -12,8 +12,15 @@
     <string name="nav_account">Account</string>
 
     <!-- Launch screen -->
+    <!-- Label for launch screen hotel button secondary text -->
     <string name="launch_hotel_secondary_text">Get a room.</string>
+    <!-- Label for launch screen flight button secondary text -->
     <string name="launch_flight_secondary_text">Get away.</string>
+    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
+    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Fly to&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <!-- Label to present to the user on application load -->
+    <string name="launch_welcome">Welcome</string>
+
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
