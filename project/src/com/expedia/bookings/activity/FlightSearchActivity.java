@@ -64,13 +64,12 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 			mUpdateOnResume = savedInstanceState.getBoolean(INSTANCE_UPDATE_ON_RESUME);
 		}
 
-		View root = findViewById(android.R.id.content);
-		root.setBackgroundResource(R.drawable.bg_search_nyc);
+		setContentView(R.layout.activity_flight_search);
 
 		if (savedInstanceState == null) {
 			mSearchParamsFragment = FlightSearchParamsFragment.newInstance(Db.getFlightSearch().getSearchParams(),
 					false);
-			getSupportFragmentManager().beginTransaction().add(android.R.id.content, mSearchParamsFragment,
+			getSupportFragmentManager().beginTransaction().add(R.id.content, mSearchParamsFragment,
 					FlightSearchParamsFragment.TAG).commit();
 		}
 		else {
