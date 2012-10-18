@@ -13,11 +13,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPenaltyRulesActivity;
+import com.expedia.bookings.activity.FlightWebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
-import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
 
 public class FlightRulesFragment extends SherlockFragment {
@@ -49,6 +49,7 @@ public class FlightRulesFragment extends SherlockFragment {
 
 	private TextView mCompletePenaltyRulesTextView;
 	private TextView mLiabilitiesLinkTextView;
+	private TextView mAdditionalFeesTextView;
 
 	public static FlightRulesFragment newInstance() {
 		return new FlightRulesFragment();
@@ -70,13 +71,18 @@ public class FlightRulesFragment extends SherlockFragment {
 
 		mCompletePenaltyRulesTextView = Ui.findView(v, R.id.complete_penalty_rules_link_text_view);
 		mLiabilitiesLinkTextView = Ui.findView(v, R.id.liabilities_link_text_view);
+		mAdditionalFeesTextView = Ui.findView(v, R.id.additional_fee_text_view);
 
 		if (mFlightTrip != null) {
 			populateHeaderRows(v);
+
 			populateBody(v);
 
 			populateCompletePenaltyRulesTextView();
+
 			populateLiabilitiesTextView();
+
+			populateAdditionalFeesTextView();
 		}
 
 		return v;
@@ -102,7 +108,11 @@ public class FlightRulesFragment extends SherlockFragment {
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext));
+				Intent intent = new Intent(mContext, FlightWebViewActivity.class);
+				intent.putExtra(FlightWebViewActivity.ARG_URL,
+						RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext));
+
+				mContext.startActivity(intent);
 			}
 		});
 
@@ -111,7 +121,10 @@ public class FlightRulesFragment extends SherlockFragment {
 		privacy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.openSite(mContext, RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext));
+				Intent intent = new Intent(mContext, FlightWebViewActivity.class);
+				intent.putExtra(FlightWebViewActivity.ARG_URL, RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext));
+
+				mContext.startActivity(intent);
 			}
 		});
 	}
@@ -143,39 +156,37 @@ public class FlightRulesFragment extends SherlockFragment {
 	}
 
 	private void populateCompletePenaltyRulesTextView() {
-		Rule completeRule = mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
+		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+				mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey()), mCompletePenaltyRulesTextView);
 
-		mCompletePenaltyRulesTextView.setText(getDummyHtmlLink(completeRule));
-		mLiabilitiesLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
-
-		final String url = completeRule.getUrl();
-
-		mCompletePenaltyRulesTextView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(mContext, FlightPenaltyRulesActivity.class);
-				intent.putExtra(FlightPenaltyRulesActivity.ARG_URL, url);
-				mContext.startActivity(intent);
-			}
-		});
 	}
 
 	private void populateLiabilitiesTextView() {
-		StringBuilder rulesBodyBuilder = new StringBuilder();
+		populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
+				mFlightTrip.getRule(RulesKeys.AIRLINE_LIABILITY_LIMITATIONS.getKey()), mLiabilitiesLinkTextView);
+	}
 
-		// airline liability
-		Rule airlineRule = mFlightTrip.getRule(RulesKeys.AIRLINE_LIABILITY_LIMITATIONS.getKey());
-		appendBodyWithRuleContainingUrl(airlineRule, rulesBodyBuilder);
+	private void populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(final Rule rule, TextView textView) {
+		if (rule != null) {
+			textView.setText(getDummyHtmlLink(rule));
+			textView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(mContext, FlightPenaltyRulesActivity.class);
+					intent.putExtra(FlightPenaltyRulesActivity.ARG_URL, rule.getUrl());
+					mContext.startActivity(intent);
+				}
+			});
+		}
+	}
 
+	private void populateAdditionalFeesTextView() {
 		// additional rules
-		Rule additionalRules = mFlightTrip.getRule(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey());
+		final Rule additionalRules = mFlightTrip.getRule(RulesKeys.ADDITIONAL_AIRLINE_FEES.getKey());
 		// Sometimes additional rules are not included in the API, null check here
 		if (additionalRules != null) {
-			rulesBodyBuilder.append(additionalRules.getText());
+			mAdditionalFeesTextView.setText(additionalRules.getText());
 		}
-
-		mLiabilitiesLinkTextView.setText(Html.fromHtml(rulesBodyBuilder.toString()));
-		mLiabilitiesLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	private void appendBodyWithRule(Rule rule, StringBuilder builder) {

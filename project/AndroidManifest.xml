@@ -170,6 +170,10 @@
             android:theme="@style/FlightTheme" >
         </activity>
         <activity
+            android:name=".activity.FlightWebViewActivity"
+            android:theme="@style/FlightTheme" >
+        </activity>
+        <activity
             android:name=".activity.FlightConfirmationActivity"
             android:label="Flights Confirmation"
             android:theme="@style/FlightTheme" />

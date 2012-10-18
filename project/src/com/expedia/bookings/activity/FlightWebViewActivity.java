@@ -6,34 +6,34 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
-import com.expedia.bookings.fragment.FlightPenaltyRulesFragment;
+import com.expedia.bookings.fragment.FlightWebViewFragment;
 import com.expedia.bookings.utils.Ui;
 
-public class FlightPenaltyRulesActivity extends SherlockFragmentActivity implements
-		FlightPenaltyRulesFragment.FlightPenaltyRulesFragmentListener {
+public class FlightWebViewActivity extends SherlockFragmentActivity implements
+		FlightWebViewFragment.FlightWebViewFragmentListener {
 
 	public static final String ARG_URL = "ARG_URL";
 
-	private FlightPenaltyRulesFragment mFragment;
+	private FlightWebViewFragment mFragment;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		setTitle(R.string.legal_information);
-		setContentView(R.layout.activity_flight_penalty_rules);
+		setContentView(R.layout.activity_flight_web_view);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState == null) {
-			mFragment = FlightPenaltyRulesFragment.newInstance(getIntent().getExtras().getString(ARG_URL));
+			mFragment = FlightWebViewFragment.newInstance(getIntent().getExtras().getString(ARG_URL));
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.replace(R.id.penalty_rules_content_container, mFragment, FlightPenaltyRulesFragment.TAG);
+			ft.replace(R.id.flight_web_view_content_container, mFragment, FlightWebViewFragment.TAG);
 			ft.commit();
 		}
 		else {
-			mFragment = Ui.findSupportFragment(this, FlightPenaltyRulesFragment.TAG);
+			mFragment = Ui.findSupportFragment(this, FlightWebViewFragment.TAG);
 		}
 	}
 
