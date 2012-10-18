@@ -470,6 +470,11 @@ public class BookingOverviewFragment extends Fragment {
 			// past the checkout state, stop it at the checkout position.
 			if (!mTouchDown && y <= oldy && oldy >= mMaxY && mInCheckout) {
 				mScrollView.scrollTo(0, (int) mMaxY);
+
+				mHotelReceipt.showMiniDetailsLayout();
+				mHotelReceiptMini.showMiniDetailsLayout();
+
+				return;
 			}
 
 			if (y > mMaxY - mScaledFadeRange) {
