@@ -201,7 +201,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		if (mStartSearchOnPostResume) {
 			mStartSearchOnPostResume = false;
-			supportInvalidateOptionsMenu();
 			startSearch();
 		}
 		else if (mDeselectLegPos != -1) {
@@ -505,8 +504,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				ft.replace(R.id.content_container, mListFragment, FlightListFragment.TAG);
 				ft.addToBackStack(getFlightListBackStackName(0));
 				ft.commit();
-
-				supportInvalidateOptionsMenu();
 			}
 		}
 	};
