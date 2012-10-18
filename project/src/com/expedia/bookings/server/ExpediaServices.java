@@ -256,6 +256,10 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 		}
 
+		if (User.isLoggedIn(mContext)) {
+			query.add(new BasicNameValuePair("doIThinkImSignedIn", true);
+		}
+
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
 				+ F_SECURE_REQUEST);
 	}
@@ -433,6 +437,10 @@ public class ExpediaServices implements DownloadListener {
 				}
 				return new BookingResponseHandler(mContext).handleJson(json);
 			}
+		}
+
+		if (User.isLoggedIn(mContext)) {
+			query.add(new BasicNameValuePair("doIThinkImSignedIn", true);
 		}
 
 		return doE3Request("MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
