@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -62,8 +65,6 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
 		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
 
-		initViews();
-
 		return v;
 	}
 
@@ -99,15 +100,28 @@ public class LaunchFragment extends Fragment implements LocationListener {
 	public void onResume() {
 		super.onResume();
 
-		// Note: We call this here to avoid reusing recycled Bitmaps. Not ideal, but a simple fix for now
-		initViews();
-
 		startLocationListener();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_SEARCH)) {
 			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 		}
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		// Note: We call this here to avoid reusing recycled Bitmaps. Not ideal, but a simple fix for now
+		initViews();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+
+		// Null out the adapter to prevent potentially recycled images from attempting to redraw and crash
+		mHotelsStreamListView.setAdapter(null);
 	}
 
 	@Override
@@ -124,6 +138,7 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		mHotelsStreamAdapter = new LaunchStreamAdapter(mContext);
 		mHotelsStreamListView.setAdapter(mHotelsStreamAdapter);
 
+		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 		mHotelsStreamListView.setOnTouchListener(mHotelsListViewOnTouchListener);
 
 		mFlightsStreamAdapter = new LaunchStreamAdapter(mContext);
@@ -216,6 +231,17 @@ public class LaunchFragment extends Fragment implements LocationListener {
 			}
 		}
 
+	};
+
+	private final AdapterView.OnItemClickListener mHotelsStreamOnItemClickListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Property property = (Property) mHotelsStreamAdapter.getItem(position);
+			Db.setSelectedProperty(property);
+
+			Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
+			mContext.startActivity(intent);
+		}
 	};
 
 	// Note: there is a lot of code duplication between these two onTouchListeners TODO: refactor to one class
