@@ -42,8 +42,8 @@
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
         android:text="@string/baggage_fee_info"
-        android:textColor="@android:color/white"
-        android:textSize="14dp"
+        android:textColor="#CCCCCC"
+        android:textSize="12dp"
         android:textStyle="bold" />
 
 </RelativeLayout>
