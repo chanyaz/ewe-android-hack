@@ -118,39 +118,6 @@ public class CalendarUtils {
 		calendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 	}
 
-	/**
-	 * Configures the calendar date picker for the app
-	 * 
-	 * @param calendarDatePicker
-	 * @param mode
-	 */
-	@Deprecated
-	public static void configureCalendarDatePicker(VintageCalendarDatePicker calendarDatePicker,
-			VintageCalendarDatePicker.SelectionMode mode) {
-		// Always set these variables
-		calendarDatePicker.setSelectionMode(mode);
-		calendarDatePicker.setMaxRange(29);
-
-		/* Set the min calendar date
-		 * 
-		 * 7880: initializing the date on the calendar to 1 day prior to
-		 * the current date so that the date is selectable by the user
-		 * for searches in other timezones where its still a day behind
-		 */
-		Calendar yesterday = Calendar.getInstance();
-		yesterday.add(Calendar.DAY_OF_MONTH, -1);
-
-		calendarDatePicker.setMinDate(yesterday.get(Calendar.YEAR), yesterday.get(Calendar.MONTH),
-				yesterday.get(Calendar.DAY_OF_MONTH));
-
-		// Set max calendar date
-		Time maxTime = new Time(System.currentTimeMillis());
-		maxTime.monthDay += 330;
-		maxTime.normalize(true);
-
-		calendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
-	}
-
 	// #9770: Add an hour of buffer so that the date range is always > the number of days
 	private static final int DATE_RANGE_BUFFER = 1000 * 60 * 60; // 1 hour
 
