@@ -31,6 +31,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 	private PlaneWindowListener mListener;
 
+	private boolean mIsGrounded;
+
 	public PlaneWindowView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
@@ -54,9 +56,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 	 * but after the thread has been initialized
 	 */
 	public void setGrounded(boolean isGrounded) {
-		if (mThread != null) {
-			mThread.mIsGrounded = isGrounded;
-		}
+		mIsGrounded = isGrounded;
 	}
 
 	@Override
@@ -197,7 +197,6 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		private double mSkyOffset = 0;
 
 		// For the "grounded" look (instead of flying)
-		private boolean mIsGrounded;
 		private Bitmap mGroundedBitmap;
 
 		// For the accelerometer
