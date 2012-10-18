@@ -111,6 +111,10 @@ public class FlightLeg implements JSONable {
 		return airlines;
 	}
 
+	public boolean hasMultipleAirlines() {
+		return getPrimaryAirlines().size() > 1;
+	}
+
 	public String getAirlinesFormatted() {
 		StringBuilder sb = new StringBuilder();
 		for (String airlineCode : getPrimaryAirlines()) {
