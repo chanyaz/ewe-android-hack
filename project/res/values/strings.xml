@@ -32,10 +32,14 @@
     <string name="loading_flights">Loading flights...</string>
     <!-- Label for screen that is doing searches -->
     <string name="searching">Searching…</string>
-    <!-- TEMPORARY generic error message when loading flights fails -->
-    <string name="error_loading_flights_TEMPLATE">DEBUG: Error loading flights: %s</string>
     <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">Sorry, we could not find any flights.</string>
+    <string name="error_no_flights_found">No flights were found.</string>
+    <!-- Error message when we find no flights because of an invalid departure airport -->
+    <string name="error_invalid_departure_airport">Invalid departure airport.</string>
+    <!-- Error message when we find no flights because of an invalid arrival airport -->
+    <string name="error_invalid_arrival_airport">Invalid arrival airport.</string>
+    <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
+    <string name="error_invalid_departure_arrival_airports">Invalid departure and arrival airports.</string>
     <!-- Pluralization for # of seats left on a flight -->
     <plurals name="seats_left">
         <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; seats left!</item>

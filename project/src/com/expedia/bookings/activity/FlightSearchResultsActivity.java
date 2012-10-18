@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,11 +37,14 @@ import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightFilterDialogFragment;
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
+import com.expedia.bookings.fragment.NoFlightsFragment;
+import com.expedia.bookings.fragment.NoFlightsFragment.NoFlightsFragmentListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.StatusFragment;
@@ -55,7 +60,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
-		OnBackStackChangedListener, RetryErrorDialogFragmentListener {
+		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener {
 
 	public static final String EXTRA_DESELECT_LEG_ID = "EXTRA_DESELECT_LEG_ID";
 
@@ -66,6 +71,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private static final int REQUEST_CODE_SEARCH_PARAMS = 1;
 
 	private static final String BACKSTACK_LOADING = "BACKSTACK_LOADING";
+	private static final String BACKSTACK_NO_FLIGHTS = "BACKSTACK_NO_FLIGHTS";
 	private static final String BACKSTACK_FLIGHT_DETAILS_PREFIX = "BACKSTACK_FLIGHT_DETAILS";
 	private static final String BACKSTACK_FLIGHT_LIST_PREFIX = "BACKSTACK_FLIGHT_LIST";
 
@@ -77,6 +83,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private StatusFragment mStatusFragment;
 	private FlightListFragment mListFragment;
 	private FlightDetailsFragment mFlightDetailsFragment;
+	private NoFlightsFragment mNoFlightsFragment;
 
 	// Current leg being displayed
 	private int mLegPosition = 0;
@@ -127,6 +134,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		// Try to recover any Fragments
 		mBgFragment = Ui.findSupportFragment(this, R.id.background_fragment);
 		mStatusFragment = Ui.findSupportFragment(this, StatusFragment.TAG);
+		mNoFlightsFragment = Ui.findSupportFragment(this, NoFlightsFragment.TAG);
 		mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 		mFlightDetailsFragment = Ui.findSupportFragment(this, FlightDetailsFragment.TAG);
 
@@ -243,7 +251,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	public void onBackPressed() {
 		String name = getTopBackStackName();
 
-		if (name == null || name.equals(BACKSTACK_LOADING) || name.equals(getFlightListBackStackName(0))) {
+		if (name == null || name.equals(BACKSTACK_LOADING) || name.equals(getFlightListBackStackName(0))
+				|| name.equals(BACKSTACK_NO_FLIGHTS)) {
 			finish();
 		}
 		else {
@@ -285,20 +294,28 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		// are currently visible
 		boolean isSearching = BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY);
 		boolean areFlightDetailsShowing = areFlightDetailsShowing();
+		boolean gotNoResults = getTopBackStackName().equals(BACKSTACK_NO_FLIGHTS);
 		mFlightSummaryContainer.setVisibility(areFlightDetailsShowing ? View.GONE : View.VISIBLE);
 		mFlightDetailsActionContainer.setVisibility(areFlightDetailsShowing ? View.VISIBLE : View.GONE);
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(!areFlightDetailsShowing);
-		actionBar.setDisplayShowCustomEnabled(!isSearching);
-		actionBar.setDisplayShowTitleEnabled(isSearching);
+		actionBar.setDisplayShowCustomEnabled(!isSearching && !gotNoResults);
+		actionBar.setDisplayShowTitleEnabled(isSearching || gotNoResults);
 		for (int a = 0; a < menu.size(); a++) {
-			menu.getItem(a).setVisible(!areFlightDetailsShowing);
+			menu.getItem(a).setVisible(!areFlightDetailsShowing && !gotNoResults);
+		}
+
+		if (isSearching) {
+			actionBar.setTitle(R.string.searching);
+		}
+		else {
+			actionBar.setTitle(R.string.search_flights);
 		}
 
 		// Search item has slightly different rules for visibility
-		mSearchMenuItem.setVisible(!isSearching && !areFlightDetailsShowing);
+		mSearchMenuItem.setVisible(!isSearching && !gotNoResults && !areFlightDetailsShowing);
 
-		if (!areFlightDetailsShowing) {
+		if (!areFlightDetailsShowing && !gotNoResults) {
 			updateTitleBar();
 
 			// Show sort/filter only if we have results and are not showing the search params fragment/flight details
@@ -384,11 +401,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 			return true;
 		case R.id.menu_search: {
-			Intent intent = new Intent(this, FlightSearchOverlayActivity.class);
-			startActivityForResult(intent, REQUEST_CODE_SEARCH_PARAMS);
-
-			OmnitureTracking.trackLinkFlightRefine(mContext, mLegPosition);
-
+			openEditSearchOverlay();
 			return true;
 		}
 		}
@@ -411,6 +424,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	//////////////////////////////////////////////////////////////////////////
 	// Search download
+
+	private void openEditSearchOverlay() {
+		Intent intent = new Intent(this, FlightSearchOverlayActivity.class);
+		startActivityForResult(intent, REQUEST_CODE_SEARCH_PARAMS);
+
+		OmnitureTracking.trackLinkFlightRefine(mContext, mLegPosition);
+	}
 
 	private void startSearch() {
 		if (mStatusFragment == null) {
@@ -470,12 +490,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			search.setSearchResponse(response);
 
 			if (response.hasErrors()) {
-				RetryErrorDialogFragment df = new RetryErrorDialogFragment();
-				df.show(getSupportFragmentManager(), "retryErrorDialog");
-				mStatusFragment.showError(null);
+				handleErrors(response);
 			}
 			else if (response.getTripCount() == 0) {
-				mStatusFragment.showError(getString(R.string.error_no_flights_found));
+				showNoFlights(null);
 			}
 			else {
 				if (mListFragment == null) {
@@ -492,6 +510,50 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 		}
 	};
+
+	private void handleErrors(FlightSearchResponse response) {
+		// Collect all the error fields
+		Set<String> invalidFields = new HashSet<String>();
+		for (ServerError error : response.getErrors()) {
+			if (error.getErrorCode() == ErrorCode.INVALID_INPUT) {
+				invalidFields.add(error.getExtra("field"));
+			}
+		}
+
+		if (invalidFields.size() > 0) {
+			boolean invalidDeparture = invalidFields.contains("departureAirport");
+			boolean invalidArrival = invalidFields.contains("arrivalAirport");
+
+			int resId = 0;
+			if (invalidDeparture && invalidArrival) {
+				resId = R.string.error_invalid_departure_arrival_airports;
+			}
+			else if (invalidDeparture) {
+				resId = R.string.error_invalid_departure_airport;
+			}
+			else if (invalidArrival) {
+				resId = R.string.error_invalid_arrival_airport;
+			}
+
+			if (resId != 0) {
+				showNoFlights(getString(resId));
+				return;
+			}
+		}
+
+		// If we haven't handled the error by now, throw generic message
+		RetryErrorDialogFragment df = new RetryErrorDialogFragment();
+		df.show(getSupportFragmentManager(), "retryErrorDialog");
+		mStatusFragment.showError(null);
+	}
+
+	private void showNoFlights(CharSequence errMsg) {
+		mNoFlightsFragment = NoFlightsFragment.newInstance(errMsg);
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.content_container, mNoFlightsFragment, NoFlightsFragment.TAG);
+		ft.addToBackStack(BACKSTACK_NO_FLIGHTS);
+		ft.commit();
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Flight list
@@ -659,5 +721,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	public void onCancelErorr() {
 		finish();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// NoFlightsFragmentListener
+
+	@Override
+	public void onClickEditSearch() {
+		openEditSearchOverlay();
 	}
 }
