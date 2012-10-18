@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests.integration;
+package com.expedia.bookings.test.tests.hotels;
 
 import java.lang.reflect.Field;
 
