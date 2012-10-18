@@ -106,12 +106,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 				mAirlineTextView.setText(FormatUtils.formatFlightNumber(firstFlight, context));
 			}
 			else {
-				if (leg.hasMultipleAirlines()) {
-					mAirlineTextView.setText(R.string.multiple_airlines);
-				}
-				else {
-					mAirlineTextView.setText(leg.getSegment(0).getPrimaryFlightCode().getAirline().mAirlineName);
-				}
+				mAirlineTextView.setText(leg.getAirlinesFormatted());
 			}
 		}
 
