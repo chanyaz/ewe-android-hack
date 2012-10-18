@@ -243,8 +243,10 @@
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">CHECKOUT</string>
-    <!-- Your card will be charged -->
+    <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Best Price Guarantee</string>
+    <!-- Free cancellation template string where we insert the date the free cancellation expires -->
+    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
