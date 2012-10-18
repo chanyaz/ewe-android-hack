@@ -520,6 +520,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			if (returnDate == null) {
 				mCalendarDatePicker.setOneWayResearchMode(true);
 			}
+
+			// f826 Make sure calendar redraws after crash
+			if (departureDate == null && returnDate == null) {
+				mCalendarDatePicker.reset();
+			}
 		}
 
 		if (enabled) {
