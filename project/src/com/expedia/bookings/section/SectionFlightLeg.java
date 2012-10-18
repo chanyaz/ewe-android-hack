@@ -1,13 +1,12 @@
 package com.expedia.bookings.section;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
@@ -23,8 +22,7 @@ public class SectionFlightLeg extends LinearLayout {
 
 	private FlightTripLeg mTripLeg;
 
-	private TextView mArriveOrDepartWithDateTextView;
-	private ImageView mInboundOutboundArrow;
+	private FlightInfoSection mFlightInfoSection;
 	private FlightLegSummarySection mFlightLegSummary;
 
 	public SectionFlightLeg(Context context) {
@@ -48,8 +46,7 @@ public class SectionFlightLeg extends LinearLayout {
 		super.onFinishInflate();
 
 		// Cache views
-		mArriveOrDepartWithDateTextView = Ui.findView(this, R.id.display_arrive_or_depart_with_date);
-		mInboundOutboundArrow = Ui.findView(this, R.id.display_inbound_outbound_arrow);
+		mFlightInfoSection = Ui.findView(this, R.id.flight_info_section);
 		mFlightLegSummary = Ui.findView(this, R.id.flight_leg_summary);
 	}
 
@@ -63,22 +60,18 @@ public class SectionFlightLeg extends LinearLayout {
 
 		mFlightLegSummary.bind(trip, leg);
 
-		String formatted = "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("EE, MMM dd");
-		String formattedDate = dateFormat.format((isOutbound() ? leg.getFirstWaypoint() : leg.getLastWaypoint())
-				.getMostRelevantDateTime().getTime());
-		formatted = String.format(getResources().getString(R.string.trip_to_with_date), formattedDate,
+		int iconResId = (isOutbound()) ? R.drawable.ic_departure_arrow_small : R.drawable.ic_return_arrow_small;
+
+		Calendar cal = (isOutbound() ? leg.getFirstWaypoint() : leg.getLastWaypoint()).getMostRelevantDateTime();
+		long time = DateTimeUtils.getTimeInLocalTimeZone(cal).getTime();
+		String formattedDate = DateUtils.formatDateTime(getContext(), time, DateUtils.FORMAT_SHOW_DATE
+				| DateUtils.FORMAT_SHOW_WEEKDAY
+				| DateUtils.FORMAT_ABBREV_ALL);
+		String formatted = getResources().getString(R.string.trip_to_with_date, formattedDate,
 				StrUtils.getWaypointCityOrCode(leg.getFirstWaypoint()),
 				StrUtils.getWaypointCityOrCode(leg.getLastWaypoint()));
 
-		mArriveOrDepartWithDateTextView.setText(formatted);
-
-		if (isOutbound()) {
-			mInboundOutboundArrow.setImageResource(R.drawable.ic_departure_arrow);
-		}
-		else {
-			mInboundOutboundArrow.setImageResource(R.drawable.ic_return_arrow);
-		}
+		mFlightInfoSection.bind(iconResId, formatted);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

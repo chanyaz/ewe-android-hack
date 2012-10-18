@@ -5,6 +5,7 @@ import java.util.Calendar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,14 +20,17 @@ import com.expedia.bookings.activity.BaggageFeeActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
-import com.expedia.bookings.section.FlightLayoverSection;
-import com.expedia.bookings.section.FlightPathSection;
+import com.expedia.bookings.section.FlightInfoSection;
 import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.section.InfoBarSection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.Layover;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightDetailsFragment extends Fragment {
 
@@ -71,9 +75,9 @@ public class FlightDetailsFragment extends Fragment {
 		mInfoContainer = Ui.findView(v, R.id.flight_info_container);
 
 		// Depart from row
-		FlightPathSection departFromSection = (FlightPathSection) inflater.inflate(R.layout.section_flight_path,
-				mInfoContainer, false);
-		departFromSection.bind(leg.getSegment(0), true);
+		FlightInfoSection departFromSection = FlightInfoSection.inflate(inflater, container);
+		departFromSection.bind(R.drawable.ic_departure_arrow_small, getString(R.string.depart_from_TEMPLATE,
+				StrUtils.formatWaypoint(leg.getSegment(0).mOrigin)));
 		mInfoContainer.addView(departFromSection);
 
 		// Add each card, with layovers in between
@@ -82,25 +86,31 @@ public class FlightDetailsFragment extends Fragment {
 		Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
 		int segmentCount = leg.getSegmentCount();
 		for (int a = 0; a < segmentCount; a++) {
+			Flight flight = leg.getSegment(a);
+
 			if (a != 0) {
-				FlightLayoverSection flightLayoverSection = (FlightLayoverSection) inflater.inflate(
-						R.layout.section_flight_layover, mInfoContainer, false);
-				flightLayoverSection.bind(leg.getSegment(a - 1), leg.getSegment(a));
+				FlightInfoSection flightLayoverSection = FlightInfoSection.inflate(inflater, container);
+				Flight prevFlight = leg.getSegment(a - 1);
+				Layover layover = new Layover(prevFlight, flight);
+				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
+				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
+				flightLayoverSection.bind(R.drawable.ic_clock_small,
+						Html.fromHtml(getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint)));
 				mInfoContainer.addView(flightLayoverSection);
 			}
 
 			FlightSegmentSection flightSegmentSection = (FlightSegmentSection) inflater.inflate(
 					R.layout.section_flight_segment, mInfoContainer, false);
-			flightSegmentSection.bind(leg.getSegment(a), trip.getFlightSegmentAttributes(leg).get(a), minTime, maxTime);
+			flightSegmentSection.bind(flight, trip.getFlightSegmentAttributes(leg).get(a), minTime, maxTime);
 			MarginLayoutParams params = (MarginLayoutParams) flightSegmentSection.getLayoutParams();
 			params.setMargins(0, cardMargins, 0, cardMargins);
 			mInfoContainer.addView(flightSegmentSection);
 		}
 
 		// Arrive at row
-		FlightPathSection arriveAtSection = (FlightPathSection) inflater.inflate(R.layout.section_flight_path,
-				mInfoContainer, false);
-		arriveAtSection.bind(leg.getSegment(segmentCount - 1), false);
+		FlightInfoSection arriveAtSection = FlightInfoSection.inflate(inflater, container);
+		arriveAtSection.bind(R.drawable.ic_return_arrow_small, getString(R.string.arrive_at_TEMPLATE,
+				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).mDestination)));
 		mInfoContainer.addView(arriveAtSection);
 
 		mBaggageInfoTextView = Ui.findView(v, R.id.baggage_fee_text_view);
