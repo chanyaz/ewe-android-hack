@@ -162,6 +162,14 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		mKillReceiver.onDestroy();
 	}
 
+	@Override
+	public void onBackPressed() {
+		// F1053: Do not let user go back when we are mid-download
+		if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
+			super.onBackPressed();
+		}
+	}
+
 	private void launchConfirmationActivity() {
 		startActivity(new Intent(this, FlightConfirmationActivity.class));
 
