@@ -123,8 +123,11 @@ public class BookingOverviewFragment extends Fragment {
 		mPurchaseTotalTextView = Ui.findView(view, R.id.purchase_total_text_view);
 
 		mScrollViewListener = new ScrollViewListener(mScrollView.getContext());
+
 		mScrollView.setOnScrollListener(mScrollViewListener);
 		mScrollView.setOnTouchListener(mScrollViewListener);
+		mHotelReceipt.setOnSizeChangedListener(mScrollViewListener);
+		mHotelReceiptMini.setOnSizeChangedListener(mScrollViewListener);
 
 		mSlideToPurchaseWidget.addSlideToListener(mSlideToListener);
 
@@ -154,7 +157,6 @@ public class BookingOverviewFragment extends Fragment {
 		super.onResume();
 
 		populateTravelerData();
-
 		updateViews();
 	}
 
@@ -247,30 +249,38 @@ public class BookingOverviewFragment extends Fragment {
 	}
 
 	public void startCheckout() {
-		if (mInCheckout) {
-			return;
-		}
-
 		if (mBookingOverviewFragmentListener != null) {
 			mBookingOverviewFragmentListener.checkoutStarted();
 		}
 
-		mInCheckout = true;
+		// Scroll to checkout
+		mScrollView.post(new Runnable() {
+			@Override
+			public void run() {
+				mScrollView.smoothScrollTo(0, mScrollViewListener.getMaxY());
+			}
+		});
 
-		showSlideToPurchsaeView();
+		mInCheckout = true;
+		//showSlideToPurchsaeView();
 	}
 
 	public void endCheckout() {
-		if (!mInCheckout) {
-			return;
-		}
-
 		if (mBookingOverviewFragmentListener != null) {
 			mBookingOverviewFragmentListener.checkoutEnded();
 		}
 
 		mInCheckout = false;
-		hideSlideToPurchaseView();
+
+		// Scroll to start
+		mScrollView.post(new Runnable() {
+			@Override
+			public void run() {
+				mScrollView.smoothScrollTo(0, 0);
+			}
+		});
+
+		//hideSlideToPurchaseView();
 	}
 
 	// Private methods
@@ -380,9 +390,9 @@ public class BookingOverviewFragment extends Fragment {
 	// Scroll Listener
 
 	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
-			OnTouchListener {
+			OnTouchListener, HotelReceipt.OnSizeChangedListener, HotelReceiptMini.OnSizeChangedListener {
 
-		private static final float RANGE = 100.0f;
+		private static final float FADE_RANGE = 100.0f;
 
 		private static final int SWIPE_MIN_DISTANCE = 100;
 		private static final int SWIPE_MAX_OFF_PATH = 250;
@@ -390,17 +400,31 @@ public class BookingOverviewFragment extends Fragment {
 
 		private GestureDetector mGestureDetector;
 
-		private final float mScaledRange;
+		private final float mScaledFadeRange;
 		private final float mMarginTop;
 
 		private boolean mTouchDown = false;
 		private int mScrollY = 0;
 
+		private int mReceiptHeight;
+		private int mReceiptMiniHeight;
+
+		private int mMidY;
+		private int mMaxY;
+
 		public ScrollViewListener(Context context) {
 			mGestureDetector = new GestureDetector(context, this);
-
-			mScaledRange = RANGE * getResources().getDisplayMetrics().density;
+			mScaledFadeRange = FADE_RANGE * getResources().getDisplayMetrics().density;
 			mMarginTop = 16 * getResources().getDisplayMetrics().density;
+		}
+
+		public void measure() {
+			mMidY = (int) ((mReceiptHeight + mMarginTop) / 2);
+			mMaxY = mReceiptHeight - mReceiptMiniHeight + (int) mMarginTop;
+		}
+
+		public int getMaxY() {
+			return mMaxY;
 		}
 
 		@Override
@@ -415,28 +439,14 @@ public class BookingOverviewFragment extends Fragment {
 			else if (event.getAction() == MotionEvent.ACTION_UP) {
 				mTouchDown = false;
 
-				final float midPoint = (mHotelReceipt.getHeight() + mMarginTop) / 2;
-				final float maxY = mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight();
-
-				if (mScrollY < midPoint) {
-					mScrollView.post(new Runnable() {
-						@Override
-						public void run() {
-							mScrollView.smoothScrollTo(0, 0);
-						}
-					});
-
+				if (mScrollY < mMidY) {
 					endCheckout();
 				}
-				else if (mScrollY > midPoint && mScrollY < maxY) {
-					mScrollView.post(new Runnable() {
-						@Override
-						public void run() {
-							mScrollView.smoothScrollTo(0, (int) maxY);
-						}
-					});
-
+				else if (mScrollY >= mMidY && mScrollY < mMaxY) {
 					startCheckout();
+				}
+				else {
+					Log.t("midY: %d - maxY: %d - scrollY: %d", mMidY, mMaxY, mScrollY);
 				}
 			}
 
@@ -447,23 +457,22 @@ public class BookingOverviewFragment extends Fragment {
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			mScrollY = y;
 
-			final float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledRange) / 2))
-					/ mScaledRange;
-			final int maxY = (int) (mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight());
+			final float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))
+					/ mScaledFadeRange;
 
 			ViewHelper.setAlpha(mHotelDetailsTextView, 1.0f - alpha);
 			ViewHelper.setAlpha(mCheckoutLayout, alpha);
 
-			mHotelReceiptMini.setVisibility(y >= maxY ? View.VISIBLE : View.GONE);
+			mHotelReceiptMini.setVisibility(y >= mMaxY ? View.VISIBLE : View.GONE);
 
 			// If we've lifted our finger that means the scroll view is scrolling
 			// with the remaining momentum. If it's scrolling down, and it's gone
 			// past the checkout state, stop it at the checkout position.
-			if (!mTouchDown && y <= oldy && oldy >= maxY) {
-				mScrollView.scrollTo(0, (int) maxY);
+			if (!mTouchDown && y <= oldy && oldy >= mMaxY && mInCheckout) {
+				mScrollView.scrollTo(0, (int) mMaxY);
 			}
 
-			if (y > maxY - mScaledRange) {
+			if (y > mMaxY - mScaledFadeRange) {
 				mHotelReceipt.showMiniDetailsLayout();
 				mHotelReceiptMini.showMiniDetailsLayout();
 			}
@@ -479,38 +488,32 @@ public class BookingOverviewFragment extends Fragment {
 				return false;
 			}
 
-			final float maxY = mHotelReceipt.getHeight() + mMarginTop - mHotelReceiptMini.getHeight();
-
 			if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-				if (mScrollY < maxY) {
-					mScrollView.post(new Runnable() {
-						@Override
-						public void run() {
-							mScrollView.smoothScrollTo(0, (int) maxY);
-						}
-					});
-
+				if (mScrollY < mMaxY) {
 					startCheckout();
-
 					return true;
 				}
 			}
 			else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-				if (mScrollY < maxY) {
-					mScrollView.post(new Runnable() {
-						@Override
-						public void run() {
-							mScrollView.smoothScrollTo(0, 0);
-						}
-					});
-
+				if (mScrollY < mMaxY) {
 					endCheckout();
-
 					return true;
 				}
 			}
 
 			return false;
+		}
+
+		@Override
+		public void onReceiptSizeChanged(int w, int h, int oldw, int oldh) {
+			mReceiptHeight = h;
+			measure();
+		}
+
+		@Override
+		public void onMiniReceiptSizeChanged(int w, int h, int oldw, int oldh) {
+			mReceiptMiniHeight = h;
+			measure();
 		}
 	}
 }

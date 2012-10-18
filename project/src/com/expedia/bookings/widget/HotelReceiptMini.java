@@ -20,9 +20,15 @@ import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 
 public class HotelReceiptMini extends FrameLayout {
+	public interface OnSizeChangedListener {
+		public void onMiniReceiptSizeChanged(int w, int h, int oldw, int oldh);
+	}
+
 	private enum ViewType {
 		TOTAL_COST, MINI_DETAILS;
 	}
+
+	private OnSizeChangedListener mOnSizeChangedListener;
 
 	private LayoutInflater mInflater;
 	private ViewType mViewType = ViewType.TOTAL_COST;
@@ -62,6 +68,19 @@ public class HotelReceiptMini extends FrameLayout {
 
 		mTotalCostTextView = (TextView) findViewById(R.id.total_cost_text_view);
 		mBelowTotalCostLayout = (ViewGroup) findViewById(R.id.below_total_details_layout);
+	}
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+
+		if (mOnSizeChangedListener != null) {
+			mOnSizeChangedListener.onMiniReceiptSizeChanged(w, h, oldw, oldh);
+		}
+	}
+
+	public void setOnSizeChangedListener(OnSizeChangedListener onSizeChangedListener) {
+		mOnSizeChangedListener = onSizeChangedListener;
 	}
 
 	public void showTotalCostLayout() {

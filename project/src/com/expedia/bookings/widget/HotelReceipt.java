@@ -33,6 +33,12 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 
 public class HotelReceipt extends FrameLayout {
+	public interface OnSizeChangedListener {
+		public void onReceiptSizeChanged(int w, int h, int oldw, int oldh);
+	}
+
+	private OnSizeChangedListener mOnSizeChangedListener;
+
 	private LayoutInflater mInflater;
 
 	// Cached views
@@ -78,7 +84,20 @@ public class HotelReceipt extends FrameLayout {
 		mRoomTypeWidget = new RoomTypeWidget(getContext(), isRoomTypeExpandable);
 	}
 
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+
+		if (mOnSizeChangedListener != null) {
+			mOnSizeChangedListener.onReceiptSizeChanged(w, h, oldw, oldh);
+		}
+	}
+
 	// public methods
+
+	public void setOnSizeChangedListener(OnSizeChangedListener onSizeChangedListener) {
+		mOnSizeChangedListener = onSizeChangedListener;
+	}
 
 	public void saveInstanceState(Bundle outState) {
 		mRoomTypeWidget.saveInstanceState(outState);
