@@ -132,6 +132,10 @@ public class LaunchFragment extends Fragment implements LocationListener {
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
+
+		// We want to cancel the Hotel Search download when the user leaves this activity. Because the Activity is force
+		// portrait, onPause should only be invoked when the user is moving forward away from the activity
+		bd.cancelDownload(KEY_SEARCH);
 	}
 
 	private void initViews() {
