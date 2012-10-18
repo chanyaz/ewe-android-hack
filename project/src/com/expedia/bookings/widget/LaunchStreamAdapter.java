@@ -50,10 +50,9 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 		}
 		else {
 			mProperties = response.getFilteredAndSortedProperties(Filter.Sort.DEALS);
+			mDistanceUnit = response.getFilter().getDistanceUnit();
+			mHasRealProperties = true;
 		}
-
-		mDistanceUnit = response.getFilter().getDistanceUnit();
-		mHasRealProperties = true;
 
 		notifyDataSetChanged();
 	}
