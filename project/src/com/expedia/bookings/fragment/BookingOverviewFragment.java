@@ -65,7 +65,6 @@ public class BookingOverviewFragment extends Fragment {
 	private ScrollViewListener mScrollViewListener;
 
 	private HotelReceipt mHotelReceipt;
-	private TextView mHotelDetailsTextView;
 	private View mCheckoutLayout;
 
 	private AccountButton mAccountButton;
@@ -103,7 +102,6 @@ public class BookingOverviewFragment extends Fragment {
 		mScrollView = Ui.findView(view, R.id.scroll_view);
 
 		mHotelReceipt = Ui.findView(view, R.id.receipt);
-		mHotelDetailsTextView = Ui.findView(view, R.id.hotel_details_text_view);
 		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
 
 		mAccountButton = Ui.findView(view, R.id.account_button_layout);
@@ -232,6 +230,13 @@ public class BookingOverviewFragment extends Fragment {
 
 		mPurchaseTotalTextView.setText(getString(R.string.your_card_will_be_charged_TEMPLATE,
 				displayedTotal.getFormattedMoney()));
+
+		if (mInCheckout && Db.getTravelers() != null && Db.getTravelers().size() > 0 && mBillingInfo != null) {
+			showSlideToPurchsaeView();
+		}
+		else {
+			hideSlideToPurchaseView();
+		}
 	}
 
 	public void updateReceiptWidget() {
@@ -279,8 +284,7 @@ public class BookingOverviewFragment extends Fragment {
 				mScrollView.smoothScrollTo(0, 0);
 			}
 		});
-
-		//hideSlideToPurchaseView();
+		hideSlideToPurchaseView();
 	}
 
 	// Private methods
@@ -460,7 +464,6 @@ public class BookingOverviewFragment extends Fragment {
 			final float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))
 					/ mScaledFadeRange;
 
-			ViewHelper.setAlpha(mHotelDetailsTextView, 1.0f - alpha);
 			ViewHelper.setAlpha(mCheckoutLayout, alpha);
 
 			mHotelReceiptMini.setVisibility(y >= mMaxY ? View.VISIBLE : View.GONE);

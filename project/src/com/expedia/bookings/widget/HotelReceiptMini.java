@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -27,6 +30,8 @@ public class HotelReceiptMini extends FrameLayout {
 	private enum ViewType {
 		TOTAL_COST, MINI_DETAILS;
 	}
+
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("M/d", Locale.getDefault());
 
 	private OnSizeChangedListener mOnSizeChangedListener;
 
@@ -171,6 +176,9 @@ public class HotelReceiptMini extends FrameLayout {
 
 		mMiniTotalCostTextView.setText(displayedTotal.getFormattedMoney());
 		mTotalCostTextView.setText(displayedTotal.getFormattedMoney());
+
+		mDatesTextView.setText(DATE_FORMAT.format(searchParams.getCheckInDate().getTime()) + " - "
+				+ DATE_FORMAT.format(searchParams.getCheckOutDate().getTime()));
 	}
 
 	public void reset() {

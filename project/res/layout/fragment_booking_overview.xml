@@ -27,17 +27,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <TextView
-                    android:id="@+id/hotel_details_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:text="PBR banh mi umami, cliche fixie you probably haven&apos;t heard of them 3 wolf moon ennui before they sold out authentic. Beard you probably haven&apos;t heard of them kogi, post-ironic biodiesel wolf synth pickled. Chambray keffiyeh gentrify gluten-free, leggings sartorial quinoa jean shorts stumptown keytar authentic mcsweeney&apos;s. Wayfarers tattooed mumblecore, vegan forage tofu typewriter. Mlkshk tofu artisan mumblecore portland."
-                    android:textColor="@android:color/white" />
-
                 <LinearLayout
                     android:id="@+id/checkout_layout"
                     android:layout_width="match_parent"
