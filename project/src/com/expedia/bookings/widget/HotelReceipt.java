@@ -217,6 +217,8 @@ public class HotelReceipt extends FrameLayout {
 			rate = discountRate;
 			addTextRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
 		}
+
+		mHotelReceiptMini.updateData(property, searchParams, rate);
 	}
 
 	public void showTotalCostLayout() {
