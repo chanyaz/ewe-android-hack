@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.expedia.bookings.utils.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -104,12 +105,6 @@ import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.GuestsPickerUtils;
-import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.SearchUtils;
-import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.SimpleNumberPicker;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
@@ -881,6 +876,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		switch (item.getItemId()) {
 		// Home as up
 		case android.R.id.home:
+			NavUtils.goToLaunchScreen(mContext);
+
 			finish();
 			break;
 
