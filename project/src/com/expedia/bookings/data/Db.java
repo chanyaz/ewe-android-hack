@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Process;
 import android.text.TextUtils;
 
@@ -128,10 +129,10 @@ public class Db {
 
 	//The cache for backgroundImages in flights
 	private BackgroundImageCache mBackgroundImageCache;
-	
+
 	//Info about the current backgroundImage
 	private BackgroundImageResponse mBackgroundImageInfo;
-	
+
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
 	private Rate mCouponDiscountRate;
@@ -463,26 +464,50 @@ public class Db {
 	public static boolean getBillingInfoIsDirty() {
 		return sDb.mBillingInfoIsDirty;
 	}
-	
-	public static BackgroundImageCache getBackgroundImageCache(Context context){
-		if(sDb == null){
+
+	public static BackgroundImageCache getBackgroundImageCache(Context context) {
+		if (sDb == null) {
 			return null;
 		}
-		if(sDb.mBackgroundImageCache == null){
+		if (sDb.mBackgroundImageCache == null) {
 			sDb.mBackgroundImageCache = new BackgroundImageCache(context);
 		}
 		return sDb.mBackgroundImageCache;
 	}
-	
-	public static BackgroundImageResponse getBackgroundImageInfo(){
-		if(sDb == null){
+
+	public static BackgroundImageResponse getBackgroundImageInfo() {
+		if (sDb == null) {
 			return null;
 		}
 		return sDb.mBackgroundImageInfo;
 	}
-	
-	public static void setBackgroundImageInfo(BackgroundImageResponse info){
-		if(sDb == null){
+
+	public static String getBackgroundImageKey() {
+		String defaultKey = "none";
+		if (sDb == null) {
+			return defaultKey;
+		}
+		if (sDb.mBackgroundImageInfo == null) {
+			return defaultKey;
+		}
+		if (TextUtils.isEmpty(sDb.mBackgroundImageInfo.getmCacheKey())) {
+			return defaultKey;
+		}
+
+		return sDb.mBackgroundImageInfo.getmCacheKey();
+	}
+
+	public static Bitmap getBackgroundImage(Context context, boolean blurred) {
+		if (blurred) {
+			return getBackgroundImageCache(context).getBlurredBitmap(getBackgroundImageKey(), context);
+		}
+		else {
+			return getBackgroundImageCache(context).getBitmap(getBackgroundImageKey(), context);
+		}
+	}
+
+	public static void setBackgroundImageInfo(BackgroundImageResponse info) {
+		if (sDb == null) {
 			return;
 		}
 		sDb.mBackgroundImageInfo = info;

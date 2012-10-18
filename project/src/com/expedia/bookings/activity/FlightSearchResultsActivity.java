@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
@@ -217,8 +216,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 		else {
 			BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
-			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, mBackgroundImageInfoDownloadCallback);
-			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, mBackgroundImageFileDownloadCallback);
+			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY,
+					mBackgroundImageInfoDownloadCallback);
+			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY,
+					mBackgroundImageFileDownloadCallback);
 		}
 	}
 
@@ -475,10 +476,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(DOWNLOAD_KEY);
 		bd.startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
-		
+
 		bd.cancelDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
-		bd.startDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, mBackgroundImageInfoDownload, mBackgroundImageInfoDownloadCallback);
-		
+		bd.startDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, mBackgroundImageInfoDownload,
+				mBackgroundImageInfoDownloadCallback);
+
 	}
 
 	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {
@@ -517,6 +519,22 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				showNoFlights(null);
 			}
 			else {
+
+				//We set the bg image here if we downloaded one...
+				BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
+				BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
+				BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
+				BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
+				if (FlightSearchResultsActivity.this.mBgFragment != null) {
+					BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
+					String key = Db.getBackgroundImageKey();
+					if (cache.hasKey(key)) {
+						FlightSearchResultsActivity.this.mBgFragment.setBitmap(
+								cache.getBitmap(key, FlightSearchResultsActivity.this),
+								cache.getBlurredBitmap(key, FlightSearchResultsActivity.this));
+					}
+				}
+
 				if (mListFragment == null) {
 					mListFragment = new FlightListFragment();
 				}
@@ -527,9 +545,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				ft.addToBackStack(getFlightListBackStackName(0));
 				ft.commit();
 			}
-			
-			
-			
 		}
 	};
 
@@ -541,8 +556,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		public BackgroundImageResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, services);
-			//TODO: use real code...
-			return services.getFlightsBackgroundImage("lhr");
+			String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+			return services.getFlightsBackgroundImage(code);
 		}
 	};
 
@@ -561,29 +576,24 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 
 			Db.setBackgroundImageInfo(response);
-			
+
 			if (response.hasErrors()) {
 				Log.e("Errors downloading background image info");
 			}
 			else {
 				if (!TextUtils.isEmpty(response.getmCacheKey())) {
 					BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
-					Bitmap bg = cache.getBitmap(response.getmCacheKey());
-					if (bg == null) {
-						//TODO: now we should kick off a whole new download of the actual because we are that cool...
+					if (!cache.hasKey(response.getmCacheKey())) {
 						BackgroundDownloader bd = BackgroundDownloader.getInstance();
 						bd.cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
-						bd.startDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, mBackgroundImageFileDownload, mBackgroundImageFileDownloadCallback);
-					}
-					else {
-						//Winner we had a cached bg image.
-						FlightSearchResultsActivity.this.mBgFragment.setBitmap(bg);
+						bd.startDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, mBackgroundImageFileDownload,
+								mBackgroundImageFileDownloadCallback);
 					}
 				}
 			}
 		}
 	};
-	
+
 	private Download<Bitmap> mBackgroundImageFileDownload = new Download<Bitmap>() {
 		@Override
 		public Bitmap doDownload() {
@@ -592,8 +602,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			return services.getFlightsBackgroundBitmap(Db.getBackgroundImageInfo().getmImageUrl());
 		}
 	};
-	
-	
+
 	private OnDownloadComplete<Bitmap> mBackgroundImageFileDownloadCallback = new OnDownloadComplete<Bitmap>() {
 		@Override
 		public void onDownload(Bitmap response) {
@@ -602,9 +611,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			// If the response is null, fake an error response (for the sake of cleaner code)
 			if (response != null) {
 				BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
-				cache.putBitmap(Db.getBackgroundImageInfo().getmCacheKey(), response);
-				FlightSearchResultsActivity.this.mBgFragment.setBitmap(cache.getBitmap(Db.getBackgroundImageInfo().getmCacheKey()));
-			}else{
+				cache.putBitmap(Db.getBackgroundImageKey(), response, true);
+			}
+			else {
 				Log.e("Image download returned null.");
 			}
 		}

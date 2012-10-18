@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.widget.BoundedBottomImageView;
 import com.expedia.bookings.widget.FadingImageView;
 import com.mobiata.android.util.Ui;
@@ -34,7 +34,7 @@ public class BlurredBackgroundFragment extends Fragment {
 		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
 
 		// TODO: Remove this at some point, let people set it on their own!
-		setBitmap(null, null);
+		setBitmap(Db.getBackgroundImage(getActivity(), false), Db.getBackgroundImage(getActivity(), true));
 
 		displayBackground();
 
@@ -44,12 +44,6 @@ public class BlurredBackgroundFragment extends Fragment {
 	public void setBitmap(Bitmap bgBitmap, Bitmap blurredBgBitmap) {
 		mBgBitmap = bgBitmap;
 		mBlurredBgBitmap = blurredBgBitmap;
-
-		// TODO: Actually implement dynamic loading of images/blurring
-		mBgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_flights_background);
-		mBlurredBgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_flights_background_blurred);
-		// TODO: DELETE ME ONCE YOU ACTUALLY IMPLEMENT THIS
-
 		displayBackground();
 	}
 
