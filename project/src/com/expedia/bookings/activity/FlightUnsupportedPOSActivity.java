@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -17,7 +19,10 @@ public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// ActionBar
+		ActionBar actionBar = this.getSupportActionBar();
 		setTitle(R.string.taking_off_soon);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		StatusFragment fragment = Ui.findSupportFragment(this, StatusFragment.TAG);
 
@@ -34,6 +39,16 @@ public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
 	protected void onStart() {
 		super.onStart();
 		OmnitureTracking.trackErrorPageLoadFlightUnsupportedPOS(this);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	public static boolean isSupportedPOS(Context context) {
