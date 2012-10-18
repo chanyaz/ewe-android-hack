@@ -92,19 +92,19 @@
             android:theme="@style/Theme.Phone" />
         <activity
             android:name=".activity.BookingOverviewActivity"
-            android:theme="@style/Theme.Phone" />
+            android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name=".activity.HotelTravelerInfoOptionsActivity"
             android:label="Add Traveler"
-            android:theme="@style/Theme.Phone" />
+            android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name=".activity.HotelPaymentOptionsActivity"
             android:label="Add Payment"
-            android:theme="@style/Theme.Phone" />
+            android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name=".activity.HotelBookingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone" />
+            android:theme="@style/Theme.Phone.Dark" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.TabletAboutActivity" />
         <activity
@@ -131,8 +131,8 @@
 
         <activity
             android:name=".activity.LaunchActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme" >
         </activity>
         <activity
