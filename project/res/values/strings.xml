@@ -243,6 +243,8 @@
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">CHECKOUT</string>
+    <!-- Your card will be charged -->
+    <string name="best_price_guarantee">Best Price Guarantee</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
