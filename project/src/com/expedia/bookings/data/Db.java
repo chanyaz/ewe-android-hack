@@ -126,6 +126,12 @@ public class Db {
 	//The working copy manager of billingInfo
 	private WorkingBillingInfoManager mWorkingBillingInfoManager;
 
+	//The cache for backgroundImages in flights
+	private BackgroundImageCache mBackgroundImageCache;
+	
+	//Info about the current backgroundImage
+	private BackgroundImageResponse mBackgroundImageInfo;
+	
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
 	private Rate mCouponDiscountRate;
@@ -457,6 +463,30 @@ public class Db {
 	public static boolean getBillingInfoIsDirty() {
 		return sDb.mBillingInfoIsDirty;
 	}
+	
+	public static BackgroundImageCache getBackgroundImageCache(Context context){
+		if(sDb == null){
+			return null;
+		}
+		if(sDb.mBackgroundImageCache == null){
+			sDb.mBackgroundImageCache = new BackgroundImageCache(context);
+		}
+		return sDb.mBackgroundImageCache;
+	}
+	
+	public static BackgroundImageResponse getBackgroundImageInfo(){
+		if(sDb == null){
+			return null;
+		}
+		return sDb.mBackgroundImageInfo;
+	}
+	
+	public static void setBackgroundImageInfo(BackgroundImageResponse info){
+		if(sDb == null){
+			return;
+		}
+		sDb.mBackgroundImageInfo = info;
+	}
 
 	////////
 	// Save the BillingInfo object...
@@ -602,6 +632,7 @@ public class Db {
 		sDb.mSearchResponse = null;
 		sDb.mBookingResponse = null;
 		sDb.mUser = null;
+		sDb.mBackgroundImageCache = null;
 
 		sDb.mFlightSearch.reset();
 		sDb.mTravelers.clear();

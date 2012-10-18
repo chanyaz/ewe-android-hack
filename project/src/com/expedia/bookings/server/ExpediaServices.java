@@ -1,7 +1,9 @@
 package com.expedia.bookings.server;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -43,12 +45,15 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
@@ -297,7 +302,35 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			return null;
 		}
+	}
 
+	/**
+	 * Get the url for a background image, based on a destination code
+	 * @param destinationCode
+	 * @return
+	 */
+	public BackgroundImageResponse getFlightsBackgroundImage(String destinationCode) {
+		String w = "600";
+		String h = "800";
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("destinationCode", destinationCode));
+		query.add(new BasicNameValuePair("imageWidth", w));
+		query.add(new BasicNameValuePair("imageHeight", h));
+		Log.i("BACKGROUND IMAGE:" + NetUtils.getParamsForLogging(query));
+		return doFlightsRequest("api/flight/image", query, new BackgroundImageResponseHandler(mContext), 0);
+	}
+
+	public Bitmap getFlightsBackgroundBitmap(String url) {
+		try {
+			URL dlUrl = new URL(url);
+			InputStream dlStream = (InputStream) dlUrl.getContent();
+			Bitmap dledBmap = BitmapFactory.decodeStream(dlStream);
+			return dledBmap;
+		}
+		catch (Exception ex) {
+			Log.e("Exception downloading Bitmap", ex);
+		}
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
