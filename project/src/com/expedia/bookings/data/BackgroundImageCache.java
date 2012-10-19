@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.concurrent.Semaphore;
 
 import com.expedia.bookings.R;
 import com.jakewharton.DiskLruCache;
@@ -21,6 +22,8 @@ import android.support.v4.util.LruCache;
 public class BackgroundImageCache {
 	private LruCache<String, Bitmap> mMemoryCache;
 	private DiskLruCache mDiskCache;
+	private boolean mCancelAddBitmap = false;
+	private Semaphore mAddingBitmapSem = new Semaphore(1);
 
 	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; //10MB
 	private static final int DISK_WRITE_BUFFER_SIZE = 4096;
@@ -81,14 +84,79 @@ public class BackgroundImageCache {
 		return getBitmap(getBlurredKey(bmapkey), context);
 	}
 
-	public void putBitmap(String bmapkey, Bitmap bitmap, boolean blur) {
-		String key = bmapkey.toLowerCase();
-		Log.d(TAG, "putBitmap key:" + key);
-		addBitmapToMemoryCache(key, bitmap);
-		addBitmapToDiskCache(key, bitmap);
-		if (blur) {
-			blurAndCache(bmapkey, bitmap);
-		}
+	public void putBitmap(final String bmapkey, final Bitmap bitmap, final boolean blur) {
+		Runnable putBitmapRunner = new Runnable(){
+
+			@Override
+			public void run() {
+				
+				Editor bgImageEditor = null;
+				Editor blurredEditor = null;
+				try {
+					mAddingBitmapSem.acquire();
+					mCancelAddBitmap = false;
+					bgImageEditor = mDiskCache.edit(bmapkey);
+					if (blur) {
+						blurredEditor = mDiskCache.edit(getBlurredKey(bmapkey));
+					}
+		
+					Bitmap blurred = null;
+					if (blur) {
+						blurred = blur(bitmap);
+						if (mCancelAddBitmap) {
+							throw new Exception("Canceled after blur");
+						}
+						addBitmapToDiskCacheEditorEditor(blurredEditor, blurred);
+						if (mCancelAddBitmap) {
+							throw new Exception("Canceled after blurred added to cache");
+						}
+					}
+		
+					addBitmapToDiskCacheEditorEditor(bgImageEditor, bitmap);
+		
+					if (mCancelAddBitmap) {
+						throw new Exception("Canceled after bg added to cache");
+					}
+		
+					bgImageEditor.commit();
+					
+					if(blur){
+						blurredEditor.commit();
+					}
+		
+					if (mCancelAddBitmap) {
+						throw new Exception("Canceled after bg added to cache");
+					}
+					
+					addBitmapToMemoryCache(bmapkey, bitmap);
+					if(blur){
+						addBitmapToMemoryCache(getBlurredKey(bmapkey), blurred);
+					}
+		
+				}
+				catch (Exception ex) {
+					Log.e("Exception adding bitmap:",ex);
+					try {
+						if (bgImageEditor != null) {
+							bgImageEditor.abort();
+						}
+						if (blur && blurredEditor != null) {
+							blurredEditor.abort();
+						}
+					}
+					catch (IOException e) {
+						Log.e("Exception aborting commit", e);
+					}
+				}
+				finally {
+					mCancelAddBitmap = false;
+					mAddingBitmapSem.release();
+				}
+
+			}
+		};
+		Thread updateThread = new Thread(putBitmapRunner);
+		updateThread.start();
 	}
 
 	public void clearMemCache() {
@@ -104,6 +172,18 @@ public class BackgroundImageCache {
 		}
 	}
 
+	public boolean isAddingBitmap() {
+		boolean isAdding = !mAddingBitmapSem.tryAcquire();
+		if (isAdding) {
+			mAddingBitmapSem.release();
+		}
+		return isAdding;
+	}
+
+	public void cancelPutBitmap() {
+		mCancelAddBitmap = true;
+	}
+
 	//////////////////////////////////////////
 	// Helpers
 
@@ -116,11 +196,6 @@ public class BackgroundImageCache {
 
 	private String getBlurredKey(String unblurredKey) {
 		return unblurredKey + BLUR_KEY_SUFFIX;
-	}
-
-	private void blurAndCache(String unblurredkey, Bitmap unblurredbitmap) {
-		String newKey = getBlurredKey(unblurredkey);
-		putBitmap(newKey, blur(unblurredbitmap), false);
 	}
 
 	private Bitmap blur(Bitmap bmapToBlur) {
@@ -387,6 +462,34 @@ public class BackgroundImageCache {
 		catch (Exception ex) {
 			Log.e(TAG, "Error initiailizing disk cache", ex);
 		}
+	}
+
+	private boolean addBitmapToDiskCacheEditorEditor(Editor editor, Bitmap bitmap) {
+		boolean retVal = false;
+		try {
+			OutputStream stream = null;
+			boolean wrote = false;
+			try {
+				stream = new BufferedOutputStream(editor.newOutputStream(0), DISK_WRITE_BUFFER_SIZE);
+				wrote = bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+			}
+			finally {
+				if (stream != null) {
+					stream.close();
+				}
+			}
+			if (wrote) {
+				Log.i(TAG, "Stream wrote successfully");
+				retVal = true;
+			}
+			else {
+				Log.i(TAG, "Stream write failed");
+			}
+		}
+		catch (Exception ex) {
+			Log.e("Exception in addBitmapToEditor", ex);
+		}
+		return retVal;
 	}
 
 	private boolean addBitmapToDiskCache(String key, Bitmap bitmap) {

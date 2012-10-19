@@ -520,19 +520,21 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 			else {
 
-				//We set the bg image here if we downloaded one...
+				//We set the bgimage for getter or worse
 				BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
 				BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
 				BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
 				BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
 				if (FlightSearchResultsActivity.this.mBgFragment != null) {
 					BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
-					String key = Db.getBackgroundImageKey();
-					if (cache.hasKey(key)) {
-						FlightSearchResultsActivity.this.mBgFragment.setBitmap(
-								cache.getBitmap(key, FlightSearchResultsActivity.this),
-								cache.getBlurredBitmap(key, FlightSearchResultsActivity.this));
+					if (cache.isAddingBitmap()) {
+						cache.cancelPutBitmap();
 					}
+					String key = Db.getBackgroundImageKey();
+					FlightSearchResultsActivity.this.mBgFragment.setBitmap(
+							cache.getBitmap(key, FlightSearchResultsActivity.this),
+							cache.getBlurredBitmap(key, FlightSearchResultsActivity.this));
+
 				}
 
 				if (mListFragment == null) {
