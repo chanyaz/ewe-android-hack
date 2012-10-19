@@ -489,6 +489,7 @@ public class ExpediaServices implements DownloadListener {
 		addPOSParams(query);
 
 		query.add(new BasicNameValuePair("profileOnly", "true"));
+		query.add(new BasicNameValuePair("includeFullPaymentProfile", "true"));
 
 		addProfileTypes(query, flags);
 
