@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Launch screen colors -->
+    <color name="launch_primary">#f3f3f3</color>
+    <color name="launch_secondary">#b2b2b2</color>
+    <color name="launch_band">#26ffffff</color>
+    <color name="launch_header_tile_pressed_color">#33000000</color>
+
     <!-- Flights colors -->
     <color name="flight_trip">#0D6599</color>
     <color name="trip_info_text">#FEFEFE</color>

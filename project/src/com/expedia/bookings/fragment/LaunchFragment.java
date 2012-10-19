@@ -14,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.LaunchStreamAdapter;
 import com.mobiata.android.BackgroundDownloader;
@@ -58,6 +60,16 @@ public class LaunchFragment extends Fragment implements LocationListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_launch, container, false);
+
+		((TextView) v.findViewById(R.id.hotels_label_text_view)).setTypeface(FontCache
+				.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		((TextView) v.findViewById(R.id.hotels_prompt_text_view)).setTypeface(FontCache
+				.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+
+		((TextView) v.findViewById(R.id.flights_label_text_view)).setTypeface(FontCache
+				.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		((TextView) v.findViewById(R.id.flights_prompt_text_view)).setTypeface(FontCache
+				.getTypeface(FontCache.Font.ROBOTO_LIGHT));
 
 		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);

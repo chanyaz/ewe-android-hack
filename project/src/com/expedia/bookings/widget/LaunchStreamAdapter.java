@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.*;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
@@ -120,8 +121,13 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 
 			holder.container = Ui.findView(convertView, R.id.launch_tile_container);
 			holder.titleTextView = Ui.findView(convertView, R.id.launch_tile_title_text_view);
+			holder.titleTextView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+
 			holder.distanceTextView = Ui.findView(convertView, R.id.launch_tile_distance_text_view);
+			holder.distanceTextView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+
 			holder.priceTextView = Ui.findView(convertView, R.id.launch_tile_price_text_view);
+			holder.priceTextView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD));
 
 			convertView.setTag(holder);
 		}

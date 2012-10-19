@@ -41,6 +41,7 @@
                 android:textSize="@dimen/launch_header_primary_text_size" />
 
             <TextView
+                android:id="@+id/hotels_prompt_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/hotels_label_text_view"
@@ -80,6 +81,7 @@
                 android:textSize="@dimen/launch_header_primary_text_size" />
 
             <TextView
+                android:id="@+id/flights_prompt_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/flights_label_text_view"
@@ -96,8 +98,7 @@
         android:id="@+id/scroll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_search_nyc" >
-
+        android:background="@drawable/bg_launch" >
         <View
             android:id="@+id/divider"
             android:layout_width="@dimen/launch_tile_space_width"
