@@ -228,8 +228,14 @@ public class BookingOverviewFragment extends Fragment {
 			displayedTotal = Db.getSelectedRate().getTotalAmountAfterTax();
 		}
 
-		mPurchaseTotalTextView.setText(getString(R.string.your_card_will_be_charged_TEMPLATE,
-				displayedTotal.getFormattedMoney()));
+		if (Db.getSelectedProperty().isMerchant()) {
+			mPurchaseTotalTextView.setText(getString(R.string.your_card_will_be_charged_TEMPLATE,
+						displayedTotal.getFormattedMoney()));
+		}
+		else {
+			mPurchaseTotalTextView.setText(getString(R.string.collected_by_the_hotel_TEMPLATE,
+						displayedTotal.getFormattedMoney()));
+		}
 
 		if (mInCheckout && Db.getTravelers() != null && Db.getTravelers().size() > 0 && mBillingInfo != null) {
 			showSlideToPurchsaeView();
