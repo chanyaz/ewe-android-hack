@@ -53,11 +53,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 		// On first launch, try to restore cached flight data (in this case, just for the search params)
 		if (savedInstanceState == null) {
-			if (Db.loadCachedFlightData(this)) {
-				Log.i("Restoring search params from disk...");
-
-				Db.getFlightSearch().getSearchParams().ensureValidDates();
-			}
+			loadParamsFromDisk();
 		}
 
 		if (savedInstanceState != null) {
@@ -101,6 +97,14 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		mSaveState = true;
 
 		if (mUpdateOnResume) {
+			if (!Db.getFlightSearch().getSearchParams().isFilled()) {
+				// F1073: If we got back here but the search params are not filled, that is probably an indicator
+				// that the app crashed (because otherwise the search params *should* have data).  In this case,
+				// attempt to reload the saved search params from disk.
+				loadParamsFromDisk();
+				supportInvalidateOptionsMenu();
+			}
+
 			Db.getFlightSearch().getSearchParams().ensureValidDates();
 			mSearchParamsFragment.setSearchParams(new FlightSearchParams(Db.getFlightSearch().getSearchParams()));
 			mUpdateOnResume = false;
@@ -134,6 +138,14 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_UPDATE_ON_RESUME, mUpdateOnResume);
+	}
+
+	private void loadParamsFromDisk() {
+		if (Db.loadCachedFlightData(this)) {
+			Log.i("Restoring search params from disk...");
+
+			Db.getFlightSearch().getSearchParams().ensureValidDates();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
