@@ -31,7 +31,6 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 
 public class HotelTravelerInfoOptionsFragment extends Fragment {
-
 	private static final String TRAVELER_DETAILS_DOWNLOAD = "TRAVELER_DETAILS_DOWNLOAD";
 
 	View mOverviewBtn;
@@ -83,7 +82,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Db.getTravelers().set(mCurrentTravelerIndex, new Traveler());
+				Db.getWorkingTravelerManager().shiftWorkingTraveler(new Traveler());
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 			}
@@ -118,7 +117,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 					public void onClick(View v) {
 						mCurrentTraveler = traveler;
 
-						// Begin loading flight details in the background, if we haven't already
+						// Begin loading travler details in the background, if we haven't already
 						BackgroundDownloader bd = BackgroundDownloader.getInstance();
 						if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
 							// Show a loading dialog
@@ -233,7 +232,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Flight details download
+	// Traveler details download
 
 	private Download<SignInResponse> mTravelerDetailsDownload = new Download<SignInResponse>() {
 		@Override
@@ -266,9 +265,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 				if (traveler != null) {
 					Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
 					mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-					mCurrentTraveler.setSaveTravelerToExpediaAccount(true); //We default account travelers to save, unless the user alters the name
-
-					mListener.setMode(YoYoMode.YOYO);
+					mCurrentTraveler.setSaveTravelerToExpediaAccount(true);//We default account travelers to save, unless the user alters the name
 					mListener.displayCheckout();
 				}
 			}

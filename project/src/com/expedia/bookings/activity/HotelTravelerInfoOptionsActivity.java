@@ -120,8 +120,6 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
 			case ONE:
-				setShowDoneButton(false);
-				break;
 			case SAVE:
 			default:
 				setShowDoneButton(true);
@@ -129,7 +127,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
 			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				setShowDoneButton(false);
+				setShowDoneButton(true);
 			}
 			else {
 				setShowDoneButton(true);
