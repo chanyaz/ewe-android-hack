@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
@@ -212,33 +213,32 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		mBuilder.setLength(0);
 
-		if (mProperty.isMerchant()) {
-			mBuilder.append(rate.getRatePlanName());
+		if (shouldShowBedDescription(rate)) {
+			addBedRow(rate.getRatePlanName());
 		}
 
-		if (rate.isNonRefundable()) {
-			if (mBuilder.length() > 0) {
-				mBuilder.append('\n');
-			}
-			mBuilder.append(mResources.getString(R.string.non_refundable));
+		if (shouldShowNonRefundable(rate)) {
+			addBedRow(mResources.getString(R.string.non_refundable));
 		}
+
+		if (shouldShowFreeCancellation(rate)) {
+			addBedRow(mResources.getString(R.string.free_cancellation));
+		}
+
 		// If there are < ROOMS_LEFT_CUTOFF rooms left, show a warning to the user
-		else if (showRoomsLeft(rate)) {
+		// however non-refundable trumps this text
+		if (shouldShowRoomsLeft(rate) && !shouldShowNonRefundable(rate)) {
 			int numRoomsLeft = rate.getNumRoomsLeft();
-			if (mBuilder.length() > 0) {
-				mBuilder.append('\n');
-			}
-			mBuilder.append(mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft));
+			addBedRow(mResources.getQuantityString(R.plurals.number_of_rooms_left, numRoomsLeft, numRoomsLeft));
+		}
 
+		if (mBuilder.indexOf("\n") > 0) {
 			// move the sale label up so as to accomodate the multiple lines for the bed text
-			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL,
-					0);
-			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).topMargin = (int) mContext
-					.getResources().getDimension(R.dimen.margin_top_sale_ribbon_room_rates);
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, 0);
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).topMargin = (int) mContext.getResources().getDimension(R.dimen.margin_top_sale_ribbon_room_rates);
 		}
 		else {
-			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL,
-					RelativeLayout.TRUE);
+			((RelativeLayout.LayoutParams) holder.saleLabel.getLayoutParams()).addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		}
 
 		// If there are value adds, setup the alternate view
@@ -268,9 +268,28 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private boolean showRoomsLeft(Rate rate) {
+	private boolean shouldShowBedDescription(Rate rate) {
+		return mProperty.isMerchant();
+	}
+
+	private boolean shouldShowNonRefundable(Rate rate) {
+		return !rate.hasFreeCancellation() && rate.isNonRefundable();
+	}
+
+	private boolean shouldShowFreeCancellation(Rate rate) {
+		return rate.hasFreeCancellation();
+	}
+
+	private boolean shouldShowRoomsLeft(Rate rate) {
 		int numRoomsLeft = rate.getNumRoomsLeft();
 		return numRoomsLeft > 0 && numRoomsLeft <= ROOMS_LEFT_CUTOFF;
+	}
+
+	private void addBedRow(String str) {
+		if (mBuilder.length() > 0) {
+			mBuilder.append('\n');
+		}
+		mBuilder.append(str);
 	}
 
 	private static class RoomAndRateHolder {
