@@ -517,6 +517,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setCustomView(mActionBarCustomView);
 
 		SearchParams searchParams = Db.getSearchParams();

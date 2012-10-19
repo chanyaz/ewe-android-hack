@@ -105,6 +105,8 @@
         <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
         <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
+        <item name="android:logo">@drawable/ic_logo_hotels</item>
+        <item name="logo">@drawable/ic_logo_hotels</item>
     </style>
 
     <style name="Theme.Phone.Dark" parent="Theme.Phone">
@@ -142,8 +144,8 @@
         <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
         <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
         <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
-        <item name="logo">@drawable/ic_action_bar_plane</item>
-        <item name="android:logo">@drawable/ic_action_bar_plane</item>
+        <item name="logo">@drawable/ic_logo_flights</item>
+        <item name="android:logo">@drawable/ic_logo_flights</item>
         <item name="actionBarStyle">@style/FlightActionBar</item>
         <item name="android:actionBarStyle">@style/FlightActionBar</item>
         <item name="actionMenuTextColor">@color/action_bar_flight_text_color</item>
