@@ -6,6 +6,8 @@ import java.util.Map;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.view.View;
+import android.widget.TextView;
 
 /**
  * Stores fonts so we don't have to keep reloading them from assets
@@ -52,5 +54,13 @@ public class FontCache {
 		}
 
 		return sCachedFonts.get(font);
+	}
+
+	public static void setTypeface(TextView tv, Font font) {
+		tv.setTypeface(getTypeface(font));
+	}
+
+	public static void setTypeface(View view, int resId, Font font) {
+		setTypeface((TextView) Ui.findView(view, resId), font);
 	}
 }
