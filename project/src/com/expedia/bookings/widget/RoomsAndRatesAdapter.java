@@ -273,11 +273,11 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 	}
 
 	private boolean shouldShowNonRefundable(Rate rate) {
-		return !rate.hasFreeCancellation() && rate.isNonRefundable();
+		return rate.isNonRefundable();
 	}
 
 	private boolean shouldShowFreeCancellation(Rate rate) {
-		return rate.hasFreeCancellation();
+		return !rate.isNonRefundable() && rate.hasFreeCancellation();
 	}
 
 	private boolean shouldShowRoomsLeft(Rate rate) {
