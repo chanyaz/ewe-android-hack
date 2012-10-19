@@ -41,7 +41,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 		mConfState = new ConfirmationState(this, Type.FLIGHT);
 
-		if (savedInstanceState == null) {
+		if (savedInstanceState == null || Db.getFlightCheckout() == null) {
 			if (mConfState.hasSavedData()) {
 				// Load saved data from disk
 				if (!mConfState.load()) {
