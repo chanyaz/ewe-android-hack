@@ -154,6 +154,10 @@ public class BookingOverviewFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
+		if (mSlideToPurchaseWidget != null) {
+			mSlideToPurchaseWidget.resetSlider();
+		}
+
 		populateTravelerData();
 		updateViews();
 	}

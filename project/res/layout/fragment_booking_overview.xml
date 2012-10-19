@@ -190,6 +190,10 @@
             android:id="@+id/slide_to_purchase_widget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:destComplete="@drawable/slide_complete"
+            app:destImage="@drawable/slide_goal"
+            app:dragImage="@drawable/slide_drag"
+            app:lineColor="#46CFCFCF"
             app:sliderImage="@drawable/ic_slide_to_purchase"
             app:sliderText="@string/slide_to_purchase" />
 
