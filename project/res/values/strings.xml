@@ -786,6 +786,12 @@
     <string name="progress_searching_hotels">Searching for Hotels…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">No Hotels Found</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="no_hotels_availiable_tonight">No hotels available tonight</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="no_hotels_availiable">No hotels available</string>
+    <!-- Message displayed when user need to change input to correct search -->
+    <string name="please_try_a_different_location_or_date">Please try a different location or date.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
