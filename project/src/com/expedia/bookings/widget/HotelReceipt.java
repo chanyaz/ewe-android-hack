@@ -147,8 +147,10 @@ public class HotelReceipt extends FrameLayout {
 
 		mDetailsLayout.addView(mRoomTypeWidget.getView());
 
-		View bedTypeRow = addTextRow(mDetailsLayout, R.string.bed_type, rate.getRatePlanName());
-		mRoomTypeWidget.addClickableView(bedTypeRow);
+		if (property.isMerchant()) {
+			View bedTypeRow = addTextRow(mDetailsLayout, R.string.bed_type, rate.getRatePlanName());
+			mRoomTypeWidget.addClickableView(bedTypeRow);
+		}
 
 		addTextRow(mDetailsLayout, R.string.GuestsLabel, StrUtils.formatGuests(getContext(), searchParams));
 
