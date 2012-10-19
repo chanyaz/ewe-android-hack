@@ -39,6 +39,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	private CVVEntryFragmentListener mListener;
 
+	private int mMinCvvLen;
+
 	public static CVVEntryFragment newInstance(Context context, BillingInfo billingInfo) {
 		// Determine the data displayed on the CVVEntryFragment
 		StoredCreditCard cc = billingInfo.getStoredCard();
@@ -108,6 +110,9 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		mCVVSection.setExplanationText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
 		mCreditCardSection.bind(personName, cardType);
 
+		// Configure vars that drive this fragment
+		mMinCvvLen = (cardType == CreditCardType.AMERICAN_EXPRESS) ? 4 : 3;
+
 		return v;
 	}
 
@@ -119,7 +124,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	}
 
 	private void syncBookButtonState() {
-		mCreditCardInputSection.setBookButtonEnabled(mCVVSection.getCvv().length() >= 3);
+		mCreditCardInputSection.setBookButtonEnabled(mCVVSection.getCvv().length() >= mMinCvvLen);
 	}
 
 	public void setCvvErrorMode(boolean enabled) {
