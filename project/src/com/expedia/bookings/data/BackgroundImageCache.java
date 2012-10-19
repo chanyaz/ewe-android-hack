@@ -189,9 +189,9 @@ public class BackgroundImageCache {
 
 	private void addDefaultBgToCache(Context context) {
 		Log.d("Adding defaults to cache...");
-		putBitmap(DEFAULT_KEY, BitmapFactory.decodeResource(context.getResources(), R.drawable.auckland), false);
+		putBitmap(DEFAULT_KEY, BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background), false);
 		putBitmap(getBlurredKey(DEFAULT_KEY),
-				BitmapFactory.decodeResource(context.getResources(), R.drawable.auckland_blurred), false);
+				BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background_blurred), false);
 	}
 
 	private String getBlurredKey(String unblurredKey) {
