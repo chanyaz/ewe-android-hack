@@ -39,6 +39,9 @@ public class LaunchFragment extends Fragment implements LocationListener {
 
 	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 
+	private static final double DEFAULT_LAT = 37.387672;
+	private static final double DEFAULT_LON = -122.083511;
+
 	private Context mContext;
 
 	private ListView mHotelsStreamListView;
@@ -92,7 +95,7 @@ public class LaunchFragment extends Fragment implements LocationListener {
 			// TODO: sends off a request for hardcoded location to make debugging easier, find way to properly manage
 			if (loc == null) {
 				SearchParams searchParams = new SearchParams();
-				searchParams.setSearchLatLon(37.774541, -122.419453);
+				searchParams.setSearchLatLon(DEFAULT_LAT, DEFAULT_LON);
 				Db.setSearchParams(searchParams);
 
 				startHotelSearch();
@@ -216,7 +219,7 @@ public class LaunchFragment extends Fragment implements LocationListener {
 			// Try again with hardcoded destination and incremented checkin/checkout date
 			else {
 				SearchParams searchParams = Db.getSearchParams();
-				searchParams.setSearchLatLon(37.774541, -122.419453);
+				searchParams.setSearchLatLon(DEFAULT_LAT, DEFAULT_LON);
 
 				searchParams.getCheckInDate().add(Calendar.DATE, 1);
 				searchParams.getCheckOutDate().add(Calendar.DATE, 1);
