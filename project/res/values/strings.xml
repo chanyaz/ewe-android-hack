@@ -243,7 +243,7 @@
     <!-- Expedia Account label -->
     <string name="expedia_account">Expedia Account</string>
     <!-- Checkout Information label -->
-    <string name="checkout_information">CHECKOUT INFORMATION</string>
+    <string name="checkout_information">Checkout Information</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Slide to purchase.</string>
     <!-- Your card will be charged -->
@@ -251,7 +251,7 @@
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">%1$s Collected by the hotel</string>
     <!-- Checkout menu item -->
-    <string name="menu_checkout">CHECKOUT</string>
+    <string name="menu_checkout">Checkout</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Best Price Guarantee</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -259,7 +259,7 @@
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
-    <string name="menu_done">DONE</string>
+    <string name="menu_done">Done</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
