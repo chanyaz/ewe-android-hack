@@ -140,10 +140,6 @@ public class LaunchFragment extends Fragment implements LocationListener {
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
-
-		// We want to cancel the Hotel Search download when the user leaves this activity. Because the Activity is force
-		// portrait, onPause should only be invoked when the user is moving forward away from the activity
-		bd.cancelDownload(KEY_SEARCH);
 	}
 
 	private void initViews() {
@@ -233,10 +229,14 @@ public class LaunchFragment extends Fragment implements LocationListener {
 			case R.id.hotels_button:
 				NavUtils.goToHotels(getActivity());
 
+				BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
+
 				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
 				break;
 			case R.id.flights_button:
 				NavUtils.goToFlights(getActivity());
+
+				BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
 
 				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
 				break;
@@ -250,6 +250,8 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Property property = (Property) mHotelsStreamAdapter.getItem(position);
 			Db.setSelectedProperty(property);
+
+			BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
 
 			Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
 			mContext.startActivity(intent);
