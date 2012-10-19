@@ -2,9 +2,8 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,8 +98,10 @@ public class FlightLeg implements JSONable {
 	}
 
 	// Returns all operating airlines for the flights in this leg
-	public Set<String> getPrimaryAirlines() {
-		Set<String> airlines = new HashSet<String>();
+	//
+	// F1060: Returned as a LinkedHashSet, in order of flights
+	public LinkedHashSet<String> getPrimaryAirlines() {
+		LinkedHashSet<String> airlines = new LinkedHashSet<String>();
 
 		if (mSegments != null) {
 			for (Flight flight : mSegments) {
