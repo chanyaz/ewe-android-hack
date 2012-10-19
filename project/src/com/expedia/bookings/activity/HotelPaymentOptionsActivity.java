@@ -1,11 +1,13 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -13,12 +15,14 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.HotelPaymentAddressFragment;
 import com.expedia.bookings.fragment.HotelPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
 import com.expedia.bookings.fragment.HotelPaymentSaveDialogFragment;
+import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implements HotelPaymentYoYoListener {
@@ -39,6 +43,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
+	private YoYoPosition mBeforeSaveDialogPos;
 
 	//Define the states of navigation
 	public enum YoYoMode {
@@ -54,7 +59,17 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		public boolean attemptToLeave();
 	}
 
+	private void hideKeyboard() {
+		if (this.getCurrentFocus() != null) {
+			//Oh silly stupid InputMethodManager...
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
 	public void displayOptions() {
+		hideKeyboard();
+
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
 		if (mOptionsFragment == null) {
@@ -67,8 +82,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 
 		mPos = YoYoPosition.OPTIONS;
 		mMode = YoYoMode.NONE;
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 	}
 
 	public void displayAddress() {
@@ -82,8 +96,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			ft.commit();
 		}
 		mPos = YoYoPosition.ADDRESS;
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 	}
 
 	public void displayCreditCard() {
@@ -97,16 +110,15 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			ft.replace(android.R.id.content, mCCFragment, CREDIT_CARD_FRAGMENT_TAG);
 			ft.commit();
 		}
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 	}
 
 	public void displaySaveDialog() {
+		mBeforeSaveDialogPos = mPos;
 		mPos = YoYoPosition.SAVE;
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 		DialogFragment newFragment = HotelPaymentSaveDialogFragment.newInstance();
 		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
-
 	}
 
 	private void closeSaveDialog() {
@@ -119,7 +131,17 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 	}
 
 	public void displayCheckout() {
+		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
 		finish();
+	}
+
+	private boolean workingBillingInfoChanged() {
+		if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
+					.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
+		}
+		return false;
 	}
 
 	public void moveForward() {
@@ -155,16 +177,38 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			switch (mPos) {
 			case ADDRESS:
 				if (validate(mAddressFragment)) {
-					displayOptions();
+					if (User.isLoggedIn(this)
+							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+							&& workingBillingInfoChanged()) {
+						displaySaveDialog();
+					}
+					else {
+						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+						displayOptions();
+					}
 				}
 				break;
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
-					displayOptions();
+					if (User.isLoggedIn(this)
+							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+							&& workingBillingInfoChanged()) {
+						displaySaveDialog();
+					}
+					else {
+						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+						displayOptions();
+					}
 				}
 				break;
-			case OPTIONS:
 			case SAVE:
+				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+						Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+				displayOptions();
+				break;
+			case OPTIONS:
 			default:
 				Ui.showToast(this, "FAIL");
 				break;
@@ -186,6 +230,11 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				displayCheckout();
 				break;
 			case ADDRESS:
+				//If we are backing up we want to restore the base billing info...
+				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+				}
 				displayOptions();
 				break;
 			case CREDITCARD:
@@ -203,13 +252,33 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		else if (mMode.equals(YoYoMode.EDIT)) {
 			switch (mPos) {
 			case ADDRESS:
+			case CREDITCARD:
+				//If we are backing up we want to restore the base billing info...
+				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
+					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
+							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+				}
 				displayOptions();
 				break;
-			case CREDITCARD:
-				displayOptions();
+			case SAVE:
+				//Back on save means cancel
+				if (mBeforeSaveDialogPos != null) {
+					switch (mBeforeSaveDialogPos) {
+					case ADDRESS:
+						displayAddress();
+						break;
+					case CREDITCARD:
+						displayCreditCard();
+						break;
+					default:
+						displayOptions();
+					}
+				}
+				else {
+					displayOptions();
+				}
 				break;
 			case OPTIONS:
-			case SAVE:
 			default:
 				Ui.showToast(this, "FAIL");
 				return false;
@@ -233,6 +302,22 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		//If we have a working BillingInfo object that was cached we try to load it from disk
+		WorkingBillingInfoManager billMan = Db.getWorkingBillingInfoManager();
+		if (billMan.getAttemptToLoadFromDisk() && billMan.hasBillingInfoOnDisk(this)) {
+			//Load working billing info from disk
+			billMan.loadWorkingBillingInfoFromDisk(this);
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
+				//If we don't have a saved state, but we do have a saved temp billingInfo go ahead to the entry screens
+				mPos = YoYoPosition.ADDRESS;
+				mMode = YoYoMode.YOYO;
+			}
+		}
+		else {
+			//If we don't load from disk, then we delete the file
+			billMan.deleteWorkingBillingInfoFile(this);
+		}
 
 		//Show the options fragment
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
@@ -283,8 +368,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				moveForward();
 			}
 		});
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+
 		return true;
 	}
 
@@ -298,15 +382,30 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		}
 	}
 
-	public void setMenuItemVisibilities(boolean showDone) {
-		if (mMenuNext != null) {
-			mMenuNext.setVisible(!showDone);
-			mMenuNext.setEnabled(!showDone);
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (menu != null) {
+			mMenuNext = menu.findItem(R.id.menu_next);
+			mMenuDone = menu.findItem(R.id.menu_done);
 
+			displayActionBarTitleBasedOnState();
+			displayActionItemBasedOnState();
 		}
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	public void setShowNextButton(boolean showNext) {
+		if (mMenuNext != null) {
+			mMenuNext.setEnabled(showNext);
+			mMenuNext.setVisible(showNext);
+		}
+	}
+
+	public void setShowDoneButton(boolean showDone) {
 		if (mMenuDone != null) {
-			mMenuDone.setVisible(showDone);
 			mMenuDone.setEnabled(showDone);
+			mMenuDone.setVisible(showDone);
 		}
 	}
 
@@ -316,15 +415,42 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		}
 		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
-
+			case OPTIONS:
+				setShowNextButton(false);
+				setShowDoneButton(false);
+				break;
+			case ADDRESS:
+				setShowNextButton(true);
+				setShowDoneButton(false);
+				break;
+			case CREDITCARD:
+				setShowNextButton(false);
+				setShowDoneButton(true);
+				break;
+			default:
+				setShowNextButton(false);
+				setShowDoneButton(true);
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
-			setMenuItemVisibilities(true);
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
+				setShowNextButton(false);
+				setShowDoneButton(false);
+			}
+			else {
+				setShowNextButton(false);
+				setShowDoneButton(true);
+			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
-			//TODO: This should set both to invisible, but then they never return, so for now we display done
-			setMenuItemVisibilities(true);
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
+				setShowNextButton(false);
+				setShowDoneButton(false);
+			}
+			else {
+				setShowNextButton(false);
+				setShowDoneButton(true);
+			}
 		}
 	}
 
@@ -354,7 +480,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		else {
 			actionBar.setTitle(titleStr);
 		}
-
 	}
 
 	@Override

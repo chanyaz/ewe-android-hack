@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,9 +19,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
@@ -45,6 +44,11 @@ public class HotelPaymentOptionsFragment extends Fragment {
 	ViewGroup mStoredCardsContainer;
 	ViewGroup mCurrentStoredPaymentContainer;
 
+	View mAddressErrorImage;
+	View mCardErrorImage;
+
+	PaymentFlowState mValidationState;
+
 	HotelPaymentYoYoListener mListener;
 
 	public static HotelPaymentOptionsFragment newInstance() {
@@ -56,18 +60,19 @@ public class HotelPaymentOptionsFragment extends Fragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_hotel_payment_options, container, false);
 
+		//Sections
 		mSectionCurrentBillingAddress = Ui.findView(v, R.id.current_payment_address_section);
 		mSectionCurrentCreditCard = Ui.findView(v, R.id.current_payment_cc_section);
 		mSectionStoredPayment = Ui.findView(v, R.id.stored_creditcard_section);
 
+		//Section error indicators
+		mAddressErrorImage = Ui.findView(mSectionCurrentBillingAddress, R.id.error_image);
+		mCardErrorImage = Ui.findView(mSectionCurrentCreditCard, R.id.error_image);
+
+		// Other views
 		mStoredPaymentsLabel = Ui.findView(v, R.id.stored_payments_label);
 		mStoredPaymentsLabelDiv = Ui.findView(v, R.id.stored_payments_label_div);
 		mCurrentPaymentLabel = Ui.findView(v, R.id.current_payment_label);
@@ -126,7 +131,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 				final StoredCreditCard storedCard = cards.get(i);
 				SectionStoredCreditCard card = (SectionStoredCreditCard) inflater.inflate(
 						R.layout.section_display_stored_credit_card, null);
-				card.setUseActiveCardIcon(false,false);
+				card.setUseActiveCardIcon(false, false);
 				card.bind(cards.get(i));
 				card.setPadding(0, 5, 0, (i == cards.size() - 1) ? 10 : 5);
 				card.setOnClickListener(new OnClickListener() {
@@ -165,8 +170,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		super.onAttach(activity);
 
 		if (!(activity instanceof HotelPaymentYoYoListener)) {
-			throw new RuntimeException(
-					"HotelPaymentOptiosnFragment activity must implement HotelPaymentYoYoListener!");
+			throw new RuntimeException("HotelPaymentOptiosnFragment activity must implement HotelPaymentYoYoListener!");
 		}
 
 		mListener = (HotelPaymentYoYoListener) activity;
@@ -180,11 +184,9 @@ public class HotelPaymentOptionsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		mValidationState = PaymentFlowState.getInstance(getActivity());
 
-		BillingInfo mBillingInfo = Db.getBillingInfo();
-		if (mBillingInfo.getLocation() == null) {
-			mBillingInfo.setLocation(new Location());
-		}
+		BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 
 		mSectionCurrentBillingAddress.bind(mBillingInfo.getLocation());
 		mSectionCurrentCreditCard.bind(mBillingInfo);
@@ -206,19 +208,37 @@ public class HotelPaymentOptionsFragment extends Fragment {
 
 		//Set visibilities
 		boolean hasAccountCards = cards != null && cards.size() > 0;
-		boolean hasSelectedStoredCard = Db.getBillingInfo().getStoredCard() != null;
-		boolean hasValidNewCard = !TextUtils.isEmpty(Db.getBillingInfo().getNumber());
-		mCurrentPaymentLabel.setVisibility(hasSelectedStoredCard || hasValidNewCard ? View.VISIBLE : View.GONE);
+		boolean hasSelectedStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null;
+
+		if (mValidationState == null) {
+			mValidationState = PaymentFlowState.getInstance(getActivity());
+		}
+		boolean addressValid = mValidationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
+				.getWorkingBillingInfo());
+		boolean cardValid = mValidationState
+				.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+		boolean displayManualCurrentPayment = !hasSelectedStoredCard && (addressValid || cardValid);
+
+		mCurrentPaymentLabel.setVisibility(hasSelectedStoredCard || displayManualCurrentPayment ? View.VISIBLE
+				: View.GONE);
 		mCurrentPaymentLabelDiv.setVisibility(mCurrentPaymentLabel.getVisibility());
+
+		mCurrentPaymentContainer.setVisibility(displayManualCurrentPayment ? View.VISIBLE : View.GONE);
 		mCurrentStoredPaymentContainer.setVisibility(hasSelectedStoredCard ? View.VISIBLE : View.GONE);
-		mCurrentPaymentContainer.setVisibility(!hasSelectedStoredCard && hasValidNewCard ? View.VISIBLE : View.GONE);
+
+		if (displayManualCurrentPayment) {
+			this.mAddressErrorImage.setVisibility(addressValid ? View.GONE : View.VISIBLE);
+			this.mCardErrorImage.setVisibility(cardValid ? View.GONE : View.VISIBLE);
+		}
+
 		mNewPaymentLabel
-				.setText(hasSelectedStoredCard || hasValidNewCard ? getString(R.string.or_select_new_paymet_method)
+				.setText(hasSelectedStoredCard || displayManualCurrentPayment ? getString(R.string.or_select_new_paymet_method)
 						: getString(R.string.select_payment));
 		mNewPaymentLabelDiv.setVisibility(mNewPaymentLabel.getVisibility());
+
 		mStoredPaymentsLabel.setVisibility(hasAccountCards ? View.VISIBLE : View.GONE);
 		mStoredPaymentsLabelDiv.setVisibility(mStoredPaymentsLabel.getVisibility());
-		mStoredCardsContainer.setVisibility((cards != null && cards.size() > 0) ? View.VISIBLE : View.GONE);
+		mStoredCardsContainer.setVisibility(hasAccountCards ? View.VISIBLE : View.GONE);
 	}
 
 	public interface HotelPaymentYoYoListener {

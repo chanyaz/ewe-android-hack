@@ -1,11 +1,16 @@
 package com.expedia.bookings.activity;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -14,12 +19,18 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.HotelTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
 import com.expedia.bookings.fragment.HotelTravelerSaveDialogFragment;
+import com.expedia.bookings.model.WorkingTravelerManager;
+import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener {
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
@@ -28,6 +39,8 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
 	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
+	private static final String STATE_TAG_START_FIRST_NAME = "STATE_TAG_START_FIRST_NAME";
+	private static final String STATE_TAG_START_LAST_NAME = "STATE_TAG_START_LAST_NAME";
 
 	private HotelTravelerInfoOptionsFragment mOptionsFragment;
 	private HotelTravelerInfoOneFragment mOneFragment;
@@ -36,10 +49,17 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
+	private YoYoPosition mBeforeSaveDialogPos;
+
+	private int mTravelerIndex;
+
+	//for determining if the name changed...
+	private String mStartFirstName = "";
+	private String mStartLastName = "";
 
 	//Where we want to return to after our action
 	private enum YoYoPosition {
-		OPTIONS, ONE, SAVE
+		OPTIONS, ONE, SAVE, SAVING
 	}
 
 	public interface Validatable {
@@ -59,9 +79,6 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 			}
 		});
 
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
-
 		return true;
 	}
 
@@ -76,10 +93,23 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void setMenuItemVisibilities(boolean showDone) {
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (menu != null) {
+			mMenuDone = menu.findItem(R.id.menu_done);
+
+			displayActionBarTitleBasedOnState();
+			displayActionItemBasedOnState();
+
+		}
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	public void setShowDoneButton(boolean showDone) {
 		if (mMenuDone != null) {
-			mMenuDone.setVisible(showDone);
 			mMenuDone.setEnabled(showDone);
+			mMenuDone.setVisible(showDone);
 		}
 	}
 
@@ -89,23 +119,24 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		}
 		else if (mPos != null && mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
-			case ONE: {
-				setMenuItemVisibilities(!User.isLoggedIn(this));
+			case ONE:
+				setShowDoneButton(false);
 				break;
-			}
 			case SAVE:
-			case OPTIONS:
-			default: {
-				setMenuItemVisibilities(true);
-			}
+			default:
+				setShowDoneButton(true);
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
-			setMenuItemVisibilities(true);
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
+				setShowDoneButton(false);
+			}
+			else {
+				setShowDoneButton(true);
+			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
-			//TODO: This should set both to invisible, but then they never return, so for now we display done
-			setMenuItemVisibilities(true);
+			setShowDoneButton(false);
 		}
 	}
 
@@ -137,6 +168,8 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putString(STATE_TAG_MODE, mMode.name());
 		outState.putString(STATE_TAG_DEST, mPos.name());
+		outState.putString(STATE_TAG_START_FIRST_NAME, mStartFirstName);
+		outState.putString(STATE_TAG_START_LAST_NAME, mStartLastName);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -144,6 +177,10 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+		mStartFirstName = savedInstanceState.getString(STATE_TAG_START_FIRST_NAME) != null ? savedInstanceState
+				.getString(STATE_TAG_START_FIRST_NAME) : "";
+		mStartLastName = savedInstanceState.getString(STATE_TAG_START_LAST_NAME) != null ? savedInstanceState
+				.getString(STATE_TAG_START_LAST_NAME) : "";
 
 		super.onRestoreInstanceState(savedInstanceState);
 	}
@@ -156,32 +193,56 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
 			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 			mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
-			switch (mPos) {
-			case OPTIONS: {
-				displayOptions();
-				break;
-			}
-			case ONE: {
-				displayTravelerEntryOne();
-				break;
-			}
-			case SAVE: {
-				displaySaveDialog();
-				break;
-			}
-			default: {
-				displayOptions();
-			}
+		}
+		else {
+			mPos = YoYoPosition.OPTIONS;
+		}
+
+		//Which traveler are we working with
+		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
+
+		//If we have a working traveler that was cached we try to load it from disk... 
+		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
+		if (travMan.getAttemptToLoadFromDisk() && travMan.hasTravelerOnDisk(this)) {
+			//Load up the traveler from disk
+			travMan.loadWorkingTravelerFromDisk(this);
+			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
+				//If we don't have a saved state, but we do have a saved temp traveler go ahead to the entry screens
+				mPos = YoYoPosition.ONE;
+				mMode = YoYoMode.YOYO;
 			}
 		}
 		else {
+			//If we don't load it from disk, then we delete the file.
+			travMan.deleteWorkingTravelerFile(this);
+		}
+
+		switch (mPos) {
+		case OPTIONS:
+			displayOptions();
+			break;
+		case ONE:
+			displayTravelerEntryOne();
+			break;
+		case SAVE:
+			displaySaveDialog();
+			break;
+		case SAVING:
+			if (Db.getWorkingTravelerManager() != null
+					&& Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
+				displaySavingDialog();
+			}
+			else {
+				displayOptions();
+			}
+			break;
+		default:
 			displayOptions();
 		}
 
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-
 	}
 
 	public boolean validate(Validatable validatable) {
@@ -191,6 +252,28 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		else {
 			return validatable.validate();
 		}
+	}
+
+	private boolean workingTravelerNameChanged() {
+		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+			Traveler working = Db.getWorkingTravelerManager().getWorkingTraveler();
+			if (mStartFirstName.trim().compareTo(working.getFirstName().trim()) == 0
+					&& mStartLastName.trim().compareTo(working.getLastName().trim()) == 0) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean workingTravelerDiffersFromBase() {
+		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+			return Db.getWorkingTravelerManager().getWorkingTraveler()
+					.compareTo(Db.getWorkingTravelerManager().getBaseTraveler()) != 0;
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////
@@ -206,7 +289,16 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 			}
 			case ONE: {
 				if (validate(mOneFragment)) {
-					if (User.isLoggedIn(this)) {
+					if (Db.getWorkingTravelerManager().getWorkingTraveler().getSaveTravelerToExpediaAccount()) {
+						if (workingTravelerNameChanged()) {
+							//If we had already set the save flag, but we now changed the first or last name, we now unset the save flag, and show the dialog again in the future
+							Db.getWorkingTravelerManager().getWorkingTraveler().resetTuid();//If we changed the name, we don't consider them the same traveler
+							Db.getWorkingTravelerManager().getWorkingTraveler().setSaveTravelerToExpediaAccount(false);
+						}
+					}
+
+					if (User.isLoggedIn(this)
+							&& !Db.getWorkingTravelerManager().getWorkingTraveler().getSaveTravelerToExpediaAccount()) {
 						displaySaveDialog();
 					}
 					else {
@@ -227,18 +319,42 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
 			switch (mPos) {
-			case ONE: {
+			case ONE:
 				if (validate(mOneFragment)) {
-					displayOptions();
+					if (User.isLoggedIn(this)) {
+						if (workingTravelerNameChanged()) {
+							//If we changed the name, we don't consider them the same traveler
+							Db.getWorkingTravelerManager().getWorkingTraveler().resetTuid();
+							displaySaveDialog();
+						}
+						else if (workingTravelerDiffersFromBase()
+								&& !Db.getWorkingTravelerManager().getWorkingTraveler()
+										.getSaveTravelerToExpediaAccount()) {
+							//If the traveler changed and we weren't saving before, ask again.
+							displaySaveDialog();
+						}
+						else {
+							Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+									Db.getWorkingTravelerManager().getWorkingTraveler());
+							displayOptions();
+						}
+					}
+					else {
+						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+								Db.getWorkingTravelerManager().getWorkingTraveler());
+						displayOptions();
+					}
 				}
 				break;
-			}
-			case OPTIONS:
 			case SAVE:
-			default: {
+				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+						Db.getWorkingTravelerManager().getWorkingTraveler());
+				displayOptions();
+				break;
+			case OPTIONS:
+			default:
 				Ui.showToast(this, "FAIL");
 				break;
-			}
 			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
@@ -255,34 +371,66 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	public boolean moveBackwards() {
 		if (mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
-			case OPTIONS: {
+			case OPTIONS:
 				displayCheckout();
 				break;
-			}
-			case ONE: {
+			case ONE:
+				//If we are backing up we want to restore the base traveler...
+				if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+							Db.getWorkingTravelerManager().getBaseTraveler());
+				}
 				displayOptions();
 				break;
-			}
-			case SAVE: {
+			case SAVE:
 				closeSaveDialog();
 				displayTravelerEntryOne();
 				break;
-			}
-			default: {
+			case SAVING:
+				if (!Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
+					//if we aren't actually saving this is a bunk state, and we let people leave...
+					displayOptions();
+				}
+				break;
+			default:
 				Ui.showToast(this, "FAIL");
 				return false;
-			}
 			}
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
 			switch (mPos) {
 			case ONE:
-			case OPTIONS:
+				//If we are backing up we want to restore the base traveler...
+				if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+							Db.getWorkingTravelerManager().getBaseTraveler());
+				}
+				displayOptions();
+				break;
 			case SAVE:
-			default: {
+				if (mBeforeSaveDialogPos != null) {
+					switch (mBeforeSaveDialogPos) {
+					case ONE:
+						displayTravelerEntryOne();
+						break;
+					default:
+						displayOptions();
+					}
+				}
+				else {
+					displayOptions();
+				}
+				break;
+			case SAVING:
+				if (!Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
+					//if we aren't actually saving this is a bunk state, and we let people leave...
+					displayOptions();
+				}
+				break;
+			case OPTIONS:
+			default:
 				Ui.showToast(this, "FAIL");
 				return false;
-			}
 			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
@@ -293,6 +441,8 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	@Override
 	public void displayOptions() {
+		hideKeyboard();
+
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mOptionsFragment = Ui.findSupportFragment(this, OPTIONS_FRAGMENT_TAG);
 		if (mOptionsFragment == null) {
@@ -304,12 +454,13 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		}
 		mPos = YoYoPosition.OPTIONS;
 		mMode = YoYoMode.NONE;
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 	}
 
 	@Override
 	public void displayTravelerEntryOne() {
+		mStartFirstName = Db.getWorkingTravelerManager().getWorkingTraveler().getFirstName();
+		mStartLastName = Db.getWorkingTravelerManager().getWorkingTraveler().getLastName();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mOneFragment = Ui.findSupportFragment(this, ONE_FRAGMENT_TAG);
 		if (mOneFragment == null) {
@@ -320,15 +471,14 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 			ft.commit();
 		}
 		mPos = YoYoPosition.ONE;
-		displayActionBarTitleBasedOnState();
-		displayActionItemBasedOnState();
-
+		supportInvalidateOptionsMenu();
 	}
 
 	@Override
 	public void displaySaveDialog() {
+		mBeforeSaveDialogPos = mPos;
 		mPos = YoYoPosition.SAVE;
-		displayActionItemBasedOnState();
+		supportInvalidateOptionsMenu();
 		DialogFragment newFragment = HotelTravelerSaveDialogFragment.newInstance();
 		newFragment.show(getSupportFragmentManager(), SAVE_FRAGMENT_TAG);
 	}
@@ -342,8 +492,85 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		ft.commit();
 	}
 
+	private void displaySavingDialog() {
+		mPos = YoYoPosition.SAVING;
+		SavingTravelerDialogFragment df = new SavingTravelerDialogFragment();
+		df.show(this.getSupportFragmentManager(), SavingTravelerDialogFragment.TAG);
+	}
+
 	@Override
 	public void displayCheckout() {
-		finish();
+		//First we commit our traveler stuff...
+		Traveler trav = Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
+		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
+		if (trav.getSaveTravelerToExpediaAccount() && User.isLoggedIn(this)) {
+			if (trav.hasTuid()) {
+				//Background save..
+				Db.getWorkingTravelerManager().commitTravelerToAccount(this, trav, false, null);
+				finish();
+			}
+			else {
+				//Display spinner and wait...
+				displaySavingDialog();
+				ITravelerUpdateListener travelerupdatedListener = new ITravelerUpdateListener() {
+					@Override
+					public void onTravelerUpdateFinished() {
+						SavingTravelerDialogFragment df = Ui.findSupportFragment(HotelTravelerInfoOptionsActivity.this,
+								SavingTravelerDialogFragment.TAG);
+						if (df != null) {
+							df.dismiss();
+						}
+						finish();
+					}
+
+					@Override
+					public void onTravelerUpdateFailed() {
+						//TODO: we should maybe do more, however all of the local information will still be submitted as checkout info, 
+						//	so the account update
+						Log.e("Saving traveler failure.");
+						finish();
+					}
+				};
+
+				Db.getWorkingTravelerManager().commitTravelerToAccount(this, trav, false, travelerupdatedListener);
+			}
+		}
+		else {
+			finish();
+		}
+	}
+
+	private void hideKeyboard() {
+		if (this.getCurrentFocus() != null) {
+			//Oh silly stupid InputMethodManager...
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
+	public static class SavingTravelerDialogFragment extends DialogFragment {
+
+		public static final String TAG = SavingTravelerDialogFragment.class.getName();
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setCancelable(false);
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			ProgressDialog pd = new ProgressDialog(getActivity());
+			pd.setMessage(getString(R.string.saving_traveler));
+			pd.setCanceledOnTouchOutside(false);
+			return pd;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			// If the dialog is canceled without finishing loading, don't show this page.
+			getActivity().finish();
+		}
 	}
 }

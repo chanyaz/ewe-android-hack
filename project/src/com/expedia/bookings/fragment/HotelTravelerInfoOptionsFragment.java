@@ -70,7 +70,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 		mCurrentTravelerIndex = getActivity().getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
 
 		//Selected traveler
-		mCurrentTraveler = Db.getTravelers().get(mCurrentTravelerIndex);
+		mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 
 		mEditTravelerContainer = Ui.findView(v, R.id.edit_traveler_container);
 		mEditTravelerLabel = Ui.findView(v, R.id.edit_traveler_label);
@@ -264,8 +264,10 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			else {
 				Traveler traveler = results.getTraveler();
 				if (traveler != null) {
-					mCurrentTraveler = traveler;
-					Db.getTravelers().set(mCurrentTravelerIndex, traveler);
+					Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
+					mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+					mCurrentTraveler.setSaveTravelerToExpediaAccount(true); //We default account travelers to save, unless the user alters the name
+
 					mListener.setMode(YoYoMode.YOYO);
 					mListener.displayCheckout();
 				}
@@ -303,5 +305,4 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			getActivity().finish();
 		}
 	}
-
 }

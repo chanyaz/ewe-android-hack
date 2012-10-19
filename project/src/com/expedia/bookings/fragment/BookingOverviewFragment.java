@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -295,21 +292,6 @@ public class BookingOverviewFragment extends Fragment {
 			}
 		});
 		hideSlideToPurchaseView();
-	}
-
-	// Private methods
-
-	private void populateTravelerData() {
-		List<Traveler> travelers = Db.getTravelers();
-		if (travelers == null) {
-			travelers = new ArrayList<Traveler>();
-			Db.setTravelers(travelers);
-		}
-
-		if (travelers.size() == 0) {
-			Traveler fp = new Traveler();
-			travelers.add(fp);
-		}
 	}
 
 	// Hide/show slide to purchase view
