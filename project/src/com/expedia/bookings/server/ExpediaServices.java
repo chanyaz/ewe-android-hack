@@ -148,6 +148,16 @@ public class ExpediaServices implements DownloadListener {
 		return cookieStore;
 	}
 
+	public static void removeUserLoginCookies(Context context) {
+		PersistantCookieStore cookieStore = new PersistantCookieStore();
+		cookieStore.load(context, COOKIES_FILE);
+		String[] userCookieNames = { "user", "minfo", "accttype" };
+		cookieStore.removeAllCookiesByName(userCookieNames);
+		if (cookieStore.isDirty()) {
+			cookieStore.save(context, COOKIES_FILE);
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	//// Expedia Suggest API
 
@@ -636,8 +646,9 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("phoneCountryCode", traveler.getPhoneCountryCode()));
 		}
 		if (!TextUtils.isEmpty(traveler.getPhoneNumber())) {
-			
-			query.add(new BasicNameValuePair("phone",traveler.getPrimaryPhoneNumber().getAreaCode() +  traveler.getPrimaryPhoneNumber().getNumber()));
+
+			query.add(new BasicNameValuePair("phone", traveler.getPrimaryPhoneNumber().getAreaCode()
+					+ traveler.getPrimaryPhoneNumber().getNumber()));
 		}
 
 		//Email is required (but there is no traveler email entry)

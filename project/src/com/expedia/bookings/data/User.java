@@ -97,6 +97,9 @@ public class User implements JSONable {
 
 		// Clear User from Db
 		Db.setUser(null);
+
+		//Remove the login cookies
+		ExpediaServices.removeUserLoginCookies(context);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

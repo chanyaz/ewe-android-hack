@@ -1,6 +1,7 @@
 package com.expedia.bookings.server;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.http.cookie.Cookie;
@@ -51,6 +52,66 @@ public class PersistantCookieStore extends BasicCookieStore {
 
 	public boolean isDirty() {
 		return mDirty;
+	}
+
+	public synchronized void removeCookieByName(String cookieName) {
+		boolean removedCookie = false;
+		ArrayList<Cookie> cookies = new ArrayList<Cookie>();
+		cookies.addAll(getCookies());
+		for (int i = cookies.size() - 1; i >= 0; i--) {
+			Cookie cook = cookies.get(i);
+			if (cook.getName().equalsIgnoreCase(cookieName)) {
+				cookies.remove(i);
+				removedCookie = true;
+				//Note: Do not break here, we often have multiples
+			}
+		}
+
+		if (removedCookie) {
+			super.clear();
+			Cookie[] cookArr = new Cookie[cookies.size()];
+			cookArr = cookies.toArray(cookArr);
+			super.addCookies(cookArr);
+			mDirty = true;
+		}
+	}
+
+	public synchronized void removeAllCookiesByName(String[] names) {
+		boolean removedCookie = false;
+		ArrayList<Cookie> cookies = new ArrayList<Cookie>();
+		cookies.addAll(getCookies());
+
+		for (int j = 0; j < names.length; j++) {
+			for (int i = cookies.size() - 1; i >= 0; i--) {
+				Cookie cook = cookies.get(i);
+				if (cook.getName().equalsIgnoreCase(names[j])) {
+					cookies.remove(i);
+					removedCookie = true;
+					//Note: Do not break here, we often have multiples
+				}
+			}
+		}
+
+		if (removedCookie) {
+			super.clear();
+			Cookie[] cookArr = new Cookie[cookies.size()];
+			cookArr = cookies.toArray(cookArr);
+			super.addCookies(cookArr);
+			mDirty = true;
+		}
+	}
+
+	public void logAllCookies() {
+		Log.i("COOKIE LOG");
+		for (Cookie cookie : getCookies()) {
+			Log.i("name:" + cookie.getName());
+			Log.i("comment:" + cookie.getComment());
+			Log.i("commentUrl:" + cookie.getCommentURL());
+			Log.i("domain:" + cookie.getDomain());
+			Log.i("path:" + cookie.getPath());
+			Log.i("value:" + cookie.getValue());
+			Log.i("version:" + cookie.getVersion());
+		}
 	}
 
 	public void load(Context context, String fileName) {
