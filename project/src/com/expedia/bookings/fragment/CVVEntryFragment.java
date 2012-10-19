@@ -21,6 +21,7 @@ import com.expedia.bookings.section.CreditCardInputSection.CreditCardInputListen
 import com.expedia.bookings.section.CreditCardSection;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class CVVEntryFragment extends Fragment implements CreditCardInputListener {
@@ -55,6 +56,16 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 			cardName = cc.getDescription();
 
 			cardType = cc.getCardType();
+
+			// Temporary fix to avoid crashing.  Only the latest servers (trunk) have 
+			// credit card type being returned with stored credit cards, so if the
+			// type wasn't returned (or isn't recognized) we default to VISA to avoid
+			// a crash.
+			if (cardType == null) {
+				Log.w("Could not get credit card type enum!  Defaulting to VISA.  What I saw was this: " + cc.getType());
+
+				cardType = CreditCardType.VISA;
+			}
 		}
 		else {
 			personName = billingInfo.getNameOnCard();
