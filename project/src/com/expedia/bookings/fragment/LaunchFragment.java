@@ -102,10 +102,6 @@ public class LaunchFragment extends Fragment implements LocationListener {
 				startHotelSearch(loc);
 			}
 		}
-		else {
-			mHotelsStreamAdapter.setProperties(searchResponse);
-		}
-
 	}
 
 	@Override
