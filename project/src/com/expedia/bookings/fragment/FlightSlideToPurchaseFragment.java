@@ -77,7 +77,7 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (mSlider != null) {
+		if(mSlider != null){
 			mSlider.resetSlider();
 		}
 	}

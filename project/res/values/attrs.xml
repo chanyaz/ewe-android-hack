@@ -33,6 +33,10 @@
     <declare-styleable name="SlideToWidget">
         <attr name="sliderText" format="string" />
         <attr name="sliderImage" format="reference" />
+        <attr name="dragImage" format="reference" />
+        <attr name="destImage" format="reference" />
+        <attr name="destComplete" format="reference" />
+        <attr name="lineColor" format="color" />
     </declare-styleable>
 
     <!-- NumberPicker style. -->

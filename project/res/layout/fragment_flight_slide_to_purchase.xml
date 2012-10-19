@@ -7,12 +7,16 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingBottom="15dp"
-    android:paddingTop="15dp" >
+    android:paddingTop="5dp" >
 
     <com.expedia.bookings.widget.SlideToWidget
         android:id="@+id/slide_to_wid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        slideto:destComplete="@drawable/slide_complete"
+        slideto:destImage="@drawable/slide_goal"
+        slideto:dragImage="@drawable/slide_drag"
+        slideto:lineColor="#46CFCFCF"
         slideto:sliderImage="@drawable/ic_slide_to_purchase"
         slideto:sliderText="@string/slide_to_purchase" />
 

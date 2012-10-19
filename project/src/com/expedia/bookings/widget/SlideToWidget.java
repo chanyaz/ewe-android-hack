@@ -3,8 +3,10 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -16,14 +18,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class SlideToWidget extends RelativeLayout {
 
 	private RelativeLayout mContainer;
 	private ImageView mSlider;
+	private ImageView mDestImage;
 	private ImageView mHiddenImage;
+	private ImageView mSliderHolder;
 	private TextView mSliderText;
+	private View mSliderLine;
+	private View mSliderDot;
+	
+	private Drawable mSliderDrawable;
+	private Drawable mDragingDrawable;
+	private Drawable mSlideGoalDrawable;
+	private Drawable mSlideCompleteDrawable;
 
 	private int mContainerWidth;
 	private int mImageWidth;
@@ -54,16 +71,28 @@ public class SlideToWidget extends RelativeLayout {
 		mContainer = this;
 		mSlider = Ui.findView(widget, R.id.slider_image);
 		mSliderText = Ui.findView(widget, R.id.slider_text);
+		mDestImage = Ui.findView(widget, R.id.destination_image);
 		mHiddenImage = Ui.findView(widget, R.id.hidden_image);
-
+		mSliderLine = Ui.findView(widget, R.id.slider_line);
+		mSliderDot = Ui.findView(widget, R.id.slider_line_start_dot);
+		mSliderHolder = Ui.findView(widget, R.id.slider_image_holder);
 		mSlider.setOnTouchListener(new SliderTouchListener());
 
 		if (attr != null) {
 			TypedArray ta = context.obtainStyledAttributes(attr, R.styleable.SlideToWidget, 0, 0);
-			Drawable drawable = ta.getDrawable(R.styleable.SlideToWidget_sliderImage);
-			mSlider.setImageDrawable(drawable);
-			mHiddenImage.setImageDrawable(drawable);
+			mSliderDrawable = ta.getDrawable(R.styleable.SlideToWidget_sliderImage);
+			mDragingDrawable = ta.getDrawable(R.styleable.SlideToWidget_dragImage);
+			
+			mSlideGoalDrawable = ta.getDrawable(R.styleable.SlideToWidget_destImage);
+			mSlideCompleteDrawable = ta.getDrawable(R.styleable.SlideToWidget_destComplete);
+			
+			mSliderLine.setBackgroundColor(ta.getColor(R.styleable.SlideToWidget_lineColor, Color.rgb(255, 255, 255)));
+			
+			mSlider.setImageDrawable( mSliderDrawable);
+			mSliderHolder.setImageDrawable(mSliderDrawable);
+			mHiddenImage.setImageDrawable(mDragingDrawable);
 			mSliderText.setText(ta.getText(R.styleable.SlideToWidget_sliderText));
+			mDestImage.setImageDrawable(mSlideGoalDrawable);
 		}
 	}
 
@@ -98,10 +127,6 @@ public class SlideToWidget extends RelativeLayout {
 		mSliderText.setText(text);
 	}
 
-	public void setTextAlpha(float alpha) {
-		setTextViewAlpha(mSliderText, alpha);
-	}
-
 	public void setSlideDrawable(Drawable drawable) {
 		mSlider.setImageDrawable(drawable);
 	}
@@ -110,25 +135,124 @@ public class SlideToWidget extends RelativeLayout {
 	 * Resets the slider position and the text alpha
 	 */
 	public void resetSlider() {
-		if (mSlider != null && mSlider.getLayoutParams() != null) {
-			RelativeLayout.LayoutParams sliderParams = (LayoutParams) mSlider.getLayoutParams();
-			sliderParams.leftMargin = 0;
-			mSlider.setLayoutParams(sliderParams);
+		if(mSlider != null){
+			mSlider.setImageDrawable(mSliderDrawable);
+			if (mSlider.getLayoutParams() != null) {
+				RelativeLayout.LayoutParams sliderParams = (LayoutParams) mSlider.getLayoutParams();
+				sliderParams.leftMargin = 0;
+				mSlider.setLayoutParams(sliderParams);
+			}
+			mSlider.setVisibility(View.VISIBLE);
+		}
+		if(mDestImage != null){
+			mDestImage.clearAnimation();
+			mDestImage.setVisibility(View.INVISIBLE);
+			mDestImage.setImageDrawable(mSlideGoalDrawable);
+			
 		}
 		if (mSliderText != null) {
-			setTextViewAlpha(mSliderText, 1);
+			mSliderText.setVisibility(View.VISIBLE);
 		}
+		if(mSliderLine != null){
+			LayoutParams lineParams = (LayoutParams) mSliderLine.getLayoutParams();
+			lineParams.width = 0;
+			mSliderLine.setLayoutParams(lineParams);
+			mSliderLine.setVisibility(View.INVISIBLE);
+			mSliderLine.clearAnimation();
+		}
+		if(mSliderDot != null){
+			mSliderDot.setVisibility(View.INVISIBLE);
+			mSliderDot.clearAnimation();
+		}
+		
+	}
+	
+	public void activateSlide(){
+		if(mSlider != null){
+			mSlider.setImageDrawable(mDragingDrawable);
+		}
+		if (mSliderText != null) {
+			mSliderText.setVisibility(View.INVISIBLE);
+		}
+		AnimatorSet animSet = new AnimatorSet();
+		animSet.playTogether(getDrawLineAnimator(),getShowDestAnimator());
+		animSet.setDuration(500);
+		animSet.start();
 	}
 
 	private void updateMeasurements() {
 		mContainerWidth = mContainer.getWidth();
-		mImageWidth = mSlider.getWidth();
+		mImageWidth = mHiddenImage.getWidth();
 		mMaxLeftMargin = mContainerWidth - mImageWidth;
 		mTargetLeftMargin = mMaxLeftMargin - (mImageWidth / 2);//doesn't have to be all the way over...
 	}
+	
+	@SuppressLint("NewApi")
+	private Animator getDrawLineAnimator(){
+		LayoutParams params = (LayoutParams) mSliderLine.getLayoutParams();
+		int margin = mHiddenImage.getWidth()/2;
+		params.width = mContainerWidth - 2*margin;
+		params.leftMargin = margin;
+		params.rightMargin = margin;
+		
+		mSliderLine.setLayoutParams(params);
+		
+		LayoutParams dotParams = (LayoutParams) mSliderDot.getLayoutParams();
+		dotParams.leftMargin = mHiddenImage.getWidth()/2 - mSliderDot.getWidth()/2;
+		mSliderDot.setLayoutParams(dotParams);
+		
+		if(AndroidUtils.getSdkVersion() >= 11){
+			mSliderLine.setPivotX(0);
+		}else{
+			AnimatorProxy.wrap(mSliderLine).setPivotX(0);
+		}
+		ObjectAnimator drawLine = ObjectAnimator.ofFloat(this.mSliderLine, "scaleX", 0,1 );
+		drawLine.addListener(new AnimatorListener(){
 
-	private float getSliderPercentage(int sliderLeft, int maxRight) {
-		return ((float) sliderLeft) / maxRight;
+			@Override
+			public void onAnimationCancel(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				mSliderLine.setVisibility(View.VISIBLE);
+				mSliderDot.setVisibility(View.VISIBLE);
+			}
+			
+		});
+		return drawLine;
+	}
+	
+	private Animator getShowDestAnimator(){
+		ObjectAnimator destAlphaAnimator = ObjectAnimator.ofFloat(this.mDestImage, "alpha", 0,1 );
+		destAlphaAnimator.addListener(new AnimatorListener(){
+			@Override
+			public void onAnimationCancel(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator arg0) {
+			}
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				mDestImage.setVisibility(View.VISIBLE);
+			}
+			
+		});
+		
+		return destAlphaAnimator;
 	}
 
 	private class SliderTouchListener implements OnTouchListener {
@@ -136,12 +260,13 @@ public class SlideToWidget extends RelativeLayout {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			RelativeLayout.LayoutParams sliderParams = (LayoutParams) mSlider.getLayoutParams();
+			RelativeLayout.LayoutParams dragParams = (LayoutParams) mSlider.getLayoutParams();
 
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				//We do this here, because they can't click until the thing is drawn
 				updateMeasurements();
+				activateSlide();
 				touchOffsetX = Math.round(event.getX());
 				fireSlideStart();
 
@@ -149,54 +274,40 @@ public class SlideToWidget extends RelativeLayout {
 			case MotionEvent.ACTION_MOVE:
 				int change = Math.round(event.getX()) - touchOffsetX;
 
-				sliderParams.leftMargin += change;
+				dragParams.leftMargin += change;
 
-				if (sliderParams.leftMargin < 0) {
-					sliderParams.leftMargin = 0;
+				if (dragParams.leftMargin < 0) {
+					dragParams.leftMargin = 0;
 				}
 
-				if (sliderParams.leftMargin > mMaxLeftMargin) {
-					sliderParams.leftMargin = mMaxLeftMargin;
+				if (dragParams.leftMargin > mMaxLeftMargin) {
+					dragParams.leftMargin = mMaxLeftMargin;
 				}
-
-				setTextViewAlpha(mSliderText, 1.0f - getSliderPercentage(sliderParams.leftMargin, mMaxLeftMargin));
-
-				mSlider.setLayoutParams(sliderParams);
-
+				
+				if (dragParams.leftMargin > mTargetLeftMargin){
+					dragParams.leftMargin = mMaxLeftMargin;
+				}
+				mSlider.setLayoutParams(dragParams);
 				break;
 			case MotionEvent.ACTION_UP:
-				if (sliderParams.leftMargin < mTargetLeftMargin) {
-					sliderParams.leftMargin = 0;
+				if (dragParams.leftMargin < mTargetLeftMargin) {
+					dragParams.leftMargin = 0;
 					fireSlideAbort();
+					resetSlider();
 				}
 				else {
-					sliderParams.leftMargin = mMaxLeftMargin;
+					dragParams.leftMargin = mMaxLeftMargin;
+					mDestImage.setImageDrawable(mSlideCompleteDrawable);
+					mSlider.setVisibility(View.INVISIBLE);
 					fireSlideAllTheWay();
 				}
-				setTextViewAlpha(mSliderText, 1.0f - getSliderPercentage(sliderParams.leftMargin, mMaxLeftMargin));
-				mSlider.setLayoutParams(sliderParams);
+				mSlider.setLayoutParams(dragParams);
 
 				break;
 			default:
 				return false;
 			}
 			return true;
-		}
-	}
-
-	/**
-	 * Lame alpha setter for TextViews pre api 11
-	 * @param view
-	 * @param alpha
-	 */
-	private void setTextViewAlpha(TextView view, float alpha) {
-		if (view instanceof TextView) {
-			int iAlpha = Math.round(alpha * 255);
-			TextView tv = (TextView) view;
-			tv.setTextColor(tv.getTextColors().withAlpha(iAlpha));
-			if (tv.getBackground() != null) {
-				tv.getBackground().setAlpha(iAlpha);
-			}
 		}
 	}
 
