@@ -213,9 +213,17 @@ public class LaunchFragment extends Fragment implements LocationListener {
 				mHotelsStreamAdapter.setProperties(searchResponse);
 			}
 
-			// TODO: no properties returned, so figure out something to do here... try again with different params?
+			// Try again with hardcoded destination and incremented checkin/checkout date
 			else {
+				SearchParams searchParams = Db.getSearchParams();
+				searchParams.setSearchLatLon(37.774541, -122.419453);
 
+				searchParams.getCheckInDate().add(Calendar.DATE, 1);
+				searchParams.getCheckOutDate().add(Calendar.DATE, 1);
+
+				Db.setSearchParams(searchParams);
+
+				startHotelSearch();
 			}
 
 		}
