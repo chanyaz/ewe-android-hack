@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,6 +49,8 @@ public class SlideToWidget extends RelativeLayout {
 	private int mTargetLeftMargin;
 
 	private List<ISlideToListener> mSlideToListeners = new ArrayList<ISlideToListener>();
+
+	private boolean mPerformedHapticForTarget;
 
 	public SlideToWidget(Context context) {
 		super(context);
@@ -270,6 +273,9 @@ public class SlideToWidget extends RelativeLayout {
 				touchOffsetX = Math.round(event.getX());
 				fireSlideStart();
 
+				performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				mPerformedHapticForTarget = false;
+
 				break;
 			case MotionEvent.ACTION_MOVE:
 				int change = Math.round(event.getX()) - touchOffsetX;
@@ -283,10 +289,20 @@ public class SlideToWidget extends RelativeLayout {
 				if (dragParams.leftMargin > mMaxLeftMargin) {
 					dragParams.leftMargin = mMaxLeftMargin;
 				}
-				
+
 				if (dragParams.leftMargin > mTargetLeftMargin){
 					dragParams.leftMargin = mMaxLeftMargin;
 				}
+
+				if (!mPerformedHapticForTarget && dragParams.leftMargin >= mTargetLeftMargin) {
+					performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+					mPerformedHapticForTarget = true;
+				}
+
+				if (dragParams.leftMargin < mTargetLeftMargin) {
+					mPerformedHapticForTarget = false;
+				}
+
 				mSlider.setLayoutParams(dragParams);
 				break;
 			case MotionEvent.ACTION_UP:
