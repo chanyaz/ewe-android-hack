@@ -3,9 +3,6 @@ package com.expedia.bookings.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,12 +23,14 @@ import com.expedia.bookings.widget.LaunchStreamAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.location.QuickPowerFriendlyLocationFinder;
 import com.mobiata.android.util.Ui;
 
 import java.util.Calendar;
 
-public class LaunchFragment extends Fragment implements LocationListener {
+public class LaunchFragment extends Fragment {
+
+	private static final boolean DEBUG_ALWAYS_GRAB_NEW_LOCATION = false;
 
 	public static final String TAG = LaunchFragment.class.toString();
 
@@ -39,15 +38,14 @@ public class LaunchFragment extends Fragment implements LocationListener {
 
 	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 
-	private static final double DEFAULT_LAT = 37.387672;
-	private static final double DEFAULT_LON = -122.083511;
-
 	private Context mContext;
 
 	private ListView mHotelsStreamListView;
 	private LaunchStreamAdapter mHotelsStreamAdapter;
 	private ListView mFlightsStreamListView;
 	private LaunchStreamAdapter mFlightsStreamAdapter;
+
+	private QuickPowerFriendlyLocationFinder mLocationFinder;
 
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
@@ -84,47 +82,28 @@ public class LaunchFragment extends Fragment implements LocationListener {
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	public void onStart() {
+		super.onStart();
 
-		SearchResponse searchResponse = Db.getSearchResponse();
-
-		if (searchResponse == null) {
-			Location loc = getLocationAndFindLocationIfNull();
-
-			// TODO: sends off a request for hardcoded location to make debugging easier, find way to properly manage
-			if (loc == null) {
-				SearchParams searchParams = new SearchParams();
-				searchParams.setSearchLatLon(DEFAULT_LAT, DEFAULT_LON);
-				Db.setSearchParams(searchParams);
-
-				startHotelSearch();
-			}
-
-			else {
-				startHotelSearch(loc);
-			}
-		}
+		// Note: We call this here to avoid reusing recycled Bitmaps. Not ideal, but a simple fix for now
+		initViews();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-		startLocationListener();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_SEARCH)) {
-			bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
-		}
+		onReactToUserActive();
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
+	public void onPause() {
+		super.onPause();
 
-		// Note: We call this here to avoid reusing recycled Bitmaps. Not ideal, but a simple fix for now
-		initViews();
+		mLocationFinder.stop();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.unregisterDownloadCallback(KEY_SEARCH);
 	}
 
 	@Override
@@ -135,15 +114,8 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		mHotelsStreamListView.setAdapter(null);
 	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
-
-		stopLocationListener();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.unregisterDownloadCallback(KEY_SEARCH);
-	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Break
 
 	private void initViews() {
 		mHotelsStreamAdapter = new LaunchStreamAdapter(mContext);
@@ -163,6 +135,51 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		}
 	}
 
+	/**
+	 * We want the user to start receiving content ASAP on this screen :P.
+	 */
+	private void onReactToUserActive() {
+
+		// This is useful if you want to test a device's ability to find a new location
+		if (DEBUG_ALWAYS_GRAB_NEW_LOCATION) {
+			mLocationFinder = this.new LocationFinderImpl(mContext);
+			mLocationFinder.find();
+			return;
+		}
+
+		SearchResponse searchResponse = Db.getSearchResponse();
+
+		// No cached hotel data exists, perform the least amount of effort in order to get results on screen by following
+		// the logic below
+		if (searchResponse == null) {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+			// A hotel search is underway, register dl callback in case it was removed
+			if (bd.isDownloading(KEY_SEARCH)) {
+				bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
+			}
+
+			// No cached hotel data and no hotel search downloading...that must mean we need to find a Location!
+			else {
+
+				// Attempt to find last best Location from OS cache
+				long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
+				Location location = LocationServices.getLastBestLocation(mContext, minTime);
+
+				// No cached location found, find a new location update as quickly and low-power as possible
+				if (location == null) {
+					mLocationFinder = this.new LocationFinderImpl(mContext);
+					mLocationFinder.find();
+				}
+
+				// Location found from cache, kick off hotel search
+				else {
+					startHotelSearch(location);
+				}
+			}
+		}
+	}
+
 	private void startHotelSearch(Location loc) {
 		SearchParams searchParams = new SearchParams();
 		searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
@@ -179,18 +196,6 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_SEARCH);
 		bd.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
-	}
-
-	private Location getLocationAndFindLocationIfNull() {
-		long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
-		Location loc = LocationServices.getLastBestLocation(mContext, minTime);
-
-		if (loc == null) {
-			Log.i("Loc not found, starting the location listener");
-			startLocationListener();
-		}
-
-		return loc;
 	}
 
 	private final BackgroundDownloader.Download<SearchResponse> mSearchDownload = new BackgroundDownloader.Download<SearchResponse>() {
@@ -216,17 +221,9 @@ public class LaunchFragment extends Fragment implements LocationListener {
 				mHotelsStreamAdapter.setProperties(searchResponse);
 			}
 
-			// Try again with hardcoded destination and incremented checkin/checkout date
+			// Hotel search failed; user will not see reverse waterfall.
 			else {
-				SearchParams searchParams = Db.getSearchParams();
-				searchParams.setSearchLatLon(DEFAULT_LAT, DEFAULT_LON);
-
-				searchParams.getCheckInDate().add(Calendar.DATE, 1);
-				searchParams.getCheckOutDate().add(Calendar.DATE, 1);
-
-				Db.setSearchParams(searchParams);
-
-				startHotelSearch();
+				// TODO what to do here, I wonder
 			}
 
 		}
@@ -314,105 +311,19 @@ public class LaunchFragment extends Fragment implements LocationListener {
 		}
 	};
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Location Stuff
+	// Location Listener implementation
+	private class LocationFinderImpl extends QuickPowerFriendlyLocationFinder {
 
-	private void startLocationListener() {
-
-		if (!NetUtils.isOnline(mContext)) {
-			// We are not going to be able to find location. uhoh
-			return;
+		public LocationFinderImpl(Context context) {
+			super(context);
 		}
 
-		// Prefer network location (because it's faster).  Otherwise use GPS
-		LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-		String provider = null;
-		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			provider = LocationManager.NETWORK_PROVIDER;
-		}
-		else if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			provider = LocationManager.GPS_PROVIDER;
-		}
-
-		if (provider == null) {
-			Log.w("Could not find a location provider");
-		}
-		else {
-			Log.i("Starting location listener, provider=" + provider);
-			lm.requestLocationUpdates(provider, 0, 0, this);
-		}
-	}
-
-	private void stopLocationListener() {
-		LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-		lm.removeUpdates(this);
-	}
-
-	@Override
-	public void onLocationChanged(Location location) {
-		Log.i("Location found!");
-
-		// TODO: uncomment once we actually want this
-		//		startHotelSearch(location);
-		//
-		//		stopLocationListener();
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Log.w("onStatusChanged(): provider=" + provider + " status=" + status);
-
-		if (status == LocationProvider.OUT_OF_SERVICE) {
-			stopLocationListener();
-			Log.w("Location listener failed: out of service");
-			//      			simulateErrorResponse(R.string.ProviderOutOfService);
-		}
-		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
-			stopLocationListener();
-			Log.w("Location listener failed: temporarily unavailable");
-			//      			simulateErrorResponse(R.string.ProviderTemporarilyUnavailable);
+		@Override
+		public void onLocationChanged(Location location) {
+			super.onLocationChanged(location);
+			startHotelSearch(location);
 		}
 
 	}
 
-	@Override
-	public void onProviderEnabled(String provider) {
-		Log.i("onProviderDisabled(): " + provider);
-
-		// Switch to network if it's now available (because it's much faster)
-		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
-			LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-			lm.removeUpdates(this);
-			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-		}
-
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		Log.w("onProviderDisabled(): " + provider);
-
-		LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-		boolean stillWorking = true;
-
-		// If the NETWORK provider is disabled, switch to GPS (if available)
-		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
-			if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-				lm.removeUpdates(this);
-				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-			}
-			else {
-				stillWorking = false;
-			}
-		}
-		// If the GPS provider is disabled and we were using it, send error
-		else if (provider.equals(LocationManager.GPS_PROVIDER)
-				&& !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			stillWorking = false;
-		}
-
-		if (!stillWorking) {
-			lm.removeUpdates(this);
-		}
-	}
 }
