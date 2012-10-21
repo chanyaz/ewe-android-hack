@@ -1,7 +1,9 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,8 +16,11 @@ public class FlightSearchResponse extends Response {
 
 	private List<Location> mSearchCities;
 
+	private Map<String, String> mAirlineNames;
+
 	public FlightSearchResponse() {
 		mTrips = new ArrayList<FlightTrip>();
+		mAirlineNames = new HashMap<String, String>();
 	}
 
 	public void addTrip(FlightTrip trip) {
@@ -47,6 +52,14 @@ public class FlightSearchResponse extends Response {
 
 	public List<Location> getSearchCities() {
 		return mSearchCities;
+	}
+
+	public void setAirlineNames(Map<String, String> airlineNames) {
+		mAirlineNames = airlineNames;
+	}
+
+	public Map<String, String> getAirlineNames() {
+		return mAirlineNames;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

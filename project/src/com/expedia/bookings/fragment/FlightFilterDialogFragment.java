@@ -163,7 +163,7 @@ public class FlightFilterDialogFragment extends DialogFragment {
 			ToggleButton airlineButton = (ToggleButton) inflater.inflate(R.layout.snippet_airline_button,
 					mAirlineContainer, false);
 
-			final Airline airline = FlightStatsDbUtils.getAirline(airlineCode);
+			final Airline airline = Db.getAirline(airlineCode);
 
 			airlineButton.setText(airline.mAirlineName);
 			airlineButton.setTextOn(airline.mAirlineName);

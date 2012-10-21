@@ -32,6 +32,11 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 	private Map<String, FlightLeg> mLegs;
 
+	// We split this out and weight towards the name of the airline
+	// when it's not an operating airline.
+	private Map<String, String> mAirlineNames;
+	private Map<String, String> mOperatingAirlineNames;
+
 	public FlightSearchResponseHandler(Context context) {
 		mContext = context;
 	}
@@ -42,6 +47,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 		mResponse = new FlightSearchResponse();
 		mLegs = new HashMap<String, FlightLeg>();
+		mAirlineNames = new HashMap<String, String>();
+		mOperatingAirlineNames = new HashMap<String, String>();
 
 		ParserUtils.logActivityId(response);
 
@@ -112,12 +119,21 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			flightCode.mNumber = segmentJson.optString("flightNumber");
 			segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
 
+			if (!mAirlineNames.containsKey(flightCode.mAirlineCode)) {
+				mAirlineNames.put(flightCode.mAirlineCode, segmentJson.optString("airlineName"));
+			}
+
 			// Parse possible operating flight code
 			if (segmentJson.has("operatingAirlineCode")) {
 				FlightCode opFlightCode = new FlightCode();
 				opFlightCode.mAirlineCode = segmentJson.optString("operatingAirlineCode");
 				opFlightCode.mNumber = segmentJson.optString("operatingAirlineFlightNumber");
 				segment.addFlightCode(opFlightCode, Flight.F_OPERATING_AIRLINE_CODE);
+
+				if (!mOperatingAirlineNames.containsKey(opFlightCode.mAirlineCode)) {
+					mOperatingAirlineNames
+							.put(opFlightCode.mAirlineCode, segmentJson.optString("operatingAirlineName"));
+				}
 			}
 
 			// Parse departure
@@ -158,6 +174,10 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 			leg.addSegment(segment);
 		}
+
+		// Put in all airline names, weighting towards non-operating names
+		mOperatingAirlineNames.putAll(mAirlineNames);
+		mResponse.setAirlineNames(mOperatingAirlineNames);
 
 		return leg;
 	}

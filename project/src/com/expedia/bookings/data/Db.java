@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Process;
+import android.text.TextUtils;
 
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
@@ -20,6 +21,8 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
+import com.mobiata.flightlib.data.Airline;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 /**
  * This represents an in-memory database of data for the app.
@@ -99,6 +102,13 @@ public class Db {
 	// Flight search object - represents both the parameters and
 	// the returned results
 	private FlightSearch mFlightSearch = new FlightSearch();
+
+	// Map of airline code --> airline name
+	//
+	// This data can be cached between requests, and we only need to save
+	// it to disk when it becomes dirty.
+	private Map<String, String> mAirlineNames = new HashMap<String, String>();
+	private boolean mAirlineNamesDirty = false;
 
 	// Flight booking response
 	private FlightCheckoutResponse mFlightCheckout;
@@ -369,6 +379,45 @@ public class Db {
 		return sDb.mFlightSearch;
 	}
 
+	public static void addAirlineNames(Map<String, String> airlineNames) {
+		for (String key : airlineNames.keySet()) {
+			String airlineName = airlineNames.get(key);
+			if (!sDb.mAirlineNames.containsKey(key)) {
+				sDb.mAirlineNames.put(key, airlineName);
+				sDb.mAirlineNamesDirty = true;
+			}
+			else {
+				String oldName = sDb.mAirlineNames.get(key);
+				if (oldName.startsWith("/") && !airlineName.startsWith("/")) {
+					sDb.mAirlineNames.put(key, airlineName);
+					sDb.mAirlineNamesDirty = true;
+				}
+			}
+		}
+	}
+
+	public static Airline getAirline(String airlineCode) {
+		// First, get the Airline from FS.db
+		Airline airline = FlightStatsDbUtils.getAirline(airlineCode);
+
+		if (airline == null) {
+			airline = new Airline();
+			airline.mAirlineCode = airlineCode;
+		}
+
+		// Fill in airline name if we have it
+		String airlineName = sDb.mAirlineNames.get(airlineCode);
+		if (!TextUtils.isEmpty(airlineName)) {
+			if (airlineName.startsWith("/")) {
+				airlineName = airlineName.substring(1);
+			}
+
+			airline.mAirlineName = airlineName;
+		}
+
+		return airline;
+	}
+
 	public static void setFlightCheckout(FlightCheckoutResponse response) {
 		sDb.mFlightCheckout = response;
 	}
@@ -562,6 +611,7 @@ public class Db {
 	// Saving/loading data
 
 	private static final String SAVED_FLIGHT_DATA_FILE = "flights-data.db";
+	private static final String SAVED_AIRLINE_DATA_FILE = "airlines-data.db";
 
 	/**
 	 * MAKE SURE TO CALL THIS IN A NON-UI THREAD
@@ -599,6 +649,43 @@ public class Db {
 		}
 	}
 
+	/**
+	 * MAKE SURE TO CALL THIS IN A NON-UI THREAD
+	 */
+	public static boolean saveAirlineDataCache(Context context) {
+		if (!sDb.mAirlineNamesDirty) {
+			Log.d("Would have saved airline data, but it's up to date.");
+		}
+
+		synchronized (sDb) {
+			Log.d("Saving airline data cache...");
+
+			long start = System.currentTimeMillis();
+			try {
+				JSONObject obj = new JSONObject();
+				JSONUtils.putStringMap(obj, "airlineMap", sDb.mAirlineNames);
+				String json = obj.toString();
+				IoUtils.writeStringToFile(SAVED_AIRLINE_DATA_FILE, json, context);
+
+				Log.d("Saved airline data cache in " + (System.currentTimeMillis() - start)
+						+ " ms.  Size of data cache: " + json.length() + " chars");
+
+				sDb.mAirlineNamesDirty = false;
+
+				return true;
+			}
+			catch (Exception e) {
+				// It's not a severe issue if this all fails 
+				Log.w("Failed to save airline data", e);
+				return false;
+			}
+			catch (OutOfMemoryError err) {
+				Log.e("Ran out of memory trying to save airline data cache", err);
+				throw new RuntimeException(err);
+			}
+		}
+	}
+
 	public static boolean loadCachedFlightData(Context context) {
 		Log.d("Trying to load cached flight data...");
 
@@ -621,6 +708,12 @@ public class Db {
 				for (Itinerary itinerary : itineraries) {
 					addItinerary(itinerary);
 				}
+			}
+
+			JSONObject obj2 = new JSONObject(IoUtils.readStringFromFile(SAVED_FLIGHT_DATA_FILE, context));
+			if (obj2.has("airlineMap")) {
+				sDb.mAirlineNames = JSONUtils.getStringMap(obj2, "airlineMap");
+				sDb.mAirlineNamesDirty = false;
 			}
 
 			Log.d("Loaded cached flight data in " + (System.currentTimeMillis() - start) + " ms");
@@ -651,6 +744,7 @@ public class Db {
 			public void run() {
 				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
 				Db.saveFlightDataCache(context);
+				Db.saveAirlineDataCache(context);
 			}
 		})).start();
 	}

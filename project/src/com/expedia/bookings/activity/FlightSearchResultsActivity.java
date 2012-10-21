@@ -487,6 +487,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 			FlightSearch search = Db.getFlightSearch();
 			search.setSearchResponse(response);
+			Db.addAirlineNames(response.getAirlineNames());
 
 			Db.kickOffBackgroundSave(mContext);
 

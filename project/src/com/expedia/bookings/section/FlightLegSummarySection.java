@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
@@ -19,7 +20,6 @@ import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
@@ -112,7 +112,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 		int belowTarget;
 		if (isIndividualFlight && !firstFlight.getPrimaryFlightCode().equals(firstFlight.getOperatingFlightCode())) {
-			Airline airline = FlightStatsDbUtils.getAirline(firstFlight.getOperatingFlightCode().mAirlineCode);
+			Airline airline = Db.getAirline(firstFlight.getOperatingFlightCode().mAirlineCode);
 			mOperatingCarrierTextView.setText(context.getString(R.string.operated_by_TEMPLATE,
 					FormatUtils.formatAirline(airline, context)));
 

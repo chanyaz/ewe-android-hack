@@ -119,7 +119,7 @@ public class FlightLeg implements JSONable {
 				sb.append(", ");
 			}
 
-			sb.append(FlightStatsDbUtils.getAirline(airlineCode).mAirlineName);
+			sb.append(Db.getAirline(airlineCode).mAirlineName);
 		}
 		return sb.toString();
 	}
