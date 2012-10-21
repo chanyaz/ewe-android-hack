@@ -62,15 +62,10 @@ public class LaunchFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_launch, container, false);
 
-		((TextView) v.findViewById(R.id.hotels_label_text_view)).setTypeface(FontCache
-				.getTypeface(FontCache.Font.ROBOTO_LIGHT));
-		((TextView) v.findViewById(R.id.hotels_prompt_text_view)).setTypeface(FontCache
-				.getTypeface(FontCache.Font.ROBOTO_LIGHT));
-
-		((TextView) v.findViewById(R.id.flights_label_text_view)).setTypeface(FontCache
-				.getTypeface(FontCache.Font.ROBOTO_LIGHT));
-		((TextView) v.findViewById(R.id.flights_prompt_text_view)).setTypeface(FontCache
-				.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		FontCache.setTypeface(v, R.id.hotels_label_text_view, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(v, R.id.hotels_prompt_text_view, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(v, R.id.flights_label_text_view, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(v, R.id.flights_prompt_text_view, FontCache.Font.ROBOTO_LIGHT);
 
 		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);

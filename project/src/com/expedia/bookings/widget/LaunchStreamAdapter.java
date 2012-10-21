@@ -121,13 +121,13 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 
 			holder.container = Ui.findView(convertView, R.id.launch_tile_container);
 			holder.titleTextView = Ui.findView(convertView, R.id.launch_tile_title_text_view);
-			holder.titleTextView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+			FontCache.setTypeface(holder.titleTextView, FontCache.Font.ROBOTO_LIGHT);
 
 			holder.distanceTextView = Ui.findView(convertView, R.id.launch_tile_distance_text_view);
-			holder.distanceTextView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+			FontCache.setTypeface(holder.distanceTextView, FontCache.Font.ROBOTO_LIGHT);
 
 			holder.priceTextView = Ui.findView(convertView, R.id.launch_tile_price_text_view);
-			holder.priceTextView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD));
+			FontCache.setTypeface(holder.priceTextView, FontCache.Font.ROBOTO_BOLD);
 
 			convertView.setTag(holder);
 		}
