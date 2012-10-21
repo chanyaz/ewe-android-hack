@@ -7,15 +7,18 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -64,6 +67,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener {
@@ -528,8 +532,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				if (FlightSearchResultsActivity.this.mBgFragment != null) {
 					BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
 					if (cache.isAddingBitmap()) {
+						//Didn't finish in time. Give up.
 						cache.cancelPutBitmap();
 					}
+
 					String key = Db.getBackgroundImageKey();
 					FlightSearchResultsActivity.this.mBgFragment.setBitmap(
 							cache.getBitmap(key, FlightSearchResultsActivity.this),
@@ -554,12 +560,29 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	// Background Image Download
 
 	private Download<BackgroundImageResponse> mBackgroundImageInfoDownload = new Download<BackgroundImageResponse>() {
+		@SuppressWarnings("deprecation")
+		@SuppressLint("NewApi")
 		@Override
 		public BackgroundImageResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, services);
 			String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
-			return services.getFlightsBackgroundImage(code);
+
+			int width, height;
+			if (AndroidUtils.getSdkVersion() >= 13) {
+				Display display = getWindowManager().getDefaultDisplay();
+				Point size = new Point();
+				display.getSize(size);
+				width = size.x;
+				height = size.y;
+			}
+			else {
+				Display display = getWindowManager().getDefaultDisplay(); 
+				width = display.getWidth();
+				height = display.getHeight(); 
+			}
+
+			return services.getFlightsBackgroundImage(code, width, height);
 		}
 	};
 

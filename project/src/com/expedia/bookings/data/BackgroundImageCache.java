@@ -32,6 +32,8 @@ public class BackgroundImageCache {
 	private static final String BLUR_KEY_SUFFIX = "blurkeysuffix";
 	private static final int STACK_BLUR_RADIUS = 10;
 	private static final String DEFAULT_KEY = "defaultkey";
+	private static final int DECODE_IN_SAMPLE_SIZE = 4;//1 is lossless, but it takes too much memory for now...
+	private static final int BLURRED_IMAGE_SIZE_REDUCTION_FACTORY = 4;
 
 	public BackgroundImageCache(Context context) {
 		initMemCache();
@@ -115,7 +117,7 @@ public class BackgroundImageCache {
 					addBitmapToDiskCacheEditorEditor(bgImageEditor, bitmap);
 		
 					if (mCancelAddBitmap) {
-						throw new Exception("Canceled after bg added to cache");
+						throw new Exception("Canceled after bg added to disk cache");
 					}
 		
 					bgImageEditor.commit();
@@ -123,16 +125,6 @@ public class BackgroundImageCache {
 					if(blur){
 						blurredEditor.commit();
 					}
-		
-					if (mCancelAddBitmap) {
-						throw new Exception("Canceled after bg added to cache");
-					}
-					
-					addBitmapToMemoryCache(bmapkey, bitmap);
-					if(blur){
-						addBitmapToMemoryCache(getBlurredKey(bmapkey), blurred);
-					}
-		
 				}
 				catch (Exception ex) {
 					Log.e("Exception adding bitmap:",ex);
@@ -189,9 +181,11 @@ public class BackgroundImageCache {
 
 	private void addDefaultBgToCache(Context context) {
 		Log.d("Adding defaults to cache...");
-		putBitmap(DEFAULT_KEY, BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background), false);
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = DECODE_IN_SAMPLE_SIZE;
+		putBitmap(DEFAULT_KEY, BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background,options), false);
 		putBitmap(getBlurredKey(DEFAULT_KEY),
-				BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background_blurred), false);
+				BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background_blurred,options), false);
 	}
 
 	private String getBlurredKey(String unblurredKey) {
@@ -199,7 +193,13 @@ public class BackgroundImageCache {
 	}
 
 	private Bitmap blur(Bitmap bmapToBlur) {
-		return stackBlurAndDarken(bmapToBlur);
+		//Shrink it, we will have a lot fewer pixels, and they are going to get blurred so nobody should care...
+		int w = bmapToBlur.getWidth()/BLURRED_IMAGE_SIZE_REDUCTION_FACTORY;
+		int h = bmapToBlur.getHeight()/BLURRED_IMAGE_SIZE_REDUCTION_FACTORY;
+		Bitmap shrunk = Bitmap.createScaledBitmap(bmapToBlur, w, h, false);
+		
+		//Blur and darken it
+		return stackBlurAndDarken(shrunk);
 	}
 
 	//This does require some memory...
@@ -475,6 +475,7 @@ public class BackgroundImageCache {
 			}
 			finally {
 				if (stream != null) {
+					stream.flush();
 					stream.close();
 				}
 			}
@@ -492,46 +493,6 @@ public class BackgroundImageCache {
 		return retVal;
 	}
 
-	private boolean addBitmapToDiskCache(String key, Bitmap bitmap) {
-		Log.d(TAG, "addBitmapToDiskCache key:" + key);
-		try {
-			if (mDiskCache.get(key) == null) {
-				Editor editor = mDiskCache.edit(key);
-				while (editor == null) {
-					editor = mDiskCache.edit(key);
-					Thread.sleep(500);
-				}
-
-				OutputStream stream = null;
-				boolean wrote = false;
-				try {
-					stream = new BufferedOutputStream(editor.newOutputStream(0), DISK_WRITE_BUFFER_SIZE);
-					wrote = bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-				}
-				finally {
-					if (stream != null) {
-						stream.close();
-					}
-				}
-				if (wrote) {
-					Log.i(TAG, "Stream wrote successfully");
-					mDiskCache.flush();
-					editor.commit();
-				}
-				else {
-					Log.i(TAG, "Stream write failed");
-					editor.abort();
-					return false;
-				}
-				return true;
-			}
-		}
-		catch (Exception ex) {
-			Log.e(TAG, "Exception loading from disk cache:", ex);
-		}
-		return false;
-	}
-
 	private Bitmap getBitmapFromDiskCache(String key) {
 		Log.d(TAG, "getBitmapFromDiskCache key:" + key);
 		try {
@@ -539,7 +500,9 @@ public class BackgroundImageCache {
 				if (mDiskCache.get(key) != null) {
 					Log.d(TAG, "mDiskCache.get(key) != null");
 					Snapshot snapshot = mDiskCache.get(key);
-					return BitmapFactory.decodeStream(snapshot.getInputStream(0));
+					BitmapFactory.Options options = new BitmapFactory.Options();
+					options.inSampleSize = DECODE_IN_SAMPLE_SIZE;
+					return BitmapFactory.decodeStream(snapshot.getInputStream(0),null,options);
 				}
 			}
 		}

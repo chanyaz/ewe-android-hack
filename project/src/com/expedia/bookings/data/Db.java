@@ -680,6 +680,7 @@ public class Db {
 			try {
 				JSONObject obj = new JSONObject();
 				JSONUtils.putJSONable(obj, "flightSearch", sDb.mFlightSearch);
+				JSONUtils.putJSONable(obj, "backgroundImageInfo", sDb.mBackgroundImageInfo);
 
 				List<Itinerary> itineraryList = new ArrayList<Itinerary>(sDb.mItineraries.values());
 				JSONUtils.putJSONableList(obj, "itineraries", itineraryList);
@@ -758,6 +759,9 @@ public class Db {
 
 			if (obj.has("flightSearch")) {
 				sDb.mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
+			}
+			if(obj.has("backgroundImageInfo")){
+				sDb.mBackgroundImageInfo = JSONUtils.getJSONable(obj, "backgroundImageInfo", BackgroundImageResponse.class);
 			}
 			if (obj.has("itineraries")) {
 				List<Itinerary> itineraries = JSONUtils.getJSONableList(obj, "itineraries", Itinerary.class);
@@ -843,6 +847,7 @@ public class Db {
 			putList(obj, "travelers", sDb.mTravelers);
 			putJsonable(obj, "createTripResponse", sDb.mCreateTripResponse);
 			putJsonable(obj, "couponDiscountRate", sDb.mCouponDiscountRate);
+			putJsonable(obj, "backgroundImageInfo", sDb.mBackgroundImageInfo);
 
 			IoUtils.writeStringToFile(TEST_DATA_FILE, obj.toString(), context);
 		}
@@ -886,6 +891,7 @@ public class Db {
 			sDb.mCreateTripResponse = getJsonable(obj, "createTripResponse", CreateTripResponse.class,
 					sDb.mCreateTripResponse);
 			sDb.mCouponDiscountRate = getJsonable(obj, "couponDiscountRate", Rate.class, sDb.mCouponDiscountRate);
+			sDb.mBackgroundImageInfo = getJsonable(obj,"backgroundImageInfo",BackgroundImageResponse.class,sDb.mBackgroundImageInfo);
 		}
 		catch (Exception e) {
 			Log.w("Could not load db testing", e);

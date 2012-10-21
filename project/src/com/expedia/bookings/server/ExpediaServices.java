@@ -309,9 +309,9 @@ public class ExpediaServices implements DownloadListener {
 	 * @param destinationCode
 	 * @return
 	 */
-	public BackgroundImageResponse getFlightsBackgroundImage(String destinationCode) {
-		String w = "600";
-		String h = "800";
+	public BackgroundImageResponse getFlightsBackgroundImage(String destinationCode, Integer width, Integer height) {
+		String w = width.toString();
+		String h = height.toString();
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("destinationCode", destinationCode));
 		query.add(new BasicNameValuePair("imageWidth", w));
