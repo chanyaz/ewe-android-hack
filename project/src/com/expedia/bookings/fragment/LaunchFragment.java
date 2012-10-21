@@ -100,7 +100,9 @@ public class LaunchFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 
-		mLocationFinder.stop();
+		if (mLocationFinder != null) {
+			mLocationFinder.stop();
+		}
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
