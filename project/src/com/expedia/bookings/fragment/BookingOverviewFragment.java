@@ -717,9 +717,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				else if (mScrollY >= mMidY && mScrollY < mMaxY) {
 					startCheckout();
 				}
-				else {
-					Log.t("midY: %d - maxY: %d - scrollY: %d", mMidY, mMaxY, mScrollY);
-				}
 			}
 
 			return false;
