@@ -5,40 +5,97 @@ import android.util.AttributeSet;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 
-import com.mobiata.android.Log;
-
 public class LaunchStreamListView extends MeasureListView implements OnScrollListener {
 
 	private LaunchStreamListView mSlaveView;
 
 	public LaunchStreamListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		setOnScrollListener(this);
 	}
 
 	public void setSlaveView(LaunchStreamListView slave) {
 		mSlaveView = slave;
-		mSlaveView.setOnScrollListener(this);
 	}
 
-	@Override
-	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-		super.onScrollChanged(l, t, oldl, oldt);
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// OnScrollListener
+	//////////////////////////////////////////////////////////////////////////////////////////
 
-		if (mSlaveView != null) {
-			int top = (mSlaveView.getChildAt(0) == null ? 0 : mSlaveView.getChildAt(0).getTop()) + t - oldt;
-			mSlaveView.setSelectionFromTop(mSlaveView.getFirstVisiblePosition() + 1, top);
-		}
-	}
+	private boolean mDoNotPropogateNextScrollEvent = false;
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		// TODO Auto-generated method stub
+		if (mSlaveView == null) {
+			return;
+		}
 
+		int deltaY = getDistanceScrolled();
+
+		if (mDoNotPropogateNextScrollEvent) {
+			mDoNotPropogateNextScrollEvent = false;
+			return;
+		}
+
+		mSlaveView.scrollListBy(deltaY);
 	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO Auto-generated method stub
+	}
 
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// getDistanceScrolled
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private int mDistanceScrolledPosition;
+	private int mDistanceScrolledOffset;
+
+	// Returns the distance scrolled since the last call to this function.
+	// *** This will only work if all cells in this ListView are the same height.
+	private int getDistanceScrolled() {
+		if (getChildAt(0) == null || getChildAt(1) == null) {
+			return 0;
+		}
+
+		int position = getFirstVisiblePosition();
+		int offset = getChildAt(0).getTop();
+		int height = getChildAt(1).getTop() - offset;
+
+		int deltaY = (mDistanceScrolledPosition - position) * height + (offset - mDistanceScrolledOffset);
+
+		mDistanceScrolledPosition = position;
+		mDistanceScrolledOffset = offset;
+
+		return deltaY;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// scrollListBy()
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private int mScrollByPosition = 0;
+	private int mScrollByTop = 0;
+	private int mScrollByDelta = 0;
+
+	// If this is called twice quickly before a refresh, we need to just increase the distance
+	// instead of replacing it.
+	protected void scrollListBy(int deltaY) {
+		mDoNotPropogateNextScrollEvent = true;
+
+		int position = getFirstVisiblePosition();
+		int top = (getChildAt(0) == null ? 0 : getChildAt(0).getTop());
+		if (mScrollByPosition == position && mScrollByTop == top) {
+			mScrollByDelta += deltaY;
+		}
+		else {
+			mScrollByDelta = deltaY;
+			mScrollByPosition = position;
+			mScrollByTop = top;
+		}
+		if (mScrollByDelta != 0) {
+			setSelectionFromTop(position, top + mScrollByDelta);
+		}
 	}
 }
