@@ -87,11 +87,11 @@ public class BackgroundImageCache {
 	}
 
 	public void putBitmap(final String bmapkey, final Bitmap bitmap, final boolean blur) {
-		Runnable putBitmapRunner = new Runnable(){
+		Runnable putBitmapRunner = new Runnable() {
 
 			@Override
 			public void run() {
-				
+
 				Editor bgImageEditor = null;
 				Editor blurredEditor = null;
 				try {
@@ -101,7 +101,7 @@ public class BackgroundImageCache {
 					if (blur) {
 						blurredEditor = mDiskCache.edit(getBlurredKey(bmapkey));
 					}
-		
+
 					Bitmap blurred = null;
 					if (blur) {
 						blurred = blur(bitmap);
@@ -113,21 +113,21 @@ public class BackgroundImageCache {
 							throw new Exception("Canceled after blurred added to cache");
 						}
 					}
-		
+
 					addBitmapToDiskCacheEditorEditor(bgImageEditor, bitmap);
-		
+
 					if (mCancelAddBitmap) {
 						throw new Exception("Canceled after bg added to disk cache");
 					}
-		
+
 					bgImageEditor.commit();
-					
-					if(blur){
+
+					if (blur) {
 						blurredEditor.commit();
 					}
 				}
 				catch (Exception ex) {
-					Log.e("Exception adding bitmap:",ex);
+					Log.e("Exception adding bitmap:", ex);
 					try {
 						if (bgImageEditor != null) {
 							bgImageEditor.abort();
@@ -183,9 +183,12 @@ public class BackgroundImageCache {
 		Log.d("Adding defaults to cache...");
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = DECODE_IN_SAMPLE_SIZE;
-		putBitmap(DEFAULT_KEY, BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background,options), false);
+		putBitmap(DEFAULT_KEY,
+				BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background, options),
+				false);
 		putBitmap(getBlurredKey(DEFAULT_KEY),
-				BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background_blurred,options), false);
+				BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background_blurred,
+						options), false);
 	}
 
 	private String getBlurredKey(String unblurredKey) {
@@ -194,10 +197,10 @@ public class BackgroundImageCache {
 
 	private Bitmap blur(Bitmap bmapToBlur) {
 		//Shrink it, we will have a lot fewer pixels, and they are going to get blurred so nobody should care...
-		int w = bmapToBlur.getWidth()/BLURRED_IMAGE_SIZE_REDUCTION_FACTORY;
-		int h = bmapToBlur.getHeight()/BLURRED_IMAGE_SIZE_REDUCTION_FACTORY;
+		int w = bmapToBlur.getWidth() / BLURRED_IMAGE_SIZE_REDUCTION_FACTORY;
+		int h = bmapToBlur.getHeight() / BLURRED_IMAGE_SIZE_REDUCTION_FACTORY;
 		Bitmap shrunk = Bitmap.createScaledBitmap(bmapToBlur, w, h, false);
-		
+
 		//Blur and darken it
 		return stackBlurAndDarken(shrunk);
 	}
@@ -502,7 +505,7 @@ public class BackgroundImageCache {
 					Snapshot snapshot = mDiskCache.get(key);
 					BitmapFactory.Options options = new BitmapFactory.Options();
 					options.inSampleSize = DECODE_IN_SAMPLE_SIZE;
-					return BitmapFactory.decodeStream(snapshot.getInputStream(0),null,options);
+					return BitmapFactory.decodeStream(snapshot.getInputStream(0), null, options);
 				}
 			}
 		}

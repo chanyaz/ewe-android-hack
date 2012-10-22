@@ -2,8 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -577,9 +575,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				height = size.y;
 			}
 			else {
-				Display display = getWindowManager().getDefaultDisplay(); 
+				Display display = getWindowManager().getDefaultDisplay();
 				width = display.getWidth();
-				height = display.getHeight(); 
+				height = display.getHeight();
 			}
 
 			return services.getFlightsBackgroundImage(code, width, height);
