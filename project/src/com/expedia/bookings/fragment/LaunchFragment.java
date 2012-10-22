@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.*;
@@ -23,7 +22,7 @@ import com.expedia.bookings.widget.LaunchStreamAdapter;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
-import com.mobiata.android.location.QuickPowerFriendlyLocationFinder;
+import com.mobiata.android.location.LocationFinder;
 import com.mobiata.android.util.Ui;
 
 import java.util.Calendar;
@@ -33,7 +32,6 @@ public class LaunchFragment extends Fragment {
 	private static final boolean DEBUG_ALWAYS_GRAB_NEW_LOCATION = false;
 
 	public static final String TAG = LaunchFragment.class.toString();
-
 	public static final String KEY_SEARCH = "LAUNCH_SCREEN_HOTEL_SEARCH";
 
 	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
@@ -44,8 +42,6 @@ public class LaunchFragment extends Fragment {
 	private LaunchStreamAdapter mHotelsStreamAdapter;
 	private ListView mFlightsStreamListView;
 	private LaunchStreamAdapter mFlightsStreamAdapter;
-
-	private QuickPowerFriendlyLocationFinder mLocationFinder;
 
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
@@ -95,9 +91,7 @@ public class LaunchFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 
-		if (mLocationFinder != null) {
-			mLocationFinder.stop();
-		}
+		stopLocation();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
@@ -111,36 +105,10 @@ public class LaunchFragment extends Fragment {
 		mHotelsStreamListView.setAdapter(null);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Break
-
-	private void initViews() {
-		mHotelsStreamAdapter = new LaunchStreamAdapter(mContext);
-		mHotelsStreamListView.setAdapter(mHotelsStreamAdapter);
-
-		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
-		mHotelsStreamListView.setOnTouchListener(mHotelsListViewOnTouchListener);
-
-		mFlightsStreamAdapter = new LaunchStreamAdapter(mContext);
-		mFlightsStreamListView.setAdapter(mFlightsStreamAdapter);
-
-		mFlightsStreamListView.setOnTouchListener(mFlightsListViewOnTouchListener);
-
-		SearchResponse searchResponse = Db.getSearchResponse();
-		if (Db.getSearchResponse() != null) {
-			mHotelsStreamAdapter.setProperties(searchResponse);
-		}
-	}
-
-	/**
-	 * We want the user to start receiving content ASAP on this screen :P.
-	 */
 	private void onReactToUserActive() {
-
 		// This is useful if you want to test a device's ability to find a new location
 		if (DEBUG_ALWAYS_GRAB_NEW_LOCATION) {
-			mLocationFinder = this.new LocationFinderImpl(mContext);
-			mLocationFinder.find();
+			findLocation();
 			return;
 		}
 
@@ -165,8 +133,7 @@ public class LaunchFragment extends Fragment {
 
 				// No cached location found, find a new location update as quickly and low-power as possible
 				if (location == null) {
-					mLocationFinder = this.new LocationFinderImpl(mContext);
-					mLocationFinder.find();
+					findLocation();
 				}
 
 				// Location found from cache, kick off hotel search
@@ -177,18 +144,35 @@ public class LaunchFragment extends Fragment {
 		}
 	}
 
+	// Location Stuff
+
+	private LocationFinder mLocationFinder;
+
+	private void findLocation() {
+		mLocationFinder = new LocationFinder(mContext) {
+			@Override
+			public void onLocationChanged(Location location) {
+				super.onLocationChanged(location);
+				startHotelSearch(location);
+			}
+		};
+		mLocationFinder.find();
+	}
+
+	private void stopLocation() {
+		if (mLocationFinder != null) {
+			mLocationFinder.stop();
+		}
+	}
+
+	// Hotel search
+
 	private void startHotelSearch(Location loc) {
+		Log.i("Start hotel search");
+
 		SearchParams searchParams = new SearchParams();
 		searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 		Db.setSearchParams(searchParams);
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.cancelDownload(KEY_SEARCH);
-		bd.startDownload(KEY_SEARCH, mSearchDownload, mSearchCallback);
-	}
-
-	private void startHotelSearch() {
-		Log.i("Start hotel search");
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_SEARCH);
@@ -225,6 +209,26 @@ public class LaunchFragment extends Fragment {
 
 		}
 	};
+
+	// View Stuff
+
+	private void initViews() {
+		mHotelsStreamAdapter = new LaunchStreamAdapter(mContext);
+		mHotelsStreamListView.setAdapter(mHotelsStreamAdapter);
+
+		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
+		mHotelsStreamListView.setOnTouchListener(mHotelsListViewOnTouchListener);
+
+		mFlightsStreamAdapter = new LaunchStreamAdapter(mContext);
+		mFlightsStreamListView.setAdapter(mFlightsStreamAdapter);
+
+		mFlightsStreamListView.setOnTouchListener(mFlightsListViewOnTouchListener);
+
+		SearchResponse searchResponse = Db.getSearchResponse();
+		if (Db.getSearchResponse() != null) {
+			mHotelsStreamAdapter.setProperties(searchResponse);
+		}
+	}
 
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
 
@@ -307,20 +311,4 @@ public class LaunchFragment extends Fragment {
 			return false;
 		}
 	};
-
-	// Location Listener implementation
-	private class LocationFinderImpl extends QuickPowerFriendlyLocationFinder {
-
-		public LocationFinderImpl(Context context) {
-			super(context);
-		}
-
-		@Override
-		public void onLocationChanged(Location location) {
-			super.onLocationChanged(location);
-			startHotelSearch(location);
-		}
-
-	}
-
 }
