@@ -42,7 +42,8 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
-public class FlightCheckoutFragment extends Fragment implements AccountButtonClickListener {
+public class FlightCheckoutFragment extends Fragment implements AccountButtonClickListener,
+		ConfirmLogoutDialogFragment.DoLogoutListener {
 
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
 
@@ -181,6 +182,12 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_REFRESH_USER)) {
 			bd.registerDownloadCallback(KEY_REFRESH_USER, mRefreshUserCallback);
+		}
+
+		ConfirmLogoutDialogFragment confirmLogoutFrag = (ConfirmLogoutDialogFragment) getFragmentManager()
+				.findFragmentByTag(ConfirmLogoutDialogFragment.TAG);
+		if (confirmLogoutFrag != null) {
+			confirmLogoutFrag.setDoLogoutListener(this);
 		}
 	}
 
@@ -489,18 +496,26 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	@Override
 	public void accountLogoutClicked() {
+		ConfirmLogoutDialogFragment df = new ConfirmLogoutDialogFragment();
+		df.setDoLogoutListener(this);
+		df.show(this.getFragmentManager(), ConfirmLogoutDialogFragment.TAG);
+	}
+
+	@Override
+	public void doLogout() {
 		// Stop refreshing user (if we're currently doing so)
 		BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
 		mRefreshedUser = false;
 
-		if(!TextUtils.isEmpty(Db.getBillingInfo().getEmail()) && !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())){
-			if(Db.getBillingInfo().getEmail().trim().compareToIgnoreCase(Db.getUser().getPrimaryTraveler().getEmail().trim()) == 0){
+		if (!TextUtils.isEmpty(Db.getBillingInfo().getEmail())
+				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+			if (Db.getBillingInfo().getEmail().trim()
+					.compareToIgnoreCase(Db.getUser().getPrimaryTraveler().getEmail().trim()) == 0) {
 				//We were pulling email from the logged in user, so now we want to remove it.
 				Db.getBillingInfo().setEmail("");
 			}
 		}
-		
-		
+
 		// Sign out user
 		User.signOut(getActivity());
 
@@ -517,7 +532,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser());
 		mRefreshedUser = true;
-		
+
 		Db.getBillingInfo().setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 
 		populateTravelerData();
@@ -547,7 +562,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		public void onDownload(SignInResponse results) {
 			if (results == null || results.hasErrors()) {
 				//The refresh failed, so we just log them out. They can always try to login again.
-				accountLogoutClicked();
+				doLogout();
 			}
 			else {
 				// Update our existing saved data
@@ -570,4 +585,5 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 		public void checkoutInformationIsNotValid();
 	}
+
 }
