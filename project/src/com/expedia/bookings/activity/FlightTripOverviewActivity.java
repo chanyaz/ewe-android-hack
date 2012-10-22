@@ -59,11 +59,12 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
 	public static final String STATE_TAG_STACKED_HEIGHT = "STATE_TAG_STACKED_HEIGHT";
 	public static final String STATE_TAG_UNSTACKED_HEIGHT = "STATE_TAG_UNSTACKED_HEIGHT";
+	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
 
 	public static final int ANIMATION_DURATION = 1000;
 
 	//We only want to load from disk once: when the activity is first started
-	private static boolean sLoaded = false;
+	private boolean mLoadedDbInfo = false;
 
 	private boolean mTransitionHappening = false;
 
@@ -74,7 +75,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
-	private ViewGroup mPriceContainerBottom;
 	private ViewGroup mContentScrollView;
 	private View mBackToOverviewArea;
 
@@ -111,8 +111,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
 		mCheckoutContainer = Ui.findView(this, R.id.trip_checkout_container);
-		mPriceContainerBottom = Ui.findView(this, R.id.trip_price_container_bottom);
 		mBackToOverviewArea = Ui.findView(this, R.id.back_to_overview_area);
+
+		if (savedInstanceState != null) {
+			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false);
+		}
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_MODE)) {
 			mDisplayMode = DisplayMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
@@ -127,7 +130,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_UNSTACKED_HEIGHT)) {
 			mUnstackedHeight = savedInstanceState.getInt(STATE_TAG_UNSTACKED_HEIGHT);
 			mOverviewContainer.setMinimumHeight(mUnstackedHeight);
-
 		}
 
 		mTripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
@@ -201,6 +203,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		out.putString(STATE_TAG_MODE, mDisplayMode.name());
 		out.putInt(STATE_TAG_STACKED_HEIGHT, mStackedHeight);
 		out.putInt(STATE_TAG_UNSTACKED_HEIGHT, mUnstackedHeight);
+		out.putBoolean(STATE_TAG_LOADED_DB_INFO, mLoadedDbInfo);
 	}
 
 	private void clearCCNumber() {
@@ -236,7 +239,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	private void loadCachedData() {
-		if (!sLoaded) {
+		if (!mLoadedDbInfo) {
 
 			BillingInfo billingInfo = Db.getBillingInfo();
 
@@ -310,12 +313,12 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			}
 
 			//We only load from disk once
-			sLoaded = true;
+			mLoadedDbInfo = true;
 		}
 	}
 
 	public void attachCheckout() {
-		boolean refreshCheckoutData = !sLoaded;
+		boolean refreshCheckoutData = !mLoadedDbInfo;
 		loadCachedData();//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
 		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
 		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
