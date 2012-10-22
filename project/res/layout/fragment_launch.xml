@@ -106,7 +106,7 @@
             android:layout_centerHorizontal="true"
             android:background="@android:color/black" />
 
-        <com.expedia.bookings.widget.MeasureListView
+        <com.expedia.bookings.widget.LaunchStreamListView
             android:id="@+id/hotels_stream_list_view"
             style="@style/ExpediaLaunchList"
             android:layout_width="0dp"
@@ -114,7 +114,7 @@
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@id/divider" />
 
-        <com.expedia.bookings.widget.MeasureListView
+        <com.expedia.bookings.widget.LaunchStreamListView
             android:id="@+id/flights_stream_list_view"
             style="@style/ExpediaLaunchList"
             android:layout_width="0dp"

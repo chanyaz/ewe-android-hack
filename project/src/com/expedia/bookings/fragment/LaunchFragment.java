@@ -1,31 +1,34 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Calendar;
+
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
-import com.expedia.bookings.data.*;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.LaunchStreamAdapter;
+import com.expedia.bookings.widget.LaunchStreamListView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
 import com.mobiata.android.util.Ui;
-
-import java.util.Calendar;
 
 public class LaunchFragment extends Fragment {
 
@@ -38,9 +41,9 @@ public class LaunchFragment extends Fragment {
 
 	private Context mContext;
 
-	private ListView mHotelsStreamListView;
+	private LaunchStreamListView mHotelsStreamListView;
 	private LaunchStreamAdapter mHotelsStreamAdapter;
-	private ListView mFlightsStreamListView;
+	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchStreamAdapter mFlightsStreamAdapter;
 
 	public static LaunchFragment newInstance() {
@@ -217,12 +220,11 @@ public class LaunchFragment extends Fragment {
 		mHotelsStreamListView.setAdapter(mHotelsStreamAdapter);
 
 		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
-		mHotelsStreamListView.setOnTouchListener(mHotelsListViewOnTouchListener);
+		mHotelsStreamListView.setSlaveView(mFlightsStreamListView);
 
 		mFlightsStreamAdapter = new LaunchStreamAdapter(mContext);
 		mFlightsStreamListView.setAdapter(mFlightsStreamAdapter);
-
-		mFlightsStreamListView.setOnTouchListener(mFlightsListViewOnTouchListener);
+		mFlightsStreamListView.setSlaveView(mHotelsStreamListView);
 
 		SearchResponse searchResponse = Db.getSearchResponse();
 		if (Db.getSearchResponse() != null) {
@@ -264,51 +266,6 @@ public class LaunchFragment extends Fragment {
 
 			Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
 			mContext.startActivity(intent);
-		}
-	};
-
-	// Note: there is a lot of code duplication between these two onTouchListeners TODO: refactor to one class
-
-	private final View.OnTouchListener mHotelsListViewOnTouchListener = new View.OnTouchListener() {
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			// Set the other ListView onTouchListener to null to ensure there does not exist resonance in touch dispatch
-			mFlightsStreamListView.setOnTouchListener(null);
-
-			// dispatch the touch event to the other ListView such that they will scroll in unison
-			mFlightsStreamListView.dispatchTouchEvent(event);
-
-			// post the resetting of the onTouchListener on ACTION_UP as that is when the ListView is no longer touched
-			if (event.getAction() == MotionEvent.ACTION_UP) {
-				mFlightsStreamListView.post(new Runnable() {
-					@Override
-					public void run() {
-						mFlightsStreamListView.setOnTouchListener(mFlightsListViewOnTouchListener);
-					}
-				});
-			}
-
-			return false;
-		}
-	};
-
-	private final View.OnTouchListener mFlightsListViewOnTouchListener = new View.OnTouchListener() {
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			mHotelsStreamListView.setOnTouchListener(null);
-
-			mHotelsStreamListView.dispatchTouchEvent(event);
-
-			if (event.getAction() == MotionEvent.ACTION_UP) {
-				mHotelsStreamListView.post(new Runnable() {
-					@Override
-					public void run() {
-						mHotelsStreamListView.setOnTouchListener(mHotelsListViewOnTouchListener);
-					}
-				});
-			}
-
-			return false;
 		}
 	};
 }
