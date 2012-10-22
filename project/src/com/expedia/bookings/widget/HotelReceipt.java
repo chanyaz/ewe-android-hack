@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -225,7 +226,16 @@ public class HotelReceipt extends FrameLayout {
 		}
 
 		if (rate.shouldShowFreeCancellation()) {
-			addExtra(mExtrasLayout, R.string.free_cancellation);
+			Date window = rate.getFreeCancellationWindowDate();
+			if (window != null) {
+				DateFormat df = new SimpleDateFormat("hha, MMM dd");
+				String formattedDate = df.format(window);
+				String formattedString = getContext().getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
+				addExtra(mExtrasLayout, Html.fromHtml(formattedString));
+			}
+			else {
+				addExtra(mExtrasLayout, R.string.free_cancellation);
+			}
 		}
 
 		mHotelReceiptMini.updateData(property, searchParams, rate);

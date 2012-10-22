@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,6 +69,7 @@ public class Rate implements JSONable {
 	private int mNumRoomsLeft;
 	private List<String> mValueAdds = new ArrayList<String>();
 	private boolean mHasFreeCancellation = false;
+	private Date mFreeCancellationWindowDate;
 	private boolean mNonRefundable = false;
 
 	// For Expedia, RateRules are provided with with availability response
@@ -522,6 +524,14 @@ public class Rate implements JSONable {
 
 	public boolean hasFreeCancellation() {
 		return mHasFreeCancellation;
+	}
+
+	public void setFreeCancellationWindowDate(Date date) {
+		mFreeCancellationWindowDate = date;
+	}
+
+	public Date getFreeCancellationWindowDate() {
+		return mFreeCancellationWindowDate;
 	}
 
 	public void setNonRefundable(boolean b) {

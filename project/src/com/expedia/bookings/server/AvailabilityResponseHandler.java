@@ -1,5 +1,8 @@
 package com.expedia.bookings.server;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -23,6 +26,7 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.RateRules;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
@@ -284,6 +288,17 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 		rate.setNumberOfNights(numberOfNights);
 
 		rate.setHasFreeCancellation(jsonRate.optBoolean("hasFreeCancellation", false));
+		if (jsonRate.has("freeCancellationWindowDate")) {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+			df.setTimeZone(CalendarUtils.getFormatTimeZone());
+			try {
+				java.util.Date date = df.parse(jsonRate.getString("freeCancellationWindowDate"));
+				rate.setFreeCancellationWindowDate(date);
+			}
+			catch (ParseException e) {
+				Log.d("Failed to parse freeCancellationWindowDate", e);
+			}
+		}
 		rate.setNonRefundable(jsonRate.optBoolean("nonRefundable", false));
 
 		String currencyCode = chargeableRateInfo.getString("currencyCode");
