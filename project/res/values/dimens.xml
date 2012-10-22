@@ -8,7 +8,7 @@
     <dimen name="launch_header_secondary_text_margin">2dp</dimen>
     <dimen name="launch_header_primary_text_size">24sp</dimen>
     <dimen name="launch_header_secondary_text_size">15sp</dimen>
-    <dimen name="launch_tile_band">1px</dimen>
+    <dimen name="launch_tile_band">@dimen/one_px_hdpi_two_px_xhdpi</dimen>
     
     <!-- Plane window view dimens -->
     <!-- These must always be linked -->
@@ -130,7 +130,7 @@
     <!-- Coupon code dimensions -->
     <dimen name="coupon_code_right_width">120dp</dimen>
     <dimen name="coupon_code_right_height">60dp</dimen>
-    <dimen name="one_di_pixel">1dip</dimen>
+    <dimen name="one_px_hdpi_two_px_xhdpi">0.75dip</dimen>
     <dimen name="hotel_row_strikethrough_price_text_size">12dp</dimen>
     <dimen name="actionbar_refinement_width">50dp</dimen>
     <dimen name="popup_filter_row_height">50dp</dimen>

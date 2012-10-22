@@ -41,7 +41,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/one_di_pixel"
+                android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_marginTop="2dp"
@@ -66,7 +66,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/one_di_pixel"
+                android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_marginTop="2dp"

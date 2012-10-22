@@ -27,7 +27,7 @@
 
         <View
             android:id="@+id/vertical_sep"
-            android:layout_width="@dimen/one_di_pixel"
+            android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
             android:layout_height="match_parent"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
@@ -67,7 +67,7 @@
     <FrameLayout
         android:id="@+id/reviews_banner_divider"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/one_di_pixel"
+        android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
         android:background="#efefef"
         android:paddingLeft="15dp"
         android:paddingRight="15dp" >
