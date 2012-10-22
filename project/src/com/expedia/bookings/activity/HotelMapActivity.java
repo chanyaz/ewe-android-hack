@@ -23,6 +23,7 @@ import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.ViewUtils;
 import com.omniture.AppMeasurement;
 
 public class HotelMapActivity extends SherlockFragmentMapActivity implements HotelMapFragmentListener {
@@ -95,6 +96,7 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
 		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_select_hotel, null);
+		ViewUtils.setAllCaps(tv);
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

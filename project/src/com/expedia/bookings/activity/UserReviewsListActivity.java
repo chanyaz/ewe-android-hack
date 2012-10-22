@@ -41,6 +41,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.ViewUtils;
 
 public class UserReviewsListActivity extends SherlockFragmentActivity implements UserReviewsFragmentListener,
 		TabListener, OnPageChangeListener {
@@ -139,6 +140,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
 		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_select_hotel, null);
+		ViewUtils.setAllCaps(tv);
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

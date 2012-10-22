@@ -46,6 +46,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -212,6 +213,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
 		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_select_hotel, null);
+		ViewUtils.setAllCaps(tv);
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
