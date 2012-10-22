@@ -8,9 +8,7 @@
     android:gravity="center_vertical"
     android:paddingLeft="3dp"
     android:paddingRight="8dp"
-    android:text="@string/SELECT"
-    android:textAllCaps="true"
+    android:text="@string/select"
     android:textColor="#ffeb8b"
     android:textSize="12dp"
     android:textStyle="bold" />
-<!-- android:textAllCaps only available in API14 -->

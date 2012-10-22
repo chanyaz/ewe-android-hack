@@ -12,7 +12,6 @@
         android:layout_marginBottom="-10dp"
         android:layout_marginLeft="15dp"
         android:text="@string/expedia_account"
-        android:textAllCaps="true"
         android:textColor="#BBFFFFFF"
         android:textSize="@dimen/data_form_section_header_text"
         android:visibility="gone" />
@@ -27,13 +26,13 @@
         layout="@layout/include_account_button" />
 
     <TextView
+        android:id="@+id/checkout_information_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:text="@string/checkout_information"
-        android:textAllCaps="true"
         android:textColor="#BBFFFFFF"
         android:textSize="@dimen/data_form_section_header_text" />
 

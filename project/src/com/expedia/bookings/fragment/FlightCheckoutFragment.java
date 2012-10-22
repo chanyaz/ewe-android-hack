@@ -40,6 +40,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.ViewUtils;
 
 public class FlightCheckoutFragment extends Fragment implements AccountButtonClickListener {
 
@@ -126,6 +127,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mTravelerContainer = Ui.findView(v, R.id.travelers_container);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mAccountLabel = Ui.findView(v, R.id.expedia_account_label);
+
+		ViewUtils.setAllCaps(mAccountLabel);
+		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.checkout_information_label));
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);

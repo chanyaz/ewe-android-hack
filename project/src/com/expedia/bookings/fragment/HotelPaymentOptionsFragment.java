@@ -26,6 +26,7 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.ViewUtils;
 
 
 public class HotelPaymentOptionsFragment extends Fragment {
@@ -122,6 +123,10 @@ public class HotelPaymentOptionsFragment extends Fragment {
 				}
 			}
 		});
+
+		ViewUtils.setAllCaps(mStoredPaymentsLabel);
+		ViewUtils.setAllCaps(mCurrentPaymentLabel);
+		ViewUtils.setAllCaps(mNewPaymentLabel);
 
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
 

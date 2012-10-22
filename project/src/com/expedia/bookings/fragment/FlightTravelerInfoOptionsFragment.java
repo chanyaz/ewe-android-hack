@@ -31,6 +31,7 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.ViewUtils;
 
 public class FlightTravelerInfoOptionsFragment extends Fragment {
 
@@ -85,6 +86,9 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mSelectTravelerLabelDiv = Ui.findView(v, R.id.select_traveler_label_div);
 		mAssociatedTravelersContainer = Ui.findView(v, R.id.associated_travelers_container);
 		mInternationalDivider = Ui.findView(v, R.id.current_traveler_passport_country_divider);
+
+		ViewUtils.setAllCaps(mEditTravelerLabel);
+		ViewUtils.setAllCaps(mSelectTravelerLabel);
 
 		mEnterManuallyBtn = Ui.findView(v, R.id.enter_info_manually_button);
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {

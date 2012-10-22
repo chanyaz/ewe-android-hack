@@ -19,6 +19,7 @@ import com.expedia.bookings.fragment.BookingOverviewFragment;
 import com.expedia.bookings.fragment.BookingOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.ViewUtils;
 
 public class BookingOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
 		SignInFragmentListener {
@@ -76,6 +77,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 		actionBar.setCustomView(titleView);
 
 		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_checkout, null);
+		ViewUtils.setAllCaps(tv);
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

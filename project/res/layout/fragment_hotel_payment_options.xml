@@ -20,7 +20,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="10dp"
             android:text="@string/edit_current_payment_details"
-            android:textAllCaps="true"
             android:textColor="@color/data_entry_heading"
             android:textSize="@dimen/data_form_section_header_text"
             android:textStyle="bold" />
@@ -80,7 +79,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="10dp"
             android:text="@string/stored_payment_label"
-            android:textAllCaps="true"
             android:textColor="@color/data_entry_heading"
             android:textSize="@dimen/data_form_section_header_text"
             android:textStyle="bold" />
@@ -107,7 +105,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="10dp"
             android:text="@string/or_select_new_paymet_method"
-            android:textAllCaps="true"
             android:textColor="@color/data_entry_heading"
             android:textSize="@dimen/data_form_section_header_text"
             android:textStyle="bold" />

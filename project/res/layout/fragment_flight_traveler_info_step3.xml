@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:text="@string/passport_country_origin"
-        android:textAllCaps="true"
         android:textColor="@color/data_entry_heading"
         android:textSize="@dimen/data_form_section_header_text"
         android:textStyle="bold" />

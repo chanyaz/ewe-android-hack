@@ -36,6 +36,7 @@ import com.expedia.bookings.widget.NumberPicker.Formatter;
 import com.expedia.bookings.widget.NumberPicker.OnValueChangeListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 import com.mobiata.android.widget.NumberPicker.OnChangedListener;
@@ -109,6 +110,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		for (SectionField<?, BillingInfo> field : mFields) {
 			field.bindField(this);
+		}
+
+		if (findViewById(R.id.cardholder_label) != null) {
+			ViewUtils.setAllCaps((TextView) findViewById(R.id.cardholder_label));
 		}
 
 	}

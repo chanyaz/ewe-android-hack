@@ -27,6 +27,7 @@ import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.ViewUtils;
 
 public class FlightPaymentOptionsFragment extends Fragment {
 
@@ -91,6 +92,10 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		mCurrentStoredPaymentContainer = Ui.findView(v, R.id.current_stored_payment_container);
 
 		mNewCreditCardBtn = Ui.findView(v, R.id.new_payment_new_card);
+
+		ViewUtils.setAllCaps(mStoredPaymentsLabel);
+		ViewUtils.setAllCaps(mCurrentPaymentLabel);
+		ViewUtils.setAllCaps(mNewPaymentLabel);
 
 		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
 			@Override
