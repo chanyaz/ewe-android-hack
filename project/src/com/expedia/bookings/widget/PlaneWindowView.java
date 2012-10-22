@@ -165,6 +165,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		private int mCanvasWidth;
 		private int mCanvasHeight;
 
+		private int mBgColor;
+
 		private Bitmap mWindowFrameBitmap;
 		private Bitmap mWindowShadeBitmap;
 		private Bitmap mSkyBitmap;
@@ -236,9 +238,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			mSurfaceHolder = surfaceHolder;
 
 			Resources res = getResources();
-			mWindowFrameBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_window_frame);
-
 			mMaxTranslationY = res.getDisplayMetrics().density * MAX_TRANSLATION_Y;
+			mBgColor = res.getColor(R.color.plane_window_background);
 
 			mSkyPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
@@ -257,12 +258,26 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 			// synchronized to make sure these all change atomically
 			synchronized (mSurfaceHolder) {
+				Resources res = getResources();
+
 				mCanvasWidth = width;
 				mCanvasHeight = height;
 
-				// Configure drawing based on new surface size
+				// Resize the window frame to make it match the maximum dimension for the surface
+				mWindowFrameBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_window_frame);
 				int windowFrameWidth = mWindowFrameBitmap.getWidth();
 				int windowFrameHeight = mWindowFrameBitmap.getHeight();
+				float scale;
+				if (windowFrameWidth * mCanvasHeight > windowFrameHeight * mCanvasWidth) {
+					scale = (float) mCanvasWidth / (float) windowFrameWidth;
+				}
+				else {
+					scale = (float) mCanvasHeight / (float) windowFrameHeight;
+				}
+				windowFrameWidth *= scale;
+				windowFrameHeight *= scale;
+				mWindowFrameBitmap = Bitmap.createScaledBitmap(mWindowFrameBitmap, windowFrameWidth, windowFrameHeight,
+						true);
 
 				// Calculate where to place the window frame
 				mFrameLeft = mCanvasWidth / 2 - (windowFrameWidth / 2);
@@ -298,12 +313,12 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					double padLeftRight = diagonal - (mVisibleFrameWidth / 2);
 					double padTopBot = diagonal - (mVisibleFrameHeight / 2);
 					mSkyDstFull = new Rect((int) (mVisibleFrameRect.left - padLeftRight),
-							(int) (mVisibleFrameRect.top - padTopBot - MAX_TRANSLATION_Y),
+							(int) (mVisibleFrameRect.top - padTopBot - mMaxTranslationY),
 							(int) (mVisibleFrameRect.right + padLeftRight),
-							(int) (mVisibleFrameRect.bottom + padTopBot + MAX_TRANSLATION_Y));
+							(int) (mVisibleFrameRect.bottom + padTopBot + mMaxTranslationY));
 
 					// Pre-scale sky bitmap
-					mSkyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading_repeating_sky, opts);
+					mSkyBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_repeating_sky, opts);
 					int skyWidth = (int) Math.round(mSkyBitmap.getWidth()
 							* ((double) mSkyDstFull.height() / (double) mSkyBitmap.getHeight()));
 					mSkyBitmap = Bitmap.createScaledBitmap(mSkyBitmap, skyWidth, mSkyDstFull.height(), true);
@@ -316,14 +331,14 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				}
 				else {
 					// Setup simple image to be drawn, as the plane is grounded
-					mGroundedBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading_grounded, opts);
+					mGroundedBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_grounded, opts);
 					mGroundedBitmap = Bitmap.createScaledBitmap(mGroundedBitmap, mVisibleFrameWidth,
 							mVisibleFrameHeight, true);
 				}
 
 				// Pre-scale shade
 				mWindowShadeBitmap = BitmapFactory
-						.decodeResource(getResources(), R.drawable.loading_window_shade, opts);
+						.decodeResource(res, R.drawable.loading_window_shade, opts);
 				mWindowShadeBitmap = Bitmap.createScaledBitmap(mWindowShadeBitmap, mVisibleFrameWidth,
 						(int) Math.ceil(mVisibleFrameHeight * 1.05), true);
 				mShadeHeight = mWindowShadeBitmap.getHeight();
@@ -528,7 +543,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		private void doDraw(Canvas canvas) {
 			// Fill the background color
-			canvas.drawARGB(255, 202, 202, 202);
+			canvas.drawColor(mBgColor);
 
 			if (!mIsGrounded) {
 				// Draw the sky

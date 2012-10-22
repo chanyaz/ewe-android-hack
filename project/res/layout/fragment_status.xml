@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/plane_window_background" >
 
     <com.expedia.bookings.widget.PlaneWindowView
         android:id="@+id/plane_window_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="@dimen/plane_window_height"
+        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/message_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/plane_window_text_offset"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
         android:gravity="center"
         android:textColor="#575757"
         android:textSize="18sp"
@@ -25,6 +27,6 @@
         android:id="@+id/cover_up_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#CACACA" />
+        android:background="@color/plane_window_background" />
 
-</RelativeLayout>
+</FrameLayout>

@@ -9,6 +9,11 @@
     <dimen name="launch_header_primary_text_size">24sp</dimen>
     <dimen name="launch_header_secondary_text_size">15sp</dimen>
     <dimen name="launch_tile_band">1px</dimen>
+    
+    <!-- Plane window view dimens -->
+    <!-- These must always be linked -->
+    <dimen name="plane_window_height">350dp</dimen>
+    <dimen name="plane_window_text_offset">150dp</dimen>
 
     <!-- Flights dimens -->
    	<dimen name="simple_grey_divider_height">1dp</dimen>
