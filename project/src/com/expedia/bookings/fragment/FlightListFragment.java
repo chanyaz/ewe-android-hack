@@ -7,6 +7,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
@@ -29,6 +30,8 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
@@ -100,7 +103,7 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 			return null;
 		}
 
-		View v = inflater.inflate(R.layout.fragment_flight_list, container, false);
+		final View v = inflater.inflate(R.layout.fragment_flight_list, container, false);
 
 		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, true);
 
@@ -147,6 +150,15 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 					query.getMaxTime());
 		}
 
+		v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+				mListener.onFlightListLayout(FlightListFragment.this);
+			}
+		});
+
 		return v;
 	}
 
@@ -174,9 +186,22 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		// Notify that a flight leg was clicked
 		FlightTrip trip = mAdapter.getItem(position - numHeaderViews);
 		FlightLeg leg = trip.getLeg(mLegPosition);
-		mListener.onFlightLegClick(trip, leg, mLegPosition);
+		mListener.onFlightLegClick(trip, leg, mLegPosition, v.getTop(), v.getBottom());
 
 		OmnitureTracking.trackLinkFlightSearchSelect(getActivity(), position - numHeaderViews + 1, mLegPosition);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Animators
+
+	// Mimics current Animator setup
+	public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+		View v = getView();
+		if (v != null) {
+			float[] values = (enter) ? new float[] { 0, 1 } : new float[] { 1, 0 };
+			return ObjectAnimator.ofFloat(v, "alpha", values);
+		}
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -218,7 +243,9 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 	// FlightListFragmentListener
 
 	public interface FlightListFragmentListener {
-		public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition);
+		public void onFlightListLayout(FlightListFragment fragment);
+
+		public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition, int legTop, int legBottom);
 
 		public void onDeselectFlightLeg();
 

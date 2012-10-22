@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,9 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class FlightDetailsFragment extends Fragment {
 
@@ -39,15 +43,23 @@ public class FlightDetailsFragment extends Fragment {
 	private static final String ARG_TRIP_LEG = "ARG_TRIP_LEG";
 	private static final String ARG_LEG_POSITION = "ARG_LEG_POSITION";
 
+	private FlightDetailsFragmentListener mListener;
+
 	// Cached views
 	private ScrollView mScrollView;
 	private ViewGroup mInfoContainer;
+	private InfoBarSection mInfoBar;
 	private TextView mBaggageInfoTextView;
 
 	// Cached copies, not to be stored
 	private FlightTripLeg mFlightTripLeg;
 	private FlightTrip mFlightTrip;
 	private FlightLeg mFlightLeg;
+
+	// Temporary data set for animation
+	private boolean mBaggageInScrollView;
+	private int mStartAnimTop;
+	private int mStartAnimBottom;
 
 	public static FlightDetailsFragment newInstance(FlightTrip trip, FlightLeg leg, int legPosition) {
 		FlightDetailsFragment fragment = new FlightDetailsFragment();
@@ -59,21 +71,36 @@ public class FlightDetailsFragment extends Fragment {
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (activity instanceof FlightDetailsFragmentListener) {
+			mListener = (FlightDetailsFragmentListener) activity;
+		}
+		else {
+			throw new RuntimeException("FlightDetailsFragment activity must implement listener!");
+		}
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_details, container, false);
+		final View v = inflater.inflate(R.layout.fragment_flight_details, container, false);
 
 		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
 
 		FlightTrip trip = getFlightTrip();
 		FlightLeg leg = getFlightLeg();
 
+		// Cache views
+		mScrollView = Ui.findView(v, R.id.flight_info_scroll_view);
+		mInfoContainer = Ui.findView(v, R.id.flight_info_container);
+		mInfoBar = Ui.findView(v, R.id.info_bar);
+		mBaggageInfoTextView = Ui.findView(v, R.id.baggage_fee_text_view);
+
 		// Format header
-		InfoBarSection infoBar = Ui.findView(v, R.id.info_bar);
-		infoBar.bindFlightDetails(trip, leg);
+		mInfoBar.bindFlightDetails(trip, leg);
 
 		// Format content
-		mInfoContainer = Ui.findView(v, R.id.flight_info_container);
-
 		// Depart from row
 		FlightInfoSection departFromSection = FlightInfoSection.inflate(inflater, container);
 		departFromSection.bind(R.drawable.ic_departure_arrow_small, getString(R.string.depart_from_TEMPLATE,
@@ -113,7 +140,6 @@ public class FlightDetailsFragment extends Fragment {
 				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).mDestination)));
 		mInfoContainer.addView(arriveAtSection);
 
-		mBaggageInfoTextView = Ui.findView(v, R.id.baggage_fee_text_view);
 		mBaggageInfoTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -126,13 +152,17 @@ public class FlightDetailsFragment extends Fragment {
 			}
 		});
 
-		// This is for determining whether the baggage info text view should
-		// appear on the bottom of the screen or scrolling with the content
-		mScrollView = Ui.findView(v, R.id.flight_info_scroll_view);
-		mScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+		// We set the entire view invisible at first, so we can measure where we want everything to end up
+		v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				if (mScrollView.getHeight() < mInfoContainer.getHeight()) {
+				// Remove the global layout listener, since we only want to do this once
+				v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+				// This is for determining whether the baggage info text view should
+				// appear on the bottom of the screen or scrolling with the content
+				mBaggageInScrollView = mScrollView.getHeight() < mInfoContainer.getHeight();
+				if (mBaggageInScrollView) {
 					// Move baggage container to the info container 
 					((ViewGroup) mBaggageInfoTextView.getParent()).removeView(mBaggageInfoTextView);
 					mInfoContainer.addView(mBaggageInfoTextView);
@@ -145,8 +175,7 @@ public class FlightDetailsFragment extends Fragment {
 					lp.bottomMargin = 0;
 				}
 
-				// Remove the listener so this only happens once
-				mScrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				mListener.onFlightDetailsLayout(FlightDetailsFragment.this);
 			}
 		});
 
@@ -179,5 +208,63 @@ public class FlightDetailsFragment extends Fragment {
 			mFlightLeg = getFlightTripLeg().getFlightLeg();
 		}
 		return mFlightLeg;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Animators
+
+	// Mimics current Animator setup
+	public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+		View v = getView();
+		if (v != null) {
+			float[] values = (enter) ? new float[] { 0, 1 } : new float[] { 1, 0 };
+			return ObjectAnimator.ofFloat(v, "alpha", values);
+		}
+		return null;
+	}
+
+	public Animator createEnterFromListAnimator() {
+		View v = getView();
+
+		if (v == null) {
+			return null;
+		}
+
+		// Here are animations!
+		int center = (mStartAnimBottom + mStartAnimTop) / 2;
+		int childCount = mInfoContainer.getChildCount();
+
+		// Animate the individual cards
+		AnimatorSet set = new AnimatorSet();
+		for (int a = 0; a < childCount; a++) {
+			View child = mInfoContainer.getChildAt(a);
+			set.play(ObjectAnimator.ofFloat(child, "translationY", center - child.getTop(), 0));
+		}
+
+		// Animate the header down
+		set.play(ObjectAnimator.ofFloat(mInfoBar, "translationY", -mInfoBar.getHeight(), 0));
+
+		// Animate the baggage fee up (if it's not part of the scrollview)
+		if (!mBaggageInScrollView) {
+			set.play(ObjectAnimator.ofFloat(mBaggageInfoTextView, "translationY",
+					mBaggageInfoTextView.getHeight(), 0));
+		}
+
+		// Make the entire screen fade in
+		set.play(ObjectAnimator.ofFloat(v, "alpha", 0.0f, 1.0f));
+
+		return set;
+	}
+
+	public void setAnimParams(int topY, int bottomY) {
+		mStartAnimTop = topY;
+		mStartAnimBottom = bottomY;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Listener
+
+	public interface FlightDetailsFragmentListener {
+		public void onFlightDetailsLayout(FlightDetailsFragment fragment);
 	}
 }
