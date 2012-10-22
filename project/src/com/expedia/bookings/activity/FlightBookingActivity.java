@@ -5,23 +5,23 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
@@ -36,7 +36,6 @@ import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
@@ -81,6 +80,10 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		}
 
 		setContentView(R.layout.activity_flight_booking);
+
+		ViewGroup outerContainer = Ui.findView(this, R.id.outer_container);
+		BitmapDrawable bg = new BitmapDrawable(getResources(), Db.getBackgroundImage(this, true));
+		outerContainer.setBackgroundDrawable(bg);
 
 		setTitle(R.string.title_complete_booking);
 

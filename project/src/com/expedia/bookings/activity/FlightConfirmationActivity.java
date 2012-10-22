@@ -69,6 +69,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 		if (savedInstanceState == null) {
 			mBgFragment = new BlurredBackgroundFragment();
+			mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.add(R.id.background_container, mBgFragment, BlurredBackgroundFragment.TAG);
@@ -77,6 +78,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		}
 		else {
 			mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
+			mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
 		}
 
 		// Action bar setup

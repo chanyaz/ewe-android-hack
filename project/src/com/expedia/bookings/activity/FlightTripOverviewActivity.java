@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -102,6 +103,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				NavUtils.onDataMissing(this);
 			}
 		}
+
+		ViewGroup outerContainer = Ui.findView(this, R.id.outer_container);
+		BitmapDrawable bg = new BitmapDrawable(getResources(), Db.getBackgroundImage(this, true));
+		outerContainer.setBackgroundDrawable(bg);
 
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);

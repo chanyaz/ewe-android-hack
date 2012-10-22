@@ -61,14 +61,14 @@ public class BackgroundImageCache {
 		Bitmap ret = null;
 		ret = getBitmapFromMemoryCache(key);
 		if (ret == null) {
-			Log.i(TAG, "MemCache miss!");
+			Log.d(TAG, "MemCache miss!");
 			ret = getBitmapFromDiskCache(key);
 			if (ret != null) {
-				Log.i(TAG, "DiskCache hit!");
+				Log.d(TAG, "DiskCache hit!");
 				addBitmapToMemoryCache(key, ret);
 			}
 			else {
-				Log.i(TAG, "DiskCache miss! (revert to default)");
+				Log.d(TAG, "DiskCache miss! (revert to default)");
 				//We put the default in the cache
 				if (DEFAULT_KEY.equals(key)) {
 					addDefaultBgToCache(context);
