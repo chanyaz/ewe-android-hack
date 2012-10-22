@@ -25,9 +25,15 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	private BookingOverviewFragment mBookingOverviewFragment;
 	private MenuItem mCheckoutMenuItem;
 
+	private ActivityKillReceiver mKillReceiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mKillReceiver = new ActivityKillReceiver(this);
+		mKillReceiver.onCreate();
+
 		setContentView(R.layout.activity_booking_overview);
 
 		mBookingOverviewFragment = (BookingOverviewFragment) getSupportFragmentManager().findFragmentById(
