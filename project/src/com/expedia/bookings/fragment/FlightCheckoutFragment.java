@@ -493,6 +493,14 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
 		mRefreshedUser = false;
 
+		if(!TextUtils.isEmpty(Db.getBillingInfo().getEmail()) && !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())){
+			if(Db.getBillingInfo().getEmail().trim().compareToIgnoreCase(Db.getUser().getPrimaryTraveler().getEmail().trim()) == 0){
+				//We were pulling email from the logged in user, so now we want to remove it.
+				Db.getBillingInfo().setEmail("");
+			}
+		}
+		
+		
 		// Sign out user
 		User.signOut(getActivity());
 
@@ -509,6 +517,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser());
 		mRefreshedUser = true;
+		
+		Db.getBillingInfo().setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 
 		populateTravelerData();
 

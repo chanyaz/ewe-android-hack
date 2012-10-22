@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightBookingActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget;
@@ -54,7 +56,15 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 
 			@Override
 			public void onSlideAllTheWay() {
+
+				//Ensure proper email address
+				if (User.isLoggedIn(getActivity()) && !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+					//This should always be a valid email because it is the account email
+					Db.getBillingInfo().setEmail(Db.getUser().getPrimaryTraveler().getEmail());
+				}
+
 				Db.getBillingInfo().save(getActivity());
+
 				Intent intent = new Intent(getActivity(), FlightBookingActivity.class);
 				startActivity(intent);
 
@@ -77,7 +87,7 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(mSlider != null){
+		if (mSlider != null) {
 			mSlider.resetSlider();
 		}
 	}
