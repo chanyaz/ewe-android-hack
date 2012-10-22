@@ -29,9 +29,9 @@ public class FlightsUITest extends ActivityInstrumentationTestCase2<SearchActivi
 
 	private void flip() {
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(1000);
+		solo.sleep(2000);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(1000);
+		solo.sleep(2000);
 	}
 	
 	@Override
@@ -43,22 +43,21 @@ public class FlightsUITest extends ActivityInstrumentationTestCase2<SearchActivi
 		Log.d(TAG, "################### BEGIN TEST ######################");
 	}
 
-	public void testHappyPath() {
+	public void testWithRotations1WayUpToCheckout() throws Exception {
+		
 		solo.clickOnView(solo.getView(R.id.flights_button));
 		FlightsInputUtils.performFlightSearch(instr, solo, "SFO", "NYC", 10, R.id.search);
 		RobotiumWorkflowUtils.waitForListViewToPopulate(solo, mExpediaBookingsRfileFields);
+		Log.d(TAG, "at search results");
 		flip();
 		solo.clickInList(2);
 		flip();
+		Log.d(TAG, "selecting flight");
 		solo.clickOnView(solo.getView(R.id.select_button));
 		flip();
-		solo.clickInList(2);
-		flip();
-		solo.clickOnView(solo.getView(R.id.select_button));
-		flip();
+		Log.d(TAG, "selecting checkout");
 		solo.clickOnView(solo.getView(R.id.menu_checkout));
 		flip();
-		solo.clickOnView(solo.getView(R.id.traveler_info_btn));
 		
 		testRanThroughCompletion = true;
 	}
@@ -69,8 +68,8 @@ public class FlightsUITest extends ActivityInstrumentationTestCase2<SearchActivi
 		Log.d(TAG, "in tearDown()");
 		Log.d(TAG, "testRanThrougCompletion: " + testRanThroughCompletion);
 		assertTrue(testRanThroughCompletion);
-		Log.d(TAG, "sleeping");
-		solo.sleep(5000);
+		Log.d(TAG, "sleeping 3s");
+		solo.sleep(3000);
 		//Robotium will finish all the activities that have been opened
 		solo.finishOpenedActivities();
 	}	
