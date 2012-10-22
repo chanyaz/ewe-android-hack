@@ -54,7 +54,12 @@ public class FlightTripPriceFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null) {
+		if (savedInstanceState == null) {
+			// If we somehow get back here and a download is already in progress, cancel it so
+			// we don't accidentally use the results of the last details query.
+			BackgroundDownloader.getInstance().cancelDownload(KEY_DETAILS);
+		}
+		else {
 			mRequestedDetails = savedInstanceState.getBoolean(INSTANCE_REQUESTED_DETAILS, false);
 			mPriceChangeString = savedInstanceState.getString(INSTANCE_PRICE_CHANGE);
 		}
