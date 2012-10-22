@@ -214,7 +214,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		if (savedInstanceState != null) {
 			mAttemptedDownload = savedInstanceState.getBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, false);
 			boolean reincarnatedReviews = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEWS, false);
-			if (reincarnatedReviews) {
+			if (reincarnatedReviews && Db.getSelectedReviewsStatisticsResponse() != null) {
 				mRecommendedReviewCount = savedInstanceState.getInt(INSTANCE_RECOMMENDED_REVIEW_COUNT);
 				mTotalReviewCount = savedInstanceState.getInt(INSTANCE_TOTAL_REVIEW_COUNT);
 
