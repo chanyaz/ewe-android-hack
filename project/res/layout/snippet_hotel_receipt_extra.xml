@@ -6,6 +6,8 @@
     android:drawableLeft="@drawable/ic_overview_checkmark"
     android:drawablePadding="6dp"
     android:gravity="center_vertical"
+    android:paddingBottom="6dp"
+    android:paddingTop="6dp"
     android:textColor="@color/dark_blue"
     android:textSize="12sp"
     android:textStyle="bold" />

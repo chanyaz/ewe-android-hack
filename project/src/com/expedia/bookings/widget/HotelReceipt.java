@@ -225,6 +225,10 @@ public class HotelReceipt extends FrameLayout {
 			addTextRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
 		}
 
+		if (LocaleUtils.getBestPriceGuaranteeUrl(getContext()) != null) {
+			addExtra(mExtrasLayout, R.string.best_price_guarantee);
+		}
+
 		if (rate.shouldShowFreeCancellation()) {
 			Date window = rate.getFreeCancellationWindowDate();
 			if (window != null) {

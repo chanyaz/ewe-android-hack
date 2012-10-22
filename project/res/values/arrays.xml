@@ -1415,4 +1415,54 @@
         <item>Mga Patakaran</item>
     </string-array>
 
+    <string-array name="best_price_guarantee_urls_map">
+        <item>@string/point_of_sale_be</item>
+        <item>best_price_guarantee_url_be</item>
+
+        <item>@string/point_of_sale_de</item>
+        <item>http://www.expedia.de/daily/service/price-guarantee/default.aspx?rfrr=-57394</item>
+
+        <item>@string/point_of_sale_dk</item>
+        <item>http://www.expedia.dk/dk/prisgaranti.aspx?rfrr=-57600</item>
+
+        <item>@string/point_of_sale_es</item>
+        <item>http://www.expedia.es/garantia-de-precio.aspx?rfrr=-57600</item>
+
+        <item>@string/point_of_sale_fr</item>
+        <item>http://www.expedia.fr/daily/service/price-guarantee/default.aspx?rfrr=-57394</item>
+
+        <item>@string/point_of_sale_ie</item>
+        <item>http://www.expedia.ie/en-IE/price-guarantee.aspx</item>
+
+        <item>@string/point_of_sale_in</item>
+        <item>http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</item>
+
+        <item>@string/point_of_sale_it</item>
+        <item>http://www.expedia.it/daily/service/price-guarantee/default.aspx?rfrr=-57394</item>
+
+        <item>@string/point_of_sale_my</item>
+        <item>http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</item>
+
+        <item>@string/point_of_sale_nl</item>
+        <item>http://www.expedia.nl/prijsgarantie.aspx?rfrr=-57600</item>
+
+        <item>@string/point_of_sale_no</item>
+        <item>http://www.expedia.no/no/prisgaranti.aspx?rfrr=-57600</item>
+
+        <item>@string/point_of_sale_ph</item>
+        <item>http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</item>
+
+        <item>@string/point_of_sale_se</item>
+        <item>http://www.expedia.se/se/prisgaranti.aspx?rfrr=-57600</item>
+
+        <item>@string/point_of_sale_sg</item>
+        <item>http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</item>
+
+        <item>@string/point_of_sale_uk</item>
+        <item>http://www.expedia.co.uk/daily/service/price-guarantee/default.aspx?rfrr=-57394</item>
+
+        <item>@string/point_of_sale_us</item>
+        <item>http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</item>
+    </string-array>
+
 </resources>
