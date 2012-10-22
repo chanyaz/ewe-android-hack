@@ -405,6 +405,13 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
 		boolean travelerValid = hasValidTravlers();
 
+		if (mInCheckout && travelerValid && paymentAddressValid && paymentCCValid) {
+			showSlideToPurchsaeView();
+		}
+		else {
+			hideSlideToPurchaseView();
+		}
+
 		if (travelerValid) {
 			mTravelerButton.setVisibility(View.GONE);
 			mTravelerSection.setVisibility(View.VISIBLE);
@@ -440,6 +447,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mBookingOverviewFragmentListener.checkoutStarted();
 		}
 
+		mInCheckout = true;
+
 		// Scroll to checkout
 		mScrollView.post(new Runnable() {
 			@Override
@@ -447,9 +456,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				mScrollView.smoothScrollTo(0, mScrollViewListener.getMaxY());
 			}
 		});
-
-		mInCheckout = true;
-		//showSlideToPurchsaeView();
+		updateViewVisibilities();
 	}
 
 	public void endCheckout() {
@@ -466,7 +473,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				mScrollView.smoothScrollTo(0, 0);
 			}
 		});
-		hideSlideToPurchaseView();
+		updateViewVisibilities();
 	}
 
 	// Hide/show slide to purchase view
