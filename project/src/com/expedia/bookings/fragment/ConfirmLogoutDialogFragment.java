@@ -32,7 +32,7 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Builder builder = new Builder(getActivity());
-		builder.setMessage(R.string.are_you_sure_you_want_to_logout);
+		builder.setMessage(R.string.logout_confirmation);
 		builder.setPositiveButton(R.string.log_out, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
