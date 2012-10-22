@@ -28,6 +28,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
+import com.mobiata.android.location.MobiataLocationListenerImpl;
 import com.mobiata.android.util.Ui;
 
 public class LaunchFragment extends Fragment {
@@ -152,13 +153,15 @@ public class LaunchFragment extends Fragment {
 	private LocationFinder mLocationFinder;
 
 	private void findLocation() {
-		mLocationFinder = new LocationFinder(mContext) {
-			@Override
-			public void onLocationChanged(Location location) {
-				super.onLocationChanged(location);
-				startHotelSearch(location);
-			}
-		};
+		if (mLocationFinder == null) {
+			mLocationFinder = new LocationFinder(new MobiataLocationListenerImpl(mContext,
+					new LocationFinder.ILocationFinderListener() {
+						@Override
+						public void onReceiveNewLocation(Location location) {
+							startHotelSearch(location);
+						}
+					}));
+		}
 		mLocationFinder.find();
 	}
 
