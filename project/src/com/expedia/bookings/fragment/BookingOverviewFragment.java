@@ -1,11 +1,15 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,17 +27,21 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.PaymentFlowState;
+import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
+import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.HotelReceipt;
@@ -42,16 +50,21 @@ import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.view.ViewHelper;
 
-public class BookingOverviewFragment extends Fragment {
+public class BookingOverviewFragment extends Fragment implements AccountButtonClickListener {
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
 
 		public void checkoutEnded();
 	}
+
+	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
 	private boolean mInCheckout = false;
 	private BookingOverviewFragmentListener mBookingOverviewFragmentListener;
@@ -65,10 +78,13 @@ public class BookingOverviewFragment extends Fragment {
 	private View mCheckoutLayout;
 
 	private AccountButton mAccountButton;
-	private TextView mTravelerInfoTextView;
-	private View mPaymentInfoLayout;
+	private SectionTravelerInfo mTravelerSection;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionStoredCreditCard mStoredCreditCard;
+
+	private ViewGroup mTravelerButton;
+	private ViewGroup mPaymentButton;
+
 	private TextView mRulesRestrictionsTextView;
 	private TextView mExpediaPointsDisclaimerTextView;
 	private View mSlideToPurchaseLayoutSpacerView;
@@ -79,6 +95,8 @@ public class BookingOverviewFragment extends Fragment {
 
 	private SlideToWidget mSlideToPurchaseWidget;
 	private TextView mPurchaseTotalTextView;
+
+	private boolean mRefreshedUser;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -96,16 +114,26 @@ public class BookingOverviewFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_booking_overview, container, false);
 
+		//If we had data on disk, it should already be loaded at this point
+		mBillingInfo = Db.getBillingInfo();
+
+		if (mBillingInfo.getLocation() == null) {
+			mBillingInfo.setLocation(new Location());
+		}
+
 		mScrollView = Ui.findView(view, R.id.scroll_view);
 
 		mHotelReceipt = Ui.findView(view, R.id.receipt);
 		mCheckoutLayout = Ui.findView(view, R.id.checkout_layout);
 
 		mAccountButton = Ui.findView(view, R.id.account_button_layout);
-		mTravelerInfoTextView = Ui.findView(view, R.id.traveler_info_text_view);
-		mPaymentInfoLayout = Ui.findView(view, R.id.payment_info_linear_layout);
-		mStoredCreditCard = Ui.findView(view, R.id.stored_creditcard_section_layout);
-		mCreditCardSectionButton = Ui.findView(view, R.id.creditcard_section_layout);
+		mTravelerSection = Ui.findView(view, R.id.traveler_section);
+		mStoredCreditCard = Ui.findView(view, R.id.stored_creditcard_section_button);
+		mCreditCardSectionButton = Ui.findView(view, R.id.creditcard_section_button);
+
+		mTravelerButton = Ui.findView(view, R.id.traveler_info_btn);
+		mPaymentButton = Ui.findView(view, R.id.payment_info_btn);
+
 		mRulesRestrictionsTextView = Ui.findView(view, R.id.rules_restrictions_text_view);
 		mExpediaPointsDisclaimerTextView = Ui.findView(view, R.id.expedia_points_disclaimer_text_view);
 		mCancelationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
@@ -136,11 +164,15 @@ public class BookingOverviewFragment extends Fragment {
 		}
 
 		// Listeners
-		mAccountButton.setListener(mAccountButtonClickListener);
+		mAccountButton.setListener(this);
+		mTravelerButton.setOnClickListener(mOnClickListener);
+		mTravelerSection.setOnClickListener(mOnClickListener);
+		mPaymentButton.setOnClickListener(mOnClickListener);
 		mStoredCreditCard.setOnClickListener(mOnClickListener);
 		mCreditCardSectionButton.setOnClickListener(mOnClickListener);
-		view.findViewById(R.id.traveler_info_linear_layout).setOnClickListener(mOnClickListener);
-		view.findViewById(R.id.payment_info_linear_layout).setOnClickListener(mOnClickListener);
+
+		// Hide unused view
+		Ui.findView(view, R.id.display_special_assistance).setVisibility(View.GONE);
 
 		updateViews();
 
@@ -155,11 +187,149 @@ public class BookingOverviewFragment extends Fragment {
 			mSlideToPurchaseWidget.resetSlider();
 		}
 
-		populateTravelerData();
+		refreshData();
 		updateViews();
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		if (Db.getTravelersAreDirty()) {
+			Db.kickOffBackgroundTravelerSave(getActivity());
+		}
+
+		if (Db.getBillingInfoIsDirty()) {
+			Db.kickOffBackgroundBillingInfoSave(getActivity());
+		}
+	}
+
 	// Public methods
+
+	public void refreshData() {
+		mBillingInfo = Db.getBillingInfo();
+
+		//Set values
+		populateTravelerData();
+		populatePaymentDataFromUser();
+		populateTravelerDataFromUser();
+
+		bindAll();
+		updateViewVisibilities();
+	}
+
+	private void populateTravelerData() {
+		List<Traveler> travelers = Db.getTravelers();
+		if (travelers == null) {
+			travelers = new ArrayList<Traveler>();
+			Db.setTravelers(travelers);
+		}
+
+		if (travelers.size() == 0) {
+			Traveler fp = new Traveler();
+			travelers.add(fp);
+		}
+	}
+
+	private boolean hasSomeManuallyEnteredData(BillingInfo info) {
+		if (info == null) {
+			return false;
+		}
+
+		if (info.getLocation() == null) {
+			return false;
+		}
+		//Checkout the major fields, if any of them have data, then we know some data has been manually enetered
+		if (!TextUtils.isEmpty(info.getLocation().getStreetAddressString())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getLocation().getCity())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getLocation().getPostalCode())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getLocation().getStateCode())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getNameOnCard())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getNumber())) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean hasValidTravlers() {
+		boolean travelerValid = true;
+		if (Db.getTravelers() == null || Db.getTravelers().size() <= 0) {
+			travelerValid = false;
+		}
+		else {
+			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+			if (state == null) {
+				return false;
+			}
+			List<Traveler> travelers = Db.getTravelers();
+			for (int i = 0; i < travelers.size(); i++) {
+				travelerValid &= (state.hasValidTravelerPartOne(travelers.get(i)));
+			}
+		}
+		return travelerValid;
+	}
+
+	private void populatePaymentDataFromUser() {
+		if (User.isLoggedIn(getActivity())) {
+			//Populate Credit Card only if the user doesn't have any manually entered (or selected) data
+			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0
+					&& !hasSomeManuallyEnteredData(mBillingInfo) && mBillingInfo.getStoredCard() == null) {
+				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
+			}
+		}
+		else {
+			//Remove stored card(s)
+			Db.getBillingInfo().setStoredCard(null);
+			//Turn off the save to expedia account flag
+			Db.getBillingInfo().setSaveCardToExpediaAccount(false);
+		}
+	}
+
+	private void populateTravelerDataFromUser() {
+		if (User.isLoggedIn(getActivity())) {
+			//Populate traveler data
+			if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
+				//If the first traveler is not already all the way filled out, and the default profile for the expedia account has all required data, use the account profile
+				TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+				if (!state.hasValidTravelerPartOne(Db.getTravelers().get(0))) {
+					if (state.hasValidTravelerPartOne(Db.getUser().getPrimaryTraveler())) {
+						Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
+					}
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < Db.getTravelers().size(); i++) {
+				//Travelers that have tuids are from the account and thus should be removed.
+				if (Db.getTravelers().get(i).hasTuid()) {
+					Db.getTravelers().set(i, new Traveler());
+				}
+				//We can't save travelers to an account if we aren't logged in, so we unset the flag
+				Db.getTravelers().get(i).setSaveTravelerToExpediaAccount(false);
+			}
+		}
+	}
+
+	// View binding stuff
+
+	private void bindAll() {
+		mCreditCardSectionButton.bind(mBillingInfo);
+		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
+
+		if (Db.getTravelers() != null && Db.getTravelers().size() > 0) {
+			mTravelerSection.bind(Db.getTravelers().get(0));
+		}
+	}
 
 	public void updateViews() {
 		// Detect user state, update account button accordingly
@@ -172,40 +342,6 @@ public class BookingOverviewFragment extends Fragment {
 		}
 		else {
 			mAccountButton.bind(false, false, null);
-		}
-
-		// Traveler button
-		if (Db.getTravelers() != null && Db.getTravelers().size() > 0) {
-			Traveler traveler = Db.getTravelers().get(0);
-			mTravelerInfoTextView.setText(StrUtils.formatTravelerName(traveler));
-		}
-
-		// Payment button
-		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
-		mCreditCardSectionButton.bind(mBillingInfo);
-
-		PaymentFlowState state = PaymentFlowState.getInstance(getActivity());
-		if (state == null) {
-			return;
-		}
-
-		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
-		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
-		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
-		if (hasStoredCard) {
-			mStoredCreditCard.setVisibility(View.VISIBLE);
-			mPaymentInfoLayout.setVisibility(View.GONE);
-			mCreditCardSectionButton.setVisibility(View.GONE);
-		}
-		else if (paymentAddressValid && paymentCCValid) {
-			mStoredCreditCard.setVisibility(View.GONE);
-			mPaymentInfoLayout.setVisibility(View.GONE);
-			mCreditCardSectionButton.setVisibility(View.VISIBLE);
-		}
-		else {
-			mStoredCreditCard.setVisibility(View.GONE);
-			mPaymentInfoLayout.setVisibility(View.VISIBLE);
-			mCreditCardSectionButton.setVisibility(View.GONE);
 		}
 
 		// Disclaimers
@@ -231,11 +367,11 @@ public class BookingOverviewFragment extends Fragment {
 
 		if (Db.getSelectedProperty().isMerchant()) {
 			mPurchaseTotalTextView.setText(getString(R.string.your_card_will_be_charged_TEMPLATE,
-						displayedTotal.getFormattedMoney()));
+					displayedTotal.getFormattedMoney()));
 		}
 		else {
 			mPurchaseTotalTextView.setText(getString(R.string.collected_by_the_hotel_TEMPLATE,
-						displayedTotal.getFormattedMoney()));
+					displayedTotal.getFormattedMoney()));
 		}
 
 		if (mInCheckout && Db.getTravelers() != null && Db.getTravelers().size() > 0 && mBillingInfo != null) {
@@ -254,6 +390,45 @@ public class BookingOverviewFragment extends Fragment {
 
 		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
 		mHotelReceiptMini.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
+	}
+
+	public void updateViewVisibilities() {
+
+		PaymentFlowState state = PaymentFlowState.getInstance(getActivity());
+		if (state == null) {
+			//This is a rare case that happens when the fragment is attached and then detached quickly
+			return;
+		}
+
+		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
+		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
+		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
+		boolean travelerValid = hasValidTravlers();
+
+		if (travelerValid) {
+			mTravelerButton.setVisibility(View.GONE);
+			mTravelerSection.setVisibility(View.VISIBLE);
+		}
+		else {
+			mTravelerButton.setVisibility(View.VISIBLE);
+			mTravelerSection.setVisibility(View.GONE);
+		}
+
+		if (hasStoredCard) {
+			mStoredCreditCard.setVisibility(View.VISIBLE);
+			mPaymentButton.setVisibility(View.GONE);
+			mCreditCardSectionButton.setVisibility(View.GONE);
+		}
+		else if (paymentAddressValid && paymentCCValid) {
+			mStoredCreditCard.setVisibility(View.GONE);
+			mPaymentButton.setVisibility(View.GONE);
+			mCreditCardSectionButton.setVisibility(View.VISIBLE);
+		}
+		else {
+			mStoredCreditCard.setVisibility(View.GONE);
+			mPaymentButton.setVisibility(View.VISIBLE);
+			mCreditCardSectionButton.setVisibility(View.GONE);
+		}
 	}
 
 	public boolean inCheckout() {
@@ -297,6 +472,10 @@ public class BookingOverviewFragment extends Fragment {
 	// Hide/show slide to purchase view
 
 	private void showSlideToPurchsaeView() {
+		if (mSlideToPurchaseLayout.getVisibility() == View.VISIBLE) {
+			return;
+		}
+
 		mSlideToPurchaseLayout.setVisibility(View.VISIBLE);
 		mSlideToPurchaseLayoutSpacerView.setVisibility(View.VISIBLE);
 
@@ -304,6 +483,10 @@ public class BookingOverviewFragment extends Fragment {
 	}
 
 	private void hideSlideToPurchaseView() {
+		if (mSlideToPurchaseLayout.getVisibility() != View.VISIBLE) {
+			return;
+		}
+
 		Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
@@ -324,47 +507,102 @@ public class BookingOverviewFragment extends Fragment {
 		mSlideToPurchaseLayout.startAnimation(animation);
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// AccountButtonClickListener
+
+	@Override
+	public void accountLoginClicked() {
+		SignInFragment.newInstance(true).show(getFragmentManager(), getString(R.string.tag_signin));
+	}
+
+	@Override
+	public void accountLogoutClicked() {
+		// Stop refreshing user (if we're currently doing so)
+		BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
+		mRefreshedUser = false;
+
+		// Sign out user
+		User.signOut(getActivity());
+
+		// Update UI
+		mAccountButton.bind(false, false, null);
+
+		//After logout this will clear stored cards
+		populatePaymentDataFromUser();
+		populateTravelerDataFromUser();
+		bindAll();
+		updateViewVisibilities();
+	}
+
+	public void onLoginCompleted() {
+		mAccountButton.bind(false, true, Db.getUser());
+		mRefreshedUser = true;
+
+		populateTravelerData();
+
+		populatePaymentDataFromUser();
+		populateTravelerDataFromUser();
+		bindAll();
+		updateViewVisibilities();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Refresh user
+
+	private final Download<SignInResponse> mRefreshUserDownload = new Download<SignInResponse>() {
+		@Override
+		public SignInResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_REFRESH_USER, services);
+			return services.signIn(ExpediaServices.F_FLIGHTS);
+		}
+	};
+
+	private final OnDownloadComplete<SignInResponse> mRefreshUserCallback = new OnDownloadComplete<SignInResponse>() {
+		@Override
+		public void onDownload(SignInResponse results) {
+			if (results == null || results.hasErrors()) {
+				//The refresh failed, so we just log them out. They can always try to login again.
+				accountLogoutClicked();
+			}
+			else {
+				// Update our existing saved data
+				User user = results.getUser();
+				user.save(getActivity());
+				Db.setUser(user);
+
+				// Act as if a login just occurred
+				onLoginCompleted();
+			}
+		}
+	};
+
 	// Listeners
 
 	private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.traveler_info_linear_layout: {
+			case R.id.traveler_info_btn:
+			case R.id.traveler_section: {
+				if (Db.getTravelers().size() > 0 && Db.getTravelers().get(0) != null) {
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(0));
+				}
+				else {
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(new Traveler());
+				}
+				Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(true);
 				startActivity(new Intent(getActivity(), HotelTravelerInfoOptionsActivity.class));
 				break;
 			}
-			case R.id.payment_info_linear_layout:
-			case R.id.stored_creditcard_section_layout:
-			case R.id.creditcard_section_layout: {
+			case R.id.payment_info_btn:
+			case R.id.stored_creditcard_section_button:
+			case R.id.creditcard_section_button: {
+				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(mBillingInfo);
 				startActivity(new Intent(getActivity(), HotelPaymentOptionsActivity.class));
 				break;
 			}
 			}
-		}
-	};
-
-	private AccountButtonClickListener mAccountButtonClickListener = new AccountButtonClickListener() {
-		@Override
-		public void accountLogoutClicked() {
-			// Stop refreshing user (if we're currently doing so)
-			//BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
-			//mRefreshedUser = false;
-
-			// Sign out user
-			User.signOut(getActivity());
-
-			// Update UI
-			mAccountButton.bind(false, false, null);
-
-			//After logout this will clear stored cards
-			updateViews();
-		}
-
-		@Override
-		public void accountLoginClicked() {
-			SignInFragment.newInstance(false).show(getFragmentManager(), getString(R.string.tag_signin));
-			Log.i("SignInFragment shown");
 		}
 	};
 
@@ -375,6 +613,7 @@ public class BookingOverviewFragment extends Fragment {
 
 		@Override
 		public void onSlideAllTheWay() {
+			Db.getBillingInfo().save(getActivity());
 			startActivity(new Intent(getActivity(), HotelBookingActivity.class));
 		}
 

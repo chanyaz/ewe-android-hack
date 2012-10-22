@@ -50,59 +50,91 @@
                         android:text="GUEST CHECKOUT"
                         android:textColor="@android:color/white" />
 
+                    <!-- Traveler(s) -->
+
                     <LinearLayout
+                        android:id="@+id/traveler_outer_container"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="#DBDBDB"
+                        android:addStatesFromChildren="true"
+                        android:background="@drawable/bg_hotel_checkout_information_top_tab"
                         android:orientation="vertical"
-                        android:showDividers="middle" >
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="8dp" >
 
                         <LinearLayout
-                            android:id="@+id/traveler_info_linear_layout"
+                            android:id="@+id/traveler_info_btn"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:padding="8dp"
                             android:visibility="visible" >
 
                             <ImageView
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
-                                android:layout_marginRight="8dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0"
                                 android:src="@drawable/ic_traveler" />
 
                             <TextView
-                                android:id="@+id/traveler_info_text_view"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="@string/enter_traveler_info"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#C4C4C4" />
+                        <include
+                            android:id="@+id/traveler_section"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            layout="@layout/section_display_traveler_info_btn"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <!-- Divider -->
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#C4C4C4" />
+
+                    <!-- Payment -->
+
+                    <LinearLayout
+                        android:id="@+id/payment_outer_container"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:addStatesFromChildren="true"
+                        android:background="@drawable/bg_hotel_checkout_information_bottom_tab"
+                        android:orientation="vertical"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="8dp" >
 
                         <LinearLayout
-                            android:id="@+id/payment_info_linear_layout"
+                            android:id="@+id/payment_info_btn"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:padding="8dp"
                             android:visibility="visible" >
 
                             <ImageView
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
-                                android:layout_marginRight="8dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0"
                                 android:src="@drawable/ic_credit_card" />
 
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="@string/payment_method"
@@ -110,19 +142,15 @@
                         </LinearLayout>
 
                         <include
-                            android:id="@+id/creditcard_section_layout"
+                            android:id="@+id/creditcard_section_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
                             layout="@layout/section_display_creditcard_btn" />
 
                         <include
-                            android:id="@+id/stored_creditcard_section_layout"
+                            android:id="@+id/stored_creditcard_section_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
                             layout="@layout/section_display_stored_credit_card" />
                     </LinearLayout>
 

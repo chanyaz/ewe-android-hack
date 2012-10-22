@@ -27,6 +27,7 @@ import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.utils.Ui;
 
+
 public class HotelPaymentOptionsFragment extends Fragment {
 
 	SectionLocation mSectionCurrentBillingAddress;
@@ -60,6 +61,11 @@ public class HotelPaymentOptionsFragment extends Fragment {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_hotel_payment_options, container, false);
 
@@ -72,7 +78,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		mAddressErrorImage = Ui.findView(mSectionCurrentBillingAddress, R.id.error_image);
 		mCardErrorImage = Ui.findView(mSectionCurrentCreditCard, R.id.error_image);
 
-		// Other views
+		//Other views
 		mStoredPaymentsLabel = Ui.findView(v, R.id.stored_payments_label);
 		mStoredPaymentsLabelDiv = Ui.findView(v, R.id.stored_payments_label_div);
 		mCurrentPaymentLabel = Ui.findView(v, R.id.current_payment_label);
@@ -90,7 +96,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 			public void onClick(View v) {
 
 				if (mListener != null) {
-					Db.getBillingInfo().setStoredCard(null);
+					Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 					mListener.setMode(YoYoMode.YOYO);
 					mListener.moveForward();
 				}
@@ -137,7 +143,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 				card.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Db.getBillingInfo().setStoredCard(storedCard);
+						Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(storedCard);
 						if (mListener != null) {
 							mListener.setMode(YoYoMode.NONE);
 							mListener.moveBackwards();
