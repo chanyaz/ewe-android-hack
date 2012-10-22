@@ -96,6 +96,25 @@
             android:layout_margin="8dp"
             android:background="@color/overview_receipt_divider" />
 
+        <!-- Details Section: Free Cancellation, Best Price Garauntee -->
+
+        <LinearLayout
+            android:id="@+id/extras_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/extras_div"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_margin="8dp"
+            android:background="@color/overview_receipt_divider"
+            android:visibility="gone" />
+
         <com.expedia.bookings.widget.HotelReceiptMini
             android:id="@+id/receipt_mini"
             android:layout_width="match_parent"

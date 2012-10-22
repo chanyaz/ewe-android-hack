@@ -47,6 +47,8 @@ public class HotelReceipt extends FrameLayout {
 	private TextView mAddress1TextView;
 	private TextView mAddress2TextView;
 	private ViewGroup mDetailsLayout;
+	private ViewGroup mExtrasLayout;
+	private View mExtraSectionDivider;
 	private HotelReceiptMini mHotelReceiptMini;
 
 	// The room type widget
@@ -74,6 +76,8 @@ public class HotelReceipt extends FrameLayout {
 		mAddress1TextView = (TextView) findViewById(R.id.address1_text_view);
 		mAddress2TextView = (TextView) findViewById(R.id.address2_text_view);
 		mDetailsLayout = (ViewGroup) findViewById(R.id.details_layout);
+		mExtrasLayout = (ViewGroup) findViewById(R.id.extras_layout);
+		mExtraSectionDivider = (View) findViewById(R.id.extras_div);
 		mHotelReceiptMini = (HotelReceiptMini) findViewById(R.id.receipt_mini);
 
 		boolean isRoomTypeExpandable = false;
@@ -220,6 +224,10 @@ public class HotelReceipt extends FrameLayout {
 			addTextRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
 		}
 
+		if (rate.shouldShowFreeCancellation()) {
+			addExtra(mExtrasLayout, R.string.free_cancellation);
+		}
+
 		mHotelReceiptMini.updateData(property, searchParams, rate);
 	}
 
@@ -238,6 +246,9 @@ public class HotelReceipt extends FrameLayout {
 		// TODO: If this ever becomes a performance issue, we could start caching
 		// views and re-using them.
 		mDetailsLayout.removeAllViews();
+		mExtrasLayout.removeAllViews();
+		mExtrasLayout.setVisibility(View.GONE);
+		mExtraSectionDivider.setVisibility(View.GONE);
 		mHotelReceiptMini.reset();
 	}
 
@@ -277,6 +288,21 @@ public class HotelReceipt extends FrameLayout {
 		valueView.setText(value);
 		parent.addView(detailRow);
 		return detailRow;
+	}
+
+	private View addExtra(ViewGroup parent, int stringResId) {
+		return addExtra(parent, getContext().getString(stringResId));
+	}
+
+	private View addExtra(ViewGroup parent, CharSequence label) {
+		mExtrasLayout.setVisibility(View.VISIBLE);
+		mExtraSectionDivider.setVisibility(View.VISIBLE);
+
+		View extraRow = mInflater.inflate(R.layout.snippet_hotel_receipt_extra, parent, false);
+		TextView labelView = (TextView) extraRow.findViewById(R.id.extra_label);
+		labelView.setText(label);
+		parent.addView(extraRow);
+		return extraRow;
 	}
 
 	private String formatCheckInOutDate(Calendar cal) {

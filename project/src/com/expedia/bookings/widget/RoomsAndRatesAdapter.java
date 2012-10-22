@@ -221,7 +221,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			addBedRow(mResources.getString(R.string.non_refundable));
 		}
 
-		if (shouldShowFreeCancellation(rate)) {
+		if (rate.shouldShowFreeCancellation()) {
 			addBedRow(mResources.getString(R.string.free_cancellation));
 		}
 
@@ -274,10 +274,6 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 	private boolean shouldShowNonRefundable(Rate rate) {
 		return rate.isNonRefundable();
-	}
-
-	private boolean shouldShowFreeCancellation(Rate rate) {
-		return !rate.isNonRefundable() && rate.hasFreeCancellation();
 	}
 
 	private boolean shouldShowRoomsLeft(Rate rate) {

@@ -532,6 +532,10 @@ public class Rate implements JSONable {
 		return mNonRefundable;
 	}
 
+	public boolean shouldShowFreeCancellation() {
+		return !isNonRefundable() && hasFreeCancellation();
+	}
+
 	private boolean mIsMobileExclusive = false;
 
 	public void setMobileExlusivity(boolean bool) {
