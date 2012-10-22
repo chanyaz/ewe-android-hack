@@ -320,6 +320,16 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		//If the save dialog is showing, we close it, and then we show it again from the onCreate method.
+		if (mPos.equals(YoYoPosition.SAVE)) {
+			this.closeSaveDialog();
+		}
+	}
+
 	public boolean validate(Validatable validatable) {
 		if (validatable == null) {
 			return false;

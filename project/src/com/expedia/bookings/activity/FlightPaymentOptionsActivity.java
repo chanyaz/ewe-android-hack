@@ -370,6 +370,16 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	}
 
 	@Override
+	public void onPause() {
+		super.onPause();
+
+		//If the save dialog is showing, we close it, and then we show it again from the onCreate method.
+		if (mPos.equals(YoYoPosition.SAVE)) {
+			this.closeSaveDialog();
+		}
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = this.getSupportMenuInflater();
 		inflater.inflate(R.menu.menu_yoyo, menu);
