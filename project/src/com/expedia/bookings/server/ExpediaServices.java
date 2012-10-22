@@ -273,6 +273,7 @@ public class ExpediaServices implements DownloadListener {
 
 		if (User.isLoggedIn(mContext)) {
 			query.add(new BasicNameValuePair("doIThinkImSignedIn", "true"));
+			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
 		}
 
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
