@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,6 +65,10 @@ public class FlightSearchResponse extends Response {
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
+	//
+	// We save the trip data in the a "matrix" format, wherein most leg data 
+	// can be stored in a map since it's the same.  This greatly reduces the
+	// memory requirements and speeds up parsing time.
 
 	@Override
 	public JSONObject toJson() {
@@ -73,7 +78,23 @@ public class FlightSearchResponse extends Response {
 		}
 
 		try {
-			JSONUtils.putJSONableList(obj, "trips", mTrips);
+			// Save trips while mapping out legs
+			Map<String, FlightLeg> legMap = new HashMap<String, FlightLeg>();
+			JSONArray trips = new JSONArray();
+			for (FlightTrip trip : mTrips) {
+				trips.put(trip.toJson(false));
+
+				for (FlightLeg leg : trip.getLegs()) {
+					if (!legMap.containsKey(leg.getLegId())) {
+						legMap.put(leg.getLegId(), leg);
+					}
+				}
+			}
+			obj.put("trips", trips);
+
+			// Put in legs as a single array (we can unmap them later via legId)
+			JSONUtils.putJSONableList(obj, "legs", new ArrayList<FlightLeg>(legMap.values()));
+
 			JSONUtils.putJSONableList(obj, "searchCities", mSearchCities);
 			return obj;
 		}
@@ -85,7 +106,23 @@ public class FlightSearchResponse extends Response {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-		mTrips = JSONUtils.getJSONableList(obj, "trips", FlightTrip.class);
+
+		// Unroll the legs
+		List<FlightLeg> legs = JSONUtils.getJSONableList(obj, "legs", FlightLeg.class);
+		Map<String, FlightLeg> legMap = new HashMap<String, FlightLeg>();
+		for (FlightLeg leg : legs) {
+			legMap.put(leg.getLegId(), leg);
+		}
+
+		// Get all flight trips and add the legs to it
+		JSONArray tripArr = obj.optJSONArray("trips");
+		int len = tripArr.length();
+		for (int a = 0; a < len; a++) {
+			FlightTrip trip = new FlightTrip();
+			trip.fromJson(tripArr.optJSONObject(a), legMap);
+			mTrips.add(trip);
+		}
+
 		mSearchCities = JSONUtils.getJSONableList(obj, "searchCities", Location.class);
 		return true;
 	}

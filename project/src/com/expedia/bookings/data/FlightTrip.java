@@ -416,10 +416,25 @@ public class FlightTrip implements JSONable {
 
 	@Override
 	public JSONObject toJson() {
+		return toJson(true);
+	}
+
+	public JSONObject toJson(boolean includeFullLegData) {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("productKey", mProductKey);
-			JSONUtils.putJSONableList(obj, "legs", mLegs);
+
+			if (includeFullLegData) {
+				JSONUtils.putJSONableList(obj, "legs", mLegs);
+			}
+			else {
+				JSONArray legIds = new JSONArray();
+				for (FlightLeg leg : mLegs) {
+					legIds.put(leg.getLegId());
+				}
+				obj.putOpt("legIds", legIds);
+			}
+
 			JSONUtils.putJSONable(obj, "baseFare", mBaseFare);
 			JSONUtils.putJSONable(obj, "totalFare", mTotalFare);
 			JSONUtils.putJSONable(obj, "taxes", mTaxes);
@@ -448,8 +463,22 @@ public class FlightTrip implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
+		return fromJson(obj, null);
+	}
+
+	public boolean fromJson(JSONObject obj, Map<String, FlightLeg> legMap) {
 		mProductKey = obj.optString("productKey", null);
-		mLegs = JSONUtils.getJSONableList(obj, "legs", FlightLeg.class);
+
+		if (obj.has("legs")) {
+			mLegs = JSONUtils.getJSONableList(obj, "legs", FlightLeg.class);
+		}
+		else if (obj.has("legIds") && legMap != null) {
+			JSONArray legIds = obj.optJSONArray("legIds");
+			for (int a = 0; a < legIds.length(); a++) {
+				addLeg(legMap.get(legIds.opt(a)));
+			}
+		}
+
 		mBaseFare = JSONUtils.getJSONable(obj, "baseFare", Money.class);
 		mTotalFare = JSONUtils.getJSONable(obj, "totalFare", Money.class);
 		mTaxes = JSONUtils.getJSONable(obj, "taxes", Money.class);
