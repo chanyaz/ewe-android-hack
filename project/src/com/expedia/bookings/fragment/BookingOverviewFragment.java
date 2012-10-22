@@ -64,6 +64,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		public void checkoutEnded();
 	}
 
+	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
+
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
 	private boolean mInCheckout = false;
@@ -108,6 +110,15 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		mBookingOverviewFragmentListener = (BookingOverviewFragmentListener) activity;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
+		}
 	}
 
 	@Override
@@ -163,6 +174,27 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mHotelReceipt.restoreInstanceState(savedInstanceState);
 		}
 
+		// Detect user state, update account button accordingly
+		mAccountButton.setListener(this);
+		if (User.isLoggedIn(getActivity())) {
+			if (Db.getUser() == null) {
+				Db.loadUser(getActivity());
+			}
+
+			if (!mRefreshedUser) {
+				Log.d("Refreshing user profile...");
+
+				BackgroundDownloader bd = BackgroundDownloader.getInstance();
+				if (!bd.isDownloading(KEY_REFRESH_USER)) {
+					bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
+				}
+			}
+			mAccountButton.bind(false, true, Db.getUser());
+		}
+		else {
+			mAccountButton.bind(false, false, null);
+		}
+
 		// Listeners
 		mAccountButton.setListener(this);
 		mTravelerButton.setOnClickListener(mOnClickListener);
@@ -173,8 +205,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		// Hide unused view
 		Ui.findView(view, R.id.display_special_assistance).setVisibility(View.GONE);
-
-		updateViews();
 
 		return view;
 	}
@@ -188,7 +218,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		refreshData();
-		updateViews();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_REFRESH_USER)) {
+			bd.registerDownloadCallback(KEY_REFRESH_USER, mRefreshUserCallback);
+		}
 	}
 
 	@Override
@@ -204,6 +238,13 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
+	}
+
 	// Public methods
 
 	public void refreshData() {
@@ -215,6 +256,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		populateTravelerDataFromUser();
 
 		bindAll();
+		updateViews();
 		updateViewVisibilities();
 	}
 
@@ -332,18 +374,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void updateViews() {
-		// Detect user state, update account button accordingly
-		if (User.isLoggedIn(getActivity())) {
-			if (Db.getUser() == null) {
-				Db.loadUser(getActivity());
-			}
-
-			mAccountButton.bind(false, true, Db.getUser());
-		}
-		else {
-			mAccountButton.bind(false, false, null);
-		}
-
 		// Disclaimers
 		mRulesRestrictionsTextView.setText(RulesRestrictionsUtils.getRulesRestrictionsConfirmation(getActivity()));
 		mExpediaPointsDisclaimerTextView.setText(R.string.disclaimer_expedia_points);
