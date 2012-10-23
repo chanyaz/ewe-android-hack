@@ -41,7 +41,7 @@ public class LaunchStreamAdapter extends CircularArrayAdapter<Property> implemen
 	private boolean mIsMeasuring = false;
 
 	public LaunchStreamAdapter(Context context) {
-		super(context, R.layout.row_launch_tile);
+		super(context, R.layout.row_launch_tile_hotel);
 		mContext = context;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
