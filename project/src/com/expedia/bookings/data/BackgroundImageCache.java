@@ -142,6 +142,10 @@ public class BackgroundImageCache {
 						blurredEditor.commit();
 					}
 					mDiskCache.flush();
+
+					if (blurred != null) {
+						blurred.recycle();
+					}
 				}
 				catch (Exception ex) {
 					Log.e("Exception adding bitmap:", ex);
@@ -170,11 +174,13 @@ public class BackgroundImageCache {
 
 	public void clearMemCache() {
 		mMemoryCache.evictAll();
+		initMemCache();
 	}
 
-	public void clearDiskCache() {
+	public void clearDiskCache(Context context) {
 		try {
 			mDiskCache.delete();
+			initDiskCache(context);
 		}
 		catch (IOException e) {
 			Log.e(TAG, "Exception deleting the disk cache", e);
@@ -187,6 +193,27 @@ public class BackgroundImageCache {
 			mAddingBitmapSem.release();
 		}
 		return isAdding;
+	}
+
+	public void waitForAddingBitmap(long delay) {
+		boolean aquired = false;
+		try {
+			Thread.sleep(delay);
+			if (!isAddingBitmap()) {
+				return;
+			}
+			mAddingBitmapSem.acquire();
+			aquired = true;
+		}
+		catch (Exception ex) {
+			//Don't care.
+		}
+		finally {
+			if (aquired) {
+				mAddingBitmapSem.release();
+			}
+		}
+
 	}
 
 	public void cancelPutBitmap() {
@@ -207,18 +234,21 @@ public class BackgroundImageCache {
 				BitmapFactory.Options options = new BitmapFactory.Options();
 				if (!this.hasKey(DEFAULT_KEY)) {
 					options.inSampleSize = DECODE_IN_SAMPLE_SIZE;
-					putBitmap(
-							DEFAULT_KEY,
-							BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background,
-									options),
-							false);
+					Bitmap bg = BitmapFactory.decodeResource(context.getResources(),
+							R.drawable.default_flights_background,
+							options);
+					putBitmap(DEFAULT_KEY, bg, false);
+					waitForAddingBitmap(50);
+					bg.recycle();
 				}
 				if (!this.hasKey(getBlurredKey(DEFAULT_KEY))) {
 					options.inSampleSize = 4;
-					putBitmap(getBlurredKey(DEFAULT_KEY),
-							BitmapFactory.decodeResource(context.getResources(),
-									R.drawable.default_flights_background_blurred,
-									options), false);
+					Bitmap bg = BitmapFactory.decodeResource(context.getResources(),
+							R.drawable.default_flights_background_blurred,
+							options);
+					putBitmap(getBlurredKey(DEFAULT_KEY), bg, false);
+					waitForAddingBitmap(50);
+					bg.recycle();
 				}
 			}
 			finally

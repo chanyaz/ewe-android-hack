@@ -61,7 +61,7 @@ public class ClearPrivateDataDialogPreference extends DialogPreference {
 
 				BackgroundImageCache cache = Db.getBackgroundImageCache(context);
 				if (cache != null) {
-					cache.clearDiskCache();
+					cache.clearDiskCache(context);
 					cache.clearMemCache();
 				}
 
