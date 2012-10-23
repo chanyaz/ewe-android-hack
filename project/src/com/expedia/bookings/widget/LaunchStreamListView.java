@@ -1,6 +1,10 @@
 package com.expedia.bookings.widget;
 
+import java.lang.ref.WeakReference;
+
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -94,8 +98,105 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 			mScrollByPosition = position;
 			mScrollByTop = top;
 		}
+
 		if (mScrollByDelta != 0) {
 			setSelectionFromTop(position, top + mScrollByDelta);
+			invalidate();
 		}
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Marquee to auto-scroll this view. Copied from TextView.java
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private Marquee mMarquee;
+
+	public void startMarquee() {
+		if (mMarquee == null) {
+			mMarquee = new Marquee(this);
+		}
+		mMarquee.start();
+	}
+
+	public void stopMarquee() {
+		if (mMarquee != null) {
+			mMarquee.stop();
+		}
+	}
+
+	private static final class Marquee extends Handler {
+		private static final int MARQUEE_DELAY = 1200;
+		private static final int MARQUEE_RESOLUTION = 1000 / 30;
+		private static final int MARQUEE_PIXELS_PER_SECOND = 30;
+
+		private static final byte MARQUEE_STOPPED = 0x0;
+		private static final byte MARQUEE_STARTING = 0x1;
+		private static final byte MARQUEE_RUNNING = 0x2;
+
+		private static final int MESSAGE_START = 0x1;
+		private static final int MESSAGE_TICK = 0x2;
+		private static final int MESSAGE_RESTART = 0x3;
+
+		private final WeakReference<LaunchStreamListView> mView;
+
+		private byte mStatus = MARQUEE_STOPPED;
+		private final int mScrollUnit;
+
+		Marquee(LaunchStreamListView v) {
+			final float density = v.getContext().getResources().getDisplayMetrics().density;
+			mScrollUnit = -(int) ((MARQUEE_PIXELS_PER_SECOND * density) / MARQUEE_RESOLUTION);
+			mView = new WeakReference<LaunchStreamListView>(v);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case MESSAGE_START:
+				mStatus = MARQUEE_RUNNING;
+				tick();
+				break;
+			case MESSAGE_TICK:
+				tick();
+				break;
+			case MESSAGE_RESTART:
+				if (mStatus == MARQUEE_RUNNING) {
+					start();
+				}
+				break;
+			}
+		}
+
+		void tick() {
+			if (mStatus != MARQUEE_RUNNING) {
+				return;
+			}
+
+			removeMessages(MESSAGE_TICK);
+
+			final LaunchStreamListView listView = mView.get();
+			if (listView != null && (listView.isFocused() || listView.isSelected())) {
+				listView.scrollListBy(mScrollUnit);
+				//TODO: test for max scroll, and if so, reset
+				//sendEmptyMessageDelayed(MESSAGE_RESTART, MARQUEE_RESTART_DELAY);
+				sendEmptyMessageDelayed(MESSAGE_TICK, MARQUEE_RESOLUTION);
+				listView.invalidate();
+			}
+		}
+
+		void stop() {
+			mStatus = MARQUEE_STOPPED;
+			removeMessages(MESSAGE_START);
+			removeMessages(MESSAGE_RESTART);
+			removeMessages(MESSAGE_TICK);
+		}
+
+		void start() {
+			final LaunchStreamListView listView = mView.get();
+			if (listView != null) {
+				mStatus = MARQUEE_STARTING;
+				sendEmptyMessageDelayed(MESSAGE_START, MARQUEE_DELAY);
+			}
+		}
+	}
+
 }

@@ -89,6 +89,7 @@ public class LaunchFragment extends Fragment {
 		super.onResume();
 
 		onReactToUserActive();
+		mHotelsStreamListView.startMarquee();
 	}
 
 	@Override
@@ -96,6 +97,7 @@ public class LaunchFragment extends Fragment {
 		super.onPause();
 
 		stopLocation();
+		mHotelsStreamListView.stopMarquee();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
