@@ -6,8 +6,11 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+
+import com.expedia.bookings.data.Property;
 
 public class LaunchStreamListView extends MeasureListView implements OnScrollListener {
 
@@ -20,6 +23,13 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 
 	public void setSlaveView(LaunchStreamListView slave) {
 		mSlaveView = slave;
+	}
+
+	public void selectMiddle() {
+		CircularArrayAdapter<Property> adapter = (CircularArrayAdapter<Property>) getAdapter();
+		View v = getChildAt(0);
+		int offset = (v == null) ? 0 : v.getTop();
+		setSelectionFromTop(adapter.getMiddle(), offset);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

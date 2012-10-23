@@ -33,10 +33,20 @@ public class CircularArrayAdapter<T> extends ArrayAdapter<T> {
 		if (super.getCount() == 0) {
 			return null;
 		}
-		return super.getItem(position % super.getCount());
+		return super.getItem(normalize(position));
 	}
 
+	/**
+	 * Returns the index of the 0th element that is closest 
+	 * to the "middle" of this infinite list.
+	 * @return
+	 */
 	public int getMiddle() {
-		return HALF_MAX_VALUE - (super.getCount() == 0 ? 0 : HALF_MAX_VALUE % super.getCount());
+		return HALF_MAX_VALUE - normalize(HALF_MAX_VALUE);
+	}
+
+	private int normalize(int position) {
+		int count = super.getCount();
+		return count == 0 ? position : position % super.getCount();
 	}
 }
