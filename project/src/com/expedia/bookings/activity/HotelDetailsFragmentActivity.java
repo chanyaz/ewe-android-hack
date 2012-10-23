@@ -485,26 +485,30 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 	private void toggleFullScreenGalleryLandscape() {
 		// Do this if in landscape
-		final View details = findViewById(R.id.hotel_details_landscape);
-		final View gallery = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
-		final View pricePromo = findViewById(R.id.hotel_details_price_promo_fragment_container);
+		final View detailsFragment = findViewById(R.id.hotel_details_landscape);
+		final View galleryFragment = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
+		final View pricePromoFragment = findViewById(R.id.hotel_details_price_promo_fragment_container);
+		final View pricePromoLayout = findViewById(R.id.price_and_promo_layout);
 		final int windowWidth = getWindow().getDecorView().getWidth();
+		final float rightSideWidth = windowWidth * .55f;
 
 		if (!isGalleryFullscreen) {
-			ObjectAnimator anim1 = ObjectAnimator.ofFloat(details, "translationX", windowWidth);
-			ObjectAnimator anim2 = ObjectAnimator.ofFloat(gallery, "translationX", 0f);
+			ObjectAnimator anim1 = ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth);
+			ObjectAnimator anim2 = ObjectAnimator.ofFloat(galleryFragment, "translationX", 0f);
+			ObjectAnimator anim3 = ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0f);
 			AnimatorSet animatorSet = new AnimatorSet();
-			animatorSet.play(anim1).with(anim2);
+			animatorSet.play(anim1).with(anim2).with(anim3);
 			animatorSet.start();
-			ViewGroup.LayoutParams lp = pricePromo.getLayoutParams();
+			ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
 			lp.width = windowWidth;
-			pricePromo.setLayoutParams(lp);
+			pricePromoFragment.setLayoutParams(lp);
 		}
 		else {
-			ObjectAnimator anim1 = ObjectAnimator.ofFloat(details, "translationX", 0f);
-			ObjectAnimator anim2 = ObjectAnimator.ofFloat(gallery, "translationX", -windowWidth * 0.275f);
+			ObjectAnimator anim1 = ObjectAnimator.ofFloat(detailsFragment, "translationX", 0f);
+			ObjectAnimator anim2 = ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2f);
+			ObjectAnimator anim3 = ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth);
 			AnimatorSet animatorSet = new AnimatorSet();
-			animatorSet.play(anim1).with(anim2);
+			animatorSet.play(anim1).with(anim2).with(anim3);
 			animatorSet.addListener(new AnimatorListener() {
 
 				@Override
@@ -512,11 +516,18 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 					// Intentionally left blank
 				}
 
+				@TargetApi(11)
 				@Override
 				public void onAnimationEnd(Animator arg0) {
-					ViewGroup.LayoutParams lp = pricePromo.getLayoutParams();
+					ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
 					lp.width = (int) (windowWidth * .45f) + 1;
-					pricePromo.setLayoutParams(lp);
+					pricePromoFragment.setLayoutParams(lp);
+					if (AndroidUtils.getSdkVersion() >= 11) {
+						pricePromoLayout.setTranslationX(0f);
+					}
+					else {
+						AnimatorProxy.wrap(pricePromoLayout).setTranslationX(0f);
+					}
 				}
 
 				@Override
