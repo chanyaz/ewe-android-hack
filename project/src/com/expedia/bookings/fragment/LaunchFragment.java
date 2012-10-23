@@ -208,6 +208,7 @@ public class LaunchFragment extends Fragment {
 			// Response was good, we are going to use this stuff
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
 				mHotelsStreamAdapter.setProperties(searchResponse);
+				mHotelsStreamListView.setSelectionFromTop(mHotelsStreamAdapter.getMiddle(), 0);
 			}
 
 			// Hotel search failed; user will not see reverse waterfall.

@@ -7,85 +7,66 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.*;
+import com.expedia.bookings.data.Distance;
+import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
-import com.mobiata.android.Params;
 import com.mobiata.android.util.Ui;
 
-public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListener {
+public class LaunchStreamAdapter extends CircularArrayAdapter<Property> implements OnMeasureListener {
 
 	private static final int TYPE_EMPTY = 0;
 	private static final int TYPE_LOADED = 1;
 	private static final int NUM_ROW_TYPES = 2;
 
-	private static final int NUM_PROPERTIES_DEFAULT = 10;
-
 	private static final String THUMBNAIL_SIZE = Media.IMAGE_BIG_SUFFIX;
 
 	private Context mContext;
 
-	private Property[] mProperties;
+	LayoutInflater mInflater;
 
 	private Distance.DistanceUnit mDistanceUnit;
 
 	private boolean mIsMeasuring = false;
-	private boolean mHasRealProperties = false;
 
 	public LaunchStreamAdapter(Context context) {
+		super(context, R.layout.row_launch_tile);
 		mContext = context;
-
-		// init with blank data to ensure that there exist dividers on page load to achieve animation effect
-		mProperties = new Property[NUM_PROPERTIES_DEFAULT];
+		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	public void setProperties(SearchResponse response) {
-		if (response == null || response.getProperties() == null) {
-			mProperties = null;
-		}
-		else {
-			mProperties = response.getFilteredAndSortedProperties(Filter.Sort.DISTANCE);
+		this.clear();
+		if (response != null && response.getProperties() != null) {
+			Property[] properties = response.getFilteredAndSortedProperties(Filter.Sort.DISTANCE);
+			for (Property property : properties) {
+				add(property);
+			}
 			mDistanceUnit = response.getFilter().getDistanceUnit();
-			mHasRealProperties = true;
 		}
 
 		notifyDataSetChanged();
 	}
 
 	@Override
-	public int getCount() {
-		if (mProperties == null) {
-			return 0;
-		}
-		else {
-			return mProperties.length;
-		}
-	}
-
-	@Override
-	public Object getItem(int position) {
-		if (mProperties == null) {
-			return null;
-		}
-		else {
-			return mProperties[position];
-		}
-	}
-
-	@Override
 	public long getItemId(int position) {
-		if (mProperties == null || !mHasRealProperties) {
+		Property property = getItem(position);
+		if (property == null) {
 			return 0;
 		}
-		else {
-			return Integer.valueOf(mProperties[position].getPropertyId());
-		}
+
+		return Integer.valueOf(property.getPropertyId());
 	}
 
 	@Override
@@ -95,27 +76,27 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 
 	@Override
 	public int getItemViewType(int position) {
-		if (mProperties != null && mHasRealProperties) {
-			Property property = mProperties[position];
-			String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
+		Property property = getItem(position);
 
-			if (ImageCache.containsImage(url)) {
-				return TYPE_LOADED;
-			}
-			else {
-				return TYPE_EMPTY;
-			}
+		if (property == null) {
+			return TYPE_EMPTY;
 		}
+
+		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
+
+		if (ImageCache.containsImage(url)) {
+			return TYPE_LOADED;
+		}
+
 		return TYPE_EMPTY;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		TileHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.row_launch_tile, parent, false);
+			convertView = mInflater.inflate(R.layout.row_launch_tile, parent, false);
 
 			holder = new TileHolder();
 
@@ -135,12 +116,12 @@ public class LaunchStreamAdapter extends BaseAdapter implements OnMeasureListene
 			holder = (TileHolder) convertView.getTag();
 		}
 
+		Property property = getItem(position);
+
 		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
-		if (mIsMeasuring || !mHasRealProperties) {
+		if (mIsMeasuring || property == null) {
 			return convertView;
 		}
-
-		Property property = mProperties[position];
 
 		holder.titleTextView.setText(property.getName());
 		holder.distanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
