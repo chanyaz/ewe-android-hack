@@ -285,6 +285,58 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Stack management
+
+	private void showLoadingFragment() {
+		if (mStatusFragment == null) {
+			mStatusFragment = new StatusFragment();
+		}
+
+		FragmentManager fm = getSupportFragmentManager();
+		if (fm.getBackStackEntryCount() == 0) {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.replace(R.id.content_container, mStatusFragment, StatusFragment.TAG);
+			ft.addToBackStack(BACKSTACK_LOADING);
+			ft.commit();
+		}
+		else {
+			fm.popBackStack(BACKSTACK_LOADING, 0);
+		}
+
+		mStatusFragment.showLoading(getString(R.string.loading_flights));
+	}
+
+	private void showNoFlights(CharSequence errMsg) {
+		mNoFlightsFragment = NoFlightsFragment.newInstance(errMsg);
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.content_container, mNoFlightsFragment, NoFlightsFragment.TAG);
+		ft.addToBackStack(BACKSTACK_NO_FLIGHTS);
+		ft.commit();
+	}
+
+	private void showResultsListFragment() {
+		mListFragment = FlightListFragment.newInstance(mLegPosition);
+
+		// Make sure to cover up while showing the list fragment
+		if (mLegPosition == 0) {
+			mStatusFragment.setCoverEnabled(true);
+		}
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.content_container, mListFragment, FlightListFragment.TAG);
+		ft.addToBackStack(getFlightListBackStackName(mLegPosition));
+		ft.commit();
+	}
+
+	private void showFlightDetails(FlightTrip trip, FlightLeg leg) {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg, mLegPosition);
+		ft.replace(R.id.content_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
+		ft.addToBackStack(getFlightDetailsBackStackName(mLegPosition));
+		ft.commit();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Action bar
 
 	private MenuItem mSearchMenuItem;
@@ -450,30 +502,12 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	private void startSearch() {
-		if (mStatusFragment == null) {
-			mStatusFragment = new StatusFragment();
-		}
-
 		// #445: Need to reset the search results before starting a new one
 		Db.getFlightSearch().setSearchResponse(null);
-		if (mListFragment != null && mListFragment.isAdded()) {
-			mListFragment.reset();
-		}
 		mLegPosition = 0;
 		Db.kickOffBackgroundSave(this);
 
-		FragmentManager fm = getSupportFragmentManager();
-		if (fm.getBackStackEntryCount() == 0) {
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.replace(R.id.content_container, mStatusFragment, StatusFragment.TAG);
-			ft.addToBackStack(BACKSTACK_LOADING);
-			ft.commit();
-		}
-		else {
-			fm.popBackStack(BACKSTACK_LOADING, 0);
-		}
-
-		mStatusFragment.showLoading(getString(R.string.loading_flights));
+		showLoadingFragment();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(DOWNLOAD_KEY);
@@ -539,15 +573,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 				}
 
-				if (mListFragment == null) {
-					mListFragment = new FlightListFragment();
-				}
-
-				mStatusFragment.setCoverEnabled(true);
-				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-				ft.replace(R.id.content_container, mListFragment, FlightListFragment.TAG);
-				ft.addToBackStack(getFlightListBackStackName(0));
-				ft.commit();
+				showResultsListFragment();
 			}
 		}
 	};
@@ -676,14 +702,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mStatusFragment.showError(null);
 	}
 
-	private void showNoFlights(CharSequence errMsg) {
-		mNoFlightsFragment = NoFlightsFragment.newInstance(errMsg);
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.replace(R.id.content_container, mNoFlightsFragment, NoFlightsFragment.TAG);
-		ft.addToBackStack(BACKSTACK_NO_FLIGHTS);
-		ft.commit();
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Flight list
 
@@ -722,13 +740,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				OmnitureTracking.trackPageLoadFlightSearchResultsInboundList(mContext);
 				mLegPosition++;
 
-				mListFragment.setLegPosition(mLegPosition);
-
-				// Remove the flight details fragment
-				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-				ft.replace(R.id.content_container, mListFragment);
-				ft.addToBackStack(getFlightListBackStackName(mLegPosition));
-				ft.commit();
+				// Remove the flight details fragment, show new list results
+				showResultsListFragment();
 			}
 			else {
 				Intent intent = new Intent(mContext, FlightTripOverviewActivity.class);
@@ -750,11 +763,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition) {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg, mLegPosition);
-		ft.replace(R.id.content_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
-		ft.addToBackStack(getFlightDetailsBackStackName(mLegPosition));
-		ft.commit();
+		showFlightDetails(trip, leg);
 	}
 
 	@Override
@@ -796,7 +805,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				Db.kickOffBackgroundSave(mContext);
 
 				mLegPosition = legPosition;
-				mListFragment.setLegPosition(legPosition);
+				mListFragment = Ui.findSupportFragment(this, FlightListFragment.TAG);
 				mFlightDetailsFragment = Ui.findSupportFragment(this, FlightDetailsFragment.TAG);
 
 				didSave = true;

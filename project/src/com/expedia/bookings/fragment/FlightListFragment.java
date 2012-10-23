@@ -37,7 +37,7 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 
 	public static final String TAG = FlightListFragment.class.getName();
 
-	private static final String INSTANCE_LEG_POSITION = "INSTANCE_LEG_POSITION";
+	private static final String ARG_LEG_POSITION = "INSTANCE_LEG_POSITION";
 
 	private FlightAdapter mAdapter;
 
@@ -49,10 +49,15 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 
 	private int mLegPosition;
 
-	// Used for solving a timing issue with scrolling to the top
-	private boolean mScrollToTopOnResume;
-
 	private int mFlightListBlurHeight;
+
+	public static FlightListFragment newInstance(int legPosition) {
+		FlightListFragment fragment = new FlightListFragment();
+		Bundle args = new Bundle();
+		args.putInt(ARG_LEG_POSITION, legPosition);
+		fragment.setArguments(args);
+		return fragment;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,14 +65,14 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 
 		mFlightListBlurHeight = (int) getResources().getDimension(R.dimen.flight_list_blur_height);
 
+		mLegPosition = getArguments().getInt(ARG_LEG_POSITION);
+
 		if (savedInstanceState != null) {
-			mLegPosition = savedInstanceState.getInt(INSTANCE_LEG_POSITION);
 			if (mLegPosition == 1) {
 				OmnitureTracking.trackPageLoadFlightSearchResultsInboundList(getActivity());
 			}
 		}
 		else {
-			mLegPosition = 0;
 			if (Db.getFlightSearch().getSearchParams().getReturnDate() != null) {
 				OmnitureTracking.trackPageLoadFlightSearchResultsOutboundList(getActivity());
 			}
@@ -111,33 +116,38 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		mListView.addHeaderView(header);
 		mListView.setHeaderDividersEnabled(false);
 
-		displayHeaderLeg();
+		// Only dynamically blur background if there is no header
+		// flight card being shown.
+		if (mLegPosition == 0) {
+			mListView.setOnScrollListener(this);
+		}
+		else {
+			mListView.setOnScrollListener(null);
+			mListener.onDisableFade();
+		}
 
 		// Add the adapter
 		mAdapter = new FlightAdapter(getActivity(), savedInstanceState);
 		mAdapter.registerDataSetObserver(mDataSetObserver);
 		setListAdapter(mAdapter);
 
-		// Set initial data
-		onLegPositionChanged();
+		// Setup data
+		mAdapter.setLegPosition(mLegPosition);
+
+		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
+
+		if (mLegPosition == 0) {
+			mSectionFlightLeg.setVisibility(View.INVISIBLE);
+		}
+		else {
+			mSectionFlightLeg.setVisibility(View.VISIBLE);
+			FlightSearch search = Db.getFlightSearch();
+			FlightTripQuery query = search.queryTrips(0);
+			mSectionFlightLeg.bind(null, search.getSelectedLegs()[0].getFlightLeg(), query.getMinTime(),
+					query.getMaxTime());
+		}
 
 		return v;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		if (mScrollToTopOnResume) {
-			mListView.setSelection(0);
-		}
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		outState.putInt(INSTANCE_LEG_POSITION, mLegPosition);
 	}
 
 	@Override
@@ -172,21 +182,6 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 	//////////////////////////////////////////////////////////////////////////
 	// Header control
 
-	private void displayHeaderLeg() {
-		if (mSectionFlightLeg != null) {
-			if (mLegPosition == 0) {
-				mSectionFlightLeg.setVisibility(View.INVISIBLE);
-			}
-			else {
-				mSectionFlightLeg.setVisibility(View.VISIBLE);
-				FlightSearch search = Db.getFlightSearch();
-				FlightTripQuery query = search.queryTrips(0);
-				mSectionFlightLeg.bind(null, search.getSelectedLegs()[0].getFlightLeg(), query.getMinTime(),
-						query.getMaxTime());
-			}
-		}
-	}
-
 	private void displayNumFlights() {
 		if (mNumFlightsTextView != null) {
 			int count = mAdapter.getCount();
@@ -200,51 +195,6 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 						count, count, StrUtils.getLocationCityOrCode(location)).toUpperCase());
 			}
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// List control
-
-	public void reset() {
-		mLegPosition = 0;
-		mAdapter.setFlightTripQuery(null);
-	}
-
-	public void setLegPosition(int legPosition) {
-		if (mLegPosition != legPosition) {
-			mLegPosition = legPosition;
-
-			mScrollToTopOnResume = true;
-
-			if (isAdded()) {
-				onLegPositionChanged();
-			}
-		}
-	}
-
-	public int getLegPosition() {
-		return mLegPosition;
-	}
-
-	public void onLegPositionChanged() {
-		mAdapter.setLegPosition(mLegPosition);
-
-		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
-
-		// Scroll to top after reloading list with new results
-		if (mListView != null) {
-			// Only dynamically blur background if there is no header
-			// flight card being shown.
-			if (mLegPosition == 0) {
-				mListView.setOnScrollListener(this);
-			}
-			else {
-				mListView.setOnScrollListener(null);
-				mListener.onDisableFade();
-			}
-		}
-
-		displayHeaderLeg();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
