@@ -27,6 +27,16 @@ public class Location implements JSONable {
 	// Also sometimes used for airport/metro codes
 	private String mDestinationId;
 
+	public Location() {
+
+	}
+
+	public Location(String destinationId, String cityName, String description) {
+		mDestinationId = destinationId;
+		mCity = cityName;
+		mDescription = description;
+	}
+
 	public List<String> getStreetAddress() {
 		return mStreetAddress;
 	}

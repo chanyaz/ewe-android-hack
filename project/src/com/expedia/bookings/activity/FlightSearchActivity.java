@@ -24,6 +24,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 	public static final String EXTRA_DATA_EXPIRED = "EXTRA_DATA_EXPIRED";
 
+	public static final String ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS = "ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS";
+
 	private static final String INSTANCE_UPDATE_ON_RESUME = "INSTANCE_UPDATE_ON_RESUME";
 
 	private FlightSearchParamsFragment mSearchParamsFragment;
@@ -52,7 +54,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		mKillReceiver.onCreate();
 
 		// On first launch, try to restore cached flight data (in this case, just for the search params)
-		if (savedInstanceState == null) {
+		if (savedInstanceState == null && !getIntent().getBooleanExtra(ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, false)) {
 			loadParamsFromDisk();
 		}
 

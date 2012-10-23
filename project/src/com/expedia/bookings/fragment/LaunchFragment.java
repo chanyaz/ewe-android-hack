@@ -14,21 +14,18 @@ import android.widget.AdapterView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.*;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.widget.LaunchFlightAdapter;
 import com.expedia.bookings.widget.LaunchStreamAdapter;
 import com.expedia.bookings.widget.LaunchStreamListView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
-import com.mobiata.android.location.MobiataLocationFinder;
 import com.mobiata.android.util.Ui;
 
 public class LaunchFragment extends Fragment {
@@ -45,7 +42,7 @@ public class LaunchFragment extends Fragment {
 	private LaunchStreamListView mHotelsStreamListView;
 	private LaunchStreamAdapter mHotelsStreamAdapter;
 	private LaunchStreamListView mFlightsStreamListView;
-	private LaunchStreamAdapter mFlightsStreamAdapter;
+	private LaunchFlightAdapter mFlightAdapter;
 
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
@@ -228,14 +225,18 @@ public class LaunchFragment extends Fragment {
 		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 		mHotelsStreamListView.setSlaveView(mFlightsStreamListView);
 
-		mFlightsStreamAdapter = new LaunchStreamAdapter(mContext);
-		mFlightsStreamListView.setAdapter(mFlightsStreamAdapter);
+		mFlightAdapter = new LaunchFlightAdapter(mContext);
+		mFlightsStreamListView.setAdapter(mFlightAdapter);
+
+		mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
 		mFlightsStreamListView.setSlaveView(mHotelsStreamListView);
 
 		SearchResponse searchResponse = Db.getSearchResponse();
 		if (Db.getSearchResponse() != null) {
 			mHotelsStreamAdapter.setProperties(searchResponse);
 		}
+
+		mFlightAdapter.setLocations(LaunchFlightAdapter.getHardcodedDestinations());
 	}
 
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
@@ -265,13 +266,27 @@ public class LaunchFragment extends Fragment {
 	private final AdapterView.OnItemClickListener mHotelsStreamOnItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Property property = (Property) mHotelsStreamAdapter.getItem(position);
+			Property property = mHotelsStreamAdapter.getItem(position);
 			Db.setSelectedProperty(property);
 
 			BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
 
 			Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
 			mContext.startActivity(intent);
+		}
+	};
+
+	private final AdapterView.OnItemClickListener mFlightsStreamOnItemClickListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			com.expedia.bookings.data.Location location = mFlightAdapter.getItem(position);
+
+			FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
+			flightSearchParams.setArrivalLocation(location);
+
+			NavUtils.goToFlights(getActivity(), true);
+
+			BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
 		}
 	};
 }
