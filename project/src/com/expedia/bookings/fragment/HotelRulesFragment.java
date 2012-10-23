@@ -44,9 +44,9 @@ public class HotelRulesFragment extends SherlockFragment {
 		return view;
 	}
 
-	private void populateHeaderRows(View v) {
+	private void populateHeaderRows(View view) {
 		// terms and conditions
-		TextView terms = Ui.findView(v, R.id.terms_and_conditions);
+		TextView terms = Ui.findView(view, R.id.terms_and_conditions);
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -59,7 +59,7 @@ public class HotelRulesFragment extends SherlockFragment {
 		});
 
 		// privacy policy
-		TextView privacy = Ui.findView(v, R.id.privacy_policy);
+		TextView privacy = Ui.findView(view, R.id.privacy_policy);
 		privacy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -69,5 +69,24 @@ public class HotelRulesFragment extends SherlockFragment {
 				startActivity(intent);
 			}
 		});
+
+		// privacy policy
+		TextView guarantee = Ui.findView(view, R.id.best_price_guarantee);
+		if (RulesRestrictionsUtils.getBestPriceGuaranteeUrl(getActivity()) != null) {
+			guarantee.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(getActivity(), HotelWebViewActivity.class);
+					intent.putExtra(HotelWebViewActivity.ARG_URL,
+							RulesRestrictionsUtils.getBestPriceGuaranteeUrl(getActivity()));
+
+					startActivity(intent);
+				}
+			});
+		}
+		else {
+			guarantee.setVisibility(View.GONE);
+			Ui.findView(view, R.id.best_price_guarantee_divider).setVisibility(View.GONE);
+		}
 	}
 }

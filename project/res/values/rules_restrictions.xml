@@ -224,4 +224,44 @@
 		<item>@string/point_of_sale_us</item><item>@string/privacy_policy_url_us</item>
 		<item>@string/point_of_sale_vn</item><item>@string/privacy_policy_url_vn</item>
 	</string-array>
+	
+	<!-- Best price guarantee URLs -->
+	<string name="best_price_guarantee_url_be_nl" tools:ignore="MissingTranslation">http://www.expedia.be/nl-BE/prijsgarantie.aspx</string>
+	<string name="best_price_guarantee_url_be_fr" tools:ignore="MissingTranslation">http://www.expedia.be/daily/stores/category/price-guarantee_fr_BE/</string>
+	<string name="best_price_guarantee_url_de" tools:ignore="MissingTranslation">http://www.expedia.de/daily/service/price-guarantee/default.aspx?rfrr=-57394</string>
+	<string name="best_price_guarantee_url_dk" tools:ignore="MissingTranslation">http://www.expedia.dk/dk/prisgaranti.aspx?rfrr=-57600</string>
+	<string name="best_price_guarantee_url_es" tools:ignore="MissingTranslation">http://www.expedia.es/garantia-de-precio.aspx?rfrr=-57600</string>
+	<string name="best_price_guarantee_url_fr" tools:ignore="MissingTranslation">http://www.expedia.fr/daily/service/price-guarantee/default.aspx?rfrr=-57394</string>
+	<string name="best_price_guarantee_url_ie" tools:ignore="MissingTranslation">http://www.expedia.ie/en-IE/price-guarantee.aspx</string>
+	<string name="best_price_guarantee_url_in" tools:ignore="MissingTranslation">http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</string>
+	<string name="best_price_guarantee_url_it" tools:ignore="MissingTranslation">http://www.expedia.it/daily/service/price-guarantee/default.aspx?rfrr=-57394</string>
+	<string name="best_price_guarantee_url_my" tools:ignore="MissingTranslation">http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</string>
+	<string name="best_price_guarantee_url_nl" tools:ignore="MissingTranslation">http://www.expedia.nl/prijsgarantie.aspx?rfrr=-57600</string>
+	<string name="best_price_guarantee_url_no" tools:ignore="MissingTranslation">http://www.expedia.no/no/prisgaranti.aspx?rfrr=-57600</string>
+	<string name="best_price_guarantee_url_ph" tools:ignore="MissingTranslation">http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</string>
+	<string name="best_price_guarantee_url_se" tools:ignore="MissingTranslation">http://www.expedia.se/se/prisgaranti.aspx?rfrr=-57600</string>
+	<string name="best_price_guarantee_url_sg" tools:ignore="MissingTranslation">http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</string>
+	<string name="best_price_guarantee_url_uk" tools:ignore="MissingTranslation">http://www.expedia.co.uk/daily/service/price-guarantee/default.aspx?rfrr=-57394</string>
+	<string name="best_price_guarantee_url_us" tools:ignore="MissingTranslation">http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&amp;rfrr=-58159</string>
+	
+	<!-- Map of POS to privacy policy.  Provides default for dual-language POSes (but should be handled carefully) -->
+	
+	<string-array name="best_price_guarantee_map">
+		<item>@string/point_of_sale_be</item><item>@string/best_price_guarantee_url_be_nl</item>
+		<item>@string/point_of_sale_de</item><item>@string/best_price_guarantee_url_de</item>
+		<item>@string/point_of_sale_dk</item><item>@string/best_price_guarantee_url_dk</item>
+		<item>@string/point_of_sale_es</item><item>@string/best_price_guarantee_url_es</item>
+		<item>@string/point_of_sale_fr</item><item>@string/best_price_guarantee_url_fr</item>
+		<item>@string/point_of_sale_ie</item><item>@string/best_price_guarantee_url_ie</item>
+		<item>@string/point_of_sale_in</item><item>@string/best_price_guarantee_url_in</item>
+		<item>@string/point_of_sale_it</item><item>@string/best_price_guarantee_url_it</item>
+		<item>@string/point_of_sale_my</item><item>@string/best_price_guarantee_url_my</item>
+		<item>@string/point_of_sale_nl</item><item>@string/best_price_guarantee_url_nl</item>
+		<item>@string/point_of_sale_no</item><item>@string/best_price_guarantee_url_no</item>
+		<item>@string/point_of_sale_ph</item><item>@string/best_price_guarantee_url_ph</item>
+		<item>@string/point_of_sale_se</item><item>@string/best_price_guarantee_url_se</item>
+		<item>@string/point_of_sale_sg</item><item>@string/best_price_guarantee_url_sg</item>
+		<item>@string/point_of_sale_uk</item><item>@string/best_price_guarantee_url_uk</item>
+		<item>@string/point_of_sale_us</item><item>@string/best_price_guarantee_url_us</item>
+	</string-array>
 </resources>
