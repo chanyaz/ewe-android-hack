@@ -95,6 +95,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private View mSlideToPurchaseLayout;
 	private TextView mCancelationPolicyTextView;
 
+	private boolean mShowSlideToWidget;
 	private SlideToWidget mSlideToPurchaseWidget;
 	private TextView mPurchaseTotalTextView;
 
@@ -169,13 +170,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		mBillingInfo = Db.getBillingInfo();
 
-		if (Db.getSelectedProperty() != null && Db.getSelectedRate() != null) {
-			updateReceiptWidget();
-			mHotelReceipt.restoreInstanceState(savedInstanceState);
-		}
-
 		// Detect user state, update account button accordingly
-		mAccountButton.setListener(this);
 		if (User.isLoggedIn(getActivity())) {
 			if (Db.getUser() == null) {
 				Db.loadUser(getActivity());
@@ -365,15 +360,23 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	// View binding stuff
 
 	private void bindAll() {
-		mCreditCardSectionButton.bind(mBillingInfo);
-		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
-
 		if (Db.getTravelers() != null && Db.getTravelers().size() > 0) {
 			mTravelerSection.bind(Db.getTravelers().get(0));
 		}
+
+		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
+		mCreditCardSectionButton.bind(mBillingInfo);
 	}
 
 	public void updateViews() {
+		Rate discountRate = null;
+		if (Db.getCreateTripResponse() != null) {
+			discountRate = Db.getCreateTripResponse().getNewRate();
+		}
+
+		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
+		mHotelReceiptMini.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
+
 		// Disclaimers
 		mRulesRestrictionsTextView.setText(RulesRestrictionsUtils.getRulesRestrictionsConfirmation(getActivity()));
 		mExpediaPointsDisclaimerTextView.setText(R.string.disclaimer_expedia_points);
@@ -412,18 +415,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 	}
 
-	public void updateReceiptWidget() {
-		Rate discountRate = null;
-		if (Db.getCreateTripResponse() != null) {
-			discountRate = Db.getCreateTripResponse().getNewRate();
-		}
-
-		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
-		mHotelReceiptMini.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
-	}
-
 	public void updateViewVisibilities() {
-
 		PaymentFlowState state = PaymentFlowState.getInstance(getActivity());
 		if (state == null) {
 			//This is a rare case that happens when the fragment is attached and then detached quickly
@@ -435,7 +427,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
 		boolean travelerValid = hasValidTravlers();
 
-		if (mInCheckout && travelerValid && paymentAddressValid && paymentCCValid) {
+		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid;
+		if (mInCheckout && mShowSlideToWidget) {
 			showSlideToPurchsaeView();
 		}
 		else {
@@ -486,7 +479,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				mScrollView.smoothScrollTo(0, mScrollViewListener.getMaxY());
 			}
 		});
-		updateViewVisibilities();
+
+		if (mShowSlideToWidget) {
+			showSlideToPurchsaeView();
+		}
 	}
 
 	public void endCheckout() {
@@ -503,7 +499,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				mScrollView.smoothScrollTo(0, 0);
 			}
 		});
-		updateViewVisibilities();
+		hideSlideToPurchaseView();
 	}
 
 	// Hide/show slide to purchase view
@@ -576,10 +572,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mRefreshedUser = true;
 
 		populateTravelerData();
-
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
+
 		bindAll();
+		updateViews();
 		updateViewVisibilities();
 	}
 
