@@ -24,12 +24,12 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
+import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
@@ -41,7 +41,6 @@ import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.HotelReceipt;
@@ -87,13 +86,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private ViewGroup mTravelerButton;
 	private ViewGroup mPaymentButton;
 
-	private TextView mRulesRestrictionsTextView;
-	private TextView mExpediaPointsDisclaimerTextView;
+	private TextView mLegalInformationTextView;
 	private View mSlideToPurchaseLayoutSpacerView;
 
 	private HotelReceiptMini mHotelReceiptMini;
 	private View mSlideToPurchaseLayout;
-	private TextView mCancelationPolicyTextView;
 
 	private boolean mShowSlideToWidget;
 	private SlideToWidget mSlideToPurchaseWidget;
@@ -146,9 +143,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mTravelerButton = Ui.findView(view, R.id.traveler_info_btn);
 		mPaymentButton = Ui.findView(view, R.id.payment_info_btn);
 
-		mRulesRestrictionsTextView = Ui.findView(view, R.id.rules_restrictions_text_view);
-		mExpediaPointsDisclaimerTextView = Ui.findView(view, R.id.expedia_points_disclaimer_text_view);
-		mCancelationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
+		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
 		mSlideToPurchaseLayoutSpacerView = Ui.findView(view, R.id.slide_to_purchase_layout_spacer_view);
 
 		mHotelReceiptMini = Ui.findView(view, R.id.sticky_receipt_mini);
@@ -197,6 +192,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mPaymentButton.setOnClickListener(mOnClickListener);
 		mStoredCreditCard.setOnClickListener(mOnClickListener);
 		mCreditCardSectionButton.setOnClickListener(mOnClickListener);
+		mLegalInformationTextView.setOnClickListener(mOnClickListener);
 
 		// Hide unused view
 		Ui.findView(view, R.id.display_special_assistance).setVisibility(View.GONE);
@@ -369,6 +365,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void updateViews() {
+		mLegalInformationTextView.setText(Html.fromHtml(getString(R.string.fare_rules_link)));
+
 		Rate discountRate = null;
 		if (Db.getCreateTripResponse() != null) {
 			discountRate = Db.getCreateTripResponse().getNewRate();
@@ -376,18 +374,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
 		mHotelReceiptMini.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
-
-		// Disclaimers
-		mRulesRestrictionsTextView.setText(RulesRestrictionsUtils.getRulesRestrictionsConfirmation(getActivity()));
-		mExpediaPointsDisclaimerTextView.setText(R.string.disclaimer_expedia_points);
-
-		Policy cancellationPolicy = Db.getSelectedRate().getRateRules().getPolicy(Policy.TYPE_CANCEL);
-		if (cancellationPolicy != null) {
-			mCancelationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
-		}
-		else {
-			mCancelationPolicyTextView.setVisibility(View.GONE);
-		}
 
 		// Purchase total
 		Money displayedTotal;
@@ -634,6 +620,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			case R.id.creditcard_section_button: {
 				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(mBillingInfo);
 				startActivity(new Intent(getActivity(), HotelPaymentOptionsActivity.class));
+				break;
+			}
+			case R.id.legal_information_text_view: {
+				Intent intent = new Intent(getActivity(), HotelRulesActivity.class);
+				startActivity(intent);
 				break;
 			}
 			}

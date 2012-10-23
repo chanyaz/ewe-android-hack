@@ -135,6 +135,11 @@ public class RulesRestrictionsUtils {
 		}
 	}
 
+	public static String getBestPriceGuaranteeUrl(Context context) {
+		String pos = LocaleUtils.getPointOfSale(context);
+		return ResourceUtils.getStringMap(context, R.array.privacy_policy_map).get(pos);
+	}
+
 	public static CharSequence getRulesRestrictionsConfirmation(Context context) {
 		String pos = LocaleUtils.getPointOfSale(context);
 
@@ -191,7 +196,8 @@ public class RulesRestrictionsUtils {
 		}
 
 		if (template != null) {
-			return Html.fromHtml(String.format(template, getTermsAndConditionsUrl(context), getPrivacyPolicyUrl(context)));
+			return Html.fromHtml(String.format(template, getTermsAndConditionsUrl(context),
+					getPrivacyPolicyUrl(context)));
 		}
 
 		return null;

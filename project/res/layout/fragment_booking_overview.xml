@@ -155,25 +155,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@id/rules_restrictions_text_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="16dp"
-                        android:textColor="@android:color/white" />
-
-                    <TextView
-                        android:id="@id/expedia_points_disclaimer_text_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="16dp"
-                        android:textColor="@android:color/white" />
-
-                    <TextView
-                        android:id="@+id/cancellation_policy_text_view"
+                        android:id="@+id/legal_information_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
@@ -184,7 +166,7 @@
                     <View
                         android:id="@+id/slide_to_purchase_layout_spacer_view"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp" />
+                        android:layout_height="120dp" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

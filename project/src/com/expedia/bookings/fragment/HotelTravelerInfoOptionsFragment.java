@@ -92,6 +92,12 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			}
 		});
 
+		// Hide born textview
+		View bornOnView = Ui.findView(v, R.id.display_born_on);
+		if (bornOnView != null) {
+			bornOnView.setVisibility(View.GONE);
+		}
+
 		//Associated Travelers (From Expedia Account)
 		mAssociatedTravelersContainer.removeAllViews();
 		if (User.isLoggedIn(getActivity())) {

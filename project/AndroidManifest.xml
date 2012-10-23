@@ -94,6 +94,12 @@
             android:name=".activity.BookingOverviewActivity"
             android:theme="@style/Theme.Phone.Dark" />
         <activity
+            android:name=".activity.HotelRulesActivity"
+            android:theme="@style/FlightTheme" />
+        <activity
+            android:name=".activity.HotelWebViewActivity"
+            android:theme="@style/FlightTheme" />
+        <activity
             android:name=".activity.HotelTravelerInfoOptionsActivity"
             android:label="Add Traveler"
             android:theme="@style/Theme.Phone.Dark" />
