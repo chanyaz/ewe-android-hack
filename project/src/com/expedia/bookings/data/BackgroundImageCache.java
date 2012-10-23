@@ -24,43 +24,54 @@ public class BackgroundImageCache {
 	private DiskLruCache mDiskCache;
 	private boolean mCancelAddBitmap = false;
 	private Semaphore mAddingBitmapSem = new Semaphore(1);
+	private Semaphore mAddingDefaultsSem = new Semaphore(1);
 
 	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; //10MB
 	private static final int DISK_WRITE_BUFFER_SIZE = 4096;
 	private static final String DISK_CACHE_SUBDIR = "LruImageChacher";
 	private static final String TAG = "BG_IMAGE_CACHE";
 	private static final String BLUR_KEY_SUFFIX = "blurkeysuffix";
-	private static final int STACK_BLUR_RADIUS = 10;
 	private static final String DEFAULT_KEY = "defaultkey";
-	private static final int DECODE_IN_SAMPLE_SIZE = 4;//1 is lossless, but it takes too much memory for now...
+	private static final int DECODE_IN_SAMPLE_SIZE = 1;//1 is lossless, but it takes lots of memory
+	private static final int DECODE_IN_SAMPLE_SIZE_BLURRED = 1;//1 is lossless, but it takes lots of memory
 	private static final int BLURRED_IMAGE_SIZE_REDUCTION_FACTORY = 4;
+	private static final int STACK_BLUR_RADIUS = Math.round(10 / BLURRED_IMAGE_SIZE_REDUCTION_FACTORY); //10 is what we want, but because we are shrinking the image dimensions
 
 	public BackgroundImageCache(Context context) {
 		initMemCache();
 		initDiskCache(context);
 	}
 
+	public void loadDefaultsInThread(final Context context) {
+		Runnable loadDefaults = new Runnable() {
+			@Override
+			public void run() {
+				addDefaultBgToCache(context);
+			}
+		};
+		Thread loadDefaultsThread = new Thread(loadDefaults);
+		loadDefaultsThread.setPriority(Thread.MIN_PRIORITY);
+		loadDefaultsThread.start();
+	}
+
 	///////////////////////////
 	// Public
 
-	public boolean hasKey(String bmapkey) {
-		if (memCacheHasKey(bmapkey) && memCacheHasKey(getBlurredKey(bmapkey))) {
-			return true;
-		}
-		else if (diskCacheHasKey(bmapkey) && diskCacheHasKey(getBlurredKey(bmapkey))) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	public boolean hasKeyAndBlurredKey(String bmapkey) {
+		Log.d(TAG, "hasKeyAndBlurredKey:" + bmapkey);
+
+		return hasKey(bmapkey) && hasKey(getBlurredKey(bmapkey));
 	}
 
 	public Bitmap getBitmap(String bmapkey, Context context) {
 		String key = bmapkey.toLowerCase();
-		Log.d(TAG, "getBitmap key:" + key);
+		Log.i(TAG, "getBitmap key:" + key);
 		Bitmap ret = null;
 		ret = getBitmapFromMemoryCache(key);
-		if (ret == null) {
+		if (ret != null) {
+			Log.d(TAG, "MemCache hit!");
+		}
+		else {
 			Log.d(TAG, "MemCache miss!");
 			ret = getBitmapFromDiskCache(key);
 			if (ret != null) {
@@ -69,15 +80,18 @@ public class BackgroundImageCache {
 			}
 			else {
 				Log.d(TAG, "DiskCache miss! (revert to default)");
+
 				//We put the default in the cache
-				if (DEFAULT_KEY.equals(key)) {
+				if (DEFAULT_KEY.equals(key) || getBlurredKey(DEFAULT_KEY).equals(key)) {
 					addDefaultBgToCache(context);
 				}
-				ret = getBitmap(DEFAULT_KEY, context);
+				if (this.keyIsBlurredKey(key)) {
+					ret = getBitmap(getBlurredKey(DEFAULT_KEY), context);
+				}
+				else {
+					ret = getBitmap(DEFAULT_KEY, context);
+				}
 			}
-		}
-		else {
-			Log.i(TAG, "MemCache hit!");
 		}
 		return ret;
 	}
@@ -91,6 +105,9 @@ public class BackgroundImageCache {
 
 			@Override
 			public void run() {
+
+				Log.i(TAG, "putBitmap key:" + bmapkey + " bmapSize w:" + bitmap.getWidth() + " h:" + bitmap.getHeight()
+						+ " blur:" + blur);
 
 				Editor bgImageEditor = null;
 				Editor blurredEditor = null;
@@ -108,23 +125,23 @@ public class BackgroundImageCache {
 						if (mCancelAddBitmap) {
 							throw new Exception("Canceled after blur");
 						}
-						addBitmapToDiskCacheEditorEditor(blurredEditor, blurred);
+						addBitmapToDiskCacheEditor(blurredEditor, blurred);
 						if (mCancelAddBitmap) {
 							throw new Exception("Canceled after blurred added to cache");
 						}
 					}
 
-					addBitmapToDiskCacheEditorEditor(bgImageEditor, bitmap);
+					addBitmapToDiskCacheEditor(bgImageEditor, bitmap);
 
 					if (mCancelAddBitmap) {
 						throw new Exception("Canceled after bg added to disk cache");
 					}
 
 					bgImageEditor.commit();
-
 					if (blur) {
 						blurredEditor.commit();
 					}
+					mDiskCache.flush();
 				}
 				catch (Exception ex) {
 					Log.e("Exception adding bitmap:", ex);
@@ -179,20 +196,60 @@ public class BackgroundImageCache {
 	//////////////////////////////////////////
 	// Helpers
 
+	private boolean hasKey(String bmapkey) {
+		return memCacheHasKey(bmapkey) || diskCacheHasKey(bmapkey);
+	}
+
 	private void addDefaultBgToCache(Context context) {
-		Log.d("Adding defaults to cache...");
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = DECODE_IN_SAMPLE_SIZE;
-		putBitmap(DEFAULT_KEY,
-				BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background, options),
-				false);
-		putBitmap(getBlurredKey(DEFAULT_KEY),
-				BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background_blurred,
-						options), false);
+		if (mAddingDefaultsSem.tryAcquire()) {
+			try {
+				Log.d("Adding defaults to cache...");
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				if (!this.hasKey(DEFAULT_KEY)) {
+					options.inSampleSize = DECODE_IN_SAMPLE_SIZE;
+					putBitmap(
+							DEFAULT_KEY,
+							BitmapFactory.decodeResource(context.getResources(), R.drawable.default_flights_background,
+									options),
+							false);
+				}
+				if (!this.hasKey(getBlurredKey(DEFAULT_KEY))) {
+					options.inSampleSize = 4;
+					putBitmap(getBlurredKey(DEFAULT_KEY),
+							BitmapFactory.decodeResource(context.getResources(),
+									R.drawable.default_flights_background_blurred,
+									options), false);
+				}
+			}
+			finally
+			{
+				mAddingDefaultsSem.release();
+			}
+		}
+		else {
+			//If we are already loading the defaults, we wait for them to finish...
+			boolean semGot = false;
+			try {
+				mAddingDefaultsSem.acquire();
+				semGot = true;
+			}
+			catch (Exception ex) {
+				Log.e("Exception waiting for mAddingDefaultsSem");
+			}
+			finally {
+				if (semGot) {
+					mAddingDefaultsSem.release();
+				}
+			}
+		}
 	}
 
 	private String getBlurredKey(String unblurredKey) {
 		return unblurredKey + BLUR_KEY_SUFFIX;
+	}
+
+	private boolean keyIsBlurredKey(String key) {
+		return key.endsWith(BLUR_KEY_SUFFIX);
 	}
 
 	private Bitmap blur(Bitmap bmapToBlur) {
@@ -404,9 +461,10 @@ public class BackgroundImageCache {
 		}
 
 		//Darken each pixel. (this should be the equivalent of adding a black .35 opacity mask)
+		double maskValue = 0.65;
 		for (int d = 0; d < pix.length; d++) {
-			pix[d] = Color.rgb((int) (Color.red(pix[d]) * 0.35), (int) (Color.green(pix[d]) * 0.35),
-					(int) (Color.blue(pix[d]) * 0.35));
+			pix[d] = Color.rgb((int) (Color.red(pix[d]) * maskValue), (int) (Color.green(pix[d]) * maskValue),
+					(int) (Color.blue(pix[d]) * maskValue));
 		}
 
 		long toc = System.currentTimeMillis();
@@ -451,6 +509,8 @@ public class BackgroundImageCache {
 		File cacheDir = context.getCacheDir();
 		File subCacheDir = new File(cacheDir, DISK_CACHE_SUBDIR);
 
+		Log.d(TAG, "CacheDir:" + subCacheDir.getAbsolutePath());
+
 		if (cacheDir.isDirectory() && cacheDir.exists()) {
 			if (!subCacheDir.exists()) {
 				if (!subCacheDir.mkdir()) {
@@ -460,6 +520,12 @@ public class BackgroundImageCache {
 		}
 
 		try {
+			Log.d(TAG, "FILES IN CACHE DIRECTORY");
+			File[] files = subCacheDir.listFiles();
+			for (File file : files) {
+				Log.d(TAG, "file:" + file.getName());
+			}
+
 			mDiskCache = DiskLruCache.open(subCacheDir, AndroidUtils.getAppCode(context), 1, DISK_CACHE_SIZE);
 		}
 		catch (Exception ex) {
@@ -467,7 +533,7 @@ public class BackgroundImageCache {
 		}
 	}
 
-	private boolean addBitmapToDiskCacheEditorEditor(Editor editor, Bitmap bitmap) {
+	private boolean addBitmapToDiskCacheEditor(Editor editor, Bitmap bitmap) {
 		boolean retVal = false;
 		try {
 			OutputStream stream = null;
@@ -485,6 +551,7 @@ public class BackgroundImageCache {
 			if (wrote) {
 				Log.i(TAG, "Stream wrote successfully");
 				retVal = true;
+
 			}
 			else {
 				Log.i(TAG, "Stream write failed");
@@ -504,7 +571,12 @@ public class BackgroundImageCache {
 					Log.d(TAG, "mDiskCache.get(key) != null");
 					Snapshot snapshot = mDiskCache.get(key);
 					BitmapFactory.Options options = new BitmapFactory.Options();
-					options.inSampleSize = DECODE_IN_SAMPLE_SIZE;
+					if (this.keyIsBlurredKey(key)) {
+						options.inSampleSize = DECODE_IN_SAMPLE_SIZE_BLURRED;
+					}
+					else {
+						options.inSampleSize = DECODE_IN_SAMPLE_SIZE;
+					}
 					return BitmapFactory.decodeStream(snapshot.getInputStream(0), null, options);
 				}
 			}
@@ -516,14 +588,17 @@ public class BackgroundImageCache {
 	}
 
 	private boolean diskCacheHasKey(String key) {
+		boolean retVal = false;
 		if (!mDiskCache.isClosed()) {
+			//mDiskCache.get(arg0)
 			try {
-				return (mDiskCache.get(key) != null);
+				retVal = (mDiskCache.get(key) != null);
 			}
 			catch (Exception ex) {
 				Log.e("DiskCache Exception", ex);
 			}
 		}
-		return false;
+		Log.d(TAG, "diskCacheHasKey:" + key + " is " + retVal);
+		return retVal;
 	}
 }

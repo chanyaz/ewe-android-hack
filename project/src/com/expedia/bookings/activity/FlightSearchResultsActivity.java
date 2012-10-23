@@ -530,14 +530,12 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				if (FlightSearchResultsActivity.this.mBgFragment != null) {
 					BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
 					if (cache.isAddingBitmap()) {
-						//Didn't finish in time. Give up.
-						cache.cancelPutBitmap();
+						//Didn't finish in time. We continue to download, but we get rid of our reference to the bg key, and thus revert to defaults
+						Db.setBackgroundImageInfo(null);
 					}
-
-					String key = Db.getBackgroundImageKey();
 					FlightSearchResultsActivity.this.mBgFragment.setBitmap(
-							cache.getBitmap(key, FlightSearchResultsActivity.this),
-							cache.getBlurredBitmap(key, FlightSearchResultsActivity.this));
+							Db.getBackgroundImage(FlightSearchResultsActivity.this, false),
+							Db.getBackgroundImage(FlightSearchResultsActivity.this, true));
 
 				}
 
@@ -606,7 +604,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			else {
 				if (!TextUtils.isEmpty(response.getmCacheKey())) {
 					BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
-					if (!cache.hasKey(response.getmCacheKey())) {
+					if (!cache.hasKeyAndBlurredKey(response.getmCacheKey())) {
 						BackgroundDownloader bd = BackgroundDownloader.getInstance();
 						bd.cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
 						bd.startDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, mBackgroundImageFileDownload,

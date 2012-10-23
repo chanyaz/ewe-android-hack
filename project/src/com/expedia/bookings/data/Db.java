@@ -483,7 +483,9 @@ public class Db {
 	}
 
 	public static String getBackgroundImageKey() {
+		//This is intended to be a bunk value, causing the cache to load the defaults
 		String defaultKey = "none";
+
 		if (sDb == null) {
 			return defaultKey;
 		}
@@ -760,8 +762,9 @@ public class Db {
 			if (obj.has("flightSearch")) {
 				sDb.mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
 			}
-			if(obj.has("backgroundImageInfo")){
-				sDb.mBackgroundImageInfo = JSONUtils.getJSONable(obj, "backgroundImageInfo", BackgroundImageResponse.class);
+			if (obj.has("backgroundImageInfo")) {
+				sDb.mBackgroundImageInfo = JSONUtils.getJSONable(obj, "backgroundImageInfo",
+						BackgroundImageResponse.class);
 			}
 			if (obj.has("itineraries")) {
 				List<Itinerary> itineraries = JSONUtils.getJSONableList(obj, "itineraries", Itinerary.class);
@@ -891,7 +894,8 @@ public class Db {
 			sDb.mCreateTripResponse = getJsonable(obj, "createTripResponse", CreateTripResponse.class,
 					sDb.mCreateTripResponse);
 			sDb.mCouponDiscountRate = getJsonable(obj, "couponDiscountRate", Rate.class, sDb.mCouponDiscountRate);
-			sDb.mBackgroundImageInfo = getJsonable(obj,"backgroundImageInfo",BackgroundImageResponse.class,sDb.mBackgroundImageInfo);
+			sDb.mBackgroundImageInfo = getJsonable(obj, "backgroundImageInfo", BackgroundImageResponse.class,
+					sDb.mBackgroundImageInfo);
 		}
 		catch (Exception e) {
 			Log.w("Could not load db testing", e);

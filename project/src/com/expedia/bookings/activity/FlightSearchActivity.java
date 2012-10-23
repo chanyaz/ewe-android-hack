@@ -56,6 +56,12 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 			loadParamsFromDisk();
 		}
 
+		//We load up the default backgrounds so they are ready to go later if/when we need them
+		//this is important, as we need to load images before our memory load gets too heavy
+		if (savedInstanceState == null) {
+			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
+		}
+
 		if (savedInstanceState != null) {
 			mUpdateOnResume = savedInstanceState.getBoolean(INSTANCE_UPDATE_ON_RESUME);
 		}
