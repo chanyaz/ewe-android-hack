@@ -61,6 +61,9 @@ public class FontCache {
 	}
 
 	public static void setTypeface(View view, int resId, Font font) {
-		setTypeface((TextView) Ui.findView(view, resId), font);
+		TextView text = Ui.findView(view, resId);
+		if (text != null) {
+			setTypeface(text, font);
+		}
 	}
 }
