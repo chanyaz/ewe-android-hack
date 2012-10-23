@@ -44,7 +44,9 @@ public class LaunchFlightAdapter extends CircularArrayAdapter<Location> implemen
 	public void setLocations(List<Location> locations) {
 		this.clear();
 
-		addAll(locations);
+		for (Location location : locations) {
+			add(location);
+		}
 
 		notifyDataSetChanged();
 	}
