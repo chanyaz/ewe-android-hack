@@ -47,8 +47,6 @@ public class LaunchFragment extends Fragment {
 	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchFlightAdapter mFlightAdapter;
 
-	private TextView mWelcomeView;
-
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
 	}
@@ -67,15 +65,13 @@ public class LaunchFragment extends Fragment {
 		FontCache.setTypeface(v, R.id.hotels_prompt_text_view, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.flights_label_text_view, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.flights_prompt_text_view, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(v, R.id.launch_welcome_text_view, FontCache.Font.ROBOTO_LIGHT);
 
 		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
 
 		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
 		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
-
-		mWelcomeView = Ui.findView(v, R.id.launch_welcome_text_view);
-		FontCache.setTypeface(mWelcomeView, FontCache.Font.ROBOTO_LIGHT);
 
 		return v;
 	}
