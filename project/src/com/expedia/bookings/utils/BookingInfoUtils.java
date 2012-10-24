@@ -83,6 +83,54 @@ public class BookingInfoUtils {
 		}
 	};
 
+	// Which icon to use with which credit card
+	@SuppressWarnings("serial")
+	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_GREY_ICONS = new HashMap<CreditCardType, Integer>() {
+		{
+			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_grey);
+			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_grey);
+			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_grey);
+			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_grey);
+			put(CreditCardType.DISCOVER, R.drawable.ic_discover_grey);
+			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_grey);
+			put(CreditCardType.MAESTRO, R.drawable.ic_maestro_grey);
+			put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_grey);
+			put(CreditCardType.VISA, R.drawable.ic_visa_grey);
+		}
+	};
+
+	// Which icon to use with which credit card
+	@SuppressWarnings("serial")
+	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_BLACK_ICONS = new HashMap<CreditCardType, Integer>() {
+		{
+			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_black);
+			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_black);
+			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_black);
+			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_black);
+			put(CreditCardType.DISCOVER, R.drawable.ic_discover_black);
+			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_black);
+			put(CreditCardType.MAESTRO, R.drawable.ic_maestro_black);
+			put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_black);
+			put(CreditCardType.VISA, R.drawable.ic_visa_black);
+		}
+	};
+
+	// Which icon to use with which credit card
+	@SuppressWarnings("serial")
+	public static final HashMap<CreditCardType, Integer> CREDIT_CARD_CVV_ICONS = new HashMap<CreditCardType, Integer>() {
+		{
+			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_grey_cvv);
+			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_grey_cvv);
+			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_grey_cvv);
+			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_grey_cvv);
+			put(CreditCardType.DISCOVER, R.drawable.ic_discover_grey_cvv);
+			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_grey_cvv);
+			put(CreditCardType.MAESTRO, R.drawable.ic_maestro_grey_cvv);
+			put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_grey_cvv);
+			put(CreditCardType.VISA, R.drawable.ic_visa_grey_cvv);
+		}
+	};
+
 	// Static data that auto-fills states/countries
 	@SuppressWarnings("serial")
 	public static final HashMap<CharSequence, Integer> COMMON_US_CITIES = new HashMap<CharSequence, Integer>() {

@@ -41,32 +41,32 @@ public class CreditCardSection extends LinearLayout {
 		int resId;
 		switch (type) {
 		case AMERICAN_EXPRESS:
-			resId = R.drawable.ic_amex_grey;
+			resId = R.drawable.ic_amex_grey_cvv;
 			break;
 		case CARTE_BLANCHE:
-			resId = R.drawable.ic_carte_blanche_grey;
+			resId = R.drawable.ic_carte_blanche_grey_cvv;
 			break;
 		case CHINA_UNION_PAY:
-			resId = R.drawable.ic_union_pay_grey;
+			resId = R.drawable.ic_union_pay_grey_cvv;
 			break;
 		case DINERS_CLUB:
-			resId = R.drawable.ic_diners_club_grey;
+			resId = R.drawable.ic_diners_club_grey_cvv;
 			break;
 		case DISCOVER:
-			resId = R.drawable.ic_discover_grey;
+			resId = R.drawable.ic_discover_grey_cvv;
 			break;
 		case JAPAN_CREDIT_BUREAU:
-			resId = R.drawable.ic_jcb_grey;
+			resId = R.drawable.ic_jcb_grey_cvv;
 			break;
 		case MAESTRO:
-			resId = R.drawable.ic_maestro_grey;
+			resId = R.drawable.ic_maestro_grey_cvv;
 			break;
 		case MASTERCARD:
-			resId = R.drawable.ic_master_card_grey;
+			resId = R.drawable.ic_master_card_grey_cvv;
 			break;
 		case VISA:
 		default:
-			resId = R.drawable.ic_visa_grey;
+			resId = R.drawable.ic_visa_grey_cvv;
 			break;
 		}
 

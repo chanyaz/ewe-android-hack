@@ -69,11 +69,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mContext = context;
 
 		//Display fields
-		mFields.add(this.mDisplayCreditCardBrandIcon);
+		mFields.add(this.mDisplayCreditCardBrandIconGrey);
+		mFields.add(this.mDisplayCreditCardBrandIconBlack);
 		mFields.add(this.mDisplayCreditCardExpiration);
 		mFields.add(this.mDisplayCreditCardNumberMasked);
 		mFields.add(this.mDisplayFullName);
-		mFields.add(this.mDisplayCreditCardBrandName);
 		mFields.add(this.mDisplayAddress);
 
 		//Validation indicator fields
@@ -100,8 +100,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	 */
 	private void rebindNumDependantFields() {
 		mDisplayCreditCardNumberMasked.bindData(mBillingInfo);
-		mDisplayCreditCardBrandIcon.bindData(mBillingInfo);
-		mDisplayCreditCardBrandName.bindData(mBillingInfo);
+		mDisplayCreditCardBrandIconGrey.bindData(mBillingInfo);
+		mDisplayCreditCardBrandIconBlack.bindData(mBillingInfo);
 	}
 
 	@Override
@@ -204,21 +204,40 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIcon = new SectionField<ImageView, BillingInfo>(
-			R.id.display_creditcard_brand_icon) {
+	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconGrey = new SectionField<ImageView, BillingInfo>(
+			R.id.display_credit_card_brand_icon_grey) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null) {
-					field.setImageResource(BookingInfoUtils.CREDIT_CARD_ICONS.get(cardType));
+					field.setImageResource(BookingInfoUtils.CREDIT_CARD_GREY_ICONS.get(cardType));
 				}
 				else {
-					field.setImageResource(R.drawable.ic_cc_unknown);
+					field.setImageResource(R.drawable.ic_generic_card);
 				}
 			}
 			else {
-				field.setImageResource(R.drawable.ic_cc_unknown);
+				field.setImageResource(R.drawable.ic_generic_card);
+			}
+		}
+	};
+
+	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconBlack = new SectionField<ImageView, BillingInfo>(
+			R.id.display_credit_card_brand_icon_black) {
+		@Override
+		public void onHasFieldAndData(ImageView field, BillingInfo data) {
+			if (!TextUtils.isEmpty(data.getBrandName())) {
+				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
+				if (cardType != null) {
+					field.setImageResource(BookingInfoUtils.CREDIT_CARD_BLACK_ICONS.get(cardType));
+				}
+				else {
+					field.setImageDrawable(null);
+				}
+			}
+			else {
+				field.setImageDrawable(null);
 			}
 		}
 	};
@@ -237,14 +256,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			else {
 				field.setText("");
 			}
-		}
-	};
-
-	SectionField<TextView, BillingInfo> mDisplayCreditCardBrandName = new SectionField<TextView, BillingInfo>(
-			R.id.display_creditcard_brand_name) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			field.setText((data.getBrandName() != null) ? data.getBrandName().replace("_", " ") : "");
 		}
 	};
 
