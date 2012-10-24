@@ -32,6 +32,19 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		setSelectionFromTop(adapter.getMiddle(), offset);
 	}
 
+	private int mSavedPosition;
+	private int mSavedOffset;
+
+	public void savePosition() {
+		mSavedPosition = getFirstVisiblePosition();
+		View v = getChildAt(0);
+		mSavedOffset = (v == null) ? 0 : v.getTop();
+	}
+
+	public void restorePosition() {
+		setSelectionFromTop(mSavedPosition, mSavedOffset);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// OnScrollListener
 	//////////////////////////////////////////////////////////////////////////////////////////

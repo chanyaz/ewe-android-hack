@@ -14,7 +14,11 @@ import android.widget.AdapterView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
-import com.expedia.bookings.data.*;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
@@ -103,6 +107,8 @@ public class LaunchFragment extends Fragment {
 	@Override
 	public void onStop() {
 		super.onStop();
+
+		mHotelsStreamListView.savePosition();
 
 		// Null out the adapter to prevent potentially recycled images from attempting to redraw and crash
 		mHotelsStreamListView.setAdapter(null);
@@ -234,6 +240,7 @@ public class LaunchFragment extends Fragment {
 		SearchResponse searchResponse = Db.getSearchResponse();
 		if (searchResponse != null) {
 			mHotelAdapter.setProperties(searchResponse);
+			mHotelsStreamListView.restorePosition();
 		}
 
 		mFlightAdapter.setLocations(LaunchFlightAdapter.getHardcodedDestinations());
