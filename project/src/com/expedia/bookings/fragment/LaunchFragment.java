@@ -110,7 +110,12 @@ public class LaunchFragment extends Fragment {
 		mHotelsStreamListView.savePosition();
 
 		// Null out the adapter to prevent potentially recycled images from attempting to redraw and crash
+		// Also null out the adapter to release its expensive bitmaps... does this need to be done? not sure but doing
+		// this now to unblock people maybe?
 		mHotelsStreamListView.setAdapter(null);
+		mHotelAdapter = null;
+		mFlightsStreamListView.setAdapter(null);
+		mFlightAdapter = null;
 	}
 
 	private void onReactToUserActive() {
