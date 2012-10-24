@@ -466,6 +466,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	private AnimatorListenerAdapter mAnimatorListener = new AnimatorListenerAdapter() {
 		@Override
+		public void onAnimationStart(Animator animation) {
+			setMenusEnabled(false);
+		}
+
+		@Override
 		public void onAnimationEnd(Animator animation) {
 			if (mAnimForward) {
 				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -487,11 +492,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			if (mSetNewLegPosition != -1) {
 				setNewLegPosition(mSetNewLegPosition);
 			}
-		}
-
-		@Override
-		public void onAnimationStart(Animator animation) {
-			setMenusEnabled(false);
 		}
 	};
 

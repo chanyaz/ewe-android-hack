@@ -221,6 +221,7 @@ public class FlightDetailsFragment extends Fragment {
 
 		float[] values;
 		int center = (top + bottom) / 2;
+		int height = bottom - top;
 
 		// Animate the individual cards
 		int childCount = mInfoContainer.getChildCount();
@@ -229,6 +230,12 @@ public class FlightDetailsFragment extends Fragment {
 			int childCenter = (child.getTop() + child.getBottom()) / 2;
 			values = (isEntering) ? new float[] { center - childCenter, 0 } : new float[] { 0, center - childCenter };
 			set.play(ObjectAnimator.ofFloat(child, "translationY", values));
+
+			if (child instanceof FlightSegmentSection) {
+				float change = (float) height / (float) child.getHeight();
+				values = (isEntering) ? new float[] { change, 1 } : new float[] { 1, change };
+				set.play(ObjectAnimator.ofFloat(child, "scaleY", values));
+			}
 		}
 
 		// Animate the header up
