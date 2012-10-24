@@ -8,6 +8,7 @@ import android.text.Html;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
@@ -142,5 +143,12 @@ public class CalendarUtils {
 		else {
 			return context.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
 		}
+	}
+
+	public static boolean isSearchDateTonight() {
+		SearchParams params = Db.getSearchParams();
+		com.expedia.bookings.data.Date today = new com.expedia.bookings.data.Date(Calendar.getInstance());
+		com.expedia.bookings.data.Date checkIn = new com.expedia.bookings.data.Date(params.getCheckInDate());
+		return params.getStayDuration() == 1 && today.equals(checkIn);
 	}
 }

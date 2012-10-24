@@ -344,7 +344,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				showDialog(DIALOG_LOCATION_SUGGESTIONS);
 			}
 			else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
-				simulateErrorResponse(R.string.progress_search_failed);
+				simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
 				handleError();
 			}
 			else {
@@ -1647,7 +1647,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		if (!handledError) {
 			TrackingUtils.trackErrorPage(PhoneSearchActivity.this, "HotelListRequestFailed");
-			showLoading(false, R.string.progress_search_failed);
+			showLoading(false, LayoutUtils.noHotelsFoundMessage(mContext));
 		}
 	}
 

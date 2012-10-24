@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
@@ -309,7 +310,7 @@ public class HotelListFragment extends ListFragment implements OnScrollListener 
 
 		if (response.getPropertiesCount() == 0) {
 			setHeaderVisibility(View.GONE);
-			mSearchProgressBar.setText(R.string.ean_error_no_results);
+			mSearchProgressBar.setText(LayoutUtils.noHotelsFoundMessage(getActivity()));
 			mSearchProgressBar.setShowProgress(false);
 		}
 		else if (mAdapter.getCount() == 0) {

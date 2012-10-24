@@ -231,6 +231,19 @@ public class LayoutUtils {
 				+ medDf.format(cal.getTime());
 	}
 
+	public static String noHotelsFoundMessage(Context context) {
+		StringBuilder sb = new StringBuilder();
+		if (CalendarUtils.isSearchDateTonight()) {
+			sb.append(context.getResources().getString(R.string.no_hotels_availiable_tonight));
+		}
+		else {
+			sb.append(context.getResources().getString(R.string.no_hotels_availiable));
+		}
+		sb.append("\n");
+		sb.append(context.getResources().getString(R.string.please_try_a_different_location_or_date));
+		return sb.toString();
+	}
+
 	public static void layoutRoomLongDescription(Context context, Rate rate, TextView roomDetailsTextView) {
 		CharSequence longDescription = rate.getRoomLongDescription();
 		if (longDescription != null) {

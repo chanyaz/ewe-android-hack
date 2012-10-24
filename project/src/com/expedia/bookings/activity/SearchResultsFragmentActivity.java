@@ -976,7 +976,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		Db.setSearchResponse(response);
 
 		if (response == null) {
-			mHotelListFragment.updateStatus(getString(R.string.progress_search_failed), false);
+			mHotelListFragment.updateStatus(LayoutUtils.noHotelsFoundMessage(mContext), false);
 			TrackingUtils.trackErrorPage(this, "HotelListRequestFailed");
 		}
 		else {
