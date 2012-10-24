@@ -126,6 +126,10 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		}
 	}
 
+	protected void scrollSlaveBy(int deltaY) {
+		mSlaveView.scrollListBy(deltaY * 2);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Marquee to auto-scroll this view. Copied from TextView.java
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -197,8 +201,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 			final LaunchStreamListView listView = mView.get();
 			if (listView != null) {
 				listView.scrollListBy(mScrollUnit);
-				//TODO: test for max scroll, and if so, reset
-				//sendEmptyMessageDelayed(MESSAGE_RESTART, MARQUEE_RESTART_DELAY);
+				listView.scrollSlaveBy(mScrollUnit);
 				sendEmptyMessageDelayed(MESSAGE_TICK, MARQUEE_RESOLUTION);
 				listView.invalidate();
 			}
