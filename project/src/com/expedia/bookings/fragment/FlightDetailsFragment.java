@@ -28,6 +28,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
@@ -58,8 +59,6 @@ public class FlightDetailsFragment extends Fragment {
 
 	// Temporary data set for animation
 	private boolean mBaggageInScrollView;
-	private int mStartAnimTop;
-	private int mStartAnimBottom;
 
 	public static FlightDetailsFragment newInstance(FlightTrip trip, FlightLeg leg, int legPosition) {
 		FlightDetailsFragment fragment = new FlightDetailsFragment();
@@ -213,52 +212,42 @@ public class FlightDetailsFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Animators
 
-	// Mimics current Animator setup
-	public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+	public Animator createAnimator(int top, int bottom, boolean isEntering) {
 		View v = getView();
-		if (v != null) {
-			float[] values = (enter) ? new float[] { 0, 1 } : new float[] { 1, 0 };
-			return ObjectAnimator.ofFloat(v, "alpha", values);
-		}
-		return null;
-	}
-
-	public Animator createEnterFromListAnimator() {
-		View v = getView();
-
 		if (v == null) {
 			return null;
 		}
 
-		// Here are animations!
-		int center = (mStartAnimBottom + mStartAnimTop) / 2;
-		int childCount = mInfoContainer.getChildCount();
+		AnimatorSet set = new AnimatorSet();
+
+		float[] values;
+		int center = (top + bottom) / 2;
 
 		// Animate the individual cards
-		AnimatorSet set = new AnimatorSet();
+		int childCount = mInfoContainer.getChildCount();
 		for (int a = 0; a < childCount; a++) {
 			View child = mInfoContainer.getChildAt(a);
-			set.play(ObjectAnimator.ofFloat(child, "translationY", center - child.getTop(), 0));
+			int childCenter = (child.getTop() + child.getBottom()) / 2;
+			values = (isEntering) ? new float[] { center - childCenter, 0 } : new float[] { 0, center - childCenter };
+			set.play(ObjectAnimator.ofFloat(child, "translationY", values));
 		}
 
-		// Animate the header down
-		set.play(ObjectAnimator.ofFloat(mInfoBar, "translationY", -mInfoBar.getHeight(), 0));
+		// Animate the header up
+		values = (isEntering) ? new float[] { -mInfoBar.getHeight(), 0 } : new float[] { 0, -mInfoBar.getHeight() };
+		set.play(ObjectAnimator.ofFloat(mInfoBar, "translationY", values));
 
-		// Animate the baggage fee up (if it's not part of the scrollview)
+		// Animate the baggage fee down
 		if (!mBaggageInScrollView) {
-			set.play(ObjectAnimator.ofFloat(mBaggageInfoTextView, "translationY",
-					mBaggageInfoTextView.getHeight(), 0));
+			values = (isEntering) ? new float[] { mBaggageInfoTextView.getHeight(), 0 } : new float[] { 0,
+					mBaggageInfoTextView.getHeight() };
+			set.play(ObjectAnimator.ofFloat(mBaggageInfoTextView, "translationY", values));
 		}
 
-		// Make the entire screen fade in
-		set.play(ObjectAnimator.ofFloat(v, "alpha", 0.0f, 1.0f));
+		// Make the entire screen fade out
+		values = (isEntering) ? new float[] { 0.0f, 1.0f } : new float[] { 1.0f, 0.0f };
+		set.play(ObjectAnimator.ofFloat(v, "alpha", values));
 
 		return set;
-	}
-
-	public void setAnimParams(int topY, int bottomY) {
-		mStartAnimTop = topY;
-		mStartAnimBottom = bottomY;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

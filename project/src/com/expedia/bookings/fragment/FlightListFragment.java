@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -194,7 +195,7 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		// Notify that a flight leg was clicked
 		FlightTrip trip = mAdapter.getItem(position - numHeaderViews);
 		FlightLeg leg = trip.getLeg(mLegPosition);
-		mListener.onFlightLegClick(trip, leg, mLegPosition, v.getTop(), v.getBottom());
+		mListener.onFlightLegClick(trip, leg, mLegPosition);
 
 		OmnitureTracking.trackLinkFlightSearchSelect(getActivity(), position - numHeaderViews + 1, mLegPosition);
 	}
@@ -210,6 +211,38 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 			return ObjectAnimator.ofFloat(v, "alpha", values);
 		}
 		return null;
+	}
+
+	// Used to find out where to animate to/from a card in the list
+	public Pair<Integer, Integer> getFlightCardTopAndBottom(FlightLeg flightLeg) {
+		int position = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount();
+		int firstPosition = mListView.getFirstVisiblePosition();
+		int lastPosition = mListView.getLastVisiblePosition();
+
+		if (position >= firstPosition && position <= lastPosition) {
+			View v = mListView.getChildAt(position - firstPosition);
+			return new Pair<Integer, Integer>(v.getTop(), v.getBottom());
+		}
+		else {
+			// Find the first visible card and use that as measurement
+			int headerCount = mListView.getHeaderViewsCount();
+			int targetPosition = Math.max(headerCount, firstPosition);
+			View v = mListView.getChildAt(targetPosition);
+			int cardHeight = v.getHeight();
+
+			// Return a set of top/bottom just above or just below the ListView
+			if (position < firstPosition) {
+				return new Pair<Integer, Integer>(-cardHeight, 0);
+			}
+			else {
+				int listViewHeight = mListView.getHeight();
+				return new Pair<Integer, Integer>(listViewHeight, listViewHeight + cardHeight);
+			}
+		}
+	}
+
+	public Pair<Integer, Integer> getSelectedFlightCardTopAndBottom() {
+		return new Pair<Integer, Integer>(mSectionFlightLeg.getTop(), mSectionFlightLeg.getBottom());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -253,7 +286,7 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 	public interface FlightListFragmentListener {
 		public void onFlightListLayout(FlightListFragment fragment);
 
-		public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition, int legTop, int legBottom);
+		public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition);
 
 		public void onDeselectFlightLeg();
 

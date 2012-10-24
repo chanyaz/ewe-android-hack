@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -112,6 +113,22 @@ public class FlightAdapter extends BaseAdapter {
 		section.bind(trip, leg, mMinTime, mMaxTime);
 
 		return convertView;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Utilities
+
+	public int getPosition(FlightLeg leg) {
+		String targetLegId = leg.getLegId();
+		List<FlightTrip> trips = mFlightTripQuery.getTrips();
+		int len = trips.size();
+		for (int pos = 0; pos < len; pos++) {
+			if (trips.get(pos).getLeg(mLegPosition).getLegId().equals(targetLegId)) {
+				return pos;
+			}
+		}
+
+		return -1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

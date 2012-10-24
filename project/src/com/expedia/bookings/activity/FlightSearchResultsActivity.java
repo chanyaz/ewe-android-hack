@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Pair;
 import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -365,10 +366,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mAnimForward = true;
 	}
 
-	private void showFlightDetails(FlightTrip trip, FlightLeg leg, int legTop, int legBottom) {
+	private void showFlightDetails(FlightTrip trip, FlightLeg leg) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mFlightDetailsFragment = FlightDetailsFragment.newInstance(trip, leg, mLegPosition);
-		mFlightDetailsFragment.setAnimParams(legTop, legBottom);
 		ft.add(R.id.details_container, mFlightDetailsFragment, FlightDetailsFragment.TAG);
 		ft.addToBackStack(getFlightDetailsBackStackName(mLegPosition));
 		ft.commit();
@@ -395,6 +395,11 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private int mSetNewLegPosition;
 
 	private void onFragmentLoaded(Fragment fragment) {
+		if (mSkipAnimation) {
+			mSkipAnimation = false;
+			return;
+		}
+
 		// Find out where we're headed
 		String backStackTopName = getTopBackStackName();
 		mSetNewLegPosition = -1;
@@ -403,32 +408,42 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		Animator backwardAnim = null;
 		if (mAnimForward) {
 			if (backStackTopName.startsWith(BACKSTACK_FLIGHT_LIST_PREFIX) && mFlightDetailsFragment != null) {
+				Pair<Integer, Integer> topAndBottom = mListFragment.getSelectedFlightCardTopAndBottom();
+
 				// Details --> List
 				mAnimRemoveFragment = mFlightDetailsFragment;
 				forwardAnim = mListFragment.onCreateAnimator(0, true, 0);
-				backwardAnim = mFlightDetailsFragment.onCreateAnimator(0, false, 0);
+				backwardAnim = mFlightDetailsFragment.createAnimator(topAndBottom.first, topAndBottom.second, false);
 
 				// Save new leg position here, before animation (in case it gets canceled due to config change)
 				mSetNewLegPosition = 1;
 			}
 			else if (backStackTopName.startsWith(BACKSTACK_FLIGHT_DETAILS_PREFIX)) {
+				Pair<Integer, Integer> topAndBottom = mListFragment.getFlightCardTopAndBottom(mFlightDetailsFragment
+						.getFlightLeg());
+
 				// List --> Details
 				mAnimRemoveFragment = mListFragment;
-				forwardAnim = mFlightDetailsFragment.onCreateAnimator(0, true, 0);
+				forwardAnim = mFlightDetailsFragment.createAnimator(topAndBottom.first, topAndBottom.second, true);
 				backwardAnim = mListFragment.onCreateAnimator(0, false, 0);
 			}
 		}
 		else {
 			if (backStackTopName.startsWith(BACKSTACK_FLIGHT_DETAILS_PREFIX)) {
+				Pair<Integer, Integer> topAndBottom = mListFragment.getFlightCardTopAndBottom(mFlightDetailsFragment
+						.getFlightLeg());
+
 				// Details --> List (back)
 				mAnimRemoveFragment = mFlightDetailsFragment;
 				forwardAnim = mListFragment.onCreateAnimator(0, true, 0);
-				backwardAnim = mFlightDetailsFragment.onCreateAnimator(0, false, 0);
+				backwardAnim = mFlightDetailsFragment.createAnimator(topAndBottom.first, topAndBottom.second, false);
 			}
 			else if (backStackTopName.startsWith(BACKSTACK_FLIGHT_LIST_PREFIX) && mFlightDetailsFragment != null) {
+				Pair<Integer, Integer> topAndBottom = mListFragment.getSelectedFlightCardTopAndBottom();
+
 				// List --> Details (back)
 				mAnimRemoveFragment = mFlightDetailsFragment;
-				forwardAnim = mFlightDetailsFragment.onCreateAnimator(0, true, 0);
+				forwardAnim = mFlightDetailsFragment.createAnimator(topAndBottom.first, topAndBottom.second, true);
 				backwardAnim = mListFragment.onCreateAnimator(0, false, 0);
 
 				// Save new leg position here, before animation (in case it gets canceled due to config change)
@@ -436,15 +451,14 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			}
 		}
 
-		if (mAnimRemoveFragment == null || mSkipAnimation || forwardAnim == null || backwardAnim == null) {
-			mSkipAnimation = false;
+		if (mAnimRemoveFragment == null || forwardAnim == null || backwardAnim == null) {
 			return;
 		}
 
 		// Begin an animation to unload things
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(forwardAnim, backwardAnim);
-		set.setDuration(350);
+		set.setDuration(450);
 		set.addListener(mAnimatorListener);
 		set.start();
 
@@ -509,7 +523,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				((ValueAnimator) anim).reverse();
 			}
 			else if (anim instanceof AnimatorSet) {
-				stack.addAll(((AnimatorSet) animator).getChildAnimations());
+				stack.addAll(((AnimatorSet) anim).getChildAnimations());
 			}
 		}
 	}
@@ -949,8 +963,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
-	public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition, int legTop, int legBottom) {
-		showFlightDetails(trip, leg, legTop, legBottom);
+	public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition) {
+		showFlightDetails(trip, leg);
 	}
 
 	@Override
