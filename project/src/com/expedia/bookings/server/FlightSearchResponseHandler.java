@@ -124,7 +124,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			}
 
 			// Parse possible operating flight code
-			if (segmentJson.has("operatingAirlineCode")) {
+			if (segmentJson.has("operatingAirlineCode") && segmentJson.has("operatingAirlineFlightNumber")) {
 				FlightCode opFlightCode = new FlightCode();
 				opFlightCode.mAirlineCode = segmentJson.optString("operatingAirlineCode");
 				opFlightCode.mNumber = segmentJson.optString("operatingAirlineFlightNumber");
