@@ -24,7 +24,7 @@ import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
-public class LaunchStreamAdapter extends CircularArrayAdapter<Property> implements OnMeasureListener {
+public class LaunchHotelAdapter extends CircularArrayAdapter<Property> implements OnMeasureListener {
 
 	private static final int TYPE_EMPTY = 0;
 	private static final int TYPE_LOADED = 1;
@@ -40,7 +40,7 @@ public class LaunchStreamAdapter extends CircularArrayAdapter<Property> implemen
 
 	private boolean mIsMeasuring = false;
 
-	public LaunchStreamAdapter(Context context) {
+	public LaunchHotelAdapter(Context context) {
 		super(context, R.layout.row_launch_tile_hotel);
 		mContext = context;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

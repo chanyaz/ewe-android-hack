@@ -20,7 +20,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.LaunchFlightAdapter;
-import com.expedia.bookings.widget.LaunchStreamAdapter;
+import com.expedia.bookings.widget.LaunchHotelAdapter;
 import com.expedia.bookings.widget.LaunchStreamListView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
@@ -40,7 +40,7 @@ public class LaunchFragment extends Fragment {
 	private Context mContext;
 
 	private LaunchStreamListView mHotelsStreamListView;
-	private LaunchStreamAdapter mHotelsStreamAdapter;
+	private LaunchHotelAdapter mHotelAdapter;
 	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchFlightAdapter mFlightAdapter;
 
@@ -204,7 +204,7 @@ public class LaunchFragment extends Fragment {
 
 			// Response was good, we are going to use this stuff
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
-				mHotelsStreamAdapter.setProperties(searchResponse);
+				mHotelAdapter.setProperties(searchResponse);
 				mHotelsStreamListView.selectMiddle();
 			}
 
@@ -219,8 +219,8 @@ public class LaunchFragment extends Fragment {
 	// View Stuff
 
 	private void initViews() {
-		mHotelsStreamAdapter = new LaunchStreamAdapter(mContext);
-		mHotelsStreamListView.setAdapter(mHotelsStreamAdapter);
+		mHotelAdapter = new LaunchHotelAdapter(mContext);
+		mHotelsStreamListView.setAdapter(mHotelAdapter);
 
 		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 		mHotelsStreamListView.setSlaveView(mFlightsStreamListView);
@@ -233,7 +233,7 @@ public class LaunchFragment extends Fragment {
 
 		SearchResponse searchResponse = Db.getSearchResponse();
 		if (searchResponse != null) {
-			mHotelsStreamAdapter.setProperties(searchResponse);
+			mHotelAdapter.setProperties(searchResponse);
 		}
 
 		mFlightAdapter.setLocations(LaunchFlightAdapter.getHardcodedDestinations());
@@ -266,7 +266,7 @@ public class LaunchFragment extends Fragment {
 	private final AdapterView.OnItemClickListener mHotelsStreamOnItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			Property property = mHotelsStreamAdapter.getItem(position);
+			Property property = mHotelAdapter.getItem(position);
 			Db.setSelectedProperty(property);
 
 			BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
