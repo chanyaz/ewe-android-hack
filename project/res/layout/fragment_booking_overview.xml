@@ -39,6 +39,7 @@
                     layout="@layout/include_account_button" />
 
                 <TextView
+                    android:id="@+id/checkout_information_header_text_view"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -149,6 +150,10 @@
                         android:layout_height="wrap_content"
                         layout="@layout/section_display_stored_credit_card" />
                 </LinearLayout>
+
+                <!-- Coupon codes -->
+
+                <include layout="@layout/include_overview_coupon_code" />
 
                 <TextView
                     android:id="@+id/legal_information_text_view"

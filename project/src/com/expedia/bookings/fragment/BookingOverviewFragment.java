@@ -43,6 +43,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
+import com.expedia.bookings.widget.CouponCodeWidget;
 import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.HotelReceiptMini;
 import com.expedia.bookings.widget.ScrollView;
@@ -54,6 +55,7 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 public class BookingOverviewFragment extends Fragment implements AccountButtonClickListener {
@@ -86,6 +88,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private ViewGroup mTravelerButton;
 	private ViewGroup mPaymentButton;
 
+	private CouponCodeWidget mCouponCodeWidget;
 	private TextView mLegalInformationTextView;
 	private View mScrollSpacerView;
 
@@ -143,6 +146,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mTravelerButton = Ui.findView(view, R.id.traveler_info_btn);
 		mPaymentButton = Ui.findView(view, R.id.payment_info_btn);
 
+		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
 		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
 
@@ -151,6 +155,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		mSlideToPurchaseWidget = Ui.findView(view, R.id.slide_to_purchase_widget);
 		mPurchaseTotalTextView = Ui.findView(view, R.id.purchase_total_text_view);
+
+		ViewUtils.setAllCaps((TextView) Ui.findView(view, R.id.checkout_information_header_text_view));
 
 		mScrollViewListener = new ScrollViewListener(mScrollView.getContext());
 
@@ -394,10 +400,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		if (mInCheckout && Db.getTravelers() != null && Db.getTravelers().size() > 0 && mBillingInfo != null) {
-			showSlideToPurchsaeView();
+			showPurchsaeViews();
 		}
 		else {
-			hideSlideToPurchaseView();
+			hidePurchaseViews();
 		}
 	}
 
@@ -415,10 +421,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid;
 		if (mInCheckout && mShowSlideToWidget) {
-			showSlideToPurchsaeView();
+			showPurchsaeViews();
 		}
 		else {
-			hideSlideToPurchaseView();
+			hidePurchaseViews();
 		}
 
 		if (travelerValid) {
@@ -480,6 +486,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		mInCheckout = true;
+		setScrollSpacerViewHeight();
 
 		// Scroll to checkout
 		mScrollView.post(new Runnable() {
@@ -490,7 +497,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		});
 
 		if (mShowSlideToWidget) {
-			showSlideToPurchsaeView();
+			showPurchsaeViews();
 		}
 	}
 
@@ -500,6 +507,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		mInCheckout = false;
+		setScrollSpacerViewHeight();
 
 		// Scroll to start
 		mScrollView.post(new Runnable() {
@@ -508,21 +516,23 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				mScrollView.smoothScrollTo(0, 0);
 			}
 		});
-		hideSlideToPurchaseView();
+		hidePurchaseViews();
 	}
 
 	// Hide/show slide to purchase view
 
-	private void showSlideToPurchsaeView() {
+	private void showPurchsaeViews() {
 		if (mSlideToPurchaseLayout.getVisibility() == View.VISIBLE) {
 			return;
 		}
 
 		mSlideToPurchaseLayout.setVisibility(View.VISIBLE);
+		setScrollSpacerViewHeight();
+
 		mSlideToPurchaseLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up));
 	}
 
-	private void hideSlideToPurchaseView() {
+	private void hidePurchaseViews() {
 		if (mSlideToPurchaseLayout.getVisibility() != View.VISIBLE) {
 			return;
 		}
@@ -540,6 +550,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				mSlideToPurchaseLayout.setVisibility(View.INVISIBLE);
+				setScrollSpacerViewHeight();
 			}
 		});
 
@@ -703,6 +714,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		public void measure() {
 			mMidY = (int) ((mReceiptHeight + mMarginTop) / 2);
 			mMaxY = mReceiptHeight - mReceiptMiniHeight + (int) mMarginTop;
+
+			setScrollSpacerViewHeight();
 		}
 
 		public int getMaxY() {
@@ -734,8 +747,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-			setScrollSpacerViewHeight();
-
 			mScrollY = y;
 
 			final float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))

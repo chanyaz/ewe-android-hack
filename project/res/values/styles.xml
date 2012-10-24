@@ -54,6 +54,16 @@
         <item name="android:textSize">20dip</item>
     </style>
 
+    <style name="Widget.TextView" />
+
+    <style name="Widget.TextView.Phone">
+        <item name="android:textSize">14dp</item>
+    </style>
+    
+    <style name="Widget.TextView.Phone.Dark">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="Widget.EditText.Phone">
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>

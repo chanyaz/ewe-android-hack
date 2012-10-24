@@ -15,13 +15,13 @@ import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity.Validatabl
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.section.SectionHotelTravelerInfo;
+import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelTravelerInfoOneFragment extends Fragment implements Validatable {
 
 	Traveler mTraveler;
-	SectionHotelTravelerInfo mSectionTravelerInfo;
+	SectionTravelerInfo mSectionTravelerInfo;
 	int mTravelerIndex = -1;
 
 	boolean mAttemptToLeaveMade = false;
