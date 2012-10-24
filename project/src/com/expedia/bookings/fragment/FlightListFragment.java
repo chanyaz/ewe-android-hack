@@ -32,6 +32,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
@@ -203,14 +204,67 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 	//////////////////////////////////////////////////////////////////////////
 	// Animators
 
-	// Mimics current Animator setup
-	public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+	private static final float MAX_TRANSLATE_Y_DP = 300;
+
+	public Animator createLegClickAnimator(boolean enter, FlightLeg flightLeg) {
+		// Assume entrance for now
 		View v = getView();
-		if (v != null) {
-			float[] values = (enter) ? new float[] { 0, 1 } : new float[] { 1, 0 };
-			return ObjectAnimator.ofFloat(v, "alpha", values);
+
+		AnimatorSet set = new AnimatorSet();
+
+		float[] values;
+
+		// Animate each element of the listview away, at relative speeds (the further from position, the faster)
+		float maxTranslateY = getResources().getDisplayMetrics().density * MAX_TRANSLATE_Y_DP;
+		int position = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount();
+		View targetChild = mListView.getChildAt(position);
+		int targetTop = targetChild.getTop();
+		int listViewHeight = mListView.getHeight();
+		int spaceBelow = listViewHeight - targetTop;
+		int childCount = mListView.getChildCount();
+		for (int a = 0; a < childCount; a++) {
+			View child = mListView.getChildAt(a);
+			int childTop = child.getTop();
+			if (a < position) {
+				float translation = ((float) (targetTop - childTop) / (float) targetTop) * maxTranslateY;
+				values = (enter) ? new float[] { -translation, 0 } : new float[] { 0, -translation };
+				set.play(ObjectAnimator.ofFloat(child, "translationY", values));
+			}
+			else if (a > position) {
+				float translation = ((float) (childTop - targetTop) / (float) spaceBelow) * maxTranslateY;
+				values = (enter) ? new float[] { translation, 0 } : new float[] { 0, translation };
+				set.play(ObjectAnimator.ofFloat(child, "translationY", values));
+			}
 		}
-		return null;
+
+		// Fade in/out the entire view
+		values = (enter) ? new float[] { 0, 1 } : new float[] { 1, 0 };
+		set.play(ObjectAnimator.ofFloat(v, "alpha", values));
+
+		return set;
+	}
+
+	public Animator createLegSelectAnimator(boolean enter) {
+		// Assume entrance for now
+		View v = getView();
+
+		AnimatorSet set = new AnimatorSet();
+
+		float[] values;
+
+		// Animate the entire listview up (except header)
+		int translate = mListView.getHeight() - mListView.getChildAt(0).getHeight();
+		int childCount = mListView.getChildCount();
+		values = (enter) ? new float[] { translate, 0 } : new float[] { 0, translate };
+		for (int a = 1; a < childCount; a++) {
+			set.play(ObjectAnimator.ofFloat(mListView.getChildAt(a), "translationY", values));
+		}
+
+		// Fade in/out the entire view
+		values = (enter) ? new float[] { 0, 1 } : new float[] { 1, 0 };
+		set.play(ObjectAnimator.ofFloat(v, "alpha", values));
+
+		return set;
 	}
 
 	// Used to find out where to animate to/from a card in the list

@@ -402,6 +402,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		// Find out where we're headed
 		String backStackTopName = getTopBackStackName();
+		FlightLeg flightLeg = mFlightDetailsFragment.getFlightLeg();
 		mSetNewLegPosition = -1;
 		mAnimRemoveFragment = null;
 		Animator forwardAnim = null;
@@ -412,30 +413,28 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 				// Details --> List
 				mAnimRemoveFragment = mFlightDetailsFragment;
-				forwardAnim = mListFragment.onCreateAnimator(0, true, 0);
+				forwardAnim = mListFragment.createLegSelectAnimator(true);
 				backwardAnim = mFlightDetailsFragment.createAnimator(topAndBottom.first, topAndBottom.second, false);
 
 				// Save new leg position here, before animation (in case it gets canceled due to config change)
 				mSetNewLegPosition = 1;
 			}
 			else if (backStackTopName.startsWith(BACKSTACK_FLIGHT_DETAILS_PREFIX)) {
-				Pair<Integer, Integer> topAndBottom = mListFragment.getFlightCardTopAndBottom(mFlightDetailsFragment
-						.getFlightLeg());
+				Pair<Integer, Integer> topAndBottom = mListFragment.getFlightCardTopAndBottom(flightLeg);
 
 				// List --> Details
 				mAnimRemoveFragment = mListFragment;
 				forwardAnim = mFlightDetailsFragment.createAnimator(topAndBottom.first, topAndBottom.second, true);
-				backwardAnim = mListFragment.onCreateAnimator(0, false, 0);
+				backwardAnim = mListFragment.createLegClickAnimator(false, flightLeg);
 			}
 		}
 		else {
 			if (backStackTopName.startsWith(BACKSTACK_FLIGHT_DETAILS_PREFIX)) {
-				Pair<Integer, Integer> topAndBottom = mListFragment.getFlightCardTopAndBottom(mFlightDetailsFragment
-						.getFlightLeg());
+				Pair<Integer, Integer> topAndBottom = mListFragment.getFlightCardTopAndBottom(flightLeg);
 
 				// Details --> List (back)
 				mAnimRemoveFragment = mFlightDetailsFragment;
-				forwardAnim = mListFragment.onCreateAnimator(0, true, 0);
+				forwardAnim = mListFragment.createLegClickAnimator(true, flightLeg);
 				backwardAnim = mFlightDetailsFragment.createAnimator(topAndBottom.first, topAndBottom.second, false);
 			}
 			else if (backStackTopName.startsWith(BACKSTACK_FLIGHT_LIST_PREFIX) && mFlightDetailsFragment != null) {
@@ -444,7 +443,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				// List --> Details (back)
 				mAnimRemoveFragment = mFlightDetailsFragment;
 				forwardAnim = mFlightDetailsFragment.createAnimator(topAndBottom.first, topAndBottom.second, true);
-				backwardAnim = mListFragment.onCreateAnimator(0, false, 0);
+				backwardAnim = mListFragment.createLegSelectAnimator(false);
 
 				// Save new leg position here, before animation (in case it gets canceled due to config change)
 				mSetNewLegPosition = 0;
