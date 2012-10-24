@@ -6,18 +6,17 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 
-public class LaunchStreamListView extends MeasureListView implements OnTouchListener {
+public class LaunchStreamListView extends MeasureListView implements OnScrollListener {
 
 	private LaunchStreamListView mSlaveView;
 
 	public LaunchStreamListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		//setOnScrollListener(this);
-		setOnTouchListener(this);
+		setOnScrollListener(this);
 	}
 
 	public void setSlaveView(LaunchStreamListView slave) {
@@ -45,30 +44,56 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// OnTouchListener
+	// OnScrollListener
 	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private boolean mDoNotPropogateNextScrollEvent = false;
+
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		// Set the other ListView onTouchListener to null
-		// to ensure there does not exist resonance in touch dispatch
-		mSlaveView.setOnTouchListener(null);
-
-		// dispatch the touch event to the other ListView
-		// such that they will scroll in unison
-		mSlaveView.dispatchTouchEvent(event);
-
-		// post the resetting of the onTouchListener on ACTION_UP
-		// as that is when the ListView is no longer touched
-		if (event.getAction() == MotionEvent.ACTION_UP) {
-			mSlaveView.post(new Runnable() {
-				@Override
-				public void run() {
-					mSlaveView.setOnTouchListener(mSlaveView);
-				}
-			});
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if (mSlaveView == null) {
+			return;
 		}
 
-		return false;
+		int deltaY = getDistanceScrolled();
+
+		if (mDoNotPropogateNextScrollEvent) {
+			mDoNotPropogateNextScrollEvent = false;
+			return;
+		}
+
+		mSlaveView.scrollListBy(deltaY);
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO Auto-generated method stub
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// getDistanceScrolled
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private int mDistanceScrolledPosition;
+	private int mDistanceScrolledOffset;
+
+	// Returns the distance scrolled since the last call to this function.
+	// *** This will only work if all cells in this ListView are the same height.
+	private int getDistanceScrolled() {
+		if (getChildAt(0) == null || getChildAt(1) == null) {
+			return 0;
+		}
+
+		int position = getFirstVisiblePosition();
+		int offset = getChildAt(0).getTop();
+		int height = getChildAt(1).getTop() - offset;
+
+		int deltaY = (mDistanceScrolledPosition - position) * height + (offset - mDistanceScrolledOffset);
+
+		mDistanceScrolledPosition = position;
+		mDistanceScrolledOffset = offset;
+
+		return deltaY;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -82,6 +107,8 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 	// If this is called twice quickly before a refresh, we need to just increase the distance
 	// instead of replacing it.
 	protected void scrollListBy(int deltaY) {
+		mDoNotPropogateNextScrollEvent = true;
+
 		int position = getFirstVisiblePosition();
 		int top = (getChildAt(0) == null ? 0 : getChildAt(0).getTop());
 		if (mScrollByPosition == position && mScrollByTop == top) {
@@ -97,11 +124,6 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 			setSelectionFromTop(position, top + mScrollByDelta);
 			invalidate();
 		}
-	}
-
-	protected void scrollSlaveBy(int deltaY) {
-		// TODO: this "*2" formula is pretty simple. We may want to make it more complex. 
-		mSlaveView.scrollListBy(deltaY * 2);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -175,7 +197,6 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 			final LaunchStreamListView listView = mView.get();
 			if (listView != null) {
 				listView.scrollListBy(mScrollUnit);
-				listView.scrollSlaveBy(mScrollUnit);
 				//TODO: test for max scroll, and if so, reset
 				//sendEmptyMessageDelayed(MESSAGE_RESTART, MARQUEE_RESTART_DELAY);
 				sendEmptyMessageDelayed(MESSAGE_TICK, MARQUEE_RESOLUTION);
