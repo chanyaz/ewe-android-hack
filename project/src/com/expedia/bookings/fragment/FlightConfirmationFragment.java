@@ -405,6 +405,10 @@ public class FlightConfirmationFragment extends Fragment {
 
 		body.append(getString(R.string.share_flight_support_TEMPLATE, SupportUtils.getFlightSupportNumber(context)));
 
+		body.append("\n\n");
+
+		body.append(getString(R.string.share_flight_shill_app));
+
 		SocialUtils.email(getActivity(), subject, body.toString());
 	}
 
