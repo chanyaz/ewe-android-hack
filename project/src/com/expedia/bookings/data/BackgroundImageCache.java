@@ -62,6 +62,10 @@ public class BackgroundImageCache {
 
 		return hasKey(bmapkey) && hasKey(getBlurredKey(bmapkey));
 	}
+	
+	public boolean isDefaultInCache(){
+		return hasKeyAndBlurredKey(DEFAULT_KEY);
+	}
 
 	public Bitmap getBitmap(String bmapkey, Context context) {
 		String key = bmapkey.toLowerCase();
@@ -188,11 +192,11 @@ public class BackgroundImageCache {
 	}
 
 	public boolean isAddingBitmap() {
-		boolean isAdding = !mAddingBitmapSem.tryAcquire();
-		if (isAdding) {
+		boolean gotSem = mAddingBitmapSem.tryAcquire();
+		if (gotSem) {
 			mAddingBitmapSem.release();
 		}
-		return isAdding;
+		return !gotSem;
 	}
 
 	public void waitForAddingBitmap(long delay) {
