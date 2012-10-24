@@ -311,23 +311,18 @@ public class LayoutUtils {
 			}
 
 			// Get bottom padding (if in split action bar mode)
-			if (hasMenuItems) {
-				int uiOptions = ActionBarSherlockCompat.loadUiOptionsFromManifest(activity);
-				boolean splitWhenNarrow = (uiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 0;
-				if (splitWhenNarrow
-						&& ResourcesCompat.getResources_getBoolean(activity, R.bool.abs__split_action_bar_is_narrow)) {
-					a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
-							R.attr.actionBarSplitStyle, 0);
-					heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
-					if (heightRes != 0) {
-						extraBottomPadding = (int) Math.round(res.getDimension(heightRes));
-					}
-					else {
-						// See comment above for explanation on this similar code
-						a = activity.obtainStyledAttributes(null, STYLEABLE_ACTION_BAR_SIZE);
-						extraBottomPadding = a.getDimensionPixelSize(0, 0);
-						a.recycle();
-					}
+			if (needsBottomPaddingForOverlay(activity, hasMenuItems)) {
+				a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
+						R.attr.actionBarSplitStyle, 0);
+				heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
+				a.recycle();
+				if (heightRes != 0) {
+					extraBottomPadding = (int) Math.round(res.getDimension(heightRes));
+				}
+				else {
+					// See comment above for explanation on this similar code
+					a = activity.obtainStyledAttributes(null, STYLEABLE_ACTION_BAR_SIZE);
+					extraBottomPadding = a.getDimensionPixelSize(0, 0);
 					a.recycle();
 				}
 			}
@@ -336,5 +331,15 @@ public class LayoutUtils {
 			rootView.setPadding(rootView.getPaddingLeft(), rootView.getPaddingTop() + extraTopPadding,
 					rootView.getPaddingRight(), rootView.getPaddingBottom() + extraBottomPadding);
 		}
+	}
+
+	public static boolean needsBottomPaddingForOverlay(Activity activity, boolean hasMenuItems) {
+		if (hasMenuItems) {
+			int uiOptions = ActionBarSherlockCompat.loadUiOptionsFromManifest(activity);
+			boolean splitWhenNarrow = (uiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 0;
+			return splitWhenNarrow
+					&& ResourcesCompat.getResources_getBoolean(activity, R.bool.abs__split_action_bar_is_narrow);
+		}
+		return false;
 	}
 }

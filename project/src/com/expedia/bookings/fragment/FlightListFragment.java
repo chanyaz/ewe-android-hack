@@ -105,7 +105,8 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 
 		final View v = inflater.inflate(R.layout.fragment_flight_list, container, false);
 
-		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, true);
+		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
+		boolean addBottomPadding = LayoutUtils.needsBottomPaddingForOverlay(getActivity(), true);
 
 		// Configure the header
 		mListView = Ui.findView(v, android.R.id.list);
@@ -118,6 +119,13 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		mSectionFlightLeg.setListener(this);
 		mListView.addHeaderView(header);
 		mListView.setHeaderDividersEnabled(false);
+
+		// Configure footer (if we need the extra padding for overlay mode)
+		if (addBottomPadding) {
+			View footer = inflater.inflate(R.layout.snippet_flight_footer, mListView, false);
+			mListView.addFooterView(footer);
+			mListView.setFooterDividersEnabled(false);
+		}
 
 		// Only dynamically blur background if there is no header
 		// flight card being shown.
