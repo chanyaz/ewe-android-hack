@@ -39,7 +39,7 @@
     <!-- Label for screen that is doing searches -->
     <string name="searching">Searching…</string>
     <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">No flights were found.</string>
+    <string name="error_no_flights_found">No flights were found</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
     <string name="error_invalid_departure_airport">Invalid departure airport.</string>
     <!-- Error message when we find no flights because of an invalid arrival airport -->
@@ -96,15 +96,10 @@
     <string name="error_same_origin_arrival">You must enter different departure and arrival airports.</string>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Search data was cleared somehow.  Please report this error to DLew.</string>
-    <!-- # of flights, plus where they're going.  %1$s is the # of flights, %2$s is the destination.  E.g., "5 flights to Los Angeles" -->
-    <plurals name="num_flights_to_destination">
-        <item quantity="zero">%1$s flights to %2$s</item>
-        <item quantity="one">%1$s flight to %2$s</item>
-        <item quantity="two">%1$s flights to %2$s</item>
-        <item quantity="few">%1$s flights to %2$s</item>
-        <item quantity="many">%1$s flights to %2$s</item>
-        <item quantity="other">%1$s flights to %2$s</item>
-    </plurals>
+    <!-- Select a flight to (city name) -->
+    <string name="select_a_flight_to_TEMPLATE">Select a flight to %1$s</string>
+    <!-- Select a flight back to (city name) -->
+    <string name="select_a_flight_back_to_TEMPLATE">Select a flight back to %1$s</string>
     <!-- Baggage fee loading error -->
     <string name="baggage_fee_loading_error_TEMPLATE">Error loading baggage fee info! Error Message: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
@@ -203,7 +198,7 @@
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Trip to %1$s</string>
     <!-- Includes taxes and fees -->
-    <string name="includes_taxes_and_fees">Includes taxes and fees.</string>
+    <string name="includes_taxes_and_fees">Includes taxes and fees</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s to %3$s</string>
     <!-- Number of traverlers template -->
@@ -223,7 +218,7 @@
     <!-- Notice when price changes on a flight -->
     <string name="price_change_alert_TEMPLATE">The price of your trip has changed from %1$s to %2$s.</string>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">Loading realtime flight information...</string>
+    <string name="loading_flight_details">Checking for price changes…</string>
     <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
     <string name="plus_symbol">+</string>
     <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
@@ -1277,7 +1272,7 @@
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">Are you sure you want to log out of your Expedia account?</string>
     <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">Log in for faster booking.</string>
+    <string name="log_in_for_faster_booking">Log in for faster booking</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Enrolled in Expedia Rewards\u2122</string>
     <!-- Label for account name -->

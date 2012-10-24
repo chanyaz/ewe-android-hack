@@ -191,8 +191,15 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 			else {
 				FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 				Location location = (mLegPosition == 0) ? params.getArrivalLocation() : params.getDepartureLocation();
-				mNumFlightsTextView.setText(getResources().getQuantityString(R.plurals.num_flights_to_destination,
-						count, count, StrUtils.getLocationCityOrCode(location)).toUpperCase());
+				boolean returnFlight = mLegPosition > 0;
+				if (returnFlight) {
+					mNumFlightsTextView.setText((getResources().getString(R.string.select_a_flight_back_to_TEMPLATE,
+							StrUtils.getLocationCityOrCode(location))).toUpperCase());
+				}
+				else {
+					mNumFlightsTextView.setText((getResources().getString(R.string.select_a_flight_to_TEMPLATE,
+							StrUtils.getLocationCityOrCode(location))).toUpperCase());
+				}
 			}
 		}
 	}
