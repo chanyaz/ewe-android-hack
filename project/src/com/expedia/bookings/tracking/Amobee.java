@@ -1,5 +1,7 @@
 package com.expedia.bookings.tracking;
 
+import java.math.BigDecimal;
+
 import android.content.Context;
 
 import com.amobee.agency.tracking.AmobeeReceiver;
@@ -49,9 +51,20 @@ public class Amobee {
 
 	public static void trackBooking(String currency, double totalPrice, int duration, int daysRemaining) {
 		if (mEnabled) {
-			AmobeeReceiver.amobeeTracking(Goal.CUSTOM0, mContext, mAppId, currency, totalPrice, duration, daysRemaining);
+			AmobeeReceiver
+					.amobeeTracking(Goal.CUSTOM0, mContext, mAppId, currency, totalPrice, duration, daysRemaining);
 
 			Log.i("Submitted Amobee booking event");
+		}
+	}
+
+	public static void trackCheckout(String currency, BigDecimal flightBookingValue,
+			int numberOfDaysInAdvanceOfFirstFlight) {
+		if (mEnabled) {
+			AmobeeReceiver.amobeeTracking(Goal.CUSTOM1, mContext, mAppId, flightBookingValue, currency,
+					numberOfDaysInAdvanceOfFirstFlight);
+
+			Log.i("Submitted Amobee checkout event");
 		}
 	}
 }

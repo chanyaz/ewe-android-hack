@@ -1,6 +1,8 @@
 package com.expedia.bookings.activity;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.Context;
@@ -19,8 +21,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -35,6 +39,7 @@ import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallback
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.Amobee;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SupportUtils;
@@ -157,6 +162,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	private void launchConfirmationActivity() {
+
 		startActivity(new Intent(this, FlightConfirmationActivity.class));
 
 		// Destroy the activity backstack
@@ -262,6 +268,30 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				handleErrorResponse(results);
 			}
 			else {
+				//Amobee tracking
+				try {
+					if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
+						FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+						int days = 0;
+						if (trip.getLegCount() > 0) {
+							FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
+							Calendar departureCal = firstLeg.getFirstWaypoint().getMostRelevantDateTime();
+							Calendar cal = GregorianCalendar.getInstance();
+							long diff = departureCal.getTimeInMillis() - cal.getTimeInMillis();
+							days = Math.round(diff / (1000 * 60 * 60 * 24));
+							if (days < 0) {
+								days = 0;
+							}
+						}
+						Money money = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+						if (money != null) {
+							Amobee.trackCheckout(money.getCurrency(), money.getAmount(), days);
+						}
+					}
+				}
+				catch (Exception ex) {
+					Log.e("Exception calling Amobee.trackCheckout", ex);
+				}
 				launchConfirmationActivity();
 			}
 		}
