@@ -251,6 +251,7 @@ public class LaunchFragment extends Fragment {
 		}
 
 		mFlightAdapter.setLocations(LaunchFlightAdapter.getHardcodedDestinations());
+		mFlightsStreamListView.selectMiddle();
 	}
 
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
