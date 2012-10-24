@@ -283,11 +283,13 @@ public class FlightTripOverviewFragment extends Fragment {
 		@Override
 		public void onAnimationCancel(Animator arg0) {
 			mCardsAnimating = false;
+			setTopCardBackgroundOpacity();
 		}
 
 		@Override
 		public void onAnimationEnd(Animator arg0) {
 			mCardsAnimating = false;
+			setTopCardBackgroundOpacity();
 		}
 
 		@Override
@@ -335,6 +337,21 @@ public class FlightTripOverviewFragment extends Fragment {
 		}
 	}
 
+	private void setTopCardBackgroundOpacity(){
+		SectionFlightLeg firstCard = Ui.findView(mFlightContainer, ID_START_RANGE);
+		if(firstCard != null){
+			View bgView = Ui.findView(firstCard, R.id.flight_leg_summary_container);
+			if(bgView != null){
+				if(mDisplayMode.equals(DisplayMode.CHECKOUT)){
+					//TODO: Use the correct asset here
+					bgView.setBackgroundResource(R.drawable.bg_flight_card_search_results_top);
+				}else{
+					bgView.setBackgroundResource(R.drawable.bg_flight_card_search_results);
+				}
+			}
+		}
+	}
+	
 	private ArrayList<Animator> getCardTextAlphaAnimators(float start, float end) {
 		ArrayList<Animator> animators = new ArrayList<Animator>();
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
