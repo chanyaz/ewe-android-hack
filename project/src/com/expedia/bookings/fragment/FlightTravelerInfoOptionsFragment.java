@@ -233,11 +233,11 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 	public void refreshCurrentTraveler() {
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-		boolean international = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
-		boolean validTraveler = state == null ? false : international ? state
-				.allTravelerInfoIsValidForInternationalFlight(mCurrentTraveler) : state
-				.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
-		if (!validTraveler) {
+		boolean international = Db.getFlightSearch().getSelectedFlightTrip().isInternational();		
+		boolean validDomesticTraveler = (state != null) && state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
+		boolean validInternationalTraveler = validDomesticTraveler && state.hasValidTravelerPartThree(mCurrentTraveler);
+		
+		if (!validDomesticTraveler) {
 			mEditTravelerContainer.setVisibility(View.GONE);
 			mEditTravelerLabel.setVisibility(View.GONE);
 			mSelectTravelerLabel.setText(getString(R.string.select_a_traveler));
@@ -246,9 +246,17 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			mEditTravelerContainer.setVisibility(View.VISIBLE);
 			mEditTravelerLabel.setVisibility(View.VISIBLE);
 			mSelectTravelerLabel.setText(getString(R.string.select_a_different_traveler));
-			if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
+			if (international) {
 				mInternationalDivider.setVisibility(View.VISIBLE);
 				mTravelerPassportCountry.setVisibility(View.VISIBLE);
+				View passportError = Ui.findView(mTravelerPassportCountry, R.id.error_image);
+				if(passportError != null){
+					if(!validInternationalTraveler){
+						passportError.setVisibility(View.VISIBLE);
+					}else{
+						passportError.setVisibility(View.GONE);
+					}
+				}
 			}
 			else {
 				mInternationalDivider.setVisibility(View.GONE);

@@ -331,7 +331,11 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				}
 				List<Traveler> travelers = Db.getTravelers();
 				for (int i = 0; i < travelers.size(); i++) {
-					travelerValid &= (state.allTravelerInfoIsValidForDomesticFlight(travelers.get(i)));
+					if(Db.getFlightSearch().getSelectedFlightTrip().isInternational()){
+						travelerValid &= (state.allTravelerInfoIsValidForInternationalFlight(travelers.get(i)));
+					}else{
+						travelerValid &= (state.allTravelerInfoIsValidForDomesticFlight(travelers.get(i)));
+					}
 				}
 			}
 			return travelerValid;
