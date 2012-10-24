@@ -363,6 +363,10 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 			Arrays.sort(filteredProperties, Property.PRICE_COMPARATOR);
 			break;
 		case DEALS:
+			if (mSearchType == SearchType.MY_LOCATION) {
+				Arrays.sort(filteredProperties, Property.DISTANCE_COMPARATOR);
+			}
+
 			ArrayList<Property> deals = new ArrayList<Property>();
 			ArrayList<Property> others = new ArrayList<Property>();
 			for (Property p : filteredProperties) {
@@ -373,7 +377,7 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 					others.add(p);
 				}
 			}
-			Collections.sort(deals, Property.DEALS_COMPARATOR);
+
 			int i = 0;
 			for (Property p : deals) {
 				filteredProperties[i] = p;
