@@ -87,7 +87,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private ViewGroup mPaymentButton;
 
 	private TextView mLegalInformationTextView;
-	private View mSlideToPurchaseLayoutSpacerView;
+	private View mScrollSpacerView;
 
 	private HotelReceiptMini mHotelReceiptMini;
 	private View mSlideToPurchaseLayout;
@@ -144,7 +144,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mPaymentButton = Ui.findView(view, R.id.payment_info_btn);
 
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
-		mSlideToPurchaseLayoutSpacerView = Ui.findView(view, R.id.slide_to_purchase_layout_spacer_view);
+		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
 
 		mHotelReceiptMini = Ui.findView(view, R.id.sticky_receipt_mini);
 		mSlideToPurchaseLayout = Ui.findView(view, R.id.slide_to_purchase_layout);
@@ -447,6 +447,29 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 	}
 
+	public void setScrollSpacerViewHeight() {
+		int height = 0;
+
+		if (mShowSlideToWidget) {
+			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 16f);
+			height = mSlideToPurchaseLayout.getHeight() + paddingBottom;
+		}
+		else {
+			height = mScrollView.getHeight() - mLegalInformationTextView.getBottom();
+		}
+
+		if (height < 0) {
+			height = 0;
+		}
+
+		Log.i("ScrollSpacerView height: " + height);
+
+		ViewGroup.LayoutParams lp = mScrollSpacerView.getLayoutParams();
+		lp.height = height;
+
+		mScrollSpacerView.setLayoutParams(lp);
+	}
+
 	public boolean inCheckout() {
 		return mInCheckout;
 	}
@@ -496,8 +519,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		mSlideToPurchaseLayout.setVisibility(View.VISIBLE);
-		mSlideToPurchaseLayoutSpacerView.setVisibility(View.VISIBLE);
-
 		mSlideToPurchaseLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up));
 	}
 
@@ -510,7 +531,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
-				mSlideToPurchaseLayoutSpacerView.setVisibility(View.GONE);
 			}
 
 			@Override
@@ -519,7 +539,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				mSlideToPurchaseLayout.setVisibility(View.GONE);
+				mSlideToPurchaseLayout.setVisibility(View.INVISIBLE);
 			}
 		});
 
@@ -531,7 +551,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 	@Override
 	public void accountLoginClicked() {
-		SignInFragment.newInstance(true).show(getFragmentManager(), getString(R.string.tag_signin));
+		SignInFragment.newInstance(false).show(getFragmentManager(), getString(R.string.tag_signin));
 	}
 
 	@Override
@@ -549,7 +569,9 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		//After logout this will clear stored cards
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
+
 		bindAll();
+		updateViews();
 		updateViewVisibilities();
 	}
 
@@ -712,6 +734,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			setScrollSpacerViewHeight();
+
 			mScrollY = y;
 
 			final float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))
@@ -745,6 +769,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			if (e1 == null || e2 == null) {
+				return false;
+			}
+
 			if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH) {
 				return false;
 			}

@@ -130,7 +130,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onLoginCompleted() {
-		mBookingOverviewFragment.updateViews();
+		mBookingOverviewFragment.onLoginCompleted();
 	}
 
 	@Override
