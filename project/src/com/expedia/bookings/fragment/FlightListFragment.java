@@ -217,20 +217,22 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		// Animate each element of the listview away, at relative speeds (the further from position, the faster)
 		float maxTranslateY = getResources().getDisplayMetrics().density * MAX_TRANSLATE_Y_DP;
 		int position = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount();
-		View targetChild = mListView.getChildAt(position);
-		int targetTop = targetChild.getTop();
+		int firstVisiblePosition = mListView.getFirstVisiblePosition();
+		int skipPosition = position - firstVisiblePosition;
+		Pair<Integer, Integer> cardTopAndBottom = getFlightCardTopAndBottom(flightLeg);
+		int targetTop = cardTopAndBottom.first;
 		int listViewHeight = mListView.getHeight();
 		int spaceBelow = listViewHeight - targetTop;
 		int childCount = mListView.getChildCount();
 		for (int a = 0; a < childCount; a++) {
 			View child = mListView.getChildAt(a);
 			int childTop = child.getTop();
-			if (a < position) {
+			if (a < skipPosition) {
 				float translation = ((float) (targetTop - childTop) / (float) targetTop) * maxTranslateY;
 				values = (enter) ? new float[] { -translation, 0 } : new float[] { 0, -translation };
 				set.play(ObjectAnimator.ofFloat(child, "translationY", values));
 			}
-			else if (a > position) {
+			else if (a > skipPosition) {
 				float translation = ((float) (childTop - targetTop) / (float) spaceBelow) * maxTranslateY;
 				values = (enter) ? new float[] { translation, 0 } : new float[] { 0, translation };
 				set.play(ObjectAnimator.ofFloat(child, "translationY", values));
@@ -280,7 +282,7 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		else {
 			// Find the first visible card and use that as measurement
 			int headerCount = mListView.getHeaderViewsCount();
-			int targetPosition = Math.max(headerCount, firstPosition);
+			int targetPosition = (firstPosition < headerCount) ? headerCount - firstPosition : 0;
 			View v = mListView.getChildAt(targetPosition);
 			int cardHeight = v.getHeight();
 
