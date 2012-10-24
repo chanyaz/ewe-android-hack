@@ -62,8 +62,8 @@ public class BackgroundImageCache {
 
 		return hasKey(bmapkey) && hasKey(getBlurredKey(bmapkey));
 	}
-	
-	public boolean isDefaultInCache(){
+
+	public boolean isDefaultInCache() {
 		return hasKeyAndBlurredKey(DEFAULT_KEY);
 	}
 
@@ -115,8 +115,10 @@ public class BackgroundImageCache {
 
 				Editor bgImageEditor = null;
 				Editor blurredEditor = null;
+				boolean semGot = false;
 				try {
 					mAddingBitmapSem.acquire();
+					semGot = true;
 					mCancelAddBitmap = false;
 					bgImageEditor = mDiskCache.edit(bmapkey);
 					if (blur) {
@@ -129,13 +131,17 @@ public class BackgroundImageCache {
 						if (mCancelAddBitmap) {
 							throw new Exception("Canceled after blur");
 						}
-						addBitmapToDiskCacheEditor(blurredEditor, blurred);
+						if (!addBitmapToDiskCacheEditor(blurredEditor, blurred)) {
+							throw new Exception("Error adding blurred bitmap to editor");
+						}
 						if (mCancelAddBitmap) {
 							throw new Exception("Canceled after blurred added to cache");
 						}
 					}
 
-					addBitmapToDiskCacheEditor(bgImageEditor, bitmap);
+					if (!addBitmapToDiskCacheEditor(bgImageEditor, bitmap)) {
+						throw new Exception("Error adding bitmap to editor");
+					}
 
 					if (mCancelAddBitmap) {
 						throw new Exception("Canceled after bg added to disk cache");
@@ -167,7 +173,9 @@ public class BackgroundImageCache {
 				}
 				finally {
 					mCancelAddBitmap = false;
-					mAddingBitmapSem.release();
+					if (semGot) {
+						mAddingBitmapSem.release();
+					}
 				}
 
 			}
