@@ -30,7 +30,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class LaunchFragment extends Fragment {
 
@@ -40,7 +39,6 @@ public class LaunchFragment extends Fragment {
 	public static final String KEY_SEARCH = "LAUNCH_SCREEN_HOTEL_SEARCH";
 
 	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
-	public static final long WELCOME_FADE_DURATION = 1500;
 
 	private Context mContext;
 
@@ -78,8 +76,6 @@ public class LaunchFragment extends Fragment {
 
 		mWelcomeView = Ui.findView(v, R.id.launch_welcome_text_view);
 		FontCache.setTypeface(mWelcomeView, FontCache.Font.ROBOTO_LIGHT);
-
-		mFlightsStreamListView.getViewTreeObserver().addOnScrollChangedListener(mFadeListener);
 
 		return v;
 	}
@@ -302,26 +298,6 @@ public class LaunchFragment extends Fragment {
 			NavUtils.goToFlights(getActivity(), true);
 
 			BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
-		}
-	};
-
-	// Welcome animation
-
-	// The onScrollChangedListener appears to fire once while fragment is getting created; use this flag to workaround
-	// and fade out the Welcome label only once the views start scrolling. TODO: remove boolean, add listener correctly
-	private boolean mOnScrollFiredOnce = false;
-
-	private final ViewTreeObserver.OnScrollChangedListener mFadeListener = new ViewTreeObserver.OnScrollChangedListener() {
-		@Override
-		public void onScrollChanged() {
-			Log.d("LaunchFragment ViewTreeObserver onScrollChanged " + mOnScrollFiredOnce);
-			if (mOnScrollFiredOnce) {
-				mFlightsStreamListView.getViewTreeObserver().removeOnScrollChangedListener(this);
-				ObjectAnimator.ofFloat(mWelcomeView, "alpha", 1.0f, 0.0f).setDuration(WELCOME_FADE_DURATION).start();
-			}
-			else {
-				mOnScrollFiredOnce = true;
-			}
 		}
 	};
 }
