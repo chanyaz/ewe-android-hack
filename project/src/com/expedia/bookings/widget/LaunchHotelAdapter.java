@@ -6,8 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,12 +21,15 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class LaunchHotelAdapter extends CircularArrayAdapter<Property> implements OnMeasureListener {
 
 	private static final int TYPE_EMPTY = 0;
 	private static final int TYPE_LOADED = 1;
 	private static final int NUM_ROW_TYPES = 2;
+
+	private static final int DURATION_FADE_MS = 700;
 
 	private static final String THUMBNAIL_SIZE = Media.IMAGE_BIG_SUFFIX;
 
@@ -157,12 +158,10 @@ public class LaunchHotelAdapter extends CircularArrayAdapter<Property> implement
 		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
+
+				layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bitmap));
 				layout.setVisibility(View.VISIBLE);
-				layout.setBackgroundDrawable(new BitmapDrawable(bitmap));
-				AlphaAnimation alpha = new AlphaAnimation(0.0F, 1.0F);
-				alpha.setDuration(350);
-				alpha.setFillAfter(true);
-				layout.startAnimation(alpha);
+				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 			}
 
 			public void onImageLoadFailed(String url) {

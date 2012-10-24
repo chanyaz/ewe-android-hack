@@ -3,7 +3,7 @@
     android:id="@+id/launch_tile_container"
     android:layout_width="match_parent"
     android:layout_height="260dp"
-    android:visibility="visible" >
+    android:visibility="invisible" >
 
     <include layout="@layout/snippet_launch_tile_band" />
 

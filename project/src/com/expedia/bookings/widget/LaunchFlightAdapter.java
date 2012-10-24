@@ -2,24 +2,20 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.ObjectAnimator;
 
-import java.lang.reflect.Array;
-import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +24,8 @@ public class LaunchFlightAdapter extends CircularArrayAdapter<Location> implemen
 	private static final int TYPE_EMPTY = 0;
 	private static final int TYPE_LOADED = 1;
 	private static final int NUM_ROW_TYPES = 2;
+
+	private static final int DURATION_FADE_MS = 700;
 
 	private Context mContext;
 
@@ -97,34 +95,28 @@ public class LaunchFlightAdapter extends CircularArrayAdapter<Location> implemen
 		holder.titleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_flight_tile_prompt,
 				location.getCity())));
 
+		// Note: This just loads a bitmap from APK. TODO: load dynamically
+		setTileBackgroundBitmap(position, holder.container);
+
 		return convertView;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Private methods and stuff
 
-	private boolean loadImageForLaunchStream(String url, final RelativeLayout layout) {
-		String key = layout.toString();
-		Log.v("Loading RelativeLayout bg " + key + " with " + url);
+	private void setTileBackgroundBitmap(int position, RelativeLayout layout) {
+		Bitmap bg;
+		if (position % 2 == 0) {
+			bg = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.launch_lhr);
+		}
+		else {
+			bg = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.launch_jfk);
+		}
+		layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bg));
 
-		// Begin a load on the ImageView
-		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
-			public void onImageLoaded(String url, Bitmap bitmap) {
-				Log.v("ImageLoaded: " + url);
-				layout.setVisibility(View.VISIBLE);
-				layout.setBackgroundDrawable(new BitmapDrawable(bitmap));
-				AlphaAnimation alpha = new AlphaAnimation(0.0F, 1.0F);
-				alpha.setDuration(350);
-				alpha.setFillAfter(true);
-				layout.startAnimation(alpha);
-			}
-
-			public void onImageLoadFailed(String url) {
-				Log.v("Image load failed: " + url);
-			}
-		};
-
-		return ImageCache.loadImage(key, url, callback);
+		// Alpha animate the tile to fade in
+		layout.setVisibility(View.VISIBLE);
+		ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 	}
 
 	private class TileHolder {
