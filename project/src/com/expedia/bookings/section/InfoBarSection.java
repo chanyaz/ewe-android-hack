@@ -22,6 +22,8 @@ import com.mobiata.flightlib.utils.FormatUtils;
 
 public class InfoBarSection extends LinearLayout {
 
+	private static final int SHOW_URGENCY_CUTOFF = 5;
+
 	private TextView mLeftTextView;
 	private TextView mRightTextView;
 
@@ -67,21 +69,29 @@ public class InfoBarSection extends LinearLayout {
 		}
 
 		// Bind right label (booking price)
-		int bookNowResId;
-		if (trip.getLegCount() == 1) {
-			bookNowResId = R.string.one_way_price_TEMPLATE;
+		String fare = trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL);
+		int seatsRemaining = trip.getSeatsRemaining();
+		if (seatsRemaining <= SHOW_URGENCY_CUTOFF) {
+			String urgencyStr = getResources().getQuantityString(R.plurals.urgency_book_TEMPLATE, seatsRemaining,
+					seatsRemaining, fare);
+			mRightTextView.setText(Html.fromHtml(urgencyStr));
 		}
 		else {
-			if (trip.getLeg(0).equals(leg)) {
-				bookNowResId = R.string.round_trip_price_TEMPLATE;
+			int bookNowResId;
+			if (trip.getLegCount() == 1) {
+				bookNowResId = R.string.one_way_price_TEMPLATE;
 			}
 			else {
-				bookNowResId = R.string.book_now_price_TEMPLATE;
+				if (trip.getLeg(0).equals(leg)) {
+					bookNowResId = R.string.round_trip_price_TEMPLATE;
+				}
+				else {
+					bookNowResId = R.string.book_now_price_TEMPLATE;
+				}
 			}
-		}
 
-		mRightTextView.setText(Html.fromHtml(context.getString(bookNowResId,
-				trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL))));
+			mRightTextView.setText(Html.fromHtml(context.getString(bookNowResId, fare)));
+		}
 	}
 
 	public void bindTripOverview(FlightTrip trip, int numTravelers) {
