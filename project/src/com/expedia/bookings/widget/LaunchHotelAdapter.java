@@ -10,12 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Distance;
-import com.expedia.bookings.data.Filter;
-import com.expedia.bookings.data.Media;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.*;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
@@ -47,14 +42,15 @@ public class LaunchHotelAdapter extends CircularArrayAdapter<Property> implement
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
-	public void setProperties(SearchResponse response) {
+	public void setProperties(LaunchHotelData launchHotelData) {
 		this.clear();
-		if (response != null && response.getProperties() != null) {
-			Property[] properties = response.getFilteredAndSortedProperties(Filter.Sort.DISTANCE);
-			for (Property property : properties) {
+
+		mDistanceUnit = launchHotelData.getDistanceUnit();
+
+		if (launchHotelData != null && launchHotelData.getProperties() != null) {
+			for (Property property : launchHotelData.getProperties()) {
 				add(property);
 			}
-			mDistanceUnit = response.getFilter().getDistanceUnit();
 		}
 
 		notifyDataSetChanged();

@@ -52,6 +52,9 @@ public class Db {
 	//////////////////////////////////////////////////////////////////////////
 	// Stored data
 
+	// Launch data - extracted from a SearchResponse but cached as its own entity to keep data separate
+	private LaunchHotelData mLaunchHotelData;
+
 	// The search params (the details for how to do a search)
 	private SearchParams mSearchParams = new SearchParams();
 
@@ -139,6 +142,14 @@ public class Db {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
+
+	public static void setLaunchHotelData(LaunchHotelData launchHotelData) {
+		sDb.mLaunchHotelData = launchHotelData;
+	}
+
+	public static LaunchHotelData getLaunchHotelData() {
+		return sDb.mLaunchHotelData;
+	}
 
 	public static SearchParams resetSearchParams() {
 		sDb.mSearchParams = new SearchParams();
@@ -660,6 +671,7 @@ public class Db {
 		sDb.mBookingResponse = null;
 		sDb.mUser = null;
 		sDb.mBackgroundImageCache = null;
+		sDb.mLaunchHotelData = null;
 
 		sDb.mFlightSearch.reset();
 		sDb.mTravelers.clear();

@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +11,9 @@ import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.AdapterView;
 
-import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.*;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
@@ -39,6 +35,7 @@ public class LaunchFragment extends Fragment {
 	public static final String KEY_SEARCH = "LAUNCH_SCREEN_HOTEL_SEARCH";
 
 	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
+	private static final int NUM_HOTEL_PROPERTIES = 10;
 
 	private Context mContext;
 
@@ -125,11 +122,11 @@ public class LaunchFragment extends Fragment {
 			return;
 		}
 
-		SearchResponse searchResponse = Db.getSearchResponse();
+		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
 
 		// No cached hotel data exists, perform the least amount of effort in order to get results on screen by following
 		// the logic below
-		if (searchResponse == null) {
+		if (launchHotelData == null) {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 			// A hotel search is underway, register dl callback in case it was removed
@@ -210,11 +207,20 @@ public class LaunchFragment extends Fragment {
 				Log.d("Search complete: " + searchResponse.getPropertiesCount());
 			}
 
-			Db.setSearchResponse(searchResponse);
-
 			// Response was good, we are going to use this stuff
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
-				mHotelAdapter.setProperties(searchResponse);
+
+				// We only want to set the the search from Launch if there exists no SearchResponse data already (to avoid
+				// sending the user through another network request when jumping to Hotels). If there already exists a 
+				// Search response in the Db, do not flush it out.
+				if (Db.getSearchResponse() == null) {
+					Db.setSearchResponse(searchResponse);
+				}
+
+				extractLaunchDataFromSearchResponse(searchResponse);
+
+				mHotelAdapter.setProperties(Db.getLaunchHotelData());
+
 				mHotelsStreamListView.selectMiddle();
 			}
 
@@ -225,6 +231,18 @@ public class LaunchFragment extends Fragment {
 
 		}
 	};
+
+	// This method will grab the data relevant to launch and save it in the Db as LaunchHotelData
+	private void extractLaunchDataFromSearchResponse(SearchResponse response) {
+		LaunchHotelData launchHotelData = new LaunchHotelData();
+
+		List<Property> properties = response.getFilteredAndSortedProperties(Filter.Sort.DEALS, NUM_HOTEL_PROPERTIES);
+		launchHotelData.setProperties(properties);
+
+		launchHotelData.setDistanceUnit(response.getFilter().getDistanceUnit());
+
+		Db.setLaunchHotelData(launchHotelData);
+	}
 
 	// View init + listeners
 
@@ -241,9 +259,9 @@ public class LaunchFragment extends Fragment {
 		mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
 		mFlightsStreamListView.setSlaveView(mHotelsStreamListView);
 
-		SearchResponse searchResponse = Db.getSearchResponse();
-		if (searchResponse != null) {
-			mHotelAdapter.setProperties(searchResponse);
+		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
+		if (launchHotelData != null) {
+			mHotelAdapter.setProperties(launchHotelData);
 			mHotelsStreamListView.restorePosition();
 		}
 

@@ -403,11 +403,16 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 		return filteredProperties;
 	}
 
-	public Property[] getFilteredAndSortedProperties(Sort sort) {
+	public List<Property> getFilteredAndSortedProperties(Sort sort, int count) {
 		mFilter = new Filter();
 		mFilter.setSort(sort);
 
-		return getFilteredAndSortedProperties();
+		Property[] properties = getFilteredAndSortedProperties();
+		Property[] propertiesCapped = new Property[count];
+
+		System.arraycopy(properties, 0, propertiesCapped, 0, count);
+
+		return Arrays.asList(propertiesCapped);
 	}
 
 	public void onFilterChanged() {
