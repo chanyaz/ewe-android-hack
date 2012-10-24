@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/flight_checkout_opaque_white"
     android:fillViewport="true"
     android:orientation="vertical" >
 
@@ -11,7 +10,7 @@
         android:layout_height="wrap_content"
         android:fillViewport="true"
         android:orientation="vertical"
-        android:padding="8dp" >
+        android:padding="16dp" >
 
         <TextView
             android:id="@+id/edit_traveler_label"
@@ -36,19 +35,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="16dp"
             android:orientation="vertical" >
 
             <include
                 android:id="@+id/current_traveler_contact"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="8dp"
                 layout="@layout/section_display_traveler_info_contact" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/simple_grey_divider_height"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/divider_grey" />
         </LinearLayout>
 

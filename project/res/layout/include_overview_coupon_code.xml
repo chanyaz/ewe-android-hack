@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/coupon_code"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="10dp" >
+    android:paddingTop="8dp" >
 
     <TextView
         android:id="@+id/coupon_code_collapsed_text"
@@ -15,12 +15,11 @@
         android:drawableRight="@drawable/ic_expand_coupon_dark"
         android:padding="8dp"
         android:text="@string/coupon_code"
-        android:textColor="@android:color/white"
         android:textSize="16dp" />
 
     <LinearLayout
         android:id="@+id/coupon_code_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:visibility="gone" >
@@ -33,7 +32,6 @@
             android:hint="@string/optional"
             android:imeOptions="flagNoExtractUi"
             android:singleLine="true"
-            android:textColor="@android:color/white"
             mobiata:touchAreaPadding="25dp" />
 
         <LinearLayout
@@ -44,7 +42,7 @@
             <com.mobiata.android.widget.AutoResizeTextView
                 android:id="@+id/apply_button"
                 style="@style/Widget.Button.Phone"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="48dip"
                 android:text="@string/apply"
                 android:textColor="@android:color/white"
@@ -61,8 +59,8 @@
 
             <TextView
                 android:id="@+id/new_total_textview"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="right"
                 android:text="@string/new_total"
                 android:textColor="@android:color/white"

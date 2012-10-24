@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/flight_checkout_opaque_white"
     android:fillViewport="true"
     android:orientation="vertical" >
 
@@ -20,7 +19,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="10dp"
             android:text="@string/edit_current_payment_details"
-            android:textColor="@color/data_entry_heading"
             android:textSize="@dimen/data_form_section_header_text"
             android:textStyle="bold" />
 
@@ -64,7 +62,7 @@
                 android:layout_height="@dimen/simple_grey_divider_height"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/divider_grey" />
+                android:background="@android:color/white" />
 
             <include
                 android:id="@+id/current_payment_address_section"
@@ -79,7 +77,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="10dp"
             android:text="@string/stored_payment_label"
-            android:textColor="@color/data_entry_heading"
             android:textSize="@dimen/data_form_section_header_text"
             android:textStyle="bold" />
 
@@ -88,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="4dp"
-            android:background="@color/data_entry_heading_divider" />
+            android:background="@android:color/white" />
 
         <LinearLayout
             android:id="@+id/new_payment_stored_cards"
@@ -105,7 +102,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="10dp"
             android:text="@string/or_select_new_paymet_method"
-            android:textColor="@color/data_entry_heading"
             android:textSize="@dimen/data_form_section_header_text"
             android:textStyle="bold" />
 
@@ -114,7 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="4dp"
-            android:background="@color/data_entry_heading_divider" />
+            android:background="@android:color/white" />
 
         <LinearLayout
             android:id="@+id/new_payment_container"
@@ -144,7 +140,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/add_new_card"
-                    android:textColor="@color/data_entry_text"
                     android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>

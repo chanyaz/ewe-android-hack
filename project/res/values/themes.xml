@@ -100,7 +100,7 @@
         <item name="android:buttonStyle">@style/Widget.Button.Phone</item>
         <item name="android:dropDownListViewStyle">@style/Dark.DropDownListView</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
-        <item name="android:textStyle">@style/Widget.TextView.Phone</item>
+        <item name="android:textViewStyle">@style/Widget.TextView.Phone</item>
         <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone</item>
         <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
@@ -117,7 +117,8 @@
 
     <style name="Theme.Phone.Dark" parent="Theme.Phone">
         <item name="android:windowBackground">@color/window_background_dark</item>
-        <item name="android:textStyle">@style/Widget.TextView.Phone.Dark</item>
+        <item name="android:editTextStyle">@style/Widget.EditText.Phone.Dark</item>
+        <item name="android:textViewStyle">@style/Widget.TextView.Phone.Dark</item>
     </style>
 
     <style name="Theme.Phone.WithStackedTabs">

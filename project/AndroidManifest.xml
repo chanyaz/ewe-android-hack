@@ -92,7 +92,8 @@
             android:theme="@style/Theme.Phone" />
         <activity
             android:name=".activity.BookingOverviewActivity"
-            android:theme="@style/Theme.Phone.Dark" />
+            android:theme="@style/Theme.Phone.Dark"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.HotelRulesActivity"
             android:theme="@style/FlightTheme" />
