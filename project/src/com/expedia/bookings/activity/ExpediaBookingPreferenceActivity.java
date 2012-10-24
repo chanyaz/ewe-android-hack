@@ -72,15 +72,10 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 
 		// If the result is canceled, means no prefs were modified
 		setResult(RESULT_CANCELED);
-	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
 		ActionBar ab = getSupportActionBar();
 		ab.setDisplayHomeAsUpEnabled(true);
-		ab.setDisplayShowTitleEnabled(true);
-
-		return super.onCreateOptionsMenu(menu);
+		ab.setDisplayShowTitleEnabled(false);
 	}
 
 	@Override
