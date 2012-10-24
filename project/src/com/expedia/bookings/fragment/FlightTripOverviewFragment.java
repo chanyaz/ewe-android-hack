@@ -258,7 +258,7 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 		int currentTop = 0;
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			View header = Ui.findView(tempFlight, R.id.flight_info_section);
+			View header = Ui.findView(tempFlight, R.id.info_text_view);
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
 			View cancel = Ui.findView(tempFlight, R.id.cancel_button);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
@@ -340,7 +340,7 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 		ArrayList<Animator> animators = new ArrayList<Animator>();
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			View header = Ui.findView(tempFlight, R.id.flight_info_section);
+			View header = Ui.findView(tempFlight, R.id.info_text_view);
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
 			View cancel = Ui.findView(tempFlight, R.id.cancel_button);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);

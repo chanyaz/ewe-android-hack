@@ -7,12 +7,15 @@ import android.content.Context;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Waypoint;
@@ -22,7 +25,7 @@ public class SectionFlightLeg extends LinearLayout {
 
 	private FlightTripLeg mTripLeg;
 
-	private FlightInfoSection mFlightInfoSection;
+	private TextView mInfoTextView;
 	private FlightLegSummarySection mFlightLegSummary;
 
 	public SectionFlightLeg(Context context) {
@@ -46,8 +49,10 @@ public class SectionFlightLeg extends LinearLayout {
 		super.onFinishInflate();
 
 		// Cache views
-		mFlightInfoSection = Ui.findView(this, R.id.flight_info_section);
+		mInfoTextView = Ui.findView(this, R.id.info_text_view);
 		mFlightLegSummary = Ui.findView(this, R.id.flight_leg_summary);
+
+		FontCache.setTypeface(mInfoTextView, Font.ROBOTO_LIGHT);
 	}
 
 	public void bind(FlightTripLeg tripLeg) {
@@ -60,8 +65,6 @@ public class SectionFlightLeg extends LinearLayout {
 
 		mFlightLegSummary.bind(trip, leg);
 
-		int iconResId = (isOutbound()) ? R.drawable.ic_departure_arrow_small : R.drawable.ic_return_arrow_small;
-
 		Calendar cal = (isOutbound() ? leg.getFirstWaypoint() : leg.getLastWaypoint()).getMostRelevantDateTime();
 		long time = DateTimeUtils.getTimeInLocalTimeZone(cal).getTime();
 		String formattedDate = DateUtils.formatDateTime(getContext(), time, DateUtils.FORMAT_SHOW_DATE
@@ -70,8 +73,7 @@ public class SectionFlightLeg extends LinearLayout {
 		String formatted = getResources().getString(R.string.trip_to_with_date, formattedDate,
 				StrUtils.getWaypointCityOrCode(leg.getFirstWaypoint()),
 				StrUtils.getWaypointCityOrCode(leg.getLastWaypoint()));
-
-		mFlightInfoSection.bind(iconResId, formatted);
+		mInfoTextView.setText(formatted);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
