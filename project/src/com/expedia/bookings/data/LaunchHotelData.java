@@ -22,13 +22,13 @@ public class LaunchHotelData implements JSONable {
 		mDistanceUnit = distanceUnit;
 	}
 
-    public Distance.DistanceUnit getDistanceUnit() {
-        return mDistanceUnit;
-    }
+	public Distance.DistanceUnit getDistanceUnit() {
+		return mDistanceUnit;
+	}
 
-    public void setDistanceUnit(Distance.DistanceUnit distanceUnit) {
-        mDistanceUnit = distanceUnit;
-    }
+	public void setDistanceUnit(Distance.DistanceUnit distanceUnit) {
+		mDistanceUnit = distanceUnit;
+	}
 
 	public List<Property> getProperties() {
 		return mProperties;
@@ -46,13 +46,13 @@ public class LaunchHotelData implements JSONable {
 		}
 
 		try {
-
 			JSONUtils.putJSONableList(obj, "properties", mProperties);
+			obj.put("distanceUnit", mDistanceUnit.toString());
 
 			return obj;
 		}
 		catch (JSONException e) {
-			Log.e("LaunchHotelData to JSON", e);
+			Log.e("LaunchHotelData toJson fail", e);
 			return null;
 		}
 	}
@@ -60,12 +60,8 @@ public class LaunchHotelData implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mProperties = JSONUtils.getJSONableList(obj, "properties", Property.class);
-		if (mProperties == null) {
-			// Exception must have been handled in JSONUtils.getJSONableList and return null as failure
-			return false;
-		}
-		else {
-			return true;
-		}
+		mDistanceUnit = Distance.DistanceUnit.valueOf(obj.optString("distanceUnit",
+				Distance.DistanceUnit.MILES.toString()));
+		return true;
 	}
 }
