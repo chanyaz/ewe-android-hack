@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/launch_tile_container"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="@dimen/launch_tile_height_hotel"
     android:visibility="invisible" >
 
     <include layout="@layout/snippet_launch_tile_band" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/launch_tile_banner_height"
         android:layout_alignParentBottom="true"
         android:background="@drawable/launch_tile_overlay" >
 
