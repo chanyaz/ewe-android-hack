@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -27,6 +30,7 @@ import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySect
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.FlightAdapter;
@@ -207,51 +211,56 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 	private static final float MAX_TRANSLATE_Y_DP = 300;
 
 	public Animator createLegClickAnimator(boolean enter, FlightLeg flightLeg) {
-		// Assume entrance for now
 		View v = getView();
-
-		AnimatorSet set = new AnimatorSet();
-
-		float[] values;
+		List<Animator> set = new ArrayList<Animator>();
+		float[] values = new float[2];
 
 		// Animate each element of the listview away, at relative speeds (the further from position, the faster)
 		float maxTranslateY = getResources().getDisplayMetrics().density * MAX_TRANSLATE_Y_DP;
-		int position = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount();
-		int firstVisiblePosition = mListView.getFirstVisiblePosition();
-		int skipPosition = position - firstVisiblePosition;
+		int skipPosition = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount()
+				- mListView.getFirstVisiblePosition();
 		Pair<Integer, Integer> cardTopAndBottom = getFlightCardTopAndBottom(flightLeg);
 		int targetTop = cardTopAndBottom.first;
-		int listViewHeight = mListView.getHeight();
-		int spaceBelow = listViewHeight - targetTop;
+		int spaceBelow = mListView.getHeight() - targetTop;
 		int childCount = mListView.getChildCount();
 		for (int a = 0; a < childCount; a++) {
 			View child = mListView.getChildAt(a);
 			int childTop = child.getTop();
 			if (a < skipPosition) {
 				float translation = ((float) (targetTop - childTop) / (float) targetTop) * maxTranslateY;
-				values = (enter) ? new float[] { -translation, 0 } : new float[] { 0, -translation };
-				set.play(ObjectAnimator.ofFloat(child, "translationY", values));
+				if (enter) {
+					values[0] = -translation;
+					values[1] = 0;
+				}
+				else {
+					values[0] = 0;
+					values[1] = -translation;
+				}
+				set.add(ObjectAnimator.ofFloat(child, "translationY", values));
 			}
 			else if (a > skipPosition) {
 				float translation = ((float) (childTop - targetTop) / (float) spaceBelow) * maxTranslateY;
-				values = (enter) ? new float[] { translation, 0 } : new float[] { 0, translation };
-				set.play(ObjectAnimator.ofFloat(child, "translationY", values));
+				if (enter) {
+					values[0] = translation;
+					values[1] = 0;
+				}
+				else {
+					values[0] = 0;
+					values[1] = translation;
+				}
+				set.add(ObjectAnimator.ofFloat(child, "translationY", values));
 			}
 		}
 
 		// Fade in/out the entire view
-		values = (enter) ? new float[] { 0, 1 } : new float[] { 1, 0 };
-		set.play(ObjectAnimator.ofFloat(v, "alpha", values));
+		set.add(AnimUtils.createFadeAnimator(v, enter));
 
-		return set;
+		return AnimUtils.playTogether(set);
 	}
 
 	public Animator createLegSelectAnimator(boolean enter) {
-		// Assume entrance for now
 		View v = getView();
-
-		AnimatorSet set = new AnimatorSet();
-
+		List<Animator> set = new ArrayList<Animator>();
 		float[] values;
 
 		// Animate the entire listview up (except header)
@@ -259,14 +268,14 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		int childCount = mListView.getChildCount();
 		values = (enter) ? new float[] { translate, 0 } : new float[] { 0, translate };
 		for (int a = 1; a < childCount; a++) {
-			set.play(ObjectAnimator.ofFloat(mListView.getChildAt(a), "translationY", values));
+			set.add(ObjectAnimator.ofFloat(mListView.getChildAt(a), "translationY", values));
 		}
 
 		// Fade in/out the entire view
-		values = (enter) ? new float[] { 0, 1 } : new float[] { 1, 0 };
-		set.play(ObjectAnimator.ofFloat(v, "alpha", values));
+		set.add(AnimUtils.createFadeAnimator(v, enter));
 
-		return set;
+		// Create AnimatorSet and return
+		return AnimUtils.playTogether(set);
 	}
 
 	// Used to find out where to animate to/from a card in the list

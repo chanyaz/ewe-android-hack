@@ -1,6 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,6 +27,7 @@ import com.expedia.bookings.section.FlightInfoSection;
 import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.section.InfoBarSection;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -211,15 +214,11 @@ public class FlightDetailsFragment extends Fragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Animators
 
-	public Animator createAnimator(int top, int bottom, boolean isEntering) {
+	public Animator createAnimator(int top, int bottom, boolean enter) {
 		View v = getView();
-		if (v == null) {
-			return null;
-		}
+		List<Animator> set = new ArrayList<Animator>();
+		float[] values = new float[2];
 
-		AnimatorSet set = new AnimatorSet();
-
-		float[] values;
 		int center = (top + bottom) / 2;
 		int height = bottom - top;
 
@@ -227,33 +226,60 @@ public class FlightDetailsFragment extends Fragment {
 		int childCount = mInfoContainer.getChildCount();
 		for (int a = 0; a < childCount; a++) {
 			View child = mInfoContainer.getChildAt(a);
-			int childCenter = (child.getTop() + child.getBottom()) / 2;
-			values = (isEntering) ? new float[] { center - childCenter, 0 } : new float[] { 0, center - childCenter };
-			set.play(ObjectAnimator.ofFloat(child, "translationY", values));
+			int translation = center - ((child.getTop() + child.getBottom()) / 2);
+			if (enter) {
+				values[0] = translation;
+				values[1] = 0;
+			}
+			else {
+				values[0] = 0;
+				values[1] = translation;
+			}
+			set.add(ObjectAnimator.ofFloat(child, "translationY", values));
 
+			// Scale the flight cards a bit, so they look like they are growing out of/into a row
 			if (child instanceof FlightSegmentSection) {
 				float change = (float) height / (float) child.getHeight();
-				values = (isEntering) ? new float[] { change, 1 } : new float[] { 1, change };
-				set.play(ObjectAnimator.ofFloat(child, "scaleY", values));
+				if (enter) {
+					values[0] = change;
+					values[1] = 1;
+				}
+				else {
+					values[0] = 1;
+					values[1] = change;
+				}
+				set.add(ObjectAnimator.ofFloat(child, "scaleY", values));
 			}
 		}
 
-		// Animate the header up
-		values = (isEntering) ? new float[] { -mInfoBar.getHeight(), 0 } : new float[] { 0, -mInfoBar.getHeight() };
-		set.play(ObjectAnimator.ofFloat(mInfoBar, "translationY", values));
+		// Animate the header
+		if (enter) {
+			values[0] = -mInfoBar.getHeight();
+			values[1] = 0;
+		}
+		else {
+			values[0] = 0;
+			values[1] = -mInfoBar.getHeight();
+		}
+		set.add(ObjectAnimator.ofFloat(mInfoBar, "translationY", values));
 
-		// Animate the baggage fee down
+		// Animate the baggage fee (if it's not in the scroll view)
 		if (!mBaggageInScrollView) {
-			values = (isEntering) ? new float[] { mBaggageInfoTextView.getHeight(), 0 } : new float[] { 0,
-					mBaggageInfoTextView.getHeight() };
-			set.play(ObjectAnimator.ofFloat(mBaggageInfoTextView, "translationY", values));
+			if (enter) {
+				values[0] = mBaggageInfoTextView.getHeight();
+				values[1] = 0;
+			}
+			else {
+				values[0] = 0;
+				values[1] = mBaggageInfoTextView.getHeight();
+			}
+			set.add(ObjectAnimator.ofFloat(mBaggageInfoTextView, "translationY", values));
 		}
 
 		// Make the entire screen fade out
-		values = (isEntering) ? new float[] { 0.0f, 1.0f } : new float[] { 1.0f, 0.0f };
-		set.play(ObjectAnimator.ofFloat(v, "alpha", values));
+		set.add(AnimUtils.createFadeAnimator(v, enter));
 
-		return set;
+		return AnimUtils.playTogether(set);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
