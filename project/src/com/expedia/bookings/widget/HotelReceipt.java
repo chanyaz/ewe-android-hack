@@ -232,7 +232,7 @@ public class HotelReceipt extends FrameLayout {
 		if (rate.shouldShowFreeCancellation()) {
 			Date window = rate.getFreeCancellationWindowDate();
 			if (window != null) {
-				DateFormat df = new SimpleDateFormat("ha, MMMM dd");
+				DateFormat df = new SimpleDateFormat("ha, MMM dd");
 				String formattedDate = df.format(window);
 				String formattedString = getContext().getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
 				addExtra(mExtrasLayout, Html.fromHtml(formattedString));
