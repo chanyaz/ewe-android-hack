@@ -255,13 +255,20 @@ public class FlightTripOverviewFragment extends Fragment {
 			View header = Ui.findView(tempFlight, R.id.info_text_view);
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
+			View flightTripView = Ui.findView(tempFlight,R.id.flight_trip_view);
 
 			int headerUnused = Math.max(header.getMeasuredHeight(), header.getHeight());
 			int innerUnused = Math.max(Math.max(price.getMeasuredHeight(), price.getHeight()),
 					Math.max(airline.getMeasuredHeight(), airline.getHeight()));
+			
+			//Dont forget margins...
+			if(flightTripView != null && flightTripView.getLayoutParams() != null){
+				if(((RelativeLayout.LayoutParams)flightTripView.getLayoutParams()).topMargin > 0){
+					innerUnused += ((RelativeLayout.LayoutParams)flightTripView.getLayoutParams()).topMargin;
+				}
+			}
 
-			//We don't use the header space (above the card) and we don't use 2/3 of the inside the card header space ( price/airline/X) but we leave some because we want it to look nice
-			int totalUnusedHeight = (int) (headerUnused + Math.floor((2 * innerUnused) / 3));
+			int totalUnusedHeight = (int) (headerUnused + innerUnused); 
 
 			currentTop -= totalUnusedHeight;
 			retVal[i] = currentTop;
