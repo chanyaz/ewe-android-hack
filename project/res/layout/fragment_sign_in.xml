@@ -35,6 +35,7 @@
 
     <EditText
         android:id="@+id/username_edit_text"
+        style="@style/Widget.EditText.Phone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
@@ -46,6 +47,7 @@
 
     <EditText
         android:id="@+id/password_edit_text"
+        style="@style/Widget.EditText.Phone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"

@@ -191,6 +191,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mAccountButton.bind(false, false, null);
 		}
 
+		// restore
+		mHotelReceipt.restoreInstanceState(savedInstanceState);
+		mCouponCodeWidget.restoreInstanceState(savedInstanceState);
+
 		// Listeners
 		mAccountButton.setListener(this);
 		mTravelerButton.setOnClickListener(mOnClickListener);
@@ -199,6 +203,15 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mStoredCreditCard.setOnClickListener(mOnClickListener);
 		mCreditCardSectionButton.setOnClickListener(mOnClickListener);
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
+
+		mCouponCodeWidget.setCouponCodeAppliedListener(new CouponCodeWidget.CouponCodeAppliedListener() {
+			@Override
+			public void couponCodeApplied() {
+				if (isAdded()) {
+					updateViews();
+				}
+			}
+		});
 
 		// Hide unused view
 		Ui.findView(view, R.id.display_special_assistance).setVisibility(View.GONE);
@@ -210,6 +223,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void onResume() {
 		super.onResume();
 
+		mCouponCodeWidget.startTextWatcher();
 		if (mSlideToPurchaseWidget != null) {
 			mSlideToPurchaseWidget.resetSlider();
 		}
@@ -240,6 +254,9 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
+
+		mHotelReceipt.saveInstanceState(outState);
+		mCouponCodeWidget.saveInstanceState(outState);
 	}
 
 	// Public methods
