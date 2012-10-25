@@ -334,6 +334,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		// Make sure to cover up while showing the list fragment
 		if (position == 0) {
 			mStatusFragment.setCoverEnabled(true);
+
+			// F1150: Always skip the animation when lodaing the initial flight list
+			mSkipAnimation = true;
 		}
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
