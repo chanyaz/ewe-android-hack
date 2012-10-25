@@ -75,8 +75,8 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	}
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onPause() {
+		super.onPause();
 
 		Property property = DbPropertyHelper.getBestMediaProperty();
 		if (getActivity().isFinishing() && property != null && property.getMediaCount() > 0) {
