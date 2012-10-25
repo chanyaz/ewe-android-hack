@@ -540,24 +540,20 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return getRedressNumber() == null ? BEFORE : getRedressNumber().compareTo(another.getRedressNumber());
 		}
 
-		if (((mPassportCountries == null) == (another.mPassportCountries == null))
-				|| (mPassportCountries != null && !mPassportCountries.equals(another.mPassportCountries))) {
-			if (mPassportCountries == null) {
-				return BEFORE;
+		if(hasPassportCountry() != another.hasPassportCountry()){
+			return BEFORE;
+		}else if(hasPassportCountry() && !mPassportCountries.equals(another.mPassportCountries)){
+			//Compare list length
+			int mySize = mPassportCountries.size();
+			if (mySize != another.mPassportCountries.size()) {
+				return mySize < another.mPassportCountries.size() ? BEFORE : AFTER;
 			}
-			else {
-				// Compare list length
-				int mySize = mPassportCountries.size();
-				if (mySize != another.mPassportCountries.size()) {
-					return mySize < another.mPassportCountries.size() ? BEFORE : AFTER;
-				}
 
-				// Compare each item
-				for (int a = 0; a < mySize; a++) {
-					int compared = mPassportCountries.get(a).compareTo(another.mPassportCountries.get(a));
-					if (compared != 0) {
-						return compared;
-					}
+			// Compare each item
+			for (int a = 0; a < mySize; a++) {
+				int compared = mPassportCountries.get(a).compareTo(another.mPassportCountries.get(a));
+				if (compared != 0) {
+					return compared;
 				}
 			}
 		}
