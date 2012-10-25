@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
@@ -14,6 +15,7 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -28,6 +30,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -182,6 +185,28 @@ public class SignInFragment extends DialogFragment {
 	public void onResume() {
 		super.onResume();
 		startOrResumeDownload();
+
+		//Show the soft keyboard
+		if (getDialog() != null) {
+			View focused = this.getDialog().getCurrentFocus();
+			if (focused == null || !(focused instanceof EditText)) {
+				focused = Ui.findView(this.getDialog(), R.id.username_edit_text);
+			}
+			final View finalFocused = focused;
+			if (finalFocused != null && finalFocused instanceof EditText) {
+				finalFocused.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						//Dumb but effective - show the keyboard by emulating a click on the view
+						finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
+								SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
+						finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
+								SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0));
+					}
+				}, 200);
+			}
+		}
+
 	}
 
 	public void startOrResumeDownload() {
