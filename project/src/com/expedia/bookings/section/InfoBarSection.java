@@ -71,7 +71,7 @@ public class InfoBarSection extends LinearLayout {
 		// Bind right label (booking price)
 		String fare = trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL);
 		int seatsRemaining = trip.getSeatsRemaining();
-		if (seatsRemaining <= SHOW_URGENCY_CUTOFF) {
+		if (seatsRemaining > 0 && seatsRemaining <= SHOW_URGENCY_CUTOFF) {
 			String urgencyStr = getResources().getQuantityString(R.plurals.urgency_book_TEMPLATE, seatsRemaining,
 					seatsRemaining, fare);
 			mRightTextView.setText(Html.fromHtml(urgencyStr));
