@@ -1,23 +1,25 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.*;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LaunchFlightAdapter extends CircularArrayAdapter<Location> implements OnMeasureListener {
 
@@ -105,18 +107,36 @@ public class LaunchFlightAdapter extends CircularArrayAdapter<Location> implemen
 	// Private methods and stuff
 
 	private void setTileBackgroundBitmap(int position, RelativeLayout layout) {
-		Bitmap bg;
-		if (position % 2 == 0) {
-			bg = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.launch_lhr);
-		}
-		else {
-			bg = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.launch_jfk);
-		}
-		layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bg));
+		new DownloadTileTask(position, layout).execute();
+	}
 
-		// Alpha animate the tile to fade in
-		layout.setVisibility(View.VISIBLE);
-		ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+	private class DownloadTileTask extends AsyncTask<Void, Void, BitmapDrawable> {
+		private int mPosition;
+		private RelativeLayout mLayout;
+
+		protected DownloadTileTask(int position, RelativeLayout layout) {
+			mPosition = position;
+			mLayout = layout;
+		}
+
+		protected BitmapDrawable doInBackground(Void... params) {
+			Bitmap bg;
+			if (mPosition % 2 == 0) {
+				bg = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.launch_lhr);
+			}
+			else {
+				bg = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.launch_jfk);
+			}
+			return new BitmapDrawable(mContext.getResources(), bg);
+		}
+
+		protected void onPostExecute(BitmapDrawable result) {
+			mLayout.setBackgroundDrawable(result);
+
+			// Alpha animate the tile to fade in
+			mLayout.setVisibility(View.VISIBLE);
+			ObjectAnimator.ofFloat(mLayout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+		}
 	}
 
 	private class TileHolder {
