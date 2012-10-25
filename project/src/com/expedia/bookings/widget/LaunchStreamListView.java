@@ -6,17 +6,22 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
+import android.view.View.OnTouchListener;
 
-public class LaunchStreamListView extends MeasureListView implements OnScrollListener {
+public class LaunchStreamListView extends MeasureListView implements OnTouchListener, OnGestureListener {
 
 	private LaunchStreamListView mSlaveView;
+	private GestureDetector mGestureDetector;
 
 	public LaunchStreamListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		setOnScrollListener(this);
+		//setOnScrollListener(this);
+		setOnTouchListener(this);
+		mGestureDetector = new GestureDetector(context, this);
 	}
 
 	public void setSlaveView(LaunchStreamListView slave) {
@@ -44,56 +49,71 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// OnScrollListener
+	// OnTouchListener / GestureDetector
 	//////////////////////////////////////////////////////////////////////////////////////////
-
-	private boolean mDoNotPropogateNextScrollEvent = false;
+	// All this stuff is to keep the two ListView's in sync. Send flick and scroll 
+	// touch gestures to the slave view, but intercept click gestures, since we don't want
+	// to click on both ListView's.
 
 	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		if (mSlaveView == null) {
-			return;
+	public boolean onTouch(View v, MotionEvent event) {
+		// Set the other ListView onTouchListener to null
+		// to ensure there does not exist resonance in touch dispatch
+		mSlaveView.setOnTouchListener(null);
+
+		// Special case for ACTION_UP: change it to CANCEL so that the slave
+		// won't catch a click event.
+		int originalAction = event.getAction();
+		if (mGestureDetector.onTouchEvent(event)) {
+			event.setAction(MotionEvent.ACTION_CANCEL);
 		}
 
-		int deltaY = getDistanceScrolled();
+		// Dispatch the touch event to the other ListView
+		// such that they will scroll in unison.
+		mSlaveView.dispatchTouchEvent(event);
 
-		if (mDoNotPropogateNextScrollEvent) {
-			mDoNotPropogateNextScrollEvent = false;
-			return;
+		event.setAction(originalAction);
+
+		// Post the resetting of the onTouchListener on ACTION_UP
+		// as that is when the ListView is no longer touched.
+		if (event.getAction() == MotionEvent.ACTION_UP) {
+			mSlaveView.post(new Runnable() {
+				@Override
+				public void run() {
+					mSlaveView.setOnTouchListener(mSlaveView);
+				}
+			});
 		}
 
-		mSlaveView.scrollListBy(deltaY);
+		return false;
 	}
 
 	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		// TODO Auto-generated method stub
+	public boolean onDown(MotionEvent e) {
+		return false;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// getDistanceScrolled
-	//////////////////////////////////////////////////////////////////////////////////////////
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+		return false;
+	}
 
-	private int mDistanceScrolledPosition;
-	private int mDistanceScrolledOffset;
+	@Override
+	public void onLongPress(MotionEvent e) {
+	}
 
-	// Returns the distance scrolled since the last call to this function.
-	// *** This will only work if all cells in this ListView are the same height.
-	private int getDistanceScrolled() {
-		if (getChildAt(0) == null || getChildAt(1) == null) {
-			return 0;
-		}
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+		return false;
+	}
 
-		int position = getFirstVisiblePosition();
-		int offset = getChildAt(0).getTop();
-		int height = getChildAt(1).getTop() - offset;
+	@Override
+	public void onShowPress(MotionEvent e) {
+	}
 
-		int deltaY = (mDistanceScrolledPosition - position) * height + (offset - mDistanceScrolledOffset);
-
-		mDistanceScrolledPosition = position;
-		mDistanceScrolledOffset = offset;
-
-		return deltaY;
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		return true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -107,8 +127,6 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 	// If this is called twice quickly before a refresh, we need to just increase the distance
 	// instead of replacing it.
 	protected void scrollListBy(int deltaY) {
-		mDoNotPropogateNextScrollEvent = true;
-
 		int position = getFirstVisiblePosition();
 		int top = (getChildAt(0) == null ? 0 : getChildAt(0).getTop());
 		if (mScrollByPosition == position && mScrollByTop == top) {
@@ -127,6 +145,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 	}
 
 	protected void scrollSlaveBy(int deltaY) {
+		// TODO: this "*2" formula is pretty simple. We may want to make it more complex. 
 		mSlaveView.scrollListBy(deltaY * 2);
 	}
 
