@@ -184,11 +184,13 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 		private final WeakReference<LaunchStreamListView> mView;
 
 		private byte mStatus = MARQUEE_STOPPED;
-		private final int mScrollUnit;
+		private final float mScrollUnit;
+
+		private float mRemainder = 0f;
 
 		Marquee(LaunchStreamListView v) {
 			final float density = v.getContext().getResources().getDisplayMetrics().density;
-			mScrollUnit = -(int) ((MARQUEE_PIXELS_PER_SECOND * density) / MARQUEE_RESOLUTION);
+			mScrollUnit = (MARQUEE_PIXELS_PER_SECOND * density) / MARQUEE_RESOLUTION;
 			mView = new WeakReference<LaunchStreamListView>(v);
 		}
 
@@ -219,8 +221,11 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 
 			final LaunchStreamListView listView = mView.get();
 			if (listView != null) {
-				listView.scrollListBy(mScrollUnit);
-				listView.scrollSlaveBy(mScrollUnit);
+				float scrollf = mScrollUnit + mRemainder;
+				int scroll = (int) scrollf;
+				mRemainder = scrollf - scroll;
+				listView.scrollListBy(-scroll);
+				listView.scrollSlaveBy(-scroll);
 				sendEmptyMessageDelayed(MESSAGE_TICK, MARQUEE_RESOLUTION);
 				listView.invalidate();
 			}
