@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -31,6 +32,9 @@ public class ActionBarNavUtils {
 		View actionView = item.getActionView();
 		if (actionView instanceof TextView) {
 			ViewUtils.setAllCaps((TextView) actionView);
+		}
+		else if (actionView instanceof ViewGroup) {
+			ViewUtils.setAllCaps((ViewGroup) actionView);
 		}
 
 		actionView.setOnClickListener(new OnClickListener() {
