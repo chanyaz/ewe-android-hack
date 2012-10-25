@@ -265,7 +265,7 @@ public class LaunchFragment extends Fragment {
 			mHotelsStreamListView.restorePosition();
 		}
 
-		mFlightAdapter.setLocations(LaunchFlightAdapter.getHardcodedDestinations());
+		mFlightAdapter.setDestinations(LaunchFlightAdapter.getHardcodedDestinations());
 		mFlightsStreamListView.selectMiddle();
 	}
 
@@ -309,7 +309,12 @@ public class LaunchFragment extends Fragment {
 	private final AdapterView.OnItemClickListener mFlightsStreamOnItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			com.expedia.bookings.data.Location location = mFlightAdapter.getItem(position);
+			Destination destination = mFlightAdapter.getItem(position);
+			String destinationId = destination.getDestinationId();
+			String city = destination.getCity();
+			String description = destination.getDescription();
+			com.expedia.bookings.data.Location location = new com.expedia.bookings.data.Location(destinationId, city,
+					description);
 
 			FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
 			flightSearchParams.setArrivalLocation(location);

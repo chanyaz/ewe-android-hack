@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.*;
@@ -15,18 +12,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.*;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.ObjectAnimator;
 
-public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
+public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
-	private String PREFIX_IMAGE_INFO_KEY = "IMAGE_INFO_KEY_";
+	private static String PREFIX_IMAGE_INFO_KEY = "IMAGE_INFO_KEY_";
 
 	private static final int TYPE_EMPTY = 0;
 	private static final int TYPE_LOADED = 1;
@@ -52,11 +48,11 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
 		Log.i(String.format("LaunchFlightAdapter tile size %s x %s", mWidth, mHeight));
 	}
 
-	public void setLocations(List<Location> locations) {
+	public void setDestinations(List<Destination> destinations) {
 		this.clear();
 
-		for (Location location : locations) {
-			add(location);
+		for (Destination destination : destinations) {
+			add(destination);
 		}
 
 		notifyDataSetChanged();
@@ -69,9 +65,9 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
 
 	@Override
 	public int getItemViewType(int position) {
-		Location location = getItem(position);
+		Destination destination = getItem(position);
 
-		if (location == null) {
+		if (destination == null) {
 			return TYPE_EMPTY;
 		}
 		else {
@@ -98,36 +94,47 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
 			holder = (TileHolder) convertView.getTag();
 		}
 
-		final Location location = getItem(position);
+		final Destination destination = getItem(position);
 
 		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
-		if (isMeasuring() || location == null) {
+		if (isMeasuring() || destination == null) {
 			return convertView;
 		}
 
 		holder.titleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_flight_tile_prompt,
-				location.getCity())));
+				destination.getCity())));
 
-		// Note: This just loads a bitmap from APK. TODO: load dynamically
-		boolean dynamic = false;
-		if (dynamic) {
-			String code = location.getDestinationId();
+		// Load the image
+
+		String url = destination.getImageUrl();
+
+		// We don't have an image url, go to network and grab the url
+		if (url == null) {
+			String code = destination.getDestinationId();
 			ImageInfoDownload imageInfoDownload = new ImageInfoDownload(code);
-			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(holder.container);
+			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(destination, holder.container);
 
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			bd.cancelDownload(getBGDKey(code));
 			bd.startDownload(getBGDKey(code), imageInfoDownload, imageInfoCallback);
 		}
+
+		// NOTE: It may be in poor form to use the cached image like this blindly (without checking against a newly
+		// grabbed SHA fresh off the network) as it could be outdated. I don't anticipate these images being so volatile
+		// that we will have to constantly request the meta info, as we only cache the destination images in memory.
+		// TODO: Figure out if it is a big deal to be doing this 
 		else {
-			setTileBackgroundBitmap(position, holder.container);
+			if (ImageCache.containsImage(url)) {
+				holder.container.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
+						.getImage(url)));
+				holder.container.setVisibility(View.VISIBLE);
+			}
+			else {
+				loadImageForLaunchStream(url, holder.container);
+			}
 		}
 
 		return convertView;
-	}
-
-	private String getBGDKey(String code) {
-		return PREFIX_IMAGE_INFO_KEY + code;
 	}
 
 	private class ImageInfoDownload implements BackgroundDownloader.Download<BackgroundImageResponse> {
@@ -149,9 +156,11 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
 
 	private class ImageInfoCallback implements BackgroundDownloader.OnDownloadComplete<BackgroundImageResponse> {
 
+		private Destination mDestination;
 		private RelativeLayout mContainer;
 
-		public ImageInfoCallback(RelativeLayout container) {
+		public ImageInfoCallback(Destination destination, RelativeLayout container) {
+			mDestination = destination;
 			mContainer = container;
 		}
 
@@ -173,44 +182,33 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
 			}
 			else {
 				if (!TextUtils.isEmpty(response.getmCacheKey())) {
-					loadImageForLaunchStream(response.getmImageUrl(), mContainer);
+					String responseKey = response.getmCacheKey();
+					String responseUrl = response.getmImageUrl();
+
+					if (ImageCache.containsImage(responseUrl)) {
+						if (mDestination.getImageKey() != null && responseKey.equals(mDestination.getImageKey())) {
+							Log.i("Image SHAs match, use cached image");
+							mContainer.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
+									.getImage(responseUrl)));
+							mContainer.setVisibility(View.VISIBLE);
+						}
+						else {
+							Log.i("Image SHAs don't match, dl new");
+							cacheImageMetaAndLoad(mDestination, responseKey, responseUrl, mContainer);
+						}
+					}
+					else {
+						Log.i("Destination image cache miss");
+						cacheImageMetaAndLoad(mDestination, responseKey, responseUrl, mContainer);
+					}
 				}
 			}
-
 		}
 	}
 
-	private void setTileBackgroundBitmap(int position, RelativeLayout layout) {
-		new DownloadTileTask(position, layout).execute();
-	}
-
-	private class DownloadTileTask extends AsyncTask<Void, Void, BitmapDrawable> {
-		private int mPosition;
-		private RelativeLayout mLayout;
-
-		protected DownloadTileTask(int position, RelativeLayout layout) {
-			mPosition = position;
-			mLayout = layout;
-		}
-
-		protected BitmapDrawable doInBackground(Void... params) {
-			Bitmap bg;
-			if (mPosition % 2 == 0) {
-				bg = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.launch_lhr);
-			}
-			else {
-				bg = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.launch_jfk);
-			}
-			return new BitmapDrawable(mContext.getResources(), bg);
-		}
-
-		protected void onPostExecute(BitmapDrawable result) {
-			mLayout.setBackgroundDrawable(result);
-
-			// Alpha animate the tile to fade in
-			mLayout.setVisibility(View.VISIBLE);
-			ObjectAnimator.ofFloat(mLayout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
-		}
+	private void cacheImageMetaAndLoad(Destination destination, String key, String url, RelativeLayout container) {
+		destination.setImageMeta(key, url);
+		loadImageForLaunchStream(url, container);
 	}
 
 	private class TileHolder {
@@ -218,14 +216,18 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
 		public TextView titleTextView;
 	}
 
-	public static List<Location> getHardcodedDestinations() {
-		List<Location> locations = new ArrayList<Location>();
+	private static String getBGDKey(String code) {
+		return PREFIX_IMAGE_INFO_KEY + code;
+	}
 
-		locations.add(new Location("LHR", "London", "London Heathrow"));
-		locations.add(new Location("MIA", "Miami", "Miami, yo"));
-		locations.add(new Location("JFK", "New York", "JFK - John F. Kennedy"));
+	public static List<Destination> getHardcodedDestinations() {
+		List<Destination> destinations = new ArrayList<Destination>();
 
-		return locations;
+		destinations.add(new Destination("LHR", "London", "London Heathrow"));
+		destinations.add(new Destination("MIA", "Miami", "Miami, yo"));
+		destinations.add(new Destination("JFK", "New York", "JFK - John F. Kennedy"));
+
+		return destinations;
 	}
 
 }
