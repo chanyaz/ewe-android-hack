@@ -261,11 +261,15 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		if (name == null || name.equals(BACKSTACK_LOADING) || name.equals(getFlightListBackStackName(0))
 				|| name.equals(BACKSTACK_NO_FLIGHTS)) {
+			Log.d("onBackPressed() - finishing activity!");
+
 			finish();
 		}
 		else if (mCurrentAnimator != null && mCurrentAnimator.isRunning()) {
 			// Allow reversal of the current animation.  If the user is already going backwards, skip
 			if (mAnimForward) {
+				Log.d("onBackPressed() - reversing animation!");
+
 				reverseCurrentAnimation();
 				mSetNewLegPosition = -1;
 			}
@@ -276,6 +280,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			// TODO: Improve this behavior at some point.
 		}
 		else {
+			Log.d("onBackPressed() - going backwards one step!");
+
 			mAnimForward = false;
 			super.onBackPressed();
 		}
@@ -358,6 +364,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	private void deselectBackToLegPosition(int newLegPosition) {
+		Log.d("deselectBackToLegPosition(" + newLegPosition + ")");
+
 		// Clear the selected flight legs
 		setNewLegPosition(newLegPosition);
 
@@ -912,6 +920,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private OnClickListener mOnCancelClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			Log.d("Cancel selecting flight leg.");
+
 			popBackStack();
 		}
 	};
@@ -919,6 +929,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private OnClickListener mSelectFlightClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			Log.d("Selected flight leg!");
+
 			// Set the selected leg
 			FlightTripLeg ftl = mFlightDetailsFragment.getFlightTripLeg();
 			FlightSearch flightSearch = Db.getFlightSearch();
@@ -957,6 +969,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition) {
+		Log.d("onFlightLegClick(" + trip.getProductKey() + ", " + leg.getLegId() + ", " + legPosition + ")");
+
 		showFlightDetails(trip, leg);
 	}
 
