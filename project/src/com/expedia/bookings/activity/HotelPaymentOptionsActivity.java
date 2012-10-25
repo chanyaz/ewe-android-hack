@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -23,6 +20,7 @@ import com.expedia.bookings.fragment.HotelPaymentOptionsFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
 import com.expedia.bookings.fragment.HotelPaymentSaveDialogFragment;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implements HotelPaymentYoYoListener {
@@ -351,24 +349,9 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = this.getSupportMenuInflater();
-		inflater.inflate(R.menu.menu_yoyo, menu);
-		mMenuNext = menu.findItem(R.id.menu_next);
-		mMenuNext.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				moveForward();
-			}
-		});
-
-		mMenuDone = menu.findItem(R.id.menu_done);
-		mMenuDone.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				moveForward();
-			}
-		});
-
+		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
+		mMenuNext = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_next);
+		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 		return true;
 	}
 
@@ -377,6 +360,10 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			return moveBackwards();
+		case R.id.menu_next:
+		case R.id.menu_done:
+			moveForward();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

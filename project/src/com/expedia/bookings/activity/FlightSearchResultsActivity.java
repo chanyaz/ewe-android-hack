@@ -59,6 +59,7 @@ import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFr
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -530,13 +531,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
 
-		mSearchMenuItem = menu.findItem(R.id.menu_search);
-		mSearchMenuItem.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onOptionsItemSelected(mSearchMenuItem);
-			}
-		});
+		mSearchMenuItem = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_search);
 
 		return super.onCreateOptionsMenu(menu);
 	}

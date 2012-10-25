@@ -8,14 +8,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
@@ -29,6 +26,7 @@ import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerIn
 import com.expedia.bookings.fragment.HotelTravelerSaveDialogFragment;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
@@ -68,17 +66,8 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = this.getSupportMenuInflater();
-		inflater.inflate(R.menu.menu_yoyo, menu);
-
-		mMenuDone = menu.findItem(R.id.menu_done);
-		mMenuDone.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				moveForward();
-			}
-		});
-
+		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
+		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 		return true;
 	}
 
@@ -88,6 +77,9 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		case android.R.id.home: {
 			return moveBackwards();
 		}
+		case R.id.menu_done:
+			moveForward();
+			return true;
 		}
 
 		return super.onOptionsItemSelected(item);

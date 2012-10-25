@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -14,6 +13,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchParamsFragmentListener;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 
@@ -56,15 +56,7 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity implem
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_flight_search, menu);
-
-		mSearchMenuItem = menu.findItem(R.id.search);
-		mSearchMenuItem.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onOptionsItemSelected(mSearchMenuItem);
-			}
-		});
-
+		mSearchMenuItem = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.search);
 		return super.onCreateOptionsMenu(menu);
 	}
 

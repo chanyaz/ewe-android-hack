@@ -8,14 +8,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
@@ -30,9 +27,10 @@ import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment.TravelerI
 import com.expedia.bookings.fragment.FlightTravelerInfoThreeFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -81,24 +79,9 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = this.getSupportMenuInflater();
-		inflater.inflate(R.menu.menu_yoyo, menu);
-		mMenuNext = menu.findItem(R.id.menu_next);
-		mMenuNext.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				moveForward();
-			}
-		});
-
-		mMenuDone = menu.findItem(R.id.menu_done);
-		mMenuDone.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				moveForward();
-			}
-		});
-
+		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
+		mMenuNext = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_next);
+		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 		return true;
 	}
 
@@ -107,6 +90,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			return moveBackwards();
+		case R.id.menu_next:
+		case R.id.menu_done:
+			moveForward();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

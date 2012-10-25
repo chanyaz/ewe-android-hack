@@ -39,6 +39,7 @@ import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -156,17 +157,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		//We load things from disk in the background
 		startLoadChain();
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			onBackPressed();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 	@Override
@@ -639,23 +629,12 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (menu != null) {
-			mCheckoutMenuItem = menu.findItem(R.id.menu_checkout);
-
 			if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
 				displayCheckoutButton(false);
 			}
 			else {
 				displayCheckoutButton(true);
 			}
-
-			mCheckoutMenuItem.getActionView().setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (mOverviewFragment != null) {
-						gotoCheckoutMode(true);
-					}
-				}
-			});
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -664,7 +643,24 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = this.getSupportMenuInflater();
 		inflater.inflate(R.menu.menu_checkout, menu);
+		mCheckoutMenuItem = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_checkout);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		case R.id.menu_checkout:
+			if (mOverviewFragment != null) {
+				gotoCheckoutMode(true);
+			}
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override

@@ -2,8 +2,6 @@ package com.expedia.bookings.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -17,6 +15,7 @@ import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchParamsFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
@@ -164,15 +163,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_flight_search, menu);
-
-		mSearchMenuItem = menu.findItem(R.id.search);
-		mSearchMenuItem.getActionView().setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onOptionsItemSelected(mSearchMenuItem);
-			}
-		});
-
+		mSearchMenuItem = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.search);
 		return super.onCreateOptionsMenu(menu);
 	}
 
