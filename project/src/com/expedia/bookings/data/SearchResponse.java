@@ -408,9 +408,10 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 		mFilter.setSort(sort);
 
 		Property[] properties = getFilteredAndSortedProperties();
-		Property[] propertiesCapped = new Property[count];
 
 		int num = Math.min(properties.length, count);
+		Property[] propertiesCapped = new Property[num];
+
 		System.arraycopy(properties, 0, propertiesCapped, 0, num);
 
 		return Arrays.asList(propertiesCapped);
