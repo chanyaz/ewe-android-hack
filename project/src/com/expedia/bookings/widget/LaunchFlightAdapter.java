@@ -26,7 +26,7 @@ import com.nineoldandroids.animation.ObjectAnimator;
 
 public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
 
-	private String PREFIX_IMAGE_INFO_KEY = "PREFIX_IMAGE_INFO_KEY";
+	private String PREFIX_IMAGE_INFO_KEY = "IMAGE_INFO_KEY_";
 
 	private static final int TYPE_EMPTY = 0;
 	private static final int TYPE_LOADED = 1;
@@ -111,18 +111,23 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
 		// Note: This just loads a bitmap from APK. TODO: load dynamically
 		boolean dynamic = false;
 		if (dynamic) {
-			ImageInfoDownload imageInfoDownload = new ImageInfoDownload(location.getDestinationId());
+			String code = location.getDestinationId();
+			ImageInfoDownload imageInfoDownload = new ImageInfoDownload(code);
 			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(holder.container);
 
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			bd.cancelDownload(PREFIX_IMAGE_INFO_KEY);
-			bd.startDownload(PREFIX_IMAGE_INFO_KEY, imageInfoDownload, imageInfoCallback);
+			bd.cancelDownload(getBGDKey(code));
+			bd.startDownload(getBGDKey(code), imageInfoDownload, imageInfoCallback);
 		}
 		else {
 			setTileBackgroundBitmap(position, holder.container);
 		}
 
 		return convertView;
+	}
+
+	private String getBGDKey(String code) {
+		return PREFIX_IMAGE_INFO_KEY + code;
 	}
 
 	private class ImageInfoDownload implements BackgroundDownloader.Download<BackgroundImageResponse> {
@@ -136,7 +141,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Location> {
 		@Override
 		public BackgroundImageResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundDownloader.getInstance().addDownloadListener(PREFIX_IMAGE_INFO_KEY + "_" + mCode, services);
+			BackgroundDownloader.getInstance().addDownloadListener(getBGDKey(mCode), services);
 			return services.getFlightsBackgroundImage(mCode, mWidth, mHeight);
 		}
 
