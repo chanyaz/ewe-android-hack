@@ -123,17 +123,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:duplicateParentState="true"
-                android:src="@drawable/ic_logo" />
+                android:src="@drawable/ic_action_bar_expedia_logo" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/action_bar_title"
-            style="@style/ActionBarTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/action_bar_up_button" />
     </RelativeLayout>
 
     <View

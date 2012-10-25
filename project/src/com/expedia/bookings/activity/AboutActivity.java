@@ -78,11 +78,6 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			}
 		});
 
-		TextView title = Ui.findView(this, R.id.action_bar_title);
-		if (title != null) {
-			title.setText(getString(R.string.about_title_template, getString(R.string.app_name)));
-		}
-
 		View upButton = Ui.findView(this, R.id.action_bar_up_button);
 		if (upButton != null) {
 			upButton.setOnClickListener(new OnClickListener() {
