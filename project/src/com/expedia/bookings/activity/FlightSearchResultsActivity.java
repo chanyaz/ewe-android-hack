@@ -222,12 +222,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			startSearch();
 		}
 		else if (mDeselectLegPos != -1) {
-			// Clear the selected flight legs
-			setNewLegPosition(mDeselectLegPos);
-
-			// Pop back stack to proper location
-			popBackStack(getFlightListBackStackName(mDeselectLegPos));
-
+			deselectBackToLegPosition(mDeselectLegPos);
 			mDeselectLegPos = -1;
 		}
 		else {
@@ -380,6 +375,14 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		ft.commit();
 
 		mAnimForward = true;
+	}
+
+	private void deselectBackToLegPosition(int newLegPosition) {
+		// Clear the selected flight legs
+		setNewLegPosition(newLegPosition);
+
+		// Pop back stack to proper location
+		popBackStack(getFlightListBackStackName(newLegPosition));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -560,6 +563,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// Either show standard action bar options, or just show the custom
@@ -644,8 +648,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
-			// Push user back to search page if they hit the home button
-			NavUtils.goToFlights(this);
+			// Either go back one leg, or go back to the search page
+			if (mLegPosition != 0) {
+				deselectBackToLegPosition(mLegPosition - 1);
+			}
+			else {
+				NavUtils.goToFlights(this);
+			}
 			return true;
 		}
 		case R.id.menu_select_sort_price:
