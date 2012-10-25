@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,25 +15,19 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.ObjectAnimator;
 
-public class LaunchHotelAdapter extends CircularArrayAdapter<Property> implements OnMeasureListener {
+public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 
 	private static final int TYPE_EMPTY = 0;
 	private static final int TYPE_LOADED = 1;
 	private static final int NUM_ROW_TYPES = 2;
 
-	private static final int DURATION_FADE_MS = 700;
-
 	private static final String THUMBNAIL_SIZE = Media.IMAGE_BIG_SUFFIX;
 
 	private Context mContext;
-
-	LayoutInflater mInflater;
+	private LayoutInflater mInflater;
 
 	private Distance.DistanceUnit mDistanceUnit;
-
-	private boolean mIsMeasuring = false;
 
 	public LaunchHotelAdapter(Context context) {
 		super(context, R.layout.row_launch_tile_hotel);
@@ -116,7 +109,7 @@ public class LaunchHotelAdapter extends CircularArrayAdapter<Property> implement
 		Property property = getItem(position);
 
 		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
-		if (mIsMeasuring || property == null) {
+		if (isMeasuring() || property == null) {
 			return convertView;
 		}
 
@@ -143,49 +136,11 @@ public class LaunchHotelAdapter extends CircularArrayAdapter<Property> implement
 		return convertView;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Private methods and stuff
-
-	private boolean loadImageForLaunchStream(String url, final RelativeLayout layout) {
-		String key = layout.toString();
-		Log.v("Loading RelativeLayout bg " + key + " with " + url);
-
-		// Begin a load on the ImageView
-		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
-			public void onImageLoaded(String url, Bitmap bitmap) {
-				Log.v("ImageLoaded: " + url);
-
-				layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bitmap));
-				layout.setVisibility(View.VISIBLE);
-				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
-			}
-
-			public void onImageLoadFailed(String url) {
-				Log.v("Image load failed: " + url);
-			}
-		};
-
-		return ImageCache.loadImage(key, url, callback);
-	}
-
 	private class TileHolder {
 		public RelativeLayout container;
 		public TextView titleTextView;
 		public TextView distanceTextView;
 		public TextView priceTextView;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// OnMeasureListener
-
-	@Override
-	public void onStartMeasure() {
-		mIsMeasuring = true;
-	}
-
-	@Override
-	public void onStopMeasure() {
-		mIsMeasuring = false;
 	}
 
 }
