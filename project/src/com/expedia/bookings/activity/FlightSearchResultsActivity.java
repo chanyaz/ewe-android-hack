@@ -68,6 +68,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -173,6 +174,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		mCancelButton.setOnClickListener(mOnCancelClick);
 		mSelectFlightButton.setOnClickListener(mSelectFlightClick);
+
+		ViewUtils.setAllCaps((TextView) Ui.findView(mCancelButton, R.id.cancel_text_view));
+		ViewUtils.setAllCaps((TextView) Ui.findView(mSelectFlightButton, R.id.select_text_view));
 
 		// Need to do this, or else the custom view won't take up the entire space available
 		customView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));

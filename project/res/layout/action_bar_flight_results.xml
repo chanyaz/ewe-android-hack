@@ -50,6 +50,7 @@
                 android:src="@drawable/btn_navigation_cancel" />
 
             <TextView
+                android:id="@+id/cancel_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@android:string/cancel"
@@ -79,6 +80,7 @@
                 android:src="@drawable/ic_action_bar_checkmark" />
 
             <TextView
+                android:id="@+id/select_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/select_flight"
