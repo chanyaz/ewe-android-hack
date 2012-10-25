@@ -13,7 +13,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
-import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.StrUtils;
@@ -40,10 +39,6 @@ public class SectionFlightLeg extends LinearLayout {
 		super(context, attrs, defStyle);
 	}
 
-	public void setListener(FlightLegSummarySectionListener listener) {
-		mFlightLegSummary.setListener(listener);
-	}
-
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
@@ -60,10 +55,9 @@ public class SectionFlightLeg extends LinearLayout {
 		mTripLeg = tripLeg;
 
 		// Bind to views
-		FlightTrip trip = tripLeg.getFlightTrip();
 		FlightLeg leg = tripLeg.getFlightLeg();
 
-		mFlightLegSummary.bind(trip, leg);
+		mFlightLegSummary.bind(null, leg);
 
 		Calendar cal = (isOutbound() ? leg.getFirstWaypoint() : leg.getLastWaypoint()).getMostRelevantDateTime();
 		long time = DateTimeUtils.getTimeInLocalTimeZone(cal).getTime();

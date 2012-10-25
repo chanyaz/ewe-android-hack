@@ -26,7 +26,6 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.FlightLegSummarySection;
-import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -41,7 +40,7 @@ import com.nineoldandroids.animation.ObjectAnimator;
 // IMPLEMENTATION NOTE: This implementation heavily leans towards the user only picking
 // two legs of a flight (outbound and inbound).  If you want to adapt it for 3+ legs, you
 // will need to rewrite a good portion of it.
-public class FlightListFragment extends ListFragment implements FlightLegSummarySectionListener, OnScrollListener {
+public class FlightListFragment extends ListFragment implements OnScrollListener {
 
 	public static final String TAG = FlightListFragment.class.getName();
 
@@ -121,7 +120,6 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 		mNumFlightsTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
 		mSectionFlightLeg.setBackgroundResource(R.drawable.bg_flight_card_search_results_top);
-		mSectionFlightLeg.setListener(this);
 		mListView.addHeaderView(header);
 		mListView.setHeaderDividersEnabled(false);
 
@@ -352,19 +350,9 @@ public class FlightListFragment extends ListFragment implements FlightLegSummary
 
 		public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition);
 
-		public void onDeselectFlightLeg();
-
 		public void onDisableFade();
 
 		public void onFadeRangeChange(int startY, int endY);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// FlightLegSummarySectionListener
-
-	@Override
-	public void onDeselect(FlightLeg leg) {
-		mListener.onDeselectFlightLeg();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

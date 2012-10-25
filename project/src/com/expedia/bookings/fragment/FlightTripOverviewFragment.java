@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,15 +11,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
-import com.expedia.bookings.section.FlightLegSummarySection.FlightLegSummarySectionListener;
-import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.section.InfoBarSection;
-import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.nineoldandroids.animation.Animator;
@@ -28,7 +23,7 @@ import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
-public class FlightTripOverviewFragment extends Fragment implements FlightLegSummarySectionListener {
+public class FlightTripOverviewFragment extends Fragment {
 
 	private static final String ARG_TRIP_KEY = "ARG_TRIP_KEY";
 	private static final String ARG_DISPLAY_MODE = "ARG_DISPLAY_MODE";
@@ -120,7 +115,6 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 			tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
 			tempFlight.setId(ID_START_RANGE + i);
 
-			tempFlight.setListener(this);
 			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));
 
 			currentTop += FLIGHT_LEG_TOP_MARGIN;
@@ -260,13 +254,11 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
 			View header = Ui.findView(tempFlight, R.id.info_text_view);
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
-			View cancel = Ui.findView(tempFlight, R.id.cancel_button);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
 
 			int headerUnused = Math.max(header.getMeasuredHeight(), header.getHeight());
 			int innerUnused = Math.max(Math.max(price.getMeasuredHeight(), price.getHeight()),
 					Math.max(airline.getMeasuredHeight(), airline.getHeight()));
-			innerUnused = Math.max(innerUnused, Math.max(cancel.getMeasuredHeight(), cancel.getHeight()));
 
 			//We don't use the header space (above the card) and we don't use 2/3 of the inside the card header space ( price/airline/X) but we leave some because we want it to look nice
 			int totalUnusedHeight = (int) (headerUnused + Math.floor((2 * innerUnused) / 3));
@@ -342,16 +334,13 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
 			View header = Ui.findView(tempFlight, R.id.info_text_view);
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
-			View cancel = Ui.findView(tempFlight, R.id.cancel_button);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
 
 			ObjectAnimator headerOut = ObjectAnimator.ofFloat(header, "alpha", start, end);
 			ObjectAnimator priceOut = ObjectAnimator.ofFloat(price, "alpha", start, end);
-			ObjectAnimator cancelOut = ObjectAnimator.ofFloat(cancel, "alpha", start, end);
 			ObjectAnimator airlineOut = ObjectAnimator.ofFloat(airline, "alpha", start, end);
 			animators.add(headerOut);
 			animators.add(priceOut);
-			animators.add(cancelOut);
 			animators.add(airlineOut);
 		}
 		return animators;
@@ -398,44 +387,5 @@ public class FlightTripOverviewFragment extends Fragment implements FlightLegSum
 		animators.add(flightsMover);
 
 		return animators;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// FlightLegSummarySectionListener
-
-	private boolean mDeselecting = false;
-
-	@Override
-	public void onDeselect(FlightLeg flightLeg) {
-		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0 && !mDeselecting) {
-			// Relaunch the flight search results activity, deselecting the leg chosen
-			Intent intent = new Intent(getActivity(), FlightSearchResultsActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, flightLeg.getLegId());
-			startActivity(intent);
-			mDeselecting = true;
-
-			FlightTripLeg selectedLegs[] = Db.getFlightSearch().getSelectedLegs();
-			int deselectLegPos;
-			for (deselectLegPos = 0; deselectLegPos < selectedLegs.length; deselectLegPos++) {
-				if (selectedLegs[deselectLegPos].getFlightLeg().getLegId().equals(flightLeg.getLegId())) {
-					break;
-				}
-			}
-
-			if (deselectLegPos == 0) {
-				OmnitureTracking.trackLinkFlightRateDetailsRemoveOut(getActivity());
-			}
-			else {
-				OmnitureTracking.trackLinkFlightRateDetailsRemoveIn(getActivity());
-			}
-			
-			//This should be handled by the activity, but better safe than sorry.
-			try{
-				Db.getBillingInfo().setNumber(null);
-			}catch(Exception ex){
-				Log.e("Error clearing billingInfo card number",ex);
-			}
-		}
 	}
 }

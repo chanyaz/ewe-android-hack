@@ -7,7 +7,6 @@ import java.util.Calendar;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,9 +36,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 		sDaySpanFormatter.setPositivePrefix("+");
 	}
 
-	private FlightLegSummarySectionListener mListener;
-
-	private ImageView mCancelView;
 	private TextView mAirlineTextView;
 	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
@@ -52,20 +48,11 @@ public class FlightLegSummarySection extends RelativeLayout {
 		super(context, attrs);
 	}
 
-	/**
-	 * Setting a listener implicitly sets this section as deselectable, 
-	 * showing the "X" button instead of showing the price.
-	 */
-	public void setListener(FlightLegSummarySectionListener listener) {
-		mListener = listener;
-	}
-
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
 		// Cache views
-		mCancelView = Ui.findView(this, R.id.cancel_button);
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
@@ -140,38 +127,14 @@ public class FlightLegSummarySection extends RelativeLayout {
 			mArrivalTimeTextView.setText(formatTime(leg.getLastWaypoint().getMostRelevantDateTime()));
 		}
 
-		int airlineLeftOfId = 0;
 		if (mPriceTextView != null) {
-			if (trip == null || mListener != null) {
-				mPriceTextView.setVisibility(View.GONE);
-			}
-			else if (trip.hasPricing()) {
+			if (trip != null && trip.hasPricing()) {
 				mPriceTextView.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
-				airlineLeftOfId = mPriceTextView.getId();
 			}
 			else {
-				mPriceTextView.setText(null);
+				mPriceTextView.setVisibility(View.GONE);
 			}
 		}
-
-		if (mListener != null) {
-			mCancelView.setVisibility(View.VISIBLE);
-			airlineLeftOfId = mCancelView.getId();
-			mCancelView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					mListener.onDeselect(leg);
-				}
-			});
-		}
-		else {
-			mCancelView.setVisibility(View.GONE);
-		}
-
-		// F794: We need the airline text view to not overlap
-		// either the price or the cancel button, whichever one is showing.
-		params = (RelativeLayout.LayoutParams) mAirlineTextView.getLayoutParams();
-		params.addRule(RelativeLayout.LEFT_OF, airlineLeftOfId);
 
 		int daySpan = leg.getDaySpan();
 		if (daySpan != 0) {
@@ -199,12 +162,5 @@ public class FlightLegSummarySection extends RelativeLayout {
 	private String formatTime(Calendar cal) {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());
 		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Listener
-
-	public interface FlightLegSummarySectionListener {
-		public void onDeselect(FlightLeg flightLeg);
 	}
 }
