@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -30,6 +31,7 @@ public class BaggageFeeFragment extends Fragment {
 	private BaggageFeeListener mListener;
 	private WebView mWebView;
 	private boolean mWebViewLoaded = false;
+	private FrameLayout mFrame;
 
 	public static BaggageFeeFragment newInstance(String origin, String destination, int legPosition) {
 		BaggageFeeFragment fragment = new BaggageFeeFragment();
@@ -38,6 +40,7 @@ public class BaggageFeeFragment extends Fragment {
 		args.putString(TAG_DESTINATION, destination);
 		args.putInt(ARG_LEG_POSITION, legPosition);
 		fragment.setArguments(args);
+		fragment.setRetainInstance(true);
 		return fragment;
 	}
 
@@ -49,8 +52,6 @@ public class BaggageFeeFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mWebView = new WebView(getActivity());
-		mWebView.getSettings().setJavaScriptEnabled(true);
 
 		String origin = "";
 		String destination = "";
@@ -65,58 +66,91 @@ public class BaggageFeeFragment extends Fragment {
 			mListener.exit();
 		}
 
-		mWebView.setWebViewClient(new WebViewClient() {
+		mFrame = new FrameLayout(getActivity());
 
-			private boolean mLoaded = false;
+		if (mWebView == null) {
+			mWebView = new WebView(getActivity());
+			mWebView.getSettings().setJavaScriptEnabled(true);
 
-			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-				String errorFormatStr = getResources().getString(R.string.baggage_fee_loading_error_TEMPLATE);
-				String errorMessage = String.format(errorFormatStr, description);
-				Ui.showToast(getActivity(), errorMessage);
-			}
+			mWebView.setWebViewClient(new WebViewClient() {
 
-			@Override
-			public void onPageFinished(WebView webview, String url)
-			{
-				//Stop progress spinner
-				mWebViewLoaded = true;
-				mListener.setLoading(false);
+				private boolean mLoaded = false;
+				private String mUrl = "";
 
-				//We insert javascript to remove the signin button
-				webview.loadUrl("javascript:(function() { " +
-						"document.getElementsByClassName('sign_link')[0].style.visibility='hidden'; " +
-						"})()");
-
-				//Set mLoaded to true, allowing us to use ACTION_VIEW for any future url clicked
-				mLoaded = true;
-			}
-
-			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				//If the first page is loaded and a user clicks a link, we want to open it in an external application
-				if (url != null && mLoaded) {
-					view.getContext().startActivity(
-							new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-					return true;
+				public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+					String errorFormatStr = getResources().getString(R.string.baggage_fee_loading_error_TEMPLATE);
+					String errorMessage = String.format(errorFormatStr, description);
+					Ui.showToast(getActivity(), errorMessage);
 				}
-				else {
-					return false;
-				}
-			}
-		});
 
-		
-		if (savedInstanceState != null && savedInstanceState.getBoolean(INSTANCE_LOADED, false)) {
+				@Override
+				public void onPageFinished(WebView webview, String url)
+				{
+					Log.i("ON PAGE FINISH");
+
+					mUrl = url;
+
+					//Stop progress spinner
+					mListener.setLoading(false);
+
+					//We insert javascript to remove the signin button
+					webview.loadUrl("javascript:(function() { " +
+							"document.getElementsByClassName('sign_link')[0].style.visibility='hidden'; " +
+							"})()");
+
+					//Set mLoaded to true, allowing us to use ACTION_VIEW for any future url clicked
+					mLoaded = true;
+					mWebViewLoaded = true;
+				}
+
+				public boolean shouldOverrideUrlLoading(WebView view, String url) {
+					//If the first page is loaded and a user clicks a link, we want to open it in an external application
+					if (url != null && mLoaded && !url.equalsIgnoreCase(mUrl)) {
+						view.getContext().startActivity(
+								new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			});
+
+		}
+		if (savedInstanceState != null) {
+			mWebViewLoaded = savedInstanceState.getBoolean(INSTANCE_LOADED, false);
 			mWebView.restoreState(savedInstanceState);
 		}
-		else {
+		if (!mWebViewLoaded) {
 			//TODO:We need to set the correct url based on Point of Sale
 			String url = SupportUtils.getBaggageFeeUrl(origin, destination);
 			Log.i("Loading url: " + url);
 			mListener.setLoading(true);
 			mWebView.loadUrl(url);
 		}
+		else {
+			mListener.setLoading(false);
+		}
+		return mFrame;
+	}
 
-		return mWebView;
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		//Important
+		if (mFrame != null) {
+			mFrame.removeAllViews();
+		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		if (mFrame != null && mWebView != null) {
+			mFrame.addView(mWebView);
+		}
 	}
 
 	@Override
