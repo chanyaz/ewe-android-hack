@@ -120,9 +120,13 @@ public class TrackingUtils {
 
 		// account
 		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
-		s.account = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
-		if (!AndroidUtils.isRelease(context)) {
-			s.account += "dev";
+		if (AndroidUtils.isRelease(context)) {
+			s.account = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
+			s.account += ", expediaglobalapp";
+		}
+		else {
+			s.account = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
+			s.account += ", expediaglobalappdev";
 		}
 
 		// Amobee tracking

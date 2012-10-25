@@ -29,7 +29,6 @@ import java.util.Calendar;
  */
 
 public class OmnitureTracking {
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// STANDARD PAGE NAME CONSTANTS
 
@@ -549,9 +548,11 @@ public class OmnitureTracking {
 		s.trackingServer = "om.expedia.com";
 		s.trackingServerSecure = "oms.expedia.com";
 
-		s.account = "expedia1androidcom";
-		if (!AndroidUtils.isRelease(context)) {
-			s.account += "dev";
+		if (AndroidUtils.isRelease(context)) {
+			s.account = "expedia1androidcom, expediaglobalapp";
+		}
+		else {
+			s.account = "expedia1androidcomdev, expediaglobalappdev";
 		}
 
 		return s;
@@ -644,5 +645,4 @@ public class OmnitureTracking {
 
 		return null;
 	}
-
 }
