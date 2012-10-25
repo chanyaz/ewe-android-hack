@@ -222,7 +222,13 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			startSearch();
 		}
 		else if (mDeselectLegPos != -1) {
+			// Clear the selected flight legs
+			setNewLegPosition(mDeselectLegPos);
+
+			// Pop back stack to proper location
 			popBackStack(getFlightListBackStackName(mDeselectLegPos));
+
+			mDeselectLegPos = -1;
 		}
 		else {
 			BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
@@ -395,6 +401,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private int mSetNewLegPosition;
 
 	private void onFragmentLoaded(Fragment fragment) {
+		Log.d("onFragmentLoaded(" + fragment.getTag() + "): skipAnim=" + mSkipAnimation + " animForward="
+				+ mAnimForward);
+
 		if (mSkipAnimation) {
 			mSkipAnimation = false;
 			return;
@@ -402,7 +411,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		// Find out where we're headed
 		String backStackTopName = getTopBackStackName();
-		FlightLeg flightLeg = mFlightDetailsFragment.getFlightLeg();
+		FlightLeg flightLeg = (mFlightDetailsFragment != null) ? mFlightDetailsFragment.getFlightLeg() : null;
 		mSetNewLegPosition = -1;
 		mAnimRemoveFragment = null;
 		Animator forwardAnim = null;
