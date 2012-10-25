@@ -34,7 +34,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -72,7 +71,6 @@ public class FlightConfirmationFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		clearImportantBillingInfo();
 	}
 
 	@Override
@@ -202,32 +200,7 @@ public class FlightConfirmationFragment extends Fragment {
 		tv.setText(text);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Clear some billing information
-
-	private void clearImportantBillingInfo() {
-		try {
-			BillingInfo bi = Db.getBillingInfo();
-
-			if (bi != null) {
-				if (bi.getSaveCardToExpediaAccount()) {
-					//If the user saved the card to their account, we would rather that they log in and use the stored card, thus we clear the BillingInfo
-					bi.delete(getActivity());
-				}
-				else {
-					//Always clear this stuff...
-					bi.setNumber(null);
-					bi.setSecurityCode(null);
-					bi.setBrandCode(null);
-					bi.setBrandName(null);
-					bi.setSaveCardToExpediaAccount(false);
-				}
-			}
-		}
-		catch (Exception ex) {
-			Log.e("Exception clearing BillingInfo");
-		}
-	}
+	
 
 	//////////////////////////////////////////////////////////////////////////
 	// Search for hotels

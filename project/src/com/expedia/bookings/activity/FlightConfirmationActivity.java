@@ -9,6 +9,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
@@ -53,12 +54,19 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 				}
 			}
 			else {
+				clearImportantBillingInfo(Db.getBillingInfo());
+				
 				// Start a background thread to save this data to the disk
 				new Thread(new Runnable() {
 					public void run() {
 						FlightSearch search = Db.getFlightSearch();
 						String itinNum = search.getSelectedFlightTrip().getItineraryNumber();
-						mConfState.save(search, Db.getItinerary(itinNum), Db.getBillingInfo(), Db.getTravelers(),
+
+						// copy billing info 
+						BillingInfo billingInfo = new BillingInfo(Db.getBillingInfo());
+						
+						mConfState.save(search, Db.getItinerary(itinNum), billingInfo,
+								Db.getTravelers(),
 								Db.getFlightCheckout());
 					}
 				}).start();
@@ -156,5 +164,16 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Clear some billing information
+
+	private void clearImportantBillingInfo(BillingInfo bi) {
+		bi.setNumber(null);
+		bi.setSecurityCode(null);
+		bi.setBrandCode(null);
+		bi.setBrandName(null);
+		bi.setSaveCardToExpediaAccount(false);
 	}
 }
