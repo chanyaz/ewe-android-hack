@@ -220,8 +220,9 @@ public class LaunchFragment extends Fragment {
 				extractLaunchDataFromSearchResponse(searchResponse);
 
 				mHotelAdapter.setProperties(Db.getLaunchHotelData());
-
 				mHotelsStreamListView.selectMiddle();
+				mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
+
 			}
 
 			// Hotel search failed; user will not see reverse waterfall.
@@ -250,7 +251,6 @@ public class LaunchFragment extends Fragment {
 		mHotelAdapter = new LaunchHotelAdapter(mContext);
 		mHotelsStreamListView.setAdapter(mHotelAdapter);
 
-		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 		mHotelsStreamListView.setSlaveView(mFlightsStreamListView);
 
 		mFlightAdapter = new LaunchFlightAdapter(mContext);
@@ -263,6 +263,7 @@ public class LaunchFragment extends Fragment {
 		if (launchHotelData != null) {
 			mHotelAdapter.setProperties(launchHotelData);
 			mHotelsStreamListView.restorePosition();
+			mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 		}
 
 		LaunchFlightData launchFlightData = Db.getLaunchFlightData();
@@ -304,13 +305,15 @@ public class LaunchFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Property property = mHotelAdapter.getItem(position);
-			Db.setSelectedProperty(property);
+			if (property != null) {
+				Db.setSelectedProperty(property);
 
-			BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
+				BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
 
-			Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
-			intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
-			mContext.startActivity(intent);
+				Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
+				intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
+				mContext.startActivity(intent);
+			}
 		}
 	};
 
