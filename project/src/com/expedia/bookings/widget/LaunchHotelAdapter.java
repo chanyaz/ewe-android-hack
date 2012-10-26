@@ -115,19 +115,23 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		TextView sale = Ui.findView(view, R.id.launch_tile_sale_text_view);
 
 		// Sale
+		boolean toggleSale = false;
 		if (property.isLowestRateTonightOnly()) {
 			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
 			sale.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tonight_only, 0, 0, 0);
 			sale.setVisibility(View.VISIBLE);
+			toggleSale = true;
 		}
 		else if (property.isLowestRateMobileExclusive()) {
 			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
 			sale.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_mobile_only, 0, 0, 0);
 			sale.setVisibility(View.VISIBLE);
+			toggleSale = true;
 		}
 		else if (property.getLowestRate().isSaleTenPercentOrBetter()) {
 			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
 			sale.setVisibility(View.VISIBLE);
+			toggleSale = true;
 		}
 		else {
 			sale.setVisibility(View.GONE);
@@ -140,12 +144,12 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		if (ImageCache.containsImage(url)) {
 			Log.i("imageContained: " + position + " url: " + url);
 			container.setBackgroundDrawable(new BitmapDrawable(ImageCache.getImage(url)));
-			toggleTile(sale, banner, true);
+			toggleTile(sale, banner, true, toggleSale);
 		}
 		else {
 			Log.i("imageNotContained: " + position + " url: " + url);
-			loadImageForLaunchStream(url, container, banner, sale);
-			toggleTile(sale, banner, false);
+			loadImageForLaunchStream(url, container, banner, sale, toggleSale);
+			toggleTile(sale, banner, false, toggleSale);
 		}
 
 		// We're just using the Tag as a flag to indicate this view has been populated
@@ -155,7 +159,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 	}
 
 	private boolean loadImageForLaunchStream(String url, final View layout, final RelativeLayout banner,
-			final TextView sale) {
+			final TextView sale, final boolean toggleSale) {
 		String key = layout.toString();
 		Log.v("Loading RelativeLayout bg " + key + " with " + url);
 
@@ -166,7 +170,12 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 
 				layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bitmap));
 				banner.setVisibility(View.VISIBLE);
-				sale.setVisibility(View.VISIBLE);
+				if (toggleSale) {
+					sale.setVisibility(View.VISIBLE);
+				}
+				else {
+					sale.setVisibility(View.GONE);
+				}
 
 				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 			}
@@ -179,9 +188,11 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		return ImageCache.loadImage(key, url, callback);
 	}
 
-	private void toggleTile(TextView sale, RelativeLayout banner, boolean loaded) {
+	private void toggleTile(TextView sale, RelativeLayout banner, boolean loaded, boolean saleOn) {
 		int visibility = loaded ? View.VISIBLE : View.GONE;
-		sale.setVisibility(visibility);
 		banner.setVisibility(visibility);
+
+		int saleVisibility = saleOn && loaded ? View.VISIBLE : View.GONE;
+		sale.setVisibility(saleVisibility);
 	}
 }
