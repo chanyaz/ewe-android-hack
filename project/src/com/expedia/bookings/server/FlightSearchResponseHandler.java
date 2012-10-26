@@ -124,9 +124,12 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			}
 
 			// Parse possible operating flight code
-			if (segmentJson.has("operatingAirlineCode") && segmentJson.has("operatingAirlineFlightNumber")) {
+			if (segmentJson.has("operatingAirlineCode")) {
 				FlightCode opFlightCode = new FlightCode();
 				opFlightCode.mAirlineCode = segmentJson.optString("operatingAirlineCode");
+				// Note: The operating airline # will always be empty string, because we
+				// don't get that data from the API.  However, we still parse this deprecated
+				// string in case API ever gets this functionality back again.
 				opFlightCode.mNumber = segmentJson.optString("operatingAirlineFlightNumber");
 				segment.addFlightCode(opFlightCode, Flight.F_OPERATING_AIRLINE_CODE);
 
