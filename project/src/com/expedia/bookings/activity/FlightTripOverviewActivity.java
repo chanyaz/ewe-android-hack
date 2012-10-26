@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -651,7 +652,19 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			onBackPressed();
+			if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
+				onBackPressed();
+			}
+			else {
+				clearCCNumber();
+
+				Intent intent = new Intent(this, FlightSearchResultsActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, trip.getLeg(trip.getLegCount() - 1)
+						.getLegId());
+				startActivity(intent);
+			}
 			return true;
 		case R.id.menu_checkout:
 			if (mOverviewFragment != null) {
