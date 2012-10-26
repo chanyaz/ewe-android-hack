@@ -100,6 +100,8 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		TextView priceTextView = Ui.findView(view, R.id.launch_tile_price_text_view);
 		FontCache.setTypeface(priceTextView, FontCache.Font.ROBOTO_BOLD);
 
+		// Bottom banner/label
+
 		titleTextView.setText(property.getName());
 		distanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
 				true));
@@ -107,6 +109,29 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		Rate lowestRate = property.getLowestRate();
 		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
 		priceTextView.setText(hotelPrice);
+
+		TextView sale = Ui.findView(view, R.id.launch_tile_sale_text_view);
+
+		// Sale
+		if (property.isLowestRateTonightOnly()) {
+			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			sale.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tonight_only, 0, 0, 0);
+			sale.setVisibility(View.VISIBLE);
+		}
+		else if (property.isLowestRateMobileExclusive()) {
+			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			sale.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_mobile_only, 0, 0, 0);
+			sale.setVisibility(View.VISIBLE);
+		}
+		else if (property.getLowestRate().isSaleTenPercentOrBetter()) {
+			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			sale.setVisibility(View.VISIBLE);
+		}
+		else {
+			sale.setVisibility(View.GONE);
+		}
+
+		// Background image
 
 		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
 		if (ImageCache.containsImage(url)) {
