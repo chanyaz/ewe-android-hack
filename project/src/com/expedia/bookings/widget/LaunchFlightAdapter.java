@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
@@ -95,12 +97,13 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		// Load the image
 
 		String url = destination.getImageUrl();
+		View banner = Ui.findView(view, R.id.launch_tile_banner_container);
 
 		// We don't have an image url, go to network and grab the url
 		if (url == null) {
 			String code = destination.getDestinationId();
 			ImageInfoDownload imageInfoDownload = new ImageInfoDownload(code);
-			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(destination, container);
+			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(destination, container, banner);
 
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			bd.cancelDownload(getBGDKey(code));
@@ -113,12 +116,12 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		// TODO: Figure out if it is a big deal to be doing this 
 		else {
 			if (ImageCache.containsImage(url)) {
-				container.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
-						.getImage(url)));
-				container.setVisibility(View.VISIBLE);
+				container.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache.getImage(url)));
+				toggleTile(banner, true);
 			}
 			else {
-				loadImageForLaunchStream(url, container);
+				loadImageForLaunchStream(url, container, banner);
+				toggleTile(banner, false);
 			}
 		}
 
@@ -126,6 +129,33 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		view.setTag(new Object());
 
 		return view;
+	}
+
+	protected boolean loadImageForLaunchStream(String url, final View layout, final View banner) {
+		String key = layout.toString();
+		Log.v("Loading View bg " + key + " with " + url);
+
+		// Begin a load on the ImageView
+		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
+			public void onImageLoaded(String url, Bitmap bitmap) {
+				Log.v("ImageLoaded: " + url);
+
+				layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bitmap));
+				banner.setVisibility(View.VISIBLE);
+				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+			}
+
+			public void onImageLoadFailed(String url) {
+				Log.v("Image load failed: " + url);
+			}
+		};
+
+		return ImageCache.loadImage(key, url, callback);
+	}
+
+	private void toggleTile(View banner, boolean loaded) {
+		int visibility = loaded ? View.VISIBLE : View.GONE;
+		banner.setVisibility(visibility);
 	}
 
 	private class ImageInfoDownload implements BackgroundDownloader.Download<BackgroundImageResponse> {
@@ -149,10 +179,12 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
 		private Destination mDestination;
 		private View mContainer;
+		private View mBanner;
 
-		public ImageInfoCallback(Destination destination, View container) {
+		public ImageInfoCallback(Destination destination, View container, View banner) {
 			mDestination = destination;
 			mContainer = container;
+			mBanner = banner;
 		}
 
 		@Override
@@ -181,11 +213,12 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 						Log.i("Destination image cache hit");
 						mContainer.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
 								.getImage(responseUrl)));
-						mContainer.setVisibility(View.VISIBLE);
+						mBanner.setVisibility(View.VISIBLE);
 					}
 					else {
 						Log.i("Destination image cache miss");
-						loadImageForLaunchStream(responseUrl, mContainer);
+						mBanner.setVisibility(View.GONE);
+						loadImageForLaunchStream(responseUrl, mContainer, mBanner);
 					}
 				}
 			}

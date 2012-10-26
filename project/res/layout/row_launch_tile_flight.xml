@@ -3,17 +3,24 @@
     android:id="@+id/launch_tile_container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/launch_tile_height_flight"
-    android:visibility="invisible" >
+    android:visibility="visible" >
 
     <include layout="@layout/snippet_launch_tile_band" />
 
     <RelativeLayout
+        android:id="@+id/launch_tile_banner_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/launch_tile_banner_height"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/launch_tile_overlay" >
+        android:background="@drawable/launch_tile_overlay"
+        android:visibility="gone" >
 
         <include layout="@layout/snippet_launch_tile_label_flight" />
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/abs__item_background_holo_dark" />
 
 </RelativeLayout>
