@@ -474,7 +474,7 @@
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">More Actions</string>
     <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">Share Trip</string>
+    <string name="share_trip">Email Trip</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">Add to Calendar</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
