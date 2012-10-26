@@ -48,10 +48,10 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		Log.i(String.format("LaunchFlightAdapter tile size %s x %s", mWidth, mHeight));
 	}
 
-	public void setDestinations(List<Destination> destinations) {
+	public void setDestinations(LaunchFlightData launchFlightData) {
 		this.clear();
 
-		for (Destination destination : destinations) {
+		for (Destination destination : launchFlightData.getDestinations()) {
 			add(destination);
 		}
 
@@ -184,31 +184,21 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 				if (!TextUtils.isEmpty(response.getmCacheKey())) {
 					String responseKey = response.getmCacheKey();
 					String responseUrl = response.getmImageUrl();
+					mDestination.setImageMeta(responseKey, responseUrl);
 
 					if (ImageCache.containsImage(responseUrl)) {
-						if (mDestination.getImageKey() != null && responseKey.equals(mDestination.getImageKey())) {
-							Log.i("Image SHAs match, use cached image");
-							mContainer.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
-									.getImage(responseUrl)));
-							mContainer.setVisibility(View.VISIBLE);
-						}
-						else {
-							Log.i("Image SHAs don't match, dl new");
-							cacheImageMetaAndLoad(mDestination, responseKey, responseUrl, mContainer);
-						}
+						Log.i("Destination image cache hit");
+						mContainer.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
+								.getImage(responseUrl)));
+						mContainer.setVisibility(View.VISIBLE);
 					}
 					else {
 						Log.i("Destination image cache miss");
-						cacheImageMetaAndLoad(mDestination, responseKey, responseUrl, mContainer);
+						loadImageForLaunchStream(responseUrl, mContainer);
 					}
 				}
 			}
 		}
-	}
-
-	private void cacheImageMetaAndLoad(Destination destination, String key, String url, RelativeLayout container) {
-		destination.setImageMeta(key, url);
-		loadImageForLaunchStream(url, container);
 	}
 
 	private class TileHolder {

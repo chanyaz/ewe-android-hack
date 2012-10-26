@@ -265,8 +265,15 @@ public class LaunchFragment extends Fragment {
 			mHotelsStreamListView.restorePosition();
 		}
 
-		mFlightAdapter.setDestinations(LaunchFlightAdapter.getHardcodedDestinations());
+		LaunchFlightData launchFlightData = Db.getLaunchFlightData();
+		if (launchFlightData == null) {
+			launchFlightData = new LaunchFlightData();
+			launchFlightData.setDestinations(LaunchFlightAdapter.getHardcodedDestinations());
+		}
+
+		mFlightAdapter.setDestinations(launchFlightData);
 		mFlightsStreamListView.selectMiddle();
+
 	}
 
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {

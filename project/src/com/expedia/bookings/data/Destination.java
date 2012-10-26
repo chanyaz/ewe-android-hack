@@ -1,6 +1,8 @@
 package com.expedia.bookings.data;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -69,12 +71,29 @@ public class Destination implements JSONable {
 
 	@Override
 	public JSONObject toJson() {
-		return null; //To change body of implemented methods use File | Settings | File Templates.
+		try {
+			JSONObject obj = new JSONObject();
+			obj.putOpt("description", mDescription);
+			obj.putOpt("city", mCity);
+			obj.putOpt("destinationId", mDestinationId);
+			obj.putOpt("imageKey", mImageKey);
+			obj.putOpt("imageUrl", mImageUrl);
+			return obj;
+		}
+		catch (JSONException e) {
+			Log.e("Could not convert Location object to JSON.", e);
+			return null;
+		}
 	}
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		return false; //To change body of implemented methods use File | Settings | File Templates.
+		mDescription = obj.optString("description", null);
+		mCity = obj.optString("city", null);
+		mDestinationId = obj.optString("destinationId", null);
+		mImageKey = obj.optString("imageKey", null);
+		mImageUrl = obj.optString("imageUrl", null);
+		return true;
 	}
 
 }
