@@ -27,13 +27,13 @@ public class FlightTripOverviewFragment extends Fragment {
 
 	private static final String ARG_TRIP_KEY = "ARG_TRIP_KEY";
 	private static final String ARG_DISPLAY_MODE = "ARG_DISPLAY_MODE";
-
 	private static final int ID_START_RANGE = Integer.MAX_VALUE - 100;
-
 	private static final int ANIMATION_DURATION = 1000;
-
 	//The margin between cards when expanded
 	private static final int FLIGHT_LEG_TOP_MARGIN = 20;
+
+	private static final int[] STATE_OPAQUE = { R.attr.state_opaque };
+	private static final int[] STATE_TRANSPARENT = { R.attr.state_transparent };
 
 	private FlightTrip mTrip;
 	private RelativeLayout mFlightContainer;
@@ -114,6 +114,10 @@ public class FlightTripOverviewFragment extends Fragment {
 		for (int i = 0; i < mTrip.getLegCount(); i++) {
 			tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
 			tempFlight.setId(ID_START_RANGE + i);
+
+			//Set our background to be a selector so we can set opacity quickly later during animations
+			View bgView = Ui.findView(tempFlight, R.id.flight_leg_summary_container);
+			bgView.setBackgroundResource(R.drawable.bg_flight_card_opacity_selector);
 
 			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));
 
@@ -255,20 +259,20 @@ public class FlightTripOverviewFragment extends Fragment {
 			View header = Ui.findView(tempFlight, R.id.info_text_view);
 			View price = Ui.findView(tempFlight, R.id.price_text_view);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
-			View flightTripView = Ui.findView(tempFlight,R.id.flight_trip_view);
+			View flightTripView = Ui.findView(tempFlight, R.id.flight_trip_view);
 
 			int headerUnused = Math.max(header.getMeasuredHeight(), header.getHeight());
 			int innerUnused = Math.max(Math.max(price.getMeasuredHeight(), price.getHeight()),
 					Math.max(airline.getMeasuredHeight(), airline.getHeight()));
-			
+
 			//Dont forget margins...
-			if(flightTripView != null && flightTripView.getLayoutParams() != null){
-				if(((RelativeLayout.LayoutParams)flightTripView.getLayoutParams()).topMargin > 0){
-					innerUnused += ((RelativeLayout.LayoutParams)flightTripView.getLayoutParams()).topMargin;
+			if (flightTripView != null && flightTripView.getLayoutParams() != null) {
+				if (((RelativeLayout.LayoutParams) flightTripView.getLayoutParams()).topMargin > 0) {
+					innerUnused += ((RelativeLayout.LayoutParams) flightTripView.getLayoutParams()).topMargin;
 				}
 			}
 
-			int totalUnusedHeight = (int) (headerUnused + innerUnused); 
+			int totalUnusedHeight = (int) (headerUnused + innerUnused);
 
 			currentTop -= totalUnusedHeight;
 			retVal[i] = currentTop;
@@ -283,13 +287,11 @@ public class FlightTripOverviewFragment extends Fragment {
 		@Override
 		public void onAnimationCancel(Animator arg0) {
 			mCardsAnimating = false;
-			setTopCardBackgroundOpacity();
 		}
 
 		@Override
 		public void onAnimationEnd(Animator arg0) {
 			mCardsAnimating = false;
-			setTopCardBackgroundOpacity();
 		}
 
 		@Override
@@ -303,6 +305,13 @@ public class FlightTripOverviewFragment extends Fragment {
 
 		}
 
+	};
+
+	Runnable mCardBgOpacityRunner = new Runnable() {
+		@Override
+		public void run() {
+			setTopCardBackgroundOpacity();
+		}
 	};
 
 	////////////////////////////////
@@ -320,6 +329,8 @@ public class FlightTripOverviewFragment extends Fragment {
 			animSet.addListener(mCardsAnimatingListener);
 			animSet.setStartDelay(delay);
 			animSet.start();
+			//We delay setting the bg until the thing is half done and thus avoid a jerky change
+			this.mFlightContainer.postDelayed(mCardBgOpacityRunner, delay + (duration / 2));
 		}
 	}
 
@@ -334,24 +345,27 @@ public class FlightTripOverviewFragment extends Fragment {
 			animSet.setDuration(duration);
 			animSet.addListener(mCardsAnimatingListener);
 			animSet.start();
+			//This looks best if we just change the bg right away before the animation
+			setTopCardBackgroundOpacity();
 		}
 	}
 
-	private void setTopCardBackgroundOpacity(){
+	private void setTopCardBackgroundOpacity() {
 		SectionFlightLeg firstCard = Ui.findView(mFlightContainer, ID_START_RANGE);
-		if(firstCard != null){
+		if (firstCard != null) {
 			View bgView = Ui.findView(firstCard, R.id.flight_leg_summary_container);
-			if(bgView != null){
-				if(mDisplayMode.equals(DisplayMode.CHECKOUT)){
-					//TODO: Use the correct asset here
-					bgView.setBackgroundResource(R.drawable.bg_flight_card_search_results_top);
-				}else{
-					bgView.setBackgroundResource(R.drawable.bg_flight_card_search_results);
+			if (bgView != null) {
+				if (mDisplayMode.equals(DisplayMode.CHECKOUT)) {
+					bgView.getBackground().setState(STATE_OPAQUE);
 				}
+				else {
+					bgView.getBackground().setState(STATE_TRANSPARENT);
+				}
+				bgView.invalidate();
 			}
 		}
 	}
-	
+
 	private ArrayList<Animator> getCardTextAlphaAnimators(float start, float end) {
 		ArrayList<Animator> animators = new ArrayList<Animator>();
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
