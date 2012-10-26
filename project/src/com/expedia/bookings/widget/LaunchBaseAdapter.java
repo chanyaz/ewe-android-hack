@@ -24,9 +24,9 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Private methods and stuff
 
-	protected boolean loadImageForLaunchStream(String url, final RelativeLayout layout) {
+	protected boolean loadImageForLaunchStream(String url, final View layout) {
 		String key = layout.toString();
-		Log.v("Loading RelativeLayout bg " + key + " with " + url);
+		Log.v("Loading View bg " + key + " with " + url);
 
 		// Begin a load on the ImageView
 		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
