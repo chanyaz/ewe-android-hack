@@ -28,6 +28,8 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	private static final String INSTANCE_GALLERY_FLIPPING = "INSTANCE_GALLERY_FLIPPING";
 	private static final String INSTANCE_GALLERY_POSITION = "INSTANCE_GALLERY_POSITION";
 
+	public static final String ARG_FROM_LAUNCH = "ARG_FROM_LAUNCH";
+
 	private static final int MAX_IMAGES_LOADED = 5;
 
 	private HotelMiniGalleryFragmentListener mListener;
@@ -36,8 +38,14 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	private boolean mGalleryFlipping = true;
 	private int mGalleryPosition = 0;
 
-	public static HotelDetailsMiniGalleryFragment newInstance() {
-		return new HotelDetailsMiniGalleryFragment();
+	public static HotelDetailsMiniGalleryFragment newInstance(boolean fromLaunch) {
+		HotelDetailsMiniGalleryFragment fragment = new HotelDetailsMiniGalleryFragment();
+
+		Bundle args = new Bundle();
+		args.putBoolean(ARG_FROM_LAUNCH, fromLaunch);
+		fragment.setArguments(args);
+
+		return fragment;
 	}
 
 	@Override
@@ -83,8 +91,10 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
 			Log.d("Clearing out images from property.");
 
+			boolean fromLaunch = getArguments().getBoolean(ARG_FROM_LAUNCH, false);
+
 			for (Media image : property.getMediaList()) {
-				image.removeFromImageCache();
+				image.removeFromImageCache(fromLaunch);
 			}
 		}
 	}

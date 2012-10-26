@@ -76,9 +76,19 @@ public class Media implements JSONable {
 	}
 
 	public void removeFromImageCache() {
+		removeFromImageCache(false);
+	}
+
+	public void removeFromImageCache(boolean fromLaunch) {
 		ImageCache.removeImage(mUrl, true);
-		ImageCache.removeImage(getUrl(IMAGE_BIG_SUFFIX), true);
 		ImageCache.removeImage(getUrl(IMAGE_LARGE_SUFFIX), true);
+
+		// f1071
+		// We want to keep this image in the cache if the user is going launch -> Hotel details -> launch to prevent
+		// using a recycled Bitmap (additionally, it will be nice to keep this one around so it doesn't have to reload)
+		if (!fromLaunch) {
+			ImageCache.removeImage(getUrl(IMAGE_BIG_SUFFIX), true);
+		}
 	}
 
 	/**

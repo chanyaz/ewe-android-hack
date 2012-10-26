@@ -283,7 +283,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		mGalleryFragment = (HotelDetailsMiniGalleryFragment) manager.findFragmentByTag(FRAGMENT_MINI_GALLERY_TAG);
 		if (mGalleryFragment == null) {
-			mGalleryFragment = HotelDetailsMiniGalleryFragment.newInstance();
+			boolean fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
+			mGalleryFragment = HotelDetailsMiniGalleryFragment.newInstance(fromLaunch);
 		}
 		ft.add(R.id.hotel_details_mini_gallery_fragment_container, mGalleryFragment, FRAGMENT_MINI_GALLERY_TAG);
 

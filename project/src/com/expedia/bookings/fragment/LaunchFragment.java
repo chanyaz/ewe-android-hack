@@ -302,6 +302,7 @@ public class LaunchFragment extends Fragment {
 			BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
 
 			Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
+			intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
 			mContext.startActivity(intent);
 		}
 	};
