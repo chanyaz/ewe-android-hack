@@ -1,10 +1,12 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -18,6 +20,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 
@@ -101,7 +104,6 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		FontCache.setTypeface(priceTextView, FontCache.Font.ROBOTO_BOLD);
 
 		// Bottom banner/label
-
 		titleTextView.setText(property.getName());
 		distanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
 				true));
@@ -132,22 +134,54 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		}
 
 		// Background image
+		RelativeLayout banner = Ui.findView(view, R.id.launch_tile_banner_container);
 
 		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
 		if (ImageCache.containsImage(url)) {
 			Log.i("imageContained: " + position + " url: " + url);
 			container.setBackgroundDrawable(new BitmapDrawable(ImageCache.getImage(url)));
-			container.setVisibility(View.VISIBLE);
+			toggleTile(sale, banner, true);
 		}
 		else {
 			Log.i("imageNotContained: " + position + " url: " + url);
-			container.setVisibility(View.INVISIBLE);
-			loadImageForLaunchStream(url, container);
+			loadImageForLaunchStream(url, container, banner, sale);
+			toggleTile(sale, banner, false);
 		}
 
 		// We're just using the Tag as a flag to indicate this view has been populated
 		view.setTag(new Object());
 
 		return view;
+	}
+
+	private boolean loadImageForLaunchStream(String url, final View layout, final RelativeLayout banner,
+			final TextView sale) {
+		String key = layout.toString();
+		Log.v("Loading RelativeLayout bg " + key + " with " + url);
+
+		// Begin a load on the ImageView
+		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
+			public void onImageLoaded(String url, Bitmap bitmap) {
+				Log.v("ImageLoaded: " + url);
+
+				layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bitmap));
+				banner.setVisibility(View.VISIBLE);
+				sale.setVisibility(View.VISIBLE);
+
+				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+			}
+
+			public void onImageLoadFailed(String url) {
+				Log.v("Image load failed: " + url);
+			}
+		};
+
+		return ImageCache.loadImage(key, url, callback);
+	}
+
+	private void toggleTile(TextView sale, RelativeLayout banner, boolean loaded) {
+		int visibility = loaded ? View.VISIBLE : View.GONE;
+		sale.setVisibility(visibility);
+		banner.setVisibility(visibility);
 	}
 }
