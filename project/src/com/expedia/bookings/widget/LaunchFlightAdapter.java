@@ -24,15 +24,12 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
 	private static String PREFIX_IMAGE_INFO_KEY = "IMAGE_INFO_KEY_";
 
-	private static final int TYPE_EMPTY = 0;
-	private static final int TYPE_LOADED = 1;
-	private static final int NUM_ROW_TYPES = 2;
-
 	private int mWidth;
 	private int mHeight;
 
 	private Context mContext;
 	private LayoutInflater mInflater;
+	private View[] mViewCache = new View[1];
 
 	public LaunchFlightAdapter(Context context) {
 		super(context, R.layout.row_launch_tile_flight);
@@ -55,53 +52,44 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 			add(destination);
 		}
 
+		mViewCache = new View[launchFlightData.getDestinations().size()];
+
 		notifyDataSetChanged();
 	}
 
 	@Override
-	public int getViewTypeCount() {
-		return NUM_ROW_TYPES;
-	}
-
-	@Override
 	public int getItemViewType(int position) {
-		Destination destination = getItem(position);
-
-		if (destination == null) {
-			return TYPE_EMPTY;
-		}
-		else {
-			return TYPE_LOADED;
-		}
+		return -1;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View unused, ViewGroup parent) {
+		int cacheIndex = position % mViewCache.length;
+		View view = mViewCache[cacheIndex];
 
-		TileHolder holder;
-		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.row_launch_tile_flight, parent, false);
-
-			holder = new TileHolder();
-
-			holder.container = Ui.findView(convertView, R.id.launch_tile_container);
-			holder.titleTextView = Ui.findView(convertView, R.id.launch_tile_title_text_view);
-			FontCache.setTypeface(holder.titleTextView, FontCache.Font.ROBOTO_LIGHT);
-
-			convertView.setTag(holder);
+		// Use the Tag as a flag to indicate this view has been populated
+		if (view != null && view.getTag() != null) {
+			return view;
 		}
-		else {
-			holder = (TileHolder) convertView.getTag();
+
+		// Inflate the view if possible
+		if (view == null) {
+			view = mInflater.inflate(R.layout.row_launch_tile_flight, parent, false);
+			mViewCache[cacheIndex] = view;
 		}
 
 		final Destination destination = getItem(position);
 
 		// If we're just measuring the height/width of the row, just return the view without doing anything to it.
 		if (isMeasuring() || destination == null) {
-			return convertView;
+			return view;
 		}
 
-		holder.titleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_flight_tile_prompt,
+		View container = Ui.findView(view, R.id.launch_tile_container);
+		TextView titleTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
+		FontCache.setTypeface(titleTextView, FontCache.Font.ROBOTO_LIGHT);
+
+		titleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_flight_tile_prompt,
 				destination.getCity())));
 
 		// Load the image
@@ -112,7 +100,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		if (url == null) {
 			String code = destination.getDestinationId();
 			ImageInfoDownload imageInfoDownload = new ImageInfoDownload(code);
-			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(destination, holder.container);
+			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(destination, container);
 
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			bd.cancelDownload(getBGDKey(code));
@@ -125,16 +113,19 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		// TODO: Figure out if it is a big deal to be doing this 
 		else {
 			if (ImageCache.containsImage(url)) {
-				holder.container.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
+				container.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
 						.getImage(url)));
-				holder.container.setVisibility(View.VISIBLE);
+				container.setVisibility(View.VISIBLE);
 			}
 			else {
-				loadImageForLaunchStream(url, holder.container);
+				loadImageForLaunchStream(url, container);
 			}
 		}
 
-		return convertView;
+		// We're just using the Tag as a flag to indicate this view has been populated
+		view.setTag(new Object());
+
+		return view;
 	}
 
 	private class ImageInfoDownload implements BackgroundDownloader.Download<BackgroundImageResponse> {
@@ -157,9 +148,9 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 	private class ImageInfoCallback implements BackgroundDownloader.OnDownloadComplete<BackgroundImageResponse> {
 
 		private Destination mDestination;
-		private RelativeLayout mContainer;
+		private View mContainer;
 
-		public ImageInfoCallback(Destination destination, RelativeLayout container) {
+		public ImageInfoCallback(Destination destination, View container) {
 			mDestination = destination;
 			mContainer = container;
 		}
@@ -199,11 +190,6 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 				}
 			}
 		}
-	}
-
-	private class TileHolder {
-		public RelativeLayout container;
-		public TextView titleTextView;
 	}
 
 	private static String getBGDKey(String code) {
