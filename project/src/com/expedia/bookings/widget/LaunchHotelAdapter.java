@@ -91,14 +91,18 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 			holder = new TileHolder();
 
 			holder.container = Ui.findView(convertView, R.id.launch_tile_container);
-			holder.titleTextView = Ui.findView(convertView, R.id.launch_tile_title_text_view);
-			FontCache.setTypeface(holder.titleTextView, FontCache.Font.ROBOTO_LIGHT);
 
-			holder.distanceTextView = Ui.findView(convertView, R.id.launch_tile_distance_text_view);
-			FontCache.setTypeface(holder.distanceTextView, FontCache.Font.ROBOTO_LIGHT);
+			holder.sale = Ui.findView(convertView, R.id.launch_sale_text_view);
+			FontCache.setTypeface(holder.sale, FontCache.Font.ROBOTO_BOLD);
 
-			holder.priceTextView = Ui.findView(convertView, R.id.launch_tile_price_text_view);
-			FontCache.setTypeface(holder.priceTextView, FontCache.Font.ROBOTO_BOLD);
+			holder.title = Ui.findView(convertView, R.id.launch_tile_title_text_view);
+			FontCache.setTypeface(holder.title, FontCache.Font.ROBOTO_LIGHT);
+
+			holder.distance = Ui.findView(convertView, R.id.launch_tile_distance_text_view);
+			FontCache.setTypeface(holder.distance, FontCache.Font.ROBOTO_LIGHT);
+
+			holder.price = Ui.findView(convertView, R.id.launch_tile_price_text_view);
+			FontCache.setTypeface(holder.price, FontCache.Font.ROBOTO_BOLD);
 
 			convertView.setTag(holder);
 		}
@@ -113,13 +117,34 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 			return convertView;
 		}
 
-		holder.titleTextView.setText(property.getName());
-		holder.distanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
+		holder.title.setText(property.getName());
+		holder.distance.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
 				true));
 
 		Rate lowestRate = property.getLowestRate();
 		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
-		holder.priceTextView.setText(hotelPrice);
+		holder.price.setText(hotelPrice);
+
+		// Sale
+		if (property.isLowestRateTonightOnly()) {
+			holder.sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			holder.sale.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tonight_only, 0, 0, 0);
+			holder.sale.setVisibility(View.VISIBLE);
+		}
+		else if (property.isLowestRateMobileExclusive()) {
+			holder.sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			holder.sale.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_mobile_only, 0, 0, 0);
+			holder.sale.setVisibility(View.VISIBLE);
+		}
+		else if (property.getLowestRate().isSaleTenPercentOrBetter()) {
+			holder.sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			holder.sale.setVisibility(View.VISIBLE);
+		}
+		else {
+			holder.sale.setVisibility(View.GONE);
+		}
+
+		// Image
 
 		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
 		if (ImageCache.containsImage(url)) {
@@ -138,9 +163,10 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 
 	private class TileHolder {
 		public RelativeLayout container;
-		public TextView titleTextView;
-		public TextView distanceTextView;
-		public TextView priceTextView;
+		public TextView sale;
+		public TextView title;
+		public TextView distance;
+		public TextView price;
 	}
 
 }

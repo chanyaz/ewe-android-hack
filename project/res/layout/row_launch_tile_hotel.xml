@@ -5,6 +5,19 @@
     android:layout_height="@dimen/launch_tile_height_hotel"
     android:visibility="invisible" >
 
+    <TextView
+        android:id="@+id/launch_sale_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/launch_tile_hotel_urgency_padding"
+        android:background="@drawable/bg_launch_sale"
+        android:drawablePadding="@dimen/launch_tile_hotel_urgency_padding"
+        android:padding="@dimen/launch_tile_hotel_urgency_padding"
+        android:textColor="@color/launch_primary"
+        android:visibility="gone" />
+
     <include layout="@layout/snippet_launch_tile_band" />
 
     <RelativeLayout
