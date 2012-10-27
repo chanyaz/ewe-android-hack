@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.os.Handler;
@@ -55,28 +57,47 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 	// touch gestures to the slave view, but intercept click gestures, since we don't want
 	// to click on both ListView's.
 
+	// This list contains a list of events that are intended for dispatch to the slave. events are queued up rather than
+	// sent directly so as not to erroneously send click events to the slave. we only want to share the move/fling
+	// events
+	private List<MotionEvent> eventsForSlave = new ArrayList<MotionEvent>();
+
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// Set the other ListView onTouchListener to null
 		// to ensure there does not exist resonance in touch dispatch
 		mSlaveView.setOnTouchListener(null);
 
-		// Special case for ACTION_UP: change it to CANCEL so that the slave
-		// won't catch a click event.
-		int originalAction = event.getAction();
+		int action = event.getAction();
+
+		// Our OnGestureListener implementation returns true if it is click event. clear out the slave event queue to
+		// prevent click events from being sent to the slave view
 		if (mGestureDetector.onTouchEvent(event)) {
-			event.setAction(MotionEvent.ACTION_CANCEL);
+			eventsForSlave.clear();
 		}
 
-		// Dispatch the touch event to the other ListView
-		// such that they will scroll in unison.
-		mSlaveView.dispatchTouchEvent(event);
+		// If it is not a tap click, queue up the events to be sent over to slave view once down and up have occurred
+		else {
 
-		event.setAction(originalAction);
+			// add this event to the list
+			eventsForSlave.add(MotionEvent.obtain(event));
+
+			// gesture is complete, send the dispatch stream of MotionEvents and clear list
+			if (action == MotionEvent.ACTION_UP) {
+				eventsForSlave.add(MotionEvent.obtain(event));
+
+				for (MotionEvent ev : eventsForSlave) {
+					mSlaveView.dispatchTouchEvent(ev);
+				}
+
+				eventsForSlave.clear();
+			}
+
+		}
 
 		// Post the resetting of the onTouchListener on ACTION_UP
 		// as that is when the ListView is no longer touched.
-		if (event.getAction() == MotionEvent.ACTION_UP) {
+		if (action == MotionEvent.ACTION_UP) {
 			mSlaveView.post(new Runnable() {
 				@Override
 				public void run() {
@@ -85,6 +106,7 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 			});
 		}
 
+		// return false to pass the MotionEvent down to child
 		return false;
 	}
 
