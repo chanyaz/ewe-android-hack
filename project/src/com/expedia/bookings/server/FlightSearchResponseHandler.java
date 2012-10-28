@@ -43,7 +43,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 	@Override
 	public FlightSearchResponse handleJson(JSONObject response) {
-		long start = System.currentTimeMillis();
+		long start = System.nanoTime();
 
 		mResponse = new FlightSearchResponse();
 		mLegs = new HashMap<String, FlightLeg>();
@@ -65,14 +65,30 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		}
 
 		// Parse each individual leg
-		List<FlightLeg> legs = parseLegs(response.optJSONArray("legs"));
-
-		for (FlightLeg leg : legs) {
+		JSONArray legsJson = response.optJSONArray("legs");
+		int len = legsJson.length();
+		for (int a = 0; a < len; a++) {
+			FlightLeg leg = parseLeg(legsJson.optJSONObject(a));
 			mLegs.put(leg.getLegId(), leg);
 		}
 
 		// Parse offers and associate them with legs
-		parsePricingInfoArray(response.optJSONArray("offers"));
+		JSONArray offersJson = response.optJSONArray("offers");
+		len = offersJson.length();
+		for (int a = 0; a < len; a++) {
+			JSONObject tripJson = offersJson.optJSONObject(a);
+			FlightTrip trip = parseTrip(tripJson);
+
+			if (tripJson.has("legIds")) {
+				JSONArray legIdsJson = tripJson.optJSONArray("legIds");
+				int len2 = legIdsJson.length();
+				for (int b = 0; b < len2; b++) {
+					trip.addLeg(mLegs.get(legIdsJson.optString(b)));
+				}
+			}
+
+			mResponse.addTrip(trip);
+		}
 
 		// Parse the searchCities
 		JSONArray searchCities = response.optJSONArray("searchCities");
@@ -87,20 +103,13 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			}
 		}
 
-		Log.d("Flight search response parse time: " + (System.currentTimeMillis() - start) + " ms");
+		// Put in all airline names, weighting towards non-operating names
+		mOperatingAirlineNames.putAll(mAirlineNames);
+		mResponse.setAirlineNames(mOperatingAirlineNames);
+
+		Log.d("Flight search response parse time: " + ((System.nanoTime() - start) / 1000000) + " ms");
 
 		return mResponse;
-	}
-
-	private List<FlightLeg> parseLegs(JSONArray legsJson) {
-		List<FlightLeg> legs = new ArrayList<FlightLeg>();
-		int len = legsJson.length();
-		for (int a = 0; a < len; a++) {
-			FlightLeg leg = parseLeg(legsJson.optJSONObject(a));
-			legs.add(leg);
-		}
-
-		return legs;
 	}
 
 	private FlightLeg parseLeg(JSONObject legJson) {
@@ -142,14 +151,16 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			// Parse departure
 			Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
 			departure.mAirportCode = segmentJson.optString("departureAirportCode");
-			addDateTime(departure, segmentJson.optLong("departureTimeEpochSeconds"),
-					segmentJson.optInt("departureTimeZoneOffsetSeconds"));
+			departure.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
+					segmentJson.optLong("departureTimeEpochSeconds") * 1000,
+					segmentJson.optInt("departureTimeZoneOffsetSeconds") * 1000);
 
 			// Parse arrival
 			Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
 			arrival.mAirportCode = segmentJson.optString("arrivalAirportCode");
-			addDateTime(arrival, segmentJson.optLong("arrivalTimeEpochSeconds"),
-					segmentJson.optInt("arrivalTimeZoneOffsetSeconds"));
+			arrival.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
+					segmentJson.optLong("arrivalTimeEpochSeconds") * 1000,
+					segmentJson.optInt("arrivalTimeZoneOffsetSeconds") * 1000);
 
 			// Add a default status code
 			segment.mStatusCode = Flight.STATUS_SCHEDULED;
@@ -178,34 +189,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			leg.addSegment(segment);
 		}
 
-		// Put in all airline names, weighting towards non-operating names
-		mOperatingAirlineNames.putAll(mAirlineNames);
-		mResponse.setAirlineNames(mOperatingAirlineNames);
-
 		return leg;
-	}
-
-	private void addDateTime(Waypoint waypoint, long secondsFromEpoch, int tzOffsetSeconds) {
-		waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN, secondsFromEpoch * 1000,
-				tzOffsetSeconds * 1000);
-	}
-
-	private void parsePricingInfoArray(JSONArray pricingJson) {
-		int len = pricingJson.length();
-		for (int a = 0; a < len; a++) {
-			JSONObject tripJson = pricingJson.optJSONObject(a);
-			FlightTrip trip = parseTrip(tripJson);
-
-			// If we're parsing as a matrix response, get the legs
-			if (tripJson.has("legIds")) {
-				JSONArray legsJson = tripJson.optJSONArray("legIds");
-				for (int b = 0; b < legsJson.length(); b++) {
-					trip.addLeg(getLeg(legsJson.optString(b)));
-				}
-			}
-
-			mResponse.addTrip(trip);
-		}
 	}
 
 	public static FlightTrip parseTrip(JSONObject tripJson) {
@@ -237,9 +221,5 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		}
 
 		return trip;
-	}
-
-	private FlightLeg getLeg(String legId) {
-		return mLegs.get(legId);
 	}
 }
