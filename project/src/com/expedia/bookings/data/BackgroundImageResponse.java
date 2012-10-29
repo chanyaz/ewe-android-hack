@@ -15,32 +15,32 @@ public class BackgroundImageResponse extends Response implements JSONable {
 	private String mImageUrl;
 	private String mBlurredImageUrl;
 
-	public String getmCacheKey() {
+	public BackgroundImageResponse() {
+
+	}
+
+	public String getCacheKey() {
 		return mCacheKey;
 	}
 
-	public void setmCacheKey(String mCacheKey) {
-		this.mCacheKey = mCacheKey;
+	public void setCacheKey(String cacheKey) {
+		this.mCacheKey = cacheKey;
 	}
 
-	public String getmImageUrl() {
+	public String getImageUrl() {
 		return mImageUrl;
 	}
 
-	public void setmImageUrl(String mImageUrl) {
-		this.mImageUrl = mImageUrl;
+	public void setImageUrl(String imageUrl) {
+		this.mImageUrl = imageUrl;
 	}
 
-	public String getmBlurredImageUrl() {
+	public String getBlurredImageUrl() {
 		return mBlurredImageUrl;
 	}
 
-	public void setmBlurredImageUrl(String mBlurredImageUrl) {
-		this.mBlurredImageUrl = mBlurredImageUrl;
-	}
-
-	public BackgroundImageResponse() {
-
+	public void setBlurredImageUrl(String blurredImageUrl) {
+		this.mBlurredImageUrl = blurredImageUrl;
 	}
 
 	@Override

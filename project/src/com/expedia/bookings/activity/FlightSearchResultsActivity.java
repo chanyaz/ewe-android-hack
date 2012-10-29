@@ -853,9 +853,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				Log.e("Errors downloading background image info");
 			}
 			else {
-				if (!TextUtils.isEmpty(response.getmCacheKey())) {
+				if (!TextUtils.isEmpty(response.getCacheKey())) {
 					BackgroundImageCache cache = Db.getBackgroundImageCache(FlightSearchResultsActivity.this);
-					if (!cache.hasKeyAndBlurredKey(response.getmCacheKey())) {
+					if (!cache.hasKeyAndBlurredKey(response.getCacheKey())) {
 						BackgroundDownloader bd = BackgroundDownloader.getInstance();
 						bd.cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
 						bd.startDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, mBackgroundImageFileDownload,
@@ -871,7 +871,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		public Bitmap doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, services);
-			return services.getFlightsBackgroundBitmap(Db.getBackgroundImageInfo().getmImageUrl());
+			return services.getFlightsBackgroundBitmap(Db.getBackgroundImageInfo().getImageUrl());
 		}
 	};
 

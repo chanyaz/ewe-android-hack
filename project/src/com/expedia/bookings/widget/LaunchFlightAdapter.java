@@ -204,9 +204,9 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 				Log.e("Errors downloading launch destination image info");
 			}
 			else {
-				if (!TextUtils.isEmpty(response.getmCacheKey())) {
-					String responseKey = response.getmCacheKey();
-					String responseUrl = response.getmImageUrl();
+				if (!TextUtils.isEmpty(response.getCacheKey())) {
+					String responseKey = response.getCacheKey();
+					String responseUrl = response.getImageUrl();
 					mDestination.setImageMeta(responseKey, responseUrl);
 
 					if (ImageCache.containsImage(responseUrl)) {

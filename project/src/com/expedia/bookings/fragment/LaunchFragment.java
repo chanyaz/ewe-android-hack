@@ -31,10 +31,10 @@ public class LaunchFragment extends Fragment {
 
 	private static final boolean DEBUG_ALWAYS_GRAB_NEW_LOCATION = false;
 
-	public static final String TAG = LaunchFragment.class.toString();
+	public static final String TAG = LaunchFragment.class.getName();
 	public static final String KEY_SEARCH = "LAUNCH_SCREEN_HOTEL_SEARCH";
 
-	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
+	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 	private static final int NUM_HOTEL_PROPERTIES = 20;
 
 	private Context mContext;

@@ -513,11 +513,11 @@ public class Db {
 		if (sDb.mBackgroundImageInfo == null) {
 			return defaultKey;
 		}
-		if (TextUtils.isEmpty(sDb.mBackgroundImageInfo.getmCacheKey())) {
+		if (TextUtils.isEmpty(sDb.mBackgroundImageInfo.getCacheKey())) {
 			return defaultKey;
 		}
 
-		return sDb.mBackgroundImageInfo.getmCacheKey();
+		return sDb.mBackgroundImageInfo.getCacheKey();
 	}
 
 	public static Bitmap getBackgroundImage(Context context, boolean blurred) {
