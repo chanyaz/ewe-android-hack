@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -35,6 +36,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 	public PlaneWindowView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+
+		getHolder().setFormat(PixelFormat.RGBA_8888);
 
 		initThread();
 	}
