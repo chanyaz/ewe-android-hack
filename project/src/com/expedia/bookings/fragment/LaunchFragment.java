@@ -60,6 +60,9 @@ public class LaunchFragment extends Fragment {
 	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchFlightAdapter mFlightAdapter;
 
+	private boolean mFirstLaunch;
+	private boolean mCleanOnStop = false;
+
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
 	}
@@ -68,6 +71,7 @@ public class LaunchFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = getActivity();
+		mFirstLaunch = savedInstanceState == null;
 	}
 
 	@Override
@@ -124,13 +128,7 @@ public class LaunchFragment extends Fragment {
 		mHotelsStreamListView.savePosition();
 		mFlightsStreamListView.savePosition();
 
-		// Null out the adapter to prevent potentially recycled images from attempting to redraw and crash
-		// Also null out the adapter to release its expensive bitmaps... does this need to be done? not sure but doing
-		// this now to unblock people maybe?
-		mHotelsStreamListView.setAdapter(null);
-		mHotelAdapter = null;
-		mFlightsStreamListView.setAdapter(null);
-		mFlightAdapter = null;
+		cleanUpOnStop();
 	}
 
 	private void onReactToUserActive() {
@@ -347,6 +345,12 @@ public class LaunchFragment extends Fragment {
 	// View init + listeners
 
 	private void initViews() {
+		if (mHotelAdapter != null && mFlightAdapter != null) {
+			return;
+		}
+
+		Log.d("LaunchFragment.initViews() - initializing views...");
+
 		mHotelAdapter = new LaunchHotelAdapter(mContext);
 		mHotelsStreamListView.setAdapter(mHotelAdapter);
 
@@ -359,12 +363,12 @@ public class LaunchFragment extends Fragment {
 
 		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
 		if (launchHotelData != null) {
-			onHotelDataRetrieved(false);
+			onHotelDataRetrieved(mFirstLaunch);
 		}
 
 		LaunchFlightData launchFlightData = Db.getLaunchFlightData();
 		if (launchFlightData != null) {
-			onFlightDataRetrieved(false);
+			onFlightDataRetrieved(mFirstLaunch);
 		}
 	}
 
@@ -423,14 +427,43 @@ public class LaunchFragment extends Fragment {
 		}
 	};
 
-	/**
-	 * Call this whenever you want to clean up the Activity, since you're moving
-	 * somewhere else.
-	 */
+	//////////////////////////////////////////////////////////////////////////
+	// Clean up
+	//
+	// Clean up happens in two phases.  This is because some things you want
+	// to clean immediately, but others if you clean them immediately it
+	// makes it ugly
+
 	private void cleanUp() {
+		Log.d("LaunchFragment.cleanUp()");
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_FLIGHT_DESTINATIONS);
 
+		mCleanOnStop = true;
+	}
+
+	/**
+	 * Call this whenever you want to clean up the Activity, since you're moving
+	 * somewhere else.
+	 */
+	private void cleanUpOnStop() {
+		if (!mCleanOnStop) {
+			return;
+		}
+
+		mCleanOnStop = false;
+
+		Log.d("LaunchFragment.cleanUpOnStop()");
+
+		mHotelsStreamListView.setAdapter(null);
+		mHotelAdapter.setProperties(null);
+		mHotelAdapter = null;
+		mFlightsStreamListView.setAdapter(null);
+		mFlightAdapter.setDestinations(null);
+		mFlightAdapter = null;
+
+		// TODO: Clean up more as necessary (e.g., cleaning out the ImageCache).
 	}
 }

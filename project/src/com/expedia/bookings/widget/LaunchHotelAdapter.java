@@ -41,15 +41,15 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 	public void setProperties(LaunchHotelData launchHotelData) {
 		this.clear();
 
-		mDistanceUnit = launchHotelData.getDistanceUnit();
-
 		if (launchHotelData != null && launchHotelData.getProperties() != null) {
+			mDistanceUnit = launchHotelData.getDistanceUnit();
+
 			for (Property property : launchHotelData.getProperties()) {
 				add(property);
 			}
-		}
 
-		mViewCache = new View[launchHotelData.getProperties().size()];
+			mViewCache = new View[launchHotelData.getProperties().size()];
+		}
 
 		notifyDataSetChanged();
 	}

@@ -33,11 +33,13 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 	public void setDestinations(LaunchFlightData launchFlightData) {
 		this.clear();
 
-		for (Destination destination : launchFlightData.getDestinations()) {
-			add(destination);
-		}
+		if (launchFlightData != null) {
+			for (Destination destination : launchFlightData.getDestinations()) {
+				add(destination);
+			}
 
-		mViewCache = new View[launchFlightData.getDestinations().size()];
+			mViewCache = new View[launchFlightData.getDestinations().size()];
+		}
 
 		notifyDataSetChanged();
 	}
