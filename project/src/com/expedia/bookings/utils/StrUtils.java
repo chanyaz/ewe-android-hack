@@ -1,7 +1,10 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -176,6 +179,19 @@ public class StrUtils {
 		return traveler.getFirstName() + " " + traveler.getLastName();
 	}
 
+	private static final Map<String, Locale> sCCToLocales = new HashMap<String, Locale>();
+
+	private static void initCCToLocales() {
+		if (sCCToLocales.size() == 0) {
+			for (Locale locale : Locale.getAvailableLocales()) {
+				String cc = locale.getCountry();
+				if (cc.length() != 0) {
+					sCCToLocales.put(cc, locale);
+				}
+			}
+		}
+	}
+
 	public static String formatWaypoint(Waypoint waypoint) {
 		Airport airport = waypoint.getAirport();
 		StringBuilder sb = new StringBuilder();
@@ -184,11 +200,24 @@ public class StrUtils {
 				sb.append(airport.mCity);
 			}
 			if (!TextUtils.isEmpty(airport.mCountryCode)) {
-				if (airport.mCountryCode.equals("US") && !TextUtils.isEmpty(airport.mStateCode)) {
+				String countryCode = airport.mCountryCode;
+				if (countryCode.equals("US") && !TextUtils.isEmpty(airport.mStateCode)) {
 					sb.append(", " + airport.mStateCode);
 				}
 				else {
-					sb.append(", " + airport.mCountryCode);
+					initCCToLocales();
+					Locale locale = sCCToLocales.get(countryCode);
+					String displayCountry = null;
+					if (locale != null) {
+						displayCountry = locale.getDisplayCountry();
+					}
+
+					if (!TextUtils.isEmpty(displayCountry)) {
+						sb.append(", " + displayCountry);
+					}
+					else {
+						sb.append(", " + airport.mCountryCode);
+					}
 				}
 			}
 		}
