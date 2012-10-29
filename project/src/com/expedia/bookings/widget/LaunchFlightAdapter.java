@@ -8,12 +8,18 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.*;
-import android.widget.RelativeLayout;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.*;
+import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.Destination;
+import com.expedia.bookings.data.LaunchFlightData;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.BackgroundDownloader;
@@ -61,7 +67,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
 	@Override
 	public int getItemViewType(int position) {
-		return -1;
+		return AdapterView.ITEM_VIEW_TYPE_IGNORE;
 	}
 
 	@Override
@@ -191,35 +197,24 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		public void onDownload(BackgroundImageResponse response) {
 			Log.i("ImageInfoCallback onDownload");
 
-			// If the response is null, fake an error response (for the sake of cleaner code)
-			if (response == null) {
-				response = new BackgroundImageResponse();
-				ServerError error = new ServerError(ServerError.ApiMethod.BACKGROUND_IMAGE);
-				error.setPresentationMessage(mContext.getString(R.string.error_server));
-				error.setCode("SIMULATED");
-				response.addError(error);
-			}
-
-			if (response.hasErrors()) {
+			if (response == null || response.hasErrors()) {
 				Log.e("Errors downloading launch destination image info");
 			}
 			else {
-				if (!TextUtils.isEmpty(response.getCacheKey())) {
-					String responseKey = response.getCacheKey();
-					String responseUrl = response.getImageUrl();
-					mDestination.setImageMeta(responseKey, responseUrl);
+				String responseKey = response.getCacheKey();
+				String responseUrl = response.getImageUrl();
+				mDestination.setImageMeta(responseKey, responseUrl);
 
-					if (ImageCache.containsImage(responseUrl)) {
-						Log.i("Destination image cache hit");
-						mContainer.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
-								.getImage(responseUrl)));
-						mBanner.setVisibility(View.VISIBLE);
-					}
-					else {
-						Log.i("Destination image cache miss");
-						mBanner.setVisibility(View.GONE);
-						loadImageForLaunchStream(responseUrl, mContainer, mBanner);
-					}
+				if (ImageCache.containsImage(responseUrl)) {
+					Log.i("Destination image cache hit");
+					mContainer.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
+							.getImage(responseUrl)));
+					mBanner.setVisibility(View.VISIBLE);
+				}
+				else {
+					Log.i("Destination image cache miss");
+					mBanner.setVisibility(View.GONE);
+					loadImageForLaunchStream(responseUrl, mContainer, mBanner);
 				}
 			}
 		}

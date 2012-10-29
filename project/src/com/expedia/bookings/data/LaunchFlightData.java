@@ -27,10 +27,6 @@ public class LaunchFlightData implements JSONable {
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
-		if (obj == null) {
-			return null;
-		}
-
 		try {
 			JSONUtils.putJSONableList(obj, "destinations", mDestinations);
 			return obj;

@@ -41,10 +41,6 @@ public class LaunchHotelData implements JSONable {
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
-		if (obj == null) {
-			return null;
-		}
-
 		try {
 			JSONUtils.putJSONableList(obj, "properties", mProperties);
 			obj.put("distanceUnit", mDistanceUnit.toString());

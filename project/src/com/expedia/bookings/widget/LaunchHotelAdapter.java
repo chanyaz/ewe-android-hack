@@ -67,7 +67,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 
 	@Override
 	public int getItemViewType(int position) {
-		return -1;
+		return AdapterView.ITEM_VIEW_TYPE_IGNORE;
 	}
 
 	@Override
