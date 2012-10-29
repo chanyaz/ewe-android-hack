@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -8,12 +9,24 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.*;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
-import com.expedia.bookings.data.*;
+import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Destination;
+import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.LaunchFlightData;
+import com.expedia.bookings.data.LaunchHotelData;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
@@ -22,6 +35,8 @@ import com.expedia.bookings.widget.LaunchFlightAdapter;
 import com.expedia.bookings.widget.LaunchHotelAdapter;
 import com.expedia.bookings.widget.LaunchStreamListView;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
@@ -33,6 +48,7 @@ public class LaunchFragment extends Fragment {
 
 	public static final String TAG = LaunchFragment.class.getName();
 	public static final String KEY_SEARCH = "LAUNCH_SCREEN_HOTEL_SEARCH";
+	public static final String KEY_FLIGHT_DESTINATIONS = "LAUNCH_SCREEN_FLIGHT_DESTINATIONS";
 
 	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 	private static final int NUM_HOTEL_PROPERTIES = 20;
@@ -98,6 +114,7 @@ public class LaunchFragment extends Fragment {
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
+		bd.unregisterDownloadCallback(KEY_FLIGHT_DESTINATIONS);
 	}
 
 	@Override
@@ -105,6 +122,7 @@ public class LaunchFragment extends Fragment {
 		super.onStop();
 
 		mHotelsStreamListView.savePosition();
+		mFlightsStreamListView.savePosition();
 
 		// Null out the adapter to prevent potentially recycled images from attempting to redraw and crash
 		// Also null out the adapter to release its expensive bitmaps... does this need to be done? not sure but doing
@@ -122,13 +140,13 @@ public class LaunchFragment extends Fragment {
 			return;
 		}
 
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
 		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
 
 		// No cached hotel data exists, perform the least amount of effort in order to get results on screen by following
 		// the logic below
 		if (launchHotelData == null) {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-
 			// A hotel search is underway, register dl callback in case it was removed
 			if (bd.isDownloading(KEY_SEARCH)) {
 				bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
@@ -150,6 +168,16 @@ public class LaunchFragment extends Fragment {
 				else {
 					startHotelSearch(location);
 				}
+			}
+		}
+
+		LaunchFlightData launchFlightData = Db.getLaunchFlightData();
+		if (launchFlightData == null) {
+			if (bd.isDownloading(KEY_FLIGHT_DESTINATIONS)) {
+				bd.registerDownloadCallback(KEY_FLIGHT_DESTINATIONS, mFlightsCallback);
+			}
+			else {
+				bd.startDownload(KEY_FLIGHT_DESTINATIONS, mFlightsDownload, mFlightsCallback);
 			}
 		}
 	}
@@ -245,18 +273,76 @@ public class LaunchFragment extends Fragment {
 		Db.setLaunchHotelData(launchHotelData);
 	}
 
+	// Flight destination search
+
+	private List<Destination> getHardcodedDestinations() {
+		List<Destination> destinations = new ArrayList<Destination>();
+
+		destinations.add(new Destination("LHR", "London", "London Heathrow"));
+		destinations.add(new Destination("MIA", "Miami", "Miami, yo"));
+		destinations.add(new Destination("JFK", "New York", "JFK - John F. Kennedy"));
+
+		return destinations;
+	}
+
+	private Download<List<Destination>> mFlightsDownload = new Download<List<Destination>>() {
+		@Override
+		public List<Destination> doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_FLIGHT_DESTINATIONS, services);
+
+			Display display = getActivity().getWindowManager().getDefaultDisplay();
+			int width = Math.round(display.getWidth() / 2);
+			int height = Math.round(getResources().getDimension(R.dimen.launch_tile_height_flight));
+
+			List<Destination> destinations = new ArrayList<Destination>();
+			for (Destination destination : getHardcodedDestinations()) {
+				String destId = destination.getDestinationId();
+
+				BackgroundImageResponse response = services.getFlightsBackgroundImage(destId, width, height);
+
+				if (response == null) {
+					Log.w("Got a null response from server looking for destination bg for: " + destId);
+				}
+				else if (response.hasErrors()) {
+					Log.w("Got an error response from server looking for destination bg for: "
+							+ destId + ", " + response.getErrors().get(0).getPresentableMessage(mContext));
+				}
+				else {
+					Log.v("Got destination data for: " + destId);
+					destination.setImageMeta(response.getCacheKey(), response.getImageUrl());
+					destinations.add(destination);
+				}
+			}
+
+			return destinations;
+		}
+	};
+
+	private OnDownloadComplete<List<Destination>> mFlightsCallback = new OnDownloadComplete<List<Destination>>() {
+		@Override
+		public void onDownload(List<Destination> results) {
+			LaunchFlightData data = new LaunchFlightData();
+			data.setDestinations(results);
+			Db.setLaunchFlightData(data);
+
+			mFlightAdapter.setDestinations(data);
+			mFlightsStreamListView.selectMiddle();
+			mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
+		}
+	};
+
 	// View init + listeners
 
 	private void initViews() {
 		mHotelAdapter = new LaunchHotelAdapter(mContext);
 		mHotelsStreamListView.setAdapter(mHotelAdapter);
 
-		mHotelsStreamListView.setSlaveView(mFlightsStreamListView);
-
 		mFlightAdapter = new LaunchFlightAdapter(mContext);
 		mFlightsStreamListView.setAdapter(mFlightAdapter);
 
-		mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
+		mHotelsStreamListView.setSlaveView(mFlightsStreamListView);
+
 		mFlightsStreamListView.setSlaveView(mHotelsStreamListView);
 
 		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
@@ -267,14 +353,11 @@ public class LaunchFragment extends Fragment {
 		}
 
 		LaunchFlightData launchFlightData = Db.getLaunchFlightData();
-		if (launchFlightData == null) {
-			launchFlightData = new LaunchFlightData();
-			launchFlightData.setDestinations(LaunchFlightAdapter.getHardcodedDestinations());
+		if (launchFlightData != null) {
+			mFlightAdapter.setDestinations(launchFlightData);
+			mFlightsStreamListView.restorePosition();
+			mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
 		}
-
-		mFlightAdapter.setDestinations(launchFlightData);
-		mFlightsStreamListView.selectMiddle();
-
 	}
 
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
@@ -286,6 +369,7 @@ public class LaunchFragment extends Fragment {
 				NavUtils.goToHotels(getActivity());
 
 				BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
+				BackgroundDownloader.getInstance().cancelDownload(KEY_FLIGHT_DESTINATIONS);
 
 				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
 				break;
@@ -293,6 +377,7 @@ public class LaunchFragment extends Fragment {
 				NavUtils.goToFlights(getActivity());
 
 				BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
+				BackgroundDownloader.getInstance().cancelDownload(KEY_FLIGHT_DESTINATIONS);
 
 				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
 				break;

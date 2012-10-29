@@ -1,37 +1,24 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Html;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Destination;
 import com.expedia.bookings.data.LaunchFlightData;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FontCache;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
-
-	private static String PREFIX_IMAGE_INFO_KEY = "IMAGE_INFO_KEY_";
-
-	private int mWidth;
-	private int mHeight;
 
 	private Context mContext;
 	private LayoutInflater mInflater;
@@ -41,14 +28,6 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		super(context, R.layout.row_launch_tile_flight);
 		mContext = context;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		// grab the width and height of the tile here for the image api
-		mHeight = Math.round(mContext.getResources().getDimension(R.dimen.launch_tile_height_flight));
-
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-		mWidth = Math.round(display.getWidth() / 2);
-		Log.i(String.format("LaunchFlightAdapter tile size %s x %s", mWidth, mHeight));
 	}
 
 	public void setDestinations(LaunchFlightData launchFlightData) {
@@ -99,33 +78,19 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 				destination.getCity())));
 
 		// Load the image
-
-		String url = destination.getImageUrl();
-
-		// We don't have an image url, go to network and grab the url
-		if (url == null) {
-			String code = destination.getDestinationId();
-			ImageInfoDownload imageInfoDownload = new ImageInfoDownload(code);
-			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(destination, container, titleTextView);
-
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			bd.cancelDownload(getBGDKey(code));
-			bd.startDownload(getBGDKey(code), imageInfoDownload, imageInfoCallback);
-		}
-
+		//
 		// NOTE: It may be in poor form to use the cached image like this blindly (without checking against a newly
 		// grabbed SHA fresh off the network) as it could be outdated. I don't anticipate these images being so volatile
 		// that we will have to constantly request the meta info, as we only cache the destination images in memory.
-		// TODO: Figure out if it is a big deal to be doing this 
+		// TODO: Figure out if it is a big deal to be doing this
+		String url = destination.getImageUrl();
+		if (ImageCache.containsImage(url)) {
+			container.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache.getImage(url)));
+			titleTextView.setVisibility(View.VISIBLE);
+		}
 		else {
-			if (ImageCache.containsImage(url)) {
-				container.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache.getImage(url)));
-				toggleTile(titleTextView, true);
-			}
-			else {
-				loadImageForLaunchStream(url, container, titleTextView);
-				toggleTile(titleTextView, false);
-			}
+			loadImageForLaunchStream(url, container, titleTextView);
+			titleTextView.setVisibility(View.GONE);
 		}
 
 		// We're just using the Tag as a flag to indicate this view has been populated
@@ -155,80 +120,4 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
 		return ImageCache.loadImage(key, url, callback);
 	}
-
-	private void toggleTile(View banner, boolean loaded) {
-		int visibility = loaded ? View.VISIBLE : View.GONE;
-		banner.setVisibility(visibility);
-	}
-
-	private class ImageInfoDownload implements BackgroundDownloader.Download<BackgroundImageResponse> {
-
-		private String mCode;
-
-		public ImageInfoDownload(String code) {
-			mCode = code;
-		}
-
-		@Override
-		public BackgroundImageResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundDownloader.getInstance().addDownloadListener(getBGDKey(mCode), services);
-			return services.getFlightsBackgroundImage(mCode, mWidth, mHeight);
-		}
-
-	}
-
-	private class ImageInfoCallback implements BackgroundDownloader.OnDownloadComplete<BackgroundImageResponse> {
-
-		private Destination mDestination;
-		private View mContainer;
-		private View mBanner;
-
-		public ImageInfoCallback(Destination destination, View container, View banner) {
-			mDestination = destination;
-			mContainer = container;
-			mBanner = banner;
-		}
-
-		@Override
-		public void onDownload(BackgroundImageResponse response) {
-			Log.i("ImageInfoCallback onDownload");
-
-			if (response == null || response.hasErrors()) {
-				Log.e("Errors downloading launch destination image info");
-			}
-			else {
-				String responseKey = response.getCacheKey();
-				String responseUrl = response.getImageUrl();
-				mDestination.setImageMeta(responseKey, responseUrl);
-
-				if (ImageCache.containsImage(responseUrl)) {
-					Log.i("Destination image cache hit");
-					mContainer.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache
-							.getImage(responseUrl)));
-					mBanner.setVisibility(View.VISIBLE);
-				}
-				else {
-					Log.i("Destination image cache miss");
-					mBanner.setVisibility(View.GONE);
-					loadImageForLaunchStream(responseUrl, mContainer, mBanner);
-				}
-			}
-		}
-	}
-
-	private static String getBGDKey(String code) {
-		return PREFIX_IMAGE_INFO_KEY + code;
-	}
-
-	public static List<Destination> getHardcodedDestinations() {
-		List<Destination> destinations = new ArrayList<Destination>();
-
-		destinations.add(new Destination("LHR", "London", "London Heathrow"));
-		destinations.add(new Destination("MIA", "Miami", "Miami, yo"));
-		destinations.add(new Destination("JFK", "New York", "JFK - John F. Kennedy"));
-
-		return destinations;
-	}
-
 }
