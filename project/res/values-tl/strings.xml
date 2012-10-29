@@ -11,13 +11,24 @@
     <!-- Account -->
     <string name="nav_account">Account</string>
 
+    <!-- Launch screen -->
+    <!-- Label for launch screen hotel button secondary text -->
+    <string name="launch_hotel_secondary_text">Umupa ng kuwarto.</string>
+    <!-- Label for launch screen flight button secondary text -->
+    <string name="launch_flight_secondary_text">Magbakasyon.</string>
+    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
+    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Lumipad sa&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <!-- Label to present to the user on application load -->
+    <string name="launch_welcome">Welcome</string>
+
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Maghanap ng mga Flight</string>
     <!-- Indicates that a flight itinerary flies on multiple airlines -->
-    <string name="multiple_airlines">Maraming Flight</string>
+    <string name="multiple_airlines">Iba\&apos;t ibang Flight</string>
     <!-- Indicates how long a layover is.  %s is an amount of time, e.g. "3h 33m layover" -->
-    <string name="layover_template">&lt;b>%s&lt;/b> Layover</string>
+    <string name="layover_template">&lt;b&gt;%s&lt;/b&gt; Layover</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">Panggagalingang Airport</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
@@ -26,31 +37,37 @@
     <string name="dates_prompt">Walang piniling petsa</string>
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Naglo-load ng mga flight...</string>
-    <!-- TEMPORARY generic error message when loading flights fails -->
-    <string name="error_loading_flights_TEMPLATE">DEBUG: May error sa paglo-load ng mga flight: %s</string>
+    <!-- Label for screen that is doing searches -->
+    <string name="searching">Naghahanap...</string>
     <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">Pasensiya na, wala kaming mahanap na anumang flight.</string>
+    <string name="error_no_flights_found">Walang nahanap na flight.</string>
+    <!-- Error message when we find no flights because of an invalid departure airport -->
+    <string name="error_invalid_departure_airport">Maling airport na panggagalingan.</string>
+    <!-- Error message when we find no flights because of an invalid arrival airport -->
+    <string name="error_invalid_arrival_airport">Maling airport na patutunguhan.</string>
+    <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
+    <string name="error_invalid_departure_arrival_airports">Mga maling airport na panggagalingan at patutunguhan.</string>
     <!-- Pluralization for # of seats left on a flight -->
     <plurals name="seats_left">
-        <item quantity="zero">&lt;b>%d&lt;/b> na mga upuan na lamang ang naiiwan!</item>
-        <item quantity="one">&lt;%d&lt; na upuan na lamang ang naiiwan!</item>
-        <item quantity="two">&lt;b>%d&lt;/b> na mga upuan na lamang ang naiiwan!</item>
-        <item quantity="few">&lt;b>%d&lt;/b> na mga upuan na lamang ang naiiwan!</item>
-        <item quantity="many">&lt;b>%d&lt;/b> na mga upuan na lamang ang naiiwan!</item>
-        <item quantity="other">&lt;b>%d&lt;/b> na mga upuan na lamang ang naiiwan!</item>
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; (na) upuan ang natitira!</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; upuan ang natitira!</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; (na) upuan ang natitira!</item>
+        <item quantity="few">&lt;b&gt;%d&lt;/b&gt; (na) upuan ang natitira!</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; (na) upuan ang natitira!</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; (na) upuan ang natitira!</item>
     </plurals>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Mga Detalye</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Piliin</string>
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">Mga Flight na  Patungo sa %s</string>
+    <string name="outbound_TEMPLATE">Mga Flight na Patungo sa %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">Mga Flight na Pabalik sa %s</string>
+    <string name="inbound_TEMPLATE">Mga Flight na Parating sa %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Pasensiya na, hindi kami makakonekta sa mga server ng Expedia.  Mangyaring saka na muling subukan.</string>
     <!-- Label for changing sort order on flights -->
-    <string name="filter_flight_sort">Ayusin ang mga Flight Ayon sa:</string>
+    <string name="filter_flight_sort">Ayusin ang Mga Flight Ayon sa:</string>
     <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
     <string name="filter_flight_time">Oras ng Flight</string>
     <!-- Label for filtering flights by airline (aka, Delta) -->
@@ -75,7 +92,7 @@
     <!-- Header for saved travelers (that you can fill info from while booking) -->
     <string name="saved_travelers">Nai-save na mga Magbibiyahe</string>
     <!-- Header for travelers you can pick from your contacts (that you can fill info from while booking) -->
-    <string name="from_contacts">I-load ang mga Impormasyon Mula sa mga Kontak</string>
+    <string name="from_contacts">I-load ang mga Impormasyon Mula sa Mga Kontak</string>
     <!-- Error message when user tries to search for a flight to/from the same airport -->
     <string name="error_same_origin_arrival">Dapat kayong maglagay ng magkaibang airport na panggagalingan at patutunguhan.</string>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
@@ -89,18 +106,22 @@
         <item quantity="many">%1$s mga flight patungo sa %2$s</item>
         <item quantity="other">%1$s mga flight patungo sa %2$s</item>
     </plurals>
+    <!-- Baggage fee loading error -->
+    <string name="baggage_fee_loading_error_TEMPLATE">May error sa pag-load ng info sa bayarin sa bagahe Mensahe ng Error: %1$s</string>
+    <!-- Title for screen when in an invalid POS we can't search for yet -->
+    <string name="taking_off_soon">Magte-take Off Na...</string>
+    <!-- Text for screen when in an invalid POS we can't search for yet -->
+    <string name="invalid_flights_pos">Pasensiya na, pero ang pag-book ng flight sa mobile ay &lt;b&gt;wala pa&lt;/b&gt; sa inyong lugar.</string>
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Piliin ang petsa ng alis</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color=&quot;#343434&quot;&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (Isang Way)</string>
+    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (One Way)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color=&quot;#343434&quot;&gt;&lt;b&gt;%1$s&lt;/b&gt; patungo &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; patungo &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Display for airports.  %1$s is the airport code, %2$s is the city name.  E.g., "BOS Boston" -->
     <string name="search_airport_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
-    <!-- Display for airports in the dropdown.  %1$s is the airport code, %2$s is the city name, %3$s is either the state code or the country name.  E.g., "BOS Boston, MA" or "SJU San Juan, Puerto Rico" -->
-    <string name="search_airport_autocomplete_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s, %3$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Ayusin ang mga Flight</string>
     <!-- Edit search title -->
@@ -108,19 +129,21 @@
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">I-tap para piliin ang inyong &lt;b>&lt;font color=&quot;#3b5998&quot;>petsa ng alis &lt;/font>&lt;/b>.</string>
+    <string name="calendar_instructions_nothing_selected">I-tap para piliin ang inyong &lt;b&gt;&lt;font color="#3b5998"&gt;petsa ng alis&lt;/font&gt;&lt;/b&gt;.</string>
     <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">I-tap ang &lt;b>&lt;font color=&quot;#3b5998&quot;>petsa ng balik&lt;/font>&lt;/b>. (Opsyonal)</string>
+    <string name="calendar_instructions_start_selected">Mag-tap ng &lt;b&gt;&lt;font color="#3b5998"&gt;petsa ng balik&lt;/font&gt;&lt;/b&gt;. (Opsyonal)</string>
     <!-- Start date and end date selected -->
     <string name="calendar_instructions_range_selected_TEMPLATE">%1$d na biyahe sa gabi ang pinili.</string>
+    <!-- Start date and end date sameday -->
+    <string name="calendar_instructions_range_selected_same_day">Magkaparehong araw ng biyahe ang napili.</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
-    <string name="one_way_price_TEMPLATE">Isang way patungo &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="one_way_price_TEMPLATE">One way para sa &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
-    <string name="round_trip_price_TEMPLATE">Round trip mula &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="round_trip_price_TEMPLATE">Round trip mula sa &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
-    <string name="book_now_price_TEMPLATE">Mag-book na para &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="book_now_price_TEMPLATE">Mag-book na ngayon para sa &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">IMPORMASYON TUNGKOL SA BAYARIN SA BAGAHE</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -129,6 +152,8 @@
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
+    <!-- Label for "premium coach" cabin code -->
+    <string name="cabin_code_premium_coach">Premium Economy</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->
@@ -139,11 +164,13 @@
     <string name="depart_from_TEMPLATE">Aalis mula %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
     <string name="arrive_at_TEMPLATE">Darating sa %s</string>
+    <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
+    <string name="operated_by_TEMPLATE">Pinapangasiwaan ng %s</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">Mga Kasalukuyang Detalye sa Pagbayad</string>
-    <!-- Or Select a new payment method-->
+    <!-- Or Select a new payment method -->
     <string name="or_select_new_paymet_method">Pumili ng Bagong Pamamaraan ng Pagbayad</string>
     <!-- Select Payment -->
     <string name="select_payment">Pumili ng Pagbayad</string>
@@ -155,34 +182,46 @@
     <string name="overview_btn">Buod</string>
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Pumili sa Nai-save na Pamamaraan ng Pagbayad</string>
-    
+    <!-- Payment Method -->
+    <string name="payment_method">Paraan ng Pagbayad</string>
+    <!-- Billing Address -->
+    <string name="billing_address">Billing Address</string>
+    <!-- Card Info -->
+    <string name="card_info">Info ng Card</string>
+
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
     <string name="total_price_label">Kabuuang Presyo</string>
     <!-- Your trip to template -->
-    <string name="your_trip_to_TEMPLATE">Ang inyong biyahe patungo %1$s</string>
+    <string name="your_trip_to_TEMPLATE">Biyahe patungo %1$s</string>
+    <!-- Includes taxes and fees -->
+    <string name="includes_taxes_and_fees">Kasama na ang mga buwis at bayarin.</string>
+    <!-- Date and trip from _ to _ -->
+    <string name="trip_to_with_date">%1$s: %2$s patungo %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d na mga Magbibiyahe</item>
-        <item quantity="one">%1$d na mga Magbibiyahe</item>
-        <item quantity="two">%1$d na mga Magbibiyahe</item>
-        <item quantity="few">%1$d na mga Magbibiyahe</item>
-        <item quantity="many">%1$d na mga Magbibiyahe</item>
-        <item quantity="other">%1$d na mga Magbibiyahe</item>
+        <item quantity="zero">%1$dMga Magbibiyahe</item>
+        <item quantity="one">%1$d Magbibiyahe</item>
+        <item quantity="two">%1$dMga Magbibiyahe</item>
+        <item quantity="few">%1$dMga Magbibiyahe</item>
+        <item quantity="many">%1$dMga Magbibiyahe</item>
+        <item quantity="other">%1$dMga Magbibiyahe</item>
     </plurals>
     <!-- Long form date (e.g. August 16, 2012) -->
     <string name="long_form_date_TEMPLATE">%1$s %2$d, %3$d</string>
     <!-- Checkout button text -->
     <string name="checkout_btn">Mag-checkout</string>
     <!-- Notice when price changes on a flight -->
-    <string name="price_change_alert_TEMPLATE">Napalitan ang presyo ng iyong biyahe mula %1$s sa %2$s.</string>
+    <string name="price_change_alert_TEMPLATE">Napalitan ang presyo ng inyong biyahe mula %1$s sa %2$s.</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Inilo-load ang impormasyon ng eksaktong ng flight...</string>
     <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
     <string name="plus_symbol">+</string>
     <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
     <string name="equals_symbol">=</string>
+    <!-- Price changed from -->
+    <string name="price_changed_from_TEMPLATE">Nagbago ang presyo mula %1$s</string>
 
     <!-- Section Display Flights -->
     <!-- Departs label with date (e.g. Depart: Aug 2nd) -->
@@ -205,19 +244,46 @@
     <string name="expedia_account">Expedia Account</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Impormasyon sa Pag-checkout</string>
+    <!-- Slide to purchase -->
+    <string name="slide_to_purchase">I-slide para bumili.</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_TEMPLATE">Masisingil ang inyong card %1$s</string>
+    <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
+    <string name="collected_by_the_hotel_TEMPLATE">%1$s Kinokolekta ng hotel</string>
+    <!-- Checkout menu item -->
+    <string name="menu_checkout">Mag-checkout</string>
+    <!-- Our best price gaurentee string -->
+    <string name="best_price_guarantee">Garantisadong Pinakamagandang Presyo</string>
+    <!-- Free cancellation template string where we insert the date the free cancellation expires -->
+    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Walang Bayad sa Pagkansela ng&lt;/b&gt;&lt;b&gt;%s&lt;/b&gt;</string>
+
+    <!-- Hotel Traveler Info Options Activity -->
+    <!-- Done menu item -->
+    <string name="menu_done">Tapos na </string>
+
+    <!-- Cost breakdown dialog -->
+    <!-- Cost Summary -->
+    <string name="cost_summary">Buod ng Presyo</string>
+    <!-- Expedia booking fee -->
+    <string name="expedia_booking_fee">Bayarin sa Pagbo-book sa Expedia</string>
+    <!-- Flight -->
+    <string name="flight">Flight</string>
+    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
+    <string name="traveler_num_and_category_TEMPLATE">Magbibiyahe %1$d- %2$s</string>
+    <!-- Adult -->
+    <string name="adult"> Nasa Edad Na</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
-    <string name="enter_traveler_info">Ilagay ang Impormasyon Tungkol sa Magbibiyahe</string>
+    <string name="enter_traveler_info">Impormasyon ng Magbibiyahe</string>
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Espesyal na Tulong: %1$s</string>
-    <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number)-->
+    <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Kapanganakan %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color=&quot;#919191&quot;>Kapanganakan&lt;/font> %1$s</string>
-
+    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Kapanganakan&lt;/font&gt; %1$s</string>
 
     <!-- Section edit contact -->
     <!-- first name hint -->
@@ -230,18 +296,16 @@
     <string name="email_address_hint">Email Address</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Numero ng Telepono</string>
-    <!--  Cardholder -->
+    <!-- Cardholder -->
     <string name="cardholder">Cardholder</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Ipapadala ang pangkumpirmang email dito</string>
-    <!-- Expires on colored template-->
-    <string name="expires_colored_TEMPLATE">&lt;font color=&quot;#919191&quot;>Mag-eexpire sa &lt;/font> %1$s</string>
+    <!-- Expires on colored template -->
+    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Mag-eexpire sa&lt;/font&gt; %1$s</string>
 
     <!-- Section display payment -->
-    <!-- Enter payment info button text -->
-    <string name="enter_payment_info">Ilagay ang Impormasyon ng Pagbayad</string>
     <!-- Template for blanked out Credit Card -->
-    <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b>%2$s&lt;/b></string>
+    <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b&gt;%2$s&lt;/b&gt;</string>
 
     <!-- Section display address -->
     <!-- Enter address info button text -->
@@ -277,19 +341,20 @@
     <!-- save billing info -->
     <string name="save_billing_info">I-save ang Impormasyon ng Billing</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">I-tap ang Save para mai-save ang mga detalye ng inyong billing sa inyong account sa Expedia.</string>
+    <string name="save_billing_info_message">Ise-save ba ang paraan ng pagbayad na ito sa ilalim ng inyong account sa Expedia para sa mas mabilis na pagbayad sa hinaharap?</string>
     <!-- save -->
     <string name="save">I-save</string>
     <!-- dont save -->
     <string name="dont_save">Huwag I-save</string>
-    
+
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">I-save ang Magbibiyahe</string>
-    <!-- save traveler message -->
-    <string name="save_traveler_message">I-tap ang Save para mai-save ang magbibiyaheng ito sa inyong account sa Expedia.</string>
-    
-    
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_message_TEMPLATE">Ise-save ba ang impormasyon ng %1$s sa ilalim ng inyong account sa Expedia para sa mas mabilis na pagbayad sa hinaharap?</string>
+    <!-- no thanks -->
+    <string name="no_thanks">Huwag, Salamat na Lang.</string>
+
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
     <string name="traveler_information">Impormasyon ng Magbibiyahe</string>
@@ -331,15 +396,15 @@
     <string name="seating">Upuan</string>
     <!-- Assistance label -->
     <string name="assistance">Tulong</string>
-    
+    <!-- Saving traveler info spinner dialog -->
+    <string name="saving_traveler">Isini-save ang impormasyon ng magbibiyahe sa inyong account...</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
     <string name="none">Wala</string>
     <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color=&quot;#919191&quot;>%1$s ay&lt;/font> %2$s</string>
-    
-    
+    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s ay&lt;/font&gt; %2$s</string>
+
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
     <string name="select_a_traveler">Pumili ng magbibiyahe</string>
@@ -352,7 +417,13 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Mas Gugustuhin ang Upuang %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color=&quot;#919191&quot;>Mas Gugustuhin ang&lt;/font> Upuang %1$s </string>
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Mas Gugustuhin ang Upuang &lt;/font&gt; %1$s</string>
+    <!-- loading traveler info -->
+    <string name="loading_traveler_info">Naglo-load ng impormasyon tungkol sa magbibiyahe</string>
+    <!-- Traveler Information -->
+    <string name="traveler_information">Impormasyon ng Magbibiyahe</string>
+    <!-- Passport -->
+    <string name="passport">Pasaporte</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -363,23 +434,163 @@
     <string name="any">Kahit na ano</string>
 
     <!-- Assistance Types -->
-    <!--  No assistance type -->
+    <!-- No assistance type -->
     <string name="no_assistance">Walang Kailangang Espesyal na Tulong</string>
-    <!-- Wheelchair -->
-    <string name="wheelchair">Wheelchair</string>
-    <!-- DEFIBRILLATOR -->
-    <string name="defibrillator">Defibrillator</string>
-    <!-- Super long for test purposes -->
-    <string name="super_long_assistance">Sobrang haba ng uri ng tulong na papaikliin</string>
+    <!-- Blind with seeing eye dog -->
+    <string name="blind_with_seeing_eye_dog">Bulag na may gabay na aso</string>
+    <!-- Deaf with hearing dog -->
+    <string name="deaf_with_hearing_dog">Bingi na may gabay na aso</string>
+    <!-- Wheelchair needed -->
+    <string name="wheel_chair_needed">Nangangailangan ng wheelchair </string>
+    <!-- Cannot climb/descend stairs -->
+    <string name="cannot_climb_stairs">Hindi makaakyat/makababa sa hagdan</string>
+    <!-- Can climb/descent stairs -->
+    <string name="can_climb_stairs">Nakakaakyat/nakakababa sa hagdan</string>
+    <!-- Immobile -->
+    <string name="immobile">Hindi makakilos</string>
+    <!-- Wheelchair needed (cannot climb/descend stairs) -->
+    <string name="wheelchair_no_stairs">Nangangailangan ng wheelchair (hindi makaakyat/makababa sa hagdan) </string>
+    <!-- Wheelchair needed (can climb/descend stairs) -->
+    <string name="wheelchair_stairs_ok">Nangangailangan ng wheelchair (nakakaakyat/nakakababa sa hagdan)</string>
+    <!-- Wheelchair (immobile) -->
+    <string name="wheelchair_immobile">Wheelchair (hindi makakilos)</string>
+
+    <!-- Flight confirmation page -->
+    <!-- Title for flight confirmation page -->
+    <string name="booking_complete">Kumpleto na ang Booking</string>
+    <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
+    <string name="yay_going_somewhere_TEMPLATE">Papunta na kayo sa %s!</string>
+    <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
+    <string name="itinerary_confirmation_TEMPLATE">Ang Itinerary #%s ay ipinadala na sa </string>
+    <!-- Title for section helping users get hotel rooms after booking a flight -->
+    <string name="get_a_room">Kumuha ng Kuwarto</string>
+    <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
+    <string name="hotels_in_TEMPLATE">Mga hotel sa %s</string>
+    <!-- Title for section helping users in other various ways -->
+    <string name="more_actions">Mga Iba Magagawa</string>
+    <!-- Button label for sharing your recently booked trip -->
+    <string name="share_trip">Ibahagi ang Biyahe</string>
+    <!-- Button label for adding a recently booked flight to the calendar -->
+    <string name="add_to_calendar">Idagdag sa Kalendaryo</string>
+    <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
+    <string name="add_to_flighttrack">Subaybayan gamit ang FlightTrack</string>
+    <!-- Button label for calling expedia customer support -->
+    <string name="call_expedia_customer_support">Tawagan ang Customer Support ng Expedia </string>
+
+    <!-- Add to calendar -->
+    <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
+    <string name="calendar_flight_title_TEMPLATE">%1$shanggang%2$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
+    <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia Itinerary #: %s</string>
+    <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
+    <string name="calendar_flight_desc_directions_TEMPLATE">Mga direksiyon patungo sa airport: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE">Expedia Customer Support: %s</string>
+
+    <!-- Flight Rules -->
+    <!-- Legal information header -->
+    <string name="legal_information">Legal na Impormasyon</string>
+    <!-- Rules and Restrictions for flight -->
+    <string name="rules_and_restrictions">Mga Alituntunin at Restriksiyon</string>
+    <!-- Terms and Conditions for flight -->
+    <string name="terms_and_conditions">Mga Tuntunin at Kondisyon</string>
+    <!-- Privacy policy -->
+    <string name="privacy_policy">Patakaran sa Pagiging Pribado</string>
+    <!-- Fare information header -->
+    <string name="fare_information">IMPORMASYON SA PASAHE</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">Sa pamamagitan ng pagbo-book, aking pinagtitibay na aking nabasa at tinatanggap ang &lt;u&gt;&lt;b&gt;Mga Alituntunin at Restriksiyon,&lt;/b&gt; ang &lt;b&gt;Mga Tuntunin at Kondisyon,&lt;/b&gt; ang &lt;b&gt;Patakaran sa Pagiging Pribado&lt;/b&gt; at &lt;b&gt;Impormasyon sa Pasahe.&lt;/b&gt;&lt;/u&gt;</string>
+
+    <!-- Flight dialog  errors -->
+    <!-- Title of screen if user entered an invalid security code -->
+    <string name="title_invalid_security_code">Maling Security Code</string>
+    <!-- Button label for cancelling on error -->
+    <string name="cancel">Kanselahin</string>
+    <!-- Button label for accepting an error and moving forward -->
+    <string name="accept">Tanggapin</string>
+    <!-- Button label for retrying after getting an error -->
+    <string name="retry">Subukan muli</string>
+    <!-- Button label for calling -->
+    <string name="call_support">Tulong</string>
+    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
+    <string name="error_flight_price_increased">Kapapataas lang ng airline ang presyo ng inyong ticket ng %1$s.  Gusto ba ninyong bayaran ang bagong kabuuang halaga na %2$s?</string>
+    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
+    <string name="error_flight_price_decreased">Nakita naming ang inyong hinihiling na mga flight ay nakapromo nang mas mura ng %1$s. Gusto ba ninyong isingil namin sa inyo ang bagong kabuuang halaga na %2$s?</string>
+    <!-- Error shown to user if their credit card number is invalid -->
+    <string name="error_invalid_card_number">Di wasto ang inilagay ninyong numero ng credit card, pakisubukang muli.</string>
+    <!-- Error shown to user if their credit card has expired -->
+    <string name="error_expired_payment">Nag-expire na ang credit card na inyong sinusubukang gamitin, mangyaring gumamit ng ibang credit card.</string>
+    <!-- Error shown to user if we don't know what exaclty what went wrong. -->
+    <string name="error_flight_unhandled">Pasensiya na, hindi namin maproseso ang inyong order sa oras na ito. Pakisubukan muli.</string>
+    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <string name="error_flight_unhandled_TEMPLATE">Pasensiya na, hindi namin maproseso ang inyong order sa oras na ito. Pakisubukan na lamang sa ibang pagkakataon o tawagan ang Expedia Customer Support at banggitin ang numero ng itinerary na ito: %s</string>
+    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
+    <string name="error_flight_no_longer_available">Ikinalulungkot namin, puno na ang inyong flight.</string>
+    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
+    <string name="error_flights_no_longer_available">Ikinalulungkot namin, ang isa sa inyong mga flight ay puno na.</string>
+    <!-- Button label imploring users to pick a new flight due to unavailability -->
+    <string name="pick_new_flight">Pumili ng Bagong Flight</string>
+    <!-- Button label imploring users to pick flights due to unavailability -->
+    <string name="pick_new_flights">Pumili ng mga Bagong Flight</string>
+
+    <!-- Credit card input section -->
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="zero">0</string>
+    <string name="book">I-book</string>
+
+    <!-- Highlight view stuff -->
+    <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
+    <string name="cvv_code_TEMPLATE">CVV code para sa &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
+    <string name="card_ending_TEMPLATE">card na nagtatapos ng%s</string>
+    <!-- Title for screen telling you to complete your booking by entering a CVV # -->
+    <string name="title_complete_booking">Kumpletuhin ang pagbo-book</string>
+
+    <!-- Flight booking sharing -->
+    <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
+    <string name="share_flight_title_TEMPLATE">Expedia Itinerary - %1$s (%2$s)</string>
+    <!-- The first line of the share flight email -->
+    <string name="share_flight_start">Naririto ang impormasyon ng aking flight reservation:</string>
+    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE">One way trip galing %1$spatungong %2$s</string>
+    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE">Round trip galing %1$s patungong %2$s</string>
+    <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
+    <string name="share_flight_itinerary_TEMPLATE">Itinerary #: %s</string>
+    <!-- The user's name, presented to them.  %s is their name. -->
+    <string name="share_flight_name_TEMPLATE">Pangalan: %s</string>
+    <!-- Header for the outbound flight details section of the share flight email -->
+    <string name="share_flight_section_outbound">Paalis:</string>
+    <!-- Header for the return flight details section of the share flight email -->
+    <string name="share_flight_section_return">Balik:  </string>
+    <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
+    <string name="share_flight_ticket_cost_TEMPLATE">Kabuuang presyo ng ticket: %s</string>
+    <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
+    <string name="share_flight_taxes_fees_TEMPLATE">Mga buwis &amp; bayarin:%s</string>
+    <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
+    <string name="share_flight_airfare_total_TEMPLATE">Kabuuang pasahe:%s</string>
+    <!-- Alerts the user to potential other charges.  %s is a URL -->
+    <string name="share_flight_additional_fees_TEMPLATE">Maaaring magkaroon ng karagdagang bayarin na sisingilin (%s) para sa nai-check in na bagahe o iba pang mga opsyonal na serbisyo.</string>
+    <!-- Gives the user a method of getting support.  %s is a phone number -->
+    <string name="share_flight_support_TEMPLATE">Kung mayroon kayong mga tanong tungkol sa inyong reserbasyon, pakitawagan ang Expedia sa %s</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Ipasok ang paghahanapang lugar...</string>
+    <string name="enter_search_location">Ipasok kung saan maghahanap ...</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">Maghanap sa Lokasyon</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Inilo-load ang mga mungkahi...</string>
-    
     <string name="app_name">Expedia</string>
 
     <!-- General -->
@@ -389,7 +600,7 @@
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
-    <string name="enter_search_location">Ilagay ang lokasyon na paghahanapan…</string>
+    <string name="enter_search_location">Ilagay ang paghahanapang lokasyon…</string>
     <!-- Hint for "search location" field -->
     <string name="hint_search_location">Maghanap ng Lokasyon</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
@@ -401,9 +612,9 @@
     <!-- Label for button that starts search -->
     <string name="search_for_hotels">Maghanap ng Mga Hotel</string>
     <!-- Label for picking search location -->
-    <string name="where_are_you_going">&lt;b&gt;Saan&lt;/b&gt; kayo pupunta?</string>
+    <string name="where_are_you_going">&lt;b&gt;Saan&lt;/b&gt; kayo papunta?</string>
     <!-- Label for picking checkin/checkout dates -->
-    <string name="drag_to_extend_your_stay">&lt;b&gt;I-drag&lt;/b&gt; sa tagal ng inyong pananatili.</string>
+    <string name="drag_to_extend_your_stay">&lt;b&gt;I-drag&lt;/b&gt; para pahabain ang pananatili ninyo.</string>
     <!-- Label for picking guests for hotel booking -->
     <string name="who_is_going">&lt;b&gt;Sino&lt;/b&gt; ang pupunta?</string>
     <!-- Child age dialog button -->
@@ -444,13 +655,13 @@
     <!-- Label for "start search" button -->
     <string name="search">Maghanap</string>
     <!--
-        The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
+         The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
         1$ - The search address
         2$ - The check-in date
         3$ - The check-out date
-        The dates may include year, if we cross a year boundary
+        The dates may include year, if we cross a year boundary 
     -->
-    <string name="booking_info_template">&lt;b&gt; %1$s &lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt; hanggang &lt;b&gt; %3$s &lt;/b&gt;</string>
+    <string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; hanggang &lt;b&gt;%3$s&lt;/b&gt;</string>
     <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
     <plurals name="number_of_matching_hotels">
         <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; tumutugmang hotel</item>
@@ -461,6 +672,8 @@
     </plurals>
     <!-- Search header, Example: "42 Hotels Found" -->
     <string name="search_header_num_hotels">%d (na) Hotel ang Nahanap</string>
+    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
+    <string name="date_range_TEMPLATE">%1$s hanggang %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">I-filter ayon sa pangalan ng hotel</string>
     <!-- Label indicating that there are no results matching their current filter -->
@@ -482,7 +695,7 @@
     <!-- Message when app is loading saved search results -->
     <string name="loading_previous">Inilo-load ang mga nakaraang resulta ng paghahanap…</string>
     <!-- Label for sort hotels button in bottom bar -->
-    <string name="sort_hotels">&quot;Uriin:&quot;</string>
+    <string name="sort_hotels">"Uriin:"</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">AYUSIN</string>
     <!-- Label for sort hotels in hotel list -->
@@ -492,13 +705,13 @@
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Mag-switch ng View</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-    <string name="sort_hotels_template">&lt;b&gt; Uriin &lt;/b&gt;: %s</string>
+    <string name="sort_hotels_template">&lt;b&gt;Ayusin&lt;/b&gt;: %s</string>
     <!-- Label for filter hotels button in bottom bar -->
     <string name="filter_hotels">I-filter ang Mga Hotel</string>
     <!-- A number of results -->
     <plurals name="number_of_results">
         <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; Mga Resulta.</item>
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; Resulta.</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; Resulta</item>
         <item quantity="two">&lt;b&gt;%d&lt;/b&gt; Mga Resulta.</item>
         <item quantity="many">&lt;b&gt;%d&lt;/b&gt; Mga Resulta.</item>
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; Mga Resulta.</item>
@@ -520,7 +733,7 @@
     <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
     <string name="booked_this_in_the_last_hours_template">ang nag-book nitong nakaraang %d (na) oras</string>
 
-    <!-- Expedia urgency messaging indicating the number of rooms left-->
+    <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
         <item quantity="one">%d (na) Kuwarto ang Naiiwan!</item>
         <item quantity="two">%d (na) Kuwarto ang Naiiwan</item>
@@ -575,6 +788,12 @@
     <string name="progress_searching_hotels">Naghahanap ng mga Hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">Walang Nahanap na Hotel</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="no_hotels_availiable_tonight">Walang bakanteng hotel sa gabing ito</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="no_hotels_availiable">Walang bakanteng hotel </string>
+    <!-- Message displayed when user need to change input to correct search -->
+    <string name="please_try_a_different_location_or_date">Pakisubukan ang ibang bagong lugar o petsa.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -657,7 +876,7 @@
     <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->
     <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; mula</string>
     <!-- Title for the reviews section in the details fragment stating the number of recommendations for the hotel -->
-    <string name="reviews_recommended_template">Inirerekomenda ng %1$d sa %2$d (na) bisita</string>
+    <string name="reviews_recommended_template">Inirerekomenda ng %1$d ng %2$d (na) bisita</string>
     <!-- Title for the amenities section in the hotel details fragment -->
     <string name="amenities">Mga Amenity</string>
     <!-- Label for button to see all reviews as a modal dialog -->
@@ -671,7 +890,7 @@
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">Walang Amenity na Maiaalok</string>
+    <string name="AmenityNone">Walang Amenity ang Iniaalok</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Business Center</string>
     <!-- Fitness center amenity -->
@@ -749,7 +968,7 @@
         1$ represents the number of guests that recommend this hotel
         2$ represents the total number of guests
     -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; sa &lt;b&gt;%2$d&lt;/b&gt; na mga bisita ang nagrerekomenda ng hotel ng na ito.</string>
+    <string name="user_review_recommendation_tag_text">Ang &lt;b&gt;%1$d&lt;/b&gt; ng &lt;b&gt;%2$d&lt;/b&gt; na mga bisita ang nagrerekomenda sa hotel na ito.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">Walang Review</string>
     <!-- A number of reviews -->
@@ -820,10 +1039,14 @@
     <string name="common_value_add_template">Kasama ang lahat ng kuwarto %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Pumili ng Kuwarto</string>
+    <!-- The text we use when the search date it tonight -->
+    <string name="Tonight">Ngayong gabi</string>
+    <!-- The text we use when the search date it tonight -->
+    <string name="free_cancellation">Walang Bayad na Pagkansela</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-    <string name="gallery_title_template">Mga litrato ng &lt;b&gt; %1$s &lt;/b&gt;</string>
+    <string name="gallery_title_template">Litrato ng &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Booking info -->
     <!-- ActionBar button for confirm user info & book the room -->
@@ -835,9 +1058,9 @@
     <!-- Label for room type -->
     <string name="room_type">Uri ng Kuwarto</string>
     <!-- Error if we couldn't load the room type details -->
-    <string name="error_room_type_load">Humihingi kami ng paumanhin, hindi kami makapag-load ng mga detalye ng kuwarto.  Suriin ang inyong koneksyon sa internet at subukang muli.</string>
+    <string name="error_room_type_load">Pasensiya na, hindi kami makapag-load ng mga detalye ng kuwarto.  Suriin ang inyong koneksyon sa internet at subukang muli.</string>
     <!-- Error if we couldn't find the room type details -->
-    <string name="error_room_type_nonexistant">Humihingi kami ng paumanhin, hindi kami makahanap ng mga karagdagang detalye sa kuwartong ito.</string>
+    <string name="error_room_type_nonexistant">Pasensiya na, hindi kami makahanap ng mga karagdagang detalye sa kuwartong ito.</string>
     <!-- Label for bed type -->
     <string name="bed_type">Uri ng Kama</string>
     <!-- Label for length of stay -->
@@ -959,6 +1182,10 @@
     <string name="booking_information_dialog_title">Kumpletuhin ang Inyong Booking</string>
 
     <!-- Confirmation activity -->
+    <!-- Title for confirmation screen -->
+    <string name="booking_complete">Kumpleto na ang Booking</string>
+    <!-- Friendly message at the top of the receipt -->
+    <string name="Enjoy_your_stay">Sana ay mag-enjoy sa inyong pananatili!</string>
     <!-- Format for a first/last name -->
     <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
@@ -971,6 +1198,8 @@
     <string name="confirmation_email">Email na Pagkumpirma</string>
     <!-- Label for starting a new search -->
     <string name="new_search">Bagong Paghahanap</string>
+    <!-- ActionBar button for starting a new search -->
+    <string name="NEW_SEARCH">BAGONG PAGHAHANAP</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Kung may mga katanungan kayo tungkol sa inyong pagpapareserba, pakitawagan ang Expedia sa%s.</string>
 
@@ -1029,6 +1258,8 @@
     <string name="login_success">Tagumpay! Nakalog-in ka na.</string>
     <!-- Message that tells user they failed to log in -->
     <string name="login_failed">Mangyaring mag-log in muli</string>
+    <!-- Message that tells user why they failed to stay logged in -->
+    <string name="logged_out_due_to_inactivity">Kayo ay na-log out dahil sa kawalan ng aktibidad</string>
     <!-- Label for login widget button -->
     <string name="account_login">Account Login</string>
     <!-- Label for logout confirmation -->
@@ -1040,7 +1271,7 @@
     <!-- Label for account name -->
     <string name="logged_in_as">Naka-log in bilang</string>
     <!-- Label for account name -->
-    <string name="logged_in_as_template">Naka-log in bilang &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="logged_in_as_template">Naka-log in bilang&lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Expedia Account</string>
     <!-- Label for loading user profile from expedia.com -->
@@ -1083,6 +1314,8 @@
     <string name="cancellation_policy">Patakaran sa Pagkansela</string>
 
     <!-- About activity -->
+    <!-- Section Header for expedia section -->
+    <string name="EXPEDIA">EXPEDIA</string>
     <!-- Label for "contact Expedia" button in info page -->
     <string name="contact_expedia">Makipag-ugnayan sa Expedia</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
@@ -1103,6 +1336,8 @@
     <string name="expedia_website_description">Bisitahin ang website upang mag-book ng mga flight, kotse, package at iba pa.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">Ipaalam sa amin kung ano ang inyong palagay tungkol sa app.</string>
+    <!-- Section Header for interaction section -->
+    <string name="INTERACT">INTERACT</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Suporta sa App</string>
     <!-- Extra description for "app support" button, when space allows -->
@@ -1117,6 +1352,8 @@
     <string name="tell_a_friend_subject">Mga Hotel ng Expedia</string>
     <!-- Message body for "tell a friend" feature -->
     <string name="tell_a_friend_body">Hello,\n\nTingnan ang Expedia Hotels sa iPhone at Android na telepono LIBRE ito at madali kayong makakahanap at makakapag-book ng mga kuwarto mula sa mahigit sa 140,000 na hotel sa buong mundo. Napakadaling magpa-book ng kuwarto sa hotel gamit ang inyong telepono.\n\nhttp://www.expedia.com/app</string>
+    <!-- Section Header for our Rules and Restrictions -->
+    <string name="RULES_AND_RESTRICTIONS">MGA ALITUNTUNIN AT RESTRIKSIYON</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Mga Tuntunin at Kondisyon</string>
     <!-- Label for link to privacy policy -->
@@ -1143,6 +1380,8 @@
     <string name="Follow">Subaybayan</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">Gustuhin</string>
+    <!-- Credits to the open source libraries we use -->
+    <string name="open_source_credits">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1179,27 +1418,27 @@
     </plurals>
     <!-- A number of children -->
     <plurals name="number_of_children">
-        <item quantity="zero">%d Mga Bata</item>
+        <item quantity="zero">%dMga Bata</item>
         <item quantity="one">%d Bata</item>
-        <item quantity="two">%d Mga Bata</item>
-        <item quantity="many">%d Mga Bata</item>
-        <item quantity="other">%d Mga Bata</item>
+        <item quantity="two">%dMga Bata</item>
+        <item quantity="many">%dMga Bata</item>
+        <item quantity="other">%dMga Bata</item>
     </plurals>
     <!-- A number of guests -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d Mga Bisita</item>
-        <item quantity="one">%d Bisita</item>
-        <item quantity="two">%d Mga Bisita</item>
-        <item quantity="many">%d Mga Bisita</item>
-        <item quantity="other">%d Mga Bisita</item>
+        <item quantity="zero">%dMga Bisita</item>
+        <item quantity="one">%dBisita</item>
+        <item quantity="two">%dMga Bisita</item>
+        <item quantity="many">%dMga Bisita</item>
+        <item quantity="other">%dMga Bisita</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
-        <item quantity="zero">%d Mga Gabi</item>
-        <item quantity="one">%d Gabi</item>
-        <item quantity="two">%d Mga Gabi</item>
-        <item quantity="many">%d Mga Gabi</item>
-        <item quantity="other">%d Mga Gabi</item>
+        <item quantity="zero">%dMga Gabi</item>
+        <item quantity="one">%dGabi</item>
+        <item quantity="two">%dMga Gabi</item>
+        <item quantity="many">%dMga Gabi</item>
+        <item quantity="other">%dMga Gabi</item>
     </plurals>
 
     <!-- Distance strings -->
@@ -1359,7 +1598,7 @@
     <string name="country_cu">Cuba</string>
     <string name="country_cy">Cyprus</string>
     <string name="country_cz">Czech Republic</string>
-    <string name="country_ci">Côte d\&apos;Ivoire</string>
+    <string name="country_ci">Côte d\&amp;apos;Ivoire</string>
     <string name="country_dk">Denmark</string>
     <string name="country_dj">Djibouti</string>
     <string name="country_dm">Dominica</string>
@@ -1417,11 +1656,11 @@
     <string name="country_kz">Kazakhstan</string>
     <string name="country_ke">Kenya</string>
     <string name="country_ki">Kiribati</string>
-    <string name="country_kp">Korea, Democratic People\&apos;s Republic of</string>
+    <string name="country_kp">Korea, Democratic People\&amp;apos;s Republic of</string>
     <string name="country_kr">Korea</string>
     <string name="country_kw">Kuwait</string>
     <string name="country_kg">Kyrgyzstan</string>
-    <string name="country_la">Lao People\&apos;s Democratic Republic</string>
+    <string name="country_la">Lao People\&amp;apos;s Democratic Republic</string>
     <string name="country_lv">Latvia</string>
     <string name="country_lb">Lebanon</string>
     <string name="country_ls">Lesotho</string>

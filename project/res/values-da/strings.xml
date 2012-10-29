@@ -11,13 +11,24 @@
     <!-- Account -->
     <string name="nav_account">Konto</string>
 
+    <!-- Launch screen -->
+    <!-- Label for launch screen hotel button secondary text -->
+    <string name="launch_hotel_secondary_text">Find et værelse.</string>
+    <!-- Label for launch screen flight button secondary text -->
+    <string name="launch_flight_secondary_text">Tag på ferie.</string>
+    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
+    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Flyv til&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <!-- Label to present to the user on application load -->
+    <string name="launch_welcome">Velkommen</string>
+
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Søg efter flybilletter</string>
     <!-- Indicates that a flight itinerary flies on multiple airlines -->
     <string name="multiple_airlines">Flere flyselskaber</string>
     <!-- Indicates how long a layover is.  %s is an amount of time, e.g. "3h 33m layover" -->
-    <string name="layover_template">Mellemlanding pp &lt;b>%s&lt;/b></string>
+    <string name="layover_template">&lt;b&gt;%s&lt;/b&gt; mellemlanding</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">Afgangslufthavn</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
@@ -26,18 +37,24 @@
     <string name="dates_prompt">Ingen datoer valgt</string>
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Henter flyinformation...</string>
-    <!-- TEMPORARY generic error message when loading flights fails -->
-    <string name="error_loading_flights_TEMPLATE">Fejlfinding: Fejl ved hentning af flyinformation: %s</string>
+    <!-- Label for screen that is doing searches -->
+    <string name="searching">Søger…</string>
     <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">Beklager, vi kunne desværre ikke finde nogle fly. </string>
+    <string name="error_no_flights_found">Ingen fly blev fundet.</string>
+    <!-- Error message when we find no flights because of an invalid departure airport -->
+    <string name="error_invalid_departure_airport">Ugyldig afgangslufthavn.</string>
+    <!-- Error message when we find no flights because of an invalid arrival airport -->
+    <string name="error_invalid_arrival_airport">Ugyldig ankomstlufthavn.</string>
+    <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
+    <string name="error_invalid_departure_arrival_airports">Ugyldig afgangs- og ankomstlufthavne.</string>
     <!-- Pluralization for # of seats left on a flight -->
     <plurals name="seats_left">
-        <item quantity="zero">&lt;b>%d&lt;/b> sæder tilbage!</item>
-        <item quantity="one">&lt;b>%d&lt;/b> sæde tilbage!</item>
-        <item quantity="two">&lt;b>%d&lt;/b> sæder tilbage!</item>
-        <item quantity="few">&lt;b>%d&lt;/b> sæder tilbage!</item>
-        <item quantity="many">&lt;b>%d&lt;/b> sæder tilbage!</item>
-        <item quantity="other">&lt;b>%d&lt;/b> sæder tilbage!</item>
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; sæder tilbage!</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; sæde tilbage!</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; sæder tilbage!</item>
+        <item quantity="few">&lt;b&gt;%d&lt;/b&gt; sæder tilbage!</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; sæder tilbage!</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; sæder tilbage!</item>
     </plurals>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Detaljer</string>
@@ -46,7 +63,7 @@
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
     <string name="outbound_TEMPLATE">Udgående fly til %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">Returfly til %s</string>
+    <string name="inbound_TEMPLATE">Returflyvning til %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Beklager, vi kunne desværre ikke få forbindelse med Expedias servere.  Prøv igen senere.</string>
     <!-- Label for changing sort order on flights -->
@@ -89,18 +106,22 @@
         <item quantity="many">%1$s fly til %2$s</item>
         <item quantity="other">%1$s fly til %2$s</item>
     </plurals>
+    <!-- Baggage fee loading error -->
+    <string name="baggage_fee_loading_error_TEMPLATE">Fejl ved hentning af oplysninger om bagagegebyr! Fejlmeddelelse: %1$s</string>
+    <!-- Title for screen when in an invalid POS we can't search for yet -->
+    <string name="taking_off_soon">Afgang om lidt...</string>
+    <!-- Text for screen when in an invalid POS we can't search for yet -->
+    <string name="invalid_flights_pos">Vi beklager, men flyreservation via mobilen er &lt;b&gt;endnu ikke tilgængelig&lt;/b&gt;, hvor du befinder dig. </string>
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Vælg en afrejsedato</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color=&quot;#343434&quot;&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (Enkeltbillet)</string>
+    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (Enkelt)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color=&quot;#343434&quot;&gt;&lt;b&gt;%1$s&lt;/b&gt; til &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; til &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Display for airports.  %1$s is the airport code, %2$s is the city name.  E.g., "BOS Boston" -->
     <string name="search_airport_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
-    <!-- Display for airports in the dropdown.  %1$s is the airport code, %2$s is the city name, %3$s is either the state code or the country name.  E.g., "BOS Boston, MA" or "SJU San Juan, Puerto Rico" -->
-    <string name="search_airport_autocomplete_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s, %3$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Sorter fly</string>
     <!-- Edit search title -->
@@ -108,11 +129,13 @@
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">Tryk for at vælge din &lt;b>&lt;font color=&quot;#3b5998&quot;>afrejsedato&lt;/font>&lt;/b>.</string>
+    <string name="calendar_instructions_nothing_selected">Tryk for at vælge din &lt;b&gt;&lt;font color="#3b5998"&gt;afrejsedato&lt;/font&gt;&lt;/b&gt;.</string>
     <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">Tryk på en &lt;b>&lt;font color=&quot;#3b5998&quot;>returdato&lt;/font>&lt;/b>. (Valgfrit)</string>
+    <string name="calendar_instructions_start_selected">Tryk på en &lt;b&gt;&lt;font color="#3b5998"&gt;returdato&lt;/font&gt;&lt;/b&gt;. (Valgfrit)</string>
     <!-- Start date and end date selected -->
-    <string name="calendar_instructions_range_selected_TEMPLATE">Rejse med %1$d overnatning er valgt.</string>
+    <string name="calendar_instructions_range_selected_TEMPLATE">Rejse med %1$d overnatning(er) er valgt.</string>
+    <!-- Start date and end date sameday -->
+    <string name="calendar_instructions_range_selected_same_day">Tur-retur på samme dag er valgt.</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -129,6 +152,8 @@
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Økonomi</string>
+    <!-- Label for "premium coach" cabin code -->
+    <string name="cabin_code_premium_coach">Premium-økonomi</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->
@@ -139,11 +164,13 @@
     <string name="depart_from_TEMPLATE">Afrejse fra %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
     <string name="arrive_at_TEMPLATE">Ankomst i %s</string>
+    <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
+    <string name="operated_by_TEMPLATE">Drives af %s</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">Nuværende betalingsoplysninger</string>
-    <!-- Or Select a new payment method-->
+    <!-- Or Select a new payment method -->
     <string name="or_select_new_paymet_method">Vælg en ny betalingsmetode</string>
     <!-- Select Payment -->
     <string name="select_payment">Vælg betaling</string>
@@ -155,12 +182,22 @@
     <string name="overview_btn">Oversigt</string>
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Vælg en gemt betalingsmetode</string>
-    
+    <!-- Payment Method -->
+    <string name="payment_method">Betalingsmetode</string>
+    <!-- Billing Address -->
+    <string name="billing_address">Faktureringsadresse</string>
+    <!-- Card Info -->
+    <string name="card_info">Kortoplysninger</string>
+
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
     <string name="total_price_label">Pris i alt</string>
     <!-- Your trip to template -->
-    <string name="your_trip_to_TEMPLATE">Din rejse til %1$s</string>
+    <string name="your_trip_to_TEMPLATE">Rejse til %1$s</string>
+    <!-- Includes taxes and fees -->
+    <string name="includes_taxes_and_fees">Inkluderer skatter og afgifter. </string>
+    <!-- Date and trip from _ to _ -->
+    <string name="trip_to_with_date">%1$s: %2$s til %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
@@ -183,6 +220,8 @@
     <string name="plus_symbol">+</string>
     <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
     <string name="equals_symbol">=</string>
+    <!-- Price changed from -->
+    <string name="price_changed_from_TEMPLATE">Prisen er blevet ændret fra %1$s</string>
 
     <!-- Section Display Flights -->
     <!-- Departs label with date (e.g. Depart: Aug 2nd) -->
@@ -205,19 +244,46 @@
     <string name="expedia_account">Expedia-konto</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Betalingsoplysninger</string>
+    <!-- Slide to purchase -->
+    <string name="slide_to_purchase">Skub for at købe. </string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_TEMPLATE">Der trækkes %1$s fra dit kort</string>
+    <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
+    <string name="collected_by_the_hotel_TEMPLATE">%1$s opkrævet af hotellet</string>
+    <!-- Checkout menu item -->
+    <string name="menu_checkout">Til kassen</string>
+    <!-- Our best price gaurentee string -->
+    <string name="best_price_guarantee">Prisgaranti</string>
+    <!-- Free cancellation template string where we insert the date the free cancellation expires -->
+    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis afbestilling&lt;/b&gt; inden &lt;b&gt;%s&lt;/b&gt;</string>
+
+    <!-- Hotel Traveler Info Options Activity -->
+    <!-- Done menu item -->
+    <string name="menu_done">Afslut</string>
+
+    <!-- Cost breakdown dialog -->
+    <!-- Cost Summary -->
+    <string name="cost_summary">Omkostningsoversigt</string>
+    <!-- Expedia booking fee -->
+    <string name="expedia_booking_fee">Expedia-reservationsgebyr</string>
+    <!-- Flight -->
+    <string name="flight">Fly</string>
+    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
+    <string name="traveler_num_and_category_TEMPLATE">Rejsende %1$d - %2$s</string>
+    <!-- Adult -->
+    <string name="adult"> voksen</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
-    <string name="enter_traveler_info">Indtast oplysninger omrejsende</string>
+    <string name="enter_traveler_info">Oplysninger om rejsende</string>
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Særlig assistance: %1$s</string>
-    <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number)-->
+    <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Født %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color=&quot;#919191&quot;>Født&lt;/font> %1$s</string>
-
+    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Født&lt;/font&gt; %1$s</string>
 
     <!-- Section edit contact -->
     <!-- first name hint -->
@@ -230,18 +296,16 @@
     <string name="email_address_hint">E-mailadresse</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Telefonnummer</string>
-    <!--  Cardholder -->
+    <!-- Cardholder -->
     <string name="cardholder">Kortindehaver</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Din bekræftelses-e-mail vil blive sendt hertil</string>
-    <!-- Expires on colored template-->
-    <string name="expires_colored_TEMPLATE">&lt;font color=&quot;#919191&quot;>Udløber&lt;/font> %1$s</string>
+    <!-- Expires on colored template -->
+    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Udløber&lt;/font&gt; %1$s</string>
 
     <!-- Section display payment -->
-    <!-- Enter payment info button text -->
-    <string name="enter_payment_info">Indtast betalingsoplysninger</string>
     <!-- Template for blanked out Credit Card -->
-    <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b>%2$s&lt;/b></string>
+    <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b&gt;%2$s&lt;/b&gt;</string>
 
     <!-- Section display address -->
     <!-- Enter address info button text -->
@@ -277,19 +341,20 @@
     <!-- save billing info -->
     <string name="save_billing_info">Gem faktureringsoplysninger</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Tryk på Gem for at gemme dine faktureringsoplysninger i din Expedia-konto.</string>
+    <string name="save_billing_info_message">Vil du gemme denne betalingsmetode på din Expedia-konto, så det bliver hurtigere at reservere i fremtiden?</string>
     <!-- save -->
     <string name="save">Gem</string>
     <!-- dont save -->
     <string name="dont_save">Gem ikke</string>
-    
+
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Gem rejsende</string>
-    <!-- save traveler message -->
-    <string name="save_traveler_message">Tryk på Gem for at gemme denne rejsende i din Expedia-konto.</string>
-    
-    
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_message_TEMPLATE">Vil du gemme %1$ss oplysninger på din Expedia-konto, så det bliver hurtigere at reservere i fremtiden?</string>
+    <!-- no thanks -->
+    <string name="no_thanks">Nej tak</string>
+
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
     <string name="traveler_information">Oplysninger om rejsende</string>
@@ -331,15 +396,15 @@
     <string name="seating">Sæde</string>
     <!-- Assistance label -->
     <string name="assistance">Hjælp</string>
-    
+    <!-- Saving traveler info spinner dialog -->
+    <string name="saving_traveler">Gemmer oplysninger om rejsende på din konto...</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
     <string name="none">Ingen</string>
     <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color=&quot;#919191&quot;>%1$s er&lt;/font> %2$s</string>
-    
-    
+    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s er&lt;/font&gt; %2$s</string>
+
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
     <string name="select_a_traveler">Vælg en rejsende</string>
@@ -352,7 +417,13 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Foretrukket sæde: %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color=&quot;#919191&quot;>Foretrukket sæde&lt;/font> %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Foretrukket sæde: &lt;/font&gt;%1$s</string>
+    <!-- loading traveler info -->
+    <string name="loading_traveler_info">Henter oplysninger om rejsende</string>
+    <!-- Traveler Information -->
+    <string name="traveler_information">Oplysninger om rejsende</string>
+    <!-- Passport -->
+    <string name="passport">Pas</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -363,14 +434,155 @@
     <string name="any">Ingen præference</string>
 
     <!-- Assistance Types -->
-    <!--  No assistance type -->
+    <!-- No assistance type -->
     <string name="no_assistance">Ingen særlig assistance påkrævet</string>
-    <!-- Wheelchair -->
-    <string name="wheelchair">Kørestol</string>
-    <!-- DEFIBRILLATOR -->
-    <string name="defibrillator">Defibrillator</string>
-    <!-- Super long for test purposes -->
-    <string name="super_long_assistance">Meget lang assistancetype, der vil blive tilpasset</string>
+    <!-- Blind with seeing eye dog -->
+    <string name="blind_with_seeing_eye_dog">Blind med førerhund</string>
+    <!-- Deaf with hearing dog -->
+    <string name="deaf_with_hearing_dog">Døv med hørehund</string>
+    <!-- Wheelchair needed -->
+    <string name="wheel_chair_needed">Brug for kørestol</string>
+    <!-- Cannot climb/descend stairs -->
+    <string name="cannot_climb_stairs">Kan ikke gå op/ned ad trapper</string>
+    <!-- Can climb/descent stairs -->
+    <string name="can_climb_stairs">Kan gå op/ned ad trapper</string>
+    <!-- Immobile -->
+    <string name="immobile">Kan ikke bevæge sig</string>
+    <!-- Wheelchair needed (cannot climb/descend stairs) -->
+    <string name="wheelchair_no_stairs">Brug for kørestol (kan ikke gå op/ned ad trapper)</string>
+    <!-- Wheelchair needed (can climb/descend stairs) -->
+    <string name="wheelchair_stairs_ok">Brug for kørestol (kan gå op/ned ad trapper)</string>
+    <!-- Wheelchair (immobile) -->
+    <string name="wheelchair_immobile">Kørestol (kan ikke bevæge sig)</string>
+
+    <!-- Flight confirmation page -->
+    <!-- Title for flight confirmation page -->
+    <string name="booking_complete">Reservation gennemført</string>
+    <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
+    <string name="yay_going_somewhere_TEMPLATE">Du skal til %s!</string>
+    <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
+    <string name="itinerary_confirmation_TEMPLATE">Rejseplansnummer %s er sendt til</string>
+    <!-- Title for section helping users get hotel rooms after booking a flight -->
+    <string name="get_a_room">Mangler du et værelse?</string>
+    <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
+    <string name="hotels_in_TEMPLATE">Hoteller i %s</string>
+    <!-- Title for section helping users in other various ways -->
+    <string name="more_actions">Andet</string>
+    <!-- Button label for sharing your recently booked trip -->
+    <string name="share_trip">Del rejse</string>
+    <!-- Button label for adding a recently booked flight to the calendar -->
+    <string name="add_to_calendar">Tilføj til kalender</string>
+    <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
+    <string name="add_to_flighttrack">Følg flyafgange med FlightTrack</string>
+    <!-- Button label for calling expedia customer support -->
+    <string name="call_expedia_customer_support">Ring til Expedias kundeservice</string>
+
+    <!-- Add to calendar -->
+    <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
+    <string name="calendar_flight_title_TEMPLATE">%1$s til %2$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
+    <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia-rejseplansnummer: %s</string>
+    <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
+    <string name="calendar_flight_desc_directions_TEMPLATE">Rutevejledning til lufthavnen: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE">Expedias kundeservice: %s</string>
+
+    <!-- Flight Rules -->
+    <!-- Legal information header -->
+    <string name="legal_information">Juridiske oplysninger</string>
+    <!-- Rules and Restrictions for flight -->
+    <string name="rules_and_restrictions">Regler og begrænsninger</string>
+    <!-- Terms and Conditions for flight -->
+    <string name="terms_and_conditions">Vilkår og betingelser</string>
+    <!-- Privacy policy -->
+    <string name="privacy_policy">Beskyttelse af personlige oplysninger</string>
+    <!-- Fare information header -->
+    <string name="fare_information">PRISOPLYSNINGER</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">Ved at gennemføre denne reservation bekræfter jeg, at jeg har læst og accepteret &lt;u&gt;&lt;b&gt;regler og begrænsninger,&lt;/b&gt; &lt;b&gt;vilkår og betingelser,&lt;/b&gt; &lt;b&gt;fortrolighedspolitik&lt;/b&gt; og &lt;b&gt;prisoplysninger.&lt;/b&gt;&lt;/u&gt;</string>
+
+    <!-- Flight dialog  errors -->
+    <!-- Title of screen if user entered an invalid security code -->
+    <string name="title_invalid_security_code">Ugyldig sikkerhedskode</string>
+    <!-- Button label for cancelling on error -->
+    <string name="cancel">Annuller</string>
+    <!-- Button label for accepting an error and moving forward -->
+    <string name="accept">Godkend</string>
+    <!-- Button label for retrying after getting an error -->
+    <string name="retry">Forsøg igen</string>
+    <!-- Button label for calling -->
+    <string name="call_support">Support</string>
+    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
+    <string name="error_flight_price_increased">Det lader til, at flyselskabet lige har hævet prisen på din billet med %1$s. Vil du gerne betale det nye samlede beløb på %2$s?</string>
+    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
+    <string name="error_flight_price_decreased">Vi har lige fundet dine ønskede flybilletter på udsalg, hvor du kan spare %1$s. Vi du gerne betale det nye samlede beløb på %2$s?</string>
+    <!-- Error shown to user if their credit card number is invalid -->
+    <string name="error_invalid_card_number">Du har indtastet et ugyldigt kortnummer. Prøv venligst igen.</string>
+    <!-- Error shown to user if their credit card has expired -->
+    <string name="error_expired_payment">Det kreditkort, du forsøgte at anvende, er udløbet. Forsøg venligst med et andet kreditkort. </string>
+    <!-- Error shown to user if we don't know what exaclty what went wrong. -->
+    <string name="error_flight_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Forsøg venligst igen.</string>
+    <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
+    <string name="error_flight_unhandled_TEMPLATE">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Forsøg venligst igen, eller ring til Expedias kundeservice. Opgiv følgende rejseplansnummer: %s</string>
+    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
+    <string name="error_flight_no_longer_available">Vi beklager meget, men dit fly er ikke længere tilgængeligt. </string>
+    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
+    <string name="error_flights_no_longer_available">Vi beklager meget, men et af dine fly er ikke længere tilgængeligt. </string>
+    <!-- Button label imploring users to pick a new flight due to unavailability -->
+    <string name="pick_new_flight">Vælg et nyt fly</string>
+    <!-- Button label imploring users to pick flights due to unavailability -->
+    <string name="pick_new_flights">Vælg nye fly</string>
+
+    <!-- Credit card input section -->
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="zero">0</string>
+    <string name="book">Reserver</string>
+
+    <!-- Highlight view stuff -->
+    <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
+    <string name="cvv_code_TEMPLATE">Kontrolcifre for: &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
+    <string name="card_ending_TEMPLATE">kort, der ender med %s</string>
+    <!-- Title for screen telling you to complete your booking by entering a CVV # -->
+    <string name="title_complete_booking">Færdiggør reservation</string>
+
+    <!-- Flight booking sharing -->
+    <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
+    <string name="share_flight_title_TEMPLATE">Expedias rejseplan - %1$s (%2$s)</string>
+    <!-- The first line of the share flight email -->
+    <string name="share_flight_start">Her er mine flyreservationsoplysninger</string>
+    <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE">Enkeltbillet fra %1$s til %2$s</string>
+    <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE">Returrejse fra %1$s til %2$s</string>
+    <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
+    <string name="share_flight_itinerary_TEMPLATE">Rejseplansnummer: %s</string>
+    <!-- The user's name, presented to them.  %s is their name. -->
+    <string name="share_flight_name_TEMPLATE">Navn: %s</string>
+    <!-- Header for the outbound flight details section of the share flight email -->
+    <string name="share_flight_section_outbound">Udrejse: </string>
+    <!-- Header for the return flight details section of the share flight email -->
+    <string name="share_flight_section_return">Returrejse:</string>
+    <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
+    <string name="share_flight_ticket_cost_TEMPLATE">Samlet billetpris: %s</string>
+    <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
+    <string name="share_flight_taxes_fees_TEMPLATE">Skatter og gebyrer: %s</string>
+    <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
+    <string name="share_flight_airfare_total_TEMPLATE">Samlet pris på flybillet: %s</string>
+    <!-- Alerts the user to potential other charges.  %s is a URL -->
+    <string name="share_flight_additional_fees_TEMPLATE">Flyselskabet kan opkræve yderligere gebyrer (%s) for indtjekket bagage eller andre valgfrie services. </string>
+    <!-- Gives the user a method of getting support.  %s is a phone number -->
+    <string name="share_flight_support_TEMPLATE">Hvis du har spørgsmål til din reservation, så ring venligst til Expedia på %s</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -379,7 +591,6 @@
     <string name="hint_search_location">Søg efter placering</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Indlæser forslag...</string>
-    
     <string name="app_name">Expedia</string>
 
     <!-- General -->
@@ -405,7 +616,7 @@
     <!-- Label for picking checkin/checkout dates -->
     <string name="drag_to_extend_your_stay">&lt;b&gt;Træk&lt;/b&gt; for at forlænge dit ophold.</string>
     <!-- Label for picking guests for hotel booking -->
-    <string name="who_is_going">&lt;b&gt;Hvem&lt;/b&gt; skal rejse?</string>
+    <string name="who_is_going">&lt;b&gt;Hvem&lt;/b&gt; skal med?</string>
     <!-- Child age dialog button -->
     <string name="button_done">Afslut</string>
     <!-- Label for child age selection prompt -->
@@ -425,7 +636,7 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; år</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;Mindre end 1&lt;/b&gt; år</string>
+    <string name="child_age_less_than_one">&lt;b&gt;Mindre end 1 år&lt;/b&gt;</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -444,11 +655,11 @@
     <!-- Label for "start search" button -->
     <string name="search">Søg</string>
     <!--
-        The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
+         The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
         1$ - The search address
         2$ - The check-in date
         3$ - The check-out date
-        The dates may include year, if we cross a year boundary
+        The dates may include year, if we cross a year boundary 
     -->
     <string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; til &lt;b&gt;%3$s&lt;/b&gt;</string>
     <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
@@ -461,6 +672,8 @@
     </plurals>
     <!-- Search header, Example: "42 Hotels Found" -->
     <string name="search_header_num_hotels">%d hoteller fundet</string>
+    <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
+    <string name="date_range_TEMPLATE">%1$s til %2$s</string>
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filtrer efter hotelnavn</string>
     <!-- Label indicating that there are no results matching their current filter -->
@@ -482,7 +695,7 @@
     <!-- Message when app is loading saved search results -->
     <string name="loading_previous">Henter tidligere søgeresultater…</string>
     <!-- Label for sort hotels button in bottom bar -->
-    <string name="sort_hotels">&quot;Sorter efter: &quot;</string>
+    <string name="sort_hotels">"Sorter efter: "</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SORTER</string>
     <!-- Label for sort hotels in hotel list -->
@@ -490,18 +703,18 @@
     <!-- Label for sort hotels in hotel list -->
     <string name="SORT">SORTER</string>
     <!-- Label to swtich between map and list search results -->
-    <string name="switch_view">Skift visning visning</string>
+    <string name="switch_view">Skift visning</string>
     <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-    <string name="sort_hotels_template">&lt;b&gt;Sorter efter&lt;/b&gt;: %s</string>
+    <string name="sort_hotels_template">&lt;b&gt;Sorter&lt;/b&gt;: %s</string>
     <!-- Label for filter hotels button in bottom bar -->
     <string name="filter_hotels">Filtrer hoteller</string>
     <!-- A number of results -->
     <plurals name="number_of_results">
-        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultater</item>
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultat</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultater</item>
-        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultater</item>
-        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultater</item>
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultater.</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultat.</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultater.</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultater.</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultater.</item>
     </plurals>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Eksklusivt for mobil</string>
@@ -520,7 +733,7 @@
     <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
     <string name="booked_this_in_the_last_hours_template">har booket dette inden for de sidste %d timer</string>
 
-    <!-- Expedia urgency messaging indicating the number of rooms left-->
+    <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
         <item quantity="one">%d værelse tilbage!</item>
         <item quantity="two">%d værelser tilbage</item>
@@ -531,7 +744,7 @@
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">For at bruge Min Placering skal du først gå til Indstillinger og tænde for en placeringskilde.\nVil du gå til Indstillinger og tænde for den nu?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">Din placeringssøger er deaktiveret. Genstart den venligst for at søge efter din nuværende placering.</string>
+    <string name="ProviderDisabled">Din placeringssøger er deaktiveret. Genstart den venligst for at søge efter din aktuelle placering.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
     <string name="ProviderOutOfService">Din placeringssøger er udenfor rækkevidde. Prøv igen senere.</string>
     <!-- Message displayed when the location provider is temporarily unavailable. -->
@@ -570,15 +783,21 @@
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
-    <string name="progress_finding_location">Finder nuværende placering…</string>
+    <string name="progress_finding_location">Finder aktuelle placering…</string>
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Søger efter hoteller…</string>
     <!-- Message displayed when search comes up with zero results -->
     <string name="progress_search_failed">Ingen hoteller fundet</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="no_hotels_availiable_tonight">Ingen tilgængelige hoteller i aften</string>
+    <!-- Message displayed when search comes up with zero results -->
+    <string name="no_hotels_availiable">Ingen tilgængelige hoteller</string>
+    <!-- Message displayed when user need to change input to correct search -->
+    <string name="please_try_a_different_location_or_date">Forsøg venligst med en anden beliggenhed eller dato. </string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
-    <string name="current_location">Nuværende placering</string>
+    <string name="current_location">Aktuelle placering</string>
     <!-- Suggestion to search the currently visible map area on the screen -->
     <string name="visible_map_area">Synligt område på kort</string>
 
@@ -745,11 +964,11 @@
     <!-- Read more of the review -->
     <string name="user_review_read_more">Læs mere</string>
     <!--
-        User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
+         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel
         2$ represents the total number of guests
     -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; ud af &lt;b&gt;%2$d&lt;/b&gt; gæster anbefaler dette hotel. </string>
+    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; ud af &lt;b&gt;%2$d&lt;/b&gt; gæster anbefaler dette hotel.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">Ingen anmeldelser</string>
     <!-- A number of reviews -->
@@ -761,7 +980,7 @@
         <item quantity="other">%d anmeldelser</item>
     </plurals>
     <!--
-        User review name and place review signature eg (John from San Diego, CA)
+         User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
         2$ is the place they are from
     -->
@@ -820,6 +1039,10 @@
     <string name="common_value_add_template">Alle værelser inkluderer %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Vælg et værelse</string>
+    <!-- The text we use when the search date it tonight -->
+    <string name="Tonight">I aften</string>
+    <!-- The text we use when the search date it tonight -->
+    <string name="free_cancellation">Gratis afbestilling</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
@@ -906,7 +1129,7 @@
     <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
     <string name="charges_info">Totalprisen for hotel, inklusive skatter, bliver opkrævet på hotellet.</string>
     <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-    <string name="EnterBookingInfo">Indtast reservationsoplysninger</string>
+    <string name="EnterBookingInfo">Indtast oplysninger</string>
     <!-- Message at the bottom of the booking screen with how much you will be charged -->
     <string name="charge_details_template">Der trækkes %s fra dit kreditkort</string>
     <!-- Button label for confirming your booking -->
@@ -952,13 +1175,17 @@
     <!-- Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24") -->
     <string name="check_in_out_time_template">%1$s, %2$s</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
-    <string name="enter_booking_info">Indtast reservationsoplysninger</string>
+    <string name="enter_booking_info">Indtast oplysninger</string>
     <!-- Title for action bar when the user is on the booking info screen -->
     <string name="booking_information_title">Reservationsoplysninger</string>
     <!-- Title for dialog where the user is prompted to enter booking booking information -->
     <string name="booking_information_dialog_title">Fuldfør din reservation</string>
 
     <!-- Confirmation activity -->
+    <!-- Title for confirmation screen -->
+    <string name="booking_complete">Reservation gennemført</string>
+    <!-- Friendly message at the top of the receipt -->
+    <string name="Enjoy_your_stay">Nyd dit ophold.</string>
     <!-- Format for a first/last name -->
     <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
@@ -971,6 +1198,8 @@
     <string name="confirmation_email">Bekræftelsesmail</string>
     <!-- Label for starting a new search -->
     <string name="new_search">Ny søgning</string>
+    <!-- ActionBar button for starting a new search -->
+    <string name="NEW_SEARCH">NY SØGNING</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Hvis du har spørgsmål til din reservation, så ring venligst til Expedia på %s.</string>
 
@@ -1029,6 +1258,8 @@
     <string name="login_success">Gennemført! Du er nu logget på.</string>
     <!-- Message that tells user they failed to log in -->
     <string name="login_failed">Log venligst på igen</string>
+    <!-- Message that tells user why they failed to stay logged in -->
+    <string name="logged_out_due_to_inactivity">Du er blevet logget ud på grund af inaktivitet. </string>
     <!-- Label for login widget button -->
     <string name="account_login">Log på konto</string>
     <!-- Label for logout confirmation -->
@@ -1083,6 +1314,8 @@
     <string name="cancellation_policy">Afbestillingspolitik</string>
 
     <!-- About activity -->
+    <!-- Section Header for expedia section -->
+    <string name="EXPEDIA">EXPEDIA</string>
     <!-- Label for "contact Expedia" button in info page -->
     <string name="contact_expedia">Kontakt Expedia</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
@@ -1103,6 +1336,8 @@
     <string name="expedia_website_description">Besøg vores hjemmeside for at reservere flybilletter, billeje, pakkerejser, samt mere.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">Lad os høre, hvad du synes om vores app.</string>
+    <!-- Section Header for interaction section -->
+    <string name="INTERACT">KONTAKT OS</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App Support</string>
     <!-- Extra description for "app support" button, when space allows -->
@@ -1117,6 +1352,8 @@
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
     <string name="tell_a_friend_body">Hej, \n\nSe den nye Expedia Hotels-app til iPhone- og Android-telefoner. Det er GRATIS, og du kan nemt søge og reservere værelser på mere end 140.000 hoteller over hele verden. Det er den nemmeste måde at reservere hotelværelser med din telefon.\n\nhttp://www.expedia.com/app</string>
+    <!-- Section Header for our Rules and Restrictions -->
+    <string name="RULES_AND_RESTRICTIONS">REGLER OG BEGRÆNSNINGER</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Vilkår og betingelser</string>
     <!-- Label for link to privacy policy -->
@@ -1143,6 +1380,8 @@
     <string name="Follow">Følg</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">Synes godt om</string>
+    <!-- Credits to the open source libraries we use -->
+    <string name="open_source_credits">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
