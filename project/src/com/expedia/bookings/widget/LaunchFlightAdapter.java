@@ -7,7 +7,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Destination;
 import com.expedia.bookings.data.LaunchFlightData;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.BackgroundDownloader;
@@ -103,13 +101,12 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		// Load the image
 
 		String url = destination.getImageUrl();
-		View banner = Ui.findView(view, R.id.launch_tile_banner_container);
 
 		// We don't have an image url, go to network and grab the url
 		if (url == null) {
 			String code = destination.getDestinationId();
 			ImageInfoDownload imageInfoDownload = new ImageInfoDownload(code);
-			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(destination, container, banner);
+			ImageInfoCallback imageInfoCallback = new ImageInfoCallback(destination, container, titleTextView);
 
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			bd.cancelDownload(getBGDKey(code));
@@ -123,11 +120,11 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		else {
 			if (ImageCache.containsImage(url)) {
 				container.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache.getImage(url)));
-				toggleTile(banner, true);
+				toggleTile(titleTextView, true);
 			}
 			else {
-				loadImageForLaunchStream(url, container, banner);
-				toggleTile(banner, false);
+				loadImageForLaunchStream(url, container, titleTextView);
+				toggleTile(titleTextView, false);
 			}
 		}
 

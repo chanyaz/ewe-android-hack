@@ -11,24 +11,18 @@
         android:layout_alignParentTop="true"
         android:background="@color/launch_band" />
 
-    <RelativeLayout
-        android:id="@+id/launch_tile_banner_container"
+    <TextView
+        android:id="@+id/launch_tile_title_text_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/launch_tile_banner_height"
         android:layout_alignParentBottom="true"
         android:background="@drawable/launch_tile_overlay"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/launch_tile_title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="4dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/launch_primary" />
-    </RelativeLayout>
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:paddingLeft="4dp"
+        android:singleLine="true"
+        android:textColor="@color/launch_primary"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
