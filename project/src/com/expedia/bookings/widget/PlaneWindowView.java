@@ -153,6 +153,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		private static final double MAX_PITCH = 6; // Maximum pitch in degrees (in either direction)
 
+		private static final double PITCH_PADDING_Y = 3; // Extra padding for sky to account for pitch changes (in dp)
+
 		private static final double MAX_TRANSLATION_Y = 75; // Maximum Y-translation of sky in dp (max roll)
 
 		private static final float MAX_SENSOR_Z = .5f; // Translates Z-sensor into MAX_TRANSLATION_Y
@@ -210,6 +212,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		private float mSensorZ = 0;
 		private double mPitch = 0;
 		private double mPitchTarget = 0;
+		private double mPitchPaddingY;
 		private float mPitchPivotX;
 		private float mPitchPivotY;
 		private double mRollPercent = 0;
@@ -241,7 +244,9 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			mSurfaceHolder = surfaceHolder;
 
 			Resources res = getResources();
-			mMaxTranslationY = res.getDisplayMetrics().density * MAX_TRANSLATION_Y;
+			float density = res.getDisplayMetrics().density;
+			mPitchPaddingY = density * PITCH_PADDING_Y;
+			mMaxTranslationY = density * MAX_TRANSLATION_Y;
 			mBgColor = res.getColor(R.color.plane_window_background);
 
 			mSkyPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
@@ -334,16 +339,12 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				mVisibleFrameRect.bottom = mVisibleFrameRect.top + mVisibleFrameHeight;
 
 				if (!mIsGrounded) {
-					// Figure out the rotation skybox, which is larger than the actual visible
-					// skybox.  This is because if we rotate the image, we want it to still draw
-					// the entire space.
-					double diagonal = Math.sqrt(Math.pow(mVisibleFrameWidth, 2) + Math.pow(mVisibleFrameHeight, 2)) / 2;
-					double padLeftRight = diagonal - (mVisibleFrameWidth / 2);
-					double padTopBot = diagonal - (mVisibleFrameHeight / 2);
-					mSkyDstFull = new Rect((int) (mVisibleFrameRect.left - padLeftRight),
-							(int) (mVisibleFrameRect.top - padTopBot - mMaxTranslationY),
-							(int) (mVisibleFrameRect.right + padLeftRight),
-							(int) (mVisibleFrameRect.bottom + padTopBot + mMaxTranslationY));
+					// We need to expand the skybox to handle rotation.  Right now we've got a hardcoded
+					// extra padding, but at some point we might want to do the actual math (so we don't
+					// have to keep updating it whenever we change MAX_PITCH).
+					mSkyDstFull = new Rect(mVisibleFrameRect);
+					mSkyDstFull.top -= (mPitchPaddingY + mMaxTranslationY);
+					mSkyDstFull.bottom += (mPitchPaddingY + mMaxTranslationY);
 
 					// Pre-scale sky bitmap
 					BitmapFactory.Options skyBounds = decodeBounds(res, R.drawable.loading_repeating_sky);
@@ -396,8 +397,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				Bitmap origWindowShadeBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_window_shade, opts);
 				Log.v("Window shade width,height: " + origWindowShadeBitmap.getWidth() + ", "
 						+ origWindowShadeBitmap.getHeight());
-				mWindowShadeBitmap = Bitmap.createScaledBitmap(origWindowShadeBitmap, windowShadeWidth, windowShadeHeight,
-						true);
+				mWindowShadeBitmap = Bitmap.createScaledBitmap(origWindowShadeBitmap, windowShadeWidth,
+						windowShadeHeight, true);
 				origWindowShadeBitmap.recycle();
 				mShadeHeight = mWindowShadeBitmap.getHeight();
 				mShadeMinY = mShadeY = (int) (.17 * mShadeHeight);
@@ -610,7 +611,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				// Apply clip/rotation for the sky
 				canvas.clipRect(mVisibleFrameRect);
 				canvas.rotate((float) mPitch, mPitchPivotX, mPitchPivotY);
-				canvas.translate((int) -mSkyOffset, (float) (mRollPercent * MAX_TRANSLATION_Y));
+				canvas.translate((int) -mSkyOffset, (float) (mRollPercent * mMaxTranslationY));
 
 				// Draw two skies, one after another, and let the clipping handle what should be shown
 				canvas.drawBitmap(mSkyBitmap, 0, mSkyDstFull.top, mSkyPaint);
