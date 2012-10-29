@@ -1,29 +1,22 @@
 package com.expedia.bookings.widget;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 
-public class LaunchStreamListView extends MeasureListView implements OnTouchListener, OnGestureListener {
+public class LaunchStreamListView extends MeasureListView implements OnScrollListener {
 
 	private LaunchStreamListView mSlaveView;
-	private GestureDetector mGestureDetector;
 
 	public LaunchStreamListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		//setOnScrollListener(this);
-		setOnTouchListener(this);
-		mGestureDetector = new GestureDetector(context, this);
+		setOnScrollListener(this);
 	}
 
 	public void setSlaveView(LaunchStreamListView slave) {
@@ -51,91 +44,73 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// OnTouchListener / GestureDetector
+	// OnScrollListener
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// All this stuff is to keep the two ListView's in sync. Send flick and scroll 
-	// touch gestures to the slave view, but intercept click gestures, since we don't want
-	// to click on both ListView's.
 
-	// This list contains a list of events that are intended for dispatch to the slave. events are queued up rather than
-	// sent directly so as not to erroneously send click events to the slave. we only want to share the move/fling
-	// events
-	private List<MotionEvent> eventsForSlave = new ArrayList<MotionEvent>();
+	private boolean mDoNotPropogateNextScrollEvent = false;
+
+	protected void mDoNotPropogateNextScrollEvent() {
+		mDoNotPropogateNextScrollEvent = true;
+	}
 
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		// Set the other ListView onTouchListener to null
-		// to ensure there does not exist resonance in touch dispatch
-		mSlaveView.setOnTouchListener(null);
-
-		int action = event.getAction();
-
-		// Our OnGestureListener implementation returns true if it is click event. clear out the slave event queue to
-		// prevent click events from being sent to the slave view
-		if (mGestureDetector.onTouchEvent(event)) {
-			eventsForSlave.clear();
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if (mSlaveView == null) {
+			return;
 		}
 
-		// If it is not a tap click, queue up the events to be sent over to slave view once down and up have occurred
+		int deltaY = getDistanceScrolled();
+
+		if (mDoNotPropogateNextScrollEvent) {
+			mDoNotPropogateNextScrollEvent = false;
+			return;
+		}
+
+		mSlaveView.mDoNotPropogateNextScrollEvent();
+
+		mSlaveView.scrollListBy(deltaY);
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		if (mSlaveView == null) {
+			return;
+		}
+
+		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+			resumeMarquee();
+			mSlaveView.resumeMarquee();
+		}
 		else {
+			stopMarquee();
+			mSlaveView.stopMarquee();
+		}
+	}
 
-			// add this event to the list
-			eventsForSlave.add(MotionEvent.obtain(event));
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// getDistanceScrolled
+	//////////////////////////////////////////////////////////////////////////////////////////
 
-			// gesture is complete, send the dispatch stream of MotionEvents and clear list
-			if (action == MotionEvent.ACTION_UP) {
-				eventsForSlave.add(MotionEvent.obtain(event));
+	private int mDistanceScrolledPosition;
+	private int mDistanceScrolledOffset;
 
-				for (MotionEvent ev : eventsForSlave) {
-					mSlaveView.dispatchTouchEvent(ev);
-				}
-
-				eventsForSlave.clear();
-			}
-
+	// Returns the distance scrolled since the last call to this function.
+	// *** This will only work if all cells in this ListView are the same height.
+	private int getDistanceScrolled() {
+		if (getChildAt(0) == null || getChildAt(1) == null) {
+			return 0;
 		}
 
-		// Post the resetting of the onTouchListener on ACTION_UP
-		// as that is when the ListView is no longer touched.
-		if (action == MotionEvent.ACTION_UP) {
-			mSlaveView.post(new Runnable() {
-				@Override
-				public void run() {
-					mSlaveView.setOnTouchListener(mSlaveView);
-				}
-			});
-		}
+		int position = getFirstVisiblePosition();
+		int offset = getChildAt(0).getTop();
+		int height = getChildAt(1).getTop() - offset;
 
-		// return false to pass the MotionEvent down to child
-		return false;
-	}
+		int deltaY = (mDistanceScrolledPosition - position) * height + (offset - mDistanceScrolledOffset);
 
-	@Override
-	public boolean onDown(MotionEvent e) {
-		return false;
-	}
+		mDistanceScrolledPosition = position;
+		mDistanceScrolledOffset = offset;
 
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e) {
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		return false;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent e) {
-	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
-		return true;
+		return deltaY;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -182,6 +157,12 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 			mMarquee = new Marquee(this);
 		}
 		mMarquee.start();
+	}
+
+	public void resumeMarquee() {
+		if (mMarquee != null) {
+			mMarquee.start();
+		}
 	}
 
 	public void stopMarquee() {
@@ -262,11 +243,12 @@ public class LaunchStreamListView extends MeasureListView implements OnTouchList
 
 		void start() {
 			final LaunchStreamListView listView = mView.get();
-			if (listView != null) {
+			if (mStatus == MARQUEE_STOPPED && listView != null) {
 				mStatus = MARQUEE_STARTING;
 				sendEmptyMessageDelayed(MESSAGE_START, MARQUEE_DELAY);
 			}
 		}
+
 	}
 
 }
