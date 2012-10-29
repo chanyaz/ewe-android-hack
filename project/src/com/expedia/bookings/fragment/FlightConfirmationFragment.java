@@ -34,23 +34,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Itinerary;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.*;
 import com.expedia.bookings.data.SearchParams.SearchType;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.FlightLegSummarySection;
-import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.*;
 import com.expedia.bookings.utils.FontCache.Font;
-import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
@@ -200,8 +188,6 @@ public class FlightConfirmationFragment extends Fragment {
 		tv.setText(text);
 	}
 
-	
-
 	//////////////////////////////////////////////////////////////////////////
 	// Search for hotels
 
@@ -214,6 +200,14 @@ public class FlightConfirmationFragment extends Fragment {
 		return retCal;
 	}
 
+	// If we are comparing days between by using Calendar.after and before, must set hours/minutes/seconds to zero
+	private void normalizeForQuickTimeComparison(Calendar cal) {
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+	}
+
 	private void searchForHotels() {
 		//Where flights meets hotels
 		SearchParams sp = new SearchParams();
@@ -223,17 +217,29 @@ public class FlightConfirmationFragment extends Fragment {
 		int legCount = Db.getFlightSearch().getSelectedFlightTrip().getLegCount();
 		FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
 		Calendar checkinDate = firstLeg.getLastWaypoint().getMostRelevantDateTime();
-		sp.setCheckInDate(checkinDate);
+
+		// h637 we set the TimeZone to UTC in anticipation of it being called later on in the flow. Originally, the 
+		// TimeZone was not being set on construction and then set to UTC after day, month, year were set which in turn
+		// caused the Calendar DATE field to be incremented one day forward when accessed via get(FIELD)
+		Calendar checkinNormalized = Calendar.getInstance();
+		checkinNormalized.setTimeZone(CalendarUtils.getFormatTimeZone());
+		checkinNormalized.set(Calendar.DATE, checkinDate.get(Calendar.DATE));
+		checkinNormalized.set(Calendar.MONTH, checkinDate.get(Calendar.MONTH));
+		checkinNormalized.set(Calendar.YEAR, checkinDate.get(Calendar.YEAR));
+		sp.setCheckInDate(checkinNormalized);
 
 		if (legCount > 1) {
 			//Round trip
 			FlightLeg lastLeg = Db.getFlightSearch().getSelectedFlightTrip()
 					.getLeg(Db.getFlightSearch().getSelectedFlightTrip().getLegCount() - 1);
 			Calendar checkoutDate = waypointTimeToHotelTime(lastLeg.getFirstWaypoint().getMostRelevantDateTime());
+			// Note: waypointTimeToHotelTime returns a copy of the time from Db, so we can modify it here
+			normalizeForQuickTimeComparison(checkoutDate);
 
 			Calendar checkoutDateCeiling = Calendar.getInstance();
 			checkoutDateCeiling.setTime(checkinDate.getTime());
 			checkoutDateCeiling.add(Calendar.DAY_OF_MONTH, 28);
+			normalizeForQuickTimeComparison(checkoutDateCeiling);
 
 			// f934 do not kick off a hotel search for a more than 28 day stay
 			if (checkoutDate.after(checkoutDateCeiling)) {
