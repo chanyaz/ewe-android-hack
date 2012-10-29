@@ -245,32 +245,33 @@ public class LaunchFragment extends Fragment {
 					Db.setSearchResponse(searchResponse);
 				}
 
-				extractLaunchDataFromSearchResponse(searchResponse);
+				// Extract relevant data here
+				LaunchHotelData launchHotelData = new LaunchHotelData();
+				List<Property> properties = searchResponse.getFilteredAndSortedProperties(Filter.Sort.DEALS,
+						NUM_HOTEL_PROPERTIES);
+				launchHotelData.setProperties(properties);
+				launchHotelData.setDistanceUnit(searchResponse.getFilter().getDistanceUnit());
+				Db.setLaunchHotelData(launchHotelData);
 
-				mHotelAdapter.setProperties(Db.getLaunchHotelData());
-				mHotelsStreamListView.selectMiddle();
-				mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
-
+				onHotelDataRetrieved(true);
 			}
 
 			// Hotel search failed; user will not see reverse waterfall.
 			else {
 				// TODO what to do here, I wonder
 			}
-
 		}
 	};
 
-	// This method will grab the data relevant to launch and save it in the Db as LaunchHotelData
-	private void extractLaunchDataFromSearchResponse(SearchResponse response) {
-		LaunchHotelData launchHotelData = new LaunchHotelData();
-
-		List<Property> properties = response.getFilteredAndSortedProperties(Filter.Sort.DEALS, NUM_HOTEL_PROPERTIES);
-		launchHotelData.setProperties(properties);
-
-		launchHotelData.setDistanceUnit(response.getFilter().getDistanceUnit());
-
-		Db.setLaunchHotelData(launchHotelData);
+	private void onHotelDataRetrieved(boolean justLoaded) {
+		mHotelAdapter.setProperties(Db.getLaunchHotelData());
+		if (justLoaded) {
+			mHotelsStreamListView.selectMiddle();
+		}
+		else {
+			mHotelsStreamListView.restorePosition();
+		}
+		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 	}
 
 	// Flight destination search
@@ -326,11 +327,20 @@ public class LaunchFragment extends Fragment {
 			data.setDestinations(results);
 			Db.setLaunchFlightData(data);
 
-			mFlightAdapter.setDestinations(data);
-			mFlightsStreamListView.selectMiddle();
-			mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
+			onFlightDataRetrieved(true);
 		}
 	};
+
+	private void onFlightDataRetrieved(boolean justLoaded) {
+		mFlightAdapter.setDestinations(Db.getLaunchFlightData());
+		if (justLoaded) {
+			mFlightsStreamListView.selectMiddle();
+		}
+		else {
+			mFlightsStreamListView.restorePosition();
+		}
+		mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
+	}
 
 	// View init + listeners
 
@@ -347,43 +357,33 @@ public class LaunchFragment extends Fragment {
 
 		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
 		if (launchHotelData != null) {
-			mHotelAdapter.setProperties(launchHotelData);
-			mHotelsStreamListView.restorePosition();
-			mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
+			onHotelDataRetrieved(false);
 		}
 
 		LaunchFlightData launchFlightData = Db.getLaunchFlightData();
 		if (launchFlightData != null) {
-			mFlightAdapter.setDestinations(launchFlightData);
-			mFlightsStreamListView.restorePosition();
-			mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
+			onFlightDataRetrieved(false);
 		}
 	}
 
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.hotels_button:
 				NavUtils.goToHotels(getActivity());
 
-				BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
-				BackgroundDownloader.getInstance().cancelDownload(KEY_FLIGHT_DESTINATIONS);
-
 				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
 				break;
 			case R.id.flights_button:
 				NavUtils.goToFlights(getActivity());
 
-				BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
-				BackgroundDownloader.getInstance().cancelDownload(KEY_FLIGHT_DESTINATIONS);
-
 				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
 				break;
 			}
-		}
 
+			cleanUp();
+		}
 	};
 
 	private final AdapterView.OnItemClickListener mHotelsStreamOnItemClickListener = new AdapterView.OnItemClickListener() {
@@ -396,6 +396,8 @@ public class LaunchFragment extends Fragment {
 				Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
 				intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
 				mContext.startActivity(intent);
+
+				cleanUp();
 			}
 		}
 	};
@@ -415,7 +417,18 @@ public class LaunchFragment extends Fragment {
 
 			NavUtils.goToFlights(getActivity(), true);
 
-			BackgroundDownloader.getInstance().cancelDownload(KEY_SEARCH);
+			cleanUp();
 		}
 	};
+
+	/**
+	 * Call this whenever you want to clean up the Activity, since you're moving
+	 * somewhere else.
+	 */
+	private void cleanUp() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_SEARCH);
+		bd.cancelDownload(KEY_FLIGHT_DESTINATIONS);
+
+	}
 }
