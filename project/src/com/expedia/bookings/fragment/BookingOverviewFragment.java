@@ -240,6 +240,14 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void onPause() {
 		super.onPause();
 
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (getActivity().isFinishing()) {
+			bd.cancelDownload(KEY_REFRESH_USER);
+		}
+		else {
+			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
+		}
+
 		if (Db.getTravelersAreDirty()) {
 			Db.kickOffBackgroundTravelerSave(getActivity());
 		}
