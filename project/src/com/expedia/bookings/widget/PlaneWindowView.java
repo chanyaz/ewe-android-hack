@@ -759,10 +759,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		if (height > reqHeight || width > reqWidth) {
 			if (width > height) {
-				inSampleSize = Math.round((float) height / (float) reqHeight);
+				inSampleSize = (int) Math.floor((float) height / (float) reqHeight);
 			}
 			else {
-				inSampleSize = Math.round((float) width / (float) reqWidth);
+				inSampleSize = (int) Math.floor((float) width / (float) reqWidth);
 			}
 		}
 		return inSampleSize;
