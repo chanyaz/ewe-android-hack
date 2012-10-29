@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -106,7 +105,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		// Bottom banner/label
 		titleTextView.setText(property.getName());
 		distanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
-				true));
+				true) + " - ");
 
 		Rate lowestRate = property.getLowestRate();
 		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
@@ -138,7 +137,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		}
 
 		// Background image
-		RelativeLayout banner = Ui.findView(view, R.id.launch_tile_banner_container);
+		ViewGroup banner = Ui.findView(view, R.id.launch_tile_banner_container);
 
 		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
 		if (ImageCache.containsImage(url)) {
@@ -158,7 +157,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		return view;
 	}
 
-	private boolean loadImageForLaunchStream(String url, final View layout, final RelativeLayout banner,
+	private boolean loadImageForLaunchStream(String url, final View layout, final ViewGroup banner,
 			final TextView sale, final boolean toggleSale) {
 		String key = layout.toString();
 		Log.v("Loading RelativeLayout bg " + key + " with " + url);
@@ -188,7 +187,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		return ImageCache.loadImage(key, url, callback);
 	}
 
-	private void toggleTile(TextView sale, RelativeLayout banner, boolean loaded, boolean saleOn) {
+	private void toggleTile(TextView sale, ViewGroup banner, boolean loaded, boolean saleOn) {
 		int visibility = loaded ? View.VISIBLE : View.GONE;
 		banner.setVisibility(visibility);
 
