@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -23,6 +24,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		getWindow().setFormat(android.graphics.PixelFormat.RGBA_8888);
 
 		if (savedInstanceState == null) {
 			mLaunchFragment = LaunchFragment.newInstance();
