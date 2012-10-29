@@ -1,11 +1,11 @@
 package com.expedia.bookings.test.utils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import junit.framework.AssertionFailedError;
-import android.R.bool;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
@@ -17,6 +17,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Static Locale Data
+	//TODO make these a different container so cool methods can be used
 	public static final String[] LOCALES = {
 			"en_UK", "fr_CA", "en_HK",
 			"zh_HK", "es_AR", "en_AU",
@@ -159,11 +160,11 @@ public class HotelsRobotHelper {
 
 	////////////////////////////////////////////////////////////////
 	// Helpful Methods
-	public void launchHotels(){
+	public void launchHotels() {
 		mSolo.clickOnText(mSolo.getString(R.string.launch_hotel_secondary_text));
 	}
 
-	public void launchFlights(){
+	public void launchFlights() {
 		mSolo.clickOnText(mSolo.getString(R.string.launch_flight_secondary_text));
 	}
 
@@ -284,6 +285,9 @@ public class HotelsRobotHelper {
 			if (!mSolo.isCheckBoxChecked(0)) {
 				mSolo.clickOnCheckBox(0);
 			}
+			if (mSolo.isCheckBoxChecked(2)) {
+				mSolo.clickOnCheckBox(2);
+			}
 
 		}
 		catch (Exception E) {
@@ -324,7 +328,9 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "AFTER TYPING TEXT");
 		delay(3);
 		enterLog(TAG, "Before clicking search button");
-		mSolo.clickInList(2);//Selecting search suggestion results
+		mSolo.clickInList(1);//Selecting search suggestion results
+								//some countries' list don't populate ever
+								//might break stuff
 		enterLog(TAG, "After clicking search button");
 
 		mSolo.waitForActivity("ExpediaBookingApp");
@@ -349,7 +355,6 @@ public class HotelsRobotHelper {
 		//most hotel names are in their respective languages' characters
 		if (mRes.getConfiguration().locale != APAC_LOCALES[4] && mRes.getConfiguration().locale != APAC_LOCALES[5]) {
 			enterLog(TAG, "Clicking on label: " + filter);
-			//mSolo.clickOnText(filter);
 			mSolo.clickOnButton(1);
 			landscape();
 			portrait();
@@ -368,7 +373,6 @@ public class HotelsRobotHelper {
 		String sortText = mRes.getString(R.string.SORT);
 		enterLog(TAG, "Clicking on label: " + sortText);
 
-		//mSolo.clickOnText(sortText);
 		mSolo.clickOnButton(0);
 		landscape();
 		portrait();
@@ -387,14 +391,12 @@ public class HotelsRobotHelper {
 		delay(solo, 1);
 		 */
 
-		//mSolo.clickOnText(sortText);
 		mSolo.clickOnButton(0);
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_price));
 		screenshot("Sort by Price Results");
 		delay(1);
 
-		//mSolo.clickOnText(sortText);
 		mSolo.clickOnButton(0);
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_rating));
@@ -402,7 +404,6 @@ public class HotelsRobotHelper {
 		delay(1);
 
 		try {
-			//mSolo.clickOnText(sortText);
 			mSolo.clickOnButton(0);
 			delay(1);
 			mSolo.clickOnText(mRes.getString(R.string.sort_description_deals));
@@ -494,8 +495,7 @@ public class HotelsRobotHelper {
 		portrait();
 
 		enterLog(TAG, "Pressing Book Room Button: " + bookNowString);
-		mSolo.clickOnText(bookNowString);
-
+		mSolo.clickOnButton(0);
 		Boolean didItLoad = mSolo.waitForActivity("RoomsAndRatesListActivity", 20000);
 		if (didItLoad) {
 			enterLog(TAG, "On Rooms and Rates Screen");
@@ -533,10 +533,6 @@ public class HotelsRobotHelper {
 		delay(1);
 
 		screenshot("Booking Screen 2");
-		mSolo.scrollDown();
-		delay(1);
-
-		screenshot("Booking Screen 3");
 		mSolo.scrollToBottom();
 		delay(1);
 
@@ -544,7 +540,7 @@ public class HotelsRobotHelper {
 		mSolo.scrollToTop();
 	}
 
-	public void logIn(Resources mRes) {
+	public void logIn() {
 		String loginButtonText = mRes.getString(R.string.log_in_for_faster_booking);
 
 		if (loginButtonText == null) {
@@ -554,21 +550,22 @@ public class HotelsRobotHelper {
 		}
 
 		enterLog(TAG, "Pressing button: " + loginButtonText);
-		try{
+		try {
 			mSolo.clickOnText(loginButtonText);
-		}catch(Error e){
+		}
+		catch (Error e) {
 			delay(5);
 			mSolo.clickOnText(loginButtonText);
 		}
 		delay(1);
 		screenshot("Login Screen Pre Text Entry");
 
-		mSolo.typeText(0, mUser.mLoginEmail);
+		mSolo.typeText(1, mUser.mLoginEmail); // index 1?
 
 		landscape();
 		portrait();
 		delay();
-		mSolo.typeText(1, mUser.mLoginPassword);
+		mSolo.typeText(1, mUser.mLoginPassword); //different edit text, same index, makes no sense.
 		landscape();
 		portrait();
 
@@ -577,9 +574,10 @@ public class HotelsRobotHelper {
 		screenshot("Login Screen Post Text Entry");
 
 		mSolo.clickOnButton(1); //Log in button.
-		delay();
-		screenshot("Booking Info Post-Login");
+		delay(5);
 		mSolo.scrollToTop();
+		screenshot("Booking Info Post-Login");
+
 	}
 
 	public void enterPhoneNumber() throws Exception {
@@ -587,9 +585,20 @@ public class HotelsRobotHelper {
 	}
 
 	public void enterCCV() throws Exception {
-		mSolo.scrollUp();
-		mSolo.clickOnView(mSolo.getView(R.id.security_code_edit_text));
-		mSolo.enterText((EditText) mSolo.getView(R.id.security_code_edit_text), mUser.mCCV);
+		//mSolo.scrollUp();
+
+		final EditText CCVview =
+				(EditText) mSolo.getCurrentActivity().findViewById(R.id.security_code_edit_text);
+		mSolo.clickOnScreen(100, 500); //how to generalize this for all screen sizes?
+		delay(1);
+		mSolo.clickOnScreen(100, 500);
+		delay(1);
+		mSolo.clickOnScreen(100, 500);
+
+		delay(1);
+		delay(1);
+		mSolo.clickOnScreen(325, 725);
+		enterLog(TAG, "Press Book");
 		enterLog(TAG, "Entered CCV");
 	}
 
@@ -608,68 +617,84 @@ public class HotelsRobotHelper {
 	}
 
 	public void enterMissingInfo() {
-		try {// Entering Phone Number
-			enterPhoneNumber();
-		}
-		catch (Exception e) {
-			//Nothing needs to be done.
-		}
 
-		try { //Entering First and last names
-			EditText firstNameEditText = (EditText) mSolo.getView(R.id.first_name_edit_text);
-			EditText lastNameEditText = (EditText) mSolo.getView(R.id.last_name_edit_text);
-
-			mSolo.clearEditText(firstNameEditText);
-			mSolo.enterText(firstNameEditText, mUser.mFirstName);
-
-			mSolo.clearEditText(lastNameEditText);
-			mSolo.enterText(lastNameEditText, mUser.mLastName);
+		mSolo.clickOnText(mSolo.getString(R.string.enter_traveler_info));
+		delay(5);
+		if (mSolo.searchText("JexperCC", true)) {
+			mSolo.clickOnText("JexperCC");
 		}
-		catch (Exception e) {
-			//Nothing.
-		}
+		else {
+			//At some point, switch this back to entering
+			//new traveler and using that
+			//Must wait until this functionality is restored
+			mSolo.clickOnText(mRes.getString(R.string.enter_traveler_info));
+			delay(5);
+			mSolo.enterText(0, mUser.mFirstName);
+			mSolo.enterText(2, mUser.mLastName);
+			mSolo.enterText(3, mUser.mPhoneNumber);
+			mSolo.clickOnScreen(450, 75);//generalize this
+			mSolo.clickOnButton(1);
 
+			delay();
+		}
 		try {
-			EditText Address1 = (EditText) mSolo.getView(R.id.address1_edit_text);
-			EditText City = (EditText) mSolo.getView(R.id.city_edit_text);
-			EditText State = (EditText) mSolo.getView(R.id.state_edit_text);
-			EditText ZIP = (EditText) mSolo.getView(R.id.postal_code_edit_text);
-			EditText CreditCard = (EditText) mSolo.getView(R.id.card_number_edit_text);
-			EditText ExpMonth = (EditText) mSolo.getView(R.id.expiration_month_edit_text);
-			EditText ExpYear = (EditText) mSolo.getView(R.id.expiration_year_edit_text);
+			mSolo.clickOnText(mSolo.getString(R.string.payment_method));
+			delay(1);
+			mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
 
-			mSolo.clearEditText(Address1);
-			mSolo.enterText(Address1, mUser.mAddressLine1);
+			mSolo.clearEditText(0);
+			mSolo.enterText(0, mUser.mAddressLine1);
 
-			mSolo.clearEditText(City);
-			mSolo.enterText(City, mUser.mCityName);
+			mSolo.clearEditText(2);
+			mSolo.enterText(2, mUser.mCityName);
 
-			mSolo.clearEditText(State);
-			mSolo.enterText(State, mUser.mStateCode);
+			mSolo.clearEditText(3);
+			mSolo.enterText(3, mUser.mStateCode);
 
-			mSolo.clearEditText(ZIP);
-			mSolo.enterText(ZIP, mUser.mZIPCode);
+			mSolo.clearEditText(4);
+			mSolo.enterText(4, mUser.mZIPCode);
+			delay();
 
-			mSolo.clearEditText(CreditCard);
-			mSolo.enterText(CreditCard, mUser.mCreditCardNumber);
+			mSolo.clickOnScreen(450, 75);
 
-			mSolo.clearEditText(ExpMonth);
-			mSolo.enterText(ExpMonth, mUser.mCardExpMonth);
+			mSolo.clearEditText(0);
+			mSolo.enterText(0, mUser.mCreditCardNumber);
+			mSolo.clearEditText(1);
+			mSolo.enterText(1, mUser.mFirstName + " " + mUser.mLastName);
 
-			mSolo.clearEditText(ExpYear);
-			mSolo.enterText(ExpYear, mUser.mCardExpYear);
+			mSolo.clickOnText(mRes.getString(R.string.expiration_date));
+			mSolo.clickOnButton(0);
+			delay(2);
+			mSolo.clickOnScreen(450, 75);
+			delay(1);
+			mSolo.clickOnButton(1);
+			delay();
+			mSolo.scrollUp();
 
+			mSolo.scrollToTop();
+			mSolo.clickOnScreen(450, 75);
 		}
-		catch (Exception e) {
-			//Nothing.
+		catch (Error e) {
+			mSolo.scrollToTop();
+			mSolo.clickOnScreen(450, 75);
 		}
 
-		pressCheckBox(); //Check box for terms & conditions occasionally needed.
+		//pressCheckBox(); //Check box for terms & conditions occasionally needed.
 	}
 
 	public void confirmAndBook() throws Exception {
+
+		delay();
+		try {
+			mSolo.drag(100, 400, 650, 650, 10);
+		}
+		catch (Exception e) {
+
+			throw new Exception();
+		}
 		delay(5);
-		mSolo.clickOnButton(0);
+		enterCCV();
+
 		Boolean screenLoaded = mSolo.waitForActivity("ConfirmationFragmentActivity", 60000);
 
 		if (screenLoaded) {
@@ -702,11 +727,9 @@ public class HotelsRobotHelper {
 	public void logInAndBook() throws Exception {
 		bookingScreenShots();
 
-		logIn(mRes);
+		logIn();
 		delay(1);
 		enterMissingInfo();
-
-		enterCCV();
 
 		confirmAndBook();
 
@@ -741,7 +764,7 @@ public class HotelsRobotHelper {
 
 	public void captureInfoScreen() {
 		delay();
-		mSolo.pressMenuItem(1);
+		mSolo.pressMenuItem(2);
 		landscape();
 		delay(2);
 		portrait();
@@ -755,14 +778,11 @@ public class HotelsRobotHelper {
 		mSolo.goBack();
 	}
 
-
-
-
-	public void checkFlightsScreen(){
+	public void checkFlightsScreen() {
 		launchFlights();
 		delay(5);
 		screenshot("Flights screen");
 		mSolo.goBack();
 	}
-	
+
 }

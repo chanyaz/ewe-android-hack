@@ -43,19 +43,21 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 
 	//////////////////////////////////////////////////////////////// 
 	// Test Driver
-
+	
 	public void testBookingsAPAC() throws Exception {
 		testBookings(mDriver.APAC_LOCALES);
 	}
+	
 
 	public void testBookingsWestern() throws Exception {
 		testBookings(mDriver.WESTERN_LOCALES);
 	}
 
+	
 	public void testBookingsAmericas() throws Exception {
 		testBookings(mDriver.AMERICAN_LOCALES);
 	}
-
+	
 	private void testBookings(Locale[] locales) throws Exception {
 		mDriver.setAllowScreenshots(true);
 		mDriver.setAllowOrientationChange(false);
@@ -67,37 +69,36 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 
 			Locale testingLocale = locales[i];
 			mDriver.setLocale(testingLocale);
-
 			mDriver.setScreenshotCount(1);
 			mDriver.setLocale(testingLocale);
 			mDriver.delay();
 			mDriver.changePOS(locales[i]);
+
 			mDriver.launchHotels();
 			mDriver.delay();
 			mSolo.goBack();
 			mDriver.launchHotels();
-
 			mDriver.delay();
-			mDriver.pressCalendar();
-			mDriver.pressGuestPicker();
 
-			mDriver.selectLocation("New York City");
+   			mDriver.pressCalendar();
+			mDriver.pressGuestPicker();
+			mDriver.selectLocation("San Francisco");
 
 			mDriver.pressSort();
 			mDriver.filterFor("Hilton");
-
-			mDriver.selectHotel(3);
+			mDriver.selectHotel(2);
 			mDriver.delay();
+
 			mDriver.checkReviews();
 			mDriver.pressBookRoom();
 			mDriver.selectRoom(0);
 
 			mDriver.delay();
 
-			mDriver.bookingScreenShots();
 			mDriver.logInAndBook();
-
+			mDriver.setLocale(testingLocale);
 			mDriver.delay(5);
+
 			mDriver.captureInfoScreen();
 			mDriver.checkFlightsScreen();
 		}
