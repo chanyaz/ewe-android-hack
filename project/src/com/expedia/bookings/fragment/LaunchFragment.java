@@ -323,11 +323,13 @@ public class LaunchFragment extends Fragment {
 	private OnDownloadComplete<List<Destination>> mFlightsCallback = new OnDownloadComplete<List<Destination>>() {
 		@Override
 		public void onDownload(List<Destination> results) {
-			LaunchFlightData data = new LaunchFlightData();
-			data.setDestinations(results);
-			Db.setLaunchFlightData(data);
+			if (results != null && results.size() > 0) {
+				LaunchFlightData data = new LaunchFlightData();
+				data.setDestinations(results);
+				Db.setLaunchFlightData(data);
 
-			onFlightDataRetrieved(true);
+				onFlightDataRetrieved(true);
+			}
 		}
 	};
 
