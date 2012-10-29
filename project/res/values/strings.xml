@@ -587,7 +587,7 @@
     <!-- Alerts the user to potential other charges.  %s is a URL -->
     <string name="share_flight_additional_fees_TEMPLATE">The airline may charge additional fees for checked baggage or other optional services.  %s</string>
     <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">If you have questions about your reservation, please call Expedia at %s</string>
+    <string name="share_flight_support_TEMPLATE">If you have questions about this reservation, please call Expedia at %s</string>
     <!-- Advertisement for the app the user just used -->
     <string name="share_flight_shill_app">Book flights and hotels from anywhere with Expedia\'s beautiful mobile app!  http://www.expedia.com/app</string>
 
