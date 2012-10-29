@@ -1,9 +1,12 @@
 package com.expedia.bookings.widget;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 
@@ -59,6 +63,8 @@ public class HotelReceiptMini extends FrameLayout {
 
 	public HotelReceiptMini(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+
+		DATE_FORMAT.setTimeZone(CalendarUtils.getFormatTimeZone());
 
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mInflater.inflate(R.layout.widget_hotel_receipt_mini, this);
