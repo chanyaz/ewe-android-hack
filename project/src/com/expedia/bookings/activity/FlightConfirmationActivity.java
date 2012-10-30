@@ -55,7 +55,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 			}
 			else {
 				clearImportantBillingInfo(Db.getBillingInfo());
-				
+
 				// Start a background thread to save this data to the disk
 				new Thread(new Runnable() {
 					public void run() {
@@ -64,7 +64,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 						// copy billing info 
 						BillingInfo billingInfo = new BillingInfo(Db.getBillingInfo());
-						
+
 						mConfState.save(search, Db.getItinerary(itinNum), billingInfo,
 								Db.getTravelers(),
 								Db.getFlightCheckout());
@@ -138,7 +138,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 			Db.getFlightSearch().setSearchParams(params);
 
 			// Launch flight search
-			NavUtils.goToFlightSearch(this);
+			NavUtils.goToFlightSearchResults(this);
 			finish();
 		}
 	}

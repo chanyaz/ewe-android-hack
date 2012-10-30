@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Db;
@@ -432,7 +433,9 @@ public class LaunchFragment extends Fragment {
 			FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
 			flightSearchParams.setArrivalLocation(location);
 
-			NavUtils.goToFlights(getActivity(), true);
+			Intent intent = new Intent(mContext, FlightSearchActivity.class);
+			intent.putExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, true);
+			mContext.startActivity(intent);
 
 			cleanUp();
 		}

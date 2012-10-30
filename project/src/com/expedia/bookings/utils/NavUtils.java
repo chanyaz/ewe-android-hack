@@ -67,10 +67,6 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context) {
-		goToFlights(context, false);
-	}
-
-	public static void goToFlights(Context context, boolean fromLaunchWithNewSearchParams) {
 		if (!FlightUnsupportedPOSActivity.isSupportedPOS(context)) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
@@ -83,17 +79,11 @@ public class NavUtils {
 		else {
 			sendKillActivityBroadcast(context);
 			Intent intent = new Intent(context, FlightSearchActivity.class);
-
-			// used so that when launching Activity, Db does not attempt to load saved data
-			if (fromLaunchWithNewSearchParams) {
-				intent.putExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, true);
-			}
-
 			context.startActivity(intent);
 		}
 	}
 
-	public static void goToFlightSearch(Context context) {
+	public static void goToFlightSearchResults(Context context) {
 		sendKillActivityBroadcast(context);
 		context.startActivity(new Intent(context, FlightSearchResultsActivity.class));
 	}
