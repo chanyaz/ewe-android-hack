@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Display;
@@ -30,6 +33,7 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.LaunchFlightAdapter;
 import com.expedia.bookings.widget.LaunchHotelAdapter;
@@ -40,6 +44,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.Ui;
 
 public class LaunchFragment extends Fragment {
@@ -55,6 +60,8 @@ public class LaunchFragment extends Fragment {
 
 	private Context mContext;
 
+	private ViewGroup mErrorContainer;
+	private ViewGroup mScrollContainer;
 	private LaunchStreamListView mHotelsStreamListView;
 	private LaunchHotelAdapter mHotelAdapter;
 	private LaunchStreamListView mFlightsStreamListView;
@@ -83,10 +90,13 @@ public class LaunchFragment extends Fragment {
 		FontCache.setTypeface(v, R.id.flights_label_text_view, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.flights_prompt_text_view, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.launch_welcome_text_view, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(v, R.id.error_message_text_view, Font.ROBOTO_LIGHT);
 
 		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
 
+		mErrorContainer = Ui.findView(v, R.id.error_container);
+		mScrollContainer = Ui.findView(v, R.id.scroll_container);
 		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
 		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
 
@@ -107,6 +117,9 @@ public class LaunchFragment extends Fragment {
 
 		onReactToUserActive();
 		mHotelsStreamListView.startMarquee();
+
+		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+		getActivity().registerReceiver(mConnReceiver, filter);
 	}
 
 	@Override
@@ -119,6 +132,8 @@ public class LaunchFragment extends Fragment {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
 		bd.unregisterDownloadCallback(KEY_FLIGHT_DESTINATIONS);
+
+		getActivity().unregisterReceiver(mConnReceiver);
 	}
 
 	@Override
@@ -132,9 +147,8 @@ public class LaunchFragment extends Fragment {
 	}
 
 	private void onReactToUserActive() {
-		// This is useful if you want to test a device's ability to find a new location
-		if (DEBUG_ALWAYS_GRAB_NEW_LOCATION) {
-			findLocation();
+		// Check that we're online first
+		if (!checkConnection()) {
 			return;
 		}
 
@@ -142,9 +156,14 @@ public class LaunchFragment extends Fragment {
 
 		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
 
-		// No cached hotel data exists, perform the least amount of effort in order to get results on screen by following
-		// the logic below
+		if (DEBUG_ALWAYS_GRAB_NEW_LOCATION) {
+			// This is useful if you want to test a device's ability to find a new location
+			findLocation();
+		}
 		if (launchHotelData == null) {
+			// No cached hotel data exists, perform the least amount of effort in order to get results on screen by following
+			// the logic below
+
 			// A hotel search is underway, register dl callback in case it was removed
 			if (bd.isDownloading(KEY_SEARCH)) {
 				bd.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
@@ -465,5 +484,50 @@ public class LaunchFragment extends Fragment {
 		mFlightAdapter = null;
 
 		// TODO: Clean up more as necessary (e.g., cleaning out the ImageCache).
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Connectivity
+
+	private BroadcastReceiver mConnReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.i("Detected connectivity change, checking connection...");
+
+			// If we changed state, react 
+			boolean wasOffline = mErrorContainer.getVisibility() == View.VISIBLE;
+			boolean isOffline = !checkConnection();
+			if (isOffline != wasOffline) {
+				Log.i("Connectivity changed from " + wasOffline + " to " + isOffline);
+
+				if (isOffline) {
+					cleanUp();
+				}
+				else {
+					// Clear out previous results, then start over again
+					Db.setLaunchFlightData(null);
+					Db.setLaunchHotelData(null);
+
+					onReactToUserActive();
+				}
+			}
+		}
+	};
+
+	private boolean checkConnection() {
+		if (!NetUtils.isOnline(getActivity())) {
+			Log.d("Launch page is offline.");
+
+			mErrorContainer.setVisibility(View.VISIBLE);
+			mScrollContainer.setVisibility(View.GONE);
+
+			return false;
+		}
+		else {
+			mErrorContainer.setVisibility(View.GONE);
+			mScrollContainer.setVisibility(View.VISIBLE);
+			mCleanOnStop = false;
+			return true;
+		}
 	}
 }
