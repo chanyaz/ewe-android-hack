@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -81,6 +82,7 @@ public class FlightTripOverviewFragment extends Fragment {
 						.size() : 1);
 
 		buildCards(inflater);
+
 		return v;
 	}
 
@@ -110,14 +112,48 @@ public class FlightTripOverviewFragment extends Fragment {
 		measureDateAndTravelers();
 		currentTop += Math.max(mFlightDateAndTravCount.getMeasuredHeight(), mFlightDateAndTravCount.getHeight());
 
+		//Make a custom background drawable for the first leg to allow quick switching between transparent and opaque
+		StateListDrawable firstLegBg = new StateListDrawable() {
+			@Override
+			protected boolean onStateChange(int[] stateSet) {
+				boolean opaque = false;
+				boolean transparent = false;
+				for (int state : stateSet) {
+					if (state == R.attr.state_opaque) {
+						opaque = true;
+					}
+					if (state == R.attr.state_transparent) {
+						transparent = true;
+					}
+				}
+				if (this.getState() == null || this.getState().length == 0) {
+					//If we have no current state, default to transparent
+					return super.onStateChange(STATE_TRANSPARENT);
+				}
+				else if (opaque || transparent) {
+					//If the state contains a valid state use it
+					return super.onStateChange(stateSet);
+				}
+				else {
+					//We don't redraw if we didn't get one of our custom states
+					return false;
+				}
+			}
+		};
+		firstLegBg.addState(STATE_OPAQUE, getResources().getDrawable(R.drawable.bg_flight_card_search_results_opaque));
+		firstLegBg.addState(STATE_TRANSPARENT, getResources().getDrawable(R.drawable.bg_flight_card_search_results));
+
+		//Build the cards
 		SectionFlightLeg tempFlight;
 		for (int i = 0; i < mTrip.getLegCount(); i++) {
 			tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
 			tempFlight.setId(ID_START_RANGE + i);
 
 			//Set our background to be a selector so we can set opacity quickly later during animations
-			View bgView = Ui.findView(tempFlight, R.id.flight_leg_summary_container);
-			bgView.setBackgroundResource(R.drawable.bg_flight_card_opacity_selector);
+			if (tempFlight.getId() == ID_START_RANGE) {
+				View bgView = Ui.findView(tempFlight, R.id.flight_leg_summary_container);
+				bgView.setBackgroundDrawable(firstLegBg);
+			}
 
 			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));
 
@@ -287,11 +323,13 @@ public class FlightTripOverviewFragment extends Fragment {
 		@Override
 		public void onAnimationCancel(Animator arg0) {
 			mCardsAnimating = false;
+			setTopCardBackgroundOpacity();
 		}
 
 		@Override
 		public void onAnimationEnd(Animator arg0) {
 			mCardsAnimating = false;
+			setTopCardBackgroundOpacity();//set it again after we finish
 		}
 
 		@Override
@@ -351,17 +389,23 @@ public class FlightTripOverviewFragment extends Fragment {
 	}
 
 	private void setTopCardBackgroundOpacity() {
-		SectionFlightLeg firstCard = Ui.findView(mFlightContainer, ID_START_RANGE);
-		if (firstCard != null) {
-			View bgView = Ui.findView(firstCard, R.id.flight_leg_summary_container);
-			if (bgView != null) {
-				if (mDisplayMode.equals(DisplayMode.CHECKOUT)) {
-					bgView.getBackground().setState(STATE_OPAQUE);
+		Log.d("setTopCardBackgroundOpacity");
+		if (mFlightContainer != null && mFlightContainer.getChildCount() > 1) {
+			SectionFlightLeg firstCard = Ui.findView(mFlightContainer, ID_START_RANGE);
+			if (firstCard != null) {
+				View bgView = Ui.findView(firstCard, R.id.flight_leg_summary_container);
+				if (bgView != null) {
+					if (mDisplayMode.equals(DisplayMode.CHECKOUT)) {
+						if (bgView.getBackground().setState(STATE_OPAQUE)) {
+							bgView.getBackground().invalidateSelf();
+						}
+					}
+					else {
+						if (bgView.getBackground().setState(STATE_TRANSPARENT)) {
+							bgView.getBackground().invalidateSelf();
+						}
+					}
 				}
-				else {
-					bgView.getBackground().setState(STATE_TRANSPARENT);
-				}
-				bgView.invalidate();
 			}
 		}
 	}

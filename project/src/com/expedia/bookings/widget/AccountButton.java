@@ -72,7 +72,7 @@ public class AccountButton extends LinearLayout {
 		mListener = listener;
 	}
 
-	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
+	public void bind(boolean isLoading, boolean isLoggedIn, User u, boolean isFlights) {
 		Traveler traveler = null;
 		if (u != null) {
 			traveler = u.getPrimaryTraveler();
@@ -90,13 +90,23 @@ public class AccountButton extends LinearLayout {
 			TextView bottom = (TextView) mLogoutContainer.findViewById(R.id.account_bottom_textview);
 			if (traveler.getLoyaltyMembershipNumber() == null) {
 				// Normal user
-				card.setImageResource(R.drawable.ic_logged_in_no_rewards);
+				if (isFlights) {
+					card.setImageResource(R.drawable.ic_expedia_logo);
+				}
+				else {
+					card.setImageResource(R.drawable.ic_logged_in_no_rewards);
+				}
 				top.setText(mContext.getString(R.string.logged_in_as));
 				bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 			}
 			else {
 				// Rewards user
-				card.setImageResource(R.drawable.ic_logged_in_with_rewards);
+				if (isFlights) {
+					card.setImageResource(R.drawable.ic_expedia_logo);
+				}
+				else {
+					card.setImageResource(R.drawable.ic_logged_in_no_rewards);
+				}
 				top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 				bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 			}
@@ -109,6 +119,10 @@ public class AccountButton extends LinearLayout {
 			mLogoutContainer.setVisibility(View.GONE);
 			mAccountLoadingContainer.setVisibility(View.GONE);
 		}
+	}
+
+	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
+		bind(isLoading, isLoggedIn, u, false);
 	}
 
 	public void error() {

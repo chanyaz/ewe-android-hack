@@ -205,6 +205,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			fullNameStr += (data.getMiddleName() != null) ? data.getMiddleName() + " " : "";
 			fullNameStr += (data.getLastName() != null) ? data.getLastName() + " " : "";
 			fullNameStr = fullNameStr.trim();
+			fullNameStr = fullNameStr.replaceAll("\\s+", " ");//we only want one space character at a time
 
 			if (!TextUtils.isEmpty(fullNameStr)) {
 				field.setText(fullNameStr);

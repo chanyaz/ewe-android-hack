@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings">
-
-    <item android:drawable="@drawable/bg_flight_card_search_results_opaque" app:state_opaque="true"/>
-    <item android:drawable="@drawable/bg_flight_card_search_results" app:state_transparent="true"/>
-    <item android:drawable="@drawable/bg_flight_card_search_results"/>
-
-</selector>

@@ -23,7 +23,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        layout="@layout/include_account_button" />
+        layout="@layout/include_account_button_flights" />
 
     <TextView
         android:id="@+id/checkout_information_label"

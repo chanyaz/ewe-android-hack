@@ -147,10 +147,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 					bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 				}
 			}
-			mAccountButton.bind(false, true, Db.getUser());
+			mAccountButton.bind(false, true, Db.getUser(), true);
 		}
 		else {
-			mAccountButton.bind(false, false, null);
+			mAccountButton.bind(false, false, null, true);
 		}
 
 		// rules and restrictions link stuff
@@ -331,9 +331,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				}
 				List<Traveler> travelers = Db.getTravelers();
 				for (int i = 0; i < travelers.size(); i++) {
-					if(Db.getFlightSearch().getSelectedFlightTrip().isInternational()){
+					if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
 						travelerValid &= (state.allTravelerInfoIsValidForInternationalFlight(travelers.get(i)));
-					}else{
+					}
+					else {
 						travelerValid &= (state.allTravelerInfoIsValidForDomesticFlight(travelers.get(i)));
 					}
 				}
@@ -524,7 +525,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		User.signOut(getActivity());
 
 		// Update UI
-		mAccountButton.bind(false, false, null);
+		mAccountButton.bind(false, false, null, true);
 
 		//After logout this will clear stored cards
 		populatePaymentDataFromUser();
@@ -534,7 +535,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	}
 
 	public void onLoginCompleted() {
-		mAccountButton.bind(false, true, Db.getUser());
+		mAccountButton.bind(false, true, Db.getUser(), true);
 		mRefreshedUser = true;
 
 		Db.getBillingInfo().setEmail(Db.getUser().getPrimaryTraveler().getEmail());
