@@ -423,11 +423,11 @@ public class LaunchFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Destination destination = mFlightAdapter.getItem(position);
-			String destinationId = destination.getDestinationId();
-			String city = destination.getCity();
-			String description = destination.getDescription();
-			com.expedia.bookings.data.Location location = new com.expedia.bookings.data.Location(destinationId, city,
-					description);
+
+			com.expedia.bookings.data.Location location = new com.expedia.bookings.data.Location();
+			location.setDestinationId(destination.getDestinationId());
+			location.setCity(destination.getCity());
+			location.setDescription(destination.getDescription());
 
 			FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
 			flightSearchParams.setArrivalLocation(location);
