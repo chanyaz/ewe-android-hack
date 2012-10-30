@@ -34,6 +34,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -325,19 +326,19 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		return false;
 	}
 
-	private boolean hasValidTravlers() {
+	private boolean hasValidTravler() {
 		boolean travelerValid = true;
 		if (Db.getTravelers() == null || Db.getTravelers().size() <= 0) {
 			travelerValid = false;
 		}
 		else {
-			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+			HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(getActivity());
 			if (state == null) {
 				return false;
 			}
 			List<Traveler> travelers = Db.getTravelers();
 			for (int i = 0; i < travelers.size(); i++) {
-				travelerValid &= (state.hasValidTravelerPartOne(travelers.get(i)));
+				travelerValid &= (state.hasValidTraveler(travelers.get(i)));
 			}
 		}
 		return travelerValid;
@@ -393,6 +394,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
 		mCreditCardSectionButton.bind(mBillingInfo);
+
+		updateViewVisibilities();
 	}
 
 	public void updateViews() {
@@ -442,7 +445,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
 		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
-		boolean travelerValid = hasValidTravlers();
+		boolean travelerValid = hasValidTravler();
 
 		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid;
 		if (mInCheckout && mShowSlideToWidget) {
