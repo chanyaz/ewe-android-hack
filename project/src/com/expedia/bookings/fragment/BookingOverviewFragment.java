@@ -67,6 +67,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
+	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
+	private static final String INSTANCE_SHOW_SLIDE_TO_WIDGET = "INSTANCE_SHOW_SLIDE_TO_WIDGET";
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
@@ -120,6 +122,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
+			mInCheckout = savedInstanceState.getBoolean(INSTANCE_IN_CHECKOUT);
+			mShowSlideToWidget = savedInstanceState.getBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET);
 		}
 	}
 
@@ -263,6 +267,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_REFRESHED_USER, mRefreshedUser);
+		outState.putBoolean(INSTANCE_IN_CHECKOUT, mInCheckout);
+		outState.putBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET, mShowSlideToWidget);
 
 		mHotelReceipt.saveInstanceState(outState);
 		mCouponCodeWidget.saveInstanceState(outState);
@@ -426,13 +432,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mPurchaseTotalTextView.setText(getString(R.string.collected_by_the_hotel_TEMPLATE,
 					displayedTotal.getFormattedMoney()));
 		}
-
-		if (mInCheckout && Db.getTravelers() != null && Db.getTravelers().size() > 0 && mBillingInfo != null) {
-			showPurchsaeViews();
-		}
-		else {
-			hidePurchaseViews();
-		}
 	}
 
 	public void updateViewVisibilities() {
@@ -449,7 +448,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid;
 		if (mInCheckout && mShowSlideToWidget) {
-			showPurchsaeViews();
+			showPurchaseViews();
 		}
 		else {
 			hidePurchaseViews();
@@ -496,8 +495,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			height = 0;
 		}
 
-		Log.i("ScrollSpacerView height: " + height);
-
 		ViewGroup.LayoutParams lp = mScrollSpacerView.getLayoutParams();
 		lp.height = height;
 
@@ -509,6 +506,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void startCheckout() {
+		startCheckout(true);
+	}
+
+	public void startCheckout(final boolean smoothScroll) {
 		if (mBookingOverviewFragmentListener != null) {
 			mBookingOverviewFragmentListener.checkoutStarted();
 		}
@@ -520,12 +521,17 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mScrollView.post(new Runnable() {
 			@Override
 			public void run() {
-				mScrollView.smoothScrollTo(0, mScrollViewListener.getMaxY());
+				if (smoothScroll) {
+					mScrollView.smoothScrollTo(0, mScrollViewListener.getMaxY());
+				}
+				else {
+					mScrollView.scrollTo(0, mScrollViewListener.getMaxY());
+				}
 			}
 		});
 
 		if (mShowSlideToWidget) {
-			showPurchsaeViews();
+			showPurchaseViews();
 		}
 	}
 
@@ -549,7 +555,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 	// Hide/show slide to purchase view
 
-	private void showPurchsaeViews() {
+	private void showPurchaseViews() {
 		if (mSlideToPurchaseLayout.getVisibility() == View.VISIBLE) {
 			return;
 		}
