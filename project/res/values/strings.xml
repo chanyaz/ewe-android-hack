@@ -362,6 +362,16 @@
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
 
+    <!-- Overwrite traveler dialog -->
+    <!-- Can’t Save Traveler -->
+    <string name="cant_save_traveler">Can’t Save Traveler</string>
+    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
+    <string name="you_already_have_traveler_TEMPLATE">You already have a saved traveler with the name \"%1$s\".</string>
+    <!-- Don't save -->
+    <string name="dont_save">Don’t Save</string>
+    <!-- Overwrite -->
+    <string name="overwrite">Overwrite</string>
+
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
     <string name="traveler_information">Traveler Information</string>

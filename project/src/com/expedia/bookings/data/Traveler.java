@@ -469,6 +469,38 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return obj.toString();
 		}
 	}
+	
+	/**
+	 * Compare the name of this traveler to another traveler (currently we just compare first and last name)
+	 * If either traveler has null for their first or last name we consider them not equal
+	 * @param another
+	 * @return
+	 */
+	public int compareNameTo(Traveler another){
+		final int NOT_EQUAL = -1;
+		final int EQUAL = 0;
+
+		if (this == another) {
+			//same ref
+			return EQUAL;
+		}
+		if (another == null) {
+			return NOT_EQUAL;
+		}
+		
+		if (this.getFirstName() != null && this.getLastName() != null
+				&& another.getFirstName() != null && another.getLastName() != null) {
+			if (this.getFirstName().trim()
+					.compareToIgnoreCase(another.getFirstName().trim()) == 0
+					&& this.getLastName().trim()
+							.compareToIgnoreCase(another.getLastName().trim()) == 0) {
+				return EQUAL;
+			}else{
+				return NOT_EQUAL;
+			}
+		}
+		return NOT_EQUAL;
+	}
 
 	@Override
 	public int compareTo(Traveler another) {

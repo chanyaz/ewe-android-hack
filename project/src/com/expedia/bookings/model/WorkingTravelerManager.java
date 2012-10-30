@@ -6,8 +6,11 @@ import java.util.concurrent.Semaphore;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
+
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
@@ -217,9 +220,20 @@ public class WorkingTravelerManager {
 							tryNum++;
 							semGot = true;
 							ExpediaServices services = new ExpediaServices(context);
-							success = services.commitTraveler(trav).isSucceeded();
+							TravelerCommitResponse resp = services.commitTraveler(trav);
+							success = resp.isSucceeded();
 							Log.i("Commit traveler succeeded:" + success);
 							if (success) {
+								if(!TextUtils.isEmpty(resp.getTuid())){
+									if(!trav.hasTuid() && User.isLoggedIn(context) && Db.getUser() != null){
+										//If the traveler we sent didn't have a tuid, and the response does, then we set the tuid and add it to the users travelers
+										//However currently the api doesn't currently return the tuid for new travelers 10/30/2012
+										Traveler tTrav = new Traveler();
+										tTrav.fromJson(trav.toJson());
+										tTrav.setTuid(Long.getLong(resp.getTuid(),0L));
+										Db.getUser().addAssociatedTraveler(tTrav);
+									}
+								}
 								break;
 							}
 						}

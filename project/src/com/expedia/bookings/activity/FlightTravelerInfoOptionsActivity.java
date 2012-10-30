@@ -1,9 +1,12 @@
 package com.expedia.bookings.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -70,7 +73,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 	//Where we want to return to after our action
 	private enum YoYoPosition {
-		OPTIONS, ONE, TWO, THREE, SAVE, SAVING
+		OPTIONS, ONE, TWO, THREE, SAVE, SAVING, OVERWRITE_TRAVELER
 	}
 
 	public interface Validatable {
@@ -156,6 +159,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				setShowDoneButton(false);
 				break;
 			case SAVE:
+			case OVERWRITE_TRAVELER:
+			case SAVING:
 			default:
 				setShowNextButton(false);
 				setShowDoneButton(true);
@@ -190,6 +195,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			case ONE:
 			case TWO:
 			case SAVE:
+			case OVERWRITE_TRAVELER:
+			case SAVING:
 			case OPTIONS:
 			default:
 				titleStr = getString(R.string.traveler_information);
@@ -283,6 +290,9 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		case SAVE:
 			displaySaveDialog();
 			break;
+		case OVERWRITE_TRAVELER:
+			displayOverwriteDialog();
+			break;
 		case SAVING:
 			if (Db.getWorkingTravelerManager() != null
 					&& Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
@@ -314,6 +324,11 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		//If the save dialog is showing, we close it, and then we show it again from the onCreate method.
 		if (mPos.equals(YoYoPosition.SAVE)) {
 			this.closeSaveDialog();
+		}
+		
+		//If the overwrite dialog is showing, we close it
+		if (mPos.equals(YoYoPosition.OVERWRITE_TRAVELER)) {
+			this.closeOverwriteDialog();
 		}
 	}
 
@@ -399,11 +414,21 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				}
 				break;
 			case SAVE:
+				if (workingTravelerRequiresOverwritePrompt()) {
+					//The user already has a traveler named this...
+					displayOverwriteDialog();
+				}
+				else {
+					OmnitureTracking.trackPageLoadFlightTravelerEditSave(mContext);
+					displayCheckout();
+				}
+				break;
+			case OVERWRITE_TRAVELER:
 				OmnitureTracking.trackPageLoadFlightTravelerEditSave(mContext);
 				displayCheckout();
 				break;
 			default:
-				Ui.showToast(this, "FAIL");
+				Log.i("YOYO FAIL - mpos:" + mPos);
 				break;
 			}
 		}
@@ -463,13 +488,24 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				}
 				break;
 			case SAVE:
+				if (workingTravelerRequiresOverwritePrompt()) {
+					//The user already has a traveler named this...
+					displayOverwriteDialog();
+				}
+				else {
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+							Db.getWorkingTravelerManager().getWorkingTraveler());
+					displayOptions();
+				}
+				break;
+			case OVERWRITE_TRAVELER:
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
 						Db.getWorkingTravelerManager().getWorkingTraveler());
 				displayOptions();
 				break;
 			case OPTIONS:
 			default:
-				Ui.showToast(this, "FAIL");
+				Log.i("YOYO FAIL - mpos:" + mPos);
 				break;
 			}
 		}
@@ -477,6 +513,27 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			displayCheckout();
 		}
 
+	}
+
+	public boolean workingTravelerRequiresOverwritePrompt() {
+		boolean travelerAlreadyExistsOnAccount = false;
+		Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+		if (workingTraveler.getSaveTravelerToExpediaAccount() && User.isLoggedIn(mContext)
+				&& !workingTraveler.hasTuid()) {
+			//If we want to save, and we're logged in, and we have a new traveler
+			//We have to check if that travelers name matches an existing traveler
+			if (Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null
+					&& Db.getUser().getAssociatedTravelers().size() > 0) {
+				for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
+					if (workingTraveler.compareNameTo(trav) == 0) {
+						//A traveler with this name already exists on the account. Foo. ok so lets show a dialog and be all like "Hey yall, you wanna overwrite your buddy dave bob?"
+						travelerAlreadyExistsOnAccount = true;
+						break;
+					}
+				}
+			}
+		}
+		return travelerAlreadyExistsOnAccount;
 	}
 
 	@Override
@@ -508,6 +565,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			case SAVE:
 				closeSaveDialog();
 				displayTravelerEntryThree();
+				break;
+			case OVERWRITE_TRAVELER:
+				closeOverwriteDialog();
+				displaySaveDialog();
 				break;
 			case SAVING:
 				if (!Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
@@ -551,6 +612,10 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				else {
 					displayOptions();
 				}
+				break;
+			case OVERWRITE_TRAVELER:
+				closeOverwriteDialog();
+				displaySaveDialog();
 				break;
 			case SAVING:
 				if (!Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
@@ -662,6 +727,21 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		df.show(this.getSupportFragmentManager(), SavingTravelerDialogFragment.TAG);
 	}
 
+	private void displayOverwriteDialog() {
+		mPos = YoYoPosition.OVERWRITE_TRAVELER;
+		OverwriteExistingTravelerDialogFragment df = OverwriteExistingTravelerDialogFragment.newInstance();
+		df.show(this.getSupportFragmentManager(), OverwriteExistingTravelerDialogFragment.TAG);
+	}
+
+	private void closeOverwriteDialog() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment dialog = getSupportFragmentManager().findFragmentByTag(OverwriteExistingTravelerDialogFragment.TAG);
+		if (dialog != null) {
+			ft.remove(dialog);
+		}
+		ft.commit();
+	}
+
 	@Override
 	public void displayCheckout() {
 		//First we commit our traveler stuff...
@@ -736,6 +816,84 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			super.onCancel(dialog);
 			// If the dialog is canceled without finishing loading, don't show this page.
 			getActivity().finish();
+		}
+	}
+
+	public static class OverwriteExistingTravelerDialogFragment extends DialogFragment {
+
+		public static final String TAG = OverwriteExistingTravelerDialogFragment.class.getName();
+
+		TravelerInfoYoYoListener mListener;
+
+		public static OverwriteExistingTravelerDialogFragment newInstance() {
+			OverwriteExistingTravelerDialogFragment frag = new OverwriteExistingTravelerDialogFragment();
+			Bundle args = new Bundle();
+			frag.setArguments(args);
+			return frag;
+		}
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setCancelable(false);
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			String workingTravelerName = Db.getWorkingTravelerManager().getWorkingTraveler().getFirstName() + " "
+					+ Db.getWorkingTravelerManager().getWorkingTraveler().getLastName();
+
+			AlertDialog pd = new AlertDialog.Builder(getActivity())
+					.setCancelable(false)
+					.setTitle(R.string.cant_save_traveler)
+					.setMessage(
+							String.format(getString(R.string.you_already_have_traveler_TEMPLATE), workingTravelerName))
+					.setPositiveButton(R.string.overwrite, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							//We want to overwrite, so we go through, find the traveler with the same name and steal his/her tuid
+							if (User.isLoggedIn(getActivity()) && Db.getUser() != null
+									&& Db.getUser().getAssociatedTravelers() != null) {
+								for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
+									if (Db.getWorkingTravelerManager().getWorkingTraveler().compareNameTo(trav) == 0) {
+										//We find the traveler with the same name, and steal his tuid
+										Db.getWorkingTravelerManager().getWorkingTraveler().setTuid(trav.getTuid());
+									}
+								}
+							}
+							mListener.moveForward();
+						}
+
+					})
+					.setNegativeButton(R.string.dont_save, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							Db.getWorkingTravelerManager().getWorkingTraveler().setSaveTravelerToExpediaAccount(false);
+							mListener.moveForward();
+						}
+					}).create();
+			pd.setCanceledOnTouchOutside(false);
+			return pd;
+		}
+
+		@Override
+		public void onAttach(Activity activity) {
+			super.onAttach(activity);
+
+			if (!(activity instanceof TravelerInfoYoYoListener)) {
+				throw new RuntimeException(
+						"OverwriteExistingTravelerDialogFragment activity must implement TravelerInfoYoYoListener!");
+			}
+
+			mListener = (TravelerInfoYoYoListener) activity;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			if (mListener != null) {
+				mListener.moveBackwards();
+			}
 		}
 	}
 }

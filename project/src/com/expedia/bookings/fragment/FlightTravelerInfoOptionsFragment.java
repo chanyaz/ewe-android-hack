@@ -104,7 +104,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		//Associated Travelers (From Expedia Account)
 		mAssociatedTravelersContainer.removeAllViews();
-		if (User.isLoggedIn(getActivity())) {
+		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
 			Resources res = getResources();
 			for (int i = 0; i < Db.getUser().getAssociatedTravelers().size(); i++) {
 				final Traveler traveler = Db.getUser().getAssociatedTravelers().get(i);
