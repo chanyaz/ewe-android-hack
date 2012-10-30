@@ -737,6 +737,7 @@ public class Db {
 	public static boolean saveAirlineDataCache(Context context) {
 		if (!sDb.mAirlineNamesDirty) {
 			Log.d("Would have saved airline data, but it's up to date.");
+			return true;
 		}
 
 		synchronized (sDb) {
