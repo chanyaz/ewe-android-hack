@@ -73,20 +73,6 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		mFlightListBlurHeight = (int) getResources().getDimension(R.dimen.flight_list_blur_height);
 
 		mLegPosition = getArguments().getInt(ARG_LEG_POSITION);
-
-		if (savedInstanceState != null) {
-			if (mLegPosition == 1) {
-				OmnitureTracking.trackPageLoadFlightSearchResultsInboundList(getActivity());
-			}
-		}
-		else {
-			if (Db.getFlightSearch().getSearchParams().getReturnDate() != null) {
-				OmnitureTracking.trackPageLoadFlightSearchResultsOutboundList(getActivity());
-			}
-			else {
-				OmnitureTracking.trackPageLoadFlightSearchResultsOneWay(getActivity());
-			}
-		}
 	}
 
 	@Override
@@ -169,6 +155,8 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 				mListener.onFlightListLayout(FlightListFragment.this);
 			}
 		});
+
+		OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegPosition);
 
 		return v;
 	}

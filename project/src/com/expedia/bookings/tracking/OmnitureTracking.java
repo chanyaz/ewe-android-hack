@@ -1,11 +1,20 @@
 package com.expedia.bookings.tracking;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import com.expedia.bookings.data.*;
+
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
@@ -13,10 +22,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.omniture.AppMeasurement;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Calendar;
 
 /**
  * The spec behind this class can be found here: http://confluence/display/Omniture/Mobile+App+Flight+Tracking
@@ -331,7 +336,89 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventPriceChangeAsShopper(context, FLIGHT_RATE_DETAILS);
 	}
 
-	public static void trackPageLoadFlightSearchResultsOneWay(Context context) {
+	private static boolean mTrackNewSearchResultSet;
+
+	/**
+	 * This method is used in the client and internally as bookkeeping to ensure that the special events, outbound list
+	 * and oneway list of search results get tracked once and only once for a given set of search parameters. Clients
+	 * will use this method with 'true' when performing a new search, and internally this method is used with 'false' to
+	 * disallow additional tracking events after the first event has been tracked (until explicitly set true by client).
+	 * 
+	 * Most importantly, this keeps the silly Omniture tracking details (mostly) out of client code and in this class.
+	 * 
+	 * @param markTrackNewSearchResultSet
+	 */
+	public static void markTrackNewSearchResultSet(boolean markTrackNewSearchResultSet) {
+		mTrackNewSearchResultSet = markTrackNewSearchResultSet;
+	}
+
+	public static void trackPageLoadFlightSearchResults(Context context, int legPosition) {
+		if (legPosition == 0) {
+			// Note: according the spec we want only to track the FlightSearchResults if it represents a new set of data
+			if (mTrackNewSearchResultSet) {
+				if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+					OmnitureTracking.trackPageLoadFlightSearchResultsOutboundList(context);
+				}
+				else {
+					OmnitureTracking.trackPageLoadFlightSearchResultsOneWay(context);
+				}
+			}
+		}
+
+		// According to spec, we want to track the inbound list as many times as the user rotates device, etc...
+		else if (legPosition == 1) {
+			OmnitureTracking.trackPageLoadFlightSearchResultsInboundList(context);
+		}
+	}
+
+	private static void trackPageLoadFlightSearchResultsOutboundList(Context context) {
+		markTrackNewSearchResultSet(false);
+
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
+
+		AppMeasurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_ROUNDTRIP_OUT);
+
+		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
+
+		// Search Type: value always 'Flight'
+		s.eVar2 = s.prop2 = "Flight";
+
+		// Search Origin: 3 letter airport code of origin
+		s.eVar3 = s.prop3 = searchParams.getDepartureLocation().getDestinationId();
+
+		// Search Destination: 3 letter airport code of destination
+		s.eVar4 = s.prop4 = searchParams.getArrivalLocation().getDestinationId();
+
+		// day computation date, TODO test this stuff
+		final Calendar departureDate = searchParams.getDepartureDate().getCalendar();
+		final Calendar returnDate = searchParams.getReturnDate() == null ? null : searchParams.getReturnDate()
+				.getCalendar();
+		final Calendar now = Calendar.getInstance();
+
+		// num days between current day (now) and flight departure date
+		s.eVar5 = s.prop5 = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
+
+		// num days between departure and return dates
+		s.eVar6 = s.prop6 = Long.toString(CalendarUtils.getDaysBetween(departureDate, returnDate));
+
+		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
+		// e.g. FLT|RT|A2|C1
+		// TODO this will need to be changed once we support multiple travelers
+		s.eVar47 = "FLT|RT|A1|C0";
+
+		// Success event for 'Search'
+		s.events = "event30";
+
+		s.track();
+	}
+
+	private static void trackPageLoadFlightSearchResultsInboundList(Context context) {
+		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN);
+	}
+
+	private static void trackPageLoadFlightSearchResultsOneWay(Context context) {
+		markTrackNewSearchResultSet(false);
+
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
 
 		AppMeasurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_RESULTS_ONE_WAY);
@@ -392,49 +479,6 @@ public class OmnitureTracking {
 			internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS);
 
 		}
-	}
-
-	public static void trackPageLoadFlightSearchResultsInboundList(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN);
-	}
-
-	public static void trackPageLoadFlightSearchResultsOutboundList(Context context) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
-
-		AppMeasurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_ROUNDTRIP_OUT);
-
-		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
-
-		// Search Type: value always 'Flight'
-		s.eVar2 = s.prop2 = "Flight";
-
-		// Search Origin: 3 letter airport code of origin
-		s.eVar3 = s.prop3 = searchParams.getDepartureLocation().getDestinationId();
-
-		// Search Destination: 3 letter airport code of destination
-		s.eVar4 = s.prop4 = searchParams.getArrivalLocation().getDestinationId();
-
-		// day computation date, TODO test this stuff
-		final Calendar departureDate = searchParams.getDepartureDate().getCalendar();
-		final Calendar returnDate = searchParams.getReturnDate() == null ? null : searchParams.getReturnDate()
-				.getCalendar();
-		final Calendar now = Calendar.getInstance();
-
-		// num days between current day (now) and flight departure date
-		s.eVar5 = s.prop5 = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
-
-		// num days between departure and return dates
-		s.eVar6 = s.prop6 = Long.toString(CalendarUtils.getDaysBetween(departureDate, returnDate));
-
-		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
-		// e.g. FLT|RT|A2|C1
-		// TODO this will need to be changed once we support multiple travelers
-		s.eVar47 = "FLT|RT|A1|C0";
-
-		// Success event for 'Search'
-		s.events = "event30";
-
-		s.track();
 	}
 
 	public static void trackPageLoadFlightSearchResultsPlaneLoadingFragment(Context context) {

@@ -280,6 +280,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 					FlightSearchParams.class);
 			Db.getFlightSearch().setSearchParams(params);
 			mStartSearchOnPostResume = true;
+
+			OmnitureTracking.markTrackNewSearchResultSet(true);
 		}
 	}
 
@@ -966,8 +968,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			Db.kickOffBackgroundSave(mContext);
 
 			if (flightSearch.getSelectedFlightTrip() == null) {
-				OmnitureTracking.trackPageLoadFlightSearchResultsInboundList(mContext);
-
 				// Remove the flight details fragment, show new list results
 				showResultsListFragment(1);
 			}

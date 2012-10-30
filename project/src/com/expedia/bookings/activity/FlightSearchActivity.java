@@ -193,6 +193,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 				mUpdateOnResume = true;
 				mSaveState = false;
+				OmnitureTracking.markTrackNewSearchResultSet(true);
 			}
 			return true;
 		}
