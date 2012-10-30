@@ -187,8 +187,6 @@ public class WorkingBillingInfoManager {
 						Log.i("workingBillingInfo before removing stuff:" + json.toString());
 
 						// Remove sensitive data
-						json.remove("brandName");
-						json.remove("brandCode");
 						json.remove("number");
 						json.remove("securityCode");
 
@@ -200,8 +198,6 @@ public class WorkingBillingInfoManager {
 						JSONObject json = mBaseBillingInfo.toJson();
 
 						// Remove sensitive data
-						json.remove("brandName");
-						json.remove("brandCode");
 						json.remove("number");
 						json.remove("securityCode");
 

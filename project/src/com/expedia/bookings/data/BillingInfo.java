@@ -204,8 +204,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		JSONObject data = toJson();
 
 		// Remove sensitive data
-		data.remove("brandName");
-		data.remove("brandCode");
 		data.remove("number");
 		data.remove("securityCode");
 

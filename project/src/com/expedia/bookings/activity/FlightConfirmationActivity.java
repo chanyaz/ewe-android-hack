@@ -172,8 +172,6 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	private void clearImportantBillingInfo(BillingInfo bi) {
 		bi.setNumber(null);
 		bi.setSecurityCode(null);
-		bi.setBrandCode(null);
-		bi.setBrandName(null);
 		bi.setSaveCardToExpediaAccount(false);
 	}
 }
