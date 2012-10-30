@@ -292,6 +292,15 @@ public class LaunchFragment extends Fragment {
 		destinations.add(new Destination("LHR", "London", "London Heathrow"));
 		destinations.add(new Destination("MIA", "Miami", "Miami, yo"));
 		destinations.add(new Destination("JFK", "New York", "JFK - John F. Kennedy"));
+		destinations.add(new Destination("ABQ", "Albuquerque", "Albuquerque International Sunport "));
+		destinations.add(new Destination("CDG", "Paris", "Charles de Gaulle"));
+		destinations.add(new Destination("DTW", "Detroit", "Detroit Metro Airport"));
+		destinations.add(new Destination("PRG", "Prague", "Vaclav Havel Airport Prague"));
+		destinations.add(new Destination("RNO", "Reno", "Reno-Tahoe International Airport"));
+		destinations.add(new Destination("SEA", "Seattle", "Seattle-Tacoma International Airport"));
+		destinations.add(new Destination("SFO", "San Francisco", "San Francisco International Airport"));
+		destinations.add(new Destination("YUL", "Montreal", "Pierre Elliott Trudeau International Airport"));
+		destinations.add(new Destination("YYZ", "Toronto", "Toronto Pearson Airport"));
 
 		return destinations;
 	}
