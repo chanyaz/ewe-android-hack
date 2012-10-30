@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -7,6 +9,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -22,12 +25,22 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
 	private Context mContext;
 	private LayoutInflater mInflater;
-	private View[] mViewCache = new View[1];
+	private View[] mViewCache;
 
 	public LaunchFlightAdapter(Context context) {
 		super(context, R.layout.row_launch_tile_flight);
 		mContext = context;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		// Add enough blank items so that we can show blank tiles before loading
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		int height = wm.getDefaultDisplay().getHeight();
+		int tileHeight = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_flight);
+		int numTiles = (height / tileHeight) + (height % tileHeight);
+		for (int a = 0; a < numTiles; a++) {
+			add(null);
+		}
+		mViewCache = new View[numTiles];
 	}
 
 	public void setDestinations(LaunchFlightData launchFlightData) {

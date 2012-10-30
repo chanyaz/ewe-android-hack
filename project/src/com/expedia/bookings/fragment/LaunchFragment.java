@@ -67,7 +67,6 @@ public class LaunchFragment extends Fragment {
 	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchFlightAdapter mFlightAdapter;
 
-	private boolean mFirstLaunch;
 	private boolean mCleanOnStop = false;
 
 	public static LaunchFragment newInstance() {
@@ -78,7 +77,6 @@ public class LaunchFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = getActivity();
-		mFirstLaunch = savedInstanceState == null;
 	}
 
 	@Override
@@ -270,7 +268,7 @@ public class LaunchFragment extends Fragment {
 				launchHotelData.setDistanceUnit(searchResponse.getFilter().getDistanceUnit());
 				Db.setLaunchHotelData(launchHotelData);
 
-				onHotelDataRetrieved(true);
+				onHotelDataRetrieved();
 			}
 
 			// Hotel search failed; user will not see reverse waterfall.
@@ -280,14 +278,8 @@ public class LaunchFragment extends Fragment {
 		}
 	};
 
-	private void onHotelDataRetrieved(boolean justLoaded) {
+	private void onHotelDataRetrieved() {
 		mHotelAdapter.setProperties(Db.getLaunchHotelData());
-		if (justLoaded) {
-			mHotelsStreamListView.selectMiddle();
-		}
-		else {
-			mHotelsStreamListView.restorePosition();
-		}
 		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 	}
 
@@ -345,19 +337,13 @@ public class LaunchFragment extends Fragment {
 				data.setDestinations(results);
 				Db.setLaunchFlightData(data);
 
-				onFlightDataRetrieved(true);
+				onFlightDataRetrieved();
 			}
 		}
 	};
 
-	private void onFlightDataRetrieved(boolean justLoaded) {
+	private void onFlightDataRetrieved() {
 		mFlightAdapter.setDestinations(Db.getLaunchFlightData());
-		if (justLoaded) {
-			mFlightsStreamListView.selectMiddle();
-		}
-		else {
-			mFlightsStreamListView.restorePosition();
-		}
 		mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
 	}
 
@@ -372,9 +358,15 @@ public class LaunchFragment extends Fragment {
 
 		mHotelAdapter = new LaunchHotelAdapter(mContext);
 		mHotelsStreamListView.setAdapter(mHotelAdapter);
+		if (!mHotelsStreamListView.restorePosition()) {
+			mHotelsStreamListView.selectMiddle();
+		}
 
 		mFlightAdapter = new LaunchFlightAdapter(mContext);
 		mFlightsStreamListView.setAdapter(mFlightAdapter);
+		if (!mFlightsStreamListView.restorePosition()) {
+			mFlightsStreamListView.selectMiddle();
+		}
 
 		mHotelsStreamListView.setSlaveView(mFlightsStreamListView);
 
@@ -382,12 +374,12 @@ public class LaunchFragment extends Fragment {
 
 		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
 		if (launchHotelData != null) {
-			onHotelDataRetrieved(mFirstLaunch);
+			onHotelDataRetrieved();
 		}
 
 		LaunchFlightData launchFlightData = Db.getLaunchFlightData();
 		if (launchFlightData != null) {
-			onFlightDataRetrieved(mFirstLaunch);
+			onFlightDataRetrieved();
 		}
 	}
 
