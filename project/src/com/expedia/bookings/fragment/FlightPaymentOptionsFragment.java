@@ -33,7 +33,9 @@ public class FlightPaymentOptionsFragment extends Fragment {
 
 	SectionLocation mSectionCurrentBillingAddress;
 	SectionBillingInfo mSectionCurrentCreditCard;
+	SectionBillingInfo mSectionPartialCard;
 	SectionStoredCreditCard mSectionStoredPayment;
+
 	View mNewCreditCardBtn;
 
 	TextView mStoredPaymentsLabel;
@@ -42,12 +44,10 @@ public class FlightPaymentOptionsFragment extends Fragment {
 	View mCurrentPaymentLabelDiv;
 	TextView mNewPaymentLabel;
 	View mNewPaymentLabelDiv;
+	View mPartialCardDiv;
 	ViewGroup mCurrentPaymentContainer;
 	ViewGroup mStoredCardsContainer;
 	ViewGroup mCurrentStoredPaymentContainer;
-
-	View mAddressErrorImage;
-	View mCardErrorImage;
 
 	PaymentFlowState mValidationState;
 
@@ -76,10 +76,6 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		mSectionCurrentCreditCard = Ui.findView(v, R.id.current_payment_cc_section);
 		mSectionStoredPayment = Ui.findView(v, R.id.stored_creditcard_section);
 
-		//Section error indicators
-		mAddressErrorImage = Ui.findView(mSectionCurrentBillingAddress, R.id.error_image);
-		mCardErrorImage = Ui.findView(mSectionCurrentCreditCard, R.id.error_image);
-
 		//Other views
 		mStoredPaymentsLabel = Ui.findView(v, R.id.stored_payments_label);
 		mStoredPaymentsLabelDiv = Ui.findView(v, R.id.stored_payments_label_div);
@@ -90,6 +86,9 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		mCurrentPaymentContainer = Ui.findView(v, R.id.current_payment_container);
 		mStoredCardsContainer = Ui.findView(v, R.id.new_payment_stored_cards);
 		mCurrentStoredPaymentContainer = Ui.findView(v, R.id.current_stored_payment_container);
+
+		mSectionPartialCard = Ui.findView(v, R.id.new_payment_partial_card);
+		mPartialCardDiv = Ui.findView(v, R.id.new_payment_partial_card_divider);
 
 		mNewCreditCardBtn = Ui.findView(v, R.id.new_payment_new_card);
 
@@ -127,6 +126,23 @@ public class FlightPaymentOptionsFragment extends Fragment {
 				if (mListener != null) {
 					mListener.setMode(YoYoMode.EDIT);
 					mListener.displayCreditCard();
+				}
+			}
+		});
+
+		mSectionPartialCard.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() == null) {
+					mListener.setMode(YoYoMode.YOYO);
+					mListener.moveForward();
+				}
+				else {
+					BillingInfo noStored = new BillingInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+					noStored.setStoredCard(null);
+					Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(noStored);
+					mListener.setMode(YoYoMode.YOYO);
+					mListener.moveForward();
 				}
 			}
 		});
@@ -208,6 +224,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		mSectionCurrentBillingAddress.bind(mBillingInfo.getLocation());
 		mSectionCurrentCreditCard.bind(mBillingInfo);
 		mSectionStoredPayment.bind(mBillingInfo.getStoredCard());
+		mSectionPartialCard.bind(mBillingInfo);
 	}
 
 	@Override
@@ -234,7 +251,11 @@ public class FlightPaymentOptionsFragment extends Fragment {
 				.getWorkingBillingInfo());
 		boolean cardValid = mValidationState
 				.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-		boolean displayManualCurrentPayment = !hasSelectedStoredCard && (addressValid || cardValid);
+		boolean displayManualCurrentPayment = !hasSelectedStoredCard && (addressValid && cardValid);
+		boolean displayPartialPayment = !displayManualCurrentPayment && (addressValid || cardValid);
+
+		mSectionPartialCard.setVisibility(displayPartialPayment ? View.VISIBLE : View.GONE);
+		mPartialCardDiv.setVisibility(mSectionPartialCard.getVisibility());
 
 		mCurrentPaymentLabel.setVisibility(hasSelectedStoredCard || displayManualCurrentPayment ? View.VISIBLE
 				: View.GONE);
@@ -242,11 +263,6 @@ public class FlightPaymentOptionsFragment extends Fragment {
 
 		mCurrentPaymentContainer.setVisibility(displayManualCurrentPayment ? View.VISIBLE : View.GONE);
 		mCurrentStoredPaymentContainer.setVisibility(hasSelectedStoredCard ? View.VISIBLE : View.GONE);
-
-		if (displayManualCurrentPayment) {
-			this.mAddressErrorImage.setVisibility(addressValid ? View.GONE : View.VISIBLE);
-			this.mCardErrorImage.setVisibility(cardValid ? View.GONE : View.VISIBLE);
-		}
 
 		mNewPaymentLabel
 				.setText(hasSelectedStoredCard || displayManualCurrentPayment ? getString(R.string.or_select_new_paymet_method)

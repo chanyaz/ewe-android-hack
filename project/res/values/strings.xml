@@ -176,7 +176,7 @@
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">Current Payment Details</string>
     <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">Select a New Payment Method</string>
+    <string name="or_select_new_paymet_method">Select a Payment Method</string>
     <!-- Select Payment -->
     <string name="select_payment">Select Payment</string>
     <!-- Choose from contacts -->
@@ -291,6 +291,8 @@
     <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Born&lt;/font&gt; %1$s</string>
+    <!-- <brand> expiring <date> template -->
+    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; expiring %2$s</string>
 
     <!-- Section edit contact -->
     <!-- first name hint -->

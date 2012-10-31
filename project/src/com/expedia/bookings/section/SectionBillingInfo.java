@@ -46,6 +46,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	ArrayList<SectionField<?, BillingInfo>> mFields = new ArrayList<SectionField<?, BillingInfo>>();
 
+	//TODO:Don't hardcode this format string..
+	DateFormat mExpirationFormater = new SimpleDateFormat("MM/yy");
+
 	Context mContext;
 
 	BillingInfo mBillingInfo;
@@ -75,6 +78,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayCreditCardNumberMasked);
 		mFields.add(this.mDisplayFullName);
 		mFields.add(this.mDisplayAddress);
+		mFields.add(this.mDisplayBrandAndExpirationColored);
 
 		//Validation indicator fields
 		mFields.add(mValidCCNum);
@@ -193,9 +197,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			if (data.getExpirationDate() != null) {
-				//TODO:Don't hardcode this format string..
-				DateFormat df = new SimpleDateFormat("MM/yy");
-				String exprStr = df.format(data.getExpirationDate().getTime());
+				String exprStr = mExpirationFormater.format(data.getExpirationDate().getTime());
 				field.setText(exprStr);
 			}
 			else {
@@ -210,7 +212,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
-				if (cardType != null) {
+				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					field.setImageResource(BookingInfoUtils.CREDIT_CARD_GREY_ICONS.get(cardType));
 				}
 				else {
@@ -229,7 +231,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
-				if (cardType != null) {
+				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					field.setImageResource(BookingInfoUtils.CREDIT_CARD_BLACK_ICONS.get(cardType));
 				}
 				else {
@@ -269,6 +271,23 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
+	SectionField<TextView, BillingInfo> mDisplayBrandAndExpirationColored = new SectionField<TextView, BillingInfo>(
+			R.id.display_brand_and_expiration_colored) {
+		@Override
+		public void onHasFieldAndData(TextView field, BillingInfo data) {
+			if (data.getExpirationDate() != null && data.getBrandName() != null) {
+				String exprStr = mExpirationFormater.format(data.getExpirationDate().getTime());
+				String brandName = data.getBrandName();
+				String formatStr = mContext.getString(R.string.brand_expiring_TEMPLATE);
+				String formatted = String.format(formatStr, brandName, exprStr);
+				field.setText(Html.fromHtml(formatted));
+			}
+			else {
+				field.setText("");
+			}
+		}
+	};
+
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
@@ -303,16 +322,21 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber())) {
 							getData().setNumber(s.toString());
 
-							CreditCardType type = CurrencyUtils.detectCreditCardBrand(mContext, getData().getNumber());
-							if (type == null) {
-								getData().setBrandCode(null);
-								getData().setBrandName(null);
+							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode
+							//We don't want to get rid of the brand code until the user has started to enter new data...
+							if (!TextUtils.isEmpty(getData().getNumber())) {
+								CreditCardType type = CurrencyUtils.detectCreditCardBrand(mContext, getData()
+										.getNumber());
+								if (type == null) {
+									getData().setBrandCode(null);
+									getData().setBrandName(null);
+								}
+								else {
+									getData().setBrandCode(type.getCode());
+									getData().setBrandName(type.name());
+								}
+								rebindNumDependantFields();
 							}
-							else {
-								getData().setBrandCode(type.getCode());
-								getData().setBrandName(type.name());
-							}
-							rebindNumDependantFields();
 						}
 					}
 					onChange(SectionBillingInfo.this);
