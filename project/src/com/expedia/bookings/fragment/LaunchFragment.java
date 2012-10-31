@@ -22,6 +22,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Destination;
 import com.expedia.bookings.data.Filter;
@@ -441,6 +442,12 @@ public class LaunchFragment extends Fragment {
 
 			FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
 			flightSearchParams.setArrivalLocation(location);
+
+			// Make sure to delete ConfirmationState if it exists
+			ConfirmationState confirmationState = new ConfirmationState(mContext, ConfirmationState.Type.FLIGHT);
+			if (confirmationState.hasSavedData()) {
+				confirmationState.delete();
+			}
 
 			Intent intent = new Intent(mContext, FlightSearchActivity.class);
 			intent.putExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, true);
