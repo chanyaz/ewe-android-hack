@@ -302,6 +302,7 @@ public class LaunchFragment extends Fragment {
 
 	private void onHotelDataRetrieved() {
 		mHotelAdapter.setProperties(Db.getLaunchHotelData());
+		mHotelsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
 		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 	}
 
@@ -375,6 +376,7 @@ public class LaunchFragment extends Fragment {
 
 	private void onFlightDataRetrieved() {
 		mFlightAdapter.setDestinations(Db.getLaunchFlightData());
+		mFlightsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
 		mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
 	}
 

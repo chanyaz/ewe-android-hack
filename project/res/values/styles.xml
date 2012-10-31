@@ -525,6 +525,8 @@
         <item name="android:overScrollFooter">@null</item>
         <item name="android:overScrollMode">never</item>
         <item name="android:scrollbars">none</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:drawSelectorOnTop">true</item>
     </style>
 
     <style name="FlightFilterLabel">
