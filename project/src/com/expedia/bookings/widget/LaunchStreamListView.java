@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -52,16 +53,34 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		return true;
 	}
 
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		if (mBeingSlaveDriven) {
+			// If we're being slave driven, pass the touch event to the other guy.  Let him handle it, bro.
+			return mSlaveView.onTouchEvent(ev);
+		}
+		else {
+			return super.onTouchEvent(ev);
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// OnScrollListener
 	//////////////////////////////////////////////////////////////////////////////////////////
 
+	private int mScrollState = OnScrollListener.SCROLL_STATE_IDLE;
+
+	// Represents if an explicit position has been set for this ListView.  This can happen
+	// when setting itself to the middle, or restoring its position.  In those cases, we
+	// don't want any of the normal master/slave relationship to take place
 	private boolean mSetExplicitPosition;
 
-	private boolean mDoNotPropogateNextScrollEvent = false;
+	// Represents of state of being explicitly moved by another ListView.  This ListView should not
+	// respond to any touches and should not move itself in any fashion.
+	private boolean mBeingSlaveDriven = false;
 
-	protected void mDoNotPropogateNextScrollEvent() {
-		mDoNotPropogateNextScrollEvent = true;
+	public void setBeingSlaveDriven(boolean beingSlaveDriven) {
+		mBeingSlaveDriven = beingSlaveDriven;
 	}
 
 	@Override
@@ -73,36 +92,43 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 			return;
 		}
 
-		if (mSlaveView == null) {
-			return;
-		}
-
+		// Always call this, otherwise we get out of sync for future calls of getDistanceScrolled()
 		int deltaY = getDistanceScrolled();
 
-		if (mDoNotPropogateNextScrollEvent) {
-			mDoNotPropogateNextScrollEvent = false;
+		// Don't move our slave if we're being slaved over, or if it's idle (in which case, why would we pass
+		// the move on?  This is a weird thing, but needs to be checked for some versions of Android).
+		if (mSlaveView == null || mBeingSlaveDriven || mScrollState == OnScrollListener.SCROLL_STATE_IDLE) {
 			return;
 		}
 
-		mSlaveView.mDoNotPropogateNextScrollEvent();
-
+		// If we've gotten this far, move the slave a certain distance down
 		mSlaveView.scrollListBy(deltaY);
 	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		if (mSlaveView == null) {
+		mScrollState = scrollState;
+
+		if (mSlaveView == null || mBeingSlaveDriven) {
 			return;
 		}
 
+		if (scrollState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+			mSlaveView.setBeingSlaveDriven(true);
+		}
+		else if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+			mSlaveView.setBeingSlaveDriven(false);
+		}
+
+		// TODO: Re-add marquee, once scrolling works properly
+		/*
 		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
 			resumeMarquee();
-			mSlaveView.resumeMarquee();
 		}
 		else {
 			stopMarquee();
-			mSlaveView.stopMarquee();
 		}
+		*/
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
