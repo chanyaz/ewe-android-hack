@@ -49,7 +49,7 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 			WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
 			int height = wm.getDefaultDisplay().getHeight();
 			int tileHeight = getTileHeight();
-			mNumTiles = (int) Math.ceil((float) height / (float) tileHeight);
+			mNumTiles = (int) Math.ceil((float) height / (float) tileHeight) + 1;
 		}
 		return mNumTiles;
 	}
