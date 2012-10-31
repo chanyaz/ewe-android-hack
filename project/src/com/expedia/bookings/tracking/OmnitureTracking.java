@@ -593,10 +593,10 @@ public class OmnitureTracking {
 		s.trackingServerSecure = "oms.expedia.com";
 
 		if (AndroidUtils.isRelease(context)) {
-			s.account = "expedia1androidcom, expediaglobalapp";
+			s.account = "expedia1androidcom,expediaglobalapp";
 		}
 		else {
-			s.account = "expedia1androidcomdev, expediaglobalappdev";
+			s.account = "expedia1androidcomdev,expediaglobalappdev";
 		}
 
 		return s;
