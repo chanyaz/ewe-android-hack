@@ -139,18 +139,6 @@
             android:layout_centerHorizontal="true"
             android:background="@android:color/black" />
 
-        <TextView
-            android:id="@+id/launch_welcome_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:paddingBottom="40dp"
-            android:paddingRight="40dp"
-            android:text="@string/launch_welcome"
-            android:textColor="@color/launch_primary"
-            android:textSize="26sp" />
-
         <com.expedia.bookings.widget.LaunchStreamListView
             android:id="@+id/hotels_stream_list_view"
             style="@style/ExpediaLaunchList"
