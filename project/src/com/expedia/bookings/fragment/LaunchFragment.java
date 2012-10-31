@@ -132,8 +132,7 @@ public class LaunchFragment extends Fragment {
 
 		onReactToUserActive();
 
-		// TODO: Re-add marquee, once scrolling works properly
-		// mHotelsStreamListView.startMarquee();
+		mHotelsStreamListView.startMarquee();
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(mConnReceiver, filter);

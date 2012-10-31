@@ -108,7 +108,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		}
 
 		// If we've gotten this far, move the slave a certain distance down
-		mSlaveView.scrollListBy(deltaY * (mSlaveView.mScrollMultiplier / mScrollMultiplier));
+		scrollSlaveBy(deltaY);
 	}
 
 	@Override
@@ -126,15 +126,15 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 			mSlaveView.setBeingSlaveDriven(false);
 		}
 
-		// TODO: Re-add marquee, once scrolling works properly
-		/*
+		// Change marquee state based on state
 		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
 			resumeMarquee();
+			mSlaveView.resumeMarquee();
 		}
 		else {
 			stopMarquee();
+			mSlaveView.stopMarquee();
 		}
-		*/
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -191,7 +191,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		}
 	}
 
-	protected void scrollSlaveBy(int deltaY) { 
+	protected void scrollSlaveBy(int deltaY) {
 		mSlaveView.scrollListBy(deltaY * (mSlaveView.mScrollMultiplier / mScrollMultiplier));
 	}
 
@@ -221,9 +221,9 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 	}
 
 	private static final class Marquee extends Handler {
-		private static final int MARQUEE_DELAY = 1200;
+		private static final int MARQUEE_DELAY = 0;
 		private static final int MARQUEE_RESOLUTION = 1000 / 30;
-		private static final int MARQUEE_PIXELS_PER_SECOND = 30;
+		private static final int MARQUEE_PIXELS_PER_SECOND = 20;
 
 		private static final byte MARQUEE_STOPPED = 0x0;
 		private static final byte MARQUEE_STARTING = 0x1;
