@@ -90,7 +90,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		FontCache.setTypeface(titleTextView, FontCache.Font.ROBOTO_LIGHT);
 
 		titleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_flight_tile_prompt,
-				destination.getCity())));
+				destination.getCityFormatted())));
 
 		// Load the image
 		//

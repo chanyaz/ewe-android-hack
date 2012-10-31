@@ -40,6 +40,10 @@ public class Destination implements JSONable {
 		return mCity;
 	}
 
+	public String getCityFormatted() {
+		return mCity.split(",")[0];
+	}
+
 	public String getDescription() {
 		return mDescription;
 	}

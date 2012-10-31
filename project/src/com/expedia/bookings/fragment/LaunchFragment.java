@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.BroadcastReceiver;
@@ -13,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,8 @@ import com.expedia.bookings.data.LaunchHotelData;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.SuggestResponse;
+import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
@@ -308,52 +312,80 @@ public class LaunchFragment extends Fragment {
 
 	// Flight destination search
 
-	private List<Destination> getHardcodedDestinations() {
-		List<Destination> destinations = new ArrayList<Destination>();
-
-		destinations.add(new Destination("LHR", "London", "London Heathrow"));
-		destinations.add(new Destination("MIA", "Miami", "Miami, yo"));
-		destinations.add(new Destination("JFK", "New York", "JFK - John F. Kennedy"));
-		destinations.add(new Destination("ABQ", "Albuquerque", "Albuquerque International Sunport "));
-		destinations.add(new Destination("CDG", "Paris", "Charles de Gaulle"));
-		destinations.add(new Destination("DTW", "Detroit", "Detroit Metro Airport"));
-		destinations.add(new Destination("PRG", "Prague", "Vaclav Havel Airport Prague"));
-		destinations.add(new Destination("RNO", "Reno", "Reno-Tahoe International Airport"));
-		destinations.add(new Destination("SEA", "Seattle", "Seattle-Tacoma International Airport"));
-		destinations.add(new Destination("SFO", "San Francisco", "San Francisco International Airport"));
-		destinations.add(new Destination("YUL", "Montreal", "Pierre Elliott Trudeau International Airport"));
-		destinations.add(new Destination("YYZ", "Toronto", "Toronto Pearson Airport"));
-
-		return destinations;
-	}
+	private final static String[] DESTINATION_IDS = new String[] {
+			"LHR",
+			"MIA",
+			"JFK",
+			"ABQ",
+			"CDG",
+			"DTW",
+			"PRG",
+			"RNO",
+			"SEA",
+			"SFO",
+			"YUL",
+			"YYZ",
+	};
 
 	private Download<List<Destination>> mFlightsDownload = new Download<List<Destination>>() {
 		@Override
 		public List<Destination> doDownload() {
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_FLIGHT_DESTINATIONS, services);
+			List<Destination> destinations = new ArrayList<Destination>();
 
+			// Autocomplete each location to get the proper info on it
+			for (String destinationId : DESTINATION_IDS) {
+				SuggestResponse response = services.suggest(destinationId, ExpediaServices.F_FLIGHTS);
+
+				if (response == null) {
+					Log.w("Got a null response from server autocompleting for: " + destinationId);
+					continue;
+				}
+				else if (response.hasErrors()) {
+					Log.w("Got an error response from server autocompleting for: "
+							+ destinationId + ", " + response.getErrors().get(0).getPresentableMessage(mContext));
+					continue;
+				}
+
+				List<Suggestion> suggestions = response.getSuggestions();
+				if (suggestions.size() == 0) {
+					Log.w("Got 0 suggestions while autocompleting for: " + destinationId);
+					continue;
+				}
+
+				Suggestion firstSuggestion = suggestions.get(0);
+				Pair<String, String> displayName = firstSuggestion.splitDisplayNameForFlights();
+				Destination destination = new Destination(firstSuggestion.getAirportLocationCode(), displayName.first,
+						displayName.second);
+				destinations.add(destination);
+			}
+
+			// Load the metadata for each destination
 			Display display = getActivity().getWindowManager().getDefaultDisplay();
 			int width = Math.round(display.getWidth() / 2);
 			int height = Math.round(getResources().getDimension(R.dimen.launch_tile_height_flight));
 
-			List<Destination> destinations = new ArrayList<Destination>();
-			for (Destination destination : getHardcodedDestinations()) {
+			Iterator<Destination> iterator = destinations.iterator();
+			while (iterator.hasNext()) {
+				Destination destination = iterator.next();
+
 				String destId = destination.getDestinationId();
 
 				BackgroundImageResponse response = services.getFlightsBackgroundImage(destId, width, height);
 
 				if (response == null) {
 					Log.w("Got a null response from server looking for destination bg for: " + destId);
+					iterator.remove();
 				}
 				else if (response.hasErrors()) {
 					Log.w("Got an error response from server looking for destination bg for: "
 							+ destId + ", " + response.getErrors().get(0).getPresentableMessage(mContext));
+					iterator.remove();
 				}
 				else {
 					Log.v("Got destination data for: " + destId);
 					destination.setImageMeta(response.getCacheKey(), response.getImageUrl());
-					destinations.add(destination);
 				}
 			}
 
