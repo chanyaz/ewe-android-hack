@@ -27,6 +27,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		CircularArrayAdapter<Object> adapter = (CircularArrayAdapter<Object>) getAdapter();
 		View v = getChildAt(0);
 		int offset = (v == null) ? 0 : v.getTop();
+		mSetExplicitPosition = true;
 		setSelectionFromTop(adapter.getMiddle(), offset);
 	}
 
@@ -46,6 +47,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 			return false;
 		}
 
+		mSetExplicitPosition = true;
 		setSelectionFromTop(mSavedPosition, mSavedOffset);
 		return true;
 	}
@@ -53,6 +55,8 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// OnScrollListener
 	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private boolean mSetExplicitPosition;
 
 	private boolean mDoNotPropogateNextScrollEvent = false;
 
@@ -62,6 +66,13 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		// If an explicit position was set for this ListView, assume it was meant just for
+		// this and don't pass it along to the slave.
+		if (mSetExplicitPosition) {
+			mSetExplicitPosition = false;
+			return;
+		}
+
 		if (mSlaveView == null) {
 			return;
 		}
