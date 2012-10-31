@@ -149,12 +149,12 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 
 		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
 		if (ImageCache.containsImage(url)) {
-			Log.i("imageContained: " + position + " url: " + url);
+			Log.v("imageContained: " + position + " url: " + url);
 			container.setBackgroundDrawable(new BitmapDrawable(ImageCache.getImage(url)));
 			toggleTile(sale, banner, true, toggleSale);
 		}
 		else {
-			Log.i("imageNotContained: " + position + " url: " + url);
+			Log.v("imageNotContained: " + position + " url: " + url);
 			loadImageForLaunchStream(url, container, banner, sale, toggleSale);
 			toggleTile(sale, banner, false, toggleSale);
 		}

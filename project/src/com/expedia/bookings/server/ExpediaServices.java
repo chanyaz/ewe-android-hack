@@ -317,7 +317,6 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("destinationCode", destinationCode));
 		query.add(new BasicNameValuePair("imageWidth", w));
 		query.add(new BasicNameValuePair("imageHeight", h));
-		Log.i("BACKGROUND IMAGE:" + NetUtils.getParamsForLogging(query));
 		return doFlightsRequest("api/flight/image", query, new BackgroundImageResponseHandler(mContext), 0);
 	}
 
