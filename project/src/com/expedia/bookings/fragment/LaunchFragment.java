@@ -12,6 +12,7 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,9 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 
 public class LaunchFragment extends Fragment {
@@ -161,7 +164,7 @@ public class LaunchFragment extends Fragment {
 			// This is useful if you want to test a device's ability to find a new location
 			findLocation();
 		}
-		if (launchHotelData == null) {
+		else if (launchHotelData == null) {
 			// No cached hotel data exists, perform the least amount of effort in order to get results on screen by following
 			// the logic below
 
@@ -172,10 +175,26 @@ public class LaunchFragment extends Fragment {
 
 			// No cached hotel data and no hotel search downloading...that must mean we need to find a Location!
 			else {
+				Location location = null;
+				if (!AndroidUtils.isRelease(mContext)) {
+					String fakeLatLng = SettingUtils.get(mContext,
+							getString(R.string.preference_fake_current_location), "");
+					if (!TextUtils.isEmpty(fakeLatLng)) {
+						String[] split = fakeLatLng.split(",");
+						if (split.length == 2) {
+							Log.i("Using fake location for hotel search!");
+							location = new Location("fakeProvider");
+							location.setLatitude(Double.parseDouble(split[0]));
+							location.setLongitude(Double.parseDouble(split[1]));
+						}
+					}
+				}
 
 				// Attempt to find last best Location from OS cache
-				long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
-				Location location = LocationServices.getLastBestLocation(mContext, minTime);
+				if (location == null) {
+					long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
+					location = LocationServices.getLastBestLocation(mContext, minTime);
+				}
 
 				// No cached location found, find a new location update as quickly and low-power as possible
 				if (location == null) {

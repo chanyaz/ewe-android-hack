@@ -50,6 +50,7 @@
     <string name="preference_filter_merchant_properties">filter_merchant_properties</string>
     <string name="preference_amobee_marketing_date">preference_amobee_marketing_date</string>
     <string name="preference_suppress_bookings">suppress_bookings</string>
+    <string name="preference_fake_current_location">preference_fake_current_location</string>
     
     <!-- Default values for preference keys -->
     <string name="preference_flight_fake_price_change_default">0</string>
