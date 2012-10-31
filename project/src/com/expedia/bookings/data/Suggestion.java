@@ -1,7 +1,12 @@
 package com.expedia.bookings.data;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Pair;
 
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.model.Search;
@@ -95,6 +100,19 @@ public class Suggestion implements JSONable {
 
 	public void setAirportLocationCode(String airportLocationCode) {
 		mAirportLocationCode = airportLocationCode;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Utility
+	
+	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^(.+)\\((.+)\\)$");
+	
+	public Pair<String, String> splitDisplayNameForFlights() {
+		Matcher m = DISPLAY_NAME_PATTERN.matcher(mDisplayName);
+		if (m.matches()) {
+			return new Pair<String, String>(m.group(1), m.group(2));
+		}
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

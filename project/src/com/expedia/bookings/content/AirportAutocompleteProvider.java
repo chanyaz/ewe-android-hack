@@ -2,7 +2,6 @@ package com.expedia.bookings.content;
 
 import java.net.URLDecoder;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.app.SearchManager;
 import android.content.ContentProvider;
@@ -12,6 +11,7 @@ import android.database.MatrixCursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
@@ -32,8 +32,6 @@ public class AirportAutocompleteProvider extends ContentProvider {
 	public static final int COL_SUGGEST_COLUMN_QUERY = 3;
 
 	public static final Uri CONTENT_FILTER_URI = Uri.parse("content://com.expedia.booking.autocomplete.air");
-
-	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^(.+)\\((.+)\\)$");
 
 	private ExpediaServices mServices;
 
@@ -57,12 +55,12 @@ public class AirportAutocompleteProvider extends ContentProvider {
 			SuggestResponse response = mServices.suggest(query, ExpediaServices.F_FLIGHTS);
 			if (response != null) {
 				for (Suggestion suggestion : response.getSuggestions()) {
-					Matcher m = DISPLAY_NAME_PATTERN.matcher(suggestion.getDisplayName());
-					if (m.matches()) {
+					Pair<String, String> displayName = suggestion.splitDisplayNameForFlights();
+					if (displayName != null) {
 						Object[] row = new Object[COLUMNS.length];
 						row[0] = suggestion.getId();
-						row[1] = m.group(1);
-						row[2] = m.group(2);
+						row[1] = displayName.first;
+						row[2] = displayName.second;
 						row[3] = suggestion.getAirportLocationCode();
 						cursor.addRow(row);
 					}
