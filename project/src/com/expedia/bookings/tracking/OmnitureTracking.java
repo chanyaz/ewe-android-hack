@@ -596,7 +596,7 @@ public class OmnitureTracking {
 			s.account = "expedia1androidcom,expediaglobalapp";
 		}
 		else {
-			s.account = "expedia1androidcomdev,expediaglobalappdev";
+			s.account = "expedia1androidcomdev";
 		}
 
 		return s;
