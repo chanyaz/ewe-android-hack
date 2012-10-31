@@ -1,7 +1,9 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,6 +68,7 @@ public class LaunchFragment extends Fragment {
 
 	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 	private static final int NUM_HOTEL_PROPERTIES = 20;
+	private static final int NUM_FLIGHT_DESTINATIONS = 5;
 
 	private Context mContext;
 
@@ -150,6 +153,12 @@ public class LaunchFragment extends Fragment {
 		bd.unregisterDownloadCallback(KEY_FLIGHT_DESTINATIONS);
 
 		getActivity().unregisterReceiver(mConnReceiver);
+
+		if (getActivity().isFinishing()) {
+			// Unload the current hotel/flight data, so we don't reload it
+			Db.setLaunchHotelData(null);
+			Db.setLaunchFlightData(null);
+		}
 	}
 
 	@Override
@@ -342,21 +351,34 @@ public class LaunchFragment extends Fragment {
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_FLIGHT_DESTINATIONS, services);
 			List<Destination> destinations = new ArrayList<Destination>();
 
-			// Autocomplete each location to get the proper info on it
-			for (String destinationId : DESTINATION_IDS) {
-				SuggestResponse response = services.suggest(destinationId, ExpediaServices.F_FLIGHTS);
+			Display display = getActivity().getWindowManager().getDefaultDisplay();
+			int width = Math.round(display.getWidth() / 2);
+			int height = Math.round(getResources().getDimension(R.dimen.launch_tile_height_flight));
 
-				if (response == null) {
+			// Randomly shuffle destinations
+			List<String> destinationIds = Arrays.asList(DESTINATION_IDS);
+			Collections.shuffle(destinationIds);
+
+			// Collection up to NUM_FLIGHT_DESTINATIONS destinations
+			for (String destinationId : destinationIds) {
+				if (destinations.size() == NUM_FLIGHT_DESTINATIONS) {
+					break;
+				}
+
+				// Autocomplete each location to get the proper info on it
+				SuggestResponse suggestResponse = services.suggest(destinationId, ExpediaServices.F_FLIGHTS);
+
+				if (suggestResponse == null) {
 					Log.w("Got a null response from server autocompleting for: " + destinationId);
 					continue;
 				}
-				else if (response.hasErrors()) {
+				else if (suggestResponse.hasErrors()) {
 					Log.w("Got an error response from server autocompleting for: "
-							+ destinationId + ", " + response.getErrors().get(0).getPresentableMessage(mContext));
+							+ destinationId + ", " + suggestResponse.getErrors().get(0).getPresentableMessage(mContext));
 					continue;
 				}
 
-				List<Suggestion> suggestions = response.getSuggestions();
+				List<Suggestion> suggestions = suggestResponse.getSuggestions();
 				if (suggestions.size() == 0) {
 					Log.w("Got 0 suggestions while autocompleting for: " + destinationId);
 					continue;
@@ -364,36 +386,23 @@ public class LaunchFragment extends Fragment {
 
 				Suggestion firstSuggestion = suggestions.get(0);
 				Pair<String, String> displayName = firstSuggestion.splitDisplayNameForFlights();
-				Destination destination = new Destination(firstSuggestion.getAirportLocationCode(), displayName.first,
-						displayName.second);
-				destinations.add(destination);
-			}
+				String destId = firstSuggestion.getAirportLocationCode();
+				Destination destination = new Destination(destId, displayName.first, displayName.second);
 
-			// Load the metadata for each destination
-			Display display = getActivity().getWindowManager().getDefaultDisplay();
-			int width = Math.round(display.getWidth() / 2);
-			int height = Math.round(getResources().getDimension(R.dimen.launch_tile_height_flight));
+				// Now try to get metadata
 
-			Iterator<Destination> iterator = destinations.iterator();
-			while (iterator.hasNext()) {
-				Destination destination = iterator.next();
-
-				String destId = destination.getDestinationId();
-
-				BackgroundImageResponse response = services.getFlightsBackgroundImage(destId, width, height);
-
-				if (response == null) {
+				BackgroundImageResponse imageResponse = services.getFlightsBackgroundImage(destId, width, height);
+				if (imageResponse == null) {
 					Log.w("Got a null response from server looking for destination bg for: " + destId);
-					iterator.remove();
 				}
-				else if (response.hasErrors()) {
+				else if (imageResponse.hasErrors()) {
 					Log.w("Got an error response from server looking for destination bg for: "
-							+ destId + ", " + response.getErrors().get(0).getPresentableMessage(mContext));
-					iterator.remove();
+							+ destId + ", " + imageResponse.getErrors().get(0).getPresentableMessage(mContext));
 				}
 				else {
 					Log.v("Got destination data for: " + destId);
-					destination.setImageMeta(response.getCacheKey(), response.getImageUrl());
+					destination.setImageMeta(imageResponse.getCacheKey(), imageResponse.getImageUrl());
+					destinations.add(destination);
 				}
 			}
 
