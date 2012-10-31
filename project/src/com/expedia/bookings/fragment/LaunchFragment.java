@@ -110,6 +110,9 @@ public class LaunchFragment extends Fragment {
 		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
 		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
 
+		mHotelsStreamListView.setScrollMultiplier(2.0);
+		mFlightsStreamListView.setScrollMultiplier(1.0);
+
 		return v;
 	}
 

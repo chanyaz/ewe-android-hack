@@ -15,6 +15,8 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 
 	private LaunchStreamListView mSlaveView;
 
+	private double mScrollMultiplier = 1.0;
+
 	public LaunchStreamListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setOnScrollListener(this);
@@ -22,6 +24,10 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 
 	public void setSlaveView(LaunchStreamListView slave) {
 		mSlaveView = slave;
+	}
+
+	public void setScrollMultiplier(double multiplier) {
+		mScrollMultiplier = multiplier;
 	}
 
 	public void selectMiddle() {
@@ -102,7 +108,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		}
 
 		// If we've gotten this far, move the slave a certain distance down
-		mSlaveView.scrollListBy(deltaY);
+		mSlaveView.scrollListBy(deltaY * (mSlaveView.mScrollMultiplier / mScrollMultiplier));
 	}
 
 	@Override
@@ -163,11 +169,11 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 
 	private int mScrollByPosition = 0;
 	private int mScrollByTop = 0;
-	private int mScrollByDelta = 0;
+	private double mScrollByDelta = 0;
 
 	// If this is called twice quickly before a refresh, we need to just increase the distance
 	// instead of replacing it.
-	protected void scrollListBy(int deltaY) {
+	protected void scrollListBy(double deltaY) {
 		int position = getFirstVisiblePosition();
 		int top = (getChildAt(0) == null ? 0 : getChildAt(0).getTop());
 		if (mScrollByPosition == position && mScrollByTop == top) {
@@ -180,14 +186,13 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		}
 
 		if (mScrollByDelta != 0) {
-			setSelectionFromTop(position, top + mScrollByDelta);
+			setSelectionFromTop(position, (int) (top + mScrollByDelta));
 			invalidate();
 		}
 	}
 
-	protected void scrollSlaveBy(int deltaY) {
-		// TODO: this "*2" formula is pretty simple. We may want to make it more complex. 
-		mSlaveView.scrollListBy(deltaY * 2);
+	protected void scrollSlaveBy(int deltaY) { 
+		mSlaveView.scrollListBy(deltaY * (mSlaveView.mScrollMultiplier / mScrollMultiplier));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
