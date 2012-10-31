@@ -73,13 +73,11 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.setLocale(testingLocale);
 			mDriver.delay();
 			mDriver.changePOS(locales[i]);
-
+			mDriver.clearPrivateData();
+			
 			mDriver.launchHotels();
 			mDriver.delay();
-			mSolo.goBack();
-			mDriver.launchHotels();
-			mDriver.delay();
-
+			
    			mDriver.pressCalendar();
 			mDriver.pressGuestPicker();
 			mDriver.selectLocation("San Francisco");

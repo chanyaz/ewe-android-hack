@@ -161,11 +161,11 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Helpful Methods
 	public void launchHotels() {
-		mSolo.clickOnText(mSolo.getString(R.string.launch_hotel_secondary_text));
+		mSolo.clickOnScreen(120, 150);
 	}
 
 	public void launchFlights() {
-		mSolo.clickOnText(mSolo.getString(R.string.launch_flight_secondary_text));
+		mSolo.clickOnScreen(360, 150);
 	}
 
 	public void enterLog(String TAG, String logText) {
@@ -285,7 +285,7 @@ public class HotelsRobotHelper {
 			if (!mSolo.isCheckBoxChecked(0)) {
 				mSolo.clickOnCheckBox(0);
 			}
-			if (mSolo.isCheckBoxChecked(2)) {
+			if (!mSolo.isCheckBoxChecked(2)) {
 				mSolo.clickOnCheckBox(2);
 			}
 
@@ -333,8 +333,7 @@ public class HotelsRobotHelper {
 								//might break stuff
 		enterLog(TAG, "After clicking search button");
 
-		mSolo.waitForActivity("ExpediaBookingApp");
-		mSolo.waitForDialogToClose(15000);
+		mSolo.waitForActivity("ExpediaBookingApp"); // Add another wait if this causes instability
 		enterLog(TAG, "Location searched for and results loaded!");
 		delay();
 		screenshot("Search Results");
@@ -353,7 +352,9 @@ public class HotelsRobotHelper {
 		String filter = mRes.getString(R.string.FILTER);
 		//Korea and Japan do not support filtering because 
 		//most hotel names are in their respective languages' characters
-		if (mRes.getConfiguration().locale != APAC_LOCALES[4] && mRes.getConfiguration().locale != APAC_LOCALES[5]) {
+		if (mRes.getConfiguration().locale != APAC_LOCALES[4] 
+				&& mRes.getConfiguration().locale != APAC_LOCALES[5]
+				&& mRes.getConfiguration().locale != APAC_LOCALES[1]) {
 			enterLog(TAG, "Clicking on label: " + filter);
 			mSolo.clickOnButton(1);
 			landscape();
@@ -594,8 +595,8 @@ public class HotelsRobotHelper {
 		mSolo.clickOnScreen(100, 500);
 		delay(1);
 		mSolo.clickOnScreen(100, 500);
-
 		delay(1);
+		mSolo.clickOnScreen(100, 500);
 		delay(1);
 		mSolo.clickOnScreen(325, 725);
 		enterLog(TAG, "Press Book");
@@ -685,17 +686,12 @@ public class HotelsRobotHelper {
 	public void confirmAndBook() throws Exception {
 
 		delay();
-		try {
-			mSolo.drag(100, 400, 650, 650, 10);
-		}
-		catch (Exception e) {
+		mSolo.drag(100, 400, 650, 650, 10);
 
-			throw new Exception();
-		}
 		delay(5);
 		enterCCV();
 
-		Boolean screenLoaded = mSolo.waitForActivity("ConfirmationFragmentActivity", 60000);
+		Boolean screenLoaded = mSolo.waitForActivity("ConfirmationFragmentActivity");
 
 		if (screenLoaded) {
 			enterLog(TAG, "Should be on confirmation screen now.");
@@ -713,7 +709,7 @@ public class HotelsRobotHelper {
 			enterLog(TAG, "Never got to confirmation screen.");
 		}
 		try {
-			mSolo.clickOnText(mRes.getString(R.string.new_search));
+			mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
 		}
 		catch (AssertionFailedError E) {
 			enterLog(TAG, "New Search string not localized: No " + mRes.getString(R.string.new_search));
