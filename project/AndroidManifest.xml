@@ -117,7 +117,6 @@
         <activity
             android:name=".activity.ExpediaBookingPreferenceActivity"
             android:theme="@style/Theme.Phone.Preferences" />
-        <activity android:name=".activity.SignInActivity" />
         <activity
             android:name=".activity.TabletPreferenceActivity"
             android:excludeFromRecents="true"
