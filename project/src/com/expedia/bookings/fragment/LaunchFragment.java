@@ -76,6 +76,10 @@ public class LaunchFragment extends Fragment {
 	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchFlightAdapter mFlightAdapter;
 
+	// Used to prevent launching of both flight and hotel activities at once
+	// (as it is otherwise possible to quickly click on both sides).
+	private boolean mLaunchingActivity;
+
 	private boolean mCleanOnStop = false;
 
 	public static LaunchFragment newInstance() {
@@ -120,6 +124,8 @@ public class LaunchFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		mLaunchingActivity = false;
 
 		onReactToUserActive();
 
@@ -471,8 +477,14 @@ public class LaunchFragment extends Fragment {
 	private final AdapterView.OnItemClickListener mHotelsStreamOnItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			if (mLaunchingActivity) {
+				return;
+			}
+
 			Property property = mHotelAdapter.getItem(position);
 			if (property != null) {
+				mLaunchingActivity = true;
+
 				Db.setSelectedProperty(property);
 
 				Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
@@ -487,6 +499,12 @@ public class LaunchFragment extends Fragment {
 	private final AdapterView.OnItemClickListener mFlightsStreamOnItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			if (mLaunchingActivity) {
+				return;
+			}
+
+			mLaunchingActivity = true;
+
 			Destination destination = mFlightAdapter.getItem(position);
 
 			com.expedia.bookings.data.Location location = new com.expedia.bookings.data.Location();
