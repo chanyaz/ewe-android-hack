@@ -602,7 +602,10 @@ public class LaunchFragment extends Fragment {
 					Db.setLaunchFlightData(null);
 					Db.setLaunchHotelData(null);
 
-					onReactToUserActive();
+					// Only react to user being active if we are active
+					if (isAdded()) {
+						onReactToUserActive();
+					}
 				}
 			}
 		}
