@@ -26,7 +26,7 @@
     <item android:state_enabled="true"
         android:drawable="@drawable/btn_default_normal" />
     <!-- <item android:state_focused="true"
-        android:drawable="@drawable/btn_default_normal_disable_focused" /> -->
+        android:drawable=".drawable/btn_default_normal_disable_focused" /> -->
     <item
          android:drawable="@drawable/btn_default_normal_disable" />
 </selector>
