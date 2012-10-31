@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,7 +7,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -33,10 +30,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		// Add enough blank items so that we can show blank tiles before loading
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		int height = wm.getDefaultDisplay().getHeight();
-		int tileHeight = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_flight);
-		int numTiles = (height / tileHeight) + (height % tileHeight);
+		int numTiles = getNumTiles();
 		for (int a = 0; a < numTiles; a++) {
 			add(null);
 		}
@@ -51,7 +45,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 				add(destination);
 			}
 
-			mViewCache = new View[launchFlightData.getDestinations().size()];
+			mViewCache = new View[getViewCacheSize(launchFlightData.getDestinations().size())];
 		}
 
 		notifyDataSetChanged();
@@ -134,5 +128,10 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		};
 
 		return ImageCache.loadImage(key, url, callback);
+	}
+
+	@Override
+	public int getTileHeight() {
+		return mContext.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_flight);
 	}
 }

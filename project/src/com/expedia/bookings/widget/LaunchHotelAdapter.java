@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -39,10 +38,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		// Add enough blank items so that we can show blank tiles before loading
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		int height = wm.getDefaultDisplay().getHeight();
-		int tileHeight = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_hotel);
-		int numTiles = (height / tileHeight) + (height % tileHeight);
+		int numTiles = getNumTiles();
 		for (int a = 0; a < numTiles; a++) {
 			add(null);
 		}
@@ -59,7 +55,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 				add(property);
 			}
 
-			mViewCache = new View[launchHotelData.getProperties().size()];
+			mViewCache = new View[getViewCacheSize(launchHotelData.getProperties().size())];
 		}
 
 		notifyDataSetChanged();
@@ -205,5 +201,10 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 
 		int saleVisibility = saleOn && loaded ? View.VISIBLE : View.GONE;
 		sale.setVisibility(saleVisibility);
+	}
+
+	@Override
+	public int getTileHeight() {
+		return mContext.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_hotel);
 	}
 }
