@@ -10,10 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="@dimen/launch_tile_hotel_urgency_padding"
+        android:layout_marginRight="@dimen/launch_tile_hotel_sale_horizontal_padding"
         android:background="@drawable/bg_launch_sale"
-        android:drawablePadding="@dimen/launch_tile_hotel_urgency_padding"
-        android:padding="@dimen/launch_tile_hotel_urgency_padding"
+        android:drawablePadding="@dimen/launch_tile_hotel_sale_drawable_padding"
+        android:paddingBottom="@dimen/launch_tile_hotel_sale_vertical_padding"
+        android:paddingLeft="@dimen/launch_tile_hotel_sale_horizontal_padding"
+        android:paddingRight="@dimen/launch_tile_hotel_sale_horizontal_padding"
+        android:paddingTop="@dimen/launch_tile_hotel_sale_vertical_padding"
         android:textColor="@color/launch_primary"
         android:visibility="gone" />
 

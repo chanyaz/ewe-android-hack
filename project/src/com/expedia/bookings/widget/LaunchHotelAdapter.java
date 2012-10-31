@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Destination;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.LaunchHotelData;
 import com.expedia.bookings.data.Media;
@@ -125,9 +122,10 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
 		priceTextView.setText(hotelPrice);
 
-		TextView sale = Ui.findView(view, R.id.launch_tile_sale_text_view);
-
 		// Sale
+		TextView sale = Ui.findView(view, R.id.launch_tile_sale_text_view);
+		FontCache.setTypeface(sale, FontCache.Font.ROBOTO_BOLD);
+
 		boolean toggleSale = false;
 		if (property.isLowestRateTonightOnly()) {
 			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));

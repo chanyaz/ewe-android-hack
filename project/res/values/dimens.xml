@@ -12,8 +12,11 @@
     <dimen name="launch_tile_banner_height">48dp</dimen>
     <dimen name="launch_tile_height_hotel">160dp</dimen>
     <dimen name="launch_tile_height_flight">260dp</dimen>
-    <dimen name="launch_tile_hotel_urgency_padding">4dp</dimen>
-    
+    <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>
+    <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>
+    <dimen name="launch_tile_hotel_sale_drawable_padding">3dp</dimen>
+
+
     <!-- Plane window view dimens -->
     <!-- These must always be linked -->
     <dimen name="plane_window_height">350dp</dimen>
