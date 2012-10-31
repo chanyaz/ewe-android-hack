@@ -22,18 +22,17 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.PaymentFlowState;
+import com.expedia.bookings.section.HotelSectionStoredCreditCard;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
-import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
-
 
 public class HotelPaymentOptionsFragment extends Fragment {
 
 	SectionLocation mSectionCurrentBillingAddress;
 	SectionBillingInfo mSectionCurrentCreditCard;
-	SectionStoredCreditCard mSectionStoredPayment;
+	HotelSectionStoredCreditCard mSectionStoredPayment;
 	View mNewCreditCardBtn;
 
 	TextView mStoredPaymentsLabel;
@@ -140,11 +139,10 @@ public class HotelPaymentOptionsFragment extends Fragment {
 			Resources res = getResources();
 			for (int i = 0; i < cards.size(); i++) {
 				final StoredCreditCard storedCard = cards.get(i);
-				SectionStoredCreditCard card = (SectionStoredCreditCard) inflater.inflate(
-						R.layout.section_display_stored_credit_card, null);
+				HotelSectionStoredCreditCard card = (HotelSectionStoredCreditCard) inflater.inflate(
+						R.layout.section_hotel_display_stored_credit_card, null);
 				card.setUseActiveCardIcon(false, false);
 				card.bind(cards.get(i));
-				card.setPadding(0, 5, 0, (i == cards.size() - 1) ? 10 : 5);
 				card.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -161,10 +159,8 @@ public class HotelPaymentOptionsFragment extends Fragment {
 					View divider = new View(getActivity());
 					LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
 							LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
-					divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
-							res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
 					divider.setLayoutParams(divLayoutParams);
-					divider.setBackgroundColor(res.getColor(R.color.divider_grey));
+					divider.setBackgroundColor(0x63FFFFFF);
 					mStoredCardsContainer.addView(divider);
 				}
 				mStoredCardsContainer.addView(card);
