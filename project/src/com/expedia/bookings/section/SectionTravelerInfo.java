@@ -77,6 +77,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mDisplayPhoneNumberWithCountryCode);
 		mFields.add(mDisplaySpeatPreference);
 		mFields.add(mDisplayLongFormBirthDay);
+		mFields.add(mDisplayCurrentTravelerWithNameColored);
 
 		//Validation Indicator fields
 		mFields.add(mValidFirstName);
@@ -209,6 +210,21 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 			if (!TextUtils.isEmpty(fullNameStr)) {
 				field.setText(fullNameStr);
+			}
+		}
+	};
+
+	SectionField<TextView, Traveler> mDisplayCurrentTravelerWithNameColored = new SectionField<TextView, Traveler>(
+			R.id.display_current_traveler_with_name_colored) {
+		@Override
+		public void onHasFieldAndData(TextView field, Traveler data) {
+			if (data.hasName()) {
+				String formatStr = mContext.getString(R.string.current_traveler_TEMPLATE);
+				String formatted = String.format(formatStr, data.getFirstName().trim(), data.getLastName().trim());
+				field.setText(Html.fromHtml(formatted));
+			}
+			else {
+				field.setText("");
 			}
 		}
 	};
@@ -360,22 +376,23 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	SectionFieldEditable<EditText, Traveler> mEditLastName = new SectionFieldEditable<EditText, Traveler>(
 			R.id.edit_last_name) {
-		
-		Validator<EditText> mValidator = new Validator<EditText>(){
+
+		Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
-				if(obj == null){
+				if (obj == null) {
 					return ValidationError.ERROR_DATA_MISSING;
-				}else{
+				}
+				else {
 					String text = obj.getText().toString();
-					if(text.length() < 2){
+					if (text.length() < 2) {
 						return ValidationError.ERROR_DATA_INVALID;
 					}
 				}
 				return ValidationError.NO_ERROR;
 			}
 		};
-		
+
 		@Override
 		protected Validator<EditText> getValidator() {
 			return mValidator;
@@ -481,28 +498,29 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			}
 
 			DatePickerDialog dialog = new DatePickerDialog(getActivity(), mListener, mYear, mMonth, mDay) {
-				
+
 				// The Compat lib has a bug that causes savedInstanceState to be null on old versions of android
 				// Because we are retaining instance, we can set the dates in the onDateChanged function to fix this issue
 				// however a bug in ICS causes super.onDateChanged() to unset the listener. Basically Pre ICS, ICS, And > JB all behave differently
-				
+
 				@Override
 				public void onDateChanged(DatePicker view, int year, int month, int day) {
 					// We do this because of a bug in ICS : http://code.google.com/p/android/issues/detail?id=25838
-					if(AndroidUtils.getSdkVersion() <= 14 || AndroidUtils.getSdkVersion() > 15){
+					if (AndroidUtils.getSdkVersion() <= 14 || AndroidUtils.getSdkVersion() > 15) {
 						super.onDateChanged(view, year, month, day);
-					}else{
+					}
+					else {
 						setDate(year, month, day);
 						customUpdateTitle(year, month, day);
 					}
-					
+
 					mYear = year;
 					mMonth = month;
 					mDay = day;
 				}
-				
+
 				//old versions of onDateChanged call updateTitle (which we don't have access to)
-				public void customUpdateTitle(int year, int month, int day){
+				public void customUpdateTitle(int year, int month, int day) {
 					//e.g. Tue, Apr 4, 1978
 					String format = "E, MMM dd, yyyy";
 					SimpleDateFormat df = new SimpleDateFormat(format);
@@ -510,15 +528,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					Calendar cal = Calendar.getInstance();
 					cal.set(year, month, day);
 					d.setTime(cal.getTimeInMillis());
-					if(d != null){
+					if (d != null) {
 						String formattedDate = df.format(d);
 						setTitle(formattedDate);
 					}
 				}
 			};
-			
+
 			dialog.updateDate(mYear, mMonth, mDay);
-			
 
 			if (AndroidUtils.getSdkVersion() >= 11) {
 				//We set a max date for new apis, if we are stuck with an old api, they will be allowed to choose any date, but validation will fail

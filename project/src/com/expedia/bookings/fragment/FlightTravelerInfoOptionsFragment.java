@@ -47,6 +47,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	View mSelectTravelerLabelDiv;
 	ViewGroup mEditTravelerContainer;
 	ViewGroup mAssociatedTravelersContainer;
+	View mPartialTravelerDivider;
 
 	int mCurrentTravelerIndex;
 	Traveler mCurrentTraveler;
@@ -54,6 +55,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	SectionTravelerInfo mTravelerContact;
 	SectionTravelerInfo mTravelerPrefs;
 	SectionTravelerInfo mTravelerPassportCountry;
+	SectionTravelerInfo mPartialTraveler;
 
 	TravelerInfoYoYoListener mListener;
 
@@ -86,6 +88,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mSelectTravelerLabelDiv = Ui.findView(v, R.id.select_traveler_label_div);
 		mAssociatedTravelersContainer = Ui.findView(v, R.id.associated_travelers_container);
 		mInternationalDivider = Ui.findView(v, R.id.current_traveler_passport_country_divider);
+		mPartialTravelerDivider = Ui.findView(v, R.id.new_traveler_partial_divider);
 
 		ViewUtils.setAllCaps(mEditTravelerLabel);
 		ViewUtils.setAllCaps(mSelectTravelerLabel);
@@ -163,6 +166,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mTravelerContact = Ui.findView(v, R.id.current_traveler_contact);
 		mTravelerPrefs = Ui.findView(v, R.id.current_traveler_prefs);
 		mTravelerPassportCountry = Ui.findView(v, R.id.current_traveler_passport_country);
+		mPartialTraveler = Ui.findView(v, R.id.new_traveler_partial);
 
 		mTravelerContact.setOnClickListener(new OnClickListener() {
 			@Override
@@ -185,6 +189,17 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			public void onClick(View v) {
 				mListener.setMode(YoYoMode.EDIT);
 				mListener.displayTravelerEntryThree();
+			}
+		});
+
+		mPartialTraveler.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Traveler tTrav = new Traveler();
+				tTrav.fromJson(Db.getWorkingTravelerManager().getWorkingTraveler().toJson());
+				Db.getWorkingTravelerManager().shiftWorkingTraveler(tTrav);
+				mListener.setMode(YoYoMode.YOYO);
+				mListener.displayTravelerEntryOne();
 			}
 		});
 
@@ -233,43 +248,40 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 	public void refreshCurrentTraveler() {
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-		boolean international = Db.getFlightSearch().getSelectedFlightTrip().isInternational();		
-		boolean validDomesticTraveler = (state != null) && state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
+		boolean international = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+		boolean validDomesticTraveler = (state != null)
+				&& state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
 		boolean validInternationalTraveler = validDomesticTraveler && state.hasValidTravelerPartThree(mCurrentTraveler);
-		
-		if (!validDomesticTraveler) {
+		boolean hasName = mCurrentTraveler.hasName();
+
+		if ((international && !validInternationalTraveler) || (!international && !validDomesticTraveler)) {
+			//Invalid traveler
 			mEditTravelerContainer.setVisibility(View.GONE);
 			mEditTravelerLabel.setVisibility(View.GONE);
 			mSelectTravelerLabel.setText(getString(R.string.select_a_traveler));
+			//If we have a partial traveler, show that guy
+			mPartialTraveler.setVisibility(hasName ? View.VISIBLE : View.GONE);
 		}
 		else {
+			//Valid traveler!
 			mEditTravelerContainer.setVisibility(View.VISIBLE);
 			mEditTravelerLabel.setVisibility(View.VISIBLE);
 			mSelectTravelerLabel.setText(getString(R.string.select_a_different_traveler));
 			if (international) {
 				mInternationalDivider.setVisibility(View.VISIBLE);
 				mTravelerPassportCountry.setVisibility(View.VISIBLE);
-				View passportError = Ui.findView(mTravelerPassportCountry, R.id.error_image);
-				if(passportError != null){
-					if(!validInternationalTraveler){
-						passportError.setVisibility(View.VISIBLE);
-					}else{
-						passportError.setVisibility(View.GONE);
-					}
-				}
 			}
-			else {
-				mInternationalDivider.setVisibility(View.GONE);
-				mTravelerPassportCountry.setVisibility(View.GONE);
-			}
+			mPartialTraveler.setVisibility(View.GONE);
 		}
 
 		mEditTravelerLabelDiv.setVisibility(mEditTravelerLabel.getVisibility());
 		mSelectTravelerLabelDiv.setVisibility(mSelectTravelerLabel.getVisibility());
+		mPartialTravelerDivider.setVisibility(mPartialTraveler.getVisibility());
 
 		mTravelerContact.bind(mCurrentTraveler);
 		mTravelerPrefs.bind(mCurrentTraveler);
 		mTravelerPassportCountry.bind(mCurrentTraveler);
+		mPartialTraveler.bind(mCurrentTraveler);
 	}
 
 	public interface TravelerInfoYoYoListener {

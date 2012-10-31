@@ -144,21 +144,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="@string/add_new_card"
                     android:textColor="@color/data_entry_text"
                     android:textSize="18sp" />
-                
             </com.expedia.bookings.section.SectionBillingInfo>
 
             <View
                 android:id="@+id/new_payment_partial_card_divider"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/simple_grey_divider_height"
-                android:background="@color/divider_grey"
-                android:layout_marginTop="@dimen/simple_grey_divider_margin_top"
                 android:layout_marginBottom="@dimen/simple_grey_divider_margin_bottom"
-                />
-            
+                android:layout_marginTop="@dimen/simple_grey_divider_margin_top"
+                android:background="@color/divider_grey" />
+
             <LinearLayout
                 android:id="@+id/new_payment_new_card"
                 android:layout_width="match_parent"

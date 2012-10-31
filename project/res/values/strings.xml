@@ -443,6 +443,8 @@
     <string name="traveler_information">Traveler Information</string>
     <!-- Passport -->
     <string name="passport">Passport</string>
+    <!-- Current traveler - <firstname> <lastname> -->
+    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Current traveler -&lt;/font&gt; %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->

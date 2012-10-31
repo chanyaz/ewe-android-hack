@@ -97,6 +97,38 @@
             android:paddingBottom="8dp"
             android:paddingTop="8dp" >
 
+            <com.expedia.bookings.section.SectionTravelerInfo
+                android:id="@+id/new_traveler_partial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0"
+                    android:src="@drawable/ic_traveler_blue_entered" />
+
+                <TextView
+                    android:id="@+id/display_current_traveler_with_name_colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/data_entry_text"
+                    android:textSize="18sp" />
+            </com.expedia.bookings.section.SectionTravelerInfo>
+
+            <View
+                android:id="@+id/new_traveler_partial_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/simple_grey_divider_height"
+                android:layout_marginBottom="@dimen/simple_grey_divider_margin_bottom"
+                android:layout_marginTop="@dimen/simple_grey_divider_margin_top"
+                android:background="@color/divider_grey" />
+
             <LinearLayout
                 android:id="@+id/associated_travelers_container"
                 android:layout_width="match_parent"
