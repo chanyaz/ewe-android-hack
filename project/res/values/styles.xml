@@ -556,6 +556,7 @@
     </style>
 
     <style name="FakeSpinner" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
         <item name="android:paddingLeft">12dp</item>
     </style>
 
