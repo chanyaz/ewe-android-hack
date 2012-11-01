@@ -17,7 +17,15 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 
 	public TelephoneSpinnerAdapter(Context context) {
 		super(context, R.layout.simple_spinner_item);
+		init(context);
+	}
 
+	public TelephoneSpinnerAdapter(Context context, int textViewResourceId) {
+		super(context, textViewResourceId);
+		init(context);
+	}
+
+	private void init(Context context) {
 		final Resources res = context.getResources();
 		mCountryPhoneCodes = res.getIntArray(R.array.country_phone_codes);
 		mCountryNames = res.getStringArray(R.array.country_names);
