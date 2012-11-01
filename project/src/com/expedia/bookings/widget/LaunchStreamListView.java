@@ -67,16 +67,17 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		}
 		else {
 			// Stop marquee when we get any touch events, and only start again if we are not flinging.
-			// (The scroll state change will indicate when to restart marquee in that circumstnace.)
-			switch (ev.getAction()) {
-			case MotionEvent.ACTION_DOWN:
+			// (The scroll state change will indicate when to restart marquee in that circumstance.)
+
+			int action = ev.getAction();
+
+			if (action == MotionEvent.ACTION_DOWN) {
 				stopMarquee();
 				mSlaveView.stopMarquee();
-				break;
-			case MotionEvent.ACTION_UP:
-				startMarquee();
-				mSlaveView.startMarquee();
-				break;
+			}
+			else if (action == MotionEvent.ACTION_UP && mScrollState != OnScrollListener.SCROLL_STATE_FLING) {
+				resumeMarquee();
+				mSlaveView.resumeMarquee();
 			}
 
 			return super.onTouchEvent(ev);
