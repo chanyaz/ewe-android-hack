@@ -20,7 +20,9 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.AdapterView;
 
 import com.expedia.bookings.R;
@@ -59,7 +61,7 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 
-public class LaunchFragment extends Fragment {
+public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, OnPreDrawListener {
 
 	private static final boolean DEBUG_ALWAYS_GRAB_NEW_LOCATION = false;
 
@@ -136,16 +138,7 @@ public class LaunchFragment extends Fragment {
 
 		onReactToUserActive();
 
-		// F1128: Starting the marquee before a LaunchStreamListView has actually rendered seems to cause
-		// much sadness.  So we delay the start of the marquee until it's actually been rendered once.
-		mHotelsStreamListView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				mHotelsStreamListView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-
-				mHotelsStreamListView.startMarquee();
-			}
-		});
+		startMarquee();
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(mConnReceiver, filter);
@@ -636,5 +629,40 @@ public class LaunchFragment extends Fragment {
 			mCleanOnStop = false;
 			return true;
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnGlobalLayoutListener, OnPreDrawListener
+	//
+	// F1128: Starting the marquee before a LaunchStreamListView has actually
+	// rendered seems to cause much sadness.  So we delay the start of the
+	// marquee until it's actually been rendered once.
+	//
+	// We also need to use both preDraw and onGlobalLayout, as sometimes one
+	// or the other is only called.
+
+	private void startMarquee() {
+		ViewTreeObserver vto = mHotelsStreamListView.getViewTreeObserver();
+		vto.addOnGlobalLayoutListener(this);
+		vto.addOnPreDrawListener(this);
+	}
+
+	private void startMarqueeImpl() {
+		mHotelsStreamListView.startMarquee();
+
+		ViewTreeObserver vto = mHotelsStreamListView.getViewTreeObserver();
+		vto.removeGlobalOnLayoutListener(this);
+		vto.removeOnPreDrawListener(this);
+	}
+
+	@Override
+	public void onGlobalLayout() {
+		startMarqueeImpl();
+	}
+
+	@Override
+	public boolean onPreDraw() {
+		startMarqueeImpl();
+		return true;
 	}
 }
