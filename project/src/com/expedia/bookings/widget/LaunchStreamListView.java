@@ -13,7 +13,7 @@ import android.widget.AbsListView.OnScrollListener;
 
 public class LaunchStreamListView extends MeasureListView implements OnScrollListener {
 
-	private LaunchStreamListView mSlaveView;
+	private WeakReference<LaunchStreamListView> mSlaveView;
 
 	private double mScrollMultiplier = 1.0;
 
@@ -23,7 +23,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 	}
 
 	public void setSlaveView(LaunchStreamListView slave) {
-		mSlaveView = slave;
+		mSlaveView = new WeakReference<LaunchStreamListView>(slave);
 	}
 
 	public void setScrollMultiplier(double multiplier) {
@@ -61,9 +61,14 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
+		LaunchStreamListView slaveView = mSlaveView.get();
+		if (slaveView == null) {
+			return super.onTouchEvent(ev);
+		}
+
 		if (mBeingSlaveDriven) {
 			// If we're being slave driven, pass the touch event to the other guy.  Let him handle it, bro.
-			return mSlaveView.onTouchEvent(ev);
+			return slaveView.onTouchEvent(ev);
 		}
 		else {
 			// Stop marquee when we get any touch events, and only start again if we are not flinging.
@@ -73,11 +78,11 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 
 			if (action == MotionEvent.ACTION_DOWN) {
 				stopMarquee();
-				mSlaveView.stopMarquee();
+				slaveView.stopMarquee();
 			}
 			else if (action == MotionEvent.ACTION_UP && mScrollState != OnScrollListener.SCROLL_STATE_FLING) {
 				resumeMarquee();
-				mSlaveView.resumeMarquee();
+				slaveView.resumeMarquee();
 			}
 
 			return super.onTouchEvent(ev);
@@ -133,21 +138,26 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 			return;
 		}
 
+		LaunchStreamListView slaveView = mSlaveView.get();
+		if (slaveView == null) {
+			return;
+		}
+
 		if (scrollState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-			mSlaveView.setBeingSlaveDriven(true);
+			slaveView.setBeingSlaveDriven(true);
 		}
 		else if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
-			mSlaveView.setBeingSlaveDriven(false);
+			slaveView.setBeingSlaveDriven(false);
 		}
 
 		// Change marquee state based on state
 		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
 			resumeMarquee();
-			mSlaveView.resumeMarquee();
+			slaveView.resumeMarquee();
 		}
 		else {
 			stopMarquee();
-			mSlaveView.stopMarquee();
+			slaveView.stopMarquee();
 		}
 	}
 
@@ -206,7 +216,12 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 	}
 
 	protected void scrollSlaveBy(int deltaY) {
-		mSlaveView.scrollListBy(deltaY * (mSlaveView.mScrollMultiplier / mScrollMultiplier));
+		LaunchStreamListView slaveView = mSlaveView.get();
+		if (slaveView == null) {
+			return;
+		}
+
+		slaveView.scrollListBy(deltaY * (slaveView.mScrollMultiplier / mScrollMultiplier));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

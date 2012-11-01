@@ -138,8 +138,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		onReactToUserActive();
 
-		// TODO: Uncomment once marquee works without leaking memory
-		//startMarquee();
+		startMarquee();
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(mConnReceiver, filter);
@@ -156,13 +155,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		bd.unregisterDownloadCallback(KEY_SEARCH);
 		bd.unregisterDownloadCallback(KEY_FLIGHT_DESTINATIONS);
 		getActivity().unregisterReceiver(mConnReceiver);
-
-		if (getActivity().isFinishing()) {
-			// Unload the current hotel/flight data, so we don't reload it
-			Db.setLaunchHotelData(null);
-			Db.setLaunchFlightData(null);
-			ImageCache.recycleCache(true);
-		}
 	}
 
 	@Override
@@ -173,6 +165,13 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		mFlightsStreamListView.savePosition();
 
 		cleanUpOnStop();
+
+		if (getActivity().isFinishing()) {
+			// Unload the current hotel/flight data, so we don't reload it
+			Db.setLaunchHotelData(null);
+			Db.setLaunchFlightData(null);
+			ImageCache.recycleCache(true);
+		}
 	}
 
 	private void onReactToUserActive() {
