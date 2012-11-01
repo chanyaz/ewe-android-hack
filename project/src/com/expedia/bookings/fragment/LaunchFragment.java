@@ -138,7 +138,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		onReactToUserActive();
 
-		startMarquee();
+		// TODO: Uncomment once marquee works without leaking memory
+		//startMarquee();
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(mConnReceiver, filter);
