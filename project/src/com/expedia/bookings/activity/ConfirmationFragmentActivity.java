@@ -73,6 +73,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 					// directly from a startup).
 					mConfState.delete();
 					finish();
+					return;
 				}
 			}
 			else {
@@ -83,8 +84,9 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 						if (Db.getCreateTripResponse() != null) {
 							discountRate = Db.getCreateTripResponse().getNewRate();
 						}
+						BillingInfo billingInfo = new BillingInfo(Db.getBillingInfo());
 						mConfState.save(Db.getSearchParams(),
-								Db.getSelectedProperty(), Db.getSelectedRate(), Db.getBillingInfo(),
+								Db.getSelectedProperty(), Db.getSelectedRate(), billingInfo,
 								Db.getBookingResponse(), discountRate);
 					}
 				}).start();
@@ -120,6 +122,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		super.onStop();
 
 		if (isFinishing()) {
+			Db.setBillingInfo(null);
 			Db.setBookingResponse(null);
 			Db.setCouponDiscountRate(null);
 		}

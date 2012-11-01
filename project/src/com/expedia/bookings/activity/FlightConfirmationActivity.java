@@ -51,6 +51,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 					// directly from a startup).
 					mConfState.delete();
 					finish();
+					return;
 				}
 			}
 			else {
@@ -111,6 +112,10 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		if (isFinishing()) {
+			Db.setBillingInfo(null);
+		}
 
 		mKillReceiver.onDestroy();
 	}

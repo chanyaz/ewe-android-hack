@@ -345,8 +345,13 @@ public class Db {
 	}
 
 	public static boolean loadBillingInfo(Context context) {
-		sDb.mBillingInfo = new BillingInfo();
-		return sDb.mBillingInfo.load(context);
+		if (sDb.mBillingInfo == null) {
+			sDb.mBillingInfo = new BillingInfo();
+			return sDb.mBillingInfo.load(context);
+		}
+		else {
+			return true;
+		}
 	}
 
 	public static BillingInfo resetBillingInfo() {

@@ -32,6 +32,8 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Db.loadBillingInfo(this);
+
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
 
