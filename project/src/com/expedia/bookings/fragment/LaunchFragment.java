@@ -50,6 +50,7 @@ import com.expedia.bookings.widget.LaunchStreamListView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
@@ -160,13 +161,13 @@ public class LaunchFragment extends Fragment {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
 		bd.unregisterDownloadCallback(KEY_FLIGHT_DESTINATIONS);
-
 		getActivity().unregisterReceiver(mConnReceiver);
 
 		if (getActivity().isFinishing()) {
 			// Unload the current hotel/flight data, so we don't reload it
 			Db.setLaunchHotelData(null);
 			Db.setLaunchFlightData(null);
+			ImageCache.recycleCache(true);
 		}
 	}
 
