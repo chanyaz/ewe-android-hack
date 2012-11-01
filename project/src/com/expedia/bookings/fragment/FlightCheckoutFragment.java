@@ -558,7 +558,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REFRESH_USER, services);
-			return services.signIn(ExpediaServices.F_FLIGHTS);
+			//Why flights AND hotels? Because the api will return blank for loyaltyMembershipNumber on flights
+			return services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
 		}
 	};
 
