@@ -58,6 +58,8 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 	private int mFlightListBlurHeight;
 
+	private boolean mIsLandscape;
+
 	public static FlightListFragment newInstance(int legPosition) {
 		FlightListFragment fragment = new FlightListFragment();
 		Bundle args = new Bundle();
@@ -73,6 +75,8 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		mFlightListBlurHeight = (int) getResources().getDimension(R.dimen.flight_list_blur_height);
 
 		mLegPosition = getArguments().getInt(ARG_LEG_POSITION);
+
+		mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
 	}
 
 	@Override
@@ -137,7 +141,14 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
 
 		if (mLegPosition == 0) {
-			mSectionFlightLeg.setVisibility(View.INVISIBLE);
+			if (mIsLandscape) {
+				// F1151: Don't make space for the header leg in landscape orientation,
+				// so that it looks prettier.
+				mSectionFlightLeg.setVisibility(View.GONE);
+			}
+			else {
+				mSectionFlightLeg.setVisibility(View.INVISIBLE);
+			}
 		}
 		else {
 			mSectionFlightLeg.setVisibility(View.VISIBLE);
@@ -352,7 +363,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		if (view.getChildCount() > 0) {
-			if (firstVisibleItem == 0) {
+			if (firstVisibleItem == 0 || !mIsLandscape) {
 				if (mNumFlightsTextViewBottom == 0) {
 					mNumFlightsTextViewBottom = mNumFlightsTextView.getBottom();
 				}
