@@ -76,7 +76,7 @@
 
         <TextView
             android:id="@+id/edit_birth_date_text_btn"
-            style="@style/Widget.Spinner.Phone"
+            style="@style/FakeSpinner"
             android:layout_gravity="fill_horizontal"
             gridlayout:layout_columnSpan="3"
             android:bufferType="spannable"
