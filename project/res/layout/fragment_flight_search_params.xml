@@ -53,7 +53,7 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_departure_airport"
                 android:imeOptions="flagNoExtractUi|actionNext"
-                android:inputType="textNoSuggestions"
+                android:inputType="textNoSuggestions|textCapWords"
                 android:popupBackground="@drawable/bg_autocomplete"
                 android:singleLine="true"
                 android:textColor="@android:color/black" />

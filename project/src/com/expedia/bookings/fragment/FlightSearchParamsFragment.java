@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -43,7 +46,7 @@ import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
-public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener {
+public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener, InputFilter {
 
 	public static final String TAG = FlightSearchParamsFragment.class.toString();
 
@@ -142,6 +145,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		mAirportAdapter = new AirportDropDownAdapter(getActivity());
 
+		InputFilter[] filters = new InputFilter[] { this };
+		mDepartureAirportEditText.setFilters(filters);
 		mDepartureAirportEditText.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -158,6 +163,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		});
 
+		mArrivalAirportEditText.setFilters(filters);
 		mArrivalAirportEditText.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -638,6 +644,18 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		updateCalendarInstructionText();
 
 		updateListener();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// InputFilter
+
+	@Override
+	public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+		if (end > start && start == 0 && dstart == 0 && source.charAt(0) == ' ') {
+			return "";
+		}
+
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
