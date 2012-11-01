@@ -92,12 +92,6 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			}
 		});
 
-		// Hide born textview
-		View bornOnView = Ui.findView(v, R.id.display_born_on);
-		if (bornOnView != null) {
-			bornOnView.setVisibility(View.GONE);
-		}
-
 		//Associated Travelers (From Expedia Account)
 		mAssociatedTravelersContainer.removeAllViews();
 		if (User.isLoggedIn(getActivity())) {
@@ -120,7 +114,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 				//We inflate the traveler as an option for the user to select
 				SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
-						R.layout.section_display_traveler_info_name, null);
+						R.layout.section_hotel_display_traveler_info_name, null);
 				travelerInfo.bind(traveler);
 				travelerInfo.setOnClickListener(new OnClickListener() {
 					@Override
@@ -146,10 +140,8 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 				View divider = new View(getActivity());
 				LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
 						res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
-				divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
-						res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
 				divider.setLayoutParams(divLayoutParams);
-				divider.setBackgroundColor(res.getColor(R.color.divider_grey));
+				divider.setBackgroundColor(0x69FFFFFF);
 				mAssociatedTravelersContainer.addView(divider);
 			}
 		}
