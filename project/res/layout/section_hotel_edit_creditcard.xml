@@ -38,15 +38,16 @@
         android:bufferType="spannable"
         android:gravity="center_vertical"
         android:hint="@string/expiration_date"
-        android:paddingLeft="5dp"
         android:textSize="18dp" />
 
     <TextView
         android:id="@+id/cardholder_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/cardholder"
         android:textSize="@dimen/data_form_section_header_text"
         android:textStyle="bold" />
@@ -54,7 +55,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="4dp"
         android:background="#63FFFFFF" />
 
     <EditText
@@ -78,6 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:text="@string/email_disclaimer"
         android:textColor="@color/data_review_grey"
         android:textSize="12sp" />
