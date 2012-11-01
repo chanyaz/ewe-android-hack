@@ -432,7 +432,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				getField().setAdapter(new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME));
+				getField().setAdapter(new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME, R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item));
 			}
 		}
 

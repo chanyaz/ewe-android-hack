@@ -3,25 +3,30 @@
     xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp" >
 
     <EditText
         android:id="@+id/edit_address_line_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:hint="@string/address_line_one_hint"
         android:inputType="textPostalAddress|textCapWords"
-        android:singleLine="true" >
-    </EditText>
+        android:paddingBottom="12dp"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/edit_address_line_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:hint="@string/address_line_two_hint"
         android:inputType="textPostalAddress|textCapWords"
+        android:paddingBottom="12dp"
         android:singleLine="true" />
 
     <LinearLayout
@@ -39,10 +44,12 @@
                 android:id="@+id/edit_address_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:hint="@string/address_city_hint"
                 android:inputType="textCapWords"
                 android:nextFocusDown="@+id/edit_address_state"
                 android:nextFocusRight="@+id/edit_address_state"
+                android:paddingBottom="12dp"
                 android:singleLine="true" />
 
             <Spinner
@@ -62,8 +69,10 @@
                 android:id="@+id/edit_address_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:hint="@string/address_state_hint"
                 android:inputType="textCapCharacters"
+                android:paddingBottom="12dp"
                 android:singleLine="true" />
 
             <EditText
@@ -71,6 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/address_postal_code_hint"
+                android:paddingBottom="12dp"
                 android:singleLine="true" />
         </LinearLayout>
     </LinearLayout>

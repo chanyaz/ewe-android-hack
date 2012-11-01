@@ -2,11 +2,14 @@
 <com.expedia.bookings.section.SectionBillingInfo xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
@@ -26,6 +29,7 @@
             android:focusableInTouchMode="true"
             android:hint="@string/credit_card_hint"
             android:inputType="number"
+            android:paddingBottom="12dp"
             android:singleLine="true" >
         </EditText>
     </LinearLayout>
@@ -35,6 +39,7 @@
         style="@style/FakeSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:bufferType="spannable"
         android:gravity="center_vertical"
         android:hint="@string/expiration_date"
@@ -55,6 +60,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:background="@color/data_entry_heading_divider" />
 
@@ -63,6 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/name_on_card_hint"
-        android:inputType="textPersonName|textCapWords" />
+        android:inputType="textPersonName|textCapWords"
+        android:paddingBottom="12dp" />
 
 </com.expedia.bookings.section.SectionBillingInfo>

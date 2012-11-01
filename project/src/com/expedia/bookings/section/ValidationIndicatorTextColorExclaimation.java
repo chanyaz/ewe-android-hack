@@ -40,7 +40,7 @@ public class ValidationIndicatorTextColorExclaimation<Data extends Object> exten
 			//Not valid, but it was the last time we validated
 			mValidColor = field.getTextColors();
 			field.setTextColor(mInvalidTextColor);
-			Drawable errorIcon = field.getContext().getResources().getDrawable(R.drawable.ic_error);
+			Drawable errorIcon = field.getContext().getResources().getDrawable(R.drawable.ic_error_blue);
 			errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
 			field.setError(null, errorIcon);
 			mWasValid = false;

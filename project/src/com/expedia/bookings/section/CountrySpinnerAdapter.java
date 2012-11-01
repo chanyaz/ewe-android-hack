@@ -24,10 +24,16 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 		init(context, displayType, R.layout.simple_spinner_dropdown_item);
 	}
 
-	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int resource) {
-		super(context, resource);
-		init(context, displayType, resource);
+	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int resourceBoth) {
+		super(context, resourceBoth);
+		init(context, displayType, resourceBoth);
 	}
+	
+	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int resource, int dropdownresource) {
+		super(context, resource);
+		init(context, displayType, dropdownresource);
+	}
+	
 
 	private void init(Context context, CountryDisplayType displayType, int dropDownResId) {
 		mContext = context;
