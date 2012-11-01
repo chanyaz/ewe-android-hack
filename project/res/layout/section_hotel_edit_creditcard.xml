@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.HotelSectionBillingInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/display_credit_card_brand_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="0"
+            android:src="@drawable/ic_credit_card_white" />
+
+        <EditText
+            android:id="@+id/edit_creditcard_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/credit_card_hint"
+            android:inputType="number"
+            android:singleLine="true" >
+        </EditText>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/edit_creditcard_exp_text_btn"
+        style="@style/FakeSpinner.Dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:bufferType="spannable"
+        android:gravity="center_vertical"
+        android:hint="@string/expiration_date"
+        android:paddingLeft="5dp"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/cardholder_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/cardholder"
+        android:textSize="@dimen/data_form_section_header_text"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="#63FFFFFF" />
+
+    <EditText
+        android:id="@+id/edit_name_on_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name_on_card_hint"
+        android:inputType="textPersonName|textCapWords"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/edit_email_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email_address_hint"
+        android:inputType="textEmailAddress"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/email_disclaimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="@string/email_disclaimer"
+        android:textColor="@color/data_review_grey"
+        android:textSize="12sp" />
+
+</com.expedia.bookings.section.HotelSectionBillingInfo>

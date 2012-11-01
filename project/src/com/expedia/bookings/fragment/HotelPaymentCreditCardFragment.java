@@ -15,8 +15,8 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.section.HotelSectionBillingInfo;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
-import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelPaymentCreditCardFragment extends Fragment implements Validatable {
@@ -25,7 +25,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 	BillingInfo mBillingInfo;
 
-	SectionBillingInfo mSectionCreditCard;
+	HotelSectionBillingInfo mHotelSectionCreditCard;
 
 	boolean mAttemptToLeaveMade = false;
 
@@ -56,13 +56,13 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 			mBillingInfo.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 		}
 
-		mSectionCreditCard = Ui.findView(v, R.id.creditcard_section);
-		mSectionCreditCard.addChangeListener(new SectionChangeListener() {
+		mHotelSectionCreditCard = Ui.findView(v, R.id.creditcard_section);
+		mHotelSectionCreditCard.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-					mSectionCreditCard.hasValidInput();
+					mHotelSectionCreditCard.hasValidInput();
 				}
 				//Attempt to save on change
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
@@ -86,7 +86,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 		View focused = this.getView().findFocus();
 		if (focused == null || !(focused instanceof EditText)) {
-			focused = Ui.findView(mSectionCreditCard, R.id.edit_creditcard_number);
+			focused = Ui.findView(mHotelSectionCreditCard, R.id.edit_creditcard_number);
 		}
 		final View finalFocused = focused;
 		if (finalFocused != null && finalFocused instanceof EditText) {
@@ -118,10 +118,10 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	@Override
 	public boolean attemptToLeave() {
 		mAttemptToLeaveMade = true;
-		return mSectionCreditCard != null ? mSectionCreditCard.hasValidInput() : false;
+		return mHotelSectionCreditCard != null ? mHotelSectionCreditCard.hasValidInput() : false;
 	}
 
 	public void bindAll() {
-		mSectionCreditCard.bind(mBillingInfo);
+		mHotelSectionCreditCard.bind(mBillingInfo);
 	}
 }

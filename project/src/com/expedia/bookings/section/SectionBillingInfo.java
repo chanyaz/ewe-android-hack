@@ -102,7 +102,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	/***
 	 * Helper method, so when we update the card number we don't rebind everything
 	 */
-	private void rebindNumDependantFields() {
+	protected void rebindNumDependantFields() {
 		mDisplayCreditCardNumberMasked.bindData(mBillingInfo);
 		mDisplayCreditCardBrandIconGrey.bindData(mBillingInfo);
 		mDisplayCreditCardBrandIconBlack.bindData(mBillingInfo);
@@ -180,10 +180,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				if (data.getNumber().length() > 4) {
 					String lastFourDigits = data.getNumber().substring(data.getNumber().length() - 4);
 					String brandName = (!TextUtils.isEmpty(data.getBrandName())) ? data.getBrandName() : "";
-					field.setText(
-							Html.fromHtml(String.format(
-									getResources().getString(R.string.blanked_out_credit_card_TEMPLATE),
-									brandName, lastFourDigits)), TextView.BufferType.SPANNABLE);
+					field.setText(Html.fromHtml(String.format(
+							getResources().getString(R.string.blanked_out_credit_card_TEMPLATE), brandName,
+							lastFourDigits)), TextView.BufferType.SPANNABLE);
 				}
 			}
 			else {
@@ -576,8 +575,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	//This is our date picker DialogFragment. The coder has a responsibility to set setOnDateSetListener after any sort of creation event (including rotaiton)
-	public static class ExpirationPickerFragment extends DialogFragment
-	{
+	public static class ExpirationPickerFragment extends DialogFragment {
 		private int mMonth;
 		private int mYear;
 
@@ -636,10 +634,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			setRetainInstance(true);
 
 			if (savedInstanceState != null) {
-				if (savedInstanceState.containsKey(MONTH_TAG)
-						&& savedInstanceState.containsKey(YEAR_TAG)) {
-					setDate(savedInstanceState.getInt(MONTH_TAG),
-							savedInstanceState.getInt(YEAR_TAG));
+				if (savedInstanceState.containsKey(MONTH_TAG) && savedInstanceState.containsKey(YEAR_TAG)) {
+					setDate(savedInstanceState.getInt(MONTH_TAG), savedInstanceState.getInt(YEAR_TAG));
 				}
 			}
 
@@ -647,8 +643,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			builder.setTitle(R.string.expiration_date);
 			View exprPickerView;
 			if (AndroidUtils.isHoneycombVersionOrHigher()) {
-				LayoutInflater inflater = (LayoutInflater) getActivity()
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
 				exprPickerView = inflater.inflate(R.layout.widget_expiration_date_picker, null);
 				final NumberPicker monthPicker = Ui.findView(exprPickerView, R.id.month_picker);
 				final NumberPicker yearPicker = Ui.findView(exprPickerView, R.id.year_picker);
@@ -693,13 +689,13 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			}
 			else {
 				//Older versions of android
-				LayoutInflater inflater = (LayoutInflater) getActivity()
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE);
 				exprPickerView = inflater.inflate(R.layout.widget_compat_expiration_date_picker, null);
 				final com.mobiata.android.widget.NumberPicker monthPicker = Ui.findView(exprPickerView,
 						R.id.month_picker);
-				final com.mobiata.android.widget.NumberPicker yearPicker = Ui.findView(exprPickerView,
-						R.id.year_picker);
+				final com.mobiata.android.widget.NumberPicker yearPicker = Ui
+						.findView(exprPickerView, R.id.year_picker);
 
 				Calendar now = Calendar.getInstance();
 
