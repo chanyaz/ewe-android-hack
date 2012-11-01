@@ -181,6 +181,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/bg_overview_receipt_mini"
+        android:clickable="true"
         android:paddingTop="8dp"
         android:visibility="invisible" />
 
