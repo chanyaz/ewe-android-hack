@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import android.content.BroadcastReceiver;
@@ -21,6 +20,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AdapterView;
 
 import com.expedia.bookings.R;
@@ -135,7 +135,16 @@ public class LaunchFragment extends Fragment {
 
 		onReactToUserActive();
 
-		mHotelsStreamListView.startMarquee();
+		// F1128: Starting the marquee before a LaunchStreamListView has actually rendered seems to cause
+		// much sadness.  So we delay the start of the marquee until it's actually been rendered once.
+		mHotelsStreamListView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				mHotelsStreamListView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+				mHotelsStreamListView.startMarquee();
+			}
+		});
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(mConnReceiver, filter);
