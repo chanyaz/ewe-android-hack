@@ -114,6 +114,11 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		// this and don't pass it along to the slave.
 		if (mSetExplicitPosition) {
 			mSetExplicitPosition = false;
+
+			if (mMarqueeOnPositionSet) {
+				startMarquee();
+			}
+
 			return;
 		}
 
@@ -228,9 +233,18 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 	// Marquee to auto-scroll this view. Copied from TextView.java
 	//////////////////////////////////////////////////////////////////////////////////////////
 
+	// If we've got a specific location set, we want to wait to start marqueeing
+	// until after it has been set.  Otherwise infinite scrolling may not work.
+	private boolean mMarqueeOnPositionSet = false;
+
 	private Marquee mMarquee;
 
 	public void startMarquee() {
+		if (mSetExplicitPosition) {
+			mMarqueeOnPositionSet = true;
+			return;
+		}
+
 		if (mMarquee == null) {
 			mMarquee = new Marquee(this);
 		}
