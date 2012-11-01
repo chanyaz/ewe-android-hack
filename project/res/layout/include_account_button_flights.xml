@@ -67,23 +67,23 @@
         android:id="@+id/account_login_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/btn_expedia_flights_login"
         android:gravity="center"
-        android:visibility="gone"
-        android:padding="@dimen/card_icon_padding" >
+        android:padding="@dimen/card_icon_padding"
+        android:visibility="gone" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/card_icon_padding"
+            android:layout_marginTop="@dimen/card_icon_padding"
             android:drawableLeft="@drawable/ic_expedia_logo"
             android:drawablePadding="@dimen/card_icon_padding"
-            android:layout_marginTop="@dimen/card_icon_padding"
-            android:layout_marginBottom="@dimen/card_icon_padding"
+            android:gravity="center_vertical"
             android:text="@string/log_in_for_faster_booking"
             android:textColor="#232323"
-            android:gravity="center_vertical"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -92,6 +92,7 @@
         style="@style/BookingSection"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_checkout_logged_in"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/booking_form_saved_section_padding"
