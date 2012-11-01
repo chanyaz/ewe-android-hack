@@ -86,6 +86,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private static final String BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY = "BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY";
 
 	private static final String INSTANCE_LEG_POSITION = "INSTANCE_LEG_POSITION";
+	private static final String INSTANCE_ANIM_FORWARD = "INSTANCE_ANIM_FORWARD";
 
 	private static final int REQUEST_CODE_SEARCH_PARAMS = 1;
 
@@ -147,6 +148,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		if (savedInstanceState != null) {
 			mLegPosition = savedInstanceState.getInt(INSTANCE_LEG_POSITION);
+			mAnimForward = savedInstanceState.getBoolean(INSTANCE_ANIM_FORWARD);
 		}
 
 		setContentView(R.layout.activity_flight_results);
@@ -244,6 +246,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		super.onSaveInstanceState(outState);
 
 		outState.putInt(INSTANCE_LEG_POSITION, mLegPosition);
+		outState.putBoolean(INSTANCE_ANIM_FORWARD, mAnimForward);
 	}
 
 	@Override
@@ -499,11 +502,23 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private AnimatorListenerAdapter mAnimatorListener = new AnimatorListenerAdapter() {
 		@Override
 		public void onAnimationStart(Animator animation) {
-			setMenusEnabled(false);
+			Log.v("Starting animation.  Forward=" + mAnimForward + ", removeFragment=" + mAnimRemoveFragment
+					+ " newLegPos=" + mSetNewLegPosition);
+
+			if (mMenu != null) {
+				setMenusEnabled(false);
+			}
+			else {
+				Log.i("Animation started after config change; skipping to end of animation.");
+				animation.end();
+			}
 		}
 
 		@Override
 		public void onAnimationEnd(Animator animation) {
+			Log.v("Ending animation.  Forward=" + mAnimForward + ", removeFragment=" + mAnimRemoveFragment
+					+ " newLegPos=" + mSetNewLegPosition);
+
 			if (mAnimForward) {
 				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 				ft.remove(mAnimRemoveFragment);
@@ -519,7 +534,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				getSupportFragmentManager().popBackStack();
 			}
 
-			setMenusEnabled(true);
+			if (mMenu != null) {
+				setMenusEnabled(true);
+			}
 
 			if (mSetNewLegPosition != -1) {
 				setNewLegPosition(mSetNewLegPosition);
