@@ -15,7 +15,7 @@
 
         <include
             android:id="@+id/address_section"
-            layout="@layout/section_edit_address" />
+            layout="@layout/section_hotel_edit_address" />
     </LinearLayout>
 
 </ScrollView>

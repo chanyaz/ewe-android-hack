@@ -62,6 +62,7 @@
 
         <com.expedia.bookings.widget.TelephoneSpinner
             android:id="@+id/edit_phone_number_country_code_spinner"
+            style="@style/Widget.Spinner.Phone.Dark"
             android:layout_width="100dp"
             gridlayout:layout_columnSpan="1" />
 

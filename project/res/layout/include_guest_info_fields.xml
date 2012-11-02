@@ -53,6 +53,7 @@
 
         <com.expedia.bookings.widget.TelephoneSpinner
             android:id="@+id/telephone_country_code_spinner"
+            style="@style/Widget.Spinner.Phone"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="-5.5dp"

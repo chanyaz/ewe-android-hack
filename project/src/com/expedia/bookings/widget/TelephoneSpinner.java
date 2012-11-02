@@ -1,13 +1,12 @@
 package com.expedia.bookings.widget;
 
-import com.expedia.bookings.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Spinner;
 import android.widget.TextView;
+import com.expedia.bookings.R;
+import com.mobiata.android.widget.Spinner;
 
 public class TelephoneSpinner extends Spinner {
 

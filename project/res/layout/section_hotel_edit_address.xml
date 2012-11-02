@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp" >
+
+    <EditText
+        android:id="@+id/edit_address_line_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="@string/address_line_one_hint"
+        android:inputType="textPostalAddress|textCapWords"
+        android:paddingBottom="12dp"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/edit_address_line_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:hint="@string/address_line_two_hint"
+        android:inputType="textPostalAddress|textCapWords"
+        android:paddingBottom="12dp"
+        android:singleLine="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/edit_address_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:hint="@string/address_city_hint"
+                android:inputType="textCapWords"
+                android:nextFocusDown="@+id/edit_address_state"
+                android:nextFocusRight="@+id/edit_address_state"
+                android:paddingBottom="12dp"
+                android:singleLine="true" />
+
+            <com.mobiata.android.widget.Spinner
+                android:id="@+id/edit_country_spinner"
+                style="@style/Widget.Spinner.Phone.Dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                gridlayout:layout_columnSpan="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/edit_address_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:hint="@string/address_state_hint"
+                android:inputType="textCapCharacters"
+                android:paddingBottom="12dp"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/edit_address_postal_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address_postal_code_hint"
+                android:paddingBottom="12dp"
+                android:singleLine="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+</com.expedia.bookings.section.SectionLocation>
