@@ -66,8 +66,6 @@ import com.mobiata.android.util.Ui;
 
 public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, OnPreDrawListener {
 
-	private static final boolean DEBUG_ALWAYS_GRAB_NEW_LOCATION = false;
-
 	public static final String TAG = LaunchFragment.class.getName();
 	public static final String KEY_SEARCH = "LAUNCH_SCREEN_HOTEL_SEARCH";
 	public static final String KEY_FLIGHT_DESTINATIONS = "LAUNCH_SCREEN_FLIGHT_DESTINATIONS";
@@ -188,11 +186,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
 
-		if (DEBUG_ALWAYS_GRAB_NEW_LOCATION) {
-			// This is useful if you want to test a device's ability to find a new location
-			findLocation();
-		}
-		else if (launchHotelData == null) {
+		if (launchHotelData == null) {
 			// No cached hotel data exists, perform the least amount of effort in order to get results on screen by following
 			// the logic below
 
