@@ -33,13 +33,11 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.NumberPicker;
 import com.expedia.bookings.widget.NumberPicker.Formatter;
-import com.expedia.bookings.widget.NumberPicker.OnValueChangeListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
-import com.mobiata.android.widget.NumberPicker.OnChangedListener;
 
 public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable {
 
@@ -677,14 +675,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						ExpirationPickerFragment.this.dismiss();
 					}
 				});
-				
+
 				builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						ExpirationPickerFragment.this.dismiss();
 					}
 				});
-				
+
 			}
 			else {
 				//Older versions of android
@@ -727,7 +725,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						ExpirationPickerFragment.this.dismiss();
 					}
 				});
-				
+
 				builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -794,6 +792,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						datePickerFragment.show(fa.getSupportFragmentManager(), TAG_EXPR_DATE_PICKER);
 					}
 				});
+
+				field.addTextChangedListener(new AfterChangeTextWatcher() {
+					@Override
+					public void afterTextChanged(Editable s) {
+						//Fixes rotation bug...
+						onChange(SectionBillingInfo.this);
+					}
+				});
 			}
 			else {
 				Log.e("The Expiration picker is expecting a FragmentActivity to be the context. In it's current state, this will do nohting if the context is not a FragmentActivity");
@@ -847,7 +853,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						retVal = ValidationError.ERROR_DATA_MISSING;
 					}
 				}
-				else {
+				else
+				{
 					retVal = ValidationError.ERROR_DATA_MISSING;
 				}
 				return retVal;
