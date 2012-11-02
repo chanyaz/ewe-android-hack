@@ -28,12 +28,14 @@ import android.widget.AdapterView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
+import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Destination;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.HotelDestination;
 import com.expedia.bookings.data.LaunchFlightData;
 import com.expedia.bookings.data.LaunchHotelData;
 import com.expedia.bookings.data.Property;
@@ -48,6 +50,7 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.LaunchFlightAdapter;
 import com.expedia.bookings.widget.LaunchHotelAdapter;
+import com.expedia.bookings.widget.LaunchHotelFallbackAdapter;
 import com.expedia.bookings.widget.LaunchStreamListView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -79,6 +82,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private ViewGroup mScrollContainer;
 	private LaunchStreamListView mHotelsStreamListView;
 	private LaunchHotelAdapter mHotelAdapter;
+	private LaunchHotelFallbackAdapter mHotelFallbackAdapter;
 	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchFlightAdapter mFlightAdapter;
 
@@ -227,6 +231,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 				// Location found from cache, kick off hotel search
 				else {
+					Log.i("Location found from OS cache");
 					startHotelSearch(location);
 				}
 			}
@@ -252,8 +257,13 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			mLocationFinder = LocationFinder.getInstance(mContext);
 			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
 				@Override
-				public void onReceiveNewLocation(Location location) {
+				public void onLocationFound(Location location) {
 					startHotelSearch(location);
+				}
+
+				@Override
+				public void onLocationServicesDisabled() {
+					startHotelStreamFallbackPlan();
 				}
 			});
 		}
@@ -432,6 +442,44 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
 	}
 
+	// Hotels fallback
+
+	private static final List<HotelDestination> HOTEL_DESTINATION_FALLBACK_LIST = new ArrayList<HotelDestination>() {
+		{
+			add(new HotelDestination().setCity("Dubai").setImgUrl(
+					"http://media.expedia.com/hotels/1000000/530000/527500/527497/527497_66_y.jpg"));
+			add(new HotelDestination().setCity("Miami").setImgUrl(
+					"http://media.expedia.com/hotels/2000000/1200000/1190600/1190549/1190549_45_y.jpg"));
+			add(new HotelDestination().setCity("Las Vegas").setImgUrl(
+					"http://media.expedia.com/hotels/1000000/20000/16000/15930/15930_147_y.jpg"));
+			add(new HotelDestination().setCity("San Francisco").setImgUrl(
+					"http://media.expedia.com/hotels/1000000/30000/22200/22148/22148_34_y.jpg"));
+			add(new HotelDestination().setCity("Seattle").setImgUrl(
+					"http://media.expedia.com/hotels/1000000/550000/546500/546475/546475_84_y.jpg"));
+			add(new HotelDestination().setCity("Honolulu").setImgUrl(
+					"http://media.expedia.com/hotels/1000000/40000/34500/34498/34498_111_y.jpg"));
+			add(new HotelDestination().setCity("New York").setImgUrl(
+					"http://media.expedia.com/hotels/4000000/3490000/3481700/3481640/3481640_39_y.jpg"));
+			add(new HotelDestination().setCity("Maldives").setImgUrl(
+					"http://media.expedia.com/hotels/2000000/1780000/1775600/1775548/1775548_63_y.jpg"));
+			add(new HotelDestination().setCity("Paris").setImgUrl(
+					"http://media.expedia.com/hotels/1000000/30000/23100/23034/23034_175_y.jpg"));
+			add(new HotelDestination().setCity("Boston").setImgUrl(
+					"http://media.expedia.com/hotels/1000000/10000/400/395/395_36_y.jpg"));
+		}
+	};
+
+	private void startHotelStreamFallbackPlan() {
+		// Free up the existing HotelAdapter which should be essentially empty anyway
+		mHotelAdapter = null;
+
+		// Instantiate the adapter for the fallback plan
+		mHotelFallbackAdapter = new LaunchHotelFallbackAdapter(mContext);
+		mHotelFallbackAdapter.setHotelDestinations(HOTEL_DESTINATION_FALLBACK_LIST);
+		mHotelsStreamListView.setAdapter(mHotelFallbackAdapter);
+		mHotelsStreamListView.setOnItemClickListener(mHotelFallbackOnItemClickListener);
+	}
+
 	// View init + listeners
 
 	private void initViews() {
@@ -543,6 +591,35 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		}
 	};
 
+	private final AdapterView.OnItemClickListener mHotelFallbackOnItemClickListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			if (mLaunchingActivity) {
+				return;
+			}
+
+			mLaunchingActivity = true;
+
+			// TODO: Figure out why this does not launch a proper search out of the box...must go through suggest?
+			HotelDestination hotel = mHotelFallbackAdapter.getItem(position);
+			SearchParams searchParams = Db.getSearchParams();
+			searchParams.setSearchType(SearchParams.SearchType.CITY);
+			searchParams.setQuery(hotel.getCity());
+
+			// Delete Hotel ConfirmationState if it exists
+			ConfirmationState confirmationState = new ConfirmationState(mContext, ConfirmationState.Type.HOTEL);
+			if (confirmationState.hasSavedData()) {
+				confirmationState.delete();
+			}
+
+			// Launch hotel search
+			Intent intent = new Intent(mContext, PhoneSearchActivity.class);
+			mContext.startActivity(intent);
+
+			cleanUp();
+		}
+	};
+
 	//////////////////////////////////////////////////////////////////////////
 	// Clean up
 	//
@@ -574,8 +651,17 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		Log.d("LaunchFragment.cleanUpOnStop()");
 
 		mHotelsStreamListView.setAdapter(null);
-		mHotelAdapter.setProperties(null);
-		mHotelAdapter = null;
+
+		if (mHotelAdapter != null) {
+			mHotelAdapter.setProperties(null);
+			mHotelAdapter = null;
+		}
+
+		if (mHotelFallbackAdapter != null) {
+			mHotelFallbackAdapter.setHotelDestinations(null);
+			mHotelFallbackAdapter = null;
+		}
+
 		mFlightsStreamListView.setAdapter(null);
 		mFlightAdapter.setDestinations(null);
 		mFlightAdapter = null;
