@@ -65,6 +65,8 @@
         <attr name="selectionDivider" format="reference" />
         <!-- @hide The height of the selection divider. -->
         <attr name="selectionDividerHeight" format="dimension" />
+        <!-- custom layout -->
+        <attr name="customLayout" format="reference"/>
     </declare-styleable>
     <declare-styleable name="ScrollView">
 

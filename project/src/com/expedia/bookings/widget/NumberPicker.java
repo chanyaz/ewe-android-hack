@@ -512,6 +512,8 @@ public class NumberPicker extends LinearLayout {
 				UNSCALED_DEFAULT_SELECTION_DIVIDER_HEIGHT, getResources().getDisplayMetrics());
 		mSelectionDividerHeight = attributesArray.getDimensionPixelSize(
 				R.styleable.NumberPicker_selectionDividerHeight, defSelectionDividerHeight);
+		int customLayout = attributesArray.getResourceId(R.styleable.NumberPicker_customLayout,
+				R.layout.number_picker_14);
 		attributesArray.recycle();
 
 		mShowInputControlsAnimimationDuration = getResources().getInteger(android.R.integer.config_longAnimTime);
@@ -525,7 +527,7 @@ public class NumberPicker extends LinearLayout {
 		setSelectorWheelState(SELECTOR_WHEEL_STATE_NONE);
 
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.number_picker_14, this, true);
+		inflater.inflate(customLayout, this, true);
 
 		OnClickListener onClickListener = new OnClickListener() {
 			public void onClick(View v) {
@@ -1176,7 +1178,7 @@ public class NumberPicker extends LinearLayout {
 	}
 
 	private Rect mTmpRect = new Rect();
-	
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (mSelectorWheelState == SELECTOR_WHEEL_STATE_NONE) {

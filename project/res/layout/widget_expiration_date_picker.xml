@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:id="@+id/expiration_date_picker_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -7,37 +8,37 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-         >
+        android:layout_weight="1" >
 
         <com.expedia.bookings.widget.NumberPicker
             android:id="@+id/month_picker"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:customLayout="@layout/number_picker_cc_expiration"
             android:gravity="center"
-            android:textSize="14dp" />
+            android:textSize="18dp" />
     </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textSize="64sp"
         android:layout_weight="0"
-        android:text="/" />
-    
+        android:text="/"
+        android:textSize="14dp" />
+
     <FrameLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-         >
+        android:layout_weight="1" >
 
         <com.expedia.bookings.widget.NumberPicker
             android:id="@+id/year_picker"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:customLayout="@layout/number_picker_cc_expiration"
             android:gravity="center"
-            android:textSize="14dp" />
+            android:textSize="18dp" />
     </FrameLayout>
 
 </LinearLayout>

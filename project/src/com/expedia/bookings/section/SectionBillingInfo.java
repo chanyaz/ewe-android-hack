@@ -670,22 +670,21 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				});
 				yearPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-				OnValueChangeListener updateDatesListener = new OnValueChangeListener() {
-					@Override
-					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-						mListener.onExpirationSet(monthPicker.getValue(), yearPicker.getValue());
-					}
-				};
-
-				monthPicker.setOnValueChangedListener(updateDatesListener);
-				yearPicker.setOnValueChangedListener(updateDatesListener);
-
-				builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
+				builder.setPositiveButton(R.string.btn_set, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						mListener.onExpirationSet(monthPicker.getValue(), yearPicker.getValue());
+						ExpirationPickerFragment.this.dismiss();
 					}
 				});
+				
+				builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ExpirationPickerFragment.this.dismiss();
+					}
+				});
+				
 			}
 			else {
 				//Older versions of android
@@ -721,19 +720,18 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 				});
 
-				OnChangedListener updateDatesListener = new OnChangedListener() {
-					@Override
-					public void onChanged(com.mobiata.android.widget.NumberPicker picker, int oldVal, int newVal) {
-						mListener.onExpirationSet(monthPicker.getCurrent(), yearPicker.getCurrent());
-					}
-				};
-				monthPicker.setOnChangeListener(updateDatesListener);
-				yearPicker.setOnChangeListener(updateDatesListener);
-
-				builder.setPositiveButton(R.string.button_done, new DialogInterface.OnClickListener() {
+				builder.setPositiveButton(R.string.btn_set, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						mListener.onExpirationSet(monthPicker.getCurrent(), yearPicker.getCurrent());
+						ExpirationPickerFragment.this.dismiss();
+					}
+				});
+				
+				builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						ExpirationPickerFragment.this.dismiss();
 					}
 				});
 			}

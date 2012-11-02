@@ -8,9 +8,9 @@
         android:id="@+id/month_picker"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_weight="1"
-        android:textSize="14dp" />
+        android:gravity="center"
+        android:textSize="18dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
         android:layout_weight="0"
         android:text="/"
         android:textColor="@android:color/white"
-        android:textSize="64sp" />
+        android:textSize="14dp" />
 
     <com.mobiata.android.widget.NumberPicker
         android:id="@+id/year_picker"
@@ -27,6 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="14dp" />
+        android:textSize="18dp" />
 
 </LinearLayout>

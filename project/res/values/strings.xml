@@ -331,6 +331,8 @@
     <string name="credit_card_hint">Credit Card number</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Expiration Date</string>
+    <!-- Set expiration date button -->
+    <string name="btn_set">Set</string>
     <!-- Security code label -->
     <string name="security_code">Security Code</string>
     <!-- Security code hint -->
