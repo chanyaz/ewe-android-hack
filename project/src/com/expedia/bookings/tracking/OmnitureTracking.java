@@ -1,14 +1,9 @@
 package com.expedia.bookings.tracking;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.preference.PreferenceManager;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
@@ -17,10 +12,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
-import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.omniture.AppMeasurement;
 
 /**
@@ -537,67 +529,7 @@ public class OmnitureTracking {
 		// set the pageName
 		s.pageName = s.eVar18 = pageName;
 
-		// TPID
-		s.prop7 = LocaleUtils.getTPID(context);
-
-		// Hashed email
-		String emailHashed = null;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		if (!prefs.contains(EMAIL_HASH_KEY)) {
-			String email = null;
-			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
-				email = Db.getUser().getPrimaryTraveler().getEmail();
-			}
-			saveEmailForTracking(context, email);
-		}
-		else {
-			emailHashed = prefs.getString(EMAIL_HASH_KEY, null);
-		}
-		if (emailHashed != null && !emailHashed.equals(NO_EMAIL)) {
-			s.prop11 = emailHashed;
-		}
-
-		// App version
-		s.prop35 = AndroidUtils.getAppVersion(context);
-
-		// Screen orientation
-		Configuration config = context.getResources().getConfiguration();
-		switch (config.orientation) {
-		case Configuration.ORIENTATION_LANDSCAPE:
-			s.prop39 = "landscape";
-			break;
-		case Configuration.ORIENTATION_PORTRAIT:
-			s.prop39 = "portrait";
-			break;
-		case Configuration.ORIENTATION_SQUARE:
-			s.prop39 = "square";
-			break;
-		case Configuration.ORIENTATION_UNDEFINED:
-			s.prop39 = "undefined";
-			break;
-		}
-
-		// Experience segmentation TODO remove the hardcoded value
-		s.eVar50 = "app.phone.android";
-
-		// Add debugging flag if not release
-		if (!AndroidUtils.isRelease(context) || DebugUtils.isLogEnablerInstalled(context)) {
-			s.debugTracking = true;
-		}
-
-		// Add offline tracking, so user doesn't have to be online to be tracked
-		s.trackOffline = true;
-
-		// Server
-		s.trackingServer = "om.expedia.com";
-		s.trackingServerSecure = "oms.expedia.com";
-
-		if (AndroidUtils.isRelease(context)) {
-			s.account = "expedia1androidcom,expediaglobalapp";
-		}
-		else {
-			s.account = "expedia1androidcomdev,expediaglobalappdev";
-		}
+		TrackingUtils.addStandardFields(context, s);
 
 		return s;
 	}
@@ -657,34 +589,5 @@ public class OmnitureTracking {
 		default:
 			return "MD";
 		}
-	}
-
-	private static void saveEmailForTracking(Context context, String email) {
-		if (email != null && email.length() > 0) {
-			SettingUtils.save(context, EMAIL_HASH_KEY, md5(email));
-		}
-		else {
-			SettingUtils.save(context, EMAIL_HASH_KEY, NO_EMAIL);
-		}
-	}
-
-	private static String md5(String s) {
-		try {
-			// Create MD5 Hash
-			MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-			digest.update(s.getBytes());
-			byte messageDigest[] = digest.digest();
-
-			// Create Hex String
-			StringBuffer hexString = new StringBuffer();
-			for (int i = 0; i < messageDigest.length; i++)
-				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-			return hexString.toString();
-		}
-		catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 }
