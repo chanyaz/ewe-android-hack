@@ -617,15 +617,13 @@ public class OmnitureTracking {
 	private static AppMeasurement createTrackPageLoadEventPriceChange(Context context, String pageName) {
 		AppMeasurement s = createTrackPageLoadEventBase(context, pageName);
 
-		// flag notifying price change occurred
-		s.events = "event62";
-
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 
 		// This is only to be included when there is a price change shown on the page. This should be the % increase or
 		// decrease in price. Round to whole integers.
 		String priceChange = trip.computePercentagePriceChangeForOmnitureTracking();
 		if (priceChange != null) {
+			s.events = "event62";
 			s.prop9 = priceChange;
 		}
 
