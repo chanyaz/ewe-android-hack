@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -19,6 +20,7 @@ import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
@@ -98,10 +100,18 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		int belowTarget;
-		if (isIndividualFlight && !firstFlight.getPrimaryFlightCode().equals(firstFlight.getOperatingFlightCode())) {
-			Airline airline = Db.getAirline(firstFlight.getOperatingFlightCode().mAirlineCode);
-			mOperatingCarrierTextView.setText(context.getString(R.string.operated_by_TEMPLATE,
-					FormatUtils.formatAirline(airline, context)));
+		FlightCode opFlightCode = firstFlight.getOperatingFlightCode();
+		if (isIndividualFlight && !firstFlight.getPrimaryFlightCode().equals(opFlightCode)) {
+			String operatedBy;
+			if (!TextUtils.isEmpty(opFlightCode.mAirlineCode)) {
+				Airline airline = Db.getAirline(opFlightCode.mAirlineCode);
+				operatedBy = FormatUtils.formatAirline(airline, context);
+			}
+			else {
+				operatedBy = opFlightCode.mAirlineName;
+			}
+
+			mOperatingCarrierTextView.setText(context.getString(R.string.operated_by_TEMPLATE, operatedBy));
 
 			mOperatingCarrierTextView.setVisibility(View.VISIBLE);
 

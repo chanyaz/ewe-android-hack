@@ -133,19 +133,28 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			}
 
 			// Parse possible operating flight code
-			if (segmentJson.has("operatingAirlineCode")) {
+			if (segmentJson.has("operatingAirlineName")) {
 				FlightCode opFlightCode = new FlightCode();
-				opFlightCode.mAirlineCode = segmentJson.optString("operatingAirlineCode");
+
 				// Note: The operating airline # will always be empty string, because we
 				// don't get that data from the API.  However, we still parse this deprecated
 				// string in case API ever gets this functionality back again.
 				opFlightCode.mNumber = segmentJson.optString("operatingAirlineFlightNumber");
-				segment.addFlightCode(opFlightCode, Flight.F_OPERATING_AIRLINE_CODE);
 
-				if (!mOperatingAirlineNames.containsKey(opFlightCode.mAirlineCode)) {
-					mOperatingAirlineNames
-							.put(opFlightCode.mAirlineCode, segmentJson.optString("operatingAirlineName"));
+				if (segmentJson.has("operatingAirlineCode")) {
+					opFlightCode.mAirlineCode = segmentJson.optString("operatingAirlineCode");
+
+					if (!mOperatingAirlineNames.containsKey(opFlightCode.mAirlineCode)) {
+						mOperatingAirlineNames.put(opFlightCode.mAirlineCode,
+								segmentJson.optString("operatingAirlineName"));
+					}
 				}
+				else {
+					// F1246: We can sometimes *only* get operating airline name.  In that case, do special parsing
+					opFlightCode.mAirlineName = segmentJson.optString("operatingAirlineName");
+				}
+
+				segment.addFlightCode(opFlightCode, Flight.F_OPERATING_AIRLINE_CODE);
 			}
 
 			// Parse departure
