@@ -210,13 +210,11 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		mConfState.delete();
 		Db.clear();
 
-		Class<? extends Activity> routingTarget = ExpediaBookingApp.useTabletInterface(this)
-				? SearchFragmentActivity.class
-				: PhoneSearchActivity.class;
+		Intent intent = ExpediaBookingApp.useTabletInterface(this)
+				? SearchFragmentActivity.createIntent(this, true)
+				: PhoneSearchActivity.createIntent(this, true);
 
-		Intent intent = new Intent(mContext, routingTarget);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
 
 		startActivity(intent);
 		finish();

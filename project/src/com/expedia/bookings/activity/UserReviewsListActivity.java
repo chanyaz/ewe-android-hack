@@ -9,6 +9,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -64,6 +65,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 	private Set<String> mViewedReviews;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
 	@Override
@@ -157,16 +159,13 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 		switch (item.getItemId()) {
 		case android.R.id.home: {
-			Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.putExtra(Codes.OPENED_FROM_WIDGET, getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false));
-			startActivity(intent);
-			finish();
+			// app icon in action bar clicked; go back
+			Intent intent = HotelDetailsFragmentActivity.createIntent(this);
+			NavUtils.navigateUpTo(this, intent);
 			return true;
 		}
 		case R.id.menu_select_hotel: {
-			Intent intent = new Intent(this, RoomsAndRatesListActivity.class);
-			startActivity(intent);
+			startActivity(RoomsAndRatesListActivity.createIntent(this));
 		}
 		default:
 			break;
@@ -184,7 +183,9 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 
 		if (isFinishing()) {
 			UserReviewsUtils.getInstance().clearCache();

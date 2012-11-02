@@ -69,6 +69,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	private boolean mCvvErrorModeEnabled;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
 	@Override
@@ -150,7 +151,9 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 	}
 
 	@Override

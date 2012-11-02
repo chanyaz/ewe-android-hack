@@ -345,9 +345,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			if (searchParams != null) {
 				lastSearchedLocation.setLatitude(searchParams.getSearchLatitude());
 				lastSearchedLocation.setLongitude(searchParams.getSearchLongitude());
+				searchParams.setFromWidget();
 			}
 			else {
 				searchParams = new SearchParams();
+				searchParams.setFromWidget();
 				mWidgetDeals.setSearchParams(searchParams);
 			}
 
@@ -376,6 +378,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		Log.d("onLocationChanged(): " + location.toString());
 		mWidgetDeals.setSearchParams(new SearchParams());
 		mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
+		mWidgetDeals.getSearchParams().setFromWidget();
 		startSearchDownloader();
 		stopLocationListener();
 	}
@@ -663,6 +666,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		if (location != null) {
 			mWidgetDeals.setSearchParams(new SearchParams());
 			mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
+			mWidgetDeals.getSearchParams().setFromWidget();
 			startSearchDownloader();
 		}
 		else {
@@ -983,13 +987,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void setupOnClickIntentForWidget(WidgetState widget, Property property, RemoteViews rv) {
-		Intent onClickIntent = new Intent(this.getApplicationContext(), HotelDetailsFragmentActivity.class);
-		onClickIntent.putExtra(Codes.APP_WIDGET_ID, widget.appWidgetIdInteger);
-		onClickIntent.putExtra(Codes.SEARCH_PARAMS, mWidgetDeals.getSearchParams().toJson().toString());
-		onClickIntent.putExtra(Codes.OPENED_FROM_WIDGET, true);
-		if (property != null) {
-			onClickIntent.putExtra(Codes.PROPERTY, property.toJson().toString());
-		}
+		Intent onClickIntent = HotelDetailsFragmentActivity.createIntent(this.getApplicationContext(),
+				widget.appWidgetIdInteger, mWidgetDeals.getSearchParams(), property);
 
 		rv.setOnClickPendingIntent(R.id.root, PendingIntent.getActivity(this.getApplicationContext(),
 				widget.appWidgetIdInteger.intValue() + 3, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));

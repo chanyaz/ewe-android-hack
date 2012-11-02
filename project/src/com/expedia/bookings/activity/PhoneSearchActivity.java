@@ -180,6 +180,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = R.id.radius_large_button;
 	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = R.id.price_all_button;
 
+	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
+	private static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
+
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_VERSION_FILE = "savedsearch-version.dat";
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
@@ -286,6 +289,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private int mSearchEditTextPaddingRight = -1;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
 	//----------------------------------
@@ -414,6 +418,18 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////
+	// Static Methods
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	public static Intent createIntent(Context context, boolean startNewSearch) {
+		Intent intent = new Intent(context, PhoneSearchActivity.class);
+		if (startNewSearch) {
+			intent.putExtra(EXTRA_NEW_SEARCH, true);
+		}
+		return intent;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////////
 
@@ -441,13 +457,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mSearchEditText.setAdapter(mSearchSuggestionAdapter);
 
 		boolean localeChanged = SettingUtils.get(this, LocaleChangeReceiver.KEY_LOCALE_CHANGED, false);
-		boolean startNewSearch = getIntent().getBooleanExtra(Codes.EXTRA_NEW_SEARCH, false);
+		boolean startNewSearch = getIntent().getBooleanExtra(EXTRA_NEW_SEARCH, false);
 
 		if (startNewSearch) {
 			Db.clear();
 			saveParams();
 			// Remove it so we don't keep doing this on rotation
-			getIntent().removeExtra(Codes.EXTRA_NEW_SEARCH);
+			getIntent().removeExtra(EXTRA_NEW_SEARCH);
 		}
 
 		boolean toBroadcastSearchCompleted = false;
@@ -642,7 +658,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 
 		mWasOnDestroyCalled = true;
 

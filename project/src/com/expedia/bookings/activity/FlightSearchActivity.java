@@ -40,6 +40,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	private boolean mConfigChange = false;
 	private boolean mSaveState = true;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -122,7 +123,9 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 
 		// Save the current search params to disc
 		if (mSaveState && !mConfigChange) {

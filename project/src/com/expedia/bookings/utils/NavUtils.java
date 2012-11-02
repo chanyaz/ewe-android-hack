@@ -146,11 +146,38 @@ public class NavUtils {
 		activity.finish();
 	}
 
+	/**
+	 * Send a "kill activity" broadcast to all registered listeners. This will ensure the 
+	 * activity backstack is erased. This whole framework is to make up for a lack of
+	 * Intent.FLAG_ACTIVITY_CLEAR_TASK that we'd otherwise want to use in some cases,
+	 * like when we open a hotel details from the widget. Call this method when you want
+	 * to clear the task.
+	 * 
+	 * Note: All activities must register a LocalBroadcastReceiver on the KILL_ACTIVITY
+	 * intent to guarantee the backstack is actually erased.
+	 *
+	 * <pre class="prettyprint">
+	 * public class MyActivity extends Activity {
+	 *     // To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
+	 *     private ActivityKillReceiver mKillReceiver;
+	 *
+	 *     protected void onCreate(Bundle savedInstanceState) {
+	 *         super.onCreate(savedInstanceState);
+     *         mKillReceiver = new ActivityKillReceiver(this);
+	 *         mKillReceiver.onCreate();
+	 *     }
+	 *
+	 *     protected void onDestroy();
+	 *         if (mKillReceiver != null) {
+	 *             mKillReceiver.onDestroy();
+	 *         }
+	 *     }
+	 * }
+	 * </pre>
+	 *
+	 * @param context
+	 */
 	public static void sendKillActivityBroadcast(Context context) {
-		// Send the kill activity broadcast to ensure the activity backstack is erased
-		//
-		// Note: All activities must register a LocalBroadcastReceiver on the KILL_ACTIVITY
-		// intent to guarantee the backstack is actually erased.
 		Intent kill = new Intent();
 		kill.setAction(ActivityKillReceiver.BROADCAST_KILL_ACTIVITY_INTENT);
 		LocalBroadcastManager.getInstance(context).sendBroadcast(kill);

@@ -19,12 +19,8 @@ public class Codes {
 	public static final String BRANDING_SAVINGS = "BRANDING_SAVINGS";
 	public static final String DISTANCE_OF_MAX_SAVINGS = "DISTANCE_OF_MAX_SAVINGS";
 	public static final String SHOW_BRANDING = "SHOW_BRANDING";
-	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
 	public static final String DISPLAY_MODAL_VIEW = "DISPLAY_MODAL_VIEW";
 	public static final String DISCOUNT_RATE = "DISCOUNT_RATE";
-
-	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
-	public static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
 	//If the calling activity has already set the search params, we don't need to clear/reset them
 	public static final String TAG_EXTERNAL_SEARCH_PARAMS = "TAG_EXTERNAL_SEARCH_PARAMS";

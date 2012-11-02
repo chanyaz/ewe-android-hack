@@ -53,6 +53,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	private boolean mCvvErrorModeEnabled;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
 	@Override
@@ -123,7 +124,9 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 	}
 
 	private void launchConfirmationActivity() {

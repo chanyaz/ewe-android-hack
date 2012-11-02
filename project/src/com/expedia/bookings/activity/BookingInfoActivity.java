@@ -61,6 +61,7 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 
 	private long mLastResumeTime = -1;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +116,9 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 
 		if (isFinishing()) {
 			Db.setCreateTripResponse(null);

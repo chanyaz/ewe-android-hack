@@ -49,6 +49,9 @@ public class SearchParams implements JSONable {
 
 	// This might get filled as a result of an autosuggestion
 	private String mRegionId;
+	
+	// This will get set if the SearchParams object was created from the widget
+	private boolean mIsFromWidget;
 
 	/**
 	 *  The variables below are just for analytics
@@ -367,6 +370,14 @@ public class SearchParams implements JSONable {
 	public boolean hasRegionId() {
 		return mRegionId != null;
 	}
+	
+	public void setFromWidget() {
+		mIsFromWidget = true;
+	}
+	
+	public boolean isFromWidget() {
+		return mIsFromWidget;
+	}
 
 	public boolean fromJson(JSONObject obj) {
 		mQuery = obj.optString("freeformLocation", null);
@@ -400,6 +411,8 @@ public class SearchParams implements JSONable {
 		}
 
 		mRegionId = obj.optString("regionId", null);
+		
+		mIsFromWidget = obj.optBoolean("isFromWidget", false);
 
 		mUserQuery = obj.optString("userFreeformLocation", null);
 
@@ -449,6 +462,10 @@ public class SearchParams implements JSONable {
 			obj.put("propertyIds", propertyIds);
 
 			obj.put("regionId", mRegionId);
+			
+			if (mIsFromWidget) {
+				obj.put("isFromWidget", true);
+			}
 
 			obj.put("userFreeformLocation", mUserQuery);
 		}

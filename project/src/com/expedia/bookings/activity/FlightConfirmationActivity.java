@@ -31,6 +31,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 	private ConfirmationState mConfState;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
 	@Override
@@ -118,6 +119,10 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		}
 
 		mKillReceiver.onDestroy();
+
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 	}
 
 	@Override

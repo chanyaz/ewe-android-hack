@@ -2,9 +2,11 @@ package com.expedia.bookings.activity;
 
 import java.util.Calendar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -49,7 +51,30 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 
 	private long mLastResumeTime = -1;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Static Methods
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Create intent to open this activity in a standard way.
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context) {
+		Intent intent = new Intent(context, RoomsAndRatesListActivity.class);
+		return intent;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// OVERRIDES
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	//----------------------------------
+	// LIFECYCLE EVENTS
+	//----------------------------------
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +181,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// app icon in action bar clicked; go back
+			Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
+			NavUtils.navigateUpTo(this, intent);
 			finish();
 			return true;
 		default:
@@ -186,7 +213,9 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 	}
 
 	private boolean checkFinishConditionsAndFinish() {

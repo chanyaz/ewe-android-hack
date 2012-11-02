@@ -1,8 +1,10 @@
 package com.expedia.bookings.activity;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -33,7 +35,30 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Static Methods
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Create intent to open this activity in a standard way.
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context) {
+		Intent intent = new Intent(context, HotelMapActivity.class);
+		return intent;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// OVERRIDES
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	//----------------------------------
+	// LIFECYCLE EVENTS
+	//----------------------------------
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,13 +139,11 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 		case android.R.id.home:
 			// app icon in action bar clicked; go back
 			Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			finish();
+			NavUtils.navigateUpTo(this, intent);
 			return true;
+			
 		case R.id.menu_select_hotel:
-			Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
-			startActivity(roomsRatesIntent);
+			startActivity(RoomsAndRatesListActivity.createIntent(this));
 			finish();
 			return true;
 		default:
@@ -149,7 +172,9 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 	}
 
 	@Override

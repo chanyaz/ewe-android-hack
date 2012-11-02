@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -37,7 +39,6 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFra
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -67,6 +68,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	// This is the position in the list that the hotel had when the user clicked on it 
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
+	// Flag set in the intent if this activity was opened from the widget
+	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
+
 	private static final String INFO_DOWNLOAD_KEY = HotelDetailsFragmentActivity.class.getName() + ".info";
 	private static final String REVIEWS_DOWNLOAD_KEY = HotelDetailsFragmentActivity.class.getName() + ".reviews";
 
@@ -86,7 +90,52 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 	private long mLastResumeTime = -1;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Static Methods
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Create intent to open this activity in a standard way.
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context) {
+		Intent intent = new Intent(context, HotelDetailsFragmentActivity.class);
+		return intent;
+	}
+
+	/**
+	 * Create intent to open this Activity from a widget.
+	 * @param context
+	 * @param appWidgetId
+	 * @param params
+	 * @param property
+	 * @return
+	 */
+	public static Intent createIntent(Context context, int appWidgetId, SearchParams params, Property property) {
+		Intent intent = new Intent(context, HotelDetailsFragmentActivity.class);
+
+		intent.putExtra(OPENED_FROM_WIDGET, true);
+
+		intent.putExtra(Codes.APP_WIDGET_ID, appWidgetId);
+		intent.putExtra(Codes.SEARCH_PARAMS, params.toJson().toString());
+		if (property != null) {
+			intent.putExtra(Codes.PROPERTY, property.toJson().toString());
+		}
+
+		return intent;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// OVERRIDES
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	//----------------------------------
+	// LIFECYCLE EVENTS
+	//----------------------------------
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,8 +144,10 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		mContext = this;
 		mApp = (ExpediaBookingApp) getApplicationContext();
 
-		if (getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
-			NavUtils.sendKillActivityBroadcast(mContext);
+		Intent intent = getIntent();
+
+		if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
+			com.expedia.bookings.utils.NavUtils.sendKillActivityBroadcast(mContext);
 
 			Property property = (Property) JSONUtils.parseJSONableFromIntent(getIntent(), Codes.PROPERTY,
 					Property.class);
@@ -108,8 +159,14 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			}
 		}
 
-		if (checkFinishConditionsAndFinish())
+		if (intent.hasExtra(Codes.SEARCH_PARAMS)) {
+			SearchParams params = JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS, SearchParams.class);
+			Db.setSearchParams(params);
+		}
+
+		if (checkFinishConditionsAndFinish()) {
 			return;
+		}
 
 		setupHotelActivity(savedInstanceState);
 
@@ -186,6 +243,36 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		setupHotelActivity(null);
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		if (!isFinishing()) {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			bd.unregisterDownloadCallback(INFO_DOWNLOAD_KEY);
+			bd.unregisterDownloadCallback(REVIEWS_DOWNLOAD_KEY);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
+
+		if (isFinishing()) {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			bd.cancelDownload(INFO_DOWNLOAD_KEY);
+			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
+		}
+	}
+
+	//----------------------------------
+	// MENUS
+	//----------------------------------
+
 	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -228,50 +315,48 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			// If opened from the widget, then "up" means to start a current location search
-			if (getIntent().getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
-				// Launch the PhoneSearchActivity action, with EXTRA_NEW_SEARCH flag
-				Intent intent = new Intent(this, PhoneSearchActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				intent.putExtra(Codes.EXTRA_NEW_SEARCH, true);
-				startActivity(intent);
+		case android.R.id.home: {
+			Intent intent = PhoneSearchActivity.createIntent(this, true);
+
+			// TODO: this doesn't seem to be working, even on JB. But really, we know the one case
+			// when the task stack should be recreated: when we've found this hotel via widget.
+			//boolean shouldUpRecreateTask = NavUtils.shouldUpRecreateTask(this, intent);
+			boolean shouldUpRecreateTask = Db.getSearchParams().isFromWidget();
+
+			if (shouldUpRecreateTask) {
+				// This activity is not part of the application's task, so create a new task
+				// with a synthesized back stack.
+				TaskStackBuilder.create(this)
+						.addNextIntent(new Intent(this, LaunchActivity.class))
+						.addNextIntent(intent)
+						.startActivities();
+				finish();
 			}
-			finish();
+			else {
+				// This activity is part of the application's task, so simply
+				// navigate up to the hierarchical parent activity.
+				NavUtils.navigateUpTo(this, intent);
+			}
+
 			return true;
-		case R.id.menu_select_hotel:
-			startRoomRatesActivity();
+		}
+		case R.id.menu_select_hotel: {
+			startActivity(RoomsAndRatesListActivity.createIntent(this));
 			return true;
-		default:
+		}
+		default: {
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-
-		if (!isFinishing()) {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			bd.unregisterDownloadCallback(INFO_DOWNLOAD_KEY);
-			bd.unregisterDownloadCallback(REVIEWS_DOWNLOAD_KEY);
 		}
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE METHODS
+	//////////////////////////////////////////////////////////////////////////////////////////
 
-		if (mKillReceiver != null) {
-			mKillReceiver.onDestroy();
-		}
-
-		if (isFinishing()) {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			bd.cancelDownload(INFO_DOWNLOAD_KEY);
-			bd.cancelDownload(REVIEWS_DOWNLOAD_KEY);
-		}
-	}
+	//----------------------------------
+	// VIEW INITIALIZATION
+	//----------------------------------
 
 	private void setupHotelActivity(Bundle savedInstanceState) {
 		final Intent intent = getIntent();
@@ -321,7 +406,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 			// Track here if user opened app from widget.  Currently assumes that all widget searches
 			// are "nearby" - if this ever changes, this needs to be updated.
-			if (intent.getBooleanExtra(Codes.OPENED_FROM_WIDGET, false)) {
+			if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
 				TrackingUtils.trackSimpleEvent(this, null, null, null, "App.Widget.Deal.Nearby");
 				mApp.broadcastSearchParamsChangedInWidget((SearchParams) JSONUtils.parseJSONableFromIntent(intent,
 						Codes.SEARCH_PARAMS, SearchParams.class));
@@ -359,12 +444,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 	}
 
-	public void startRoomRatesActivity() {
-		Intent roomsRatesIntent = new Intent(this, RoomsAndRatesListActivity.class);
-		startActivity(roomsRatesIntent);
-	}
-
-	public boolean checkFinishConditionsAndFinish() {
+	private boolean checkFinishConditionsAndFinish() {
 		Property property = Db.getSelectedProperty();
 		if (property == null) {
 			Log.i("Detected expired DB, finishing activity.");
@@ -457,7 +537,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 	@Override
 	public void onMiniMapClicked() {
-		Intent intent = new Intent(this, HotelMapActivity.class);
+		Intent intent = HotelMapActivity.createIntent(this);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		startActivity(intent);

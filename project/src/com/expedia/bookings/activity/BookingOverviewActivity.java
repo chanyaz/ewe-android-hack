@@ -26,6 +26,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	private BookingOverviewFragment mBookingOverviewFragment;
 	private MenuItem mCheckoutMenuItem;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
 	@Override
@@ -41,6 +42,15 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 		mBookingOverviewFragment = (BookingOverviewFragment) getSupportFragmentManager().findFragmentById(
 				R.id.booking_overview_fragment);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 	}
 
 	@Override

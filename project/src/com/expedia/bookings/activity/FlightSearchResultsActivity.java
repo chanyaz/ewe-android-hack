@@ -126,6 +126,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private View mCancelButton;
 	private View mSelectFlightButton;
 
+	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
 	@Override
@@ -324,7 +325,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
+		if (mKillReceiver != null) {
+			mKillReceiver.onDestroy();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

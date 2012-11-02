@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -25,12 +26,27 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 
 	public static final int DIALOG_NO_INTERNET = 1;
 
+	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
+	private static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
+
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
 
 	private SearchParamsFragment mSearchParamsFragment;
 
 	private HockeyPuck mHockeyPuck;
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Static Methods
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	public static Intent createIntent(Context context, boolean startNewSearch) {
+		Intent intent = new Intent(context, SearchFragmentActivity.class);
+		if (startNewSearch) {
+			intent.putExtra(EXTRA_NEW_SEARCH, true);
+		}
+		return intent;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -52,7 +68,7 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 
-		if (intent.hasExtra(Codes.EXTRA_NEW_SEARCH)) {
+		if (intent.hasExtra(EXTRA_NEW_SEARCH)) {
 			Db.resetSearchParams();
 
 			mSearchParamsFragment.onResetParams();
