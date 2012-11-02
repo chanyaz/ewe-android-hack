@@ -31,6 +31,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirmationFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.Tracker;
@@ -85,9 +86,11 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 							discountRate = Db.getCreateTripResponse().getNewRate();
 						}
 						BillingInfo billingInfo = new BillingInfo(Db.getBillingInfo());
+
+						Traveler primaryTraveler = Db.getUser() == null ? null : Db.getUser().getPrimaryTraveler();
 						mConfState.save(Db.getSearchParams(),
 								Db.getSelectedProperty(), Db.getSelectedRate(), billingInfo,
-								Db.getBookingResponse(), discountRate);
+								Db.getBookingResponse(), discountRate, primaryTraveler);
 					}
 				}).start();
 			}
@@ -276,8 +279,14 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		appendLabelValue(context, body, R.string.itinerary_number, bookingResponse.getItineraryId());
 		body.append("\n\n");
 
-		appendLabelValue(context, body, R.string.name,
-				context.getString(R.string.name_template, billingInfo.getFirstName(), billingInfo.getLastName()));
+		if (mConfState.getPrimaryTraveler() != null) {
+			appendLabelValue(context, body, R.string.name,
+					context.getString(R.string.name_template, mConfState.getPrimaryTraveler().getFirstName(), mConfState.getPrimaryTraveler().getLastName()));
+		}
+		else {
+			appendLabelValue(context, body, R.string.name,
+					context.getString(R.string.name_template, billingInfo.getFirstName(), billingInfo.getLastName()));
+		}
 		body.append("\n");
 		appendLabelValue(context, body, R.string.CheckIn,
 				dayFormatter.format(checkIn) + ", " + fullDateFormatter.format(checkIn));

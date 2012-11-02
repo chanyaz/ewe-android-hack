@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.Traveler;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -35,13 +36,15 @@ public class ConfirmationState {
 	private Context mContext;
 	private Type mType;
 
+	private Traveler mPrimaryTraveler;
+
 	public ConfirmationState(Context context, Type type) {
 		mContext = context;
 		mType = type;
 	}
 
 	public boolean save(SearchParams searchParams, Property property, Rate rate, BillingInfo billingInfo,
-			BookingResponse bookingResponse, Rate discountRate) {
+			BookingResponse bookingResponse, Rate discountRate, Traveler primaryTraveler) {
 		if (mType != Type.HOTEL) {
 			throw new RuntimeException("Tried to save " + Type.HOTEL + " data into " + mType + " state");
 		}
@@ -57,6 +60,11 @@ public class ConfirmationState {
 			JSONUtils.putJSONable(data, Codes.BOOKING_RESPONSE, bookingResponse);
 			if (discountRate != null) {
 				JSONUtils.putJSONable(data, Codes.DISCOUNT_RATE, discountRate);
+			}
+
+			if (primaryTraveler != null) {
+				mPrimaryTraveler = primaryTraveler;
+				JSONUtils.putJSONable(data, "primaryTraveler", primaryTraveler);
 			}
 
 			writeData(data);
@@ -114,6 +122,8 @@ public class ConfirmationState {
 				Db.setSelectedRate(JSONUtils.getJSONable(data, Codes.RATE, Rate.class));
 				Db.setBillingInfo(JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class));
 				Db.setBookingResponse(JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE, BookingResponse.class));
+
+				mPrimaryTraveler = JSONUtils.getJSONable(data, "primaryTraveler", Traveler.class);
 			}
 			else if (mType == Type.FLIGHT) {
 				Db.setFlightSearch(JSONUtils.getJSONable(data, "flightSearch", FlightSearch.class));
@@ -148,5 +158,12 @@ public class ConfirmationState {
 	public static boolean hasSavedData(Context context, Type type) {
 		ConfirmationState state = new ConfirmationState(context, type);
 		return state.hasSavedData();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Getters setters
+
+	public Traveler getPrimaryTraveler() {
+		return mPrimaryTraveler;
 	}
 }
