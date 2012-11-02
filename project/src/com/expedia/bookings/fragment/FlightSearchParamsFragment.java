@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
-import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,6 +32,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -87,6 +90,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	// the user clicks away from the edit text without selecting a location.
 	private Location mFirstAdapterLocation;
 
+	// Special code just for landscape
+	private boolean mIsLandscape;
+
 	public static FlightSearchParamsFragment newInstance(FlightSearchParams initialParams, boolean dimBackground) {
 		FlightSearchParamsFragment fragment = new FlightSearchParamsFragment();
 		Bundle args = new Bundle();
@@ -107,6 +113,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_PARAMS, FlightSearchParams.class);
 			mFirstAdapterLocation = JSONUtils.getJSONable(savedInstanceState, INSTANCE_FIRST_LOCATION, Location.class);
 		}
+
+		mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
 	}
 
 	@Override
@@ -141,6 +149,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		// Configure views
 		if (getArguments().getBoolean(ARG_DIM_BACKGROUND)) {
 			mDimmerView.setVisibility(View.VISIBLE);
+		}
+
+		// In landscape, make the calendar date picker fill the screen
+		if (mIsLandscape) {
+			mCalendarDatePicker.getLayoutParams().height = LayoutParams.MATCH_PARENT;
 		}
 
 		mAirportAdapter = new AirportDropDownAdapter(getActivity());
@@ -238,17 +251,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mClearDatesButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//Set out of range dates...
-				mCalendarDatePicker.reset();
-
-				mSearchParams.setDepartureDate(null);
-				mSearchParams.setReturnDate(null);
-
-				//Refresh things
-				updateCalendarText();
-				updateCalendarInstructionText();
-
-				updateListener();
+				clearDates();
 			}
 		});
 
@@ -470,6 +473,20 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		resetAirportEditTexts();
 	}
 
+	private void clearDates() {
+		//Set out of range dates...
+		mCalendarDatePicker.reset();
+
+		mSearchParams.setDepartureDate(null);
+		mSearchParams.setReturnDate(null);
+
+		//Refresh things
+		updateCalendarText();
+		updateCalendarInstructionText();
+
+		updateListener();
+	}
+
 	private void updateCalendarInstructionText() {
 		if (mCalendarDatePicker != null) {
 			Calendar dateStart = mSearchParams.getDepartureDate() == null ? null : mSearchParams.getDepartureDate()
@@ -531,9 +548,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			if (departureDate == null && returnDate == null) {
 				mCalendarDatePicker.reset();
 			}
+
+			// F1213 - Show action bar because landscape takes up the entire screen otherwise
+			if (mIsLandscape) {
+				((SherlockFragmentActivity) getActivity()).startActionMode(mCalendarActionMode);
+			}
 		}
 
-		if (enabled) {
+		if (enabled && !mIsLandscape) {
 			// If all the data is available now, fix height - otherwise we have to wait for a layout
 			// pass to fix the height.
 			if (getView() != null && getView().getHeight() != 0) {
@@ -645,6 +667,50 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		updateListener();
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Calendar action mode
+	//
+	// Only invoked in landscape with calendar taking up the entire screen
+
+	private ActionMode.Callback mCalendarActionMode = new ActionMode.Callback() {
+
+		private boolean mSaveOnClose;
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			// Inflate a menu resource providing context menu items
+			mode.getMenuInflater().inflate(R.menu.action_mode_done, menu);
+			return true;
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			mSaveOnClose = false;
+			return false;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			switch (item.getItemId()) {
+			case R.id.menu_done:
+				mSaveOnClose = true;
+				mode.finish(); // Action picked, so close the CAB
+				return true;
+			default:
+				return false;
+			}
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			toggleCalendarDatePicker(false);
+
+			if (!mSaveOnClose) {
+				clearDates();
+			}
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// InputFilter

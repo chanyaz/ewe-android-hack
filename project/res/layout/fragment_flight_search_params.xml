@@ -31,14 +31,16 @@
         android:layout_height="wrap_content"
         android:background="#DFFF"
         android:orientation="vertical"
-        android:padding="8dp" >
+        android:paddingBottom="@dimen/flight_search_header_padding_bottom"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="@dimen/flight_search_header_padding_top" >
 
         <LinearLayout
             android:id="@+id/airports_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginBottom="@dimen/flight_search_space_between_rows"
             android:orientation="horizontal"
             android:weightSum="2" >
 
@@ -53,7 +55,7 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_departure_airport"
                 android:imeOptions="flagNoExtractUi|actionNext"
-                android:inputType="textNoSuggestions|textCapWords"
+                android:inputType="textCapWords|textNoSuggestions|textVisiblePassword"
                 android:popupBackground="@drawable/bg_autocomplete"
                 android:singleLine="true"
                 android:textColor="@android:color/black" />
@@ -69,7 +71,7 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_arrival_airport"
                 android:imeOptions="flagNoExtractUi|actionNext"
-                android:inputType="textNoSuggestions"
+                android:inputType="textCapWords|textNoSuggestions|textVisiblePassword"
                 android:popupBackground="@drawable/bg_autocomplete"
                 android:singleLine="true"
                 android:textColor="@android:color/black" />
@@ -77,9 +79,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="3dp" >
+            android:layout_height="wrap_content" >
 
             <EditText
                 android:id="@+id/dates_button"
