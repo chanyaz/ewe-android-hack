@@ -269,6 +269,8 @@
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
     <string name="menu_done">Done</string>
+    <!-- unable to load traveler details message -->
+    <string name="unable_to_load_traveler_message">We were unable to load this traveler\'s details. Please check your network connection and try again.</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->

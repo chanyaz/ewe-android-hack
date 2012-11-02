@@ -29,6 +29,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.ViewUtils;
@@ -323,15 +324,17 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 					LoadingTravelerDialogFragment.TAG);
 			df.dismiss();
 
-			if (results == null) {
+			if (results == null || results.hasErrors()) {
 				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
-						getString(R.string.error_server));
+						getString(R.string.unable_to_load_traveler_message));
 				dialogFragment.show(getFragmentManager(), "errorFragment");
-			}
-			else if (results.hasErrors()) {
-				String error = results.getErrors().get(0).getPresentableMessage(getActivity());
-				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null, error);
-				dialogFragment.show(getFragmentManager(), "errorFragment");
+				if (results != null && results.hasErrors()) {
+					String error = results.getErrors().get(0).getPresentableMessage(getActivity());
+					Log.e("Traveler Details Error:" + error);
+				}
+				else {
+					Log.e("Traveler Details Results == null!");
+				}
 			}
 			else {
 				Traveler traveler = results.getTraveler();
