@@ -38,7 +38,7 @@ public class HotelSectionBillingInfo extends SectionBillingInfo {
 	}
 
 	SectionField<ImageView, BillingInfo> mHotelDisplayCreditCardBrandIconGray = new SectionField<ImageView, BillingInfo>(
-			R.id.display_credit_card_brand_icon) {
+			R.id.display_credit_card_brand_icon_grey) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
