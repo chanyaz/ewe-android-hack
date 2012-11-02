@@ -681,6 +681,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			// Inflate a menu resource providing context menu items
 			mode.getMenuInflater().inflate(R.menu.action_mode_done, menu);
+			mode.setTitle(R.string.select_dates);
 			return true;
 		}
 

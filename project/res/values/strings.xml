@@ -124,6 +124,8 @@
     <string name="sort_flights">Sort Flights</string>
     <!-- Edit search title -->
     <string name="edit_search">Edit Search</string>
+    <!-- Action mode asking users to select dates -->
+    <string name="select_dates">Select Dates</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
