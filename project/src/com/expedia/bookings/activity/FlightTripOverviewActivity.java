@@ -746,7 +746,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	@Override
-	public void onCancelErorr() {
+	public void onCancelError() {
 		finish();
 	}
 

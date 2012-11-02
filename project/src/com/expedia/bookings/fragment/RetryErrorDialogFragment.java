@@ -41,7 +41,7 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 
-		mListener.onCancelErorr();
+		mListener.onCancelError();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 			mListener.onRetryError();
 			break;
 		case DialogInterface.BUTTON_NEGATIVE:
-			mListener.onCancelErorr();
+			mListener.onCancelError();
 			break;
 		}
 	}
@@ -65,6 +65,6 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 	public interface RetryErrorDialogFragmentListener {
 		public void onRetryError();
 
-		public void onCancelErorr();
+		public void onCancelError();
 	}
 }

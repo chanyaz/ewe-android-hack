@@ -1101,7 +1101,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
-	public void onCancelErorr() {
+	public void onCancelError() {
 		finish();
 	}
 
