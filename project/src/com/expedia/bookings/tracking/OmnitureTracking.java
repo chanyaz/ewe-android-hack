@@ -11,7 +11,6 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.Log;
 import com.omniture.AppMeasurement;
 
@@ -512,8 +511,7 @@ public class OmnitureTracking {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + link + "\" linkClick");
 		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
 
-		// TPID
-		s.prop7 = LocaleUtils.getTPID(context);
+		TrackingUtils.addStandardFields(context, s);
 
 		// link
 		s.eVar28 = s.prop16 = link;
