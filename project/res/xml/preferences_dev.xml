@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="Development" >
+
         <ListPreference
             android:entries="@array/api_names"
             android:entryValues="@array/api_names"
@@ -13,6 +14,7 @@
             android:key="@string/preference_proxy_server_address"
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
             android:title="Server/Proxy Address" />
+
         <EditTextPreference
             android:defaultValue="@string/preference_flight_fake_price_change_default"
             android:inputType="numberDecimal|numberSigned"
@@ -24,10 +26,12 @@
             android:key="@string/preference_spoof_bookings"
             android:summary="Do not actually perform bookings. Instead, simulate a successful booking response."
             android:title="Spoof bookings" />
+
         <CheckBoxPreference
             android:key="@string/preference_filter_merchant_properties"
             android:summary="Only return non-merchant hotels for testing"
             android:title="Filter Merchant Hotels" />
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_bookings"
@@ -39,6 +43,12 @@
             android:key="@string/preference_fake_current_location"
             android:summary="Type in as &apos;lat,lng&apos;.  Currently only works for launcher."
             android:title="Fake Current Location" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_force_new_location"
+            android:summary="Force launcher to fetch new location. Does not work if fake location set, remove fake location to force fetch."
+            android:title="Force Location Fetch" />
     </PreferenceCategory>
 
 </PreferenceScreen>

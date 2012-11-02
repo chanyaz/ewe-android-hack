@@ -224,6 +224,17 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					location = LocationServices.getLastBestLocation(mContext, minTime);
 				}
 
+				// force location fetch by setting location null. use fake location if it exists, though.
+				if (!AndroidUtils.isRelease(mContext)) {
+					if (SettingUtils.get(mContext, getString(R.string.preference_force_new_location), false)) {
+						String fakeLatLng = SettingUtils.get(mContext,
+								getString(R.string.preference_fake_current_location), "");
+						if (TextUtils.isEmpty(fakeLatLng)) {
+							location = null;
+						}
+					}
+				}
+
 				// No cached location found, find a new location update as quickly and low-power as possible
 				if (location == null) {
 					findLocation();
