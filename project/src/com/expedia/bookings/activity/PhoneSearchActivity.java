@@ -2115,7 +2115,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void displayRefinementInfo() {
 		CharSequence text;
 		if (mDisplayType == DisplayType.CALENDAR) {
-			text = CalendarUtils.getCalendarDatePickerTitle(this, mDatesCalendarDatePicker);
+			text = CalendarUtils.getCalendarDatePickerTitle(this);
 		}
 		else if (mDisplayType == DisplayType.GUEST_PICKER) {
 			SearchParams searchParams = Db.getSearchParams();

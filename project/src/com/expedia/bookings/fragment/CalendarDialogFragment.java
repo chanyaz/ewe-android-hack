@@ -152,7 +152,7 @@ public class CalendarDialogFragment extends DialogFragment {
 	}
 
 	private CharSequence getTitleText() {
-		return CalendarUtils.getCalendarDatePickerTitle(getActivity(), mCalendarDatePicker);
+		return CalendarUtils.getCalendarDatePickerTitle(getActivity());
 	}
 
 	private void updateTitle() {

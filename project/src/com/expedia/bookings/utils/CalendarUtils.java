@@ -135,8 +135,8 @@ public class CalendarUtils {
 				DateUtils.FORMAT_NUMERIC_DATE + DateUtils.FORMAT_UTC);
 	}
 
-	public static CharSequence getCalendarDatePickerTitle(Context context, CalendarDatePicker calendarDatePicker) {
-		int nights = calendarDatePicker.getSelectedRange() - 1;
+	public static CharSequence getCalendarDatePickerTitle(Context context) {
+		int nights = Db.getSearchParams().getStayDuration();
 		if (nights <= 1) {
 			return Html.fromHtml(context.getString(R.string.drag_to_extend_your_stay));
 		}
