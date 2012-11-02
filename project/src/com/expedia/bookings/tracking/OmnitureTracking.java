@@ -320,11 +320,11 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_LOGIN);
 	}
 
-	public static void trackPageLoadFlightCheckout(Context context) {
+	public static void trackPageLoadFlightCheckoutInfo(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_INFO);
 	}
 
-	public static void trackPageLoadFlightOverview(Context context) {
+	public static void trackPageLoadFlightRateDetailsOverview(Context context) {
 		internalTrackPageLoadEventPriceChangeAsShopper(context, FLIGHT_RATE_DETAILS);
 	}
 

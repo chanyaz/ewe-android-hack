@@ -14,7 +14,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightBookingActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
@@ -29,12 +28,6 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 		//TODO:Set args here..
 		fragment.setArguments(args);
 		return fragment;
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase(getActivity());
 	}
 
 	@Override

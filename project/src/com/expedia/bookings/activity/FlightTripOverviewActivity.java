@@ -91,6 +91,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
+	private enum TrackingMode {
+		OVERVIEW, CHECKOUT, SLIDE_TO_PURCHASE
+	}
+
+	// This variable exists to ensure that the correct tracking event gets called the correct number of times
+	private TrackingMode mLastTrackingMode;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -175,6 +182,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		mLastTrackingMode = null;
 
 		//In the case that we go back to the start of the app, we want the CC number to be cleared when we return
 		if (this.isFinishing()) {
@@ -450,7 +459,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			}
 
-			OmnitureTracking.trackPageLoadFlightOverview(this);
+			if (mLastTrackingMode != TrackingMode.OVERVIEW) {
+				mLastTrackingMode = TrackingMode.OVERVIEW;
+				OmnitureTracking.trackPageLoadFlightRateDetailsOverview(this);
+			}
 		}
 	}
 
@@ -484,8 +496,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 					}
 				});
 			}
-
-			OmnitureTracking.trackPageLoadFlightCheckout(this);
 		}
 	}
 
@@ -700,6 +710,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public void checkoutInformationIsValid() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
 
+			if (mLastTrackingMode != TrackingMode.SLIDE_TO_PURCHASE) {
+				mLastTrackingMode = TrackingMode.SLIDE_TO_PURCHASE;
+				OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase(this);
+			}
+
 			//Bring in the slide to checkout view
 			replacePriceBarWithSlideToCheckout();
 
@@ -711,6 +726,12 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void checkoutInformationIsNotValid() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
+
+			if (mLastTrackingMode != TrackingMode.CHECKOUT) {
+				mLastTrackingMode = TrackingMode.CHECKOUT;
+				OmnitureTracking.trackPageLoadFlightCheckoutInfo(this);
+			}
+
 			//Bring in the price bar
 			replaceSlideToCheckoutWithPriceBar();
 		}
