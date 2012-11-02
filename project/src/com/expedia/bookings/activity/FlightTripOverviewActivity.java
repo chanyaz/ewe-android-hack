@@ -235,6 +235,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private void loadCachedData() {
 		if (!mLoadedDbInfo) {
 
+			Db.loadBillingInfo(this);
 			BillingInfo billingInfo = Db.getBillingInfo();
 
 			//Load billing info (only if we don't have a valid card already)
