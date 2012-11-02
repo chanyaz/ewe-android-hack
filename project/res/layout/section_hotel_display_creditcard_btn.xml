@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:bufferType="spannable"
             android:gravity="center_horizontal"
+            android:textColor="@color/data_review_grey"
             android:textSize="16sp" />
 
         <include

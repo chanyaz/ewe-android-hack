@@ -56,7 +56,7 @@
 
             <include
                 android:id="@+id/current_payment_cc_section"
-                layout="@layout/section_display_creditcard_info" />
+                layout="@layout/section_hotel_display_creditcard_info" />
 
             <View
                 android:layout_width="match_parent"
@@ -65,7 +65,7 @@
 
             <include
                 android:id="@+id/current_payment_address_section"
-                layout="@layout/section_display_address_info" />
+                layout="@layout/section_hotel_display_address_info" />
         </LinearLayout>
 
         <TextView

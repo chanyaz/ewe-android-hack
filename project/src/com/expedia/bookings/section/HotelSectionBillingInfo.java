@@ -22,23 +22,29 @@ public class HotelSectionBillingInfo extends SectionBillingInfo {
 	public HotelSectionBillingInfo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
-		mFields.add(mDisplayCreditCardBrandIcon);
+		mFields.remove(mDisplayCreditCardBrandIconGrey);
+		mFields.remove(mDisplayCreditCardBrandIconBlack);
+
+		mFields.add(mHotelDisplayCreditCardBrandIconGray);
+		mFields.add(mHotelDisplayCreditCardBrandIconBlack);
 	}
 
 	@Override
 	protected void rebindNumDependantFields() {
 		super.rebindNumDependantFields();
-		mDisplayCreditCardBrandIcon.bindData(mBillingInfo);
+
+		mHotelDisplayCreditCardBrandIconGray.bindData(mBillingInfo);
+		mHotelDisplayCreditCardBrandIconBlack.bindData(mBillingInfo);
 	}
 
-	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIcon = new SectionField<ImageView, BillingInfo>(
+	SectionField<ImageView, BillingInfo> mHotelDisplayCreditCardBrandIconGray = new SectionField<ImageView, BillingInfo>(
 			R.id.display_credit_card_brand_icon) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					field.setImageResource(BookingInfoUtils.CREDIT_CARD_ICONS.get(cardType));
+					field.setImageResource(BookingInfoUtils.CREDIT_CARD_WHITE_ICONS.get(cardType));
 				}
 				else {
 					field.setImageResource(R.drawable.ic_credit_card_white);
@@ -46,6 +52,25 @@ public class HotelSectionBillingInfo extends SectionBillingInfo {
 			}
 			else {
 				field.setImageResource(R.drawable.ic_credit_card_white);
+			}
+		}
+	};
+
+	SectionField<ImageView, BillingInfo> mHotelDisplayCreditCardBrandIconBlack = new SectionField<ImageView, BillingInfo>(
+			R.id.display_credit_card_brand_icon_black) {
+		@Override
+		public void onHasFieldAndData(ImageView field, BillingInfo data) {
+			if (!TextUtils.isEmpty(data.getBrandName())) {
+				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
+				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
+					field.setImageResource(BookingInfoUtils.CREDIT_CARD_WHITE_ICONS.get(cardType));
+				}
+				else {
+					field.setImageDrawable(null);
+				}
+			}
+			else {
+				field.setImageDrawable(null);
 			}
 		}
 	};

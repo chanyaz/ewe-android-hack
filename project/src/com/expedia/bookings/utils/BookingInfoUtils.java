@@ -114,6 +114,22 @@ public class BookingInfoUtils {
 			put(CreditCardType.VISA, R.drawable.ic_visa_black);
 		}
 	};
+	
+	// Which icon to use with which credit card
+		@SuppressWarnings("serial")
+		public static final HashMap<CreditCardType, Integer> CREDIT_CARD_WHITE_ICONS = new HashMap<CreditCardType, Integer>() {
+			{
+				put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_white);
+				put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_white);
+				put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_white);
+				put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_white);
+				put(CreditCardType.DISCOVER, R.drawable.ic_discover_white);
+				put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_white);
+				put(CreditCardType.MAESTRO, R.drawable.ic_maestro_white);
+				put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_white);
+				put(CreditCardType.VISA, R.drawable.ic_visa_white);
+			}
+		};
 
 	// Which icon to use with which credit card
 	@SuppressWarnings("serial")
