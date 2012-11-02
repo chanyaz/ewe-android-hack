@@ -43,21 +43,19 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 
 	//////////////////////////////////////////////////////////////// 
 	// Test Driver
-	
+
 	public void testBookingsAPAC() throws Exception {
 		testBookings(mDriver.APAC_LOCALES);
 	}
-	
 
 	public void testBookingsWestern() throws Exception {
 		testBookings(mDriver.WESTERN_LOCALES);
 	}
 
-	
 	public void testBookingsAmericas() throws Exception {
 		testBookings(mDriver.AMERICAN_LOCALES);
 	}
-	
+
 	private void testBookings(Locale[] locales) throws Exception {
 		mDriver.setAllowScreenshots(true);
 		mDriver.setAllowOrientationChange(false);
@@ -74,11 +72,11 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.delay();
 			mDriver.changePOS(locales[i]);
 			mDriver.clearPrivateData();
-			
+
 			mDriver.launchHotels();
 			mDriver.delay();
-			
-   			mDriver.pressCalendar();
+
+			mDriver.pressCalendar();
 			mDriver.pressGuestPicker();
 			mDriver.selectLocation("San Francisco");
 

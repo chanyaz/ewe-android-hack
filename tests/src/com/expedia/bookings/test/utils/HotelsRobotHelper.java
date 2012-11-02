@@ -587,7 +587,8 @@ public class HotelsRobotHelper {
 
 	public void enterCCV() throws Exception {
 		//mSolo.scrollUp();
-
+		delay(3);
+		screenshot("CVV Screen");
 		final EditText CCVview =
 				(EditText) mSolo.getCurrentActivity().findViewById(R.id.security_code_edit_text);
 		mSolo.clickOnScreen(100, 500); //how to generalize this for all screen sizes?
@@ -641,8 +642,12 @@ public class HotelsRobotHelper {
 		try {
 			mSolo.clickOnText(mSolo.getString(R.string.payment_method));
 			delay(1);
+			screenshot("Payment Method");
+			delay(1);
 			mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
-
+			delay(1);
+			screenshot("Add new card");
+			delay(1);
 			mSolo.clearEditText(0);
 			mSolo.enterText(0, mUser.mAddressLine1);
 
@@ -657,7 +662,9 @@ public class HotelsRobotHelper {
 			delay();
 
 			mSolo.clickOnScreen(450, 75);
-
+			delay(1);
+			screenshot("Credit card info.");
+			delay(1);
 			mSolo.clearEditText(0);
 			mSolo.enterText(0, mUser.mCreditCardNumber);
 			mSolo.clearEditText(1);
@@ -685,6 +692,8 @@ public class HotelsRobotHelper {
 
 	public void confirmAndBook() throws Exception {
 
+		delay();
+		screenshot("Slide to checkout.");
 		delay();
 		mSolo.drag(100, 400, 650, 650, 10);
 
