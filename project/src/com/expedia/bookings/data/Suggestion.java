@@ -10,6 +10,7 @@ import android.util.Pair;
 
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.model.Search;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -112,7 +113,10 @@ public class Suggestion implements JSONable {
 		if (m.matches()) {
 			return new Pair<String, String>(m.group(1), m.group(2));
 		}
-		return null;
+		else {
+			Log.e("Could not split display name for flight: " + mDisplayName);
+			return null;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
