@@ -98,9 +98,6 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_PAYMENT_SELECT_EXISTING = "App.Flight.Checkout.Payment.Select.Existing";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Flight.Checkout.Payment.EnterManually";
 
-	private static final String EMAIL_HASH_KEY = "email_hash_flights";
-	private static final String NO_EMAIL = "NO EMAIL PROVIDED FLIGHTS";
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC TRACK LINK METHODS
 
@@ -181,7 +178,13 @@ public class OmnitureTracking {
 	}
 
 	public static void trackLinkFlightCheckoutLoginSuccess(Context context) {
-		internalTrackLink(context, FLIGHT_CHECKOUT_LOGIN_SUCCESS);
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
+
+		AppMeasurement s = createTrackLinkEvent(context, FLIGHT_CHECKOUT_LOGIN_SUCCESS);
+
+		s.events = "event62";
+
+		s.trackLink(null, "o", s.eVar28);
 	}
 
 	public static void trackLinkFlightCheckoutLoginCancel(Context context) {
@@ -509,6 +512,11 @@ public class OmnitureTracking {
 
 	private static void internalTrackLink(Context context, String link) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + link + "\" linkClick");
+		AppMeasurement s = createTrackLinkEvent(context, link);
+		s.trackLink(null, "o", s.eVar28);
+	}
+
+	private static AppMeasurement createTrackLinkEvent(Context context, String link) {
 		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
 
 		TrackingUtils.addStandardFields(context, s);
@@ -516,11 +524,9 @@ public class OmnitureTracking {
 		// link
 		s.eVar28 = s.prop16 = link;
 
-		s.trackLink(null, "o", s.eVar28);
+		return s;
 	}
 
-	// Note: a lot of this is taken from TrackingUtils. Eventually the code should be unified. Avoiding now in interest
-	// of time and priorities (and not wanting to break Hotels tracking)
 	private static AppMeasurement createTrackPageLoadEventBase(Context context, String pageName) {
 		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
 
