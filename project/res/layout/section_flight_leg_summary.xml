@@ -39,6 +39,7 @@
         android:layout_alignLeft="@+id/airline_text_view"
         android:layout_below="@+id/airline_text_view"
         android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
         android:drawableLeft="@drawable/ic_operating_carrier"
         android:drawablePadding="4dp"
         android:ellipsize="end"
