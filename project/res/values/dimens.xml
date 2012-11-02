@@ -40,6 +40,8 @@
     <!-- We need to increase the margins because of the animation -->
     <dimen name="flight_card_initial_offset">64dp</dimen>
     <dimen name="flight_card_overlap_offset">16dp</dimen>
+    <dimen name="flight_card_mask_offset">-26dp</dimen>
+    <dimen name="flight_card_with_span_mask_offset">-15dp</dimen>
 
     <!-- FlightTripView dimensions -->
     <dimen name="flight_trip_view_stroke_width">2dp</dimen>

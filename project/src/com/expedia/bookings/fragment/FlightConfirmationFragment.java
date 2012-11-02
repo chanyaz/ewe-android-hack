@@ -83,9 +83,10 @@ public class FlightConfirmationFragment extends Fragment {
 		Resources res = getResources();
 
 		// Measure the frontmost card - we need to know its height to correctly size the fake cards
+		FlightLeg frontmostLeg = trip.getLeg(0);
 		FlightLegSummarySection card = (FlightLegSummarySection) inflater.inflate(
 				R.layout.section_flight_leg_summary, cardContainer, false);
-		card.bind(trip, trip.getLeg(0));
+		card.bind(trip, frontmostLeg);
 		LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_conf_row);
 		card.measure(MeasureSpec.makeMeasureSpec(LayoutParams.MATCH_PARENT, MeasureSpec.EXACTLY),
 				MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY));
@@ -116,6 +117,12 @@ public class FlightConfirmationFragment extends Fragment {
 			// Each card is offset below the last one
 			MarginLayoutParams params = (MarginLayoutParams) view.getLayoutParams();
 			params.topMargin = (int) (initialOffset + Math.round(offset * (numLegs - 1 - a)));
+		}
+
+		if (frontmostLeg.getDaySpan() > 0) {
+			ViewGroup actionContainer = Ui.findView(v, R.id.action_container);
+			((MarginLayoutParams) actionContainer.getLayoutParams()).topMargin = res
+					.getDimensionPixelSize(R.dimen.flight_card_with_span_mask_offset);
 		}
 
 		// Fill out all the actions

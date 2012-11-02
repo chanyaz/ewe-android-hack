@@ -31,10 +31,11 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
+            android:id="@+id/action_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/flight_card_container"
-            android:layout_marginTop="-26dp"
+            android:layout_marginTop="@dimen/flight_card_mask_offset"
             android:background="@drawable/bg_confirmation_mask"
             android:orientation="vertical" >
 
