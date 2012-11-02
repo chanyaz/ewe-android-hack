@@ -68,6 +68,7 @@
         <item name="android:background">@drawable/edit_text_holo_dark</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
         <item name="android:textColor">@color/text_color_dark</item>
+        <item name="android:textCursorDrawable">@null</item>
     </style>
 
     <style name="Widget.EditText.NumberPickerInputText">
