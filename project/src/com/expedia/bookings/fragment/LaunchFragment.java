@@ -618,8 +618,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			}
 
 			// Launch hotel search
-			Intent intent = new Intent(mContext, PhoneSearchActivity.class);
-			mContext.startActivity(intent);
+			mContext.startActivity(PhoneSearchActivity.createIntent(mContext, false));
 
 			cleanUp();
 		}

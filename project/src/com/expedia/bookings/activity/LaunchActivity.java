@@ -21,15 +21,9 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	private HockeyPuck mHockeyPuck;
 
-	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
-	private ActivityKillReceiver mKillReceiver;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mKillReceiver = new ActivityKillReceiver(this);
-		mKillReceiver.onCreate();
 
 		getWindow().setFormat(android.graphics.PixelFormat.RGBA_8888);
 
@@ -59,15 +53,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	public void onStart() {
 		super.onStart();
 		OmnitureTracking.trackPageLoadLaunchScreen(this);
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		if (mKillReceiver != null) {
-			mKillReceiver.onDestroy();
-		}
 	}
 
 	@Override
