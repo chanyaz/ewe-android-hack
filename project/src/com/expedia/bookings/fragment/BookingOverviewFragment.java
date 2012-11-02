@@ -218,9 +218,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			}
 		});
 
-		// Hide unused view
-		Ui.findView(view, R.id.display_special_assistance).setVisibility(View.GONE);
-
 		return view;
 	}
 
