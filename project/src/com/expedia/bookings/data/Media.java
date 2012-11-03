@@ -12,9 +12,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
 public class Media implements JSONable {
-	public static final int TYPE_STILL_IMAGE = 1;
-	public static final int TYPE_VIRTUAL_TOUR = 2;
-	public static final int TYPE_VIDEO_TOUR = 3;
 
 	/*
 	 * The suffixes for different image sizes is documented here:
@@ -25,7 +22,6 @@ public class Media implements JSONable {
 
 	private static final int SUFFIX_LENGTH = 5;
 
-	private int mMediaType;
 	private String mUrl;
 	private int mHeight;
 	private int mWidth;
@@ -34,17 +30,8 @@ public class Media implements JSONable {
 		// Default constructor
 	}
 
-	public Media(int mediaType, String url) {
-		mMediaType = mediaType;
+	public Media(String url) {
 		setUrl(url);
-	}
-
-	public int getMediaType() {
-		return mMediaType;
-	}
-
-	public void setMediaType(int mediaType) {
-		this.mMediaType = mediaType;
 	}
 
 	public String getUrl() {

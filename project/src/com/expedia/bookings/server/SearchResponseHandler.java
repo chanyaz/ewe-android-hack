@@ -174,7 +174,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 				if (!url.startsWith("http://")) {
 					url = "http://media.expedia.com" + url;
 				}
-				property.setThumbnail(new Media(Media.TYPE_STILL_IMAGE, url));
+				property.setThumbnail(new Media(url));
 			}
 			else if (name.equals("supplierType")) {
 				property.setSupplierType(parser.getText());
@@ -244,7 +244,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 						mediaName = parser.getCurrentName();
 						mediaToken = parser.nextToken();
 						if (mediaName.equals("url") && mediaToken != JsonToken.VALUE_NULL) {
-							property.addMedia(new Media(Media.TYPE_STILL_IMAGE, parser.getText()));
+							property.addMedia(new Media(parser.getText()));
 						}
 					}
 				}

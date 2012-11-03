@@ -75,7 +75,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 						url = "http://media.expedia.com" + url;
 					}
 
-					Media media = new Media(Media.TYPE_STILL_IMAGE, url);
+					Media media = new Media(url);
 					property.addMedia(media);
 				}
 			}
