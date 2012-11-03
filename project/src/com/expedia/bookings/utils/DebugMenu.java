@@ -89,6 +89,8 @@ public class DebugMenu {
 			return "Server: Stable";
 		case TRUNK:
 			return "Server: Trunk";
+		case PUBLIC_INTEGRATION:
+			return "Server: Public Integration";
 		default:
 			return "Server: Unknown";
 		}
