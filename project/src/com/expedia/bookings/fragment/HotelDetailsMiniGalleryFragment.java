@@ -20,6 +20,7 @@ import com.expedia.bookings.widget.AdapterView;
 import com.expedia.bookings.widget.AdapterView.OnItemClickListener;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
 
@@ -91,10 +92,21 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
 			Log.d("Clearing out images from property.");
 
-			boolean fromLaunch = getArguments().getBoolean(ARG_FROM_LAUNCH, false);
+			Media skipImage = null;
+			if (getArguments().getBoolean(ARG_FROM_LAUNCH, false)) {
+				skipImage = Db.getSelectedProperty().getThumbnail();
+			}
 
 			for (Media image : property.getMediaList()) {
-				image.removeFromImageCache(fromLaunch);
+				if (image.equals(skipImage)) {
+					// F1017: Manually remove everything except for the possible launcher Bitmap being used
+					// That means all but Media.IMAGE_BIG_SUFFIX.
+					ImageCache.removeImage(image.getUrl(), true);
+					ImageCache.removeImage(image.getUrl(Media.IMAGE_LARGE_SUFFIX), true);
+				}
+				else {
+					image.removeFromImageCache();
+				}
 			}
 		}
 	}

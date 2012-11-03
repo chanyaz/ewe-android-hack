@@ -11,6 +11,8 @@ import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
+// TODO: Rewrite this so we only store the base URL, then pimp out different
+// versions of that URL.
 public class Media implements JSONable {
 
 	/*
@@ -63,19 +65,9 @@ public class Media implements JSONable {
 	}
 
 	public void removeFromImageCache() {
-		removeFromImageCache(false);
-	}
-
-	public void removeFromImageCache(boolean fromLaunch) {
 		ImageCache.removeImage(mUrl, true);
+		ImageCache.removeImage(getUrl(IMAGE_BIG_SUFFIX), true);
 		ImageCache.removeImage(getUrl(IMAGE_LARGE_SUFFIX), true);
-
-		// f1071
-		// We want to keep this image in the cache if the user is going launch -> Hotel details -> launch to prevent
-		// using a recycled Bitmap (additionally, it will be nice to keep this one around so it doesn't have to reload)
-		if (!fromLaunch) {
-			ImageCache.removeImage(getUrl(IMAGE_BIG_SUFFIX), true);
-		}
 	}
 
 	/**
@@ -150,6 +142,18 @@ public class Media implements JSONable {
 		mHeight = obj.optInt("height");
 		mWidth = obj.optInt("width");
 		return true;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Media)) {
+			return false;
+		}
+
+		// Equals compares the base URL, not the full URL (which could vary but ultimately means the same image)
+
+		Media other = (Media) o;
+		return getUrl("").equals(other.getUrl("")) && mHeight == other.mHeight && mWidth == other.mWidth;
 	}
 
 	@Override
