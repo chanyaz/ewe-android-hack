@@ -34,11 +34,25 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.data.*;
+import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.FlightLegSummarySection;
-import com.expedia.bookings.utils.*;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
@@ -299,6 +313,8 @@ public class FlightConfirmationFragment extends Fragment {
 		// cleared when launching this activity to account for hitting back from this Activity so the KILL_ACTIVITY
 		// broadcast does not need to be sent.
 		getActivity().finish();
+
+		OmnitureTracking.trackLinkFlightConfirmationHotelCrossSell(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

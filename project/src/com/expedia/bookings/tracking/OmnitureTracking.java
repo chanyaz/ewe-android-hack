@@ -98,6 +98,8 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_PAYMENT_SELECT_EXISTING = "App.Flight.Checkout.Payment.Select.Existing";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Flight.Checkout.Payment.EnterManually";
 
+	private static final String FLIGHT_CONFIRMATION_HOTEL_X_SELL = "App.Flight.Checkout.Confirmation.HotelXSell";
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC TRACK LINK METHODS
 
@@ -211,6 +213,10 @@ public class OmnitureTracking {
 		internalTrackLink(context, FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY);
 	}
 
+	public static void trackLinkFlightConfirmationHotelCrossSell(Context context) {
+		internalTrackLink(context, FLIGHT_CONFIRMATION_HOTEL_X_SELL);
+	}
+
 	public static void trackErrorPageLoadFlightUnsupportedPOS(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_NOT_YET_AVAILABLE);
 	}
@@ -249,9 +255,9 @@ public class OmnitureTracking {
 		String airlineCode = trip.getLeg(0).getPrimaryAirlines().iterator().next();
 		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(trip.getLegCount());
 		String numTravelers = "1"; // TODO: note this hardcoded as 1 for the time being as it is always one now
-		String price = trip.getTotalFare().getFormattedMoney();
+		String price = trip.getTotalFare().getAmount().toString();
 
-		s.products = "Flight;AgencyFlight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price;
+		s.products = "Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price;
 
 		s.currencyCode = trip.getTotalFare().getCurrency();
 		s.events = "purchase";
