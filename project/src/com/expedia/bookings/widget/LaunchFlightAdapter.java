@@ -94,7 +94,8 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		// TODO: Figure out if it is a big deal to be doing this
 		String url = destination.getImageUrl();
 		if (ImageCache.containsImage(url)) {
-			container.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), ImageCache.getImage(url)));
+			container.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
+					.getImage(url), url));
 			titleTextView.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -117,7 +118,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
-				layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bitmap));
+				layout.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
 				banner.setVisibility(View.VISIBLE);
 				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 			}

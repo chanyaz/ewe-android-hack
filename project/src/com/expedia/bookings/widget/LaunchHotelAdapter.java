@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,7 +149,8 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
 		if (ImageCache.containsImage(url)) {
 			Log.v("imageContained: " + position + " url: " + url);
-			container.setBackgroundDrawable(new BitmapDrawable(ImageCache.getImage(url)));
+			container.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
+					.getImage(url), url));
 			toggleTile(sale, banner, true, toggleSale);
 		}
 		else {
@@ -175,7 +175,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
-				layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bitmap));
+				layout.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
 				banner.setVisibility(View.VISIBLE);
 				if (toggleSale) {
 					sale.setVisibility(View.VISIBLE);
