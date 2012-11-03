@@ -348,18 +348,16 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	// Flight destination search
 
 	private final static String[] DESTINATION_IDS = new String[] {
-			"LHR",
-			"MIA",
-			"JFK",
-			"ABQ",
-			"CDG",
-			"DTW",
-			"PRG",
-			"RNO",
 			"SEA",
 			"SFO",
-			"YUL",
+			"LON",
+			"PAR",
+			"LAS",
+			"NYC",
 			"YYZ",
+			"HKG",
+			"MIA",
+			"BKK",
 	};
 
 	private Download<List<Destination>> mFlightsDownload = new Download<List<Destination>>() {
