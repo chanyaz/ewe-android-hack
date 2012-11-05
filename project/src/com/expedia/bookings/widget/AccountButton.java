@@ -101,12 +101,7 @@ public class AccountButton extends LinearLayout {
 			}
 			else {
 				// Rewards user
-				if (isFlights) {
-					card.setImageResource(R.drawable.ic_expedia_logo);
-				}
-				else {
-					card.setImageResource(R.drawable.ic_logged_in_no_rewards);
-				}
+				card.setImageResource(R.drawable.ic_expedia_logo);
 				top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 				bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 			}
