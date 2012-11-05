@@ -671,7 +671,7 @@ public class HotelsRobotHelper {
 			mSolo.enterText(1, mUser.mFirstName + " " + mUser.mLastName);
 
 			mSolo.clickOnText(mRes.getString(R.string.expiration_date));
-			mSolo.clickOnButton(0);
+			mSolo.clickOnButton(1);
 			delay(2);
 			mSolo.clickOnScreen(450, 75);
 			delay(1);
