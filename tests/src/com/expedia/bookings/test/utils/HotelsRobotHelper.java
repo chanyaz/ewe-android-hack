@@ -542,20 +542,25 @@ public class HotelsRobotHelper {
 	}
 
 	public void logIn() {
-		String loginButtonText = mRes.getString(R.string.log_in_for_faster_booking);
+		mSolo.scrollToTop();
+		mSolo.scrollDown();
+		
+		String loginButtonText = mRes.getString(R.string.login_btn_text);
 
 		if (loginButtonText == null) {
 			//The US String is different from all other POS
 			//So we must check it make sure we're looking for the right one.
 			loginButtonText = mRes.getString(R.string.log_in_to_expedia);
 		}
-
+		mSolo.clickOnButton(0);
 		enterLog(TAG, "Pressing button: " + loginButtonText);
 		try {
 			mSolo.clickOnText(loginButtonText);
 		}
 		catch (Error e) {
 			delay(5);
+			enterLog(TAG, "Scrolling to top to press button again.");
+			mSolo.scrollToTop();
 			mSolo.clickOnText(loginButtonText);
 		}
 		delay(1);
