@@ -166,17 +166,6 @@
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 
-    <com.expedia.bookings.widget.HotelReceiptMini
-        android:id="@+id/sticky_receipt_mini"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/bg_overview_receipt_mini"
-        android:clickable="true"
-        android:paddingTop="8dp"
-        android:visibility="invisible" />
-
     <LinearLayout
         android:id="@+id/slide_to_purchase_layout"
         android:layout_width="match_parent"

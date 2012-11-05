@@ -92,6 +92,7 @@
             android:theme="@style/Theme.Phone" />
         <activity
             android:name=".activity.BookingOverviewActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Dark"
             android:windowSoftInputMode="adjustNothing" />
         <activity

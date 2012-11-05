@@ -16,9 +16,6 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -44,10 +41,8 @@
             android:id="@+id/below_total_details_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -62,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/guests_text_view"
             android:ellipsize="end"
             android:textColor="@color/dark_blue"
@@ -75,8 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/room_type_text_view"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
             android:textColor="@color/light_gray"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -86,8 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/room_type_text_view"
-            android:layout_marginLeft="16dp"
-            android:paddingBottom="8dp"
+            android:layout_marginRight="8dp"
             android:textColor="@color/dark_blue"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -98,8 +90,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/dates_text_view"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
             android:textColor="@color/dark_blue"
             android:textSize="18sp"
             android:textStyle="bold" />

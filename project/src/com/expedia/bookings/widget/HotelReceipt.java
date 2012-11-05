@@ -104,6 +104,10 @@ public class HotelReceipt extends FrameLayout {
 		mOnSizeChangedListener = onSizeChangedListener;
 	}
 
+	public void setMiniReceiptOnSizeChangedListener(HotelReceiptMini.OnSizeChangedListener onSizeChangedListener) {
+		mHotelReceiptMini.setOnSizeChangedListener(onSizeChangedListener);
+	}
+
 	public void saveInstanceState(Bundle outState) {
 		mRoomTypeWidget.saveInstanceState(outState);
 	}
@@ -234,7 +238,8 @@ public class HotelReceipt extends FrameLayout {
 			if (window != null) {
 				DateFormat df = new SimpleDateFormat("ha, MMM dd");
 				String formattedDate = df.format(window);
-				String formattedString = getContext().getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
+				String formattedString = getContext()
+						.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
 				addExtra(mExtrasLayout, Html.fromHtml(formattedString));
 			}
 			else {

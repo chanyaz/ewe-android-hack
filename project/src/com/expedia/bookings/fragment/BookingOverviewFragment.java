@@ -95,7 +95,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private TextView mLegalInformationTextView;
 	private View mScrollSpacerView;
 
-	private HotelReceiptMini mHotelReceiptMini;
 	private View mSlideToPurchaseLayout;
 
 	private boolean mShowSlideToWidget;
@@ -155,7 +154,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
 		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
 
-		mHotelReceiptMini = Ui.findView(view, R.id.sticky_receipt_mini);
 		mSlideToPurchaseLayout = Ui.findView(view, R.id.slide_to_purchase_layout);
 
 		mSlideToPurchaseWidget = Ui.findView(view, R.id.slide_to_purchase_widget);
@@ -168,7 +166,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mScrollView.setOnScrollListener(mScrollViewListener);
 		mScrollView.setOnTouchListener(mScrollViewListener);
 		mHotelReceipt.setOnSizeChangedListener(mScrollViewListener);
-		mHotelReceiptMini.setOnSizeChangedListener(mScrollViewListener);
+		mHotelReceipt.setMiniReceiptOnSizeChangedListener(mScrollViewListener);
 
 		mSlideToPurchaseWidget.addSlideToListener(mSlideToListener);
 
@@ -410,7 +408,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
-		mHotelReceiptMini.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate());
 
 		// Purchase total
 		Money displayedTotal;
@@ -506,7 +503,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		startCheckout(true);
 	}
 
-	public void startCheckout(final boolean smoothScroll) {
+	public void startCheckout(final boolean animate) {
 		if (mBookingOverviewFragmentListener != null) {
 			mBookingOverviewFragmentListener.checkoutStarted();
 		}
@@ -518,17 +515,17 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mScrollView.post(new Runnable() {
 			@Override
 			public void run() {
-				if (smoothScroll) {
-					mScrollView.smoothScrollTo(0, mScrollViewListener.getMaxY());
+				if (animate) {
+					mScrollView.smoothScrollTo(0, mScrollViewListener.getCheckoutY());
 				}
 				else {
-					mScrollView.scrollTo(0, mScrollViewListener.getMaxY());
+					mScrollView.scrollTo(0, mScrollViewListener.getCheckoutY());
 				}
 			}
 		});
 
 		if (mShowSlideToWidget) {
-			showPurchaseViews();
+			showPurchaseViews(animate);
 		}
 	}
 
@@ -553,14 +550,24 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	// Hide/show slide to purchase view
 
 	private void showPurchaseViews() {
+		showPurchaseViews(true);
+	}
+
+	private void showPurchaseViews(boolean animate) {
 		if (mSlideToPurchaseLayout.getVisibility() == View.VISIBLE) {
 			return;
+		}
+
+		if (!animate) {
+			mSlideToPurchaseLayout.clearAnimation();
 		}
 
 		mSlideToPurchaseLayout.setVisibility(View.VISIBLE);
 		setScrollSpacerViewHeight();
 
-		mSlideToPurchaseLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up));
+		if (animate) {
+			mSlideToPurchaseLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up));
+		}
 	}
 
 	private void hidePurchaseViews() {
@@ -726,6 +733,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		private final float mScaledFadeRange;
 		private final float mMarginTop;
+		private final float mReceiptPaddingBottom;
 
 		private boolean mTouchDown = false;
 		private int mScrollY = 0;
@@ -734,23 +742,26 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		private int mReceiptMiniHeight;
 
 		private int mMidY;
-		private int mMaxY;
+		private int mCheckoutY;
 
 		public ScrollViewListener(Context context) {
+			final float density = getResources().getDisplayMetrics().density;
+
 			mGestureDetector = new GestureDetector(context, this);
-			mScaledFadeRange = FADE_RANGE * getResources().getDisplayMetrics().density;
-			mMarginTop = 16 * getResources().getDisplayMetrics().density;
+			mScaledFadeRange = FADE_RANGE * density;
+			mMarginTop = 16 * density;
+			mReceiptPaddingBottom = 8 * density;
 		}
 
 		public void measure() {
 			mMidY = (int) ((mReceiptHeight + mMarginTop) / 2);
-			mMaxY = mReceiptHeight - mReceiptMiniHeight + (int) mMarginTop;
+			mCheckoutY = mReceiptHeight - mReceiptMiniHeight + (int) mMarginTop - (int) mReceiptPaddingBottom;
 
 			setScrollSpacerViewHeight();
 		}
 
-		public int getMaxY() {
-			return mMaxY;
+		public int getCheckoutY() {
+			return mCheckoutY;
 		}
 
 		@Override
@@ -768,7 +779,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				if (mScrollY < mMidY) {
 					endCheckout();
 				}
-				else if (mScrollY >= mMidY && mScrollY < mMaxY) {
+				else if (mScrollY >= mMidY && mScrollY < mCheckoutY) {
 					startCheckout();
 				}
 			}
@@ -785,27 +796,21 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 			ViewHelper.setAlpha(mCheckoutLayout, alpha);
 
-			mHotelReceiptMini.setVisibility(y >= mMaxY ? View.VISIBLE : View.GONE);
-
 			// If we've lifted our finger that means the scroll view is scrolling
 			// with the remaining momentum. If it's scrolling down, and it's gone
 			// past the checkout state, stop it at the checkout position.
-			if (!mTouchDown && y <= oldy && oldy >= mMaxY && mInCheckout) {
-				mScrollView.scrollTo(0, (int) mMaxY);
-
+			if (!mTouchDown && y <= oldy && oldy >= mCheckoutY && mInCheckout) {
+				mScrollView.scrollTo(0, (int) mCheckoutY);
 				mHotelReceipt.showMiniDetailsLayout();
-				mHotelReceiptMini.showMiniDetailsLayout();
 
 				return;
 			}
 
-			if (y > mMaxY - mScaledFadeRange) {
+			if (y > mCheckoutY - mScaledFadeRange) {
 				mHotelReceipt.showMiniDetailsLayout();
-				mHotelReceiptMini.showMiniDetailsLayout();
 			}
 			else {
 				mHotelReceipt.showTotalCostLayout();
-				mHotelReceiptMini.showTotalCostLayout();
 			}
 		}
 
@@ -820,13 +825,13 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			}
 
 			if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-				if (mScrollY < mMaxY) {
+				if (mScrollY < mCheckoutY) {
 					startCheckout();
 					return true;
 				}
 			}
 			else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-				if (mScrollY < mMaxY) {
+				if (mScrollY < mCheckoutY) {
 					endCheckout();
 					return true;
 				}
@@ -839,6 +844,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		public void onReceiptSizeChanged(int w, int h, int oldw, int oldh) {
 			mReceiptHeight = h;
 			measure();
+
+			if (mInCheckout) {
+				startCheckout(false);
+			}
 		}
 
 		@Override
