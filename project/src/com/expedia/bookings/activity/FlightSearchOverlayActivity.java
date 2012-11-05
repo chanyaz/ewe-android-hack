@@ -48,6 +48,13 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity implem
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (!mSearchParamsFragment.onBackPressed()) {
+			super.onBackPressed();
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Action bar
 

@@ -22,6 +22,9 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -37,6 +40,7 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.AnimationListenerAdapter;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Location;
@@ -82,6 +86,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private FlightSearchParams mSearchParams;
 
 	private AirportDropDownAdapter mAirportAdapter;
+
+	// Animator for calendar
+	private Animation mCalendarAnimation;
 
 	// We have to store this due to the way the airport adapter works.
 	// If you've rotated the screen, we prevent the adapter from
@@ -245,7 +252,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mCalendarDatePicker.setOnDateChangedListener(this);
 
 		if (savedInstanceState != null) {
-			toggleCalendarDatePicker(savedInstanceState.getBoolean(INSTANCE_SHOW_CALENDAR));
+			toggleCalendarDatePicker(savedInstanceState.getBoolean(INSTANCE_SHOW_CALENDAR), false);
 		}
 
 		mClearDatesButton.setOnClickListener(new OnClickListener() {
@@ -293,6 +300,20 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		outState.putBoolean(INSTANCE_SHOW_CALENDAR, mCalendarDatePicker.getVisibility() == View.VISIBLE);
 		JSONUtils.putJSONable(outState, INSTANCE_PARAMS, mSearchParams);
 		JSONUtils.putJSONable(outState, INSTANCE_FIRST_LOCATION, mFirstAdapterLocation);
+	}
+
+	public boolean onBackPressed() {
+		if (mCalendarAnimation != null && !mCalendarAnimation.hasEnded()) {
+			// Block back during animation
+			return true;
+		}
+		else if (mCalendarDatePicker.getVisibility() == View.VISIBLE) {
+			toggleCalendarDatePicker(false);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -523,6 +544,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void toggleCalendarDatePicker(boolean enabled) {
+		toggleCalendarDatePicker(enabled, true);
+	}
+
+	private void toggleCalendarDatePicker(boolean enabled, boolean animate) {
 		if (enabled == (mCalendarDatePicker.getVisibility() == View.VISIBLE)) {
 			return;
 		}
@@ -573,9 +598,31 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		}
 
-		mCalendarDatePicker.setVisibility(enabled ? View.VISIBLE : View.GONE);
 		updateCalendarInstructionText();
+
+		if (!animate) {
+			mCalendarDatePicker.setVisibility(enabled ? View.VISIBLE : View.GONE);
+		}
+		else {
+			if (enabled) {
+				mCalendarDatePicker.setVisibility(View.VISIBLE);
+				mCalendarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
+			}
+			else {
+				mCalendarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+				mCalendarAnimation.setAnimationListener(mCalAnimationListener);
+			}
+
+			mCalendarDatePicker.startAnimation(mCalendarAnimation);
+		}
 	}
+
+	private AnimationListener mCalAnimationListener = new AnimationListenerAdapter() {
+		@Override
+		public void onAnimationEnd(Animation animation) {
+			mCalendarDatePicker.setVisibility(View.GONE);
+		}
+	};
 
 	private void fixCalendarHeight() {
 		// Depends on the calendar date picker having a preset height
@@ -632,7 +679,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	public void setSearchParams(FlightSearchParams params) {
 		// Reset view state
 		clearEditTextFocus();
-		toggleCalendarDatePicker(false);
+		toggleCalendarDatePicker(false, false);
 
 		mSearchParams = params;
 

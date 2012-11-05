@@ -150,6 +150,13 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		outState.putBoolean(INSTANCE_UPDATE_ON_RESUME, mUpdateOnResume);
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (!mSearchParamsFragment.onBackPressed()) {
+			super.onBackPressed();
+		}
+	}
+
 	private void loadParamsFromDisk() {
 		if (Db.loadCachedFlightData(this)) {
 			Log.i("Restoring search params from disk...");
