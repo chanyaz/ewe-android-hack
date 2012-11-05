@@ -144,6 +144,7 @@
 
     <!-- Temporary theme for flights -->
     <style name="FlightTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="android:windowBackground">@null</item>
         <item name="airPickerBackground">@android:color/white</item>
         <item name="airPickerHeaderBackground">@android:color/white</item>
         <item name="airPickerTextColor">@android:color/black</item>
