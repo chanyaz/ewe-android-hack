@@ -8,6 +8,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,6 +40,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	private TextView mAirlineTextView;
+	private ImageView mOperatingCarrierImageView;
 	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
 	private TextView mDepartureTimeTextView;
@@ -56,6 +58,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 		// Cache views
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
+		mOperatingCarrierImageView = Ui.findView(this, R.id.operating_carrier_image_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
 		mDepartureTimeTextView = Ui.findView(this, R.id.departure_time_text_view);
@@ -113,6 +116,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 			mOperatingCarrierTextView.setText(context.getString(R.string.operated_by_TEMPLATE, operatedBy));
 
+			mOperatingCarrierImageView.setVisibility(View.VISIBLE);
 			mOperatingCarrierTextView.setVisibility(View.VISIBLE);
 
 			belowTarget = mOperatingCarrierTextView.getId();

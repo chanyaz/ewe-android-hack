@@ -32,19 +32,27 @@
         android:textSize="18dp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/operating_carrier_text_view"
+    <ImageView
+        android:id="@+id/operating_carrier_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/airline_text_view"
         android:layout_below="@+id/airline_text_view"
         android:layout_marginLeft="6dp"
+        android:src="@drawable/ic_operating_carrier"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/operating_carrier_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/operating_carrier_image_view"
+        android:layout_marginLeft="4dp"
         android:layout_marginRight="8dp"
-        android:drawableLeft="@drawable/ic_operating_carrier"
-        android:drawablePadding="4dp"
-        android:ellipsize="end"
-        android:singleLine="true"
+        android:layout_marginTop="1dp"
+        android:layout_toRightOf="@+id/operating_carrier_image_view"
         android:textColor="#7F8286"
+        android:textSize="12dp"
         android:visibility="gone" />
 
     <TextView
