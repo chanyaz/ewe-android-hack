@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/label_flight_price"
-            android:text="@string/TaxesAndFees"
+            android:text="@string/taxes_and_airline_fees"
             android:textSize="18sp" />
 
         <TextView
