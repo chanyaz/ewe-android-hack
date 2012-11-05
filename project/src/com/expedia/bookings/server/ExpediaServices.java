@@ -1046,8 +1046,13 @@ public class ExpediaServices implements DownloadListener {
 				(new Thread(new Runnable() {
 					@Override
 					public void run() {
-						mRequest.abort();
-						mRequest = null;
+						// Due to timing issues, we could end up such that the
+						// request has finished by the time we get here.  In
+						// that case, let's not NPE.
+						if (mRequest != null) {
+							mRequest.abort();
+							mRequest = null;
+						}
 					}
 				})).start();
 			}
