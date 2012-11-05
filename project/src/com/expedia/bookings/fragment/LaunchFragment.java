@@ -523,6 +523,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		mHotelFallbackAdapter = new LaunchHotelFallbackAdapter(mContext);
 		mHotelFallbackAdapter.setHotelDestinations(HOTEL_DESTINATION_FALLBACK_LIST);
 		mHotelsStreamListView.setAdapter(mHotelFallbackAdapter);
+		mHotelsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
 		mHotelsStreamListView.setOnItemClickListener(mHotelFallbackOnItemClickListener);
 	}
 
