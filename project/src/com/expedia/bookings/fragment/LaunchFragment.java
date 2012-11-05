@@ -397,6 +397,11 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					break;
 				}
 
+				// Before using services, check if this download has been cancelled
+				if (Thread.interrupted()) {
+					return null;
+				}
+
 				// Autocomplete each location to get the proper info on it
 				SuggestResponse suggestResponse = services.suggest(destinationId, ExpediaServices.F_FLIGHTS);
 
@@ -422,6 +427,11 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				Destination destination = new Destination(destId, displayName.first, displayName.second);
 
 				// Now try to get metadata
+
+				// Before using services, check if this download has been cancelled
+				if (Thread.interrupted()) {
+					return null;
+				}
 
 				BackgroundImageResponse imageResponse = services.getFlightsBackgroundImage(destId, width, height);
 				if (imageResponse == null) {
