@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
@@ -152,7 +153,7 @@ public class CalendarDialogFragment extends DialogFragment {
 	}
 
 	private CharSequence getTitleText() {
-		return CalendarUtils.getCalendarDatePickerTitle(getActivity());
+		return CalendarUtils.getCalendarDatePickerTitle(getActivity(), Db.getSearchParams());
 	}
 
 	private void updateTitle() {

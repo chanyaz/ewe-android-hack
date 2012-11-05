@@ -270,7 +270,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private ArrayList<Address> mAddresses;
 	private SearchParams mOldSearchParams;
-	private SearchParams mOriginalSearchParams;
+	private SearchParams mEditedSearchParams;
 	private Filter mOldFilter;
 	public boolean mStartSearchOnResume;
 	private long mLastSearchTime = -1;
@@ -305,6 +305,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		public SearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
+			if (mEditedSearchParams != null) {
+				throw new RuntimeException("edited search params not commited or cleared before search");
+			}
 			return services.search(Db.getSearchParams(), 0);
 		}
 	};
@@ -540,7 +543,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setCustomView(mActionBarCustomView);
 
-		SearchParams searchParams = Db.getSearchParams();
+		SearchParams searchParams = getCurrentSearchParams();
 
 		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
 		mAdultsNumberPicker.setMinValue(1);
@@ -756,7 +759,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				public void onClick(DialogInterface dialog, int which) {
 					Address address = mAddresses.get(which);
 					String formattedAddress = StrUtils.removeUSAFromAddress(address);
-					SearchParams searchParams = Db.getSearchParams();
+					SearchParams searchParams = getCurrentSearchParams();
 					SearchType searchType = SearchUtils.isExactLocation(address) ? SearchType.ADDRESS : SearchType.CITY;
 
 					// The user found a better version of the search they ran,
@@ -776,13 +779,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams().getQuery()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, getCurrentSearchParams().getQuery()));
 				}
 			});
 			builder.setOnCancelListener(new OnCancelListener() {
 				public void onCancel(DialogInterface dialog) {
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
-					simulateErrorResponse(getString(R.string.NoGeocodingResults, Db.getSearchParams().getQuery()));
+					simulateErrorResponse(getString(R.string.NoGeocodingResults, getCurrentSearchParams().getQuery()));
 				}
 			});
 			return builder.create();
@@ -928,7 +931,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		// Search visible map area
 		case R.id.menu_select_search_map: {
-			SearchParams searchParams = Db.getSearchParams();
+			SearchParams searchParams = getCurrentSearchParams();
 			searchParams.clearQuery();
 
 			if (mHotelMapFragment != null) {
@@ -1101,9 +1104,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	public SearchParams getSearchParams() {
-		return Db.getSearchParams();
-	}
+	//public SearchParams getSearchParams() {
+	//	return Db.getSearchParams();
+	//}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
@@ -1334,7 +1337,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void startSearch() {
 		Log.i("Starting a new search...");
 
-		mOriginalSearchParams = null;
 		Db.setSearchResponse(null);
 		Db.clearAvailabilityResponses();
 
@@ -1352,6 +1354,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		buildFilter();
+		commitEditedSearchParams();
 		setDisplayType(DisplayType.NONE);
 		saveParams();
 
@@ -1466,6 +1469,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void startSearchDownloader() {
 		showLoading(true, R.string.progress_searching_hotels);
 
+		commitEditedSearchParams();
+
 		if (!NetUtils.isOnline(this)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
@@ -1489,7 +1494,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private static final String INSTANCE_TAG = "INSTANCE_TAG";
 	private static final String INSTANCE_OLD_SEARCH_PARAMS = "INSTANCE_OLD_SEARCH_PARAMS";
-	private static final String INSTANCE_ORIGINAL_SEARCH_PARAMS = "INSTANCE_ORIGINAL_SEARCH_PARAMS";
+	private static final String INSTANCE_EDITED_SEARCH_PARAMS = "INSTANCE_EDITED_SEARCH_PARAMS";
 	private static final String INSTANCE_OLD_FILTER = "INSTANCE_OLD_FILTER";
 	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
 	private static final String INSTANCE_START_SEARCH_ON_RESUME = "INSTANCE_START_SEARCH_ON_RESUME";
@@ -1512,7 +1517,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		outState.putParcelableArrayList(INSTANCE_ADDRESSES, mAddresses);
 
 		JSONUtils.putJSONable(outState, INSTANCE_OLD_SEARCH_PARAMS, mOldSearchParams);
-		JSONUtils.putJSONable(outState, INSTANCE_ORIGINAL_SEARCH_PARAMS, mOriginalSearchParams);
+		JSONUtils.putJSONable(outState, INSTANCE_EDITED_SEARCH_PARAMS, mEditedSearchParams);
 		JSONUtils.putJSONable(outState, INSTANCE_OLD_FILTER, mOldFilter);
 
 		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
@@ -1542,7 +1547,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			mOldSearchParams = JSONUtils
 					.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, SearchParams.class);
-			mOriginalSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_ORIGINAL_SEARCH_PARAMS,
+			mEditedSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_EDITED_SEARCH_PARAMS,
 					SearchParams.class);
 			mOldFilter = JSONUtils.getJSONable(savedInstanceState, INSTANCE_OLD_FILTER, Filter.class);
 		}
@@ -1702,10 +1707,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		boolean currentIsSearchDisplay = mDisplayType.isSearchDisplay();
 		boolean nextIsSearchDisplay = displayType.isSearchDisplay();
 		if (!currentIsSearchDisplay && nextIsSearchDisplay) {
-			storeSearchParams();
+			if (mEditedSearchParams == null) {
+				mEditedSearchParams = Db.getSearchParams().copy();
+			}
 		}
 		else if (currentIsSearchDisplay && !nextIsSearchDisplay) {
-			restoreSearchParams();
+			mEditedSearchParams = null;
 		}
 
 		mDisplayType = displayType;
@@ -2090,16 +2097,20 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// STORE/RESTORE SEARCH PARAMS
 	//----------------------------------
 
-	private void restoreSearchParams() {
-		if (mOriginalSearchParams != null) {
-			Db.setSearchParams(mOriginalSearchParams.copy());
-			mOriginalSearchParams = null;
+	private SearchParams getCurrentSearchParams() {
+		// Determines if we are editing search params and returns those
+		if (mEditedSearchParams != null) {
+			return mEditedSearchParams;
+		}
+		else {
+			return Db.getSearchParams();
 		}
 	}
 
-	private void storeSearchParams() {
-		if (mOriginalSearchParams == null) {
-			mOriginalSearchParams = Db.getSearchParams().copy();
+	private void commitEditedSearchParams() {
+		if (mEditedSearchParams != null) {
+			Db.setSearchParams(mEditedSearchParams);
+			mEditedSearchParams = null;
 		}
 	}
 
@@ -2108,9 +2119,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//----------------------------------
 
 	private void setActionBarBookingInfoText() {
-		int startDay = Db.getSearchParams().getCheckInDate().get(Calendar.DAY_OF_MONTH);
-		int numAdults = Db.getSearchParams().getNumAdults();
-		int numChildren = Db.getSearchParams().getNumChildren();
+		// If we are currently editing params render those values
+		SearchParams params = getCurrentSearchParams();
+		int startDay = params.getCheckInDate().get(Calendar.DAY_OF_MONTH);
+		int numAdults = params.getNumAdults();
+		int numChildren = params.getNumChildren();
 
 		mDatesTextView.setText(String.valueOf(startDay));
 		mGuestsTextView.setText(String.valueOf((numAdults + numChildren)));
@@ -2119,10 +2132,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void displayRefinementInfo() {
 		CharSequence text;
 		if (mDisplayType == DisplayType.CALENDAR) {
-			text = CalendarUtils.getCalendarDatePickerTitle(this);
+			text = CalendarUtils.getCalendarDatePickerTitle(this, getCurrentSearchParams());
 		}
 		else if (mDisplayType == DisplayType.GUEST_PICKER) {
-			SearchParams searchParams = Db.getSearchParams();
+			SearchParams searchParams = mEditedSearchParams;
 			final int numAdults = searchParams.getNumAdults();
 			final int numChildren = searchParams.getNumChildren();
 			text = StrUtils.formatGuests(this, numAdults, numChildren);
@@ -2148,22 +2161,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	private void setSearchEditViews() {
-		SearchParams searchParams = Db.getSearchParams();
-		switch (searchParams.getSearchType()) {
-
-		case MY_LOCATION:
-			//mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
-			break;
-
-		case VISIBLE_MAP_AREA:
+		SearchParams searchParams = getCurrentSearchParams();
+		if (searchParams.getSearchType() == SearchType.VISIBLE_MAP_AREA) {
 			stopLocationListener();
-			//mSearchEditText.setTextColor(getResources().getColor(R.color.MyLocationBlue));
-			break;
-
-		default:
-			//mSearchEditText.setTextColor(getResources().getColor(R.color.actionbar_text));
-			break;
-
 		}
 
 		setSearchText(searchParams.getSearchDisplayText(this));
@@ -2188,7 +2188,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mGuestsLayout.post(new Runnable() {
 			@Override
 			public void run() {
-				SearchParams searchParams = Db.getSearchParams();
+				SearchParams searchParams = getCurrentSearchParams();
 				int numAdults = searchParams.getNumAdults();
 				int numChildren = searchParams.getNumChildren();
 				mAdultsNumberPicker.setMinValue(numAdults);
@@ -2297,7 +2297,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			String str = s.toString();
 			int len = s.length();
 			boolean changed = false;
-			SearchParams searchParams = Db.getSearchParams();
+			SearchParams searchParams = mEditedSearchParams;
 			if (str.equals(searchParams.getQuery())) {
 				// SearchParams hasn't changed
 			}
@@ -2358,7 +2358,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// We only have one Loader, so we don't care about the ID.
-		Uri uri = AutocompleteProvider.generateSearchUri(Db.getSearchParams().getQuery(), 50);
+		Uri uri = AutocompleteProvider.generateSearchUri(getCurrentSearchParams().getQuery(), 50);
 		return new CursorLoader(this, uri, AutocompleteProvider.COLUMNS, null, null, "");
 	}
 
@@ -2383,7 +2383,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			c.moveToPosition(position);
 
 			if (c.getString(AutocompleteProvider.COLUMN_TEXT_INDEX).equals(getString(R.string.current_location))) {
-				Db.getSearchParams().setSearchType(SearchType.MY_LOCATION);
+				getCurrentSearchParams().setSearchType(SearchType.MY_LOCATION);
 			}
 			else {
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
@@ -2408,9 +2408,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			if (mOriginalSearchParams != null) {
-				syncDatesFromPicker();
-			}
+			syncDatesFromPicker();
 
 			displayRefinementInfo();
 			setActionBarBookingInfoText();
@@ -2435,7 +2433,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		startCalendar.set(Calendar.MILLISECOND, 0);
 		endCalendar.set(Calendar.MILLISECOND, 0);
 
-		SearchParams searchParams = Db.getSearchParams();
+		SearchParams searchParams = mEditedSearchParams;
 		searchParams.setCheckInDate(startCalendar);
 		searchParams.setCheckOutDate(endCalendar);
 	}
@@ -2445,7 +2443,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		public void onValueChange(SimpleNumberPicker picker, int oldVal, int newVal) {
 			int numAdults = mAdultsNumberPicker.getValue();
 			int numChildren = mChildrenNumberPicker.getValue();
-			SearchParams searchParams = Db.getSearchParams();
+			SearchParams searchParams = getCurrentSearchParams();
 			searchParams.setNumAdults(numAdults);
 			GuestsPickerUtils.resizeChildrenList(PhoneSearchActivity.this, searchParams.getChildren(), numChildren);
 			GuestsPickerUtils.configureAndUpdateDisplayedValues(mContext, mAdultsNumberPicker, mChildrenNumberPicker);
@@ -2458,7 +2456,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			List<Integer> children = Db.getSearchParams().getChildren();
+			List<Integer> children = getCurrentSearchParams().getChildren();
 			GuestsPickerUtils.setChildrenFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, children);
 			GuestsPickerUtils.updateDefaultChildAges(PhoneSearchActivity.this, children);
 		}
@@ -2603,7 +2601,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 				//expandSearchEditText();
 				setDisplayType(DisplayType.KEYBOARD);
-				SearchType searchType = Db.getSearchParams().getSearchType();
+				SearchType searchType = getCurrentSearchParams().getSearchType();
 				if (searchType == SearchType.MY_LOCATION || searchType == SearchType.VISIBLE_MAP_AREA) {
 					mSearchEditText.post(new Runnable() {
 						@Override
