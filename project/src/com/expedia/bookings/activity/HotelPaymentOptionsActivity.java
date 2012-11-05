@@ -20,6 +20,7 @@ import com.expedia.bookings.fragment.HotelPaymentOptionsFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
 import com.expedia.bookings.fragment.HotelPaymentSaveDialogFragment;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 
@@ -165,6 +166,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				break;
 			case SAVE:
 				displayCheckout();
+				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave(getApplicationContext());
 				break;
 			default:
 				Ui.showToast(this, "FAIL");

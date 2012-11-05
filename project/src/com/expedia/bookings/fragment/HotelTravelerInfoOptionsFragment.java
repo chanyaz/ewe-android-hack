@@ -62,7 +62,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelTravelerSelect(getActivity());
+		OmnitureTracking.trackPageLoadHotelsTravelerSelect(getActivity());
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 
-				OmnitureTracking.trackLinkHotelCheckoutTravelerEnterManually(getActivity());
+				OmnitureTracking.trackLinkHotelsCheckoutTravelerEnterManually(getActivity());
 			}
 		});
 

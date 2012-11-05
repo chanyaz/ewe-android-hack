@@ -90,7 +90,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelCheckoutPaymentCid(this);
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentCid(this);
 	}
 
 	@Override

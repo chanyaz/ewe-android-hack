@@ -326,13 +326,13 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 					displayOverwriteDialog();
 				}
 				else {
-					OmnitureTracking.trackPageLoadHotelTravelerEditSave(mContext);
+					OmnitureTracking.trackPageLoadHotelsTravelerEditSave(mContext);
 					displayCheckout();
 				}
 				break;
 			}
 			case OVERWRITE_TRAVELER:
-				OmnitureTracking.trackPageLoadHotelTravelerEditSave(mContext);
+				OmnitureTracking.trackPageLoadHotelsTravelerEditSave(mContext);
 				displayCheckout();
 				break;
 			default: {

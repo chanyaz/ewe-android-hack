@@ -63,10 +63,20 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_CONFIRMATION = "App.Flight.Checkout.Confirmation";
 
 	// Hotels
-	private static final String HOTEL_CHECKOUT_TRAVELER_SELECT = "App.Hotel.Checkout.Traveler.Select";
-	private static final String HOTEL_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotel.Checkout.Traveler.Edit.Info";
-	private static final String HOTEL_CHECKOUT_TRAVELER_EDIT_SAVE = "App.Hotel.Checkout.Traveler.Edit.Save";
-	private static final String HOTEL_CHECKOUT_PAYMENT_CID = "App.Hotel.Checkout.Payment.CID";
+	private static final String HOTELS_CHECKOUT_TRAVELER_SELECT = "App.Hotels.Checkout.Traveler.Select";
+	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
+	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_SAVE = "App.Hotels.Checkout.Traveler.Edit.Save";
+	private static final String HOTELS_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Hotels.Checkout.Traveler.EnterManually";
+
+	private static final String HOTELS_CHECKOUT_PAYMENT_SELECT = "App.Hotels.Checkout.Payment.Select";
+	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_ADDRESS = "App.Hotels.Checkout.Payment.Edit.Address";
+	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_CARD = "App.Hotels.Checkout.Payment.Edit.Card";
+	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_SAVE = "App.Hotels.Checkout.Payment.Edit.Save";
+	private static final String HOTELS_CHECKOUT_PAYMENT_SELECT_EXISTING = "App.Hotels.Checkout.Payment.Select.Existing";
+	private static final String HOTELS_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Hotels.Checkout.Payment.EnterManually";
+
+	private static final String HOTELS_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
+	private static final String HOTELS_CHECKOUT_PAYMENT_CID = "App.Hotels.Checkout.Payment.CID";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ONEWAY PAGE NAME AND TRACK LINK CONSTANTS
@@ -116,11 +126,10 @@ public class OmnitureTracking {
 
 	// Hotels
 
-	private static final String HOTEL_SEARCH_REFINE = "App.Hotels.Search.Refine";
-	private static final String HOTEL_SEARCH_REFINE_NAME = "App.Hotels.Search.Refine.Name";
-	private static final String HOTEL_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Refine.PriceRange";
-	private static final String HOTEL_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
-	private static final String HOTEL_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Hotel.Checkout.Traveler.EnterManually";
+	private static final String HOTELS_SEARCH_REFINE = "App.Hotels.Search.Refine";
+	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotels.Search.Refine.Name";
+	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Refine.PriceRange";
+	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC TRACK LINK METHODS
@@ -519,12 +528,12 @@ public class OmnitureTracking {
 	// Hotels tracking events
 
 	public static void trackLinkHotelRefineName(Context context, String refinement) {
-		String link = HOTEL_SEARCH_REFINE_NAME + "." + refinement;
+		String link = HOTELS_SEARCH_REFINE_NAME + "." + refinement;
 		internalTrackLink(context, link);
 	}
 
 	public static void trackLinkHotelRefinePriceRange(Context context, PriceRange priceRange) {
-		String link = HOTEL_SEARCH_REFINE_PRICE_RANGE;
+		String link = HOTELS_SEARCH_REFINE_PRICE_RANGE;
 
 		switch (priceRange) {
 		case CHEAP: {
@@ -550,7 +559,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackLinkHotelRefineSearchRadius(Context context, SearchRadius searchRadius) {
-		String link = HOTEL_SEARCH_REFINE_SEARCH_RADIUS;
+		String link = HOTELS_SEARCH_REFINE_SEARCH_RADIUS;
 
 		if (searchRadius != Filter.SearchRadius.ALL) {
 			final DistanceUnit distanceUnit = DistanceUnit.getDefaultDistanceUnit();
@@ -566,30 +575,64 @@ public class OmnitureTracking {
 	}
 
 	public static void trackLinkHotelRefineRating(Context context, String rating) {
-		String link = HOTEL_SEARCH_REFINE + "." + rating;
+		String link = HOTELS_SEARCH_REFINE + "." + rating;
 		internalTrackLink(context, link);
 	}
 
-	// Checkout
+	// Travelers
 
-	public static void trackPageLoadHotelCheckoutPaymentCid(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_PAYMENT_CID);
+	public static void trackPageLoadHotelsTravelerEditSave(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_TRAVELER_EDIT_SAVE);
 	}
 
-	public static void trackPageLoadHotelTravelerEditSave(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_TRAVELER_EDIT_SAVE);
+	public static void trackPageLoadHotelsTravelerEditInfo(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_TRAVELER_EDIT_INFO);
 	}
 
-	public static void trackPageLoadHotelTravelerEditInfo(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_TRAVELER_EDIT_INFO);
+	public static void trackPageLoadHotelsTravelerSelect(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_TRAVELER_SELECT);
 	}
 
-	public static void trackPageLoadHotelTravelerSelect(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_TRAVELER_SELECT);
+	public static void trackLinkHotelsCheckoutTravelerEnterManually(Context context) {
+		internalTrackLink(context, HOTELS_CHECKOUT_TRAVELER_ENTER_MANUALLY);
 	}
 
-	public static void trackLinkHotelCheckoutTravelerEnterManually(Context context) {
-		internalTrackLink(context, HOTEL_CHECKOUT_TRAVELER_ENTER_MANUALLY);
+	// Payment
+
+	public static void trackPageLoadHotelsCheckoutPaymentSelect(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_SELECT);
+	}
+
+	public static void trackPageLoadHotelsCheckoutPaymentEditAddress(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_EDIT_ADDRESS);
+	}
+
+	public static void trackPageLoadHotelsCheckoutPaymentEditCard(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_EDIT_CARD);
+	}
+
+	public static void trackPageLoadHotelsCheckoutPaymentEditSave(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_EDIT_SAVE);
+	}
+
+	public static void trackLinkHotelsCheckoutPaymentSelectExisting(Context context) {
+		internalTrackLink(context, HOTELS_CHECKOUT_PAYMENT_SELECT_EXISTING);
+	}
+
+	public static void trackLinkHotelsCheckoutPaymentEnterManually(Context context) {
+		internalTrackLink(context, HOTELS_CHECKOUT_PAYMENT_ENTER_MANUALLY);
+	}
+
+	// Overview
+
+	public static void trackPageLoadHotelsCheckoutSlideToPurchase(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_SLIDE_TO_PURCHASE);
+	}
+
+	// CVV Checkout
+
+	public static void trackPageLoadHotelsCheckoutPaymentCid(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_CID);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.HotelSectionBillingInfo;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelPaymentCreditCardFragment extends Fragment implements Validatable {
@@ -35,6 +36,12 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		//TODO:Set args here..
 		fragment.setArguments(args);
 		return fragment;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditCard(getActivity());
 	}
 
 	@Override

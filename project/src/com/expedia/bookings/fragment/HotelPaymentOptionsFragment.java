@@ -25,6 +25,7 @@ import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.section.HotelSectionStoredCreditCard;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
 
@@ -63,6 +64,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentSelect(getActivity());
 	}
 
 	@Override
@@ -99,6 +101,8 @@ public class HotelPaymentOptionsFragment extends Fragment {
 					Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 					mListener.setMode(YoYoMode.YOYO);
 					mListener.moveForward();
+
+					OmnitureTracking.trackLinkHotelsCheckoutPaymentEnterManually(getActivity());
 				}
 			}
 		});
@@ -150,6 +154,8 @@ public class HotelPaymentOptionsFragment extends Fragment {
 						if (mListener != null) {
 							mListener.setMode(YoYoMode.NONE);
 							mListener.moveBackwards();
+							
+							OmnitureTracking.trackLinkHotelsCheckoutPaymentSelectExisting(getActivity());
 						}
 					}
 				});
