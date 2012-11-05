@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Stack;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -60,6 +59,7 @@ import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -73,7 +73,6 @@ import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ValueAnimator;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
@@ -560,23 +559,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private void reverseCurrentAnimation() {
 		mAnimRemoveFragment = (mAnimRemoveFragment == mListFragment) ? mFlightDetailsFragment : mListFragment;
 		mAnimForward = !mAnimForward;
-		reverseAnimator(mCurrentAnimator);
-	}
-
-	private void reverseAnimator(Animator animator) {
-		Stack<Animator> stack = new Stack<Animator>();
-		stack.add(animator);
-
-		while (!stack.isEmpty()) {
-			Animator anim = stack.pop();
-
-			if (anim instanceof ValueAnimator) {
-				((ValueAnimator) anim).reverse();
-			}
-			else if (anim instanceof AnimatorSet) {
-				stack.addAll(((AnimatorSet) anim).getChildAnimations());
-			}
-		}
+		AnimUtils.reverseAnimator(mCurrentAnimator);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
