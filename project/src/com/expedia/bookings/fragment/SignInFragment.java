@@ -262,6 +262,10 @@ public class SignInFragment extends DialogFragment {
 				user.save(mContext);
 				((SignInFragmentListener) getActivity()).onLoginCompleted();
 				dismiss();
+
+				if (mIsFlights) {
+					OmnitureTracking.trackLinkFlightCheckoutLoginSuccess(mContext);
+				}
 			}
 		}
 	};

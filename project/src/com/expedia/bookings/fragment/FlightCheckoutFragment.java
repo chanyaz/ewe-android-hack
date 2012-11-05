@@ -546,8 +546,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		populateTravelerDataFromUser();
 		bindAll();
 		updateViewVisibilities();
-
-		OmnitureTracking.trackLinkFlightCheckoutLoginSuccess(mContext);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
