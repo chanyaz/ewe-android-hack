@@ -645,7 +645,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REFRESH_USER, services);
-			return services.signIn(ExpediaServices.F_FLIGHTS);
+			return services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
 		}
 	};
 

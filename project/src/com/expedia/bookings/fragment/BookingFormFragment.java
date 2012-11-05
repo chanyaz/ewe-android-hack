@@ -978,7 +978,7 @@ public class BookingFormFragment extends DialogFragment {
 		public SignInResponse doDownload() {
 			ExpediaServices services = new ExpediaServices((Context) mActivity);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SIGNIN_FETCH, services);
-			return services.signIn(ExpediaServices.F_HOTELS);
+			return services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
 		}
 	};
 
