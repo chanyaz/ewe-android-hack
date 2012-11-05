@@ -57,7 +57,11 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 					suggestion.setAirportLocationCode(responseSuggestion.optString("a", null));
 				}
 				else {
-					String locationName = responseSuggestion.getString("f");
+					String locationName = responseSuggestion.getString("d");
+
+					// Remove all html tags
+					locationName = locationName.replaceAll("<[^>]*>", "");
+
 					locationName = StrUtils.removeUSAFromAddress(locationName);
 					suggestion.setDisplayName(locationName);
 				}
