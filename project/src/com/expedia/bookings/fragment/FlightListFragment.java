@@ -363,7 +363,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		if (view.getChildCount() > 0) {
-			if (firstVisibleItem == 0 || !mIsLandscape) {
+			if (firstVisibleItem == 0 && !mIsLandscape) {
 				if (mNumFlightsTextViewBottom == 0) {
 					mNumFlightsTextViewBottom = mNumFlightsTextView.getBottom();
 				}
