@@ -1,11 +1,16 @@
 package com.expedia.bookings.tracking;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import android.app.Application;
 import android.content.Context;
 
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Filter;
+import com.expedia.bookings.data.Filter.PriceRange;
+import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
@@ -111,6 +116,10 @@ public class OmnitureTracking {
 
 	// Hotels
 
+	private static final String HOTEL_SEARCH_REFINE = "App.Hotels.Search.Refine";
+	private static final String HOTEL_SEARCH_REFINE_NAME = "App.Hotels.Search.Refine.Name";
+	private static final String HOTEL_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Refine.PriceRange";
+	private static final String HOTEL_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
 	private static final String HOTEL_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Hotel.Checkout.Traveler.EnterManually";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -508,6 +517,60 @@ public class OmnitureTracking {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Hotels tracking events
+
+	public static void trackLinkHotelRefineName(Context context, String refinement) {
+		String link = HOTEL_SEARCH_REFINE_NAME + "." + refinement;
+		internalTrackLink(context, link);
+	}
+
+	public static void trackLinkHotelRefinePriceRange(Context context, PriceRange priceRange) {
+		String link = HOTEL_SEARCH_REFINE_PRICE_RANGE;
+
+		switch (priceRange) {
+		case CHEAP: {
+			link += ".1$";
+			break;
+		}
+		case MODERATE: {
+			link += ".2$";
+			break;
+		}
+		case EXPENSIVE: {
+			link += ".3$";
+			break;
+		}
+		case ALL:
+		default: {
+			link += ".All";
+			break;
+		}
+		}
+
+		internalTrackLink(context, link);
+	}
+
+	public static void trackLinkHotelRefineSearchRadius(Context context, SearchRadius searchRadius) {
+		String link = HOTEL_SEARCH_REFINE_SEARCH_RADIUS;
+
+		if (searchRadius != Filter.SearchRadius.ALL) {
+			final DistanceUnit distanceUnit = DistanceUnit.getDefaultDistanceUnit();
+			final String unitString = distanceUnit.equals(DistanceUnit.MILES) ? "mi" : "km";
+
+			link += "." + new DecimalFormat("##.#").format(searchRadius.getRadius(distanceUnit)) + unitString;
+		}
+		else {
+			link += ".All";
+		}
+
+		internalTrackLink(context, link);
+	}
+
+	public static void trackLinkHotelRefineRating(Context context, String rating) {
+		String link = HOTEL_SEARCH_REFINE + "." + rating;
+		internalTrackLink(context, link);
+	}
+
+	// Checkout
 
 	public static void trackPageLoadHotelCheckoutPaymentCid(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_PAYMENT_CID);

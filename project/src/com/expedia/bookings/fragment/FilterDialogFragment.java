@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.text.DecimalFormat;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -22,13 +20,12 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams.SearchType;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -282,103 +279,79 @@ public class FilterDialogFragment extends DialogFragment {
 
 	private void onFilterClosed() {
 		Log.d("Tracking \"App.Hotels.Search.Refine.Name\" change...");
-		String pageName = "App.Hotels.Search.Refine.Name." + mHotelNameEditText.getText().toString();
-		TrackingUtils.trackSimpleEvent(getActivity(), pageName, null, "Shopper", null);
+		OmnitureTracking.trackLinkHotelRefineName(getActivity(), mHotelNameEditText.getText().toString());
 	}
 
 	private void onPriceFilterChanged() {
 		Log.d("Tracking \"App.Hotels.Search.Refine.PriceRange\" change...");
 
-		String refinement;
-
 		switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.price_cheap_button: {
-			refinement = "App.Hotels.Search.Refine.PriceRange.1$";
+			OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.CHEAP);
 			break;
 		}
 		case R.id.price_moderate_button: {
-			refinement = "App.Hotels.Search.Refine.PriceRange.2$";
+			OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.MODERATE);
 			break;
 		}
 		case R.id.price_expensive_button: {
-			refinement = "App.Hotels.Search.Refine.PriceRange.3$";
+			OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.EXPENSIVE);
 			break;
 		}
 		case R.id.price_all_button:
 		default: {
-			refinement = "App.Hotels.Search.Refine.PriceRange.All";
+			OmnitureTracking.trackLinkHotelRefinePriceRange(getActivity(), PriceRange.ALL);
 			break;
 		}
 		}
-
-		TrackingUtils.trackSimpleEvent(getActivity(), refinement, null, "Shopper", null);
 	}
 
 	private void onRadiusFilterChanged() {
 		Log.d("Tracking \"App.Hotels.Search.Refine.SearchRadius\" rating change...");
 
-		String refinement = "App.Hotels.Search.Refine.SearchRadius";
-		SearchRadius searchRadius;
-
 		switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.radius_small_button: {
-			searchRadius = Filter.SearchRadius.SMALL;
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.SMALL);
 			break;
 		}
 		case R.id.radius_medium_button: {
-			searchRadius = Filter.SearchRadius.MEDIUM;
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.MEDIUM);
 			break;
 		}
 		case R.id.radius_large_button: {
-			searchRadius = Filter.SearchRadius.LARGE;
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.LARGE);
 			break;
 		}
 		case R.id.radius_all_button:
 		default: {
-			searchRadius = Filter.SearchRadius.ALL;
+			OmnitureTracking.trackLinkHotelRefineSearchRadius(getActivity(), SearchRadius.ALL);
 			break;
 		}
 		}
-
-		if (searchRadius != Filter.SearchRadius.ALL) {
-			final DistanceUnit distanceUnit = DistanceUnit.getDefaultDistanceUnit();
-			final String unitString = distanceUnit.equals(DistanceUnit.MILES) ? "mi" : "km";
-
-			refinement += "." + new DecimalFormat("##.#").format(searchRadius.getRadius(distanceUnit)) + unitString;
-		}
-		else {
-			refinement += ".All";
-		}
-
-		TrackingUtils.trackSimpleEvent(getActivity(), refinement, null, "Shopper", null);
 	}
 
 	private void onRatingFilterChanged() {
 		Log.d("Tracking \"App.Hotels.Search.Refine\" rating change...");
 
-		String refinement;
-
 		switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
 		case R.id.rating_low_button: {
-			refinement = "App.Hotels.Search.Refine.3Stars";
+			OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "3Stars");
 			break;
 		}
 		case R.id.rating_medium_button: {
-			refinement = "App.Hotels.Search.Refine.4Stars";
+			OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "4Stars");
 			break;
 		}
 		case R.id.rating_high_button: {
-			refinement = "App.Hotels.Search.Refine.5Stars";
+			OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "5Stars");
 			break;
 		}
 		case R.id.rating_all_button:
 		default: {
-			refinement = "App.Hotels.Search.Refine.AllStars";
+			OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "AllStars");
 			break;
 		}
 		}
-
-		TrackingUtils.trackSimpleEvent(getActivity(), refinement, null, "Shopper", null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
