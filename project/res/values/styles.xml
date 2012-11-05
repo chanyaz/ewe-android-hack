@@ -64,6 +64,10 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
+    <style name="Widget.AutoComplete" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:background">@drawable/edit_text_holo_light</item>
+    </style>
+
     <style name="Widget.EditText.Phone.Dark">
         <item name="android:background">@drawable/edit_text_holo_dark</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
