@@ -61,6 +61,7 @@ public class OmnitureTracking {
 	private static final String HOTEL_CHECKOUT_TRAVELER_SELECT = "App.Hotel.Checkout.Traveler.Select";
 	private static final String HOTEL_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotel.Checkout.Traveler.Edit.Info";
 	private static final String HOTEL_CHECKOUT_TRAVELER_EDIT_SAVE = "App.Hotel.Checkout.Traveler.Edit.Save";
+	private static final String HOTEL_CHECKOUT_PAYMENT_CID = "App.Hotel.Checkout.Payment.CID";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ONEWAY PAGE NAME AND TRACK LINK CONSTANTS
@@ -507,6 +508,10 @@ public class OmnitureTracking {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Hotels tracking events
+
+	public static void trackPageLoadHotelCheckoutPaymentCid(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_PAYMENT_CID);
+	}
 
 	public static void trackPageLoadHotelTravelerEditSave(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_TRAVELER_EDIT_SAVE);

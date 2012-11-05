@@ -26,6 +26,7 @@ import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SupportUtils;
@@ -70,7 +71,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 
 		setContentView(R.layout.activity_hotel_booking);
-
 		setTitle(R.string.title_complete_booking);
 
 		mCVVEntryFragment = Ui.findSupportFragment(this, CVVEntryFragment.TAG);
@@ -82,16 +82,15 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			ft.commit();
-
-			// If the debug setting is made to fake a price change, then fake the current price 
-			//			if (!AndroidUtils.isRelease(mContext)) {
-			//				String val = SettingUtils.get(mContext, getString(R.string.preference_flight_fake_price_change),
-			//						getString(R.string.preference_flight_fake_price_change_default));
-			//				Db.getFlightSearch().getSelectedFlightTrip().getTotalFare().add(new BigDecimal(val));
-			//			}
 		}
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadHotelCheckoutPaymentCid(this);
 	}
 
 	@Override
@@ -129,6 +128,14 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+		// F1053: Do not let user go back when we are mid-download
+		if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
+			super.onBackPressed();
+		}
+	}
+
 	private void launchConfirmationActivity() {
 		startActivity(new Intent(this, ConfirmationFragmentActivity.class));
 
@@ -156,7 +163,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		mCvvErrorModeEnabled = enabled;
 
 		// Set header bg
-		int bgResId = (enabled) ? R.drawable.bg_flight_action_bar_top_red : R.drawable.bg_action_bar_flight_top;
+		int bgResId = (enabled) ? R.drawable.bg_flight_action_bar_top_red : R.drawable.bg_action_bar;
 
 		ActionBar ab = getSupportActionBar();
 		ab.setBackgroundDrawable(getResources().getDrawable(bgResId));
