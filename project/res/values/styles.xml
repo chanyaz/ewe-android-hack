@@ -250,6 +250,10 @@
     <style name="Widget.EditText" parent="@android:style/Widget.EditText">
         <item name="android:background">@drawable/edit_text</item>
     </style>
+    
+    <style name="Widget.EditText.Flights" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/edit_text_holo_light</item>
+    </style>
 
     <style name="Widget.Button" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/btn_default</item>
@@ -556,6 +560,10 @@
         <item name="android:textColor">@color/text_color_dark</item>
     </style>
 
+    <style name="Widget.Spinner.Phone.Flights" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_holo_light</item>
+    </style>
+    
     <style name="FakeSpinner" parent="@android:style/Widget.Holo.Light.Spinner">
         <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
         <item name="android:paddingLeft">12dp</item>

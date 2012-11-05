@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dialog_background_light"
-    android:orientation="vertical" >
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="0dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,5 +62,19 @@
                 layout="@layout/section_display_flight_trip_price_breakdown_for_traveler" />
         </LinearLayout>
     </ScrollView>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
+        android:background="@color/hotel_details_separator" />
+
+    <Button
+        android:id="@+id/positive_button"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_signin_dialog_button"
+        android:text="@string/button_done"
+        android:layout_weight="0"
+        android:textSize="14sp" />
 
 </LinearLayout>
