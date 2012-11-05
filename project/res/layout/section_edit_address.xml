@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:gridlayout="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -55,8 +54,7 @@
             <Spinner
                 android:id="@+id/edit_country_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                gridlayout:layout_columnSpan="1" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
