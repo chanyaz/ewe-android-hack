@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -59,8 +60,9 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadHotelTravelerSelect(getActivity());
 	}
 
 	@Override
@@ -89,6 +91,8 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 				Db.getWorkingTravelerManager().shiftWorkingTraveler(new Traveler());
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
+
+				OmnitureTracking.trackLinkHotelCheckoutTravelerEnterManually(getActivity());
 			}
 		});
 
@@ -129,8 +133,9 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 							df.show(getFragmentManager(), LoadingTravelerDialogFragment.TAG);
 							bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
 									mTravelerDetailsCallback);
-						}
 
+							OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
+						}
 					}
 				});
 

@@ -1,9 +1,12 @@
 package com.expedia.bookings.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -26,6 +29,7 @@ import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerIn
 import com.expedia.bookings.fragment.HotelTravelerSaveDialogFragment;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -39,6 +43,8 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
 	private static final String STATE_TAG_START_FIRST_NAME = "STATE_TAG_START_FIRST_NAME";
 	private static final String STATE_TAG_START_LAST_NAME = "STATE_TAG_START_LAST_NAME";
+
+	private Context mContext;
 
 	private HotelTravelerInfoOptionsFragment mOptionsFragment;
 	private HotelTravelerInfoOneFragment mOneFragment;
@@ -57,7 +63,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	//Where we want to return to after our action
 	private enum YoYoPosition {
-		OPTIONS, ONE, SAVE, SAVING
+		OPTIONS, ONE, SAVE, SAVING, OVERWRITE_TRAVELER
 	}
 
 	public interface Validatable {
@@ -179,6 +185,8 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mContext = this;
+
 		//Show the options fragment
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
 			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
@@ -233,6 +241,21 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		//If the save dialog is showing, we close it, and then we show it again from the onCreate method.
+		if (mPos.equals(YoYoPosition.SAVE)) {
+			this.closeSaveDialog();
+		}
+
+		//If the overwrite dialog is showing, we close it
+		if (mPos.equals(YoYoPosition.OVERWRITE_TRAVELER)) {
+			this.closeOverwriteDialog();
+		}
 	}
 
 	public boolean validate(Validatable validatable) {
@@ -298,9 +321,20 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 				break;
 			}
 			case SAVE: {
-				displayCheckout();
+				if (workingTravelerRequiresOverwritePrompt()) {
+					//The user already has a traveler named this...
+					displayOverwriteDialog();
+				}
+				else {
+					OmnitureTracking.trackPageLoadHotelTravelerEditSave(mContext);
+					displayCheckout();
+				}
 				break;
 			}
+			case OVERWRITE_TRAVELER:
+				OmnitureTracking.trackPageLoadHotelTravelerEditSave(mContext);
+				displayCheckout();
+				break;
 			default: {
 				Ui.showToast(this, "FAIL");
 				break;
@@ -341,6 +375,11 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 						Db.getWorkingTravelerManager().getWorkingTraveler());
 				displayOptions();
 				break;
+			case OVERWRITE_TRAVELER:
+				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+						Db.getWorkingTravelerManager().getWorkingTraveler());
+				displayOptions();
+				break;
 			case OPTIONS:
 			default:
 				Ui.showToast(this, "FAIL");
@@ -350,6 +389,27 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		else if (mMode.equals(YoYoMode.NONE)) {
 			displayCheckout();
 		}
+	}
+
+	public boolean workingTravelerRequiresOverwritePrompt() {
+		boolean travelerAlreadyExistsOnAccount = false;
+		Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+		if (workingTraveler.getSaveTravelerToExpediaAccount() && User.isLoggedIn(mContext)
+				&& !workingTraveler.hasTuid()) {
+			//If we want to save, and we're logged in, and we have a new traveler
+			//We have to check if that travelers name matches an existing traveler
+			if (Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null
+					&& Db.getUser().getAssociatedTravelers().size() > 0) {
+				for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
+					if (workingTraveler.compareNameTo(trav) == 0) {
+						//A traveler with this name already exists on the account. Foo. ok so lets show a dialog and be all like "Hey yall, you wanna overwrite your buddy dave bob?"
+						travelerAlreadyExistsOnAccount = true;
+						break;
+					}
+				}
+			}
+		}
+		return travelerAlreadyExistsOnAccount;
 	}
 
 	@Override
@@ -488,6 +548,21 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		df.show(this.getSupportFragmentManager(), SavingTravelerDialogFragment.TAG);
 	}
 
+	private void displayOverwriteDialog() {
+		mPos = YoYoPosition.OVERWRITE_TRAVELER;
+		OverwriteExistingTravelerDialogFragment df = OverwriteExistingTravelerDialogFragment.newInstance();
+		df.show(this.getSupportFragmentManager(), OverwriteExistingTravelerDialogFragment.TAG);
+	}
+
+	private void closeOverwriteDialog() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment dialog = getSupportFragmentManager().findFragmentByTag(OverwriteExistingTravelerDialogFragment.TAG);
+		if (dialog != null) {
+			ft.remove(dialog);
+		}
+		ft.commit();
+	}
+
 	@Override
 	public void displayCheckout() {
 		//First we commit our traveler stuff...
@@ -561,6 +636,83 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 			super.onCancel(dialog);
 			// If the dialog is canceled without finishing loading, don't show this page.
 			getActivity().finish();
+		}
+	}
+
+	public static class OverwriteExistingTravelerDialogFragment extends DialogFragment {
+
+		public static final String TAG = OverwriteExistingTravelerDialogFragment.class.getName();
+
+		TravelerInfoYoYoListener mListener;
+
+		public static OverwriteExistingTravelerDialogFragment newInstance() {
+			OverwriteExistingTravelerDialogFragment frag = new OverwriteExistingTravelerDialogFragment();
+			Bundle args = new Bundle();
+			frag.setArguments(args);
+			return frag;
+		}
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setCancelable(false);
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			String workingTravelerName = Db.getWorkingTravelerManager().getWorkingTraveler().getFirstName() + " "
+					+ Db.getWorkingTravelerManager().getWorkingTraveler().getLastName();
+
+			AlertDialog pd = new AlertDialog.Builder(getActivity())
+					.setCancelable(false)
+					.setTitle(R.string.cant_save_traveler)
+					.setMessage(
+							String.format(getString(R.string.you_already_have_traveler_TEMPLATE), workingTravelerName))
+					.setPositiveButton(R.string.overwrite, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							//We want to overwrite, so we go through, find the traveler with the same name and steal his/her tuid
+							if (User.isLoggedIn(getActivity()) && Db.getUser() != null
+									&& Db.getUser().getAssociatedTravelers() != null) {
+								for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
+									if (Db.getWorkingTravelerManager().getWorkingTraveler().compareNameTo(trav) == 0) {
+										//We find the traveler with the same name, and steal his tuid
+										Db.getWorkingTravelerManager().getWorkingTraveler().setTuid(trav.getTuid());
+									}
+								}
+							}
+							mListener.moveForward();
+						}
+
+					}).setNegativeButton(R.string.dont_save, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							Db.getWorkingTravelerManager().getWorkingTraveler().setSaveTravelerToExpediaAccount(false);
+							mListener.moveForward();
+						}
+					}).create();
+			pd.setCanceledOnTouchOutside(false);
+			return pd;
+		}
+
+		@Override
+		public void onAttach(Activity activity) {
+			super.onAttach(activity);
+
+			if (!(activity instanceof TravelerInfoYoYoListener)) {
+				throw new RuntimeException(
+						"OverwriteExistingTravelerDialogFragment activity must implement TravelerInfoYoYoListener!");
+			}
+
+			mListener = (TravelerInfoYoYoListener) activity;
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			super.onCancel(dialog);
+			if (mListener != null) {
+				mListener.moveBackwards();
+			}
 		}
 	}
 }

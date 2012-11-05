@@ -28,7 +28,10 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// STANDARD PAGE NAME CONSTANTS
 
+	// Launcher
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
+
+	// Flights
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
 	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
@@ -53,6 +56,11 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE = "App.Flight.Checkout.SlideToPurchase";
 	private static final String FLIGHT_CHECKOUT_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
 	private static final String FLIGHT_CHECKOUT_CONFIRMATION = "App.Flight.Checkout.Confirmation";
+
+	// Hotels
+	private static final String HOTEL_CHECKOUT_TRAVELER_SELECT = "App.Hotel.Checkout.Traveler.Select";
+	private static final String HOTEL_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotel.Checkout.Traveler.Edit.Info";
+	private static final String HOTEL_CHECKOUT_TRAVELER_EDIT_SAVE = "App.Hotel.Checkout.Traveler.Edit.Save";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ONEWAY PAGE NAME AND TRACK LINK CONSTANTS
@@ -99,6 +107,10 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_PAYMENT_ENTER_MANUALLY = "App.Flight.Checkout.Payment.EnterManually";
 
 	private static final String FLIGHT_CONFIRMATION_HOTEL_X_SELL = "App.Flight.Checkout.Confirmation.HotelXSell";
+
+	// Hotels
+
+	private static final String HOTEL_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Hotel.Checkout.Traveler.EnterManually";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC TRACK LINK METHODS
@@ -491,6 +503,25 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadLaunchScreen(Context context) {
 		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, LAUNCH_SCREEN);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Hotels tracking events
+
+	public static void trackPageLoadHotelTravelerEditSave(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_TRAVELER_EDIT_SAVE);
+	}
+
+	public static void trackPageLoadHotelTravelerEditInfo(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_TRAVELER_EDIT_INFO);
+	}
+
+	public static void trackPageLoadHotelTravelerSelect(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTEL_CHECKOUT_TRAVELER_SELECT);
+	}
+
+	public static void trackLinkHotelCheckoutTravelerEnterManually(Context context) {
+		internalTrackLink(context, HOTEL_CHECKOUT_TRAVELER_ENTER_MANUALLY);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
