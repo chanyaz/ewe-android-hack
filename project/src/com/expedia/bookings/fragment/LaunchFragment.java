@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -74,6 +75,16 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private static final int NUM_HOTEL_PROPERTIES = 20;
 	private static final int NUM_FLIGHT_DESTINATIONS = 5;
 
+	// Background images
+	private static final Integer[] BACKGROUND_RES_IDS = new Integer[] {
+			R.drawable.bg_launch_london,
+			R.drawable.bg_launch_ny,
+			R.drawable.bg_launch_paris,
+			R.drawable.bg_launch_sea,
+			R.drawable.bg_launch_sf,
+			R.drawable.bg_launch_toronto
+	};
+
 	private Context mContext;
 
 	private ViewGroup mErrorContainer;
@@ -104,6 +115,16 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_launch, container, false);
 
+		mErrorContainer = Ui.findView(v, R.id.error_container);
+		mScrollContainer = Ui.findView(v, R.id.scroll_container);
+		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
+		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
+
+		// Pick background image at random
+		Random rand = new Random();
+		int index = rand.nextInt(BACKGROUND_RES_IDS.length);
+		mScrollContainer.setBackgroundDrawable(mContext.getResources().getDrawable(BACKGROUND_RES_IDS[index]));
+
 		FontCache.setTypeface(v, R.id.hotels_label_text_view, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.hotels_prompt_text_view, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.flights_label_text_view, FontCache.Font.ROBOTO_LIGHT);
@@ -112,11 +133,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
-
-		mErrorContainer = Ui.findView(v, R.id.error_container);
-		mScrollContainer = Ui.findView(v, R.id.scroll_container);
-		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
-		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
 
 		mHotelsStreamListView.setScrollMultiplier(2.0);
 		mFlightsStreamListView.setScrollMultiplier(1.0);
