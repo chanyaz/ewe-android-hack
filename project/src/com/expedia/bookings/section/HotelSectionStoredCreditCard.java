@@ -9,16 +9,20 @@ import android.widget.ImageView;
 
 public class HotelSectionStoredCreditCard extends SectionStoredCreditCard {
 	public HotelSectionStoredCreditCard(Context context) {
-		this(context, null, 0);
+		this(context, null);
 	}
 
 	public HotelSectionStoredCreditCard(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init();
 	}
 
 	public HotelSectionStoredCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		init();
+	}
 
+	private void init() {
 		mFields.remove(mDisplayCreditCardActiveIcon);
 		mFields.add(mHotelDisplayCreditCardActiveIcon);
 	}

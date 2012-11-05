@@ -12,16 +12,20 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 
 public class HotelSectionBillingInfo extends SectionBillingInfo {
 	public HotelSectionBillingInfo(Context context) {
-		this(context, null, 0);
+		this(context, null);
 	}
 
 	public HotelSectionBillingInfo(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init();
 	}
 
 	public HotelSectionBillingInfo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		init();
+	}
 
+	private void init() {
 		mFields.remove(mDisplayCreditCardBrandIconGrey);
 		mFields.remove(mDisplayCreditCardBrandIconBlack);
 

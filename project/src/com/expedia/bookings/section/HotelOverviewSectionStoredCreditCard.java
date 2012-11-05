@@ -9,16 +9,21 @@ import com.expedia.bookings.data.StoredCreditCard;
 
 public class HotelOverviewSectionStoredCreditCard extends SectionStoredCreditCard {
 	public HotelOverviewSectionStoredCreditCard(Context context) {
-		this(context, null, 0);
+		this(context, null);
 	}
 
 	public HotelOverviewSectionStoredCreditCard(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		init();
 	}
 
 	public HotelOverviewSectionStoredCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		init();
 
+	}
+
+	private void init() {
 		mFields.remove(mDisplayCreditCardActiveIcon);
 		mFields.add(mHotelDisplayCreditCardActiveIcon);
 	}
