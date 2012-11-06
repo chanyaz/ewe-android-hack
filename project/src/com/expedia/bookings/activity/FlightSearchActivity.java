@@ -131,7 +131,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		if (mSaveState && !mConfigChange) {
 			FlightSearch search = Db.getFlightSearch();
 			search.reset();
-			search.setSearchParams(mSearchParamsFragment.getSearchParams());
+			search.setSearchParams(mSearchParamsFragment.getSearchParams(true));
 			Db.kickOffBackgroundSave(this);
 			Log.i("Saved search params to disk.");
 		}
@@ -179,7 +179,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		FlightSearchParams params = mSearchParamsFragment.getSearchParams();
+		FlightSearchParams params = mSearchParamsFragment.getSearchParams(false);
 		mSearchMenuItem.setVisible(params.isFilled());
 
 		return super.onPrepareOptionsMenu(menu);
@@ -192,7 +192,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 			finish();
 			break;
 		case R.id.search:
-			FlightSearchParams params = mSearchParamsFragment.getSearchParams();
+			FlightSearchParams params = mSearchParamsFragment.getSearchParams(true);
 			if (!params.isFilled()) {
 				throw new RuntimeException(
 						"You should not be able to search unless you have filled out all the search params!");

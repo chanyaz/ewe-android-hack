@@ -674,9 +674,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	 * making sure we have current data).  You are only expected to call
 	 * this method when you're closing the fragment/starting a new search.
 	 */
-	public FlightSearchParams getSearchParams() {
-		// Sync all current fields by deselection		
-		clearEditTextFocus();
+	public FlightSearchParams getSearchParams(boolean syncFields) {
+		if (syncFields) {
+			// Sync all current fields by deselection
+			clearEditTextFocus();
+		}
 
 		return mSearchParams;
 	}

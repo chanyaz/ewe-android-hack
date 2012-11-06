@@ -69,7 +69,7 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		FlightSearchParams params = mSearchParamsFragment.getSearchParams();
+		FlightSearchParams params = mSearchParamsFragment.getSearchParams(false);
 		mSearchMenuItem.setVisible(params.isFilled());
 
 		return super.onPrepareOptionsMenu(menu);
@@ -79,7 +79,7 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity implem
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.search:
-			FlightSearchParams params = mSearchParamsFragment.getSearchParams();
+			FlightSearchParams params = mSearchParamsFragment.getSearchParams(true);
 			if (!params.isFilled()) {
 				throw new RuntimeException(
 						"You should not be able to search unless you have filled out all the search params!");
