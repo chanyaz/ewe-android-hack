@@ -567,6 +567,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			return;
 		}
 
+		OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase(getActivity());
+
 		if (!animate) {
 			mSlideToPurchaseLayout.clearAnimation();
 		}
