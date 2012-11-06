@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelDestination;
+import com.expedia.bookings.data.LaunchHotelFallbackData;
 import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
@@ -39,15 +40,15 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 		mViewCache = new View[numTiles];
 	}
 
-	public void setHotelDestinations(List<HotelDestination> hotels) {
+	public void setHotelDestinations(LaunchHotelFallbackData launchHotelFallbackData) {
 		this.clear();
 
-		if (hotels != null) {
-			for (HotelDestination hotel : hotels) {
+		if (launchHotelFallbackData != null && launchHotelFallbackData.getDestinations() != null) {
+			for (HotelDestination hotel : launchHotelFallbackData.getDestinations()) {
 				add(hotel);
 			}
 
-			mViewCache = new View[getViewCacheSize(hotels.size())];
+			mViewCache = new View[getViewCacheSize(launchHotelFallbackData.getDestinations().size())];
 		}
 
 		notifyDataSetChanged();
@@ -86,7 +87,7 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 		FontCache.setTypeface(titleTextView, FontCache.Font.ROBOTO_LIGHT);
 
 		titleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_hotel_fallback_tile_prompt,
-				hotel.getCity())));
+				hotel.getLaunchTileText())));
 
 		// Background image
 		String url = hotel.getImgUrl();

@@ -55,6 +55,8 @@ public class Db {
 	// Launch hotel data - extracted from a SearchResponse but cached as its own entity to keep data separate
 	private LaunchHotelData mLaunchHotelData;
 
+	private LaunchHotelFallbackData mLaunchHotelFallbackData;
+
 	private LaunchFlightData mLaunchFlightData;
 
 	// The search params (the details for how to do a search)
@@ -151,6 +153,14 @@ public class Db {
 
 	public static LaunchHotelData getLaunchHotelData() {
 		return sDb.mLaunchHotelData;
+	}
+
+	public static void setLaunchHotelFallbackData(LaunchHotelFallbackData launchHotelFallbackData) {
+		sDb.mLaunchHotelFallbackData = launchHotelFallbackData;
+	}
+
+	public static LaunchHotelFallbackData getLaunchHotelFallbackData() {
+		return sDb.mLaunchHotelFallbackData;
 	}
 
 	public static void setLaunchFlightData(LaunchFlightData launchFlightData) {
@@ -687,6 +697,7 @@ public class Db {
 		sDb.mUser = null;
 		sDb.mBackgroundImageCache = null;
 		sDb.mLaunchHotelData = null;
+		sDb.mLaunchHotelFallbackData = null;
 		sDb.mLaunchFlightData = null;
 
 		sDb.mFlightSearch.reset();

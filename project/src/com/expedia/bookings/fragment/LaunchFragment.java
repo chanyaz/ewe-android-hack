@@ -31,6 +31,7 @@ import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Destination;
@@ -39,6 +40,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelDestination;
 import com.expedia.bookings.data.LaunchFlightData;
 import com.expedia.bookings.data.LaunchHotelData;
+import com.expedia.bookings.data.LaunchHotelFallbackData;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
@@ -70,6 +72,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	public static final String TAG = LaunchFragment.class.getName();
 	public static final String KEY_SEARCH = "LAUNCH_SCREEN_HOTEL_SEARCH";
 	public static final String KEY_FLIGHT_DESTINATIONS = "LAUNCH_SCREEN_FLIGHT_DESTINATIONS";
+	public static final String KEY_HOTEL_DESTINATIONS = "LAUNCH_SCREEN_HOTEL_DESTINATIONS";
 
 	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 	private static final int NUM_HOTEL_PROPERTIES = 20;
@@ -94,6 +97,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private LaunchHotelFallbackAdapter mHotelFallbackAdapter;
 	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchFlightAdapter mFlightAdapter;
+
+	// These variable keeps track of whether or not the hotel ListView contains destinations of hotel search result set 
+	private boolean mIsHotelsFallbackMode = false;
 
 	// Used to prevent launching of both flight and hotel activities at once
 	// (as it is otherwise possible to quickly click on both sides).
@@ -189,6 +195,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(KEY_SEARCH);
 		bd.unregisterDownloadCallback(KEY_FLIGHT_DESTINATIONS);
+		bd.unregisterDownloadCallback(KEY_HOTEL_DESTINATIONS);
 		getActivity().unregisterReceiver(mConnReceiver);
 	}
 
@@ -301,7 +308,14 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 				@Override
 				public void onLocationServicesDisabled() {
-					startHotelStreamFallbackPlan();
+					if (Db.getLaunchHotelFallbackData() == null) {
+						BackgroundDownloader bd = BackgroundDownloader.getInstance();
+						bd.cancelDownload(KEY_HOTEL_DESTINATIONS);
+						bd.startDownload(KEY_HOTEL_DESTINATIONS, mHotelsFallbackDownload, mHotelsFallbackCallback);
+					}
+					else {
+						onHotelFallbackDataRetrieved();
+					}
 				}
 			});
 		}
@@ -362,6 +376,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				launchHotelData.setDistanceUnit(searchResponse.getFilter().getDistanceUnit());
 				Db.setLaunchHotelData(launchHotelData);
 
+				mIsHotelsFallbackMode = false;
 				onHotelDataRetrieved();
 			}
 
@@ -373,6 +388,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	};
 
 	private void onHotelDataRetrieved() {
+		initHotelAdapter();
 		mHotelAdapter.setProperties(Db.getLaunchHotelData());
 		mHotelsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
 		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
@@ -490,56 +506,126 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	// Hotels fallback
 
-	private static final List<HotelDestination> HOTEL_DESTINATION_FALLBACK_LIST = new ArrayList<HotelDestination>() {
+	private final static List<HotelDestination> HOTEL_DESTINATION_FALLBACK_LIST = new ArrayList<HotelDestination>() {
 		{
-			add(new HotelDestination().setCity("Dubai").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("Dubai").setImgUrl(
 					"http://media.expedia.com/hotels/1000000/530000/527500/527497/527497_66_y.jpg"));
-			add(new HotelDestination().setCity("Miami").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("Miami").setImgUrl(
 					"http://media.expedia.com/hotels/2000000/1200000/1190600/1190549/1190549_45_y.jpg"));
-			add(new HotelDestination().setCity("Las Vegas").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("Las Vegas").setImgUrl(
 					"http://media.expedia.com/hotels/1000000/20000/16000/15930/15930_147_y.jpg"));
-			add(new HotelDestination().setCity("San Francisco").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("San Francisco").setImgUrl(
 					"http://media.expedia.com/hotels/1000000/30000/22200/22148/22148_34_y.jpg"));
-			add(new HotelDestination().setCity("Seattle").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("Seattle").setImgUrl(
 					"http://media.expedia.com/hotels/1000000/550000/546500/546475/546475_84_y.jpg"));
-			add(new HotelDestination().setCity("Honolulu").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("Honolulu").setImgUrl(
 					"http://media.expedia.com/hotels/1000000/40000/34500/34498/34498_111_y.jpg"));
-			add(new HotelDestination().setCity("New York").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("New York").setImgUrl(
 					"http://media.expedia.com/hotels/4000000/3490000/3481700/3481640/3481640_39_y.jpg"));
-			add(new HotelDestination().setCity("Maldives").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("Maldives").setImgUrl(
 					"http://media.expedia.com/hotels/2000000/1780000/1775600/1775548/1775548_63_y.jpg"));
-			add(new HotelDestination().setCity("Paris").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("Paris").setImgUrl(
 					"http://media.expedia.com/hotels/1000000/30000/23100/23034/23034_175_y.jpg"));
-			add(new HotelDestination().setCity("Boston").setImgUrl(
+			add(new HotelDestination().setLaunchTileText("Boston").setImgUrl(
 					"http://media.expedia.com/hotels/1000000/10000/400/395/395_36_y.jpg"));
 		}
 	};
 
-	private void startHotelStreamFallbackPlan() {
+	private Download<List<HotelDestination>> mHotelsFallbackDownload = new Download<List<HotelDestination>>() {
+		@Override
+		public List<HotelDestination> doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_DESTINATIONS, services);
+			List<HotelDestination> destinations = HOTEL_DESTINATION_FALLBACK_LIST;
+
+			for (HotelDestination hotel : destinations) {
+				SuggestResponse suggestResponse = services.suggest(hotel.getLaunchTileText(), ExpediaServices.F_HOTELS);
+
+				if (suggestResponse == null) {
+					Log.w("Got a null response from server autocompleting for: " + hotel.getLaunchTileText());
+					continue;
+				}
+				else if (suggestResponse.hasErrors()) {
+					Log.w("Got an error response from server autocompleting for: " + hotel.getLaunchTileText() + ", "
+							+ suggestResponse.getErrors().get(0).getPresentableMessage(mContext));
+					continue;
+				}
+
+				List<Suggestion> suggestions = suggestResponse.getSuggestions();
+				if (suggestions.size() == 0) {
+					Log.w("Got 0 suggestions while autocompleting for: " + hotel.getLaunchTileText());
+					continue;
+				}
+
+				Suggestion suggestion = suggestions.get(0);
+				hotel.setLatitudeLongitude(suggestion.getLatitude(), suggestion.getLongitude());
+				hotel.setRegionId(suggestion.getId());
+				hotel.setPhoneSearchDisplayText(suggestion.getDisplayName());
+			}
+
+			return destinations;
+		}
+	};
+
+	private OnDownloadComplete<List<HotelDestination>> mHotelsFallbackCallback = new OnDownloadComplete<List<HotelDestination>>() {
+		@Override
+		public void onDownload(List<HotelDestination> results) {
+			if (results != null && results.size() > 0) {
+				LaunchHotelFallbackData launchHotelFallbackData = new LaunchHotelFallbackData();
+				launchHotelFallbackData.setDestinations(results);
+				Db.setLaunchHotelFallbackData(launchHotelFallbackData);
+
+				onHotelFallbackDataRetrieved();
+			}
+		}
+	};
+
+	private void onHotelFallbackDataRetrieved() {
+		mIsHotelsFallbackMode = true;
+
 		// Free up the existing HotelAdapter which should be essentially empty anyway
 		mHotelAdapter = null;
 
 		// Instantiate the adapter for the fallback plan
-		mHotelFallbackAdapter = new LaunchHotelFallbackAdapter(mContext);
-		mHotelFallbackAdapter.setHotelDestinations(HOTEL_DESTINATION_FALLBACK_LIST);
-		mHotelsStreamListView.setAdapter(mHotelFallbackAdapter);
+		initHotelFallbackAdapter();
+		mHotelFallbackAdapter.setHotelDestinations(Db.getLaunchHotelFallbackData());
 		mHotelsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
 		mHotelsStreamListView.setOnItemClickListener(mHotelFallbackOnItemClickListener);
 	}
 
 	// View init + listeners
 
+	private void initHotelAdapter() {
+		if (mHotelAdapter == null) {
+			mHotelAdapter = new LaunchHotelAdapter(mContext);
+			mHotelsStreamListView.setAdapter(mHotelAdapter);
+			if (!mHotelsStreamListView.restorePosition()) {
+				mHotelsStreamListView.selectMiddle();
+			}
+		}
+	}
+
+	private void initHotelFallbackAdapter() {
+		mHotelFallbackAdapter = new LaunchHotelFallbackAdapter(mContext);
+		mHotelsStreamListView.setAdapter(mHotelFallbackAdapter);
+		if (!mHotelsStreamListView.restorePosition()) {
+			mHotelsStreamListView.selectMiddle();
+		}
+	}
+
 	private void initViews() {
-		if (mHotelAdapter != null && mFlightAdapter != null) {
+		boolean nullHotelAdapter = mIsHotelsFallbackMode ? mHotelFallbackAdapter == null : mHotelAdapter == null;
+		if (!nullHotelAdapter && mFlightAdapter != null) {
 			return;
 		}
 
 		Log.d("LaunchFragment.initViews() - initializing views...");
 
-		mHotelAdapter = new LaunchHotelAdapter(mContext);
-		mHotelsStreamListView.setAdapter(mHotelAdapter);
-		if (!mHotelsStreamListView.restorePosition()) {
-			mHotelsStreamListView.selectMiddle();
+		if (mIsHotelsFallbackMode) {
+			initHotelFallbackAdapter();
+		}
+		else {
+			initHotelAdapter();
 		}
 
 		mFlightAdapter = new LaunchFlightAdapter(mContext);
@@ -552,9 +638,17 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		mFlightsStreamListView.setSlaveView(mHotelsStreamListView);
 
-		LaunchHotelData launchHotelData = Db.getLaunchHotelData();
-		if (launchHotelData != null) {
-			onHotelDataRetrieved();
+		if (mIsHotelsFallbackMode) {
+			LaunchHotelFallbackData launchHotelFallbackData = Db.getLaunchHotelFallbackData();
+			if (launchHotelFallbackData != null) {
+				onHotelFallbackDataRetrieved();
+			}
+		}
+		else {
+			LaunchHotelData launchHotelData = Db.getLaunchHotelData();
+			if (launchHotelData != null) {
+				onHotelDataRetrieved();
+			}
 		}
 
 		LaunchFlightData launchFlightData = Db.getLaunchFlightData();
@@ -647,20 +741,24 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 			mLaunchingActivity = true;
 
-			// TODO: Figure out why this does not launch a proper search out of the box...must go through suggest?
-			HotelDestination hotel = mHotelFallbackAdapter.getItem(position);
-			SearchParams searchParams = Db.getSearchParams();
-			searchParams.setSearchType(SearchParams.SearchType.CITY);
-			searchParams.setQuery(hotel.getCity());
-
 			// Delete Hotel ConfirmationState if it exists
 			ConfirmationState confirmationState = new ConfirmationState(mContext, ConfirmationState.Type.HOTEL);
 			if (confirmationState.hasSavedData()) {
 				confirmationState.delete();
 			}
 
+			HotelDestination hotel = mHotelFallbackAdapter.getItem(position);
+			SearchParams searchParams = Db.getSearchParams();
+
+			searchParams.setQuery(hotel.getPhoneSearchDisplayText());
+			searchParams.setSearchType(SearchParams.SearchType.CITY);
+			searchParams.setRegionId(hotel.getRegionId());
+			searchParams.setSearchLatLon(hotel.getLatitude(), hotel.getLongitude());
+
 			// Launch hotel search
-			mContext.startActivity(PhoneSearchActivity.createIntent(mContext, false));
+			Intent intent = new Intent(mContext, PhoneSearchActivity.class);
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+			mContext.startActivity(intent);
 
 			cleanUp();
 		}
@@ -679,6 +777,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_FLIGHT_DESTINATIONS);
+		bd.cancelDownload(KEY_HOTEL_DESTINATIONS);
 
 		mCleanOnStop = true;
 	}
