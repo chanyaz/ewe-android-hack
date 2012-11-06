@@ -139,15 +139,24 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				Db.loadUser(getActivity());
 			}
 
-			if (!mRefreshedUser) {
-				Log.d("Refreshing user profile...");
+			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+				//We have a user (either from memory, or loaded from disk)
+				if (!mRefreshedUser) {
+					Log.d("Refreshing user profile...");
 
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(KEY_REFRESH_USER)) {
-					bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(KEY_REFRESH_USER)) {
+						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
+					}
 				}
+				mAccountButton.bind(false, true, Db.getUser(), true);
 			}
-			mAccountButton.bind(false, true, Db.getUser(), true);
+			else {
+				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
+				User.signOut(getActivity());
+				mAccountButton.bind(false, false, null, true);
+			}
 		}
 		else {
 			mAccountButton.bind(false, false, null, true);
