@@ -316,14 +316,13 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
-			Intent intent = PhoneSearchActivity.createIntent(this, true);
-
 			// TODO: this doesn't seem to be working, even on JB. But really, we know the one case
 			// when the task stack should be recreated: when we've found this hotel via widget.
 			//boolean shouldUpRecreateTask = NavUtils.shouldUpRecreateTask(this, intent);
 			boolean shouldUpRecreateTask = Db.getSearchParams().isFromWidget();
 
 			if (shouldUpRecreateTask) {
+				Intent intent = PhoneSearchActivity.createIntent(this, true);
 				// This activity is not part of the application's task, so create a new task
 				// with a synthesized back stack.
 				TaskStackBuilder.create(this)
@@ -333,9 +332,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 				finish();
 			}
 			else {
-				// This activity is part of the application's task, so simply
-				// navigate up to the hierarchical parent activity.
-				NavUtils.navigateUpTo(this, intent);
+				onBackPressed();
 			}
 
 			return true;
