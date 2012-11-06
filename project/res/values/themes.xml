@@ -144,7 +144,6 @@
 
     <!-- Temporary theme for flights -->
     <style name="FlightTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
-        <item name="android:windowBackground">@null</item>
         <item name="airPickerBackground">@android:color/white</item>
         <item name="airPickerHeaderBackground">@android:color/white</item>
         <item name="airPickerTextColor">@android:color/black</item>
@@ -176,11 +175,11 @@
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
     </style>
 
-    <style name="FlightThemeWithWindowBackground" parent="@style/FlightTheme">
-        <item name="android:windowBackground">@color/default_window_background</item>
+    <style name="FlightTheme.NoBackground">
+        <item name="android:windowBackground">@null</item>
     </style>
 
-    <style name="FlightTheme.OverlayMode">
+    <style name="FlightTheme.NoBackground.OverlayMode">
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>

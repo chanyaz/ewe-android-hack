@@ -145,16 +145,16 @@
         <activity
             android:name=".activity.FlightSearchActivity"
             android:label="Expedia Flights"
-            android:theme="@style/FlightTheme"
+            android:theme="@style/FlightTheme.NoBackground"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".activity.FlightSearchResultsActivity"
-            android:theme="@style/FlightTheme.OverlayMode"
+            android:theme="@style/FlightTheme.NoBackground.OverlayMode"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name=".activity.FlightUnsupportedPOSActivity"
-            android:theme="@style/FlightTheme" />
+            android:theme="@style/FlightTheme.NoBackground" />
         <activity
             android:name=".activity.FlightSearchOverlayActivity"
             android:theme="@style/FlightTheme.Transparent" />
@@ -169,7 +169,7 @@
             android:theme="@style/FlightTheme" />
         <activity
             android:name=".activity.FlightPaymentOptionsActivity"
-            android:theme="@style/FlightThemeWithWindowBackground" >
+            android:theme="@style/FlightTheme" >
         </activity>
         <activity
             android:name=".activity.FlightPaymentContactActivity"
@@ -177,7 +177,7 @@
         </activity>
         <activity
             android:name=".activity.FlightTravelerInfoOptionsActivity"
-            android:theme="@style/FlightThemeWithWindowBackground" >
+            android:theme="@style/FlightTheme" >
         </activity>
         <activity
             android:name=".activity.BaggageFeeActivity"
@@ -198,7 +198,7 @@
         <activity
             android:name=".activity.FlightConfirmationActivity"
             android:label="Flights Confirmation"
-            android:theme="@style/FlightTheme" />
+            android:theme="@style/FlightTheme.NoBackground" />
 
         <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />
