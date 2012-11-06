@@ -765,6 +765,10 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			searchParams.setCheckInDate(new GregorianCalendar(year, month, dayOfMonth + 1));
 			searchParams.setCheckOutDate(new GregorianCalendar(year, month, dayOfMonth + 2));
 
+			//who
+			searchParams.setNumAdults(1);
+			searchParams.setChildren(null);
+
 			// Launch hotel search
 			Intent intent = new Intent(mContext, PhoneSearchActivity.class);
 			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
