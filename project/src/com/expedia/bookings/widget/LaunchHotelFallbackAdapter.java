@@ -1,10 +1,7 @@
 package com.expedia.bookings.widget;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,7 +90,8 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 		String url = hotel.getImgUrl();
 		if (ImageCache.containsImage(url)) {
 			Log.v("imageContained: " + position + " url: " + url);
-			container.setBackgroundDrawable(new BitmapDrawable(ImageCache.getImage(url)));
+			container.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
+					.getImage(url)));
 			toggleTile(titleTextView, true);
 		}
 		else {
@@ -117,7 +115,7 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
-				layout.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), bitmap));
+				layout.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap));
 				banner.setVisibility(View.VISIBLE);
 
 				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
