@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -750,10 +751,19 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			HotelDestination hotel = mHotelFallbackAdapter.getItem(position);
 			SearchParams searchParams = Db.getSearchParams();
 
+			// where
 			searchParams.setQuery(hotel.getPhoneSearchDisplayText());
 			searchParams.setSearchType(SearchParams.SearchType.CITY);
 			searchParams.setRegionId(hotel.getRegionId());
 			searchParams.setSearchLatLon(hotel.getLatitude(), hotel.getLongitude());
+
+			// when
+			Calendar cal = Calendar.getInstance();
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH);
+			int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+			searchParams.setCheckInDate(new GregorianCalendar(year, month, dayOfMonth + 1));
+			searchParams.setCheckOutDate(new GregorianCalendar(year, month, dayOfMonth + 2));
 
 			// Launch hotel search
 			Intent intent = new Intent(mContext, PhoneSearchActivity.class);
