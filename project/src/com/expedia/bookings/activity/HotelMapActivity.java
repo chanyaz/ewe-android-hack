@@ -138,10 +138,8 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// app icon in action bar clicked; go back
-			Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
-			NavUtils.navigateUpTo(this, intent);
+			onBackPressed();
 			return true;
-			
 		case R.id.menu_select_hotel:
 			startActivity(RoomsAndRatesListActivity.createIntent(this));
 			finish();
