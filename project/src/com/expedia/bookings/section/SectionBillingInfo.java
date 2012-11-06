@@ -213,11 +213,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					field.setImageResource(BookingInfoUtils.CREDIT_CARD_GREY_ICONS.get(cardType));
 				}
 				else {
-					field.setImageResource(R.drawable.ic_credit_card);
+					field.setImageResource(R.drawable.ic_generic_card);
 				}
 			}
 			else {
-				field.setImageResource(R.drawable.ic_credit_card);
+				field.setImageResource(R.drawable.ic_generic_card);
 			}
 		}
 	};
