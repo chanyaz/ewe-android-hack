@@ -2,6 +2,8 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -29,6 +31,7 @@ public class MapImageView extends ImageView {
 
 	private int mCircleRadius;
 	private Paint mPaint;
+	private Bitmap mPoiBitmap;
 
 	public MapImageView(Context context) {
 		super(context);
@@ -41,7 +44,6 @@ public class MapImageView extends ImageView {
 
 	public MapImageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-        
 		initMapView();
 	}
 
@@ -55,7 +57,9 @@ public class MapImageView extends ImageView {
 			ZOOM = 12;
 			PIXEL_COEFFICIENT = 4096 * 256;
 		}
-        
+
+		mPoiBitmap = BitmapFactory.decodeResource(res, R.drawable.search_center_purple);
+
 		mCircleRadius = res.getDimensionPixelSize(R.dimen.mini_map_circle_radius);
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	}
@@ -77,7 +81,7 @@ public class MapImageView extends ImageView {
 
 		// Poi or my location
 		if (mPoiPoint != null) {
-			drawMarker(canvas, mPoiPoint);
+			drawPoiMarker(canvas, mPoiPoint);
 		}
 	}
 
@@ -130,6 +134,33 @@ public class MapImageView extends ImageView {
 
 	public String getUri() {
 		return mStaticMapUri;
+	}
+
+	// Draws a marker on the appropriate place on the map, given its longitude and latitude
+	private void drawPoiMarker(Canvas canvas, StaticMapPoint point) {
+		int x = getWidth() / 2;
+		int y = getHeight() / 2;
+
+		// The point of this math is to calculate the number of pixels between the center
+		// of the map and the requested latitude/longitude. It's not totally straightforward,
+		// due to the stretching of the map to fit it on a square (Mercator's projection).
+		// http://blog.whatclinic.com/2008/10/how-to-make-google-static-maps-interactive.html
+		if (point != mCenterPoint) {
+			double deltaXdeg = point.longitudeDeg - mCenterPoint.longitudeDeg;
+			double deltaXpx = (deltaXdeg / 360.0) * PIXEL_COEFFICIENT * DENSITY_SCALE_FACTOR;
+
+			double centerYrad = mCenterPoint.latitudeRad;
+			double centerYprojected = Math.log((1 + Math.sin(centerYrad)) / (1 - Math.sin(centerYrad))) / 2;
+			double pointYrad = point.latitudeRad;
+			double pointYprojected = Math.log((1 + Math.sin(pointYrad)) / (1 - Math.sin(pointYrad))) / 2;
+			double deltaYprojected = centerYprojected - pointYprojected;
+			double deltaYpx = (deltaYprojected / (2 * Math.PI)) * PIXEL_COEFFICIENT * DENSITY_SCALE_FACTOR;
+
+			x += deltaXpx;
+			y += deltaYpx;
+		}
+
+		canvas.drawBitmap(mPoiBitmap, x, y, null);
 	}
 
 	// Draws a marker on the appropriate place on the map, given its longitude and latitude
