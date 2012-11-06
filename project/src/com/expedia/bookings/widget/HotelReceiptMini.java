@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import android.content.Context;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -165,7 +166,7 @@ public class HotelReceiptMini extends FrameLayout {
 	}
 
 	public void updateData(Property selectedProperty, SearchParams searchParams, Rate selectedRate) {
-		mRoomTypeTextView.setText(selectedRate.getRatePlanName());
+		mRoomTypeTextView.setText(Html.fromHtml(selectedRate.getRoomDescription()));
 		mGuestsTextView.setText(StrUtils.formatGuests(getContext(), searchParams));
 
 		Money displayedTotal;
