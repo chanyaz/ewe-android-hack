@@ -176,6 +176,10 @@
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
     </style>
 
+    <style name="FlightThemeWithWindowBackground" parent="@style/FlightTheme">
+        <item name="android:windowBackground">@color/default_window_background</item>
+    </style>
+
     <style name="FlightTheme.OverlayMode">
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowActionBarOverlay">true</item>

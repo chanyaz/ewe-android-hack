@@ -21,6 +21,7 @@
     <color name="action_bar_text_yellow">#FEE36C</color>
     <color name="dialog_background_light">#F5F5F5</color>
     <color name="roboto_light">#fff3f3f3</color>
+    <color name="default_window_background">#fff3f3f3</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_normal">#326096</color>

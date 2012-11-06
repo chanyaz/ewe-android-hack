@@ -169,7 +169,7 @@
             android:theme="@style/FlightTheme" />
         <activity
             android:name=".activity.FlightPaymentOptionsActivity"
-            android:theme="@style/FlightTheme" >
+            android:theme="@style/FlightThemeWithWindowBackground" >
         </activity>
         <activity
             android:name=".activity.FlightPaymentContactActivity"
@@ -177,7 +177,7 @@
         </activity>
         <activity
             android:name=".activity.FlightTravelerInfoOptionsActivity"
-            android:theme="@style/FlightTheme" >
+            android:theme="@style/FlightThemeWithWindowBackground" >
         </activity>
         <activity
             android:name=".activity.BaggageFeeActivity"
