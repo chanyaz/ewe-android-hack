@@ -30,6 +30,7 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 
@@ -229,7 +230,7 @@ public class HotelReceipt extends FrameLayout {
 			addTextRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
 		}
 
-		if (LocaleUtils.getBestPriceGuaranteeUrl(getContext()) != null) {
+		if (RulesRestrictionsUtils.getBestPriceGuaranteeUrl(getContext()) != null) {
 			addExtra(mExtrasLayout, R.string.best_price_guarantee);
 		}
 

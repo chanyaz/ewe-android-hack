@@ -141,15 +141,6 @@ public class RulesRestrictionsUtils {
 		// Handle special dual-language cases
 		int resId = -1;
 		String langId = Locale.getDefault().getLanguage().toLowerCase();
-		if (pos.equals(context.getString(R.string.point_of_sale_be))) {
-			if (langId.equals("nl")) {
-				resId = R.string.best_price_guarantee_url_be_nl;
-			}
-			else if (langId.equals("fr")) {
-				resId = R.string.best_price_guarantee_url_be_fr;
-			}
-		}
-
 		if (resId != -1) {
 			return context.getString(resId);
 		}

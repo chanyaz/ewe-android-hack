@@ -37,9 +37,6 @@
     <string name="strike_template">&lt;strike&gt;%s&lt;/strike&gt;</string>
     <string name="ellipsize_text_template">%s…</string>
 
-    <!-- Just a url for best price guarantee policy -->
-    <string name="best_price_guarantee_url_be">http://www.expedia.be/nl-BE/prijsgarantie.aspx</string>
-
     <!-- Preference keys -->
     <string name="preference_clear_private_data_key">CLEAR_PRIVATE_DATA</string>
     <string name="PointOfSaleKey">point_of_sale_key</string>

@@ -283,16 +283,6 @@ public class LocaleUtils {
 		return sSiteIds.get(getPointOfSale(context));
 	}
 
-	private static Map<String, String> sBestPriceGuaranteeUrls;
-
-	public static String getBestPriceGuaranteeUrl(Context context) {
-		if (sBestPriceGuaranteeUrls == null) {
-			sBestPriceGuaranteeUrls = ResourceUtils.getStringMap(context, R.array.best_price_guarantee_urls_map);
-		}
-
-		return sBestPriceGuaranteeUrls.get(getPointOfSale(context));
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// BazaarVoice Reviews/LanguageCode stuff
 

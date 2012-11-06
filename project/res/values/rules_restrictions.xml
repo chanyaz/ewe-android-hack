@@ -226,8 +226,6 @@
 	</string-array>
 	
 	<!-- Best price guarantee URLs -->
-	<string name="best_price_guarantee_url_be_nl" tools:ignore="MissingTranslation">http://www.expedia.be/nl-BE/prijsgarantie.aspx</string>
-	<string name="best_price_guarantee_url_be_fr" tools:ignore="MissingTranslation">http://www.expedia.be/daily/stores/category/price-guarantee_fr_BE/</string>
 	<string name="best_price_guarantee_url_de" tools:ignore="MissingTranslation">http://www.expedia.de/daily/service/price-guarantee/default.aspx?rfrr=-57394</string>
 	<string name="best_price_guarantee_url_dk" tools:ignore="MissingTranslation">http://www.expedia.dk/dk/prisgaranti.aspx?rfrr=-57600</string>
 	<string name="best_price_guarantee_url_es" tools:ignore="MissingTranslation">http://www.expedia.es/garantia-de-precio.aspx?rfrr=-57600</string>
@@ -247,7 +245,6 @@
 	<!-- Map of POS to privacy policy.  Provides default for dual-language POSes (but should be handled carefully) -->
 	
 	<string-array name="best_price_guarantee_map">
-		<item>@string/point_of_sale_be</item><item>@string/best_price_guarantee_url_be_nl</item>
 		<item>@string/point_of_sale_de</item><item>@string/best_price_guarantee_url_de</item>
 		<item>@string/point_of_sale_dk</item><item>@string/best_price_guarantee_url_dk</item>
 		<item>@string/point_of_sale_es</item><item>@string/best_price_guarantee_url_es</item>
