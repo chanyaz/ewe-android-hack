@@ -278,7 +278,7 @@
     <!-- Cost Summary -->
     <string name="cost_summary">Cost Summary</string>
     <!-- Taxes and airline fees -->
-    <string name="taxes_and_airline_fees">Taxes &amp; Airline fees</string>
+    <string name="taxes_and_airline_fees">Taxes &amp; Airline Fees</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Expedia Booking Fee</string>
     <!-- Flight -->
