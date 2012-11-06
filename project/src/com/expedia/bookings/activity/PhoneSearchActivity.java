@@ -807,7 +807,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			builder.setMessage(R.string.EnableLocationSettings);
 			builder.setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
+					Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 					startActivity(intent);
 					mStartSearchOnResume = true;
 				}
