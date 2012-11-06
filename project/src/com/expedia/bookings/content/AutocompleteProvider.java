@@ -179,10 +179,10 @@ public class AutocompleteProvider extends ContentProvider {
 			sStaticSuggestions = new ArrayList<SearchParams>(suggestions.size());
 			for (int i = 0; i < suggestions.size(); i++) {
 				SearchParams p = new SearchParams();
+				p.setSearchType(SearchType.CITY);
 				p.setQuery(suggestions.get(i));
 				p.setRegionId(regionIds.get(i));
 				p.setSearchLatLon(Double.parseDouble(latitudes.get(i)), Double.parseDouble(longitudes.get(i)));
-				p.setSearchType(SearchType.CITY);
 				sStaticSuggestions.add(p);
 			}
 
