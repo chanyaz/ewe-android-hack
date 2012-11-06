@@ -70,8 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/room_type_text_view"
             android:layout_alignParentRight="true"
-            android:textColor="@color/light_gray"
-            android:textSize="18sp"
+            android:textColor="#B5464646"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
@@ -80,8 +80,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/room_type_text_view"
             android:layout_marginRight="8dp"
-            android:textColor="@color/dark_blue"
-            android:textSize="18sp"
+            android:drawableLeft="@drawable/ic_calendar_receipt"
+            android:drawablePadding="4dp"
+            android:textColor="#B5464646"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
@@ -90,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/dates_text_view"
             android:layout_alignParentRight="true"
-            android:textColor="@color/dark_blue"
+            android:textColor="#206194"
             android:textSize="18sp"
             android:textStyle="bold" />
     </RelativeLayout>
