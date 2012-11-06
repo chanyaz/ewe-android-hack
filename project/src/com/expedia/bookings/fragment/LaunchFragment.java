@@ -113,7 +113,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_launch, container, false);
+		final View v = inflater.inflate(R.layout.fragment_launch, container, false);
 
 		mErrorContainer = Ui.findView(v, R.id.error_container);
 		mScrollContainer = Ui.findView(v, R.id.scroll_container);
@@ -133,6 +133,23 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
+
+		// H833 If the prompt is too wide on this POS/in this language, then hide it
+		// (and also hide its sibling to maintain a consistent look)
+		// Wrap this in a Runnable so as to happen after the TextViews have been measured
+		Ui.findView(v, R.id.hotels_prompt_text_view).post(new Runnable() {
+			@Override
+			public void run() {
+				View hotelPrompt = Ui.findView(v, R.id.hotels_prompt_text_view);
+				View hotelIcon = Ui.findView(v, R.id.big_hotel_icon);
+				View flightsPrompt = Ui.findView(v, R.id.flights_prompt_text_view);
+				View flightsIcon = Ui.findView(v, R.id.big_flights_icon);
+				if (hotelPrompt.getLeft() < hotelIcon.getRight() || flightsPrompt.getLeft() < flightsIcon.getRight()) {
+					hotelPrompt.setVisibility(View.INVISIBLE);
+					flightsPrompt.setVisibility(View.INVISIBLE);
+				}
+			}
+		});
 
 		mHotelsStreamListView.setScrollMultiplier(2.0);
 		mFlightsStreamListView.setScrollMultiplier(1.0);
