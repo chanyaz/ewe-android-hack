@@ -196,7 +196,12 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				}
 				updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
 
-				mDatesTextView.performClick();
+				if (!mIsLandscape) {
+					mDatesTextView.performClick();
+				}
+				else {
+					mArrivalAirportEditText.clearFocus();
+				}
 			}
 		});
 
