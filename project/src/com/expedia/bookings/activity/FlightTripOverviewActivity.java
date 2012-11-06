@@ -1,7 +1,7 @@
 package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -45,6 +45,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -515,11 +516,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
-		Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-		Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
-		String dateRange = DateUtils.formatDateRange(this, depDate.getTimeInMillis(),
-				retDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY
-						| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+		Date depDate = DateTimeUtils
+				.getTimeInLocalTimeZone(trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime());
+		Date retDate = DateTimeUtils.getTimeInLocalTimeZone(trip.getLeg(trip.getLegCount() - 1).getLastWaypoint()
+				.getMostRelevantDateTime());
+		String dateRange = DateUtils.formatDateRange(this, depDate.getTime(), retDate.getTime(),
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
+						| DateUtils.FORMAT_ABBREV_MONTH);
 
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
