@@ -68,6 +68,10 @@
         <item name="android:background">@drawable/edit_text_holo_light</item>
     </style>
 
+    <style name="Widget.RadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+		<item name="android:button">@drawable/btn_radio_holo_dark</item>
+    </style>
+
     <style name="Widget.EditText.Phone.Dark">
         <item name="android:background">@drawable/edit_text_holo_dark</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>

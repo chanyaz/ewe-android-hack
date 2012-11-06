@@ -171,11 +171,22 @@
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
+
+        <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
+        <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
     </style>
 
     <style name="FlightTheme.OverlayMode">
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <!--
+	   We need this theme to set styles on inflated action bar widgets.  The parent is
+	   configured the same way as it is in ABS.
+    -->
+    <style name="FlightActionBarWidgetTheme" parent="@style/Theme.Sherlock">
+        <item name="android:radioButtonStyle">@style/Widget.RadioButton</item>
     </style>
 
     <style name="FlightActionBar" parent="Widget.Sherlock.ActionBar">
