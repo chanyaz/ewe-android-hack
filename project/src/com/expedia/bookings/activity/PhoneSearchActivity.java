@@ -1708,12 +1708,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void setDisplayType(DisplayType displayType, boolean animate) {
 		boolean currentIsSearchDisplay = mDisplayType.isSearchDisplay();
 		boolean nextIsSearchDisplay = displayType.isSearchDisplay();
-		if (!currentIsSearchDisplay && nextIsSearchDisplay) {
+		if (nextIsSearchDisplay) {
 			if (mEditedSearchParams == null) {
 				mEditedSearchParams = Db.getSearchParams().copy();
 			}
 		}
 		else if (currentIsSearchDisplay && !nextIsSearchDisplay) {
+			// We are leaving edit search params mode
 			mEditedSearchParams = null;
 		}
 
