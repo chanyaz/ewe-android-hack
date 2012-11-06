@@ -10,5 +10,6 @@ public class HotelWebViewActivity extends FlightWebViewActivity {
 		super.onCreate(savedInstanceState);
 
 		getSupportActionBar().setLogo(R.drawable.ic_logo_hotels);
+		getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_action_bar));
 	}
 }

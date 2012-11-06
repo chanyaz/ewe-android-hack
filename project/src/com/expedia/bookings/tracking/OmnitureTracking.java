@@ -74,6 +74,8 @@ public class OmnitureTracking {
 	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_SAVE = "App.Hotels.Checkout.Traveler.Edit.Save";
 	private static final String HOTELS_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Hotels.Checkout.Traveler.EnterManually";
 
+	private static final String HOTELS_CHECKOUT_WARSAW = "App.Hotels.Checkout.Warsaw";
+
 	private static final String HOTELS_CHECKOUT_PAYMENT_SELECT = "App.Hotels.Checkout.Payment.Select";
 	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_ADDRESS = "App.Hotels.Checkout.Payment.Edit.Address";
 	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_CARD = "App.Hotels.Checkout.Payment.Edit.Card";
@@ -649,6 +651,12 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelsCheckoutSlideToPurchase(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_SLIDE_TO_PURCHASE);
+	}
+
+	// Rules
+
+	public static void trackPageLoadHotelsCheckoutWarsaw(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_WARSAW);
 	}
 
 	// CVV Checkout
