@@ -63,6 +63,12 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CHECKOUT_CONFIRMATION = "App.Flight.Checkout.Confirmation";
 
 	// Hotels
+	private static final String HOTELS_ROOMS_RATES = "App.Hotels.RoomsRates";
+	private static final String HOTELS_RATE_DETAILS = "App.Hotels.RateDetails";
+
+	private static final String HOTELS_CHECKOUT_INFO = "App.Hotels.Checkout.Info";
+	private static final String HOTELS_CHECKOUT_LOGIN = "App.Hotels.Checkout.Login";
+
 	private static final String HOTELS_CHECKOUT_TRAVELER_SELECT = "App.Hotels.Checkout.Traveler.Select";
 	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
 	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_SAVE = "App.Hotels.Checkout.Traveler.Edit.Save";
@@ -526,6 +532,22 @@ public class OmnitureTracking {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Hotels tracking events
+
+	public static void trackPageLoadHotelsRoomsRates(Context context) {
+		internalTrackLink(context, HOTELS_ROOMS_RATES);
+	}
+
+	public static void trackPageLoadHotelsRateDetails(Context context) {
+		internalTrackLink(context, HOTELS_RATE_DETAILS);
+	}
+
+	public static void trackPageLoadHotelsCheckoutInfo(Context context) {
+		internalTrackLink(context, HOTELS_CHECKOUT_INFO);
+	}
+
+	public static void trackPageLoadHotelsCheckoutLogin(Context context) {
+		internalTrackLink(context, HOTELS_CHECKOUT_LOGIN);
+	}
 
 	public static void trackLinkHotelRefineName(Context context, String refinement) {
 		String link = HOTELS_SEARCH_REFINE_NAME + "." + refinement;

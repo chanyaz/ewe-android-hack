@@ -41,6 +41,7 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
@@ -508,6 +509,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mBookingOverviewFragmentListener.checkoutStarted();
 		}
 
+		if (!mInCheckout) {
+			OmnitureTracking.trackPageLoadHotelsCheckoutInfo(getActivity());
+		}
+
 		mInCheckout = true;
 		setScrollSpacerViewHeight();
 
@@ -532,6 +537,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void endCheckout() {
 		if (mBookingOverviewFragmentListener != null) {
 			mBookingOverviewFragmentListener.checkoutEnded();
+		}
+
+		if (mInCheckout) {
+			OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 		}
 
 		mInCheckout = false;
@@ -601,6 +610,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	@Override
 	public void accountLoginClicked() {
 		SignInFragment.newInstance(false).show(getFragmentManager(), getString(R.string.tag_signin));
+		OmnitureTracking.trackPageLoadHotelsCheckoutLogin(getActivity());
 	}
 
 	@Override
