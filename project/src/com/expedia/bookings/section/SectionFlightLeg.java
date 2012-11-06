@@ -59,7 +59,7 @@ public class SectionFlightLeg extends LinearLayout {
 
 		mFlightLegSummary.bind(null, leg);
 
-		Calendar cal = (isOutbound() ? leg.getFirstWaypoint() : leg.getLastWaypoint()).getMostRelevantDateTime();
+		Calendar cal = leg.getFirstWaypoint().getMostRelevantDateTime();//We always label with the day the flight (leg) departs
 		long time = DateTimeUtils.getTimeInLocalTimeZone(cal).getTime();
 		String formattedDate = DateUtils.formatDateTime(getContext(), time, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_SHOW_WEEKDAY
