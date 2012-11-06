@@ -146,7 +146,7 @@
             android:name=".activity.FlightSearchActivity"
             android:label="Expedia Flights"
             android:theme="@style/FlightTheme.NoBackground"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="stateUnchanged" >
         </activity>
         <activity
             android:name=".activity.FlightSearchResultsActivity"
@@ -157,7 +157,8 @@
             android:theme="@style/FlightTheme.NoBackground" />
         <activity
             android:name=".activity.FlightSearchOverlayActivity"
-            android:theme="@style/FlightTheme.Transparent" />
+            android:theme="@style/FlightTheme.Transparent"
+            android:windowSoftInputMode="stateUnchanged" />
         <activity
             android:name=".activity.FlightTripOverviewActivity"
             android:label="Overview"
