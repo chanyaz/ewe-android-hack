@@ -74,7 +74,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 	@Override
 	public CharSequence convertToString(Cursor cursor) {
-		return cursor.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_QUERY);
+		return cursor.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_2);
 	}
 
 	@Override

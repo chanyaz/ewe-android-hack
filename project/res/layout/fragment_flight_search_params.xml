@@ -54,8 +54,8 @@
                 android:drawablePadding="8dp"
                 android:ellipsize="end"
                 android:hint="@string/hint_departure_airport"
-                android:imeOptions="flagNoExtractUi|actionNext"
-                android:inputType="textCapWords|textNoSuggestions|textVisiblePassword"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords|textNoSuggestions"
                 android:popupBackground="@drawable/bg_autocomplete"
                 android:singleLine="true"
                 android:textColor="@android:color/black" />
@@ -70,8 +70,8 @@
                 android:drawablePadding="8dp"
                 android:ellipsize="end"
                 android:hint="@string/hint_arrival_airport"
-                android:imeOptions="flagNoExtractUi|actionNext"
-                android:inputType="textCapWords|textNoSuggestions|textVisiblePassword"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords|textNoSuggestions"
                 android:popupBackground="@drawable/bg_autocomplete"
                 android:singleLine="true"
                 android:textColor="@android:color/black" />
