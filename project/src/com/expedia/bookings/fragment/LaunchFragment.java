@@ -52,6 +52,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.LaunchFlightAdapter;
 import com.expedia.bookings.widget.LaunchHotelAdapter;
 import com.expedia.bookings.widget.LaunchHotelFallbackAdapter;
@@ -718,6 +719,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 			FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
 			flightSearchParams.setArrivalLocation(location);
+
+			// F1304: Add this tile to recently selected airports
+			AirportDropDownAdapter.addAirportToRecents(getActivity(), location);
 
 			// Make sure to delete ConfirmationState if it exists
 			ConfirmationState confirmationState = new ConfirmationState(mContext, ConfirmationState.Type.FLIGHT);

@@ -136,4 +136,9 @@ public class AirportDropDownAdapter extends CursorAdapter {
 		}
 	}
 
+	public static void addAirportToRecents(Context context, Location location) {
+		RecentList<Location> recents = new RecentList<Location>(Location.class, context, RECENT_AIRPORTS_FILE);
+		recents.addItem(location);
+		recents.saveList(context, RECENT_AIRPORTS_FILE);
+	}
 }
