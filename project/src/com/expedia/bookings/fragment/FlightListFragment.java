@@ -138,7 +138,14 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		// Setup data
 		mAdapter.setLegPosition(mLegPosition);
 
-		mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
+		if (mLegPosition > 0) {
+			FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegPosition - 1);
+			mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition), previousQuery.getMinTime(),
+					previousQuery.getMaxTime());
+		}
+		else {
+			mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
+		}
 
 		if (mLegPosition == 0) {
 			if (mIsLandscape) {

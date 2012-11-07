@@ -37,6 +37,10 @@ public class FlightAdapter extends BaseAdapter {
 	}
 
 	public void setFlightTripQuery(FlightTripQuery query) {
+		setFlightTripQuery(query, null, null);
+	}
+
+	public void setFlightTripQuery(FlightTripQuery query, Calendar minTime, Calendar maxTime) {
 		if (query != mFlightTripQuery) {
 			if (mFlightTripQuery != null) {
 				mFlightTripQuery.unregisterDataSetObserver(mDataSetObserver);
@@ -47,8 +51,20 @@ public class FlightAdapter extends BaseAdapter {
 			if (mFlightTripQuery != null) {
 				mFlightTripQuery.registerDataSetObserver(mDataSetObserver);
 
-				mMinTime = mFlightTripQuery.getMinTime();
-				mMaxTime = mFlightTripQuery.getMaxTime();
+				mMinTime = (Calendar) mFlightTripQuery.getMinTime().clone();
+				mMaxTime = (Calendar) mFlightTripQuery.getMaxTime().clone();
+
+				// F1306: Make current timelines relative to old timelines, if the old
+				// timeline has a longer span.
+				if (minTime != null && minTime != null) {
+					long duration = mMaxTime.getTimeInMillis() - mMinTime.getTimeInMillis();
+					long lastDuration = maxTime.getTimeInMillis() - minTime.getTimeInMillis();
+					if (duration < lastDuration) {
+						int toAdd = (int) ((lastDuration - duration) / 2);
+						mMinTime.add(Calendar.MILLISECOND, -toAdd);
+						mMaxTime.add(Calendar.MILLISECOND, toAdd);
+					}
+				}
 			}
 
 			notifyDataSetChanged();
