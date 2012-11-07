@@ -282,7 +282,9 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 		if (position >= firstPosition && position <= lastPosition) {
 			View v = mListView.getChildAt(position - firstPosition);
-			return new Pair<Integer, Integer>(v.getTop(), v.getBottom());
+			// F1302: Need to account for top padding in listview when calculating top/bottom
+			int paddingTop = mListView.getPaddingTop();
+			return new Pair<Integer, Integer>(v.getTop() - paddingTop, v.getBottom() - paddingTop);
 		}
 		else {
 			// Find the first visible card and use that as measurement
