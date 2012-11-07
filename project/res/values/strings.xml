@@ -144,7 +144,7 @@
     <string name="round_trip_price_TEMPLATE">Round trip from &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Book now for &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Book now info label, when there are only a few seats left -->
+    <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">%1$s left at &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="one">%1$s left at &lt;b&gt;%2$s&lt;/b&gt;</item>
