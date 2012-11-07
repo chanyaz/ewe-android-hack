@@ -147,6 +147,10 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 				mSectionFlightLeg.setVisibility(View.GONE);
 			}
 			else {
+				// F1295: Even though it's invisible, bind it some random FlightLeg.  Otherwise,
+				// the FlightLegSummarySection won't take up as much space as it will when we
+				// are actually going to show it later.
+				mSectionFlightLeg.bind(null, Db.getFlightSearch().queryTrips(0).getTrips().get(0).getLeg(0));
 				mSectionFlightLeg.setVisibility(View.INVISIBLE);
 			}
 		}
