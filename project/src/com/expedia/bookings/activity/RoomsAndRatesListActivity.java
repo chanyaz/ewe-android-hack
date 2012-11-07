@@ -184,8 +184,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			// app icon in action bar clicked; go back
-			Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
-			NavUtils.navigateUpTo(this, intent);
+			onBackPressed();
 			finish();
 			return true;
 		default:
