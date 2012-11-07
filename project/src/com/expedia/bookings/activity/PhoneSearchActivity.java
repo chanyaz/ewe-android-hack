@@ -656,6 +656,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 				showLoading(true, R.string.progress_searching_hotels);
 			}
+			else {
+				hideLoading();
+			}
 		}
 
 		mIsActivityResumed = true;
