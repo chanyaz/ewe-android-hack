@@ -69,7 +69,7 @@
     </style>
 
     <style name="Widget.RadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
-		<item name="android:button">@drawable/btn_radio_holo_dark</item>
+        <item name="android:button">@drawable/btn_radio_holo_dark</item>
     </style>
 
     <style name="Widget.EditText.Phone.Dark">
@@ -258,7 +258,7 @@
     <style name="Widget.EditText" parent="@android:style/Widget.EditText">
         <item name="android:background">@drawable/edit_text</item>
     </style>
-    
+
     <style name="Widget.EditText.Flights" parent="@android:style/Widget.EditText">
         <item name="android:background">@drawable/edit_text_holo_light</item>
     </style>
@@ -571,7 +571,7 @@
     <style name="Widget.Spinner.Phone.Flights" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_holo_light</item>
     </style>
-    
+
     <style name="FakeSpinner" parent="@android:style/Widget.Holo.Light.Spinner">
         <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
         <item name="android:paddingLeft">12dp</item>
@@ -715,6 +715,10 @@
     <style name="DropDownListView" parent="@android:style/Widget.ListView.DropDown">
         <item name="android:divider">#4F4F4F</item>
         <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="DropDownListView.Flights" parent="DropDownListView">
+        <item name="android:divider">#CCCCCC</item>
     </style>
 
 </resources>
