@@ -179,18 +179,18 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
 
-	ValidationIndicatorTextColorExclaimation<Traveler> mValidFirstName = new ValidationIndicatorTextColorExclaimation<Traveler>(
+	ValidationIndicatorExclaimation<Traveler> mValidFirstName = new ValidationIndicatorExclaimation<Traveler>(
 			R.id.edit_first_name);
 
-	ValidationIndicatorTextColorExclaimation<Traveler> mValidMiddleName = new ValidationIndicatorTextColorExclaimation<Traveler>(
+	ValidationIndicatorExclaimation<Traveler> mValidMiddleName = new ValidationIndicatorExclaimation<Traveler>(
 			R.id.edit_middle_name);
-	ValidationIndicatorTextColorExclaimation<Traveler> mValidLastName = new ValidationIndicatorTextColorExclaimation<Traveler>(
+	ValidationIndicatorExclaimation<Traveler> mValidLastName = new ValidationIndicatorExclaimation<Traveler>(
 			R.id.edit_last_name);
-	ValidationIndicatorTextColorExclaimation<Traveler> mValidPhoneNumber = new ValidationIndicatorTextColorExclaimation<Traveler>(
+	ValidationIndicatorExclaimation<Traveler> mValidPhoneNumber = new ValidationIndicatorExclaimation<Traveler>(
 			R.id.edit_phone_number);
-	ValidationIndicatorTextColorExclaimation<Traveler> mValidDateOfBirth = new ValidationIndicatorTextColorExclaimation<Traveler>(
+	ValidationIndicatorExclaimation<Traveler> mValidDateOfBirth = new ValidationIndicatorExclaimation<Traveler>(
 			R.id.edit_birth_date_text_btn);
-	ValidationIndicatorTextColorExclaimation<Traveler> mValidRedressNumber = new ValidationIndicatorTextColorExclaimation<Traveler>(
+	ValidationIndicatorExclaimation<Traveler> mValidRedressNumber = new ValidationIndicatorExclaimation<Traveler>(
 			R.id.edit_redress_number);
 
 	//////////////////////////////////////

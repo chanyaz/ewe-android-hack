@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -33,8 +31,6 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
-import com.expedia.bookings.widget.NumberPicker;
-import com.expedia.bookings.widget.NumberPicker.Formatter;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -290,19 +286,19 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
-	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorExclaimation<BillingInfo>(
 			R.id.edit_creditcard_number);
-	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclaimation<BillingInfo>(
 			R.id.edit_name_on_card);
-	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorExclaimation<BillingInfo>(
 			R.id.edit_first_name);
-	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidLastName = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidLastName = new ValidationIndicatorExclaimation<BillingInfo>(
 			R.id.edit_last_name);
-	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorExclaimation<BillingInfo>(
 			R.id.edit_phone_number);
-	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidEmail = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidEmail = new ValidationIndicatorExclaimation<BillingInfo>(
 			R.id.edit_email_address);
-	ValidationIndicatorTextColorExclaimation<BillingInfo> mValidExpiration = new ValidationIndicatorTextColorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidExpiration = new ValidationIndicatorExclaimation<BillingInfo>(
 			R.id.edit_creditcard_exp_text_btn);
 
 	//////////////////////////////////////

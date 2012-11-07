@@ -180,15 +180,15 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
-	ValidationIndicatorTextColorExclaimation<Location> mValidAddrLineOne = new ValidationIndicatorTextColorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidAddrLineOne = new ValidationIndicatorExclaimation<Location>(
 			R.id.edit_address_line_one);
-	ValidationIndicatorTextColorExclaimation<Location> mValidAddrLineTwo = new ValidationIndicatorTextColorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidAddrLineTwo = new ValidationIndicatorExclaimation<Location>(
 			R.id.edit_address_line_two);
-	ValidationIndicatorTextColorExclaimation<Location> mValidCity = new ValidationIndicatorTextColorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidCity = new ValidationIndicatorExclaimation<Location>(
 			R.id.edit_address_city);
-	ValidationIndicatorTextColorExclaimation<Location> mValidState = new ValidationIndicatorTextColorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidState = new ValidationIndicatorExclaimation<Location>(
 			R.id.edit_address_state);
-	ValidationIndicatorTextColorExclaimation<Location> mValidPostalCode = new ValidationIndicatorTextColorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidPostalCode = new ValidationIndicatorExclaimation<Location>(
 			R.id.edit_address_postal_code);
 
 	//////////////////////////////////////
