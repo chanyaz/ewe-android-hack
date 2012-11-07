@@ -2311,10 +2311,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				changed |= searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
 				searchParams.setSearchLatLonUpToDate();
 			}
+			else if (searchParams.getSearchType() != SearchType.FREEFORM) {
+				// Got here if the user clicked a search suggestion
+			}
 			else {
-				//TODO: Always changing it to FREEFORM here might not be right,
-				// only when the user types something.
-				changed |= searchParams.setSearchType(SearchType.FREEFORM);
 				changed |= searchParams.setQuery(str);
 			}
 			if (changed) {
@@ -2390,17 +2390,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			}
 			else {
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
-				SearchParams searchParams = new SearchParams(prefs);
-				Db.setSearchParams(searchParams);
+				mEditedSearchParams = new SearchParams(prefs);
 
 				Object o = AutocompleteProvider.extractSearchOrString(c);
 
 				if (o instanceof Search) {
-					searchParams.fillFromSearch((Search) o);
+					mEditedSearchParams.fillFromSearch((Search) o);
 				}
 				else {
-					searchParams.setSearchType(SearchType.FREEFORM);
-					searchParams.setQuery(o.toString());
+					mEditedSearchParams.setSearchType(SearchType.FREEFORM);
+					mEditedSearchParams.setQuery(o.toString());
 				}
 			}
 
