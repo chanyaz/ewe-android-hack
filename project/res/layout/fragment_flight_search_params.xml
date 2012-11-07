@@ -53,6 +53,8 @@
                 android:drawableLeft="@drawable/ic_field_depart"
                 android:drawablePadding="8dp"
                 android:ellipsize="end"
+                android:nextFocusRight="@+id/arrival_airport_edit_text"
+                android:nextFocusDown="@+id/arrival_airport_edit_text"
                 android:hint="@string/hint_departure_airport"
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords|textNoSuggestions"

@@ -196,26 +196,23 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				}
 				updateAirportText(mArrivalAirportEditText, mSearchParams.getArrivalLocation());
 
-				if (!mIsLandscape) {
-					mDatesTextView.performClick();
-				}
-				else {
-					mArrivalAirportEditText.clearFocus();
-				}
+				onArrivalInputComplete();
 			}
 		});
 
 		mArrivalAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_NEXT) {
-					mDatesTextView.performClick();
+				if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE) {
+					onArrivalInputComplete();
 					return true;
 				}
 
 				return false;
 			}
 		});
+
+		mArrivalAirportEditText.setImeOptions(mIsLandscape ? EditorInfo.IME_ACTION_DONE : EditorInfo.IME_ACTION_NEXT);
 
 		if (savedInstanceState == null) {
 			// Fill in the initial departure/arrival airports if we are just launching
@@ -436,6 +433,15 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		});
 		anim.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
 		anim.start();
+	}
+	
+	private void onArrivalInputComplete() {
+		if (!mIsLandscape) {
+			mDatesTextView.performClick();
+		}
+		else {
+			mArrivalAirportEditText.clearFocus();
+		}
 	}
 
 	private void resetAirportEditTexts() {
