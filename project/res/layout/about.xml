@@ -83,7 +83,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="10dp"
-                android:text="@string/open_source_credits"
+                android:text="@string/open_source_names"
+                android:textColor="#232323" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:text="@string/stack_blur_credit"
                 android:textColor="#232323" />
         </LinearLayout>
     </ScrollView>

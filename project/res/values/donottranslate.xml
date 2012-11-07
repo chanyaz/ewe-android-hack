@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Names of the open source libraries we use -->
+    <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
+    <string name="open_source_names">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0, DiskLruCache 1.2.1</string>
+
     <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
     <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
 
