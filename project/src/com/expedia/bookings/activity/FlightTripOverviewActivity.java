@@ -64,7 +64,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public static final String STATE_TAG_UNSTACKED_HEIGHT = "STATE_TAG_UNSTACKED_HEIGHT";
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
 
-	public static final int ANIMATION_DURATION = 1000;
+	public static final int ANIMATION_DURATION = 450;
 
 	//We only want to load from disk once: when the activity is first started
 	private boolean mLoadedDbInfo = false;

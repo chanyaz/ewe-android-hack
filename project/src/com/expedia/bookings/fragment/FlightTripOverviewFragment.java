@@ -29,7 +29,7 @@ public class FlightTripOverviewFragment extends Fragment {
 	private static final String ARG_TRIP_KEY = "ARG_TRIP_KEY";
 	private static final String ARG_DISPLAY_MODE = "ARG_DISPLAY_MODE";
 	private static final int ID_START_RANGE = Integer.MAX_VALUE - 100;
-	private static final int ANIMATION_DURATION = 1000;
+	private static final int ANIMATION_DURATION = 450;
 	//The margin between cards when expanded
 	private static final int FLIGHT_LEG_TOP_MARGIN = 20;
 
