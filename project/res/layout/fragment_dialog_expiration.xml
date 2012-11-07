@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialog_background_light"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="0dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@android:id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:text="@string/expiration_date"
+            android:textColor="@color/flights_holo_blue_light"
+            android:textSize="22sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/flights_holo_blue_light" />
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.ExpirationPicker
+        android:id="@+id/expiration_date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
+        android:background="@color/hotel_details_separator" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/negative_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_signin_dialog_button"
+            android:text="@android:string/cancel"
+            android:textSize="14sp" />
+
+        <View
+            android:id="@+id/vertical_sep"
+            android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+            android:layout_height="match_parent"
+            android:background="@color/hotel_details_separator" />
+
+        <Button
+            android:id="@+id/positive_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_signin_dialog_button"
+            android:text="@string/btn_set"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>
