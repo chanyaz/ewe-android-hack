@@ -36,7 +36,6 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.PaymentFlowState;
-import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
@@ -349,7 +348,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private void populatePaymentDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
 			//Populate Credit Card only if the user doesn't have any manually entered (or selected) data
-			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0
+			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() == 1
 					&& !hasSomeManuallyEnteredData(mBillingInfo) && mBillingInfo.getStoredCard() == null) {
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
@@ -367,9 +366,9 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			//Populate traveler data
 			if (Db.getTravelers() != null && Db.getTravelers().size() >= 1) {
 				//If the first traveler is not already all the way filled out, and the default profile for the expedia account has all required data, use the account profile
-				TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-				if (!state.hasValidTravelerPartOne(Db.getTravelers().get(0))) {
-					if (state.hasValidTravelerPartOne(Db.getUser().getPrimaryTraveler())) {
+				HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(getActivity());
+				if (!state.hasValidTraveler(Db.getTravelers().get(0))) {
+					if (state.hasValidTraveler(Db.getUser().getPrimaryTraveler())) {
 						Db.getTravelers().set(0, Db.getUser().getPrimaryTraveler());
 					}
 				}
