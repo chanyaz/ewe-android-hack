@@ -143,7 +143,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private enum DisplayType {
-		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), FILTER(true);
+		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), FILTER(false);
 
 		private boolean mIsSearchDisplay;
 
