@@ -2311,10 +2311,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				changed |= searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
 				searchParams.setSearchLatLonUpToDate();
 			}
-			else if (searchParams.getSearchType() != SearchType.FREEFORM) {
-				// Got here if the user clicked a search suggestion
-			}
 			else {
+				//TODO: Always changing it to FREEFORM here might not be right,
+				// only when the user types something.
+				changed |= searchParams.setSearchType(SearchType.FREEFORM);
 				changed |= searchParams.setQuery(str);
 			}
 			if (changed) {
