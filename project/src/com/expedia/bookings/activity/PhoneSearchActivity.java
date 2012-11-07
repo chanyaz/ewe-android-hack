@@ -1194,7 +1194,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		//===================================================================
 		// Listeners
 		mSearchEditText.setOnFocusChangeListener(mSearchEditTextFocusChangeListener);
-		mSearchEditText.setOnItemClickListener(mSearchSuggestionsItemClickListner);
+		mSearchEditText.setOnItemClickListener(mSearchSuggestionsItemClickListener);
 		mSearchEditText.setOnEditorActionListener(mSearchEditorActionListener);
 		mDatesButton.setOnClickListener(mDatesButtonClickListener);
 		mGuestsButton.setOnClickListener(mGuestsButtonClickListener);
@@ -2379,7 +2379,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// EVENT LISTENERS
 	//----------------------------------
 
-	private final AdapterView.OnItemClickListener mSearchSuggestionsItemClickListner = new AdapterView.OnItemClickListener() {
+	private final AdapterView.OnItemClickListener mSearchSuggestionsItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 			Cursor c = mSearchSuggestionAdapter.getCursor();
