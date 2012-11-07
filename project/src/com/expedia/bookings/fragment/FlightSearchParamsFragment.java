@@ -40,6 +40,7 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.animation.AnimationListenerAdapter;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -267,6 +268,22 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		updateCalendarText();
 		updateCalendarInstructionText();
 
+		if (savedInstanceState == null
+				&& getActivity().getIntent().getBooleanExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS,
+						false)) {
+			mDepartureAirportEditText.requestFocus();
+
+			// Dumb hack to get IME to show.  Without delaying this doesn't work (for some dumb reason) 
+			mDepartureAirportEditText.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+							Context.INPUT_METHOD_SERVICE);
+					imm.showSoftInput(mDepartureAirportEditText, 0);
+				}
+			}, 250);
+		}
+
 		return v;
 	}
 
@@ -434,7 +451,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		anim.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
 		anim.start();
 	}
-	
+
 	private void onArrivalInputComplete() {
 		if (!mIsLandscape) {
 			mDatesTextView.performClick();

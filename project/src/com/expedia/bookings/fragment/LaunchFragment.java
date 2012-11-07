@@ -718,6 +718,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			location.setDescription(destination.getDescription());
 
 			FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
+			flightSearchParams.reset();  // F1303: clear all params on tile click
 			flightSearchParams.setArrivalLocation(location);
 
 			// F1304: Add this tile to recently selected airports
