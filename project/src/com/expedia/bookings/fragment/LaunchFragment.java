@@ -109,6 +109,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	private boolean mCleanOnStop = false;
 
+	private SearchParams mSearchParams;
+
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
 	}
@@ -335,9 +337,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private void startHotelSearch(Location loc) {
 		Log.i("Start hotel search");
 
-		SearchParams searchParams = new SearchParams();
-		searchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
-		Db.setSearchParams(searchParams);
+		mSearchParams = new SearchParams();
+		mSearchParams.setSearchLatLon(loc.getLatitude(), loc.getLongitude());
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_SEARCH);
@@ -349,7 +350,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		public SearchResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
-			return services.search(Db.getSearchParams(), 0);
+			return services.search(mSearchParams, 0);
 		}
 	};
 
@@ -367,6 +368,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				// sending the user through another network request when jumping to Hotels). If there already exists a 
 				// Search response in the Db, do not flush it out.
 				if (Db.getSearchResponse() == null) {
+					Db.setSearchParams(mSearchParams);
 					Db.setSearchResponse(searchResponse);
 				}
 
