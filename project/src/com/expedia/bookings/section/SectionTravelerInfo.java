@@ -128,7 +128,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		for (SectionField<?, Traveler> field : mFields) {
 			if (field instanceof SectionFieldEditable) {
 				editable = (SectionFieldEditable<?, Traveler>) field;
+
 				boolean newIsValid = editable.isValid();
+
 				valid = (valid && newIsValid);
 			}
 		}
@@ -600,6 +602,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 							datePickerFragment = DatePickerFragment.newInstance(date, listener);
 						}
 						datePickerFragment.show(fa.getSupportFragmentManager(), TAG_DATE_PICKER);
+					}
+				});
+
+				field.addTextChangedListener(new AfterChangeTextWatcher() {
+					@Override
+					public void afterTextChanged(Editable s) {
+						//Fixes rotation bug...
+						onChange(SectionTravelerInfo.this);
 					}
 				});
 			}

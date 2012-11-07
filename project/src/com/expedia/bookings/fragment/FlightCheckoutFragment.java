@@ -485,7 +485,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private void populatePaymentDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
 			//Populate Credit Card only if the user doesn't have any manually entered (or selected) data
-			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0
+			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() == 1
 					&& !hasSomeManuallyEnteredData(mBillingInfo) && mBillingInfo.getStoredCard() == null) {
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
