@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.graphics.ResilientBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 

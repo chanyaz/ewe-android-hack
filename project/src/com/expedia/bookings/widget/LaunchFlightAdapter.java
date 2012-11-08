@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import com.expedia.bookings.data.LaunchFlightData;
 import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.graphics.ResilientBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 

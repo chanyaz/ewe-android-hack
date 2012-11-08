@@ -14,6 +14,7 @@ import com.expedia.bookings.data.LaunchHotelFallbackData;
 import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.graphics.ResilientBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 
