@@ -482,7 +482,9 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			height = mSlideToPurchaseLayout.getHeight() + paddingBottom;
 		}
 		else {
-			height = mScrollView.getHeight() - mLegalInformationTextView.getBottom();
+			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 8f);
+			height = mScrollView.getHeight() - mCheckoutLayout.getHeight() - mScrollViewListener.getReceiptMiniHeight()
+					- paddingBottom;
 		}
 
 		if (height < 0) {
@@ -572,10 +574,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase(getActivity());
 			}
 		}).start();
-
-		if (!animate) {
-			mSlideToPurchaseLayout.clearAnimation();
-		}
 
 		mSlideToPurchaseLayout.setVisibility(View.VISIBLE);
 		setScrollSpacerViewHeight();
@@ -778,6 +776,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		public int getCheckoutY() {
 			return mCheckoutY;
+		}
+
+		public int getReceiptMiniHeight() {
+			return mReceiptMiniHeight;
 		}
 
 		@Override
