@@ -100,6 +100,10 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 		mCheckoutMenuItem = menu.findItem(R.id.menu_checkout);
 		mCheckoutMenuItem.setActionView(tv);
 
+		if (mBookingOverviewFragment != null) {
+			mCheckoutMenuItem.setVisible(!mBookingOverviewFragment.inCheckout());
+		}
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -128,12 +132,16 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void checkoutStarted() {
-		mCheckoutMenuItem.setVisible(false);
+		if (mCheckoutMenuItem != null) {
+			mCheckoutMenuItem.setVisible(false);
+		}
 	}
 
 	@Override
 	public void checkoutEnded() {
-		mCheckoutMenuItem.setVisible(true);
+		if (mCheckoutMenuItem != null) {
+			mCheckoutMenuItem.setVisible(true);
+		}
 	}
 
 	@Override
