@@ -29,7 +29,17 @@ public class SearchParams implements JSONable {
 	private static final String SEARCH_PARAMS_KEY = "searchParams";
 
 	public static enum SearchType {
-		MY_LOCATION, ADDRESS, POI, CITY, VISIBLE_MAP_AREA, FREEFORM
+		MY_LOCATION(true), ADDRESS(true), POI(true), CITY(false), VISIBLE_MAP_AREA(false), FREEFORM(false);
+
+		private boolean mShouldShowDistance;
+
+		private SearchType(boolean shouldShowDistance) {
+			mShouldShowDistance = shouldShowDistance;
+		}
+
+		public boolean shouldShowDistance() {
+			return mShouldShowDistance;
+		}
 	}
 
 	private SearchType mSearchType = SearchType.MY_LOCATION;

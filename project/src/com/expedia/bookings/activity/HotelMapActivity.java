@@ -78,6 +78,7 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 
 		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_single_hotel_map));
 		mHotelMapFragment.setShowSingleProperty(true);
+		mHotelMapFragment.setShowDistances(Db.getSearchParams().getSearchType().shouldShowDistance());
 		mHotelMapFragment.notifySearchLocationFound();
 
 		Property property = Db.getSelectedProperty();

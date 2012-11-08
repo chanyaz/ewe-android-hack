@@ -198,6 +198,7 @@ public class HotelMapFragment extends Fragment {
 
 	public void setShowDistances(boolean showDistances) {
 		mShowDistances = showDistances;
+		updateView();
 	}
 
 	public void setShowSingleProperty(boolean showSingleProperty) {
@@ -239,6 +240,7 @@ public class HotelMapFragment extends Fragment {
 				Property property = Db.getSelectedProperty();
 				if (property != null) {
 					mHotelOverlay.setSingleProperty(property);
+					mHotelOverlay.setShowDistance(mShowDistances);
 					mMapView.invalidate();
 					mHotelOverlay.showBalloon(0, BalloonItemizedOverlay.F_FOCUS
 							+ BalloonItemizedOverlay.F_OFFSET_MARKER); // Open the popup initially
