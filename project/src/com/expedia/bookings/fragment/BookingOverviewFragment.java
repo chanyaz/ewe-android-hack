@@ -441,7 +441,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		boolean travelerValid = hasValidTravler();
 
 		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid;
-		if (mInCheckout && mShowSlideToWidget) {
+		if (getInCheckout() && mShowSlideToWidget) {
 			showPurchaseViews();
 		}
 		else {
@@ -497,8 +497,21 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mScrollSpacerView.setLayoutParams(lp);
 	}
 
-	public boolean inCheckout() {
+	public boolean getInCheckout() {
 		return mInCheckout;
+	}
+
+	public void setInCheckout(boolean inCheckout) {
+		if (mBookingOverviewFragmentListener != null) {
+			if (inCheckout && !mInCheckout) {
+				mBookingOverviewFragmentListener.checkoutStarted();
+			}
+			else if (mInCheckout) {
+				mBookingOverviewFragmentListener.checkoutEnded();
+			}
+		}
+
+		mInCheckout = inCheckout;
 	}
 
 	public void startCheckout() {
@@ -506,15 +519,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void startCheckout(final boolean animate) {
-		if (mBookingOverviewFragmentListener != null) {
-			mBookingOverviewFragmentListener.checkoutStarted();
-		}
-
-		if (!mInCheckout) {
+		if (!getInCheckout()) {
 			OmnitureTracking.trackPageLoadHotelsCheckoutInfo(getActivity());
 		}
 
-		mInCheckout = true;
+		setInCheckout(true);
 		setScrollSpacerViewHeight();
 
 		// Scroll to checkout
@@ -536,15 +545,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void endCheckout() {
-		if (mBookingOverviewFragmentListener != null) {
-			mBookingOverviewFragmentListener.checkoutEnded();
-		}
-
-		if (mInCheckout) {
+		if (getInCheckout()) {
 			OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 		}
 
-		mInCheckout = false;
+		setInCheckout(false);
 		setScrollSpacerViewHeight();
 
 		// Scroll to start
@@ -817,7 +822,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			// If we've lifted our finger that means the scroll view is scrolling
 			// with the remaining momentum. If it's scrolling down, and it's gone
 			// past the checkout state, stop it at the checkout position.
-			if (!mTouchDown && y <= oldy && oldy >= mCheckoutY && mInCheckout) {
+			if (!mTouchDown && y <= oldy && oldy >= mCheckoutY && getInCheckout()) {
 				mScrollView.scrollTo(0, (int) mCheckoutY);
 				mHotelReceipt.showMiniDetailsLayout();
 
@@ -863,7 +868,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mReceiptHeight = h;
 			measure();
 
-			if (mInCheckout) {
+			if (getInCheckout()) {
 				startCheckout(false);
 			}
 		}
