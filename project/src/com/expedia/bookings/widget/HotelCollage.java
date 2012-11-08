@@ -6,7 +6,6 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -25,6 +24,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.mobiata.android.ImageCache.OnImageLoaded;
+import com.mobiata.android.graphics.ResilientBitmapDrawable;
 
 public class HotelCollage {
 
@@ -143,7 +143,7 @@ public class HotelCollage {
 		public void onImageLoaded(String url, Bitmap bitmap) {
 			Drawable[] layers = new Drawable[2];
 			layers[0] = new ColorDrawable(Color.TRANSPARENT);
-			layers[1] = new BitmapDrawable(bitmap);
+			layers[1] = new ResilientBitmapDrawable(mPropertyImageViews.get(mCurrentIndex).getContext().getResources(), bitmap);
 			TransitionDrawable drawable = new TransitionDrawable(layers);
 
 			mPropertyImageViews.get(mCurrentIndex).setImageDrawable(drawable);
