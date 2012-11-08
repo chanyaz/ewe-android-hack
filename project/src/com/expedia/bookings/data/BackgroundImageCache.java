@@ -34,8 +34,8 @@ public class BackgroundImageCache {
 	private static final String DEFAULT_KEY = "defaultkey";
 	private static final int DECODE_IN_SAMPLE_SIZE = 1;//1 is lossless, but it takes lots of memory
 	private static final int DECODE_IN_SAMPLE_SIZE_BLURRED = 1;//1 is lossless, but it takes lots of memory
-	private static final int BLURRED_IMAGE_SIZE_REDUCTION_FACTORY = 4;
-	private static final int STACK_BLUR_RADIUS = Math.round(10 / BLURRED_IMAGE_SIZE_REDUCTION_FACTORY); //10 is what we want, but because we are shrinking the image dimensions
+	private static final int BLURRED_IMAGE_SIZE_REDUCTION_FACTOR = 4;
+	private static final int STACK_BLUR_RADIUS = Math.round(28 / BLURRED_IMAGE_SIZE_REDUCTION_FACTOR);//We divide here, so our radius reflects the size of our scaled down blurred image
 
 	public BackgroundImageCache(Context context) {
 		initMemCache();
@@ -296,8 +296,8 @@ public class BackgroundImageCache {
 
 	private Bitmap blur(Bitmap bmapToBlur) {
 		//Shrink it, we will have a lot fewer pixels, and they are going to get blurred so nobody should care...
-		int w = bmapToBlur.getWidth() / BLURRED_IMAGE_SIZE_REDUCTION_FACTORY;
-		int h = bmapToBlur.getHeight() / BLURRED_IMAGE_SIZE_REDUCTION_FACTORY;
+		int w = bmapToBlur.getWidth() / BLURRED_IMAGE_SIZE_REDUCTION_FACTOR;
+		int h = bmapToBlur.getHeight() / BLURRED_IMAGE_SIZE_REDUCTION_FACTOR;
 		Bitmap shrunk = Bitmap.createScaledBitmap(bmapToBlur, w, h, false);
 
 		//Blur and darken it
