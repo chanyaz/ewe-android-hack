@@ -1355,6 +1355,19 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		Db.resetFilter();
 	}
 
+	@Override
+	public boolean onSearchRequested() {
+		Log.d("onSearchRequested called");
+		boolean currentIsSearchDisplay = mDisplayType.isSearchDisplay();
+		if (currentIsSearchDisplay) {
+			commitEditedSearchParams();
+			startSearch();
+		}
+
+		// Returning false blocks a higher order search from launching
+		return false;
+	}
+
 	private void startSearch() {
 		Log.i("Starting a new search...");
 
