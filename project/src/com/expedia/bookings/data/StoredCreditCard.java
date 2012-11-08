@@ -3,6 +3,8 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -33,6 +35,10 @@ public class StoredCreditCard implements JSONable {
 	}
 
 	public CreditCardType getCardType() {
+		if (TextUtils.isEmpty(mType)) {
+			return null;
+		}
+
 		// Code lovingly stolen from iOS, where they note that these
 		// values are not yet verified from the API folks.
 		if (mType.equals("AmericanExpress")) {
