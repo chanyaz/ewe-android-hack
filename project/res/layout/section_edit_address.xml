@@ -79,8 +79,16 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/address_postal_code_hint"
                 android:paddingBottom="12dp"
+                android:minHeight="43dp"
                 android:singleLine="true" />
         </LinearLayout>
     </LinearLayout>
+
+    <!-- This empty view fixes a scrolling bug on older versions of android -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="50dp" />
 
 </com.expedia.bookings.section.SectionLocation>

@@ -86,4 +86,11 @@
         android:paddingTop="4dp"
         android:textSize="18dp" />
 
+    <!-- This empty view fixes a scrolling bug on older versions of android -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="50dp" />
+
 </com.expedia.bookings.section.SectionTravelerInfo>

@@ -93,4 +93,11 @@
         android:textColor="@color/data_review_grey"
         android:textSize="12sp" />
 
+    <!-- This empty view fixes a scrolling bug on older versions of android -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="50dp" />
+
 </com.expedia.bookings.section.SectionBillingInfo>

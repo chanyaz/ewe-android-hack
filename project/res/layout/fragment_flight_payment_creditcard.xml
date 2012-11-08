@@ -8,7 +8,6 @@
 
     <include
         android:id="@+id/creditcard_section"
-        android:layout_marginBottom="50dp"
         layout="@layout/section_edit_creditcard" />
 
 </ScrollView>
