@@ -313,9 +313,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				@Override
 				public void onLocationServicesDisabled() {
 					if (Db.getLaunchHotelFallbackData() == null) {
-						BackgroundDownloader bd = BackgroundDownloader.getInstance();
-						bd.cancelDownload(KEY_HOTEL_DESTINATIONS);
-						bd.startDownload(KEY_HOTEL_DESTINATIONS, mHotelsFallbackDownload, mHotelsFallbackCallback);
+						startHotelFallbackDownload();
 					}
 					else {
 						onHotelFallbackDataRetrieved();
@@ -384,9 +382,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				onHotelDataRetrieved();
 			}
 
-			// Hotel search failed; user will not see reverse waterfall.
+			// Hotel search failed; use the fallback destination image plan
 			else {
-				// TODO what to do here, I wonder
+				startHotelFallbackDownload();
 			}
 		}
 	};
@@ -584,6 +582,12 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		}
 	};
 
+	private void startHotelFallbackDownload() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.cancelDownload(KEY_HOTEL_DESTINATIONS);
+		bd.startDownload(KEY_HOTEL_DESTINATIONS, mHotelsFallbackDownload, mHotelsFallbackCallback);
+	}
+
 	private void onHotelFallbackDataRetrieved() {
 		mIsHotelsFallbackMode = true;
 
@@ -720,7 +724,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			location.setDescription(destination.getDescription());
 
 			FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
-			flightSearchParams.reset();  // F1303: clear all params on tile click
+			flightSearchParams.reset(); // F1303: clear all params on tile click
 			flightSearchParams.setArrivalLocation(location);
 
 			// F1304: Add this tile to recently selected airports
