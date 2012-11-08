@@ -20,6 +20,7 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:singleLine="true"
         android:textColor="@color/launch_primary"
         android:visibility="gone" />
