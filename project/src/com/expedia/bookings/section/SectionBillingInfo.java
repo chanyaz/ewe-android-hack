@@ -272,7 +272,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			if (data.getExpirationDate() != null && data.getBrandName() != null) {
 				String exprStr = mExpirationFormater.format(data.getExpirationDate().getTime());
-				String brandName = data.getBrandName();
+				String brandName = data.getBrandName().replace("_", " ");
 				String formatStr = mContext.getString(R.string.brand_expiring_TEMPLATE);
 				String formatted = String.format(formatStr, brandName, exprStr);
 				field.setText(Html.fromHtml(formatted));
