@@ -330,6 +330,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		public void onAnimationEnd(Animator arg0) {
 			mCardsAnimating = false;
 			setTopCardBackgroundOpacity();//set it again after we finish
+			requestLayoutOnAllCards();
 		}
 
 		@Override
@@ -407,6 +408,13 @@ public class FlightTripOverviewFragment extends Fragment {
 					}
 				}
 			}
+		}
+	}
+
+	private void requestLayoutOnAllCards() {
+		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
+			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
+			tempFlight.requestLayout();
 		}
 	}
 
