@@ -103,7 +103,7 @@ public class HotelsRobotHelper {
 		LOCALE_TO_COUNTRY.put(APAC_LOCALES[12], R.string.country_tw);
 		LOCALE_TO_COUNTRY.put(APAC_LOCALES[13], R.string.country_vn);
 		LOCALE_TO_COUNTRY.put(APAC_LOCALES[14], R.string.country_ph);
-		LOCALE_TO_COUNTRY.put(APAC_LOCALES[15], R.string.country_cn);
+		LOCALE_TO_COUNTRY.put(APAC_LOCALES[15], R.string.country_tw);
 
 		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[0], R.string.country_at);
 		LOCALE_TO_COUNTRY.put(WESTERN_LOCALES[1], R.string.country_au);
@@ -328,7 +328,7 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "AFTER TYPING TEXT");
 		delay(3);
 		enterLog(TAG, "Before clicking search button");
-		mSolo.clickInList(1);//Selecting search suggestion results
+		mSolo.clickInList(2);//Selecting search suggestion results
 								//some countries' list don't populate ever
 								//might break stuff
 		enterLog(TAG, "After clicking search button");
@@ -561,7 +561,7 @@ public class HotelsRobotHelper {
 			delay(5);
 			enterLog(TAG, "Scrolling to top to press button again.");
 			mSolo.scrollToTop();
-			mSolo.clickOnText(loginButtonText);
+			mSolo.clickOnText(mRes.getString(R.string.log_in_for_faster_booking));
 		}
 		delay(1);
 		screenshot("Login Screen Pre Text Entry");
@@ -582,6 +582,7 @@ public class HotelsRobotHelper {
 		mSolo.clickOnButton(1); //Log in button.
 		delay(5);
 		mSolo.scrollToTop();
+		delay();
 		screenshot("Booking Info Post-Login");
 
 	}
@@ -646,7 +647,7 @@ public class HotelsRobotHelper {
 		}
 		try {
 			mSolo.clickOnText(mSolo.getString(R.string.payment_method));
-			delay(1);
+			delay();
 			screenshot("Payment Method");
 			delay(1);
 			mSolo.clickOnText(mSolo.getString(R.string.add_new_card));
@@ -697,7 +698,7 @@ public class HotelsRobotHelper {
 
 	public void confirmAndBook() throws Exception {
 
-		delay();
+		delay(5);
 		screenshot("Slide to checkout.");
 		delay();
 		mSolo.drag(100, 400, 650, 650, 10);

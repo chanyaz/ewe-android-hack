@@ -17,9 +17,10 @@ import com.expedia.bookings.test.utils.HotelsRobotHelper;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.jayway.android.robotium.solo.Solo;
 
-public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActivity> {
+public class ScreenshotSweep extends
+		ActivityInstrumentationTestCase2<SearchActivity> {
 
-	public ScreenshotSweep() { //Default constructor
+	public ScreenshotSweep() { // Default constructor
 		super("com.expedia.bookings", SearchActivity.class);
 	}
 
@@ -41,7 +42,7 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver = new HotelsRobotHelper(mSolo, mRes);
 	}
 
-	//////////////////////////////////////////////////////////////// 
+	////////////////////////////////////////////////////////////////
 	// Test Driver
 
 	public void testBookingsAPAC() throws Exception {
@@ -71,7 +72,6 @@ public class ScreenshotSweep extends ActivityInstrumentationTestCase2<SearchActi
 			mDriver.setLocale(testingLocale);
 			mDriver.delay();
 			mDriver.changePOS(locales[i]);
-			mDriver.clearPrivateData();
 
 			mDriver.launchHotels();
 			mDriver.delay();
