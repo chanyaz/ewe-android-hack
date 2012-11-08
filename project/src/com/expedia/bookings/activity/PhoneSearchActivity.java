@@ -296,6 +296,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
+	// Determine if we're just doing a config change vs. finishing
+	private boolean mConfigChange = false;
+
 	//----------------------------------
 	// THREADS/CALLBACKS
 	//----------------------------------
@@ -592,8 +595,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 		else {
 			saveParams();
-		}
 
+			ImageCache.recycleCache(true);
+		}
 	}
 
 	@Override
@@ -669,6 +673,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	@Override
+	public Object onRetainCustomNonConfigurationInstance() {
+		mConfigChange = true;
+		return super.onRetainCustomNonConfigurationInstance();
+	}
+
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 
@@ -686,7 +696,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// Now we clear all callbacks (since no one else should be loading images via ImageCache at this time)
 		// upon rotation.  Any images that were loading will continue in the background, but they will not
 		// load onto an image until explicitly requested.
-		ImageCache.clearAllCallbacks();
+		if (mConfigChange) {
+			ImageCache.clearAllCallbacks();
+		}
 
 		((ExpediaBookingApp) getApplicationContext())
 				.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
