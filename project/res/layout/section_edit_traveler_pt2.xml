@@ -33,14 +33,14 @@
         android:id="@+id/edit_seat_preference_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="43dp"
-        android:layout_marginBottom="4dp" />
+        android:layout_marginBottom="4dp"
+        android:minHeight="43dp" />
 
     <!-- This empty view fixes a scrolling bug on older versions of android -->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="@dimen/checkout_form_bottom_spacer_margin" />
 
 </com.expedia.bookings.section.SectionTravelerInfo>

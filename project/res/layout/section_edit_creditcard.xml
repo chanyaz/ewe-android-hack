@@ -98,6 +98,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="@dimen/checkout_form_bottom_spacer_margin" />
 
 </com.expedia.bookings.section.SectionBillingInfo>
