@@ -3,6 +3,7 @@ package com.expedia.bookings.section;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,39 +39,50 @@ public class CreditCardSection extends LinearLayout {
 	}
 
 	public void bind(String name, CreditCardType type) {
-		int resId;
-		switch (type) {
-		case AMERICAN_EXPRESS:
-			resId = R.drawable.ic_amex_grey_cvv;
-			break;
-		case CARTE_BLANCHE:
-			resId = R.drawable.ic_carte_blanche_grey_cvv;
-			break;
-		case CHINA_UNION_PAY:
-			resId = R.drawable.ic_union_pay_grey_cvv;
-			break;
-		case DINERS_CLUB:
-			resId = R.drawable.ic_diners_club_grey_cvv;
-			break;
-		case DISCOVER:
-			resId = R.drawable.ic_discover_grey_cvv;
-			break;
-		case JAPAN_CREDIT_BUREAU:
-			resId = R.drawable.ic_jcb_grey_cvv;
-			break;
-		case MAESTRO:
-			resId = R.drawable.ic_maestro_grey_cvv;
-			break;
-		case MASTERCARD:
-			resId = R.drawable.ic_master_card_grey_cvv;
-			break;
-		case VISA:
-		default:
-			resId = R.drawable.ic_visa_grey_cvv;
-			break;
+		int resId = 0; 
+		if (type != null) {
+			switch (type) {
+			case AMERICAN_EXPRESS:
+				resId = R.drawable.ic_amex_grey_cvv;
+				break;
+			case CARTE_BLANCHE:
+				resId = R.drawable.ic_carte_blanche_grey_cvv;
+				break;
+			case CHINA_UNION_PAY:
+				resId = R.drawable.ic_union_pay_grey_cvv;
+				break;
+			case DINERS_CLUB:
+				resId = R.drawable.ic_diners_club_grey_cvv;
+				break;
+			case DISCOVER:
+				resId = R.drawable.ic_discover_grey_cvv;
+				break;
+			case JAPAN_CREDIT_BUREAU:
+				resId = R.drawable.ic_jcb_grey_cvv;
+				break;
+			case MAESTRO:
+				resId = R.drawable.ic_maestro_grey_cvv;
+				break;
+			case MASTERCARD:
+				resId = R.drawable.ic_master_card_grey_cvv;
+				break;
+			case VISA:
+				resId = R.drawable.ic_visa_grey_cvv;
+			default:
+				resId = 0;
+				break;
+			}
 		}
 
-		mLogoImageView.setImageResource(resId);
+		if (resId != 0) {
+			mLogoImageView.setImageResource(resId);
+		}
+		else {
+			// Set an image so it takes up the normal space, but then make it invisible
+			// because we don't know what logo to show
+			mLogoImageView.setImageResource(R.drawable.ic_visa_grey_cvv);
+			mLogoImageView.setVisibility(View.INVISIBLE);
+		}
 
 		mSignatureTextView.setText(name);
 		mNameTextView.setText(name.toUpperCase());

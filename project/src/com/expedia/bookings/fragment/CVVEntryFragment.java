@@ -63,8 +63,6 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 			// a crash.
 			if (cardType == null) {
 				Log.w("Could not get credit card type enum!  Defaulting to VISA.  What I saw was this: " + cc.getType());
-
-				cardType = CreditCardType.VISA;
 			}
 		}
 		else {
