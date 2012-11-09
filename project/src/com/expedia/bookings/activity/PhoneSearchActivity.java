@@ -500,6 +500,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					searchResponse.setFilter(Db.getFilter());
 					toBroadcastSearchCompleted = true;
 				}
+				mShowDistance = Db.getSearchParams().getSearchType() != SearchType.CITY;
 			}
 			else {
 				startSearch();
