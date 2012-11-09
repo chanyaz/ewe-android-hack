@@ -18,9 +18,12 @@
     <string name="launch_flight_secondary_text">フライトを予約する。</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;目的地&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
+    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;に滞在&lt;/font&gt;</string>
     <!-- Label to present to the user on application load -->
     <string name="launch_welcome">ようこそ</string>
-
+    <!-- Error message when we can't connect -->
+    <string name="error_launch_connection">残念ながら、接続できません。</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -40,7 +43,7 @@
     <!-- Label for screen that is doing searches -->
     <string name="searching">検索中…</string>
     <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">フライトが見つかりませんでした。</string>
+    <string name="error_no_flights_found">フライトが見つかりません</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
     <string name="error_invalid_departure_airport">出発空港が確認できませんでした。</string>
     <!-- Error message when we find no flights because of an invalid arrival airport -->
@@ -97,15 +100,10 @@
     <string name="error_same_origin_arrival">出発と到着にはそれぞれ別の空港を入力してください。</string>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">デバック : 検索データが削除されました。エラーを報告してください。</string>
-    <!-- # of flights, plus where they're going.  %1$s is the # of flights, %2$s is the destination.  E.g., "5 flights to Los Angeles" -->
-    <plurals name="num_flights_to_destination">
-        <item quantity="zero">%2$sへのフライト %1$s 便</item>
-        <item quantity="one">%2$sへのフライト %1$s 便</item>
-        <item quantity="two">%2$sへのフライト %1$s 便</item>
-        <item quantity="few">%2$sへのフライト %1$s 便</item>
-        <item quantity="many">%2$sへのフライト %1$s 便</item>
-        <item quantity="other">%2$sへのフライト %1$s 便</item>
-    </plurals>
+    <!-- Select a flight to (city name) -->
+    <string name="select_a_flight_to_TEMPLATE">%1$sへのフライトを選択</string>
+    <!-- Select a flight back to (city name) -->
+    <string name="select_a_flight_back_to_TEMPLATE">%1$sへ戻るフライトを選択</string>
     <!-- Baggage fee loading error -->
     <string name="baggage_fee_loading_error_TEMPLATE">手荷物料金情報を読み込めませんでした !エラー メッセージ : %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
@@ -126,6 +124,8 @@
     <string name="sort_flights">フライトを並べ替える</string>
     <!-- Edit search title -->
     <string name="edit_search">検索条件を変更する</string>
+    <!-- Action mode asking users to select dates -->
+    <string name="select_dates">日付を選択</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -144,6 +144,15 @@
     <string name="round_trip_price_TEMPLATE">往復 &lt;b&gt;%s&lt;/b&gt; から</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">今すぐ予約で &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Book now info label, when there are only a few seats left -->
+    <plurals name="urgency_book_TEMPLATE">
+        <item quantity="zero">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
+        <item quantity="one">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
+        <item quantity="two">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
+        <item quantity="few">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
+        <item quantity="many">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
+        <item quantity="other">残り %1$s 席 &lt;b&gt; より%2$s&lt;/b&gt;</item>
+    </plurals>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">手荷物料金情報</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -171,7 +180,7 @@
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">現在のお支払い情報</string>
     <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">新しいお支払い方法を選択する</string>
+    <string name="or_select_new_paymet_method">お支払い方法を選択する</string>
     <!-- Select Payment -->
     <string name="select_payment">お支払い方法を選択する</string>
     <!-- Choose from contacts -->
@@ -195,7 +204,7 @@
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">目的地 : %1$s</string>
     <!-- Includes taxes and fees -->
-    <string name="includes_taxes_and_fees">税およびサービス料込み </string>
+    <string name="includes_taxes_and_fees">税金とサービス料込み</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s : %2$s ～ %3$s</string>
     <!-- Number of traverlers template -->
@@ -215,7 +224,7 @@
     <!-- Notice when price changes on a flight -->
     <string name="price_change_alert_TEMPLATE">フライト料金が %1$s から %2$s に変更されました。</string>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">最新のフライト情報を読み込み中...</string>
+    <string name="loading_flight_details">料金の変更を確認中...</string>
     <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
     <string name="plus_symbol">+</string>
     <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
@@ -256,14 +265,20 @@
     <string name="best_price_guarantee">最低価格保証</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;無料キャンセル期限 : &lt;/b&gt;&lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Log out -->
+    <string name="log_out">ログアウト</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
     <string name="menu_done">完了</string>
+    <!-- unable to load traveler details message -->
+    <string name="unable_to_load_traveler_message">この旅行者の詳細を読み込めませんでした。ネットワーク接続を確認して、もう一度お試しください。</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">コスト サマリー</string>
+    <!-- Taxes and airline fees -->
+    <string name="taxes_and_airline_fees">空港税、燃油サーチャージ等</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">エクスペディア予約手数料</string>
     <!-- Flight -->
@@ -284,6 +299,8 @@
     <string name="born_on_TEMPLATE">生年月日 : %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;生年月日 : &lt;/font&gt;%1$s</string>
+    <!-- <brand> expiring <date> template -->
+    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; 有効期限 %2$s</string>
 
     <!-- Section edit contact -->
     <!-- first name hint -->
@@ -320,6 +337,8 @@
     <string name="credit_card_hint">クレジットカード番号</string>
     <!-- Expiration date label -->
     <string name="expiration_date">有効期限</string>
+    <!-- Set expiration date button -->
+    <string name="btn_set">設定</string>
     <!-- Security code label -->
     <string name="security_code">セキュリティコード</string>
     <!-- Security code hint -->
@@ -354,6 +373,16 @@
     <string name="save_traveler_message_TEMPLATE">%1$s様の情報をお客様のエクスペディア アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
     <!-- no thanks -->
     <string name="no_thanks">いいえ</string>
+
+    <!-- Overwrite traveler dialog -->
+    <!-- Can’t Save Traveler -->
+    <string name="cant_save_traveler">旅行者を保存できません</string>
+    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
+    <string name="you_already_have_traveler_TEMPLATE">\"%1$s\" という名前のトラベラーがすでに保存されています。</string>
+    <!-- Don't save -->
+    <string name="dont_save">保存しない</string>
+    <!-- Overwrite -->
+    <string name="overwrite">上書きする</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
@@ -424,6 +453,8 @@
     <string name="traveler_information">旅行者情報</string>
     <!-- Passport -->
     <string name="passport">パスポート</string>
+    <!-- Current traveler - <firstname> <lastname> -->
+    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;現在の旅行者 - &lt;/font&gt;%1$s%2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -469,7 +500,7 @@
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">その他のアクション</string>
     <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">旅行をシェアする</string>
+    <string name="share_trip">E メールでシェア</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">カレンダーに追加</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
@@ -580,9 +611,11 @@
     <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
     <string name="share_flight_airfare_total_TEMPLATE">航空券料金合計 : %s</string>
     <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">手荷物預かりやその他のオプションサービスに対して、航空会社から追加料金 (%s) が請求される場合があります。</string>
+    <string name="share_flight_additional_fees_TEMPLATE">手荷物預かりやその他のオプションサービスに対して、航空会社から追加料金が請求される場合があります。%s</string>
     <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">ご予約についてのお問い合わせは、エクスペディア %s までお電話ください。</string>
+    <string name="share_flight_support_TEMPLATE">このご予約に関するお問い合わせは、エクスペディア (%s) までご連絡ください。</string>
+    <!-- Advertisement for the app the user just used -->
+    <string name="share_flight_shill_app">エクスペディアのモバイルアプリで、フライトとホテルをどこでも簡単予約 ! http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -695,7 +728,7 @@
     <!-- Message when app is loading saved search results -->
     <string name="loading_previous">過去の検索結果を読み込み中…</string>
     <!-- Label for sort hotels button in bottom bar -->
-    <string name="sort_hotels">" 並べ替え： " </string>
+    <string name="sort_hotels">\" 並べ替え： \" </string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">並べ替え</string>
     <!-- Label for sort hotels in hotel list -->
@@ -803,7 +836,7 @@
 
     <!-- Search list adapter -->
     <!-- The label for how much hotels cost - "from $120/night", for example -->
-    <string name="from">最低料金</string>
+    <string name="from">出発地</string>
     <!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
     <string name="from_template">&lt;strike&gt;%s&lt;/strike&gt; ～</string>
     <!-- The label for price per night - "from $120/night", for example -->
@@ -1493,9 +1526,9 @@
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_search_results_hotel_service_failure">申し訳ありません、ご希望の条件では検索を完了することができませんでした。もう一度お試しください。</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">申し訳ありません、ご希望の検索条件に一致するものがありませんでした。もう一度お試しください。</string>
+    <string name="e3_error_search_results_invalid_input">申し訳ありません、ご希望の条件に一致するものはありませんでした。もう一度お試しください。</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">申し訳ありません、ご希望の検索条件に一致するものがありませんでした。もう一度お試しください。</string>
+    <string name="e3_error_search_results_invalid_input_unknown">申し訳ありません、ご希望の条件に一致するものはありませんでした。もう一度お試しください。</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_search_results_unknown_error">申し訳ありません、ご希望の条件では検索を完了することができませんでした。もう一度お試しください。</string>
 

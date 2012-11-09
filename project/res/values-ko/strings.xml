@@ -18,9 +18,12 @@
     <string name="launch_flight_secondary_text">항공편 예약하기</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;목적지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
+    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;숙박지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label to present to the user on application load -->
     <string name="launch_welcome">환영</string>
-
+    <!-- Error message when we can't connect -->
+    <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -97,15 +100,10 @@
     <string name="error_same_origin_arrival">출발 공항과 도착 공항은 달라야 합니다.</string>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">디버그: 검색 데이터가 삭제되었습니다. 이 오류를 DLew에게 보고해 주시기 바랍니다.</string>
-    <!-- # of flights, plus where they're going.  %1$s is the # of flights, %2$s is the destination.  E.g., "5 flights to Los Angeles" -->
-    <plurals name="num_flights_to_destination">
-        <item quantity="zero">%1$s개 항공편, %2$s행</item>
-        <item quantity="one">%1$s개 항공편, %2$s행</item>
-        <item quantity="two">%1$s개 항공편, %2$s행</item>
-        <item quantity="few">%1$s개 항공편, %2$s행</item>
-        <item quantity="many">%1$s개 항공편, %2$s행</item>
-        <item quantity="other">%1$s개 항공편, %2$s행</item>
-    </plurals>
+    <!-- Select a flight to (city name) -->
+    <string name="select_a_flight_to_TEMPLATE">%1$s행 항공편을 선택하세요.</string>
+    <!-- Select a flight back to (city name) -->
+    <string name="select_a_flight_back_to_TEMPLATE">돌아오는 %1$s행 항공편을 선택하세요.</string>
     <!-- Baggage fee loading error -->
     <string name="baggage_fee_loading_error_TEMPLATE">수하물 요금 정보를 로드하는 중 오류 발생! 오류 메시지: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
@@ -126,6 +124,8 @@
     <string name="sort_flights">항공편 정렬</string>
     <!-- Edit search title -->
     <string name="edit_search">검색 수정</string>
+    <!-- Action mode asking users to select dates -->
+    <string name="select_dates">날짜 선택</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -144,6 +144,15 @@
     <string name="round_trip_price_TEMPLATE">왕복 항공편 시작가: &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">지금 예약 시 가격: &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Book now info label, when there are only a few seats left -->
+    <plurals name="urgency_book_TEMPLATE">
+        <item quantity="zero">%1$s개 좌석 남음, 요금: &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">%1$s개 좌석 남음, 요금: &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">%1$s개 좌석 남음, 요금: &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">%1$s개 좌석 남음, 요금: &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">%1$s개 좌석 남음, 요금: &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="other">%1$s개 좌석 남음, 요금: &lt;b&gt;%2$s&lt;/b&gt;</item>
+    </plurals>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">수하물 요금 정보</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -171,7 +180,7 @@
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">현재 지불 정보</string>
     <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">새 지불 방법 선택</string>
+    <string name="or_select_new_paymet_method">지불 방법 선택</string>
     <!-- Select Payment -->
     <string name="select_payment">지불 선택</string>
     <!-- Choose from contacts -->
@@ -215,7 +224,7 @@
     <!-- Notice when price changes on a flight -->
     <string name="price_change_alert_TEMPLATE">고객님의 여행 가격이 %1$s에서 %2$s(으)로 변경되었습니다.</string>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">실시간 항공편 정보 로드 중...</string>
+    <string name="loading_flight_details">가격 변동 확인 중...</string>
     <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
     <string name="plus_symbol">+</string>
     <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
@@ -256,14 +265,20 @@
     <string name="best_price_guarantee">최저가격보장</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;무료 취소 마감기한&lt;/b&gt;: &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Log out -->
+    <string name="log_out">로그아웃</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
     <string name="menu_done">완료</string>
+    <!-- unable to load traveler details message -->
+    <string name="unable_to_load_traveler_message">이 여행객의 상세 정보를 로드할 수 없습니다. 네트워크 연결을 확인하고 다시 시도해 주세요.</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">비용 요약</string>
+    <!-- Taxes and airline fees -->
+    <string name="taxes_and_airline_fees">세금 및 항공사 수수료</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Expedia 예약 수수료</string>
     <!-- Flight -->
@@ -284,6 +299,8 @@
     <string name="born_on_TEMPLATE">생년월일: %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;생년월일: &lt;/font&gt;%1$s</string>
+    <!-- <brand> expiring <date> template -->
+    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; 만료일: %2$s</string>
 
     <!-- Section edit contact -->
     <!-- first name hint -->
@@ -320,6 +337,8 @@
     <string name="credit_card_hint">신용카드 번호</string>
     <!-- Expiration date label -->
     <string name="expiration_date">만료일</string>
+    <!-- Set expiration date button -->
+    <string name="btn_set">설정</string>
     <!-- Security code label -->
     <string name="security_code">CVC 번호</string>
     <!-- Security code hint -->
@@ -355,13 +374,23 @@
     <!-- no thanks -->
     <string name="no_thanks">나중에 하기</string>
 
+    <!-- Overwrite traveler dialog -->
+    <!-- Can’t Save Traveler -->
+    <string name="cant_save_traveler">여행객을 저장할 수 없습니다.</string>
+    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
+    <string name="you_already_have_traveler_TEMPLATE">\"%1$s\" 이름으로 저장된 여행객이 이미 있습니다.</string>
+    <!-- Don't save -->
+    <string name="dont_save">저장 안 함</string>
+    <!-- Overwrite -->
+    <string name="overwrite">덮어쓰기</string>
+
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
     <string name="traveler_information">여행객 정보</string>
     <!-- First name label -->
     <string name="first_name">이름(영문)</string>
     <!-- Middle name label -->
-    <string name="middle_name">중간 이름</string>
+    <string name="middle_name">중간 이름(영문)</string>
     <!-- Last name label -->
     <string name="last_name">성(영문)</string>
     <!-- Full Name Label -->
@@ -424,6 +453,8 @@
     <string name="traveler_information">여행객 정보</string>
     <!-- Passport -->
     <string name="passport">여권</string>
+    <!-- Current traveler - <firstname> <lastname> -->
+    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;현재 여행객 - &lt;/font&gt; %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -469,7 +500,7 @@
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">더 보기</string>
     <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">여행 공유</string>
+    <string name="share_trip">이메일로 공유하기</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">달력에 추가</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
@@ -501,7 +532,7 @@
     <!-- Fare information header -->
     <string name="fare_information">요금 정보</string>
     <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">이 예약을 완료함으로써 본인은 &lt;u&gt;&lt;b&gt;규칙과 제한사항,&lt;/b&gt; &lt;b&gt;이용약관,&lt;/b&gt; &lt;b&gt;개인정보 보호정책&lt;/b&gt; 및 &lt;b&gt;요금 &lt;/b&gt;&lt;/u&gt;</string>
+    <string name="fare_rules_link">이 예약을 완료함으로써 본인은 &lt;u&gt;&lt;b&gt;규칙과 제한사항,&lt;/b&gt; &lt;b&gt;이용약관,&lt;/b&gt; &lt;b&gt;개인정보 보호정책&lt;/b&gt; 및 &lt;b&gt;요금 정보&lt;/b&gt;&lt;/u&gt;를 모두 읽었고 이에 동의함을 명시합니다.</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -580,9 +611,11 @@
     <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
     <string name="share_flight_airfare_total_TEMPLATE">항공 요금 총합계: %s</string>
     <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">이 항공사는 수하물 체크인 또는 기타 선택 가능한 서비스에 대해 추가 요금(%s)을 부과할 수 있습니다.</string>
+    <string name="share_flight_additional_fees_TEMPLATE">이 항공사는 수하물 체크인 또는 기타 선택 가능한 서비스에 대해 추가 요금을 부과할 수 있습니다. %s</string>
     <!-- Gives the user a method of getting support.  %s is a phone number -->
     <string name="share_flight_support_TEMPLATE">예약 관련 문의 사항이 있으시면 Expedia 전화 %s번으로 연락해 주세요.</string>
+    <!-- Advertisement for the app the user just used -->
+    <string name="share_flight_shill_app">Expedia의 멋진 모바일 앱으로 언제 어디서나 간편하게 항공편과 호텔을 예약하세요! http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -742,7 +775,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">\&amp;apos;내 위치\&amp;apos;를 사용하려면 먼저 \&amp;apos;설정\&amp;apos;에서 \&amp;apos;위치\&amp;apos;를 사용하도록 설정해야 합니다.\n\&amp;apos;설정\&amp;apos;으로 이동하여 지금 설정하시겠어요?</string>
+    <string name="EnableLocationSettings">"내 위치"를 사용하려면 먼저 "설정"에서 "위치"를 사용하도록 설정해야 합니다.\n"설정"으로 이동하여 지금 설정하시겠어요?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">위치 제공자가 설정 해제되어 있습니다. 현재 위치로 검색하려면 다시 설정해 주세요.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->

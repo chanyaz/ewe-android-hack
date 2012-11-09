@@ -18,9 +18,12 @@
     <string name="launch_flight_secondary_text">Cari sekarang.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Terbang ke&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
+    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Menginap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label to present to the user on application load -->
     <string name="launch_welcome">Selamat Datang</string>
-
+    <!-- Error message when we can't connect -->
+    <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -40,7 +43,7 @@
     <!-- Label for screen that is doing searches -->
     <string name="searching">Mencari…</string>
     <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">Penerbangan tidak ditemukan.</string>
+    <string name="error_no_flights_found">Penerbangan tidak ditemukan</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
     <string name="error_invalid_departure_airport">Bandara keberangkatan tidak valid.</string>
     <!-- Error message when we find no flights because of an invalid arrival airport -->
@@ -97,15 +100,10 @@
     <string name="error_same_origin_arrival">Bandara keberangkatan dan bandara tujuan harus berbeda.</string>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Data pencarian hilang tanpa sebab.  Please report this error to DLew.</string>
-    <!-- # of flights, plus where they're going.  %1$s is the # of flights, %2$s is the destination.  E.g., "5 flights to Los Angeles" -->
-    <plurals name="num_flights_to_destination">
-        <item quantity="zero">%1$s penerbangan ke %2$s</item>
-        <item quantity="one">%1$s penerbangan ke %2$s</item>
-        <item quantity="two">%1$s penerbangan ke %2$s</item>
-        <item quantity="few">%1$s penerbangan ke %2$s</item>
-        <item quantity="many">%1$s penerbangan ke %2$s</item>
-        <item quantity="other">%1$s penerbangan ke %2$s</item>
-    </plurals>
+    <!-- Select a flight to (city name) -->
+    <string name="select_a_flight_to_TEMPLATE">Pilih penerbangan ke %1$s</string>
+    <!-- Select a flight back to (city name) -->
+    <string name="select_a_flight_back_to_TEMPLATE">Pilih penerbangan kembali ke %1$s</string>
     <!-- Baggage fee loading error -->
     <string name="baggage_fee_loading_error_TEMPLATE">Ada masalah dalam memuat info biaya bagasi Pesan masalah: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
@@ -126,6 +124,8 @@
     <string name="sort_flights">Urutkan Penerbangan</string>
     <!-- Edit search title -->
     <string name="edit_search">Edit Pencarian</string>
+    <!-- Action mode asking users to select dates -->
+    <string name="select_dates">Pilih Tanggal</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -144,6 +144,15 @@
     <string name="round_trip_price_TEMPLATE">Pulang-pergi mulai dari &lt;b&gt; %s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Pesan sekarang seharga &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Book now info label, when there are only a few seats left -->
+    <plurals name="urgency_book_TEMPLATE">
+        <item quantity="zero">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="other">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+    </plurals>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">INFORMASI BIAYA BAGASI</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -171,7 +180,7 @@
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">Detail Pembayaran Saat Ini</string>
     <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">Pilih Metode Pembayaran Baru</string>
+    <string name="or_select_new_paymet_method">Pilih Metode Pembayaran</string>
     <!-- Select Payment -->
     <string name="select_payment">Pilih Pembayaran</string>
     <!-- Choose from contacts -->
@@ -195,7 +204,7 @@
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Perjalanan ke %1$s </string>
     <!-- Includes taxes and fees -->
-    <string name="includes_taxes_and_fees">Termasuk pajak dan biaya.</string>
+    <string name="includes_taxes_and_fees">Termasuk pajak dan biaya</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s ke %3$s</string>
     <!-- Number of traverlers template -->
@@ -215,7 +224,7 @@
     <!-- Notice when price changes on a flight -->
     <string name="price_change_alert_TEMPLATE">Harga perjalanan Anda sudah berubah dari %1$s menjadi %2$s</string>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">Memuat informasi penerbangan real-time...</string>
+    <string name="loading_flight_details">Memeriksa perubahan harga...</string>
     <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
     <string name="plus_symbol">+</string>
     <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
@@ -256,14 +265,20 @@
     <string name="best_price_guarantee">Garansi Harga Terbaik</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis Pembatalan&lt;/b&gt; sebelum &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Log out -->
+    <string name="log_out">Keluar</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
     <string name="menu_done">Selesai</string>
+    <!-- unable to load traveler details message -->
+    <string name="unable_to_load_traveler_message">Kami tidak bisa memuat detail pelancong ini. Periksa koneksi jaringan Anda dan coba lagi.</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">Ringkasan Biaya</string>
+    <!-- Taxes and airline fees -->
+    <string name="taxes_and_airline_fees">Pajak &amp; Biaya Maskapai</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Biaya Pemesanan Expedia</string>
     <!-- Flight -->
@@ -284,6 +299,8 @@
     <string name="born_on_TEMPLATE">Tanggal Lahir %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Tanggal Lahir&lt;/font&gt; %1$s</string>
+    <!-- <brand> expiring <date> template -->
+    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; kedaluwarsa %2$s</string>
 
     <!-- Section edit contact -->
     <!-- first name hint -->
@@ -320,6 +337,8 @@
     <string name="credit_card_hint">Nomor Kartu Kredit</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Tanggal Kedaluwarsa</string>
+    <!-- Set expiration date button -->
+    <string name="btn_set">Tetapkan</string>
     <!-- Security code label -->
     <string name="security_code">Kode Keamanan</string>
     <!-- Security code hint -->
@@ -354,6 +373,16 @@
     <string name="save_traveler_message_TEMPLATE">Simpan informasi %1$s ke akun Expedia Anda untuk mempercepat proses pembelian di masa mendatang?</string>
     <!-- no thanks -->
     <string name="no_thanks">Tidak, Terima Kasih</string>
+
+    <!-- Overwrite traveler dialog -->
+    <!-- Can’t Save Traveler -->
+    <string name="cant_save_traveler">Tidak Bisa Menyimpan Pelancong</string>
+    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
+    <string name="you_already_have_traveler_TEMPLATE">Anda sudah menyimpan seorang pelancong dengan nama \"%1$s\".</string>
+    <!-- Don't save -->
+    <string name="dont_save">Jangan Simpan</string>
+    <!-- Overwrite -->
+    <string name="overwrite">Timpa</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
@@ -424,6 +453,8 @@
     <string name="traveler_information">Informasi Pelancong</string>
     <!-- Passport -->
     <string name="passport">Paspor</string>
+    <!-- Current traveler - <firstname> <lastname> -->
+    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Pelancong ini -&lt;/font&gt; %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -469,7 +500,7 @@
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Tindakan Lainnya</string>
     <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">Bagikan Perjalanan</string>
+    <string name="share_trip">Bagikan via Email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">Tambahkan ke Kalender</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
@@ -580,9 +611,11 @@
     <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
     <string name="share_flight_airfare_total_TEMPLATE">Total tiket pesawat: %s</string>
     <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">Maskapai penerbangan mungkin mengenakan biaya tambahan (%s) untuk bagasi atau layanan opsional lainnya.</string>
+    <string name="share_flight_additional_fees_TEMPLATE">Maskapai penerbangan mungkin mengenakan biaya tambahan untuk bagasi atau layanan tambahan lainnya.  %s</string>
     <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">Jika Anda memiliki pertanyaan tentang reservasi Anda, hubungi Expedia di %s</string>
+    <string name="share_flight_support_TEMPLATE">Jika Anda memiliki pertanyaan tentang reservasi ini, hubungi Expedia di %s</string>
+    <!-- Advertisement for the app the user just used -->
+    <string name="share_flight_shill_app">Pesan penerbangan dan hotel dari mana pun dengan aplikasi mobile Expedia yang indah ini!  http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1265,7 +1298,7 @@
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">Yakin ingin keluar dari akun Expedia?</string>
     <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">Masuk untuk pemesanan lebih cepat.</string>
+    <string name="log_in_for_faster_booking">Masuk untuk pemesanan lebih cepat</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Daftar Expedia Rewards\u2122</string>
     <!-- Label for account name -->
@@ -1493,9 +1526,9 @@
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_search_results_hotel_service_failure">Maaf, kami tidak berhasil menyelesaikan pencarian Anda. Harap coba lagi.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">Maaf, kami tidak menemukan hasil untuk pencarian Anda. Harap coba lagi.</string>
+    <string name="e3_error_search_results_invalid_input">Maaf, kami tidak menemukan hasil untuk kata yang Anda cari. Harap coba lagi.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">Maaf, kami tidak menemukan hasil untuk pencarian Anda. Harap coba lagi.</string>
+    <string name="e3_error_search_results_invalid_input_unknown">Maaf, kami tidak menemukan hasil untuk kata yang Anda cari. Harap coba lagi.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_search_results_unknown_error">Maaf, kami tidak berhasil menyelesaikan pencarian Anda. Harap coba lagi.</string>
 

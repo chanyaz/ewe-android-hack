@@ -18,9 +18,12 @@
     <string name="launch_flight_secondary_text">Pergi bercuti. </string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Terbang ke&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
+    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Inap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label to present to the user on application load -->
     <string name="launch_welcome">Selamat Datang</string>
-
+    <!-- Error message when we can't connect -->
+    <string name="error_launch_connection">Malangnya, kami tidak dapat bersambung.</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -40,7 +43,7 @@
     <!-- Label for screen that is doing searches -->
     <string name="searching">Mencari…</string>
     <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">Tiada penerbangan ditemui. </string>
+    <string name="error_no_flights_found">Tiada penerbangan ditemui</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
     <string name="error_invalid_departure_airport">Lapangan terbang berlepas tidak sah.</string>
     <!-- Error message when we find no flights because of an invalid arrival airport -->
@@ -97,15 +100,10 @@
     <string name="error_same_origin_arrival">Anda harus memasukkan lapangan terbang berlepas dan ketibaan yang berlainan.</string>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">NYAHPEPIJAT: Data carian telah dikosongkan.  Sila laporkan ralat ini kepada DLew.</string>
-    <!-- # of flights, plus where they're going.  %1$s is the # of flights, %2$s is the destination.  E.g., "5 flights to Los Angeles" -->
-    <plurals name="num_flights_to_destination">
-        <item quantity="zero">%1$s penerbangan ke %2$s</item>
-        <item quantity="one">%1$s penerbangan ke %2$s</item>
-        <item quantity="two">%1$s penerbangan ke %2$s</item>
-        <item quantity="few">%1$s penerbangan ke %2$s</item>
-        <item quantity="many">%1$s penerbangan ke %2$s</item>
-        <item quantity="other">%1$s penerbangan ke %2$s</item>
-    </plurals>
+    <!-- Select a flight to (city name) -->
+    <string name="select_a_flight_to_TEMPLATE">Pilih penerbangan ke %1$s</string>
+    <!-- Select a flight back to (city name) -->
+    <string name="select_a_flight_back_to_TEMPLATE">Pilih penerbangan kembali ke %1$s</string>
     <!-- Baggage fee loading error -->
     <string name="baggage_fee_loading_error_TEMPLATE">Ralat memuatkan maklumat yuran bagasi! Mesej Ralat: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
@@ -126,6 +124,8 @@
     <string name="sort_flights">Susun Penerbangan</string>
     <!-- Edit search title -->
     <string name="edit_search">Edit Carian</string>
+    <!-- Action mode asking users to select dates -->
+    <string name="select_dates">Pilih Tarikh</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -144,6 +144,15 @@
     <string name="round_trip_price_TEMPLATE">Perjalanan pergi-balik dari &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Tempah sekarang untuk &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Book now info label, when there are only a few seats left -->
+    <plurals name="urgency_book_TEMPLATE">
+        <item quantity="zero">Tinggal %1$s lagi pada &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">Tinggal %1$s lagi pada &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">Tinggal %1$s lagi pada &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">Tinggal %1$s lagi pada &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">Tinggal %1$s lagi pada &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="other">Tinggal %1$s lagi pada &lt;b&gt;%2$s&lt;/b&gt;</item>
+    </plurals>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">MAKLUMAT YURAN BAGASI</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -171,7 +180,7 @@
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">Butiran Pembayaran Semasa</string>
     <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">Pilih Kaedah Pembayaran Baru</string>
+    <string name="or_select_new_paymet_method">Pilih sebuah Kaedah Pembayaran</string>
     <!-- Select Payment -->
     <string name="select_payment">Pilih Pembayaran</string>
     <!-- Choose from contacts -->
@@ -195,7 +204,7 @@
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Perjalanan ke %1$s</string>
     <!-- Includes taxes and fees -->
-    <string name="includes_taxes_and_fees">Termasuk cukai dan yuran.</string>
+    <string name="includes_taxes_and_fees">Termasuk cukai dan yuran</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s ke %3$s</string>
     <!-- Number of traverlers template -->
@@ -215,7 +224,7 @@
     <!-- Notice when price changes on a flight -->
     <string name="price_change_alert_TEMPLATE">Harga perjalanan anda telah berubah daripada %1$s kepada %2$s.</string>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">Memuatkan maklumat penerbangan masa sebenar...</string>
+    <string name="loading_flight_details">Menyemak perubahan harga…</string>
     <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
     <string name="plus_symbol">+</string>
     <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
@@ -256,14 +265,20 @@
     <string name="best_price_guarantee">Jaminan Harga Terbaik </string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Pembatalan Percuma&lt;/b&gt; sebelum &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Log out -->
+    <string name="log_out">Log Keluar</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
     <string name="menu_done">Selesai</string>
+    <!-- unable to load traveler details message -->
+    <string name="unable_to_load_traveler_message">Kami tidak dapat memuatkan butiran pengembara ini. Sila semak sambungan rangkaian anda dan cuba lagi. </string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
     <string name="cost_summary">Ringkasan Kos</string>
+    <!-- Taxes and airline fees -->
+    <string name="taxes_and_airline_fees">Cukai &amp; Yuran Syarikat Penerbangan</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Yuran Tempahan Expedia</string>
     <!-- Flight -->
@@ -284,6 +299,8 @@
     <string name="born_on_TEMPLATE">Lahir %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Lahir &lt;/font&gt;%1$s</string>
+    <!-- <brand> expiring <date> template -->
+    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; tamat tempoh %2$s</string>
 
     <!-- Section edit contact -->
     <!-- first name hint -->
@@ -320,6 +337,8 @@
     <string name="credit_card_hint">Nombor Kad Kredit</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Tarikh Tamat Tempoh</string>
+    <!-- Set expiration date button -->
+    <string name="btn_set">Set</string>
     <!-- Security code label -->
     <string name="security_code">Kod Keselamatan</string>
     <!-- Security code hint -->
@@ -354,6 +373,16 @@
     <string name="save_traveler_message_TEMPLATE">Simpan maklumat %1$s di bawah akaun Expedia anda untuk mempercepatkan pembelian anda pada masa hadapan? </string>
     <!-- no thanks -->
     <string name="no_thanks">Tidak, Terima Kasih</string>
+
+    <!-- Overwrite traveler dialog -->
+    <!-- Can’t Save Traveler -->
+    <string name="cant_save_traveler">Tidak Dapat Menyimpan Pengembara</string>
+    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
+    <string name="you_already_have_traveler_TEMPLATE">Anda sudah pun mempunyai pengembara tersimpan dengan nama \"%1$s\".</string>
+    <!-- Don't save -->
+    <string name="dont_save">Jangan Simpan</string>
+    <!-- Overwrite -->
+    <string name="overwrite">Tulis ganti</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
@@ -424,6 +453,8 @@
     <string name="traveler_information">Maklumat Pengembara</string>
     <!-- Passport -->
     <string name="passport">Pasport</string>
+    <!-- Current traveler - <firstname> <lastname> -->
+    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Pengembara semasa -&lt;/font&gt; %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -463,13 +494,13 @@
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
     <string name="itinerary_confirmation_TEMPLATE">Jadual Perjalanan #%s telah dihantarkan ke</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
-    <string name="get_a_room">Dapatkan Sebuah Bilik</string>
+    <string name="get_a_room">Dapatkan Bilik</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotel di %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Tindakan Lanjutan</string>
     <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">Kongsi Perjalanan</string>
+    <string name="share_trip">Kongsi melalui E-mel</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">Tambah ke Kalendar</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
@@ -580,9 +611,11 @@
     <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
     <string name="share_flight_airfare_total_TEMPLATE">Jumlah tambang udara: %s</string>
     <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">Syarikat penerbangan mungkin mengenakan yuran tambahan (%s) untuk bagasi berdaftar atau perkhidmatan opsyenal yang lain.</string>
+    <string name="share_flight_additional_fees_TEMPLATE">Syarikat penerbangan mungkin mengenakan yuran tambahan untuk bagasi berdaftar atau perkhidmatan opsyenal yang lain. %s</string>
     <!-- Gives the user a method of getting support.  %s is a phone number -->
-    <string name="share_flight_support_TEMPLATE">Jika anda mempunyai soalan mengenai tempahan anda, sila hubungi Expedia di talian %s</string>
+    <string name="share_flight_support_TEMPLATE">Jika anda mempunyai soalan mengenai tempahan ini, sila hubungi Expedia di talian %s</string>
+    <!-- Advertisement for the app the user just used -->
+    <string name="share_flight_shill_app">Tempah penerbangan dan hotel dari mana jua dengan aplikasi mudah alih Expedia yang indah! http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -840,7 +873,7 @@
     <!-- Indicator to user to tap the widget to cause it to refresh -->
     <string name="refresh_widget">Ketik untuk segarkan semula</string>
     <!-- Instructions on how to add widget to home screen -->
-    <string name="widget_add_instructions">Ketik dan pegang di skrin utama anda untuk menambah widget Radar Hotel.</string>
+    <string name="widget_add_instructions">Ketik dan pegang di skrin laman utama anda untuk menambah widget Radar Hotel.</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Tiada Kesambungan Internet</string>
     <!-- Widget Branding title -->
@@ -1201,7 +1234,7 @@
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">CARIAN BARU</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Jika anda mempunyai soalan mengenai tempahan anda, sila hubungi Expedia di %s.</string>
+    <string name="contact_phone_template">Jika anda mempunyai soalan mengenai tempahan anda, sila hubungi Expedia di talian %s.</string>
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
@@ -1343,7 +1376,7 @@
     <!-- Extra description for "app support" button, when space allows -->
     <string name="app_support_description">Tulis kepada kami dan kami akan menghubungi anda kembali.</string>
     <!-- Extra description for "tell a friend" button, when space allows -->
-    <string name="tell_a_friend_description">Sukakan tawaran hotel yang hebat? Beritahu rakan anda mengenai aplikasi ini.</string>
+    <string name="tell_a_friend_description">Sukakan tawaran hotel yang menakjubkan? Beritahu rakan anda mengenai aplikasi ini.</string>
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">Lakukan perjalanan dengan bijak</string>
     <!-- Section Header for other apps by Mobiata -->
