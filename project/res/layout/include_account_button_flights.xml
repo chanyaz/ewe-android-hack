@@ -59,7 +59,7 @@
             android:id="@+id/account_loading_logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="6dp"
+            android:padding="8dp"
             android:src="@drawable/ic_log_out" />
     </LinearLayout>
 
@@ -131,7 +131,7 @@
             android:id="@+id/account_logout_logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="6dp"
+            android:padding="8dp"
             android:src="@drawable/ic_log_out" />
     </LinearLayout>
 
