@@ -576,7 +576,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase(getActivity());
+				OmnitureTracking.trackPageLoadHotelsCheckoutSlideToPurchase(getActivity());
 			}
 		}).start();
 

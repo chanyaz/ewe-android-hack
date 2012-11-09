@@ -98,12 +98,6 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(this);
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 

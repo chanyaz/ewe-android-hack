@@ -296,6 +296,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 					Log.e("Exception calling Amobee.trackCheckout", ex);
 				}
 				launchConfirmationActivity();
+
+				OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(mContext);
 			}
 		}
 	};

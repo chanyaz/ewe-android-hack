@@ -223,7 +223,7 @@ public class OmnitureTracking {
 
 		AppMeasurement s = createTrackLinkEvent(context, FLIGHT_CHECKOUT_LOGIN_SUCCESS);
 
-		s.events = "event62";
+		s.events = "event26";
 
 		s.trackLink(null, "o", s.eVar28);
 	}
@@ -307,7 +307,7 @@ public class OmnitureTracking {
 
 		// TRL
 		Itinerary itin = Db.getItinerary(trip.getItineraryNumber());
-		s.prop71 = itin.getTravelRecordLocator();
+		s.prop71 = itin.getItineraryNumber();
 
 		// order #
 		s.prop72 = orderId;
