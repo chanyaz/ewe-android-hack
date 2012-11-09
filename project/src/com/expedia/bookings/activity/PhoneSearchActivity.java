@@ -2333,8 +2333,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			String str = s.toString();
 			int len = s.length();
 			boolean changed = false;
-			SearchParams searchParams = getCurrentSearchParams();
-			if (str.equals(searchParams.getQuery())) {
+			SearchParams searchParams = mEditedSearchParams;
+			if (searchParams == null || str.equals(searchParams.getQuery())) {
 				// SearchParams hasn't changed
 			}
 			else if (str.equals(getString(R.string.current_location)) || len == 0) {
