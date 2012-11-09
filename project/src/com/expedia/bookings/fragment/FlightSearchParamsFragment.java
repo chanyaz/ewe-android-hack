@@ -184,6 +184,18 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		});
 
+		mDepartureAirportEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+					onDepartureInputComplete();
+					return true;
+				}
+
+				return false;
+			}
+		});
+
 		mArrivalAirportEditText.setFilters(filters);
 		mArrivalAirportEditText.setOnItemClickListener(new OnItemClickListener() {
 			@Override
