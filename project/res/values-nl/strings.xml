@@ -1367,7 +1367,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia-website</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">Ga naar onze website voor het boeken van vluchten, huurauto\&amp;apos;s, pakketvakanties en nog veel meer.</string>
+    <string name="expedia_website_description">Ga naar onze website voor het boeken van vluchten, huurauto\&apos;s, pakketvakanties en nog veel meer.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">Laat ons weten wat je van onze app vindt.</string>
     <!-- Section Header for interaction section -->
@@ -1405,7 +1405,7 @@
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">Alle opgeslagen betalings- en contactgegevens zijn verwijderd.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Wil je Expedia\&amp;apos;s mobiele website opstarten?</string>
+    <string name="dialog_message_launch_expedia_mobile_site">Wil je Expedia\&apos;s mobiele website opstarten?</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
     <string name="dialog_message_launch_expedia_support_site">Wil je de support-website van Expedia bezoeken?</string>
     <!-- Action button label to Subscribe to our mailing list -->
@@ -1593,7 +1593,7 @@
     <string name="country_au">Australië</string>
     <string name="country_at">Oostenrijk</string>
     <string name="country_az">Azerbeidzjan</string>
-    <string name="country_bs">Bahama\&amp;apos;s</string>
+    <string name="country_bs">Bahama\&apos;s</string>
     <string name="country_bh">Bahrein</string>
     <string name="country_bd">Bangladesh</string>
     <string name="country_bb">Barbados</string>
