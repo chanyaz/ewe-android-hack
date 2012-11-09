@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
-            <LinearLayout
+            <com.expedia.bookings.widget.LinearLayout
                 android:id="@+id/checkout_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="16dp"
                     android:textColor="@android:color/white" />
-            </LinearLayout>
+            </com.expedia.bookings.widget.LinearLayout>
 
             <View
                 android:id="@+id/scroll_spacer_view"
@@ -166,7 +166,7 @@
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 
-    <LinearLayout
+    <com.expedia.bookings.widget.LinearLayout
         android:id="@+id/slide_to_purchase_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
         android:paddingTop="16dp"
-        android:visibility="gone" >
+        android:visibility="invisible" >
 
         <com.expedia.bookings.widget.SlideToWidget
             android:id="@+id/slide_to_purchase_widget"
@@ -199,6 +199,6 @@
             android:layout_marginTop="8dp"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_to_purchase_price_text_size" />
-    </LinearLayout>
+    </com.expedia.bookings.widget.LinearLayout>
 
 </RelativeLayout>

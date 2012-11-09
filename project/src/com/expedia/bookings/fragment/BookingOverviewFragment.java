@@ -44,6 +44,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
+import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.CouponCodeWidget;
 import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.HotelReceiptMini;
@@ -81,7 +82,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private ScrollViewListener mScrollViewListener;
 
 	private HotelReceipt mHotelReceipt;
-	private View mCheckoutLayout;
+	private LinearLayout mCheckoutLayout;
 
 	private AccountButton mAccountButton;
 	private SectionTravelerInfo mTravelerSection;
@@ -95,7 +96,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private TextView mLegalInformationTextView;
 	private View mScrollSpacerView;
 
-	private View mSlideToPurchaseLayout;
+	private LinearLayout mSlideToPurchaseLayout;
 
 	private boolean mShowSlideToWidget;
 	private SlideToWidget mSlideToPurchaseWidget;
@@ -166,7 +167,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mScrollView.setOnScrollListener(mScrollViewListener);
 		mScrollView.setOnTouchListener(mScrollViewListener);
 		mHotelReceipt.setOnSizeChangedListener(mScrollViewListener);
-		mHotelReceipt.setMiniReceiptOnSizeChangedListener(mScrollViewListener);
+		mCheckoutLayout.setOnSizeChangedListener(mScrollViewListener);
+		mSlideToPurchaseLayout.setOnSizeChangedListener(mScrollViewListener);
 
 		mSlideToPurchaseWidget.addSlideToListener(mSlideToListener);
 
@@ -477,7 +479,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void setScrollSpacerViewHeight() {
 		int height = 0;
 
-		if (mShowSlideToWidget) {
+		if (getInCheckout() && mShowSlideToWidget) {
 			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 16f);
 			height = mSlideToPurchaseLayout.getHeight() + paddingBottom;
 		}
@@ -506,7 +508,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			if (inCheckout && !mInCheckout) {
 				mBookingOverviewFragmentListener.checkoutStarted();
 			}
-			else if (mInCheckout) {
+			else if (!inCheckout && mInCheckout) {
 				mBookingOverviewFragmentListener.checkoutEnded();
 			}
 		}
@@ -606,10 +608,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				mSlideToPurchaseLayout.setVisibility(View.INVISIBLE);
-				setScrollSpacerViewHeight();
 			}
 		});
 
+		setScrollSpacerViewHeight();
 		mSlideToPurchaseLayout.startAnimation(animation);
 	}
 
@@ -740,7 +742,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	// Scroll Listener
 
 	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
-			OnTouchListener, HotelReceipt.OnSizeChangedListener, HotelReceiptMini.OnSizeChangedListener {
+			OnTouchListener, HotelReceipt.OnSizeChangedListener, HotelReceiptMini.OnSizeChangedListener,
+			LinearLayout.OnSizeChangedListener {
 
 		private static final float FADE_RANGE = 100.0f;
 
@@ -775,8 +778,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		public void measure() {
 			mMidY = (int) ((mReceiptHeight + mMarginTop) / 2);
 			mCheckoutY = mReceiptHeight - mReceiptMiniHeight + (int) mMarginTop - (int) mReceiptPaddingBottom;
-
-			setScrollSpacerViewHeight();
 		}
 
 		public int getCheckoutY() {
@@ -802,7 +803,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				if (mScrollY < mMidY) {
 					endCheckout();
 				}
-				else if (mScrollY >= mMidY && mScrollY < mCheckoutY) {
+				else if (mScrollY >= mMidY && mScrollY <= mCheckoutY) {
 					startCheckout();
 				}
 			}
@@ -877,6 +878,12 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		public void onMiniReceiptSizeChanged(int w, int h, int oldw, int oldh) {
 			mReceiptMiniHeight = h;
 			measure();
+			setScrollSpacerViewHeight();
+		}
+
+		@Override
+		public void onSizeChanged(int w, int h, int oldw, int oldh) {
+			setScrollSpacerViewHeight();
 		}
 	}
 }

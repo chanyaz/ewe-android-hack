@@ -103,6 +103,10 @@ public class HotelReceipt extends FrameLayout {
 
 	public void setOnSizeChangedListener(OnSizeChangedListener onSizeChangedListener) {
 		mOnSizeChangedListener = onSizeChangedListener;
+
+		if (onSizeChangedListener instanceof HotelReceiptMini.OnSizeChangedListener) {
+			setMiniReceiptOnSizeChangedListener((HotelReceiptMini.OnSizeChangedListener) onSizeChangedListener);
+		}
 	}
 
 	public void setMiniReceiptOnSizeChangedListener(HotelReceiptMini.OnSizeChangedListener onSizeChangedListener) {
