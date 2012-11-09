@@ -15,8 +15,9 @@
 
         <ImageView
             android:id="@+id/month_up"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/arrow_up_down_click_padding"
             android:src="@drawable/ic_picker_up" />
 
         <TextView
@@ -28,8 +29,9 @@
 
         <ImageView
             android:id="@+id/month_down"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/arrow_up_down_click_padding"
             android:src="@drawable/ic_picker_down" />
     </LinearLayout>
 
@@ -43,7 +45,7 @@
         android:textSize="14dp" />
 
     <LinearLayout
-        android:id="@+id/month_container"
+        android:id="@+id/year_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -53,8 +55,9 @@
 
         <ImageView
             android:id="@+id/year_up"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/arrow_up_down_click_padding"
             android:src="@drawable/ic_picker_up" />
 
         <TextView
@@ -66,8 +69,9 @@
 
         <ImageView
             android:id="@+id/year_down"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/arrow_up_down_click_padding"
             android:src="@drawable/ic_picker_down" />
     </LinearLayout>
 

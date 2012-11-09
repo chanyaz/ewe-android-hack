@@ -15,13 +15,13 @@
     <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>
     <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>
     <dimen name="launch_tile_hotel_sale_drawable_padding">3dp</dimen>
-    
+
     <!-- Flight search -->
     <dimen name="airport_row_height">56dp</dimen>
     <dimen name="flight_search_header_padding_top">14dp</dimen>
     <dimen name="flight_search_header_padding_bottom">14dp</dimen>
     <dimen name="flight_search_space_between_rows">6dp</dimen>
-	<dimen name="flight_search_space_between_rows">6dp</dimen>
+    <dimen name="flight_search_space_between_rows">6dp</dimen>
 
     <!-- Plane window view dimens -->
     <!-- These must always be linked -->
@@ -30,19 +30,20 @@
 
     <!-- Flights dimens -->
     <dimen name="flight_header_bottom_margin">88dp</dimen>
-   	<dimen name="simple_grey_divider_height">1dp</dimen>
-   	<dimen name="simple_grey_divider_margin_top">5dp</dimen>
-   	<dimen name="simple_grey_divider_margin_bottom">5dp</dimen>
-   	<dimen name="data_display_primary_text">18sp</dimen>
-   	<dimen name="data_display_sub_text">14sp</dimen>
-   	<dimen name="data_form_section_header_text">14sp</dimen>
-   	<dimen name="yoyo_navigation_padding_right">10dp</dimen>
-   	<dimen name="flight_calendar_min_height">200dp</dimen>
-   	<dimen name="flight_segment_margin">6dp</dimen>
-   	<dimen name="cvv_keypad_text_size">24dp</dimen>
-   	<dimen name="cvv_keypad_book_text_size">16dp</dimen>
-   	<dimen name="flight_list_blur_height">70dp</dimen>
-   	<dimen name="checkout_form_bottom_spacer_margin">50dp</dimen>
+    <dimen name="simple_grey_divider_height">1dp</dimen>
+    <dimen name="simple_grey_divider_margin_top">5dp</dimen>
+    <dimen name="simple_grey_divider_margin_bottom">5dp</dimen>
+    <dimen name="data_display_primary_text">18sp</dimen>
+    <dimen name="data_display_sub_text">14sp</dimen>
+    <dimen name="data_form_section_header_text">14sp</dimen>
+    <dimen name="yoyo_navigation_padding_right">10dp</dimen>
+    <dimen name="flight_calendar_min_height">200dp</dimen>
+    <dimen name="flight_segment_margin">6dp</dimen>
+    <dimen name="cvv_keypad_text_size">24dp</dimen>
+    <dimen name="cvv_keypad_book_text_size">16dp</dimen>
+    <dimen name="flight_list_blur_height">70dp</dimen>
+    <dimen name="checkout_form_bottom_spacer_margin">50dp</dimen>
+    <dimen name="arrow_up_down_click_padding">20dp</dimen>
 
     <!-- We need to increase the margins because of the animation -->
     <dimen name="flight_card_initial_offset">64dp</dimen>
