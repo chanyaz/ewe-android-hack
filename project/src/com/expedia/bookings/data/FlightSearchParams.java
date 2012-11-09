@@ -110,6 +110,19 @@ public class FlightSearchParams implements JSONable {
 		return getDepartureDate() != null && getDepartureLocation() != null && getArrivalLocation() != null;
 	}
 
+	/**
+	 * @return true if the departure and arrival airports differ
+	 */
+	public boolean hasDifferentAirports() {
+		if (!isFilled()) {
+			return false;
+		}
+
+		Location depLoc = getDepartureLocation();
+		Location arrLoc = getArrivalLocation();
+		return !depLoc.getDestinationId().equalsIgnoreCase(arrLoc.getDestinationId());
+	}
+
 	public boolean isRoundTrip() {
 		return mQueryLegs.size() == 2;
 	}

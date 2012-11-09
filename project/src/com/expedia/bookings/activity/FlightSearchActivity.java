@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -196,6 +197,11 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 			if (!params.isFilled()) {
 				throw new RuntimeException(
 						"You should not be able to search unless you have filled out all the search params!");
+			}
+			else if (!params.hasDifferentAirports()) {
+				DialogFragment df = SimpleSupportDialogFragment.newInstance(null,
+						getString(R.string.error_same_flight_departure_arrival));
+				df.show(getSupportFragmentManager(), "sameAirportsErrorDialog");
 			}
 			else {
 				Log.i("Initial search requested!");

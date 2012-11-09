@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -12,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
+import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchParamsFragmentListener;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
@@ -83,6 +85,11 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity implem
 			if (!params.isFilled()) {
 				throw new RuntimeException(
 						"You should not be able to search unless you have filled out all the search params!");
+			}
+			else if (!params.hasDifferentAirports()) {
+				DialogFragment df = SimpleSupportDialogFragment.newInstance(null,
+						getString(R.string.error_same_flight_departure_arrival));
+				df.show(getSupportFragmentManager(), "sameAirportsErrorDialog");
 			}
 			else {
 				Intent intent = new Intent();
