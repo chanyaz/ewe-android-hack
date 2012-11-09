@@ -815,8 +815,15 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			mScrollY = y;
 
-			final float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))
+			float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))
 					/ mScaledFadeRange;
+
+			if (alpha < 0) {
+				alpha = 0;
+			}
+			else if (alpha > 100) {
+				alpha = 100;
+			}
 
 			ViewHelper.setAlpha(mCheckoutLayout, alpha);
 
