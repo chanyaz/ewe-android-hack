@@ -103,7 +103,6 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		ViewHolder vh = new ViewHolder();
 		vh.mContainer = Ui.findView(view, R.id.launch_tile_container);
 		vh.mSaleTextView = Ui.findView(view, R.id.launch_tile_sale_text_view);
-		vh.mBannerContainer = Ui.findView(view, R.id.launch_tile_banner_container);
 		vh.mHotelTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
 		vh.mDistanceTextView = Ui.findView(view, R.id.launch_tile_distance_text_view);
 		vh.mPriceTextView = Ui.findView(view, R.id.launch_tile_price_text_view);
@@ -123,11 +122,10 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		vh.mPriceTextView.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
 
 		// Sale
-		boolean toggleSale = false;
 		if (lowestRate.isSaleTenPercentOrBetter()) {
-			vh.mSaleTextView.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			vh.mSaleTextView.setText(mContext.getString(R.string.percent_minus_template,
+					lowestRate.getDiscountPercent()));
 			vh.mSaleTextView.setVisibility(View.VISIBLE);
-			toggleSale = true;
 		}
 		else {
 			vh.mSaleTextView.setVisibility(View.GONE);
@@ -136,15 +134,12 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		// Background image
 		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
 		if (ImageCache.containsImage(url)) {
-			Log.v("imageContained: " + position + " url: " + url);
+			vh.mContainer.setVisibility(View.VISIBLE);
 			vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
 					.getImage(url), url));
-			toggleTile(vh, true, toggleSale);
 		}
 		else {
-			Log.v("imageNotContained: " + position + " url: " + url);
-			loadImageForLaunchStream(url, vh, toggleSale);
-			toggleTile(vh, false, toggleSale);
+			loadImageForLaunchStream(url, vh);
 		}
 
 		// We're just using the Tag as a flag to indicate this view has been populated
@@ -153,7 +148,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		return view;
 	}
 
-	private boolean loadImageForLaunchStream(String url, final ViewHolder vh, final boolean toggleSale) {
+	private boolean loadImageForLaunchStream(String url, final ViewHolder vh) {
 		String key = vh.toString();
 		Log.v("Loading RelativeLayout bg " + key + " with " + url);
 
@@ -162,15 +157,8 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
+				vh.mContainer.setVisibility(View.VISIBLE);
 				vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
-				vh.mBannerContainer.setVisibility(View.VISIBLE);
-				if (toggleSale) {
-					vh.mSaleTextView.setVisibility(View.VISIBLE);
-				}
-				else {
-					vh.mSaleTextView.setVisibility(View.GONE);
-				}
-
 				ObjectAnimator.ofFloat(vh.mContainer, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 			}
 
@@ -182,14 +170,6 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		return ImageCache.loadImage(key, url, callback);
 	}
 
-	private void toggleTile(ViewHolder vh, boolean loaded, boolean saleOn) {
-		int visibility = loaded ? View.VISIBLE : View.GONE;
-		vh.mBannerContainer.setVisibility(visibility);
-
-		int saleVisibility = saleOn && loaded ? View.VISIBLE : View.GONE;
-		vh.mSaleTextView.setVisibility(saleVisibility);
-	}
-
 	@Override
 	public int getTileHeight() {
 		return mContext.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_hotel);
@@ -198,7 +178,6 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 	private static class ViewHolder {
 		public ViewGroup mContainer;
 		public TextView mSaleTextView;
-		public ViewGroup mBannerContainer;
 		public TextView mHotelTextView;
 		public TextView mDistanceTextView;
 		public TextView mPriceTextView;

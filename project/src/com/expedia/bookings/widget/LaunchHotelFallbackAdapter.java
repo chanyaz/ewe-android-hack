@@ -93,15 +93,12 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 		// Background image
 		String url = hotel.getImgUrl();
 		if (ImageCache.containsImage(url)) {
-			Log.v("imageContained: " + position + " url: " + url);
+			vh.mContainer.setVisibility(View.VISIBLE);
 			vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
 					.getImage(url)));
-			toggleTile(vh, true);
 		}
 		else {
-			Log.v("imageNotContained: " + position + " url: " + url);
 			loadImageForLaunchStream(url, vh);
-			toggleTile(vh, false);
 		}
 
 		// We're just using the Tag as a flag to indicate this view has been populated
@@ -119,9 +116,8 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
+				vh.mContainer.setVisibility(View.VISIBLE);
 				vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap));
-				vh.mTitleTextView.setVisibility(View.VISIBLE);
-
 				ObjectAnimator.ofFloat(vh.mContainer, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 			}
 
@@ -131,11 +127,6 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 		};
 
 		return ImageCache.loadImage(key, url, callback);
-	}
-
-	private void toggleTile(ViewHolder vh, boolean loaded) {
-		int visibility = loaded ? View.VISIBLE : View.GONE;
-		vh.mTitleTextView.setVisibility(visibility);
 	}
 
 	@Override

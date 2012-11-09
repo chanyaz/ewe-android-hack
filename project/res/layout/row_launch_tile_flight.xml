@@ -3,7 +3,7 @@
     android:id="@+id/launch_tile_container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/launch_tile_height_flight"
-    android:visibility="visible" >
+    android:visibility="invisible" >
 
     <View
         android:layout_width="match_parent"
@@ -22,7 +22,6 @@
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:singleLine="true"
-        android:textColor="@color/launch_primary"
-        android:visibility="gone" />
+        android:textColor="@color/launch_primary" />
 
 </RelativeLayout>

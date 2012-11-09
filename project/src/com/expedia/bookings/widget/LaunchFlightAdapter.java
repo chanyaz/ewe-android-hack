@@ -78,7 +78,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		if (isMeasuring() || destination == null) {
 			return view;
 		}
-		
+
 		// Cache all ViewHolder views
 		ViewHolder vh = new ViewHolder();
 		vh.mContainer = Ui.findView(view, R.id.launch_tile_container);
@@ -90,20 +90,14 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 				destination.getCityFormatted())));
 
 		// Load the image
-		//
-		// NOTE: It may be in poor form to use the cached image like this blindly (without checking against a newly
-		// grabbed SHA fresh off the network) as it could be outdated. I don't anticipate these images being so volatile
-		// that we will have to constantly request the meta info, as we only cache the destination images in memory.
-		// TODO: Figure out if it is a big deal to be doing this
 		String url = destination.getImageUrl();
 		if (ImageCache.containsImage(url)) {
+			vh.mContainer.setVisibility(View.VISIBLE);
 			vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
 					.getImage(url), url));
-			vh.mTitleTextView.setVisibility(View.VISIBLE);
 		}
 		else {
 			loadImageForLaunchStream(url, vh);
-			vh.mTitleTextView.setVisibility(View.GONE);
 		}
 
 		// We're just using the Tag as a flag to indicate this view has been populated
@@ -121,8 +115,8 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
+				vh.mContainer.setVisibility(View.VISIBLE);
 				vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
-				vh.mTitleTextView.setVisibility(View.VISIBLE);
 				ObjectAnimator.ofFloat(vh.mContainer, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 			}
 
@@ -138,7 +132,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 	public int getTileHeight() {
 		return mContext.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_flight);
 	}
-	
+
 	private static class ViewHolder {
 		public ViewGroup mContainer;
 		public TextView mTitleTextView;
