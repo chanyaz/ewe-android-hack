@@ -81,7 +81,7 @@ public class ScreenshotSweep extends
 			mDriver.selectLocation("San Francisco");
 
 			mDriver.pressSort();
-			mDriver.filterFor("Hilton");
+			mDriver.filterFor("a");
 			mDriver.selectHotel(2);
 			mDriver.delay();
 

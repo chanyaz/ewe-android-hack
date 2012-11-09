@@ -37,37 +37,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	}
                                                       
 	public void testMethod() throws Exception {
-		
-
-		mDriver.changePOS(mDriver.AMERICAN_LOCALES[5]);
-		mDriver.clearPrivateData();
-		mDriver.launchFlights();
-		
-		mSolo.enterText(0, "SFO");
-		mDriver.landscape();
-		mDriver.delay();
-		mDriver.portrait();
-		mDriver.delay();
-		
-		mSolo.enterText(1, "LAX");
-		mDriver.landscape();
-		mDriver.delay();
-		mDriver.portrait();
-		mDriver.delay();
-		
-		mSolo.clickOnText(mRes.getString(R.string.hint_select_departure));
-		mDriver.landscape();
-		mDriver.delay();
-		mDriver.portrait();
-		mDriver.delay();
-		
-		Time start = CalendarTouchUtils.getDay(2);
-		Time end = CalendarTouchUtils.getDay(5);
-		CalendarDatePicker mCal = new CalendarDatePicker(mSolo.getCurrentActivity().getApplicationContext());
-		CalendarTouchUtils.clickOnDay(mSolo, mCal, start); //can't get this to work
-		CalendarTouchUtils.clickOnDay(mSolo, mCal, end);
-
-		mSolo.goBack();
+		mDriver.flightsHappyPath("SFO", "LAX", false);
 	}
 	
 	@Override

@@ -50,7 +50,7 @@ if [ ! -d "$LOCAL_DIRECTORY" ]; then
     mkdir $LOCAL_DIRECTORY
 fi
 
-adb shell ls | adb pull $ANDROID_DIRECTORY $LOCAL_DIRECTORY/ | rm -fr $ANDROID_DIRECTORY | exit
+adb shell ls | adb pull $ANDROID_DIRECTORY $LOCAL_DIRECTORY/ | exit
 
 cd $LOCAL_DIRECTORY
 
@@ -61,5 +61,5 @@ for locale in "${locales[@]}"
    fi
    
    mv $locale*.jpg $locale   
-   # ADD DELETE OF SCREENSHOTS FROM screenshot top directory
+   
    done
