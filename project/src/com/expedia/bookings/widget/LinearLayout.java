@@ -11,11 +11,11 @@ public class LinearLayout extends android.widget.LinearLayout {
 	private OnSizeChangedListener mOnSizeChangedListener;
 
 	public LinearLayout(Context context) {
-		super(context, null, 0);
+		super(context);
 	}
 
 	public LinearLayout(Context context, AttributeSet attrs) {
-		super(context, attrs, 0);
+		super(context, attrs);
 	}
 
 	public LinearLayout(Context context, AttributeSet attrs, int defStyle) {
