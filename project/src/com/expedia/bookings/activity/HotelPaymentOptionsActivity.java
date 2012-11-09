@@ -50,7 +50,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 	}
 
 	//Where we want to return to after our action
-	private enum YoYoPosition {
+	public enum YoYoPosition {
 		OPTIONS, ADDRESS, CREDITCARD, SAVE
 	}
 
@@ -319,10 +319,15 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			billMan.deleteWorkingBillingInfoFile(this);
 		}
 
+		Bundle bundle = savedInstanceState;
+		if (savedInstanceState == null) {
+			bundle = getIntent().getExtras();
+		}
+
 		//Show the options fragment
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
-			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
-			mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+		if (bundle != null && bundle.containsKey(STATE_TAG_DEST)) {
+			mMode = YoYoMode.valueOf(bundle.getString(STATE_TAG_MODE));
+			mPos = YoYoPosition.valueOf(bundle.getString(STATE_TAG_DEST));
 			switch (mPos) {
 			case OPTIONS:
 				displayOptions();

@@ -13,6 +13,8 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
+import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoPosition;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
@@ -147,6 +149,16 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		NavUtils.sendKillActivityBroadcast(this);
 	}
 
+	private void launchHotelPaymentCreditCardFragment() {
+		Intent intent = new Intent(mContext, HotelPaymentOptionsActivity.class);
+		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_MODE, YoYoMode.YOYO.name());
+		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_DEST, YoYoPosition.CREDITCARD.name());
+
+		Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
+
+		startActivity(intent);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Action bar
 
@@ -246,6 +258,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		@Override
 		public void onDownload(BookingResponse results) {
 			Db.setBookingResponse(results);
+			setCvvErrorMode(false);
 
 			if (results == null) {
 				DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
@@ -287,22 +300,23 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		// Check for special errors; return if we handled it
 		switch (firstError.getErrorCode()) {
-		case PAYMENT_FAILED:
-			String field = firstError.getExtra("field");
-
-			// Handle each type of failure differently
-			if ("cvv".equals(field)) {
-				setCvvErrorMode(true);
-				return;
-			}
-			else if ("creditCardNumber".equals(field)) {
+		case BOOKING_FAILED: {
+			if (firstError.getDiagnosticFullText().contains("INVALID_CCNUMBER")) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
 						DIALOG_CALLBACK_INVALID_CC);
 				frag.show(getSupportFragmentManager(), "badCcNumberDialog");
 				return;
 			}
-			else if ("expirationDate".equals(field)) {
+			break;
+		}
+		case INVALID_INPUT: {
+			if (firstError.getMessage().contains("CID_NOT_MATCHED")) {
+				setCvvErrorMode(true);
+				mProgressFragment.dismiss();
+				return;
+			}
+			else if (errors.size() == 3) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.error_expired_payment), getString(android.R.string.ok),
 						DIALOG_CALLBACK_EXPIRED_CC);
@@ -310,6 +324,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 				return;
 			}
 			break;
+		}
 		case TRIP_ALREADY_BOOKED:
 			// If the trip was already booked, just act like everything is hunky-dory
 			launchConfirmationActivity();
@@ -363,7 +378,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		switch (callbackId) {
 		case DIALOG_CALLBACK_INVALID_CC:
 		case DIALOG_CALLBACK_EXPIRED_CC:
-			// For now, do the same thing - leave this activity
+			launchHotelPaymentCreditCardFragment();
 			finish();
 			break;
 		}
