@@ -14,13 +14,17 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -34,6 +38,7 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 public class SignInFragment extends DialogFragment {
@@ -82,6 +87,25 @@ public class SignInFragment extends DialogFragment {
 
 		mPasswordEditText.setTypeface(Typeface.DEFAULT);
 		mPasswordEditText.setTransformationMethod(new PasswordTransformationMethod());
+
+		mPasswordEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT
+					|| actionId == EditorInfo.IME_ACTION_DONE
+					|| actionId == EditorInfo.IME_ACTION_SEARCH
+					|| actionId == EditorInfo.IME_ACTION_GO
+					|| actionId == EditorInfo.IME_ACTION_UNSPECIFIED ) {
+					InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+					return true;
+				}
+				else {
+					Log.d("EditorInfo IME_ACTION unrecognized actionId=" + actionId);
+					return false;
+				}
+			}
+		});
 
 		TextView forgotLink = (TextView) view.findViewById(R.id.forgot_your_password_link);
 		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>",

@@ -43,7 +43,10 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="6dp"
         android:hint="@string/email_address"
-        android:inputType="textEmailAddress" />
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:nextFocusDown="@+id/password_edit_text"
+        android:nextFocusRight="@+id/password_edit_text" />
 
     <EditText
         android:id="@+id/password_edit_text"
@@ -55,6 +58,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="14dp"
         android:hint="@string/hint_password"
+        android:imeOptions="actionDone"
         android:inputType="textPassword" />
 
     <LinearLayout
