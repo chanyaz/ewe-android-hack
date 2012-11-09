@@ -35,7 +35,7 @@
         android:background="#C7C7C7"
         android:visibility="invisible" />
 
-    <TextView
+    <com.mobiata.android.widget.AutoResizeTextView
         android:id="@+id/slider_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
