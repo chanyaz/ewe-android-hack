@@ -180,7 +180,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				}
 				updateAirportText(mDepartureAirportEditText, mSearchParams.getDepartureLocation());
 
-				mArrivalAirportEditText.requestFocus();
+				onDepartureInputComplete();
 			}
 		});
 
@@ -450,6 +450,18 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		});
 		anim.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
 		anim.start();
+	}
+
+	private void onDepartureInputComplete() {
+		if (mSearchParams.getArrivalLocation() == null || mSearchParams.isFilled()) {
+			mArrivalAirportEditText.requestFocus();
+		}
+		else if (!mIsLandscape) {
+			mDatesTextView.performClick();
+		}
+		else {
+			mDepartureAirportEditText.clearFocus();
+		}
 	}
 
 	private void onArrivalInputComplete() {
