@@ -40,6 +40,8 @@ import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.validation.ValidationError;
 
+// This is the TABLET booking activity for hotels.
+
 public class BookingFragmentActivity extends FragmentActivity implements RoomsAndRatesFragmentListener,
 		BookingInfoFragmentListener, SignInFragmentListener, BookingFormFragmentListener {
 
