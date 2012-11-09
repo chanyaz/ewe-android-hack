@@ -18,6 +18,7 @@ import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
 
 public class FlightSearchActivity extends SherlockFragmentActivity implements FlightSearchParamsFragmentListener {
@@ -205,6 +206,14 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 			}
 			else {
 				Log.i("Initial search requested!");
+
+				// F1294: If we've gotten this far, let's recycle the image cache so that
+				// we don't run into memory issues between the following screens and the
+				// launcher's bitmaps in memory.
+				//
+				// The launch screen should be able to re-download all assets on its own.
+				ImageCache.recycleCache(true);
+
 				Db.getFlightSearch().setSearchParams(params);
 				startActivity(new Intent(FlightSearchActivity.this, FlightSearchResultsActivity.class));
 				mUpdateOnResume = true;
