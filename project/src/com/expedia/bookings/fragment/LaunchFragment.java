@@ -871,7 +871,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	};
 
 	private boolean checkConnection() {
-		if (!NetUtils.isOnline(getActivity())) {
+		Context context = getActivity();
+		if (context != null && !NetUtils.isOnline(context)) {
 			Log.d("Launch page is offline.");
 
 			mErrorContainer.setVisibility(View.VISIBLE);
