@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Destination;
 import com.expedia.bookings.data.LaunchFlightData;
 import com.expedia.bookings.utils.FontCache;
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.Log;
-import com.mobiata.android.graphics.ResilientBitmapDrawable;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
@@ -90,42 +85,12 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 				destination.getCityFormatted())));
 
 		// Load the image
-		String url = destination.getImageUrl();
-		if (ImageCache.containsImage(url)) {
-			vh.mContainer.setVisibility(View.VISIBLE);
-			vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
-					.getImage(url), url));
-		}
-		else {
-			loadImageForLaunchStream(url, vh);
-		}
+		loadImageForLaunchStream(destination.getImageUrl(), vh.mContainer);
 
 		// We're just using the Tag as a flag to indicate this view has been populated
 		view.setTag(vh);
 
 		return view;
-	}
-
-	protected boolean loadImageForLaunchStream(String url, final ViewHolder vh) {
-		String key = vh.toString();
-		Log.v("Loading View bg " + key + " with " + url);
-
-		// Begin a load on the ImageView
-		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
-			public void onImageLoaded(String url, Bitmap bitmap) {
-				Log.v("ImageLoaded: " + url);
-
-				vh.mContainer.setVisibility(View.VISIBLE);
-				vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
-				ObjectAnimator.ofFloat(vh.mContainer, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
-			}
-
-			public void onImageLoadFailed(String url) {
-				Log.v("Image load failed: " + url);
-			}
-		};
-
-		return ImageCache.loadImage(key, url, callback);
 	}
 
 	@Override

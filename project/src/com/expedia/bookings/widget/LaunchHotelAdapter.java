@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.Log;
-import com.mobiata.android.graphics.ResilientBitmapDrawable;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 
@@ -132,42 +127,12 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		}
 
 		// Background image
-		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
-		if (ImageCache.containsImage(url)) {
-			vh.mContainer.setVisibility(View.VISIBLE);
-			vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
-					.getImage(url), url));
-		}
-		else {
-			loadImageForLaunchStream(url, vh);
-		}
+		loadImageForLaunchStream(property.getThumbnail().getUrl(THUMBNAIL_SIZE), vh.mContainer);
 
 		// We're just using the Tag as a flag to indicate this view has been populated
 		view.setTag(vh);
 
 		return view;
-	}
-
-	private boolean loadImageForLaunchStream(String url, final ViewHolder vh) {
-		String key = vh.toString();
-		Log.v("Loading RelativeLayout bg " + key + " with " + url);
-
-		// Begin a load on the ImageView
-		ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
-			public void onImageLoaded(String url, Bitmap bitmap) {
-				Log.v("ImageLoaded: " + url);
-
-				vh.mContainer.setVisibility(View.VISIBLE);
-				vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
-				ObjectAnimator.ofFloat(vh.mContainer, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
-			}
-
-			public void onImageLoadFailed(String url) {
-				Log.v("Image load failed: " + url);
-			}
-		};
-
-		return ImageCache.loadImage(key, url, callback);
 	}
 
 	@Override

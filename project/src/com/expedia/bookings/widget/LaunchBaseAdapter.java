@@ -1,16 +1,15 @@
 package com.expedia.bookings.widget;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
-
-import com.expedia.bookings.R;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.graphics.ResilientBitmapDrawable;
 import com.nineoldandroids.animation.ObjectAnimator;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 
 public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> implements OnMeasureListener {
 
@@ -41,6 +40,38 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 
 	//////////////////////////////////////////////////////////////////////////
 	// Utility
+
+	protected void loadImageForLaunchStream(String url, final ViewGroup row) {
+		if (ImageCache.containsImage(url)) {
+			onLaunchImageLoaded(ImageCache.getImage(url), row);
+		}
+		else {
+			String key = row.toString();
+			Log.v("Loading launcher bg " + key + " with " + url);
+
+			// Begin a load on the ImageView
+			ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
+				public void onImageLoaded(String url, Bitmap bitmap) {
+					Log.v("ImageLoaded: " + url);
+
+					onLaunchImageLoaded(bitmap, row);
+
+					ObjectAnimator.ofFloat(row, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+				}
+
+				public void onImageLoadFailed(String url) {
+					Log.v("Image load failed: " + url);
+				}
+			};
+
+			ImageCache.loadImage(key, url, callback);
+		}
+	}
+
+	private void onLaunchImageLoaded(Bitmap bitmap, ViewGroup row) {
+		row.setVisibility(View.VISIBLE);
+		row.setBackgroundDrawable(new ResilientBitmapDrawable(getContext().getResources(), bitmap));
+	}
 
 	private int mNumTiles = 0;
 
