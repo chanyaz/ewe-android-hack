@@ -99,64 +99,62 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 			return view;
 		}
 
-		View container = Ui.findView(view, R.id.launch_tile_container);
-		TextView titleTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
-		FontCache.setTypeface(titleTextView, FontCache.Font.ROBOTO_LIGHT);
+		// Cache all views in a ViewHolder
+		ViewHolder vh = new ViewHolder();
+		vh.mContainer = Ui.findView(view, R.id.launch_tile_container);
+		vh.mSaleTextView = Ui.findView(view, R.id.launch_tile_sale_text_view);
+		vh.mBannerContainer = Ui.findView(view, R.id.launch_tile_banner_container);
+		vh.mHotelTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
+		vh.mDistanceTextView = Ui.findView(view, R.id.launch_tile_distance_text_view);
+		vh.mPriceTextView = Ui.findView(view, R.id.launch_tile_price_text_view);
 
-		TextView distanceTextView = Ui.findView(view, R.id.launch_tile_distance_text_view);
-		FontCache.setTypeface(distanceTextView, FontCache.Font.ROBOTO_LIGHT);
-
-		TextView priceTextView = Ui.findView(view, R.id.launch_tile_price_text_view);
-		FontCache.setTypeface(priceTextView, FontCache.Font.ROBOTO_BOLD);
+		// Set custom fonts
+		FontCache.setTypeface(vh.mHotelTextView, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(vh.mDistanceTextView, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(vh.mPriceTextView, FontCache.Font.ROBOTO_BOLD);
+		FontCache.setTypeface(vh.mSaleTextView, FontCache.Font.ROBOTO_BOLD);
 
 		// Bottom banner/label
-		titleTextView.setText(property.getName());
-		distanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
+		vh.mHotelTextView.setText(property.getName());
+		vh.mDistanceTextView.setText(property.getDistanceFromUser().formatDistance(mContext, mDistanceUnit,
 				true) + " - ");
 
 		Rate lowestRate = property.getLowestRate();
-		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
-		priceTextView.setText(hotelPrice);
+		vh.mPriceTextView.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
 
 		// Sale
-		TextView sale = Ui.findView(view, R.id.launch_tile_sale_text_view);
-		FontCache.setTypeface(sale, FontCache.Font.ROBOTO_BOLD);
-
 		boolean toggleSale = false;
-		if (property.getLowestRate().isSaleTenPercentOrBetter()) {
-			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
-			sale.setVisibility(View.VISIBLE);
+		if (lowestRate.isSaleTenPercentOrBetter()) {
+			vh.mSaleTextView.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			vh.mSaleTextView.setVisibility(View.VISIBLE);
 			toggleSale = true;
 		}
 		else {
-			sale.setVisibility(View.GONE);
+			vh.mSaleTextView.setVisibility(View.GONE);
 		}
 
 		// Background image
-		ViewGroup banner = Ui.findView(view, R.id.launch_tile_banner_container);
-
 		String url = property.getThumbnail().getUrl(THUMBNAIL_SIZE);
 		if (ImageCache.containsImage(url)) {
 			Log.v("imageContained: " + position + " url: " + url);
-			container.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
+			vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
 					.getImage(url), url));
-			toggleTile(sale, banner, true, toggleSale);
+			toggleTile(vh, true, toggleSale);
 		}
 		else {
 			Log.v("imageNotContained: " + position + " url: " + url);
-			loadImageForLaunchStream(url, container, banner, sale, toggleSale);
-			toggleTile(sale, banner, false, toggleSale);
+			loadImageForLaunchStream(url, vh, toggleSale);
+			toggleTile(vh, false, toggleSale);
 		}
 
 		// We're just using the Tag as a flag to indicate this view has been populated
-		view.setTag(new Object());
+		view.setTag(vh);
 
 		return view;
 	}
 
-	private boolean loadImageForLaunchStream(String url, final View layout, final ViewGroup banner,
-			final TextView sale, final boolean toggleSale) {
-		String key = layout.toString();
+	private boolean loadImageForLaunchStream(String url, final ViewHolder vh, final boolean toggleSale) {
+		String key = vh.toString();
 		Log.v("Loading RelativeLayout bg " + key + " with " + url);
 
 		// Begin a load on the ImageView
@@ -164,16 +162,16 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
-				layout.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
-				banner.setVisibility(View.VISIBLE);
+				vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
+				vh.mBannerContainer.setVisibility(View.VISIBLE);
 				if (toggleSale) {
-					sale.setVisibility(View.VISIBLE);
+					vh.mSaleTextView.setVisibility(View.VISIBLE);
 				}
 				else {
-					sale.setVisibility(View.GONE);
+					vh.mSaleTextView.setVisibility(View.GONE);
 				}
 
-				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+				ObjectAnimator.ofFloat(vh.mContainer, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 			}
 
 			public void onImageLoadFailed(String url) {
@@ -184,16 +182,25 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		return ImageCache.loadImage(key, url, callback);
 	}
 
-	private void toggleTile(TextView sale, ViewGroup banner, boolean loaded, boolean saleOn) {
+	private void toggleTile(ViewHolder vh, boolean loaded, boolean saleOn) {
 		int visibility = loaded ? View.VISIBLE : View.GONE;
-		banner.setVisibility(visibility);
+		vh.mBannerContainer.setVisibility(visibility);
 
 		int saleVisibility = saleOn && loaded ? View.VISIBLE : View.GONE;
-		sale.setVisibility(saleVisibility);
+		vh.mSaleTextView.setVisibility(saleVisibility);
 	}
 
 	@Override
 	public int getTileHeight() {
 		return mContext.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_hotel);
+	}
+
+	private static class ViewHolder {
+		public ViewGroup mContainer;
+		public TextView mSaleTextView;
+		public ViewGroup mBannerContainer;
+		public TextView mHotelTextView;
+		public TextView mDistanceTextView;
+		public TextView mPriceTextView;
 	}
 }

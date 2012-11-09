@@ -80,35 +80,38 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 			return view;
 		}
 
-		View container = Ui.findView(view, R.id.launch_tile_container);
-		TextView titleTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
-		FontCache.setTypeface(titleTextView, FontCache.Font.ROBOTO_LIGHT);
+		// Cache all views in a ViewHolder
+		ViewHolder vh = new ViewHolder();
+		vh.mContainer = Ui.findView(view, R.id.launch_tile_container);
+		vh.mTitleTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
 
-		titleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_hotel_fallback_tile_prompt,
+		FontCache.setTypeface(vh.mTitleTextView, FontCache.Font.ROBOTO_LIGHT);
+
+		vh.mTitleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_hotel_fallback_tile_prompt,
 				hotel.getLaunchTileText())));
 
 		// Background image
 		String url = hotel.getImgUrl();
 		if (ImageCache.containsImage(url)) {
 			Log.v("imageContained: " + position + " url: " + url);
-			container.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
+			vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
 					.getImage(url)));
-			toggleTile(titleTextView, true);
+			toggleTile(vh, true);
 		}
 		else {
 			Log.v("imageNotContained: " + position + " url: " + url);
-			loadImageForLaunchStream(url, container, titleTextView);
-			toggleTile(titleTextView, false);
+			loadImageForLaunchStream(url, vh);
+			toggleTile(vh, false);
 		}
 
 		// We're just using the Tag as a flag to indicate this view has been populated
-		view.setTag(new Object());
+		view.setTag(vh);
 
 		return view;
 	}
 
-	private boolean loadImageForLaunchStream(String url, final View layout, final TextView banner) {
-		String key = layout.toString();
+	private boolean loadImageForLaunchStream(String url, final ViewHolder vh) {
+		String key = vh.toString();
 		Log.v("Loading RelativeLayout bg " + key + " with " + url);
 
 		// Begin a load on the ImageView
@@ -116,10 +119,10 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
-				layout.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap));
-				banner.setVisibility(View.VISIBLE);
+				vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap));
+				vh.mTitleTextView.setVisibility(View.VISIBLE);
 
-				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+				ObjectAnimator.ofFloat(vh.mContainer, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 			}
 
 			public void onImageLoadFailed(String url) {
@@ -130,13 +133,18 @@ public class LaunchHotelFallbackAdapter extends LaunchBaseAdapter<HotelDestinati
 		return ImageCache.loadImage(key, url, callback);
 	}
 
-	private void toggleTile(TextView label, boolean loaded) {
+	private void toggleTile(ViewHolder vh, boolean loaded) {
 		int visibility = loaded ? View.VISIBLE : View.GONE;
-		label.setVisibility(visibility);
+		vh.mTitleTextView.setVisibility(visibility);
 	}
 
 	@Override
 	public int getTileHeight() {
 		return mContext.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_hotel);
+	}
+
+	private static class ViewHolder {
+		public ViewGroup mContainer;
+		public TextView mTitleTextView;
 	}
 }

@@ -78,12 +78,15 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		if (isMeasuring() || destination == null) {
 			return view;
 		}
+		
+		// Cache all ViewHolder views
+		ViewHolder vh = new ViewHolder();
+		vh.mContainer = Ui.findView(view, R.id.launch_tile_container);
+		vh.mTitleTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
 
-		View container = Ui.findView(view, R.id.launch_tile_container);
-		TextView titleTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
-		FontCache.setTypeface(titleTextView, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(vh.mTitleTextView, FontCache.Font.ROBOTO_LIGHT);
 
-		titleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_flight_tile_prompt,
+		vh.mTitleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_flight_tile_prompt,
 				destination.getCityFormatted())));
 
 		// Load the image
@@ -94,23 +97,23 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		// TODO: Figure out if it is a big deal to be doing this
 		String url = destination.getImageUrl();
 		if (ImageCache.containsImage(url)) {
-			container.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
+			vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), ImageCache
 					.getImage(url), url));
-			titleTextView.setVisibility(View.VISIBLE);
+			vh.mTitleTextView.setVisibility(View.VISIBLE);
 		}
 		else {
-			loadImageForLaunchStream(url, container, titleTextView);
-			titleTextView.setVisibility(View.GONE);
+			loadImageForLaunchStream(url, vh);
+			vh.mTitleTextView.setVisibility(View.GONE);
 		}
 
 		// We're just using the Tag as a flag to indicate this view has been populated
-		view.setTag(new Object());
+		view.setTag(vh);
 
 		return view;
 	}
 
-	protected boolean loadImageForLaunchStream(String url, final View layout, final View banner) {
-		String key = layout.toString();
+	protected boolean loadImageForLaunchStream(String url, final ViewHolder vh) {
+		String key = vh.toString();
 		Log.v("Loading View bg " + key + " with " + url);
 
 		// Begin a load on the ImageView
@@ -118,9 +121,9 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
-				layout.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
-				banner.setVisibility(View.VISIBLE);
-				ObjectAnimator.ofFloat(layout, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+				vh.mContainer.setBackgroundDrawable(new ResilientBitmapDrawable(mContext.getResources(), bitmap, url));
+				vh.mTitleTextView.setVisibility(View.VISIBLE);
+				ObjectAnimator.ofFloat(vh.mContainer, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 			}
 
 			public void onImageLoadFailed(String url) {
@@ -134,5 +137,10 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 	@Override
 	public int getTileHeight() {
 		return mContext.getResources().getDimensionPixelSize(R.dimen.launch_tile_height_flight);
+	}
+	
+	private static class ViewHolder {
+		public ViewGroup mContainer;
+		public TextView mTitleTextView;
 	}
 }
