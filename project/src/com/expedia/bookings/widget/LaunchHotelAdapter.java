@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -97,6 +98,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		// Cache all views in a ViewHolder
 		ViewHolder vh = new ViewHolder();
 		vh.mContainer = Ui.findView(view, R.id.launch_tile_container);
+		vh.mBackgroundView = Ui.findView(view, R.id.background_view);
 		vh.mSaleTextView = Ui.findView(view, R.id.launch_tile_sale_text_view);
 		vh.mHotelTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
 		vh.mDistanceTextView = Ui.findView(view, R.id.launch_tile_distance_text_view);
@@ -127,7 +129,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		}
 
 		// Background image
-		loadImageForLaunchStream(property.getThumbnail().getUrl(THUMBNAIL_SIZE), vh.mContainer);
+		loadImageForLaunchStream(property.getThumbnail().getUrl(THUMBNAIL_SIZE), vh.mContainer, vh.mBackgroundView);
 
 		// We're just using the Tag as a flag to indicate this view has been populated
 		view.setTag(vh);
@@ -142,6 +144,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 
 	private static class ViewHolder {
 		public ViewGroup mContainer;
+		public ImageView mBackgroundView;
 		public TextView mSaleTextView;
 		public TextView mHotelTextView;
 		public TextView mDistanceTextView;

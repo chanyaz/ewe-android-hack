@@ -1,15 +1,16 @@
 package com.expedia.bookings.widget;
 
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.Log;
-import com.mobiata.android.graphics.ResilientBitmapDrawable;
-import com.nineoldandroids.animation.ObjectAnimator;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
+
+import com.mobiata.android.ImageCache;
+import com.mobiata.android.Log;
+import com.mobiata.android.graphics.ResilientBitmapDrawable;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> implements OnMeasureListener {
 
@@ -41,9 +42,9 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 	//////////////////////////////////////////////////////////////////////////
 	// Utility
 
-	protected void loadImageForLaunchStream(String url, final ViewGroup row) {
+	protected void loadImageForLaunchStream(String url, final ViewGroup row, final ImageView bgView) {
 		if (ImageCache.containsImage(url)) {
-			onLaunchImageLoaded(ImageCache.getImage(url), row);
+			onLaunchImageLoaded(ImageCache.getImage(url), row, bgView);
 		}
 		else {
 			String key = row.toString();
@@ -54,7 +55,7 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 				public void onImageLoaded(String url, Bitmap bitmap) {
 					Log.v("ImageLoaded: " + url);
 
-					onLaunchImageLoaded(bitmap, row);
+					onLaunchImageLoaded(bitmap, row, bgView);
 
 					ObjectAnimator.ofFloat(row, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
 				}
@@ -68,9 +69,9 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 		}
 	}
 
-	private void onLaunchImageLoaded(Bitmap bitmap, ViewGroup row) {
+	private void onLaunchImageLoaded(Bitmap bitmap, ViewGroup row, ImageView bgView) {
 		row.setVisibility(View.VISIBLE);
-		row.setBackgroundDrawable(new ResilientBitmapDrawable(getContext().getResources(), bitmap));
+		bgView.setImageDrawable(new ResilientBitmapDrawable(getContext().getResources(), bitmap));
 	}
 
 	private int mNumTiles = 0;

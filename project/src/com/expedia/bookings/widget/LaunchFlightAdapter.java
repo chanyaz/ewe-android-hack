@@ -5,6 +5,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -77,6 +78,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		// Cache all ViewHolder views
 		ViewHolder vh = new ViewHolder();
 		vh.mContainer = Ui.findView(view, R.id.launch_tile_container);
+		vh.mBackgroundView = Ui.findView(view, R.id.background_view);
 		vh.mTitleTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
 
 		FontCache.setTypeface(vh.mTitleTextView, FontCache.Font.ROBOTO_LIGHT);
@@ -85,7 +87,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 				destination.getCityFormatted())));
 
 		// Load the image
-		loadImageForLaunchStream(destination.getImageUrl(), vh.mContainer);
+		loadImageForLaunchStream(destination.getImageUrl(), vh.mContainer, vh.mBackgroundView);
 
 		// We're just using the Tag as a flag to indicate this view has been populated
 		view.setTag(vh);
@@ -100,6 +102,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
 	private static class ViewHolder {
 		public ViewGroup mContainer;
+		public ImageView mBackgroundView;
 		public TextView mTitleTextView;
 	}
 }
