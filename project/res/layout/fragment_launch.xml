@@ -134,6 +134,12 @@
         android:layout_height="wrap_content"
         android:splitMotionEvents="false" >
 
+        <ImageView
+            android:id="@+id/background_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
         <View
             android:id="@+id/divider"
             android:layout_width="@dimen/launch_tile_space_width"

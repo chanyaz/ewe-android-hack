@@ -26,6 +26,7 @@ import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightSearchActivity;
@@ -131,9 +132,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
 
 		// Pick background image at random
+		ImageView bgView = Ui.findView(v, R.id.background_view);
 		Random rand = new Random();
-		int index = rand.nextInt(BACKGROUND_RES_IDS.length);
-		mScrollContainer.setBackgroundDrawable(mContext.getResources().getDrawable(BACKGROUND_RES_IDS[index]));
+		bgView.setImageResource(BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
 
 		FontCache.setTypeface(v, R.id.hotels_label_text_view, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.hotels_prompt_text_view, FontCache.Font.ROBOTO_LIGHT);
