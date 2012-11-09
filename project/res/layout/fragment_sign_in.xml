@@ -57,15 +57,21 @@
         android:hint="@string/hint_password"
         android:inputType="textPassword" />
 
-    <TextView
-        android:id="@+id/forgot_your_password_link"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="13dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="2dp"
-        android:padding="8dp" />
+        android:layout_marginTop="2dp" >
+
+        <TextView
+            android:id="@+id/forgot_your_password_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp" />
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
