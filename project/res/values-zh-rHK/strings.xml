@@ -528,11 +528,11 @@
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">條款與細則</string>
     <!-- Privacy policy -->
-    <string name="privacy_policy">私隱權政策</string>
+    <string name="privacy_policy">私隱政策</string>
     <!-- Fare information header -->
     <string name="fare_information">收費資料</string>
     <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">完成此預訂即表示我同意我已閱讀並接受&lt;u&gt;&lt;b&gt;規則與限制、&lt;/b&gt;&lt;b&gt;條款及細則、&lt;/b&gt;&lt;b&gt;私隱權政策，以及&lt;/b&gt;&lt;b&gt;收費資料。&lt;/b&gt;&lt;/u&gt;</string>
+    <string name="fare_rules_link">完成此預訂即表示我同意我已閱讀並接受&lt;u&gt;&lt;b&gt;規則與限制、&lt;/b&gt;&lt;b&gt;條款及細則、&lt;/b&gt;&lt;b&gt;私隱政策，以及&lt;/b&gt;&lt;b&gt;收費資料。&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1390,11 +1390,11 @@
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">條款與細則</string>
     <!-- Label for link to privacy policy -->
-    <string name="info_label_privacy_policy">私隱權政策</string>
+    <string name="info_label_privacy_policy">私隱政策</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2011-2012 Expedia, Inc. \n版權所有。</string>
+    <string name="copyright">© Copyright 2012-2013 Expedia, Inc. \n版權所有。</string>
     <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
-    <string name="dialog_title_log_out_and_clear_private_data">登出或清除資料？</string>
+    <string name="dialog_title_log_out_and_clear_private_data">登出並清除資料？</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">登出並已清除資料</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1413,8 +1413,10 @@
     <string name="Follow">關注</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">讚</string>
-    <!-- Credits to the open source libraries we use -->
-    <string name="open_source_credits">ActionBarSherlock 4.1.0、NineOldAndroids 2.4.0</string>
+    <!-- Leading text before we list the open source libraries we use -->
+    <string name="open_source_credits">此應用程式使用以下開放源碼程式庫：</string>
+    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
+    <string name="stack_blur_credit">此應用程式使用 Mario Klingemann 的 Stack Blur 演算法</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

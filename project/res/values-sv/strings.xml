@@ -522,11 +522,11 @@
 
     <!-- Flight Rules -->
     <!-- Legal information header -->
-    <string name="legal_information">Rättslig information</string>
+    <string name="legal_information">Juridisk information</string>
     <!-- Rules and Restrictions for flight -->
     <string name="rules_and_restrictions">Regler och begränsningar</string>
     <!-- Terms and Conditions for flight -->
-    <string name="terms_and_conditions">Villkor</string>
+    <string name="terms_and_conditions">Regler och villkor</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Integritetspolicy</string>
     <!-- Fare information header -->
@@ -704,7 +704,7 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; matchande hotell</item>
     </plurals>
     <!-- Search header, Example: "42 Hotels Found" -->
-    <string name="search_header_num_hotels">%d Hotell</string>
+    <string name="search_header_num_hotels">%d hotell hittades</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s till %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -1388,11 +1388,11 @@
     <!-- Section Header for our Rules and Restrictions -->
     <string name="RULES_AND_RESTRICTIONS">REGLER OCH BEGRÄNSNINGAR</string>
     <!-- Label for link to terms and conditions -->
-    <string name="info_label_terms_conditions">Villkor</string>
+    <string name="info_label_terms_conditions">Regler och villkor</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Integritetspolicy</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nMed ensamrätt. </string>
+    <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nAlla rättigheter förbehålles. </string>
     <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
     <string name="dialog_title_log_out_and_clear_private_data">Logga ut och radera data? </string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1413,8 +1413,10 @@
     <string name="Follow">Följ</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">Gilla</string>
-    <!-- Credits to the open source libraries we use -->
-    <string name="open_source_credits">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0</string>
+    <!-- Leading text before we list the open source libraries we use -->
+    <string name="open_source_credits">Appen använder följande öppna källor: </string>
+    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
+    <string name="stack_blur_credit">Appen använder Stack Blur-algoritmen av Mario Klingemann. </string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1560,7 +1562,7 @@
     <string name="currency_cny">Kinesiska yuan</string>
     <string name="currency_dkk">Danska kronor</string>
     <string name="currency_eur">Euro</string>
-    <string name="currency_hkd">Hong Kong dollar</string>
+    <string name="currency_hkd">Hongkongdollar</string>
     <string name="currency_inr">Indiska rupier</string>
     <string name="currency_ils">Israeliska sheqel </string>
     <string name="currency_jpy">Japanska yen</string>

@@ -1392,7 +1392,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Beskyttelse af personlige oplysninger</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nAlle rettigheder forbeholdes.</string>
+    <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nAlle rettigheder forbeholdes.</string>
     <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
     <string name="dialog_title_log_out_and_clear_private_data">Log ud og slet oplysninger?</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1413,8 +1413,10 @@
     <string name="Follow">Følg</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">Synes godt om</string>
-    <!-- Credits to the open source libraries we use -->
-    <string name="open_source_credits">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0</string>
+    <!-- Leading text before we list the open source libraries we use -->
+    <string name="open_source_credits">Denne app anvender følgende open source-biblioteker:</string>
+    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
+    <string name="stack_blur_credit">Denne app anvender Stack Blur-algoritmen af Mario Klingemann.</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

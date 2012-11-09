@@ -52,7 +52,7 @@
     <string name="error_invalid_departure_arrival_airports">Aeroportos de partida e chegada inválidos.</string>
     <!-- Pluralization for # of seats left on a flight -->
     <plurals name="seats_left">
-        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; assentos restantes!</item>
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; assento restante!</item>
         <item quantity="one">&lt;b&gt;%d&lt;/b&gt; assento restante!</item>
         <item quantity="two">&lt;b&gt;%d&lt;/b&gt; assentos restantes!</item>
         <item quantity="few">&lt;b&gt;%d&lt;/b&gt; assentos restantes!</item>
@@ -1392,7 +1392,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Política de privacidade</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nTodos os direitos reservados.</string>
+    <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nTodos os direitos reservados.</string>
     <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
     <string name="dialog_title_log_out_and_clear_private_data">Desconectar e apagar os dados?</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1413,8 +1413,10 @@
     <string name="Follow">Siga</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">Curta</string>
-    <!-- Credits to the open source libraries we use -->
-    <string name="open_source_credits">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0</string>
+    <!-- Leading text before we list the open source libraries we use -->
+    <string name="open_source_credits">Este app utiliza as seguintes bibliotecas de código aberto (open-source):</string>
+    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
+    <string name="stack_blur_credit">Este app utiliza o algoritmo Stack Blur de Mario Klingemann.</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
