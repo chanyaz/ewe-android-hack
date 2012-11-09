@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -25,7 +26,6 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.debug.MemoryUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.nullwire.trace.ExceptionHandler;
@@ -98,6 +98,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 				Log.w("PackageManager blew up.", e);
 			}
 		}
+
+		// Some useful info to have on hand in case of memory crashes
+		long maxMemory = Runtime.getRuntime().maxMemory();
+		int memoryClass = ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).getMemoryClass();
+		Log.i("MaxMemory=" + maxMemory + " bytes (" + (maxMemory / 1048576) + "MB) MemoryClass=" + memoryClass + "MB");
 	}
 
 	@Override
