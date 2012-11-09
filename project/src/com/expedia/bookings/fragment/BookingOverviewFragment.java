@@ -621,7 +621,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	@Override
 	public void accountLoginClicked() {
 		SignInFragment.newInstance(false).show(getFragmentManager(), getString(R.string.tag_signin));
-		OmnitureTracking.trackPageLoadHotelsCheckoutLogin(getActivity());
 	}
 
 	@Override
@@ -656,6 +655,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		bindAll();
 		updateViews();
 		updateViewVisibilities();
+
+		OmnitureTracking.trackLinkHotelsCheckoutLogin(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

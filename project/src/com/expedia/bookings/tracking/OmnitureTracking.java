@@ -100,6 +100,7 @@ public class OmnitureTracking {
 	// ERROR PAGE NAME CONSTANTS
 
 	private static final String FLIGHT_ERROR_NOT_YET_AVAILABLE = "App.Flight.Error.NotYetAvailable";
+	private static final String FLIGHT_ERROR_CHECKOUT = "App.Flight.Error.Checkout";
 	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_PRICE_CHANGE_TICKET = "App.Flight.Error.Checkout.Payment.PriceChange.Ticket";
 	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_FAILED = "App.Flight.Error.Checkout.Payment.Failed";
 	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_CVV = "App.Flight.Error.Checkout.Payment.CVV";
@@ -258,6 +259,10 @@ public class OmnitureTracking {
 
 	public static void trackErrorPageLoadFlightUnsupportedPOS(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_NOT_YET_AVAILABLE);
+	}
+
+	public static void trackErrorPageLoadFlightCheckout(Context context) {
+		internalTrackPageLoadEventPriceChange(context, FLIGHT_ERROR_CHECKOUT);
 	}
 
 	public static void trackErrorPageLoadFlightPriceChangeTicket(Context context) {
@@ -536,18 +541,18 @@ public class OmnitureTracking {
 	// Hotels tracking events
 
 	public static void trackPageLoadHotelsRoomsRates(Context context) {
-		internalTrackLink(context, HOTELS_ROOMS_RATES);
+		internalTrackPageLoadEventStandard(context, HOTELS_ROOMS_RATES);
 	}
 
 	public static void trackPageLoadHotelsRateDetails(Context context) {
-		internalTrackLink(context, HOTELS_RATE_DETAILS);
+		internalTrackPageLoadEventStandard(context, HOTELS_RATE_DETAILS);
 	}
 
 	public static void trackPageLoadHotelsCheckoutInfo(Context context) {
-		internalTrackLink(context, HOTELS_CHECKOUT_INFO);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_INFO);
 	}
 
-	public static void trackPageLoadHotelsCheckoutLogin(Context context) {
+	public static void trackLinkHotelsCheckoutLogin(Context context) {
 		internalTrackLink(context, HOTELS_CHECKOUT_LOGIN);
 	}
 

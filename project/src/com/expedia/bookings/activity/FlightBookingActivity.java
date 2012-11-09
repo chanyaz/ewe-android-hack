@@ -370,6 +370,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			OmnitureTracking.trackErrorPageLoadFlightSearchExpired(mContext);
 			return;
 		default:
+			OmnitureTracking.trackErrorPageLoadFlightCheckout(mContext);
 			break;
 		}
 
