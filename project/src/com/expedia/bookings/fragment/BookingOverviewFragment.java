@@ -225,6 +225,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void onResume() {
 		super.onResume();
 
+		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
+
 		mCouponCodeWidget.startTextWatcher();
 		if (mSlideToPurchaseWidget != null) {
 			mSlideToPurchaseWidget.resetSlider();
@@ -655,8 +657,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		bindAll();
 		updateViews();
 		updateViewVisibilities();
-
-		OmnitureTracking.trackLinkHotelsCheckoutLogin(getActivity());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -814,6 +814,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			Log.i("scrolled");
+
 			mScrollY = y;
 
 			float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))

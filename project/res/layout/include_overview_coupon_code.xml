@@ -45,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dip"
                 android:text="@string/apply"
-                android:textColor="@android:color/white"
                 mobiata:maxTextSize="14dp" />
 
             <ProgressBar
@@ -63,7 +62,6 @@
                 android:layout_height="match_parent"
                 android:gravity="right"
                 android:text="@string/new_total"
-                android:textColor="@android:color/white"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>

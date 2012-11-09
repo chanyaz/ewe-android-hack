@@ -74,8 +74,7 @@ public class SignInFragment extends DialogFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		View view = inflater.inflate(R.layout.fragment_sign_in, null);
 
-		int themeResId = AndroidUtils.isTablet(mContext)
-				? R.style.Theme_Light_Fullscreen_Panel
+		int themeResId = AndroidUtils.isTablet(mContext) ? R.style.Theme_Light_Fullscreen_Panel
 				: R.style.ExpediaLoginDialog;
 		Dialog dialog = new Dialog(getActivity(), themeResId);
 		dialog.requestWindowFeature(STYLE_NO_TITLE);
@@ -91,12 +90,11 @@ public class SignInFragment extends DialogFragment {
 		mPasswordEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_NEXT
-					|| actionId == EditorInfo.IME_ACTION_DONE
-					|| actionId == EditorInfo.IME_ACTION_SEARCH
-					|| actionId == EditorInfo.IME_ACTION_GO
-					|| actionId == EditorInfo.IME_ACTION_UNSPECIFIED ) {
-					InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE
+						|| actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_GO
+						|| actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+					InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(
+							Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 					return true;
 				}
@@ -289,6 +287,9 @@ public class SignInFragment extends DialogFragment {
 
 				if (mIsFlights) {
 					OmnitureTracking.trackLinkFlightCheckoutLoginSuccess(mContext);
+				}
+				else {
+					OmnitureTracking.trackLinkHotelsCheckoutLogin(mContext);
 				}
 			}
 		}
