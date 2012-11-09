@@ -179,7 +179,7 @@ public class HotelReceipt extends FrameLayout {
 
 		// Rate breakdown list.  Only works with merchant hotels now.
 		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getContext());
-		if (rate.getRateBreakdownList() != null) {
+		if (rate.getRateBreakdownList() != null && rate.getRateBreakdownList().size() <= 3) {
 			for (RateBreakdown breakdown : rate.getRateBreakdownList()) {
 				Date date = breakdown.getDate().getCalendar().getTime();
 				String label = getContext().getString(R.string.room_rate_template, dateFormat.format(date));
