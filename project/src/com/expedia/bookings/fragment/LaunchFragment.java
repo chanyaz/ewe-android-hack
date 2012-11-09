@@ -30,6 +30,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightSearchActivity;
+import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.BackgroundImageResponse;
@@ -737,9 +738,16 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				confirmationState.delete();
 			}
 
-			Intent intent = new Intent(mContext, FlightSearchActivity.class);
-			intent.putExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, true);
-			mContext.startActivity(intent);
+			// F1330: Tapping on tiles should take you to unsupported POS page
+			// if you are on an unsupported POS!
+			if (!FlightUnsupportedPOSActivity.isSupportedPOS(mContext)) {
+				mContext.startActivity(new Intent(mContext, FlightUnsupportedPOSActivity.class));
+			}
+			else {
+				Intent intent = new Intent(mContext, FlightSearchActivity.class);
+				intent.putExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, true);
+				mContext.startActivity(intent);
+			}
 
 			cleanUp();
 		}
