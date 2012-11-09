@@ -123,19 +123,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Property> {
 		FontCache.setTypeface(sale, FontCache.Font.ROBOTO_BOLD);
 
 		boolean toggleSale = false;
-		if (property.isLowestRateTonightOnly()) {
-			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
-			sale.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tonight_only, 0, 0, 0);
-			sale.setVisibility(View.VISIBLE);
-			toggleSale = true;
-		}
-		else if (property.isLowestRateMobileExclusive()) {
-			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
-			sale.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_mobile_only, 0, 0, 0);
-			sale.setVisibility(View.VISIBLE);
-			toggleSale = true;
-		}
-		else if (property.getLowestRate().isSaleTenPercentOrBetter()) {
+		if (property.getLowestRate().isSaleTenPercentOrBetter()) {
 			sale.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
 			sale.setVisibility(View.VISIBLE);
 			toggleSale = true;
