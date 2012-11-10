@@ -630,6 +630,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			if (mIsLandscape) {
 				((SherlockFragmentActivity) getActivity()).startActionMode(mCalendarActionMode);
 			}
+
+			mDatesTextView.setBackgroundResource(R.drawable.textfield_activated_holo_light);
+		}
+		else {
+			mDatesTextView.setBackgroundResource(R.drawable.textfield_default_holo_light);
 		}
 
 		if (enabled && !mIsLandscape) {
