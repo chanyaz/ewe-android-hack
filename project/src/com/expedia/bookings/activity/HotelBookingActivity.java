@@ -318,9 +318,16 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			}
 			else if (errors.size() == 3) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_expired_payment), getString(android.R.string.ok),
+						getString(R.string.e3_error_checkout_invalid_expiration), getString(android.R.string.ok),
 						DIALOG_CALLBACK_EXPIRED_CC);
 				frag.show(getSupportFragmentManager(), "expiredCcDialog");
+				return;
+			}
+			else if (firstError.getExtra("field").equals("creditCardNumber")) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_CC);
+				frag.show(getSupportFragmentManager(), "badCcNumberDialog");
 				return;
 			}
 			break;
