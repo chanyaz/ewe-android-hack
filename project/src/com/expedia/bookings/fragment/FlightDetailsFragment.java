@@ -170,8 +170,8 @@ public class FlightDetailsFragment extends Fragment {
 					// Reset the layout margins/padding to account for move
 					MarginLayoutParams lp = (MarginLayoutParams) mBaggageInfoTextView.getLayoutParams();
 					mInfoContainer.setPadding(mInfoContainer.getPaddingLeft(), mInfoContainer.getPaddingTop(),
-							mInfoContainer.getPaddingRight(), cardMargins);
-					lp.topMargin = cardMargins;
+							mInfoContainer.getPaddingRight(), cardMargins * 2);
+					lp.topMargin = cardMargins * 2;
 					lp.bottomMargin = 0;
 				}
 
