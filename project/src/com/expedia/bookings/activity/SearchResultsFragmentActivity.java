@@ -150,6 +150,8 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	// For doing manual updates
 	private HockeyPuck mHockeyPuck;
 
+	private ActivityKillReceiver mKillReciever;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -192,6 +194,9 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		}
 
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
+
+		mKillReciever = new ActivityKillReceiver(this);
+		mKillReciever.onCreate();
 	}
 
 	@Override
@@ -390,6 +395,10 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 		if (isFinishing()) {
 			clearSearch();
+		}
+
+		if (mKillReciever != null) {
+			mKillReciever.onDestroy();
 		}
 	}
 

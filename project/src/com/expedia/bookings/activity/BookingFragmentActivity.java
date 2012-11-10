@@ -63,6 +63,8 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 	private long mLastResumeTime = -1;
 
+	private ActivityKillReceiver mKillReciever;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -92,6 +94,9 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 			Tracker.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), referrer);
 		}
+
+		mKillReciever = new ActivityKillReceiver(this);
+		mKillReciever.onCreate();
 	}
 
 	@TargetApi(11)
@@ -143,8 +148,13 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
 		if (isFinishing()) {
 			Db.setCreateTripResponse(null);
+		}
+
+		if (mKillReciever != null) {
+			mKillReciever.onDestroy();
 		}
 	}
 
@@ -260,6 +270,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 			// Start the conf activity
 			startActivity(new Intent(mContext, ConfirmationFragmentActivity.class));
+			finish();
 		}
 	};
 

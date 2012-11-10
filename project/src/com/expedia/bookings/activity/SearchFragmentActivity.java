@@ -36,6 +36,8 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 
 	private HockeyPuck mHockeyPuck;
 
+	private ActivityKillReceiver mKillReciever;
+
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +64,9 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 		// HockeyApp update
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
+
+		mKillReciever = new ActivityKillReceiver(this);
+		mKillReciever.onCreate();
 	}
 
 	@Override
@@ -80,6 +85,14 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 		super.onResume();
 
 		mHockeyPuck.onResume();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (mKillReciever != null) {
+			mKillReciever.onDestroy();
+		}
 	}
 
 	@Override

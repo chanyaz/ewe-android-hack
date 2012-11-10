@@ -39,6 +39,7 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -60,6 +61,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 
 		if (AndroidUtils.isTablet(this)) {
 			setTheme(R.style.Theme_Tablet_Confirmation);
+			NavUtils.sendKillActivityBroadcast(mContext);
 		}
 		else {
 			setTheme(R.style.Theme_Phone);
