@@ -17,6 +17,8 @@ import com.mobiata.android.util.AndroidUtils;
 
 public class LaunchActivity extends SherlockFragmentActivity {
 
+	private static final int REQUEST_SETTINGS = 1;
+
 	private LaunchFragment mLaunchFragment;
 
 	private HockeyPuck mHockeyPuck;
@@ -63,6 +65,15 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_SETTINGS && resultCode != RESULT_CANCELED) {
+			mLaunchFragment.reset();
+		}
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
 
@@ -86,7 +97,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		switch (item.getItemId()) {
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, REQUEST_SETTINGS);
 			return true;
 		case R.id.about:
 			Intent aboutIntent = new Intent(this, AboutActivity.class);

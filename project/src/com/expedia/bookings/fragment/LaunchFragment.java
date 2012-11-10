@@ -848,6 +848,17 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		// TODO: Clean up more as necessary (e.g., cleaning out the ImageCache).
 	}
 
+	/**
+	 * Completely resets the results.  Should only be used before onStart()
+	 */
+	public void reset() {
+		cleanUp();
+		cleanUpOnStop();
+		Db.setLaunchFlightData(null);
+		Db.setLaunchHotelData(null);
+		Db.setLaunchHotelFallbackData(null);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Connectivity
 
