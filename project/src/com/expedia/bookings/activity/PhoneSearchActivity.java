@@ -646,6 +646,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				&& Db.getSearchParams().getSearchType() == SearchType.MY_LOCATION
 				&& !Db.getSearchParams().hasSearchLatLon()) {
 			Log.d("onResume(): We were attempting to search by current location, but do not yet have valid coordinates. Starting a new search (and getting new coords if needed).");
+			Db.getSearchParams().ensureValidCheckInDate();
 			startSearch();
 		}
 		else {
