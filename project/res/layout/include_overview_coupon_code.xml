@@ -31,6 +31,7 @@
             android:layout_weight="1"
             android:hint="@string/optional"
             android:imeOptions="flagNoExtractUi"
+            android:inputType="textFilter"
             android:singleLine="true"
             mobiata:touchAreaPadding="25dp" />
 

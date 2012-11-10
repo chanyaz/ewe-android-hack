@@ -14,6 +14,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -44,10 +45,10 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
-import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.CouponCodeWidget;
 import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.HotelReceiptMini;
+import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget;
@@ -93,6 +94,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private ViewGroup mPaymentButton;
 
 	private CouponCodeWidget mCouponCodeWidget;
+	private View mCouponCodeLayout;
+	private View mCouponCodeEditText;
 	private TextView mLegalInformationTextView;
 	private View mScrollSpacerView;
 
@@ -152,6 +155,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mPaymentButton = Ui.findView(view, R.id.payment_info_btn);
 
 		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
+		mCouponCodeLayout = Ui.findView(view, R.id.coupon_code);
+		mCouponCodeEditText = Ui.findView(view, R.id.coupon_code_edittext);
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
 		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
 
@@ -207,7 +212,17 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mPaymentButton.setOnClickListener(mOnClickListener);
 		mStoredCreditCard.setOnClickListener(mOnClickListener);
 		mCreditCardSectionButton.setOnClickListener(mOnClickListener);
+		mCouponCodeEditText.setOnClickListener(mOnClickListener);
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
+
+		mCouponCodeEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					mScrollView.scrollTo(0, mScrollView.getHeight());
+				}
+			}
+		});
 
 		mCouponCodeWidget.setCouponCodeAppliedListener(new CouponCodeWidget.CouponCodeAppliedListener() {
 			@Override
@@ -450,6 +465,15 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 		else {
 			hidePurchaseViews();
+		}
+
+		if (mShowSlideToWidget) {
+			mCouponCodeLayout.setVisibility(View.VISIBLE);
+			mLegalInformationTextView.setVisibility(View.VISIBLE);
+		}
+		else {
+			mCouponCodeLayout.setVisibility(View.INVISIBLE);
+			mLegalInformationTextView.setVisibility(View.INVISIBLE);
 		}
 
 		if (travelerValid) {
@@ -716,6 +740,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				startActivity(new Intent(getActivity(), HotelPaymentOptionsActivity.class));
 				break;
 			}
+			case R.id.coupon_code_edittext: {
+				mScrollView.scrollTo(0, mScrollView.getHeight());
+				break;
+			}
 			case R.id.legal_information_text_view: {
 				Intent intent = new Intent(getActivity(), HotelRulesActivity.class);
 				startActivity(intent);
@@ -815,8 +843,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-			Log.i("scrolled");
-
 			mScrollY = y;
 
 			float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))
