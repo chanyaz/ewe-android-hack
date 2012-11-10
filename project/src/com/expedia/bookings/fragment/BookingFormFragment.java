@@ -786,6 +786,7 @@ public class BookingFormFragment extends DialogFragment {
 	private boolean loadSavedBillingInfo() {
 		// Attempt to load the saved billing info
 		// TODO: revisit this whole section
+		Db.setBillingInfo(null);
 		if (Db.loadBillingInfo(getActivity())) {
 
 			BillingInfo billingInfo = Db.getBillingInfo();
