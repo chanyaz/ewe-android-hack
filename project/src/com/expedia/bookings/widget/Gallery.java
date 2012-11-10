@@ -37,6 +37,7 @@ import com.expedia.bookings.data.Media;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
+import com.mobiata.android.graphics.ResilientBitmapDrawable;
 
 public class Gallery extends AbsSpinner implements OnGestureListener {
 
@@ -1593,7 +1594,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 					imageView.setBackgroundResource(R.drawable.bg_gallery_item);
 				}
 
-				imageView.setImageBitmap(bitmap);
+				imageView.setImageDrawable(new ResilientBitmapDrawable(imageView.getResources(), bitmap));
 			}
 			else {
 				imageView.setImageDrawable(mPlaceholderDrawable);

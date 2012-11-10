@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
+import com.mobiata.android.graphics.ResilientBitmapDrawable;
 import com.mobiata.android.json.JSONable;
 
 // TODO: Rewrite this so we only store the base URL, then pimp out different
@@ -97,7 +98,7 @@ public class Media implements JSONable {
 					Log.v("** Loading image with url = " + url);
 
 					if (imageView != null) {
-						imageView.setImageBitmap(bitmap);
+						imageView.setImageDrawable(new ResilientBitmapDrawable(imageView.getResources(), bitmap));
 					}
 
 					if (additionCallback != null) {
