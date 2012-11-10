@@ -116,7 +116,15 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 			return;
 		}
 		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+	}
 
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+
+		// H1009: show the dialog in onPostResume instead of onResume due to a bug in compat lib
+		// http://code.google.com/p/android/issues/detail?id=23096
+		// http://stackoverflow.com/questions/8520561/showing-dialogfragments-crashes-ics
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
 			bd.registerDownloadCallback(BOOKING_DOWNLOAD_KEY, mBookingCallback);
