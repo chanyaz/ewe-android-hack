@@ -67,7 +67,11 @@ public class OmnitureTracking {
 	private static final String HOTELS_RATE_DETAILS = "App.Hotels.RateDetails";
 
 	private static final String HOTELS_CHECKOUT_INFO = "App.Hotels.Checkout.Info";
+
 	private static final String HOTELS_CHECKOUT_LOGIN = "App.Hotels.Checkout.Login";
+	private static final String HOTELS_CHECKOUT_LOGIN_SUCCESS = "App.Hotels.Checkout.Login.Success";
+	private static final String HOTELS_CHECKOUT_LOGIN_CANCEL = "App.Flight.Checkout.Login.Cancel";
+	private static final String HOTELS_CHECKOUT_LOGIN_FORGOT = "App.Flight.Checkout.Login.Forgot";
 
 	private static final String HOTELS_CHECKOUT_TRAVELER_SELECT = "App.Hotels.Checkout.Traveler.Select";
 	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
@@ -552,8 +556,8 @@ public class OmnitureTracking {
 		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_INFO);
 	}
 
-	public static void trackLinkHotelsCheckoutLogin(Context context) {
-		internalTrackLink(context, HOTELS_CHECKOUT_LOGIN);
+	public static void trackPageLoadHotelsLogin(Context context) {
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_LOGIN);
 	}
 
 	public static void trackLinkHotelRefineName(Context context, String refinement) {
@@ -606,6 +610,26 @@ public class OmnitureTracking {
 	public static void trackLinkHotelRefineRating(Context context, String rating) {
 		String link = HOTELS_SEARCH_REFINE + "." + rating;
 		internalTrackLink(context, link);
+	}
+
+	// Login
+
+	public static void trackLinkHotelsCheckoutLoginSuccess(Context context) {
+		Log.d("ExpediaBookingsTracking", "Tracking \"" + HOTELS_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
+
+		AppMeasurement s = createTrackLinkEvent(context, HOTELS_CHECKOUT_LOGIN_SUCCESS);
+
+		s.events = "event26";
+
+		s.trackLink(null, "o", s.eVar28);
+	}
+
+	public static void trackLinkHotelsCheckoutLoginCancel(Context context) {
+		internalTrackLink(context, HOTELS_CHECKOUT_LOGIN_CANCEL);
+	}
+
+	public static void trackLinkHotelsCheckoutLoginForgot(Context context) {
+		internalTrackLink(context, HOTELS_CHECKOUT_LOGIN_FORGOT);
 	}
 
 	// Travelers

@@ -115,6 +115,9 @@ public class SignInFragment extends DialogFragment {
 				if (mIsFlights) {
 					OmnitureTracking.trackLinkFlightCheckoutLoginForgot(mContext);
 				}
+				else {
+					OmnitureTracking.trackLinkHotelsCheckoutLoginForgot(mContext);
+				}
 			}
 		});
 
@@ -145,6 +148,9 @@ public class SignInFragment extends DialogFragment {
 
 				if (mIsFlights) {
 					OmnitureTracking.trackLinkFlightCheckoutLoginCancel(mContext);
+				}
+				else {
+					OmnitureTracking.trackLinkHotelsCheckoutLoginCancel(mContext);
 				}
 			}
 		});
@@ -289,7 +295,7 @@ public class SignInFragment extends DialogFragment {
 					OmnitureTracking.trackLinkFlightCheckoutLoginSuccess(mContext);
 				}
 				else {
-					OmnitureTracking.trackLinkHotelsCheckoutLogin(mContext);
+					OmnitureTracking.trackLinkHotelsCheckoutLoginSuccess(mContext);
 				}
 			}
 		}
