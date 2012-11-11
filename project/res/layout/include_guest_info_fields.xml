@@ -56,7 +56,6 @@
             style="@style/Widget.Spinner.Phone"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-5.5dp"
             android:nextFocusDown="@+id/telephone_edit_text"
             android:nextFocusLeft="@+id/last_name_edit_text"
             android:nextFocusRight="@+id/telephone_edit_text"
