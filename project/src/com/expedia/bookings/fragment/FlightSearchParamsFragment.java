@@ -82,6 +82,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private AutoCompleteTextView mArrivalAirportEditText;
 	private TextView mDatesTextView;
 	private View mClearDatesButton;
+	private ViewGroup mCalendarContainer;
+	private View mCalendarShadow;
 	private CalendarDatePicker mCalendarDatePicker;
 
 	private FlightSearchParams mSearchParams;
@@ -151,6 +153,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mDepartureAirportEditText = Ui.findView(v, R.id.departure_airport_edit_text);
 		mArrivalAirportEditText = Ui.findView(v, R.id.arrival_airport_edit_text);
 		mDatesTextView = Ui.findView(v, R.id.dates_button);
+		mCalendarContainer = Ui.findView(v, R.id.calendar_container);
+		mCalendarShadow = Ui.findView(v, R.id.calendar_shadow);
 		mCalendarDatePicker = Ui.findView(v, R.id.calendar_date_picker);
 		mClearDatesButton = Ui.findView(v, R.id.clear_dates_btn);
 
@@ -161,7 +165,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		// In landscape, make the calendar date picker fill the screen
 		if (mIsLandscape) {
-			mCalendarDatePicker.getLayoutParams().height = LayoutParams.MATCH_PARENT;
+			mCalendarShadow.setVisibility(View.GONE);
+			mCalendarContainer.getLayoutParams().height = LayoutParams.MATCH_PARENT;
 		}
 
 		mAirportAdapter = new AirportDropDownAdapter(getActivity());
@@ -328,7 +333,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putBoolean(INSTANCE_SHOW_CALENDAR, mCalendarDatePicker.getVisibility() == View.VISIBLE);
+		outState.putBoolean(INSTANCE_SHOW_CALENDAR, mCalendarContainer.getVisibility() == View.VISIBLE);
 		JSONUtils.putJSONable(outState, INSTANCE_PARAMS, mSearchParams);
 		JSONUtils.putJSONable(outState, INSTANCE_FIRST_LOCATION, mFirstAdapterLocation);
 	}
@@ -338,7 +343,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			// Block back during animation
 			return true;
 		}
-		else if (mCalendarDatePicker.getVisibility() == View.VISIBLE) {
+		else if (mCalendarContainer.getVisibility() == View.VISIBLE) {
 			toggleCalendarDatePicker(false);
 			return true;
 		}
@@ -600,7 +605,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void toggleCalendarDatePicker(boolean enabled, boolean animate) {
-		if (enabled == (mCalendarDatePicker.getVisibility() == View.VISIBLE)) {
+		if (enabled == (mCalendarContainer.getVisibility() == View.VISIBLE)) {
 			return;
 		}
 
@@ -644,12 +649,12 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				fixCalendarHeight();
 			}
 			else {
-				mCalendarDatePicker.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+				mCalendarContainer.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 					@Override
 					public void onGlobalLayout() {
 						fixCalendarHeight();
-						mCalendarDatePicker.requestLayout();
-						mCalendarDatePicker.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+						mCalendarContainer.requestLayout();
+						mCalendarContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 					}
 				});
 			}
@@ -658,11 +663,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		updateCalendarInstructionText();
 
 		if (!animate) {
-			mCalendarDatePicker.setVisibility(enabled ? View.VISIBLE : View.GONE);
+			mCalendarContainer.setVisibility(enabled ? View.VISIBLE : View.GONE);
 		}
 		else {
 			if (enabled) {
-				mCalendarDatePicker.setVisibility(View.VISIBLE);
+				mCalendarContainer.setVisibility(View.VISIBLE);
 				mCalendarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
 			}
 			else {
@@ -670,14 +675,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				mCalendarAnimation.setAnimationListener(mCalAnimationListener);
 			}
 
-			mCalendarDatePicker.startAnimation(mCalendarAnimation);
+			mCalendarContainer.startAnimation(mCalendarAnimation);
 		}
 	}
 
 	private AnimationListener mCalAnimationListener = new AnimationListenerAdapter() {
 		@Override
 		public void onAnimationEnd(Animation animation) {
-			mCalendarDatePicker.setVisibility(View.GONE);
+			mCalendarContainer.setVisibility(View.GONE);
 		}
 	};
 
@@ -686,7 +691,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		int totalHeight = getView().getHeight();
 		int headerHeight = mHeaderGroup.getHeight();
 		int maxHeight = totalHeight - headerHeight;
-		LayoutParams params = mCalendarDatePicker.getLayoutParams();
+		LayoutParams params = mCalendarContainer.getLayoutParams();
 		if (params.height > maxHeight) {
 			params.height = maxHeight;
 
