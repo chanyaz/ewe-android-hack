@@ -150,15 +150,15 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		private static final double SKY_LOOP_TIME = 45 * 1e9; // Nanoseconds to loop through entire sky animation 
 
-		private static final double PITCH_PER_NANOSECOND = 1.5 / 1e9; // Maximum pitch rotation per nanosecond in degrees
+		private static final double PITCH_PER_NANOSECOND = 7 / 1e9; // Maximum pitch rotation per nanosecond in degrees
 
 		private static final double PITCH_TOLERANCE = 3; // Min degrees before pitch changes
 
-		private static final double MAX_PITCH = 6; // Maximum pitch in degrees (in either direction)
+		private static final double MAX_PITCH = 45; // Maximum pitch in degrees (in either direction)
 
 		private static final double PITCH_PADDING_Y = 3; // Extra padding for sky to account for pitch changes (in dp)
 
-		private static final double MAX_TRANSLATION_Y = 75; // Maximum Y-translation of sky in dp (max roll)
+		private static final double MAX_TRANSLATION_Y = 45; // Maximum Y-translation of sky in dp (max roll)
 
 		private static final float MAX_SENSOR_Z = .5f; // Translates Z-sensor into MAX_TRANSLATION_Y
 
