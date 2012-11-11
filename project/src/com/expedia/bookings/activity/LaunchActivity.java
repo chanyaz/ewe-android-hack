@@ -72,7 +72,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		if (requestCode == REQUEST_SETTINGS && resultCode != RESULT_CANCELED) {
 			mLaunchFragment = LaunchFragment.newInstance();
 			getSupportFragmentManager().beginTransaction()
-					.replace(android.R.id.content, mLaunchFragment, LaunchFragment.TAG).commit();
+					.replace(android.R.id.content, mLaunchFragment, LaunchFragment.TAG).commitAllowingStateLoss();
 		}
 	}
 
