@@ -148,10 +148,13 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		// Configure the ActionBar
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setTitle(getString(R.string.booking_complete));
+
+		// We want the phones to have an up button for the launch screen
+		actionBar.setDisplayHomeAsUpEnabled(!AndroidUtils.isTablet(this));
+		actionBar.setHomeButtonEnabled(!AndroidUtils.isTablet(this));
 		actionBar.setDisplayUseLogoEnabled(!AndroidUtils.isTablet(this));
+
+		actionBar.setTitle(getString(R.string.booking_complete));
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -160,7 +163,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			//This should never be reached as the actionbar app icon is disabled.
+			NavUtils.goToLaunchScreen(this);
 			return true;
 
 		case R.id.menu_share:
