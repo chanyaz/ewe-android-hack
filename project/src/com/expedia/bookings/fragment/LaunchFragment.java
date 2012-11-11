@@ -503,6 +503,10 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	};
 
 	private void onFlightDataRetrieved() {
+		if (mFlightAdapter == null) {
+			initViews();
+		}
+
 		mFlightAdapter.setDestinations(Db.getLaunchFlightData());
 		mFlightsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
 		mFlightsStreamListView.setOnItemClickListener(mFlightsStreamOnItemClickListener);
