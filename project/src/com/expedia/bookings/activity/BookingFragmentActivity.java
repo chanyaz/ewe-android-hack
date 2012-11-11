@@ -108,6 +108,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setTitle(R.string.booking_information_title);
 	}
 
