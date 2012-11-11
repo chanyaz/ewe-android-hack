@@ -13,6 +13,7 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -132,14 +133,7 @@ public class FilterDialogFragment extends DialogFragment {
 		mPriceButtonGroup.setOnCheckedChangeListener(mPriceCheckedChangeListener);
 
 		// Add an "okay" button, even though it does nothing beside dismiss the dialog
-		builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				// Hide the IME
-				InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-						Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(mHotelNameEditText.getWindowToken(), 0);
-			}
-		});
+		builder.setPositiveButton(android.R.string.ok, null);
 
 		Dialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(true);
@@ -150,6 +144,8 @@ public class FilterDialogFragment extends DialogFragment {
 	@Override
 	public void onDismiss(DialogInterface dialog) {
 		if (isAdded()) {
+			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
 			onFilterClosed();
 		}
 
