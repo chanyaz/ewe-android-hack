@@ -257,6 +257,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	private OnDownloadComplete<BookingResponse> mCallback = new OnDownloadComplete<BookingResponse>() {
 		@Override
 		public void onDownload(BookingResponse results) {
+			mProgressFragment.dismiss();
+
 			Db.setBookingResponse(results);
 			setCvvErrorMode(false);
 
@@ -266,7 +268,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 				TrackingUtils.trackErrorPage(mContext, "ReservationRequestFailed");
 			}
-			else if (results.hasErrors()) {
+			else if (!results.isSuccess() && !results.succeededWithErrors()) {
 				handleErrorResponse(results);
 			}
 			else {
