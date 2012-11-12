@@ -739,6 +739,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		showLoadingFragment();
 
+		//Unset any non-default bg image...
+		Db.setBackgroundImageInfo(null);
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(DOWNLOAD_KEY);
 		bd.startDownload(DOWNLOAD_KEY, mDownload, mDownloadCallback);
