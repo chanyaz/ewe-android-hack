@@ -988,6 +988,12 @@ public class BookingFormFragment extends DialogFragment {
 		public void onDownload(SignInResponse response) {
 			if (response == null || response.hasErrors()) {
 				mAccountButton.error();
+				Db.resetBillingInfo();
+				Db.setUser(null);
+				syncFormFieldsFromBillingInfo(mRootBillingView);
+				syncBillingInfo();
+				expandGuestsForm(false);
+				mBillingAddressWidget.update(null);
 			}
 			else {
 				mUserProfileIsFresh = true;
