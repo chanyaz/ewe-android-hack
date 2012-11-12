@@ -104,9 +104,8 @@ public class ExpediaServices implements DownloadListener {
 	private static final String COOKIES_FILE = "cookies.dat";
 
 	public enum ReviewSort {
-		NEWEST_REVIEW_FIRST("NewestReviewFirst"),
-		HIGHEST_RATING_FIRST("HighestRatingFirst"),
-		LOWEST_RATING_FIRST("LowestRatingFirst");
+		NEWEST_REVIEW_FIRST("NewestReviewFirst"), HIGHEST_RATING_FIRST("HighestRatingFirst"), LOWEST_RATING_FIRST(
+				"LowestRatingFirst");
 
 		private String mKey;
 
@@ -273,7 +272,8 @@ public class ExpediaServices implements DownloadListener {
 
 		if (User.isLoggedIn(mContext)) {
 			query.add(new BasicNameValuePair("doIThinkImSignedIn", "true"));
-			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
+			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
+					billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
 		}
 
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
@@ -297,8 +297,7 @@ public class ExpediaServices implements DownloadListener {
 			addFlightTraveler(query, traveler);
 			Log.i("update-travler body:" + NetUtils.getParamsForLogging(query));
 			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
-					traveler),
-					F_SECURE_REQUEST);
+					traveler), F_SECURE_REQUEST);
 		}
 		else {
 			return null;
@@ -644,16 +643,17 @@ public class ExpediaServices implements DownloadListener {
 			// This is an alternative way of representing expiration date, used for Flights.
 			// Doesn't hurt to include both methods
 			query.add(new BasicNameValuePair("expirationDateYear", android.text.format.DateFormat.format("yyyy",
-					expDate)
-					.toString()));
+					expDate).toString()));
 			query.add(new BasicNameValuePair("expirationDateMonth", android.text.format.DateFormat
-					.format("MM", expDate)
-					.toString()));
+					.format("MM", expDate).toString()));
 		}
 		else {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
 		}
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
+
+		query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
+				billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
 	}
 
 	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler) {
@@ -922,13 +922,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public enum EndPoint {
-		PRODUCTION,
-		DEV,
-		INTEGRATION,
-		STABLE,
-		PROXY,
-		PUBLIC_INTEGRATION,
-		TRUNK
+		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY, PUBLIC_INTEGRATION, TRUNK
 	}
 
 	/**
