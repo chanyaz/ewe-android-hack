@@ -158,7 +158,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 	}
 
 	@Override
-	public void onClearPrivateDate(boolean signedOut) {
+	public void onClearPrivateData(boolean signedOut) {
 		showDialog(signedOut ? DIALOG_CLEAR_DATA_SIGNED_OUT : DIALOG_CLEAR_DATA);
 	}
 }

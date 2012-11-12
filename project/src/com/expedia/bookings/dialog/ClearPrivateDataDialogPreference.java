@@ -16,7 +16,7 @@ import com.expedia.bookings.model.WorkingTravelerManager;
 
 public class ClearPrivateDataDialogPreference extends DialogPreference {
 	public interface ClearPrivateDataListener {
-		public void onClearPrivateDate(boolean signedOut);
+		public void onClearPrivateData(boolean signedOut);
 	}
 
 	private ClearPrivateDataListener mClearPrivateDataListener;
@@ -71,7 +71,7 @@ public class ClearPrivateDataDialogPreference extends DialogPreference {
 			}
 
 			if (mClearPrivateDataListener != null) {
-				mClearPrivateDataListener.onClearPrivateDate(signedIn);
+				mClearPrivateDataListener.onClearPrivateData(signedIn);
 			}
 			else {
 				Toast.makeText(context, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
