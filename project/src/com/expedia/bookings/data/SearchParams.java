@@ -247,9 +247,14 @@ public class SearchParams implements JSONable {
 		mPropertyIds.clear();
 	}
 
-	public void ensureValidCheckInDate() {
+	public boolean hasValidCheckInDate() {
 		Calendar now = Calendar.getInstance();
-		if (getCheckInDate().get(Calendar.DAY_OF_YEAR) != now.get(Calendar.DAY_OF_YEAR) && getCheckInDate().before(now)) {
+		return getCheckInDate().get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR)
+				|| now.before(getCheckInDate());
+	}
+
+	public void ensureValidCheckInDate() {
+		if (!hasValidCheckInDate()) {
 			Log.d("Search params had a checkin date previous to today, resetting checkin/checkout dates.");
 			setDefaultStay();
 		}

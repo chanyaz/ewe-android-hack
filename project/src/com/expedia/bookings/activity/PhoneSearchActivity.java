@@ -626,12 +626,20 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		setActionBarBookingInfoText();
 
 		if (mStartSearchOnResume) {
+			Db.getSearchParams().ensureValidCheckInDate();
 			startSearch();
 			mStartSearchOnResume = false;
 		}
+		// Check if the last search results are expired
 		else if (mLastSearchTime != -1
 				&& mLastSearchTime + SEARCH_EXPIRATION < Calendar.getInstance().getTimeInMillis()) {
 			Log.d("onResume(): There are cached search results, but they expired.  Starting a new search instead.");
+			Db.getSearchParams().ensureValidCheckInDate();
+			startSearch();
+		}
+		// Check if the date in the SearchParams is outdated (i.e. if it's now after midnight)
+		else if (!Db.getSearchParams().hasValidCheckInDate()) {
+			// Trigger a new search
 			Db.getSearchParams().ensureValidCheckInDate();
 			startSearch();
 		}
