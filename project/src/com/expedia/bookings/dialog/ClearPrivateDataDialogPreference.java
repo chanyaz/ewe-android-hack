@@ -13,6 +13,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
+import com.expedia.bookings.server.ExpediaServices;
 
 public class ClearPrivateDataDialogPreference extends DialogPreference {
 	public interface ClearPrivateDataListener {
@@ -69,6 +70,9 @@ public class ClearPrivateDataDialogPreference extends DialogPreference {
 			catch (Exception ex) {
 				//Don't care
 			}
+
+			ExpediaServices services = new ExpediaServices(context);
+			services.clearCookies();
 
 			if (mClearPrivateDataListener != null) {
 				mClearPrivateDataListener.onClearPrivateData(signedIn);
