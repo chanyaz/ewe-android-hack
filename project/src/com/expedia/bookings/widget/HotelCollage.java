@@ -147,7 +147,6 @@ public class HotelCollage {
 			TransitionDrawable drawable = new TransitionDrawable(layers);
 
 			mPropertyImageViews.get(mCurrentIndex).setImageDrawable(drawable);
-			mPropertyImageViews.get(mCurrentIndex).setOnTouchListener(onImageTouch);
 
 			drawable.startTransition(FADE_TIME);
 
@@ -156,21 +155,6 @@ public class HotelCollage {
 
 		public void onImageLoadFailed(String url) {
 			// Do nothing
-		}
-	};
-
-	private final OnTouchListener onImageTouch = new OnTouchListener() {
-
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-
-			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				((ImageView) v).setColorFilter(0x82000000, PorterDuff.Mode.SRC_ATOP);
-			}
-			else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
-				((ImageView) v).setColorFilter(0x00000000, PorterDuff.Mode.SRC_ATOP);
-			}
-			return false;
 		}
 	};
 
