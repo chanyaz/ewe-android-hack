@@ -989,7 +989,7 @@ public class BookingFormFragment extends DialogFragment {
 			if (response == null || response.hasErrors()) {
 				mAccountButton.error();
 				Db.resetBillingInfo();
-				Db.setUser(null);
+				Db.getUser().signOut(getActivity());
 				syncFormFieldsFromBillingInfo(mRootBillingView);
 				syncBillingInfo();
 				expandGuestsForm(false);
