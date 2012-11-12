@@ -668,12 +668,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			if (item instanceof Property) {
 				Property property = (Property) item;
 
-				// Make sure to delete ConfirmationState if it exists
-				ConfirmationState confirmationState = new ConfirmationState(mContext, ConfirmationState.Type.HOTEL);
-				if (confirmationState.hasSavedData()) {
-					confirmationState.delete();
-				}
-
 				Db.setSelectedProperty(property);
 
 				Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
