@@ -70,9 +70,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == REQUEST_SETTINGS && resultCode != RESULT_CANCELED) {
-			mLaunchFragment = LaunchFragment.newInstance();
-			getSupportFragmentManager().beginTransaction()
-					.replace(android.R.id.content, mLaunchFragment, LaunchFragment.TAG).commitAllowingStateLoss();
+			mLaunchFragment.reset();
 		}
 	}
 
@@ -101,6 +99,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);
+			mLaunchFragment.cleanUp();
 			return true;
 		case R.id.about:
 			Intent aboutIntent = new Intent(this, AboutActivity.class);

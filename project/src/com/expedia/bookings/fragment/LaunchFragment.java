@@ -170,16 +170,11 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
+	public void onResume() {
+		super.onResume();
 
 		// Note: We call this here to avoid reusing recycled Bitmaps. Not ideal, but a simple fix for now
 		initViews();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
 
 		mLaunchingActivity = false;
 
@@ -805,7 +800,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	// to clean immediately, but others if you clean them immediately it
 	// makes it ugly
 
-	private void cleanUp() {
+	public void cleanUp() {
 		Log.d("LaunchFragment.cleanUp()");
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -849,11 +844,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	}
 
 	/**
-	 * Completely resets the results.  Should only be used before onStart()
+	 * Completely resets the results.  Should only be used before initViews()
 	 */
 	public void reset() {
-		cleanUp();
-		cleanUpOnStop();
 		Db.setLaunchFlightData(null);
 		Db.setLaunchHotelData(null);
 		Db.setLaunchHotelFallbackData(null);
