@@ -233,8 +233,6 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 		public void displayTravelerEntryOne();
 
-		public void displaySaveDialog();
-
 		public void displayCheckout();
 	}
 
