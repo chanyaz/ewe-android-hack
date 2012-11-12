@@ -53,6 +53,7 @@
             android:textColor="@color/launch_primary" />
 
         <LinearLayout
+            android:id="@+id/launch_tile_details_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >

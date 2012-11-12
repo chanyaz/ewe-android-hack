@@ -57,7 +57,6 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.LaunchFlightAdapter;
 import com.expedia.bookings.widget.LaunchHotelAdapter;
-import com.expedia.bookings.widget.LaunchHotelFallbackAdapter;
 import com.expedia.bookings.widget.LaunchStreamListView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -98,12 +97,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private ViewGroup mScrollContainer;
 	private LaunchStreamListView mHotelsStreamListView;
 	private LaunchHotelAdapter mHotelAdapter;
-	private LaunchHotelFallbackAdapter mHotelFallbackAdapter;
 	private LaunchStreamListView mFlightsStreamListView;
 	private LaunchFlightAdapter mFlightAdapter;
-
-	// These variable keeps track of whether or not the hotel ListView contains destinations of hotel search result set 
-	private boolean mIsHotelsFallbackMode = false;
 
 	// Used to prevent launching of both flight and hotel activities at once
 	// (as it is otherwise possible to quickly click on both sides).
@@ -374,8 +369,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				launchHotelData.setProperties(properties);
 				launchHotelData.setDistanceUnit(searchResponse.getFilter().getDistanceUnit());
 				Db.setLaunchHotelData(launchHotelData);
+				Db.setLaunchHotelFallbackData(null);
 
-				mIsHotelsFallbackMode = false;
 				onHotelDataRetrieved();
 			}
 
@@ -387,7 +382,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	};
 
 	private void onHotelDataRetrieved() {
-		initHotelAdapter();
 		mHotelAdapter.setProperties(Db.getLaunchHotelData());
 		mHotelsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
 		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
@@ -573,6 +567,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				LaunchHotelFallbackData launchHotelFallbackData = new LaunchHotelFallbackData();
 				launchHotelFallbackData.setDestinations(results);
 				Db.setLaunchHotelFallbackData(launchHotelFallbackData);
+				Db.setLaunchHotelData(null);
 
 				onHotelFallbackDataRetrieved();
 			}
@@ -586,51 +581,26 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	}
 
 	private void onHotelFallbackDataRetrieved() {
-		mIsHotelsFallbackMode = true;
-
-		// Free up the existing HotelAdapter which should be essentially empty anyway
-		mHotelAdapter = null;
-
-		// Instantiate the adapter for the fallback plan
-		initHotelFallbackAdapter();
-		mHotelFallbackAdapter.setHotelDestinations(Db.getLaunchHotelFallbackData());
+		mHotelAdapter.setHotelDestinations(Db.getLaunchHotelFallbackData());
 		mHotelsStreamListView.setSelector(R.drawable.abs__item_background_holo_dark);
-		mHotelsStreamListView.setOnItemClickListener(mHotelFallbackOnItemClickListener);
+		mHotelsStreamListView.setOnItemClickListener(mHotelsStreamOnItemClickListener);
 	}
 
 	// View init + listeners
 
-	private void initHotelAdapter() {
+	private void initViews() {
+		if (mHotelAdapter != null && mFlightAdapter != null) {
+			return;
+		}
+
+		Log.d("LaunchFragment.initViews() - initializing views...");
+
 		if (mHotelAdapter == null) {
 			mHotelAdapter = new LaunchHotelAdapter(mContext);
 			mHotelsStreamListView.setAdapter(mHotelAdapter);
 			if (!mHotelsStreamListView.restorePosition()) {
 				mHotelsStreamListView.selectMiddle();
 			}
-		}
-	}
-
-	private void initHotelFallbackAdapter() {
-		mHotelFallbackAdapter = new LaunchHotelFallbackAdapter(mContext);
-		mHotelsStreamListView.setAdapter(mHotelFallbackAdapter);
-		if (!mHotelsStreamListView.restorePosition()) {
-			mHotelsStreamListView.selectMiddle();
-		}
-	}
-
-	private void initViews() {
-		boolean nullHotelAdapter = mIsHotelsFallbackMode ? mHotelFallbackAdapter == null : mHotelAdapter == null;
-		if (!nullHotelAdapter && mFlightAdapter != null) {
-			return;
-		}
-
-		Log.d("LaunchFragment.initViews() - initializing views...");
-
-		if (mIsHotelsFallbackMode) {
-			initHotelFallbackAdapter();
-		}
-		else {
-			initHotelAdapter();
 		}
 
 		mFlightAdapter = new LaunchFlightAdapter(mContext);
@@ -643,21 +613,14 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		mFlightsStreamListView.setSlaveView(mHotelsStreamListView);
 
-		if (mIsHotelsFallbackMode) {
-			LaunchHotelFallbackData launchHotelFallbackData = Db.getLaunchHotelFallbackData();
-			if (launchHotelFallbackData != null) {
-				onHotelFallbackDataRetrieved();
-			}
+		if (Db.getLaunchHotelFallbackData() != null) {
+			onHotelFallbackDataRetrieved();
 		}
-		else {
-			LaunchHotelData launchHotelData = Db.getLaunchHotelData();
-			if (launchHotelData != null) {
-				onHotelDataRetrieved();
-			}
+		else if (Db.getLaunchHotelData() != null) {
+			onHotelDataRetrieved();
 		}
 
-		LaunchFlightData launchFlightData = Db.getLaunchFlightData();
-		if (launchFlightData != null) {
+		if (Db.getLaunchFlightData() != null) {
 			onFlightDataRetrieved();
 		}
 	}
@@ -689,18 +652,58 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				return;
 			}
 
-			Property property = mHotelAdapter.getItem(position);
-			if (property != null) {
-				mLaunchingActivity = true;
+			Object item = mHotelAdapter.getItem(position);
+			if (item == null) {
+				return;
+			}
+
+			mLaunchingActivity = true;
+
+			// Delete Hotel ConfirmationState if it exists
+			ConfirmationState confirmationState = new ConfirmationState(mContext, ConfirmationState.Type.HOTEL);
+			if (confirmationState.hasSavedData()) {
+				confirmationState.delete();
+			}
+
+			if (item instanceof Property) {
+				Property property = (Property) item;
 
 				Db.setSelectedProperty(property);
 
 				Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
 				intent.putExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, true);
 				mContext.startActivity(intent);
-
-				cleanUp();
 			}
+			else if (item instanceof HotelDestination) {
+				HotelDestination destination = (HotelDestination) item;
+
+				SearchParams searchParams = Db.getSearchParams();
+
+				// where
+				searchParams.setQuery(destination.getPhoneSearchDisplayText());
+				searchParams.setSearchType(SearchParams.SearchType.CITY);
+				searchParams.setRegionId(destination.getRegionId());
+				searchParams.setSearchLatLon(destination.getLatitude(), destination.getLongitude());
+
+				// when
+				Calendar cal = Calendar.getInstance();
+				int year = cal.get(Calendar.YEAR);
+				int month = cal.get(Calendar.MONTH);
+				int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+				searchParams.setCheckInDate(new GregorianCalendar(year, month, dayOfMonth + 1));
+				searchParams.setCheckOutDate(new GregorianCalendar(year, month, dayOfMonth + 2));
+
+				//who
+				searchParams.setNumAdults(1);
+				searchParams.setChildren(null);
+
+				// Launch hotel search
+				Intent intent = new Intent(mContext, PhoneSearchActivity.class);
+				intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+				mContext.startActivity(intent);
+			}
+
+			cleanUp();
 		}
 	};
 
@@ -748,51 +751,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		}
 	};
 
-	private final AdapterView.OnItemClickListener mHotelFallbackOnItemClickListener = new AdapterView.OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			if (mLaunchingActivity) {
-				return;
-			}
-
-			mLaunchingActivity = true;
-
-			// Delete Hotel ConfirmationState if it exists
-			ConfirmationState confirmationState = new ConfirmationState(mContext, ConfirmationState.Type.HOTEL);
-			if (confirmationState.hasSavedData()) {
-				confirmationState.delete();
-			}
-
-			HotelDestination hotel = mHotelFallbackAdapter.getItem(position);
-			SearchParams searchParams = Db.getSearchParams();
-
-			// where
-			searchParams.setQuery(hotel.getPhoneSearchDisplayText());
-			searchParams.setSearchType(SearchParams.SearchType.CITY);
-			searchParams.setRegionId(hotel.getRegionId());
-			searchParams.setSearchLatLon(hotel.getLatitude(), hotel.getLongitude());
-
-			// when
-			Calendar cal = Calendar.getInstance();
-			int year = cal.get(Calendar.YEAR);
-			int month = cal.get(Calendar.MONTH);
-			int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-			searchParams.setCheckInDate(new GregorianCalendar(year, month, dayOfMonth + 1));
-			searchParams.setCheckOutDate(new GregorianCalendar(year, month, dayOfMonth + 2));
-
-			//who
-			searchParams.setNumAdults(1);
-			searchParams.setChildren(null);
-
-			// Launch hotel search
-			Intent intent = new Intent(mContext, PhoneSearchActivity.class);
-			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
-			mContext.startActivity(intent);
-
-			cleanUp();
-		}
-	};
-
 	//////////////////////////////////////////////////////////////////////////
 	// Clean up
 	//
@@ -827,13 +785,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		mHotelsStreamListView.setAdapter(null);
 
 		if (mHotelAdapter != null) {
-			mHotelAdapter.setProperties(null);
+			mHotelAdapter.clear();
 			mHotelAdapter = null;
-		}
-
-		if (mHotelFallbackAdapter != null) {
-			mHotelFallbackAdapter.setHotelDestinations(null);
-			mHotelFallbackAdapter = null;
 		}
 
 		mFlightsStreamListView.setAdapter(null);
