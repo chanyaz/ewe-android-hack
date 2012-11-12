@@ -505,19 +505,28 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void setScrollSpacerViewHeight() {
 		int height = 0;
 
+		final int scrollViewHeight = mScrollView.getHeight();
+		final int receiptMiniHeight = mScrollViewListener.getReceiptMiniHeight();
+		final int checkoutLayoutHeight = mCheckoutLayout.getHeight();
+		final int slideToPurchaseLayoutHeight = mSlideToPurchaseLayout.getHeight();
+
+		final boolean viewsInflated = scrollViewHeight > 0 && receiptMiniHeight > 0 && checkoutLayoutHeight > 0
+				&& slideToPurchaseLayoutHeight > 0;
+
 		if (getInCheckout() && mShowSlideToWidget) {
 			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 16f);
-			height = mSlideToPurchaseLayout.getHeight() + paddingBottom;
+			height = slideToPurchaseLayoutHeight + paddingBottom;
 		}
 		else {
 			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 8f);
-			height = mScrollView.getHeight() - mCheckoutLayout.getHeight() - mScrollViewListener.getReceiptMiniHeight()
-					- paddingBottom;
+			height = scrollViewHeight - checkoutLayoutHeight - receiptMiniHeight - paddingBottom;
 		}
 
-		if (height < 0) {
+		if (height < 0 || !viewsInflated) {
 			height = 0;
 		}
+
+		Log.t("SpacerView height: %d", height);
 
 		ViewGroup.LayoutParams lp = mScrollSpacerView.getLayoutParams();
 		lp.height = height;
@@ -558,6 +567,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mScrollView.post(new Runnable() {
 			@Override
 			public void run() {
+				mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
+
 				if (animate) {
 					mScrollView.smoothScrollTo(0, mScrollViewListener.getCheckoutY());
 				}
@@ -584,6 +595,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mScrollView.post(new Runnable() {
 			@Override
 			public void run() {
+				mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
 				mScrollView.smoothScrollTo(0, 0);
 			}
 		});
@@ -812,6 +824,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		public int getCheckoutY() {
 			return mCheckoutY;
+		}
+
+		public int getScrollY() {
+			return mScrollY;
 		}
 
 		public int getReceiptMiniHeight() {
