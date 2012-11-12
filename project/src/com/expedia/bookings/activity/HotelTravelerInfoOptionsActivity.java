@@ -225,6 +225,9 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		case SAVE:
 			displaySaveDialog();
 			break;
+		case OVERWRITE_TRAVELER:
+			displayOverwriteDialog();
+			break;
 		case SAVING:
 			if (Db.getWorkingTravelerManager() != null
 					&& Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
@@ -336,7 +339,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 				displayCheckout();
 				break;
 			default: {
-				Ui.showToast(this, "FAIL");
+				Log.i("YOYO FAIL - mpos:" + mPos);
 				break;
 			}
 			}
@@ -371,9 +374,15 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 				}
 				break;
 			case SAVE:
-				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
-						Db.getWorkingTravelerManager().getWorkingTraveler());
-				displayOptions();
+				if (workingTravelerRequiresOverwritePrompt()) {
+					//The user already has a traveler named this...
+					displayOverwriteDialog();
+				}
+				else {
+					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
+							Db.getWorkingTravelerManager().getWorkingTraveler());
+					displayOptions();
+				}
 				break;
 			case OVERWRITE_TRAVELER:
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
@@ -382,7 +391,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 				break;
 			case OPTIONS:
 			default:
-				Ui.showToast(this, "FAIL");
+				Log.i("YOYO FAIL - mpos:" + mPos);
 				break;
 			}
 		}
@@ -436,6 +445,10 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 				closeSaveDialog();
 				displayTravelerEntryOne();
 				break;
+			case OVERWRITE_TRAVELER:
+				closeOverwriteDialog();
+				displaySaveDialog();
+				break;
 			case SAVING:
 				if (!Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
 					//if we aren't actually saving this is a bunk state, and we let people leave...
@@ -470,6 +483,10 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 				else {
 					displayOptions();
 				}
+				break;
+			case OVERWRITE_TRAVELER:
+				closeOverwriteDialog();
+				displaySaveDialog();
 				break;
 			case SAVING:
 				if (!Db.getWorkingTravelerManager().isCommittingTravelerToAccount()) {
