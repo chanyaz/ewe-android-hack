@@ -535,6 +535,11 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			List<HotelDestination> destinations = HOTEL_DESTINATION_FALLBACK_LIST;
 
 			for (HotelDestination hotel : destinations) {
+				// Before using services, check if this download has been cancelled
+				if (Thread.interrupted()) {
+					return null;
+				}
+
 				SuggestResponse suggestResponse = services.suggest(hotel.getLaunchTileText(), ExpediaServices.F_HOTELS);
 
 				if (suggestResponse == null) {
