@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,8 +23,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.ConfirmationState;
-import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
@@ -445,12 +442,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		Property property = Db.getSelectedProperty();
 		if (property == null) {
 			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return true;
-		}
-
-		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (ConfirmationState.hasSavedData(this, Type.HOTEL)) {
 			finish();
 			return true;
 		}

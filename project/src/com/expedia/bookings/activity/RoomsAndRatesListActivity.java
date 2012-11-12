@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -18,8 +17,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
-import com.expedia.bookings.data.ConfirmationState;
-import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -221,12 +218,6 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
-		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (ConfirmationState.hasSavedData(this, Type.HOTEL)) {
-			finish();
-			return true;
-		}
-
 		// #13365: If the Db expired, finish out of this activity
 		if (Db.getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");

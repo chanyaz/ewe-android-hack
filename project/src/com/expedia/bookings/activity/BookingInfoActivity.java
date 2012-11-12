@@ -24,8 +24,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.ConfirmationState;
-import com.expedia.bookings.data.ConfirmationState.Type;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingFormFragment;
@@ -129,11 +127,6 @@ public class BookingInfoActivity extends SherlockFragmentActivity implements Boo
 		// #13365: If the Db expired, finish out of this activity
 		if (Db.getSelectedProperty() == null) {
 			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return true;
-		}
-		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (ConfirmationState.hasSavedData(this, Type.HOTEL)) {
 			finish();
 			return true;
 		}

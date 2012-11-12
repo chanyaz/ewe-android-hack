@@ -604,13 +604,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		// Haxxy fix for #13798, only required on pre-Honeycomb
-		if (ConfirmationState.hasSavedData(this, Type.HOTEL)) {
-			finish();
-			return;
-		}
-
 		((ExpediaBookingApp) getApplicationContext())
 				.registerSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
