@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
@@ -305,6 +306,13 @@ public class FlightConfirmationFragment extends Fragment {
 		//Update the Db object to have our search params (which will be used by hotels search)
 		Db.setSearchParams(sp);
 
+		// Make sure to delete the Hotel ConfirmationState if it exists
+		ConfirmationState confState = new ConfirmationState(getActivity(), ConfirmationState.Type.HOTEL);
+		if (confState.hasSavedData()) {
+			confState.delete();
+		}
+
+		// Launch hotel search
 		Intent searchHotelsIntent = new Intent(getActivity(), PhoneSearchActivity.class);
 		searchHotelsIntent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
 		startActivity(searchHotelsIntent);
