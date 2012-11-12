@@ -288,7 +288,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 						}
 						Money money = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
 						if (money != null) {
-							Amobee.trackCheckout(money.getCurrency(), money.getAmount(), days);
+							Amobee.trackCheckout(money.getCurrency(), money.getAmount().doubleValue(), days);
 						}
 					}
 				}

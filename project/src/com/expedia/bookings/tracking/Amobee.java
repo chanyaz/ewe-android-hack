@@ -58,7 +58,7 @@ public class Amobee {
 		}
 	}
 
-	public static void trackCheckout(String currency, BigDecimal flightBookingValue,
+	public static void trackCheckout(String currency, double flightBookingValue,
 			int numberOfDaysInAdvanceOfFirstFlight) {
 		if (mEnabled) {
 			AmobeeReceiver.amobeeTracking(Goal.CUSTOM1, mContext, mAppId, flightBookingValue, currency,
