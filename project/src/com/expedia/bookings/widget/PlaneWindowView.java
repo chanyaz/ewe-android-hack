@@ -154,7 +154,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		private static final double PITCH_TOLERANCE = 3; // Min degrees before pitch changes
 
-		private static final double MAX_PITCH = 45; // Maximum pitch in degrees (in either direction)
+		private static final double MAX_PITCH = 30; // Maximum pitch in degrees (in either direction)
 
 		private static final double PITCH_PADDING_Y = 3; // Extra padding for sky to account for pitch changes (in dp)
 
