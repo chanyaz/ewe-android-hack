@@ -663,10 +663,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			mLaunchingActivity = true;
 
 			// Delete Hotel ConfirmationState if it exists
-			ConfirmationState confirmationState = new ConfirmationState(mContext, ConfirmationState.Type.HOTEL);
-			if (confirmationState.hasSavedData()) {
-				confirmationState.delete();
-			}
+			ConfirmationState.delete(mContext, ConfirmationState.Type.HOTEL);
 
 			if (item instanceof Property) {
 				Property property = (Property) item;
@@ -733,11 +730,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			// F1304: Add this tile to recently selected airports
 			AirportDropDownAdapter.addAirportToRecents(getActivity(), location);
 
-			// Make sure to delete ConfirmationState if it exists
-			ConfirmationState confirmationState = new ConfirmationState(mContext, ConfirmationState.Type.FLIGHT);
-			if (confirmationState.hasSavedData()) {
-				confirmationState.delete();
-			}
+			// Make sure to delete Flight confirmation state if it exists
+			ConfirmationState.delete(mContext, ConfirmationState.Type.FLIGHT);
 
 			// F1330: Tapping on tiles should take you to unsupported POS page
 			// if you are on an unsupported POS!

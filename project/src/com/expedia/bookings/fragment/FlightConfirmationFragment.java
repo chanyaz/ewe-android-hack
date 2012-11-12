@@ -307,10 +307,7 @@ public class FlightConfirmationFragment extends Fragment {
 		Db.setSearchParams(sp);
 
 		// Make sure to delete the Hotel ConfirmationState if it exists
-		ConfirmationState confState = new ConfirmationState(getActivity(), ConfirmationState.Type.HOTEL);
-		if (confState.hasSavedData()) {
-			confState.delete();
-		}
+		ConfirmationState.delete(getActivity(), ConfirmationState.Type.HOTEL);
 
 		// Launch hotel search
 		Intent searchHotelsIntent = new Intent(getActivity(), PhoneSearchActivity.class);

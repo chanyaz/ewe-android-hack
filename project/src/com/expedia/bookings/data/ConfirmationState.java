@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.expedia.bookings.data.Traveler;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -158,6 +157,13 @@ public class ConfirmationState {
 	public static boolean hasSavedData(Context context, Type type) {
 		ConfirmationState state = new ConfirmationState(context, type);
 		return state.hasSavedData();
+	}
+
+	public static void delete(Context context, Type type) {
+		ConfirmationState confirmationState = new ConfirmationState(context, type);
+		if (confirmationState.hasSavedData()) {
+			confirmationState.delete();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
