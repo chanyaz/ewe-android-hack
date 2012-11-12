@@ -330,7 +330,18 @@ public class FlightTripOverviewFragment extends Fragment {
 		public void onAnimationEnd(Animator arg0) {
 			mCardsAnimating = false;
 			setTopCardBackgroundOpacity();//set it again after we finish
-			requestLayoutOnAllCards();
+
+			if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0) {
+				Runnable layoutRunner = new Runnable() {
+					@Override
+					public void run() {
+						updateCardInfoText();
+					}
+				};
+				if (FlightTripOverviewFragment.this.getView() != null) {
+					FlightTripOverviewFragment.this.getView().postDelayed(layoutRunner, 200);
+				}
+			}
 		}
 
 		@Override
@@ -411,10 +422,13 @@ public class FlightTripOverviewFragment extends Fragment {
 		}
 	}
 
-	private void requestLayoutOnAllCards() {
+	private void updateCardInfoText() {
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			tempFlight.requestLayout();
+			//a small rebind
+			if (mTrip != null && mTrip.getLegCount() > i) {
+				tempFlight.setInfoText(mTrip.getLeg(i));
+			}
 		}
 	}
 
