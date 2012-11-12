@@ -92,7 +92,7 @@ public class NavUtils {
 	// search screen anymore
 	public static void restartFlightSearch(Context context) {
 		// Clear out old data
-		Db.setBillingInfo(new BillingInfo());
+		Db.resetBillingInfo();
 		Db.getFlightSearch().setSearchResponse(null);
 
 		// Launch search activity (new search should start automatically due to blank data)
