@@ -19,7 +19,7 @@
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;飞往&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s酒店&lt;/font&gt;</string>
+    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;酒店&lt;/font&gt;</string>
     <!-- Label to present to the user on application load -->
     <string name="launch_welcome">欢迎</string>
     <!-- Error message when we can't connect -->
@@ -1392,7 +1392,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">隐私政策</string>
     <!-- Copyright information -->
-    <string name="copyright">© 版权所有 2011–2012 Expedia, Inc.\n 保留所有权利。</string>
+    <string name="copyright">© 版权所有 2012–2013 Expedia, Inc.\n 保留所有权利。</string>
     <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
     <string name="dialog_title_log_out_and_clear_private_data">退出并清除数据？</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1413,8 +1413,10 @@
     <string name="Follow">关注</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">赞</string>
-    <!-- Credits to the open source libraries we use -->
-    <string name="open_source_credits">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0</string>
+    <!-- Leading text before we list the open source libraries we use -->
+    <string name="open_source_credits">此应用程序使用以下开源库：</string>
+    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
+    <string name="stack_blur_credit">此应用程序使用 Mario Klingemann 开发的 Stack Blur 算法。</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

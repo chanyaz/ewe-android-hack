@@ -248,7 +248,7 @@
     <!-- Payment label -->
     <string name="payment">지불</string>
     <!-- Login button text -->
-    <string name="login_btn_text">간편 예약 로그인</string>
+    <string name="login_btn_text">로그인하시면 예약이 보다 간편합니다.</string>
     <!-- Expedia Account label -->
     <string name="expedia_account">Expedia 계정</string>
     <!-- Checkout Information label -->
@@ -1392,7 +1392,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">개인정보 보호정책</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2011–2012 Expedia, Inc.\nAll rights reserved.</string>
+    <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nAll rights reserved.</string>
     <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
     <string name="dialog_title_log_out_and_clear_private_data">로그아웃하고 데이터를 삭제하시겠어요?</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1413,8 +1413,10 @@
     <string name="Follow">팔로우하기</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">좋아요</string>
-    <!-- Credits to the open source libraries we use -->
-    <string name="open_source_credits">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0</string>
+    <!-- Leading text before we list the open source libraries we use -->
+    <string name="open_source_credits">이 앱에는 다음의 오픈 소스 라이브러리가 사용되었습니다:</string>
+    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
+    <string name="stack_blur_credit">이 앱은 마리오 클링거만(Mario Klingemann)의 Stack Blur 알고리즘을 사용합니다.</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

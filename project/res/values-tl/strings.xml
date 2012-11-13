@@ -1392,7 +1392,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Patakaran sa Pagiging Pribado</string>
     <!-- Copyright information -->
-    <string name="copyright">© 2011–2012 na Karapatang-ari ng Expedia, Inc.\nAng lahat ng mga karapatan ay pinanghahawakan at inilalaan.</string>
+    <string name="copyright">© Karapatang-ari 2012-2013 Expedia, Inc.\nLahat ng mga karapatan ay pinanghahawakan at inilalaan.</string>
     <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
     <string name="dialog_title_log_out_and_clear_private_data">Mag-log out at burahin ang data?</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1413,8 +1413,10 @@
     <string name="Follow">Subaybayan</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">Gustuhin</string>
-    <!-- Credits to the open source libraries we use -->
-    <string name="open_source_credits">ActionBarSherlock 4.1.0, NineOldAndroids 2.4.0</string>
+    <!-- Leading text before we list the open source libraries we use -->
+    <string name="open_source_credits">Ginagamit ng app na ito ang sumusunod na mga open-source library:</string>
+    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
+    <string name="stack_blur_credit">Ginagamit ng app na ito ang algorithm ng Stack Blur ni Mario Klingemann.</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
