@@ -64,7 +64,7 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 
-		mOrderId = obj.optString("mTotalCharges", null);
+		mOrderId = obj.optString("orderId", null);
 		mTotalCharges = JSONUtils.getJSONable(obj, "totalCharges", Money.class);
 		mNewOffer = JSONUtils.getJSONable(obj, "newOffer", FlightTrip.class);
 
