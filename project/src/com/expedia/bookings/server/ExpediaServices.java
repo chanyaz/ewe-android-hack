@@ -485,6 +485,8 @@ public class ExpediaServices implements DownloadListener {
 
 		if (User.isLoggedIn(mContext)) {
 			query.add(new BasicNameValuePair("doIThinkImSignedIn", "true"));
+			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
+					billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
 		}
 
 		return doE3Request("MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
@@ -652,9 +654,6 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
 		}
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
-
-		query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
-				billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
 	}
 
 	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler) {
