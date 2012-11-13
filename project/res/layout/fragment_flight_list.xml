@@ -5,4 +5,5 @@
     android:layout_height="match_parent"
     android:cacheColorHint="@android:color/transparent"
     android:fadingEdge="none"
-    android:listSelector="#0000" />
+    android:listSelector="#0000"
+    android:overScrollFooter="@null" />
