@@ -14,12 +14,13 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -604,6 +605,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			public void run() {
 				mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
 				mScrollView.smoothScrollTo(0, 0);
+				if (isAdded() && mCouponCodeEditText != null) {
+					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(mCouponCodeEditText.getWindowToken(), 0);
+				}
 			}
 		});
 		hidePurchaseViews();
