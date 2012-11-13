@@ -70,8 +70,8 @@ public class OmnitureTracking {
 
 	private static final String HOTELS_CHECKOUT_LOGIN = "App.Hotels.Checkout.Login";
 	private static final String HOTELS_CHECKOUT_LOGIN_SUCCESS = "App.Hotels.Checkout.Login.Success";
-	private static final String HOTELS_CHECKOUT_LOGIN_CANCEL = "App.Flight.Checkout.Login.Cancel";
-	private static final String HOTELS_CHECKOUT_LOGIN_FORGOT = "App.Flight.Checkout.Login.Forgot";
+	private static final String HOTELS_CHECKOUT_LOGIN_CANCEL = "App.Hotels.Checkout.Login.Cancel";
+	private static final String HOTELS_CHECKOUT_LOGIN_FORGOT = "App.Hotels.Checkout.Login.Forgot";
 
 	private static final String HOTELS_CHECKOUT_TRAVELER_SELECT = "App.Hotels.Checkout.Traveler.Select";
 	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
