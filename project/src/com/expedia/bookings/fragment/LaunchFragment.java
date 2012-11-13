@@ -111,6 +111,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	private SearchParams mSearchParams;
 
+	private long mLaunchDataTimestamp = -1;
+
 	public static LaunchFragment newInstance() {
 		return new LaunchFragment();
 	}
@@ -176,6 +178,12 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		mLaunchingActivity = false;
 
+		Log.d("HERE mLaunchDataTimestamp=" + mLaunchDataTimestamp);
+		if (isExpired()) {
+			// Expired so we blow this data away to kick off a new search
+			Db.setLaunchHotelData(null);
+		}
+
 		onReactToUserActive();
 
 		startMarquee();
@@ -204,6 +212,10 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		mHotelsStreamListView.savePosition();
 		mFlightsStreamListView.savePosition();
+
+		if (mLaunchDataTimestamp == -1) {
+			mLaunchDataTimestamp = Calendar.getInstance().getTimeInMillis();
+		}
 
 		cleanUpOnStop();
 
@@ -292,6 +304,15 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		}
 	}
 
+	private boolean isExpired() {
+		if (mLaunchDataTimestamp != -1 && mLaunchDataTimestamp + MINIMUM_TIME_AGO < Calendar.getInstance().getTimeInMillis()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	// Location finder
 
 	private LocationFinder mLocationFinder;
@@ -360,7 +381,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				// We only want to set the the search from Launch if there exists no SearchResponse data already (to avoid
 				// sending the user through another network request when jumping to Hotels). If there already exists a 
 				// Search response in the Db, do not flush it out.
-				if (Db.getSearchResponse() == null) {
+				if (isExpired() || Db.getSearchResponse() == null) {
 					Db.setSearchParams(mSearchParams);
 					Db.setSearchResponse(searchResponse);
 				}
@@ -374,6 +395,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				Db.setLaunchHotelData(launchHotelData);
 				Db.setLaunchHotelFallbackData(null);
 
+				mLaunchDataTimestamp = Calendar.getInstance().getTimeInMillis();
 				onHotelDataRetrieved();
 			}
 
