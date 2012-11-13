@@ -54,7 +54,7 @@ public class CouponCodeWidget {
 	private static final String KEY_PROGRESS_SHOWING = "KEY_COUPON_PROGRESS_SHOWING";
 	private static final String KEY_ERROR = "KEY_COUPON_ERROR";
 
-	public CouponCodeWidget (Context context, View rootView) {
+	public CouponCodeWidget(Context context, View rootView) {
 		mContext = context;
 
 		mCouponCodeCollapsedText = (TextView) rootView.findViewById(R.id.coupon_code_collapsed_text);
@@ -69,6 +69,7 @@ public class CouponCodeWidget {
 			public void onClick(View v) {
 				mCollapsed = false;
 				update();
+				mCouponCode.clearFocus();
 				BookingInfoUtils.focusAndOpenKeyboard(mContext, mCouponCode);
 			}
 		});
@@ -130,7 +131,7 @@ public class CouponCodeWidget {
 			return;
 		}
 		else {
-			mCouponCodeCollapsedText.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+			mCouponCodeCollapsedText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 			mCouponCodeCollapsedText.setTextColor(mContext.getResources().getColor(R.color.text_dark));
 			mCouponContainer.setVisibility(View.VISIBLE);
 
@@ -239,7 +240,8 @@ public class CouponCodeWidget {
 			String code = mCouponCode.getText().toString();
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_CREATE_TRIP, services);
-			return services.createTripWithCoupon(code, Db.getSearchParams(), Db.getSelectedProperty(), Db.getSelectedRate());
+			return services.createTripWithCoupon(code, Db.getSearchParams(), Db.getSelectedProperty(),
+					Db.getSelectedRate());
 		}
 	};
 

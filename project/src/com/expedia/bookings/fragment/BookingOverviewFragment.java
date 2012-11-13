@@ -219,7 +219,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					mScrollView.scrollTo(0, mScrollView.getHeight());
+					mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				}
 			}
 		});
@@ -760,7 +760,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				break;
 			}
 			case R.id.coupon_code_edittext: {
-				mScrollView.scrollTo(0, mScrollView.getHeight());
+				mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				break;
 			}
 			case R.id.legal_information_text_view: {
