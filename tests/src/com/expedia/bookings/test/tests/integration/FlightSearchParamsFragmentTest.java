@@ -89,6 +89,7 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	@MediumTest
 	public void testFlightSearchModificationsInlineReflectedInFlightSearchActivity() {
 		performFlightSearch("DTW", "JFK", 4, R.id.search);
+		waitForFlightResults();
 
 		// click on menu search to bring up FlightSearchOverlay for inline search
 		mSolo.clickOnView(mSolo.getView(R.id.menu_search));
@@ -108,6 +109,7 @@ public class FlightSearchParamsFragmentTest extends InstrumentationTestCase {
 	@MediumTest
 	public void testSearchModificationsInlineWithRotationsReflectedInFlightSearchActivity() {
 		performFlightSearch("PDX", "SEA", 2, R.id.search);
+		waitForFlightResults();
 
 		// click on menu search to bring up FlightSearchOverlay for inline search
 		mSolo.clickOnView(mSolo.getView(R.id.menu_search));
