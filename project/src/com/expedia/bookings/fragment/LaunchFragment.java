@@ -178,7 +178,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		mLaunchingActivity = false;
 
-		Log.d("HERE mLaunchDataTimestamp=" + mLaunchDataTimestamp);
 		if (isExpired()) {
 			// Expired so we blow this data away to kick off a new search
 			Db.setLaunchHotelData(null);

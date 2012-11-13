@@ -29,7 +29,6 @@ for i in *.zip ; do
     silent pushd $thedir
     for xmlfile in *.xml */*.xml ; do
         mkdir -p project
-        echo "HERE" $xmlfile
         mv $xmlfile project/strings.xml
     done
     silent popd
