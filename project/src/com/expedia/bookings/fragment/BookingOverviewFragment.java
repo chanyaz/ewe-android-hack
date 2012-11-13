@@ -534,8 +534,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			height = 0;
 		}
 
-		Log.t("SpacerView height: %d", height);
-
 		ViewGroup.LayoutParams lp = mScrollSpacerView.getLayoutParams();
 		lp.height = height;
 
@@ -560,10 +558,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void startCheckout() {
-		startCheckout(true);
+		startCheckout(true, true);
 	}
 
-	public void startCheckout(final boolean animate) {
+	public void startCheckout(final boolean animate, boolean scrollToCheckout) {
 		if (!getInCheckout()) {
 			OmnitureTracking.trackPageLoadHotelsCheckoutInfo(getActivity());
 		}
@@ -572,19 +570,21 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		setScrollSpacerViewHeight();
 
 		// Scroll to checkout
-		mScrollView.post(new Runnable() {
-			@Override
-			public void run() {
-				mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
+		if (scrollToCheckout) {
+			mScrollView.post(new Runnable() {
+				@Override
+				public void run() {
+					mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
 
-				if (animate) {
-					mScrollView.smoothScrollTo(0, mScrollViewListener.getCheckoutY());
+					if (animate) {
+						mScrollView.smoothScrollTo(0, mScrollViewListener.getCheckoutY());
+					}
+					else {
+						mScrollView.scrollTo(0, mScrollViewListener.getCheckoutY());
+					}
 				}
-				else {
-					mScrollView.scrollTo(0, mScrollViewListener.getCheckoutY());
-				}
-			}
-		});
+			});
+		}
 
 		if (mShowSlideToWidget) {
 			showPurchaseViews(animate);
@@ -606,7 +606,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
 				mScrollView.smoothScrollTo(0, 0);
 				if (isAdded() && mCouponCodeEditText != null) {
-					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+							Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(mCouponCodeEditText.getWindowToken(), 0);
 				}
 			}
@@ -812,7 +813,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		private final float mReceiptPaddingBottom;
 
 		private boolean mTouchDown = false;
-		private int mScrollY = 0;
+		private int mScrollY;
 
 		private int mReceiptHeight;
 		private int mReceiptMiniHeight;
@@ -859,9 +860,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 				mTouchDown = false;
 
 				if (mScrollY < mMidY) {
+					Log.t("Ending checkout - ScrollY: %d", mScrollY);
 					endCheckout();
 				}
 				else if (mScrollY >= mMidY && mScrollY <= mCheckoutY) {
+					Log.t("Starting checkout - ScrollY: %d", mScrollY);
 					startCheckout();
 				}
 			}
@@ -871,6 +874,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			Log.t("ScrollY: %d", y);
+
 			mScrollY = y;
 
 			float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))
@@ -891,8 +896,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			if (!mTouchDown && y <= oldy && oldy >= mCheckoutY && getInCheckout()) {
 				mScrollView.scrollTo(0, (int) mCheckoutY);
 				mHotelReceipt.showMiniDetailsLayout();
-
 				return;
+			}
+			else if (mTouchDown && y >= mCheckoutY && !getInCheckout()) {
+				startCheckout(false, false);
 			}
 
 			if (y > mCheckoutY - mScaledFadeRange) {
@@ -935,7 +942,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			measure();
 
 			if (getInCheckout()) {
-				startCheckout(false);
+				startCheckout(false, true);
 			}
 		}
 

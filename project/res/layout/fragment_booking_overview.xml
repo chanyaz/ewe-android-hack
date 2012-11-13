@@ -162,7 +162,7 @@
             <View
                 android:id="@+id/scroll_spacer_view"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp" />
+                android:layout_height="1dp" />
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 
