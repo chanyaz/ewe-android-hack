@@ -6,7 +6,7 @@ silent() {
 
 if [ -z "$1" ] ; then
     echo "This program takes a zip archive of a loc dump"
-else
+fi
 
 archive=$1
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -27,8 +27,9 @@ for i in *.zip ; do
     silent unzip -d $thedir $thedir/$i
     rm $thedir/$i
     silent pushd $thedir
-    for xmlfile in *.xml ; do
+    for xmlfile in *.xml */*.xml ; do
         mkdir -p project
+        echo "HERE" $xmlfile
         mv $xmlfile project/strings.xml
     done
     silent popd
@@ -47,4 +48,5 @@ for i in newstrs/project/res/values*/strings.xml ; do
     grep --color=always -H "[^\]&apos;" $i
     grep --color=always -H "&amp;amp;" $i
     grep --color=always -H "&amp;apos;" $i
+    grep --color=always -H "\\\\apos;" $i
 done
