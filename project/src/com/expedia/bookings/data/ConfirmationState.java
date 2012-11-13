@@ -121,6 +121,9 @@ public class ConfirmationState {
 				Db.setSelectedRate(JSONUtils.getJSONable(data, Codes.RATE, Rate.class));
 				Db.setBillingInfo(JSONUtils.getJSONable(data, Codes.BILLING_INFO, BillingInfo.class));
 				Db.setBookingResponse(JSONUtils.getJSONable(data, Codes.BOOKING_RESPONSE, BookingResponse.class));
+				if (data.has(Codes.DISCOUNT_RATE)) {
+					Db.setCouponDiscountRate(JSONUtils.getJSONable(data, Codes.DISCOUNT_RATE, Rate.class));
+				}
 
 				mPrimaryTraveler = JSONUtils.getJSONable(data, "primaryTraveler", Traveler.class);
 			}
