@@ -681,10 +681,15 @@ public class Db {
 		return sDb.mCouponDiscountRate;
 	}
 
-	public static void clear() {
+	public static void clearHotelSearch() {
 		clearAvailabilityResponses();
 		clearReviewsResponses();
 		clearReviewsStatisticsResponses();
+		sDb.mSearchResponse = null;
+	}
+
+	public static void clear() {
+		clearHotelSearch();
 		resetFilter();
 		resetBillingInfo();
 		resetSearchParams();

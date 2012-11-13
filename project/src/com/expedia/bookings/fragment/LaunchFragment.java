@@ -695,10 +695,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				Property property = (Property) item;
 
 				// H1041: Clear out the current search results
-				Db.clearAvailabilityResponses();
-				Db.clearReviewsResponses();
-				Db.clearReviewsStatisticsResponses();
-				Db.setSearchResponse(null);
+				Db.clearHotelSearch();
 				if (mSearchParams == null) {
 					mSearchParams = new SearchParams();
 				}

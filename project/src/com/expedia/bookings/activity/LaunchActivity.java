@@ -8,6 +8,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
@@ -71,6 +72,9 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		if (requestCode == REQUEST_SETTINGS && resultCode != RESULT_CANCELED) {
 			mLaunchFragment.reset();
+
+			Db.clearHotelSearch();
+			Db.resetSearchParams();
 		}
 	}
 
