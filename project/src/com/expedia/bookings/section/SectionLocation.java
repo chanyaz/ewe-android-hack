@@ -356,7 +356,12 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			R.id.edit_address_state) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+			if (getData() == null || getData().getCountryCode() == null || getData().getCountryCode().equals("USA")) {
+				return CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET;
+			}
+			else {
+				return CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET;
+			}
 		}
 
 		@Override
@@ -450,6 +455,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					if (getData() != null) {
 						CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) parent.getAdapter();
 						getData().setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
+						updateCountryDependantValidation();
 						updatePostalCodeFormat();
 					}
 					onChange(SectionLocation.this);
@@ -460,6 +466,14 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
+		}
+
+		protected void updateCountryDependantValidation() {
+			// Force the postal code section to update its validator
+			mEditAddressPostalCode.onChange(null);
+
+			// Force the State/Province section to update its validator
+			mEditAddressState.onChange(null);
 		}
 
 		protected void updatePostalCodeFormat() {
@@ -473,8 +487,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 						mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_TEXT);
 					}
 				}
-				// Force the postal code section to update its validator
-				mEditAddressPostalCode.onChange(null);
 			}
 		}
 
