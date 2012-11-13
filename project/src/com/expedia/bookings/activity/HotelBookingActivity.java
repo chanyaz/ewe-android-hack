@@ -272,8 +272,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 				handleErrorResponse(results);
 			}
 			else {
-				launchConfirmationActivity();
 				AdTracker.trackBooking();
+				launchConfirmationActivity();
 			}
 
 			if (Db.getCreateTripResponse() != null) {
