@@ -700,6 +700,8 @@ public class Db {
 		sDb.mSelectedRate = null;
 		sDb.mSearchResponse = null;
 		sDb.mBookingResponse = null;
+		sDb.mCreateTripResponse = null;
+		sDb.mCouponDiscountRate = null;
 		sDb.mUser = null;
 		sDb.mBackgroundImageCache = null;
 		sDb.mLaunchHotelData = null;

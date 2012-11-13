@@ -127,6 +127,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		if (isFinishing()) {
 			Db.setBillingInfo(null);
 			Db.setBookingResponse(null);
+			Db.setCreateTripResponse(null);
 			Db.setCouponDiscountRate(null);
 		}
 	}
