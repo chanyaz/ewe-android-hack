@@ -26,7 +26,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="6dp"
         android:layout_toLeftOf="@+id/price_text_view"
-        android:ellipsize="end"
+        android:ellipsize="middle"
         android:singleLine="true"
         android:textColor="#3D4652"
         android:textSize="18dp"
