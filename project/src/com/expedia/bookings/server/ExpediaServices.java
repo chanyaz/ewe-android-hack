@@ -619,23 +619,24 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
 
-		// F670: Location can be null if we are using a stored credit card
-		Location location = billingInfo.getLocation();
-		if (location != null && location.getStreetAddress() != null) {
-			query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
-			if (location.getStreetAddress().size() > 1) {
-				String address2 = location.getStreetAddress().get(1);
-				if (!TextUtils.isEmpty(address2)) {
-					query.add(new BasicNameValuePair("streetAddress2", address2));
-				}
-			}
-			query.add(new BasicNameValuePair("city", location.getCity()));
-			query.add(new BasicNameValuePair("state", location.getStateCode()));
-			query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
-			query.add(new BasicNameValuePair("country", location.getCountryCode()));
-		}
-
 		if (billingInfo.getStoredCard() == null) {
+
+			// F670: Location can be null if we are using a stored credit card
+			Location location = billingInfo.getLocation();
+			if (location != null && location.getStreetAddress() != null) {
+				query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
+				if (location.getStreetAddress().size() > 1) {
+					String address2 = location.getStreetAddress().get(1);
+					if (!TextUtils.isEmpty(address2)) {
+						query.add(new BasicNameValuePair("streetAddress2", address2));
+					}
+				}
+				query.add(new BasicNameValuePair("city", location.getCity()));
+				query.add(new BasicNameValuePair("state", location.getStateCode()));
+				query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
+				query.add(new BasicNameValuePair("country", location.getCountryCode()));
+			}
+
 			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
 
 			Date expDate = billingInfo.getExpirationDate().getTime();
