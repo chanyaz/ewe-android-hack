@@ -694,6 +694,16 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			if (item instanceof Property) {
 				Property property = (Property) item;
 
+				// H1041: Clear out the current search results
+				Db.clearAvailabilityResponses();
+				Db.clearReviewsResponses();
+				Db.clearReviewsStatisticsResponses();
+				Db.setSearchResponse(null);
+				if (mSearchParams == null) {
+					mSearchParams = new SearchParams();
+				}
+
+				Db.setSearchParams(mSearchParams);
 				Db.setSelectedProperty(property);
 
 				Intent intent = new Intent(mContext, HotelDetailsFragmentActivity.class);
