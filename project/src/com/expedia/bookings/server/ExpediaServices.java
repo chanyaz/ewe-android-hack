@@ -694,7 +694,19 @@ public class ExpediaServices implements DownloadListener {
 		if (TextUtils.isEmpty(email)) {
 			email = Db.getUser().getPrimaryTraveler().getEmail();
 		}
-		query.add(new BasicNameValuePair("email", email));
+
+		//TODO: This is a quick fix for the 2.0 api
+		//If the query already has an email address, we don't include a second one
+		boolean alreadyHasEmail = false;
+		for (BasicNameValuePair item : query) {
+			if (item.getName() != null && item.getName().compareTo("email") == 0) {
+				alreadyHasEmail = true;
+				break;
+			}
+		}
+		if (!alreadyHasEmail) {
+			query.add(new BasicNameValuePair("email", email));
+		}
 
 		if (!TextUtils.isEmpty(traveler.getPrimaryPassportCountry())) {
 			query.add(new BasicNameValuePair("passportCountryCode", traveler.getPrimaryPassportCountry()));
