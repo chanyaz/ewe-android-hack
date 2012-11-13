@@ -570,12 +570,13 @@
         <item name="android:background">@drawable/spinner_holo_light</item>
     </style>
 
-    <style name="FakeSpinner" parent="@android:style/Widget.Holo.Light.Spinner">
+    <style name="FakeSpinner" parent="Widget">
         <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
         <item name="android:paddingLeft">12dp</item>
     </style>
 
-    <style name="FakeSpinner.Dark" parent="@android:style/Widget.Holo.Spinner">
+    <style name="FakeSpinner.Dark" parent="Widget">
+        <item name="android:background">@drawable/fake_spinner_default_holo_dark</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:textColor">@color/text_color_dark</item>
     </style>
