@@ -684,6 +684,7 @@ public class Db {
 	public static void clear() {
 		clearAvailabilityResponses();
 		clearReviewsResponses();
+		clearReviewsStatisticsResponses();
 		resetFilter();
 		resetBillingInfo();
 		resetSearchParams();
