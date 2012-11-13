@@ -51,7 +51,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
 	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
-	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
+	private static final int DIALOG_CALLBACK_INVALID_PAYMENT = 2;
 
 	private Context mContext;
 
@@ -290,9 +290,25 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	public void handleErrorResponse(BookingResponse response) {
 		List<ServerError> errors = response.getErrors();
 
+		boolean hasCVVError = false;
+		boolean hasExpirationDateError = false;
+		boolean hasCreditCardNumberError = false;
+
 		// Log all errors, in case we need to see them
 		for (int a = 0; a < errors.size(); a++) {
-			Log.v("SERVER ERROR " + a + ": " + errors.get(a).toJson().toString());
+			ServerError error = errors.get(a);
+			Log.v("SERVER ERROR " + a + ": " + error.toJson().toString());
+
+			String field = error.getExtra("field");
+			if (field.equals("creditCardNumber")) {
+				hasCreditCardNumberError = true;
+			}
+			else if (field.equals("expirationDate")) {
+				hasExpirationDateError = true;
+			}
+			else if (field.equals("cvv")) {
+				hasCVVError = true;
+			}
 		}
 
 		// We make the assumption that if we get an error we can handle in a special manner
@@ -313,19 +329,19 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			break;
 		}
 		case INVALID_INPUT: {
-			if (firstError.getMessage().contains("CID_NOT_MATCHED")) {
+			if (hasCreditCardNumberError && hasExpirationDateError && hasCVVError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.e3_error_checkout_payment_failed), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_PAYMENT);
+				frag.show(getSupportFragmentManager(), "badPaymentDialog");
+				return;
+			}
+			else if (hasCVVError) {
 				setCvvErrorMode(true);
 				mProgressFragment.dismiss();
 				return;
 			}
-			else if (errors.size() == 3) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.e3_error_checkout_invalid_expiration), getString(android.R.string.ok),
-						DIALOG_CALLBACK_EXPIRED_CC);
-				frag.show(getSupportFragmentManager(), "expiredCcDialog");
-				return;
-			}
-			else if (firstError.getExtra("field").equals("creditCardNumber")) {
+			else if (hasCreditCardNumberError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
 						DIALOG_CALLBACK_INVALID_CC);
@@ -386,7 +402,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	public void onSimpleDialogClick(int callbackId) {
 		switch (callbackId) {
 		case DIALOG_CALLBACK_INVALID_CC:
-		case DIALOG_CALLBACK_EXPIRED_CC:
+		case DIALOG_CALLBACK_INVALID_PAYMENT:
 			launchHotelPaymentCreditCardFragment();
 			finish();
 			break;
