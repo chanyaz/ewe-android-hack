@@ -300,6 +300,10 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			Log.v("SERVER ERROR " + a + ": " + error.toJson().toString());
 
 			String field = error.getExtra("field");
+			if (TextUtils.isEmpty(field)) {
+				continue;
+			}
+
 			if (field.equals("creditCardNumber")) {
 				hasCreditCardNumberError = true;
 			}
