@@ -228,7 +228,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			@Override
 			public void couponCodeApplied() {
 				if (isAdded()) {
-					updateViews();
+					refreshData();
 				}
 			}
 		});
@@ -421,20 +421,25 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void updateViews() {
 		mLegalInformationTextView.setText(Html.fromHtml(getString(R.string.fare_rules_link)));
 
+		Rate rate = Db.getSelectedRate();
 		Rate discountRate = null;
+
 		if (Db.getCreateTripResponse() != null) {
 			discountRate = Db.getCreateTripResponse().getNewRate();
 		}
 
-		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
+		// Configure the total cost and (if necessary) total cost paid to Expedia
+		if (discountRate != null) {
+			rate = discountRate;
+		}
 
 		// Purchase total
 		Money displayedTotal;
 		if (LocaleUtils.shouldDisplayMandatoryFees(getActivity())) {
-			displayedTotal = Db.getSelectedRate().getTotalPriceWithMandatoryFees();
+			displayedTotal = rate.getTotalPriceWithMandatoryFees();
 		}
 		else {
-			displayedTotal = Db.getSelectedRate().getTotalAmountAfterTax();
+			displayedTotal = rate.getTotalAmountAfterTax();
 		}
 
 		if (Db.getSelectedProperty().isMerchant()) {
@@ -445,6 +450,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mPurchaseTotalTextView.setText(getString(R.string.collected_by_the_hotel_TEMPLATE,
 					displayedTotal.getFormattedMoney()));
 		}
+
+		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
 	}
 
 	public void updateViewVisibilities() {
