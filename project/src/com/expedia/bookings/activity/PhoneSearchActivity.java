@@ -2423,8 +2423,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				getCurrentSearchParams().setSearchType(SearchType.MY_LOCATION);
 			}
 			else {
-				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
-				mEditedSearchParams = new SearchParams(prefs);
+				if (mEditedSearchParams == null) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PhoneSearchActivity.this);
+					mEditedSearchParams = new SearchParams(prefs);
+				}
 
 				Object o = AutocompleteProvider.extractSearchOrString(c);
 
