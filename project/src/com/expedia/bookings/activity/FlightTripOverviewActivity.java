@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import android.content.Context;
 import android.content.Intent;
@@ -68,6 +69,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	//We only want to load from disk once: when the activity is first started
 	private boolean mLoadedDbInfo = false;
+	private Semaphore mLoadCachedDataSem = new Semaphore(1);
 
 	private boolean mTransitionHappening = false;
 
@@ -222,19 +224,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	//We do some work on separate threads to keep the UI nice and snappy
 	private void startLoadChain() {
 
-		final Runnable attachCheckoutRunnable = new Runnable() {
-			@Override
-			public void run() {
-				attachCheckout();
-			}
-
-		};
-
 		Runnable loadCacheRunnable = new Runnable() {
 			@Override
 			public void run() {
 				loadCachedData();
-				runOnUiThread(attachCheckoutRunnable);
 			}
 		};
 
@@ -243,82 +236,98 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	private void loadCachedData() {
-		if (!mLoadedDbInfo) {
+		boolean semGot = false;
+		try {
+			if (!mLoadedDbInfo && mLoadCachedDataSem.tryAcquire()) {
+				semGot = true;
+				Db.loadBillingInfo(this);
+				BillingInfo billingInfo = Db.getBillingInfo();
 
-			Db.loadBillingInfo(this);
-			BillingInfo billingInfo = Db.getBillingInfo();
-
-			//Load billing info (only if we don't have a valid card already)
-			if (billingInfo == null || TextUtils.isEmpty(billingInfo.getNumber())) {
-				billingInfo.load(this);
-				StoredCreditCard stored = billingInfo.getStoredCard();
-				if (stored != null) {
-					if (User.isLoggedIn(this)) {
-						if (Db.getUser() == null) {
-							Db.loadUser(this);
-						}
-						List<StoredCreditCard> usrCards = Db.getUser().getStoredCreditCards();
-						boolean cardFound = false;
-						for (int i = 0; i < usrCards.size(); i++) {
-							if (stored.getId().compareTo(usrCards.get(i).getId()) == 0) {
-								cardFound = true;
-								break;
+				//Load billing info (only if we don't have a valid card already)
+				if (billingInfo == null || TextUtils.isEmpty(billingInfo.getNumber())) {
+					billingInfo.load(this);
+					StoredCreditCard stored = billingInfo.getStoredCard();
+					if (stored != null) {
+						if (User.isLoggedIn(this)) {
+							if (Db.getUser() == null) {
+								Db.loadUser(this);
+							}
+							List<StoredCreditCard> usrCards = Db.getUser().getStoredCreditCards();
+							boolean cardFound = false;
+							for (int i = 0; i < usrCards.size(); i++) {
+								if (stored.getId().compareTo(usrCards.get(i).getId()) == 0) {
+									cardFound = true;
+									break;
+								}
+							}
+							//If the storedcard is not part of the user's collection of stored cards, we can't use it
+							if (!cardFound) {
+								Db.resetBillingInfo();
 							}
 						}
-						//If the storedcard is not part of the user's collection of stored cards, we can't use it
-						if (!cardFound) {
+						else {
+							//If we have an expedia account card, but we aren't logged in, we get rid of it
 							Db.resetBillingInfo();
 						}
 					}
-					else {
-						//If we have an expedia account card, but we aren't logged in, we get rid of it
-						Db.resetBillingInfo();
-					}
 				}
-			}
 
-			//Load traveler info (only if we don't have traveler info already)
-			if (Db.getTravelers() == null || Db.getTravelers().size() == 0 || !Db.getTravelers().get(0).hasName()) {
-				Db.loadTravelers(this);
-				List<Traveler> travelers = Db.getTravelers();
-				if (travelers != null && travelers.size() > 0) {
-					if (User.isLoggedIn(this)) {
-						//If we are logged in, we need to ensure that any expedia account users are associated with the currently logged in account
-						if (Db.getUser() == null) {
-							Db.loadUser(this);
-						}
-						List<Traveler> userTravelers = Db.getUser().getAssociatedTravelers();
-						for (int i = 0; i < travelers.size(); i++) {
-							Traveler trav = travelers.get(i);
-							if (trav.hasTuid()) {
-								boolean travFound = false;
-								for (int j = 0; j < userTravelers.size(); j++) {
-									Traveler usrTrav = userTravelers.get(j);
-									if (usrTrav.getTuid().compareTo(trav.getTuid()) == 0) {
-										travFound = true;
-										break;
+				//Load traveler info (only if we don't have traveler info already)
+				if (Db.getTravelers() == null || Db.getTravelers().size() == 0 || !Db.getTravelers().get(0).hasName()) {
+					Db.loadTravelers(this);
+					List<Traveler> travelers = Db.getTravelers();
+					if (travelers != null && travelers.size() > 0) {
+						if (User.isLoggedIn(this)) {
+							//If we are logged in, we need to ensure that any expedia account users are associated with the currently logged in account
+							if (Db.getUser() == null) {
+								Db.loadUser(this);
+							}
+							List<Traveler> userTravelers = Db.getUser().getAssociatedTravelers();
+							for (int i = 0; i < travelers.size(); i++) {
+								Traveler trav = travelers.get(i);
+								if (trav.hasTuid()) {
+									boolean travFound = false;
+									for (int j = 0; j < userTravelers.size(); j++) {
+										Traveler usrTrav = userTravelers.get(j);
+										if (usrTrav.getTuid().compareTo(trav.getTuid()) == 0) {
+											travFound = true;
+											break;
+										}
+									}
+									if (!travFound) {
+										travelers.set(i, new Traveler());
 									}
 								}
-								if (!travFound) {
+							}
+						}
+						else {
+							//Remove logged in travelers (because the user is not logged in)
+							for (int i = 0; i < travelers.size(); i++) {
+								Traveler trav = travelers.get(i);
+								if (trav.hasTuid()) {
 									travelers.set(i, new Traveler());
 								}
 							}
 						}
 					}
-					else {
-						//Remove logged in travelers (because the user is not logged in)
-						for (int i = 0; i < travelers.size(); i++) {
-							Traveler trav = travelers.get(i);
-							if (trav.hasTuid()) {
-								travelers.set(i, new Traveler());
-							}
-						}
-					}
 				}
-			}
 
-			//We only load from disk once
-			mLoadedDbInfo = true;
+				//We only load from disk once
+				mLoadedDbInfo = true;
+			}
+			else {
+				//We wait for the semaphore
+				mLoadCachedDataSem.acquire();
+				semGot = true;
+			}
+		}
+		catch (Exception ex) {
+			Log.e("Exception loading data..", ex);
+		}
+		finally {
+			if (semGot) {
+				mLoadCachedDataSem.release();
+			}
 		}
 	}
 
