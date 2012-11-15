@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -23,6 +24,16 @@ import com.mobiata.android.BackgroundDownloader;
  */
 public class SearchActivity extends Activity {
 
+	private static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
+
+	public static Intent createIntent(Context context, boolean openedFromWidget) {
+		Intent intent = new Intent(context, SearchActivity.class);
+		if (openedFromWidget) {
+			intent.putExtra(OPENED_FROM_WIDGET, true);
+		}
+		return intent;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,6 +46,12 @@ public class SearchActivity extends Activity {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
 		}
 		else {
+			// We're being ultra-safe here and only sending a kill broadcast if opened from
+			// the widget.  This is so that the widget *always* opens to the launch screen.
+			if (getIntent().getBooleanExtra(OPENED_FROM_WIDGET, true)) {
+				NavUtils.sendKillActivityBroadcast(this);
+			}
+
 			// On default, go to launch screen
 			NavUtils.goToLaunchScreen(this);
 		}

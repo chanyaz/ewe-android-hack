@@ -292,8 +292,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mDepartureAirportEditText.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-							Context.INPUT_METHOD_SERVICE);
+					// With weird timing issues, we can end up running this when we're not attached
+					Context context = getActivity();
+					if (context == null) {
+						return;
+					}
+
+					InputMethodManager imm = (InputMethodManager) context
+							.getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.showSoftInput(mDepartureAirportEditText, 0);
 
 					expandAirportEditText(mDepartureAirportEditText);
