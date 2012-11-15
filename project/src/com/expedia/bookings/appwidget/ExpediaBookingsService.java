@@ -28,6 +28,7 @@ import android.widget.RemoteViews;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Property;
@@ -942,7 +943,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			rv.setOnClickPendingIntent(R.id.root, onClickIntent);
 		}
 		else {
-			clearWidgetOnClickIntent(rv);
+			setupOnClickToLauncher(rv);
 		}
 
 		updateWidget(widget, rv);
@@ -979,7 +980,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		widgetContents.setOnClickPendingIntent(R.id.next_hotel_btn, PendingIntent.getService(this,
 				widget.appWidgetIdInteger.intValue() + 1, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-		clearWidgetOnClickIntent(rv);
+		setupOnClickToLauncher(rv);
 
 		setWidgetLoadingTextVisibility(widgetContents, View.GONE);
 
@@ -999,11 +1000,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		gm.updateAppWidget(widget.appWidgetIdInteger, rv);
 	}
 
-	// clear out the on-click intent on the widget by updating the widget
-	// with an empty intent that goes into ether.
-	private void clearWidgetOnClickIntent(RemoteViews rv) {
+	// By default, clicking on the widget will launch the app
+	private void setupOnClickToLauncher(RemoteViews rv) {
+		Intent onClickIntent = new Intent(getApplicationContext(), SearchActivity.class);
 		rv.setOnClickPendingIntent(R.id.root,
-				PendingIntent.getActivity(this, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT));
+				PendingIntent.getActivity(getApplicationContext(), 0, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 	}
 
 	private void setWidgetPropertyViewVisibility(final RemoteViews widgetContents, int visibility) {
