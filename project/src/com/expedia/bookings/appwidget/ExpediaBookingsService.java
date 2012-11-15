@@ -1002,7 +1002,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	// By default, clicking on the widget will launch the app
 	private void setupOnClickToLauncher(RemoteViews rv) {
-		Intent onClickIntent = new Intent(getApplicationContext(), SearchActivity.class);
+		Intent onClickIntent = SearchActivity.createIntent(getApplicationContext(), true);
 		onClickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		rv.setOnClickPendingIntent(R.id.root,
 				PendingIntent.getActivity(getApplicationContext(), 0, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT));
