@@ -340,7 +340,6 @@ public class ExpediaServices implements DownloadListener {
 	public SearchResponse search(SearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		query.add(new BasicNameValuePair("filterInventoryType", "MERCHANT"));
 		query.add(new BasicNameValuePair("sortOrder", "ExpertPicks"));
 		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
