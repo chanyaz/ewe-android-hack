@@ -2,24 +2,24 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scroll_view"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:fadingEdge="none"
     android:fillViewport="true"
-    android:overScrollMode="never"
-    android:paddingLeft="@dimen/booking_form_section_margin"
-    android:paddingRight="@dimen/booking_form_section_margin" >
+    android:overScrollMode="never" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="8dp" >
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:weightSum="@integer/booking_info_columns_width_weight_sum" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="@integer/booking_info_receipt_width_weight"
             android:orientation="vertical" >
 
             <include
@@ -34,15 +34,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:paddingTop="@dimen/booking_form_section_margin"
-                android:paddingBottom="@dimen/booking_form_section_margin"
                 android:text="@string/disclaimer_expedia_points"
                 android:textColor="#6A6D71" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="@integer/booking_info_form_width_weight"
+            android:layout_marginLeft="8dp"
             android:orientation="vertical" >
 
             <!-- Login Section -->

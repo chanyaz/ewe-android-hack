@@ -3,19 +3,18 @@
     android:id="@+id/scroll_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FFFFFF"
     android:fadingEdge="none"
     android:fillViewport="true"
-    android:overScrollMode="never"
-    android:paddingLeft="@dimen/booking_form_section_margin"
-    android:paddingRight="@dimen/booking_form_section_margin" >
+    android:overScrollMode="never" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="600dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:background="#FFFFFF"
         android:orientation="vertical"
-        android:padding="8dp" >
+        android:paddingLeft="@dimen/booking_form_section_margin"
+        android:paddingRight="@dimen/booking_form_section_margin" >
 
         <LinearLayout
             android:layout_width="fill_parent"

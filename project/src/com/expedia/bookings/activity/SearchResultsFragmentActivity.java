@@ -1455,11 +1455,11 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	// (opening rates activity)
 
 	public void bookRoom(Rate rate, boolean specificRateClicked) {
-		Intent intent = new Intent(this, BookingFragmentActivity.class);
+		Intent intent = new Intent(this, RoomsAndRatesFragmentActivity.class);
 		Db.setSelectedRate(rate);
 
 		if (specificRateClicked) {
-			intent.putExtra(BookingFragmentActivity.EXTRA_SPECIFIC_RATE, true);
+			intent.putExtra(RoomsAndRatesFragmentActivity.EXTRA_SPECIFIC_RATE, true);
 		}
 
 		startActivity(intent);

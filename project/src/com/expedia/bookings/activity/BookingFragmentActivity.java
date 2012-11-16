@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,8 +22,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
-import com.expedia.bookings.fragment.BookingInfoFragment;
-import com.expedia.bookings.fragment.BookingInfoFragment.BookingInfoFragmentListener;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.fragment.SignInFragment;
 import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
@@ -42,8 +41,7 @@ import com.mobiata.android.validation.ValidationError;
 
 // This is the TABLET booking activity for hotels.
 
-public class BookingFragmentActivity extends FragmentActivity implements RoomsAndRatesFragmentListener,
-		BookingInfoFragmentListener, SignInFragmentListener, BookingFormFragmentListener {
+public class BookingFragmentActivity extends FragmentActivity implements SignInFragmentListener, BookingFormFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -59,11 +57,11 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 	private Context mContext;
 
-	private BookingInfoFragment mBookingInfoFragment;
-
 	private long mLastResumeTime = -1;
 
 	private ActivityKillReceiver mKillReciever;
+
+	private BookingFormFragment mFragment;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -81,18 +79,12 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 		mContext = this;
 
-		setContentView(R.layout.activity_booking_fragment);
-
-		mBookingInfoFragment = Ui.findSupportFragment(this, getString(R.string.tag_booking_info));
-
-		// Need to set this BG from code so we can make it just repeat vertically
-		findViewById(R.id.search_results_list_shadow).setBackgroundDrawable(LayoutUtils.getDividerDrawable(this));
-
-		if (savedInstanceState == null) {
-			String referrer = getIntent().getBooleanExtra(EXTRA_SPECIFIC_RATE, false) ? "App.Hotels.ViewSpecificRoom"
-					: "App.Hotels.ViewAllRooms";
-
-			Tracker.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), referrer);
+		mFragment = Ui.findSupportFragment(this, getString(R.string.tag_booking_form));
+		if (mFragment == null) {
+			mFragment = BookingFormFragment.newInstance();
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.add(android.R.id.content, mFragment, getString(R.string.tag_booking_form));
+			ft.commit();
 		}
 
 		mKillReciever = new ActivityKillReceiver(this);
@@ -109,7 +101,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
-		actionBar.setTitle(R.string.booking_information_title);
+		actionBar.setTitle(R.string.booking_information_dialog_title);
 	}
 
 	@Override
@@ -165,7 +157,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
+		getMenuInflater().inflate(R.menu.menu_tablet_booking, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
@@ -177,6 +169,11 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();
+			return true;
+		case R.id.menu_confirm_book:
+			if (mFragment != null) {
+				mFragment.confirmAndBook();
+			}
 			return true;
 		case R.id.menu_about: {
 			Intent intent = new Intent(this, TabletAboutActivity.class);
@@ -236,20 +233,16 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 			Db.setBookingResponse(response);
 
-			BookingFormFragment bookingFormFragment = (BookingFormFragment) getSupportFragmentManager()
-					.findFragmentByTag(getString(R.string.tag_booking_form));
-
 			if (!response.isSuccess() && !response.succeededWithErrors()) {
 				String errorMsg = response.gatherErrorMessage(BookingFragmentActivity.this);
 				showErrorDialog(errorMsg);
 
 				// Highlight erroneous fields, if that exists
 				boolean isStoredCard = Db.getBillingInfo() != null && Db.getBillingInfo().getStoredCard() != null;
-				List<ValidationError> errors = response.checkForInvalidFields(bookingFormFragment.getDialog()
-						.getWindow(), isStoredCard);
+				List<ValidationError> errors = response.checkForInvalidFields(getWindow(), isStoredCard);
 				if (errors != null && errors.size() > 0) {
-					if (bookingFormFragment != null) {
-						bookingFormFragment.handleFormErrors(errors);
+					if (mFragment != null) {
+						mFragment.handleFormErrors(errors);
 					}
 				}
 
@@ -265,10 +258,6 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 				Db.setCouponDiscountRate(Db.getCreateTripResponse().getNewRate());
 			}
 
-			if (bookingFormFragment != null) {
-				bookingFormFragment.dismiss();
-			}
-
 			// Start the conf activity
 			startActivity(new Intent(mContext, ConfirmationFragmentActivity.class));
 			finish();
@@ -278,27 +267,6 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 	private void showErrorDialog(String errorMsg) {
 		SimpleDialogFragment.newInstance(getString(R.string.error_booking_title), errorMsg).show(getFragmentManager(),
 				getString(R.string.tag_booking_error));
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// RoomsAndRatesFragmentListener
-
-	@Override
-	public void onRateSelected(Rate rate) {
-		Db.setSelectedRate(rate);
-
-		mBookingInfoFragment.notifyRateSelected();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// BookingInfoFragmentListener
-
-	@Override
-	public void onEnterBookingInfoClick() {
-		FragmentManager fm = getSupportFragmentManager();
-		if (fm.findFragmentByTag(getString(R.string.tag_booking_form)) == null) {
-			BookingFormFragment.newInstance().show(getSupportFragmentManager(), getString(R.string.tag_booking_form));
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -314,9 +282,7 @@ public class BookingFragmentActivity extends FragmentActivity implements RoomsAn
 
 	@Override
 	public void onLoginCompleted() {
-		BookingFormFragment bookingFormFragment = (BookingFormFragment) getSupportFragmentManager().findFragmentByTag(
-				getString(R.string.tag_booking_form));
-		bookingFormFragment.loginCompleted();
+		mFragment.loginCompleted();
 	}
 
 	@Override

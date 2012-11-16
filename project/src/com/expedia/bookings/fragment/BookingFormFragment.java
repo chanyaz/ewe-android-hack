@@ -11,7 +11,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -78,7 +78,7 @@ import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.ValidationProcessor;
 import com.mobiata.android.validation.Validator;
 
-public class BookingFormFragment extends DialogFragment {
+public class BookingFormFragment extends Fragment {
 	private static final String KEY_SIGNIN_FETCH = "KEY_SIGNIN_FETCH";
 
 	public static BookingFormFragment newInstance() {
@@ -206,8 +206,6 @@ public class BookingFormFragment extends DialogFragment {
 		mRulesRestrictionsCheckbox = (CheckBox) view.findViewById(R.id.rules_restrictions_checkbox);
 		mRulesRestrictionsTextView = (TextView) view.findViewById(R.id.rules_restrictions_text_view);
 		mRulesRestrictionsLayout = (ViewGroup) view.findViewById(R.id.rules_restrictions_layout);
-		mConfirmBookButton = Ui.findView(view, R.id.confirm_book_button);
-		mCloseFormButton = view.findViewById(R.id.close_booking_form);
 
 		mStoredCardContainer = view.findViewById(R.id.stored_card_container);
 		if (mStoredCardContainer == null) {
@@ -220,7 +218,7 @@ public class BookingFormFragment extends DialogFragment {
 
 		mAccountButton = (AccountButton) view.findViewById(R.id.account_button_root);
 		mAccountButton.setListener(mAccountButtonClickListener);
-		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), !getShowsDialog());
+		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), false);
 		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
 		mBillingAddressWidget = new BillingAddressWidget(getActivity(), mRootBillingView);
 		mBillingAddressWidget.restoreInstanceState(savedInstanceState);
@@ -228,7 +226,7 @@ public class BookingFormFragment extends DialogFragment {
 			@Override
 			public void couponCodeApplied() {
 				if (isAdded()) {
-					updateChargeDetails();
+					//updateChargeDetails();
 					updateReceiptWidget();
 				}
 			}
@@ -323,26 +321,6 @@ public class BookingFormFragment extends DialogFragment {
 		}
 
 		return view;
-	}
-
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		Dialog dialog = super.onCreateDialog(savedInstanceState);
-
-		// Make modifications for the dialog implementation of BookingFormFragment here.
-		// Any changes that you want 
-
-		dialog.requestWindowFeature(STYLE_NO_TITLE);
-
-		dialog.setCanceledOnTouchOutside(false);
-
-		// set the window of the dialog to have a transparent background
-		// so that the window is not visible through the edges of the dialog.
-		Window window = dialog.getWindow();
-		window.setBackgroundDrawable(new ColorDrawable(0));
-		window.setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-
-		return dialog;
 	}
 
 	@Override
@@ -485,8 +463,6 @@ public class BookingFormFragment extends DialogFragment {
 					saveBillingInfo();
 
 					checkSectionsCompleted(false);
-
-					dismiss();
 				}
 			});
 		}
@@ -587,7 +563,7 @@ public class BookingFormFragment extends DialogFragment {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					if (!mFormHasBeenFocused) {
-						updateChargeDetails();
+						//updateChargeDetails();
 						mFormHasBeenFocused = true;
 					}
 				}
@@ -615,12 +591,12 @@ public class BookingFormFragment extends DialogFragment {
 		}
 	}
 
-	private void updateChargeDetails() {
-		// Change the button text (if not showing as dialog)
-		if (!getShowsDialog() && mConfirmBookButton != null) {
-			mConfirmBookButton.setText(R.string.confirm_book);
-		}
-	}
+	//private void updateChargeDetails() {
+	//	// Change the button text (if not showing as dialog)
+	//	if (!getShowsDialog() && mConfirmBookButton != null) {
+	//		mConfirmBookButton.setText(R.string.confirm_book);
+	//	}
+	//}
 
 	public void updateReceiptWidget() {
 		Rate discountRate = null;

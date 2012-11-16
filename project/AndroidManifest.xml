@@ -65,6 +65,10 @@
             android:name=".activity.HotelGalleryActivity"
             android:theme="@style/Theme.Tablet.Dark" />
         <activity
+            android:name=".activity.RoomsAndRatesFragmentActivity"
+            android:theme="@style/Theme.Tablet"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
             android:name=".activity.BookingFragmentActivity"
             android:theme="@style/Theme.Tablet"
             android:windowSoftInputMode="stateHidden|adjustResize" />
