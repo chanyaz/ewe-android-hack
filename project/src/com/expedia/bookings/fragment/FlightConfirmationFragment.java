@@ -56,6 +56,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
@@ -71,9 +72,12 @@ public class FlightConfirmationFragment extends Fragment {
 
 	public static final String TAG = FlightConfirmationFragment.class.getName();
 
+	private Context mContext;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = getActivity();
 	}
 
 	@Override
@@ -182,6 +186,7 @@ public class FlightConfirmationFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					startActivity(getFlightTrackIntent());
+					SettingUtils.save(mContext, ConfirmationState.PREF_HAS_TRACKED_WITH_FLIGHTTRACK, true);
 				}
 			});
 		}
@@ -202,6 +207,29 @@ public class FlightConfirmationFragment extends Fragment {
 		setTextAndRobotoFont(v, R.id.more_actions_text_view, getString(R.string.more_actions).toUpperCase());
 
 		return v;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		// Check prefs to see if user has performed share action, we will reward them with a satisfying check-mark ;-)
+		toggleActionCompletion(R.id.share_action_text_view, ConfirmationState.PREF_HAS_SHARED_VIA_EMAIL,
+				R.drawable.ic_social_share);
+		toggleActionCompletion(R.id.calendar_action_text_view, ConfirmationState.PREF_HAS_ADDED_TO_CALENDAR,
+				R.drawable.ic_calendar_add);
+		toggleActionCompletion(R.id.flighttrack_action_text_view, ConfirmationState.PREF_HAS_TRACKED_WITH_FLIGHTTRACK,
+				R.drawable.ic_flight_track);
+	}
+
+	private void toggleActionCompletion(int textViewResId, String pref, int drawableResId) {
+		TextView tv = Ui.findView(getActivity(), textViewResId);
+		if (SettingUtils.get(mContext, pref, false)) {
+			tv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, R.drawable.ic_error_blue, 0);
+		}
+		else {
+			tv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
+		}
 	}
 
 	private void setTextAndRobotoFont(View root, int resId, CharSequence text) {
@@ -417,6 +445,7 @@ public class FlightConfirmationFragment extends Fragment {
 		body.append(getString(R.string.share_flight_shill_app));
 
 		SocialUtils.email(getActivity(), subject, body.toString());
+		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_SHARED_VIA_EMAIL, true);
 	}
 
 	private void addShareLeg(StringBuilder sb, FlightLeg flightLeg) {
@@ -500,6 +529,7 @@ public class FlightConfirmationFragment extends Fragment {
 			Intent intent = generateCalendarInsertIntent(trip.getLeg(a));
 			startActivity(intent);
 		}
+		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_ADDED_TO_CALENDAR, true);
 	}
 
 	@SuppressLint("NewApi")

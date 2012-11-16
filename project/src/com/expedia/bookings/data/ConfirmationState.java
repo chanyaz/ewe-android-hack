@@ -8,11 +8,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.expedia.bookings.fragment.FlightConfirmationFragment;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
+import com.mobiata.android.util.SettingUtils;
 
 /**
  * Saves a confirmation state, which allows us to reproduce a confirmation activity.
@@ -29,6 +33,10 @@ public class ConfirmationState {
 			mFilename = filename;
 		}
 	}
+
+	public static final String PREF_HAS_SHARED_VIA_EMAIL = "PREF_HAS_SHARED_VIA_EMAIL";
+	public static final String PREF_HAS_TRACKED_WITH_FLIGHTTRACK = "PREF_HAS_TRACKED_WITH_FLIGHTTRACK";
+	public static final String PREF_HAS_ADDED_TO_CALENDAR = "PREF_HAS_ADDED_TO_CALENDAR";
 
 	private static final String FIELD_VERSION = "ConfirmationState.Version";
 
@@ -145,6 +153,12 @@ public class ConfirmationState {
 
 	public boolean delete() {
 		Log.i("Deleting saved confirmation data of type " + mType);
+
+		// Make sure to delete these preferences that display checkmarks in the UI
+		if (mType == Type.FLIGHT) {
+			deleteFlightActionCompletionPrefs(mContext);
+		}
+
 		File savedConfResults = mContext.getFileStreamPath(mType.mFilename);
 		return savedConfResults.delete();
 	}
@@ -167,6 +181,15 @@ public class ConfirmationState {
 		if (confirmationState.hasSavedData()) {
 			confirmationState.delete();
 		}
+	}
+
+	private static void deleteFlightActionCompletionPrefs(Context context) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean(PREF_HAS_SHARED_VIA_EMAIL, false);
+		editor.putBoolean(PREF_HAS_ADDED_TO_CALENDAR, false);
+		editor.putBoolean(PREF_HAS_TRACKED_WITH_FLIGHTTRACK, false);
+		SettingUtils.commitOrApply(editor);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
