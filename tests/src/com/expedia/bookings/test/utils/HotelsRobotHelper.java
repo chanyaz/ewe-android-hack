@@ -79,6 +79,12 @@ public class HotelsRobotHelper {
 			new Locale("sv", "SE"),
 			new Locale("en", "UK")
 	};
+	
+	public static Locale[] FLIGHTS_LOCALES = new Locale[] {
+			AMERICAN_LOCALES[2],
+			AMERICAN_LOCALES[3],
+			AMERICAN_LOCALES[5]
+	};
 
 	public static final Map<Locale, Integer> LOCALE_TO_COUNTRY = new HashMap<Locale, Integer>();
 	static {
@@ -131,7 +137,8 @@ public class HotelsRobotHelper {
 	private Resources mRes;
 	private HotelsUserData mUser; //user info container
 	private ScreenshotUtils mScreen;
-
+	private int mScreenWidth;
+	private int mScreenHeight;
 	//Defaults are set, including the default user booking info
 	//which is set to the qa-ehcc@mobiata.com account's info
 	public HotelsRobotHelper(Solo solo, Resources res) {
@@ -147,6 +154,9 @@ public class HotelsRobotHelper {
 		mRes = res;
 		mUser = customUser;
 		mScreen = new ScreenshotUtils("Robotium-Screenshots", mSolo);
+		mScreenWidth = mRes.getDisplayMetrics().widthPixels;
+		mScreenWidth = mRes.getDisplayMetrics().heightPixels;
+		
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -157,17 +167,16 @@ public class HotelsRobotHelper {
 		config.locale = locale; //set to locale specified
 		Locale.setDefault(locale);
 		mRes.updateConfiguration(config, mRes.getDisplayMetrics());
-
 	}
 
 	////////////////////////////////////////////////////////////////
 	// Helpful Methods
 	public void launchHotels() {
-		mSolo.clickOnScreen(120, 150);
+		mSolo.clickOnText(mRes.getString(R.string.launch_hotel_secondary_text));
 	}
-
+	
 	public void launchFlights() {
-		mSolo.clickOnScreen(360, 150);
+		mSolo.clickOnText(mRes.getString(R.string.launch_flight_secondary_text));
 	}
 
 	public void enterLog(String TAG, String logText) {
@@ -218,6 +227,12 @@ public class HotelsRobotHelper {
 			mSolo.setActivityOrientation(Solo.PORTRAIT);
 			delay(2);
 		}
+	}
+	
+	public void clickTopRightBtn() { 
+		int w = 479;
+		int h = 46;
+		mSolo.clickOnScreen(w, h);
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -640,8 +655,11 @@ public class HotelsRobotHelper {
 				//At some point, switch this back to entering
 				//new traveler and using that
 				//Must wait until this functionality is restored
+				delay();
+				screenshot("Picking traveler");
 				mSolo.clickOnText(mRes.getString(R.string.enter_traveler_info));
 				delay(5);
+				screenshot("Adding new traveler");
 				mSolo.enterText(0, mUser.mFirstName);
 				mSolo.enterText(2, mUser.mLastName);
 				mSolo.enterText(3, mUser.mPhoneNumber);
@@ -831,17 +849,18 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Flights
 
-	public void flightsHappyPath(String departure, String arrival, boolean doBooking) throws Exception {
-		changePOS(AMERICAN_LOCALES[5]);
+	public void flightsHappyPath(String departure, String arrival, boolean doHotelBooking) throws Exception {
+		
 		clearPrivateData();
 		launchFlights();
 
-		//Departure Field
+		//If still on flights confirmation page
+		//click to do a new search
 		if(mSolo.searchText("Hotels in", true)){
-		   mSolo.clickOnScreen(470, 50);
-		   delay(10);	
+			clickTopRightBtn();
+			delay(10);	
 		}
-		
+		screenshot("Flights Search Screen");
 		mSolo.clickOnEditText(0);
 		mSolo.enterText(0, departure);
 		delay();
@@ -862,39 +881,56 @@ public class HotelsRobotHelper {
 			
 		}
 		delay();
+		screenshot("Calendar");
+		delay();
 		CalendarTouchUtils.selectDay(mSolo, 5, R.id.calendar_date_picker);
-
+		delay();
 		//Click to search
-		mSolo.clickOnScreen(450, 60);
+		mSolo.clickOnView(mSolo.getView(R.id.search_button));
+		delay(5);
+		screenshot("Loading Flights");
 		mSolo.waitForDialogToClose(10000);
-
+		
 		//Scroll up and down and
-		//Select top flight in list.
+		
 		landscape();
 		delay();
+		screenshot("Search results");
 		mSolo.scrollDown();
 		delay();
 		mSolo.scrollToBottom();
+		delay();
+		screenshot("Search results - bottom");
 		portrait();
 		delay();
 		mSolo.scrollToTop();
-		delay(15);
+		delay();
+		mSolo.clickOnText(mRes.getString(R.string.sort_flights));
+		screenshot("Sort fragment");
+		mSolo.goBack();
+		delay();
+		
+		//Select top flight in list.
 		mSolo.clickInList(2);
-
+        
 		//Confirm flight selection
 		//and advance to booking
 		mSolo.waitForDialogToClose(10000);
+		screenshot("Booking screen.");
 		mSolo.scrollDown();
 		delay();
 		mSolo.scrollUp();
 		delay(5);
-		mSolo.clickOnScreen(450, 60);
+		clickTopRightBtn();
 		mSolo.waitForDialogToClose(10000);
-		mSolo.clickOnScreen(450, 60);
+		clickTopRightBtn();
 
+		//log in and do a booking
 		logInAndBook();
 		
-		if(doBooking) {
+		//if hotel booking switch is true, do a hotel booking 
+		//in that city
+		if(doHotelBooking) {
 			launchHotels();
 			browseRooms(4, arrival, true);
 		}
