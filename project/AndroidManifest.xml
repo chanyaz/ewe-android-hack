@@ -129,13 +129,6 @@
             android:name=".activity.AppFeedbackActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name="com.opinionlab.oo.sdk.android.CommentCardActivity" />
-        <activity
-            android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetConfigurationActivity"
-            android:windowSoftInputMode="stateHidden" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
 
         <!-- Expedia Flights -->
 
@@ -174,10 +167,6 @@
         <activity
             android:name=".activity.FlightPaymentOptionsActivity"
             android:theme="@style/FlightTheme.CheckoutForms" >
-        </activity>
-        <activity
-            android:name=".activity.FlightPaymentContactActivity"
-            android:theme="@style/FlightTheme" >
         </activity>
         <activity
             android:name=".activity.FlightTravelerInfoOptionsActivity"
