@@ -188,7 +188,13 @@ public class FlightPaymentOptionsFragment extends Fragment {
 					divider.setBackgroundColor(res.getColor(R.color.divider_grey));
 					mStoredCardsContainer.addView(divider);
 				}
-				mStoredCardsContainer.addView(card);
+
+				//Add the stored card (only if it is not the selected card)
+				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() == null
+						|| Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId()
+								.compareToIgnoreCase(cards.get(i).getId()) != 0) {
+					mStoredCardsContainer.addView(card);
+				}
 			}
 		}
 
@@ -243,6 +249,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		//Set visibilities
 		boolean hasAccountCards = cards != null && cards.size() > 0;
 		boolean hasSelectedStoredCard = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null;
+		boolean onlyAccountCardIsSelected = cards != null && cards.size() == 1 && hasSelectedStoredCard;
 
 		if (mValidationState == null) {
 			mValidationState = PaymentFlowState.getInstance(getActivity());
@@ -269,9 +276,9 @@ public class FlightPaymentOptionsFragment extends Fragment {
 						: getString(R.string.select_payment));
 		mNewPaymentLabelDiv.setVisibility(mNewPaymentLabel.getVisibility());
 
-		mStoredPaymentsLabel.setVisibility(hasAccountCards ? View.VISIBLE : View.GONE);
+		mStoredPaymentsLabel.setVisibility(hasAccountCards && !onlyAccountCardIsSelected ? View.VISIBLE : View.GONE);
 		mStoredPaymentsLabelDiv.setVisibility(mStoredPaymentsLabel.getVisibility());
-		mStoredCardsContainer.setVisibility(hasAccountCards ? View.VISIBLE : View.GONE);
+		mStoredCardsContainer.setVisibility(mStoredPaymentsLabel.getVisibility());
 	}
 
 	public interface FlightPaymentYoYoListener {
