@@ -20,6 +20,7 @@ import com.expedia.bookings.fragment.FlightPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
 import com.expedia.bookings.fragment.FlightPaymentSaveDialogFragment;
+import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -331,7 +332,6 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			billMan.deleteWorkingBillingInfoFile(this);
 		}
 
-		//Show the options fragment
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
 			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 			mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
@@ -353,7 +353,13 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			}
 		}
 		else {
-			displayOptions();
+			if (canOnlySelectNewCard()) {
+				mMode = YoYoMode.YOYO;
+				displayAddress();
+			}
+			else {
+				displayOptions();
+			}
 		}
 
 		String tripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
@@ -410,6 +416,28 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		}
 
 		return super.onPrepareOptionsMenu(menu);
+	}
+
+	public boolean canOnlySelectNewCard() {
+
+		//Is the user logged in and has account cards?
+		if (User.isLoggedIn(this) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() > 0) {
+				return false;
+			}
+		}
+
+		//Has the user manually entered data already?
+		PaymentFlowState validationState = PaymentFlowState.getInstance(this);
+		boolean addressValid = validationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
+				.getWorkingBillingInfo());
+		boolean cardValid = validationState
+				.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+		if (addressValid || cardValid) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public void setShowNextButton(boolean showNext) {

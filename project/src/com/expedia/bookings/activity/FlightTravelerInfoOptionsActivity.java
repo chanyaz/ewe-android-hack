@@ -246,17 +246,23 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			}
 		}
 
+		//Which traveler are we working with
+		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
+
 		//Show the options fragment
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
 			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 			mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
 		}
 		else {
-			mPos = YoYoPosition.OPTIONS;
+			if (canOnlySelectNewTraveler()) {
+				mPos = YoYoPosition.ONE;
+				mMode = YoYoMode.YOYO;
+			}
+			else {
+				mPos = YoYoPosition.OPTIONS;
+			}
 		}
-
-		//Which traveler are we working with
-		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
 
 		//If we have a working traveler that was cached we try to load it from disk... 
 		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
@@ -317,6 +323,23 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
+	public boolean canOnlySelectNewTraveler() {
+
+		//Is the user logged in and has associated travelers?
+		if (User.isLoggedIn(this) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null
+				&& Db.getUser().getAssociatedTravelers().size() > 0) {
+			return false;
+		}
+
+		//Does the current traveler have a name entered?
+		Traveler currentTraveler = Db.getTravelers().get(mTravelerIndex);
+		if (currentTraveler.hasName()) {
+			return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -325,7 +348,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (mPos.equals(YoYoPosition.SAVE)) {
 			this.closeSaveDialog();
 		}
-		
+
 		//If the overwrite dialog is showing, we close it
 		if (mPos.equals(YoYoPosition.OVERWRITE_TRAVELER)) {
 			this.closeOverwriteDialog();
