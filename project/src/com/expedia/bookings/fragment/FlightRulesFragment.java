@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightPenaltyRulesActivity;
-import com.expedia.bookings.activity.FlightWebViewActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Rule;
@@ -92,12 +92,14 @@ public class FlightRulesFragment extends SherlockFragment {
 		// rules and restrictions
 		TextView rules = Ui.findView(v, R.id.rules_and_restrictions);
 		rules.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				Rule completeRule = mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
-				Intent intent = new Intent(mContext, FlightPenaltyRulesActivity.class);
-				intent.putExtra(FlightPenaltyRulesActivity.ARG_URL, completeRule.getUrl());
+				Intent intent = new Intent(mContext, WebViewActivity.class);
+				intent.putExtra(WebViewActivity.ARG_URL, completeRule.getUrl());
+				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
+				intent.putExtra(WebViewActivity.ARG_TITLE_RES_ID, R.string.legal_information);
+				intent.putExtra(WebViewActivity.ARG_INJECT_EXPEDIA_COOKIES, true);
 				mContext.startActivity(intent);
 			}
 
@@ -108,10 +110,11 @@ public class FlightRulesFragment extends SherlockFragment {
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext, FlightWebViewActivity.class);
-				intent.putExtra(FlightWebViewActivity.ARG_URL,
-						RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext));
-
+				Intent intent = new Intent(mContext, WebViewActivity.class);
+				intent.putExtra(WebViewActivity.ARG_URL, RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext));
+				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
+				intent.putExtra(WebViewActivity.ARG_TITLE_RES_ID, R.string.legal_information);
+				intent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
 				mContext.startActivity(intent);
 			}
 		});
@@ -121,9 +124,11 @@ public class FlightRulesFragment extends SherlockFragment {
 		privacy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext, FlightWebViewActivity.class);
-				intent.putExtra(FlightWebViewActivity.ARG_URL, RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext));
-
+				Intent intent = new Intent(mContext, WebViewActivity.class);
+				intent.putExtra(WebViewActivity.ARG_URL, RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext));
+				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
+				intent.putExtra(WebViewActivity.ARG_TITLE_RES_ID, R.string.legal_information);
+				intent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
 				mContext.startActivity(intent);
 			}
 		});
@@ -172,8 +177,10 @@ public class FlightRulesFragment extends SherlockFragment {
 			textView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(mContext, FlightPenaltyRulesActivity.class);
-					intent.putExtra(FlightPenaltyRulesActivity.ARG_URL, rule.getUrl());
+					Intent intent = new Intent(mContext, WebViewActivity.class);
+					intent.putExtra(WebViewActivity.ARG_URL, rule.getUrl());
+					intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
+					intent.putExtra(WebViewActivity.ARG_TITLE_RES_ID, R.string.legal_information);
 					mContext.startActivity(intent);
 				}
 			});

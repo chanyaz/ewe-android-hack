@@ -104,8 +104,8 @@
     <string name="select_a_flight_to_TEMPLATE">Select a flight to %1$s</string>
     <!-- Select a flight back to (city name) -->
     <string name="select_a_flight_back_to_TEMPLATE">Select a flight back to %1$s</string>
-    <!-- Baggage fee loading error -->
-    <string name="baggage_fee_loading_error_TEMPLATE">Error loading baggage fee info! Error Message: %1$s</string>
+    <!-- Error message template when loading a webpage fails -->
+    <string name="web_view_loading_error_TEMPLATE">Error loading page! Error message: %!$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Taking Off Soon...</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->

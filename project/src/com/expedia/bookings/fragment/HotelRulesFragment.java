@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.HotelWebViewActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
@@ -50,10 +50,10 @@ public class HotelRulesFragment extends SherlockFragment {
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), HotelWebViewActivity.class);
-				intent.putExtra(HotelWebViewActivity.ARG_URL,
-						RulesRestrictionsUtils.getTermsAndConditionsUrl(getActivity()));
-
+				Intent intent = new Intent(getActivity(), WebViewActivity.class);
+				intent.putExtra(WebViewActivity.ARG_URL, RulesRestrictionsUtils.getTermsAndConditionsUrl(getActivity()));
+				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.HotelWebViewTheme);
+				intent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
 				startActivity(intent);
 			}
 		});
@@ -63,9 +63,10 @@ public class HotelRulesFragment extends SherlockFragment {
 		privacy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), HotelWebViewActivity.class);
-				intent.putExtra(HotelWebViewActivity.ARG_URL, RulesRestrictionsUtils.getPrivacyPolicyUrl(getActivity()));
-
+				Intent intent = new Intent(getActivity(), WebViewActivity.class);
+				intent.putExtra(WebViewActivity.ARG_URL, RulesRestrictionsUtils.getPrivacyPolicyUrl(getActivity()));
+				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.HotelWebViewTheme);
+				intent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
 				startActivity(intent);
 			}
 		});
@@ -76,10 +77,10 @@ public class HotelRulesFragment extends SherlockFragment {
 			guarantee.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(getActivity(), HotelWebViewActivity.class);
-					intent.putExtra(HotelWebViewActivity.ARG_URL,
+					Intent intent = new Intent(getActivity(), WebViewActivity.class);
+					intent.putExtra(WebViewActivity.ARG_URL,
 							RulesRestrictionsUtils.getBestPriceGuaranteeUrl(getActivity()));
-
+					intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.HotelWebViewTheme);
 					startActivity(intent);
 				}
 			});

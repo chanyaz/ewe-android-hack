@@ -500,18 +500,16 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackPageLoadFlightBaggageFee(Context context, int legPosition) {
-		if (legPosition == 0) {
-			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_OUTBOUND_BAGGAGE_FEE);
-			}
-			else {
-				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE);
-			}
-		}
-		else if (legPosition == 1) {
-			internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_INBOUND_BAGGAGE_FEE);
-		}
+	public static void trackPageLoadFlightBaggageFeeOneWay(Context context) {
+		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE);
+	}
+
+	public static void trackPageLoadFlightBaggageFeeOutbound(Context context) {
+		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_OUTBOUND_BAGGAGE_FEE);
+	}
+
+	public static void trackPageLoadFlightBaggageFeeInbound(Context context) {
+		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_INBOUND_BAGGAGE_FEE);
 	}
 
 	public static void trackPageLoadFlightSearchResultsDetails(Context context, int legPosition) {

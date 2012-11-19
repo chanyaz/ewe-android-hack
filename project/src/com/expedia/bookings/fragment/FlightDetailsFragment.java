@@ -19,7 +19,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.BaggageFeeActivity;
+import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
@@ -30,6 +31,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -144,10 +146,32 @@ public class FlightDetailsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				FlightLeg leg = getFlightLeg();
-				Intent baggageIntent = new Intent(getActivity(), BaggageFeeActivity.class);
-				baggageIntent.putExtra(BaggageFeeFragment.TAG_ORIGIN, leg.getFirstWaypoint().mAirportCode);
-				baggageIntent.putExtra(BaggageFeeFragment.TAG_DESTINATION, leg.getLastWaypoint().mAirportCode);
-				baggageIntent.putExtra(BaggageFeeFragment.ARG_LEG_POSITION, getArguments().getInt(ARG_LEG_POSITION, 0));
+
+				//TODO:We need to set the correct url based on Point of Sale
+				String url = SupportUtils.getBaggageFeeUrl(leg.getFirstWaypoint().mAirportCode,
+						leg.getLastWaypoint().mAirportCode);
+
+				Intent baggageIntent = new Intent(getActivity(), WebViewActivity.class);
+				baggageIntent.putExtra(WebViewActivity.ARG_URL, url);
+				baggageIntent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
+				baggageIntent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
+
+				int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
+				if (legPosition == 0) {
+					if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+						baggageIntent.putExtra(WebViewActivity.ARG_TRACKING_NAME,
+								WebViewFragment.TrackingName.BaggageFeeOutbound.name());
+					}
+					else {
+						baggageIntent.putExtra(WebViewActivity.ARG_TRACKING_NAME,
+								WebViewFragment.TrackingName.BaggageFeeOneWay.name());
+					}
+				}
+				else if (legPosition == 1) {
+					baggageIntent.putExtra(WebViewActivity.ARG_TRACKING_NAME,
+							WebViewFragment.TrackingName.BaggageFeeInbound.name());
+				}
+
 				getActivity().startActivity(baggageIntent);
 			}
 		});

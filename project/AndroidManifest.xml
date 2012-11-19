@@ -99,8 +99,7 @@
             android:name=".activity.HotelRulesActivity"
             android:theme="@style/FlightTheme" />
         <activity
-            android:name=".activity.HotelWebViewActivity"
-            android:theme="@style/FlightTheme" />
+            android:name=".activity.WebViewActivity" />
         <activity
             android:name=".activity.HotelTravelerInfoOptionsActivity"
             android:label="Add Traveler"
@@ -181,19 +180,7 @@
             android:theme="@style/FlightTheme.CheckoutForms" >
         </activity>
         <activity
-            android:name=".activity.BaggageFeeActivity"
-            android:theme="@style/FlightTheme" >
-        </activity>
-        <activity
             android:name=".activity.FlightRulesActivity"
-            android:theme="@style/FlightTheme" >
-        </activity>
-        <activity
-            android:name=".activity.FlightPenaltyRulesActivity"
-            android:theme="@style/FlightTheme" >
-        </activity>
-        <activity
-            android:name=".activity.FlightWebViewActivity"
             android:theme="@style/FlightTheme" >
         </activity>
         <activity
