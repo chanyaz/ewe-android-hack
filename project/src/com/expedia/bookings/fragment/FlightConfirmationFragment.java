@@ -225,7 +225,7 @@ public class FlightConfirmationFragment extends Fragment {
 	private void toggleActionCompletion(int textViewResId, String pref, int drawableResId) {
 		TextView tv = Ui.findView(getActivity(), textViewResId);
 		if (SettingUtils.get(mContext, pref, false)) {
-			tv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, R.drawable.ic_error_blue, 0);
+			tv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, R.drawable.ic_confirmation_checkmark, 0);
 		}
 		else {
 			tv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
