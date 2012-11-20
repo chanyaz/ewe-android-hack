@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.mobiata.android.widget.SegmentedControlGroup xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rating_filter_button_group"
     style="@style/Widget.SegmentedControlGroup.DarkFilterControls"
     android:layout_width="fill_parent"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res/com.expedia.bookings"
+    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:id="@+id/credit_card_security_code_container"
     style="@style/BookingSection"
     android:layout_width="fill_parent"
