@@ -111,7 +111,7 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Sorry, but mobile flight booking is &lt;b&gt;not yet available&lt;/b&gt; in your location.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
-    <string name="error_same_flight_departure_arrival">Departure and arrival airports must be different.</string>    
+    <string name="error_same_flight_departure_arrival">Departure and arrival airports must be different.</string>
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
@@ -509,6 +509,8 @@
     <string name="add_to_flighttrack">Track with FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Call Expedia Customer Support</string>
+    <!-- Add Insurance label -->
+    <string name="add_insurance">Add Insurance</string>
 
     <!-- Add to calendar -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->

@@ -37,6 +37,7 @@ public class ConfirmationState {
 	public static final String PREF_HAS_SHARED_VIA_EMAIL = "PREF_HAS_SHARED_VIA_EMAIL";
 	public static final String PREF_HAS_TRACKED_WITH_FLIGHTTRACK = "PREF_HAS_TRACKED_WITH_FLIGHTTRACK";
 	public static final String PREF_HAS_ADDED_TO_CALENDAR = "PREF_HAS_ADDED_TO_CALENDAR";
+	public static final String PREF_HAS_ADDED_INSURANCE = "PREF_HAS_ADDED_INSURANCE";
 
 	private static final String FIELD_VERSION = "ConfirmationState.Version";
 
@@ -189,6 +190,7 @@ public class ConfirmationState {
 		editor.putBoolean(PREF_HAS_SHARED_VIA_EMAIL, false);
 		editor.putBoolean(PREF_HAS_ADDED_TO_CALENDAR, false);
 		editor.putBoolean(PREF_HAS_TRACKED_WITH_FLIGHTTRACK, false);
+		editor.putBoolean(PREF_HAS_ADDED_INSURANCE, false);
 		SettingUtils.commitOrApply(editor);
 	}
 

@@ -86,6 +86,15 @@
                 android:text="@string/share_trip" />
 
             <View
+                android:id="@+id/ca_insurance_divider"
+                style="@style/FlightConfirmationActionDivider" />
+
+            <TextView
+                android:id="@+id/ca_insurance_action_text_view"
+                style="@style/FlightConfirmationAction"
+                android:text="@string/add_insurance" />
+
+            <View
                 android:id="@+id/calendar_divider"
                 style="@style/FlightConfirmationActionDivider" />
 

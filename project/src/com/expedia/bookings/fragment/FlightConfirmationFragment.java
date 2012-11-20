@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
@@ -51,6 +52,7 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
@@ -202,6 +204,20 @@ public class FlightConfirmationFragment extends Fragment {
 			}
 		});
 
+		if (isCanadianPOS()) {
+			Ui.setOnClickListener(v, R.id.ca_insurance_action_text_view, new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					addInsurance();
+				}
+			});
+		}
+		else {
+			Ui.findView(v, R.id.ca_insurance_action_text_view).setVisibility(View.GONE);
+			Ui.findView(v, R.id.ca_insurance_divider).setVisibility(View.GONE);
+		}
+
 		// We need to capitalize in code because the all_caps field isn't until a later API
 		setTextAndRobotoFont(v, R.id.get_a_room_text_view, getString(R.string.get_a_room).toUpperCase());
 		setTextAndRobotoFont(v, R.id.more_actions_text_view, getString(R.string.more_actions).toUpperCase());
@@ -220,6 +236,8 @@ public class FlightConfirmationFragment extends Fragment {
 				R.drawable.ic_calendar_add);
 		toggleActionCompletion(R.id.flighttrack_action_text_view, ConfirmationState.PREF_HAS_TRACKED_WITH_FLIGHTTRACK,
 				R.drawable.ic_flight_track);
+		toggleActionCompletion(R.id.ca_insurance_action_text_view, ConfirmationState.PREF_HAS_ADDED_INSURANCE,
+				R.drawable.ic_insurance);
 	}
 
 	private void toggleActionCompletion(int textViewResId, String pref, int drawableResId) {
@@ -348,6 +366,30 @@ public class FlightConfirmationFragment extends Fragment {
 		getActivity().finish();
 
 		OmnitureTracking.trackLinkFlightConfirmationHotelCrossSell(getActivity());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Add insurance (Canada only)
+
+	private void addInsurance() {
+		String url = "http://www.expedia.ca/daily/enc4105/travelinsurance/default.asp";
+		Intent baggageIntent = new Intent(getActivity(), WebViewActivity.class);
+		baggageIntent.putExtra(WebViewActivity.ARG_URL, url);
+		baggageIntent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
+		baggageIntent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
+		startActivity(baggageIntent);
+
+		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_ADDED_INSURANCE, true);
+	}
+
+	private boolean isCanadianPOS() {
+		String pos = LocaleUtils.getPointOfSale(getActivity());
+		if (pos != null && pos.endsWith(".ca")) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
