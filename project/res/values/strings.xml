@@ -511,6 +511,8 @@
     <string name="add_to_flighttrack">Track with FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Call Expedia Customer Support</string>
+    <!-- Add Insurance label -->
+    <string name="add_insurance">Add Insurance</string>
 
     <!-- Add to calendar -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
