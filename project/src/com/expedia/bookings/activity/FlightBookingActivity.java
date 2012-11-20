@@ -18,6 +18,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoPosition;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
@@ -416,7 +417,26 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	public void onSimpleDialogClick(int callbackId) {
 		switch (callbackId) {
 		case DIALOG_CALLBACK_INVALID_CC:
+			//Go to CC number entry page
+			Intent gotoCCEntryIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
+			if (Db.getBillingInfo() != null && Db.getBillingInfo().getStoredCard() != null) {
+				gotoCCEntryIntent.putExtra(FlightPaymentOptionsActivity.INTENT_TAG_DEST, YoYoPosition.OPTIONS.name());
+			}
+			else {
+				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
+				gotoCCEntryIntent
+						.putExtra(FlightPaymentOptionsActivity.INTENT_TAG_DEST, YoYoPosition.CREDITCARD.name());
+			}
+			startActivity(gotoCCEntryIntent);
+			break;
 		case DIALOG_CALLBACK_EXPIRED_CC:
+			//Go to CC overview page
+			Intent gotoCCOverviewIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
+			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
+			gotoCCOverviewIntent.putExtra(FlightPaymentOptionsActivity.INTENT_TAG_DEST, YoYoPosition.OPTIONS.name());
+			startActivity(gotoCCOverviewIntent);
+			break;
+		default:
 			// For now, do the same thing - leave this activity
 			finish();
 			break;

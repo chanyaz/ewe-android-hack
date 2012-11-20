@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,9 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
 	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
 
+	public static final String INTENT_TAG_MODE = "INTENT_TAG_MODE";
+	public static final String INTENT_TAG_DEST = "INTENT_TAG_DEST";
+
 	private FlightPaymentOptionsFragment mOptionsFragment;
 	private FlightPaymentAddressFragment mAddressFragment;
 	private FlightPaymentCreditCardFragment mCCFragment;
@@ -55,7 +59,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	}
 
 	//Where we want to return to after our action
-	private enum YoYoPosition {
+	public enum YoYoPosition {
 		OPTIONS, ADDRESS, CREDITCARD, SAVE
 	}
 
@@ -138,7 +142,11 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	public void displayCheckout() {
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
-		finish();
+
+		Intent gotoCheckoutOverviewIntent = new Intent(FlightPaymentOptionsActivity.this,
+				FlightTripOverviewActivity.class);
+		gotoCheckoutOverviewIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(gotoCheckoutOverviewIntent);
 	}
 
 	private boolean workingBillingInfoChanged() {
@@ -332,9 +340,28 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 			billMan.deleteWorkingBillingInfoFile(this);
 		}
 
+		boolean hasPositionData = false;
+
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
 			mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 			mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
+			hasPositionData = true;
+		}
+
+		if (getIntent() != null && getIntent().hasExtra(INTENT_TAG_DEST)) {
+			mPos = YoYoPosition.valueOf(getIntent().getStringExtra(INTENT_TAG_DEST));
+			getIntent().removeExtra(INTENT_TAG_DEST);
+			if (getIntent().hasExtra(INTENT_TAG_MODE)) {
+				mMode = YoYoMode.valueOf(INTENT_TAG_MODE);
+				getIntent().removeExtra(INTENT_TAG_MODE);
+			}
+			else {
+				mMode = YoYoMode.EDIT;
+			}
+			hasPositionData = true;
+		}
+
+		if (hasPositionData) {
 			switch (mPos) {
 			case OPTIONS:
 				displayOptions();
