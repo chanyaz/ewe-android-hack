@@ -14,27 +14,28 @@ import com.expedia.bookings.R;
  */
 public class ValidationIndicatorExclaimation<Data extends Object> extends
 		SectionFieldValidIndicator<TextView, Data> {
-	
+
 	//Was this valid last time - this is to improve performance
 	Boolean mWasValid = true;
-	
+
 	public ValidationIndicatorExclaimation(int fieldId) {
 		super(fieldId);
 	}
 
-	
 	@Override
 	protected void onPostValidate(TextView field, boolean isValid) {
 		if (!isValid && mWasValid) {
 			//Not valid, but it was the last time we validated
 			Drawable errorIcon = field.getContext().getResources().getDrawable(R.drawable.ic_error_blue);
 			errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
-			field.setError(null, errorIcon);
+			Drawable[] compounds = field.getCompoundDrawables();
+			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3]);
 			mWasValid = false;
 		}
 		else if (isValid && !mWasValid) {
 			//Freshly valid
-			field.setError(null, null);
+			Drawable[] compounds = field.getCompoundDrawables();
+			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], null, compounds[3]);
 			mWasValid = true;
 		}
 	}
