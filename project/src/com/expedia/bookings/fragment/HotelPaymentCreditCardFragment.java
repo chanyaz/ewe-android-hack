@@ -15,8 +15,8 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.section.HotelSectionBillingInfo;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
+import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
@@ -26,7 +26,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 	BillingInfo mBillingInfo;
 
-	HotelSectionBillingInfo mHotelSectionCreditCard;
+	SectionBillingInfo mHotelSectionCreditCard;
 
 	boolean mAttemptToLeaveMade = false;
 

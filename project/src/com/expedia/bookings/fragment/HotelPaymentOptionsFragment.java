@@ -22,7 +22,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.PaymentFlowState;
-import com.expedia.bookings.section.HotelSectionStoredCreditCard;
+import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -33,7 +33,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 
 	SectionLocation mSectionCurrentBillingAddress;
 	SectionBillingInfo mSectionCurrentCreditCard;
-	HotelSectionStoredCreditCard mSectionStoredPayment;
+	SectionStoredCreditCard mSectionStoredPayment;
 	View mNewCreditCardBtn;
 
 	TextView mStoredPaymentsLabel;
@@ -143,7 +143,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 			Resources res = getResources();
 			for (int i = 0; i < cards.size(); i++) {
 				final StoredCreditCard storedCard = cards.get(i);
-				HotelSectionStoredCreditCard card = (HotelSectionStoredCreditCard) inflater.inflate(
+				SectionStoredCreditCard card = (SectionStoredCreditCard) inflater.inflate(
 						R.layout.section_hotel_display_stored_credit_card, null);
 				card.setUseActiveCardIcon(false, false);
 				card.bind(cards.get(i));
@@ -154,7 +154,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 						if (mListener != null) {
 							mListener.setMode(YoYoMode.NONE);
 							mListener.moveBackwards();
-							
+
 							OmnitureTracking.trackLinkHotelsCheckoutPaymentSelectExisting(getActivity());
 						}
 					}

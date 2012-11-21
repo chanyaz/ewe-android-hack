@@ -11,7 +11,7 @@
         android:orientation="horizontal" >
 
         <ImageView
-            android:id="@+id/display_credit_card_brand_icon_grey"
+            android:id="@+id/display_credit_card_brand_icon_white"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_weight="0"

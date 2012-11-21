@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.section.HotelOverviewSectionStoredCreditCard xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.section.SectionStoredCreditCard xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -11,7 +11,6 @@
         android:orientation="horizontal" >
 
         <ImageView
-            android:id="@+id/display_credit_card_active_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginRight="16dp"
@@ -26,4 +25,4 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-</com.expedia.bookings.section.HotelOverviewSectionStoredCreditCard>
+</com.expedia.bookings.section.SectionStoredCreditCard>

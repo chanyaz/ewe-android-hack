@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.section.HotelSectionBillingInfo xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.section.SectionBillingInfo xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -20,7 +20,7 @@
         android:orientation="vertical" >
 
         <ImageView
-            android:id="@+id/display_credit_card_brand_icon_black"
+            android:id="@+id/display_credit_card_brand_icon_white_default_blank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -49,4 +49,4 @@
         android:src="@drawable/ic_error"
         android:visibility="gone" />
 
-</com.expedia.bookings.section.HotelSectionBillingInfo>
+</com.expedia.bookings.section.SectionBillingInfo>
