@@ -800,7 +800,7 @@
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">£</string>
     <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_moderate">$$</string>
+    <string name="filter_price_moderate">££</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">£££</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
