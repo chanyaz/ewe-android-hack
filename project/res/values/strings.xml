@@ -269,6 +269,8 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Log out -->
     <string name="log_out">Log Out</string>
+    <!-- You'll earn points for this trip -->
+    <string name="youll_earn_points_TEMPLATE">You\'ll earn %1$s points for this trip!</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->

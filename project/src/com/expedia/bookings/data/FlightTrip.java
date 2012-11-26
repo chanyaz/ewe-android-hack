@@ -26,6 +26,8 @@ public class FlightTrip implements JSONable {
 
 	private String mProductKey;
 
+	private String mRewardsPoints;
+
 	private List<FlightLeg> mLegs = new ArrayList<FlightLeg>();
 
 	private Money mBaseFare;
@@ -160,6 +162,14 @@ public class FlightTrip implements JSONable {
 
 	public Set<String> getRules() {
 		return mRules.keySet();
+	}
+
+	public void setRewardsPoints(String rewardsPoints) {
+		mRewardsPoints = rewardsPoints;
+	}
+
+	public String getRewardsPoints() {
+		return mRewardsPoints;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -406,6 +416,10 @@ public class FlightTrip implements JSONable {
 			mItineraryNumber = other.mItineraryNumber;
 		}
 
+		if (!TextUtils.isEmpty(other.getRewardsPoints())) {
+			mRewardsPoints = other.getRewardsPoints();
+		}
+
 		if (other.mRules != null) {
 			mRules = other.mRules;
 		}
@@ -440,6 +454,7 @@ public class FlightTrip implements JSONable {
 			JSONUtils.putJSONable(obj, "taxes", mTaxes);
 			JSONUtils.putJSONable(obj, "fees", mFees);
 			JSONUtils.putJSONable(obj, "priceChangeAmount", mPriceChangeAmount);
+			obj.putOpt("rewardsPoints", mRewardsPoints);
 			obj.putOpt("seatsRemaining", mSeatsRemaining);
 
 			JSONArray arr = new JSONArray();
@@ -484,6 +499,7 @@ public class FlightTrip implements JSONable {
 		mTaxes = JSONUtils.getJSONable(obj, "taxes", Money.class);
 		mFees = JSONUtils.getJSONable(obj, "fees", Money.class);
 		mPriceChangeAmount = JSONUtils.getJSONable(obj, "priceChangeAmount", Money.class);
+		mRewardsPoints = obj.optString("rewardsPoints");
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 
 		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");

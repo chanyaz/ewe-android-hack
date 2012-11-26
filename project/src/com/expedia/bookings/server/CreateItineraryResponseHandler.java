@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -58,6 +59,12 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 			offer.setPriceChangeAmount(priceChangeAmount);
 		}
 		createItinerary.setOffer(offer);
+
+		//Rewards points
+		String rewardsPoints = response.optString("rewardsPoints");
+		if (!TextUtils.isEmpty(rewardsPoints)) {
+			offer.setRewardsPoints(rewardsPoints);
+		}
 
 		// Parse rules
 		JSONObject rulesJson = response.optJSONObject("rules");

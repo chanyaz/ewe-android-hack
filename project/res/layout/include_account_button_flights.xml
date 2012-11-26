@@ -135,4 +135,24 @@
             android:src="@drawable/ic_log_out" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/account_rewards_container"
+        style="@style/BookingSection"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#2E4F73"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/booking_form_saved_section_padding"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/account_rewards_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textColor="@color/roboto_light"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </com.expedia.bookings.widget.AccountButton>

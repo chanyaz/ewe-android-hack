@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,8 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.utils.LocaleUtils;
+import com.mobiata.android.util.Ui;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;
@@ -20,6 +24,7 @@ public class AccountButton extends LinearLayout {
 	private View mLoginContainer;
 	private View mLogoutContainer;
 	private View mErrorContainer;
+	private View mRewardsContainer;
 
 	public AccountButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -37,6 +42,7 @@ public class AccountButton extends LinearLayout {
 		mLoginContainer = findViewById(R.id.account_login_container);
 		mLogoutContainer = findViewById(R.id.account_logout_container);
 		mErrorContainer = findViewById(R.id.error_container);
+		mRewardsContainer = findViewById(R.id.account_rewards_container);
 
 		final OnClickListener clickListener = new OnClickListener() {
 			public void onClick(View v) {
@@ -79,6 +85,10 @@ public class AccountButton extends LinearLayout {
 		}
 
 		mErrorContainer.setVisibility(View.GONE);
+		if (mRewardsContainer != null) {
+			mRewardsContainer.setVisibility(View.GONE);
+		}
+
 		if (isLoading) {
 			mAccountLoadingContainer.setVisibility(View.VISIBLE);
 			mLoginContainer.setVisibility(View.GONE);
@@ -88,23 +98,44 @@ public class AccountButton extends LinearLayout {
 			ImageView card = (ImageView) mLogoutContainer.findViewById(R.id.card_icon);
 			TextView top = (TextView) mLogoutContainer.findViewById(R.id.account_top_textview);
 			TextView bottom = (TextView) mLogoutContainer.findViewById(R.id.account_bottom_textview);
-			if (traveler.getLoyaltyMembershipNumber() == null) {
-				// Normal user
-				if (isFlights) {
+
+			if (isFlights) {
+				//Flights
+				if (traveler.getLoyaltyMembershipNumber() == null) {
 					card.setImageResource(R.drawable.ic_expedia_logo);
+					top.setText(mContext.getString(R.string.logged_in_as));
+					bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 				}
 				else {
-					card.setImageResource(R.drawable.ic_logged_in_no_rewards);
+					card.setImageResource(R.drawable.ic_expedia_logo);
+					top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
+					bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
+					if (mRewardsContainer != null && Db.getFlightSearch().getSelectedFlightTrip() != null
+							&& !TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getRewardsPoints())
+							&& LocaleUtils.getPointOfSale().toLowerCase().endsWith(".com")) {
+						String rewardsString = String.format(
+								getResources().getString(R.string.youll_earn_points_TEMPLATE), Db.getFlightSearch()
+										.getSelectedFlightTrip().getRewardsPoints());
+						TextView rewards = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
+						rewards.setText(rewardsString);
+						mRewardsContainer.setVisibility(View.VISIBLE);
+					}
 				}
-				top.setText(mContext.getString(R.string.logged_in_as));
-				bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 			}
 			else {
-				// Rewards user
-				card.setImageResource(R.drawable.ic_expedia_logo);
-				top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
-				bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
+				//Hotels
+				if (traveler.getLoyaltyMembershipNumber() == null) {
+					card.setImageResource(R.drawable.ic_logged_in_no_rewards);
+					top.setText(mContext.getString(R.string.logged_in_as));
+					bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
+				}
+				else {
+					card.setImageResource(R.drawable.ic_expedia_logo);
+					top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
+					bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
+				}
 			}
+
 			mLogoutContainer.setVisibility(View.VISIBLE);
 			mAccountLoadingContainer.setVisibility(View.GONE);
 			mLoginContainer.setVisibility(View.GONE);
