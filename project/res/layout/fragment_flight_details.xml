@@ -31,19 +31,37 @@
 
     <!-- Bagge fee footer -->
 
-    <TextView
-        android:id="@+id/baggage_fee_text_view"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/bagge_fee_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
-        android:drawableLeft="@drawable/ic_suitcase_small"
-        android:drawablePadding="5dp"
-        android:gravity="center_vertical"
-        android:text="@string/baggage_fee_info"
-        android:textColor="#CCCCCC"
-        android:textSize="12dp"
-        android:textStyle="bold" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/baggage_fee_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_suitcase_small"
+            android:drawablePadding="5dp"
+            android:text="@string/baggage_fee_info"
+            android:textColor="#CCCCCC"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/carry_on_baggage_fees_apply_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:drawablePadding="5dp"
+            android:text="@string/carry_on_baggage_fees_apply"
+            android:textColor="#838794"
+            android:textSize="12dp"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -54,6 +54,8 @@ public class FlightDetailsFragment extends Fragment {
 	private ViewGroup mInfoContainer;
 	private InfoBarSection mInfoBar;
 	private TextView mBaggageInfoTextView;
+	private TextView mBaggageFeesApplyTextView;
+	private ViewGroup mBaggageContainer;
 
 	// Cached copies, not to be stored
 	private FlightTripLeg mFlightTripLeg;
@@ -98,6 +100,16 @@ public class FlightDetailsFragment extends Fragment {
 		mInfoContainer = Ui.findView(v, R.id.flight_info_container);
 		mInfoBar = Ui.findView(v, R.id.info_bar);
 		mBaggageInfoTextView = Ui.findView(v, R.id.baggage_fee_text_view);
+		mBaggageFeesApplyTextView = Ui.findView(v, R.id.carry_on_baggage_fees_apply_textview);
+		mBaggageContainer = Ui.findView(v, R.id.bagge_fee_container);
+
+		//We show the baggage fees apply message for Spirit airlines only
+		for (String airline : leg.getPrimaryAirlines()) {
+			if (airline.equalsIgnoreCase("NK")) {
+				mBaggageFeesApplyTextView.setVisibility(View.VISIBLE);
+				break;
+			}
+		}
 
 		// Format header
 		mInfoBar.bindFlightDetails(trip, leg);
@@ -187,16 +199,15 @@ public class FlightDetailsFragment extends Fragment {
 				// appear on the bottom of the screen or scrolling with the content
 				mBaggageInScrollView = mScrollView.getHeight() < mInfoContainer.getHeight();
 				if (mBaggageInScrollView) {
-					// Move baggage container to the info container 
-					((ViewGroup) mBaggageInfoTextView.getParent()).removeView(mBaggageInfoTextView);
-					mInfoContainer.addView(mBaggageInfoTextView);
+					((ViewGroup) mBaggageContainer.getParent()).removeView(mBaggageContainer);
+					mInfoContainer.addView(mBaggageContainer);
 
-					// Reset the layout margins/padding to account for move
-					MarginLayoutParams lp = (MarginLayoutParams) mBaggageInfoTextView.getLayoutParams();
+					MarginLayoutParams lp = (MarginLayoutParams) mBaggageContainer.getLayoutParams();
 					mInfoContainer.setPadding(mInfoContainer.getPaddingLeft(), mInfoContainer.getPaddingTop(),
 							mInfoContainer.getPaddingRight(), cardMargins * 2);
 					lp.topMargin = cardMargins * 2;
 					lp.bottomMargin = 0;
+
 				}
 
 				mListener.onFlightDetailsLayout(FlightDetailsFragment.this);
@@ -289,14 +300,14 @@ public class FlightDetailsFragment extends Fragment {
 		// Animate the baggage fee (if it's not in the scroll view)
 		if (!mBaggageInScrollView) {
 			if (enter) {
-				values[0] = mBaggageInfoTextView.getHeight();
+				values[0] = mBaggageContainer.getHeight();
 				values[1] = 0;
 			}
 			else {
 				values[0] = 0;
-				values[1] = mBaggageInfoTextView.getHeight();
+				values[1] = mBaggageContainer.getHeight();
 			}
-			set.add(ObjectAnimator.ofFloat(mBaggageInfoTextView, "translationY", values));
+			set.add(ObjectAnimator.ofFloat(mBaggageContainer, "translationY", values));
 		}
 
 		// Make the entire screen fade out

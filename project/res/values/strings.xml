@@ -177,6 +177,8 @@
     <string name="arrive_at_TEMPLATE">Arrive at %s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Operated by %s</string>
+    <!-- Carry-on baggage fees apply -->
+    <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply.</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
