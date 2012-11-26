@@ -50,16 +50,24 @@ if [ ! -d "$LOCAL_DIRECTORY" ]; then
     mkdir $LOCAL_DIRECTORY
 fi
 
-adb shell ls | adb pull $ANDROID_DIRECTORY $LOCAL_DIRECTORY/ | exit
+adb shell ls | adb pull $ANDROID_DIRECTORY $LOCAL_DIRECTORY/ | rm -r "$ANDROID_DIRECTORY" |  exit
 
 cd $LOCAL_DIRECTORY
 
 for locale in "${locales[@]}"
    do
-   if [ ! -d "$locale" ]; then
-    mkdir $locale
+
+   #Checks how many files for a locale are existing
+   NUM=$(ls "$locale"* | wc -l) 
+   
+   # If directory doesn't already exist and there are files in existence
+   # make directory and move appropriate files to it	
+   if [ ! -d "$locale" ] && [ "$NUM" -gt "0" ]; then
+	
+	mkdir $locale
+   
+	mv $locale*.jpg $locale   
+  
    fi
-   
-   mv $locale*.jpg $locale   
-   
+
    done
