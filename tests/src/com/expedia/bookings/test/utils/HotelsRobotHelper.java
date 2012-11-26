@@ -768,6 +768,10 @@ public class HotelsRobotHelper {
 				enterLog(TAG, "Never got to confirmation screen.");
 			}
 			if (mSolo.searchText("Hotels in", true)) {
+				mSolo.scrollToTop();
+				screenshot("Confirmation Screen 1");
+				mSolo.scrollDown();
+				screenshot("Confirmation Screen 2");
 				mSolo.clickOnText("Hotels in");
 			}
 			else {
