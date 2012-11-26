@@ -140,7 +140,7 @@
         style="@style/BookingSection"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#2E4F73"
+        android:background="@drawable/bg_checkout_information_rewards_tab"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="@dimen/booking_form_saved_section_padding"
@@ -151,6 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:gravity="center"
             android:textColor="@color/roboto_light"
             android:textStyle="bold" />
     </LinearLayout>

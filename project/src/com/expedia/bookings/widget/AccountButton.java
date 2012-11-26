@@ -103,6 +103,7 @@ public class AccountButton extends LinearLayout {
 				//Flights
 				if (traveler.getLoyaltyMembershipNumber() == null) {
 					card.setImageResource(R.drawable.ic_expedia_logo);
+					mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_logged_in);
 					top.setText(mContext.getString(R.string.logged_in_as));
 					bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 				}
@@ -112,13 +113,14 @@ public class AccountButton extends LinearLayout {
 					bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 					if (mRewardsContainer != null && Db.getFlightSearch().getSelectedFlightTrip() != null
 							&& !TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getRewardsPoints())
-							&& LocaleUtils.getPointOfSale().toLowerCase().endsWith(".com")) {
+							&& LocaleUtils.getPointOfSale().endsWith(".com")) {
 						String rewardsString = String.format(
 								getResources().getString(R.string.youll_earn_points_TEMPLATE), Db.getFlightSearch()
 										.getSelectedFlightTrip().getRewardsPoints());
 						TextView rewards = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
 						rewards.setText(rewardsString);
 						mRewardsContainer.setVisibility(View.VISIBLE);
+						mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
 					}
 				}
 			}
