@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Facebook -->
+    <!-- Development Facebook app id -->
+    <string name="facebook_dev_app_id">317210574974208</string>
+    <!-- Production Facebook app id -->
+    <string name="facebook_app_id">131538103586818</string>
+    
     <!-- Nav Dropdown menu -->
     <!-- Home -->
     <string name="nav_home">Home</string>
