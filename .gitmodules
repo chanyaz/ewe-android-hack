@@ -16,3 +16,6 @@
 [submodule "lib/TestUtils"]
 	path = lib/TestUtils
 	url = git@team.mobiata.com:Android/TestUtils.git
+[submodule "lib/FacebookSdk"]
+	path = lib/FacebookSdk
+	url = git@team.mobiata.com:Android/facebook-android-sdk.git
