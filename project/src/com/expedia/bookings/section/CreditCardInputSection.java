@@ -2,6 +2,7 @@ package com.expedia.bookings.section;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.TableLayout;
 
@@ -81,6 +82,8 @@ public class CreditCardInputSection extends TableLayout implements View.OnClickL
 
 	@Override
 	public void onClick(View v) {
+		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
 		int code;
 		switch (v.getId()) {
 		case R.id.zero_button:
