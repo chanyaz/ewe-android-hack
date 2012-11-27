@@ -81,6 +81,8 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 		vh.mBackgroundView = Ui.findView(view, R.id.background_view);
 		vh.mTitleTextView = Ui.findView(view, R.id.launch_tile_title_text_view);
 
+		vh.mBackgroundView.setFixedSize(true);
+
 		FontCache.setTypeface(vh.mTitleTextView, FontCache.Font.ROBOTO_LIGHT);
 
 		vh.mTitleTextView.setText(Html.fromHtml(mContext.getString(R.string.launch_flight_tile_prompt,
@@ -102,7 +104,7 @@ public class LaunchFlightAdapter extends LaunchBaseAdapter<Destination> {
 
 	private static class ViewHolder {
 		public ViewGroup mContainer;
-		public ImageView mBackgroundView;
+		public OptimizedImageView mBackgroundView;
 		public TextView mTitleTextView;
 	}
 }

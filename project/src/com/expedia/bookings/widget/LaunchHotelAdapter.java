@@ -132,6 +132,8 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 		vh.mDistanceTextView = Ui.findView(view, R.id.launch_tile_distance_text_view);
 		vh.mPriceTextView = Ui.findView(view, R.id.launch_tile_price_text_view);
 
+		vh.mBackgroundView.setFixedSize(true);
+
 		// Set custom fonts
 		FontCache.setTypeface(vh.mTitleTextView, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(vh.mDistanceTextView, FontCache.Font.ROBOTO_LIGHT);
@@ -190,7 +192,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 
 	private static class ViewHolder {
 		public ViewGroup mContainer;
-		public ImageView mBackgroundView;
+		public OptimizedImageView mBackgroundView;
 		public TextView mSaleTextView;
 		public TextView mTitleTextView;
 		private ViewGroup mDetailsContainer;

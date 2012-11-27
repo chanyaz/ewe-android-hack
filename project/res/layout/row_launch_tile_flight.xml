@@ -5,7 +5,7 @@
     android:layout_height="@dimen/launch_tile_height_flight"
     android:visibility="invisible" >
 
-    <ImageView
+    <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/background_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

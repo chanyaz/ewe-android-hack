@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:background="@drawable/bg_row" >
 
-    <ImageView
+    <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/thumbnail_image_view"
         android:layout_width="@dimen/hotel_row_thumbnail_width"
         android:layout_height="@dimen/hotel_row_thumbnail_height"
