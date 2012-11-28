@@ -1,14 +1,17 @@
 package com.expedia.bookings.test.utils;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import junit.framework.AssertionFailedError;
+
+import org.w3c.dom.Text;
+
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
@@ -79,7 +82,7 @@ public class HotelsRobotHelper {
 			new Locale("sv", "SE"),
 			new Locale("en", "UK")
 	};
-	
+
 	public static Locale[] FLIGHTS_LOCALES = new Locale[] {
 			AMERICAN_LOCALES[2],
 			AMERICAN_LOCALES[3],
@@ -139,6 +142,7 @@ public class HotelsRobotHelper {
 	private ScreenshotUtils mScreen;
 	private int mScreenWidth;
 	private int mScreenHeight;
+
 	//Defaults are set, including the default user booking info
 	//which is set to the qa-ehcc@mobiata.com account's info
 	public HotelsRobotHelper(Solo solo, Resources res) {
@@ -156,7 +160,7 @@ public class HotelsRobotHelper {
 		mScreen = new ScreenshotUtils("Robotium-Screenshots", mSolo);
 		mScreenWidth = mRes.getDisplayMetrics().widthPixels;
 		mScreenWidth = mRes.getDisplayMetrics().heightPixels;
-		
+
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -172,11 +176,11 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Helpful Methods
 	public void launchHotels() {
-		mSolo.clickOnText(mRes.getString(R.string.launch_hotel_secondary_text));
+		mSolo.clickOnText(mRes.getString(R.string.nav_hotels));
 	}
-	
+
 	public void launchFlights() {
-		mSolo.clickOnText(mRes.getString(R.string.launch_flight_secondary_text));
+		mSolo.clickOnText(mRes.getString(R.string.nav_flights));
 	}
 
 	public void enterLog(String TAG, String logText) {
@@ -228,8 +232,8 @@ public class HotelsRobotHelper {
 			delay(2);
 		}
 	}
-	
-	public void clickTopRightBtn() { 
+
+	public void clickTopRightBtn() {
 		int w = 479;
 		int h = 46;
 		mSolo.clickOnScreen(w, h);
@@ -581,20 +585,21 @@ public class HotelsRobotHelper {
 			mSolo.clickOnText(mRes.getString(R.string.log_in_for_faster_booking));
 		}
 		delay(1);
+
 		screenshot("Login Screen Pre Text Entry");
 		mSolo.typeText(1, mUser.mLoginEmail); // index 1?
 
 		delay();
+
 		mSolo.typeText((EditText) mSolo.getView(R.id.password_edit_text), mUser.mLoginPassword);
-		landscape();
-		portrait();
+
 		delay(5);
 		try {
 			mSolo.clickOnButton(1); //Log in button.
 		}
 		catch (Error e) {
 			delay(5);
-			mSolo.clickOnButton(1);
+			mSolo.clickOnText(mRes.getString(R.string.log_in));
 		}
 		delay(5);
 		mSolo.scrollToTop();
@@ -616,15 +621,17 @@ public class HotelsRobotHelper {
 		delay(5);
 		final EditText CCVview =
 				(EditText) mSolo.getCurrentActivity().findViewById(R.id.security_code_edit_text);
-		mSolo.clickOnScreen(100, 500); //how to generalize this for all screen sizes?
+
+		View one = mSolo.getView(R.id.one_button);
+		mSolo.clickOnView(one);
 		delay(1);
-		mSolo.clickOnScreen(100, 500);
+		mSolo.clickOnView(one);
 		delay(1);
-		mSolo.clickOnScreen(100, 500);
+		mSolo.clickOnView(one);
 		delay(1);
-		mSolo.clickOnScreen(100, 500);
+		mSolo.clickOnView(one);
 		delay(1);
-		mSolo.clickOnScreen(325, 725);
+		mSolo.clickOnView(mSolo.getView(R.id.book_button));
 		enterLog(TAG, "Press Book");
 		enterLog(TAG, "Entered CCV");
 	}
@@ -696,7 +703,7 @@ public class HotelsRobotHelper {
 			mSolo.enterText(4, mUser.mZIPCode);
 			delay();
 
-			mSolo.clickOnScreen(450, 75);
+			mSolo.clickOnText(mRes.getString(R.string.next));
 			delay(1);
 			landscape();
 			portrait();
@@ -712,22 +719,23 @@ public class HotelsRobotHelper {
 			landscape();
 			portrait();
 			delay(5);
+
+			//Expiration date entry
 			mSolo.clickOnButton(1);
 			delay(2);
-			mSolo.clickOnScreen(450, 75);
+			mSolo.clickOnButton(0);
 			delay(1);
 			mSolo.clickOnButton(1);
 			delay();
-			mSolo.scrollUp();
 
 			mSolo.scrollToTop();
-			mSolo.clickOnScreen(450, 75);
+			mSolo.clickOnText(mRes.getString(R.string.button_done));
 		}
 		catch (Error e) {
 			mSolo.scrollToTop();
-			mSolo.clickOnScreen(450, 75);
+			mSolo.clickOnText(mRes.getString(R.string.button_done));
 		}
-
+		mSolo.clickOnButton(0);
 		//pressCheckBox(); //Check box for terms & conditions occasionally needed.
 	}
 
@@ -736,7 +744,19 @@ public class HotelsRobotHelper {
 		delay(5);
 		screenshot("Slide to checkout.");
 		delay();
-		mSolo.drag(100, 400, 650, 650, 10);
+
+		View sliderStart = mSolo.getView(R.id.slider_text);
+		int[] startLocation = new int[2];
+		sliderStart.getLocationOnScreen(startLocation);
+
+		View sliderEnd = mSolo.getView(R.id.destination_image);
+		int[] endLocation = new int[2];
+		sliderEnd.getLocationOnScreen(endLocation);
+
+		enterLog(TAG, "Slide X from: " + startLocation[0] + " to " + endLocation[0] + ".");
+		enterLog(TAG, "Slide Y from: " + startLocation[1] + " to " + endLocation[1] + ".");
+
+		mSolo.drag(startLocation[0] - 30, endLocation[0], startLocation[1], endLocation[1], 10);
 
 		delay(5);
 		enterCCV();
@@ -854,15 +874,15 @@ public class HotelsRobotHelper {
 	// Flights
 
 	public void flightsHappyPath(String departure, String arrival, boolean doHotelBooking) throws Exception {
-		
+
 		clearPrivateData();
 		launchFlights();
 
 		//If still on flights confirmation page
 		//click to do a new search
-		if(mSolo.searchText("Hotels in", true)){
-			clickTopRightBtn();
-			delay(10);	
+		if (mSolo.searchText("Hotels in", true)) {
+			mSolo.clickOnImageButton(0);
+			delay(10);
 		}
 		screenshot("Flights Search Screen");
 		mSolo.clickOnEditText(0);
@@ -879,10 +899,11 @@ public class HotelsRobotHelper {
 		delay();
 
 		//Select Departure
-		try{
+		try {
 			mSolo.clickOnText(mRes.getString(R.string.hint_select_departure));
-		}catch(Error e){
-			
+		}
+		catch (Error e) {
+
 		}
 		delay();
 		screenshot("Calendar");
@@ -894,9 +915,9 @@ public class HotelsRobotHelper {
 		delay(5);
 		screenshot("Loading Flights");
 		mSolo.waitForDialogToClose(10000);
-		
+
 		//Scroll up and down and
-		
+
 		landscape();
 		delay();
 		screenshot("Search results");
@@ -913,10 +934,10 @@ public class HotelsRobotHelper {
 		screenshot("Sort fragment");
 		mSolo.goBack();
 		delay();
-		
+
 		//Select top flight in list.
 		mSolo.clickInList(2);
-        
+
 		//Confirm flight selection
 		//and advance to booking
 		mSolo.waitForDialogToClose(10000);
@@ -925,20 +946,19 @@ public class HotelsRobotHelper {
 		delay();
 		mSolo.scrollUp();
 		delay(5);
-		clickTopRightBtn();
+		mSolo.clickOnText(mRes.getString(R.string.select_flight));
 		mSolo.waitForDialogToClose(10000);
-		clickTopRightBtn();
+		mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 
 		//log in and do a booking
 		logInAndBook();
-		
+
 		//if hotel booking switch is true, do a hotel booking 
 		//in that city
-		if(doHotelBooking) {
+		if (doHotelBooking) {
 			launchHotels();
 			browseRooms(4, arrival, true);
 		}
-		
 
 	}
 }
