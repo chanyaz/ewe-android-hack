@@ -47,7 +47,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		Log.configureLogging("ExpediaBookings", !isRelease || isLogEnablerInstalled);
 
 		try {
-			FlightStatsDbUtils.createDatabaseIfNotExists(this, "com.expedia.bookings");
+			FlightStatsDbUtils.createDatabaseIfNotExists(this, getPackageName());
 		}
 		catch (IOException e) {
 			throw new RuntimeException(e);
