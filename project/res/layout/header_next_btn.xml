@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:drawableLeft="@drawable/ic_action_bar_checkout_arrow"
+    android:focusable="true"
     android:gravity="center_vertical"
     android:minHeight="?attr/actionBarSize"
     android:paddingRight="@dimen/yoyo_navigation_padding_right"

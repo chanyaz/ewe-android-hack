@@ -6,6 +6,7 @@
     android:gravity="center"
     android:minHeight="?attr/actionBarSize"
     android:orientation="horizontal"
+    android:focusable="true"
     android:paddingLeft="8dp"
     android:paddingRight="8dp" >
 
