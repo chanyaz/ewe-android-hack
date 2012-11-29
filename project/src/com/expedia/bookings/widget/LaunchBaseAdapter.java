@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.graphics.ResilientBitmapDrawable;
@@ -44,6 +45,8 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 	// Utility
 
 	protected void loadImageForLaunchStream(String url, final ViewGroup row, final ImageView bgView) {
+		final boolean animate = TwoLevelImageCache.getImage(url, false) == null;
+
 		UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(url, bgView);
 		drawable.setOnImageLoadedCallback(new OnImageLoaded() {
 			public void onImageLoaded(String url, Bitmap bitmap) {
@@ -51,7 +54,9 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 
 				onLaunchImageLoaded(bitmap, row, bgView);
 
-				ObjectAnimator.ofFloat(row, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+				if (animate) {
+					ObjectAnimator.ofFloat(row, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+				}
 			}
 
 			public void onImageLoadFailed(String url) {

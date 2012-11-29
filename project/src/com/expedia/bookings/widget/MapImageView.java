@@ -13,8 +13,6 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
@@ -84,16 +82,6 @@ public class MapImageView extends ImageView {
 		if (mPoiPoint != null) {
 			drawPoiMarker(canvas, mPoiPoint);
 		}
-	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		Log.d("Clearing out map image.");
-
-		if (mStaticMapUri != null) {
-			ImageCache.removeImage(mStaticMapUri, true);
-		}
-		super.onDetachedFromWindow();
 	}
 
 	public void setCenterPoint(Location location) {

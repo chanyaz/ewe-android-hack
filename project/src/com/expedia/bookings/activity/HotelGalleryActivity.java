@@ -31,9 +31,9 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -216,9 +216,8 @@ public class HotelGalleryActivity extends FragmentActivity {
 				imageView = (ImageView) convertView.findViewById(R.id.image);
 			}
 
-			if (AndroidUtils.isTablet(mContext) && !ImageCache.loadImage(mMedia.get(position).getUrl(), imageView)) {
-				imageView.setImageResource(R.drawable.ic_row_thumb_placeholder);
-			}
+			UrlBitmapDrawable.loadImageView(mMedia.get(position).getUrl(), imageView,
+					R.drawable.ic_row_thumb_placeholder);
 
 			return convertView;
 		}

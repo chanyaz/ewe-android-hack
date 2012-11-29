@@ -89,7 +89,6 @@ import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
@@ -602,15 +601,6 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 		// When the selected property changes, a few things need to be done.
 		if (selectionChanged) {
-			// Clear out the previous property's images from the cache
-			if (selectedProperty != null) {
-				if (selectedProperty.getMediaCount() > 0) {
-					for (Media media : selectedProperty.getMediaList()) {
-						media.removeFromImageCache();
-					}
-				}
-			}
-
 			Db.setSelectedProperty(property);
 
 			// start downloading the availability response for this property
@@ -828,9 +818,6 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 		// Cancel existing downloads
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_GEOCODE);
-
-		// Clear the image cache
-		ImageCache.recycleCache(true);
 
 		// Reset the views
 		hideDetails();

@@ -61,7 +61,6 @@ import com.expedia.bookings.widget.LaunchStreamListView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.location.LocationFinder;
@@ -222,7 +221,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			// Unload the current hotel/flight data, so we don't reload it
 			Db.setLaunchHotelData(null);
 			Db.setLaunchFlightData(null);
-			ImageCache.recycleCache(true);
 		}
 	}
 

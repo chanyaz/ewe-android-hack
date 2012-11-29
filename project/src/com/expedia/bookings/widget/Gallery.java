@@ -34,10 +34,9 @@ import android.widget.Scroller;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
-import com.mobiata.android.graphics.ResilientBitmapDrawable;
+import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class Gallery extends AbsSpinner implements OnGestureListener {
 
@@ -1561,48 +1560,29 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				holder = (Holder) convertView.getTag();
 			}
 
-			ImageView imageView = holder.item;
+			final ImageView imageView = holder.item;
 			Media media = (Media) getItem(position);
 
-			// Don't depend on the callback to set the ImageView - just refresh the adapter with new data
-			OnImageLoaded callback = new OnImageLoaded() {
+			imageView.setLayoutParams(LAYOUT_WIDE);
+			imageView.setBackgroundDrawable(null);
+			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(media.getHighResUrls(), imageView);
+			drawable.setOnImageLoadedCallback(new OnImageLoaded() {
+				@Override
 				public void onImageLoaded(String url, Bitmap bitmap) {
-					notifyDataSetChanged();
+					if (bitmap.getWidth() > bitmap.getHeight()) {
+						imageView.setLayoutParams(LAYOUT_WIDE);
+					}
+					else {
+						imageView.setLayoutParams(LAYOUT_TALL);
+						imageView.setBackgroundResource(R.drawable.bg_gallery_item);
+					}
 				}
 
+				@Override
 				public void onImageLoadFailed(String url) {
-					// Do nothing
+					// Be sad
 				}
-			};
-
-			String url = media.getUrl(Media.IMAGE_LARGE_SUFFIX);
-			if (!ImageCache.containsImage(url)) {
-				url = media.getUrl(Media.IMAGE_BIG_SUFFIX);
-				if (!ImageCache.containsImage(url)) {
-					url = media.getUrl();
-				}
-			}
-
-			if (ImageCache.containsImage(url)) {
-				Bitmap bitmap = ImageCache.getImage(url);
-				if (bitmap.getWidth() > bitmap.getHeight()) {
-					imageView.setLayoutParams(LAYOUT_WIDE);
-					imageView.setBackgroundDrawable(null);
-				}
-				else {
-					imageView.setLayoutParams(LAYOUT_TALL);
-					imageView.setBackgroundResource(R.drawable.bg_gallery_item);
-				}
-
-				imageView.setImageDrawable(new ResilientBitmapDrawable(imageView.getResources(), bitmap));
-			}
-			else {
-				imageView.setImageDrawable(mPlaceholderDrawable);
-				imageView.setLayoutParams(LAYOUT_WIDE);
-				// Clear the background drawable while loading
-				imageView.setBackgroundDrawable(null);
-				media.loadHighResImage(null, callback);
-			}
+			});
 
 			return convertView;
 		}

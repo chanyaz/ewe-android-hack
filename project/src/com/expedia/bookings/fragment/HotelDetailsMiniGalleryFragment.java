@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,9 +20,6 @@ import com.expedia.bookings.widget.AdapterView;
 import com.expedia.bookings.widget.AdapterView.OnItemClickListener;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.ImageCache.OnImageLoaded;
-import com.mobiata.android.Log;
 
 public class HotelDetailsMiniGalleryFragment extends Fragment {
 
@@ -83,34 +80,6 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 		outState.putInt(INSTANCE_GALLERY_POSITION, mGallery.getSelectedItemPosition());
 	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
-
-		Property property = DbPropertyHelper.getBestMediaProperty();
-		if (getActivity().isFinishing() && property != null && property.getMediaCount() > 0) {
-			// In order to avoid memory issues, clear the cache of images we might've loaded in this activity
-			Log.d("Clearing out images from property.");
-
-			Media skipImage = null;
-			if (getArguments().getBoolean(ARG_FROM_LAUNCH, false)) {
-				skipImage = Db.getSelectedProperty().getThumbnail();
-			}
-
-			for (Media image : property.getMediaList()) {
-				if (image.equals(skipImage)) {
-					// F1017: Manually remove everything except for the possible launcher Bitmap being used
-					// That means all but Media.IMAGE_BIG_SUFFIX.
-					ImageCache.removeImage(image.getUrl(), true);
-					ImageCache.removeImage(image.getUrl(Media.IMAGE_LARGE_SUFFIX), true);
-				}
-				else {
-					image.removeFromImageCache();
-				}
-			}
-		}
-	}
-
 	public void populateViews() {
 		final List<Media> media = new ArrayList<Media>();
 
@@ -138,29 +107,18 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				// Pre-load images around the currently selected image, until we have MAX_IMAGES_LOADED
-				// loading.  Then cancel downloads on all the rest.
+				// loading.
 				int left = position;
 				int right = position;
 				int loaded = 1;
 				int len = media.size();
-				OnImageLoaded doNothing = new OnImageLoaded() {
-					public void onImageLoaded(String url, Bitmap bitmap) {
-						// Do nothing.  In the future, ImageCache should have 
-						// the ability to simply preload, but this is a fix 
-						// for #8401 for the 1.0.2 release and I don't want to
-						// have to update/branch Utils.
-					}
-
-					public void onImageLoadFailed(String url) {
-						// Do nothing.
-					}
-				};
 				boolean hasMore = true;
+				Context context = getActivity();
 				while (loaded < MAX_IMAGES_LOADED && hasMore) {
 					hasMore = false;
 					if (left > 0) {
 						left--;
-						media.get(left).loadHighResImage(null, doNothing);
+						media.get(left).preloadHighResImage(context, null);
 						loaded++;
 						hasMore = true;
 					}
@@ -169,20 +127,10 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 					}
 					if (right < len - 1) {
 						right++;
-						media.get(right).loadHighResImage(null, doNothing);
+						media.get(right).preloadHighResImage(context, null);
 						loaded++;
 						hasMore = true;
 					}
-				}
-
-				// Clear images a few to the right/left of the bounds.
-				while (left > 0) {
-					left--;
-					media.get(left).removeFromImageCache();
-				}
-				while (right < len - 1) {
-					right++;
-					media.get(right).removeFromImageCache();
 				}
 			}
 

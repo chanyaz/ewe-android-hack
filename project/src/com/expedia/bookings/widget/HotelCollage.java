@@ -5,17 +5,14 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.mobiata.android.ImageCache.OnImageLoaded;
+import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.graphics.ResilientBitmapDrawable;
 
 public class HotelCollage {

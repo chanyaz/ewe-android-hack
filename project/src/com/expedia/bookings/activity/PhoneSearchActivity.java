@@ -118,7 +118,6 @@ import com.google.android.maps.GeoPoint;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
@@ -340,7 +339,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					mRadiusCheckedId = R.id.radius_all_button;
 					searchResponse.clearCache();
 				}
-				ImageCache.recycleCache(true);
 				broadcastSearchCompleted(searchResponse);
 
 				hideLoading();
@@ -595,8 +593,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 		else {
 			saveParams();
-
-			ImageCache.recycleCache(true);
 		}
 	}
 
@@ -689,18 +685,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		mWasOnDestroyCalled = true;
-
-		// #9018: There was an insidious memory leak happening on rotation.  There might be a number of 
-		// ListView rows that were trying to load images.  The callbacks for these loads involved an ImageView
-		// which (in turn) held onto the Activity.  On rotation, these callbacks would be retained until the
-		// image loaded.
-		//
-		// Now we clear all callbacks (since no one else should be loading images via ImageCache at this time)
-		// upon rotation.  Any images that were loading will continue in the background, but they will not
-		// load onto an image until explicitly requested.
-		if (mConfigChange) {
-			ImageCache.clearAllCallbacks();
-		}
 
 		((ExpediaBookingApp) getApplicationContext())
 				.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);

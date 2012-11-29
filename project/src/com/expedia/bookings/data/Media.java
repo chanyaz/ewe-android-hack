@@ -1,15 +1,17 @@
 package com.expedia.bookings.data;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.graphics.Bitmap;
+import android.content.Context;
 import android.widget.ImageView;
 
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.Log;
-import com.mobiata.android.graphics.ResilientBitmapDrawable;
+import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.json.JSONable;
 
 // TODO: Rewrite this so we only store the base URL, then pimp out different
@@ -65,12 +67,6 @@ public class Media implements JSONable {
 		this.mWidth = width;
 	}
 
-	public void removeFromImageCache() {
-		ImageCache.removeImage(mUrl, true);
-		ImageCache.removeImage(getUrl(IMAGE_BIG_SUFFIX), true);
-		ImageCache.removeImage(getUrl(IMAGE_LARGE_SUFFIX), true);
-	}
-
 	/**
 	 * Loads a high-res image automatically into an ImageView.
 	 * 
@@ -80,48 +76,18 @@ public class Media implements JSONable {
 	 * @param callback
 	 */
 	public void loadHighResImage(ImageView imageView, OnImageLoaded callback) {
-		ImageCache.loadImage(getUrl(IMAGE_LARGE_SUFFIX), getImageLoadedCallback(imageView, callback));
+		UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(getHighResUrls(), imageView);
+		drawable.setOnImageLoadedCallback(callback);
 	}
 
-	/**
-	 * This method provides a callback that implements the 
-	 * fallback mechanism for images, trying to get the
-	 * highest resolution image first, and then working
-	 * its way down the list to see what sized image is available
-	 */
-	private OnImageLoaded getImageLoadedCallback(final ImageView imageView, final OnImageLoaded additionCallback) {
-		return new OnImageLoaded() {
+	public void preloadHighResImage(Context context, OnImageLoaded callback) {
+		// It may make sense to someday rewrite this not to abuse UrlBitmapDrawable (e.g. go straight to the cache)
+		UrlBitmapDrawable drawable = new UrlBitmapDrawable(context.getResources(), getHighResUrls());
+		drawable.setOnImageLoadedCallback(callback);
+	}
 
-			@Override
-			public void onImageLoaded(String url, Bitmap bitmap) {
-				if (bitmap != null) {
-					Log.v("** Loading image with url = " + url);
-
-					if (imageView != null) {
-						imageView.setImageDrawable(new ResilientBitmapDrawable(imageView.getResources(), bitmap));
-					}
-
-					if (additionCallback != null) {
-						additionCallback.onImageLoaded(url, bitmap);
-					}
-				}
-			}
-
-			@Override
-			public void onImageLoadFailed(String url) {
-				if (url.equals(getUrl(IMAGE_LARGE_SUFFIX))) {
-					Log.v("** Falling back from " + IMAGE_LARGE_SUFFIX + " to " + IMAGE_BIG_SUFFIX);
-					ImageCache.loadImage(getUrl(IMAGE_BIG_SUFFIX), getImageLoadedCallback(imageView, additionCallback));
-				}
-				else {
-					Log.v("** No sizes available");
-					if (additionCallback != null) {
-						additionCallback.onImageLoadFailed(url);
-					}
-				}
-			}
-
-		};
+	public List<String> getHighResUrls() {
+		return Arrays.asList(getUrl(IMAGE_LARGE_SUFFIX), getUrl(IMAGE_BIG_SUFFIX), mUrl);
 	}
 
 	public JSONObject toJson() {
