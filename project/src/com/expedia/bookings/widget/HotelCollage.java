@@ -21,7 +21,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
-import com.mobiata.android.graphics.ResilientBitmapDrawable;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class HotelCollage {
 
@@ -136,25 +136,6 @@ public class HotelCollage {
 	// (FADE_TIME may be running at this point on a previous image)
 	private static final int FADE_PAUSE = 30;
 
-	private final OnImageLoaded mOnImageLoaded = new OnImageLoaded() {
-		public void onImageLoaded(String url, Bitmap bitmap) {
-			Drawable[] layers = new Drawable[2];
-			layers[0] = new ColorDrawable(Color.TRANSPARENT);
-			layers[1] = new ResilientBitmapDrawable(mPropertyImageViews.get(mCurrentIndex).getContext().getResources(), bitmap);
-			TransitionDrawable drawable = new TransitionDrawable(layers);
-
-			mPropertyImageViews.get(mCurrentIndex).setImageDrawable(drawable);
-
-			drawable.startTransition(FADE_TIME);
-
-			loadNextImage();
-		}
-
-		public void onImageLoadFailed(String url) {
-			// Do nothing
-		}
-	};
-
 	private static final int LOAD_IMAGE = 1;
 
 	private void startLoadingImages() {
@@ -176,14 +157,32 @@ public class HotelCollage {
 			switch (msg.what) {
 
 			case LOAD_IMAGE:
-				Media media = mPropertyMediaList.get(mCurrentIndex);
-				media.loadHighResImage(mPropertyImageViews.get(mCurrentIndex), mOnImageLoaded);
-				break;
+				final Media media = mPropertyMediaList.get(mCurrentIndex);
+				final ImageView imageView = mPropertyImageViews.get(mCurrentIndex);
 
+				UrlBitmapDrawable bitmapDrawable = new UrlBitmapDrawable(imageView.getContext().getResources(),
+						media.getHighResUrls());
+				final TransitionDrawable drawable = new TransitionDrawable(new Drawable[] {
+						new ColorDrawable(Color.TRANSPARENT), bitmapDrawable });
+
+				bitmapDrawable.setOnImageLoadedCallback(new OnImageLoaded() {
+					@Override
+					public void onImageLoaded(String url, Bitmap bitmap) {
+						imageView.setImageDrawable(drawable);
+						drawable.startTransition(FADE_TIME);
+
+						loadNextImage();
+					}
+
+					@Override
+					public void onImageLoadFailed(String url) {
+						// Do nothing
+					}
+				});
+				break;
 			default:
 				super.handleMessage(msg);
 			}
 		}
-
 	};
 }

@@ -11,7 +11,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
-import com.mobiata.android.graphics.ResilientBitmapDrawable;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> implements OnMeasureListener {
@@ -52,7 +51,7 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				Log.v("ImageLoaded: " + url);
 
-				onLaunchImageLoaded(bitmap, row, bgView);
+				row.setVisibility(View.VISIBLE);
 
 				if (animate) {
 					ObjectAnimator.ofFloat(row, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
@@ -63,11 +62,6 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 				Log.v("Image load failed: " + url);
 			}
 		});
-	}
-
-	private void onLaunchImageLoaded(Bitmap bitmap, ViewGroup row, ImageView bgView) {
-		row.setVisibility(View.VISIBLE);
-		bgView.setImageDrawable(new ResilientBitmapDrawable(getContext().getResources(), bitmap));
 	}
 
 	private int mNumTiles = 0;
