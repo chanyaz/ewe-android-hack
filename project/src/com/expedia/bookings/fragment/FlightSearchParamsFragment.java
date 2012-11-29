@@ -640,12 +640,16 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			// F1213 - Show action bar because landscape takes up the entire screen otherwise
 			if (mIsLandscape) {
 				((SherlockFragmentActivity) getActivity()).startActionMode(mCalendarActionMode);
+				mDepartureAirportEditText.setFocusable(false);
+				mArrivalAirportEditText.setFocusable(false);
 			}
 
 			mDatesTextView.setBackgroundResource(R.drawable.textfield_activated_holo_light);
 		}
 		else {
 			mDatesTextView.setBackgroundResource(R.drawable.textfield_default_holo_light);
+			mDepartureAirportEditText.setFocusable(true);
+			mArrivalAirportEditText.setFocusable(true);
 		}
 
 		if (enabled && !mIsLandscape) {
