@@ -19,15 +19,14 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.ViewUtils;
 
@@ -118,11 +117,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 			String longestPrice = "";
 			for (Property property : properties) {
-				Media thumbnail = property.getThumbnail();
-				if (thumbnail != null && thumbnail.getUrl() != null) {
-					ImageCache.removeImage(thumbnail.getUrl(), true);
-				}
-
 				String displayPrice = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
 				if (longestPrice.length() < displayPrice.length()) {
 					longestPrice = displayPrice;
@@ -301,7 +295,8 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		boolean imageSet = false;
 		if (holder.thumbnail != null && !mIsMeasuring && property.getThumbnail() != null) {
 			String url = property.getThumbnail().getUrl();
-			imageSet = ImageCache.loadImage(url, holder.thumbnail);
+			UrlBitmapDrawable.loadImageView(url, holder.thumbnail, R.drawable.ic_row_thumb_placeholder);
+			imageSet = true;
 		}
 		if (holder.thumbnail != null && !imageSet) {
 			holder.thumbnail.setImageResource(R.drawable.ic_row_thumb_placeholder);
@@ -316,24 +311,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 
 		return convertView;
-	}
-
-	public void trimDrawables(int start, int end) {
-		Log.v("Trimming HotelAdapter images from (" + start + ", " + end + ")");
-
-		final int size = mCachedProperties.length;
-		for (int i = 0; i < size; i++) {
-			if (i < start || i > end) {
-				Media thumbnail = mCachedProperties[i].getThumbnail();
-				if (thumbnail != null) {
-					String url = thumbnail.getUrl();
-					ImageCache.removeImage(url, true);
-				}
-			}
-			else {
-				i = end;
-			}
-		}
 	}
 
 	private static class HotelViewHolder {

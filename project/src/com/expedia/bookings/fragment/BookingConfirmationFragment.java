@@ -23,6 +23,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.MapUtils;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class BookingConfirmationFragment extends Fragment {
 
@@ -108,7 +109,7 @@ public class BookingConfirmationFragment extends Fragment {
 		ImageView thumbnail = (ImageView) container.findViewById(R.id.thumbnail_image_view);
 		if (thumbnail != null) {
 			if (property.getThumbnail() != null) {
-				ImageCache.loadImage(property.getThumbnail().getUrl(), thumbnail);
+				UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), thumbnail);
 			}
 			else {
 				thumbnail.setVisibility(View.GONE);

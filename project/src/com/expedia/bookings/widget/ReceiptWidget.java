@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.ImageCache;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 // Support class for receipt layouts
 // Works well with include_receipt.xml, but can also be used if you provide
@@ -89,7 +90,7 @@ public class ReceiptWidget {
 
 		// Configuring the header at the top
 		if (property.getThumbnail() != null) {
-			ImageCache.loadImage(property.getThumbnail().getUrl(), mThumbnailImageView);
+			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView);
 			mThumbnailImageView.setVisibility(View.VISIBLE);
 		}
 		else {

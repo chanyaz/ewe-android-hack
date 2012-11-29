@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.debug.MemoryUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -103,6 +104,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		long maxMemory = Runtime.getRuntime().maxMemory();
 		int memoryClass = ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).getMemoryClass();
 		Log.i("MaxMemory=" + maxMemory + " bytes (" + (maxMemory / 1048576) + "MB) MemoryClass=" + memoryClass + "MB");
+
+		// Init TwoLevelImageCache
+		TwoLevelImageCache.init(this);
 	}
 
 	@Override

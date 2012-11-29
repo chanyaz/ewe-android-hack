@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.graphics.ResilientBitmapDrawable;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -43,30 +44,20 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 	// Utility
 
 	protected void loadImageForLaunchStream(String url, final ViewGroup row, final ImageView bgView) {
-		if (ImageCache.containsImage(url)) {
-			onLaunchImageLoaded(ImageCache.getImage(url), row, bgView);
-		}
-		else {
-			String key = row.toString();
-			Log.v("Loading launcher bg " + key + " with " + url);
+		UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(url, bgView);
+		drawable.setOnImageLoadedCallback(new OnImageLoaded() {
+			public void onImageLoaded(String url, Bitmap bitmap) {
+				Log.v("ImageLoaded: " + url);
 
-			// Begin a load on the ImageView
-			ImageCache.OnImageLoaded callback = new ImageCache.OnImageLoaded() {
-				public void onImageLoaded(String url, Bitmap bitmap) {
-					Log.v("ImageLoaded: " + url);
+				onLaunchImageLoaded(bitmap, row, bgView);
 
-					onLaunchImageLoaded(bitmap, row, bgView);
+				ObjectAnimator.ofFloat(row, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
+			}
 
-					ObjectAnimator.ofFloat(row, "alpha", 0.0f, 1.0f).setDuration(DURATION_FADE_MS).start();
-				}
-
-				public void onImageLoadFailed(String url) {
-					Log.v("Image load failed: " + url);
-				}
-			};
-
-			ImageCache.loadImage(key, url, callback);
-		}
+			public void onImageLoadFailed(String url) {
+				Log.v("Image load failed: " + url);
+			}
+		});
 	}
 
 	private void onLaunchImageLoaded(Bitmap bitmap, ViewGroup row, ImageView bgView) {

@@ -32,7 +32,7 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.ImageCache;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class HotelReceipt extends FrameLayout {
 	public interface OnSizeChangedListener {
@@ -137,7 +137,7 @@ public class HotelReceipt extends FrameLayout {
 
 		// Configuring the header at the top
 		if (property.getThumbnail() != null) {
-			ImageCache.loadImage(property.getThumbnail().getUrl(), mThumbnailImageView);
+			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView);
 			mThumbnailImageView.setVisibility(View.VISIBLE);
 		}
 		else {

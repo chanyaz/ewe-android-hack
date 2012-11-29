@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.mobiata.android.ImageCache;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
 
@@ -119,12 +120,7 @@ public class MapImageView extends ImageView {
 				ZOOM, MapType.ROADMAP, latitude, longitude) + "&scale=" + DENSITY_SCALE_FACTOR;
 
 		if (!mStaticMapUri.equals(oldUri)) {
-			ImageCache.loadImage(mStaticMapUri, this);
-
-			if (oldUri != null) {
-				Log.d("Clearing out map image.");
-				ImageCache.removeImage(oldUri, true);
-			}
+			UrlBitmapDrawable.loadImageView(mStaticMapUri, this);
 		}
 	}
 
