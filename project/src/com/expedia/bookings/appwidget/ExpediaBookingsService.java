@@ -2,7 +2,6 @@ package com.expedia.bookings.appwidget;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -41,10 +40,10 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.ImageCache.OnImageLoaded;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
+import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.util.NetUtils;
 
 public class ExpediaBookingsService extends Service implements LocationListener {
@@ -59,7 +58,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	public final static long INCREASED_ROTATE_INTERVAL = 1000 * 30; // Every 30 seconds
 
 	// maintain a bounded cache for the thumbnails to prevent OOM errors
-	private static final int MAX_IMAGE_CACHE_SIZE = 30;
 	private static final int MIN_DISTANCE_BEFORE_UPDATE = 5 * 1000; // 5 km
 	private static final int MIN_TIME_BETWEEN_CHECKS_IN_MILLIS = 1000 * 60 * 15; // 15 minutes
 	private static final int TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED = 1000 * 60 * 10; // 10 minutes
@@ -86,12 +84,6 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private BackgroundDownloader mSearchDownloader = BackgroundDownloader.getInstance();
 	private SparseArray<WidgetState> mWidgets;
 	private WidgetDeals mWidgetDeals = WidgetDeals.getInstance(this);
-
-	/*
-	 * Maintain local image cache to avoid bitmaps from being garbage collected from underneath,
-	 * by the SearchActivity or another other component using it
-	 */
-	public static ConcurrentHashMap<String, Bitmap> thumbnailCache = new ConcurrentHashMap<String, Bitmap>();
 
 	/*
 	 * This object holds all state persisting to the widget 
@@ -718,47 +710,22 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		}
 
 		final Property property = mWidgetDeals.getDeals().get(widget.mCurrentPosition);
-		Bitmap bitmap = thumbnailCache.get(property.getThumbnail().getUrl());
-		// if the bitmap doesn't exist in the cache, asynchronously load the image while
-		// updating the widget remote view with the rest of the information
-		if (bitmap == null) {
-			ImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property.getThumbnail()
-					.getUrl(), new OnImageLoaded() {
-
-				@Override
-				public void onImageLoaded(String url, Bitmap bitmap) {
-
-					// making sure that the image actually belongs to the current property loaded 
-					// in the remote view
-					if (widget.mCurrentPosition != -1
-							&& mWidgetDeals.getDeals().get(widget.mCurrentPosition).getThumbnail().getUrl().equals(url)) {
-
-						if (thumbnailCache.size() >= MAX_IMAGE_CACHE_SIZE) {
-							// clear out the cache if it ever reaches its max size
-							thumbnailCache.clear();
-						}
-
-						if (bitmap == null) {
-							return;
-						}
-
-						thumbnailCache.put(url, bitmap);
-						// remove the image from the global image cache without 
-						// causing the bitmap to get recycled as we maintain our own copy
-						// of the bitmap to prevent interference from the main thread
-						// attempting to recycle the bitmap
-						ImageCache.removeImage(url, false);
-						updateWidgetWithImage(widget, property);
-					}
-				}
-
-				@Override
-				public void onImageLoadFailed(String url) {
-					// Do nothing
-				}
-			});
-		}
 		updateWidgetWithProperty(property, widget);
+		TwoLevelImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + widget.appWidgetIdInteger, property.getThumbnail().getUrl(), new OnImageLoaded() {
+			@Override
+			public void onImageLoaded(String url, Bitmap bitmap) {
+				// making sure that the image actually belongs to the current property loaded in the remote view
+				if (widget.mCurrentPosition != -1
+						&& mWidgetDeals.getDeals().get(widget.mCurrentPosition).getThumbnail().getUrl().equals(url)) {
+					updateWidgetWithImage(widget, bitmap);
+				}
+			}
+
+			@Override
+			public void onImageLoadFailed(String url) {
+				// Do nothing
+			}
+		});
 		scheduleRotation(rotateInterval);
 	}
 
@@ -823,10 +790,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	 * This method only updates the image in the remote view
 	 * when its asynchronously downloaded by the ExpediaBookingsService
 	 */
-	private void updateWidgetWithImage(WidgetState widget, Property property) {
+	private void updateWidgetWithImage(WidgetState widget, Bitmap bitmap) {
 		RemoteViews rv = new RemoteViews(getPackageName(), R.layout.widget);
-
-		Bitmap bitmap = ExpediaBookingsService.thumbnailCache.get(property.getThumbnail().getUrl());
 		if (bitmap == null) {
 			rv.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 		}
@@ -875,13 +840,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
 		}
 
-		Bitmap bitmap = ExpediaBookingsService.thumbnailCache.get(property.getThumbnail().getUrl());
-		if (bitmap == null) {
-			widgetContents.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
-		}
-		else {
-			widgetContents.setImageViewBitmap(R.id.hotel_image_view, bitmap);
-		}
+		widgetContents.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 
 		Intent prevIntent = new Intent(this, ExpediaBookingsService.class);
 		prevIntent.setAction(PREV_PROPERTY_ACTION);
