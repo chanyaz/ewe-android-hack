@@ -163,10 +163,8 @@
         <item name="android:actionBarStyle">@style/FlightActionBar</item>
         <item name="actionMenuTextColor">@color/action_bar_flight_text_color</item>
         <item name="android:actionMenuTextColor">@color/action_bar_flight_text_color</item>
-        <item name="actionModeCloseDrawable">@drawable/btn_navigation_cancel_with_separator</item>
-        <item name="android:actionModeCloseDrawable">@drawable/btn_navigation_cancel_with_separator</item>
-        <item name="actionModeCloseButtonStyle">@style/ActionModeCloseMode</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionModeCloseMode</item>
+        <item name="actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
+        <item name="android:actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
