@@ -733,9 +733,11 @@ public class HotelsRobotHelper {
 		}
 		catch (Error e) {
 			mSolo.scrollToTop();
-			mSolo.clickOnText(mRes.getString(R.string.button_done));
+			try {
+				mSolo.clickOnText(mRes.getString(R.string.button_done));
+			} catch(Error q) { mSolo.clickOnText(mRes.getString(R.string.checkout_btn)); }
+			
 		}
-		mSolo.clickOnButton(0);
 		delay();
 		//pressCheckBox(); //Check box for terms & conditions occasionally needed.
 	}
