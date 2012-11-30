@@ -176,11 +176,11 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Helpful Methods
 	public void launchHotels() {
-		mSolo.clickOnText(mRes.getString(R.string.nav_hotels));
+		mSolo.clickOnView(mSolo.getView(R.id.hotels_button));
 	}
 
 	public void launchFlights() {
-		mSolo.clickOnText(mRes.getString(R.string.nav_flights));
+		mSolo.clickOnView(mSolo.getView(R.id.flights_button));
 	}
 
 	public void enterLog(String TAG, String logText) {
@@ -736,6 +736,7 @@ public class HotelsRobotHelper {
 			mSolo.clickOnText(mRes.getString(R.string.button_done));
 		}
 		mSolo.clickOnButton(0);
+		delay();
 		//pressCheckBox(); //Check box for terms & conditions occasionally needed.
 	}
 
@@ -744,8 +745,14 @@ public class HotelsRobotHelper {
 		delay(5);
 		screenshot("Slide to checkout.");
 		delay();
+		try {
+			mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 
-		View sliderStart = mSolo.getView(R.id.slider_text);
+		}
+		catch (Error e) {
+		}
+
+		View sliderStart = mSolo.getView(R.id.slider_image);
 		int[] startLocation = new int[2];
 		sliderStart.getLocationOnScreen(startLocation);
 
@@ -755,8 +762,9 @@ public class HotelsRobotHelper {
 
 		enterLog(TAG, "Slide X from: " + startLocation[0] + " to " + endLocation[0] + ".");
 		enterLog(TAG, "Slide Y from: " + startLocation[1] + " to " + endLocation[1] + ".");
+		delay();
 
-		mSolo.drag(startLocation[0] - 30, endLocation[0], startLocation[1], endLocation[1], 10);
+		mSolo.drag(startLocation[0], mScreenWidth - 5, startLocation[1] + 25, endLocation[1] + 20, 10);
 
 		delay(5);
 		enterCCV();
