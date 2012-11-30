@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 
+import com.expedia.bookings.data.FlightTrip.CompareField;
+import com.expedia.bookings.data.FlightTrip.FlightTripComparator;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -284,17 +286,17 @@ public class FlightSearch implements JSONable {
 				Comparator<FlightTrip> comparator;
 				switch (filter.getSort()) {
 				case DEPARTURE:
-					comparator = new FlightTrip.DepartureComparator(mLegPosition);
+					comparator = new FlightTripComparator(mLegPosition, CompareField.DEPARTURE);
 					break;
 				case ARRIVAL:
-					comparator = new FlightTrip.ArrivalComparator(mLegPosition);
+					comparator = new FlightTripComparator(mLegPosition, CompareField.ARRIVAL);
 					break;
 				case DURATION:
-					comparator = new FlightTrip.DurationComparator(mLegPosition);
+					comparator = new FlightTripComparator(mLegPosition, CompareField.DURATION);
 					break;
 				case PRICE:
 				default:
-					comparator = FlightTrip.PRICE_COMPARATOR;
+					comparator = new FlightTripComparator(mLegPosition, CompareField.PRICE);
 					break;
 				}
 				Collections.sort(mTrips, comparator);

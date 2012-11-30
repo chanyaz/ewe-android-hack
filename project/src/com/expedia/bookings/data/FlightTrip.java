@@ -276,6 +276,83 @@ public class FlightTrip implements JSONable {
 
 	////////////////////////////////////////////////////////////////////////
 	// Comparators
+	//
+	// A short explanation on how it works: there is a way to compare each
+	// field we care about of a FlightTrip/FlightLeg.  We then use
+	// FlightTripComparator to automatically order these, based on descending
+	// importance.
+
+	public enum CompareField {
+		PRICE,
+		DEPARTURE,
+		ARRIVAL,
+		DURATION,
+		LEG_ID
+	}
+
+	public static class FlightTripComparator implements Comparator<FlightTrip> {
+		private int mLegPosition;
+
+		// A list of fields to compare; automatically generated based on the focus field
+		private CompareField[] mToCompare;
+
+		public FlightTripComparator(int legPosition, CompareField focus) {
+			mLegPosition = legPosition;
+
+			switch (focus) {
+			case PRICE:
+				mToCompare = new CompareField[] { CompareField.PRICE, CompareField.DURATION, CompareField.LEG_ID };
+				break;
+			case DEPARTURE:
+				mToCompare = new CompareField[] { CompareField.DEPARTURE, CompareField.PRICE, CompareField.LEG_ID };
+				break;
+			case ARRIVAL:
+				mToCompare = new CompareField[] { CompareField.ARRIVAL, CompareField.PRICE, CompareField.LEG_ID };
+				break;
+			case DURATION:
+				mToCompare = new CompareField[] { CompareField.DURATION, CompareField.PRICE, CompareField.LEG_ID };
+				break;
+			case LEG_ID:
+			default:
+				mToCompare = new CompareField[] { CompareField.LEG_ID };
+				break;
+			}
+		}
+
+		@Override
+		public int compare(FlightTrip lhs, FlightTrip rhs) {
+			FlightLeg lhsLeg = lhs.getLeg(mLegPosition);
+			FlightLeg rhsLeg = rhs.getLeg(mLegPosition);
+
+			int result;
+			for (int field = 0; field < mToCompare.length; field++) {
+				switch (mToCompare[field]) {
+				case PRICE:
+					result = PRICE_COMPARATOR.compare(lhs, rhs);
+					break;
+				case DEPARTURE:
+					result = DEPARTURE_COMPARATOR.compare(lhsLeg, rhsLeg);
+					break;
+				case ARRIVAL:
+					result = ARRIVAL_COMPARATOR.compare(lhsLeg, rhsLeg);
+					break;
+				case DURATION:
+					result = DURATION_COMPARATOR.compare(lhsLeg, rhsLeg);
+					break;
+				case LEG_ID:
+				default:
+					result = lhsLeg.getLegId().compareTo(rhsLeg.getLegId());
+					break;
+				}
+
+				if (result != 0) {
+					return result;
+				}
+			}
+
+			return 0;
+		}
+	}
 
 	public static final Comparator<FlightTrip> PRICE_COMPARATOR = new Comparator<FlightTrip>() {
 		@Override
@@ -297,35 +374,11 @@ public class FlightTrip implements JSONable {
 		}
 	};
 
-	// Utility: We end up comparing a leg of a trip a lot
-	public abstract static class LegComparator implements Comparator<FlightTrip> {
-		private int mLegPosition;
-
-		public LegComparator(int legPosition) {
-			mLegPosition = legPosition;
-		}
-
-		@Override
-		public int compare(FlightTrip lhs, FlightTrip rhs) {
-			return compare(lhs.getLeg(mLegPosition), rhs.getLeg(mLegPosition));
-		}
-
-		public abstract int compare(FlightLeg lhs, FlightLeg rhs);
-	}
-
-	public static class DepartureComparator extends LegComparator {
-
-		public DepartureComparator(int legPosition) {
-			super(legPosition);
-		}
-
+	public static final Comparator<FlightLeg> DEPARTURE_COMPARATOR = new Comparator<FlightLeg>() {
 		@Override
 		public int compare(FlightLeg lhs, FlightLeg rhs) {
-			Flight leftFlight = lhs.getSegment(0);
-			Flight rightFlight = rhs.getSegment(0);
-
-			Calendar leftStart = leftFlight.mOrigin.getMostRelevantDateTime();
-			Calendar rightStart = rightFlight.mOrigin.getMostRelevantDateTime();
+			Calendar leftStart = lhs.getFirstWaypoint().getMostRelevantDateTime();
+			Calendar rightStart = rhs.getFirstWaypoint().getMostRelevantDateTime();
 
 			if (leftStart.before(rightStart)) {
 				return -1;
@@ -337,21 +390,13 @@ public class FlightTrip implements JSONable {
 				return 0;
 			}
 		}
-	}
+	};
 
-	public static class ArrivalComparator extends LegComparator {
-
-		public ArrivalComparator(int legPosition) {
-			super(legPosition);
-		}
-
+	public static final Comparator<FlightLeg> ARRIVAL_COMPARATOR = new Comparator<FlightLeg>() {
 		@Override
 		public int compare(FlightLeg lhs, FlightLeg rhs) {
-			Flight leftFlight = lhs.getSegment(lhs.getSegmentCount() - 1);
-			Flight rightFlight = rhs.getSegment(rhs.getSegmentCount() - 1);
-
-			Calendar leftStart = leftFlight.mDestination.getMostRelevantDateTime();
-			Calendar rightStart = rightFlight.mDestination.getMostRelevantDateTime();
+			Calendar leftStart = lhs.getLastWaypoint().getMostRelevantDateTime();
+			Calendar rightStart = rhs.getLastWaypoint().getMostRelevantDateTime();
 
 			if (leftStart.before(rightStart)) {
 				return -1;
@@ -363,14 +408,9 @@ public class FlightTrip implements JSONable {
 				return 0;
 			}
 		}
-	}
+	};
 
-	public static class DurationComparator extends LegComparator {
-
-		public DurationComparator(int legPosition) {
-			super(legPosition);
-		}
-
+	public static final Comparator<FlightLeg> DURATION_COMPARATOR = new Comparator<FlightLeg>() {
 		@Override
 		public int compare(FlightLeg lhs, FlightLeg rhs) {
 			long leftDuration = lhs.getDuration();
@@ -386,7 +426,7 @@ public class FlightTrip implements JSONable {
 				return -1;
 			}
 		}
-	}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Playing with others
