@@ -514,9 +514,6 @@ public class HotelsRobotHelper {
 	public void pressBookRoom() {
 		String bookNowString = mRes.getString(R.string.SELECT);
 
-		landscape();
-		portrait();
-
 		enterLog(TAG, "Pressing Book Room Button: " + bookNowString);
 		mSolo.clickOnButton(0);
 		Boolean didItLoad = mSolo.waitForActivity("RoomsAndRatesListActivity", 20000);
@@ -727,18 +724,31 @@ public class HotelsRobotHelper {
 			delay(1);
 			mSolo.clickOnButton(1);
 			delay();
+			mSolo.clickOnButton(0);
 
 			mSolo.scrollToTop();
 			mSolo.clickOnText(mRes.getString(R.string.button_done));
+			delay(1);
+
 		}
 		catch (Error e) {
 			mSolo.scrollToTop();
 			try {
 				mSolo.clickOnText(mRes.getString(R.string.button_done));
-			} catch(Error q) { mSolo.clickOnText(mRes.getString(R.string.checkout_btn)); }
-			
+			}
+			catch (Error q) {
+				mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
+			}
+
 		}
 		delay();
+		try {
+			mSolo.clickOnButton(0);
+		}
+		catch (Exception derp) {
+		}
+		catch (Error derpy) {
+		}
 		//pressCheckBox(); //Check box for terms & conditions occasionally needed.
 	}
 
@@ -749,11 +759,12 @@ public class HotelsRobotHelper {
 		delay();
 		try {
 			mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
-
 		}
 		catch (Error e) {
 		}
-
+		delay();
+		landscape();
+		portrait();
 		View sliderStart = mSolo.getView(R.id.slider_image);
 		int[] startLocation = new int[2];
 		sliderStart.getLocationOnScreen(startLocation);
@@ -859,7 +870,7 @@ public class HotelsRobotHelper {
 
 	public void captureInfoScreen() {
 		delay();
-		mSolo.pressMenuItem(2);
+		mSolo.pressMenuItem(1);
 		landscape();
 		delay(2);
 		portrait();
