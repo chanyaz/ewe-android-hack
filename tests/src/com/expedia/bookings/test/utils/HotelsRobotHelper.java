@@ -746,8 +746,12 @@ public class HotelsRobotHelper {
 			mSolo.clickOnButton(0);
 		}
 		catch (Exception derp) {
+			enterLog(TAG, "Caught Exception:" + derp.toString() + 
+					" | when trying to exit credit card string.");
 		}
 		catch (Error derpy) {
+			enterLog(TAG, "Caught error: " + derpy.toString() + 
+					" | when trying to exit credit card string.");
 		}
 		//pressCheckBox(); //Check box for terms & conditions occasionally needed.
 	}
