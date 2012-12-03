@@ -57,6 +57,7 @@ import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
@@ -82,6 +83,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.facebook.Session;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
@@ -551,6 +553,54 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("api/user/profile", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
+	public FacebookLinkResponse facebookAutoLogin(String facebookUserId, String facebookAccessToken) {
+		Session fbSession = Session.getActiveSession();
+		if (fbSession == null || fbSession.isClosed()) {
+			throw new RuntimeException("We must be logged into facebook inorder to call facebookAutoLogin");
+		}
+
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("provider", "Facebook"));
+		query.add(new BasicNameValuePair("userId", facebookUserId));
+		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
+
+		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+
+	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
+			String facebookEmailAddress) {
+
+		Session fbSession = Session.getActiveSession();
+		if (fbSession == null || fbSession.isClosed()) {
+			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
+		}
+
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("provider", "Facebook"));
+		query.add(new BasicNameValuePair("userId", facebookUserId));
+		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
+		query.add(new BasicNameValuePair("email",facebookEmailAddress));
+
+		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+
+	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
+			String facebookEmailAddress, String expediaPassword) {
+		Session fbSession = Session.getActiveSession();
+		if (fbSession == null || fbSession.isClosed()) {
+			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
+		}
+
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("provider", "Facebook"));
+		query.add(new BasicNameValuePair("userId", facebookUserId));
+		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
+		query.add(new BasicNameValuePair("email",facebookEmailAddress));
+		query.add(new BasicNameValuePair("password", expediaPassword));
+
+		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+
 	public void clearCookies() {
 		Log.d("Clearing cookies!");
 
@@ -1001,6 +1051,27 @@ public class ExpediaServices implements DownloadListener {
 		String e3url = builder.toString();
 		Log.d("e3 url: " + e3url);
 		return e3url;
+	}
+	
+	public static String getFacebookAppId(Context context){
+		EndPoint endPoint = getEndPoint(context);
+		String appId = null;
+		switch (endPoint) {
+		case INTEGRATION:
+		case STABLE:
+		case DEV:
+		case TRUNK:
+		case PUBLIC_INTEGRATION: 
+		case PROXY:
+			appId = context.getString(R.string.facebook_dev_app_id);
+			break;
+		case PRODUCTION:
+		default:
+			appId = context.getString(R.string.facebook_app_id);
+			break;
+		}
+		return appId;
+			
 	}
 
 	public static EndPoint getEndPoint(Context context) {

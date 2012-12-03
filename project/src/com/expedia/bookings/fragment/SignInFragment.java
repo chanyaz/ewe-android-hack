@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FacebookLinkActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
@@ -50,6 +52,7 @@ public class SignInFragment extends DialogFragment {
 	private EditText mUsernameEditText;
 	private EditText mPasswordEditText;
 	private Button mLogInButton;
+	private View mFacebookButton;
 
 	private ProgressDialog mProgressDialog;
 
@@ -152,6 +155,17 @@ public class SignInFragment extends DialogFragment {
 				else {
 					OmnitureTracking.trackLinkHotelsCheckoutLoginCancel(mContext);
 				}
+			}
+		});
+		
+		
+		mFacebookButton = Ui.findView(view, R.id.facebook_connect_button);
+		mFacebookButton.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				Intent facebookLoginIntent = new Intent(getActivity(), FacebookLinkActivity.class);
+				startActivity(facebookLoginIntent);
+				SignInFragment.this.dismiss();
 			}
 		});
 

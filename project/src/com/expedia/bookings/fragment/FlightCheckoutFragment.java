@@ -134,33 +134,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
-		if (User.isLoggedIn(getActivity())) {
-			if (Db.getUser() == null) {
-				Db.loadUser(getActivity());
-			}
-
-			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
-				//We have a user (either from memory, or loaded from disk)
-				if (!mRefreshedUser) {
-					Log.d("Refreshing user profile...");
-
-					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (!bd.isDownloading(KEY_REFRESH_USER)) {
-						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
-					}
-				}
-				mAccountButton.bind(false, true, Db.getUser(), true);
-			}
-			else {
-				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
-				User.signOut(getActivity());
-				mAccountButton.bind(false, false, null, true);
-			}
-		}
-		else {
-			mAccountButton.bind(false, false, null, true);
-		}
+		
 
 		// rules and restrictions link stuff
 		TextView tv = Ui.findView(v, R.id.legal_blurb);
@@ -242,6 +216,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		buildTravelerSections();
 
 		bindAll();
+		refreshAccountButtonState();
 		updateViewVisibilities();
 	}
 
@@ -259,6 +234,36 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			for (int i = 0; i < travelers.size(); i++) {
 				mTravelerSections.get(i).bind(travelers.get(i));
 			}
+		}
+	}
+	
+	private void refreshAccountButtonState(){
+		if (User.isLoggedIn(getActivity())) {
+			if (Db.getUser() == null) {
+				Db.loadUser(getActivity());
+			}
+
+			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+				//We have a user (either from memory, or loaded from disk)
+				if (!mRefreshedUser) {
+					Log.d("Refreshing user profile...");
+
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(KEY_REFRESH_USER)) {
+						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
+					}
+				}
+				mAccountButton.bind(false, true, Db.getUser(), true);
+			}
+			else {
+				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
+				User.signOut(getActivity());
+				mAccountButton.bind(false, false, null, true);
+			}
+		}
+		else {
+			mAccountButton.bind(false, false, null, true);
 		}
 	}
 
