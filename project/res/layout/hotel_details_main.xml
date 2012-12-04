@@ -3,7 +3,6 @@
     android:id="@+id/hotel_details_portrait"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#262626"
     android:fadingEdgeLength="0px"
     android:fillViewport="true" >
 
@@ -15,7 +14,8 @@
         <FrameLayout
             android:id="@+id/hotel_details_mini_gallery_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#262626" />
 
         <LinearLayout
             android:id="@+id/hotel_details_price_promo_fragment_container"
@@ -27,13 +27,13 @@
         <LinearLayout
             android:id="@+id/hotel_details_intro_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#efefef" />
 
         <FrameLayout
             android:id="@+id/hotel_details_map_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/hotel_details_map_visible_size"
-            android:background="#aaaaaa" />
+            android:layout_height="@dimen/hotel_details_map_visible_size" />
 
         <LinearLayout
             android:id="@+id/hotel_details_description_fragment_container"

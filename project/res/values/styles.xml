@@ -470,7 +470,7 @@
     </style>
 
     <style name="ActionBarTabBar" parent="android:style/Widget">
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@color/actionbar_bg</item>
         <item name="android:divider">?attr/actionBarDivider</item>
         <item name="android:showDividers">middle</item>
         <item name="android:dividerPadding">12dp</item>

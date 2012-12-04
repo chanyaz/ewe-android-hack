@@ -92,6 +92,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			return;
 
 		setContentView(R.layout.activity_rooms_and_rates);
+		getWindow().setBackgroundDrawable(null);
 
 		mRoomsAndRatesFragment = Ui.findSupportFragment(this, getString(R.string.tag_rooms_and_rates));
 

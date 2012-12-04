@@ -84,7 +84,7 @@
             android:theme="@style/Theme.Phone" />
         <activity
             android:name="com.expedia.bookings.activity.UserReviewsListActivity"
-            android:theme="@style/Theme.Phone.WithStackedTabs" />
+            android:theme="@style/Theme.Phone" />
         <activity
             android:name="com.expedia.bookings.activity.TabletUserReviewsListActivity"
             android:theme="@style/Theme.Light.Fullscreen.Panel" />

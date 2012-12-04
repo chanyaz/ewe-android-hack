@@ -3,6 +3,5 @@
 
     <item android:drawable="@color/bg_row_state_pressed" android:state_pressed="true"/>
     <item android:drawable="@color/bg_row_state_pressed" android:state_focused="true"/>
-    <item android:drawable="@color/clickable_row_background"/>
 
 </selector>

@@ -10,7 +10,6 @@
         android:layout_width="@dimen/hotel_row_thumbnail_width"
         android:layout_height="@dimen/hotel_row_thumbnail_height"
         android:layout_alignParentLeft="true"
-        android:background="@android:color/black"
         android:scaleType="centerCrop" />
 
     <RelativeLayout

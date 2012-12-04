@@ -83,6 +83,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		}
 
 		setContentView(R.layout.activity_user_reviews);
+		getWindow().setBackgroundDrawable(null);
 
 		initializePager(savedInstanceState);
 		initializeActionBar();

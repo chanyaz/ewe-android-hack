@@ -97,7 +97,6 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}
 
 		if (!property.hasExpediaReviews() && numReviews == 0) {
-			reviewsSummaryLayout.setBackgroundResource(R.color.clickable_row_background);
 			reviewsSummaryLayout.setOnClickListener(null);
 		}
 		else {

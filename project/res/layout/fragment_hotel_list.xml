@@ -7,13 +7,6 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <!-- FrameLayout.background doesn't work on Gingerbread -->
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg_expedia_list" />
-
     <com.expedia.bookings.widget.MeasureListView
         android:id="@android:id/list"
         style="@style/ExpediaList"
@@ -24,7 +17,8 @@
     <LinearLayout
         android:id="@android:id/empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:background="@color/bg_expedia_list" >
 
         <TextView
             android:id="@+id/no_filter_results_text_view"

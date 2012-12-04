@@ -29,7 +29,7 @@ public class PlaceholderTagProgressBar {
 			mProgressBar.setVisibility(View.VISIBLE);
 		}
 		else {
-			mProgressBar.setVisibility(View.INVISIBLE);
+			mProgressBar.setVisibility(View.GONE);
 		}
 	}
 

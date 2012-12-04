@@ -8,19 +8,14 @@
         layout="@layout/include_amenities"
         android:visibility="visible" />
 
-    <FrameLayout
+    <View
         android:id="@+id/amenities_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp" >
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/hotel_details_separator" />
-    </FrameLayout>
+        android:background="@color/hotel_details_separator" />
 
     <LinearLayout
         android:id="@+id/description_details_sections_container"

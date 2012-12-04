@@ -3,5 +3,5 @@
     android:id="@+id/mini_map"
     android:layout_width="match_parent"
     android:layout_height="@dimen/hotel_details_map_total_size"
-    android:scaleType="centerCrop"
-    android:src="@drawable/bg_gallery" />
+    android:background="#aaaaaa"
+    android:scaleType="centerCrop" />

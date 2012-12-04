@@ -196,6 +196,10 @@ public class HotelListFragment extends ListFragment {
 		}
 	}
 
+	public void hidePlaceholder() {
+		mSearchProgressBar.setVisibility(View.GONE);
+	}
+
 	private void updateStatus(boolean showProgressBar) {
 		updateStatus(mStatus, showProgressBar);
 	}
@@ -206,6 +210,7 @@ public class HotelListFragment extends ListFragment {
 		if (mSearchProgressBar != null && mAdapter != null) {
 			mSearchProgressBar.setText(status);
 			mSearchProgressBar.setShowProgress(showProgressBar);
+			mSearchProgressBar.setVisibility(View.VISIBLE);
 			setHeaderVisibility(View.GONE);
 			mAdapter.setSearchResponse(null);
 		}
@@ -281,6 +286,7 @@ public class HotelListFragment extends ListFragment {
 			updateStatus(false);
 		}
 		else {
+			hidePlaceholder();
 			updateSearchResults();
 		}
 	}

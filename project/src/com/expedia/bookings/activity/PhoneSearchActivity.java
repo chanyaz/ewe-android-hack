@@ -455,6 +455,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mContext = this;
 
 		setContentView(R.layout.activity_search);
+		getWindow().setBackgroundDrawable(null);
 
 		mHotelListFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_list));
 		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_map));
@@ -1883,6 +1884,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 			mContent.draw(mViewFlipCanvas);
 			mContent.setVisibility(View.INVISIBLE);
+			mViewFlipImage.setVisibility(View.VISIBLE);
 			showFragment(newFragmentTag);
 
 			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
@@ -1899,6 +1901,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
+					mViewFlipImage.setVisibility(View.GONE);
 					mContent.setVisibility(View.VISIBLE);
 				}
 			});

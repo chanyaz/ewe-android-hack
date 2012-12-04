@@ -356,6 +356,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		final Intent intent = getIntent();
 
 		setContentView(R.layout.hotel_details_main);
+		getWindow().setBackgroundDrawable(null);
 
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction ft = manager.beginTransaction();

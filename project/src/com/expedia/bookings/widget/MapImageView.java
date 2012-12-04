@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
+import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
@@ -108,7 +109,18 @@ public class MapImageView extends ImageView {
 				ZOOM, MapType.ROADMAP, latitude, longitude) + "&scale=" + DENSITY_SCALE_FACTOR;
 
 		if (!mStaticMapUri.equals(oldUri)) {
-			UrlBitmapDrawable.loadImageView(mStaticMapUri, this);
+			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(mStaticMapUri, this);
+			drawable.setOnImageLoadedCallback(new OnImageLoaded() {
+				@Override
+				public void onImageLoaded(String url, Bitmap bitmap) {
+					MapImageView.this.setBackgroundDrawable(null);
+				}
+
+				@Override
+				public void onImageLoadFailed(String url) {
+					// nothing
+				}
+			});
 		}
 	}
 

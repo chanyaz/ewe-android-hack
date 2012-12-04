@@ -73,12 +73,6 @@
         android:background="@color/dismiss"
         android:visibility="invisible" />
 
-    <ViewStub
-        android:id="@+id/widget_notification_stub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout="@layout/include_widget_notification" />
-
     <include
         android:id="@+id/button_bar_layout"
         layout="@layout/include_button_bar" />
