@@ -17,7 +17,7 @@
         slideto:destImage="@drawable/slide_goal"
         slideto:dragImage="@drawable/slide_drag"
         slideto:lineColor="#46CFCFCF"
-        slideto:sliderImage="@drawable/ic_slide_to_purchase"
+        slideto:sliderImage="@drawable/slide_hint"
         slideto:sliderText="@string/slide_to_purchase" />
 
     <TextView

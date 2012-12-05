@@ -37,7 +37,7 @@ public class SlideToWidget extends RelativeLayout {
 	private TextView mSliderText;
 	private View mSliderLine;
 	private View mSliderDot;
-	
+
 	private Drawable mSliderDrawable;
 	private Drawable mDragingDrawable;
 	private Drawable mSlideGoalDrawable;
@@ -85,13 +85,13 @@ public class SlideToWidget extends RelativeLayout {
 			TypedArray ta = context.obtainStyledAttributes(attr, R.styleable.SlideToWidget, 0, 0);
 			mSliderDrawable = ta.getDrawable(R.styleable.SlideToWidget_sliderImage);
 			mDragingDrawable = ta.getDrawable(R.styleable.SlideToWidget_dragImage);
-			
+
 			mSlideGoalDrawable = ta.getDrawable(R.styleable.SlideToWidget_destImage);
 			mSlideCompleteDrawable = ta.getDrawable(R.styleable.SlideToWidget_destComplete);
-			
+
 			mSliderLine.setBackgroundColor(ta.getColor(R.styleable.SlideToWidget_lineColor, Color.rgb(255, 255, 255)));
-			
-			mSlider.setImageDrawable( mSliderDrawable);
+
+			mSlider.setImageDrawable(mSliderDrawable);
 			mSliderHolder.setImageDrawable(mSliderDrawable);
 			mHiddenImage.setImageDrawable(mDragingDrawable);
 			mSliderText.setText(ta.getText(R.styleable.SlideToWidget_sliderText));
@@ -151,7 +151,6 @@ public class SlideToWidget extends RelativeLayout {
 			mDestImage.clearAnimation();
 			mDestImage.setVisibility(View.INVISIBLE);
 			mDestImage.setImageDrawable(mSlideGoalDrawable);
-			
 		}
 		if (mSliderText != null) {
 			mSliderText.setVisibility(View.VISIBLE);
@@ -167,9 +166,8 @@ public class SlideToWidget extends RelativeLayout {
 			mSliderDot.setVisibility(View.INVISIBLE);
 			mSliderDot.clearAnimation();
 		}
-		
 	}
-	
+
 	public void activateSlide(){
 		if(mSlider != null){
 			mSlider.setImageDrawable(mDragingDrawable);
@@ -189,7 +187,7 @@ public class SlideToWidget extends RelativeLayout {
 		mMaxLeftMargin = mContainerWidth - mImageWidth;
 		mTargetLeftMargin = mMaxLeftMargin - (mImageWidth / 2);//doesn't have to be all the way over...
 	}
-	
+
 	@SuppressLint("NewApi")
 	private Animator getDrawLineAnimator(){
 		LayoutParams params = (LayoutParams) mSliderLine.getLayoutParams();
@@ -197,16 +195,17 @@ public class SlideToWidget extends RelativeLayout {
 		params.width = mContainerWidth - 2*margin;
 		params.leftMargin = margin;
 		params.rightMargin = margin;
-		
+
 		mSliderLine.setLayoutParams(params);
-		
+
 		LayoutParams dotParams = (LayoutParams) mSliderDot.getLayoutParams();
 		dotParams.leftMargin = mHiddenImage.getWidth()/2 - mSliderDot.getWidth()/2;
 		mSliderDot.setLayoutParams(dotParams);
-		
-		if(AndroidUtils.getSdkVersion() >= 11){
+
+		if (AndroidUtils.getSdkVersion() >= 11) {
 			mSliderLine.setPivotX(0);
-		}else{
+		}
+		else {
 			AnimatorProxy.wrap(mSliderLine).setPivotX(0);
 		}
 		ObjectAnimator drawLine = ObjectAnimator.ofFloat(this.mSliderLine, "scaleX", 0,1 );
@@ -229,11 +228,10 @@ public class SlideToWidget extends RelativeLayout {
 				mSliderLine.setVisibility(View.VISIBLE);
 				mSliderDot.setVisibility(View.VISIBLE);
 			}
-			
 		});
 		return drawLine;
 	}
-	
+
 	private Animator getShowDestAnimator(){
 		ObjectAnimator destAlphaAnimator = ObjectAnimator.ofFloat(this.mDestImage, "alpha", 0,1 );
 		destAlphaAnimator.addListener(new AnimatorListener(){
@@ -252,9 +250,8 @@ public class SlideToWidget extends RelativeLayout {
 			public void onAnimationStart(Animator arg0) {
 				mDestImage.setVisibility(View.VISIBLE);
 			}
-			
 		});
-		
+
 		return destAlphaAnimator;
 	}
 

@@ -189,7 +189,7 @@
             app:destImage="@drawable/slide_goal"
             app:dragImage="@drawable/slide_drag"
             app:lineColor="#46CFCFCF"
-            app:sliderImage="@drawable/ic_slide_to_purchase"
+            app:sliderImage="@drawable/slide_hint"
             app:sliderText="@string/slide_to_purchase" />
 
         <TextView
