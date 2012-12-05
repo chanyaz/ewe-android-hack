@@ -36,7 +36,6 @@ public class BrowsingTest extends ActivityInstrumentationTestCase2<SearchActivit
 
 		mDriver.setAllowScreenshots(false);
 		mDriver.setAllowOrientationChange(false);
-		mDriver.changeAPI("Production");
 		mDriver.changePOS(mDriver.AMERICAN_LOCALES[5]);
 		mDriver.launchHotels();
 		mDriver.delay();

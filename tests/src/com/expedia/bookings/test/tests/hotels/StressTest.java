@@ -37,7 +37,6 @@ public class StressTest extends ActivityInstrumentationTestCase2<SearchActivity>
 	public void testMethod() throws Exception {
 		mDriver.setAllowScreenshots(false);
 		mDriver.setAllowOrientationChange(false);
-		mDriver.changeAPI("Production");
 		mDriver.changePOS(mDriver.AMERICAN_LOCALES[5]);
 		mDriver.launchHotels();
 		mDriver.delay();
