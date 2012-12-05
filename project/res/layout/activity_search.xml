@@ -11,28 +11,10 @@
         android:focusable="true"
         android:focusableInTouchMode="true" />
 
-    <ImageView
-        android:id="@+id/view_flip_image"
+    <com.expedia.bookings.widget.SwipelessViewPager
+        android:id="@+id/content_viewpager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
-
-    <FrameLayout
-        android:id="@+id/content_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <fragment
-            android:name="com.expedia.bookings.fragment.HotelListFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:tag="@string/tag_hotel_list" />
-
-        <fragment
-            android:name="com.expedia.bookings.fragment.HotelMapFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:tag="@string/tag_hotel_map" />
-    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/search_progress_layout"

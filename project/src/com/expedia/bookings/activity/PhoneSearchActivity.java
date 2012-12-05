@@ -37,10 +37,13 @@ import android.os.Message;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -204,14 +207,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private ViewTreeObserver mViewTreeObserver;
 
+	private ViewPager mContentViewPager;
 	private CalendarDatePicker mDatesCalendarDatePicker;
 	private AutoCompleteTextView mSearchEditText;
 	private ImageView mClearSearchButton;
-	private FrameLayout mContent;
 	private ImageButton mDatesButton;
 	private ImageButton mGuestsButton;
 	private ImageButton mViewButton;
-	private ImageView mViewFlipImage;
 	private SimpleNumberPicker mAdultsNumberPicker;
 	private SimpleNumberPicker mChildrenNumberPicker;
 	private EditText mFilterHotelNameEditText;
@@ -454,11 +456,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		mContext = this;
 
+		mHotelListFragment = HotelListFragment.newInstance();
+		mHotelMapFragment = HotelMapFragment.newInstance();
+
 		setContentView(R.layout.activity_search);
 		getWindow().setBackgroundDrawable(null);
-
-		mHotelListFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_list));
-		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_hotel_map));
 
 		initializeViews();
 
@@ -482,7 +484,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchEditText.setText(Db.getSearchParams().getUserQuery());
 			Log.i("searchEditText...:" + mSearchEditText.getText().toString());
 			Db.resetFilter();
-			mTag = mHotelListFragment.getTag();
+			mTag = getString(R.string.tag_hotel_list);
 			mShowDistance = false;
 			startSearch();
 			getIntent().removeExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
@@ -508,7 +510,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			Db.setSearchParams(new SearchParams(prefs));
 			String filterJson = prefs.getString("filter", null);
-			mTag = prefs.getString("tag", mHotelListFragment.getTag());
+			mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
 			mShowDistance = prefs.getBoolean("showDistance", true);
 
 			if (filterJson != null) {
@@ -879,9 +881,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// Configure the map/list view action
 		if (mTag == null) {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-			mTag = prefs.getString("tag", mHotelListFragment.getTag());
+			mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
 		}
-		boolean isListShowing = mTag.equals(mHotelListFragment.getTag());
+		boolean isListShowing = mTag.equals(getString(R.string.tag_hotel_list));
 		if (isListShowing) {
 			menu.findItem(R.id.menu_select_change_view).setIcon(R.drawable.ic_menu_map);
 		}
@@ -1128,8 +1130,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// Get views
 		mFocusLayout = findViewById(R.id.focus_layout);
 
-		mContent = (FrameLayout) findViewById(R.id.content_layout);
-		mViewFlipImage = (ImageView) findViewById(R.id.view_flip_image);
+		// We have created the fragments in onCreate so we can attach the adapter safely
+		mContentViewPager = (ViewPager) findViewById(R.id.content_viewpager);
+		mContentViewPager.setAdapter(mListAndMapViewPagerAdapter);
+		mContentViewPager.setOnPageChangeListener(mListAndMapViewPagerAdapter);
 
 		// Handled in the actionbar's custom view now
 		mActionBarCustomView = getLayoutInflater().inflate(R.layout.actionbar_search_hotels, null);
@@ -1585,16 +1589,25 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		supportInvalidateOptionsMenu();
 
 		// Inform fragments
-		mHotelListFragment.notifySearchComplete();
-		mHotelMapFragment.notifySearchComplete();
+		if (mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifySearchComplete();
+		}
+		if (mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifySearchComplete();
+		}
 
 		onSearchResultsChanged();
 	}
 
 	private void broadcastSearchStarted() {
 		supportInvalidateOptionsMenu();
-		mHotelListFragment.notifySearchStarted();
-		mHotelMapFragment.notifySearchStarted();
+
+		if (mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifySearchStarted();
+		}
+		if (mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifySearchStarted();
+		}
 	}
 
 	//--------------------------------------------
@@ -1844,100 +1857,17 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		setDisplayType(DisplayType.NONE);
 
 		String newFragmentTag = null;
-		Rotate3dAnimation animationOut = null;
-		Rotate3dAnimation animationIn = null;
 
-		final float centerX = mViewFlipImage.getWidth() / 2.0f;
-		final float centerY = mViewFlipImage.getHeight() / 2.0f;
-
-		if (mTag.equals(mHotelMapFragment.getTag())) {
-			newFragmentTag = mHotelListFragment.getTag();
-
-			if (ANIMATION_VIEW_FLIP_ENABLED) {
-				animationOut = new Rotate3dAnimation(0, 90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
-				animationIn = new Rotate3dAnimation(-90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
-			}
-
+		if (mTag.equals(getString(R.string.tag_hotel_list))) {
+			newFragmentTag = getString(R.string.tag_hotel_map);
 			Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), null);
 		}
 		else {
-			newFragmentTag = mHotelMapFragment.getTag();
-
-			if (ANIMATION_VIEW_FLIP_ENABLED) {
-				animationOut = new Rotate3dAnimation(0, -90, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, true);
-				animationIn = new Rotate3dAnimation(90, 0, centerX, centerY, ANIMATION_VIEW_FLIP_DEPTH, false);
-			}
-
+			newFragmentTag = getString(R.string.tag_hotel_list);;
 			onSwitchToMap();
 		}
 
-		if (animationOut != null && animationIn != null) {
-			final Rotate3dAnimation nextAnimation = animationIn;
-
-			if (mViewFlipCanvas == null) {
-				final int width = mContent.getWidth();
-				final int height = mContent.getHeight();
-				mViewFlipBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-				mViewFlipCanvas = new Canvas(mViewFlipBitmap);
-				mViewFlipImage.setImageBitmap(mViewFlipBitmap);
-			}
-
-			mContent.draw(mViewFlipCanvas);
-			mContent.setVisibility(View.INVISIBLE);
-			mViewFlipImage.setVisibility(View.VISIBLE);
-			showFragment(newFragmentTag);
-
-			nextAnimation.setDuration(ANIMATION_VIEW_FLIP_SPEED);
-			nextAnimation.setFillAfter(true);
-			nextAnimation.setInterpolator(new DecelerateInterpolator());
-			nextAnimation.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mViewFlipImage.setVisibility(View.GONE);
-					mContent.setVisibility(View.VISIBLE);
-				}
-			});
-
-			animationOut.setDuration(ANIMATION_VIEW_FLIP_SPEED);
-			animationOut.setFillAfter(true);
-			animationOut.setInterpolator(new AccelerateInterpolator());
-			animationOut.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationStart(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					mHandler.post(new Runnable() {
-						@Override
-						public void run() {
-							mContent.draw(mViewFlipCanvas);
-							mViewFlipImage.startAnimation(nextAnimation);
-						}
-					});
-				}
-			});
-
-			mViewFlipImage.clearAnimation();
-			mViewFlipImage.startAnimation(animationOut);
-		}
-		else {
-			if (newFragmentTag != null) {
-				showFragment(newFragmentTag);
-			}
-		}
+		showFragment(newFragmentTag);
 	}
 
 	private void showFilterOptions() {
@@ -2011,7 +1941,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		mRadiusButtonGroup.setVisibility(mShowDistance ? View.VISIBLE : View.GONE);
 
-		mContent.post(new Runnable() {
+		mContentViewPager.post(new Runnable() {
 			@Override
 			public void run() {
 				mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
@@ -2868,22 +2798,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			tag = getString(R.string.tag_hotel_list);
 		}
 
-		if (tag.equals(mHotelMapFragment.getTag())) {
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.show(mHotelMapFragment);
-			ft.hide(mHotelListFragment);
-			ft.commit();
-
-			mTag = mHotelMapFragment.getTag();
+		if (tag.equals(getString(R.string.tag_hotel_list))) {
+			mContentViewPager.setCurrentItem(0);
 		}
 		else {
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.show(mHotelListFragment);
-			ft.hide(mHotelMapFragment);
-			ft.commit();
-
-			mTag = mHotelListFragment.getTag();
+			mContentViewPager.setCurrentItem(1);
 		}
+
+		mTag = tag;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -2927,6 +2849,53 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mHotelListFragment.notifyFilterChanged();
 		mHotelMapFragment.notifyFilterChanged();
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// View pager adapter
+
+        public class ListAndMapViewPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
+                public ListAndMapViewPagerAdapter() {
+                        super(getSupportFragmentManager());
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+			supportInvalidateOptionsMenu();
+                }
+
+                @Override
+                public int getCount() {
+                        return 2;
+                }
+
+                @Override
+                public Fragment getItem(int position) {
+			if (position == 0) {
+				return mHotelListFragment;
+			}
+			if (position == 1) {
+				return mHotelMapFragment;
+			}
+                        return null;
+                }
+
+                @Override
+                public long getItemId(int position) {
+                        return position;
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+			//ignore
+                }
+
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+			//ignore
+                }
+        }
+
+	private final ListAndMapViewPagerAdapter mListAndMapViewPagerAdapter = new ListAndMapViewPagerAdapter();
 
 	//////////////////////////////////////////////////////////////////////////
 	// FragmentMapActivity
