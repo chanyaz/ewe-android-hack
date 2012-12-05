@@ -36,6 +36,7 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFra
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -43,7 +44,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
@@ -358,42 +358,24 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		setContentView(R.layout.hotel_details_main);
 		getWindow().setBackgroundDrawable(null);
 
-		FragmentManager manager = getSupportFragmentManager();
-		FragmentTransaction ft = manager.beginTransaction();
-
-		mGalleryFragment = (HotelDetailsMiniGalleryFragment) manager.findFragmentByTag(FRAGMENT_MINI_GALLERY_TAG);
+		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_MINI_GALLERY_TAG);
 		if (mGalleryFragment == null) {
 			boolean fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
 			mGalleryFragment = HotelDetailsMiniGalleryFragment.newInstance(fromLaunch);
 		}
-		ft.add(R.id.hotel_details_mini_gallery_fragment_container, mGalleryFragment, FRAGMENT_MINI_GALLERY_TAG);
-
-		mPricePromoFragment = (HotelDetailsPricePromoFragment) manager.findFragmentByTag(FRAGMENT_PRICE_PROMO_TAG);
-		if (mPricePromoFragment == null) {
-			mPricePromoFragment = HotelDetailsPricePromoFragment.newInstance();
+		if (!mGalleryFragment.isAdded()) {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.add(R.id.hotel_details_mini_gallery_fragment_container, mGalleryFragment, FRAGMENT_MINI_GALLERY_TAG);
+			ft.commit();
 		}
-		ft.add(R.id.hotel_details_price_promo_fragment_container, mPricePromoFragment, FRAGMENT_PRICE_PROMO_TAG);
 
-		mIntroFragment = (HotelDetailsIntroFragment) manager.findFragmentByTag(FRAGMENT_INTRO_TAG);
-		if (mIntroFragment == null) {
-			mIntroFragment = HotelDetailsIntroFragment.newInstance();
-		}
-		ft.add(R.id.hotel_details_intro_fragment_container, mIntroFragment, FRAGMENT_INTRO_TAG);
+		mPricePromoFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_price_promo_fragment_container, HotelDetailsPricePromoFragment.class, FRAGMENT_PRICE_PROMO_TAG);
 
-		mMapFragment = (HotelDetailsMiniMapFragment) manager.findFragmentByTag(FRAGMENT_MINI_MAP_TAG);
-		if (mMapFragment == null) {
-			mMapFragment = HotelDetailsMiniMapFragment.newInstance();
-		}
-		ft.add(R.id.hotel_details_map_fragment_container, mMapFragment, FRAGMENT_MINI_MAP_TAG);
+		mIntroFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_intro_fragment_container, HotelDetailsIntroFragment.class, FRAGMENT_INTRO_TAG);
 
-		mDescriptionFragment = (HotelDetailsDescriptionFragment) manager.findFragmentByTag(FRAGMENT_DESCRIPTION_TAG);
-		if (mDescriptionFragment == null) {
-			mDescriptionFragment = HotelDetailsDescriptionFragment.newInstance();
-		}
-		ft.add(R.id.hotel_details_description_fragment_container, mDescriptionFragment, FRAGMENT_DESCRIPTION_TAG);
+		mMapFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_map_fragment_container, HotelDetailsMiniMapFragment.class, FRAGMENT_MINI_MAP_TAG);
 
-		// Start the animated transition.
-		ft.commit();
+		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container, HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
 		// Tracking
 		if (savedInstanceState == null) {
@@ -541,7 +523,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	@Override
 	public void onMiniGalleryItemClicked(Property property, Object item) {
 		// Do this if in portrait
-		HotelDetailsScrollView scrollView = Ui.findView(this, R.id.hotel_details_portrait);
+		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_portrait);
 		if (scrollView != null) {
 			scrollView.toggleFullScreenGallery();
 			return;
