@@ -267,8 +267,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		});
 
 		// Initial calendar date picker variables
-		CalendarUtils.configureCalendarDatePickerForFlights(mCalendarDatePicker,
-				CalendarDatePicker.SelectionMode.HYBRID);
+		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID);
 		mCalendarDatePicker.setOnDateChangedListener(this);
 
 		if (savedInstanceState != null) {
@@ -618,6 +617,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (enabled) {
 			Date departureDate = mSearchParams.getDepartureDate();
 			Date returnDate = mSearchParams.getReturnDate();
+
+			CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID);
 
 			if (departureDate != null) {
 				mCalendarDatePicker.updateStartDate(departureDate.getYear(), departureDate.getMonth() - 1,
