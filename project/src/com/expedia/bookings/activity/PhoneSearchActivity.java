@@ -21,8 +21,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -1014,7 +1012,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private LocationFinder mLocationFinder;
 
 	private void findLocation() {
-		showLoading(true, R.string.progress_finding_location);
+
+		if (NetUtils.isOnline(mContext)) {
+			simulateErrorResponse(R.string.error_no_internet);
+			return;
+		}
+		else {
+			showLoading(true, R.string.progress_finding_location);
+		}
 
 		if (mLocationFinder == null) {
 			mLocationFinder = LocationFinder.getInstance(mContext);

@@ -316,6 +316,12 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private LocationFinder mLocationFinder;
 
 	private void findLocation() {
+
+		if (!NetUtils.isOnline(mContext)) {
+			useHotelFallback();
+			return;
+		}
+
 		if (mLocationFinder == null) {
 			mLocationFinder = LocationFinder.getInstance(mContext);
 			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
