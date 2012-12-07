@@ -27,8 +27,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,7 +37,6 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -53,17 +50,12 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -80,7 +72,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
-import com.expedia.bookings.animation.Rotate3dAnimation;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.ConfirmationState;
@@ -112,7 +103,6 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.SimpleNumberPicker;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
@@ -126,6 +116,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.location.LocationFinder;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
@@ -136,8 +127,8 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
-public class PhoneSearchActivity extends SherlockFragmentMapActivity implements LocationListener,
-		OnDrawStartedListener, HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
+public class PhoneSearchActivity extends SherlockFragmentMapActivity implements OnDrawStartedListener,
+		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -566,7 +557,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		showFragment(mTag);
 		setShowDistance(mShowDistance);
 
-		// 9028:t only broadcast search completed once all 
+		// 9028:t only broadcast search completed once all
 		// elements have been setup
 		if (toBroadcastSearchCompleted) {
 			broadcastSearchCompleted(searchResponse);
@@ -584,7 +575,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mIsActivityResumed = false;
 
 		mProgressBar.onPause();
-		stopLocationListener();
+		stopLocation();
 
 		Db.getFilter().removeOnFilterChangedListener(this);
 
@@ -1040,83 +1031,56 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	//----------------------------------
-	// LOCATION LISTENER IMPLEMENTATION
+	// LOCATION METHODS
 	//----------------------------------
 
-	@Override
-	public void onLocationChanged(Location location) {
-		Log.d("onLocationChanged(): " + location.toString());
+	private LocationFinder mLocationFinder;
 
-		onLocationFound(location);
+	private void findLocation() {
+		showLoading(true, R.string.progress_finding_location);
 
-		stopLocationListener();
+		if (mLocationFinder == null) {
+			mLocationFinder = LocationFinder.getInstance(mContext);
+			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
+				@Override
+				public void onLocationFound(Location location) {
+					Log.d("onLocationChanged(): " + location.toString());
+					onLocationFound(location);
+				}
+
+				@Override
+				public void onLocationServicesDisabled() {
+					Log.w("Could not find a location provider, informing user of error...");
+					showLoading(false, R.string.ProviderDisabled);
+					showDialog(DIALOG_ENABLE_LOCATIONS);
+				}
+
+				@Override
+				public void onLocationFindFailed() {
+					simulateErrorResponse(R.string.ProviderDisabled);
+					TrackingUtils.trackErrorPage(mContext, "LocationServicesNotAvailable");
+
+				}
+
+				@Override
+				public void onStatusChanged(int status) {
+					if (status == LocationProvider.OUT_OF_SERVICE) {
+						simulateErrorResponse(R.string.ProviderOutOfService);
+					}
+					else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
+						simulateErrorResponse(R.string.ProviderTemporarilyUnavailable);
+					}
+				}
+			});
+		}
+		mLocationFinder.find();
 	}
 
-	@Override
-	public void onProviderDisabled(String provider) {
-		Log.w("onProviderDisabled(): " + provider);
-
-		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		boolean stillWorking = true;
-
-		// If the NETWORK provider is disabled, switch to GPS (if available)
-		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
-			if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-				lm.removeUpdates(this);
-				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-			}
-			else {
-				stillWorking = false;
-			}
-		}
-		// If the GPS provider is disabled and we were using it, send error
-		else if (provider.equals(LocationManager.GPS_PROVIDER)
-				&& !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			stillWorking = false;
-		}
-
-		if (!stillWorking) {
-			lm.removeUpdates(this);
-			simulateErrorResponse(R.string.ProviderDisabled);
-			TrackingUtils.trackErrorPage(this, "LocationServicesNotAvailable");
+	private void stopLocation() {
+		if (mLocationFinder != null) {
+			mLocationFinder.stop();
 		}
 	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		Log.i("onProviderDisabled(): " + provider);
-
-		// Switch to network if it's now available (because it's much faster)
-		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
-			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			lm.removeUpdates(this);
-			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-		}
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Log.w("onStatusChanged(): provider=" + provider + " status=" + status);
-
-		if (status == LocationProvider.OUT_OF_SERVICE) {
-			stopLocationListener();
-			Log.w("Location listener failed: out of service");
-			simulateErrorResponse(R.string.ProviderOutOfService);
-		}
-		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
-			stopLocationListener();
-			Log.w("Location listener failed: temporarily unavailable");
-			simulateErrorResponse(R.string.ProviderTemporarilyUnavailable);
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// PUBLIC METHODS
-	//////////////////////////////////////////////////////////////////////////////////////////
-
-	//public SearchParams getSearchParams() {
-	//	return Db.getSearchParams();
-	//}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
@@ -1319,7 +1283,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		/*
-		 * Don't notify listeners of the filter having changed when the activity is either not 
+		 * Don't notify listeners of the filter having changed when the activity is either not
 		 * completely setup or paused. This is because we don't want the filter changes to propogate
 		 * when the radio buttons are being setup as it causes wasted cycles notifying all listeners
 		 */
@@ -1390,12 +1354,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		case POI:
 		case FREEFORM:
 			setShowDistance(searchType != SearchType.CITY);
-			stopLocationListener();
+			stopLocation();
 			startGeocode();
 			break;
 
 		case VISIBLE_MAP_AREA:
-			stopLocationListener();
+			stopLocation();
 			startSearchDownloader();
 			break;
 
@@ -1404,10 +1368,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
 			Location location = LocationServices.getLastBestLocation(this, minTime);
 			if (location != null) {
-				onLocationChanged(location);
+				onLocationFound(location);
 			}
 			else {
-				startLocationListener();
+				findLocation();
 			}
 
 			break;
@@ -1863,7 +1827,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), null);
 		}
 		else {
-			newFragmentTag = getString(R.string.tag_hotel_list);;
+			newFragmentTag = getString(R.string.tag_hotel_list);
 			onSwitchToMap();
 		}
 
@@ -2117,7 +2081,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void setSearchEditViews() {
 		SearchParams searchParams = getCurrentSearchParams();
 		if (searchParams.getSearchType() == SearchType.VISIBLE_MAP_AREA) {
-			stopLocationListener();
+			stopLocation();
 		}
 
 		setSearchText(searchParams.getSearchDisplayText(this));
@@ -2164,44 +2128,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		mHotelListFragment.setShowDistances(showDistance);
 		mHotelMapFragment.setShowDistances(showDistance);
-	}
-
-	//----------------------------------
-	// LOCATION METHODS
-	//----------------------------------
-
-	private void startLocationListener() {
-		showLoading(true, R.string.progress_finding_location);
-
-		if (!NetUtils.isOnline(this)) {
-			simulateErrorResponse(R.string.error_no_internet);
-			return;
-		}
-
-		// Prefer network location (because it's faster).  Otherwise use GPS
-		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		String provider = null;
-		if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			provider = LocationManager.NETWORK_PROVIDER;
-		}
-		else if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			provider = LocationManager.GPS_PROVIDER;
-		}
-
-		if (provider == null) {
-			Log.w("Could not find a location provider, informing user of error...");
-			showLoading(false, R.string.ProviderDisabled);
-			showDialog(DIALOG_ENABLE_LOCATIONS);
-		}
-		else {
-			Log.i("Starting location listener, provider=" + provider);
-			lm.requestLocationUpdates(provider, 0, 0, this);
-		}
-	}
-
-	private void stopLocationListener() {
-		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		lm.removeUpdates(this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -2675,12 +2601,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		// If we already have results, check for refinements; if there were none, it's possible
 		// that the user just opened/closed a search param change without changing anything.
-		// 
+		//
 		// This is a somewhat lazy way of doing things, but it is easiest and catches a bunch
 		// of refinements at once instead of flooding the system with a ton of different refinements
 		String refinements = TrackingUtils.getRefinements(searchParams, mOldSearchParams, filter, mOldFilter);
 
-		// Update the last filter/search params we used to track refinements 
+		// Update the last filter/search params we used to track refinements
 		mOldSearchParams = searchParams.copy();
 		mOldFilter = filter.copy();
 
@@ -2853,47 +2779,47 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//////////////////////////////////////////////////////////////////////////
 	// View pager adapter
 
-        public class ListAndMapViewPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
-                public ListAndMapViewPagerAdapter() {
-                        super(getSupportFragmentManager());
-                }
+	public class ListAndMapViewPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
+		public ListAndMapViewPagerAdapter() {
+			super(getSupportFragmentManager());
+		}
 
-                @Override
-                public void onPageSelected(int position) {
+		@Override
+		public void onPageSelected(int position) {
 			supportInvalidateOptionsMenu();
-                }
+		}
 
-                @Override
-                public int getCount() {
-                        return 2;
-                }
+		@Override
+		public int getCount() {
+			return 2;
+		}
 
-                @Override
-                public Fragment getItem(int position) {
+		@Override
+		public Fragment getItem(int position) {
 			if (position == 0) {
 				return mHotelListFragment;
 			}
 			if (position == 1) {
 				return mHotelMapFragment;
 			}
-                        return null;
-                }
+			return null;
+		}
 
-                @Override
-                public long getItemId(int position) {
-                        return position;
-                }
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
 
-                @Override
-                public void onPageScrollStateChanged(int state) {
+		@Override
+		public void onPageScrollStateChanged(int state) {
 			//ignore
-                }
+		}
 
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+		@Override
+		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 			//ignore
-                }
-        }
+		}
+	}
 
 	private final ListAndMapViewPagerAdapter mListAndMapViewPagerAdapter = new ListAndMapViewPagerAdapter();
 

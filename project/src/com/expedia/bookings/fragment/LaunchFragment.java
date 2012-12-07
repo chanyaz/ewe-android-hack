@@ -302,7 +302,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	}
 
 	private boolean isExpired() {
-		if (mLaunchDataTimestamp != -1 && mLaunchDataTimestamp + MINIMUM_TIME_AGO < Calendar.getInstance().getTimeInMillis()) {
+		if (mLaunchDataTimestamp != -1
+				&& mLaunchDataTimestamp + MINIMUM_TIME_AGO < Calendar.getInstance().getTimeInMillis()) {
 			return true;
 		}
 		else {
@@ -325,12 +326,17 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 				@Override
 				public void onLocationServicesDisabled() {
-					if (Db.getLaunchHotelFallbackData() == null) {
-						startHotelFallbackDownload();
-					}
-					else {
-						onHotelFallbackDataRetrieved();
-					}
+					useHotelFallback();
+				}
+
+				@Override
+				public void onLocationFindFailed() {
+					useHotelFallback();
+				}
+
+				@Override
+				public void onStatusChanged(int status) {
+					// do nothing
 				}
 			});
 		}
@@ -376,7 +382,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			if (searchResponse != null && searchResponse.getPropertiesCount() > 0 && !searchResponse.hasErrors()) {
 
 				// We only want to set the the search from Launch if there exists no SearchResponse data already (to avoid
-				// sending the user through another network request when jumping to Hotels). If there already exists a 
+				// sending the user through another network request when jumping to Hotels). If there already exists a
 				// Search response in the Db, do not flush it out.
 				if (isExpired() || Db.getSearchResponse() == null) {
 					Db.setSearchParams(mSearchParams);
@@ -600,6 +606,15 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			}
 		}
 	};
+
+	private void useHotelFallback() {
+		if (Db.getLaunchHotelFallbackData() == null) {
+			startHotelFallbackDownload();
+		}
+		else {
+			onHotelFallbackDataRetrieved();
+		}
+	}
 
 	private void startHotelFallbackDownload() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -841,7 +856,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		public void onReceive(Context context, Intent intent) {
 			Log.i("Detected connectivity change, checking connection...");
 
-			// If we changed state, react 
+			// If we changed state, react
 			boolean wasOffline = mErrorContainer.getVisibility() == View.VISIBLE;
 			boolean isOffline = !checkConnection();
 			if (isOffline != wasOffline) {
