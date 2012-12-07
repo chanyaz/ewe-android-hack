@@ -579,9 +579,10 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("provider", "Facebook"));
 		query.add(new BasicNameValuePair("userId", facebookUserId));
 		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-		query.add(new BasicNameValuePair("email",facebookEmailAddress));
+		query.add(new BasicNameValuePair("email", facebookEmailAddress));
 
-		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext),
+				F_SECURE_REQUEST);
 	}
 
 	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
@@ -595,10 +596,11 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("provider", "Facebook"));
 		query.add(new BasicNameValuePair("userId", facebookUserId));
 		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-		query.add(new BasicNameValuePair("email",facebookEmailAddress));
+		query.add(new BasicNameValuePair("email", facebookEmailAddress));
 		query.add(new BasicNameValuePair("password", expediaPassword));
 
-		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext),
+				F_SECURE_REQUEST);
 	}
 
 	public void clearCookies() {
@@ -1052,8 +1054,8 @@ public class ExpediaServices implements DownloadListener {
 		Log.d("e3 url: " + e3url);
 		return e3url;
 	}
-	
-	public static String getFacebookAppId(Context context){
+
+	public static String getFacebookAppId(Context context) {
 		EndPoint endPoint = getEndPoint(context);
 		String appId = null;
 		switch (endPoint) {
@@ -1061,7 +1063,7 @@ public class ExpediaServices implements DownloadListener {
 		case STABLE:
 		case DEV:
 		case TRUNK:
-		case PUBLIC_INTEGRATION: 
+		case PUBLIC_INTEGRATION:
 		case PROXY:
 			appId = context.getString(R.string.facebook_dev_app_id);
 			break;
@@ -1071,7 +1073,7 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		}
 		return appId;
-			
+
 	}
 
 	public static EndPoint getEndPoint(Context context) {
