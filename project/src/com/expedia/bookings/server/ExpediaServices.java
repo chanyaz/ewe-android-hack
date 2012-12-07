@@ -235,12 +235,16 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("returnDate", df.format(retDate)));
 		}
 
+		addPOSParams(query);
+
 		return doFlightsRequest("api/flight/search", query, new FlightSearchResponseHandler(mContext), flags);
 	}
 
 	public CreateItineraryResponse createItinerary(String productKey, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", productKey));
+
+		addPOSParams(query);
 
 		return doFlightsRequest("api/flight/trip/create", query, new CreateItineraryResponseHandler(mContext), flags
 				| F_SECURE_REQUEST);
@@ -276,6 +280,8 @@ public class ExpediaServices implements DownloadListener {
 					billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
 		}
 
+		addPOSParams(query);
+
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
 				+ F_SECURE_REQUEST);
 	}
@@ -295,6 +301,7 @@ public class ExpediaServices implements DownloadListener {
 		if (User.isLoggedIn(mContext)) {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 			addFlightTraveler(query, traveler);
+			addPOSParams(query);
 			Log.i("update-travler body:" + NetUtils.getParamsForLogging(query));
 			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
 					traveler), F_SECURE_REQUEST);
@@ -316,6 +323,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("destinationCode", destinationCode));
 		query.add(new BasicNameValuePair("imageWidth", w));
 		query.add(new BasicNameValuePair("imageHeight", h));
+		addPOSParams(query);
 		return doFlightsRequest("api/flight/image", query, new BackgroundImageResponseHandler(mContext), 0);
 	}
 
