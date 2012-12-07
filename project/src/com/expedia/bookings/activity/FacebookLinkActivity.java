@@ -23,7 +23,9 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.AndroidUtils;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -32,6 +34,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -48,11 +51,17 @@ public class FacebookLinkActivity extends FacebookActivity {
 	private static final String STATE_FB_EMAIL = "STATE_FB_EMAIL";
 	private static final String STATE_FB_USER_NAME = "STATE_FB_USER_NAME";
 	private static final String STATE_IS_LOADING = "STATE_IS_LOADING";
+	private static final String STATE_SHOW_LINK_STUFF = "STATE_SHOW_LINK_STUFF";
+	private static final String STATE_STATUS_TEXT = "STATE_STATUS_TEXT";
+	private static final String STATE_LOADING_TEXT = "STATE_LOADING_TEXT";
 
 	private String mFbUserId;
 	private String mFbUserEmail;
 	private String mFbUserName;
-	private boolean mIsLoading = false;
+	private String mStatusText;//Text next to expedia icon
+	private String mLoadingText;//Loading spinner text
+	private boolean mIsLoading = true;
+	private boolean mShowLinkAccountStuff = false;
 
 	private TextView mFacebookStatusTv;
 	private View mLinkAccountsBtn;
@@ -61,6 +70,7 @@ public class FacebookLinkActivity extends FacebookActivity {
 	private LoadingDialogFragment mLoadingFragment;
 
 	/** Called when the activity is first created. */
+	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -80,15 +90,26 @@ public class FacebookLinkActivity extends FacebookActivity {
 			if (savedInstanceState.containsKey(STATE_FB_USER_NAME)) {
 				mFbUserName = savedInstanceState.getString(STATE_FB_USER_NAME);
 			}
-			//TODO: Do something with isloading...
+			if (savedInstanceState.containsKey(STATE_SHOW_LINK_STUFF)) {
+				mShowLinkAccountStuff = savedInstanceState.getBoolean(STATE_SHOW_LINK_STUFF);
+			}
+			if (savedInstanceState.containsKey(STATE_STATUS_TEXT)) {
+				mStatusText = savedInstanceState.getString(STATE_STATUS_TEXT);
+			}
+			if (savedInstanceState.containsKey(STATE_LOADING_TEXT)) {
+				mLoadingText = savedInstanceState.getString(STATE_LOADING_TEXT);
+			}
 		}
 
 		mLinkAccountsBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(NET_LINK_NEW_USER)) {
-					bd.startDownload(NET_LINK_NEW_USER, mFbLinkNewUserDownload, mFbLinkNewUserHandler);
+				if (!bd.isDownloading(NET_LINK_EXISTING_USER)) {
+					FacebookLinkActivity.this.setLoadingText(R.string.linking_your_accounts);
+					FacebookLinkActivity.this.setIsLoading(true);
+					bd.startDownload(NET_LINK_EXISTING_USER, mFbLinkExistingUserDownload,
+							mFbLinkExistingUserHandler);
 				}
 			}
 
@@ -118,19 +139,15 @@ public class FacebookLinkActivity extends FacebookActivity {
 
 		});
 
-		this.setUsernameText(mFbUserName == null ? "" : mFbUserName);
-
-		//Do facebook things!!!
-		setIsLoading(true);
-		setLoadingText("Loading Facebook info...");
-		List<String> fbPermissions = new ArrayList<String>();
-		fbPermissions.add("email");
-		if (this.getSessionState() == null || this.getSessionState().isClosed()) {
-			String fbAppId = ExpediaServices.getFacebookAppId(this);
-			this.openSessionForRead(fbAppId, fbPermissions);
-		}else{
-			getFacebookInfo();
+		//NOTE: Facebook Activity does not use ABS - for now we are just going to ignore this fact...
+		this.setTitle(R.string.link_accounts);
+		if (AndroidUtils.isHoneycombVersionOrHigher()) {
+			android.app.ActionBar actionBar = this.getActionBar();
+			if (actionBar != null) {
+				actionBar.setDisplayHomeAsUpEnabled(true);
+			}
 		}
+
 	}
 
 	@Override
@@ -154,6 +171,30 @@ public class FacebookLinkActivity extends FacebookActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		if (mStatusText != null) {
+			this.setStatusText(mStatusText);
+		}
+		else {
+			this.setStatusText(R.string.fetching_facebook_info);
+		}
+
+		this.showLinkAccountsStuff(mShowLinkAccountStuff);
+
+		//Do facebook things!!!
+		if (this.getSessionState() == null || this.getSessionState().isClosed()) {
+			setIsLoading(true);
+			setLoadingText(R.string.fetching_facebook_info);
+			List<String> fbPermissions = new ArrayList<String>();
+			fbPermissions.add("email");
+			String fbAppId = ExpediaServices.getFacebookAppId(this);
+			this.openSessionForRead(fbAppId, fbPermissions);
+		}
+		else if (mFbUserName == null) {
+			setIsLoading(true);
+			setLoadingText(R.string.fetching_facebook_info);
+			getFacebookInfo();
+		}
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(NET_AUTO_LOGIN)) {
@@ -183,7 +224,15 @@ public class FacebookLinkActivity extends FacebookActivity {
 		if (this.mFbUserName != null) {
 			outState.putString(STATE_FB_USER_NAME, mFbUserName);
 		}
+		if (this.mStatusText != null) {
+			outState.putString(STATE_STATUS_TEXT, mStatusText);
+		}
+		if (this.mLoadingText != null) {
+			outState.putString(STATE_LOADING_TEXT, mLoadingText);
+		}
 		outState.putBoolean(STATE_IS_LOADING, mIsLoading);
+		outState.putBoolean(STATE_SHOW_LINK_STUFF, this.mShowLinkAccountStuff);
+
 	}
 
 	@Override
@@ -197,6 +246,23 @@ public class FacebookLinkActivity extends FacebookActivity {
 			setIsLoading(false);
 		}
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			this.onBackPressed();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	public void showLinkAccountsStuff(boolean show) {
+		this.mPasswordTv.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+		this.mLinkAccountsBtn.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+		mShowLinkAccountStuff = show;
+	}
 
 	protected void getFacebookInfo() {
 		// make request to the /me API
@@ -209,14 +275,14 @@ public class FacebookLinkActivity extends FacebookActivity {
 						Log.d("FB RESPONSE:" + response.toString());
 						if (user != null) {
 							setFbUserVars(user);
-							setUsernameText(mFbUserName);
+							setStatusTextFbInfoLoaded(mFbUserName);
 							BackgroundDownloader bd = BackgroundDownloader.getInstance();
 							if (!bd.isDownloading(NET_AUTO_LOGIN)) {
 								bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
 							}
 						}
 						else {
-							setErrorText(R.string.unable_to_sign_into_facebook);
+							setStatusText(R.string.unable_to_sign_into_facebook);
 							setIsLoading(false);
 						}
 					}
@@ -229,7 +295,7 @@ public class FacebookLinkActivity extends FacebookActivity {
 		mIsLoading = loading;
 		mLinkAccountsBtn.setEnabled(!loading);
 
-		String message = getString(R.string.fetching_facebook_info);
+		String message = mLoadingText != null ? mLoadingText : getString(R.string.fetching_facebook_info);
 		LoadingDialogFragment ldf = (LoadingDialogFragment) getSupportFragmentManager().findFragmentByTag(
 				LoadingDialogFragment.TAG);
 		if (loading) {
@@ -239,7 +305,9 @@ public class FacebookLinkActivity extends FacebookActivity {
 			else {
 				ldf.setText(message);
 			}
-			ldf.show(getSupportFragmentManager(), LoadingDialogFragment.TAG);
+			if (!ldf.isAdded()) {
+				ldf.show(getSupportFragmentManager(), LoadingDialogFragment.TAG);
+			}
 			mLoadingFragment = ldf;
 		}
 		else {
@@ -266,12 +334,17 @@ public class FacebookLinkActivity extends FacebookActivity {
 		this.mFbUserEmail = null;
 	}
 
-	protected void setUsernameText(String name) {
+	protected void setStatusTextExpediaAccountFound(String name) {
 		String str = String.format(getString(R.string.facebook_weve_found_your_account), name);
-		setErrorText(str);
+		setStatusText(str);
 	}
 
-	protected void setErrorText(final String text) {
+	protected void setStatusTextFbInfoLoaded(String name) {
+		String str = String.format(getString(R.string.facebook_weve_fetched_your_info), name);
+		setStatusText(str);
+	}
+
+	protected void setStatusText(final String text) {
 		Runnable runner = new Runnable() {
 			@Override
 			public void run() {
@@ -280,13 +353,14 @@ public class FacebookLinkActivity extends FacebookActivity {
 				}
 			}
 		};
+		mStatusText = text;
 		runOnUiThread(runner);
 
 	}
 
-	protected void setErrorText(int resId) {
+	protected void setStatusText(int resId) {
 		String str = getString(resId);
-		setErrorText(str);
+		setStatusText(str);
 	}
 
 	protected void setLoadingText(final String text) {
@@ -298,6 +372,7 @@ public class FacebookLinkActivity extends FacebookActivity {
 				}
 			}
 		};
+		mLoadingText = text;
 		runOnUiThread(runner);
 
 	}
@@ -358,7 +433,7 @@ public class FacebookLinkActivity extends FacebookActivity {
 				Log.e("fbState invalid");
 			}
 
-			setLoadingText(R.string.associating_your_exp_and_fb_accounts);
+			setLoadingText(R.string.linking_your_accounts);
 			String expediaPw = mPasswordTv.getText().toString();
 			ExpediaServices services = new ExpediaServices(FacebookLinkActivity.this);
 			return services.facebookLinkExistingUser(mFbUserId, fbSession.getAccessToken(), mFbUserEmail, expediaPw);
@@ -368,17 +443,26 @@ public class FacebookLinkActivity extends FacebookActivity {
 	private final OnDownloadComplete<FacebookLinkResponse> mFbLinkAutoLoginHandler = new OnDownloadComplete<FacebookLinkResponse>() {
 		@Override
 		public void onDownload(FacebookLinkResponse results) {
-			Log.d("onDownload: mFbLinkAutoLoginHandler:" + results.getFacebookLinkResponseCode().name());
-			if (results.isSuccess()) {
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(NET_SIGN_IN)) {
-					bd.startDownload(NET_SIGN_IN, mLoginDownload, mLoginHandler);
+			if (results != null && results.getFacebookLinkResponseCode() != null) {
+				Log.d("onDownload: mFbLinkAutoLoginHandler:" + results.getFacebookLinkResponseCode().name());
+				if (results.isSuccess()) {
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(NET_SIGN_IN)) {
+						bd.startDownload(NET_SIGN_IN, mLoginDownload, mLoginHandler);
+					}
+				}
+				else {
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(NET_LINK_NEW_USER)) {
+						FacebookLinkActivity.this.setLoadingText(R.string.linking_your_accounts);
+						FacebookLinkActivity.this.setIsLoading(true);
+						bd.startDownload(NET_LINK_NEW_USER, mFbLinkNewUserDownload, mFbLinkNewUserHandler);
+					}
 				}
 			}
-			//TODO: catch other cases.
 			else {
-				//TODO:Real error message
-				setErrorText("");
+				//TODO:Better error message
+				setStatusText(R.string.unspecified_error);
 				setIsLoading(false);
 			}
 		}
@@ -387,20 +471,28 @@ public class FacebookLinkActivity extends FacebookActivity {
 	private final OnDownloadComplete<FacebookLinkResponse> mFbLinkNewUserHandler = new OnDownloadComplete<FacebookLinkResponse>() {
 		@Override
 		public void onDownload(FacebookLinkResponse results) {
-			Log.d("onDownload: mFbLinkNewUserHandler");
-			if (results.isSuccess()) {
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(NET_AUTO_LOGIN)) {
-					bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
+			if (results != null && results.getFacebookLinkResponseCode() != null) {
+				Log.d("onDownload: mFbLinkNewUserHandler");
+				if (results.isSuccess()) {
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(NET_AUTO_LOGIN)) {
+						bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
+					}
 				}
-			}
-			else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.existing) == 0) {
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(NET_LINK_EXISTING_USER)) {
-					bd.startDownload(NET_LINK_EXISTING_USER, mFbLinkExistingUserDownload, mFbLinkExistingUserHandler);
+				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.existing) == 0) {
+					FacebookLinkActivity.this.setStatusTextExpediaAccountFound(FacebookLinkActivity.this.mFbUserName);
+					FacebookLinkActivity.this.showLinkAccountsStuff(true);
+					setIsLoading(false);
+				}
+				else {
+					//TODO:Better error message
+					setStatusText(R.string.unspecified_error);
+					setIsLoading(false);
 				}
 			}
 			else {
+				//TODO:Better error message
+				setStatusText(R.string.unspecified_error);
 				setIsLoading(false);
 			}
 		}
@@ -409,20 +501,28 @@ public class FacebookLinkActivity extends FacebookActivity {
 	private final OnDownloadComplete<FacebookLinkResponse> mFbLinkExistingUserHandler = new OnDownloadComplete<FacebookLinkResponse>() {
 		@Override
 		public void onDownload(FacebookLinkResponse results) {
-			Log.d("onDownload: mFbLinkExistingUserHandler");
-			if (results.isSuccess()) {
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(NET_AUTO_LOGIN)) {
-					bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
+			if (results != null && results.getFacebookLinkResponseCode() != null) {
+				Log.d("onDownload: mFbLinkExistingUserHandler");
+				if (results.isSuccess()) {
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(NET_AUTO_LOGIN)) {
+						bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
+					}
+				}
+				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.loginFailed) == 0) {
+					setStatusText(R.string.login_failed_try_again);
+					clearPasswordField();
+					setIsLoading(false);
+				}
+				else {
+					//TODO: Something...
+					setStatusText(R.string.unspecified_error);
+					setIsLoading(false);
 				}
 			}
-			else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.loginFailed) == 0) {
-				setErrorText(R.string.login_failed_try_again);
-				clearPasswordField();
-				setIsLoading(false);
-			}
 			else {
-				//TODO: Something...
+				//TODO:Better error message
+				setStatusText(R.string.unspecified_error);
 				setIsLoading(false);
 			}
 		}

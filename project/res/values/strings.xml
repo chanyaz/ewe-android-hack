@@ -7,7 +7,9 @@
     <!-- Production Facebook app id -->
     <string name="facebook_app_id">131538103586818</string>
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hey <b>%1$s</b>, looks like we\'ve found your Expedia account!</string>
+    <string name="facebook_weve_found_your_account">Hey <b>%1$s</b>, looks like we\'ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
+    <!-- Weve fetched your facebook info -->
+    <string name="facebook_weve_fetched_your_info">Hey <b>%1$s</b>, we\'ve loaded your facebook information!</string>
     <!-- connect with facebook (button text) -->
     <string name="connect_with_facebook">Connect with facebook</string>
     <!-- fetching information from Facebook -->
@@ -16,16 +18,20 @@
     <string name="attempting_to_log_in_with_facebook">Attempting to log you in with facebook credentials...</string>
     <!-- Associating your expedia account with your facebook account -->
     <string name="associating_your_exp_and_fb_accounts">Associating your Expedia account and your Facebook account...</string>
+    <!-- We have encountered an error -->
+    <string name="unspecified_error">We have encountered an unspecified error. Please try again later.</string>
     <!-- Unable to sign into facebook -->
     <string name="unable_to_sign_into_facebook">Unable to sign into facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Login failed, please re-enter your password and try again.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia Password</string>
-    <!-- Linke accounts -->
+    <!-- Link accounts -->
     <string name="link_accounts">Link Accounts</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Failure to fetch updated user information.</string>
+    <!-- Linking your accounts -->
+    <string name="linking_your_accounts">Linking your accounts...</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
