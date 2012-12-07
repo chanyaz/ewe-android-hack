@@ -163,30 +163,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	public static final long MINIMUM_TIME_AGO = 1000 * 60 * 15; // 15 minutes ago
 
-	private static final boolean ANIMATION_VIEW_FLIP_ENABLED = true;
-	private static final long ANIMATION_VIEW_FLIP_SPEED = 350;
-	private static final float ANIMATION_VIEW_FLIP_DEPTH = 300f;
-
-	private static final long ANIMATION_PANEL_DISMISS_SPEED = 150;
-
-	// the offset is to ensure that the list loads before the animation
-	// is played to make it flow smoother and also to grab the user's attention.
-	private static final long WIDGET_NOTIFICATION_BAR_ANIMATION_DELAY = 2000L;
-	private static final long WIDGET_NOTIFICATION_BAR_ANIMATION_DURATION = 1000L;
-
-	private static final int DEFAULT_RADIUS_RADIO_GROUP_CHILD = R.id.radius_large_button;
-	private static final int DEFAULT_PRICE_RADIO_GROUP_CHILD = R.id.price_all_button;
-
 	// Used in onNewIntent(), if the calling Activity wants the SearchActivity to start fresh
 	private static final String EXTRA_NEW_SEARCH = "EXTRA_NEW_SEARCH";
 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_VERSION_FILE = "savedsearch-version.dat";
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
-
-	private static final int F_NO_DIVIDERS = 1;
-	private static final int F_FIRST = 2;
-	private static final int F_LAST = 4;
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -204,7 +186,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private ImageView mClearSearchButton;
 	private ImageButton mDatesButton;
 	private ImageButton mGuestsButton;
-	private ImageButton mViewButton;
 	private SimpleNumberPicker mAdultsNumberPicker;
 	private SimpleNumberPicker mChildrenNumberPicker;
 	private EditText mFilterHotelNameEditText;
@@ -224,7 +205,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private View mSearchButton;
 
 	private View mFilterLayout;
-	private View mFilterFocusLayout;
 	private PopupWindow mFilterPopupWindow;
 	private PopupWindowPreDrawListener mPopupWindowPreDrawLisetner;
 
@@ -251,9 +231,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private DisplayType mDisplayType = DisplayType.NONE;
 	private boolean mShowDistance = true;
-
-	private Bitmap mViewFlipBitmap;
-	private Canvas mViewFlipCanvas;
 
 	private int mSortOptionSelectedId;
 	private int mRadiusCheckedId = 0;
@@ -1130,7 +1107,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
 		mFilterLayout = getLayoutInflater().inflate(R.layout.popup_filter_options, null);
-		mFilterFocusLayout = mFilterLayout.findViewById(R.id.filter_focus_layout);
 		mFilterHotelNameEditText = (EditText) mFilterLayout.findViewById(R.id.filter_hotel_name_edit_text);
 		mRadiusButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);
