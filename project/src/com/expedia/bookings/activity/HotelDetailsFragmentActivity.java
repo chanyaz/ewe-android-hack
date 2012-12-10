@@ -429,7 +429,6 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			return true;
 		}
 
-		// #14135, set a 1 hour timeout on this screen
 		if (mLastResumeTime != -1 && mLastResumeTime + RESUME_TIMEOUT < Calendar.getInstance().getTimeInMillis()) {
 			finish();
 			return true;
