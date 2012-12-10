@@ -2107,8 +2107,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		int visibility = mShowDistance ? View.VISIBLE : View.GONE;
 
-		mHotelListFragment.setShowDistances(showDistance);
-		mHotelMapFragment.setShowDistances(showDistance);
+		if (mHotelListFragment.isAdded()) {
+			mHotelListFragment.setShowDistances(showDistance);
+		}
+		if (mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.setShowDistances(showDistance);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -2753,8 +2757,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	public void onFilterChanged() {
 		supportInvalidateOptionsMenu();
-		mHotelListFragment.notifyFilterChanged();
-		mHotelMapFragment.notifyFilterChanged();
+		if (mHotelListFragment.isAdded()) {
+			mHotelListFragment.notifyFilterChanged();
+		}
+		if (mHotelMapFragment.isAdded()) {
+			mHotelMapFragment.notifyFilterChanged();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
