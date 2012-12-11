@@ -74,6 +74,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			SettingUtils.save(this, posKey, LocaleUtils.getDefaultPointOfSale(this));
 		}
 
+		LocaleUtils.updateUnitSystemPref(this, SettingUtils.get(this, posKey, LocaleUtils.getDefaultPointOfSale(this)));
+
 		FontCache.initialize(this);
 		LocaleUtils.onPointOfSaleChanged(this);
 		AdTracker.initialize(this);

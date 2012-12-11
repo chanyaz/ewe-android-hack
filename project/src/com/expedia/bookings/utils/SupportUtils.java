@@ -12,6 +12,7 @@ public class SupportUtils {
 
 	private static Map<String, String> sContactExpediaUrls;
 	private static Map<String, String> sInfoSupportNumbers;
+	private static Map<String, String> sFlightSupportNumbers;
 
 	public static String getAppSupportUrl(Context context) {
 		return "http://www.mobiata.com/support/expediahotels-android";
@@ -42,11 +43,10 @@ public class SupportUtils {
 	}
 
 	public static String getFlightSupportNumber(Context context) {
-		// NOTE: While this currently returns a static number, I anticipate
-		// that it will eventually return a much more dynamic result someday
-		// in the future (much like the hotels side of the app).  Thus
-		// this preparatory function.
-		return "1-877-222-6503";
+		if (sFlightSupportNumbers == null) {
+			sFlightSupportNumbers = ResourceUtils.getStringMap(context, R.array.pos_flight_support_number_map);
+		}
+		return sFlightSupportNumbers.get(LocaleUtils.getPointOfSale());
 	}
 
 	public static String getBaggageFeeUrl(String origin, String destination) {

@@ -213,6 +213,21 @@ public class LocaleUtils {
 	}
 
 	/**
+	 * Update the unit system preference, used in client to display miles vs. kilometers
+	 */
+	public static void updateUnitSystemPref(Context context, String pos) {
+		// TODO add more logic as needed
+		if (pos.equals(context.getString(R.string.point_of_sale_us))) {
+			SettingUtils.save(context, context.getString(R.string.unit_system_key),
+					context.getString(R.string.unit_system_imperial_key));
+		}
+		else {
+			SettingUtils.save(context, context.getString(R.string.unit_system_key),
+					context.getString(R.string.unit_system_metric_key));
+		}
+	}
+
+	/**
 	 * Returns the language id for the POS, if it is needed.  (Returns null for non-dual-language POSes). 
 	 */
 	public static String getDualLanguageId(Context context) {
