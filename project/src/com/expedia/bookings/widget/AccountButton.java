@@ -95,20 +95,17 @@ public class AccountButton extends LinearLayout {
 			mLogoutContainer.setVisibility(View.GONE);
 		}
 		else if (isLoggedIn) {
-			ImageView card = (ImageView) mLogoutContainer.findViewById(R.id.card_icon);
 			TextView top = (TextView) mLogoutContainer.findViewById(R.id.account_top_textview);
 			TextView bottom = (TextView) mLogoutContainer.findViewById(R.id.account_bottom_textview);
 
 			if (isFlights) {
 				//Flights
 				if (traveler.getLoyaltyMembershipNumber() == null) {
-					card.setImageResource(R.drawable.ic_expedia_logo);
 					mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_logged_in);
 					top.setText(mContext.getString(R.string.logged_in_as));
 					bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 				}
 				else {
-					card.setImageResource(R.drawable.ic_expedia_logo);
 					top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 					bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 					if (mRewardsContainer != null && Db.getFlightSearch().getSelectedFlightTrip() != null
@@ -127,12 +124,10 @@ public class AccountButton extends LinearLayout {
 			else {
 				//Hotels
 				if (traveler.getLoyaltyMembershipNumber() == null) {
-					card.setImageResource(R.drawable.ic_logged_in_no_rewards);
 					top.setText(mContext.getString(R.string.logged_in_as));
 					bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 				}
 				else {
-					card.setImageResource(R.drawable.ic_expedia_logo);
 					top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 					bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 				}

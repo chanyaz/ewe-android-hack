@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/card_icon_padding"
-            android:src="@drawable/ic_log_in" />
+            android:src="@drawable/ic_expedia_logo" />
 
         <LinearLayout
             android:layout_width="0dp"
