@@ -70,6 +70,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		}
 
 		setContentView(R.layout.activity_flight_search);
+		getWindow().setBackgroundDrawable(null);
 
 		if (savedInstanceState == null) {
 			mSearchParamsFragment = FlightSearchParamsFragment.newInstance(Db.getFlightSearch().getSearchParams(),

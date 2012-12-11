@@ -75,6 +75,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		}
 
 		setContentView(R.layout.activity_flight_confirmation);
+		getWindow().setBackgroundDrawable(null);
 
 		if (savedInstanceState == null) {
 			mBgFragment = new BlurredBackgroundFragment();

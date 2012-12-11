@@ -152,6 +152,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		}
 
 		setContentView(R.layout.activity_flight_results);
+		getWindow().setBackgroundDrawable(null);
 
 		// Try to recover any Fragments
 		mBgFragment = Ui.findSupportFragment(this, R.id.background_fragment);

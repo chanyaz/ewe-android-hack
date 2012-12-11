@@ -32,6 +32,9 @@ public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		setContentView(R.layout.activity_unsupported_pos);
+		getWindow().setBackgroundDrawable(null);
+
 		// ActionBar
 		ActionBar actionBar = this.getSupportActionBar();
 		setTitle(R.string.taking_off_soon);
@@ -41,7 +44,7 @@ public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
 
 		if (fragment == null) {
 			fragment = new StatusFragment();
-			getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment, StatusFragment.TAG)
+			getSupportFragmentManager().beginTransaction().add(R.id.content_container, fragment, StatusFragment.TAG)
 					.commit();
 		}
 

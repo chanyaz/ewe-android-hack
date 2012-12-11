@@ -149,16 +149,16 @@
         <activity
             android:name="com.expedia.bookings.activity.FlightSearchActivity"
             android:label="Expedia Flights"
-            android:theme="@style/FlightTheme.NoBackground"
+            android:theme="@style/FlightTheme"
             android:windowSoftInputMode="stateUnchanged" >
         </activity>
         <activity
             android:name="com.expedia.bookings.activity.FlightSearchResultsActivity"
-            android:theme="@style/FlightTheme.NoBackground.OverlayMode"
+            android:theme="@style/FlightTheme.OverlayMode"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name="com.expedia.bookings.activity.FlightUnsupportedPOSActivity"
-            android:theme="@style/FlightTheme.NoBackground" />
+            android:theme="@style/FlightTheme" />
         <activity
             android:name="com.expedia.bookings.activity.FlightSearchOverlayActivity"
             android:theme="@style/FlightTheme.Transparent"
@@ -187,7 +187,7 @@
         <activity
             android:name="com.expedia.bookings.activity.FlightConfirmationActivity"
             android:label="Flights Confirmation"
-            android:theme="@style/FlightTheme.NoBackground" />
+            android:theme="@style/FlightTheme" />
 
         <!-- Facebook -->
         <activity android:name="com.facebook.LoginActivity" >

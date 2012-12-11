@@ -13,7 +13,6 @@ import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -31,10 +30,13 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		getWindow().setFormat(android.graphics.PixelFormat.RGBA_8888);
 
+		setContentView(R.layout.activity_launch);
+		getWindow().setBackgroundDrawable(null);
+
 		if (savedInstanceState == null) {
 			mLaunchFragment = LaunchFragment.newInstance();
 			getSupportFragmentManager().beginTransaction()
-					.add(android.R.id.content, mLaunchFragment, LaunchFragment.TAG).commit();
+					.add(R.id.content_container, mLaunchFragment, LaunchFragment.TAG).commit();
 		}
 		else {
 			mLaunchFragment = Ui.findSupportFragment(this, LaunchFragment.TAG);
