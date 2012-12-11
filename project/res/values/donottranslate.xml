@@ -466,5 +466,9 @@
     <string name="info_support_number_uk" tools:ignore="TypographyDashes">0203 027 6594</string>
     <string name="info_support_number_us" tools:ignore="TypographyDashes">866-649-6924</string>
     <string name="info_support_number_vn" tools:ignore="TypographyDashes">120 65 125</string>
+    
+    <!-- Flight customer support telephone numbers. Used on the confirmation screen. -->
+    <string name="flight_support_number_ca" tools:ignore="TypographyDashes">1-855-247-9310</string>
+    <string name="flight_support_number_us" tools:ignore="TypographyDashes">1-877-222-6503</string>
 
 </resources>

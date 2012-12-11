@@ -11,8 +11,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.view.View;
-import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -22,7 +20,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
-import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -62,6 +59,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 		pointOfSalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				configurePointOfSalePreferenceSummary((String) newValue);
+				LocaleUtils.updateUnitSystemPref(ExpediaBookingPreferenceActivity.this, (String) newValue);
 				LocaleUtils.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
 				setResult(RESULT_POS_CHANGED);
 				return true;
