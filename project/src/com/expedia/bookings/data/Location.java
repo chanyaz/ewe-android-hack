@@ -114,6 +114,11 @@ public class Location implements JSONable {
 	// Update this Location's fields with data from another, without blowing
 	// away any data currently stored here (if there's no new value)
 	public void updateFrom(Location other) {
+		// Skip if we're trying to update from ourself
+		if (this == other) {
+			return;
+		}
+
 		if (other.mStreetAddress != null && other.mStreetAddress.size() > 0) {
 			mStreetAddress = other.mStreetAddress;
 		}

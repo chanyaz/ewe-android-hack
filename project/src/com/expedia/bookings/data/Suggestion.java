@@ -102,12 +102,12 @@ public class Suggestion implements JSONable {
 	public void setAirportLocationCode(String airportLocationCode) {
 		mAirportLocationCode = airportLocationCode;
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////
 	// Utility
-	
+
 	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^(.+)\\((.+)\\)$");
-	
+
 	public Pair<String, String> splitDisplayNameForFlights() {
 		Matcher m = DISPLAY_NAME_PATTERN.matcher(mDisplayName);
 		if (m.matches()) {
@@ -147,6 +147,21 @@ public class Suggestion implements JSONable {
 		searchParams.setSearchLatLon(mLatitude, mLongitude);
 
 		return new Search(searchParams);
+	}
+
+	public Location toLocation() {
+		Pair<String, String> displayName = splitDisplayNameForFlights();
+		if (displayName != null) {
+			Location location = new Location();
+
+			location.setDestinationId(mAirportLocationCode);
+			location.setCity(displayName.first);
+			location.setDescription(displayName.second);
+
+			return location;
+		}
+
+		return null;
 	}
 
 	@Override

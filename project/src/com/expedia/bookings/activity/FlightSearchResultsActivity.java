@@ -1,6 +1,9 @@
 package com.expedia.bookings.activity;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.annotation.SuppressLint;
@@ -37,6 +40,7 @@ import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightFilter.Sort;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -45,6 +49,8 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.ServerError.ErrorCode;
+import com.expedia.bookings.data.SuggestResponse;
+import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment;
 import com.expedia.bookings.fragment.FlightDetailsFragment.FlightDetailsFragmentListener;
@@ -124,6 +130,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private ViewGroup mFlightDetailsActionContainer;
 	private View mCancelButton;
 	private View mSelectFlightButton;
+
+	// This is for completeLocation(); to avoid re-searching updated locations
+	private Map<String, Location> mUpdatedLocations = new HashMap<String, Location>();
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -756,11 +765,54 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {
 		@Override
 		public FlightSearchResponse doDownload() {
+			// F1377: First check if we have proper search locations for each departure/arrival
+			FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+			int num = params.getQueryLegCount();
+			for (int a = 0; a < num; a++) {
+				FlightSearchLeg leg = params.getQueryLeg(a);
+				completeLocation(leg.getDepartureLocation());
+				completeLocation(leg.getArrivalLocation());
+			}
+
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(DOWNLOAD_KEY, services);
-			return services.flightSearch(Db.getFlightSearch().getSearchParams(), 0);
+			return services.flightSearch(params, 0);
 		}
 	};
+
+	private void completeLocation(Location location) {
+		Location updatedLocation = mUpdatedLocations.get(location.getDestinationId().toLowerCase());
+
+		// If we don't have city, it must not be a filled out location
+		if (updatedLocation == null && TextUtils.isEmpty(location.getCity())) {
+			ExpediaServices services = new ExpediaServices(mContext);
+			SuggestResponse response = services.suggest(location.getDestinationId(), ExpediaServices.F_FLIGHTS);
+
+			if (response != null && !response.hasErrors()) {
+				List<Suggestion> suggestions = response.getSuggestions();
+				if (suggestions.size() > 0) {
+					Suggestion firstSuggestion = suggestions.get(0);
+					updatedLocation = firstSuggestion.toLocation();
+				}
+			}
+
+			// Some handy logging
+			if (updatedLocation == null) {
+				Log.w("Tried to update destination id \"" + location.getDestinationId() + "\" but failed.");
+			}
+			else {
+				Log.d("Updated destination id \"" + location.getDestinationId() + "\"");
+			}
+		}
+
+		if (updatedLocation != null) {
+			location.updateFrom(updatedLocation);
+		}
+
+		// Add this to the updated locations regardless of success, so we can short-circuit
+		// retrying it again later
+		mUpdatedLocations.put(location.getDestinationId().toLowerCase(), location);
+	}
 
 	private OnDownloadComplete<FlightSearchResponse> mDownloadCallback = new OnDownloadComplete<FlightSearchResponse>() {
 		@Override

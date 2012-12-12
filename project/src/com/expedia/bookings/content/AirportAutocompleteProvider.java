@@ -1,7 +1,6 @@
 package com.expedia.bookings.content;
 
 import java.net.URLDecoder;
-import java.util.regex.Matcher;
 
 import android.app.SearchManager;
 import android.content.ContentProvider;
@@ -13,6 +12,7 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.server.ExpediaServices;
@@ -55,13 +55,8 @@ public class AirportAutocompleteProvider extends ContentProvider {
 			SuggestResponse response = mServices.suggest(query, ExpediaServices.F_FLIGHTS);
 			if (response != null) {
 				for (Suggestion suggestion : response.getSuggestions()) {
-					Pair<String, String> displayName = suggestion.splitDisplayNameForFlights();
-					if (displayName != null) {
-						Object[] row = new Object[COLUMNS.length];
-						row[0] = suggestion.getId();
-						row[1] = displayName.first;
-						row[2] = displayName.second;
-						row[3] = suggestion.getAirportLocationCode();
+					Object[] row = createRowFromSuggestion(suggestion);
+					if (row != null) {
 						cursor.addRow(row);
 					}
 				}
@@ -69,6 +64,34 @@ public class AirportAutocompleteProvider extends ContentProvider {
 		}
 
 		return cursor;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Utility
+	//
+	// This just makes it unnecessary for classes outside of here to
+	// understand the exact workings of the provider.
+
+	private static Object[] createRowFromSuggestion(Suggestion suggestion) {
+		Pair<String, String> displayName = suggestion.splitDisplayNameForFlights();
+		if (displayName != null) {
+			Object[] row = new Object[COLUMNS.length];
+			row[0] = suggestion.getId();
+			row[1] = displayName.first;
+			row[2] = displayName.second;
+			row[3] = suggestion.getAirportLocationCode();
+			return row;
+		}
+
+		return null;
+	}
+
+	public static Location createLocationFromRow(Cursor c) {
+		Location loc = new Location();
+		loc.setDestinationId(c.getString(COL_SUGGEST_COLUMN_QUERY));
+		loc.setCity(c.getString(COL_SUGGEST_COLUMN_TEXT_1));
+		loc.setDescription(c.getString(COL_SUGGEST_COLUMN_TEXT_2));
+		return loc;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

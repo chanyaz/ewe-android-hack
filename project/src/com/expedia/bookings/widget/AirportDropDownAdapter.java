@@ -111,12 +111,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 		c.moveToPosition(position);
 
-		Location loc = new Location();
-		loc.setDestinationId(c.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_QUERY));
-		loc.setCity(c.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_1));
-		loc.setDescription(c.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_2));
-
-		return loc;
+		return AirportAutocompleteProvider.createLocationFromRow(c);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
