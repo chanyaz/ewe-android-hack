@@ -350,9 +350,13 @@
         <item name="android:background">@color/bg_expedia_list</item>
         <item name="android:cacheColorHint">@color/bg_expedia_list</item>
         <item name="android:divider">@drawable/list_divider</item>
-        <item name="android:footerDividersEnabled">false</item>
+        <item name="android:fadingEdgeLength">0dp</item>
         <item name="android:fadingEdge">none</item>
+        <item name="android:footerDividersEnabled">false</item>
         <item name="android:overScrollFooter">@null</item>
+        <item name="android:overScrollHeader">@null</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:requiresFadingEdge">none</item>
     </style>
 
     <style name="rateInfoText">
@@ -534,6 +538,7 @@
         <item name="android:footerDividersEnabled">false</item>
         <item name="android:fadingEdge">none</item>
         <item name="android:overScrollFooter">@null</item>
+        <item name="android:overScrollHeader">@null</item>
         <item name="android:overScrollMode">never</item>
         <item name="android:scrollbars">none</item>
         <item name="android:listSelector">@android:color/transparent</item>
