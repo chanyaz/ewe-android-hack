@@ -14,6 +14,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -33,6 +35,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 	private PlaneWindowListener mListener;
 
 	private boolean mIsGrounded;
+
+	private double mShadePercentClosed = 0;
 
 	public PlaneWindowView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -78,6 +82,68 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 			mThread = new PlaneThread(surfaceHolder);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Save state
+	//
+	// Inspiration from http://stackoverflow.com/questions/3542333/how-to-prevent-custom-views-from-losing-state-across-screen-orientation-changes/3542895#3542895
+
+	@Override
+	protected Parcelable onSaveInstanceState() {
+		Parcelable superState = super.onSaveInstanceState();
+
+		SavedState ss = new SavedState(superState);
+
+		ss.mShadePercentClosed = mShadePercentClosed;
+
+		return ss;
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+		if (state instanceof SavedState) {
+			SavedState ss = (SavedState) state;
+			super.onRestoreInstanceState(ss.getSuperState());
+			mShadePercentClosed = ss.mShadePercentClosed;
+		}
+		else {
+			super.onRestoreInstanceState(state);
+		}
+	}
+
+	private static class SavedState extends BaseSavedState {
+		private double mShadePercentClosed;
+
+		private SavedState(Parcelable superState) {
+			super(superState);
+		}
+
+		private SavedState(Parcel in) {
+			super(in);
+
+			mShadePercentClosed = in.readDouble();
+		}
+
+		@Override
+		public void writeToParcel(Parcel out, int flags) {
+			super.writeToParcel(out, flags);
+
+			out.writeDouble(mShadePercentClosed);
+		}
+
+		// Required field that makes Parcelables from a Parcel
+		@SuppressWarnings("unused")
+		public static final Parcelable.Creator<SavedState> CREATOR =
+				new Parcelable.Creator<SavedState>() {
+					public SavedState createFromParcel(Parcel in) {
+						return new SavedState(in);
+					}
+
+					public SavedState[] newArray(int size) {
+						return new SavedState[size];
+					}
+				};
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -404,7 +470,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 						windowShadeHeight, true);
 				origWindowShadeBitmap.recycle();
 				mShadeHeight = mWindowShadeBitmap.getHeight();
-				mShadeMinY = mShadeY = (int) (.17 * mShadeHeight);
+				mShadeMinY = (int) (.17 * mShadeHeight);
+
+				// Restore the shade Y; if we're not restoring, it's == mShadeMinY
+				mShadeY = (int) Math.round((mShadeHeight - mShadeMinY) * mShadePercentClosed) + mShadeMinY;
 
 				// Pre-configure shade bitmap drawing rects.  The -1s are where we
 				// fill in values later, vs. being a static value
@@ -482,6 +551,9 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				else if (mShadeY > mShadeHeight) {
 					mShadeY = mShadeHeight;
 				}
+
+				// Update the shade percent closed, for save state purposes
+				mShadePercentClosed = (double) (mShadeY - mShadeMinY) / (double) (mShadeHeight - mShadeMinY);
 
 				return true;
 			}
