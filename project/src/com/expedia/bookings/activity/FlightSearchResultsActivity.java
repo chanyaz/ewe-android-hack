@@ -224,8 +224,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
+	protected void onStart() {
+		super.onStart();
 
 		getSupportFragmentManager().addOnBackStackChangedListener(this);
 	}
@@ -274,12 +274,17 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
 		}
 
-		getSupportFragmentManager().removeOnBackStackChangedListener(this);
-
 		// End any animations now
 		if (mCurrentAnimator != null && mCurrentAnimator.isRunning()) {
 			mCurrentAnimator.end();
 		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		getSupportFragmentManager().removeOnBackStackChangedListener(this);
 	}
 
 	@Override
