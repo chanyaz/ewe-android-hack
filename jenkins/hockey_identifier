@@ -1,5 +1,5 @@
 #!/bin/bash
 
 # Hockey App identifier used for communicating with Hockey servers
-id=4d9aae3faac40c74443772c8bebd5aaf
+id=33b5f2068f70477beeb2bd2a289d7e70
 appName=ExpediaBookings
