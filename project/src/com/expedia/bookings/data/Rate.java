@@ -494,7 +494,7 @@ public class Rate implements JSONable {
 	 * @return the qualifier for this rate
 	 */
 	public int getQualifier(boolean shortVersion) {
-		if (!showInclusivePrices()) {
+		if (mUserPriceType == UserPriceType.PER_NIGHT_RATE_NO_TAXES) {
 			List<RateBreakdown> rateBreakdown = getRateBreakdownList();
 			if (rateBreakdown == null) {
 				// If rateBreakdown is null, we assume that this is a per/night hotel
@@ -554,10 +554,6 @@ public class Rate implements JSONable {
 
 	public boolean isMobileExclusive() {
 		return mIsMobileExclusive;
-	}
-
-	public boolean showInclusivePrices() {
-		return LocaleUtils.doesPointOfSaleHaveInclusivePricing();
 	}
 
 	public boolean showMandatoryFees() {

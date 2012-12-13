@@ -1,34 +1,21 @@
 package com.expedia.bookings.fragment;
 
-import java.util.List;
-
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.UserReviewsListActivity;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelDescription;
-import com.expedia.bookings.data.HotelDescription.DescriptionSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.utils.DbPropertyHelper;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class HotelDetailsPricePromoFragment extends Fragment {
 
@@ -98,6 +85,6 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 		TextView rateTextView = Ui.findView(view, R.id.rate_text_view);
 		rateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
 		view.findViewById(R.id.per_nt_text_view).setVisibility(
-				rate.showInclusivePrices() ? View.GONE : View.VISIBLE);
+				rate.getUserPriceType() != UserPriceType.PER_NIGHT_RATE_NO_TAXES ? View.GONE : View.VISIBLE);
 	}
 }

@@ -19,10 +19,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
 import com.mobiata.android.util.AndroidUtils;
@@ -121,7 +121,7 @@ public class HotelListFragment extends ListFragment {
 			});
 		}
 
-		updateLawyerLabel();
+		updateLawyerLabel(Db.getSearchResponse());
 
 		// Configure the phone vs. tablet ui different
 		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
@@ -176,9 +176,9 @@ public class HotelListFragment extends ListFragment {
 		}
 	}
 
-	private void updateLawyerLabel() {
+	private void updateLawyerLabel(SearchResponse searchResponse) {
 		boolean isTablet = AndroidUtils.isTablet(getActivity());
-		if (LocaleUtils.doesPointOfSaleHaveInclusivePricing(getActivity())) {
+		if (searchResponse != null && searchResponse.getUserPriceType() == UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES) {
 			if (isTablet) {
 				mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay_punctuated));
 			}
@@ -314,7 +314,7 @@ public class HotelListFragment extends ListFragment {
 		else {
 			updateNumHotels();
 			setHeaderVisibility(View.VISIBLE);
-			updateLawyerLabel();
+			updateLawyerLabel(response);
 			mAdapter.setShowDistance(mShowDistances);
 		}
 	}

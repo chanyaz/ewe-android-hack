@@ -369,7 +369,6 @@ public class LocaleUtils {
 
 	public static void init(Context context) {
 		initMandatoryFees(context);
-		initInclusivePrices(context);
 	}
 
 	private static String[] sMandatoryFeesPointOfSales;
@@ -394,34 +393,4 @@ public class LocaleUtils {
 
 		return Arrays.binarySearch(sMandatoryFeesPointOfSales, getPointOfSale()) >= 0;
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Inclusive rates
-
-	// An array of POSes that use inclusive pricing (aka, showing the full
-	// stay's price instead per/night)
-
-	private static String[] sInclusivePricingPointOfSales;
-
-	public static void initInclusivePrices(Context context) {
-		sInclusivePricingPointOfSales = context.getResources().getStringArray(R.array.pos_inclusive_pricing);
-		Arrays.sort(sInclusivePricingPointOfSales);
-	}
-
-	public static boolean doesPointOfSaleHaveInclusivePricing(Context context) {
-		if (sInclusivePricingPointOfSales == null) {
-			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
-		}
-
-		return Arrays.binarySearch(sInclusivePricingPointOfSales, getPointOfSale(context)) >= 0;
-	}
-
-	public static boolean doesPointOfSaleHaveInclusivePricing() {
-		if (sInclusivePricingPointOfSales == null) {
-			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
-		}
-
-		return Arrays.binarySearch(sInclusivePricingPointOfSales, getPointOfSale()) >= 0;
-	}
-
 }

@@ -2,7 +2,6 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import com.expedia.bookings.data.Filter.OnFilterChangedListener;
 import com.expedia.bookings.data.Filter.PriceRange;
 import com.expedia.bookings.data.Filter.SearchRadius;
 import com.expedia.bookings.data.Filter.Sort;
+import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
@@ -147,6 +147,21 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 
 	public List<Location> getLocations() {
 		return mLocations;
+	}
+
+	/**
+	 * Convenience method; assumes that all rates in a response use the same
+	 * price type (which is a safe assumption to make for the time being).
+	 * 
+	 * @return the first UserPriceType in the rates, or null if there are no rates
+	 */
+	public UserPriceType getUserPriceType() {
+		if (mProperties != null && mProperties.size() > 0) {
+			Property property = mProperties.get(0);
+			return property.getLowestRate().getUserPriceType();
+		}
+
+		return null;
 	}
 
 	/**
@@ -788,7 +803,6 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
