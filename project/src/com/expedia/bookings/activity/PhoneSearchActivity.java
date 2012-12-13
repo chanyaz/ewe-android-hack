@@ -422,8 +422,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		mContext = this;
 
-		mHotelListFragment = HotelListFragment.newInstance();
-		mHotelMapFragment = HotelMapFragment.newInstance();
+		mListAndMapViewPagerAdapter = new ListAndMapViewPagerAdapter();
 
 		setContentView(R.layout.activity_search);
 		getWindow().setBackgroundDrawable(null);
@@ -1533,11 +1532,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		supportInvalidateOptionsMenu();
 
-		// Inform fragments
-		if (mHotelListFragment.isAdded()) {
+		if (mHotelListFragment != null) {
 			mHotelListFragment.notifySearchComplete();
 		}
-		if (mHotelMapFragment.isAdded()) {
+		if (mHotelMapFragment != null) {
 			mHotelMapFragment.notifySearchComplete();
 		}
 
@@ -1547,10 +1545,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void broadcastSearchStarted() {
 		supportInvalidateOptionsMenu();
 
-		if (mHotelListFragment.isAdded()) {
+		if (mHotelListFragment != null) {
 			mHotelListFragment.notifySearchStarted();
 		}
-		if (mHotelMapFragment.isAdded()) {
+		if (mHotelMapFragment != null) {
 			mHotelMapFragment.notifySearchStarted();
 		}
 	}
@@ -2105,12 +2103,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void setShowDistance(boolean showDistance) {
 		mShowDistance = showDistance;
 
-		int visibility = mShowDistance ? View.VISIBLE : View.GONE;
-
-		if (mHotelListFragment.isAdded()) {
+		if (mHotelListFragment != null) {
 			mHotelListFragment.setShowDistances(showDistance);
 		}
-		if (mHotelMapFragment.isAdded()) {
+		if (mHotelMapFragment != null) {
 			mHotelMapFragment.setShowDistances(showDistance);
 		}
 	}
@@ -2723,6 +2719,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// HotelListFragmentListener
 
 	@Override
+	public void onHotelListFragmentAttached(HotelListFragment fragment) {
+		mHotelListFragment = fragment;
+	}
+
+	@Override
 	public void onSortButtonClicked() {
 		// Do nothing
 	}
@@ -2737,6 +2738,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	//////////////////////////////////////////////////////////////////////////
 	// HotelMapFragmentListener
+
+	@Override
+	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
+		mHotelMapFragment = fragment;
+	}
 
 	@Override
 	public void onBalloonShown(Property property) {
@@ -2757,10 +2763,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	public void onFilterChanged() {
 		supportInvalidateOptionsMenu();
-		if (mHotelListFragment.isAdded()) {
+		if (mHotelListFragment != null) {
 			mHotelListFragment.notifyFilterChanged();
 		}
-		if (mHotelMapFragment.isAdded()) {
+		if (mHotelMapFragment != null) {
 			mHotelMapFragment.notifyFilterChanged();
 		}
 	}
@@ -2769,34 +2775,45 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// View pager adapter
 
 	public class ListAndMapViewPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
+		private static final int NUM_FRAGMENTS = 2;
+
 		public ListAndMapViewPagerAdapter() {
 			super(getSupportFragmentManager());
 		}
 
-		@Override
-		public void onPageSelected(int position) {
-			supportInvalidateOptionsMenu();
-		}
-
+		// FragmentPagerAdapter implementation
 		@Override
 		public int getCount() {
-			return 2;
+			return NUM_FRAGMENTS;
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			if (position == 0) {
-				return mHotelListFragment;
+			Fragment frag;
+
+			switch (position) {
+			case 0:
+				frag = HotelListFragment.newInstance();
+				break;
+			case 1:
+				frag = HotelMapFragment.newInstance();
+				break;
+			default:
+				throw new RuntimeException("Position out of bounds position=" + position);
 			}
-			if (position == 1) {
-				return mHotelMapFragment;
-			}
-			return null;
+
+			return frag;
 		}
 
 		@Override
 		public long getItemId(int position) {
 			return position;
+		}
+
+		// ViewPager.OnPageChangeListener interface
+		@Override
+		public void onPageSelected(int position) {
+			supportInvalidateOptionsMenu();
 		}
 
 		@Override
@@ -2810,7 +2827,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 	}
 
-	private final ListAndMapViewPagerAdapter mListAndMapViewPagerAdapter = new ListAndMapViewPagerAdapter();
+	private ListAndMapViewPagerAdapter mListAndMapViewPagerAdapter;
 
 	//////////////////////////////////////////////////////////////////////////
 	// FragmentMapActivity

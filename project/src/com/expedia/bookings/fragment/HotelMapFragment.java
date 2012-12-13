@@ -82,6 +82,7 @@ public class HotelMapFragment extends Fragment {
 		}
 
 		mListener = (HotelMapFragmentListener) activity;
+		mListener.onHotelMapFragmentAttached(this);
 	}
 
 	@Override
@@ -313,8 +314,8 @@ public class HotelMapFragment extends Fragment {
 	// Listener
 
 	public interface HotelMapFragmentListener {
+		public void onHotelMapFragmentAttached(HotelMapFragment fragment);
 		public void onBalloonShown(Property property);
-
 		public void onBalloonClicked(Property property);
 	}
 }

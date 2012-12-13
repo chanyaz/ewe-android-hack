@@ -207,6 +207,10 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 	// HotelMapFragmentListener
 
 	@Override
+	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
+	}
+
+	@Override
 	public void onBalloonShown(Property property) {
 	}
 

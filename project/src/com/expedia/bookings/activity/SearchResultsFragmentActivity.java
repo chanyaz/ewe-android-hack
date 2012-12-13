@@ -1544,6 +1544,11 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	// HotelMapFragmentListener
 
 	@Override
+	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
+		//ignore
+	}
+
+	@Override
 	public void onBalloonShown(Property property) {
 		propertySelected(property, SOURCE_MAP);
 	}
@@ -1555,6 +1560,11 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 
 	//////////////////////////////////////////////////////////////////////////
 	// HotelListFragmentListener
+
+	@Override
+	public void onHotelListFragmentAttached(HotelListFragment fragment) {
+		// ignore
+	}
 
 	@Override
 	public void onSortButtonClicked() {

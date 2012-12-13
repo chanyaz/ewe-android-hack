@@ -25,6 +25,7 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelAdapter;
 import com.expedia.bookings.widget.PlaceholderTagProgressBar;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
@@ -80,6 +81,8 @@ public class HotelListFragment extends ListFragment {
 
 		// Disable highlighting if we're on phone UI
 		mAdapter.highlightSelectedPosition(AndroidUtils.isHoneycombTablet(activity));
+
+		mListener.onHotelListFragmentAttached(this);
 	}
 
 	@Override
@@ -120,8 +123,6 @@ public class HotelListFragment extends ListFragment {
 				}
 			});
 		}
-
-		updateLawyerLabel(Db.getSearchResponse());
 
 		// Configure the phone vs. tablet ui different
 		if (!AndroidUtils.isHoneycombTablet(getActivity())) {
@@ -176,28 +177,10 @@ public class HotelListFragment extends ListFragment {
 		}
 	}
 
-	private void updateLawyerLabel(SearchResponse searchResponse) {
-		boolean isTablet = AndroidUtils.isTablet(getActivity());
-		if (searchResponse != null && searchResponse.getUserPriceType() == UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES) {
-			if (isTablet) {
-				mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay_punctuated));
-			}
-			else {
-				mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay));
-			}
-		}
-		else {
-			if (isTablet) {
-				mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night_short));
-			}
-			else {
-				mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night));
-			}
-		}
-	}
-
 	public void hidePlaceholder() {
-		mSearchProgressBar.setVisibility(View.GONE);
+		if (mSearchProgressBar != null) {
+			mSearchProgressBar.setVisibility(View.GONE);
+		}
 	}
 
 	private void updateStatus(boolean showProgressBar) {
@@ -217,12 +200,14 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	public void notifySearchStarted() {
-		mAdapter.setSelectedPosition(-1);
-		mListNeedsReset = true;
+		if (mAdapter != null) {
+			mAdapter.setSelectedPosition(-1);
+			mListNeedsReset = true;
+		}
 	}
 
 	public void notifySearchComplete() {
-		updateSearchResults();
+		updateViews();
 		if (mListNeedsReset) {
 			resetToTop();
 			mListNeedsReset = false;
@@ -231,7 +216,7 @@ public class HotelListFragment extends ListFragment {
 
 	public void notifyFilterChanged() {
 		if (Db.getSearchResponse() != null) {
-			updateSearchResults();
+			updateViews();
 			resetToTop();
 		}
 	}
@@ -257,9 +242,55 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Header views
+	// Update views
 
-	private void updateNumHotels() {
+	private void updateViews() {
+		// Update header
+		updateHeaderLawyerLabel();
+		updateHeaderDateRange();
+
+		// Update ListItem or show status
+		SearchResponse response = Db.getSearchResponse();
+		if (response == null) {
+			updateStatus(true);
+		}
+		else if (response.hasErrors()) {
+			updateStatus(false);
+		}
+		else {
+			hidePlaceholder();
+			updateSearchResults();
+		}
+
+		if (mAdapter != null) {
+			mAdapter.setShowDistance(mShowDistances);
+		}
+	}
+
+	private void updateHeaderLawyerLabel() {
+		if (mLawyerLabelTextView != null) {
+			SearchResponse searchResponse = Db.getSearchResponse();
+			boolean isTablet = AndroidUtils.isTablet(getActivity());
+			if (searchResponse != null && searchResponse.getUserPriceType() == UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES) {
+				if (isTablet) {
+					mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay_punctuated));
+				}
+				else {
+					mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay));
+				}
+			}
+			else {
+				if (isTablet) {
+					mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night_short));
+				}
+				else {
+					mLawyerLabelTextView.setText(getString(R.string.prices_avg_per_night));
+				}
+			}
+		}
+	}
+
+	private void updateHeaderDateRange() {
 		// only update if view has been initialized
 		if (mSearchDateRangeText != null) {
 			SearchParams params = Db.getSearchParams();
@@ -274,20 +305,6 @@ public class HotelListFragment extends ListFragment {
 				CharSequence to = DateFormat.format("MMM d", params.getCheckOutDate());
 				mSearchDateRangeText.setText(getString(R.string.date_range_TEMPLATE, from, to));
 			}
-		}
-	}
-
-	private void updateViews() {
-		SearchResponse response = Db.getSearchResponse();
-		if (response == null) {
-			updateStatus(true);
-		}
-		else if (response.hasErrors()) {
-			updateStatus(false);
-		}
-		else {
-			hidePlaceholder();
-			updateSearchResults();
 		}
 	}
 
@@ -312,10 +329,8 @@ public class HotelListFragment extends ListFragment {
 			mSearchProgressBar.setShowProgress(false);
 		}
 		else {
-			updateNumHotels();
 			setHeaderVisibility(View.VISIBLE);
-			updateLawyerLabel(response);
-			mAdapter.setShowDistance(mShowDistances);
+			updateHeaderLawyerLabel();
 		}
 	}
 
@@ -341,8 +356,9 @@ public class HotelListFragment extends ListFragment {
 	// Listener
 
 	public interface HotelListFragmentListener {
-		public void onSortButtonClicked();
+		public void onHotelListFragmentAttached(HotelListFragment fragment);
 
+		public void onSortButtonClicked();
 		public void onListItemClicked(Property property, int position);
 	}
 }
