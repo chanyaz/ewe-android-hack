@@ -21,6 +21,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
+import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
@@ -62,8 +63,11 @@ public class PointOfSaleInfo {
 	// The POS's contact phone number for flights issues
 	private String mFlightSupportPhoneNumber; // SupportUtils.getFlightSupportNumber()
 
+	// The two-letter country code associated with this locale (e.g. "US")
+	private String mTwoLetterCountryCode; // LocaleUtils.sPOSCountryCodes
+
 	// The three-letter country code associated with this locale (e.g. "USA")
-	private String mCountryCode; // LocaleUtils.sPOSCountryCodes
+	private String mThreeLetterCountryCode; // LocaleUtils.sPOSCountryCodes
 
 	// The distance unit used by this POS.  Not always used.
 	private DistanceUnit mDistanceUnit; // LocaleUtils.getPosDistanceUnit()
@@ -145,7 +149,11 @@ public class PointOfSaleInfo {
 	}
 
 	public String getThreeLetterCountryCode() {
-		return mCountryCode;
+		return mThreeLetterCountryCode;
+	}
+
+	public int getCountryNameResId() {
+		return ResourceUtils.getIdentifier(R.string.class, "country_" + mTwoLetterCountryCode.toLowerCase());
 	}
 
 	public DistanceUnit getDistanceUnit() {
@@ -349,6 +357,7 @@ public class PointOfSaleInfo {
 			while (keys.hasNext()) {
 				String posName = keys.next();
 				PointOfSaleInfo pos = parsePointOfSale(posData.optJSONObject(posName));
+				pos.mTwoLetterCountryCode = posName.toLowerCase();
 				sPointOfSaleInfo.put(pos.mPointOfSale, pos);
 
 				// For backwards compatibility
@@ -369,7 +378,7 @@ public class PointOfSaleInfo {
 		pos.mPointOfSale = PointOfSale.getPointOfSaleFromId(data.optInt("pointOfSaleId"));
 
 		// POS data
-		pos.mCountryCode = data.optString("countryCode", null);
+		pos.mThreeLetterCountryCode = data.optString("countryCode", null);
 
 		// Server access
 		pos.mUrl = data.optString("url", null);
