@@ -3,6 +3,9 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FacebookLinkResponse;
@@ -13,10 +16,10 @@ import com.expedia.bookings.fragment.FlightTripPriceFragment.LoadingDetailsDialo
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.FacebookActivity;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.mobiata.android.BackgroundDownloader;
@@ -29,18 +32,18 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class FacebookLinkActivity extends FacebookActivity {
+public class FacebookLinkActivity extends SherlockFragmentActivity {
 
 	private static final String NET_AUTO_LOGIN = "NET_AUTO_LOGIN";
 	private static final String NET_LINK_NEW_USER = "NET_LINK_NEW_USER";
@@ -147,7 +150,12 @@ public class FacebookLinkActivity extends FacebookActivity {
 				actionBar.setDisplayHomeAsUpEnabled(true);
 			}
 		}
+	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
 
 	@Override
@@ -181,16 +189,14 @@ public class FacebookLinkActivity extends FacebookActivity {
 
 		this.showLinkAccountsStuff(mShowLinkAccountStuff);
 
+		Session session = Session.getActiveSession();
+
 		//Do facebook things!!!
-		if (this.getSessionState() == null || this.getSessionState().isClosed()) {
-			setIsLoading(true);
-			setLoadingText(R.string.fetching_facebook_info);
-			List<String> fbPermissions = new ArrayList<String>();
-			fbPermissions.add("email");
-			String fbAppId = ExpediaServices.getFacebookAppId(this);
-			this.openSessionForRead(fbAppId, fbPermissions);
-		}
-		else if (mFbUserName == null) {
+		if (session == null || session.getState() == null || session.getState().isClosed() || mFbUserName == null) {
+			if (session == null) {
+				session = new Session.Builder(this).setApplicationId(ExpediaServices.getFacebookAppId(this)).build();
+				Session.setActiveSession(session);
+			}
 			setIsLoading(true);
 			setLoadingText(R.string.fetching_facebook_info);
 			getFacebookInfo();
@@ -236,18 +242,6 @@ public class FacebookLinkActivity extends FacebookActivity {
 	}
 
 	@Override
-	protected void onSessionStateChange(SessionState state, Exception exception) {
-		// user has either logged in or not ...
-		if (state.isOpened()) {
-			getFacebookInfo();
-		}
-		else {
-			//facebook connection is not open, forget having any fun at all
-			setIsLoading(false);
-		}
-	}
-	
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
@@ -265,30 +259,40 @@ public class FacebookLinkActivity extends FacebookActivity {
 	}
 
 	protected void getFacebookInfo() {
-		// make request to the /me API
-		Request request = Request.newMeRequest(
-				this.getSession(),
-				new Request.GraphUserCallback() {
-					// callback after Graph API response with user object
-					@Override
-					public void onCompleted(GraphUser user, Response response) {
-						Log.d("FB RESPONSE:" + response.toString());
-						if (user != null) {
-							setFbUserVars(user);
-							setStatusTextFbInfoLoaded(mFbUserName);
-							BackgroundDownloader bd = BackgroundDownloader.getInstance();
-							if (!bd.isDownloading(NET_AUTO_LOGIN)) {
-								bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
+
+		// start Facebook Login
+		Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+			// callback when session changes state
+			@Override
+			public void call(Session session, SessionState state, Exception exception) {
+				if (session.isOpened()) {
+
+					// make request to the /me API
+					Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+
+						// callback after Graph API response with user object
+						@Override
+						public void onCompleted(GraphUser user, Response response) {
+							Log.d("FB RESPONSE:" + response.toString());
+							if (user != null) {
+								setFbUserVars(user);
+								setStatusTextFbInfoLoaded(mFbUserName);
+								BackgroundDownloader bd = BackgroundDownloader.getInstance();
+								if (!bd.isDownloading(NET_AUTO_LOGIN)) {
+									bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
+								}
+							}
+							else {
+								setStatusText(R.string.unable_to_sign_into_facebook);
+								setIsLoading(false);
 							}
 						}
-						else {
-							setStatusText(R.string.unable_to_sign_into_facebook);
-							setIsLoading(false);
-						}
-					}
+					});
 				}
-				);
-		Request.executeBatchAsync(request);
+			}
+		});
+
 	}
 
 	protected void setIsLoading(boolean loading) {
