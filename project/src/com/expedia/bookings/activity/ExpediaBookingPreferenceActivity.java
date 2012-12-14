@@ -59,7 +59,6 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 		pointOfSalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				configurePointOfSalePreferenceSummary((String) newValue);
-				LocaleUtils.updateUnitSystemPref(ExpediaBookingPreferenceActivity.this, (String) newValue);
 				LocaleUtils.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
 				setResult(RESULT_POS_CHANGED);
 				return true;

@@ -13,9 +13,11 @@ import android.util.SparseIntArray;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.flightlib.utils.FormatUtils;
 
 @SuppressWarnings("serial")
 public class LocaleUtils {
@@ -212,18 +214,12 @@ public class LocaleUtils {
 		context.sendBroadcast(intent);
 	}
 
-	/**
-	 * Update the unit system preference, used in client to display miles vs. kilometers
-	 */
-	public static void updateUnitSystemPref(Context context, String pos) {
-		// TODO add more logic as needed
-		if (pos.equals(context.getString(R.string.point_of_sale_us))) {
-			SettingUtils.save(context, context.getString(R.string.unit_system_key),
-					context.getString(R.string.unit_system_imperial_key));
+	public static DistanceUnit getPosDistanceUnit(Context context) {
+		if (getPointOfSale(context).equals(context.getString(R.string.point_of_sale_us))) {
+			return DistanceUnit.MILES;
 		}
 		else {
-			SettingUtils.save(context, context.getString(R.string.unit_system_key),
-					context.getString(R.string.unit_system_metric_key));
+			return DistanceUnit.KILOMETERS;
 		}
 	}
 
