@@ -18,10 +18,11 @@
             android:id="@+id/scroll_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
             android:gravity="center_horizontal"
             android:orientation="vertical" >
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/trip_overview_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:orientation="vertical"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <View
                 android:id="@+id/back_to_overview_area"

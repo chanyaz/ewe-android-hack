@@ -1,10 +1,11 @@
 package com.expedia.bookings.activity;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,11 +14,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -46,11 +49,13 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener,
 		CheckoutInformationListener, RetryErrorDialogFragmentListener {
@@ -66,12 +71,14 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
 
 	public static final int ANIMATION_DURATION = 450;
+	public static final int ANIMATION_SNAPBACK_DURATION = 0;
 
 	//We only want to load from disk once: when the activity is first started
 	private boolean mLoadedDbInfo = false;
 	private Semaphore mLoadCachedDataSem = new Semaphore(1);
+	private Semaphore mTransitionSem = new Semaphore(1);
 
-	private boolean mTransitionHappening = false;
+	private boolean mSafeToAttach = true;
 
 	private FlightTripOverviewFragment mOverviewFragment;
 	private FlightTripPriceFragment mPriceBottomFragment;
@@ -80,7 +87,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
-	private ViewGroup mContentScrollView;
+	private ScrollView mContentScrollView;
 	private View mBackToOverviewArea;
 
 	private MenuItem mCheckoutMenuItem;
@@ -90,6 +97,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	private int mStackedHeight = 0;
 	private int mUnstackedHeight = 0;
+
+	private float mLastCheckoutPercentage = 0f;
+	private float mCurrentCardDragDistance = 0f;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -136,13 +146,18 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_STACKED_HEIGHT)) {
 			mStackedHeight = savedInstanceState.getInt(STATE_TAG_STACKED_HEIGHT);
-			mCheckoutContainer.setPadding(0, mStackedHeight, 0, 0);
+			setCheckoutContainerTopPadding(mStackedHeight);
 			setBackToOverviewAreaHeight(mStackedHeight);
 		}
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_UNSTACKED_HEIGHT)) {
 			mUnstackedHeight = savedInstanceState.getInt(STATE_TAG_UNSTACKED_HEIGHT);
 			mOverviewContainer.setMinimumHeight(mUnstackedHeight);
+			LayoutParams params = mOverviewContainer.getLayoutParams();
+			if (params != null) {
+				params.height = mUnstackedHeight;
+				mOverviewContainer.setLayoutParams(params);
+			}
 		}
 
 		mTripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
@@ -174,6 +189,19 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		mSafeToAttach = true;
+
+		if (mOverviewFragment != null) {
+			mStackedHeight = mOverviewFragment.getStackedHeight();
+			mUnstackedHeight = mOverviewFragment.getUnstackedHeight();
+			LayoutParams params = mOverviewContainer.getLayoutParams();
+			if (params != null) {
+				params.height = mUnstackedHeight;
+				mOverviewContainer.setLayoutParams(params);
+			}
+		}
+
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
 			gotoCheckoutMode(false);
 		}
@@ -185,6 +213,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		mSafeToAttach = false;
 
 		mLastTrackingMode = null;
 
@@ -332,25 +362,27 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	public void attachCheckout() {
-		boolean refreshCheckoutData = !mLoadedDbInfo;
-		loadCachedData();//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
-		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
-		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
-		if (mCheckoutFragment == null) {
-			mCheckoutFragment = FlightCheckoutFragment.newInstance();
-		}
-		else if (refreshCheckoutData) {
-			//Incase we only now finished loading cached data...
-			mCheckoutFragment.refreshData();
-		}
+		if (mSafeToAttach) {
+			boolean refreshCheckoutData = !mLoadedDbInfo;
+			loadCachedData();//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
+			FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
+			mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
+			if (mCheckoutFragment == null) {
+				mCheckoutFragment = FlightCheckoutFragment.newInstance();
+			}
+			else if (refreshCheckoutData) {
+				//Incase we only now finished loading cached data...
+				mCheckoutFragment.refreshData();
+			}
 
-		if (mCheckoutFragment.isDetached()) {
-			checkoutTransaction.attach(mCheckoutFragment);
-			checkoutTransaction.commit();
-		}
-		else if (!mCheckoutFragment.isAdded()) {
-			checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
-			checkoutTransaction.commit();
+			if (mCheckoutFragment.isDetached()) {
+				checkoutTransaction.attach(mCheckoutFragment);
+				checkoutTransaction.commit();
+			}
+			else if (!mCheckoutFragment.isAdded()) {
+				checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
+				checkoutTransaction.commit();
+			}
 		}
 	}
 
@@ -398,54 +430,48 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mBackToOverviewArea.setLayoutParams(params);
 	}
 
-	private AnimatorListener mTransitionInProgressAnimatorListener = new AnimatorListener() {
+	protected Animator getAnimator(float startPercentage, final float endPercentage) {
+		ValueAnimator animator = ValueAnimator.ofFloat(startPercentage, endPercentage);
+		animator.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator anim) {
+				Float f = (Float) anim.getAnimatedValue();
+				FlightTripOverviewActivity.this.setCheckoutPercent(f.floatValue());
+			}
+		});
+		animator.addListener(new AnimatorListener() {
 
-		@Override
-		public void onAnimationCancel(Animator arg0) {
-			mTransitionHappening = false;
-		}
+			@Override
+			public void onAnimationCancel(Animator arg0) {
+			}
 
-		@Override
-		public void onAnimationEnd(Animator arg0) {
-			mTransitionHappening = false;
-		}
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				FlightTripOverviewActivity.this.setCheckoutPercent(endPercentage);
+			}
 
-		@Override
-		public void onAnimationRepeat(Animator arg0) {
-		}
+			@Override
+			public void onAnimationRepeat(Animator arg0) {
+			}
 
-		@Override
-		public void onAnimationStart(Animator arg0) {
-			mTransitionHappening = true;
+			@Override
+			public void onAnimationStart(Animator arg0) {
+			}
+		});
+		return animator;
+	}
 
-		}
-
-	};
-
-	private AnimatorListener mDetachCheckoutAnimatorListener = new AnimatorListener() {
-
-		@Override
-		public void onAnimationCancel(Animator arg0) {
-		}
-
-		@Override
-		public void onAnimationEnd(Animator arg0) {
-			detachCheckout();
-		}
-
-		@Override
-		public void onAnimationRepeat(Animator arg0) {
-		}
-
-		@Override
-		public void onAnimationStart(Animator arg0) {
-		}
-
-	};
+	protected void playSnapBackAnimation(int duration) {
+		Animator anim = getAnimator(this.mLastCheckoutPercentage, this.mDisplayMode == DisplayMode.CHECKOUT ? 1f : 0f);
+		anim.setDuration(duration);
+		anim.start();
+	}
 
 	public void gotoOverviewMode(boolean animate) {
-		if (!mTransitionHappening) {
-
+		boolean semGot = false;
+		try {
+			mTransitionSem.acquire();
+			semGot = true;
 			mDisplayMode = DisplayMode.OVERVIEW;
 			setActionBarOverviewMode();
 
@@ -455,17 +481,20 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 				mBackToOverviewArea.setOnClickListener(null);
+				mBackToOverviewArea.setOnTouchListener(null);
+				mContentScrollView.setOnTouchListener(mPushToCheckoutOnTouchListener);
 
-				Animator hideCheckout = getCheckoutHideAnimator(true, false);
 				mPriceBottomFragment.showPriceChange();
-				AnimatorSet animSet = new AnimatorSet();
-				animSet.playTogether(hideCheckout);
-				animSet.setDuration(duration);
-				animSet.addListener(mTransitionInProgressAnimatorListener);
-				animSet.addListener(mDetachCheckoutAnimatorListener);
 
+				if (animate) {
+					Animator anim = getAnimator(mLastCheckoutPercentage, 0f);
+					anim.setDuration(duration);
+					anim.start();
+				}
+				else {
+					this.setCheckoutPercent(0f);
+				}
 				mOverviewFragment.unStackCards(animate);
-				animSet.start();
 
 			}
 
@@ -473,11 +502,24 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				mLastTrackingMode = TrackingMode.OVERVIEW;
 				OmnitureTracking.trackPageLoadFlightRateDetailsOverview(this);
 			}
+
+		}
+		catch (Exception ex) {
+			Log.e("Exception in gotoOverviewMode()", ex);
+		}
+		finally {
+			if (semGot) {
+				mTransitionSem.release();
+			}
 		}
 	}
 
 	public void gotoCheckoutMode(boolean animate) {
-		if (!mTransitionHappening) {
+		boolean semGot = false;
+		try {
+
+			mTransitionSem.acquire();
+			semGot = true;
 
 			mDisplayMode = DisplayMode.CHECKOUT;
 			setActionBarCheckoutMode();
@@ -485,27 +527,253 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			int duration = animate ? ANIMATION_DURATION : 1;
 
+			mContentScrollView.setOnTouchListener(null);
+			mBackToOverviewArea.setOnTouchListener(mDragBackToOverviewOnTouchListener);
+
 			if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 				mStackedHeight = mOverviewFragment.getStackedHeight();
-				mCheckoutContainer.setPadding(0, mStackedHeight, 0, 0);
-				Animator slideIn = getCheckoutShowAnimator();
-				mPriceBottomFragment.hidePriceChange();
-				AnimatorSet animSet = new AnimatorSet();
-				animSet.playTogether(slideIn);
-				animSet.setDuration(duration);
-				animSet.addListener(mTransitionInProgressAnimatorListener);
+				mUnstackedHeight = mOverviewFragment.getUnstackedHeight();
+				LayoutParams params = this.mOverviewContainer.getLayoutParams();
+				params.height = mUnstackedHeight;
+				mOverviewContainer.setLayoutParams(params);
 
+				setCheckoutContainerTopPadding(mStackedHeight);
+
+				if (animate) {
+					Animator anim = getAnimator(mLastCheckoutPercentage, 1f);
+					anim.setDuration(duration);
+					anim.start();
+				}
+				else {
+					setCheckoutPercent(1f);
+				}
 				mOverviewFragment.stackCards(animate);
-				animSet.start();
 
-				setBackToOverviewAreaHeight(mStackedHeight);//(mStackedHeight);
-				mBackToOverviewArea.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						gotoOverviewMode(true);
-					}
-				});
+				setBackToOverviewAreaHeight(mStackedHeight);
+				if (mCheckoutFragment != null) {
+					mCheckoutFragment.updateViewVisibilities();
+				}
 			}
+		}
+		catch (Exception ex) {
+			Log.e("Exception in gotoCheckoutMode()", ex);
+		}
+		finally {
+			if (semGot) {
+				mTransitionSem.release();
+			}
+		}
+	}
+
+	OnTouchListener mDragBackToOverviewOnTouchListener = new OnTouchListener() {
+		float mStartPosY = 0;
+		long mStartTime = 0;
+		float mLastPosY = 0;
+
+		@Override
+		public boolean onTouch(View arg0, MotionEvent arg1) {
+			boolean retVal = false;
+			try {
+				int action = arg1.getActionMasked();
+				switch (action) {
+				case MotionEvent.ACTION_DOWN:
+					mStartTime = Calendar.getInstance().getTimeInMillis();
+					mStartPosY = arg1.getY();
+					mBackToOverviewArea.getParent().requestDisallowInterceptTouchEvent(true);
+					retVal = true;
+					dragCards(0f, true, false);
+					mLastPosY = mStartPosY;
+					break;
+				case MotionEvent.ACTION_MOVE:
+					float sinceLastDif = mLastPosY - arg1.getY();
+					setCheckoutPercent(dragCards(sinceLastDif, false, false));
+					retVal = true;
+					mLastPosY = arg1.getY();
+					break;
+				case MotionEvent.ACTION_UP:
+					if (Calendar.getInstance().getTimeInMillis() - mStartTime < 100) {
+						FlightTripOverviewActivity.this.gotoOverviewMode(true);
+					}
+					else {
+						if (FlightTripOverviewActivity.this.mOverviewFragment != null
+								&& FlightTripOverviewActivity.this.mOverviewFragment.getExpandedPercentage() > 0.95f) {
+							FlightTripOverviewActivity.this.gotoOverviewMode(false);
+						}
+						else {
+							playSnapBackAnimation(ANIMATION_SNAPBACK_DURATION);
+						}
+						mBackToOverviewArea.getParent().requestDisallowInterceptTouchEvent(false);
+					}
+					retVal = true;
+
+					break;
+				default:
+					break;
+				}
+			}
+			catch (Exception ex) {
+				Log.e("Exception in mDragBackToOverviewOnTouchListener", ex);
+			}
+			return retVal;
+		}
+
+	};
+
+	OnTouchListener mPushToCheckoutOnTouchListener = new OnTouchListener() {
+		float mLastPosY = 0;
+
+		@Override
+		public boolean onTouch(View arg0, MotionEvent arg1) {
+
+			boolean retVal = false;
+			try {
+				int action = arg1.getActionMasked();
+
+				int scrollH = FlightTripOverviewActivity.this.mContentScrollView.getHeight();
+				int scrollY = FlightTripOverviewActivity.this.mContentScrollView.getScrollY();
+				int currentCardHeight = mOverviewFragment.getCurrentHeight();
+
+				boolean bottomCardBelowFold = currentCardHeight - scrollY > scrollH;
+				boolean topAboveFold = scrollY > 0;
+
+				switch (action) {
+				case MotionEvent.ACTION_DOWN:
+					attachCheckout();
+					mLastPosY = arg1.getY();
+					if (mOverviewContainer != null)
+						mOverviewContainer.getParent().requestDisallowInterceptTouchEvent(true);
+					retVal = true;
+					dragCards(0f, true, true);
+					break;
+				case MotionEvent.ACTION_MOVE:
+					float sinceLastDif = mLastPosY - arg1.getY();
+
+					if (bottomCardBelowFold && sinceLastDif > 0) {
+						FlightTripOverviewActivity.this.mContentScrollView.scrollBy(0, Math.round(sinceLastDif));
+					}
+					else if (topAboveFold && sinceLastDif < 0) {
+						FlightTripOverviewActivity.this.mContentScrollView.scrollBy(0, Math.round(sinceLastDif));
+					}
+					else if (topAboveFold && sinceLastDif > 0) {
+						FlightTripOverviewActivity.this.mContentScrollView.scrollBy(0, -Math.round(sinceLastDif));
+						setCheckoutPercent(dragCards(sinceLastDif, false, true));
+					}
+					else {
+						setCheckoutPercent(dragCards(sinceLastDif, false, true));
+					}
+
+					mLastPosY = arg1.getY();
+					retVal = true;
+					break;
+				case MotionEvent.ACTION_UP:
+					if (FlightTripOverviewActivity.this.mOverviewFragment != null
+							&& FlightTripOverviewActivity.this.mOverviewFragment.getExpandedPercentage() < 0.1f) {
+						FlightTripOverviewActivity.this.gotoCheckoutMode(false);
+					}
+					else {
+						playSnapBackAnimation(ANIMATION_SNAPBACK_DURATION);
+					}
+					mOverviewContainer.getParent().requestDisallowInterceptTouchEvent(false);
+					retVal = true;
+					break;
+				default:
+					break;
+				}
+			}
+			catch (Exception ex) {
+				Log.e("Exception in onTouch", ex);
+			}
+			return retVal;
+		}
+	};
+
+	/**
+	 * 
+	 * @param dist - the distance moved defined by lastY - currentY 
+	 * @param init - reset the tracked distance
+	 * @param north - are we trying to move up (north) or down (south)
+	 * @return - what percentage we have made the journey between 0f and 1f 
+	 */
+	private float dragCards(float dist, boolean init, boolean north) {
+		if (init) {
+			mCurrentCardDragDistance = 0;
+		}
+
+		int range = this.mUnstackedHeight - this.mStackedHeight;
+		if (mContentScrollView != null && range > mContentScrollView.getHeight()) {
+			range = mContentScrollView.getHeight() / 2;
+		}
+
+		mCurrentCardDragDistance += dist;
+
+		if (north && mCurrentCardDragDistance < 0) {
+			mCurrentCardDragDistance = 0;
+		}
+		if (north && mCurrentCardDragDistance > range) {
+			mCurrentCardDragDistance = range;
+		}
+		if (!north && mCurrentCardDragDistance > 0) {
+			mCurrentCardDragDistance = 0;
+		}
+		if (!north && mCurrentCardDragDistance < -range) {
+			mCurrentCardDragDistance = -range;
+		}
+
+		float percentage = Math.abs(mCurrentCardDragDistance) / range;
+		return north ? percentage : 1f - percentage;
+	}
+
+	//The percentage we are to checkout mode...
+	private void setCheckoutPercent(float percentage) {
+		if (percentage < 0f || percentage > 1f) {
+			return;
+		}
+		if (mOverviewFragment != null) {
+			this.mOverviewFragment.setExpandedPercentage(1f - percentage);
+		}
+		setCheckoutVisibility(percentage);
+		setCheckoutContainerPaddingFromPercentage(percentage);
+		mLastCheckoutPercentage = percentage;
+
+	}
+
+	@SuppressLint("NewApi")
+	private void setCheckoutVisibility(float percentage) {
+		if (mCheckoutContainer != null && mSafeToAttach) {
+			if (percentage == 0) {
+				detachCheckout();
+				mCheckoutContainer.setVisibility(View.INVISIBLE);
+			}
+			else {
+				mCheckoutContainer.setVisibility(View.VISIBLE);
+				attachCheckout();
+			}
+
+			if (AndroidUtils.getSdkVersion() >= 11) {
+				this.mCheckoutContainer.setAlpha(percentage);
+			}
+			else {
+				AnimatorProxy.wrap(mCheckoutContainer).setAlpha(percentage);
+			}
+		}
+	}
+
+	private void setCheckoutContainerPaddingFromPercentage(float percentage) {
+		float topPadding = mStackedHeight + (mUnstackedHeight - mStackedHeight) * (1f - percentage);
+		setCheckoutContainerTopPadding(topPadding);
+	}
+
+	private void setCheckoutContainerTopPadding(float topPadding) {
+		int pos = Math.round(topPadding);
+
+		if (pos < this.mStackedHeight) {
+			pos = this.mStackedHeight;
+		}
+		if (this.mUnstackedHeight > this.mStackedHeight && pos > this.mUnstackedHeight) {
+			pos = this.mUnstackedHeight;
+		}
+		if (mCheckoutContainer != null) {
+			mCheckoutContainer.setPadding(0, pos, 0, 0);
 		}
 	}
 
@@ -548,91 +816,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		this.supportInvalidateOptionsMenu();
 
-	}
-
-	public Animator getCheckoutShowAnimator() {
-		ObjectAnimator mover = ObjectAnimator.ofFloat(mCheckoutContainer, "y", this.mContentScrollView.getBottom(), 0f);
-		mover.addListener(new AnimatorListener() {
-
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				//This will force checkout to validate call the listener methods if need be
-				mCheckoutFragment.updateViewVisibilities();
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator arg0) {
-			}
-
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				mCheckoutContainer.setVisibility(View.VISIBLE);
-				ObjectAnimator restoreAlpha = ObjectAnimator.ofFloat(mCheckoutContainer, "alpha", 0f, 1f);
-				restoreAlpha.setDuration(1);
-				restoreAlpha.start();
-			}
-		});
-		return mover;
-	}
-
-	public Animator getCheckoutHideAnimator(boolean slide, boolean fade) {
-		ArrayList<Animator> animators = new ArrayList<Animator>();
-
-		if (slide) {
-			ObjectAnimator mover = ObjectAnimator.ofFloat(mCheckoutContainer, "y", 0f,
-					this.mContentScrollView.getBottom());
-			mover.addListener(new AnimatorListener() {
-
-				@Override
-				public void onAnimationCancel(Animator arg0) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animator arg0) {
-					mCheckoutContainer.setVisibility(View.GONE);
-				}
-
-				@Override
-				public void onAnimationRepeat(Animator arg0) {
-				}
-
-				@Override
-				public void onAnimationStart(Animator arg0) {
-				}
-			});
-			animators.add(mover);
-		}
-
-		if (fade) {
-			ObjectAnimator fadeOut = ObjectAnimator.ofFloat(mCheckoutContainer, "alpha", 1f, 0f);
-			fadeOut.addListener(new AnimatorListener() {
-				@Override
-				public void onAnimationCancel(Animator arg0) {
-				}
-
-				@Override
-				public void onAnimationEnd(Animator arg0) {
-					mCheckoutContainer.setVisibility(View.GONE);
-				}
-
-				@Override
-				public void onAnimationRepeat(Animator arg0) {
-				}
-
-				@Override
-				public void onAnimationStart(Animator arg0) {
-				}
-			});
-			animators.add(fadeOut);
-		}
-
-		AnimatorSet set = new AnimatorSet();
-		set.playTogether(animators);
-		return set;
 	}
 
 	@Override

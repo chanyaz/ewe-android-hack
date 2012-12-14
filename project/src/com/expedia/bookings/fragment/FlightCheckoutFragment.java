@@ -134,7 +134,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
-		
 
 		// rules and restrictions link stuff
 		TextView tv = Ui.findView(v, R.id.legal_blurb);
@@ -236,8 +235,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			}
 		}
 	}
-	
-	private void refreshAccountButtonState(){
+
+	private void refreshAccountButtonState() {
 		if (User.isLoggedIn(getActivity())) {
 			if (Db.getUser() == null) {
 				Db.loadUser(getActivity());
@@ -371,6 +370,11 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		PaymentFlowState state = PaymentFlowState.getInstance(getActivity());
 		if (state == null) {
 			//This is a rare case that happens when the fragment is attached and then detached quickly
+			return;
+		}
+
+		if (mBillingInfo == null) {
+			//We haven't been properly initialized yet...
 			return;
 		}
 

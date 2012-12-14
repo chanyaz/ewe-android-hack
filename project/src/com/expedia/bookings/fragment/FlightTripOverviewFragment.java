@@ -1,8 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-
-import android.graphics.drawable.StateListDrawable;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +8,7 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -19,10 +18,12 @@ import com.expedia.bookings.section.InfoBarSection;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
+import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class FlightTripOverviewFragment extends Fragment {
 
@@ -33,14 +34,16 @@ public class FlightTripOverviewFragment extends Fragment {
 	//The margin between cards when expanded
 	private static final int FLIGHT_LEG_TOP_MARGIN = 20;
 
-	private static final int[] STATE_OPAQUE = { R.attr.state_opaque };
-	private static final int[] STATE_TRANSPARENT = { R.attr.state_transparent };
+	private static final int TOP_CARD_STACKED_ALPHA = 255;
+	private static final int TOP_CARD_UNSTACKED_ALPHA = 210;
 
 	private FlightTrip mTrip;
 	private RelativeLayout mFlightContainer;
 	private InfoBarSection mFlightDateAndTravCount;
 
 	private DisplayMode mDisplayMode = DisplayMode.OVERVIEW;
+
+	private float mCurrentPercentage = 1f;
 
 	public enum DisplayMode {
 		CHECKOUT, OVERVIEW
@@ -111,37 +114,7 @@ public class FlightTripOverviewFragment extends Fragment {
 
 		measureDateAndTravelers();
 		currentTop += Math.max(mFlightDateAndTravCount.getMeasuredHeight(), mFlightDateAndTravCount.getHeight());
-
-		//Make a custom background drawable for the first leg to allow quick switching between transparent and opaque
-		StateListDrawable firstLegBg = new StateListDrawable() {
-			@Override
-			protected boolean onStateChange(int[] stateSet) {
-				boolean opaque = false;
-				boolean transparent = false;
-				for (int state : stateSet) {
-					if (state == R.attr.state_opaque) {
-						opaque = true;
-					}
-					if (state == R.attr.state_transparent) {
-						transparent = true;
-					}
-				}
-				if (this.getState() == null || this.getState().length == 0) {
-					//If we have no current state, default to transparent
-					return super.onStateChange(STATE_TRANSPARENT);
-				}
-				else if (opaque || transparent) {
-					//If the state contains a valid state use it
-					return super.onStateChange(stateSet);
-				}
-				else {
-					//We don't redraw if we didn't get one of our custom states
-					return false;
-				}
-			}
-		};
-		firstLegBg.addState(STATE_OPAQUE, getResources().getDrawable(R.drawable.bg_flight_card_search_results_opaque));
-		firstLegBg.addState(STATE_TRANSPARENT, getResources().getDrawable(R.drawable.bg_flight_card_search_results));
+		Log.i("DateAndTravelers Height:" + currentTop);
 
 		//Build the cards
 		SectionFlightLeg tempFlight;
@@ -152,7 +125,8 @@ public class FlightTripOverviewFragment extends Fragment {
 			//Set our background to be a selector so we can set opacity quickly later during animations
 			if (tempFlight.getId() == ID_START_RANGE) {
 				View bgView = Ui.findView(tempFlight, R.id.flight_leg_summary_container);
-				bgView.setBackgroundDrawable(firstLegBg);
+				bgView.setBackgroundResource(R.drawable.bg_flight_card_search_results_opaque);
+				bgView.getBackground().setAlpha(TOP_CARD_UNSTACKED_ALPHA);
 			}
 
 			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));
@@ -169,13 +143,12 @@ public class FlightTripOverviewFragment extends Fragment {
 
 			measureCard(tempFlight);
 			currentTop += Math.max(tempFlight.getMeasuredHeight(), tempFlight.getHeight());
-
 		}
 
-		//NOTE: The +50 is pretty unscientific, but we only need it to handle cases where text wraps, and causes things to be pushed down below the fold of the container
-		// 50 seems to be sufficient
-		mFlightContainer.setMinimumHeight(getUnstackedHeight() + 50);
-		mFlightContainer.invalidate();
+		//Z-index the card
+		for (int i = mTrip.getLegCount() - 1; i >= 0; i--) {
+			mFlightContainer.findViewById(ID_START_RANGE + i).bringToFront();
+		}
 	}
 
 	private void measureCard(SectionFlightLeg card) {
@@ -197,6 +170,17 @@ public class FlightTripOverviewFragment extends Fragment {
 
 	public int getUnstackedHeight() {
 		return getHeightFromMargins(getNormalTopMargins(), true);
+	}
+
+	public int getCurrentHeight() {
+		int lastInd = mFlightContainer.getChildCount() - 1;
+		SectionFlightLeg lastFlight = Ui.findView(mFlightContainer, lastInd + ID_START_RANGE);
+		if (lastFlight != null) {
+			return lastFlight.getBottom();
+		}
+		else {
+			return 0;
+		}
 	}
 
 	private int getHeightFromMargins(int[] margins, boolean includeTravBar) {
@@ -221,30 +205,163 @@ public class FlightTripOverviewFragment extends Fragment {
 	public void stackCards(boolean animate) {
 		mDisplayMode = DisplayMode.CHECKOUT;
 		if (animate) {
-			animateCardsToStacked(ANIMATION_DURATION, 0);
+			animateToPercentage(mCurrentPercentage, 0);
 		}
 		else {
-			//Adding a delay here prevents some display strangeness
-			animateCardsToStacked(0, 250);
+			setExpandedPercentage(0);
 		}
-		for (int i = mFlightContainer.getChildCount() - 1; i >= 0; i--) {
-			Ui.findView(mFlightContainer, ID_START_RANGE + i).bringToFront();
-		}
-		mFlightContainer.invalidate();
-
 	}
 
 	public void unStackCards(boolean animate) {
 		//We default to overview mode, so there shouldn't be a time when we need to animate to overview if we are already in overview
 		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) != 0) {
 			mDisplayMode = DisplayMode.OVERVIEW;
+
 			if (animate) {
-				animateCardsToUnStacked(ANIMATION_DURATION);
+				animateToPercentage(mCurrentPercentage, 1);
 			}
 			else {
-				animateCardsToUnStacked(0);
+				setExpandedPercentage(1);
 			}
-			getView().invalidate();
+		}
+	}
+
+	public void setExpandedPercentage(float percentage) {
+		mCurrentPercentage = percentage;
+		if (this.isAdded()) {
+			placeCardsFromPercentage(percentage);
+			placeTopBarFromPercentage(percentage);
+			setCardsAlpha(percentage);
+			setTopBarAlpha(percentage);
+			setTopCardBgAlpha(percentage);
+		}
+	}
+
+	public float getExpandedPercentage() {
+		return mCurrentPercentage;
+	}
+
+	protected void animateToPercentage(float startPercentage, float endPercentage) {
+		if (!mCardsAnimating) {
+			Animator animator = getAnimator(startPercentage, endPercentage);
+			animator.setDuration(ANIMATION_DURATION);
+			animator.addListener(mCardsAnimatingListener);
+			animator.start();
+		}
+	}
+
+	protected Animator getAnimator(float startPercentage, float endPercentage) {
+		ValueAnimator animator = ValueAnimator.ofFloat(startPercentage, endPercentage);
+		animator.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator anim) {
+				Float f = (Float) anim.getAnimatedValue();
+				setExpandedPercentage(f.floatValue());
+
+			}
+		});
+		return animator;
+	}
+
+	protected void placeCardsFromPercentage(float percentage) {
+
+		if (percentage == 0) {
+			Log.i("Percentage:0");
+			placeCardsFromMargins(getStackedTopMargins());
+		}
+		else if (percentage == 1) {
+			Log.i("Percentage:1");
+			placeCardsFromMargins(getNormalTopMargins());
+		}
+		else {
+			int[] stacked = getStackedTopMargins();
+			int[] unstacked = getNormalTopMargins();
+			int[] positions = new int[unstacked.length];
+			for (int i = 0; i < positions.length; i++) {
+				double dif = percentage * (unstacked[i] - stacked[i]);
+				int val = (int) Math.round(stacked[i] + dif);
+
+				positions[i] = val;
+				Log.i("Percentage:" + percentage * 100 + "% Stacked:" + stacked[i] + " Adjusted:" + positions[i]
+						+ " UnstackeD:" + unstacked[i]);
+			}
+			placeCardsFromMargins(positions);
+		}
+	}
+
+	protected void placeTopBarFromPercentage(float percentage) {
+		int height = Math.max(mFlightDateAndTravCount.getHeight(), mFlightDateAndTravCount.getMeasuredHeight());
+		if (height <= 0) {
+			this.measureDateAndTravelers();
+			height = Math.max(mFlightDateAndTravCount.getHeight(), mFlightDateAndTravCount.getMeasuredHeight());
+		}
+
+		if (percentage == 0) {
+			LayoutParams params = (LayoutParams) mFlightDateAndTravCount.getLayoutParams();
+			params.topMargin = -height;
+			mFlightDateAndTravCount.setLayoutParams(params);
+		}
+		else if (percentage == 1) {
+			LayoutParams params = (LayoutParams) mFlightDateAndTravCount.getLayoutParams();
+			params.topMargin = 0;
+			mFlightDateAndTravCount.setLayoutParams(params);
+		}
+		else {
+			int top = height - (int) Math.round(percentage * height);
+			LayoutParams params = (LayoutParams) mFlightDateAndTravCount.getLayoutParams();
+			params.topMargin = -top;
+			mFlightDateAndTravCount.setLayoutParams(params);
+		}
+	}
+
+	protected void setTopBarAlpha(float percentage) {
+		setViewAlpha(percentage, mFlightDateAndTravCount);
+	}
+
+	protected void setCardsAlpha(float percentage) {
+		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
+			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
+			View header = Ui.findView(tempFlight, R.id.info_text_view);
+			View price = Ui.findView(tempFlight, R.id.price_text_view);
+			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
+
+			setViewAlpha(percentage, header);
+			setViewAlpha(percentage, price);
+			setViewAlpha(percentage, airline);
+		}
+	}
+
+	protected void setTopCardBgAlpha(float percentage) {
+		SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE);
+		if (tempFlight != null) {
+			int minAlpha = TOP_CARD_UNSTACKED_ALPHA;
+			int maxAlpha = TOP_CARD_STACKED_ALPHA;
+
+			int useAlpha = 255 - Math.round((maxAlpha - minAlpha) * percentage);
+
+			View bgView = Ui.findView(tempFlight, R.id.flight_leg_summary_container);
+			bgView.getBackground().setAlpha(useAlpha);
+		}
+	}
+
+	@SuppressLint("NewApi")
+	protected void setViewAlpha(float percentage, View view) {
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			view.setAlpha(percentage);
+		}
+		else {
+			//Leverage nineolddroids...
+			AnimatorProxy.wrap(view).setAlpha(percentage);
+		}
+	}
+
+	private void placeCardsFromMargins(int[] margins) {
+		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
+			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
+			RelativeLayout.LayoutParams params = (LayoutParams) tempFlight.getLayoutParams();
+			params.topMargin = margins[i];
+			tempFlight.setLayoutParams(params);
+			Log.i("Placed card #" + i + " with topMargin:" + margins[i]);
 		}
 	}
 
@@ -276,6 +393,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		measureFlightContainer();
 		int[] retVal = new int[mFlightContainer.getChildCount()];
 		int currentTop = 0;
+		currentTop += Math.max(mFlightDateAndTravCount.getMeasuredHeight(), mFlightDateAndTravCount.getHeight());
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
 			currentTop += FLIGHT_LEG_TOP_MARGIN;
@@ -323,13 +441,11 @@ public class FlightTripOverviewFragment extends Fragment {
 		@Override
 		public void onAnimationCancel(Animator arg0) {
 			mCardsAnimating = false;
-			setTopCardBackgroundOpacity();
 		}
 
 		@Override
 		public void onAnimationEnd(Animator arg0) {
 			mCardsAnimating = false;
-			setTopCardBackgroundOpacity();//set it again after we finish
 
 			if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0) {
 				Runnable layoutRunner = new Runnable() {
@@ -357,71 +473,6 @@ public class FlightTripOverviewFragment extends Fragment {
 
 	};
 
-	Runnable mCardBgOpacityRunner = new Runnable() {
-		@Override
-		public void run() {
-			setTopCardBackgroundOpacity();
-		}
-	};
-
-	////////////////////////////////
-	//Animations
-
-	private void animateCardsToStacked(int duration, int delay) {
-		if (!mCardsAnimating) {
-			ArrayList<Animator> animators = new ArrayList<Animator>();
-			animators.addAll(getCardTextAlphaAnimators(1f, 0f));
-			animators.addAll(getCardAnimators(getNormalTopMargins(), getStackedTopMargins()));
-			animators.addAll(getDateTravelerBarAnimators(true));
-			AnimatorSet animSet = new AnimatorSet();
-			animSet.playTogether(animators);
-			animSet.setDuration(duration);
-			animSet.addListener(mCardsAnimatingListener);
-			animSet.setStartDelay(delay);
-			animSet.start();
-			//We delay setting the bg until the thing is half done and thus avoid a jerky change
-			this.mFlightContainer.postDelayed(mCardBgOpacityRunner, delay + (duration / 2));
-		}
-	}
-
-	private void animateCardsToUnStacked(int duration) {
-		if (!mCardsAnimating) {
-			ArrayList<Animator> animators = new ArrayList<Animator>();
-			animators.addAll(getCardTextAlphaAnimators(0f, 1f));
-			animators.addAll(getCardAnimators(getStackedTopMargins(), getNormalTopMargins()));
-			animators.addAll(getDateTravelerBarAnimators(false));
-			AnimatorSet animSet = new AnimatorSet();
-			animSet.playTogether(animators);
-			animSet.setDuration(duration);
-			animSet.addListener(mCardsAnimatingListener);
-			animSet.start();
-			//This looks best if we just change the bg right away before the animation
-			setTopCardBackgroundOpacity();
-		}
-	}
-
-	private void setTopCardBackgroundOpacity() {
-		Log.d("setTopCardBackgroundOpacity");
-		if (mFlightContainer != null && mFlightContainer.getChildCount() > 1) {
-			SectionFlightLeg firstCard = Ui.findView(mFlightContainer, ID_START_RANGE);
-			if (firstCard != null) {
-				View bgView = Ui.findView(firstCard, R.id.flight_leg_summary_container);
-				if (bgView != null) {
-					if (mDisplayMode.equals(DisplayMode.CHECKOUT)) {
-						if (bgView.getBackground().setState(STATE_OPAQUE)) {
-							bgView.getBackground().invalidateSelf();
-						}
-					}
-					else {
-						if (bgView.getBackground().setState(STATE_TRANSPARENT)) {
-							bgView.getBackground().invalidateSelf();
-						}
-					}
-				}
-			}
-		}
-	}
-
 	private void updateCardInfoText() {
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
@@ -430,66 +481,5 @@ public class FlightTripOverviewFragment extends Fragment {
 				tempFlight.setInfoText(mTrip.getLeg(i));
 			}
 		}
-	}
-
-	private ArrayList<Animator> getCardTextAlphaAnimators(float start, float end) {
-		ArrayList<Animator> animators = new ArrayList<Animator>();
-		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
-			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			View header = Ui.findView(tempFlight, R.id.info_text_view);
-			View price = Ui.findView(tempFlight, R.id.price_text_view);
-			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
-
-			ObjectAnimator headerOut = ObjectAnimator.ofFloat(header, "alpha", start, end);
-			ObjectAnimator priceOut = ObjectAnimator.ofFloat(price, "alpha", start, end);
-			ObjectAnimator airlineOut = ObjectAnimator.ofFloat(airline, "alpha", start, end);
-			animators.add(headerOut);
-			animators.add(priceOut);
-			animators.add(airlineOut);
-		}
-		return animators;
-	}
-
-	private ArrayList<Animator> getCardAnimators(int[] startTops, int[] endTops) {
-		ArrayList<Animator> animators = new ArrayList<Animator>();
-
-		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
-			int id = ID_START_RANGE + i;
-			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, id);
-
-			ObjectAnimator mover = ObjectAnimator.ofFloat(tempFlight, "y", startTops[i], endTops[i]);
-			animators.add(mover);
-		}
-		return animators;
-	}
-
-	private ArrayList<Animator> getDateTravelerBarAnimators(boolean hide) {
-		ArrayList<Animator> animators = new ArrayList<Animator>();
-
-		int barHeight = Math.max(mFlightDateAndTravCount.getMeasuredHeight(), mFlightDateAndTravCount.getHeight());
-		int start = 0;
-		int end = -barHeight;
-		float alphaStart = 1f;
-		float alphaEnd = 0f;
-		if (!hide) {
-			start = -barHeight;
-			end = 0;
-			alphaStart = 0f;
-			alphaEnd = 1f;
-		}
-
-		//move and hide the traveler price bar
-		ObjectAnimator mover = ObjectAnimator.ofFloat(mFlightDateAndTravCount, "y", start, end);
-		animators.add(mover);
-
-		ObjectAnimator dateTravBarAlpha = ObjectAnimator
-				.ofFloat(mFlightDateAndTravCount, "alpha", alphaStart, alphaEnd);
-		animators.add(dateTravBarAlpha);
-
-		//move up the flights container
-		ObjectAnimator flightsMover = ObjectAnimator.ofFloat(mFlightContainer, "y", start + barHeight, end + barHeight);
-		animators.add(flightsMover);
-
-		return animators;
 	}
 }
