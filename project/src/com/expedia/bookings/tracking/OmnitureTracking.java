@@ -449,10 +449,7 @@ public class OmnitureTracking {
 		// num days between departure and return dates
 		s.eVar6 = s.prop6 = Long.toString(CalendarUtils.getDaysBetween(departureDate, returnDate));
 
-		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
-		// e.g. FLT|RT|A2|C1
-		// TODO this will need to be changed once we support multiple travelers
-		s.eVar47 = "FLT|RT|A1|C0";
+		s.eVar47 = getEvar47String(searchParams);
 
 		// Success event for 'Search'
 		s.events = "event30";
@@ -489,10 +486,7 @@ public class OmnitureTracking {
 		// num days between current day (now) and flight departure date
 		s.eVar5 = s.prop5 = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
 
-		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
-		// e.g. FLT|RT|A2|C1
-		// TODO this will need to be changed once we support multiple travelers
-		s.eVar47 = "FLT|OW|A1|C0";
+		s.eVar47 = getEvar47String(searchParams);
 
 		// Success event for 'Search'
 		s.events = "event30";
@@ -798,5 +792,23 @@ public class OmnitureTracking {
 		default:
 			return "MD";
 		}
+	}
+
+	private static String getEvar47String(FlightSearchParams params) {
+		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
+		// e.g. FLT|RT|A2|C1
+		// TODO update for when we add children support
+		String str = "FLT|";
+		if (params.isRoundTrip()) {
+			str += "RT|A";
+		}
+		else {
+			str += "OW|A";
+		}
+
+		str += params.getNumAdults();
+		str += "|C0";
+
+		return str;
 	}
 }

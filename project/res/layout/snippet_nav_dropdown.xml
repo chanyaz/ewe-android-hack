@@ -2,19 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#00FFFFFF"
     android:orientation="vertical" >
 
     <ListView
         android:id="@+id/nav_dropdown_list"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/bg_drop_down"
+        android:layout_marginRight="4dp"
+        android:background="@drawable/bg_autocomplete"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@color/nav_dropdown_dividers"
         android:dividerHeight="1dp"
-        android:listSelector="@android:color/transparent" >
+        android:overScrollMode="never"
+        android:overScrollFooter="@null"
+        android:overScrollHeader="@null"
+        android:fadingEdge="none"
+        android:listSelector="@drawable/abs__item_background_holo_dark" >
     </ListView>
 
 </LinearLayout>

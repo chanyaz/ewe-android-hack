@@ -31,7 +31,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -48,6 +51,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
+import com.expedia.bookings.widget.NumTravelersPopupDropdown;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
@@ -85,6 +89,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private ViewGroup mCalendarContainer;
 	private View mCalendarShadow;
 	private CalendarDatePicker mCalendarDatePicker;
+	private ImageButton mNumTravelersButton;
+	private TextView mNumTravelersTextView;
+	private PopupWindow mNumTravelersPopup;
 
 	private FlightSearchParams mSearchParams;
 
@@ -157,6 +164,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mCalendarShadow = Ui.findView(v, R.id.calendar_shadow);
 		mCalendarDatePicker = Ui.findView(v, R.id.calendar_date_picker);
 		mClearDatesButton = Ui.findView(v, R.id.clear_dates_btn);
+		mNumTravelersButton = Ui.findView(v, R.id.num_travelers_button);
+		mNumTravelersTextView = Ui.findView(v, R.id.num_travelers_text_view);
 
 		// Configure views
 		if (getArguments().getBoolean(ARG_DIM_BACKGROUND)) {
@@ -283,6 +292,25 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		updateCalendarText();
 		updateCalendarInstructionText();
+
+		// Num travelers select
+		mNumTravelersButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				toggleNumAdultsDropdown();
+			}
+		});
+
+		mNumTravelersPopup = NumTravelersPopupDropdown.newInstance(getActivity());
+		ListView lv = Ui.findView(mNumTravelersPopup.getContentView(), R.id.nav_dropdown_list);
+		lv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				onNumTravelersSelected(position + 1);
+			}
+		});
+
+		updateNumTravelersText();
 
 		if (savedInstanceState == null && Db.getFlightSearch().getSearchParams().getDepartureLocation() == null) {
 			mDepartureAirportEditText.requestFocus();
@@ -729,6 +757,32 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			CharSequence start = DateFormat.format(DATE_FORMAT, dateStart);
 			CharSequence end = DateFormat.format(DATE_FORMAT, dateEnd);
 			mDatesTextView.setText(Html.fromHtml(getString(R.string.round_trip_TEMPLATE, start, end)));
+		}
+	}
+
+	// Traveler dropdown methods
+
+	private void toggleNumAdultsDropdown() {
+		if (mNumTravelersPopup.isShowing()) {
+			mNumTravelersPopup.dismiss();
+		}
+		else {
+			toggleCalendarDatePicker(false);
+			clearEditTextFocus();
+			mNumTravelersPopup.showAsDropDown(mNumTravelersButton);
+
+		}
+	}
+
+	private void onNumTravelersSelected(int num) {
+		mSearchParams.setNumAdults(num);
+		mNumTravelersPopup.dismiss();
+		updateNumTravelersText();
+	}
+
+	private void updateNumTravelersText() {
+		if (mNumTravelersTextView != null) {
+			mNumTravelersTextView.setText(Integer.toString(mSearchParams.getNumAdults()));
 		}
 	}
 
