@@ -47,6 +47,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.Tracker;
@@ -371,7 +372,7 @@ public class BookingFormFragment extends Fragment {
 			}
 		});
 
-		final String targetCountry = getString(LocaleUtils.getDefaultCountryResId(getActivity()));
+		final String targetCountry = getString(PointOfSaleInfo.getPointOfSaleInfo().getCountryNameResId());
 		setSpinnerSelection(mTelephoneCountryCodeSpinner, targetCountry);
 
 		// Configure card number - detection
@@ -775,7 +776,7 @@ public class BookingFormFragment extends Fragment {
 				String[] countryNames = r.getStringArray(R.array.country_names);
 				int[] countryPhoneCodes = r.getIntArray(R.array.country_phone_codes);
 
-				String defaultCountryName = getString(LocaleUtils.getDefaultCountryResId(getActivity()));
+				String defaultCountryName = getString(PointOfSaleInfo.getPointOfSaleInfo().getCountryNameResId());
 
 				for (int n = 0; n < countryCodes.length; n++) {
 					if (defaultCountryName.equals(countryNames[n])) {
@@ -877,7 +878,8 @@ public class BookingFormFragment extends Fragment {
 			SpinnerAdapter adapter = mTelephoneCountryCodeSpinner.getAdapter();
 			int position = findAdapterIndex(adapter, billingInfo.getTelephoneCountry());
 			if (position == -1) {
-				position = findAdapterIndex(adapter, getString(LocaleUtils.getDefaultCountryResId(getActivity())));
+				position = findAdapterIndex(adapter, getString(PointOfSaleInfo.getPointOfSaleInfo()
+						.getCountryNameResId()));
 			}
 			if (position != -1) {
 				mTelephoneCountryCodeSpinner.setSelection(position);
@@ -923,7 +925,7 @@ public class BookingFormFragment extends Fragment {
 	}
 
 	public void clearBillingInfo() {
-		final int countryResId = LocaleUtils.getDefaultCountryResId(getActivity());
+		final int countryResId = PointOfSaleInfo.getPointOfSaleInfo().getCountryNameResId();
 
 		mFirstNameEditText.setText(null);
 		mLastNameEditText.setText(null);

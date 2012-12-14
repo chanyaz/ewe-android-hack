@@ -9,7 +9,6 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.SparseIntArray;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -56,41 +55,6 @@ public class LocaleUtils {
 			put("AR", R.string.point_of_sale_ar);
 			put("AT", R.string.point_of_sale_at);
 			put("IN", R.string.point_of_sale_in);
-		}
-	};
-
-	private static final SparseIntArray POINT_OF_SALE_COUNTRY = new SparseIntArray() {
-		{
-			put(R.string.point_of_sale_us, R.string.country_us);
-			put(R.string.point_of_sale_uk, R.string.country_gb);
-			put(R.string.point_of_sale_au, R.string.country_au);
-			put(R.string.point_of_sale_fr, R.string.country_fr);
-			put(R.string.point_of_sale_de, R.string.country_de);
-			put(R.string.point_of_sale_it, R.string.country_it);
-			put(R.string.point_of_sale_nl, R.string.country_nl);
-			put(R.string.point_of_sale_es, R.string.country_es);
-			put(R.string.point_of_sale_no, R.string.country_no);
-			put(R.string.point_of_sale_dk, R.string.country_dk);
-			put(R.string.point_of_sale_se, R.string.country_se);
-			put(R.string.point_of_sale_ie, R.string.country_ie);
-			put(R.string.point_of_sale_be, R.string.country_be);
-			put(R.string.point_of_sale_ca, R.string.country_ca);
-			put(R.string.point_of_sale_nz, R.string.country_nz);
-			put(R.string.point_of_sale_jp, R.string.country_jp);
-			put(R.string.point_of_sale_mx, R.string.country_mx);
-			put(R.string.point_of_sale_sg, R.string.country_sg);
-			put(R.string.point_of_sale_my, R.string.country_my);
-			put(R.string.point_of_sale_kr, R.string.country_kr);
-			put(R.string.point_of_sale_th, R.string.country_th);
-			put(R.string.point_of_sale_ph, R.string.country_ph);
-			put(R.string.point_of_sale_id, R.string.country_id);
-			put(R.string.point_of_sale_br, R.string.country_br);
-			put(R.string.point_of_sale_hk, R.string.country_hk);
-			put(R.string.point_of_sale_tw, R.string.country_tw);
-			put(R.string.point_of_sale_vn, R.string.country_vn);
-			put(R.string.point_of_sale_ar, R.string.country_ar);
-			put(R.string.point_of_sale_at, R.string.country_at);
-			put(R.string.point_of_sale_in, R.string.country_in);
 		}
 	};
 
@@ -162,15 +126,6 @@ public class LocaleUtils {
 		int resId = POINT_OF_SALE_RES_ID.containsKey(country) ? POINT_OF_SALE_RES_ID.get(country)
 				: R.string.point_of_sale_uk;
 		return context.getString(resId);
-	}
-
-	public static int getDefaultCountryResId(Context context) {
-		Locale locale = Locale.getDefault();
-		String country = locale.getCountry();
-		int resId = POINT_OF_SALE_RES_ID.containsKey(country) ? POINT_OF_SALE_RES_ID.get(country)
-				: R.string.point_of_sale_uk;
-
-		return POINT_OF_SALE_COUNTRY.get(resId);
 	}
 
 	private static String sCachedPointOfSale;
