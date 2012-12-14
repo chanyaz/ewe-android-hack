@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -51,9 +50,9 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
+import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
@@ -236,6 +235,8 @@ public class ExpediaServices implements DownloadListener {
 			Date retDate = params.getReturnDate().getCalendar().getTime();
 			query.add(new BasicNameValuePair("returnDate", df.format(retDate)));
 		}
+
+		query.add(new BasicNameValuePair("numberOfAdultTravelers", Integer.toString(params.getNumAdults())));
 
 		addPOSParams(query);
 
