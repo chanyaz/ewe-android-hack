@@ -114,7 +114,6 @@ public class FlightTripOverviewFragment extends Fragment {
 
 		measureDateAndTravelers();
 		currentTop += Math.max(mFlightDateAndTravCount.getMeasuredHeight(), mFlightDateAndTravCount.getHeight());
-		Log.i("DateAndTravelers Height:" + currentTop);
 
 		//Build the cards
 		SectionFlightLeg tempFlight;
@@ -139,7 +138,6 @@ public class FlightTripOverviewFragment extends Fragment {
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
 			mFlightContainer.addView(tempFlight, params);
-			Log.d("Added card with topMargin:" + currentTop);
 
 			measureCard(tempFlight);
 			currentTop += Math.max(tempFlight.getMeasuredHeight(), tempFlight.getHeight());
@@ -158,7 +156,6 @@ public class FlightTripOverviewFragment extends Fragment {
 			int rMargin = 10;
 			int w = getActivity().getResources().getDisplayMetrics().widthPixels - lMargin - rMargin;
 			int h = getActivity().getResources().getDisplayMetrics().heightPixels;
-			Log.d("Measuring card with w:" + w + " h:" + h);
 			card.measure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.AT_MOST),
 					MeasureSpec.makeMeasureSpec(h, MeasureSpec.AT_MOST));
 		}
@@ -196,8 +193,6 @@ public class FlightTripOverviewFragment extends Fragment {
 		}
 		retHeight += lastMargin;
 		retHeight += Math.max(lastFlight.getMeasuredHeight(), lastFlight.getHeight());
-
-		Log.i("getHeightFromMargins:" + retHeight);
 
 		return retHeight;
 	}
@@ -266,11 +261,9 @@ public class FlightTripOverviewFragment extends Fragment {
 	protected void placeCardsFromPercentage(float percentage) {
 
 		if (percentage == 0) {
-			Log.i("Percentage:0");
 			placeCardsFromMargins(getStackedTopMargins());
 		}
 		else if (percentage == 1) {
-			Log.i("Percentage:1");
 			placeCardsFromMargins(getNormalTopMargins());
 		}
 		else {
@@ -282,8 +275,6 @@ public class FlightTripOverviewFragment extends Fragment {
 				int val = (int) Math.round(stacked[i] + dif);
 
 				positions[i] = val;
-				Log.i("Percentage:" + percentage * 100 + "% Stacked:" + stacked[i] + " Adjusted:" + positions[i]
-						+ " UnstackeD:" + unstacked[i]);
 			}
 			placeCardsFromMargins(positions);
 		}
@@ -361,7 +352,6 @@ public class FlightTripOverviewFragment extends Fragment {
 			RelativeLayout.LayoutParams params = (LayoutParams) tempFlight.getLayoutParams();
 			params.topMargin = margins[i];
 			tempFlight.setLayoutParams(params);
-			Log.i("Placed card #" + i + " with topMargin:" + margins[i]);
 		}
 	}
 
@@ -369,11 +359,8 @@ public class FlightTripOverviewFragment extends Fragment {
 		if (getActivity() != null && mFlightContainer != null) {
 			int w = getActivity().getResources().getDisplayMetrics().widthPixels;
 			int h = getActivity().getResources().getDisplayMetrics().heightPixels;
-			Log.v("measuring flight container... w:" + w + " h:" + h);
 			mFlightContainer.measure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.AT_MOST),
 					MeasureSpec.makeMeasureSpec(h, MeasureSpec.AT_MOST));
-			Log.v("FlightContainer MeasuredHeight:" + mFlightContainer.getMeasuredHeight() + " Height:"
-					+ mFlightContainer.getHeight());
 		}
 	}
 
@@ -381,11 +368,8 @@ public class FlightTripOverviewFragment extends Fragment {
 		if (mFlightDateAndTravCount != null && mFlightDateAndTravCount.getMeasuredHeight() <= 0) {
 			int w = getActivity().getResources().getDisplayMetrics().widthPixels;
 			int h = getActivity().getResources().getDisplayMetrics().heightPixels;
-			Log.i("measuring date and traveler bar... w:" + w + " h:" + h);
 			mFlightDateAndTravCount.measure(MeasureSpec.makeMeasureSpec(w, MeasureSpec.AT_MOST),
 					MeasureSpec.makeMeasureSpec(h, MeasureSpec.AT_MOST));
-			Log.i("mFlightDateAndTravCount MeasuredHeight:" + mFlightDateAndTravCount.getMeasuredHeight() + " Height:"
-					+ mFlightDateAndTravCount.getHeight());
 		}
 	}
 
