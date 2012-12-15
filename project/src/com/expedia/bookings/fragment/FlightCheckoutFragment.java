@@ -61,7 +61,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private SectionStoredCreditCard mStoredCreditCard;
 
 	private ViewGroup mTravelerContainer;
-	private ViewGroup mTravelerButton;
+	private TextView mTravelerButton;
 	private ViewGroup mPaymentButton;
 
 	private boolean mRefreshedUser;

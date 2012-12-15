@@ -48,34 +48,11 @@
         android:addStatesFromChildren="true"
         android:background="@drawable/bg_checkout_information_top_tab"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp" >
+        android:padding="10dp" >
 
-        <LinearLayout
+        <include
             android:id="@+id/traveler_info_btn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="visible" >
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0"
-                android:src="@drawable/ic_traveler" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/enter_traveler_info"
-                android:textSize="16sp" />
-        </LinearLayout>
+            layout="@layout/snippet_booking_overview_traveler" />
 
         <LinearLayout
             android:id="@+id/travelers_container"

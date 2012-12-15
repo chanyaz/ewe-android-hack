@@ -80,9 +80,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		String tripKey = getArguments().getString(ARG_TRIP_KEY);
 		mTrip = Db.getFlightSearch().getFlightTrip(tripKey);
 
-		mFlightDateAndTravCount.bindTripOverview(mTrip,
-				(Db.getTravelers() != null && Db.getTravelers().size() != 0) ? Db.getTravelers()
-						.size() : 1);
+		mFlightDateAndTravCount.bindTripOverview(mTrip, Db.getFlightSearch().getSearchParams().getNumAdults());
 
 		buildCards(inflater);
 
