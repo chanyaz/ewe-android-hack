@@ -79,6 +79,7 @@ import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -1009,17 +1010,19 @@ public class ExpediaServices implements DownloadListener {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
+		
+		String domain = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 
 		switch (endPoint) {
 		case PRODUCTION: {
 			builder.append("www.");
-			builder.append(LocaleUtils.getPointOfSale(mContext));
+			builder.append(domain);
 			builder.append("/");
 			break;
 		}
 		case INTEGRATION: {
 			builder.append("www");
-			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
+			for (String s : domain.split("\\.")) {
 				builder.append(s);
 			}
 			builder.append(".integration.sb.karmalab.net/");
@@ -1027,7 +1030,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 		case STABLE: {
 			builder.append("www");
-			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
+			for (String s : domain.split("\\.")) {
 				builder.append(s);
 			}
 			builder.append(".stable.sb.karmalab.net/");
@@ -1035,7 +1038,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 		case DEV: {
 			builder.append("www");
-			for (String s : LocaleUtils.getPointOfSale(mContext).split("\\.")) {
+			for (String s : domain.split("\\.")) {
 				builder.append(s);
 			}
 			builder.append(".chelwebestr37.bgb.karmalab.net/");
@@ -1053,7 +1056,7 @@ public class ExpediaServices implements DownloadListener {
 			builder.append(SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
 					"localhost:3000"));
 			builder.append("/");
-			builder.append(LocaleUtils.getPointOfSale(mContext));
+			builder.append(domain);
 			builder.append("/");
 			break;
 		}

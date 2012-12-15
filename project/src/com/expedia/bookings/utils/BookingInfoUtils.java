@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.Log;
 
@@ -42,7 +44,7 @@ public class BookingInfoUtils {
 	public static void determineExpediaPointsDisclaimer(Context context, View view) {
 		// #12652: Only display Expedia Points disclaimer if user is the in US POS.
 		// (This may change in the future as more POSes support points.)
-		int visibility = LocaleUtils.getPointOfSale().equals(context.getString(R.string.point_of_sale_us)) ? View.VISIBLE
+		int visibility = PointOfSaleInfo.getPointOfSaleInfo().getPointOfSale() == PointOfSale.UNITED_STATES ? View.VISIBLE
 				: View.GONE;
 		TextView pointsDisclaimerView = (TextView) view.findViewById(R.id.expedia_points_disclaimer_text_view);
 		pointsDisclaimerView.setVisibility(visibility);

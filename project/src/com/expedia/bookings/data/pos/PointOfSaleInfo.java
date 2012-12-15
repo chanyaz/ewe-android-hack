@@ -35,6 +35,7 @@ import com.mobiata.android.util.SettingUtils;
  * 
  * TODO
  * - Replace SupportUtils.getAppSupportUrl()
+ * - Look into all cases of getUrl() and correct where necessary what's happening
  */
 public class PointOfSaleInfo {
 
@@ -127,6 +128,10 @@ public class PointOfSaleInfo {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Info on each POS
+
+	public PointOfSale getPointOfSale() {
+		return mPointOfSale;
+	}
 
 	public String getUrl() {
 		return mUrl;
@@ -251,7 +256,11 @@ public class PointOfSaleInfo {
 	 * MUST be called before using any other POS methods
 	 */
 	public static void init(Context context) {
+		// Load all data; in the future we may want to load only the POS requested, to save startup time
 		loadPointOfSaleInfo(context);
+
+		// Init the cache
+		getPointOfSaleInfo(context);
 	}
 
 	/**

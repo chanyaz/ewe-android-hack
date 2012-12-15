@@ -33,9 +33,9 @@ import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -162,7 +162,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	};
 
 	private IntentFilter getPosChangeIntentFilter() {
-		return new IntentFilter(LocaleUtils.ACTION_POS_CHANGED);
+		return new IntentFilter(PointOfSaleInfo.ACTION_POS_CHANGED);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

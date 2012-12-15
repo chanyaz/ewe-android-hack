@@ -1,9 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
 
@@ -13,20 +9,9 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
-
-	/**
-	 * The list of POSes we support for Flights
-	 */
-	private static final Set<Integer> SUPPORTED_POS_SET = new HashSet<Integer>() {
-		{
-			add(R.string.point_of_sale_us);
-			add(R.string.point_of_sale_ca);
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +50,5 @@ public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
 			break;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	public static boolean isSupportedPOS(Context context) {
-		String pos = LocaleUtils.getPointOfSale(context);
-
-		String supportedPOS;
-		for (Integer posResId : SUPPORTED_POS_SET) {
-			supportedPOS = context.getString(posResId);
-			if (supportedPOS.equals(pos)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 }

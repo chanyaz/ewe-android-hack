@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.mobiata.android.util.ResourceUtils;
 
 public class SupportUtils {
@@ -22,11 +23,11 @@ public class SupportUtils {
 		if (sContactExpediaUrls == null) {
 			sContactExpediaUrls = ResourceUtils.getStringMap(context, R.array.pos_contact_expedia_url_map);
 		}
-		return sContactExpediaUrls.get(LocaleUtils.getPointOfSale());
+		return sContactExpediaUrls.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
 	}
 
 	public static String getWebsiteUrl() {
-		String pos = LocaleUtils.getPointOfSale();
+		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 		String url = "http://www." + pos;
 		return url;
 	}
@@ -35,7 +36,7 @@ public class SupportUtils {
 		if (sInfoSupportNumbers == null) {
 			sInfoSupportNumbers = ResourceUtils.getStringMap(context, R.array.pos_info_support_number_map);
 		}
-		return sInfoSupportNumbers.get(LocaleUtils.getPointOfSale());
+		return sInfoSupportNumbers.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
 	}
 
 	public static boolean hasInfoSupportNumber(Context context) {
@@ -46,7 +47,7 @@ public class SupportUtils {
 		if (sFlightSupportNumbers == null) {
 			sFlightSupportNumbers = ResourceUtils.getStringMap(context, R.array.pos_flight_support_number_map);
 		}
-		return sFlightSupportNumbers.get(LocaleUtils.getPointOfSale());
+		return sFlightSupportNumbers.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
 	}
 
 	public static String getBaggageFeeUrl(String origin, String destination) {

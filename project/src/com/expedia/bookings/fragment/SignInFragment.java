@@ -32,10 +32,10 @@ import com.expedia.bookings.activity.FacebookLinkActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -110,7 +110,7 @@ public class SignInFragment extends DialogFragment {
 
 		TextView forgotLink = (TextView) view.findViewById(R.id.forgot_your_password_link);
 		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>",
-				LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
+				PointOfSaleInfo.getPointOfSaleInfo().getUrl(), mContext.getString(R.string.forgot_your_password))));
 		forgotLink.setMovementMethod(LinkMovementMethod.getInstance());
 		forgotLink.setOnClickListener(new OnClickListener() {
 			@Override

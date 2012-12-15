@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.Html;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.mobiata.android.util.ResourceUtils;
 
 public class RulesRestrictionsUtils {
@@ -14,7 +15,7 @@ public class RulesRestrictionsUtils {
 	 * @return true if this locale requires us to get explicit user acceptance of the rules & restrictions
 	 */
 	public static boolean requiresRulesRestrictionsCheckbox(Context context) {
-		String pos = LocaleUtils.getPointOfSale(context);
+		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 		String[] requires = context.getResources().getStringArray(R.array.pos_requires_checkbox);
 		for (String requiredCountry : requires) {
 			if (pos.equals(requiredCountry)) {
@@ -26,7 +27,7 @@ public class RulesRestrictionsUtils {
 	}
 
 	public static String getTermsAndConditionsUrl(Context context) {
-		String pos = LocaleUtils.getPointOfSale(context);
+		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 
 		// Handle special dual-language cases
 		int resId = -1;
@@ -81,7 +82,7 @@ public class RulesRestrictionsUtils {
 	}
 
 	public static String getPrivacyPolicyUrl(Context context) {
-		String pos = LocaleUtils.getPointOfSale(context);
+		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 
 		// Handle special dual-language cases
 		int resId = -1;
@@ -136,7 +137,7 @@ public class RulesRestrictionsUtils {
 	}
 
 	public static String getBestPriceGuaranteeUrl(Context context) {
-		String pos = LocaleUtils.getPointOfSale(context);
+		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 
 		// Handle special dual-language cases
 		int resId = -1;
@@ -150,7 +151,7 @@ public class RulesRestrictionsUtils {
 	}
 
 	public static CharSequence getRulesRestrictionsConfirmation(Context context) {
-		String pos = LocaleUtils.getPointOfSale(context);
+		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 
 		// Handle special dual-language cases
 		int resId = -1;

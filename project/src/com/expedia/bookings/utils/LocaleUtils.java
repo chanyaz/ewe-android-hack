@@ -8,55 +8,14 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.mobiata.android.Log;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.mobiata.android.util.ResourceUtils;
-import com.mobiata.android.util.SettingUtils;
-import com.mobiata.flightlib.utils.FormatUtils;
 
 @SuppressWarnings("serial")
 public class LocaleUtils {
-
-	public static final String ACTION_POS_CHANGED = "com.expedia.bookings.action.pos_changed";
-
-	private static final Map<String, Integer> POINT_OF_SALE_RES_ID = new HashMap<String, Integer>() {
-		{
-			put("US", R.string.point_of_sale_us);
-			put("GB", R.string.point_of_sale_uk);
-			put("AU", R.string.point_of_sale_au);
-			put("FR", R.string.point_of_sale_fr);
-			put("DE", R.string.point_of_sale_de);
-			put("IT", R.string.point_of_sale_it);
-			put("NL", R.string.point_of_sale_nl);
-			put("ES", R.string.point_of_sale_es);
-			put("NO", R.string.point_of_sale_no);
-			put("DK", R.string.point_of_sale_dk);
-			put("SE", R.string.point_of_sale_se);
-			put("IE", R.string.point_of_sale_ie);
-			put("BE", R.string.point_of_sale_be);
-			put("CA", R.string.point_of_sale_ca);
-			put("NZ", R.string.point_of_sale_nz);
-			put("JP", R.string.point_of_sale_jp);
-			put("MX", R.string.point_of_sale_mx);
-			put("SG", R.string.point_of_sale_sg);
-			put("MY", R.string.point_of_sale_my);
-			put("KR", R.string.point_of_sale_kr);
-			put("TH", R.string.point_of_sale_th);
-			put("PH", R.string.point_of_sale_ph);
-			put("ID", R.string.point_of_sale_id);
-			put("BR", R.string.point_of_sale_br);
-			put("HK", R.string.point_of_sale_hk);
-			put("TW", R.string.point_of_sale_tw);
-			put("VN", R.string.point_of_sale_vn);
-			put("AR", R.string.point_of_sale_ar);
-			put("AT", R.string.point_of_sale_at);
-			put("IN", R.string.point_of_sale_in);
-		}
-	};
 
 	public static final Map<String, String> LANGUAGE_CODE_TO_CONTENT_LOCALE = new HashMap<String, String>() {
 		{
@@ -120,57 +79,8 @@ public class LocaleUtils {
 		}
 	};
 
-	public static String getDefaultPointOfSale(Context context) {
-		Locale locale = Locale.getDefault();
-		String country = locale.getCountry();
-		int resId = POINT_OF_SALE_RES_ID.containsKey(country) ? POINT_OF_SALE_RES_ID.get(country)
-				: R.string.point_of_sale_uk;
-		return context.getString(resId);
-	}
-
-	private static String sCachedPointOfSale;
-
-	/**
-	 * Gets the current POS.  By providing the context, you refresh the POS cache and guarantee that
-	 * you have the correct POS returend.
-	 */
-	public static String getPointOfSale(Context context) {
-		sCachedPointOfSale = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey),
-				getDefaultPointOfSale(context));
-		return sCachedPointOfSale;
-	}
-
-	/**
-	 * This returns the last known point of sale.  It is available so you can get the POS without
-	 * having to pass around a Context.  Only works if you call onPointOfSaleChanged() whenever
-	 * the POS changes.
-	 */
-	public static String getPointOfSale() {
-		if (sCachedPointOfSale == null) {
-			throw new RuntimeException("getLastPointOfSale() called before POS filled in by system");
-		}
-		return sCachedPointOfSale;
-	}
-
-	/**
-	 * Call this when the POS has changed.
-	 */
-	public static void onPointOfSaleChanged(Context context) {
-		Log.i("onPointOfSaleChanged() called");
-
-		// Update the cache
-		getPointOfSale(context);
-
-		// clear all data
-		Db.clear();
-
-		// Notify app of POS change
-		Intent intent = new Intent(ACTION_POS_CHANGED);
-		context.sendBroadcast(intent);
-	}
-
 	public static DistanceUnit getPosDistanceUnit(Context context) {
-		if (getPointOfSale(context).equals(context.getString(R.string.point_of_sale_us))) {
+		if (PointOfSaleInfo.getPointOfSaleInfo().getUrl().equals(context.getString(R.string.point_of_sale_us))) {
 			return DistanceUnit.MILES;
 		}
 		else {
@@ -182,7 +92,7 @@ public class LocaleUtils {
 	 * Returns the language id for the POS, if it is needed.  (Returns null for non-dual-language POSes). 
 	 */
 	public static String getDualLanguageId(Context context) {
-		String pos = getPointOfSale(context);
+		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 		String langId = Locale.getDefault().getLanguage().toLowerCase();
 		if (pos.equals(context.getString(R.string.point_of_sale_be))) {
 			if (langId.equals("nl")) {
@@ -236,7 +146,7 @@ public class LocaleUtils {
 			sTPIDs = ResourceUtils.getStringMap(context, R.array.tpid_map);
 		}
 
-		return sTPIDs.get(getPointOfSale(context));
+		return sTPIDs.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
 	}
 
 	private static Map<String, String> sSiteIds;
@@ -246,7 +156,7 @@ public class LocaleUtils {
 			sSiteIds = ResourceUtils.getStringMap(context, R.array.siteid_map);
 		}
 
-		return sSiteIds.get(getPointOfSale(context));
+		return sSiteIds.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -259,11 +169,11 @@ public class LocaleUtils {
 		// construct the device locale based on device language and device POS
 		String locale = Locale.getDefault().getLanguage();
 		locale += "_";
-		locale += sPOSCountryCodes.get(sCachedPointOfSale);
+		locale += sPOSCountryCodes.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
 
 		// set locale to default if the constructed locale does not make sense
 		if (!LOCALE_TO_EXPEDIA_PRIORITY_LIST.containsKey(locale)) {
-			locale = sPOSDefaultLocales.get(sCachedPointOfSale);
+			locale = sPOSDefaultLocales.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
 		}
 
 		return LOCALE_TO_EXPEDIA_PRIORITY_LIST.get(locale);
@@ -334,7 +244,7 @@ public class LocaleUtils {
 			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
 		}
 
-		return Arrays.binarySearch(sMandatoryFeesPointOfSales, getPointOfSale(context)) >= 0;
+		return Arrays.binarySearch(sMandatoryFeesPointOfSales, PointOfSaleInfo.getPointOfSaleInfo().getUrl()) >= 0;
 	}
 
 	public static boolean shouldDisplayMandatoryFees() {
@@ -342,6 +252,6 @@ public class LocaleUtils {
 			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
 		}
 
-		return Arrays.binarySearch(sMandatoryFeesPointOfSales, getPointOfSale()) >= 0;
+		return Arrays.binarySearch(sMandatoryFeesPointOfSales, PointOfSaleInfo.getPointOfSaleInfo().getUrl()) >= 0;
 	}
 }

@@ -46,13 +46,14 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SupportUtils;
@@ -204,7 +205,7 @@ public class FlightConfirmationFragment extends Fragment {
 			}
 		});
 
-		if (isCanadianPOS()) {
+		if (PointOfSaleInfo.getPointOfSaleInfo().getPointOfSale() == PointOfSale.CANADA) {
 			Ui.setOnClickListener(v, R.id.ca_insurance_action_text_view, new OnClickListener() {
 
 				@Override
@@ -380,16 +381,6 @@ public class FlightConfirmationFragment extends Fragment {
 		startActivity(baggageIntent);
 
 		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_ADDED_INSURANCE, true);
-	}
-
-	private boolean isCanadianPOS() {
-		String pos = LocaleUtils.getPointOfSale(getActivity());
-		if (pos != null && pos.endsWith(".ca")) {
-			return true;
-		}
-		else {
-			return false;
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

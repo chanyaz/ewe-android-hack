@@ -18,9 +18,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.util.AndroidUtils;
 
 public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity implements ClearPrivateDataListener {
@@ -59,7 +59,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 		pointOfSalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				configurePointOfSalePreferenceSummary((String) newValue);
-				LocaleUtils.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
+				PointOfSaleInfo.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
 				setResult(RESULT_POS_CHANGED);
 				return true;
 			}

@@ -15,7 +15,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
 import com.activeandroid.ActiveAndroid;
-import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSaleInfo;
@@ -68,17 +67,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		PointOfSaleInfo.init(this);
 		LocaleUtils.init(this);
 
-		// Fill POS based on locale if it's not already filled.
-		// Do it here so it becomes a sticky preference, i.e. it won't
-		// change magically if the user changes his locale. Chances are, he wants
-		// to keep using the same Expedia POS even if he changes his locale.
-		String posKey = getString(R.string.PointOfSaleKey);
-		if (null == SettingUtils.get(this, posKey, null)) {
-			SettingUtils.save(this, posKey, LocaleUtils.getDefaultPointOfSale(this));
-		}
-
 		FontCache.initialize(this);
-		LocaleUtils.onPointOfSaleChanged(this);
 		AdTracker.initialize(this);
 
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {

@@ -14,7 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Item;
 import com.google.analytics.tracking.android.Transaction;
@@ -35,13 +35,13 @@ public class AdTracker {
 		// Amobee
 		final List<String> amobeePos = Arrays.asList(res.getStringArray(R.array.valid_amobee_points_of_sale));
 		final String appId = context.getString(R.string.amobee_app_id);
-		Amobee.initialize(context, appId, amobeePos.contains(LocaleUtils.getPointOfSale(context)));
+		Amobee.initialize(context, appId, amobeePos.contains(PointOfSaleInfo.getPointOfSaleInfo().getUrl()));
 
 		// Somo
 		final List<String> somoPos = Arrays.asList(res.getStringArray(R.array.valid_somo_points_of_sale));
 		final int userId = res.getInteger(R.integer.somo_user_id);
 		final int applicationId = res.getInteger(R.integer.somo_application_id);
-		Somo.initialize(context, userId, applicationId, somoPos.contains(LocaleUtils.getPointOfSale(context)));
+		Somo.initialize(context, userId, applicationId, somoPos.contains(PointOfSaleInfo.getPointOfSaleInfo().getUrl()));
 
 		// Omniture
 		mAppMeasurement = new AppMeasurement((Application) context.getApplicationContext());
