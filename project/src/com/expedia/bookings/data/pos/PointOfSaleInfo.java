@@ -70,10 +70,10 @@ public class PointOfSaleInfo {
 	private String mFlightSupportPhoneNumber;
 
 	// The two-letter country code associated with this locale (e.g. "US")
-	private String mTwoLetterCountryCode; // LocaleUtils.sPOSCountryCodes
+	private String mTwoLetterCountryCode;
 
 	// The three-letter country code associated with this locale (e.g. "USA")
-	private String mThreeLetterCountryCode; // LocaleUtils.sPOSCountryCodes
+	private String mThreeLetterCountryCode;
 
 	// The distance unit used by this POS.  Not always used.
 	private DistanceUnit mDistanceUnit;
@@ -125,10 +125,10 @@ public class PointOfSaleInfo {
 		private String mPrivacyPolicyUrl;
 
 		// The language code that this locale associates with
-		private String mLanguageCode; // Used in LocaleUtils.getDualLanguageId()
+		private String mLanguageCode;
 
 		// The language identifier linked to this locale (linked to language code)
-		private int mLanguageId; // LocaleUtils.getDualLanguageId()
+		private int mLanguageId;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

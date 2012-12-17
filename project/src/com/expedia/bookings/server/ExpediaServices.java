@@ -82,7 +82,6 @@ import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.facebook.Session;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
@@ -647,9 +646,9 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addPOSParams(List<BasicNameValuePair> query) {
-		String langId = LocaleUtils.getDualLanguageId(mContext);
-		if (langId != null) {
-			query.add(new BasicNameValuePair("langid", langId));
+		int langId = PointOfSaleInfo.getPointOfSaleInfo().getDualLanguageId();
+		if (langId != 0) {
+			query.add(new BasicNameValuePair("langid", Integer.toString(langId)));
 		}
 
 		if (!AndroidUtils.isRelease(mContext) && getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
