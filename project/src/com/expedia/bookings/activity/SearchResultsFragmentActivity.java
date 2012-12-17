@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,6 +54,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
@@ -1194,7 +1196,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
 
-			LinkedList<String> languages = LocaleUtils.getLanguages(mContext);
+			List<String> languages = Arrays.asList(PointOfSaleInfo.getPointOfSaleInfo().getReviewLanguages());
 
 			return services.reviews(Db.getSelectedProperty(), ReviewSort.HIGHEST_RATING_FIRST, 0, languages,
 					MAX_SUMMARIZED_REVIEWS);

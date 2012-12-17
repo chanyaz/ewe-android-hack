@@ -15,6 +15,7 @@ import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -800,7 +801,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
-		String localesString = LocaleUtils.formatLanguageCodes(languages);
+		String localesString = PointOfSaleInfo.getFormattedLanguageCodes(languages);
 
 		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
 
@@ -838,8 +839,8 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
-		List<String> languages = LocaleUtils.getLanguages(mContext);
-		String localesString = LocaleUtils.formatLanguageCodes(languages);
+		List<String> languages = Arrays.asList(PointOfSaleInfo.getPointOfSaleInfo().getReviewLanguages());
+		String localesString = PointOfSaleInfo.getFormattedLanguageCodes(languages);
 
 		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
 

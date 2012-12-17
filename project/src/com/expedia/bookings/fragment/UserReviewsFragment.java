@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -31,9 +32,9 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
@@ -149,7 +150,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		if (savedInstanceState == null) {
 			// create the meta data for language lists based on the review sort
 			mMetaLanguageList = new LinkedList<ReviewLanguageSet>();
-			LinkedList<String> languages = LocaleUtils.getLanguages(getActivity());
+			List<String> languages = Arrays.asList(PointOfSaleInfo.getPointOfSaleInfo().getReviewLanguages());
 
 			if (mReviewSort == ReviewSort.NEWEST_REVIEW_FIRST && languages.size() != 3) {
 				// segregate the reviews by language for the recent tab
