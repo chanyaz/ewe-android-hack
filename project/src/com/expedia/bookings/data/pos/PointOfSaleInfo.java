@@ -107,19 +107,19 @@ public class PointOfSaleInfo {
 		private String mBestPriceGuaranteePolicyUrl;
 
 		// The rules & restrictions disclaimer for every booking
-		private String mRulesRestrictionsConfirmation; // RulesRestrictionsUtils.getRulesRestrictionsConfirmation(), sort of
+		private String mRulesRestrictionsConfirmation;
 
 		// The text in mRulesRestrictionsConfirmation that should be linked for terms and conditions
 		private String mTermsAndConditionsLinkText;
 
 		// The url to link to in mTermsAndConditionsLinkText
-		private String mTermsAndConditionsUrl; // RulesRestrictionsUtils.getTermsAndConditionsUrl()
+		private String mTermsAndConditionsUrl;
 
 		// The text in mRulesRestrictionsConfirmation that should be linked for the privacy policy
 		private String mPrivacyPolicyLinkText;
 
 		// The url to link to in mPrivacyPolicyLinkText
-		private String mPrivacyPolicyUrl; // RulesRestrictionsUtils.getPrivacyPolicyUrl()
+		private String mPrivacyPolicyUrl;
 
 		// The language code that this locale associates with
 		private String mLanguageCode; // Used in LocaleUtils.getDualLanguageId()
@@ -202,6 +202,14 @@ public class PointOfSaleInfo {
 
 	public String getBestPriceGuaranteeUrl() {
 		return getPosLocale().mBestPriceGuaranteePolicyUrl;
+	}
+
+	public String getTermsAndConditionsUrl() {
+		return getPosLocale().mTermsAndConditionsUrl;
+	}
+
+	public String getPrivacyPolicyUrl() {
+		return getPosLocale().mPrivacyPolicyUrl;
 	}
 
 	public CharSequence getRulesRestrictionsConfirmation() {

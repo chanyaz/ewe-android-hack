@@ -53,7 +53,6 @@ import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
-import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.BillingAddressWidget;
@@ -464,7 +463,7 @@ public class BookingFormFragment extends Fragment {
 		}
 
 		// Setup the correct text (and link enabling) on the terms & conditions textview
-		mRulesRestrictionsTextView.setText(RulesRestrictionsUtils.getRulesRestrictionsConfirmation(getActivity()));
+		mRulesRestrictionsTextView.setText(PointOfSaleInfo.getPointOfSaleInfo().getRulesRestrictionsConfirmation());
 		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
 		// Configure form validation

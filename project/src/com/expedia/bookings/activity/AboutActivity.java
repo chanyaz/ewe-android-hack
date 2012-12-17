@@ -7,14 +7,13 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.utils.AboutUtils;
-import com.expedia.bookings.utils.RulesRestrictionsUtils;
-import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
@@ -109,14 +108,16 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			mUtils.trackAboutActivityPageLoad();
 		}
 
+		PointOfSaleInfo posInfo = PointOfSaleInfo.getPointOfSaleInfo();
+		
 		TextView tac_link = Ui.findView(this, R.id.terms_and_conditions_link);
 		tac_link.setText(Html.fromHtml(String.format("<a href=\"%s\">%s</a>",
-					RulesRestrictionsUtils.getTermsAndConditionsUrl(mContext), mContext.getString(R.string.info_label_terms_conditions))));
+				posInfo.getTermsAndConditionsUrl(), mContext.getString(R.string.info_label_terms_conditions))));
 		tac_link.setMovementMethod(LinkMovementMethod.getInstance());
 
 		TextView privacy_policy_link = Ui.findView(this, R.id.privacy_policy_link);
 		privacy_policy_link.setText(Html.fromHtml(String.format("<a href=\"%s\">%s</a>",
-					RulesRestrictionsUtils.getPrivacyPolicyUrl(mContext), mContext.getString(R.string.info_label_privacy_policy))));
+				posInfo.getPrivacyPolicyUrl(), mContext.getString(R.string.info_label_privacy_policy))));
 		privacy_policy_link.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
