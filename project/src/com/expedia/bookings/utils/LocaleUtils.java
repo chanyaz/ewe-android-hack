@@ -10,7 +10,6 @@ import java.util.Map;
 import android.content.Context;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.mobiata.android.util.ResourceUtils;
 
@@ -78,15 +77,6 @@ public class LocaleUtils {
 
 		}
 	};
-
-	public static DistanceUnit getPosDistanceUnit(Context context) {
-		if (PointOfSaleInfo.getPointOfSaleInfo().getUrl().equals(context.getString(R.string.point_of_sale_us))) {
-			return DistanceUnit.MILES;
-		}
-		else {
-			return DistanceUnit.KILOMETERS;
-		}
-	}
 
 	/**
 	 * Returns the language id for the POS, if it is needed.  (Returns null for non-dual-language POSes). 

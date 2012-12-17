@@ -74,7 +74,7 @@ public class PointOfSaleInfo {
 	private String mThreeLetterCountryCode; // LocaleUtils.sPOSCountryCodes
 
 	// The distance unit used by this POS.  Not always used.
-	private DistanceUnit mDistanceUnit; // LocaleUtils.getPosDistanceUnit()
+	private DistanceUnit mDistanceUnit;
 
 	// Whether or not to require a rules & restrictions checkbox for this POS
 	private boolean mRequiresRulesRestrictionsCheckbox; // RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox()

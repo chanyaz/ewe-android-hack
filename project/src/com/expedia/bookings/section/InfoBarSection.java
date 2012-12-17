@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
@@ -65,7 +66,7 @@ public class InfoBarSection extends LinearLayout {
 			mLeftTextView.setText(Html.fromHtml(context.getString(R.string.bold_template, duration)));
 		}
 		else {
-			int flags = LocaleUtils.getPosDistanceUnit(context) == DistanceUnit.MILES ? FormatUtils.F_IMPERIAL
+			int flags = PointOfSaleInfo.getPointOfSaleInfo().getDistanceUnit() == DistanceUnit.MILES ? FormatUtils.F_IMPERIAL
 					: FormatUtils.F_METRIC;
 			String distance = FormatUtils.formatDistance(context, leg.getDistanceInMiles(), flags);
 			mLeftTextView.setText(Html.fromHtml(context.getString(R.string.time_distance_TEMPLATE, duration,
