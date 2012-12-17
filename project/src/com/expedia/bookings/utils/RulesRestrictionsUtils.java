@@ -11,21 +11,6 @@ import com.mobiata.android.util.ResourceUtils;
 
 public class RulesRestrictionsUtils {
 
-	/**
-	 * @return true if this locale requires us to get explicit user acceptance of the rules & restrictions
-	 */
-	public static boolean requiresRulesRestrictionsCheckbox(Context context) {
-		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
-		String[] requires = context.getResources().getStringArray(R.array.pos_requires_checkbox);
-		for (String requiredCountry : requires) {
-			if (pos.equals(requiredCountry)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	public static String getTermsAndConditionsUrl(Context context) {
 		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 

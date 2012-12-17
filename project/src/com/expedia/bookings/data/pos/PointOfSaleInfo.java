@@ -77,7 +77,7 @@ public class PointOfSaleInfo {
 	private DistanceUnit mDistanceUnit;
 
 	// Whether or not to require a rules & restrictions checkbox for this POS
-	private boolean mRequiresRulesRestrictionsCheckbox; // RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox()
+	private boolean mRequiresRulesRestrictionsCheckbox;
 
 	// Whether or not to display total price + mandatory fees when displaying costs
 	private boolean mDisplayMandatoryFees; // LocaleUtils.shouldDisplayMandatoryFees()

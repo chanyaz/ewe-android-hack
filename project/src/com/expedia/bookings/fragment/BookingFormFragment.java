@@ -5,10 +5,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,8 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -70,7 +66,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
-import com.mobiata.android.util.Ui;
 import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.TextViewErrorHandler;
@@ -416,7 +411,7 @@ public class BookingFormFragment extends Fragment {
 		mCardNumberEditText.setCompoundDrawablePadding(Math.round(6 * getResources().getDisplayMetrics().density));
 
 		// Only display the checkbox if we're in a locale that requires its display
-		if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(getActivity())) {
+		if (PointOfSaleInfo.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox()) {
 			mRulesRestrictionsCheckbox.setVisibility(View.VISIBLE);
 			mRulesRestrictionsCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -543,7 +538,7 @@ public class BookingFormFragment extends Fragment {
 		}));
 		mGuestInfoValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
-				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(getActivity()) && !obj.isChecked()) {
+				if (PointOfSaleInfo.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
 					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
 				}
 				return 0;
@@ -551,7 +546,7 @@ public class BookingFormFragment extends Fragment {
 		});
 		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
-				if (RulesRestrictionsUtils.requiresRulesRestrictionsCheckbox(getActivity()) && !obj.isChecked()) {
+				if (PointOfSaleInfo.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
 					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
 				}
 				return 0;
