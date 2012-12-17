@@ -3,7 +3,6 @@ package com.expedia.bookings.utils;
 import java.util.Map;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSaleInfo;
@@ -12,7 +11,6 @@ import com.mobiata.android.util.ResourceUtils;
 public class SupportUtils {
 
 	private static Map<String, String> sContactExpediaUrls;
-	private static Map<String, String> sInfoSupportNumbers;
 	private static Map<String, String> sFlightSupportNumbers;
 
 	public static String getAppSupportUrl(Context context) {
@@ -30,17 +28,6 @@ public class SupportUtils {
 		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 		String url = "http://www." + pos;
 		return url;
-	}
-
-	public static String getInfoSupportNumber(Context context) {
-		if (sInfoSupportNumbers == null) {
-			sInfoSupportNumbers = ResourceUtils.getStringMap(context, R.array.pos_info_support_number_map);
-		}
-		return sInfoSupportNumbers.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
-	}
-
-	public static boolean hasInfoSupportNumber(Context context) {
-		return !TextUtils.isEmpty(getInfoSupportNumber(context));
 	}
 
 	public static String getFlightSupportNumber(Context context) {

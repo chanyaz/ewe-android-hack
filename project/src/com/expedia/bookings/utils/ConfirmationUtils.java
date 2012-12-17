@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.mobiata.android.util.AndroidUtils;
 
 public class ConfirmationUtils {
@@ -36,7 +37,8 @@ public class ConfirmationUtils {
 	}
 
 	public static String determineContactText(Context context) {
-		return context.getString(R.string.contact_phone_template, SupportUtils.getInfoSupportNumber(context));
+		return context.getString(R.string.contact_phone_template, PointOfSaleInfo.getPointOfSaleInfo()
+				.getSupportPhoneNumber());
 	}
 
 	public static void configureContactView(Context context, TextView contactView, String contactText) {

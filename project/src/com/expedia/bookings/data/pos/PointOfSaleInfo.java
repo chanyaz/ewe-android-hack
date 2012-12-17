@@ -59,7 +59,7 @@ public class PointOfSaleInfo {
 	private int mSiteId;
 
 	// The POS's contact phone number
-	private String mSupportPhoneNumber; // SupportUtils.getInfoSupportNumber()
+	private String mSupportPhoneNumber;
 
 	// The POS's contact phone number for flights issues
 	private String mFlightSupportPhoneNumber; // SupportUtils.getFlightSupportNumber()

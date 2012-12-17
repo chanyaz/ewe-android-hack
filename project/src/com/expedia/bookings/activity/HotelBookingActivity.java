@@ -21,6 +21,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
@@ -35,7 +36,6 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -423,7 +423,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	@Override
 	public void onCallCustomerSupport() {
-		SocialUtils.call(this, SupportUtils.getInfoSupportNumber(this));
+		SocialUtils.call(this, PointOfSaleInfo.getPointOfSaleInfo().getSupportPhoneNumber());
 	}
 
 	@Override

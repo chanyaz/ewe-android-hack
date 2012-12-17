@@ -10,10 +10,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AppFeedbackActivity;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -145,7 +145,7 @@ public class AboutUtils {
 
 	public void contactViaPhone() {
 		trackCallSupport();
-		SocialUtils.call(mActivity, SupportUtils.getInfoSupportNumber(mActivity));
+		SocialUtils.call(mActivity, PointOfSaleInfo.getPointOfSaleInfo().getSupportPhoneNumber());
 	}
 
 	public void contactViaWeb() {
