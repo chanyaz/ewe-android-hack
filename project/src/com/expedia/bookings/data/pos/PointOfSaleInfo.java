@@ -2,6 +2,8 @@ package com.expedia.bookings.data.pos;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +38,6 @@ import com.mobiata.android.util.SettingUtils;
  * TODO
  * - Replace SupportUtils.getAppSupportUrl()
  * - Look into all cases of getUrl() and correct where necessary what's happening
- * - Sort getAllPointOfSaleInfo()
  * 
  */
 public class PointOfSaleInfo {
@@ -353,8 +354,21 @@ public class PointOfSaleInfo {
 		context.sendBroadcast(intent);
 	}
 
-	public static List<PointOfSaleInfo> getAllPointOfSaleInfo() {
+	// Provide context for sorting purposes
+	public static List<PointOfSaleInfo> getAllPointOfSaleInfo(final Context context) {
 		List<PointOfSaleInfo> poses = new ArrayList<PointOfSaleInfo>(sPointOfSaleInfo.values());
+
+		Comparator<PointOfSaleInfo> comparator = new Comparator<PointOfSaleInfo>() {
+			@Override
+			public int compare(PointOfSaleInfo lhs, PointOfSaleInfo rhs) {
+				String lhsName = context.getString(lhs.getCountryNameResId());
+				String rhsName = context.getString(rhs.getCountryNameResId());
+				return lhsName.compareTo(rhsName);
+			}
+		};
+
+		Collections.sort(poses, comparator);
+
 		return poses;
 	}
 
