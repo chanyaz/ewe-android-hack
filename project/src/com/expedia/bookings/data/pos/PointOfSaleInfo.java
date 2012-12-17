@@ -99,7 +99,7 @@ public class PointOfSaleInfo {
 		private String mSupportUrl;
 
 		// The url for just the website
-		private String mWebsiteUrl; // SupportUtils.getWebsiteUrl()
+		private String mWebsiteUrl;
 
 		// The url for the best price guarantee policy (if available in the POS)
 		private String mBestPriceGuaranteePolicyUrl; // RulesRestrictionsUtils.getBestPriceGuaranteeUrl()

@@ -159,7 +159,7 @@ public class AboutUtils {
 	}
 
 	public void openExpediaWebsite() {
-		SocialUtils.openSite(mActivity, SupportUtils.getWebsiteUrl());
+		SocialUtils.openSite(mActivity, PointOfSaleInfo.getPointOfSaleInfo().getWebsiteUrl());
 	}
 
 	public void openAppFeedback() {
