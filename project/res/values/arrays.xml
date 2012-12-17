@@ -59,43 +59,6 @@
         <item>-122.408200</item>
     </string-array>
 
-    <!--
-         List of available Expedia Points of Sale (POS) that should be presented to the
-         user as options.
-    -->
-    <string-array name="points_of_sale">
-        <item>@string/point_of_sale_us</item>
-        <item>@string/point_of_sale_ar</item>
-        <item>@string/point_of_sale_at</item>
-        <item>@string/point_of_sale_au</item>
-        <item>@string/point_of_sale_be</item>
-        <item>@string/point_of_sale_br</item>
-        <item>@string/point_of_sale_ca</item>
-        <item>@string/point_of_sale_de</item>
-        <item>@string/point_of_sale_dk</item>
-        <item>@string/point_of_sale_es</item>
-        <item>@string/point_of_sale_fr</item>
-        <item>@string/point_of_sale_hk</item>
-        <item>@string/point_of_sale_id</item>
-        <item>@string/point_of_sale_ie</item>
-        <item>@string/point_of_sale_in</item>
-        <item>@string/point_of_sale_it</item>
-        <item>@string/point_of_sale_jp</item>
-        <item>@string/point_of_sale_kr</item>
-        <item>@string/point_of_sale_mx</item>
-        <item>@string/point_of_sale_my</item>
-        <item>@string/point_of_sale_nl</item>
-        <item>@string/point_of_sale_no</item>
-        <item>@string/point_of_sale_nz</item>
-        <item>@string/point_of_sale_ph</item>
-        <item>@string/point_of_sale_se</item>
-        <item>@string/point_of_sale_sg</item>
-        <item>@string/point_of_sale_th</item>
-        <item>@string/point_of_sale_tw</item>
-        <item>@string/point_of_sale_uk</item>
-        <item>@string/point_of_sale_vn</item>
-    </string-array>
-
     <!-- POSes that require a rules & restrictions checkbox -->
     <string-array name="pos_requires_checkbox">
         <item>@string/point_of_sale_fr</item>
@@ -489,40 +452,6 @@
         <item>@string/country_zm</item>
         <item>@string/country_zw</item>
         <item>@string/country_ax</item>
-    </string-array>
-
-    <!-- List of Country Names that map to Expedia POSs -->
-    <string-array name="country_names_match_to_points_of_sale">
-        <item>@string/country_us</item>
-        <item>@string/country_ar</item>
-        <item>@string/country_at</item>
-        <item>@string/country_au</item>
-        <item>@string/country_be</item>
-        <item>@string/country_br</item>
-        <item>@string/country_ca</item>
-        <item>@string/country_de</item>
-        <item>@string/country_dk</item>
-        <item>@string/country_es</item>
-        <item>@string/country_fr</item>
-        <item>@string/country_hk</item>
-        <item>@string/country_id</item>
-        <item>@string/country_ie</item>
-        <item>@string/country_in</item>
-        <item>@string/country_it</item>
-        <item>@string/country_jp</item>
-        <item>@string/country_kr</item>
-        <item>@string/country_mx</item>
-        <item>@string/country_my</item>
-        <item>@string/country_nl</item>
-        <item>@string/country_no</item>
-        <item>@string/country_nz</item>
-        <item>@string/country_ph</item>
-        <item>@string/country_se</item>
-        <item>@string/country_sg</item>
-        <item>@string/country_th</item>
-        <item>@string/country_tw</item>
-        <item>@string/country_gb</item>
-        <item>@string/country_vn</item>
     </string-array>
 
     <!-- List of Country Codes valid for Amobee tracking -->

@@ -58,14 +58,18 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 		clearPrivateDataPreference.setClearPrivateDataListener(this);
 		pointOfSalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				configurePointOfSalePreferenceSummary((String) newValue);
 				PointOfSaleInfo.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
+				configurePointOfSalePreferenceSummary();
 				setResult(RESULT_POS_CHANGED);
+
+				// IMPORTANT: DomainPreference purposefully breaks the contract a bit.  Changing
+				// this to "false" will not prevent the preference change from continuing without
+				// modifying DomainPreference as well.
 				return true;
 			}
 		});
 
-		configurePointOfSalePreferenceSummary(pointOfSalePref.getValue());
+		configurePointOfSalePreferenceSummary();
 
 		// If the result is canceled, means no prefs were modified
 		setResult(RESULT_CANCELED);
@@ -148,10 +152,10 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 	}
 
 	// Sets the currency summary to display whichever point of sale is currently selected
-	public void configurePointOfSalePreferenceSummary(String pos) {
+	public void configurePointOfSalePreferenceSummary() {
 		PreferenceManager pm = getPreferenceManager();
 		Preference pointOfSalePref = pm.findPreference(getString(R.string.PointOfSaleKey));
-		pointOfSalePref.setSummary(pos);
+		pointOfSalePref.setSummary(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
 	}
 
 	@Override

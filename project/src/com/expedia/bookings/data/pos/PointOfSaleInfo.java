@@ -36,6 +36,8 @@ import com.mobiata.android.util.SettingUtils;
  * TODO
  * - Replace SupportUtils.getAppSupportUrl()
  * - Look into all cases of getUrl() and correct where necessary what's happening
+ * - Sort getAllPointOfSaleInfo()
+ * 
  */
 public class PointOfSaleInfo {
 
@@ -315,7 +317,8 @@ public class PointOfSaleInfo {
 		}
 
 		if (savePos) {
-			SettingUtils.save(context, context.getString(R.string.PointOfSaleKey), sCachedPOS.getId());
+			SettingUtils
+					.save(context, context.getString(R.string.PointOfSaleKey), Integer.toString(sCachedPOS.getId()));
 		}
 
 		return sPointOfSaleInfo.get(sCachedPOS);
@@ -348,6 +351,11 @@ public class PointOfSaleInfo {
 		// Notify app of POS change
 		Intent intent = new Intent(ACTION_POS_CHANGED);
 		context.sendBroadcast(intent);
+	}
+
+	public static List<PointOfSaleInfo> getAllPointOfSaleInfo() {
+		List<PointOfSaleInfo> poses = new ArrayList<PointOfSaleInfo>(sPointOfSaleInfo.values());
+		return poses;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

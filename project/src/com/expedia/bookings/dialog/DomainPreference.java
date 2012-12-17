@@ -1,5 +1,7 @@
 package com.expedia.bookings.dialog;
 
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -17,24 +19,60 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 
 public class DomainPreference extends ListPreference {
 	private Context mContext;
 	private String mValue;
-	private DomainAdapter mDomainAdapter;
 	private int mSelectedOption;
+
+	private CharSequence[] mEntries;
+	private CharSequence[] mEntrySubText;
+	private CharSequence[] mEntryValues;
 
 	public DomainPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
+
+		List<PointOfSaleInfo> poses = PointOfSaleInfo.getAllPointOfSaleInfo();
+		int len = poses.size();
+		mEntries = new CharSequence[len];
+		mEntrySubText = new CharSequence[len];
+		mEntryValues = new CharSequence[len];
+		for (int a = 0; a < len; a++) {
+			PointOfSaleInfo info = poses.get(a);
+			mEntries[a] = context.getString(info.getCountryNameResId());
+			mEntrySubText[a] = info.getUrl();
+			mEntryValues[a] = Integer.toString(info.getPointOfSale().getId());
+		}
 	}
 
 	public DomainPreference(Context context) {
 		this(context, null);
 	}
 
+	@Override
+	public CharSequence[] getEntries() {
+		return mEntries;
+	}
+
+	@Override
+	public CharSequence[] getEntryValues() {
+		return mEntryValues;
+	}
+
+	@Override
+	public int findIndexOfValue(String value) {
+		for (int i = 0, n = mEntryValues.length; i < n; ++i) {
+			if (mEntryValues[i].equals(value)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	void setSelectedOption(int v) {
-		if (v < 0 || v > super.getEntryValues().length) {
+		if (v < 0 || v > getEntryValues().length) {
 			mSelectedOption = 0;
 		}
 		else {
@@ -44,10 +82,10 @@ public class DomainPreference extends ListPreference {
 
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
-		DomainAdapter mDomainAdapter = new DomainAdapter(mContext);
-		mDomainAdapter.setDomains(super.getEntries(), super.getEntryValues());
-		mDomainAdapter.setSelected(mSelectedOption);
-		builder.setAdapter(mDomainAdapter, new DialogInterface.OnClickListener() {
+		DomainAdapter domainAdapter = new DomainAdapter(mContext);
+		domainAdapter.setDomains(mEntries, mEntrySubText);
+		domainAdapter.setSelected(mSelectedOption);
+		builder.setAdapter(domainAdapter, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				mSelectedOption = which;
 				DomainPreference.super.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
@@ -58,9 +96,9 @@ public class DomainPreference extends ListPreference {
 
 	@Override
 	protected void onDialogClosed(boolean positiveResult) {
-		if (positiveResult && mSelectedOption >= 0 && super.getEntryValues() != null) {
-			final String value = super.getEntryValues()[mSelectedOption].toString();
-			setSelectedOption(super.findIndexOfValue(super.getValue()));
+		if (positiveResult && mSelectedOption >= 0 && getEntryValues() != null) {
+			final String value = getEntryValues()[mSelectedOption].toString();
+			setSelectedOption(mSelectedOption);
 			Builder builder = new AlertDialog.Builder(mContext);
 			builder.setTitle(R.string.dialog_clear_private_data_title);
 			if (User.isLoggedIn(mContext)) {
@@ -71,9 +109,11 @@ public class DomainPreference extends ListPreference {
 			}
 			builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					if (callChangeListener(value)) {
-						setValue(value);
-					}
+					// We are breaking contract a bit here; we change the value regardless
+					// of what the change listener says.  This is so that we can use the
+					// change listener as a reaction to change, rather than as a gateway.
+					setValue(value);
+					callChangeListener(value);
 
 					// Delete private data
 					Db.deleteBillingInfo(mContext);
@@ -91,19 +131,9 @@ public class DomainPreference extends ListPreference {
 	}
 
 	@Override
-	public void setValue(String value) {
-		super.setValue(value);
-	}
-
-	@Override
-	protected boolean callChangeListener(Object value) {
-		return super.callChangeListener(value);
-	}
-
-	@Override
 	protected void onSetInitialValue(boolean restore, Object defaultValue) {
 		String v = restore ? getPersistedString(mValue) : (String) defaultValue;
-		setSelectedOption(super.findIndexOfValue(v));
+		setSelectedOption(findIndexOfValue(v));
 		setValue(v);
 	}
 
@@ -113,11 +143,11 @@ public class DomainPreference extends ListPreference {
 		private LayoutInflater mInflater;
 		private int mSelected = 0;
 
-		public DomainAdapter (Context context) {
+		public DomainAdapter(Context context) {
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
-		public void setDomains (CharSequence[] names, CharSequence[] values) {
+		public void setDomains(CharSequence[] names, CharSequence[] values) {
 			mNames = names;
 			mDomains = values;
 		}
