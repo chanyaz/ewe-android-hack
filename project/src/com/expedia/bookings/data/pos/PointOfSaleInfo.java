@@ -36,7 +36,6 @@ import com.mobiata.android.util.SettingUtils;
  * - Default POS being set correctly
  * 
  * TODO
- * - Replace SupportUtils.getAppSupportUrl()
  * - Look into all cases of getUrl() and correct where necessary what's happening
  * 
  */

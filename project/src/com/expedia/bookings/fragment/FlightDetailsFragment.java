@@ -31,7 +31,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.SupportUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -160,8 +159,7 @@ public class FlightDetailsFragment extends Fragment {
 				FlightLeg leg = getFlightLeg();
 
 				//TODO:We need to set the correct url based on Point of Sale
-				String url = SupportUtils.getBaggageFeeUrl(leg.getFirstWaypoint().mAirportCode,
-						leg.getLastWaypoint().mAirportCode);
+				String url = leg.getBaggageFeeUrl();
 
 				Intent baggageIntent = new Intent(getActivity(), WebViewActivity.class);
 				baggageIntent.putExtra(WebViewActivity.ARG_URL, url);

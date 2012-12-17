@@ -13,7 +13,6 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightLeg implements JSONable {
 
@@ -122,6 +121,11 @@ public class FlightLeg implements JSONable {
 			sb.append(Db.getAirline(airlineCode).mAirlineName);
 		}
 		return sb.toString();
+	}
+
+	public String getBaggageFeeUrl() {
+		String urlFormat = "http://www.expedia.com/Flights-BagFees?originapt=%s&destinationapt=%s";
+		return String.format(urlFormat, getFirstWaypoint().mAirportCode, getLastWaypoint().mAirportCode);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -56,7 +56,6 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.SupportUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -465,9 +464,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 		body.append("\n\n");
 
-		body.append(getString(R.string.share_flight_additional_fees_TEMPLATE,
-				SupportUtils.getBaggageFeeUrl(firstLeg.getFirstWaypoint().mAirportCode,
-						firstLeg.getLastWaypoint().mAirportCode)));
+		body.append(getString(R.string.share_flight_additional_fees_TEMPLATE, firstLeg.getBaggageFeeUrl()));
 
 		body.append("\n\n");
 

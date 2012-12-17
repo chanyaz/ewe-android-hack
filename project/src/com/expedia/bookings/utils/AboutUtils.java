@@ -172,7 +172,7 @@ public class AboutUtils {
 	}
 
 	public void openAppSupport() {
-		SocialUtils.openSite(mActivity, SupportUtils.getAppSupportUrl(mActivity));
+		SocialUtils.openSite(mActivity, "http://www.mobiata.com/support/expediahotels-android");
 	}
 
 	public void tellAFriend() {
