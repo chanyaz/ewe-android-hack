@@ -155,7 +155,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 	public void configurePointOfSalePreferenceSummary() {
 		PreferenceManager pm = getPreferenceManager();
 		Preference pointOfSalePref = pm.findPreference(getString(R.string.PointOfSaleKey));
-		pointOfSalePref.setSummary(PointOfSale.getPointOfSaleInfo().getUrl());
+		pointOfSalePref.setSummary(PointOfSale.getPointOfSale().getUrl());
 	}
 
 	@Override

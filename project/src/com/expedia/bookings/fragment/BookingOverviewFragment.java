@@ -436,7 +436,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		// Purchase total
 		Money displayedTotal;
-		if (PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
+		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
 			displayedTotal = rate.getTotalPriceWithMandatoryFees();
 		}
 		else {

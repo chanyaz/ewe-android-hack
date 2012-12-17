@@ -26,7 +26,7 @@ public class ExpediaDomainHandler extends BasicDomainHandler {
 			// We only care about validating domains for releases so we can
 			// keep using the mock proxy
 			String domain = cookie.getDomain();
-			if (!domain.endsWith(PointOfSale.getPointOfSaleInfo().getUrl())) {
+			if (!domain.endsWith(PointOfSale.getPointOfSale().getUrl())) {
 				String message = "Domain attribute \"" +
 					domain +
 					"\" not the current point of sale for cookie: " + cookie.toString();

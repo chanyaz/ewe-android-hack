@@ -110,7 +110,7 @@ public class SignInFragment extends DialogFragment {
 
 		TextView forgotLink = (TextView) view.findViewById(R.id.forgot_your_password_link);
 		forgotLink.setText(Html.fromHtml(String.format("<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>",
-				PointOfSale.getPointOfSaleInfo().getUrl(), mContext.getString(R.string.forgot_your_password))));
+				PointOfSale.getPointOfSale().getUrl(), mContext.getString(R.string.forgot_your_password))));
 		forgotLink.setMovementMethod(LinkMovementMethod.getInstance());
 		forgotLink.setOnClickListener(new OnClickListener() {
 			@Override

@@ -788,7 +788,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 			// F1330: Tapping on tiles should take you to unsupported POS page
 			// if you are on an unsupported POS!
-			if (!PointOfSale.getPointOfSaleInfo().supportsFlights()) {
+			if (!PointOfSale.getPointOfSale().supportsFlights()) {
 				mContext.startActivity(new Intent(mContext, FlightUnsupportedPOSActivity.class));
 			}
 			else {

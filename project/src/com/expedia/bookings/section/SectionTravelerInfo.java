@@ -928,7 +928,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			}
 			else {
-				final String targetCountry = mContext.getString(PointOfSale.getPointOfSaleInfo()
+				final String targetCountry = mContext.getString(PointOfSale.getPointOfSale()
 						.getCountryNameResId());
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {

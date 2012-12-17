@@ -167,7 +167,7 @@ public class HotelReceiptMini extends FrameLayout {
 		mGuestsTextView.setText(StrUtils.formatGuests(getContext(), searchParams));
 
 		Money displayedTotal;
-		if (PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
+		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
 			addTextRow(mBelowTotalCostLayout, R.string.PayToExpedia, selectedRate.getTotalAmountAfterTax()
 					.getFormattedMoney());

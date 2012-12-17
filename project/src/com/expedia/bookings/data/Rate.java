@@ -565,7 +565,7 @@ public class Rate implements JSONable {
 	}
 
 	public Money getDisplayBaseRate() {
-		if (PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
+		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
 			return getMandatoryBaseRate();
 		}
 		else if (mStrikethroughPriceToShowUsers != null) {
@@ -577,7 +577,7 @@ public class Rate implements JSONable {
 	}
 
 	public Money getDisplayRate() {
-		if (PointOfSale.getPointOfSaleInfo().displayMandatoryFees() && mTotalPriceWithMandatoryFees != null) {
+		if (PointOfSale.getPointOfSale().displayMandatoryFees() && mTotalPriceWithMandatoryFees != null) {
 			return mTotalPriceWithMandatoryFees;
 		}
 		else if (mPriceToShowUsers != null) {

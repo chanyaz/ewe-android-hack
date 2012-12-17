@@ -366,7 +366,7 @@ public class BookingFormFragment extends Fragment {
 			}
 		});
 
-		final String targetCountry = getString(PointOfSale.getPointOfSaleInfo().getCountryNameResId());
+		final String targetCountry = getString(PointOfSale.getPointOfSale().getCountryNameResId());
 		setSpinnerSelection(mTelephoneCountryCodeSpinner, targetCountry);
 
 		// Configure card number - detection
@@ -410,7 +410,7 @@ public class BookingFormFragment extends Fragment {
 		mCardNumberEditText.setCompoundDrawablePadding(Math.round(6 * getResources().getDisplayMetrics().density));
 
 		// Only display the checkbox if we're in a locale that requires its display
-		if (PointOfSale.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox()) {
+		if (PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()) {
 			mRulesRestrictionsCheckbox.setVisibility(View.VISIBLE);
 			mRulesRestrictionsCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -463,7 +463,7 @@ public class BookingFormFragment extends Fragment {
 		}
 
 		// Setup the correct text (and link enabling) on the terms & conditions textview
-		mRulesRestrictionsTextView.setText(PointOfSale.getPointOfSaleInfo().getRulesRestrictionsConfirmation());
+		mRulesRestrictionsTextView.setText(PointOfSale.getPointOfSale().getRulesRestrictionsConfirmation());
 		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
 		// Configure form validation
@@ -537,7 +537,7 @@ public class BookingFormFragment extends Fragment {
 		}));
 		mGuestInfoValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
-				if (PointOfSale.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
+				if (PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
 					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
 				}
 				return 0;
@@ -545,7 +545,7 @@ public class BookingFormFragment extends Fragment {
 		});
 		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
-				if (PointOfSale.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
+				if (PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
 					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
 				}
 				return 0;
@@ -770,7 +770,7 @@ public class BookingFormFragment extends Fragment {
 				String[] countryNames = r.getStringArray(R.array.country_names);
 				int[] countryPhoneCodes = r.getIntArray(R.array.country_phone_codes);
 
-				String defaultCountryName = getString(PointOfSale.getPointOfSaleInfo().getCountryNameResId());
+				String defaultCountryName = getString(PointOfSale.getPointOfSale().getCountryNameResId());
 
 				for (int n = 0; n < countryCodes.length; n++) {
 					if (defaultCountryName.equals(countryNames[n])) {
@@ -872,7 +872,7 @@ public class BookingFormFragment extends Fragment {
 			SpinnerAdapter adapter = mTelephoneCountryCodeSpinner.getAdapter();
 			int position = findAdapterIndex(adapter, billingInfo.getTelephoneCountry());
 			if (position == -1) {
-				position = findAdapterIndex(adapter, getString(PointOfSale.getPointOfSaleInfo()
+				position = findAdapterIndex(adapter, getString(PointOfSale.getPointOfSale()
 						.getCountryNameResId()));
 			}
 			if (position != -1) {
@@ -919,7 +919,7 @@ public class BookingFormFragment extends Fragment {
 	}
 
 	public void clearBillingInfo() {
-		final int countryResId = PointOfSale.getPointOfSaleInfo().getCountryNameResId();
+		final int countryResId = PointOfSale.getPointOfSale().getCountryNameResId();
 
 		mFirstNameEditText.setText(null);
 		mLastNameEditText.setText(null);

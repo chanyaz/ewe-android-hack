@@ -120,7 +120,7 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 	}
 
 	public int getDefaultLocalePosition() {
-		String defaultCountry = mContext.getString(PointOfSale.getPointOfSaleInfo().getCountryNameResId());
+		String defaultCountry = mContext.getString(PointOfSale.getPointOfSale().getCountryNameResId());
 		for (int i = 0; i < this.getCount(); i++) {
 			if (this.getItemValue(i, CountryDisplayType.FULL_NAME).equalsIgnoreCase(defaultCountry)) {
 				return i;

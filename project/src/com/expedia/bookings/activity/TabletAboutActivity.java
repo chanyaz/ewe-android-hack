@@ -78,12 +78,12 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 		// Add rules & restrictions
 		addSimpleRow(standardSection, getString(R.string.info_label_terms_conditions), new OnClickListener() {
 			public void onClick(View v) {
-				SocialUtils.openSite(mContext, PointOfSale.getPointOfSaleInfo().getTermsAndConditionsUrl());
+				SocialUtils.openSite(mContext, PointOfSale.getPointOfSale().getTermsAndConditionsUrl());
 			}
 		});
 		addSimpleRow(standardSection, getString(R.string.info_label_privacy_policy), new OnClickListener() {
 			public void onClick(View v) {
-				SocialUtils.openSite(mContext, PointOfSale.getPointOfSaleInfo().getPrivacyPolicyUrl());
+				SocialUtils.openSite(mContext, PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
 			}
 		});
 

@@ -147,7 +147,7 @@ public class TrackingUtils {
 		s.eVar50 = (usingTabletInterface) ? "app.tablet.android" : "app.phone.android";
 
 		// TPID
-		s.prop7 = Integer.toString(PointOfSale.getPointOfSaleInfo().getTpid());
+		s.prop7 = Integer.toString(PointOfSale.getPointOfSale().getTpid());
 
 		// hashed email
 		// Normally we store this in a setting; in 1.0 we stored this in BillingInfo, but

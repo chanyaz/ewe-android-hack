@@ -121,7 +121,7 @@ public class BillingAddressWidget {
 		});
 
 		// Set the default country as locale country
-		final String targetCountry = mContext.getString(PointOfSale.getPointOfSaleInfo().getCountryNameResId());
+		final String targetCountry = mContext.getString(PointOfSale.getPointOfSale().getCountryNameResId());
 		setSpinnerSelection(mCountrySpinner, targetCountry);
 		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -308,7 +308,7 @@ public class BillingAddressWidget {
 		mCityEditText.setText(null);
 		mPostalCodeEditText.setText(null);
 		mStateEditText.setText(null);
-		final int countryResId = PointOfSale.getPointOfSaleInfo().getCountryNameResId();
+		final int countryResId = PointOfSale.getPointOfSale().getCountryNameResId();
 		setSpinnerSelection(mCountrySpinner, mContext.getString(countryResId));
 	}
 

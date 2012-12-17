@@ -37,7 +37,7 @@ public class ConfirmationUtils {
 	}
 
 	public static String determineContactText(Context context) {
-		return context.getString(R.string.contact_phone_template, PointOfSale.getPointOfSaleInfo()
+		return context.getString(R.string.contact_phone_template, PointOfSale.getPointOfSale()
 				.getSupportPhoneNumber());
 	}
 

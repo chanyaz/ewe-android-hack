@@ -157,7 +157,7 @@ public class ReceiptWidget {
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();
 		if (totalMandatoryFees != null && !totalMandatoryFees.isZero()
-				&& PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
+				&& PointOfSale.getPointOfSale().displayMandatoryFees()) {
 			addRateRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
 		}
 
@@ -170,7 +170,7 @@ public class ReceiptWidget {
 			else {
 				Money after;
 
-				if (PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
+				if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
 					amountDiscounted = new Money(rate.getTotalPriceWithMandatoryFees());
 					after = discountRate.getTotalPriceWithMandatoryFees();
 				}
@@ -187,7 +187,7 @@ public class ReceiptWidget {
 		}
 
 		Money displayedTotal;
-		if (PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
+		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
 			addTextRow(mBelowTotalCostLayout, R.string.PayToExpedia, rate.getTotalAmountAfterTax().getFormattedMoney());
 			displayedTotal = rate.getTotalPriceWithMandatoryFees();

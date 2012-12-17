@@ -44,7 +44,7 @@ public class BookingInfoUtils {
 	public static void determineExpediaPointsDisclaimer(Context context, View view) {
 		// #12652: Only display Expedia Points disclaimer if user is the in US POS.
 		// (This may change in the future as more POSes support points.)
-		int visibility = PointOfSale.getPointOfSaleInfo().getPointOfSale() == PointOfSaleId.UNITED_STATES ? View.VISIBLE
+		int visibility = PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES ? View.VISIBLE
 				: View.GONE;
 		TextView pointsDisclaimerView = (TextView) view.findViewById(R.id.expedia_points_disclaimer_text_view);
 		pointsDisclaimerView.setVisibility(visibility);

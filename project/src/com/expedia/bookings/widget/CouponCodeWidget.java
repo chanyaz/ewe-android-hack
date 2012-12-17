@@ -297,7 +297,7 @@ public class CouponCodeWidget {
 		CreateTripResponse response = Db.getCreateTripResponse();
 		if (response != null) {
 			Money m;
-			if (PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
+			if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
 				m = response.getNewRate().getTotalPriceWithMandatoryFees();
 			}
 			else {

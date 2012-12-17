@@ -204,7 +204,7 @@ public class HotelReceipt extends FrameLayout {
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();
 		if (totalMandatoryFees != null && !totalMandatoryFees.isZero()
-				&& PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
+				&& PointOfSale.getPointOfSale().displayMandatoryFees()) {
 			addRateRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
 		}
 
@@ -217,7 +217,7 @@ public class HotelReceipt extends FrameLayout {
 			else {
 				Money after;
 
-				if (PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
+				if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
 					amountDiscounted = new Money(rate.getTotalPriceWithMandatoryFees());
 					after = discountRate.getTotalPriceWithMandatoryFees();
 				}
@@ -233,7 +233,7 @@ public class HotelReceipt extends FrameLayout {
 			addTextRow(mDetailsLayout, R.string.discount, amountDiscounted.getFormattedMoney());
 		}
 
-		if (PointOfSale.getPointOfSaleInfo().displayBestPriceGuarantee()) {
+		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
 			addExtra(mExtrasLayout, R.string.best_price_guarantee);
 		}
 

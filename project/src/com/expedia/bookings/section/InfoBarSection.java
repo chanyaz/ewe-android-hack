@@ -66,7 +66,7 @@ public class InfoBarSection extends LinearLayout {
 			mLeftTextView.setText(Html.fromHtml(context.getString(R.string.bold_template, duration)));
 		}
 		else {
-			int flags = PointOfSale.getPointOfSaleInfo().getDistanceUnit() == DistanceUnit.MILES ? FormatUtils.F_IMPERIAL
+			int flags = PointOfSale.getPointOfSale().getDistanceUnit() == DistanceUnit.MILES ? FormatUtils.F_IMPERIAL
 					: FormatUtils.F_METRIC;
 			String distance = FormatUtils.formatDistance(context, leg.getDistanceInMiles(), flags);
 			mLeftTextView.setText(Html.fromHtml(context.getString(R.string.time_distance_TEMPLATE, duration,

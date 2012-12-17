@@ -111,7 +111,7 @@ public class FlightRulesFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, WebViewActivity.class);
-				intent.putExtra(WebViewActivity.ARG_URL, PointOfSale.getPointOfSaleInfo()
+				intent.putExtra(WebViewActivity.ARG_URL, PointOfSale.getPointOfSale()
 						.getTermsAndConditionsUrl());
 				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
 				intent.putExtra(WebViewActivity.ARG_TITLE_RES_ID, R.string.legal_information);
@@ -126,7 +126,7 @@ public class FlightRulesFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, WebViewActivity.class);
-				intent.putExtra(WebViewActivity.ARG_URL, PointOfSale.getPointOfSaleInfo().getPrivacyPolicyUrl());
+				intent.putExtra(WebViewActivity.ARG_URL, PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
 				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
 				intent.putExtra(WebViewActivity.ARG_TITLE_RES_ID, R.string.legal_information);
 				intent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);

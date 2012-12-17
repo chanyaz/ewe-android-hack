@@ -150,7 +150,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		if (savedInstanceState == null) {
 			// create the meta data for language lists based on the review sort
 			mMetaLanguageList = new LinkedList<ReviewLanguageSet>();
-			List<String> languages = Arrays.asList(PointOfSale.getPointOfSaleInfo().getReviewLanguages());
+			List<String> languages = Arrays.asList(PointOfSale.getPointOfSale().getReviewLanguages());
 
 			if (mReviewSort == ReviewSort.NEWEST_REVIEW_FIRST && languages.size() != 3) {
 				// segregate the reviews by language for the recent tab

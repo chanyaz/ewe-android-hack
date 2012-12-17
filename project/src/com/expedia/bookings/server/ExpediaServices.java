@@ -646,13 +646,13 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addPOSParams(List<BasicNameValuePair> query) {
-		int langId = PointOfSale.getPointOfSaleInfo().getDualLanguageId();
+		int langId = PointOfSale.getPointOfSale().getDualLanguageId();
 		if (langId != 0) {
 			query.add(new BasicNameValuePair("langid", Integer.toString(langId)));
 		}
 
 		if (!AndroidUtils.isRelease(mContext) && getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
-			query.add(new BasicNameValuePair("siteid", Integer.toString(PointOfSale.getPointOfSaleInfo()
+			query.add(new BasicNameValuePair("siteid", Integer.toString(PointOfSale.getPointOfSale()
 					.getSiteId())));
 		}
 	}
@@ -838,7 +838,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
-		List<String> languages = Arrays.asList(PointOfSale.getPointOfSaleInfo().getReviewLanguages());
+		List<String> languages = Arrays.asList(PointOfSale.getPointOfSale().getReviewLanguages());
 		String localesString = PointOfSale.getFormattedLanguageCodes(languages);
 
 		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
@@ -1012,7 +1012,7 @@ public class ExpediaServices implements DownloadListener {
 
 		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
 
-		String domain = PointOfSale.getPointOfSaleInfo().getUrl();
+		String domain = PointOfSale.getPointOfSale().getUrl();
 
 		switch (endPoint) {
 		case PRODUCTION: {

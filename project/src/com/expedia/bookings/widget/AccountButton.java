@@ -110,7 +110,7 @@ public class AccountButton extends LinearLayout {
 					bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 					if (mRewardsContainer != null && Db.getFlightSearch().getSelectedFlightTrip() != null
 							&& !TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getRewardsPoints())
-							&& PointOfSale.getPointOfSaleInfo().getPointOfSale() == PointOfSaleId.UNITED_STATES) {
+							&& PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES) {
 						String rewardsString = String.format(
 								getResources().getString(R.string.youll_earn_points_TEMPLATE), Db.getFlightSearch()
 										.getSelectedFlightTrip().getRewardsPoints());

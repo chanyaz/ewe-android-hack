@@ -108,7 +108,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			mUtils.trackAboutActivityPageLoad();
 		}
 
-		PointOfSale posInfo = PointOfSale.getPointOfSaleInfo();
+		PointOfSale posInfo = PointOfSale.getPointOfSale();
 		
 		TextView tac_link = Ui.findView(this, R.id.terms_and_conditions_link);
 		tac_link.setText(Html.fromHtml(String.format("<a href=\"%s\">%s</a>",

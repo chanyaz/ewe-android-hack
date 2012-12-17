@@ -145,11 +145,11 @@ public class AboutUtils {
 
 	public void contactViaPhone() {
 		trackCallSupport();
-		SocialUtils.call(mActivity, PointOfSale.getPointOfSaleInfo().getSupportPhoneNumber());
+		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumber());
 	}
 
 	public void contactViaWeb() {
-		SocialUtils.openSite(mActivity, PointOfSale.getPointOfSaleInfo().getSupportUrl());
+		SocialUtils.openSite(mActivity, PointOfSale.getPointOfSale().getSupportUrl());
 	}
 
 	public void contactViaEmail() {
@@ -159,7 +159,7 @@ public class AboutUtils {
 	}
 
 	public void openExpediaWebsite() {
-		SocialUtils.openSite(mActivity, PointOfSale.getPointOfSaleInfo().getWebsiteUrl());
+		SocialUtils.openSite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl());
 	}
 
 	public void openAppFeedback() {

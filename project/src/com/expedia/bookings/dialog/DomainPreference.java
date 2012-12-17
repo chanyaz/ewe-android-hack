@@ -34,7 +34,7 @@ public class DomainPreference extends ListPreference {
 		super(context, attrs);
 		mContext = context;
 
-		List<PointOfSale> poses = PointOfSale.getAllPointOfSaleInfo(context);
+		List<PointOfSale> poses = PointOfSale.getAllPointsOfSale(context);
 		int len = poses.size();
 		mEntries = new CharSequence[len];
 		mEntrySubText = new CharSequence[len];
@@ -43,7 +43,7 @@ public class DomainPreference extends ListPreference {
 			PointOfSale info = poses.get(a);
 			mEntries[a] = context.getString(info.getCountryNameResId());
 			mEntrySubText[a] = info.getUrl();
-			mEntryValues[a] = Integer.toString(info.getPointOfSale().getId());
+			mEntryValues[a] = Integer.toString(info.getPointOfSaleId().getId());
 		}
 	}
 

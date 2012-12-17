@@ -133,7 +133,7 @@ public class PointOfSale {
 	//////////////////////////////////////////////////////////////////////////
 	// Info on each POS
 
-	public PointOfSaleId getPointOfSale() {
+	public PointOfSaleId getPointOfSaleId() {
 		return mPointOfSale;
 	}
 
@@ -259,7 +259,7 @@ public class PointOfSale {
 	private static PointOfSaleId sCachedPOS;
 
 	// All POSes (pre-loaded at the start of the app)
-	private static final Map<PointOfSaleId, PointOfSale> sPointOfSaleInfo = new HashMap<PointOfSaleId, PointOfSale>();
+	private static final Map<PointOfSaleId, PointOfSale> sPointOfSale = new HashMap<PointOfSaleId, PointOfSale>();
 
 	// This is a backwards-compatible map from the old setting (which was based on a string) to a POS
 	private static final Map<String, PointOfSaleId> sBackCompatPosMap = new HashMap<String, PointOfSaleId>();
@@ -275,13 +275,13 @@ public class PointOfSale {
 		loadReviewLanguageLocaleMap(context);
 
 		// Init the cache
-		getPointOfSaleInfo(context);
+		getPointOfSale(context);
 	}
 
 	/**
-	 * @return the current PointOfSaleInfo (or the default if none has been set yet)
+	 * @return the current PointOfSale (or the default if none has been set yet)
 	 */
-	public static PointOfSale getPointOfSaleInfo(Context context) {
+	public static PointOfSale getPointOfSale(Context context) {
 		sCachedPOS = null;
 
 		boolean savePos = false;
@@ -293,7 +293,7 @@ public class PointOfSale {
 			String country = locale.getCountry().toLowerCase();
 			String language = locale.getLanguage().toLowerCase();
 
-			for (PointOfSale posInfo : sPointOfSaleInfo.values()) {
+			for (PointOfSale posInfo : sPointOfSale.values()) {
 				for (String defaultLocale : posInfo.mDefaultLocales) {
 					defaultLocale = defaultLocale.toLowerCase();
 					if (defaultLocale.endsWith(country) || defaultLocale.equals(language)) {
@@ -334,18 +334,18 @@ public class PointOfSale {
 					.save(context, context.getString(R.string.PointOfSaleKey), Integer.toString(sCachedPOS.getId()));
 		}
 
-		return sPointOfSaleInfo.get(sCachedPOS);
+		return sPointOfSale.get(sCachedPOS);
 	}
 
 	/**
-	 * @return the cached PointOfSaleInfo.  Will crash the app if it hasn't been cached yet.
+	 * @return the cached PointOfSale.  Will crash the app if it hasn't been cached yet.
 	 */
-	public static PointOfSale getPointOfSaleInfo() {
+	public static PointOfSale getPointOfSale() {
 		if (sCachedPOS == null) {
 			throw new RuntimeException("getPointOfSale() called before POS filled in by system");
 		}
 
-		return sPointOfSaleInfo.get(sCachedPOS);
+		return sPointOfSale.get(sCachedPOS);
 	}
 
 	/**
@@ -356,7 +356,7 @@ public class PointOfSale {
 		Log.i("Point of sale changed!");
 
 		// Update the cache
-		getPointOfSaleInfo(context);
+		getPointOfSale(context);
 
 		// clear all data
 		Db.clear();
@@ -367,8 +367,8 @@ public class PointOfSale {
 	}
 
 	// Provide context for sorting purposes
-	public static List<PointOfSale> getAllPointOfSaleInfo(final Context context) {
-		List<PointOfSale> poses = new ArrayList<PointOfSale>(sPointOfSaleInfo.values());
+	public static List<PointOfSale> getAllPointsOfSale(final Context context) {
+		List<PointOfSale> poses = new ArrayList<PointOfSale>(sPointOfSale.values());
 
 		Comparator<PointOfSale> comparator = new Comparator<PointOfSale>() {
 			@Override
@@ -416,7 +416,7 @@ public class PointOfSale {
 	private static void loadPointOfSaleInfo(Context context) {
 		long start = System.nanoTime();
 
-		sPointOfSaleInfo.clear();
+		sPointOfSale.clear();
 
 		try {
 			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaPointOfSaleConfig.json");
@@ -427,7 +427,7 @@ public class PointOfSale {
 				String posName = keys.next();
 				PointOfSale pos = parsePointOfSale(posData.optJSONObject(posName));
 				pos.mTwoLetterCountryCode = posName.toLowerCase();
-				sPointOfSaleInfo.put(pos.mPointOfSale, pos);
+				sPointOfSale.put(pos.mPointOfSale, pos);
 
 				// For backwards compatibility
 				sBackCompatPosMap.put(pos.mUrl, pos.mPointOfSale);

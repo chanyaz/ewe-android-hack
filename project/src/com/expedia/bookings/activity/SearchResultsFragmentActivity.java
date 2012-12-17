@@ -1196,7 +1196,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
 
-			List<String> languages = Arrays.asList(PointOfSale.getPointOfSaleInfo().getReviewLanguages());
+			List<String> languages = Arrays.asList(PointOfSale.getPointOfSale().getReviewLanguages());
 
 			return services.reviews(Db.getSelectedProperty(), ReviewSort.HIGHEST_RATING_FIRST, 0, languages,
 					MAX_SUMMARIZED_REVIEWS);
