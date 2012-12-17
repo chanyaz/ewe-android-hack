@@ -37,7 +37,6 @@ import com.mobiata.android.util.SettingUtils;
  * 
  * TODO
  * - Look into all cases of getUrl() and correct where necessary what's happening
- * - Clean up arrays.xml of any other loose data
  * - Rename POS classes?
  * 
  */
