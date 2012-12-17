@@ -18,7 +18,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
 import com.mobiata.android.util.AndroidUtils;
@@ -58,7 +58,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 		clearPrivateDataPreference.setClearPrivateDataListener(this);
 		pointOfSalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				PointOfSaleInfo.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
+				PointOfSale.onPointOfSaleChanged(ExpediaBookingPreferenceActivity.this);
 				configurePointOfSalePreferenceSummary();
 				setResult(RESULT_POS_CHANGED);
 
@@ -155,7 +155,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 	public void configurePointOfSalePreferenceSummary() {
 		PreferenceManager pm = getPreferenceManager();
 		Preference pointOfSalePref = pm.findPreference(getString(R.string.PointOfSaleKey));
-		pointOfSalePref.setSummary(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
+		pointOfSalePref.setSummary(PointOfSale.getPointOfSaleInfo().getUrl());
 	}
 
 	@Override

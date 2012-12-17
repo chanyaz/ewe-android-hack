@@ -17,7 +17,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Rule;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.util.Ui;
 
 public class FlightRulesFragment extends SherlockFragment {
@@ -111,7 +111,7 @@ public class FlightRulesFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, WebViewActivity.class);
-				intent.putExtra(WebViewActivity.ARG_URL, PointOfSaleInfo.getPointOfSaleInfo()
+				intent.putExtra(WebViewActivity.ARG_URL, PointOfSale.getPointOfSaleInfo()
 						.getTermsAndConditionsUrl());
 				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
 				intent.putExtra(WebViewActivity.ARG_TITLE_RES_ID, R.string.legal_information);
@@ -126,7 +126,7 @@ public class FlightRulesFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, WebViewActivity.class);
-				intent.putExtra(WebViewActivity.ARG_URL, PointOfSaleInfo.getPointOfSaleInfo().getPrivacyPolicyUrl());
+				intent.putExtra(WebViewActivity.ARG_URL, PointOfSale.getPointOfSaleInfo().getPrivacyPolicyUrl());
 				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
 				intent.putExtra(WebViewActivity.ARG_TITLE_RES_ID, R.string.legal_information);
 				intent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);

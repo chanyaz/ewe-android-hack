@@ -33,7 +33,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
@@ -928,7 +928,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			}
 			else {
-				final String targetCountry = mContext.getString(PointOfSaleInfo.getPointOfSaleInfo()
+				final String targetCountry = mContext.getString(PointOfSale.getPointOfSaleInfo()
 						.getCountryNameResId());
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {

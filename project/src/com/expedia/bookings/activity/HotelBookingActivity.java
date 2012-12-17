@@ -21,7 +21,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
@@ -423,7 +423,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	@Override
 	public void onCallCustomerSupport() {
-		SocialUtils.call(this, PointOfSaleInfo.getPointOfSaleInfo().getSupportPhoneNumber());
+		SocialUtils.call(this, PointOfSale.getPointOfSaleInfo().getSupportPhoneNumber());
 	}
 
 	@Override

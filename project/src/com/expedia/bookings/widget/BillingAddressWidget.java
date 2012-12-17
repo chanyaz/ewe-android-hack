@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
@@ -121,7 +121,7 @@ public class BillingAddressWidget {
 		});
 
 		// Set the default country as locale country
-		final String targetCountry = mContext.getString(PointOfSaleInfo.getPointOfSaleInfo().getCountryNameResId());
+		final String targetCountry = mContext.getString(PointOfSale.getPointOfSaleInfo().getCountryNameResId());
 		setSpinnerSelection(mCountrySpinner, targetCountry);
 		mCountrySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -308,7 +308,7 @@ public class BillingAddressWidget {
 		mCityEditText.setText(null);
 		mPostalCodeEditText.setText(null);
 		mStateEditText.setText(null);
-		final int countryResId = PointOfSaleInfo.getPointOfSaleInfo().getCountryNameResId();
+		final int countryResId = PointOfSale.getPointOfSaleInfo().getCountryNameResId();
 		setSpinnerSelection(mCountrySpinner, mContext.getString(countryResId));
 	}
 

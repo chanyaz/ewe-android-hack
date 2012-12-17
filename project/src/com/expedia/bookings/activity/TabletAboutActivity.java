@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.ContactExpediaDialogFragment;
 import com.expedia.bookings.fragment.ExpediaWebsiteDialogFragment;
 import com.expedia.bookings.utils.AboutUtils;
@@ -78,12 +78,12 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 		// Add rules & restrictions
 		addSimpleRow(standardSection, getString(R.string.info_label_terms_conditions), new OnClickListener() {
 			public void onClick(View v) {
-				SocialUtils.openSite(mContext, PointOfSaleInfo.getPointOfSaleInfo().getTermsAndConditionsUrl());
+				SocialUtils.openSite(mContext, PointOfSale.getPointOfSaleInfo().getTermsAndConditionsUrl());
 			}
 		});
 		addSimpleRow(standardSection, getString(R.string.info_label_privacy_policy), new OnClickListener() {
 			public void onClick(View v) {
-				SocialUtils.openSite(mContext, PointOfSaleInfo.getPointOfSaleInfo().getPrivacyPolicyUrl());
+				SocialUtils.openSite(mContext, PointOfSale.getPointOfSaleInfo().getPrivacyPolicyUrl());
 			}
 		});
 

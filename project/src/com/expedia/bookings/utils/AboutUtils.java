@@ -13,7 +13,7 @@ import android.content.Intent;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AppFeedbackActivity;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -145,11 +145,11 @@ public class AboutUtils {
 
 	public void contactViaPhone() {
 		trackCallSupport();
-		SocialUtils.call(mActivity, PointOfSaleInfo.getPointOfSaleInfo().getSupportPhoneNumber());
+		SocialUtils.call(mActivity, PointOfSale.getPointOfSaleInfo().getSupportPhoneNumber());
 	}
 
 	public void contactViaWeb() {
-		SocialUtils.openSite(mActivity, PointOfSaleInfo.getPointOfSaleInfo().getSupportUrl());
+		SocialUtils.openSite(mActivity, PointOfSale.getPointOfSaleInfo().getSupportUrl());
 	}
 
 	public void contactViaEmail() {
@@ -159,7 +159,7 @@ public class AboutUtils {
 	}
 
 	public void openExpediaWebsite() {
-		SocialUtils.openSite(mActivity, PointOfSaleInfo.getPointOfSaleInfo().getWebsiteUrl());
+		SocialUtils.openSite(mActivity, PointOfSale.getPointOfSaleInfo().getWebsiteUrl());
 	}
 
 	public void openAppFeedback() {

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.AboutUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -108,7 +108,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			mUtils.trackAboutActivityPageLoad();
 		}
 
-		PointOfSaleInfo posInfo = PointOfSaleInfo.getPointOfSaleInfo();
+		PointOfSale posInfo = PointOfSale.getPointOfSaleInfo();
 		
 		TextView tac_link = Ui.findView(this, R.id.terms_and_conditions_link);
 		tac_link.setText(Html.fromHtml(String.format("<a href=\"%s\">%s</a>",

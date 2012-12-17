@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import android.widget.ArrayAdapter;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.LocaleUtils;
 
 public class CountrySpinnerAdapter extends ArrayAdapter<String> {
@@ -120,7 +120,7 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 	}
 
 	public int getDefaultLocalePosition() {
-		String defaultCountry = mContext.getString(PointOfSaleInfo.getPointOfSaleInfo().getCountryNameResId());
+		String defaultCountry = mContext.getString(PointOfSale.getPointOfSaleInfo().getCountryNameResId());
 		for (int i = 0; i < this.getCount(); i++) {
 			if (this.getItemValue(i, CountryDisplayType.FULL_NAME).equalsIgnoreCase(defaultCountry)) {
 				return i;

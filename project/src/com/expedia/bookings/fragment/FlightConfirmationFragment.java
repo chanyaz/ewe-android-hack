@@ -46,8 +46,8 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -200,11 +200,11 @@ public class FlightConfirmationFragment extends Fragment {
 		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.call(getActivity(), PointOfSaleInfo.getPointOfSaleInfo().getFlightSupportPhoneNumber());
+				SocialUtils.call(getActivity(), PointOfSale.getPointOfSaleInfo().getFlightSupportPhoneNumber());
 			}
 		});
 
-		if (PointOfSaleInfo.getPointOfSaleInfo().getPointOfSale() == PointOfSale.CANADA) {
+		if (PointOfSale.getPointOfSaleInfo().getPointOfSale() == PointOfSaleId.CANADA) {
 			Ui.setOnClickListener(v, R.id.ca_insurance_action_text_view, new OnClickListener() {
 
 				@Override
@@ -468,7 +468,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 		body.append("\n\n");
 
-		body.append(getString(R.string.share_flight_support_TEMPLATE, PointOfSaleInfo.getPointOfSaleInfo()
+		body.append(getString(R.string.share_flight_support_TEMPLATE, PointOfSale.getPointOfSaleInfo()
 				.getFlightSupportPhoneNumber()));
 
 		body.append("\n\n");
@@ -587,7 +587,7 @@ public class FlightConfirmationFragment extends Fragment {
 				+ origin.mAirportCode));
 		sb.append("\n\n");
 		sb.append(getString(R.string.calendar_flight_desc_support_TEMPLATE,
-				PointOfSaleInfo.getPointOfSaleInfo().getFlightSupportPhoneNumber()));
+				PointOfSale.getPointOfSaleInfo().getFlightSupportPhoneNumber()));
 		sb.append("\n\n");
 		intent.putExtra(Events.DESCRIPTION, sb.toString());
 		return intent;

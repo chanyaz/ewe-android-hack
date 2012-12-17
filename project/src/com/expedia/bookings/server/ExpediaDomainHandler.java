@@ -7,7 +7,7 @@ import org.apache.http.impl.cookie.BasicDomainHandler;
 
 import android.content.Context;
 
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -26,7 +26,7 @@ public class ExpediaDomainHandler extends BasicDomainHandler {
 			// We only care about validating domains for releases so we can
 			// keep using the mock proxy
 			String domain = cookie.getDomain();
-			if (!domain.endsWith(PointOfSaleInfo.getPointOfSaleInfo().getUrl())) {
+			if (!domain.endsWith(PointOfSale.getPointOfSaleInfo().getUrl())) {
 				String message = "Domain attribute \"" +
 					domain +
 					"\" not the current point of sale for cookie: " + cookie.toString();

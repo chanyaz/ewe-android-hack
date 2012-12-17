@@ -36,7 +36,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -436,7 +436,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		// Purchase total
 		Money displayedTotal;
-		if (PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
+		if (PointOfSale.getPointOfSaleInfo().displayMandatoryFees()) {
 			displayedTotal = rate.getTotalPriceWithMandatoryFees();
 		}
 		else {

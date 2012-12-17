@@ -80,7 +80,7 @@ import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.facebook.Session;
@@ -646,13 +646,13 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addPOSParams(List<BasicNameValuePair> query) {
-		int langId = PointOfSaleInfo.getPointOfSaleInfo().getDualLanguageId();
+		int langId = PointOfSale.getPointOfSaleInfo().getDualLanguageId();
 		if (langId != 0) {
 			query.add(new BasicNameValuePair("langid", Integer.toString(langId)));
 		}
 
 		if (!AndroidUtils.isRelease(mContext) && getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
-			query.add(new BasicNameValuePair("siteid", Integer.toString(PointOfSaleInfo.getPointOfSaleInfo()
+			query.add(new BasicNameValuePair("siteid", Integer.toString(PointOfSale.getPointOfSaleInfo()
 					.getSiteId())));
 		}
 	}
@@ -800,7 +800,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
-		String localesString = PointOfSaleInfo.getFormattedLanguageCodes(languages);
+		String localesString = PointOfSale.getFormattedLanguageCodes(languages);
 
 		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
 
@@ -838,8 +838,8 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("Filter", "ProductId:" + property.getPropertyId()));
 
-		List<String> languages = Arrays.asList(PointOfSaleInfo.getPointOfSaleInfo().getReviewLanguages());
-		String localesString = PointOfSaleInfo.getFormattedLanguageCodes(languages);
+		List<String> languages = Arrays.asList(PointOfSale.getPointOfSaleInfo().getReviewLanguages());
+		String localesString = PointOfSale.getFormattedLanguageCodes(languages);
 
 		query.add(new BasicNameValuePair("Filter", "ContentLocale:" + localesString));
 
@@ -1012,7 +1012,7 @@ public class ExpediaServices implements DownloadListener {
 
 		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
 
-		String domain = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
+		String domain = PointOfSale.getPointOfSaleInfo().getUrl();
 
 		switch (endPoint) {
 		case PRODUCTION: {

@@ -24,8 +24,8 @@ import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.ConfirmationState.Type;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.data.Db;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -69,7 +69,7 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context) {
-		if (!PointOfSaleInfo.getPointOfSaleInfo().supportsFlights()) {
+		if (!PointOfSale.getPointOfSaleInfo().supportsFlights()) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
 			context.startActivity(new Intent(context, FlightUnsupportedPOSActivity.class));

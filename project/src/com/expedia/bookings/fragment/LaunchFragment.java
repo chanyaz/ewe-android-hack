@@ -49,7 +49,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
@@ -788,7 +788,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 			// F1330: Tapping on tiles should take you to unsupported POS page
 			// if you are on an unsupported POS!
-			if (!PointOfSaleInfo.getPointOfSaleInfo().supportsFlights()) {
+			if (!PointOfSale.getPointOfSaleInfo().supportsFlights()) {
 				mContext.startActivity(new Intent(mContext, FlightUnsupportedPOSActivity.class));
 			}
 			else {

@@ -43,7 +43,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.Tracker;
@@ -366,7 +366,7 @@ public class BookingFormFragment extends Fragment {
 			}
 		});
 
-		final String targetCountry = getString(PointOfSaleInfo.getPointOfSaleInfo().getCountryNameResId());
+		final String targetCountry = getString(PointOfSale.getPointOfSaleInfo().getCountryNameResId());
 		setSpinnerSelection(mTelephoneCountryCodeSpinner, targetCountry);
 
 		// Configure card number - detection
@@ -410,7 +410,7 @@ public class BookingFormFragment extends Fragment {
 		mCardNumberEditText.setCompoundDrawablePadding(Math.round(6 * getResources().getDisplayMetrics().density));
 
 		// Only display the checkbox if we're in a locale that requires its display
-		if (PointOfSaleInfo.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox()) {
+		if (PointOfSale.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox()) {
 			mRulesRestrictionsCheckbox.setVisibility(View.VISIBLE);
 			mRulesRestrictionsCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -463,7 +463,7 @@ public class BookingFormFragment extends Fragment {
 		}
 
 		// Setup the correct text (and link enabling) on the terms & conditions textview
-		mRulesRestrictionsTextView.setText(PointOfSaleInfo.getPointOfSaleInfo().getRulesRestrictionsConfirmation());
+		mRulesRestrictionsTextView.setText(PointOfSale.getPointOfSaleInfo().getRulesRestrictionsConfirmation());
 		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
 		// Configure form validation
@@ -537,7 +537,7 @@ public class BookingFormFragment extends Fragment {
 		}));
 		mGuestInfoValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
-				if (PointOfSaleInfo.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
+				if (PointOfSale.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
 					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
 				}
 				return 0;
@@ -545,7 +545,7 @@ public class BookingFormFragment extends Fragment {
 		});
 		mValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
-				if (PointOfSaleInfo.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
+				if (PointOfSale.getPointOfSaleInfo().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
 					return BookingInfoValidation.ERROR_NO_TERMS_CONDITIONS_AGREEMEMT;
 				}
 				return 0;
@@ -770,7 +770,7 @@ public class BookingFormFragment extends Fragment {
 				String[] countryNames = r.getStringArray(R.array.country_names);
 				int[] countryPhoneCodes = r.getIntArray(R.array.country_phone_codes);
 
-				String defaultCountryName = getString(PointOfSaleInfo.getPointOfSaleInfo().getCountryNameResId());
+				String defaultCountryName = getString(PointOfSale.getPointOfSaleInfo().getCountryNameResId());
 
 				for (int n = 0; n < countryCodes.length; n++) {
 					if (defaultCountryName.equals(countryNames[n])) {
@@ -872,7 +872,7 @@ public class BookingFormFragment extends Fragment {
 			SpinnerAdapter adapter = mTelephoneCountryCodeSpinner.getAdapter();
 			int position = findAdapterIndex(adapter, billingInfo.getTelephoneCountry());
 			if (position == -1) {
-				position = findAdapterIndex(adapter, getString(PointOfSaleInfo.getPointOfSaleInfo()
+				position = findAdapterIndex(adapter, getString(PointOfSale.getPointOfSaleInfo()
 						.getCountryNameResId()));
 			}
 			if (position != -1) {
@@ -919,7 +919,7 @@ public class BookingFormFragment extends Fragment {
 	}
 
 	public void clearBillingInfo() {
-		final int countryResId = PointOfSaleInfo.getPointOfSaleInfo().getCountryNameResId();
+		final int countryResId = PointOfSale.getPointOfSaleInfo().getCountryNameResId();
 
 		mFirstNameEditText.setText(null);
 		mLastNameEditText.setText(null);

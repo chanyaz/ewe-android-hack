@@ -54,7 +54,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
@@ -1196,7 +1196,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			ExpediaServices services = new ExpediaServices(mContext);
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_REVIEWS, services);
 
-			List<String> languages = Arrays.asList(PointOfSaleInfo.getPointOfSaleInfo().getReviewLanguages());
+			List<String> languages = Arrays.asList(PointOfSale.getPointOfSaleInfo().getReviewLanguages());
 
 			return services.reviews(Db.getSelectedProperty(), ReviewSort.HIGHEST_RATING_FIRST, 0, languages,
 					MAX_SUMMARIZED_REVIEWS);

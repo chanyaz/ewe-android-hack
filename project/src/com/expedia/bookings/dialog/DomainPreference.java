@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
+import com.expedia.bookings.data.pos.PointOfSale;
 
 public class DomainPreference extends ListPreference {
 	private Context mContext;
@@ -34,13 +34,13 @@ public class DomainPreference extends ListPreference {
 		super(context, attrs);
 		mContext = context;
 
-		List<PointOfSaleInfo> poses = PointOfSaleInfo.getAllPointOfSaleInfo(context);
+		List<PointOfSale> poses = PointOfSale.getAllPointOfSaleInfo(context);
 		int len = poses.size();
 		mEntries = new CharSequence[len];
 		mEntrySubText = new CharSequence[len];
 		mEntryValues = new CharSequence[len];
 		for (int a = 0; a < len; a++) {
-			PointOfSaleInfo info = poses.get(a);
+			PointOfSale info = poses.get(a);
 			mEntries[a] = context.getString(info.getCountryNameResId());
 			mEntrySubText[a] = info.getUrl();
 			mEntryValues[a] = Integer.toString(info.getPointOfSale().getId());

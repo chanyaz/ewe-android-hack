@@ -12,8 +12,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.mobiata.android.util.Ui;
 
 public class AccountButton extends LinearLayout {
@@ -110,7 +110,7 @@ public class AccountButton extends LinearLayout {
 					bottom.setText(mContext.getString(R.string.enrolled_in_expedia_rewards));
 					if (mRewardsContainer != null && Db.getFlightSearch().getSelectedFlightTrip() != null
 							&& !TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getRewardsPoints())
-							&& PointOfSaleInfo.getPointOfSaleInfo().getPointOfSale() == PointOfSale.UNITED_STATES) {
+							&& PointOfSale.getPointOfSaleInfo().getPointOfSale() == PointOfSaleId.UNITED_STATES) {
 						String rewardsString = String.format(
 								getResources().getString(R.string.youll_earn_points_TEMPLATE), Db.getFlightSearch()
 										.getSelectedFlightTrip().getRewardsPoints());
