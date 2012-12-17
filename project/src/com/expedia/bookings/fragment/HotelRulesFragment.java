@@ -14,6 +14,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
@@ -73,13 +74,13 @@ public class HotelRulesFragment extends SherlockFragment {
 
 		// privacy policy
 		TextView guarantee = Ui.findView(view, R.id.best_price_guarantee);
-		if (RulesRestrictionsUtils.getBestPriceGuaranteeUrl(getActivity()) != null) {
+		if (PointOfSaleInfo.getPointOfSaleInfo().displayBestPriceGuarantee()) {
 			guarantee.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(getActivity(), WebViewActivity.class);
-					intent.putExtra(WebViewActivity.ARG_URL,
-							RulesRestrictionsUtils.getBestPriceGuaranteeUrl(getActivity()));
+					intent.putExtra(WebViewActivity.ARG_URL, PointOfSaleInfo.getPointOfSaleInfo()
+							.getBestPriceGuaranteeUrl());
 					intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.HotelWebViewTheme);
 					startActivity(intent);
 				}

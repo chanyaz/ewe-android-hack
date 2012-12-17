@@ -121,20 +121,6 @@ public class RulesRestrictionsUtils {
 		}
 	}
 
-	public static String getBestPriceGuaranteeUrl(Context context) {
-		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
-
-		// Handle special dual-language cases
-		int resId = -1;
-		String langId = Locale.getDefault().getLanguage().toLowerCase();
-		if (resId != -1) {
-			return context.getString(resId);
-		}
-		else {
-			return ResourceUtils.getStringMap(context, R.array.best_price_guarantee_map).get(pos);
-		}
-	}
-
 	public static CharSequence getRulesRestrictionsConfirmation(Context context) {
 		String pos = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 

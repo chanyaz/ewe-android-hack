@@ -83,10 +83,10 @@ public class PointOfSaleInfo {
 	private boolean mDisplayMandatoryFees;
 
 	// Whether or not we should show the best price guarantee
-	private boolean mDisplayBestPriceGuarantee; // RulesRestrictionsUtils.getBestPriceGuaranteeUrl(), sort of
+	private boolean mDisplayBestPriceGuarantee;
 
 	// Whether or not to let users access flights on this POS
-	private boolean mSupportsFlights; // FlightUnsupportedPOSActivity.isSupportedPOS()
+	private boolean mSupportsFlights;
 
 	// Used to determine the default POS, based on the device's locale
 	private String[] mDefaultLocales;
@@ -105,7 +105,7 @@ public class PointOfSaleInfo {
 		private String mWebsiteUrl;
 
 		// The url for the best price guarantee policy (if available in the POS)
-		private String mBestPriceGuaranteePolicyUrl; // RulesRestrictionsUtils.getBestPriceGuaranteeUrl()
+		private String mBestPriceGuaranteePolicyUrl;
 
 		// The rules & restrictions disclaimer for every booking
 		private String mRulesRestrictionsConfirmation; // RulesRestrictionsUtils.getRulesRestrictionsConfirmation(), sort of
