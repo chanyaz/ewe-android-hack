@@ -139,26 +139,6 @@ public class LocaleUtils {
 		return null;
 	}
 
-	private static Map<String, String> sTPIDs;
-
-	public static String getTPID(Context context) {
-		if (sTPIDs == null) {
-			sTPIDs = ResourceUtils.getStringMap(context, R.array.tpid_map);
-		}
-
-		return sTPIDs.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
-	}
-
-	private static Map<String, String> sSiteIds;
-
-	public static String getSiteId(Context context) {
-		if (sSiteIds == null) {
-			sSiteIds = ResourceUtils.getStringMap(context, R.array.siteid_map);
-		}
-
-		return sSiteIds.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// BazaarVoice Reviews/LanguageCode stuff
 

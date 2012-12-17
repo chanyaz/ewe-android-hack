@@ -28,6 +28,7 @@ import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
@@ -146,7 +147,7 @@ public class TrackingUtils {
 		s.eVar50 = (usingTabletInterface) ? "app.tablet.android" : "app.phone.android";
 
 		// TPID
-		s.prop7 = LocaleUtils.getTPID(context);
+		s.prop7 = Integer.toString(PointOfSaleInfo.getPointOfSaleInfo().getTpid());
 
 		// hashed email
 		// Normally we store this in a setting; in 1.0 we stored this in BillingInfo, but

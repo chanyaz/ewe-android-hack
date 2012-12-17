@@ -50,13 +50,13 @@ public class PointOfSaleInfo {
 	private Map<String, String[]> mReviewLocales = new HashMap<String, String[]>();
 
 	// The base URL of the POS 
-	private String mUrl; // LocaleUtils.getPointOfSale()
+	private String mUrl;
 
 	// The POS's TPID (Travel Product Identifier)
-	private int mTPID; // LocaleUtils.getTPID()
+	private int mTPID;
 
 	// The POS's site ID (which appears to be the TPID + EAPID, Expedia Affiliate Product Id, if it differs)
-	private int mSiteId; // LocaleUtils.getSiteId()
+	private int mSiteId;
 
 	// The POS's contact phone number
 	private String mSupportPhoneNumber; // SupportUtils.getInfoSupportNumber()

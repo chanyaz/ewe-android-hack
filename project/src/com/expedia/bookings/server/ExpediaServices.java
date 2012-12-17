@@ -652,7 +652,8 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		if (!AndroidUtils.isRelease(mContext) && getEndPoint(mContext) == EndPoint.PUBLIC_INTEGRATION) {
-			query.add(new BasicNameValuePair("siteid", LocaleUtils.getSiteId(mContext)));
+			query.add(new BasicNameValuePair("siteid", Integer.toString(PointOfSaleInfo.getPointOfSaleInfo()
+					.getSiteId())));
 		}
 	}
 
@@ -1010,7 +1011,7 @@ public class ExpediaServices implements DownloadListener {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(endPoint != EndPoint.PROXY && (flags & F_SECURE_REQUEST) != 0 ? "https://" : "http://");
-		
+
 		String domain = PointOfSaleInfo.getPointOfSaleInfo().getUrl();
 
 		switch (endPoint) {
