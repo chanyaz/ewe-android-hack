@@ -434,9 +434,5 @@
     <string name="contact_expedia_url_uk">http://support.expedia.co.uk</string>
     <string name="contact_expedia_url_us">http://support.expedia.com</string>
     <string name="contact_expedia_url_vn">http://faq.expedia.com.vn</string>
-    
-    <!-- Flight customer support telephone numbers. Used on the confirmation screen. -->
-    <string name="flight_support_number_ca" tools:ignore="TypographyDashes">1-855-247-9310</string>
-    <string name="flight_support_number_us" tools:ignore="TypographyDashes">1-877-222-6503</string>
 
 </resources>

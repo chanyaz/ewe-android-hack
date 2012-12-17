@@ -179,14 +179,6 @@
         <item>@string/contact_expedia_url_vn</item>
     </string-array>
 
-    <!-- Mapping from POS to Flights support numbers -->
-    <string-array name="pos_flight_support_number_map">
-        <item>@string/point_of_sale_ca</item>
-        <item>@string/flight_support_number_ca</item>
-        <item>@string/point_of_sale_us</item>
-        <item>@string/flight_support_number_us</item>
-    </string-array>
-
     <!-- Mapping from POS to country code for reviews request construction -->
     <string-array name="pos_country_code_map">
         <item>@string/point_of_sale_ar</item>

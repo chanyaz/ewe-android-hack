@@ -29,6 +29,8 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
@@ -456,7 +458,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	@Override
 	public void onCallCustomerSupport() {
-		SocialUtils.call(this, SupportUtils.getFlightSupportNumber(this));
+		SocialUtils.call(this, PointOfSaleInfo.getPointOfSaleInfo().getFlightSupportPhoneNumber());
 	}
 
 	@Override

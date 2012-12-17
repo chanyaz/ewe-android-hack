@@ -62,7 +62,7 @@ public class PointOfSaleInfo {
 	private String mSupportPhoneNumber;
 
 	// The POS's contact phone number for flights issues
-	private String mFlightSupportPhoneNumber; // SupportUtils.getFlightSupportNumber()
+	private String mFlightSupportPhoneNumber;
 
 	// The two-letter country code associated with this locale (e.g. "US")
 	private String mTwoLetterCountryCode; // LocaleUtils.sPOSCountryCodes
