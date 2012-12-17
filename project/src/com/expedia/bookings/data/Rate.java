@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -556,10 +556,6 @@ public class Rate implements JSONable {
 		return mIsMobileExclusive;
 	}
 
-	public boolean showMandatoryFees() {
-		return LocaleUtils.shouldDisplayMandatoryFees();
-	}
-
 	private Money getMandatoryBaseRate() {
 		if (mMandatoryFeesBaseRate == null) {
 			mMandatoryFeesBaseRate = new Money(mStrikethroughPriceToShowUsers);
@@ -569,7 +565,7 @@ public class Rate implements JSONable {
 	}
 
 	public Money getDisplayBaseRate() {
-		if (showMandatoryFees()) {
+		if (PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
 			return getMandatoryBaseRate();
 		}
 		else if (mStrikethroughPriceToShowUsers != null) {
@@ -581,7 +577,7 @@ public class Rate implements JSONable {
 	}
 
 	public Money getDisplayRate() {
-		if (showMandatoryFees() && mTotalPriceWithMandatoryFees != null) {
+		if (PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees() && mTotalPriceWithMandatoryFees != null) {
 			return mTotalPriceWithMandatoryFees;
 		}
 		else if (mPriceToShowUsers != null) {

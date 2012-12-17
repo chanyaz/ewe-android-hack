@@ -80,7 +80,7 @@ public class PointOfSaleInfo {
 	private boolean mRequiresRulesRestrictionsCheckbox;
 
 	// Whether or not to display total price + mandatory fees when displaying costs
-	private boolean mDisplayMandatoryFees; // LocaleUtils.shouldDisplayMandatoryFees()
+	private boolean mDisplayMandatoryFees;
 
 	// Whether or not we should show the best price guarantee
 	private boolean mDisplayBestPriceGuarantee; // RulesRestrictionsUtils.getBestPriceGuaranteeUrl(), sort of

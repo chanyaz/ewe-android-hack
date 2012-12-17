@@ -14,9 +14,9 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -36,6 +36,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -43,7 +44,6 @@ import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.CouponCodeWidget;
@@ -436,7 +436,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		// Purchase total
 		Money displayedTotal;
-		if (LocaleUtils.shouldDisplayMandatoryFees(getActivity())) {
+		if (PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
 			displayedTotal = rate.getTotalPriceWithMandatoryFees();
 		}
 		else {

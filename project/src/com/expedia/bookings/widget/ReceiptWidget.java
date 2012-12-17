@@ -24,10 +24,9 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 // Support class for receipt layouts
@@ -158,7 +157,7 @@ public class ReceiptWidget {
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();
 		if (totalMandatoryFees != null && !totalMandatoryFees.isZero()
-				&& LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
+				&& PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
 			addRateRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
 		}
 
@@ -171,7 +170,7 @@ public class ReceiptWidget {
 			else {
 				Money after;
 
-				if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
+				if (PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
 					amountDiscounted = new Money(rate.getTotalPriceWithMandatoryFees());
 					after = discountRate.getTotalPriceWithMandatoryFees();
 				}
@@ -188,7 +187,7 @@ public class ReceiptWidget {
 		}
 
 		Money displayedTotal;
-		if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
+		if (PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
 			addTextRow(mBelowTotalCostLayout, R.string.PayToExpedia, rate.getTotalAmountAfterTax().getFormattedMoney());
 			displayedTotal = rate.getTotalPriceWithMandatoryFees();

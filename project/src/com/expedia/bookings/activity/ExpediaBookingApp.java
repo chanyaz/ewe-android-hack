@@ -21,7 +21,6 @@ import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
@@ -65,7 +64,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		// Initialize some parts of the code that require a Context
 		PointOfSaleInfo.init(this);
-		LocaleUtils.init(this);
 
 		FontCache.initialize(this);
 		AdTracker.initialize(this);

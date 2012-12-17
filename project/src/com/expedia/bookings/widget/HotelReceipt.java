@@ -28,8 +28,8 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.RulesRestrictionsUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -205,7 +205,7 @@ public class HotelReceipt extends FrameLayout {
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();
 		if (totalMandatoryFees != null && !totalMandatoryFees.isZero()
-				&& LocaleUtils.shouldDisplayMandatoryFees(getContext())) {
+				&& PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
 			addRateRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
 		}
 
@@ -218,7 +218,7 @@ public class HotelReceipt extends FrameLayout {
 			else {
 				Money after;
 
-				if (LocaleUtils.shouldDisplayMandatoryFees(getContext())) {
+				if (PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
 					amountDiscounted = new Money(rate.getTotalPriceWithMandatoryFees());
 					after = discountRate.getTotalPriceWithMandatoryFees();
 				}

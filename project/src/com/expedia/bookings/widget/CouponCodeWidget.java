@@ -15,9 +15,9 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -297,7 +297,7 @@ public class CouponCodeWidget {
 		CreateTripResponse response = Db.getCreateTripResponse();
 		if (response != null) {
 			Money m;
-			if (LocaleUtils.shouldDisplayMandatoryFees(mContext)) {
+			if (PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
 				m = response.getNewRate().getTotalPriceWithMandatoryFees();
 			}
 			else {

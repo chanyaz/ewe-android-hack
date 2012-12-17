@@ -59,12 +59,6 @@
         <item>-122.408200</item>
     </string-array>
 
-    <!-- POSes that require mandatory fees (i.e., total price instead of per/night price) -->
-    <string-array name="pos_mandatory_fees">
-        <item>@string/point_of_sale_de</item>
-        <item>@string/point_of_sale_it</item>
-    </string-array>
-
     <!-- Mapping from POS to country code for reviews request construction -->
     <string-array name="pos_country_code_map">
         <item>@string/point_of_sale_ar</item>

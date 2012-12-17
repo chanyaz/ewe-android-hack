@@ -1,13 +1,10 @@
 package com.expedia.bookings.widget;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 import android.content.Context;
 import android.text.Html;
-import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +20,8 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.pos.PointOfSaleInfo;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.StrUtils;
 
 public class HotelReceiptMini extends FrameLayout {
@@ -170,7 +167,7 @@ public class HotelReceiptMini extends FrameLayout {
 		mGuestsTextView.setText(StrUtils.formatGuests(getContext(), searchParams));
 
 		Money displayedTotal;
-		if (LocaleUtils.shouldDisplayMandatoryFees(getContext())) {
+		if (PointOfSaleInfo.getPointOfSaleInfo().displayMandatoryFees()) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
 			addTextRow(mBelowTotalCostLayout, R.string.PayToExpedia, selectedRate.getTotalAmountAfterTax()
 					.getFormattedMoney());

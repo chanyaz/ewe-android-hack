@@ -197,31 +197,4 @@ public class LocaleUtils {
 			return loc.getISO3Country();
 		}
 	}
-
-	public static void init(Context context) {
-		initMandatoryFees(context);
-	}
-
-	private static String[] sMandatoryFeesPointOfSales;
-
-	public static void initMandatoryFees(Context context) {
-		sMandatoryFeesPointOfSales = context.getResources().getStringArray(R.array.pos_mandatory_fees);
-		Arrays.sort(sMandatoryFeesPointOfSales);
-	}
-
-	public static boolean shouldDisplayMandatoryFees(Context context) {
-		if (sMandatoryFeesPointOfSales == null) {
-			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
-		}
-
-		return Arrays.binarySearch(sMandatoryFeesPointOfSales, PointOfSaleInfo.getPointOfSaleInfo().getUrl()) >= 0;
-	}
-
-	public static boolean shouldDisplayMandatoryFees() {
-		if (sMandatoryFeesPointOfSales == null) {
-			throw new RuntimeException("Need to call LocaleUtils.init(context) on app start");
-		}
-
-		return Arrays.binarySearch(sMandatoryFeesPointOfSales, PointOfSaleInfo.getPointOfSaleInfo().getUrl()) >= 0;
-	}
 }
