@@ -30,15 +30,6 @@ import com.mobiata.android.util.SettingUtils;
  * All data related to a point of sale.
  * 
  * You MUST call init() before using this (suggested usage: call in Application)
- * 
- * TO TEST:
- * - Upgrades from previous versions with POS already set
- * - Default POS being set correctly
- * 
- * TODO
- * - Look into all cases of getUrl() and correct where necessary what's happening
- * - Rename POS classes?
- * 
  */
 public class PointOfSale {
 
