@@ -37,6 +37,8 @@ import com.mobiata.android.util.SettingUtils;
  * 
  * TODO
  * - Look into all cases of getUrl() and correct where necessary what's happening
+ * - Clean up arrays.xml of any other loose data
+ * - Rename POS classes?
  * 
  */
 public class PointOfSaleInfo {
@@ -49,6 +51,7 @@ public class PointOfSaleInfo {
 	// List of locales associated with this POS
 	private List<PointOfSaleLocale> mLocales = new ArrayList<PointOfSaleLocale>();
 
+	// Maps the current language --> list of languages for reviews
 	private Map<String, String[]> mReviewLocales = new HashMap<String, String[]>();
 
 	// The base URL of the POS 
@@ -269,6 +272,9 @@ public class PointOfSaleInfo {
 		// Load all data; in the future we may want to load only the POS requested, to save startup time
 		loadPointOfSaleInfo(context);
 
+		// Load review map
+		loadReviewLanguageLocaleMap(context);
+
 		// Init the cache
 		getPointOfSaleInfo(context);
 	}
@@ -380,8 +386,34 @@ public class PointOfSaleInfo {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Review language locale mappings
+
+	// This maps a language ("de") to its multiple review locales ("de,de_AT,de_DE").
+	private static Map<String, String[]> mReviewLanguageMap = new HashMap<String, String[]>();
+
+	public static String getFormattedLanguageCodes(List<String> codes) {
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (String code : codes) {
+			for (String locale : mReviewLanguageMap.get(code)) {
+				if (first) {
+					first = false;
+				}
+				else {
+					sb.append(",");
+				}
+
+				sb.append(locale);
+			}
+		}
+
+		return sb.toString();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Data loading
 
+	@SuppressWarnings("unchecked")
 	private static void loadPointOfSaleInfo(Context context) {
 		long start = System.nanoTime();
 
@@ -410,6 +442,7 @@ public class PointOfSaleInfo {
 		Log.i("Loaded POS data in " + (System.nanoTime() - start) / 1000000 + " ms");
 	}
 
+	@SuppressWarnings("unchecked")
 	private static PointOfSaleInfo parsePointOfSale(JSONObject data) {
 		PointOfSaleInfo pos = new PointOfSaleInfo();
 
@@ -489,5 +522,25 @@ public class PointOfSaleInfo {
 		}
 
 		return locale;
+	}
+
+	@SuppressWarnings("unchecked")
+	private static void loadReviewLanguageLocaleMap(Context context) {
+		mReviewLanguageMap.clear();
+
+		try {
+			InputStream is = context.getAssets().open("ExpediaSharedData/ExpediaReviewLanguageLocaleMap.json");
+			String data = IoUtils.convertStreamToString(is);
+			JSONObject langData = new JSONObject(data);
+			Iterator<String> keys = langData.keys();
+			while (keys.hasNext()) {
+				String language = keys.next();
+				mReviewLanguageMap.put(language, stringJsonArrayToArray(langData.optJSONArray(language)));
+			}
+		}
+		catch (Exception e) {
+			// If this data fails to load, then we should fail horribly
+			throw new RuntimeException(e);
+		}
 	}
 }
