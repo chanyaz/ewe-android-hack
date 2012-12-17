@@ -149,7 +149,7 @@ public class AboutUtils {
 	}
 
 	public void contactViaWeb() {
-		SocialUtils.openSite(mActivity, SupportUtils.getContactExpediaUrl(mActivity));
+		SocialUtils.openSite(mActivity, PointOfSaleInfo.getPointOfSaleInfo().getSupportUrl());
 	}
 
 	public void contactViaEmail() {

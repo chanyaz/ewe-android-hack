@@ -96,7 +96,7 @@ public class PointOfSaleInfo {
 	 */
 	private static class PointOfSaleLocale {
 		// The url leading to the support part of the website
-		private String mSupportUrl; // SupportUtils.getContactExpediaUrl()
+		private String mSupportUrl;
 
 		// The url for just the website
 		private String mWebsiteUrl; // SupportUtils.getWebsiteUrl()

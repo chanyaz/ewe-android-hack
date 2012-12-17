@@ -1,26 +1,13 @@
 package com.expedia.bookings.utils;
 
-import java.util.Map;
-
 import android.content.Context;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSaleInfo;
-import com.mobiata.android.util.ResourceUtils;
 
 public class SupportUtils {
 
-	private static Map<String, String> sContactExpediaUrls;
-
 	public static String getAppSupportUrl(Context context) {
 		return "http://www.mobiata.com/support/expediahotels-android";
-	}
-
-	public static String getContactExpediaUrl(Context context) {
-		if (sContactExpediaUrls == null) {
-			sContactExpediaUrls = ResourceUtils.getStringMap(context, R.array.pos_contact_expedia_url_map);
-		}
-		return sContactExpediaUrls.get(PointOfSaleInfo.getPointOfSaleInfo().getUrl());
 	}
 
 	public static String getWebsiteUrl() {
