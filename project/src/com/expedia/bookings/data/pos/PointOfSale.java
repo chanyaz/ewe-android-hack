@@ -219,6 +219,10 @@ public class PointOfSale {
 
 	private void linkifyText(SpannableStringBuilder text, String origText, String linkText, String url) {
 		int linkStart = origText.indexOf(linkText);
+		if (linkStart < 0) {
+			return;
+		}
+
 		text.setSpan(new URLSpan(url), linkStart, linkStart + linkText.length(), 0);
 	}
 
