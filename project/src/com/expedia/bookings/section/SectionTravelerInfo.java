@@ -49,8 +49,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	ArrayList<SectionField<?, Traveler>> mFields = new ArrayList<SectionField<?, Traveler>>();
 
-	Traveler mTraveler;
 	Context mContext;
+
+	private Traveler mTraveler;
+
 	boolean mAutoChoosePassportCountry = true;
 
 	public SectionTravelerInfo(Context context) {
@@ -176,6 +178,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			return number;
 		}
 		return "";
+	}
+
+	public Traveler getTraveler() {
+		return mTraveler;
 	}
 
 	//////////////////////////////////////

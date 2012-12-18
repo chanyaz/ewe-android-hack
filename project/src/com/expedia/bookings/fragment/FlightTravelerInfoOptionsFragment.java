@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,9 +30,9 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class FlightTravelerInfoOptionsFragment extends Fragment {
@@ -122,33 +123,13 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 						break;
 					}
 				}
-				if (alreadyInUse) {
-					continue;
-				}
 
 				//We inflate the traveler as an option for the user to select
 				SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
-						R.layout.section_display_traveler_info_name, null);
+						R.layout.section_display_traveler_info_btn, null);
 				travelerInfo.bind(traveler);
-				travelerInfo.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						mCurrentTraveler = traveler;
 
-						// Begin loading flight details in the background, if we haven't already
-						BackgroundDownloader bd = BackgroundDownloader.getInstance();
-						if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
-							// Show a loading dialog
-							LoadingTravelerDialogFragment df = new LoadingTravelerDialogFragment();
-							df.show(getFragmentManager(), LoadingTravelerDialogFragment.TAG);
-							bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
-									mTravelerDetailsCallback);
-
-							OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
-						}
-
-					}
-				});
+				toggleTravelerSection(travelerInfo, !alreadyInUse);
 
 				mAssociatedTravelersContainer.addView(travelerInfo);
 
@@ -205,6 +186,56 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		});
 
 		return v;
+	}
+
+	private void toggleTravelerSection(final SectionTravelerInfo section, boolean enable) {
+		ImageView pic = Ui.findView(section, R.id.display_picture);
+
+		if (enable) {
+			if (section.getTraveler().hasTuid()) {
+				pic.setImageResource(R.drawable.ic_expedia_traveler_logo);
+			}
+			else {
+				pic.setImageResource(R.drawable.ic_traveler_blue_entered);
+			}
+			section.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mCurrentTraveler = section.getTraveler();
+
+					// Begin loading flight details in the background, if we haven't already
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
+						// Show a loading dialog
+						LoadingTravelerDialogFragment df = new LoadingTravelerDialogFragment();
+						df.show(getFragmentManager(), LoadingTravelerDialogFragment.TAG);
+						bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
+								mTravelerDetailsCallback);
+
+						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
+					}
+
+				}
+			});
+		}
+
+		else {
+			if (section.getTraveler().hasTuid()) {
+				pic.setImageResource(R.drawable.ic_expedia_traveler_logo_disabled);
+			}
+			else {
+				pic.setImageResource(R.drawable.ic_traveler_grey);
+				TextView name = Ui.findView(section, R.id.display_full_name);
+				TextView phone = Ui.findView(section, R.id.display_phone_number_with_country_code);
+				TextView assist = Ui.findView(section, R.id.display_special_assistance);
+				Resources res = getActivity().getResources();
+				int disabledGrey = res.getColor(R.color.flights_traveler_disabled_grey);
+				name.setTextColor(disabledGrey);
+				phone.setTextColor(disabledGrey);
+				assist.setTextColor(disabledGrey);
+			}
+
+		}
 	}
 
 	@Override

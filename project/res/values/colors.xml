@@ -23,6 +23,7 @@
     <color name="roboto_light">#fff3f3f3</color>
     <color name="default_window_background">#fff3f3f3</color>
     <color name="flights_holo_blue_light">#ff33b5e5</color>
+    <color name="flights_traveler_disabled_grey">#ffa5a5a5</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_normal">#326096</color>
