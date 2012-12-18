@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,8 +79,8 @@ public class WebViewFragment extends Fragment {
 		mUrl = args.getString(ARG_URL);
 		mDisableSignIn = args.getBoolean(ARG_DISABLE_SIGN_IN, false);
 
-		String name = args.getString(ARG_TRACKING_NAME, null);
-		if (name != null) {
+		String name = args.getString(ARG_TRACKING_NAME);
+		if (!TextUtils.isEmpty(name)) {
 			mTrackingName = TrackingName.valueOf(name);
 		}
 
