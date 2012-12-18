@@ -15,8 +15,13 @@ public class BoundedBottomImageView extends ImageView {
 
 	private int mBottom = 0;
 
+	// Pre-allocate for rendering
+	private Rect mClipBounds;
+
 	public BoundedBottomImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+
+		mClipBounds = new Rect();
 	}
 
 	@Override
@@ -24,8 +29,8 @@ public class BoundedBottomImageView extends ImageView {
 		if (mBottom != 0) {
 			canvas.save();
 
-			Rect r = canvas.getClipBounds();
-			canvas.clipRect(r.left, r.top, r.right, mBottom);
+			canvas.getClipBounds(mClipBounds);
+			canvas.clipRect(mClipBounds.left, mClipBounds.top, mClipBounds.right, mBottom);
 
 			super.onDraw(canvas);
 

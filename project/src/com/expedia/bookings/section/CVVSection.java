@@ -26,6 +26,9 @@ public class CVVSection extends RelativeLayout implements CreditCardInputListene
 	private TextView mCvvTextView;
 	private TextView mCvvExplanationTextView;
 
+	// Pre-allocate for rendering
+	private Rect mClipBounds;
+
 	public CVVSection(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
@@ -36,6 +39,8 @@ public class CVVSection extends RelativeLayout implements CreditCardInputListene
 		mShadePaint = new Paint();
 		mShadePaint.setColor(SHADE_COLOR);
 		mShadePaint.setXfermode(new PorterDuffXfermode(Mode.SRC_OUT));
+
+		mClipBounds = new Rect();
 	}
 
 	@Override
@@ -72,16 +77,17 @@ public class CVVSection extends RelativeLayout implements CreditCardInputListene
 		super.onDraw(canvas);
 
 		// Draw the shaded portion everywhere except the 
-		Rect bounds = canvas.getClipBounds();
+		canvas.getClipBounds(mClipBounds);
 
-		canvas.saveLayer(bounds.left, bounds.top, bounds.right, bounds.bottom, null, Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
+		canvas.saveLayer(mClipBounds.left, mClipBounds.top, mClipBounds.right, mClipBounds.bottom, null,
+				Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
 
 		// Draw knocked-out portion
 		canvas.drawRect(mCvvTextView.getLeft(), mCvvTextView.getTop(), mCvvTextView.getRight(),
 				mCvvTextView.getBottom(), mPlainPaint);
 
 		// Fill rest of rectangle
-		canvas.drawRect(bounds, mShadePaint);
+		canvas.drawRect(mClipBounds, mShadePaint);
 
 		canvas.restore();
 	}

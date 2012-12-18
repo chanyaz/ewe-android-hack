@@ -33,6 +33,8 @@ public class FadingImageView extends ImageView {
 		mFadePaint = new Paint();
 		mFadePaint.setXfermode(new PorterDuffXfermode(Mode.XOR));
 		mFadePaint.setFilterBitmap(false);
+
+		mBounds = new Rect();
 	}
 
 	public void setFadeRange(int startY, int endY) {
@@ -56,7 +58,10 @@ public class FadingImageView extends ImageView {
 		super.onLayout(changed, left, top, right, bottom);
 
 		if (changed) {
-			mBounds = new Rect(left, top, right, bottom);
+			mBounds.left = left;
+			mBounds.top = top;
+			mBounds.right = right;
+			mBounds.bottom = bottom;
 		}
 	}
 

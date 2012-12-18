@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
@@ -42,6 +43,11 @@ public class FlightTripView extends View {
 	private float[] mWidths;
 	private float mStartLeft;
 
+	// Pre-allocate for rendering
+	private RectF mCircleBounds;
+	private RectF mLeftArcBounds;
+	private RectF mRightArcBounds;
+
 	public FlightTripView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
@@ -60,6 +66,10 @@ public class FlightTripView extends View {
 		mTextPaint.setColor(r.getColor(R.color.airport_text));
 		mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		mTextPaint.setAntiAlias(true);
+
+		mCircleBounds = new RectF();
+		mLeftArcBounds = new RectF();
+		mRightArcBounds = new RectF();
 	}
 
 	public void setUp(FlightLeg flightLeg, Calendar minTime, Calendar maxTime) {
@@ -129,33 +139,41 @@ public class FlightTripView extends View {
 			}
 			else {
 				// Draw circle
-				RectF bounds = new RectF(left + halfStrokeWidth, mTripPaint.getStrokeWidth() / 2.0f, left + currWidth
-						- halfStrokeWidth, mid - halfStrokeWidth);
-				float bHeight = bounds.height();
-				if (bounds.width() - bHeight < .1f) {
+				mCircleBounds.left = left + halfStrokeWidth;
+				mCircleBounds.top = mTripPaint.getStrokeWidth() / 2.0f;
+				mCircleBounds.right = left + currWidth - halfStrokeWidth;
+				mCircleBounds.bottom = mid - halfStrokeWidth;
+				float bHeight = mCircleBounds.height();
+				if (mCircleBounds.width() - bHeight < .1f) {
 					// Draw a circle (as an oval)
-					canvas.drawOval(bounds, mTripPaint);
+					canvas.drawOval(mCircleBounds, mTripPaint);
 				}
 				else {
 					// Draw the arcs
-					RectF leftArc = new RectF(bounds);
-					leftArc.right = leftArc.left + bHeight;
-					RectF rightArc = new RectF(bounds);
-					rightArc.left = rightArc.right - bHeight;
-					canvas.drawArc(leftArc, 90, 180, false, mTripPaint);
-					canvas.drawArc(rightArc, 270, 180, false, mTripPaint);
+					mLeftArcBounds.left = mCircleBounds.left;
+					mLeftArcBounds.top = mCircleBounds.top;
+					mLeftArcBounds.right = mCircleBounds.left + bHeight;
+					mLeftArcBounds.bottom = mCircleBounds.bottom;
+
+					mRightArcBounds.left = mCircleBounds.right - bHeight;
+					mRightArcBounds.top = mCircleBounds.top;
+					mRightArcBounds.right = mCircleBounds.right;
+					mRightArcBounds.bottom = mCircleBounds.bottom;
+
+					canvas.drawArc(mLeftArcBounds, 90, 180, false, mTripPaint);
+					canvas.drawArc(mRightArcBounds, 270, 180, false, mTripPaint);
 
 					// Draw the lines between the arcs
 					float halfHeight = bHeight / 2;
-					pts[numPts] = leftArc.right - halfHeight - 1;
+					pts[numPts] = mLeftArcBounds.right - halfHeight - 1;
 					pts[numPts + 1] = halfStrokeWidth;
-					pts[numPts + 2] = rightArc.left + halfHeight + 1;
+					pts[numPts + 2] = mRightArcBounds.left + halfHeight + 1;
 					pts[numPts + 3] = halfStrokeWidth;
 					numPts += 4;
 
-					pts[numPts] = leftArc.right - halfHeight - 1;
+					pts[numPts] = mLeftArcBounds.right - halfHeight - 1;
 					pts[numPts + 1] = bHeight + halfStrokeWidth;
-					pts[numPts + 2] = rightArc.left + halfHeight + 1;
+					pts[numPts + 2] = mRightArcBounds.left + halfHeight + 1;
 					pts[numPts + 3] = bHeight + halfStrokeWidth;
 					numPts += 4;
 				}
@@ -168,7 +186,7 @@ public class FlightTripView extends View {
 				else {
 					airportCode = mFlightLeg.getSegment(a / 2).mDestination.mAirportCode;
 				}
-				canvas.drawText(airportCode, bounds.centerX(), height - mTextPaint.descent(), mTextPaint);
+				canvas.drawText(airportCode, mCircleBounds.centerX(), height - mTextPaint.descent(), mTextPaint);
 			}
 			left += currWidth;
 		}
