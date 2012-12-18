@@ -2548,11 +2548,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// HANDLERS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	private Handler mHandler = new Handler() {
-		public void handleMessage(Message msg) {
+	private static final class LeakSafeHandler extends Handler {
+		// Intentionally blank, just here for looper
+	}
 
-		}
-	};
+	private Handler mHandler = new LeakSafeHandler();
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE CLASSES

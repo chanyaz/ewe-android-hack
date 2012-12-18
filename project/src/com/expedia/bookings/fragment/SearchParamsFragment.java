@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -826,19 +827,29 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 	private static final int WHAT_AUTOCOMPLETE = 1;
 
-	private Handler mHandler = new SearchParamsHandler();
+	private static final class LeakSafeHandler extends Handler {
+		private WeakReference<SearchParamsFragment> mTarget;
 
-	private class SearchParamsHandler extends Handler {
+		public LeakSafeHandler(SearchParamsFragment target) {
+			mTarget = new WeakReference<SearchParamsFragment>(target);
+		}
 
 		@Override
 		public void handleMessage(Message msg) {
+			SearchParamsFragment target = mTarget.get();
+			if (target == null) {
+				return;
+			}
+
 			if (msg.what == WHAT_AUTOCOMPLETE) {
 				final String query = (String) msg.obj;
-				startAutocomplete(query);
+				target.startAutocomplete(query);
 			}
 			super.handleMessage(msg);
 		}
 	}
+
+	private final Handler mHandler = new LeakSafeHandler(this);
 
 	//////////////////////////////////////////////////////////////////////////
 	// Fragment control

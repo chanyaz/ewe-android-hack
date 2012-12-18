@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import android.content.BroadcastReceiver;
@@ -1732,20 +1733,33 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		mFlingRunnable.startUsingDistance(offset, duration);
 	}
 
-	private final int FLIP_MSG = 1;
+	private static final int FLIP_MSG = 1;
 
-	private final Handler mHandler = new Handler() {
+	private static final class LeakSafeHandler extends Handler {
+		private WeakReference<Gallery> mTarget;
+
+		public LeakSafeHandler(Gallery target) {
+			mTarget = new WeakReference<Gallery>(target);
+		}
+
 		@Override
 		public void handleMessage(Message msg) {
+			Gallery target = mTarget.get();
+			if (target == null) {
+				return;
+			}
+
 			if (msg.what == FLIP_MSG) {
-				if (mRunning) {
-					showNext();
+				if (target.mRunning) {
+					target.showNext();
 					msg = obtainMessage(FLIP_MSG);
-					sendMessageDelayed(msg, mFlipInterval);
+					sendMessageDelayed(msg, target.mFlipInterval);
 				}
 			}
 		}
-	};
+	}
+
+	private final Handler mHandler = new LeakSafeHandler(this);
 
 	//////////////////////////////////////////////////////////////////////////
 	// User interaction interface

@@ -1,5 +1,6 @@
 package com.expedia.bookings.appwidget;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.List;
 
@@ -580,22 +581,33 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final int NO_INTERNET_CONNECTIVITY = -1;
-	private Handler mHandler = new Handler() {
+
+	private static final class LeakSafeHandler extends Handler {
+		private WeakReference<ExpediaBookingsService> mTarget;
+
+		public LeakSafeHandler(ExpediaBookingsService target) {
+			mTarget = new WeakReference<ExpediaBookingsService>(target);
+		}
 
 		@Override
 		public void handleMessage(Message msg) {
+			ExpediaBookingsService target = mTarget.get();
+			if (target == null) {
+				return;
+			}
 
 			switch (msg.what) {
 			case NO_INTERNET_CONNECTIVITY:
-				updateAllWidgetsWithText(getString(R.string.widget_error_no_internet),
-						getString(R.string.refresh_widget), getRefreshIntent());
+				target.updateAllWidgetsWithText(target.getString(R.string.widget_error_no_internet),
+						target.getString(R.string.refresh_widget), target.getRefreshIntent());
 				break;
 			}
 
 			super.handleMessage(msg);
 		}
+	}
 
-	};
+	private Handler mHandler = new LeakSafeHandler(this);
 
 	private void scheduleSearch() {
 		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);

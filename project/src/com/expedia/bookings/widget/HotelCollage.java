@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,15 +151,25 @@ public class HotelCollage {
 		}
 	}
 
-	private Handler mHandler = new Handler() {
+	private static final class LeakSafeHandler extends Handler {
+		private WeakReference<HotelCollage> mTarget;
+
+		public LeakSafeHandler(HotelCollage target) {
+			mTarget = new WeakReference<HotelCollage>(target);
+		}
 
 		@Override
 		public void handleMessage(Message msg) {
+			HotelCollage target = mTarget.get();
+			if (target == null) {
+				return;
+			}
+
 			switch (msg.what) {
 
 			case LOAD_IMAGE:
-				final Media media = mPropertyMediaList.get(mCurrentIndex);
-				final ImageView imageView = mPropertyImageViews.get(mCurrentIndex);
+				final Media media = target.mPropertyMediaList.get(target.mCurrentIndex);
+				final ImageView imageView = target.mPropertyImageViews.get(target.mCurrentIndex);
 
 				UrlBitmapDrawable bitmapDrawable = new UrlBitmapDrawable(imageView.getContext().getResources(),
 						media.getHighResUrls());
@@ -171,7 +182,10 @@ public class HotelCollage {
 						imageView.setImageDrawable(drawable);
 						drawable.startTransition(FADE_TIME);
 
-						loadNextImage();
+						HotelCollage target = mTarget.get();
+						if (target != null) {
+							target.loadNextImage();
+						}
 					}
 
 					@Override
@@ -184,5 +198,7 @@ public class HotelCollage {
 				super.handleMessage(msg);
 			}
 		}
-	};
+	}
+
+	private final Handler mHandler = new LeakSafeHandler(this);
 }
