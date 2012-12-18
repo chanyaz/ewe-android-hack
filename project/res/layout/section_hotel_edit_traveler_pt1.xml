@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:gridlayout="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -16,7 +17,8 @@
 
         <LinearLayout
             android:layout_gravity="fill_horizontal"
-            gridlayout:layout_columnSpan="4" >
+            gridlayout:layout_columnSpan="4"
+            tools:ignore="RequiredSize" >
 
             <EditText
                 android:id="@+id/edit_first_name"
@@ -49,7 +51,9 @@
             gridlayout:layout_columnSpan="4"
             android:hint="@string/last_name"
             android:inputType="textPersonName|textCapWords"
-            android:singleLine="true" />
+            android:singleLine="true"
+            tools:ignore="RequiredSize" />
+
     </com.gridlayout.GridLayout>
 
     <com.gridlayout.GridLayout
@@ -58,7 +62,8 @@
         gridlayout:alignmentMode="alignMargins"
         gridlayout:columnCount="3"
         gridlayout:columnOrderPreserved="false"
-        gridlayout:useDefaultMargins="false" >
+        gridlayout:useDefaultMargins="false"
+        tools:ignore="RequiredSize" >
 
         <com.expedia.bookings.widget.TelephoneSpinner
             android:id="@+id/edit_phone_number_country_code_spinner"
@@ -73,7 +78,8 @@
             gridlayout:layout_columnSpan="2"
             android:hint="@string/phone_number_hint"
             android:inputType="phone"
-            android:singleLine="true" />
+            android:singleLine="true"
+            tools:ignore="RequiredSize" />
     </com.gridlayout.GridLayout>
 
 </com.expedia.bookings.section.SectionTravelerInfo>
