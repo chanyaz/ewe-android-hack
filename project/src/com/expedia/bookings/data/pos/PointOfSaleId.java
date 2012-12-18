@@ -1,7 +1,8 @@
 package com.expedia.bookings.data.pos;
 
 import java.util.HashMap;
-import java.util.Map;
+
+import android.util.SparseArray;
 
 public enum PointOfSaleId {
 	UNKNOWN(0),
@@ -46,11 +47,11 @@ public enum PointOfSaleId {
 		return mId;
 	}
 
-	private static Map<Integer, PointOfSaleId> sIdToPOS;
+	private static SparseArray<PointOfSaleId> sIdToPOS;
 
 	public static PointOfSaleId getPointOfSaleFromId(int id) {
 		if (sIdToPOS == null) {
-			sIdToPOS = new HashMap<Integer, PointOfSaleId>();
+			sIdToPOS = new SparseArray<PointOfSaleId>();
 			for (PointOfSaleId pos : PointOfSaleId.values()) {
 				sIdToPOS.put(pos.mId, pos);
 			}
