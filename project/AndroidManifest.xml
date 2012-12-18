@@ -225,10 +225,12 @@
         <!-- Search stuff -->
         <provider
             android:name="com.expedia.bookings.content.AutocompleteProvider"
-            android:authorities="com.expedia.booking.autocomplete" />
+            android:authorities="com.expedia.booking.autocomplete"
+            android:exported="false" />
         <provider
             android:name="com.expedia.bookings.content.AirportAutocompleteProvider"
-            android:authorities="com.expedia.booking.autocomplete.air" />
+            android:authorities="com.expedia.booking.autocomplete.air"
+            android:exported="false" />
 
         <!-- Boot stuff -->
         <receiver android:name="com.expedia.bookings.activity.LocaleChangeReceiver" >
@@ -239,7 +241,9 @@
 
         <!-- Tracking -->
 
-        <receiver android:name="com.expedia.bookings.activity.PosChangedReceiver" >
+        <receiver
+            android:name="com.expedia.bookings.activity.PosChangedReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.expedia.bookings.action.pos_changed" />
             </intent-filter>
