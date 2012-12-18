@@ -39,32 +39,16 @@
     <!-- Traveler(s) -->
 
     <LinearLayout
-        android:id="@+id/traveler_outer_container"
+        android:id="@+id/traveler_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:addStatesFromChildren="true"
         android:background="@drawable/bg_checkout_information_top_tab"
         android:orientation="vertical"
         android:padding="10dp" >
 
-        <include
-            android:id="@+id/traveler_info_btn"
-            layout="@layout/snippet_booking_overview_traveler" />
-
-        <LinearLayout
-            android:id="@+id/travelers_container"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:addStatesFromChildren="true"
-            android:orientation="vertical"
-            android:visibility="gone" >
-
-            <!-- This container gets filled with travelers -->
-
-        </LinearLayout>
     </LinearLayout>
 
     <!-- Payment -->

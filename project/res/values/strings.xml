@@ -338,6 +338,18 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
+
+    <!-- Enter traveler info button text -->
+    <string name="enter_traveler_info_TEMPLATE">Traveler %d Information</string>
+
+    <!--<plurals name="enter_traveler_info">-->
+        <!--<item quantity="zero"></item>-->
+        <!--<item quantity="one"></item>-->
+        <!--<item quantity="two"></item>-->
+        <!--<item quantity="many"></item>-->
+        <!--<item quantity="other"></item>-->
+    <!--</plurals>-->
+
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->

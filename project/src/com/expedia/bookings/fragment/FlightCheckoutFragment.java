@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -14,10 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.*;
+import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
+import com.expedia.bookings.activity.FlightRulesActivity;
+import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -61,7 +65,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private SectionStoredCreditCard mStoredCreditCard;
 
 	private ViewGroup mTravelerContainer;
-	private TextView mTravelerButton;
 	private ViewGroup mPaymentButton;
 
 	private boolean mRefreshedUser;
@@ -69,11 +72,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	private CheckoutInformationListener mListener;
 
 	public static FlightCheckoutFragment newInstance() {
-		FlightCheckoutFragment fragment = new FlightCheckoutFragment();
-		Bundle args = new Bundle();
-		//TODO:Set args here..
-		fragment.setArguments(args);
-		return fragment;
+		return new FlightCheckoutFragment();
 	}
 
 	@Override
@@ -121,13 +120,12 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			mBillingInfo.setLocation(new Location());
 		}
 
-		mTravelerButton = Ui.findView(v, R.id.traveler_info_btn);
 		mPaymentButton = Ui.findView(v, R.id.payment_info_btn);
 		mStoredCreditCard = Ui.findView(v, R.id.stored_creditcard_section_button);
 		mCreditCardSectionButton = Ui.findView(v, R.id.creditcard_section_button);
-		mTravelerContainer = Ui.findView(v, R.id.travelers_container);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mAccountLabel = Ui.findView(v, R.id.expedia_account_label);
+		mTravelerContainer = Ui.findView(v, R.id.traveler_container);
 
 		ViewUtils.setAllCaps(mAccountLabel);
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.checkout_information_label));
@@ -150,7 +148,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mCreditCardSectionButton.setOnClickListener(gotoPaymentOptions);
 		mStoredCreditCard.setOnClickListener(gotoPaymentOptions);
 		mPaymentButton.setOnClickListener(gotoPaymentOptions);
-		mTravelerButton.setOnClickListener(new OnTravelerClickListener(0, true));
+
+		buildTravelerBox();
 
 		return v;
 	}
@@ -212,7 +211,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		populateTravelerData();
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
-		buildTravelerSections();
+		buildTravelerBox();
 
 		bindAll();
 		refreshAccountButtonState();
@@ -273,26 +272,103 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			Db.setTravelers(travelers);
 		}
 
-		if (travelers.size() == 0) {
-			Traveler fp = new Traveler();
-			travelers.add(fp);
+		buildTravelerBase();
+	}
+
+	private void buildTravelerBase() {
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		if (Db.getTravelers() == null) {
+			Db.setTravelers(new ArrayList<Traveler>());
+		}
+
+		// If there are more numAdults from SearchParams, add empty Travelers to the Db to anticipate the addition of
+		// new Travelers in order for check out
+		final int numTravelers = Db.getTravelers().size();
+		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
+		if (numTravelers < numAdults) {
+			for (int i = numTravelers; i < numAdults; i++) {
+				Db.getTravelers().add(new Traveler());
+
+				// Add the traveler sections
+				SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
+						R.layout.section_display_traveler_info_btn, null);
+				travelerSection.setOnClickListener(new OnTravelerClickListener(i, false));
+				mTravelerSections.add(travelerSection);
+			}
+		}
+
+		// If there are more Travelers than number of adults required by the SearchParams, remove the extra Travelers,
+		// although, keep the first numAdults Travelers.
+		else if (numTravelers > numAdults) {
+			for (int i = numTravelers - 1; i >= numAdults; i--) {
+				Db.getTravelers().remove(i);
+			}
 		}
 	}
 
-	private void buildTravelerSections() {
+	private void buildTravelerBox() {
 		mTravelerContainer.removeAllViews();
 		mTravelerSections.clear();
 
-		List<Traveler> travelers = Db.getTravelers();
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		for (int i = 0; i < travelers.size(); i++) {
-			final int travelerNum = i;
-			SectionTravelerInfo traveler = (SectionTravelerInfo) inflater.inflate(
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		Traveler traveler;
+		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
+		for (int i = 0; i < numAdults; i++) {
+			traveler = getTraveler(i);
+
+			// The traveler has information, fill it in
+			SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
 					R.layout.section_display_traveler_info_btn, null);
-			traveler.setOnClickListener(new OnTravelerClickListener(travelerNum, false));
-			mTravelerSections.add(traveler);
-			mTravelerContainer.addView(traveler);
+			travelerSection.setOnClickListener(new OnTravelerClickListener(i, false));
+			mTravelerSections.add(travelerSection);
+
+			if (traveler != null && traveler.hasName()) {
+				mTravelerContainer.addView(travelerSection);
+			}
+
+			// This traveler is likely blank, show the empty label, prompt user to fill in
+			else {
+				View v = inflater.inflate(R.layout.snippet_booking_overview_traveler, null);
+				v.setOnClickListener(new OnTravelerClickListener(i, true));
+
+				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
+				tv.setText(mContext.getString(R.string.enter_traveler_info_TEMPLATE, i + 1)); // no zero index for users
+
+				mTravelerContainer.addView(v);
+			}
+
+			if (i < (numAdults - 1)) {
+				addDividerToTravelerBox();
+			}
 		}
+	}
+
+	private Traveler getTraveler(int index) {
+		if (Db.getTravelers() == null) {
+			return null;
+		}
+
+		if (Db.getTravelers().size() <= index) {
+			return null;
+		}
+
+		return Db.getTravelers().get(index);
+	}
+
+	private void addDividerToTravelerBox() {
+		Resources res = getActivity().getResources();
+
+		// Add divider
+		View divider = new View(getActivity());
+		LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
+		divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
+				res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
+		divider.setLayoutParams(divLayoutParams);
+		divider.setBackgroundColor(res.getColor(R.color.overview_receipt_divider));
+		mTravelerContainer.addView(divider);
 	}
 
 	private class OnTravelerClickListener implements OnClickListener {
@@ -311,10 +387,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			Intent editTravelerIntent = new Intent(getActivity(),
 					FlightTravelerInfoOptionsActivity.class);
 
-			//We tell the traveler edit activity which index we are editing.
+			// We tell the traveler edit activity which index we are editing.
 			editTravelerIntent.putExtra(Codes.TRAVELER_INDEX, mTravelerIndex);
 
-			//We setup the checkout manager to have the correct working traveler
+			// We setup the checkout manager to have the correct working traveler
 			if (Db.getTravelers().size() > mTravelerIndex && Db.getTravelers().get(mTravelerIndex) != null) {
 				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(mTravelerIndex));
 			}
@@ -328,7 +404,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	}
 
-	private boolean hasValidTravlers() {
+	private boolean hasValidTravelers() {
 		if (mTravelerSections == null || mTravelerSections.size() <= 0) {
 			return false;
 		}
@@ -381,16 +457,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		boolean hasStoredCard = mBillingInfo.getStoredCard() != null;
 		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
-		boolean travelerValid = hasValidTravlers();
-
-		if (travelerValid) {
-			mTravelerButton.setVisibility(View.GONE);
-			mTravelerContainer.setVisibility(View.VISIBLE);
-		}
-		else {
-			mTravelerButton.setVisibility(View.VISIBLE);
-			mTravelerContainer.setVisibility(View.GONE);
-		}
+		boolean travelerValid = hasValidTravelers();
 
 		if (hasStoredCard) {
 			mStoredCreditCard.setVisibility(View.VISIBLE);
@@ -542,12 +609,17 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		// Sign out user
 		User.signOut(getActivity());
 
+		mTravelerSections.clear();
+		Db.getTravelers().clear();
+		buildTravelerBase();
+
 		// Update UI
 		mAccountButton.bind(false, false, null, true);
 
 		//After logout this will clear stored cards
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
+		buildTravelerBox();
 		bindAll();
 		updateViewVisibilities();
 	}
@@ -559,9 +631,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		Db.getBillingInfo().setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 
 		populateTravelerData();
-
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
+		buildTravelerBox();
 		bindAll();
 		updateViewVisibilities();
 	}
