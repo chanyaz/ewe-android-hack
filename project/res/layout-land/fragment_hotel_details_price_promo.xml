@@ -37,9 +37,7 @@
         <LinearLayout
             android:id="@+id/price_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/promo_text_view"
-            android:layout_alignParentRight="true" >
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/strikethrough_price_text_view"
@@ -74,8 +72,6 @@
             android:id="@+id/promo_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:text="Mobile Only"
             android:textColor="#ccc9c7"
             android:textSize="15sp"

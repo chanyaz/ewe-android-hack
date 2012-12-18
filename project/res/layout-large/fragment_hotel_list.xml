@@ -26,8 +26,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@+id/header_layout" >
+        android:layout_alignWithParentIfMissing="true" >
 
         <TextView
             android:id="@+id/no_filter_results_text_view"
