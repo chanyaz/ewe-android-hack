@@ -64,7 +64,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		// Initialize some parts of the code that require a Context
 		PointOfSale.init(this);
-
 		FontCache.initialize(this);
 		AdTracker.initialize(this);
 

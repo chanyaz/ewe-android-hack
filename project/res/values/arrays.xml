@@ -305,42 +305,6 @@
         <item>@string/country_ax</item>
     </string-array>
 
-    <!-- List of Country Codes valid for Amobee tracking -->
-
-    <string-array name="valid_amobee_points_of_sale">
-        <item>@string/point_of_sale_us</item>
-        <item>@string/point_of_sale_ar</item>
-        <item>@string/point_of_sale_au</item>
-        <item>@string/point_of_sale_at</item>
-        <item>@string/point_of_sale_be</item>
-        <item>@string/point_of_sale_br</item>
-        <item>@string/point_of_sale_ca</item>
-        <item>@string/point_of_sale_dk</item>
-        <item>@string/point_of_sale_fr</item>
-        <item>@string/point_of_sale_de</item>
-        <item>@string/point_of_sale_ie</item>
-        <item>@string/point_of_sale_it</item>
-        <item>@string/point_of_sale_mx</item>
-        <item>@string/point_of_sale_nl</item>
-        <item>@string/point_of_sale_nz</item>
-        <item>@string/point_of_sale_no</item>
-        <item>@string/point_of_sale_es</item>
-        <item>@string/point_of_sale_se</item>
-        <item>@string/point_of_sale_uk</item>
-    </string-array>
-    <string-array name="valid_somo_points_of_sale">
-        <item>@string/point_of_sale_hk</item>
-        <item>@string/point_of_sale_id</item>
-        <item>@string/point_of_sale_in</item>
-        <item>@string/point_of_sale_jp</item>
-        <item>@string/point_of_sale_kr</item>
-        <item>@string/point_of_sale_my</item>
-        <item>@string/point_of_sale_ph</item>
-        <item>@string/point_of_sale_sg</item>
-        <item>@string/point_of_sale_th</item>
-        <item>@string/point_of_sale_tw</item>
-        <item>@string/point_of_sale_vn</item>
-    </string-array>
     <string-array name="country_codes">
         <item>@string/country_code_af</item>
         <item>@string/country_code_al</item>

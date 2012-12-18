@@ -80,6 +80,12 @@ public class PointOfSale {
 	// Whether or not to let users access flights on this POS
 	private boolean mSupportsFlights;
 
+	// Whether or not to track data with Amobee on this POS
+	private boolean mUseAmobeeTracking;
+
+	// Whether or not to track data with Somo on this POS
+	private boolean mUseSomoTracking;
+
 	// Used to determine the default POS, based on the device's locale
 	private String[] mDefaultLocales;
 
@@ -174,6 +180,14 @@ public class PointOfSale {
 
 	public boolean supportsFlights() {
 		return mSupportsFlights;
+	}
+
+	public boolean useAmobeeTracking() {
+		return mUseAmobeeTracking;
+	}
+
+	public boolean useSomoTracking() {
+		return mUseSomoTracking;
 	}
 
 	public String[] getReviewLanguages() {
@@ -461,6 +475,8 @@ public class PointOfSale {
 		pos.mRequiresRulesRestrictionsCheckbox = data.optBoolean("explicitConsentRequired");
 		pos.mDisplayBestPriceGuarantee = data.optBoolean("shouldDisplayBestPriceGuarantee");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
+		pos.mUseAmobeeTracking = data.optBoolean("useAmobeeTracking");
+		pos.mUseSomoTracking = data.optBoolean("useSomoTracking");
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

@@ -1,8 +1,6 @@
 package com.expedia.bookings.tracking;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import android.app.Application;
 import android.content.Context;
@@ -32,16 +30,16 @@ public class AdTracker {
 		// Google
 		EasyTracker.getInstance().setContext(context);
 
+		PointOfSale pos = PointOfSale.getPointOfSale();
+
 		// Amobee
-		final List<String> amobeePos = Arrays.asList(res.getStringArray(R.array.valid_amobee_points_of_sale));
 		final String appId = context.getString(R.string.amobee_app_id);
-		Amobee.initialize(context, appId, amobeePos.contains(PointOfSale.getPointOfSale().getUrl()));
+		Amobee.initialize(context, appId, pos.useAmobeeTracking());
 
 		// Somo
-		final List<String> somoPos = Arrays.asList(res.getStringArray(R.array.valid_somo_points_of_sale));
 		final int userId = res.getInteger(R.integer.somo_user_id);
 		final int applicationId = res.getInteger(R.integer.somo_application_id);
-		Somo.initialize(context, userId, applicationId, somoPos.contains(PointOfSale.getPointOfSale().getUrl()));
+		Somo.initialize(context, userId, applicationId, pos.useSomoTracking());
 
 		// Omniture
 		mAppMeasurement = new AppMeasurement((Application) context.getApplicationContext());
