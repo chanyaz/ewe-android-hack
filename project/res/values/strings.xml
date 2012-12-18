@@ -30,6 +30,10 @@
     <string name="failure_to_update_user">Failure to fetch updated user information.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Linking your accounts...</string>
+    <!-- Sign in with Expedia -->
+    <string name="sign_in_with_expedia">Sign in with Expedia</string>
+    <!-- Please sign into your Expedia account -->
+    <string name="please_sign_into_your_expedia_account">Please sign into your Expedia account</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
