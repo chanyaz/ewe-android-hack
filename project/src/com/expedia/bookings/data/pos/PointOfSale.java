@@ -364,6 +364,8 @@ public class PointOfSale {
 	public static void onPointOfSaleChanged(Context context) {
 		Log.i("Point of sale changed!");
 
+		Log.d("Old POS id: " + sCachedPOS);
+
 		// Update the cache
 		getPointOfSale(context);
 
@@ -373,6 +375,8 @@ public class PointOfSale {
 		// Notify app of POS change
 		Intent intent = new Intent(ACTION_POS_CHANGED);
 		context.sendBroadcast(intent);
+
+		Log.d("New POS id: " + sCachedPOS);
 	}
 
 	// Provide context for sorting purposes
