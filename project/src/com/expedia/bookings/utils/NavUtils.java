@@ -11,22 +11,20 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.activity.BookingFragmentActivity;
-import com.expedia.bookings.activity.BookingInfoActivity;
 import com.expedia.bookings.activity.ConfirmationFragmentActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightConfirmationActivity;
 import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
+import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.ConfirmationState.Type;
-import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -54,8 +52,8 @@ public class NavUtils {
 		}
 
 		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
-		else if (BackgroundDownloader.getInstance().isDownloading(BookingInfoActivity.BOOKING_DOWNLOAD_KEY)) {
-			routingTarget = BookingInfoActivity.class;
+		else if (BackgroundDownloader.getInstance().isDownloading(HotelBookingActivity.BOOKING_DOWNLOAD_KEY)) {
+			routingTarget = HotelBookingActivity.class;
 		}
 
 		// Send user to EH phone by default
@@ -165,7 +163,7 @@ public class NavUtils {
 	 *
 	 *     protected void onCreate(Bundle savedInstanceState) {
 	 *         super.onCreate(savedInstanceState);
-     *         mKillReceiver = new ActivityKillReceiver(this);
+	 *         mKillReceiver = new ActivityKillReceiver(this);
 	 *         mKillReceiver.onCreate();
 	 *     }
 	 *

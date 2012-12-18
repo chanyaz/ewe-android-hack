@@ -46,7 +46,7 @@ import com.mobiata.android.SocialUtils;
 public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
 		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
 
-	private static final String DOWNLOAD_KEY = "com.expedia.bookings.hotel.checkout";
+	public static final String BOOKING_DOWNLOAD_KEY = "com.expedia.bookings.hotel.checkout";
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -106,8 +106,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		setCvvErrorMode(mCvvErrorModeEnabled);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(DOWNLOAD_KEY)) {
-			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
+		if (bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
+			bd.registerDownloadCallback(BOOKING_DOWNLOAD_KEY, mCallback);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	protected void onPause() {
 		super.onPause();
 
-		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+		BackgroundDownloader.getInstance().unregisterDownloadCallback(BOOKING_DOWNLOAD_KEY);
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	public void onBackPressed() {
 		// F1053: Do not let user go back when we are mid-download
-		if (!BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)) {
+		if (!BackgroundDownloader.getInstance().isDownloading(BOOKING_DOWNLOAD_KEY)) {
 			super.onBackPressed();
 		}
 	}
@@ -199,14 +199,14 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		setCvvErrorMode(false);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(DOWNLOAD_KEY)) {
+		if (!bd.isDownloading(BOOKING_DOWNLOAD_KEY)) {
 			// Clear current results (if any)
 			Db.setFlightCheckout(null);
 
 			mProgressFragment = new BookingInProgressDialogFragment();
 			mProgressFragment.show(getSupportFragmentManager(), BookingInProgressDialogFragment.TAG);
 
-			bd.startDownload(DOWNLOAD_KEY, mDownload, mCallback);
+			bd.startDownload(BOOKING_DOWNLOAD_KEY, mDownload, mCallback);
 		}
 	}
 
