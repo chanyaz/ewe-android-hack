@@ -264,8 +264,15 @@ public class ExpediaServices implements DownloadListener {
 
 		addBillingInfo(query, billingInfo, F_HAS_TRAVELER);
 
+		String prefix;
 		for (int i = 0; i < travelers.size(); i++) {
-			addFlightTraveler(query, travelers.get(i));
+			if (i == 0) {
+				prefix = "mainFlightPassenger.";
+			}
+			else {
+				prefix = "associatedFlightPassengers[" + Integer.toString(i - 1) + "].";
+			}
+			addFlightTraveler(query, travelers.get(i), prefix);
 		}
 
 		String nameOnCard = billingInfo.getNameOnCard();
@@ -717,6 +724,59 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
 		}
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
+	}
+
+	// TODO this is a blatant copy/paste of the other method of the same name. Do not do this in the long run.
+	// TODO More specifically, see if this method should be shared between flight/checkout and update-traveler
+	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler, String prefix) {
+		SimpleDateFormat isoDateFormatter = new SimpleDateFormat(ISO_FORMAT);
+		query.add(new BasicNameValuePair(prefix + "firstName", traveler.getFirstName()));
+		if (!TextUtils.isEmpty(traveler.getMiddleName())) {
+			query.add(new BasicNameValuePair(prefix + "middleName", traveler.getMiddleName()));
+		}
+		query.add(new BasicNameValuePair(prefix + "lastName", traveler.getLastName()));
+		query.add(new BasicNameValuePair(prefix + "birthDate", isoDateFormatter.format(traveler.getBirthDateInMillis())));
+		query.add(new BasicNameValuePair(prefix + "gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
+
+		String assistanceOption;
+		if (traveler.getAssistance() != null) {
+			assistanceOption = traveler.getAssistance().name();
+		}
+		else {
+			assistanceOption = AssistanceType.NONE.name();
+		}
+		query.add(new BasicNameValuePair(prefix + "specialAssistanceOption", assistanceOption));
+		query.add(new BasicNameValuePair(prefix + "seatPreference", traveler.getSeatPreference().name()));
+
+		if (!TextUtils.isEmpty(traveler.getPhoneCountryCode())) {
+			query.add(new BasicNameValuePair(prefix + "phoneCountryCode", traveler.getPhoneCountryCode()));
+		}
+		if (!TextUtils.isEmpty(traveler.getPhoneNumber())) {
+
+			query.add(new BasicNameValuePair(prefix + "phone", traveler.getPrimaryPhoneNumber().getAreaCode()
+					+ traveler.getPrimaryPhoneNumber().getNumber()));
+		}
+
+		//Email is required (but there is no traveler email entry)
+		String email = traveler.getEmail();
+		if (TextUtils.isEmpty(email)) {
+			email = Db.getBillingInfo().getEmail();
+		}
+		if (TextUtils.isEmpty(email)) {
+			email = Db.getUser().getPrimaryTraveler().getEmail();
+		}
+
+		query.add(new BasicNameValuePair(prefix + "email", email));
+
+		if (!TextUtils.isEmpty(traveler.getPrimaryPassportCountry())) {
+			query.add(new BasicNameValuePair(prefix + "passportCountryCode", traveler.getPrimaryPassportCountry()));
+		}
+		if (!TextUtils.isEmpty(traveler.getRedressNumber())) {
+			query.add(new BasicNameValuePair(prefix + "TSARedressNumber", traveler.getRedressNumber()));
+		}
+		if (traveler.hasTuid()) {
+			query.add(new BasicNameValuePair(prefix + "tuid", traveler.getTuid().toString()));
+		}
 	}
 
 	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler) {
