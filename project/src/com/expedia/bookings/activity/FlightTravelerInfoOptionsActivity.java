@@ -50,6 +50,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
 	private static final String STATE_TAG_START_FIRST_NAME = "STATE_TAG_START_FIRST_NAME";
 	private static final String STATE_TAG_START_LAST_NAME = "STATE_TAG_START_LAST_NAME";
+	private static final String STATE_TAG_SKIP_OVERVIEW = "STATE_TAG_SKIP_OVERVIEW";
 
 	private Context mContext;
 
@@ -66,6 +67,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	private YoYoPosition mBeforeSaveDialogPos;
 
 	private int mTravelerIndex;
+
+	private boolean mSkipBackStackOverview = false;
 
 	//for determining if the name changed...
 	private String mStartFirstName = "";
@@ -218,6 +221,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		outState.putString(STATE_TAG_DEST, mPos.name());
 		outState.putString(STATE_TAG_START_FIRST_NAME, mStartFirstName);
 		outState.putString(STATE_TAG_START_LAST_NAME, mStartLastName);
+		outState.putBoolean(STATE_TAG_SKIP_OVERVIEW, mSkipBackStackOverview);
 		super.onSaveInstanceState(outState);
 	}
 
@@ -229,6 +233,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 				.getString(STATE_TAG_START_FIRST_NAME) : "";
 		mStartLastName = savedInstanceState.getString(STATE_TAG_START_LAST_NAME) != null ? savedInstanceState
 				.getString(STATE_TAG_START_LAST_NAME) : "";
+		mSkipBackStackOverview = savedInstanceState.getBoolean(STATE_TAG_SKIP_OVERVIEW);
 
 		super.onRestoreInstanceState(savedInstanceState);
 	}
@@ -258,6 +263,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			if (canOnlySelectNewTraveler()) {
 				mPos = YoYoPosition.ONE;
 				mMode = YoYoMode.YOYO;
+				mSkipBackStackOverview = true;
 			}
 			else {
 				mPos = YoYoPosition.OPTIONS;
@@ -577,7 +583,12 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 					Db.getWorkingTravelerManager().setWorkingTravelerAndBase(
 							Db.getWorkingTravelerManager().getBaseTraveler());
 				}
-				displayOptions();
+				if (mSkipBackStackOverview) {
+					displayCheckout();
+				}
+				else {
+					displayOptions();
+				}
 				break;
 			case TWO:
 				displayTravelerEntryOne();
