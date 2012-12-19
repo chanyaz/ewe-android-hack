@@ -33,11 +33,11 @@ import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FacebookLinkResponse.FacebookLinkResponseCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FlightTripPriceFragment.LoadingDetailsDialogFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -317,7 +317,7 @@ public class LoginFragment extends Fragment {
 
 		mForgotYourPasswordTv.setText(Html.fromHtml(String.format(
 				"<a href=\"http://www.%s/pub/agent.dll?qscr=apwd\">%s</a>",
-				LocaleUtils.getPointOfSale(mContext), mContext.getString(R.string.forgot_your_password))));
+				PointOfSale.getPointOfSale(mContext).getUrl(), mContext.getString(R.string.forgot_your_password))));
 		mForgotYourPasswordTv.setMovementMethod(LinkMovementMethod.getInstance());
 		mForgotYourPasswordTv.setOnClickListener(new OnClickListener() {
 			@Override

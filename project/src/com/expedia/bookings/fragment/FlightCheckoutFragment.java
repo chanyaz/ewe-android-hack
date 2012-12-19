@@ -22,6 +22,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
+import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -109,12 +110,13 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				NavUtils.onDataMissing(getActivity());
 			}
 		}
-
+		
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 		}
 
 		//If we had data on disk, it should already be loaded at this point
+		Db.loadBillingInfo(getActivity());
 		mBillingInfo = Db.getBillingInfo();
 
 		if (mBillingInfo.getLocation() == null) {
