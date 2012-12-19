@@ -45,10 +45,8 @@
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:addStatesFromChildren="true"
-        android:background="@drawable/bg_checkout_information_top_tab"
         android:orientation="vertical"
-        android:padding="10dp" >
+         >
 
     </LinearLayout>
 

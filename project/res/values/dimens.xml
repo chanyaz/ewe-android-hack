@@ -44,6 +44,7 @@
     <dimen name="flight_list_blur_height">70dp</dimen>
     <dimen name="checkout_form_bottom_spacer_margin">50dp</dimen>
     <dimen name="arrow_up_down_click_padding">20dp</dimen>
+    <dimen name="traveler_button_padding">10dp</dimen>
 
     <!-- We need to increase the margins because of the animation -->
     <dimen name="flight_card_initial_offset">64dp</dimen>

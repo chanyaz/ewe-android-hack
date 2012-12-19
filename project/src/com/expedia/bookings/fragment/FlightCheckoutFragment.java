@@ -7,7 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -299,7 +298,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				// Add the traveler sections
 				SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
 						R.layout.section_display_traveler_info_btn, null);
-				travelerSection.setOnClickListener(new OnTravelerClickListener(i, false));
+				//travelerSection.setOnClickListener(new OnTravelerClickListener(i, false));
+				dressSectionTraveler(travelerSection,i);
 				mTravelerSections.add(travelerSection);
 			}
 		}
@@ -327,7 +327,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			// The traveler has information, fill it in
 			SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
 					R.layout.section_display_traveler_info_btn, null);
-			travelerSection.setOnClickListener(new OnTravelerClickListener(i, false));
+			
+			dressSectionTraveler(travelerSection,i);
 			mTravelerSections.add(travelerSection);
 
 			if (traveler != null && traveler.hasName()) {
@@ -337,18 +338,25 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			// This traveler is likely blank, show the empty label, prompt user to fill in
 			else {
 				View v = inflater.inflate(R.layout.snippet_booking_overview_traveler, null);
-				v.setOnClickListener(new OnTravelerClickListener(i, true));
+				dressSectionTraveler(v, i);
 
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 				tv.setText(mContext.getString(R.string.enter_traveler_info_TEMPLATE, i + 1)); // no zero index for users
 
 				mTravelerContainer.addView(v);
 			}
-
-			if (i < (numAdults - 1)) {
-				addDividerToTravelerBox();
-			}
 		}
+	}
+	
+	private void dressSectionTraveler(View travelerSection, int travelerIndex){
+		if(travelerIndex == 0){
+			travelerSection.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
+		}else{
+			travelerSection.setBackgroundResource(R.drawable.bg_checkout_information_middle_tab);
+		}
+		int padding = getResources().getDimensionPixelSize(R.dimen.traveler_button_padding);
+		travelerSection.setPadding(padding, padding, padding, padding);
+		travelerSection.setOnClickListener(new OnTravelerClickListener(travelerIndex, false));
 	}
 
 	private Traveler getTraveler(int index) {
@@ -361,20 +369,6 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 
 		return Db.getTravelers().get(index);
-	}
-
-	private void addDividerToTravelerBox() {
-		Resources res = getActivity().getResources();
-
-		// Add divider
-		View divider = new View(getActivity());
-		LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
-		divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
-				res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
-		divider.setLayoutParams(divLayoutParams);
-		divider.setBackgroundColor(res.getColor(R.color.overview_receipt_divider));
-		mTravelerContainer.addView(divider);
 	}
 
 	private class OnTravelerClickListener implements OnClickListener {
