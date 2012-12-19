@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
@@ -110,7 +111,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				NavUtils.onDataMissing(getActivity());
 			}
 		}
-		
+
 		if (savedInstanceState != null) {
 			mRefreshedUser = savedInstanceState.getBoolean(INSTANCE_REFRESHED_USER);
 		}
@@ -625,7 +626,16 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		User.signOut(getActivity());
 
 		mTravelerSections.clear();
-		Db.getTravelers().clear();
+
+		// Remove all Expedia account Travelers and keep the manually entered, not saved Travelers
+		Iterator<Traveler> i = Db.getTravelers().iterator();
+		Traveler traveler;
+		while (i.hasNext()) {
+			traveler = i.next();
+			if (traveler.hasTuid()) {
+				i.remove();
+			}
+		}
 		buildTravelerBase();
 
 		// Update UI
