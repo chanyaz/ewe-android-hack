@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.Dialog; 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -71,6 +71,7 @@ public class LoginFragment extends Fragment {
 	private static final String STATE_EMPTY_EXP_PASSWORD = "STATE_EMPTY_EXP_PASSWORD";
 
 	private Activity mContext;
+	private TitleSettable mTitleSetter;
 
 	//UI ELEMENTS
 	private ViewGroup mExpediaSigninContainer;
@@ -128,7 +129,7 @@ public class LoginFragment extends Fragment {
 		if (this.getArguments() != null && this.getArguments().containsKey(ARG_PATH_MODE)) {
 			mPathMode = PathMode.valueOf(this.getArguments().getString(ARG_PATH_MODE));
 		}
-		
+
 		mExpediaSigninContainer = Ui.findView(v, R.id.expedia_signin_container);
 		mSigninButtonContainer = Ui.findView(v, R.id.sign_in_with_expedia_button_container);
 		mOrFacebookContainer = Ui.findView(v, R.id.or_facebook_container);
@@ -147,6 +148,10 @@ public class LoginFragment extends Fragment {
 		mLinkPassword = Ui.findView(v, R.id.link_password_edit_text);
 
 		loadSavedState(savedInstanceState);
+
+		if (mStatusText != null) {
+			setStatusText(mStatusText);
+		}
 
 		initOnClicks();
 		setVisibilityState(mVisibilityState);
@@ -231,8 +236,9 @@ public class LoginFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mContext = activity;
+		mTitleSetter = (TitleSettable) mContext;
 	}
-	
+
 	private void loginComplete() {
 		if (mContext != null) {
 			mContext.finish();
@@ -450,6 +456,7 @@ public class LoginFragment extends Fragment {
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
 			mFacebookSigninContainer.setVisibility(View.VISIBLE);
 			mFacebookButtonContainer.setVisibility(View.VISIBLE);
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.link_accounts));
 			break;
 		case EXPEDIA_WITH_EXPEDIA_BUTTON:
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
@@ -458,6 +465,7 @@ public class LoginFragment extends Fragment {
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
 			break;
 		case EXPEDIA_WTIH_FB_BUTTON:
 		default:
@@ -467,6 +475,7 @@ public class LoginFragment extends Fragment {
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
 		}
 	}
 
@@ -475,6 +484,10 @@ public class LoginFragment extends Fragment {
 
 	protected void setIsLoading(boolean loading) {
 		mIsLoading = loading;
+
+		if (mContext == null || !this.isAdded()) {
+			return;
+		}
 
 		if (mIsLoading) {
 			//TODO: DISABLE ALL BUTTONS?
@@ -503,13 +516,17 @@ public class LoginFragment extends Fragment {
 	}
 
 	protected void setStatusTextExpediaAccountFound(String name) {
-		String str = String.format(getString(R.string.facebook_weve_found_your_account), name);
-		setStatusText(str);
+		if (mContext != null && this.isAdded()) {
+			String str = String.format(getString(R.string.facebook_weve_found_your_account), name);
+			setStatusText(str);
+		}
 	}
 
 	protected void setStatusTextFbInfoLoaded(String name) {
-		String str = String.format(getString(R.string.facebook_weve_fetched_your_info), name);
-		setStatusText(str);
+		if (mContext != null && this.isAdded()) {
+			String str = String.format(getString(R.string.facebook_weve_fetched_your_info), name);
+			setStatusText(str);
+		}
 	}
 
 	protected void setStatusText(final String text) {
@@ -522,15 +539,17 @@ public class LoginFragment extends Fragment {
 			}
 		};
 		mStatusText = text;
-		if (mContext != null) {
+		if (mContext != null && this.isAdded()) {
 			mContext.runOnUiThread(runner);
 		}
 
 	}
 
 	protected void setStatusText(int resId) {
-		String str = getString(resId);
-		setStatusText(str);
+		if (mContext != null && this.isAdded()) {
+			String str = getString(resId);
+			setStatusText(str);
+		}
 	}
 
 	protected void setLoadingText(final String text) {
@@ -543,15 +562,17 @@ public class LoginFragment extends Fragment {
 			}
 		};
 		mLoadingText = text;
-		if (mContext != null) {
+		if (mContext != null && this.isAdded()) {
 			mContext.runOnUiThread(runner);
 		}
 
 	}
 
 	protected void setLoadingText(int resId) {
-		String str = getString(resId);
-		setLoadingText(str);
+		if (mContext != null && this.isAdded()) {
+			String str = getString(resId);
+			setLoadingText(str);
+		}
 	}
 
 	protected void clearPasswordField() {
@@ -563,7 +584,7 @@ public class LoginFragment extends Fragment {
 				}
 			}
 		};
-		if (mContext != null) {
+		if (mContext != null && this.isAdded()) {
 			mContext.runOnUiThread(runner);
 		}
 	}
@@ -901,6 +922,10 @@ public class LoginFragment extends Fragment {
 			}
 			this.getArguments().putCharSequence(ARG_MESSAGE, text);
 		}
+	}
+
+	public interface TitleSettable {
+		public void setActionBarTitle(String title);
 	}
 
 }

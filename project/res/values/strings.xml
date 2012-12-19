@@ -2,14 +2,10 @@
 <resources>
 
     <!-- Facebook -->
-    <!-- Development Facebook app id -->
-    <string name="facebook_dev_app_id">317210574974208</string>
-    <!-- Production Facebook app id -->
-    <string name="facebook_app_id">131538103586818</string>
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hey <b>%1$s</b>, looks like we\'ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
+    <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\'ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Hey <b>%1$s</b>, we\'ve loaded your facebook information!</string>
+    <string name="facebook_weve_fetched_your_info">Hey &lt;b&gt;%1$s&lt;/b&gt;, we\'ve loaded your facebook information!</string>
     <!-- connect with facebook (button text) -->
     <string name="connect_with_facebook">Connect with facebook</string>
     <!-- fetching information from Facebook -->
@@ -30,6 +26,8 @@
     <string name="failure_to_update_user">Failure to fetch updated user information.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Linking your accounts...</string>
+    <!-- Sign in -->
+    <string name="sign_in">Sign In</string>
     <!-- Sign in with Expedia -->
     <string name="sign_in_with_expedia">Sign in with Expedia</string>
     <!-- Please sign into your Expedia account -->

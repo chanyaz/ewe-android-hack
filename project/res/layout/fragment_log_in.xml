@@ -40,7 +40,6 @@
 
         <EditText
             android:id="@+id/username_edit_text"
-            style="@style/Widget.EditText.Phone"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
@@ -55,7 +54,6 @@
 
         <EditText
             android:id="@+id/password_edit_text"
-            style="@style/Widget.EditText.Phone"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
@@ -73,6 +71,7 @@
         android:id="@+id/signin_button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
@@ -86,7 +85,7 @@
                 android:id="@+id/or_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:orientation="horizontal" >
 
@@ -139,8 +138,8 @@
             android:id="@+id/sign_in_with_expedia_button_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <Button
                 android:id="@+id/sign_in_with_expedia_btn"
@@ -158,7 +157,8 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="@string/forgot_your_password"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textColorLink="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
 
@@ -169,12 +169,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:visibility="gone"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <EditText
             android:id="@+id/link_password_edit_text"
-            style="@style/Widget.EditText.Phone"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
@@ -193,8 +192,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:visibility="gone"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <Button
             android:id="@+id/link_accounts_button"

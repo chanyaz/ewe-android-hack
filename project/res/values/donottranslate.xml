@@ -8,6 +8,12 @@
     <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
     <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
 
+    <!-- Facebook -->
+    <!-- Development Facebook app id -->
+    <string name="facebook_dev_app_id">317210574974208</string>
+    <!-- Production Facebook app id -->
+    <string name="facebook_app_id">131538103586818</string>
+
     <!-- Tracking tags -->
     <string name="google_analytics_ua">UA-31534750-3</string>
     <string name="amobee_app_id">ExpediaHotelsAndroidPhone</string>
@@ -53,7 +59,7 @@
     <string name="preference_suppress_bookings">suppress_bookings</string>
     <string name="preference_fake_current_location">preference_fake_current_location</string>
     <string name="preference_force_new_location">preference_force_new_location</string>
-    
+
     <!-- Default values for preference keys -->
     <string name="preference_flight_fake_price_change_default">0</string>
 
@@ -371,4 +377,105 @@
     <string name="state_code_wy" tools:ignore="UnusedResources">WY</string>
     <string name="state_code_yt" tools:ignore="UnusedResources">YT</string>
 
+    <!-- Points of Sale (POS) -->
+    <string name="point_of_sale_ar">expedia.com.ar</string>
+    <string name="point_of_sale_at">expedia.at</string>
+    <string name="point_of_sale_au">expedia.com.au</string>
+    <string name="point_of_sale_be">expedia.be</string>
+    <string name="point_of_sale_br">expedia.com.br</string>
+    <string name="point_of_sale_ca">expedia.ca</string>
+    <string name="point_of_sale_de">expedia.de</string>
+    <string name="point_of_sale_dk">expedia.dk</string>
+    <string name="point_of_sale_es">expedia.es</string>
+    <string name="point_of_sale_fr">expedia.fr</string>
+    <string name="point_of_sale_hk">expedia.com.hk</string>
+    <string name="point_of_sale_id">expedia.co.id</string>
+    <string name="point_of_sale_ie">expedia.ie</string>
+    <string name="point_of_sale_in">expedia.co.in</string>
+    <string name="point_of_sale_it">expedia.it</string>
+    <string name="point_of_sale_jp">expedia.co.jp</string>
+    <string name="point_of_sale_kr">expedia.co.kr</string>
+    <string name="point_of_sale_mx">expedia.mx</string>
+    <string name="point_of_sale_my">expedia.com.my</string>
+    <string name="point_of_sale_nl">expedia.nl</string>
+    <string name="point_of_sale_no">expedia.no</string>
+    <string name="point_of_sale_nz">expedia.co.nz</string>
+    <string name="point_of_sale_ph">expedia.com.ph</string>
+    <string name="point_of_sale_se">expedia.se</string>
+    <string name="point_of_sale_sg">expedia.com.sg</string>
+    <string name="point_of_sale_th">expedia.co.th</string>
+    <string name="point_of_sale_tw">expedia.com.tw</string>
+    <string name="point_of_sale_uk">expedia.co.uk</string>
+    <string name="point_of_sale_us">expedia.com</string>
+    <string name="point_of_sale_vn">expedia.com.vn</string>
+
+    <!-- Contact Expedia URL for each POS -->
+    <string name="contact_expedia_url_ar">http://support.expedia.com.ar</string>
+    <string name="contact_expedia_url_at">http://support.expedia.at</string>
+    <string name="contact_expedia_url_au">http://support.expedia.com.au</string>
+    <string name="contact_expedia_url_be">http://support.expedia.be</string>
+    <string name="contact_expedia_url_br">http://support.expedia.com.br</string>
+    <string name="contact_expedia_url_ca">http://support.expedia.ca</string>
+    <string name="contact_expedia_url_de">http://support.expedia.de</string>
+    <string name="contact_expedia_url_dk">http://support.expedia.dk</string>
+    <string name="contact_expedia_url_es">http://support.expedia.es</string>
+    <string name="contact_expedia_url_fr">http://support.expedia.fr</string>
+    <string name="contact_expedia_url_hk">http://faq.expedia.com.hk</string>
+    <string name="contact_expedia_url_id">http://faq.expedia.co.id</string>
+    <string name="contact_expedia_url_ie">http://support.expedia.ie</string>
+    <string name="contact_expedia_url_in">http://faq.expedia.co.in</string>
+    <string name="contact_expedia_url_it">http://support.expedia.it</string>
+    <string name="contact_expedia_url_jp">http://support.expedia.co.jp</string>
+    <string name="contact_expedia_url_kr">http://faq.expedia.co.kr</string>
+    <string name="contact_expedia_url_mx">http://support.expedia.mx</string>
+    <string name="contact_expedia_url_my">http://faq.expedia.com.my</string>
+    <string name="contact_expedia_url_nl">http://support.expedia.nl</string>
+    <string name="contact_expedia_url_no">http://support.expedia.no</string>
+    <string name="contact_expedia_url_nz">http://support.expedia.co.nz</string>
+    <string name="contact_expedia_url_ph">http://faq.expedia.com.ph</string>
+    <string name="contact_expedia_url_se">http://support.expedia.se</string>
+    <string name="contact_expedia_url_sg">http://faq.expedia.com.sg</string>
+    <string name="contact_expedia_url_th">http://faq.expedia.co.th</string>
+    <string name="contact_expedia_url_tw">http://faq.expedia.com.tw</string>
+    <string name="contact_expedia_url_uk">http://support.expedia.co.uk</string>
+    <string name="contact_expedia_url_us">http://support.expedia.com</string>
+    <string name="contact_expedia_url_vn">http://faq.expedia.com.vn</string>
+
+    <!-- Info support telephone numbers. These go on the info screen. -->
+    <string name="info_support_number_ar" tools:ignore="TypographyDashes">0-800-444-9888</string>
+    <string name="info_support_number_at" tools:ignore="TypographyDashes">01 206 09 1626</string>
+    <string name="info_support_number_au" tools:ignore="TypographyDashes">1 300 669 564</string>
+    <string name="info_support_number_be" tools:ignore="TypographyDashes">022 00 83 65</string>
+    <string name="info_support_number_br" tools:ignore="TypographyDashes">0800-761-0770</string>
+    <string name="info_support_number_ca" tools:ignore="TypographyDashes">1-866-406-2684</string>
+    <string name="info_support_number_de" tools:ignore="TypographyDashes">069 945 19 23 27</string>
+    <string name="info_support_number_dk" tools:ignore="TypographyDashes">43 68 21 91</string>
+    <string name="info_support_number_es" tools:ignore="TypographyDashes">912 754 962</string>
+    <string name="info_support_number_fr" tools:ignore="TypographyDashes">01 57 32 38 31</string>
+    <string name="info_support_number_hk" tools:ignore="TypographyDashes">02 2525 5696</string>
+    <string name="info_support_number_id" tools:ignore="TypographyDashes">007-803-011-0463</string>
+    <string name="info_support_number_ie" tools:ignore="TypographyDashes">01 517 1524</string>
+    <string name="info_support_number_in" tools:ignore="TypographyDashes">0124 487 3888</string>
+    <string name="info_support_number_it" tools:ignore="TypographyDashes">02 9148 3659</string>
+    <string name="info_support_number_jp" tools:ignore="TypographyDashes">0120 941 853</string>
+    <string name="info_support_number_kr" tools:ignore="TypographyDashes">02-2076-8343</string>
+    <string name="info_support_number_mx" tools:ignore="TypographyDashes">01 800 925 0382</string>
+    <string name="info_support_number_my" tools:ignore="TypographyDashes">1-800-815676</string>
+    <string name="info_support_number_nl" tools:ignore="TypographyDashes">020 700 60 42</string>
+    <string name="info_support_number_no" tools:ignore="TypographyDashes">24 15 97 43</string>
+    <string name="info_support_number_nz" tools:ignore="TypographyDashes">0800-453-036</string>
+    <string name="info_support_number_ph" tools:ignore="TypographyDashes">1 800 1 114 2468</string>
+    <string name="info_support_number_se" tools:ignore="TypographyDashes">08 502 52029</string>
+    <string name="info_support_number_sg" tools:ignore="TypographyDashes">6226 3973</string>
+    <string name="info_support_number_th" tools:ignore="TypographyDashes">02 1055728</string>
+    <string name="info_support_number_tw" tools:ignore="TypographyDashes">00801-13-6291</string>
+    <string name="info_support_number_uk" tools:ignore="TypographyDashes">0203 027 6594</string>
+    <string name="info_support_number_us" tools:ignore="TypographyDashes">866-649-6924</string>
+    <string name="info_support_number_vn" tools:ignore="TypographyDashes">120 65 125</string>
+
+    <!-- Flight customer support telephone numbers. Used on the confirmation screen. -->
+    <string name="flight_support_number_ca" tools:ignore="TypographyDashes">1-855-247-9310</string>
+    <string name="flight_support_number_us" tools:ignore="TypographyDashes">1-877-222-6503</string>
+
 </resources>
+

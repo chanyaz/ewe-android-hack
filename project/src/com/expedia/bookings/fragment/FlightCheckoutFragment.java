@@ -29,6 +29,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -206,6 +207,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	 */
 	public void refreshData() {
 		mBillingInfo = Db.getBillingInfo();
+
+		loadUser();
 
 		//Set values
 		populateTravelerData();
@@ -558,6 +561,14 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		return false;
 	}
 
+	private void loadUser() {
+		if (Db.getUser() == null) {
+			if (User.isLoggedIn(getActivity())) {
+				Db.loadUser(getActivity());
+			}
+		}
+	}
+
 	private void populatePaymentDataFromUser() {
 		if (User.isLoggedIn(getActivity())) {
 			//Populate Credit Card only if the user doesn't have any manually entered (or selected) data
@@ -579,7 +590,9 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	@Override
 	public void accountLoginClicked() {
-		SignInFragment.newInstance(true).show(getFragmentManager(), getString(R.string.tag_signin));
+		Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.FLIGHTS.name());
+		startActivity(loginIntent);
 
 		OmnitureTracking.trackPageLoadFlightLogin(mContext);
 	}

@@ -28,6 +28,7 @@ import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
+import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
@@ -37,6 +38,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -294,14 +296,25 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public void refreshData() {
 		mBillingInfo = Db.getBillingInfo();
 
+		loadUser();
+
 		//Set values
 		populateTravelerData();
 		populatePaymentDataFromUser();
 		populateTravelerDataFromUser();
 
 		bindAll();
+		refreshAccountButtonState();
 		updateViews();
 		updateViewVisibilities();
+	}
+
+	private void loadUser() {
+		if (Db.getUser() == null) {
+			if (User.isLoggedIn(getActivity())) {
+				Db.loadUser(getActivity());
+			}
+		}
 	}
 
 	private void populateTravelerData() {
@@ -417,6 +430,36 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mCreditCardSectionButton.bind(mBillingInfo);
 
 		updateViewVisibilities();
+	}
+
+	private void refreshAccountButtonState() {
+		if (User.isLoggedIn(getActivity())) {
+			if (Db.getUser() == null) {
+				Db.loadUser(getActivity());
+			}
+
+			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+				//We have a user (either from memory, or loaded from disk)
+				if (!mRefreshedUser) {
+					Log.d("Refreshing user profile...");
+
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(KEY_REFRESH_USER)) {
+						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
+					}
+				}
+				mAccountButton.bind(false, true, Db.getUser(), false);
+			}
+			else {
+				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
+				User.signOut(getActivity());
+				mAccountButton.bind(false, false, null, false);
+			}
+		}
+		else {
+			mAccountButton.bind(false, false, null, false);
+		}
 	}
 
 	public void updateViews() {
@@ -671,7 +714,9 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 	@Override
 	public void accountLoginClicked() {
-		SignInFragment.newInstance(false).show(getFragmentManager(), getString(R.string.tag_signin));
+		Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.HOTELS.name());
+		startActivity(loginIntent);
 		OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
 	}
 
