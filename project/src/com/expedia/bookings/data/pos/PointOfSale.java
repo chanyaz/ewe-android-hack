@@ -322,11 +322,14 @@ public class PointOfSale {
 			}
 
 			savePos = true;
+
+			Log.i("No POS set yet, chose " + sCachedPOS + " based on current locale: " + locale.toString());
 		}
 		else {
 			try {
 				int posId = Integer.parseInt(posSetting);
 				sCachedPOS = PointOfSaleId.getPointOfSaleFromId(posId);
+				Log.i("Cached POS: " + sCachedPOS);
 			}
 			catch (NumberFormatException e) {
 				// For backwards compatibility, we need to map from the old (which used the url) to the new
@@ -335,6 +338,7 @@ public class PointOfSale {
 
 				savePos = true;
 
+				Log.i("Upgrading from previous version of EB, from \"" + posSetting + "\" to " + sCachedPOS);
 			}
 		}
 
