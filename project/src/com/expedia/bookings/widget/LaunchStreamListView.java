@@ -204,9 +204,8 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 	// instead of replacing it.
 	protected void scrollListBy(double deltaY) {
 		int position = getFirstVisiblePosition();
-		View firstChild = getChildAt(0);
-		int top = firstChild == null ? 0 : firstChild.getTop();
-		if (mScrollByPosition == position) {
+		int top = (getChildAt(0) == null ? 0 : getChildAt(0).getTop());
+		if (mScrollByPosition == position && mScrollByTop == top) {
 			mScrollByDelta += deltaY;
 		}
 		else {
@@ -216,7 +215,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 		}
 
 		if (mScrollByDelta != 0) {
-			setSelectionFromTop(position, (int) (mScrollByTop + mScrollByDelta));
+			setSelectionFromTop(position, (int) (top + mScrollByDelta));
 			invalidate();
 		}
 	}
