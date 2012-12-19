@@ -126,7 +126,8 @@ public class HotelsTestingUtils {
 		Log.d(TAG, "completeBooking()");
 		Log.d(TAG, "environment: " + environment);
 
-		solo.clickOnView(solo.getView(R.id.menu_book_now));
+		// Warning: CURRENTLY DOES NOT WORK, AS THIS IS NO LONGER A BUTTON
+		// solo.clickOnView(solo.getView(R.id.menu_book_now));
 		
 		if ( ! environment.equals("Production")) {
 			RobotiumWorkflowUtils.waitForElement(solo, R.id.menu_new_search, 60);
