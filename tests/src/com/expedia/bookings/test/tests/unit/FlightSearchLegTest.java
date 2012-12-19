@@ -18,13 +18,6 @@ public class FlightSearchLegTest extends TestCase {
 		assertEquals(expectedCode, leg.getDepartureLocation().getDestinationId());
 	}
 
-	public void testArrivalAirportCodeDefault() {
-		FlightSearchLeg leg = new FlightSearchLeg();
-
-		String expectedDefault = "SMF";
-		assertEquals(expectedDefault, leg.getArrivalLocation());
-	}
-
 	public void testArrivalAirportCode() {
 		FlightSearchLeg leg = new FlightSearchLeg();
 		String expectedCode = "ATL";
