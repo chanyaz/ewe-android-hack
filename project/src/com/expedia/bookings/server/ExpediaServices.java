@@ -267,7 +267,12 @@ public class ExpediaServices implements DownloadListener {
 		String prefix;
 		for (int i = 0; i < travelers.size(); i++) {
 			if (i == 0) {
-				prefix = "mainFlightPassenger.";
+				if (travelers.size() == 1) {
+					prefix = "";
+				}
+				else {
+					prefix = "mainFlightPassenger.";
+				}
 			}
 			else {
 				prefix = "associatedFlightPassengers[" + Integer.toString(i - 1) + "].";
