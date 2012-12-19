@@ -5,9 +5,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import junit.framework.AssertionFailedError;
-
-import org.w3c.dom.Text;
-
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
@@ -319,18 +316,6 @@ public class HotelsRobotHelper {
 
 	////////////////////////////////////////////////////////////////
 	// Search Screen Methods
-
-	public void closeBanner() {
-		try {
-			mSolo.clickOnView(mSolo.getView(R.id.widget_notification_close_btn));
-		}
-		catch (AssertionFailedError AFE) {
-			//nothing
-		}
-		catch (Exception E) {
-			//nothing 
-		}
-	}
 
 	public void selectLocation(String location) throws Exception {
 		enterLog(TAG, "Searching for destination " + location);
