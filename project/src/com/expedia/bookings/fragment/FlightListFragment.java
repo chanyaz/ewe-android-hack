@@ -192,6 +192,11 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 			mAdapter.destroy();
 			mAdapter = null;
 		}
+
+		if (mListView != null) {
+			mListView.setOnScrollListener(null);
+			mListView = null;
+		}
 	}
 
 	@Override
