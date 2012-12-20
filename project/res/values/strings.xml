@@ -32,6 +32,8 @@
     <string name="sign_in_with_expedia">Sign in with Expedia</string>
     <!-- Please sign into your Expedia account -->
     <string name="please_sign_into_your_expedia_account">Please sign into your Expedia account</string>
+    <!-- or -->
+    <string name="or">or</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
