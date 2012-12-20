@@ -239,7 +239,7 @@ public class LoginFragment extends Fragment {
 		mTitleSetter = (TitleSettable) mContext;
 	}
 
-	private void loginComplete() {
+	private void finishLoginActivity() {
 		if (mContext != null) {
 			mContext.finish();
 		}
@@ -478,6 +478,29 @@ public class LoginFragment extends Fragment {
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
 		}
 	}
+	
+	public void goBack(){
+		//Cancel all the current downloads....
+		BackgroundDownloader.getInstance().cancelDownload(NET_MANUAL_LOGIN);
+		BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
+		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
+		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
+		BackgroundDownloader.getInstance().cancelDownload(NET_SIGN_IN);
+		setIsLoading(false);
+		
+		switch (mVisibilityState) {
+		case FACEBOOK_LINK:
+			if(TextUtils.isEmpty(mExpediaUserName.getText())){
+				setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON);
+			}else{
+				setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON);
+			}
+			break;
+		default:
+			finishLoginActivity();
+			break;
+		}
+	}	
 
 	//////////////////////////////////
 	// User message control stuff
@@ -590,10 +613,6 @@ public class LoginFragment extends Fragment {
 	}
 
 	protected void setFbUserVars(GraphUser user) {
-		//TODO: REMOVE!!!
-		if (user.getProperty("email") == null) {
-			user.setProperty("email", "jrdrotos@gmail.com");
-		}
 		setFbUserVars(user.getName(), user.getId(), user.getProperty("email") == null ? null : user
 				.getProperty("email").toString());
 	}
@@ -638,7 +657,7 @@ public class LoginFragment extends Fragment {
 				Db.setUser(user);
 				AdTracker.trackLogin();
 				user.save(mContext);
-				loginComplete();
+				finishLoginActivity();
 
 				if (mPathMode.equals(PathMode.FLIGHTS)) {
 					OmnitureTracking.trackLinkFlightCheckoutLoginSuccess(mContext);
@@ -814,7 +833,7 @@ public class LoginFragment extends Fragment {
 				//TODO: Omniture Tracking...
 
 				setIsLoading(false);
-				loginComplete();
+				finishLoginActivity();
 			}
 
 		}

@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
@@ -88,6 +89,32 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		mTitle = title;
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setTitle(mTitle);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			if (mLoginFragment != null) {
+				mLoginFragment.goBack();
+				return true;
+			}
+			else {
+				return super.onOptionsItemSelected(item);
+			}
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mLoginFragment != null) {
+			mLoginFragment.goBack();
+		}
+		else {
+			super.onBackPressed();
+		}
 	}
 
 }
