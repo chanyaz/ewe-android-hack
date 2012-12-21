@@ -20,11 +20,17 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.content.AirportAutocompleteProvider;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
+import com.mobiata.android.LocationServices;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class AirportDropDownAdapter extends CursorAdapter {
 	// Where we save the recent airport searches
 	public static final String RECENT_AIRPORTS_FILE = "recent-airports-list.dat";
+
+	private static final int MAX_RECENTS = 10;
 
 	private Map<String, String> mCountryCodeMap;
 
@@ -37,7 +43,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 		mContent = context.getContentResolver();
 
-		mRecentSearches = new RecentList<Location>(Location.class, context, RECENT_AIRPORTS_FILE);
+		mRecentSearches = new RecentList<Location>(Location.class, context, RECENT_AIRPORTS_FILE, MAX_RECENTS);
 
 		Resources r = context.getResources();
 		mCountryCodeMap = new HashMap<String, String>();
@@ -132,7 +138,8 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	}
 
 	public static void addAirportToRecents(Context context, Location location) {
-		RecentList<Location> recents = new RecentList<Location>(Location.class, context, RECENT_AIRPORTS_FILE);
+		RecentList<Location> recents = new RecentList<Location>(Location.class, context, RECENT_AIRPORTS_FILE,
+				MAX_RECENTS);
 		recents.addItem(location);
 		recents.saveList(context, RECENT_AIRPORTS_FILE);
 	}

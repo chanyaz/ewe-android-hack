@@ -38,10 +38,16 @@ public class RecentList<E extends JSONable> {
 		mMaxItems = 5;
 	}
 
-	public RecentList(Class<E> cls, Context context, String filename) {
+	public RecentList(Class<E> cls, Context context, String filename, int maxItems) {
 		this(cls);
 
+		mMaxItems = maxItems;
+
 		loadList(context, filename);
+	}
+
+	public void setMaxItems(int maxItems) {
+		mMaxItems = maxItems;
 	}
 
 	public void addItem(E item) {
