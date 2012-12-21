@@ -5,13 +5,23 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="16" />
+        android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- For Maps V2 -->
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+    <permission
+        android:name="com.expedia.bookings.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.expedia.bookings.permission.MAPS_RECEIVE"/>
 
     <application
         android:name="com.expedia.bookings.activity.ExpediaBookingApp"
@@ -25,6 +35,9 @@
         <meta-data
             android:name="com.somo.apptimiser.PUBLIC_KEY_BASE64_STRING"
             android:value="@string/soma_rsa_key" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/mapsv2_dev_key"/>
 
         <uses-library android:name="com.google.android.maps" />
 
@@ -40,6 +53,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.expedia.bookings.activity.PhoneSearchActivity"
             android:theme="@style/Theme.Phone"

@@ -11,10 +11,12 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
 import com.activeandroid.ActiveAndroid;
+import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -50,6 +52,22 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			FlightStatsDbUtils.createDatabaseIfNotExists(this);
 		}
 		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		try {
+			final ApplicationInfo ai = this.getPackageManager().getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA);
+			if (ai.metaData != null) {
+				String key = (String) ai.metaData.get("com.google.android.maps.v2.API_KEY");
+				if (isRelease && !getString(R.string.mapsv2_prod_key).equals(key)) {
+					throw new RuntimeException("You are not using the release maps key for a release build. Edit AndroidManifest.xml");
+				}
+
+				if (!isRelease && !getString(R.string.mapsv2_dev_key).equals(key)) {
+					throw new RuntimeException("You are using the release maps key for a debug build. Edit AndroidManifest.xml");
+				}
+			}
+		} catch (PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 

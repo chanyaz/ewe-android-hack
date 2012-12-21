@@ -14,6 +14,10 @@
     <!-- Production Facebook app id -->
     <string name="facebook_app_id">131538103586818</string>
 
+    <!-- MapsV2 -->
+    <string name="mapsv2_dev_key">AIzaSyBTFyqFPgQ62bgYGvuTGCipFrxUbqZuF6k</string>
+    <string name="mapsv2_prod_key">TODO</string>
+
     <!-- Tracking tags -->
     <string name="google_analytics_ua">UA-31534750-3</string>
     <string name="amobee_app_id">ExpediaHotelsAndroidPhone</string>

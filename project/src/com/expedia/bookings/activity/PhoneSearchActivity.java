@@ -86,8 +86,8 @@ import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
-import com.expedia.bookings.fragment.HotelMapFragment;
-import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
+import com.expedia.bookings.maps.HotelMapFragment;
+import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
@@ -104,7 +104,7 @@ import com.expedia.bookings.widget.SearchSuggestionAdapter;
 import com.expedia.bookings.widget.SimpleNumberPicker;
 import com.expedia.bookings.widget.gl.GLTagProgressBar;
 import com.expedia.bookings.widget.gl.GLTagProgressBarRenderer.OnDrawStartedListener;
-import com.google.android.maps.GeoPoint;
+import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -926,12 +926,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			searchParams.clearQuery();
 
 			if (mHotelMapFragment != null) {
-				GeoPoint center = mHotelMapFragment.getCenter();
+				LatLng center = mHotelMapFragment.getCameraCenter();
 				searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
-
-				double lat = MapUtils.getLatitude(center);
-				double lng = MapUtils.getLongitude(center);
-				searchParams.setSearchLatLon(lat, lng);
+				searchParams.setSearchLatLon(center.latitude, center.longitude);
 				setShowDistance(true);
 				startSearch();
 			}
@@ -1551,6 +1548,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		if (mHotelListFragment != null) {
 			mHotelListFragment.notifySearchComplete();
 		}
+
 		if (mHotelMapFragment != null) {
 			mHotelMapFragment.notifySearchComplete();
 		}
@@ -1564,6 +1562,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		if (mHotelListFragment != null) {
 			mHotelListFragment.notifySearchStarted();
 		}
+
 		if (mHotelMapFragment != null) {
 			mHotelMapFragment.notifySearchStarted();
 		}
@@ -2122,6 +2121,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		if (mHotelListFragment != null) {
 			mHotelListFragment.setShowDistances(showDistance);
 		}
+
 		if (mHotelMapFragment != null) {
 			mHotelMapFragment.setShowDistances(showDistance);
 		}
@@ -2760,15 +2760,28 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
 		mHotelMapFragment = fragment;
 		mHotelMapFragment.setShowDistances(mShowDistance);
+		if (Db.getSearchResponse() != null) {
+			mHotelMapFragment.notifySearchComplete();
+		}
 	}
 
 	@Override
-	public void onBalloonShown(Property property) {
-		// Do nothing
+	public void onPropertyClicked(Property property) {
+		//ignore
 	}
 
 	@Override
-	public void onBalloonClicked(Property property) {
+	public void onMapClicked() {
+		//ignore
+	}
+
+	@Override
+	public void onExactLocationClicked() {
+		//ignore
+	}
+
+	@Override
+	public void onPropertyBubbleClicked(Property property) {
 		Db.setSelectedProperty(property);
 
 		Intent intent = new Intent(this, HotelDetailsFragmentActivity.class);
