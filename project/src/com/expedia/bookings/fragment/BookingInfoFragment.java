@@ -71,7 +71,7 @@ public class BookingInfoFragment extends Fragment {
 		final View roomDetailsContainer = view.findViewById(R.id.room_details_container_right);
 
 		// 10886: Bottom aligning the complete booking info button
-		// with the fragment receipt as long as the fragment receipt is 
+		// with the fragment receipt as long as the fragment receipt is
 		// last than the max defined height. In that case, using the maximum
 		// height definition.
 		if (roomDetailsContainer != null) {

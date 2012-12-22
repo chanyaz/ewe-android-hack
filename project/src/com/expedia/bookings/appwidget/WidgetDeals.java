@@ -21,7 +21,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 
 /**
- * This class is responsible for holding 
+ * This class is responsible for holding
  * properties that are classified as deals for the widget.
  * It also has functions to act on the data to save it, restore it,
  * and determine relevant deals from a list of properties passed in.
@@ -93,7 +93,7 @@ public class WidgetDeals implements JSONable {
 				+ (System.currentTimeMillis() - start) + " ms");
 		refreshCount++;
 	}
-	
+
 	/*
 	 * Rotating thru three different sorts to ensure to surface different kinds of deals
 	 * to the user and learn what users like best. The goal is to track which deals users
@@ -101,7 +101,7 @@ public class WidgetDeals implements JSONable {
 	 */
 	private void sortProperties(Property[] properties) {
 		switch(refreshCount) {
-		case 0: 
+		case 0:
 			// POPULARITY SORT is the default sort applied to search results
 			Log.d("Sorting by popularity");
 			break;
@@ -221,7 +221,7 @@ public class WidgetDeals implements JSONable {
 	}
 
 	/**
-	 * This method looks through the list of properties 
+	 * This method looks through the list of properties
 	 * to find those that are neither highly rated
 	 * nor are on sale. The goal here is to find hotels to
 	 * fill in the remaining slots in the widget since there
@@ -242,8 +242,8 @@ public class WidgetDeals implements JSONable {
 
 	/**
 	 * This method looks through the list of properties to find those
-	 * that are highly rated and not on sale. The goal here is to 
-	 * fill in the slots with the second-optimal solution of highly 
+	 * that are highly rated and not on sale. The goal here is to
+	 * fill in the slots with the second-optimal solution of highly
 	 * rated hotels if there aren't enough deals defined as hotels
 	 * on sale.
 	 */
@@ -265,7 +265,7 @@ public class WidgetDeals implements JSONable {
 	/**
 	 * This method looks through the list of properties to find those that
 	 * are on sale. It also calculates the hotel with the maximum savings
-	 * from the list of chosen hotels (the maximum from the first 5 hotels on sale, 
+	 * from the list of chosen hotels (the maximum from the first 5 hotels on sale,
 	 * sorted by price).
 	 */
 	private void trackDeals(List<Property> relevantProperties, Property[] properties) {

@@ -5,7 +5,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 
 /**
- * Properties can be returned from E3 (and from Db.java) in a few ways: through 
+ * Properties can be returned from E3 (and from Db.java) in a few ways: through
  * ExpediaServices.search(), ExpediaServices.information(), ExpediaServices.availability().
  * Each one of these has minor differences (lacking some fields, longer/shorter description, etc.)
  * This class helps us not have to deal with those differences.
@@ -13,7 +13,7 @@ import com.expedia.bookings.data.Property;
  *
  */
 public class DbPropertyHelper {
-	
+
 	/**
 	 * Returns the Property best suited to get the lowest rate.
 	 * @return
@@ -41,7 +41,7 @@ public class DbPropertyHelper {
 		}
 		return Db.getSelectedProperty();
 	}
-	
+
 	/**
 	 * Returns the Property best suited to get the hotel's amenities.
 	 * @return
@@ -53,7 +53,7 @@ public class DbPropertyHelper {
 		}
 		return Db.getSelectedProperty();
 	}
-	
+
 	/**
 	 * Returns the Property best suited to get the hotel's media (gallery pictures).
 	 * @return

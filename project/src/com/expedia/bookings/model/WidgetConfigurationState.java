@@ -88,7 +88,7 @@ public class WidgetConfigurationState extends Model {
 	/**
 	 * This class ensures that there are no widget configuration states saved in the database
 	 * that are not existing widgets, as determined by the ids returned by the AppWidgetManager
-	 * 
+	 *
 	 * Any widgetConfigState that exists that is not in the list of existingAppWidgetIds is
 	 * deleted.
 	 */

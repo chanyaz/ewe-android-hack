@@ -152,7 +152,7 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 	/**
 	 * Convenience method; assumes that all rates in a response use the same
 	 * price type (which is a safe assumption to make for the time being).
-	 * 
+	 *
 	 * @return the first UserPriceType in the rates, or null if there are no rates
 	 */
 	public UserPriceType getUserPriceType() {

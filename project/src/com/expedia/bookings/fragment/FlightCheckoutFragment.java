@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -327,7 +326,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			// The traveler has information, fill it in
 			SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
 					R.layout.section_display_traveler_info_btn, null);
-			
+
 			dressSectionTraveler(travelerSection,i);
 			mTravelerSections.add(travelerSection);
 
@@ -347,7 +346,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			}
 		}
 	}
-	
+
 	private void dressSectionTraveler(View travelerSection, int travelerIndex){
 		if(travelerIndex == 0){
 			travelerSection.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);

@@ -50,7 +50,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Constants
-	private String REVIEWS_DOWNLOAD_KEY_PREFIX = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload.";
+	private static String REVIEWS_DOWNLOAD_KEY_PREFIX = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload.";
 	private String mReviewsDownloadKey;
 
 	private static final int BODY_LENGTH_CUTOFF = 270;
@@ -580,12 +580,12 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	 * The purpose of this class is to contain all of the bookkeeping related to the paging of reviews
 	 * for a priority list of languages. For instance, using the language priority algorithm for the recent
 	 * sort order, this instances of this class will store the pageNumber, the totalCount, localeCode
-	 * 
+	 *
 	 * The UserReviewsListActivity will create a list of ReviewLanguageSet objects that are relevant to its POS
 	 * and device language. Some POS will have only one object in its list, if there is no priority exhibited
 	 * in the Expedia behavior. This makes the implementation extensible for all configurations that Expedia could
 	 * possibly throw our way.
-	 * 
+	 *
 	 * @author brad
 	 *
 	 */
@@ -721,7 +721,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	 * that the enclosing activity must define, the fragment is not as tightly coupled to its enclosing activity. Invoke
 	 * onDownloadComplete after a set of reviews is downloaded in order to trigger the activity to chain (or not) the downloads
 	 * for the other review sorts
-	 * 
+	 *
 	 * @author brad
 	 *
 	 */

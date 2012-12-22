@@ -76,7 +76,7 @@ public class CVVSection extends RelativeLayout implements CreditCardInputListene
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		// Draw the shaded portion everywhere except the 
+		// Draw the shaded portion everywhere except the
 		canvas.getClipBounds(mClipBounds);
 
 		canvas.saveLayer(mClipBounds.left, mClipBounds.top, mClipBounds.right, mClipBounds.bottom, null,

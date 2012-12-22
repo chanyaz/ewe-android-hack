@@ -192,7 +192,7 @@ public class ExpediaServices implements DownloadListener {
 		SuggestResponseHandler responseHandler = new SuggestResponseHandler();
 
 		if ((flags & F_FLIGHTS) != 0) {
-			// 95 is all regions (AIRPORT, CITY, MULTICITY, NEIGHBORHOOD, POI, METROCODE) 
+			// 95 is all regions (AIRPORT, CITY, MULTICITY, NEIGHBORHOOD, POI, METROCODE)
 			params.add(new BasicNameValuePair("type", "95"));
 			params.add(new BasicNameValuePair("lob", "Flights"));
 
@@ -310,7 +310,7 @@ public class ExpediaServices implements DownloadListener {
 
 	/**
 	 * Update (or create) an expedia account traveler
-	 * @param traveler 
+	 * @param traveler
 	 * @return
 	 */
 	public TravelerCommitResponse commitTraveler(Traveler traveler) {
@@ -399,7 +399,7 @@ public class ExpediaServices implements DownloadListener {
 
 	/**
 	 * HotelInformation request.
-	 * 
+	 *
 	 * Uses AvailabilityResponse as the return, as the "information" request is essentially the
 	 * same as a non-expensive AvailabilityResponse request.
 	 */
@@ -436,7 +436,7 @@ public class ExpediaServices implements DownloadListener {
 		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, params, property);
 		AvailabilityResponse response = doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler, 0);
 
-		// #12701: Often times, Atlantis cache screws up and returns the error "Hotel product's PIID that is 
+		// #12701: Often times, Atlantis cache screws up and returns the error "Hotel product's PIID that is
 		// provided by Atlantis has expired."  This error only happens once - the next request is usually fine.
 		// As a result, the workaround here is to immediately make a second identical request if the first one
 		// fails (for ONLY that reason).

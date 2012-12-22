@@ -49,18 +49,18 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 			postVal.postValidate(isValid);
 		}
 	}
-	
+
 	private void setPostValidators(ArrayList<SectionFieldValidIndicator<?, Data>> postValidators){
 		mPostValidators.clear();
 		if(postValidators != null){
 			mPostValidators.addAll(postValidators);
 		}
 	}
-	
+
 
 	/***
 	 * This should be called everytime the field's value changes.
-	 * @param parent - SectionFieldEditable instances should always be part of ISectionEditable classes, which also wish to be notified of changes. We call parent.onChange from this onChange method 
+	 * @param parent - SectionFieldEditable instances should always be part of ISectionEditable classes, which also wish to be notified of changes. We call parent.onChange from this onChange method
 	 */
 	public void onChange(ISectionEditable parent) {
 		validationOutdated = true;
@@ -79,15 +79,15 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 	 * Returns a list of PostValidators to be run after validation. These are usually used to update visual feedback about the state of a field
 	 * e.g. If a user's email address isn't formatted correctly we may want to change the text color to red.
 	 * @return ArrayList of SectionFeildValidIndicators or null
-	 * 
+	 *
 	 */
 	protected abstract ArrayList<SectionFieldValidIndicator<?, Data>> getPostValidators();
-	
+
 	/***
 	 * IMPORTANT - This method has a contract to add a change listener to the field that calls SectionFieldEditable.onChange()
 	 * our hook system will get messed up, and because FieldType is generic we depend on fieldType specific change listener to call
 	 * onChange(parent);
-	 * 
+	 *
 	 */
 	public abstract void setChangeListener(FieldType field);
 

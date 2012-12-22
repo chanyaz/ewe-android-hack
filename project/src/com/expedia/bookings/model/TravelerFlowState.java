@@ -53,7 +53,7 @@ public class TravelerFlowState {
 		mTravelerInfoTwo.bind(travelerInfo);
 		return mTravelerInfoTwo.hasValidInput();
 	}
-	
+
 	public boolean hasValidTravelerPartThree(Traveler travelerInfo){
 		mTravelerInfoThree.bind(travelerInfo);
 		return mTravelerInfoThree.hasValidInput();
@@ -65,7 +65,7 @@ public class TravelerFlowState {
 		boolean travTwo = mTravelerInfoTwo.hasValidInput();
 		return travOne && travTwo;
 	}
-	
+
 	public boolean allTravelerInfoIsValidForInternationalFlight(Traveler travelerInfo) {
 		bind(travelerInfo);
 		boolean travOne = mTravelerInfoOne.hasValidInput();

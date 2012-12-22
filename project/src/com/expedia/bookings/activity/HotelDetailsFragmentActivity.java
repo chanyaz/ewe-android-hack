@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.view.View;
@@ -62,7 +61,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	private static final String FRAGMENT_MINI_MAP_TAG = "FRAGMENT_MINI_MAP_TAG";
 	private static final String FRAGMENT_DESCRIPTION_TAG = "FRAGMENT_DESCRIPTION_TAG";
 
-	// This is the position in the list that the hotel had when the user clicked on it 
+	// This is the position in the list that the hotel had when the user clicked on it
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
 	// Flag set in the intent if this activity was opened from the widget
@@ -394,7 +393,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	}
 
 	// Initialize the gallery if we're in landscape mode. The gallery should be scooched
-	// a little to the left to center it within the left 45% of the screen, and the 
+	// a little to the left to center it within the left 45% of the screen, and the
 	// price promo banner should take up the left 45% of the screen. "post" it to make
 	// sure that windowWidth is populated when this runs.
 	@TargetApi(11)

@@ -29,12 +29,12 @@ public class CountrySpinnerAdapter extends ArrayAdapter<String> {
 		super(context, resourceBoth);
 		init(context, displayType, resourceBoth);
 	}
-	
+
 	public CountrySpinnerAdapter(Context context, CountryDisplayType displayType, int resource, int dropdownresource) {
 		super(context, resource);
 		init(context, displayType, dropdownresource);
 	}
-	
+
 
 	private void init(Context context, CountryDisplayType displayType, int dropDownResId) {
 		mContext = context;

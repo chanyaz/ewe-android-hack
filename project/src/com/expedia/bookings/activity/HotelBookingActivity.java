@@ -400,7 +400,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// SimpleCallbackDialogFragmentListener 
+	// SimpleCallbackDialogFragmentListener
 
 	@Override
 	public void onSimpleDialogClick(int callbackId) {

@@ -205,7 +205,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 				return MapUtils.convertToGeoPoint(44.674512553304, -103.85272979736);
 			}
 
-			// else, determine the center based on the unfiltered list of properties 
+			// else, determine the center based on the unfiltered list of properties
 			List<GeoPoint> points = new ArrayList<GeoPoint>();
 			for (Property property : mUnFilteredProperties) {
 				points.add(MapUtils.convertToGeoPoint(property.getLocation().getLatitude(), property.getLocation()
@@ -227,7 +227,7 @@ public class HotelItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 	@Override
 	public int getLonSpanE6() {
-		// if there are no overlay items, 
+		// if there are no overlay items,
 		// zoom the map out to a default value
 		if (size() == 0) {
 			return DEFAULT_SPAN;

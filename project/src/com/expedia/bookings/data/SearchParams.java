@@ -59,7 +59,7 @@ public class SearchParams implements JSONable {
 
 	// This might get filled as a result of an autosuggestion
 	private String mRegionId;
-	
+
 	// This will get set if the SearchParams object was created from the widget
 	private boolean mIsFromWidget;
 
@@ -98,7 +98,7 @@ public class SearchParams implements JSONable {
 
 		setDefaultStay();
 
-		// Setup default adults/children 
+		// Setup default adults/children
 		mNumAdults = 1;
 		mChildren = null;
 
@@ -145,8 +145,8 @@ public class SearchParams implements JSONable {
 	}
 
 	/**
-	 * Sets the location query for this SearchParams object. Also marks the (latitude, longitude) 
-	 * position as not up to date and clears the regionId. Returns false if the location passed was 
+	 * Sets the location query for this SearchParams object. Also marks the (latitude, longitude)
+	 * position as not up to date and clears the regionId. Returns false if the location passed was
 	 * the same as before.
 	 * @param query
 	 * @return
@@ -263,7 +263,7 @@ public class SearchParams implements JSONable {
 	/**
 	 * Ensures that the check in date is not AFTER the check out date. Keeps the
 	 * duration of the stay the same.
-	 * 
+	 *
 	 * @param cal
 	 */
 	public void setCheckInDate(Calendar cal) {
@@ -289,7 +289,7 @@ public class SearchParams implements JSONable {
 	/**
 	 * Ensures that the check out date is not BEFORE the check in date. Keeps
 	 * the duration of the stay the same.
-	 * 
+	 *
 	 * @param cal
 	 */
 	public void setCheckOutDate(Calendar cal) {
@@ -385,11 +385,11 @@ public class SearchParams implements JSONable {
 	public boolean hasRegionId() {
 		return mRegionId != null;
 	}
-	
+
 	public void setFromWidget() {
 		mIsFromWidget = true;
 	}
-	
+
 	public boolean isFromWidget() {
 		return mIsFromWidget;
 	}
@@ -426,7 +426,7 @@ public class SearchParams implements JSONable {
 		}
 
 		mRegionId = obj.optString("regionId", null);
-		
+
 		mIsFromWidget = obj.optBoolean("isFromWidget", false);
 
 		mUserQuery = obj.optString("userFreeformLocation", null);
@@ -477,7 +477,7 @@ public class SearchParams implements JSONable {
 			obj.put("propertyIds", propertyIds);
 
 			obj.put("regionId", mRegionId);
-			
+
 			if (mIsFromWidget) {
 				obj.put("isFromWidget", true);
 			}

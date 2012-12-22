@@ -72,7 +72,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			AdTracker.trackFirstLaunch();
 		}
 
-		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so, 
+		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so,
 		// in that it requires the app to be launched at least once before it can be disabled, but it's
 		// the best we can do for the time being.
 		if (AndroidUtils.isHoneycombTablet(this)) {
@@ -140,7 +140,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	//////////////////////////////////////////////////////////////////////////////////////////
 	/*
 	 *  The app maintains a list of listeners to notify when search params
-	 *  change in the widget. This is so that we can easily propogate through the 
+	 *  change in the widget. This is so that we can easily propogate through the
 	 *  the app the need to use searchParams from the widget instead of the ones
 	 *  being driven by user parameters set within the app
 	 */

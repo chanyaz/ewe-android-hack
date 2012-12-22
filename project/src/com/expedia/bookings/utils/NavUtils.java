@@ -147,12 +147,12 @@ public class NavUtils {
 	}
 
 	/**
-	 * Send a "kill activity" broadcast to all registered listeners. This will ensure the 
+	 * Send a "kill activity" broadcast to all registered listeners. This will ensure the
 	 * activity backstack is erased. This whole framework is to make up for a lack of
 	 * Intent.FLAG_ACTIVITY_CLEAR_TASK that we'd otherwise want to use in some cases,
 	 * like when we open a hotel details from the widget. Call this method when you want
 	 * to clear the task.
-	 * 
+	 *
 	 * Note: All activities must register a LocalBroadcastReceiver on the KILL_ACTIVITY
 	 * intent to guarantee the backstack is actually erased.
 	 *
@@ -185,7 +185,7 @@ public class NavUtils {
 
 	/**
 	 * Inspired by http://android-developers.blogspot.com/2009/01/can-i-use-this-intent.html
-	 * 
+	 *
 	 * Indicates whether the specified action can be used as an intent. This
 	 * method queries the package manager for installed packages that can
 	 * respond to an intent with the specified action. If no suitable package is

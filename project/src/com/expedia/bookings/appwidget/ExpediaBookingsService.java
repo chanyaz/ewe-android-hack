@@ -53,7 +53,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	// Widget config related constants 
+	// Widget config related constants
 	private final static long UPDATE_INTERVAL = 1000 * 60 * 60; // 1 hour
 	public final static long ROTATE_INTERVAL = 1000 * 5; // Every 5 seconds
 	public final static long INCREASED_ROTATE_INTERVAL = 1000 * 30; // Every 30 seconds
@@ -87,7 +87,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private WidgetDeals mWidgetDeals = WidgetDeals.getInstance(this);
 
 	/*
-	 * This object holds all state persisting to the widget 
+	 * This object holds all state persisting to the widget
 	 * so that we can support multiple widgets each holding its own
 	 * state
 	 */
@@ -196,7 +196,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			Log.w("Could not find a location provider, informing user of error...");
 			updateAllWidgetsWithText(getString(R.string.progress_finding_location), getString(R.string.refresh_widget),
 					getRefreshIntent());
-			// TODO Should we inform the user that the reason we're unable to 
+			// TODO Should we inform the user that the reason we're unable to
 			// determine location is because of the lack of an available provider?
 		}
 		else {
@@ -230,8 +230,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		/*
 		 * Setup the Network/GPS provider to update with a location only if
-		 * the location has changed beyond the specified threshold. Also, check for location 
-		 * updates only after the minimum time interval specified. This will help with 
+		 * the location has changed beyond the specified threshold. Also, check for location
+		 * updates only after the minimum time interval specified. This will help with
 		 * conserving battery life.
 		 */
 		if (provider != null) {
@@ -241,7 +241,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		/*
 		 * Use the passive provider as a way of getting updates without actually
-		 * requesting a GPS fix. Ignore if the provider is not available on the current 
+		 * requesting a GPS fix. Ignore if the provider is not available on the current
 		 * device (either due to being disabled or unavailable completely),.
 		 */
 		requestLocationUpdatesFromPassiveProvider(lm);
@@ -252,7 +252,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		/*
 		 * Setup the passive provider to update with a location whenever another application
 		 * gets a location fix. This is okay sine the location update is user/app-intended.
-		 * Use this location to determine whether or not to re-download data.	
+		 * Use this location to determine whether or not to re-download data.
 		 */
 		try {
 			if (lm.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
@@ -332,7 +332,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			Location lastSearchedLocation = new Location(location);
 
 			/*
-			 * Get the last searched/downloaded time for the current location widgets 
+			 * Get the last searched/downloaded time for the current location widgets
 			 * as well as the last searched location
 			 */
 			SearchParams searchParams = mWidgetDeals.getSearchParams();
@@ -553,19 +553,19 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		}
 
 		/*
-		 * returning this value helps to ensure to restart 
-		 * the service if the application crashes for 
+		 * returning this value helps to ensure to restart
+		 * the service if the application crashes for
 		 * an unexpected reason
 		 */
 		return Service.START_STICKY;
 	}
 
 	/*
-	 * The following thread recommended to 
+	 * The following thread recommended to
 	 * call the necessary methods in the onCreate
 	 * method as the onStartCommand method is not called
 	 * if there are no pending intents:
-	 * (http://groups.google.com/group/android-developers/browse_thread/thread/d87fb390c13d141d/52f7154ab49f229?hl=en&q=dianne+hackborn+onstartcommand+bug&pli=1) 
+	 * (http://groups.google.com/group/android-developers/browse_thread/thread/d87fb390c13d141d/52f7154ab49f229?hl=en&q=dianne+hackborn+onstartcommand+bug&pli=1)
 	 */
 	@Override
 	public void onCreate() {
@@ -993,7 +993,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		widgetContents.setViewVisibility(R.id.hotel_radar_logo_image_view, visibility);
 
 		/*
-		 * Add the hangtag to the to the contianer so that 
+		 * Add the hangtag to the to the contianer so that
 		 * the animation is played with the image view is laid out
 		 * as a nested remote view for the first time
 		 */

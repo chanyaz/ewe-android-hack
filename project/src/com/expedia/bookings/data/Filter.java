@@ -89,7 +89,7 @@ public class Filter implements JSONable {
 	}
 
 	/**
-	 * Resets the filter to its default settings.  (Does not clear listeners.) 
+	 * Resets the filter to its default settings.  (Does not clear listeners.)
 	 */
 	public void reset() {
 		mSearchRadius = SearchRadius.LARGE;
@@ -102,7 +102,7 @@ public class Filter implements JSONable {
 
 	/**
 	 * IMPORTANT: AFTER CALLING THIS, YOU MUST CALL onFilterChanged()!
-	 * 
+	 *
 	 * @param searchRadius the search radius, or null for all results
 	 */
 	public void setSearchRadius(SearchRadius searchRadius) {
@@ -115,7 +115,7 @@ public class Filter implements JSONable {
 
 	/**
 	 * IMPORTANT: AFTER CALLING THIS, YOU MUST CALL onFilterChanged()!
-	 * 
+	 *
 	 * @param distanceUnit the distance unit for the search radius
 	 */
 	public void setDistanceUnit(DistanceUnit distanceUnit) {
@@ -128,7 +128,7 @@ public class Filter implements JSONable {
 
 	/**
 	 * IMPORTANT: AFTER CALLING THIS, YOU MUST CALL onFilterChanged()!
-	 * 
+	 *
 	 * @param priceFilter the filter for price, or null for all prices
 	 */
 	public void setPriceRange(PriceRange priceRange) {
@@ -141,7 +141,7 @@ public class Filter implements JSONable {
 
 	/**
 	 * IMPORTANT: AFTER CALLING THIS, YOU MUST CALL onFilterChanged()!
-	 * 
+	 *
 	 * @param starRating the minimum star rating for the hotel; 0 for all hotels
 	 */
 	public void setMinimumStarRating(double starRating) {
@@ -155,9 +155,9 @@ public class Filter implements JSONable {
 	/**
 	 * The hotel name filter works on partial string matching.  It can match the middle
 	 * of a string.
-	 * 
+	 *
 	 * IMPORTANT: AFTER CALLING THIS, YOU MUST CALL onFilterChanged()!
-	 * 
+	 *
 	 * @param hotelName the string to match the hotel name to
 	 */
 	public void setHotelName(String hotelName) {
@@ -170,7 +170,7 @@ public class Filter implements JSONable {
 
 	/**
 	 * IMPORTANT: AFTER CALLING THIS, YOU MUST CALL onFilterChanged()!
-	 * 
+	 *
 	 * @param sort the sort order
 	 */
 	public void setSort(Sort sort) {

@@ -100,7 +100,7 @@ public class Tracker {
 			// Whether this was the first search or a refined search
 			s.events = "event31";
 
-			// Refinement  
+			// Refinement
 			s.eVar28 = s.prop16 = refinements;
 		}
 		else {

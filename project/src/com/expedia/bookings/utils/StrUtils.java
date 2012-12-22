@@ -247,10 +247,10 @@ public class StrUtils {
 
 	/**
 	 * Joins together a bunch of Strings, much like in Python
-	 * 
+	 *
 	 * For example, joining [ "a", "b", "c" ] with ". " would
 	 * result in "a. b. c."
-	 * 
+	 *
 	 * @param items a list of strings
 	 * @param sep the seperator between each item
 	 * @return joined string

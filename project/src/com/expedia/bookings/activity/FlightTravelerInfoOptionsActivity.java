@@ -270,7 +270,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 			}
 		}
 
-		//If we have a working traveler that was cached we try to load it from disk... 
+		//If we have a working traveler that was cached we try to load it from disk...
 		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
 		if (travMan.getAttemptToLoadFromDisk() && travMan.hasTravelerOnDisk(this)) {
 			//Load up the traveler from disk
@@ -804,7 +804,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 
 					@Override
 					public void onTravelerUpdateFailed() {
-						//TODO: we should maybe do more, however all of the local information will still be submitted as checkout info, 
+						//TODO: we should maybe do more, however all of the local information will still be submitted as checkout info,
 						//	so the account update
 						Log.e("Saving traveler failure.");
 						finish();

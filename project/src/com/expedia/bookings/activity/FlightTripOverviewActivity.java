@@ -688,11 +688,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	};
 
 	/**
-	 * 
-	 * @param dist - the distance moved defined by lastY - currentY 
+	 *
+	 * @param dist - the distance moved defined by lastY - currentY
 	 * @param init - reset the tracked distance
 	 * @param north - are we trying to move up (north) or down (south)
-	 * @return - what percentage we have made the journey between 0f and 1f 
+	 * @return - what percentage we have made the journey between 0f and 1f
 	 */
 	private float dragCards(float dist, boolean init, boolean north) {
 		if (init) {
@@ -900,7 +900,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		// TODO: Update UI to show that we're no longer logged in
 	}
 
-	//Checkout listener	
+	//Checkout listener
 	@Override
 	public void checkoutInformationIsValid() {
 		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {

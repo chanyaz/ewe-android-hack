@@ -20,11 +20,11 @@ public class AppFeedbackActivity extends CommentCardActivity {
 		super.onCreate(savedInstanceState);
 
 		/**
-		 * Intercepting the changes to the rating bar to appropriate set the radiogroup 
+		 * Intercepting the changes to the rating bar to appropriate set the radiogroup
 		 * that the opinionlab code uses to pick up the rating. The inability to fundamentally
 		 * change the layout of the CommentCardActivity causes us to have to put this workaround in place
 		 * where we present a ratingbar to the user but internally conver the user's rating to
-		 * the appropriate checked button in the radiogroup. 
+		 * the appropriate checked button in the radiogroup.
 		 */
 		RatingBar appRating = (RatingBar) findViewById(R.id.feedback_rating);
 		final RadioGroup appRatingForOpinionLab = (RadioGroup) findViewById(R.id.oosdk_rating_overall);

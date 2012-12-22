@@ -82,7 +82,6 @@ import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.SearchUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -283,7 +282,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 					}
 					else if (currQuery.length() == 0) {
 						// #10908: If the SearchView is focused when it has no text in it, then it won't fire off
-						// an autocomplete query.  By doing resetting the query to the blank string, we invoke an 
+						// an autocomplete query.  By doing resetting the query to the blank string, we invoke an
 						// autocomplete query (even though it seems like this call is completely redundant).
 						mSearchView.setQuery("", false);
 					}
@@ -606,11 +605,11 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 			Db.setSelectedProperty(property);
 
 			// start downloading the availability response for this property
-			// ahead of time (from when it might actually be needed) so that 
+			// ahead of time (from when it might actually be needed) so that
 			// the results are instantly displayed in the hotel details view to the user
 			startRoomsAndRatesDownload(property);
 
-			// notify the necessary components only after starting the 
+			// notify the necessary components only after starting the
 			// downloads so that the right downlaod information (such as  is picked up by the components
 			// when notified of the change in property
 			notifyPropertySelected();
@@ -1432,7 +1431,7 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Forward motion 
+	// Forward motion
 
 	public void startHotelGalleryActivity(Media media) {
 		Intent intent = new Intent(this, HotelGalleryActivity.class);

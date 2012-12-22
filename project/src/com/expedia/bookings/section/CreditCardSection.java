@@ -39,7 +39,7 @@ public class CreditCardSection extends LinearLayout {
 	}
 
 	public void bind(String name, CreditCardType type) {
-		int resId = 0; 
+		int resId = 0;
 		if (type != null) {
 			switch (type) {
 			case AMERICAN_EXPRESS:

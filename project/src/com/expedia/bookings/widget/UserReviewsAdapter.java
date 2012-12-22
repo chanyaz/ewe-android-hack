@@ -121,7 +121,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	// These two enabled overrides ensure that the ListView can not have focus, 
+	// These two enabled overrides ensure that the ListView can not have focus,
 	// i.e. now cannot change color during a scroll and look ugly
 
 	@Override

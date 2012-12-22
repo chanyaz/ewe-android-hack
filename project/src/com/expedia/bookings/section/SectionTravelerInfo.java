@@ -35,7 +35,6 @@ import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TelephoneSpinner;
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter;
@@ -435,7 +434,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	/*
 	 * This is our date picker DialogFragment. The coder has a responsibility to set setOnDateSetListener after any sort of creation event (including rotaiton)
-	 * 
+	 *
 	 * Note this DatePickerFragment uses a regular datePickerDialog which depends on Calendar objects, meaning that the OnDateSet call will return off by one months...
 	 */
 	public static class DatePickerFragment extends DialogFragment

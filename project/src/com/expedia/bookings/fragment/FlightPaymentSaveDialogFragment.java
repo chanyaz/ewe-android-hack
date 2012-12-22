@@ -54,7 +54,7 @@ public class FlightPaymentSaveDialogFragment extends DialogFragment {
 
 		mListener = (FlightPaymentYoYoListener) activity;
 	}
-	
+
 	@Override
 	public void onCancel(DialogInterface dialog){
 		super.onCancel(dialog);

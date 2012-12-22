@@ -22,7 +22,6 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.mobiata.android.Log;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.widget.BalloonItemizedOverlay;
 import com.mobiata.android.widget.BalloonItemizedOverlay.BalloonListener;

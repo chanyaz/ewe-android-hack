@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View.OnClickListener;
 
 /**
- * 
+ *
  * This class represents an navigation item via an image, text, and an onclick action
  *
  */

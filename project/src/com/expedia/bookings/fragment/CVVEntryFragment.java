@@ -57,7 +57,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 			cardType = cc.getCardType();
 
-			// Temporary fix to avoid crashing.  Only the latest servers (trunk) have 
+			// Temporary fix to avoid crashing.  Only the latest servers (trunk) have
 			// credit card type being returned with stored credit cards, so if the
 			// type wasn't returned (or isn't recognized) we default to VISA to avoid
 			// a crash.

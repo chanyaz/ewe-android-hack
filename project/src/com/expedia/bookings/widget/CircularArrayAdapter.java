@@ -5,9 +5,9 @@ import android.widget.ArrayAdapter;
 
 /**
  * This class implements a basically infinitely scrolling list.
- * 
+ *
  * http://stackoverflow.com/questions/2332847/how-to-create-a-closed-circular-listview
- * 
+ *
  * @author doug
  *
  * @param <T>
@@ -37,7 +37,7 @@ public class CircularArrayAdapter<T> extends ArrayAdapter<T> {
 	}
 
 	/**
-	 * Returns the index of the 0th element that is closest 
+	 * Returns the index of the 0th element that is closest
 	 * to the "middle" of this infinite list.
 	 * @return
 	 */

@@ -20,11 +20,11 @@ public class ActionBarNavUtils {
 
 	/**
 	 * Automatically configures a menu item with an actionLayout button.  Here's what it does:
-	 * 
+	 *
 	 * 1. Sets it to all caps if it's a TextView
-	 * 
+	 *
 	 * 2. Sets up a listener to call onOptionsItemSelected() when the button is clicked.
-	 * 
+	 *
 	 */
 	public static MenuItem setupActionLayoutButton(final SherlockFragmentActivity activity, Menu menu, int resId) {
 		final MenuItem item = menu.findItem(resId);

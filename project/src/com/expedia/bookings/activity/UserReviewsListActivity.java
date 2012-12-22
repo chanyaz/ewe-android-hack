@@ -236,7 +236,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 	/**
 	 * Call this method once the review statistics call has been successfully completed.
-	 * 
+	 *
 	 * Note, if it is ever the case that E3 fixes the review count to accurately reflect the actual total,
 	 * this method could included as part of the initial onCreate setup, no extra network call required
 	 */

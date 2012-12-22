@@ -783,14 +783,14 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 				// If we have a query string, kick off a suggestions request
 				// Do it on a delay though - we don't want to update suggestions every time user is edits a single
-				// char on the text. 
+				// char on the text.
 				if (mHasFocusedSearchField) {
 					mHandler.removeMessages(WHAT_AUTOCOMPLETE);
 					Message msg = new Message();
 					msg.obj = location;
 					msg.what = WHAT_AUTOCOMPLETE;
 
-					// It's actually ok to do it immediately if the length is short, we know 
+					// It's actually ok to do it immediately if the length is short, we know
 					// that the provider won't do a network request in this case.
 					int delay = location.length() < 3 ? 0 : 1000;
 

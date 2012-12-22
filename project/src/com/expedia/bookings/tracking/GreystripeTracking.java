@@ -18,7 +18,7 @@ public class GreystripeTracking {
 
 	public static void trackDownload(Context context) {
 		try {
-			// only track the download once, by keeping track of whether we've tracked 
+			// only track the download once, by keeping track of whether we've tracked
 			// already via a SharedPreferences setting
 			SharedPreferences prefs = context.getSharedPreferences("gsdnld", Context.MODE_PRIVATE);
 			if (!prefs.getBoolean("tracked", false)) {

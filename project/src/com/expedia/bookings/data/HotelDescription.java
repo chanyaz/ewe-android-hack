@@ -211,8 +211,8 @@ public class HotelDescription {
 
 	/*
 	 * This method returns true if the string is blank.
-	 * Ideally, I'd use the StringUtils.isBlank method but didnt want 
-	 * to pull in the commons jar just for this. 
+	 * Ideally, I'd use the StringUtils.isBlank method but didnt want
+	 * to pull in the commons jar just for this.
 	 */
 	private boolean isBlank(String str) {
 		for (char a : str.toCharArray()) {

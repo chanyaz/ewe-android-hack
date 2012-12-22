@@ -92,9 +92,9 @@ public class FlightSearch implements JSONable {
 	/**
 	 * Returns a list of valid FlightTrips for a particular leg.  If there
 	 * are no legs selected on any other positions, then this will return
-	 * *every* trip.  But if there are legs selected, then the list of 
+	 * *every* trip.  But if there are legs selected, then the list of
 	 * trips you can select will be limited.
-	 * 
+	 *
 	 * It also returns the trips sorted by price, and gets rid of more expensive
 	 * trips using the same leg
 	 */

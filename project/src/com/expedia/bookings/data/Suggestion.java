@@ -17,18 +17,18 @@ import com.mobiata.android.json.JSONable;
 /**
  * A general Suggestion.  At the moment, can either be a city with hotels
  * or an airport location (as airport or metro code).
- * 
+ *
  * There are a few areas of improvement, should we ever need to "go there":
- * 
+ *
  * - There are a few different ways to display the results.  Right now the
  *   parser (or user) handles this problem for us, but we're not locked
  *   into the display name.
- * 
+ *
  * - There is a regionType as well as a suggestionType that might help
  *   disambiguate results in the future
- * 
+ *
  * - There is a sort index field.  The docs say you shouldn't trust that
- *   the results are sorted but for now we are.  :P  
+ *   the results are sorted but for now we are.  :P
  *
  */
 public class Suggestion implements JSONable {

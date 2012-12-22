@@ -20,7 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
 
 /**
- * 
+ *
  * This class is intended for ActionBar navigation. It toggles a dropdown of navigation items.
  *
  */

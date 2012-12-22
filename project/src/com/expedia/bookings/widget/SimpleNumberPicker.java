@@ -1,12 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +10,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.util.Ui;
-
-import com.mobiata.android.Log;
 
 public class SimpleNumberPicker extends LinearLayout {
 	private Context mContext;

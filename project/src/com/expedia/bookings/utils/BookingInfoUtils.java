@@ -116,7 +116,7 @@ public class BookingInfoUtils {
 			put(CreditCardType.VISA, R.drawable.ic_visa_black);
 		}
 	};
-	
+
 	// Which icon to use with which credit card
 		@SuppressWarnings("serial")
 		public static final HashMap<CreditCardType, Integer> CREDIT_CARD_WHITE_ICONS = new HashMap<CreditCardType, Integer>() {

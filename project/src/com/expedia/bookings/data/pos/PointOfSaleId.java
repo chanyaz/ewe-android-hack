@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.pos;
 
-import java.util.HashMap;
-
 import android.util.SparseArray;
 
 public enum PointOfSaleId {

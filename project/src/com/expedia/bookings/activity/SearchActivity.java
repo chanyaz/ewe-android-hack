@@ -7,20 +7,18 @@ import android.os.Bundle;
 
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.NavUtils;
-import com.mobiata.android.BackgroundDownloader;
 
 /**
  * This is a routing Activity that points users towards either the phone or
  * tablet version of this app.
- * 
+ *
  * It is named SearchActivity for historical reasons; this was the original
  * starting Activity for older versions of EH, and we don't want to break any
  * future installs (which may have setup quick links to EH).
- * 
+ *
  * http://android-developers.blogspot.com/2011/06/things-that-cannot-change.html
- * 
+ *
  */
 public class SearchActivity extends Activity {
 

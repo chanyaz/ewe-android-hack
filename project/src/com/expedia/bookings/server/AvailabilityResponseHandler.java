@@ -434,7 +434,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 			rateRules.addPolicy(policy);
 		}
 
-		// The "general" policy info is composed of policies provided and policies Expedia 
+		// The "general" policy info is composed of policies provided and policies Expedia
 		// wants us to display
 		StringBuilder sb = new StringBuilder();
 		if (jsonRate.has("policy")) {

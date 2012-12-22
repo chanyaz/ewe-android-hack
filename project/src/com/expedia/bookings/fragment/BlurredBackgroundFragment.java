@@ -32,7 +32,7 @@ public class BlurredBackgroundFragment extends Fragment {
 
 		mBackgroundBgView = Ui.findView(v, R.id.background_bg_view);
 		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
-		
+
 		setBitmap(Db.getBackgroundImage(getActivity(), false),Db.getBackgroundImage(getActivity(), true));
 
 		//displayBackground();

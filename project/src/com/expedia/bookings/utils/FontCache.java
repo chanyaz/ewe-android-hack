@@ -12,7 +12,7 @@ import android.widget.TextView;
 /**
  * Stores fonts so we don't have to keep reloading them from assets
  * over and over again.
- * 
+ *
  * ONLY initialize with the Application Context (so we don't leak
  * memory from any of the shorter-lived Contexts).
  */

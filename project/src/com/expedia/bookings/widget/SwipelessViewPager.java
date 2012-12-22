@@ -7,17 +7,17 @@ import android.view.MotionEvent;
 
 public class SwipelessViewPager extends ViewPager {
 
-    public SwipelessViewPager(Context context) {
-        super(context);
-    }
+	public SwipelessViewPager(Context context) {
+		super(context);
+	}
 
-    public SwipelessViewPager(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+	public SwipelessViewPager(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent arg0) {
-        // Never allow swiping to switch between pages
-        return false;
-    }
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent arg0) {
+		// Never allow swiping to switch between pages
+		return false;
+	}
 }

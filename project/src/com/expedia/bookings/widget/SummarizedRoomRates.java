@@ -20,21 +20,21 @@ public class SummarizedRoomRates {
 	 * The clustering goal is as follows: To summarize the available
 	 * rooms for a particular hotel into a distribution that represents the top 3
 	 * most relevant rooms to the user.
-	 * 
+	 *
 	 * The algorithm is as follows:
-	 * a) Start off with pre-defined buckets of all bed types categorized by the size of the bed 
+	 * a) Start off with pre-defined buckets of all bed types categorized by the size of the bed
 	 *    (eg. KING, QUEEN, DOUBLE, etc). The relative ordering of the hotels in the same bucket
 	 *    is defined by the position of the enum {@link com.expedia.bookings.data.Rate.BedTypeId}
-	 *   
+	 *
 	 * b) Go through all rates to create a mapping of bedType to the minimum possible rate
 	 *    available for that bed type.
-	 *    
-	 * c) Cluster the minimum rates for each bedTypeId into the pre-defined buckets using 
+	 *
+	 * c) Cluster the minimum rates for each bedTypeId into the pre-defined buckets using
 	 *    priority queues that maintain the relative priority of bedTypes in the same bucket
-	 * 
+	 *
 	 * d) Pick one hotel from each queue until all hotels have been picked. The order in which
 	 *    to pick hotels from the bucket is: King > Queen > Double > Twin > Single > Full > Rest
-	 *    
+	 *
 	 * e) Display as many as you'd like
 	 */
 	private HashMap<BedTypeId, Rate> mBedTypeToMinRateMap = new HashMap<BedTypeId, Rate>();
@@ -159,7 +159,7 @@ public class SummarizedRoomRates {
 			for (BedType bedType : rate.getBedTypes()) {
 				BedTypeId bedTypeId = bedType.bedTypeId;
 				/*
-				 * If a rate already exists for this bed type, 
+				 * If a rate already exists for this bed type,
 				 * check if its the minimum possible rate
 				 */
 				if (mBedTypeToMinRateMap.containsKey(bedTypeId)) {
@@ -181,9 +181,9 @@ public class SummarizedRoomRates {
 			}
 		}
 
-		// don't keep track of the bed type to rate mapping  
-		// considered the minimum rate mapping in the map 
-		// since it will be handled separately 
+		// don't keep track of the bed type to rate mapping
+		// considered the minimum rate mapping in the map
+		// since it will be handled separately
 		if (mMinimumRateAvailable != null) {
 			mBedTypeToMinRateMap.remove(mMinimumRateBedTypeId);
 		}
@@ -212,8 +212,8 @@ public class SummarizedRoomRates {
 
 	/*
 	 * This method picks one rate to display from each bucket
-	 * and loops through this process until all queues are 
-	 * emptied out and we have a list summarized rates ordered 
+	 * and loops through this process until all queues are
+	 * emptied out and we have a list summarized rates ordered
 	 * by relevance
 	 */
 	private void summarizeRates() {

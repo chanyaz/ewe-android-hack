@@ -17,7 +17,6 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.utils.DateTimeUtils;

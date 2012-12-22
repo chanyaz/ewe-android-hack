@@ -16,7 +16,7 @@ import com.mobiata.android.widget.CalendarDatePicker;
 public class CalendarUtils {
 	/**
 	 * This ACCURATELY calculates the difference (in days) between two Calendars.
-	 * 
+	 *
 	 * WARNING: IT IS NOT REMOTELY FAST.  It is VERY slow.  You should only use this
 	 * if you know that the difference in days has a low bound (a couple months max).
 	 * @param cal1 the first calendar
@@ -56,7 +56,7 @@ public class CalendarUtils {
 
 	/**
 	 * Configures the calendar date picker for Hotels
-	 * 
+	 *
 	 * @param calendarDatePicker
 	 * @param mode
 	 */
@@ -75,7 +75,7 @@ public class CalendarUtils {
 		calendarDatePicker.resetTodayCache();
 
 		/* Set the min calendar date
-		 * 
+		 *
 		 * 7880: initializing the date on the calendar to 1 day prior to
 		 * the current date so that the date is selectable by the user
 		 * for searches in other timezones where its still a day behind
@@ -102,7 +102,7 @@ public class CalendarUtils {
 
 	/**
 	 * Convenience method for formatting date range represented by a particular SearchParams.
-	 * 
+	 *
 	 * @param context the context
 	 * @param searchParams the params to format
 	 * @return a numeric representation of the stay range (e.g., "10/31 - 11/04").

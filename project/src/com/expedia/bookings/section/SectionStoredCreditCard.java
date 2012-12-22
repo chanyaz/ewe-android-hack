@@ -98,7 +98,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				  amexPatternMatcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
 				}
 				amexPatternMatcher.appendTail(sb);
-				field.setText(sb.toString());	
+				field.setText(sb.toString());
 			}
 		}
 	};

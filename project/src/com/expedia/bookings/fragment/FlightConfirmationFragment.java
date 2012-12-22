@@ -286,7 +286,7 @@ public class FlightConfirmationFragment extends Fragment {
 		FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
 		Calendar checkinDate = firstLeg.getLastWaypoint().getMostRelevantDateTime();
 
-		// h637 we set the TimeZone to UTC in anticipation of it being called later on in the flow. Originally, the 
+		// h637 we set the TimeZone to UTC in anticipation of it being called later on in the flow. Originally, the
 		// TimeZone was not being set on construction and then set to UTC after day, month, year were set which in turn
 		// caused the Calendar DATE field to be incremented one day forward when accessed via get(FIELD)
 		Calendar checkinNormalized = Calendar.getInstance();

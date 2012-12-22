@@ -315,7 +315,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (savedInstanceState == null && Db.getFlightSearch().getSearchParams().getDepartureLocation() == null) {
 			mDepartureAirportEditText.requestFocus();
 
-			// Dumb hack to get IME to show.  Without delaying this doesn't work (for some dumb reason) 
+			// Dumb hack to get IME to show.  Without delaying this doesn't work (for some dumb reason)
 			mDepartureAirportEditText.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -405,7 +405,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 			else {
 				// We lost focus, but the user did not select a new airport.  Here's the logic:
-				// 
+				//
 				// 1. If the autocomplete has suggestions, use the first one.
 				// 2. If there are no suggestions but there was text, just use that
 				// 3. If the textview was empty, revert back to the original search param
@@ -791,7 +791,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	/**
 	 * Returns the SearchParams represented by this screen.
-	 * 
+	 *
 	 * Warning: doing this deselects all current fields (as a matter of
 	 * making sure we have current data).  You are only expected to call
 	 * this method when you're closing the fragment/starting a new search.

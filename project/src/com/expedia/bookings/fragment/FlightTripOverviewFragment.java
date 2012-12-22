@@ -17,7 +17,6 @@ import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.InfoBarSection;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;

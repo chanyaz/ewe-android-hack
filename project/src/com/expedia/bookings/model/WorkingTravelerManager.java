@@ -196,7 +196,7 @@ public class WorkingTravelerManager {
 
 	/**
 	 * Start a thread, and try to commit the traveler changes. We use a semaphore, so only one request will run at a time.
-	 * 
+	 *
 	 * @param context
 	 * @param trav
 	 */
@@ -297,10 +297,10 @@ public class WorkingTravelerManager {
 	/**
 	 * This attempts to save the working traveler to a file in it's own thread.
 	 * If another save operation is currently being performed this will be skipped.
-	 * 
+	 *
 	 * @param context
-	 * @param force - If true we wait to aquire the semaphore. If false we only run if the semaphore is available. 
-	 * Basically if we are saving progress this should always be false, because we assume it will be called again after another change. 
+	 * @param force - If true we wait to aquire the semaphore. If false we only run if the semaphore is available.
+	 * Basically if we are saving progress this should always be false, because we assume it will be called again after another change.
 	 * However, if the traveler is in a state that we want to make sure the save gets written to the disk, this should be set to true.
 	 */
 	public void attemptWorkingTravelerSave(final Context context, boolean force) {

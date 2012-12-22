@@ -15,9 +15,9 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.animation.AnimatorProxy;
 
 /**
- * This class implements a parallax-like scrolling effect specifically for 
+ * This class implements a parallax-like scrolling effect specifically for
  * the phone UI Hotel Details screen.
- * 
+ *
  * @author doug@mobiata.com
  *
  */

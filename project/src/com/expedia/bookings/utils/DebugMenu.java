@@ -11,7 +11,7 @@ import com.mobiata.android.util.AndroidUtils;
 
 /**
  * This is a debug menu that you can attach to any Activity in Expedia Bookings.
- * 
+ *
  * Just add hooks at the appropriate points.
  *
  * TODO: Reflection here, so as not to duplicate code.  (Being lazy for the moment, though.)

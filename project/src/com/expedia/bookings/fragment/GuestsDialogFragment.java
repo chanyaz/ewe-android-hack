@@ -23,7 +23,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.SimpleNumberPicker;
-import com.mobiata.android.Log;
 
 @TargetApi(11)
 public class GuestsDialogFragment extends DialogFragment {

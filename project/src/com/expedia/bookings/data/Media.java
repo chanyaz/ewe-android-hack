@@ -69,9 +69,9 @@ public class Media implements JSONable {
 
 	/**
 	 * Loads a high-res image automatically into an ImageView.
-	 * 
+	 *
 	 * If you need more fine-grained control
-	 *  
+	 *
 	 * @param imageView
 	 * @param callback
 	 */

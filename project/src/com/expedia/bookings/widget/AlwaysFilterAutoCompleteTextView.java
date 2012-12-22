@@ -6,7 +6,7 @@ import android.widget.AutoCompleteTextView;
 
 /**
  * This is a version of AutoCompleteTextView that will *always* filter.
- * 
+ *
  * It is necessary because otherwise AutoCompleteTextView will not filter
  * when there is no text entered into the field.
  */

@@ -30,9 +30,9 @@ public class CurrencyUtils {
 
 	/**
 	 * Determines the type of credit card based on the card number.
-	 * 
+	 *
 	 * Here is the information from Shelli Garcia:
-	 * 
+	 *
 	 * CARD                LENGTH           PREFIX
 	 * American Express    15               34, 37
 	 * Carte Blanche       14               94, 95
@@ -43,7 +43,7 @@ public class CurrencyUtils {
 	 * Maestro             16, 18, 19       50, 63, 67
 	 * MasterCard          16               51, 52, 53, 54, 55
 	 * Visa                13, 16           4
-	 * 
+	 *
 	 * @param context the context (used to retrieve strings/images)
 	 * @param cardNumber the number of the card (as entered so far)
 	 * @return the credit card brand if detected, null if not detected

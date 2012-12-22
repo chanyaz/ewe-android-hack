@@ -18,7 +18,7 @@ public class Itinerary implements JSONable {
 
 	// List of associated product keys (or rate keys, as they are known in hotels)
 	//
-	// Not used yet, but it will be when we need to recover data about itineraries 
+	// Not used yet, but it will be when we need to recover data about itineraries
 	private List<String> mProductKeys = new ArrayList<String>();
 
 	public String getItineraryNumber() {

@@ -49,7 +49,7 @@ public class LayoutUtils {
 	 * View.  This method ensures that both the old padding from the View and the new
 	 * padding that may have been introduced (via InsetDrawable) are preserved after
 	 * setting a background resource.
-	 * 
+	 *
 	 * @param v
 	 * @param resId
 	 */
@@ -188,7 +188,7 @@ public class LayoutUtils {
 		String amenityStr = context.getString(amenity.getStrId());
 
 		// measure the length of the amenity string and determine whether it is short enough
-		// to fit within the acceptable width. If not, reduce the font size in an attempt to 
+		// to fit within the acceptable width. If not, reduce the font size in an attempt to
 		// get it to fit.
 		float acceptableWidth = context.getResources().getDisplayMetrics().density * MAX_AMENITY_TEXT_WIDTH_IN_DP;
 		float measuredWidthOfStr = amenityTextView.getPaint().measureText(context.getString(amenity.getStrId()));
@@ -284,12 +284,12 @@ public class LayoutUtils {
 
 	/**
 	 * Adjusts the top and bottom padding of a View based on its Activity and state.
-	 * 
+	 *
 	 * This method makes a few assumptions, namely that you're setting things like the
 	 * action bar/split's height and the uiOptions in the XML rather than dynamically.
 	 * If you're doing it dynamically then you're on your own (but I can't see any use
 	 * for a *more* dynamic version of this method at the moment).
-	 *  
+	 *
 	 * @param activity the Activity who made have overlay
 	 * @param rootView the root view to add padding to
 	 * @param hasMenuItems there appears to be no easy way to tell if the menu actually has any items,

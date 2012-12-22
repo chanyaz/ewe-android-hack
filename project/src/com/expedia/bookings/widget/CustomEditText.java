@@ -16,7 +16,6 @@ import android.util.AttributeSet;
 import android.util.FloatMath;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -24,17 +23,17 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 
 /**
- * This class is meant to serve as a workaround 
- * to the problem of the error popup only being 
- * as wide as the field for which it exists. 
- * Consequently, when you have really narrow 
- * fields for items such as expiration month of a 
+ * This class is meant to serve as a workaround
+ * to the problem of the error popup only being
+ * as wide as the field for which it exists.
+ * Consequently, when you have really narrow
+ * fields for items such as expiration month of a
  * credit card, what you have is an extremely narrow
  * pop window within which to fit the error text.
  * (See bug #6864)
- * 
- * This class defines a minimum width for the popup. 
- * 
+ *
+ * This class defines a minimum width for the popup.
+ *
  * Most of the code has been inspired from TextView.java
  *
  */
@@ -45,10 +44,10 @@ public class CustomEditText extends EditText {
 	private boolean mShowErrorAfterAttach;
 	private boolean mTemporaryDetach;
 
-	private int MINIMUM_WIDTH_IN_DP = 100;
-	private int MINIMUM_PADDING_IN_DP = 40;
+	private static final int MINIMUM_WIDTH_IN_DP = 100;
+	private static final int MINIMUM_PADDING_IN_DP = 40;
 
-	// this flag helps to keep track of 
+	// this flag helps to keep track of
 	// whether or not to setup/dismiss
 	// the clear field button based on intent
 	private boolean isClearFieldButtonShowing;
@@ -61,8 +60,8 @@ public class CustomEditText extends EditText {
 	private int mTouchAreaPadding;
 
 	/*
-	 * This textwatcher is responsible for 
-	 * dismissing the error when the user starts 
+	 * This textwatcher is responsible for
+	 * dismissing the error when the user starts
 	 * typing something
 	 */
 	private TextWatcher textWatcher = new TextWatcher() {
@@ -73,15 +72,15 @@ public class CustomEditText extends EditText {
 			if (s.length() > 0) {
 
 				// hide the error if the user
-				// inputs text while the error 
+				// inputs text while the error
 				// exists
 				if (mCustomError != null) {
 					setError(null, null);
 				}
 
-				// if the textview is in focus 
+				// if the textview is in focus
 				// and there is no error to be shown,
-				// show the clear field drawable 
+				// show the clear field drawable
 				// for the user to easily clear the text
 				if (isFocused() && mCustomError == null && mUseClearFieldDrawable) {
 					setClearFieldButton();
@@ -123,17 +122,17 @@ public class CustomEditText extends EditText {
 			}
 			else {
 				if (!mUseClearFieldDrawable) {
-					// use the 3 to indicate that 
-					// the clear field drawable is not 
-					// to be used in this case. Having 
-					// this flag set to false and 
+					// use the 3 to indicate that
+					// the clear field drawable is not
+					// to be used in this case. Having
+					// this flag set to false and
 					// is ClearFieldButtonShowing set to true makes
-					// no sense. Hence, that case is not 
+					// no sense. Hence, that case is not
 					// considered.
 					out.writeInt(3);
 				}
 				else if (isClearFieldButtonShowing) {
-					// use the 2 to indicate that 
+					// use the 2 to indicate that
 					// the clear field button is showing
 					// even when there is an error
 					out.writeInt(2);
@@ -258,8 +257,8 @@ public class CustomEditText extends EditText {
 			return;
 		}
 
-		// only remove the right drawable 
-		// if the clear field button is 
+		// only remove the right drawable
+		// if the clear field button is
 		// actually showing
 		if (isClearFieldButtonShowing) {
 			setupTransparentRightDrawable();
@@ -354,7 +353,7 @@ public class CustomEditText extends EditText {
 
 		if (focused) {
 
-			// give preference to the error 
+			// give preference to the error
 			// popup if it exists since we should first
 			// indicate to the user the reason for the error
 			// before giving the user the ability to clear text
@@ -371,7 +370,7 @@ public class CustomEditText extends EditText {
 			}
 			else if (mUseClearFieldDrawable) {
 				// remove the right drawable only if we know
-				// that its not the error icon 
+				// that its not the error icon
 				removeClearFieldButton();
 			}
 		}
@@ -483,10 +482,10 @@ public class CustomEditText extends EditText {
 
 	private void chooseSize(PopupWindow pop, CharSequence text, TextView tv) {
 		/*
-		 * For some reason the popup doesn't pick up the padding the right way the first time, 
-		 * so I define a minimal padding here. It might be because the layout is not complete 
-		 * for the textview, however, I am also unable to set a layout changed listener 
-		 * for the textview as I get a class not found error for the EditTextWithCustomErrorPopup. 
+		 * For some reason the popup doesn't pick up the padding the right way the first time,
+		 * so I define a minimal padding here. It might be because the layout is not complete
+		 * for the textview, however, I am also unable to set a layout changed listener
+		 * for the textview as I get a class not found error for the EditTextWithCustomErrorPopup.
 		 */
 		final float scale = getResources().getDisplayMetrics().density;
 
@@ -585,9 +584,9 @@ public class CustomEditText extends EditText {
 	}
 
 	/*
-	 * This method is to setup a transparent drawable as a right drawable to the 
-	 * text field so as to always occupy room for the cancel-button drawable. This will prevent the 
-	 * "jump" that you see if you were to start tpying into an empty edit text, which is to incorporate 
+	 * This method is to setup a transparent drawable as a right drawable to the
+	 * text field so as to always occupy room for the cancel-button drawable. This will prevent the
+	 * "jump" that you see if you were to start tpying into an empty edit text, which is to incorporate
 	 * the x button.
 	 */
 	private void setupTransparentRightDrawable() {

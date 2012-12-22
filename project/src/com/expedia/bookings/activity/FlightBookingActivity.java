@@ -104,7 +104,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			ft.commit();
 
-			// If the debug setting is made to fake a price change, then fake the current price 
+			// If the debug setting is made to fake a price change, then fake the current price
 			if (!AndroidUtils.isRelease(mContext)) {
 				String val = SettingUtils.get(mContext,
 						getString(R.string.preference_flight_fake_price_change),
@@ -414,7 +414,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// SimpleCallbackDialogFragmentListener 
+	// SimpleCallbackDialogFragmentListener
 
 	@Override
 	public void onSimpleDialogClick(int callbackId) {

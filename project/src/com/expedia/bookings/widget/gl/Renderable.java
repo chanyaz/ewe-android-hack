@@ -16,24 +16,24 @@
 
 package com.expedia.bookings.widget.gl;
 
-/** 
+/**
  * Base class defining the core set of information necessary to render (and move
  * an object on the screen.  This is an abstract type and must be derived to
  * add methods to actually draw (see CanvasSprite and GLSprite).
  */
 public abstract class Renderable {
-    // Position.
-    public float x;
-    public float y;
-    
-    // Rotation
-    public double rotation;
-    public float rotationX;
-    public float rotationY;
-    
-    // Size.
-    public float width;
-    public float height;
-    
-    public boolean visible = true;
+	// Position.
+	public float x;
+	public float y;
+
+	// Rotation
+	public double rotation;
+	public float rotationX;
+	public float rotationY;
+
+	// Size.
+	public float width;
+	public float height;
+
+	public boolean visible = true;
 }

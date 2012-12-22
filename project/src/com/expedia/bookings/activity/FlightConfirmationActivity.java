@@ -63,7 +63,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 						FlightSearch search = Db.getFlightSearch();
 						String itinNum = search.getSelectedFlightTrip().getItineraryNumber();
 
-						// copy billing info 
+						// copy billing info
 						BillingInfo billingInfo = new BillingInfo(Db.getBillingInfo());
 
 						mConfState.save(search, Db.getItinerary(itinNum), billingInfo,

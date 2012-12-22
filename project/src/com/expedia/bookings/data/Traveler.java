@@ -50,7 +50,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		MALE, FEMALE, OTHER
 	}
 
-	//This is silly, we only want to offer WINDOW and AISLE, but when downloading from an expedia account 
+	//This is silly, we only want to offer WINDOW and AISLE, but when downloading from an expedia account
 	//ANY is the default. When commiting a traveler to the account ANY is invalid and we must use UNASSIGNED
 	public enum SeatPreference {
 		ANY, WINDOW, AISLE, UNASSIGNED
@@ -469,7 +469,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return obj.toString();
 		}
 	}
-	
+
 	/**
 	 * Compare the name of this traveler to another traveler (currently we just compare first and last name)
 	 * If either traveler has null for their first or last name we consider them not equal
@@ -487,7 +487,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		if (another == null) {
 			return NOT_EQUAL;
 		}
-		
+
 		if (this.getFirstName() != null && this.getLastName() != null
 				&& another.getFirstName() != null && another.getLastName() != null) {
 			if (this.getFirstName().trim()

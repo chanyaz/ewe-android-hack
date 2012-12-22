@@ -43,7 +43,7 @@ public class YoYo implements Parcelable {
 		}
 		return retClass;
 	}
-	
+
 	/**
 	 * Generate an intent for heading to the next activity in the stack.
 	 * @param currentActivity - The activity to be the context in the new intent
@@ -76,7 +76,7 @@ public class YoYo implements Parcelable {
 	}
 
 	/**
-	 * Is this the last item in the stack. 
+	 * Is this the last item in the stack.
 	 * This method is useful for determining things like button text e.g. "next" vs "done"
 	 * @return
 	 */

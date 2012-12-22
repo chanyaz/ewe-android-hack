@@ -298,7 +298,7 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 			// To keep this sample simple we will assume that sprites that share
 			// the same texture are grouped together in our sprite list. A real
-			// app would probably have another level of texture management, 
+			// app would probably have another level of texture management,
 			// like a texture hash.
 
 			int lastLoadedResource = -1;

@@ -61,7 +61,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 		int[] existingAppWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(
 				new ComponentName(context, ExpediaBookingsWidgetProvider.class));
 		WidgetConfigurationState.reconcileWidgetConfigurationStates(context, existingAppWidgetIds);
-		
+
 		for(int id : appWidgetIds) {
 			// add the widget if it doesn't exist
 			if(WidgetConfigurationState.getWidgetConfiguration(context, id) == null) {
@@ -70,8 +70,8 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 				intent.putExtra(Codes.APP_WIDGET_ID, id);
 				context.startService(intent);
 			}
-		} 
-		
+		}
+
 		RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
 		RemoteViews widgetContainer = new RemoteViews(context.getPackageName(), R.layout.widget_contents);
 		rv.addView(R.id.hotel_info_contents, widgetContainer);
@@ -86,7 +86,7 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
-	
+
 	private void saveLastSearchOrCurrentLocationOption(Context context, int mAppWidgetId) {
 		WidgetConfigurationState cs = new WidgetConfigurationState();
 		cs.setAppWidgetId(mAppWidgetId);

@@ -29,7 +29,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.mobiata.flightlib.data.Airline;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class FlightFilterDialogFragment extends DialogFragment {
 
@@ -69,7 +68,7 @@ public class FlightFilterDialogFragment extends DialogFragment {
 
 		configureAirlines();
 
-		// Configure the correct initial setting for the filter 
+		// Configure the correct initial setting for the filter
 		FlightFilter filter = getFlightFilter();
 		switch (filter.getSort()) {
 		case PRICE:
@@ -90,7 +89,7 @@ public class FlightFilterDialogFragment extends DialogFragment {
 			mAirportButtons.get(airlineCode).setChecked(true);
 		}
 
-		// Setup listeners 
+		// Setup listeners
 		mSortControl.setOnCheckedChangeListener(mSortButtonCheckListener);
 
 		return v;

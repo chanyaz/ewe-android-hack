@@ -59,7 +59,7 @@ public class Date implements JSONable {
 		this.mDayOfMonth = dayOfMonth;
 		mCal = null;
 	}
-	
+
 	public void setDate(int year, int month, int dayOfMonth){
 		setYear(year);
 		setMonth(month);

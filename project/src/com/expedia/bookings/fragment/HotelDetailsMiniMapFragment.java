@@ -13,10 +13,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.widget.MapImageView;
-import com.mobiata.android.ImageCache;
-import com.mobiata.android.Log;
-import com.mobiata.android.services.GoogleServices;
-import com.mobiata.android.services.GoogleServices.MapType;
 import com.mobiata.android.util.Ui;
 
 public class HotelDetailsMiniMapFragment extends Fragment {

@@ -640,7 +640,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		/**
 		 * This won't directly update the gui, it will update the state, so that when create dialog is called this is what gets presented
 		 * @param month 1 - 12 (not 0 - 11 like calendar)
-		 * @param year 
+		 * @param year
 		 */
 		public void setDate(int month, int year) {
 			mMonth = month;

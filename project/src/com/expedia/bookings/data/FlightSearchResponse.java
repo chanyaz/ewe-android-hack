@@ -66,7 +66,7 @@ public class FlightSearchResponse extends Response {
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 	//
-	// We save the trip data in the a "matrix" format, wherein most leg data 
+	// We save the trip data in the a "matrix" format, wherein most leg data
 	// can be stored in a map since it's the same.  This greatly reduces the
 	// memory requirements and speeds up parsing time.
 

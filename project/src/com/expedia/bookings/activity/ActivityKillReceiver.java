@@ -18,7 +18,7 @@ public class ActivityKillReceiver extends BroadcastReceiver {
 	}
 
 	public void onCreate() {
-		// Register a (Local)BroadcastReceiver to listen for the KILL_ACTIVITY intent        
+		// Register a (Local)BroadcastReceiver to listen for the KILL_ACTIVITY intent
 		IntentFilter intentFilter = new IntentFilter(BROADCAST_KILL_ACTIVITY_INTENT);
 		LocalBroadcastManager.getInstance(mActivity).registerReceiver(this, intentFilter);
 	}

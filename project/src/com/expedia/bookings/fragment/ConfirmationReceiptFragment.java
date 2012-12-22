@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.widget.HotelItemizedOverlay;
 import com.expedia.bookings.widget.ReceiptWidget;
 import com.google.android.maps.GeoPoint;
@@ -103,7 +101,7 @@ public class ConfirmationReceiptFragment extends Fragment {
 		GeoPoint offsetCenter = new GeoPoint(center.getLatitudeE6() + 1000, center.getLongitudeE6() - 8000);
 		mc.setCenter(offsetCenter);
 		mc.setZoom(15);
-		// disabling the map so that it does not respond to touch events 
+		// disabling the map so that it does not respond to touch events
 		mMapView.setEnabled(false);
 	}
 

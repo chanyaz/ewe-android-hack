@@ -20,7 +20,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 	/**
 	 * Even more convenient method for adding a single Fragment.
-	 * 
+	 *
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
 	public static <T extends Fragment> T findOrAddSupportFragment(CompatFragmentActivity activity,
@@ -30,12 +30,12 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 	/**
 	 * Convenience method that either:
-	 * 
+	 *
 	 * 1. Finds and returns the Fragment if already exists in FragmentManager
 	 * 2. Creates and adds the Fragment to containerViewId if doesn't exit
-	 * 
+	 *
 	 * Either way, it returns the Fragment, ready for use.
-	 * 
+	 *
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
 	public static <T extends Fragment> T findOrAddSupportFragment(CompatFragmentActivity activity,

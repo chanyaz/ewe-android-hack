@@ -266,7 +266,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		String dateEnd = dateFormatter.format(checkOut);
 		String subject = context.getString(R.string.share_subject_template, property.getName(), dateStart, dateEnd);
 
-		// Create the body 
+		// Create the body
 		StringBuilder body = new StringBuilder();
 		body.append(context.getString(R.string.share_body_start));
 		body.append("\n\n");

@@ -17,9 +17,9 @@ import com.expedia.bookings.data.Filter.Sort;
 
 /**
  * This is a temporary Fragment designed for testing sorting with the tablet version of the app.
- * 
+ *
  * At some point we will need to:
- * 
+ *
  * 1. Make this a better-placed popup.
  * 2. Unify the sort options with PhoneSearchActivity
  */

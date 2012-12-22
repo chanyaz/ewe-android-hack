@@ -27,11 +27,11 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 /**
  * This represents an in-memory database of data for the app.
- * 
+ *
  * Try to keep out information that is state data for a fragment.  For example,
  * keeping track of whether a field has been clicked is not for this.  This is
  * more for passing data between Activities.
- * 
+ *
  * Also, be sure to NEVER add anything that could leak memory (such as a Context).
  */
 public class Db {
@@ -82,7 +82,7 @@ public class Db {
 	// Mapping of Property ID --> ReviewsResponse
 	private Map<String, ReviewsResponse> mReviewsResponses = new HashMap<String, ReviewsResponse>();
 
-	// The billing info.  Make sure to properly clear this out when requested 
+	// The billing info.  Make sure to properly clear this out when requested
 	private BillingInfo mBillingInfo;
 
 	//Is the billingInfo object dirty? This is to help the coder manage saves, and it is up to them to set it when needed
@@ -409,7 +409,7 @@ public class Db {
 
 	/**
 	 * WARNING: DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING.
-	 * 
+	 *
 	 * Normally you just manipulate the FlightSearch in place,
 	 * this is just for restoring state.  Do not idly use it,
 	 * as you may mess up connections between objects otherwise.
@@ -615,7 +615,7 @@ public class Db {
 				return true;
 			}
 			catch (Exception e) {
-				// It's not a severe issue if this all fails - just 
+				// It's not a severe issue if this all fails - just
 				Log.w("Failed to save traveler data", e);
 				return false;
 			}
@@ -744,7 +744,7 @@ public class Db {
 				return true;
 			}
 			catch (Exception e) {
-				// It's not a severe issue if this all fails - just 
+				// It's not a severe issue if this all fails - just
 				Log.w("Failed to save flight data", e);
 				return false;
 			}
@@ -782,7 +782,7 @@ public class Db {
 				return true;
 			}
 			catch (Exception e) {
-				// It's not a severe issue if this all fails 
+				// It's not a severe issue if this all fails
 				Log.w("Failed to save airline data", e);
 				return false;
 			}

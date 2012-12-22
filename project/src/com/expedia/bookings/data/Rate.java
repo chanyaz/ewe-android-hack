@@ -82,10 +82,10 @@ public class Rate implements JSONable {
 
 	/*
 	 * This enum represents the different bed types
-	 * that can be returned from EAN. Note that 
+	 * that can be returned from EAN. Note that
 	 * some bed types have multiple ids pointing to them.
 	 * The mappings were picked up from the following documentation:
-	 * http://developer.ean.com/general_info/BedTypes 
+	 * http://developer.ean.com/general_info/BedTypes
 	 *
 	 */
 	public static enum BedTypeId {
@@ -488,9 +488,9 @@ public class Rate implements JSONable {
 
 	/**
 	 * Returns the qualifier on what the rate means - e.g., is it per night?  Average per night?  Total?
-	 * 
+	 *
 	 * The qualifier is returned as a resource id (which links to the qualifier in question)
-	 * 
+	 *
 	 * @return the qualifier for this rate
 	 */
 	public int getQualifier(boolean shortVersion) {

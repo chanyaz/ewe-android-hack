@@ -19,9 +19,9 @@ import com.mobiata.android.util.SettingUtils;
 
 /**
  * Does Flurry conversion tracking.
- * 
+ *
  * See more details here: https://team.mobiata.com/wiki/Flurry
- * 
+ *
  * Inspired by redmine #11533
  */
 public class FlurryTracking {

@@ -478,7 +478,7 @@ public class LoginFragment extends Fragment {
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
 		}
 	}
-	
+
 	public void goBack(){
 		//Cancel all the current downloads....
 		BackgroundDownloader.getInstance().cancelDownload(NET_MANUAL_LOGIN);
@@ -487,7 +487,7 @@ public class LoginFragment extends Fragment {
 		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
 		BackgroundDownloader.getInstance().cancelDownload(NET_SIGN_IN);
 		setIsLoading(false);
-		
+
 		switch (mVisibilityState) {
 		case FACEBOOK_LINK:
 			if(TextUtils.isEmpty(mExpediaUserName.getText())){
@@ -500,7 +500,7 @@ public class LoginFragment extends Fragment {
 			finishLoginActivity();
 			break;
 		}
-	}	
+	}
 
 	//////////////////////////////////
 	// User message control stuff

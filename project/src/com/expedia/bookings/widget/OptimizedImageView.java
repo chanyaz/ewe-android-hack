@@ -10,11 +10,11 @@ import android.widget.ImageView;
  * A version of an ImageView that can block unnecessary layouts, in
  * the case that the ImageView has a set width/height and is only having
  * its image changed.
- * 
+ *
  * It can automatically detect if it has a fixed size, or you can specify
  * that it has a fixed size after layout (i.e., if the layout pass sets a size
  * and it never changes afterwards).
- * 
+ *
  * Inspired by this post: https://plus.google.com/113058165720861374515/posts/iTk4PjgeAWX
  * And this: https://gist.github.com/cf945f200dfdb5a08c19
  */

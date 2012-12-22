@@ -58,8 +58,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 	/**
 	 * Sets whether or not the plane is "grounded"
-	 * 
-	 * Make sure to call before SurfaceView starts rendering, 
+	 *
+	 * Make sure to call before SurfaceView starts rendering,
 	 * but after the thread has been initialized
 	 */
 	public void setGrounded(boolean isGrounded) {
@@ -214,7 +214,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 		private static final float TEXT_SIZE_FPS = 22;
 
-		private static final double SKY_LOOP_TIME = 45 * 1e9; // Nanoseconds to loop through entire sky animation 
+		private static final double SKY_LOOP_TIME = 45 * 1e9; // Nanoseconds to loop through entire sky animation
 
 		private static final double PITCH_PER_NANOSECOND = 7 / 1e9; // Maximum pitch rotation per nanosecond in degrees
 

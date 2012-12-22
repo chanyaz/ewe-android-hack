@@ -30,9 +30,9 @@ public class AvailabilityResponse extends Response {
 	 * Tells you whether or not the "expensive" version of the call was used to retrieve the
 	 * data in this AvailabilityResponse.  If not, you may want to update to better data
 	 * for more info!
-	 * 
+	 *
 	 * (This is the result of HotelOffers having a cheap vs. expensive version of the call.)
-	 * 
+	 *
 	 * Right now it uses a heuristic to figure out if the expensive call was made.
 	 */
 	public boolean canRequestMoreData() {
@@ -108,7 +108,7 @@ public class AvailabilityResponse extends Response {
 
 	/**
 	 * Gathers the list of common value adds between all Rates contained within.
-	 * 
+	 *
 	 * @return the list of common value adds between all Rates.  Null if there are none.
 	 */
 	public List<String> getCommonValueAdds() {

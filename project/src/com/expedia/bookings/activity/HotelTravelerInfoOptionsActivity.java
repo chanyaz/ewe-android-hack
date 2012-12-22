@@ -179,7 +179,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		//Which traveler are we working with
 		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
 
-		//If we have a working traveler that was cached we try to load it from disk... 
+		//If we have a working traveler that was cached we try to load it from disk...
 		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
 		if (travMan.getAttemptToLoadFromDisk() && travMan.hasTravelerOnDisk(this)) {
 			//Load up the traveler from disk

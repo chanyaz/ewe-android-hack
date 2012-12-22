@@ -21,7 +21,6 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.mobiata.android.ImageCache;
 import com.mobiata.android.MapUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
@@ -39,7 +38,7 @@ public class BookingConfirmationFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
+
 		if (!(activity instanceof BookingConfirmationFragmentListener)) {
 			throw new RuntimeException("BookingConfirmationFragment Activity "
 					+ "must implement BookingConfirmationFragmentListener!");
@@ -116,9 +115,9 @@ public class BookingConfirmationFragment extends Fragment {
 			}
 
 			// anti-aliasing is not supported on the hardware
-			// rendering pipline yet, so rendering the image 
+			// rendering pipline yet, so rendering the image
 			// on a software layer to prevent the jaggies.
-            LayoutUtils.sayNoToJaggies(thumbnail);
+			LayoutUtils.sayNoToJaggies(thumbnail);
 		}
 	}
 

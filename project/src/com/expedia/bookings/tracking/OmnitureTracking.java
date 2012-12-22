@@ -21,12 +21,12 @@ import com.omniture.AppMeasurement;
 
 /**
  * The spec behind this class can be found here: http://confluence/display/Omniture/Mobile+App+Flight+Tracking
- * 
+ *
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
  * can be inserted into the business logic as cleanly as possible. The events rely on Db.java to populate values when
  * needed, and exceptions are made to accommodate the events that require extra parameters to be sent. This is why there
  * exist so many methods, one for each event that is being tracked.
- * 
+ *
  */
 
 public class OmnitureTracking {
@@ -391,9 +391,9 @@ public class OmnitureTracking {
 	 * and oneway list of search results get tracked once and only once for a given set of search parameters. Clients
 	 * will use this method with 'true' when performing a new search, and internally this method is used with 'false' to
 	 * disallow additional tracking events after the first event has been tracked (until explicitly set true by client).
-	 * 
+	 *
 	 * Most importantly, this keeps the silly Omniture tracking details (mostly) out of client code and in this class.
-	 * 
+	 *
 	 * @param markTrackNewSearchResultSet
 	 */
 	public static void markTrackNewSearchResultSet(boolean markTrackNewSearchResultSet) {

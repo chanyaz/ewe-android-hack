@@ -29,7 +29,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.utils.LocaleUtils;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -41,7 +40,7 @@ import com.omniture.AppMeasurement;
  * Utilities for omniture tracking.  Should rarely (if ever) be called directly; instead, most calls
  * should be routed through Tracker.java (since most things we have to track for both the phone and
  * tablet versions of the UI).
- * 
+ *
  */
 public class TrackingUtils {
 
@@ -51,11 +50,11 @@ public class TrackingUtils {
 	/**
 	 * Most tracking events are pretty simple and can be captured by these few fields.  This method handles
 	 * both onClick and pageLoad events (depending on whether pageName is supplied).
-	 * 
+	 *
 	 * @param context the context
 	 * @param pageName the page name if this is a pageLoad event; for onClick, this should be null
 	 * @param events The "events" variable, if one needs to be set.  Can be null.
-	 * @param shopperConfirmer Either "Shopper" or "Confirmer".  Typically should be "Shopper" (to indicate someone 
+	 * @param shopperConfirmer Either "Shopper" or "Confirmer".  Typically should be "Shopper" (to indicate someone
 	 *                         is shopping currently for hotels), can also be null.
 	 * @param referrerId The "referrer" for an event.  Typically this is the name of the onClick event.
 	 */

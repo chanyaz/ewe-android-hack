@@ -28,7 +28,7 @@ import com.mobiata.android.util.SettingUtils;
 
 /**
  * All data related to a point of sale.
- * 
+ *
  * You MUST call init() before using this (suggested usage: call in Application)
  */
 public class PointOfSale {
@@ -44,7 +44,7 @@ public class PointOfSale {
 	// Maps the current language --> list of languages for reviews
 	private Map<String, String[]> mReviewLocales = new HashMap<String, String[]>();
 
-	// The base URL of the POS 
+	// The base URL of the POS
 	private String mUrl;
 
 	// The POS's TPID (Travel Product Identifier)
@@ -91,9 +91,9 @@ public class PointOfSale {
 
 	/**
 	 * There can be multiple different locales for a given POS.
-	 * 
+	 *
 	 * I'm purposefully obscuring this from the POS, so you don't have to figure this stuff out
-	 * (we select the locale automatically based on the current Locale of the system). 
+	 * (we select the locale automatically based on the current Locale of the system).
 	 */
 	private static class PointOfSaleLocale {
 		// The url leading to the support part of the website
@@ -256,7 +256,7 @@ public class PointOfSale {
 			}
 		}
 
-		// In the case that we can't find the right locale (or there 
+		// In the case that we can't find the right locale (or there
 		// is only one locale),  default to the first locale.
 		return mLocales.get(0);
 	}

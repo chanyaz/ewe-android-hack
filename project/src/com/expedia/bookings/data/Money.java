@@ -68,7 +68,7 @@ public class Money implements JSONable {
 
 	/**
 	 * Handy utility for figuring out if this Money represents free.
-	 * 
+	 *
 	 * @return true if the amount is null or zero
 	 */
 	public boolean isZero() {
@@ -120,17 +120,17 @@ public class Money implements JSONable {
 
 	/**
 	 * Adds one Money to this one.
-	 * 
+	 *
 	 * There are a number of situations where addition isn't possible, at which point
 	 * the method will return false.  The situations are:
-	 * 
+	 *
 	 * 1. The parameter is null.
 	 * 2. One or both Moneys only use a pre-formatted currency.
 	 * 3. They explicitly use different currencies.
-	 * 
+	 *
 	 * In the case that either Money does not have a currency code defined, it is
 	 * assumed that they use the same currency code.
-	 * 
+	 *
 	 * @param money the Money to add to this one
 	 * @return true if successful, false if they were not compatible to be added
 	 */

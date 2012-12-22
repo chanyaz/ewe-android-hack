@@ -18,7 +18,7 @@ import com.mobiata.android.util.IoUtils;
  * retrieving recently used airports and airlines.  Note that you
  * cannot put duplicate strings inside - if a duplicate is found,
  * it's pushed to the front.
- * 
+ *
  * NOTE: The JSONable must implement a correct version of equals() for
  * this to work properly!
  */
@@ -26,7 +26,7 @@ public class RecentList<E extends JSONable> {
 	private List<E> mList;
 
 	private int mMaxItems;
-	
+
 	private Class<E> mClass;
 
 	/**

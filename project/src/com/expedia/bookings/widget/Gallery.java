@@ -105,7 +105,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	private View mDownTouchView;
 
 	/**
-	 * Executes the delta scrolls from a fling or scroll movement. 
+	 * Executes the delta scrolls from a fling or scroll movement.
 	 */
 	private FlingRunnable mFlingRunnable = new FlingRunnable();
 
@@ -150,7 +150,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	private boolean mShouldCallbackOnUnselectedItemClick = true;
 
 	/**
-	 * If true, do not callback to item selected listener. 
+	 * If true, do not callback to item selected listener.
 	 */
 	private boolean mSuppressSelectionChanged;
 
@@ -242,7 +242,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 * while the items are being flinged. If false, only the final selected item
 	 * will cause the callback. If true, all items between the first and the
 	 * final will cause callbacks.
-	 * 
+	 *
 	 * @param shouldCallback Whether or not to callback on the listener while
 	 *            the items are being flinged.
 	 */
@@ -254,7 +254,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 * Whether or not to callback when an item that is not selected is clicked.
 	 * If false, the item will become selected (and re-centered). If true, the
 	 * {@link #getOnItemClickListener()} will get the callback.
-	 * 
+	 *
 	 * @param shouldCallback Whether or not to callback on the listener when a
 	 *            item that is not selected is clicked.
 	 * @hide
@@ -266,10 +266,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	/**
 	 * Sets how long the transition animation should run when a child view
 	 * changes position. Only relevant if animation is turned on.
-	 * 
+	 *
 	 * @param animationDurationMillis The duration of the transition, in
 	 *        milliseconds.
-	 * 
+	 *
 	 * @attr ref android.R.styleable#Gallery_animationDuration
 	 */
 	public void setAnimationDuration(int animationDurationMillis) {
@@ -278,9 +278,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 	/**
 	 * Sets the spacing between items in a Gallery
-	 * 
+	 *
 	 * @param spacing The spacing in pixels between items in the Gallery
-	 * 
+	 *
 	 * @attr ref android.R.styleable#Gallery_spacing
 	 */
 	public void setSpacing(int spacing) {
@@ -289,9 +289,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 	/**
 	 * Sets the alpha of items that are not selected in the Gallery.
-	 * 
+	 *
 	 * @param unselectedAlpha the alpha for the items that are not selected.
-	 * 
+	 *
 	 * @attr ref android.R.styleable#Gallery_unselectedAlpha
 	 */
 	public void setUnselectedAlpha(float unselectedAlpha) {
@@ -300,7 +300,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 	/**
 	 * Sets the flip interval between items in the Gallery
-	 * 
+	 *
 	 * @param flipInterval the flip interval between items in the Gallery
 	 */
 	public void setFlipInterval(int flipInterval) {
@@ -377,7 +377,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	/**
 	 * Tracks a motion scroll. In reality, this is used to do just about any
 	 * movement to items (touch scroll, arrow-key scroll, set an item as selected).
-	 * 
+	 *
 	 * @param deltaX Change in X from the previous event.
 	 */
 	void trackMotionScroll(int deltaX) {
@@ -450,7 +450,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	/**
 	 * Offset the horizontal location of all children of this view by the
 	 * specified number of pixels.
-	 * 
+	 *
 	 * @param offset the number of pixels to offset
 	 */
 	private void offsetChildrenLeftAndRight(int offset) {
@@ -475,7 +475,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 	/**
 	 * Detaches children that are off the screen (i.e.: Gallery bounds).
-	 * 
+	 *
 	 * @param toLeft Whether to detach children to the left of the Gallery, or
 	 *            to the right.
 	 */
@@ -610,7 +610,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 * <p>
 	 * We layout rarely, most of the time {@link #trackMotionScroll(int)} takes
 	 * care of repositioning, adding, and removing children.
-	 * 
+	 *
 	 * @param delta Change in the selected position. +1 means the selection is
 	 *            moving to the right, so views are scrolling to the left. -1
 	 *            means the selection is moving to the left.
@@ -755,7 +755,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 * getting a new one from the adapter. If we are animating, make sure there
 	 * is enough information in the view's layout parameters to animate from the
 	 * old to new positions.
-	 * 
+	 *
 	 * @param position Position in the gallery for the view to obtain
 	 * @param offset Offset from the selected position
 	 * @param x X-coordintate indicating where this view should be placed. This
@@ -798,7 +798,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	/**
 	 * Helper for makeAndAddView to set the position of a view and fill out its
 	 * layout paramters.
-	 * 
+	 *
 	 * @param child The view to position
 	 * @param offset Offset from the selected position
 	 * @param x X-coordintate indicating where this view should be placed. This
@@ -851,7 +851,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 	/**
 	 * Figure out vertical placement based on mGravity
-	 * 
+	 *
 	 * @param child Child to place
 	 * @return Where the top of the child should be
 	 */
@@ -1305,7 +1305,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	/**
 	 * Describes how the child views are aligned.
 	 * @param gravity
-	 * 
+	 *
 	 * @attr ref android.R.styleable#Gallery_gravity
 	 */
 	public void setGravity(int gravity) {
@@ -1491,7 +1491,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 * Gallery extends LayoutParams to provide a place to hold current
 	 * Transformation information along with previous position/transformation
 	 * info.
-	 * 
+	 *
 	 */
 	public static class LayoutParams extends ViewGroup.LayoutParams {
 		public LayoutParams(Context c, AttributeSet attrs) {
@@ -1509,17 +1509,12 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 
 	/**
 	 * This is a special adapter that you can use with lists of URLs.  It is automatically
-	 * 
+	 *
 	 */
 	private class ImageAdapter extends BaseAdapter {
 
 		private LayoutInflater mInflater;
 		private List<Media> mMedia;
-
-		private final LinearLayout.LayoutParams LAYOUT_WIDE = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT);
-		private final LinearLayout.LayoutParams LAYOUT_TALL = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.FILL_PARENT);
 
 		public ImageAdapter(Context context, List<Media> media) {
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -1564,17 +1559,22 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			final ImageView imageView = holder.item;
 			Media media = (Media) getItem(position);
 
-			imageView.setLayoutParams(LAYOUT_WIDE);
+			final LinearLayout.LayoutParams layout_wide = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
+					LayoutParams.FILL_PARENT);
+			final LinearLayout.LayoutParams layout_tall = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.FILL_PARENT);
+
+			imageView.setLayoutParams(layout_wide);
 			imageView.setBackgroundDrawable(null);
 			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(media.getHighResUrls(), imageView);
 			drawable.setOnImageLoadedCallback(new OnImageLoaded() {
 				@Override
 				public void onImageLoaded(String url, Bitmap bitmap) {
 					if (bitmap.getWidth() > bitmap.getHeight()) {
-						imageView.setLayoutParams(LAYOUT_WIDE);
+						imageView.setLayoutParams(layout_wide);
 					}
 					else {
-						imageView.setLayoutParams(LAYOUT_TALL);
+						imageView.setLayoutParams(layout_tall);
 						imageView.setBackgroundResource(R.drawable.bg_gallery_item);
 					}
 				}

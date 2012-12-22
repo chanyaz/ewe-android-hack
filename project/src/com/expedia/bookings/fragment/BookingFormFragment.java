@@ -605,12 +605,12 @@ public class BookingFormFragment extends Fragment {
 	}
 
 	/**
-	 * This could be used from the internal InputValidation errors, 
+	 * This could be used from the internal InputValidation errors,
 	 * or by the results of an E3 "checkout" call.
 	 * @param errors
 	 */
 	public void handleFormErrors(List<ValidationError> errors) {
-		// If the user hasn't even focused the form yet, don't innundate them with 
+		// If the user hasn't even focused the form yet, don't innundate them with
 		// a ton of error messages. Instead just push them towards the first
 		// invalid field.
 		if (mFormHasBeenFocused) {

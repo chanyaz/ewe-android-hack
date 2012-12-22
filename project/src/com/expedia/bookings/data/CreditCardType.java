@@ -3,7 +3,7 @@ package com.expedia.bookings.data;
 /**
  * Enumeration of known credit card types.  This data only applies to Expedia
  * dealings, as it references codes that Expedia uses (not necessarily the same
- * as what others use, e.g. TravelCLICK). 
+ * as what others use, e.g. TravelCLICK).
  */
 public enum CreditCardType {
 	AMERICAN_EXPRESS("AX"),

@@ -1,40 +1,27 @@
 package com.expedia.bookings.activity;
 
 import java.util.Calendar;
-import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.fragment.BookingFormFragment;
-import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment.BookingInfoFragmentListener;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.Tracker;
-import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.validation.ValidationError;
-
-// This is the TABLET booking activity for hotels.
 
 public class RoomsAndRatesFragmentActivity extends FragmentActivity implements RoomsAndRatesFragmentListener,
 		BookingInfoFragmentListener {

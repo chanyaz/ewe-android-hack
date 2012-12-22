@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
@@ -215,7 +214,7 @@ public class FlightTripView extends View {
 		float fontPadding = (mTextPaint.descent() - mTextPaint.ascent()) - mTextPaint.getTextSize();
 		mTextPaint.setTextSize(circleDiameter - fontPadding);
 
-		// Determine the widest text, base the side padding (and min line width) on that 
+		// Determine the widest text, base the side padding (and min line width) on that
 		float maxTextWidth = 0;
 		for (int a = -1; a < mFlightLeg.getSegmentCount(); a++) {
 			String text;
