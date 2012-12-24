@@ -173,8 +173,12 @@ public class HotelCollage {
 
 				UrlBitmapDrawable bitmapDrawable = new UrlBitmapDrawable(imageView.getContext().getResources(),
 						media.getHighResUrls());
-				final TransitionDrawable drawable = new TransitionDrawable(new Drawable[] {
-						new ColorDrawable(Color.TRANSPARENT), bitmapDrawable });
+				final TransitionDrawable drawable = new TransitionDrawable(
+					new Drawable[] {
+						new ColorDrawable(Color.TRANSPARENT),
+						bitmapDrawable,
+					}
+				);
 
 				bitmapDrawable.setOnImageLoadedCallback(new OnImageLoaded() {
 					@Override

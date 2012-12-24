@@ -85,17 +85,18 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		@Override
 		public void onHasFieldAndData(TextView field, StoredCreditCard data) {
 			String desc = data.getDescription();
-			if(TextUtils.isEmpty(desc)){
+			if (TextUtils.isEmpty(desc)) {
 				field.setText("");
-			}else{
+			}
+			else {
 				//We replace american express with amex. Why? Because there is a mingle card for it, that's why!
-				String amexRegex ="american\\s*express";
+				String amexRegex = "american\\s*express";
 				String replacement = "AMEX";
 				Pattern amexPattern = Pattern.compile(amexRegex,Pattern.CASE_INSENSITIVE);
 				Matcher amexPatternMatcher = amexPattern.matcher(desc);
 				StringBuffer sb = new StringBuffer();
 				while (amexPatternMatcher.find()) {
-				  amexPatternMatcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+					amexPatternMatcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
 				}
 				amexPatternMatcher.appendTail(sb);
 				field.setText(sb.toString());

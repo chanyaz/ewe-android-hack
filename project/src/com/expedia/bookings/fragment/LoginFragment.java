@@ -479,7 +479,7 @@ public class LoginFragment extends Fragment {
 		}
 	}
 
-	public void goBack(){
+	public void goBack() {
 		//Cancel all the current downloads....
 		BackgroundDownloader.getInstance().cancelDownload(NET_MANUAL_LOGIN);
 		BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
@@ -490,9 +490,10 @@ public class LoginFragment extends Fragment {
 
 		switch (mVisibilityState) {
 		case FACEBOOK_LINK:
-			if(TextUtils.isEmpty(mExpediaUserName.getText())){
+			if (TextUtils.isEmpty(mExpediaUserName.getText())) {
 				setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON);
-			}else{
+			}
+			else {
 				setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON);
 			}
 			break;

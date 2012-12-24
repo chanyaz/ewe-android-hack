@@ -120,7 +120,8 @@ public class HotelDetailsIntroFragment extends Fragment {
 			}
 		}*/
 		// Only xx rooms left
-		/*else*/if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+		/*else*/
+		if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
 			String banner = resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft);
 			if (!bannerTextView.getText().equals(banner)) {
 				bannerTextView.setText(banner);

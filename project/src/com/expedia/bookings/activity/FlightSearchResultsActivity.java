@@ -655,10 +655,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				FlightFilter filter = Db.getFlightSearch().getFilter(mLegPosition);
 				int selectedId;
 				switch (filter.getSort()) {
-				default:
-				case PRICE:
-					selectedId = R.id.menu_select_sort_price;
-					break;
 				case DEPARTURE:
 					selectedId = R.id.menu_select_sort_departs;
 					break;
@@ -667,6 +663,10 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 					break;
 				case DURATION:
 					selectedId = R.id.menu_select_sort_duration;
+					break;
+				case PRICE:
+				default:
+					selectedId = R.id.menu_select_sort_price;
 					break;
 				}
 				menu.findItem(selectedId).setChecked(true);

@@ -21,8 +21,11 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 	private static final String FRAGMENT_CRITICAL = "FRAGMENT_CRITICAL";
 
 	private static final String[] TAGS = { FRAGMENT_RECENT, FRAGMENT_FAVORABLE, FRAGMENT_CRITICAL };
-	private static final ReviewSort[] TABS = { ReviewSort.NEWEST_REVIEW_FIRST, ReviewSort.HIGHEST_RATING_FIRST,
-			ReviewSort.LOWEST_RATING_FIRST };
+	private static final ReviewSort[] TABS = {
+		ReviewSort.NEWEST_REVIEW_FIRST,
+		ReviewSort.HIGHEST_RATING_FIRST,
+		ReviewSort.LOWEST_RATING_FIRST,
+	};
 
 	private List<UserReviewsFragment> mFragments;
 

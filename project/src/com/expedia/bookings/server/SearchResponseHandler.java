@@ -187,8 +187,9 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			}
 			else if (name.equals("totalReviews")) {
 				int totalReviews = parser.getValueAsInt();
-				if (totalReviews < 0)
+				if (totalReviews < 0) {
 					totalReviews = 0;
+				}
 				property.setTotalReviews(totalReviews);
 			}
 			else if (name.equals("hotelGuestRating")) {

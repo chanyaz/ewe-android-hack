@@ -367,10 +367,10 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 	 */
 	public static class AdapterContextMenuInfo implements ContextMenu.ContextMenuInfo {
 
-		public AdapterContextMenuInfo(View targetView, int position, long id) {
-			this.targetView = targetView;
-			this.position = position;
-			this.id = id;
+		public AdapterContextMenuInfo(View target, int pos, long ident) {
+			this.targetView = target;
+			this.position = pos;
+			this.id = ident;
 		}
 
 		/**
@@ -533,7 +533,8 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 		int selection = getSelectedItemPosition();
 		if (adapter != null && adapter.getCount() > 0 && selection >= 0) {
 			return adapter.getItem(selection);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -564,7 +565,8 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 			while (!(v = (View) listItem.getParent()).equals(this)) {
 				listItem = v;
 			}
-		} catch (ClassCastException e) {
+		}
+		catch (ClassCastException e) {
 			// We made it up to the window without find this list view
 			return INVALID_POSITION;
 		}
@@ -695,7 +697,8 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 			if (mEmptyView != null) {
 				mEmptyView.setVisibility(View.VISIBLE);
 				setVisibility(View.GONE);
-			} else {
+			}
+			else {
 				// If the caller just removed our empty view, make sure the list view is visible
 				setVisibility(View.VISIBLE);
 			}
@@ -706,8 +709,11 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 			if (mDataChanged) {
 				this.onLayout(false, getLeft(), getTop(), getRight(), getBottom());
 			}
-		} else {
-			if (mEmptyView != null) mEmptyView.setVisibility(View.GONE);
+		}
+		else {
+			if (mEmptyView != null) {
+				mEmptyView.setVisibility(View.GONE);
+			}
 			setVisibility(View.VISIBLE);
 		}
 	}
@@ -766,7 +772,8 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 					&& mOldItemCount == 0 && mItemCount > 0) {
 				AdapterView.this.onRestoreInstanceState(mInstanceState);
 				mInstanceState = null;
-			} else {
+			}
+			else {
 				rememberSyncState();
 			}
 			checkFocus();
@@ -816,7 +823,8 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 				if (getAdapter() != null) {
 					post(this);
 				}
-			} else {
+			}
+			else {
 				fireOnSelected();
 			}
 		}
@@ -833,7 +841,8 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 					mSelectionNotifier = new SelectionNotifier();
 				}
 				post(mSelectionNotifier);
-			} else {
+			}
+			else {
 				fireOnSelected();
 			}
 		}
@@ -845,15 +854,17 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 	}
 
 	private void fireOnSelected() {
-		if (mOnItemSelectedListener == null)
+		if (mOnItemSelectedListener == null) {
 			return;
+		}
 
 		int selection = this.getSelectedItemPosition();
 		if (selection >= 0) {
 			View v = getSelectedView();
 			mOnItemSelectedListener.onItemSelected(this, v, selection,
 					getAdapter().getItemId(selection));
-		} else {
+		}
+		else {
 			mOnItemSelectedListener.onNothingSelected(this);
 		}
 	}
@@ -1037,7 +1048,8 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 				seed = last;
 				// Try going up next time
 				next = false;
-			} else if (hitLast || (!next && !hitFirst)) {
+			}
+			else if (hitLast || (!next && !hitFirst)) {
 				// Either we hit the bottom, or we are trying to move up
 				first--;
 				seed = first;
@@ -1104,13 +1116,15 @@ public abstract class AdapterView<T extends Adapter> extends ViewGroup {
 					mSpecificTop = v.getTop();
 				}
 				mSyncMode = SYNC_SELECTED_POSITION;
-			} else {
+			}
+			else {
 				// Sync the based on the offset of the first view
 				View v = getChildAt(0);
 				T adapter = getAdapter();
 				if (mFirstPosition >= 0 && mFirstPosition < adapter.getCount()) {
 					mSyncRowId = adapter.getItemId(mFirstPosition);
-				} else {
+				}
+				else {
 					mSyncRowId = NO_ID;
 				}
 				mSyncPosition = mFirstPosition;

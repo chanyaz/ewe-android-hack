@@ -95,7 +95,8 @@ public class TabletUserReviewsListActivity extends FragmentActivity implements U
 		/*if (Db.getSelectedReviewsStatisticsResponse() != null) {
 			populateReviewsStats();
 		}
-		else*/if (mBackgroundDownloader.isDownloading(REVIEWS_STATISTICS_DOWNLOAD)) {
+		else*/
+		if (mBackgroundDownloader.isDownloading(REVIEWS_STATISTICS_DOWNLOAD)) {
 			mBackgroundDownloader.registerDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD,
 					mReviewStatisticsDownloadCallback);
 		}

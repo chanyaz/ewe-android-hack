@@ -457,8 +457,11 @@ public class SearchResponse extends Response implements OnFilterChangedListener,
 
 		// Separate out based on medoid values
 		@SuppressWarnings("unchecked")
-		ArrayList<Property>[] tiers = new ArrayList[] { new ArrayList<Property>(), new ArrayList<Property>(),
-				new ArrayList<Property>() };
+		ArrayList<Property>[] tiers = new ArrayList[] {
+			new ArrayList<Property>(),
+			new ArrayList<Property>(),
+			new ArrayList<Property>(),
+		};
 		double closest;
 		double tmp;
 		double amount;

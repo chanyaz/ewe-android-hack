@@ -56,9 +56,9 @@ public class FlightPaymentSaveDialogFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onCancel(DialogInterface dialog){
+	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
-		if(mListener != null){
+		if (mListener != null) {
 			mListener.moveBackwards();
 		}
 	}

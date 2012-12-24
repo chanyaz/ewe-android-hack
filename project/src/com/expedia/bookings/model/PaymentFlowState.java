@@ -25,7 +25,7 @@ public class PaymentFlowState {
 	}
 
 	public static PaymentFlowState getInstance(Context context) {
-		if(context == null){
+		if (context == null) {
 			return null;
 		}
 		return new PaymentFlowState(context);

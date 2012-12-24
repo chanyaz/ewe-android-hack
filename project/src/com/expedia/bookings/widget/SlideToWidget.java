@@ -138,7 +138,7 @@ public class SlideToWidget extends RelativeLayout {
 	 * Resets the slider position and the text alpha
 	 */
 	public void resetSlider() {
-		if(mSlider != null){
+		if (mSlider != null) {
 			mSlider.setImageDrawable(mSliderDrawable);
 			if (mSlider.getLayoutParams() != null) {
 				RelativeLayout.LayoutParams sliderParams = (LayoutParams) mSlider.getLayoutParams();
@@ -147,7 +147,7 @@ public class SlideToWidget extends RelativeLayout {
 			}
 			mSlider.setVisibility(View.VISIBLE);
 		}
-		if(mDestImage != null){
+		if (mDestImage != null) {
 			mDestImage.clearAnimation();
 			mDestImage.setVisibility(View.INVISIBLE);
 			mDestImage.setImageDrawable(mSlideGoalDrawable);
@@ -155,21 +155,21 @@ public class SlideToWidget extends RelativeLayout {
 		if (mSliderText != null) {
 			mSliderText.setVisibility(View.VISIBLE);
 		}
-		if(mSliderLine != null){
+		if (mSliderLine != null) {
 			LayoutParams lineParams = (LayoutParams) mSliderLine.getLayoutParams();
 			lineParams.width = 0;
 			mSliderLine.setLayoutParams(lineParams);
 			mSliderLine.setVisibility(View.INVISIBLE);
 			mSliderLine.clearAnimation();
 		}
-		if(mSliderDot != null){
+		if (mSliderDot != null) {
 			mSliderDot.setVisibility(View.INVISIBLE);
 			mSliderDot.clearAnimation();
 		}
 	}
 
-	public void activateSlide(){
-		if(mSlider != null){
+	public void activateSlide() {
+		if (mSlider != null) {
 			mSlider.setImageDrawable(mDragingDrawable);
 		}
 		if (mSliderText != null) {
@@ -189,7 +189,7 @@ public class SlideToWidget extends RelativeLayout {
 	}
 
 	@SuppressLint("NewApi")
-	private Animator getDrawLineAnimator(){
+	private Animator getDrawLineAnimator() {
 		LayoutParams params = (LayoutParams) mSliderLine.getLayoutParams();
 		int margin = mHiddenImage.getWidth()/2;
 		params.width = mContainerWidth - 2*margin;
@@ -209,7 +209,7 @@ public class SlideToWidget extends RelativeLayout {
 			AnimatorProxy.wrap(mSliderLine).setPivotX(0);
 		}
 		ObjectAnimator drawLine = ObjectAnimator.ofFloat(this.mSliderLine, "scaleX", 0,1 );
-		drawLine.addListener(new AnimatorListener(){
+		drawLine.addListener(new AnimatorListener() {
 
 			@Override
 			public void onAnimationCancel(Animator arg0) {
@@ -232,9 +232,9 @@ public class SlideToWidget extends RelativeLayout {
 		return drawLine;
 	}
 
-	private Animator getShowDestAnimator(){
+	private Animator getShowDestAnimator() {
 		ObjectAnimator destAlphaAnimator = ObjectAnimator.ofFloat(this.mDestImage, "alpha", 0,1 );
-		destAlphaAnimator.addListener(new AnimatorListener(){
+		destAlphaAnimator.addListener(new AnimatorListener() {
 			@Override
 			public void onAnimationCancel(Animator arg0) {
 			}
@@ -287,7 +287,7 @@ public class SlideToWidget extends RelativeLayout {
 					dragParams.leftMargin = mMaxLeftMargin;
 				}
 
-				if (dragParams.leftMargin > mTargetLeftMargin){
+				if (dragParams.leftMargin > mTargetLeftMargin) {
 					dragParams.leftMargin = mMaxLeftMargin;
 				}
 

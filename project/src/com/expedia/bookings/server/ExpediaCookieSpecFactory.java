@@ -18,7 +18,8 @@ public class ExpediaCookieSpecFactory implements CookieSpecFactory {
 		if (params != null) {
 			return new ExpediaCookieSpec(mContext,
 					(String []) params.getParameter(CookieSpecPNames.DATE_PATTERNS));
-		} else {
+		}
+		else {
 			return new ExpediaCookieSpec(mContext);
 		}
 	}

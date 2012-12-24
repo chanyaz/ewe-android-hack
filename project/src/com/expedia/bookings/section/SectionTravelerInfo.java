@@ -437,8 +437,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	 *
 	 * Note this DatePickerFragment uses a regular datePickerDialog which depends on Calendar objects, meaning that the OnDateSet call will return off by one months...
 	 */
-	public static class DatePickerFragment extends DialogFragment
-	{
+	public static class DatePickerFragment extends DialogFragment {
 		private OnDateSetListener mListener = null;
 		private int mDay;
 		private int mMonth;//0 indexed like calendar

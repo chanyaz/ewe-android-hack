@@ -32,9 +32,13 @@ import com.mobiata.android.Log;
 
 public class AutocompleteProvider extends ContentProvider {
 
-	public static final String[] COLUMNS = { BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1,
-			SearchManager.SUGGEST_COLUMN_QUERY, SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA,
-			SearchManager.SUGGEST_COLUMN_ICON_1 };
+	public static final String[] COLUMNS = {
+		BaseColumns._ID,
+		SearchManager.SUGGEST_COLUMN_TEXT_1,
+		SearchManager.SUGGEST_COLUMN_QUERY,
+		SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA,
+		SearchManager.SUGGEST_COLUMN_ICON_1,
+	};
 
 	public static final int COLUMN_TEXT_INDEX = 1;
 	public static final int COLUMN_JSON_INDEX = 3;
@@ -121,8 +125,13 @@ public class AutocompleteProvider extends ContentProvider {
 				final String freeformLocation = search.getQuery();
 				if (!suggestedLocations.contains(freeformLocation)) {
 					suggestedLocations.add(freeformLocation);
-					final Object[] historyRow = { id, freeformLocation, freeformLocation, p.toJson(),
-							R.drawable.ic_suggestion_place };
+					final Object[] historyRow = {
+						id,
+						freeformLocation,
+						freeformLocation,
+						p.toJson(),
+						R.drawable.ic_suggestion_place,
+					};
 					cursor.addRow(historyRow);
 					id++;
 				}
@@ -135,8 +144,13 @@ public class AutocompleteProvider extends ContentProvider {
 				final String freeformLocation = p.getQuery();
 				if (!suggestedLocations.contains(freeformLocation)) {
 					suggestedLocations.add(freeformLocation);
-					final Object[] suggestionRow = { id, freeformLocation, freeformLocation, p.toJson(),
-							R.drawable.ic_suggestion_place };
+					final Object[] suggestionRow = {
+						id,
+						freeformLocation,
+						freeformLocation,
+						p.toJson(),
+						R.drawable.ic_suggestion_place,
+					};
 					cursor.addRow(suggestionRow);
 					id++;
 				}

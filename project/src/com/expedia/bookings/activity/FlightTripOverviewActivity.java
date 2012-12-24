@@ -640,8 +640,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				case MotionEvent.ACTION_DOWN:
 					attachCheckout();
 					mLastPosY = arg1.getY();
-					if (mOverviewContainer != null)
+					if (mOverviewContainer != null) {
 						mOverviewContainer.getParent().requestDisallowInterceptTouchEvent(true);
+					}
 					retVal = true;
 					dragCards(0f, true, true);
 					break;

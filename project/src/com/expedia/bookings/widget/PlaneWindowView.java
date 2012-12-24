@@ -186,6 +186,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				retry = false;
 			}
 			catch (InterruptedException e) {
+				// ignore
 			}
 		}
 
@@ -732,11 +733,11 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			if (SHOW_DEBUG_INFO) {
 				// Edit this to add more debug statements
 				String[] debugStrings = new String[] {
-						"FPS: " + mFPS + " AVG: " + (int) ((double) mAvgTotal / mNumFPSSamples),
-						"SensorX: " + mSensorX,
-						"SensorZ: " + mSensorZ,
-						"Rotation: " + mPitch,
-						"Sky Offset: " + mSkyOffset,
+					"FPS: " + mFPS + " AVG: " + (int) ((double) mAvgTotal / mNumFPSSamples),
+					"SensorX: " + mSensorX,
+					"SensorZ: " + mSensorZ,
+					"Rotation: " + mPitch,
+					"Sky Offset: " + mSkyOffset,
 				};
 
 				// Measure width necessary to draw debug info

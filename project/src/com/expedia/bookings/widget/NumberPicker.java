@@ -258,8 +258,13 @@ public class NumberPicker extends LinearLayout {
 	/**
 	 * The selector indices whose value are show by the selector.
 	 */
-	private final int[] mSelectorIndices = new int[] { Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE,
-			Integer.MIN_VALUE, Integer.MIN_VALUE };
+	private final int[] mSelectorIndices = new int[] {
+		Integer.MIN_VALUE,
+		Integer.MIN_VALUE,
+		Integer.MIN_VALUE,
+		Integer.MIN_VALUE,
+		Integer.MIN_VALUE,
+	};
 
 	/**
 	 * The {@link Paint} for drawing the selector.

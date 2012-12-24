@@ -112,7 +112,8 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 				checkSelectionChanged();
 			}
 
-		} else {
+		}
+		else {
 			checkFocus();
 			resetList();
 			// Nothing selected
@@ -286,7 +287,8 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 	public View getSelectedView() {
 		if (mItemCount > 0 && mSelectedPosition >= 0) {
 			return getChildAt(mSelectedPosition - mFirstPosition);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -396,7 +398,8 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 		ss.selectedId = getSelectedItemId();
 		if (ss.selectedId >= 0) {
 			ss.position = getSelectedItemPosition();
-		} else {
+		}
+		else {
 			ss.position = INVALID_POSITION;
 		}
 		return ss;
@@ -431,7 +434,8 @@ public abstract class AbsSpinner extends AdapterView<SpinnerAdapter> {
 			if (result != null) {
 				// System.out.println(" HIT");
 				mScrapHeap.delete(position);
-			} else {
+			}
+			else {
 				// System.out.println(" MISS");
 			}
 			return result;

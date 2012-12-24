@@ -441,6 +441,7 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 				delta = (float) (now - mLastTagAngleSetByTouchTime) / 1000f;
 			}
 			catch (InterruptedException e) {
+				// ignore
 			}
 		}
 

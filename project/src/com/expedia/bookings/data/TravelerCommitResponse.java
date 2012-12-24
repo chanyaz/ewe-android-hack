@@ -15,24 +15,24 @@ public class TravelerCommitResponse extends Response implements JSONable {
 		return mSucceeded;
 	}
 
-	public void setSucceeded(boolean mSucceeded) {
-		this.mSucceeded = mSucceeded;
+	public void setSucceeded(boolean succeeded) {
+		this.mSucceeded = succeeded;
 	}
 
 	public String getTuid() {
 		return mTuid;
 	}
 
-	public void setTuid(String mTuid) {
-		this.mTuid = mTuid;
+	public void setTuid(String tuid) {
+		this.mTuid = tuid;
 	}
 
 	public String getActivityId() {
 		return mActivityId;
 	}
 
-	public void setActivityId(String mActivityId) {
-		this.mActivityId = mActivityId;
+	public void setActivityId(String activityId) {
+		this.mActivityId = activityId;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

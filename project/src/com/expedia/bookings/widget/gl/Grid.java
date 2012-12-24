@@ -91,7 +91,8 @@ class Grid {
 			mCoordinateSize = FIXED_SIZE;
 			mCoordinateType = GL10.GL_FIXED;
 
-		} else {
+		}
+		else {
 			mFloatVertexBuffer = ByteBuffer.allocateDirect(FLOAT_SIZE * size * 3)
 				.order(ByteOrder.nativeOrder()).asFloatBuffer();
 			mFloatTexCoordBuffer = ByteBuffer.allocateDirect(FLOAT_SIZE * size * 2)
@@ -127,23 +128,21 @@ class Grid {
 		 *
 		 */
 
-		{
-			int i = 0;
-			for (int y = 0; y < quadH; y++) {
-				for (int x = 0; x < quadW; x++) {
-					char a = (char) (y * mW + x);
-					char b = (char) (y * mW + x + 1);
-					char c = (char) ((y + 1) * mW + x);
-					char d = (char) ((y + 1) * mW + x + 1);
+		int i = 0;
+		for (int y = 0; y < quadH; y++) {
+			for (int x = 0; x < quadW; x++) {
+				char a = (char) (y * mW + x);
+				char b = (char) (y * mW + x + 1);
+				char c = (char) ((y + 1) * mW + x);
+				char d = (char) ((y + 1) * mW + x + 1);
 
-					mIndexBuffer.put(i++, a);
-					mIndexBuffer.put(i++, b);
-					mIndexBuffer.put(i++, c);
+				mIndexBuffer.put(i++, a);
+				mIndexBuffer.put(i++, b);
+				mIndexBuffer.put(i++, c);
 
-					mIndexBuffer.put(i++, b);
-					mIndexBuffer.put(i++, c);
-					mIndexBuffer.put(i++, d);
-				}
+				mIndexBuffer.put(i++, b);
+				mIndexBuffer.put(i++, c);
+				mIndexBuffer.put(i++, d);
 			}
 		}
 
@@ -178,7 +177,8 @@ class Grid {
 				mFloatColorBuffer.put(colorIndex + 2, color[2]);
 				mFloatColorBuffer.put(colorIndex + 3, color[3]);
 			}
-		} else {
+		}
+		else {
 			mFixedVertexBuffer.put(posIndex, (int)(x * (1 << 16)));
 			mFixedVertexBuffer.put(posIndex + 1, (int)(y * (1 << 16)));
 			mFixedVertexBuffer.put(posIndex + 2, (int)(z * (1 << 16)));
@@ -201,14 +201,16 @@ class Grid {
 		if (useTexture) {
 			gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 			gl.glEnable(GL10.GL_TEXTURE_2D);
-		} else {
+		}
+		else {
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 			gl.glDisable(GL10.GL_TEXTURE_2D);
 		}
 
 		if (useColor) {
 			gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-		} else {
+		}
+		else {
 			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
 		}
 	}
@@ -228,7 +230,8 @@ class Grid {
 
 			gl.glDrawElements(GL10.GL_TRIANGLES, mIndexCount,
 					GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
-		} else {
+		}
+		else {
 			GL11 gl11 = (GL11)gl;
 			// draw using hardware buffers
 			gl11.glBindBuffer(GL11.GL_ARRAY_BUFFER, mVertBufferIndex);

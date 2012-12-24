@@ -263,8 +263,7 @@ public class BackgroundImageCache {
 					bg.recycle();
 				}
 			}
-			finally
-			{
+			finally {
 				mAddingDefaultsSem.release();
 			}
 		}

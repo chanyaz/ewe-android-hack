@@ -35,8 +35,7 @@ public class MillennialTracking {
 
 		SharedPreferences settings = context.getSharedPreferences("MillennialMediaSettings", 0);
 		boolean isFirstLaunch = settings.getBoolean("firstLaunch", true);
-		if (isFirstLaunch)
-		{
+		if (isFirstLaunch) {
 			SharedPreferences.Editor editor = settings.edit();
 			editor.putBoolean("firstLaunch", false);
 			SettingUtils.commitOrApply(editor);
@@ -75,8 +74,7 @@ public class MillennialTracking {
 	private static String getMillennialId(Context context) {
 		String id = null;
 		TelephonyManager tm = (TelephonyManager) context.getSystemService("phone");
-		if (tm != null)
-		{
+		if (tm != null) {
 			id = tm.getDeviceId();
 		}
 		if (id == null || id.length() == 0) {

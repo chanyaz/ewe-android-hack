@@ -103,7 +103,8 @@ public class ParserUtils {
 			}
 
 			return errors;
-		} else if (response.has("detailedStatus")) {
+		}
+		else if (response.has("detailedStatus")) {
 			List<ServerError> errors = new ArrayList<ServerError>();
 
 			// This is for when we fail a SignIn due to bad credentials

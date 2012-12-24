@@ -473,8 +473,8 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 
 		private View v;
 
-		public HeightEvaluator(View v) {
-			this.v = v;
+		public HeightEvaluator(View view) {
+			this.v = view;
 		}
 
 		@Override

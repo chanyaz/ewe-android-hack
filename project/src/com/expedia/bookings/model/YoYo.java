@@ -50,13 +50,13 @@ public class YoYo implements Parcelable {
 	 * @param other - The intent from which to copy data, we are calling intent.fillIn(other, Intent.FILL_IN_DATA) on this intent to the new one
 	 * @return an Intent that will go from the current context to the next when startActivity is called on it
 	 */
-	public Intent generateIntent(Context currentActivity, Intent other){
+	public Intent generateIntent(Context currentActivity, Intent other) {
 		Intent intent = new Intent(currentActivity, popNextTrick(currentActivity.getClass()));
-		if(other != null){
+		if (other != null) {
 			intent.fillIn(other, Intent.FILL_IN_DATA);
 		}
 		intent.putExtra(YoYo.TAG_YOYO, this);
-		if(isLast(currentActivity.getClass())){
+		if (isLast(currentActivity.getClass())) {
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		}

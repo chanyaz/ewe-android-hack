@@ -526,8 +526,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 */
 	private void scrollIntoSlots() {
 
-		if (getChildCount() == 0 || mSelectedChild == null)
+		if (getChildCount() == 0 || mSelectedChild == null) {
 			return;
+		}
 
 		int selectedCenter = getCenterOfView(mSelectedChild);
 		int targetCenter = getCenterOfGallery();
@@ -565,8 +566,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	private void setSelectionToCenterChild() {
 
 		View selView = mSelectedChild;
-		if (mSelectedChild == null)
+		if (mSelectedChild == null) {
 			return;
+		}
 
 		int galleryCenter = getCenterOfGallery();
 
@@ -927,8 +929,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			removeCallbacks(mDisableSuppressSelectionChangedRunnable);
 
 			// This will get reset once we scroll into slots
-			if (!mSuppressSelectionChanged)
+			if (!mSuppressSelectionChanged) {
 				mSuppressSelectionChanged = true;
+			}
 		}
 
 		// No need to fling anything if there are no children.
@@ -965,8 +968,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 	 */
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 
-		if (localLOGV)
+		if (localLOGV) {
 			Log.v(TAG, String.valueOf(e2.getX() - e1.getX()));
+		}
 
 		/*
 		 * Now's a good time to tell our parent to stop intercepting our events!
@@ -988,14 +992,16 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				 * the fling, and this scroll could possibly be a fling. Don't
 				 * do selection changes until we're sure it is not a fling.
 				 */
-				if (!mSuppressSelectionChanged)
+				if (!mSuppressSelectionChanged) {
 					mSuppressSelectionChanged = true;
+				}
 				postDelayed(mDisableSuppressSelectionChangedRunnable, SCROLL_TO_FLING_UNCERTAINTY_TIMEOUT);
 			}
 		}
 		else {
-			if (mSuppressSelectionChanged)
+			if (mSuppressSelectionChanged) {
 				mSuppressSelectionChanged = false;
+			}
 		}
 
 		if (mIsFirstScroll) {
@@ -1339,8 +1345,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		int selectedIndex = mSelectedPosition - mFirstPosition;
 
 		// Just to be safe
-		if (selectedIndex < 0)
+		if (selectedIndex < 0) {
 			return i;
+		}
 
 		if (i == childCount - 1) {
 			// Draw the selected child last
@@ -1398,8 +1405,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		}
 
 		public void startUsingVelocity(int initialVelocity) {
-			if (initialVelocity == 0)
+			if (initialVelocity == 0) {
 				return;
+			}
 
 			startCommon();
 
@@ -1414,8 +1422,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		}
 
 		public void startUsingDistance(int distance, int animationDuration) {
-			if (distance == 0)
+			if (distance == 0) {
 				return;
+			}
 
 			startCommon();
 
@@ -1436,8 +1445,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			 */
 			mScroller.forceFinished(true);
 
-			if (scrollIntoSlots)
+			if (scrollIntoSlots) {
 				scrollIntoSlots();
+			}
 		}
 
 		public void run() {

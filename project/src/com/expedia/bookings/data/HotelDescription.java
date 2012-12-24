@@ -17,8 +17,8 @@ public class HotelDescription {
 		public String title;
 		public String description;
 
-		public DescriptionSection(String title, String body) {
-			this.title = new String(title);
+		public DescriptionSection(String descriptionTitle, String body) {
+			this.title = new String(descriptionTitle);
 			this.description = new String(body);
 		}
 	}
@@ -98,13 +98,14 @@ public class HotelDescription {
 				continue; // drop the tag, it is empty
 			}
 
-			switch(tag.charAt(0)){
+			switch(tag.charAt(0)) {
 			case 'l': // li
 				if ('i' == tag.charAt(1) && tag.length() == 2) {
-					if (! html.substring(i).startsWith("<ul>")){
+					if (! html.substring(i).startsWith("<ul>")) {
 						if (str.length() > 0) {
 							str.append(bullet);
-						} else {
+						}
+						else {
 							str.append(justBullet);
 						}
 					}
@@ -115,7 +116,8 @@ public class HotelDescription {
 					if (html.substring(i).startsWith("</ul>")) {
 						// Skip this noise
 						i += 5;
-					} else if (str.length() > 0) {
+					}
+					else if (str.length() > 0) {
 						str.append("<br/>");
 					}
 				}
@@ -147,7 +149,8 @@ public class HotelDescription {
 						end = html.indexOf('<', start + 1);
 						end = html.indexOf('>', end + 1);
 						i = end + 1;
-					} else if (html.substring(i).startsWith("<B>") || html.substring(i).startsWith("<b>")) {
+					}
+					else if (html.substring(i).startsWith("<B>") || html.substring(i).startsWith("<b>")) {
 						// Parse section
 						i += 3;
 						start = html.indexOf('<', i);
@@ -155,7 +158,8 @@ public class HotelDescription {
 						end = html.indexOf('<', start + 1);
 						end = html.indexOf('>', end + 1);
 						i = end + 1;
-					} else {
+					}
+					else {
 						start = html.indexOf('<', i);
 						end = html.indexOf('>', start);
 						sectionString = html.substring(i, start);
@@ -164,7 +168,7 @@ public class HotelDescription {
 				}
 				break;
 			case '/':
-				if(tag.equals("/ul")){
+				if (tag.equals("/ul")) {
 					if ('l' == tag.charAt(2) && tag.length() == 3) {
 						str.append("<br/>");
 					}

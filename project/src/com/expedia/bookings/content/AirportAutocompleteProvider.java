@@ -20,10 +20,10 @@ import com.expedia.bookings.server.ExpediaServices;
 public class AirportAutocompleteProvider extends ContentProvider {
 
 	public static final String[] COLUMNS = {
-			BaseColumns._ID,
-			SearchManager.SUGGEST_COLUMN_TEXT_1,
-			SearchManager.SUGGEST_COLUMN_TEXT_2,
-			SearchManager.SUGGEST_COLUMN_QUERY
+		BaseColumns._ID,
+		SearchManager.SUGGEST_COLUMN_TEXT_1,
+		SearchManager.SUGGEST_COLUMN_TEXT_2,
+		SearchManager.SUGGEST_COLUMN_QUERY,
 	};
 
 	public static final int COL_ID = 0;

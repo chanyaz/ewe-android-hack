@@ -62,9 +62,9 @@ public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 				new ComponentName(context, ExpediaBookingsWidgetProvider.class));
 		WidgetConfigurationState.reconcileWidgetConfigurationStates(context, existingAppWidgetIds);
 
-		for(int id : appWidgetIds) {
+		for (int id : appWidgetIds) {
 			// add the widget if it doesn't exist
-			if(WidgetConfigurationState.getWidgetConfiguration(context, id) == null) {
+			if (WidgetConfigurationState.getWidgetConfiguration(context, id) == null) {
 				saveLastSearchOrCurrentLocationOption(context, id);
 				Intent intent = new Intent(ExpediaBookingsService.START_CLEAN_SEARCH_ACTION);
 				intent.putExtra(Codes.APP_WIDGET_ID, id);

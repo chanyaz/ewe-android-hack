@@ -7,17 +7,17 @@ import com.expedia.bookings.data.CreditCardType;
 public class CurrencyUtils {
 
 	private static final String[] AMEX_CURRENCIES = new String[] {
-			"CAD",
-			"CHF",
-			"DKK",
-			"EUR",
-			"GBP",
-			"HKD",
-			"NOK",
-			"SEK",
-			"SGD",
-			"USD"
-		};
+		"CAD",
+		"CHF",
+		"DKK",
+		"EUR",
+		"GBP",
+		"HKD",
+		"NOK",
+		"SEK",
+		"SGD",
+		"USD",
+	};
 
 	public static boolean currencySupportedByAmex(Context context, String currencyCode) {
 		for (String currency : AMEX_CURRENCIES) {

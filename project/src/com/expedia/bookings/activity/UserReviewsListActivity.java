@@ -72,8 +72,9 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
 
-		if (checkFinishConditionsAndFinish())
+		if (checkFinishConditionsAndFinish()) {
 			return;
+		}
 
 		if (savedInstanceState != null) {
 			mViewedReviews = new HashSet<String>(savedInstanceState.getStringArrayList(INSTANCE_VIEWED_REVIEWS));
@@ -93,14 +94,16 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	protected void onResume() {
 		super.onResume();
 
-		if (checkFinishConditionsAndFinish())
+		if (checkFinishConditionsAndFinish()) {
 			return;
+		}
 
 		// Start the download of the user reviews statistics (if needed)
 		/*if (Db.getSelectedReviewsStatisticsResponse() != null) {
 			populateReviewsStats();
 		}
-		else*/if (mBackgroundDownloader.isDownloading(REVIEWS_STATISTICS_DOWNLOAD)) {
+		else*/
+		if (mBackgroundDownloader.isDownloading(REVIEWS_STATISTICS_DOWNLOAD)) {
 			mBackgroundDownloader.registerDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD,
 					mReviewStatisticsDownloadCallback);
 		}

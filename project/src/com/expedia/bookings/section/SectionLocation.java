@@ -147,7 +147,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 							mContext.getResources().getString(R.string.single_line_street_address_TEMPLATE),
 							address.get(0), address.get(1));
 					addrStr = addrStr.trim();
-					if(addrStr.endsWith(",")){
+					if (addrStr.endsWith(",")) {
 						addrStr = addrStr.substring(0, addrStr.length() - 1);
 					}
 					field.setText(addrStr);

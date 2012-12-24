@@ -88,8 +88,9 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			Db.loadTestData(this);
 		}
 
-		if (checkFinishConditionsAndFinish())
+		if (checkFinishConditionsAndFinish()) {
 			return;
+		}
 
 		setContentView(R.layout.activity_rooms_and_rates);
 		getWindow().setBackgroundDrawable(null);
@@ -167,8 +168,9 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	protected void onResume() {
 		super.onResume();
 
-		if (checkFinishConditionsAndFinish())
+		if (checkFinishConditionsAndFinish()) {
 			return;
+		}
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(DOWNLOAD_KEY)) {

@@ -83,15 +83,15 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	// Background images
 	private static final Integer[] BACKGROUND_RES_IDS = new Integer[] {
-			R.drawable.bg_launch_london,
-			R.drawable.bg_launch_ny,
-			R.drawable.bg_launch_paris,
-			R.drawable.bg_launch_sea,
-			R.drawable.bg_launch_sf,
-			R.drawable.bg_launch_toronto,
-			R.drawable.bg_launch_hongkong,
-			R.drawable.bg_launch_petronas,
-			R.drawable.bg_launch_vegas
+		R.drawable.bg_launch_london,
+		R.drawable.bg_launch_ny,
+		R.drawable.bg_launch_paris,
+		R.drawable.bg_launch_sea,
+		R.drawable.bg_launch_sf,
+		R.drawable.bg_launch_toronto,
+		R.drawable.bg_launch_hongkong,
+		R.drawable.bg_launch_petronas,
+		R.drawable.bg_launch_vegas,
 	};
 
 	private Context mContext;
@@ -425,16 +425,16 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	// Flight destination search
 
 	private final static String[] DESTINATION_IDS = new String[] {
-			"SEA",
-			"SFO",
-			"LON",
-			"PAR",
-			"LAS",
-			"NYC",
-			"YYZ",
-			"HKG",
-			"MIA",
-			"BKK",
+		"SEA",
+		"SFO",
+		"LON",
+		"PAR",
+		"LAS",
+		"NYC",
+		"YYZ",
+		"HKG",
+		"MIA",
+		"BKK",
 	};
 
 	private Download<List<Destination>> mFlightsDownload = new Download<List<Destination>>() {

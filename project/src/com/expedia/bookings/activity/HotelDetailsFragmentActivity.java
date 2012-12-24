@@ -186,8 +186,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	protected void onResume() {
 		super.onResume();
 
-		if (checkFinishConditionsAndFinish())
+		if (checkFinishConditionsAndFinish()) {
 			return;
+		}
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
@@ -233,8 +234,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		super.onNewIntent(intent);
 		setIntent(intent);
 
-		if (checkFinishConditionsAndFinish())
+		if (checkFinishConditionsAndFinish()) {
 			return;
+		}
 
 		setupHotelActivity(null);
 	}
@@ -274,8 +276,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
-		if (checkFinishConditionsAndFinish())
+		if (checkFinishConditionsAndFinish()) {
 			return super.onCreateOptionsMenu(menu);
+		}
 
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);

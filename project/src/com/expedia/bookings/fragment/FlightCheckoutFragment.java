@@ -347,10 +347,11 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	}
 
-	private void dressSectionTraveler(View travelerSection, int travelerIndex){
-		if(travelerIndex == 0){
+	private void dressSectionTraveler(View travelerSection, int travelerIndex) {
+		if (travelerIndex == 0) {
 			travelerSection.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
-		}else{
+		}
+		else {
 			travelerSection.setBackgroundResource(R.drawable.bg_checkout_information_middle_tab);
 		}
 		int padding = getResources().getDimensionPixelSize(R.dimen.traveler_button_padding);

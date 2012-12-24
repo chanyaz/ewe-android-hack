@@ -476,7 +476,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	 * @param another
 	 * @return
 	 */
-	public int compareNameTo(Traveler another){
+	public int compareNameTo(Traveler another) {
 		final int NOT_EQUAL = -1;
 		final int EQUAL = 0;
 
@@ -495,7 +495,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 					&& this.getLastName().trim()
 							.compareToIgnoreCase(another.getLastName().trim()) == 0) {
 				return EQUAL;
-			}else{
+			}
+			else {
 				return NOT_EQUAL;
 			}
 		}
@@ -572,9 +573,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return getRedressNumber() == null ? BEFORE : getRedressNumber().compareTo(another.getRedressNumber());
 		}
 
-		if(hasPassportCountry() != another.hasPassportCountry()){
+		if (hasPassportCountry() != another.hasPassportCountry()) {
 			return BEFORE;
-		}else if(hasPassportCountry() && !mPassportCountries.equals(another.mPassportCountries)){
+		}
+		else if (hasPassportCountry() && !mPassportCountries.equals(another.mPassportCountries)) {
 			//Compare list length
 			int mySize = mPassportCountries.size();
 			if (mySize != another.mPassportCountries.size()) {

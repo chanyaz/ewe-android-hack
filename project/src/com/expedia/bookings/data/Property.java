@@ -49,9 +49,9 @@ public class Property implements JSONable {
 		private int flag;
 		private int strId;
 
-		private Amenity(int flag, int strId) {
-			this.flag = flag;
-			this.strId = strId;
+		private Amenity(int newFlag, int newStrId) {
+			this.flag = newFlag;
+			this.strId = newStrId;
 		}
 
 		public boolean inMask(int amenityMask) {

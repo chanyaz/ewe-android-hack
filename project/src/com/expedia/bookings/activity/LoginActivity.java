@@ -31,8 +31,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		setContentView(R.layout.activity_login);
 
 		//Set up theming stuff
-		if (this.getIntent().getStringExtra(ARG_PATH_MODE) == null)
-		{
+		if (this.getIntent().getStringExtra(ARG_PATH_MODE) == null) {
 			//Default to hotels mode...
 			this.getIntent().putExtra(ARG_PATH_MODE, PathMode.HOTELS.name());
 		}

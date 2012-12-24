@@ -224,8 +224,8 @@ public class WorkingTravelerManager {
 							success = resp.isSucceeded();
 							Log.i("Commit traveler succeeded:" + success);
 							if (success) {
-								if(!TextUtils.isEmpty(resp.getTuid())){
-									if(!trav.hasTuid() && User.isLoggedIn(context) && Db.getUser() != null){
+								if (!TextUtils.isEmpty(resp.getTuid())) {
+									if (!trav.hasTuid() && User.isLoggedIn(context) && Db.getUser() != null) {
 										//If the traveler we sent didn't have a tuid, and the response does, then we set the tuid and add it to the users travelers
 										//However currently the api doesn't currently return the tuid for new travelers 10/30/2012
 										Traveler tTrav = new Traveler();

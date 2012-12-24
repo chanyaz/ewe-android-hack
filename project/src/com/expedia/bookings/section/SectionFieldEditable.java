@@ -50,9 +50,9 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 		}
 	}
 
-	private void setPostValidators(ArrayList<SectionFieldValidIndicator<?, Data>> postValidators){
+	private void setPostValidators(ArrayList<SectionFieldValidIndicator<?, Data>> postValidators) {
 		mPostValidators.clear();
-		if(postValidators != null){
+		if (postValidators != null) {
 			mPostValidators.addAll(postValidators);
 		}
 	}

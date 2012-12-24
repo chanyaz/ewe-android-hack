@@ -339,11 +339,11 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 				boolean returnFlight = mLegPosition > 0;
 				if (returnFlight) {
 					mNumFlightsTextView.setText((getResources().getString(R.string.select_a_flight_back_to_TEMPLATE,
-							StrUtils.getLocationCityOrCode(location))).toUpperCase());
+								StrUtils.getLocationCityOrCode(location))).toUpperCase());
 				}
 				else {
 					mNumFlightsTextView.setText((getResources().getString(R.string.select_a_flight_to_TEMPLATE,
-							StrUtils.getLocationCityOrCode(location))).toUpperCase());
+								StrUtils.getLocationCityOrCode(location))).toUpperCase());
 				}
 			}
 		}

@@ -31,32 +31,32 @@ public class WidgetConfigurationState extends Model {
 		return appWidgetId;
 	}
 
-	public void setAppWidgetId(int appWidgetId) {
-		this.appWidgetId = appWidgetId;
+	public void setAppWidgetId(int id) {
+		this.appWidgetId = id;
 	}
 
 	public String getExactSearchLocation() {
 		return mExactSearchLocation;
 	}
 
-	public void setExactSearchLocation(String mExactSearchLocation) {
-		this.mExactSearchLocation = mExactSearchLocation;
+	public void setExactSearchLocation(String exactSearchLocation) {
+		this.mExactSearchLocation = exactSearchLocation;
 	}
 
 	public double getExactSearchLocationLat() {
 		return mExactSearchLocationLat;
 	}
 
-	public void setExactSearchLocationLat(double mExactSearchLocationLat) {
-		this.mExactSearchLocationLat = mExactSearchLocationLat;
+	public void setExactSearchLocationLat(double exactSearchLocationLat) {
+		this.mExactSearchLocationLat = exactSearchLocationLat;
 	}
 
 	public double getExactSearchLocationLon() {
 		return mExactSearchLocationLon;
 	}
 
-	public void setExactSearchLocationLon(double mExactSearchLocationLon) {
-		this.mExactSearchLocationLon = mExactSearchLocationLon;
+	public void setExactSearchLocationLon(double exactSearchLocationLon) {
+		this.mExactSearchLocationLon = exactSearchLocationLon;
 	}
 
 	public static WidgetConfigurationState getWidgetConfiguration(Context context, int appWidgetId) {

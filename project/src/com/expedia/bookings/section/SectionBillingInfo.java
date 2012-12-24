@@ -848,8 +848,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						retVal = ValidationError.ERROR_DATA_MISSING;
 					}
 				}
-				else
-				{
+				else {
 					retVal = ValidationError.ERROR_DATA_MISSING;
 				}
 				return retVal;

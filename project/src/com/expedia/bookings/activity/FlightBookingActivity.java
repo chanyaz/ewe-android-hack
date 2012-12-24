@@ -242,7 +242,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 					|| (User.isLoggedIn(FlightBookingActivity.this) && Db.getUser() != null
 							&& Db.getUser().getPrimaryTraveler() != null
 							&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-							.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
+								.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
 				String email = traveler.getEmail();
 				if (TextUtils.isEmpty(email)) {
 					email = Db.getUser().getPrimaryTraveler().getEmail();

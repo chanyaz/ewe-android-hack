@@ -32,7 +32,7 @@ public class TravelerFlowState {
 	}
 
 	public static TravelerFlowState getInstance(Context context) {
-		if(context == null){
+		if (context == null) {
 			return null;
 		}
 		return new TravelerFlowState(context);
@@ -54,7 +54,7 @@ public class TravelerFlowState {
 		return mTravelerInfoTwo.hasValidInput();
 	}
 
-	public boolean hasValidTravelerPartThree(Traveler travelerInfo){
+	public boolean hasValidTravelerPartThree(Traveler travelerInfo) {
 		mTravelerInfoThree.bind(travelerInfo);
 		return mTravelerInfoThree.hasValidInput();
 	}
