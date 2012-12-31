@@ -155,6 +155,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		}
 
 		if (cards != null && cards.size() > 0) {
+			boolean firstCard = true;
 			//Inflate stored cards
 			Resources res = getResources();
 			for (int i = 0; i < cards.size(); i++) {
@@ -177,23 +178,27 @@ public class FlightPaymentOptionsFragment extends Fragment {
 					}
 				});
 
-				//Add dividers
-				if (i != 0) {
-					View divider = new View(getActivity());
-					LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
-							LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
-					divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
-							res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
-					divider.setLayoutParams(divLayoutParams);
-					divider.setBackgroundColor(res.getColor(R.color.divider_grey));
-					mStoredCardsContainer.addView(divider);
-				}
-
 				//Add the stored card (only if it is not the selected card)
 				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() == null
 						|| Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId()
 								.compareToIgnoreCase(cards.get(i).getId()) != 0) {
+
+					//Add dividers
+					if (!firstCard) {
+						View divider = new View(getActivity());
+						LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
+								LayoutParams.MATCH_PARENT,
+								res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
+						divLayoutParams.setMargins(0,
+								res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
+								res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
+						divider.setLayoutParams(divLayoutParams);
+						divider.setBackgroundColor(res.getColor(R.color.divider_grey));
+						mStoredCardsContainer.addView(divider);
+					}
+
 					mStoredCardsContainer.addView(card);
+					firstCard = false;
 				}
 			}
 		}
