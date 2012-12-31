@@ -15,7 +15,6 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 	ArrayList<SectionField<?, FlightTrip>> mFields = new ArrayList<SectionField<?, FlightTrip>>();
 
 	FlightTrip mTrip;
-	boolean mIsOutbound = false;
 
 	Context mContext;
 
@@ -38,10 +37,9 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 		mContext = context;
 
 		//Display fields
-		mFields.add(this.mDisplaySubTotal);
-		mFields.add(mDisplayTaxes);
-		mFields.add(mTotalPrice);
-		mFields.add(mDisplayFees);
+		mFields.add(mTravelerTotal);
+		mFields.add(mTravelerBaseFare);
+		mFields.add(mTravelerTaxes);
 	}
 
 	@Override
@@ -68,39 +66,29 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
-	SectionField<TextView, FlightTrip> mDisplaySubTotal = new SectionField<TextView, FlightTrip>(
-			R.id.display_subtotal) {
+	SectionField<TextView, FlightTrip> mTravelerTotal = new SectionField<TextView, FlightTrip>(R.id.traveler_total) {
 		@Override
 		public void onHasFieldAndData(TextView field, FlightTrip data) {
-			field.setText((data.getBaseFare() != null) ? data.getBaseFare().getFormattedMoney() : "");
+			field.setText((data.getBaseFare() != null) ? data.getTotalFare().getFormattedMoneyPerTraveler() : "");
 		}
 	};
 
-	SectionField<TextView, FlightTrip> mDisplayTaxes = new SectionField<TextView, FlightTrip>(
-			R.id.display_taxes) {
+	SectionField<TextView, FlightTrip> mTravelerBaseFare = new SectionField<TextView, FlightTrip>(
+			R.id.traveler_base_fare) {
 		@Override
 		public void onHasFieldAndData(TextView field, FlightTrip data) {
-			field.setText((data.getTaxes() != null) ? data.getTaxes().getFormattedMoney() : "");
-		}
-	};
-	
-	SectionField<TextView, FlightTrip> mDisplayFees = new SectionField<TextView, FlightTrip>(
-			R.id.display_fees) {
-		@Override
-		public void onHasFieldAndData(TextView field, FlightTrip data) {
-			field.setText((data.getFees() != null) ? data.getFees().getFormattedMoney() : "");
+			field.setText((data.getBaseFare() != null) ? data.getBaseFare().getFormattedMoneyPerTraveler() : "");
 		}
 	};
 
-	SectionField<TextView, FlightTrip> mTotalPrice = new SectionField<TextView, FlightTrip>(
-			R.id.display_total_price) {
+	SectionField<TextView, FlightTrip> mTravelerTaxes = new SectionField<TextView, FlightTrip>(
+			R.id.traveler_taxes) {
 		@Override
 		public void onHasFieldAndData(TextView field, FlightTrip data) {
-			field.setText((data.getTotalFare() != null) ? data.getTotalFare().getFormattedMoney() : "");
+			field.setText((data.getTaxes() != null) ? data.getTaxes().getFormattedMoneyPerTraveler() : "");
 		}
 	};
-	
-	
+
 	//////////////////////////////////////
 	////// EDIT FIELDS
 	//////////////////////////////////////

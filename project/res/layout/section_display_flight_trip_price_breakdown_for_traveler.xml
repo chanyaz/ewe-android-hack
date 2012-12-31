@@ -7,10 +7,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
 
         <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/travler_num_and_category"
+            android:id="@+id/label_traveler_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -18,51 +19,51 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/display_total_price"
+            android:id="@+id/traveler_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/travler_num_and_category"
+            android:layout_alignBaseline="@+id/label_traveler_name"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/travler_num_and_category"
+            android:layout_toRightOf="@+id/label_traveler_name"
             android:gravity="right"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/label_flight_price"
+            android:id="@+id/label_traveler_base_fare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/travler_num_and_category"
+            android:layout_below="@+id/label_traveler_name"
             android:text="@string/flight"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/display_subtotal"
+            android:id="@+id/traveler_base_fare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/label_flight_price"
+            android:layout_alignBaseline="@+id/label_traveler_base_fare"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/label_flight_price"
+            android:layout_toRightOf="@+id/label_traveler_base_fare"
             android:gravity="right"
             android:textSize="18sp" />
 
         <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/label_flight_taxes"
+            android:id="@+id/label_traveler_taxes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/label_flight_price"
+            android:layout_below="@+id/label_traveler_base_fare"
             android:text="@string/taxes_and_airline_fees"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/display_taxes"
+            android:id="@+id/traveler_taxes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/label_flight_taxes"
+            android:layout_alignBaseline="@+id/label_traveler_taxes"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/label_flight_taxes"
+            android:layout_toRightOf="@+id/label_traveler_taxes"
             android:gravity="right"
             android:textSize="18sp" />
 
@@ -70,58 +71,9 @@
             android:id="@+id/divider_one"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/label_flight_taxes"
-            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/label_traveler_taxes"
             android:layout_marginTop="10dp"
             android:background="@color/divider_grey" />
-
-        <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/label_flight_fee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/divider_one"
-            android:text="@string/expedia_booking_fee"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/display_fees"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/label_flight_fee"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/label_flight_fee"
-            android:gravity="right"
-            android:textSize="18sp" />
-
-        <View
-            android:id="@+id/divider_two"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/label_flight_fee"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/divider_grey" />
-
-        <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/label_flight_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/divider_two"
-            android:text="@string/total_price_label"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/display_total_price_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/label_flight_total"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/label_flight_total"
-            android:gravity="right"
-            android:textSize="22sp" />
     </RelativeLayout>
 
 </com.expedia.bookings.section.SectionFlightTrip>

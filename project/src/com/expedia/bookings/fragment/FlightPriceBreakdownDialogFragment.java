@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -48,19 +49,34 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 		dialog.setCancelable(false);
 		dialog.setContentView(body);
 
-		SectionFlightTrip travTrip = Ui.findView(body, R.id.traveler_price_breakdown);
-		TextView totalPriceBottom = Ui.findView(travTrip, R.id.display_total_price_bottom);
-		TextView travTripLabel = Ui.findView(travTrip, R.id.travler_num_and_category);
-		View doneBtn = Ui.findView(body, R.id.positive_button);
-
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-		travTrip.bind(trip);
+		LinearLayout travContainer = Ui.findView(body, R.id.traveler_price_container);
+		for (int i = 0; i < Db.getFlightSearch().getSearchParams().getNumAdults(); i++) {
+			travContainer = (LinearLayout) inflater.inflate(
+					R.layout.section_display_flight_trip_price_breakdown_for_traveler, travContainer, true);
+			SectionFlightTrip travTrip = (SectionFlightTrip) travContainer.getChildAt(i);
+			TextView travTripLabel = Ui.findView(travTrip, R.id.label_traveler_name);
+			travTrip.bind(trip);
 
-		//TODO: Flights currently only supports single adult travlers this logic must change someday
-		String travLabelFormat = getResources().getString(R.string.traveler_num_and_category_TEMPLATE);
-		String travLabel = String.format(travLabelFormat, 1, getResources().getString(R.string.adult));
-		travTripLabel.setText(travLabel);
+			String travLabelFormat = getResources().getString(R.string.traveler_num_and_category_TEMPLATE);
+			String travLabel = String.format(travLabelFormat, i + 1, getResources().getString(R.string.adult));
+			travTripLabel.setText(travLabel);
 
+			if (i == Db.getFlightSearch().getSearchParams().getNumAdults() - 1) {
+				View divider = Ui.findView(travTrip, R.id.divider_one);
+				divider.setVisibility(View.GONE);
+			}
+		}
+
+		TextView fees = Ui.findView(body, R.id.display_fees);
+		if (trip.getFees() != null) {
+			fees.setText(trip.getFees().getFormattedMoney());
+		}
+		else {
+			fees.setText("");
+		}
+
+		TextView totalPriceBottom = Ui.findView(body, R.id.display_total_price_bottom);
 		if (trip.getTotalFare() != null) {
 			totalPriceBottom.setText(trip.getTotalFare().getFormattedMoney());
 		}
@@ -68,6 +84,7 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 			totalPriceBottom.setText("");
 		}
 
+		View doneBtn = Ui.findView(body, R.id.positive_button);
 		doneBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
