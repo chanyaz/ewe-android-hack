@@ -428,21 +428,22 @@ public class FlightConfirmationFragment extends Fragment {
 		body.append("\n\n");
 
 		Traveler traveler;
-		for (int i = 0; i < numAdults; i++) {
-			traveler = Db.getTravelers().get(i);
-			// Note: Arguments for string are slightly different depending on single vs. multiple travelers
-			if (numAdults == 1) {
-				body.append(getResources().getQuantityString(R.plurals.share_flight_name_TEMPLATE, numAdults,
-						traveler.getFirstName() + " " + traveler.getLastName()));
-			}
-			else {
+		// Note: Arguments for string are slightly different depending on single vs. multiple travelers
+		if (numAdults == 1) {
+			traveler = Db.getTravelers().get(0);
+			body.append(getResources().getQuantityString(R.plurals.share_flight_name_TEMPLATE, numAdults,
+					traveler.getFirstName() + " " + traveler.getLastName()));
+			body.append("\n\n");
+		}
+		else {
+			for (int i = 0; i < numAdults; i++) {
+				traveler = Db.getTravelers().get(i);
 				body.append(getResources().getQuantityString(R.plurals.share_flight_name_TEMPLATE, numAdults, i + 1,
 						traveler.getFirstName() + " " + traveler.getLastName()));
+				body.append("\n");
 			}
 			body.append("\n");
 		}
-
-		body.append("\n");
 
 		body.append(getString(R.string.share_flight_section_outbound));
 
