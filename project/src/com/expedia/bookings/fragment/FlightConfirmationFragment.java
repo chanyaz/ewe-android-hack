@@ -46,8 +46,8 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -391,7 +391,8 @@ public class FlightConfirmationFragment extends Fragment {
 		FlightSearch search = Db.getFlightSearch();
 		FlightTrip trip = search.getSelectedFlightTrip();
 		FlightLeg firstLeg = trip.getLeg(0);
-		Traveler traveler = Db.getTravelers().get(0); // Assume first traveler is only traveler
+		//		Traveler traveler = Db.getTravelers().get(0); // Assume first traveler is only traveler
+		int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
 		int numLegs = trip.getLegCount();
 
 		String originCity = StrUtils.getWaypointCityOrCode(firstLeg.getFirstWaypoint());
@@ -408,7 +409,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 		// Construct the body
 		StringBuilder body = new StringBuilder();
-		body.append(getString(R.string.share_flight_start));
+		body.append(getResources().getQuantityString(R.plurals.share_flight_start, numAdults));
 
 		body.append("\n\n");
 
@@ -426,10 +427,22 @@ public class FlightConfirmationFragment extends Fragment {
 
 		body.append("\n\n");
 
-		body.append(getString(R.string.share_flight_name_TEMPLATE,
-				getString(R.string.name_template, traveler.getFirstName(), traveler.getLastName())));
+		Traveler traveler;
+		for (int i = 0; i < numAdults; i++) {
+			traveler = Db.getTravelers().get(i);
+			// Note: Arguments for string are slightly different depending on single vs. multiple travelers
+			if (numAdults == 1) {
+				body.append(getResources().getQuantityString(R.plurals.share_flight_name_TEMPLATE, numAdults,
+						traveler.getFirstName() + " " + traveler.getLastName()));
+			}
+			else {
+				body.append(getResources().getQuantityString(R.plurals.share_flight_name_TEMPLATE, numAdults, i + 1,
+						traveler.getFirstName() + " " + traveler.getLastName()));
+			}
+			body.append("\n");
+		}
 
-		body.append("\n\n");
+		body.append("\n");
 
 		body.append(getString(R.string.share_flight_section_outbound));
 
@@ -450,7 +463,8 @@ public class FlightConfirmationFragment extends Fragment {
 
 		body.append("\n\n");
 
-		body.append(getString(R.string.share_flight_ticket_cost_TEMPLATE, trip.getBaseFare().getFormattedMoney()));
+		body.append(getResources().getQuantityString(R.plurals.share_flight_ticket_cost_TEMPLATE, numAdults,
+				trip.getBaseFare().getFormattedMoney()));
 
 		body.append("\n");
 
