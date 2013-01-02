@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="custome_rules" default="debug">
+    <!-- CheckStyle -->
+    <taskdef
+        resource="checkstyletask.properties"
+        classpath="${checkstyle.home}/checkstyle-5.6-all.jar" />
+
+    <target
+        name="checkstyle"
+        description="Run checkstyle on all source code for project" >
+
+        <checkstyle
+            config="../common/checkstyle.xml"
+            classpath="${sdk.dir}/platforms/android-17/android.jar"
+            failureProperty="checkstyle.failure"
+            failOnViolation="false" >
+
+            <fileset dir="src" includes="**/*.java"/>
+        </checkstyle>
+    </target>
+</project>
