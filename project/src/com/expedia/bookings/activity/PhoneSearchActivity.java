@@ -29,7 +29,6 @@ import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -1012,7 +1011,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private void findLocation() {
 
-		if (NetUtils.isOnline(mContext)) {
+		if (!NetUtils.isOnline(mContext)) {
 			simulateErrorResponse(R.string.error_no_internet);
 			return;
 		}
@@ -1025,8 +1024,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mLocationFinder.setListener(new LocationFinder.LocationFinderListener() {
 				@Override
 				public void onLocationFound(Location location) {
-					Log.d("onLocationChanged(): " + location.toString());
-					onLocationFound(location);
+					PhoneSearchActivity.this.onLocationFound(location);
 				}
 
 				@Override
@@ -1430,6 +1428,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	};
 
 	private void onLocationFound(Location location) {
+		Log.d("onLocationFound(): " + location.toString());
 		Db.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 		setShowDistance(true);
 		startSearchDownloader();
