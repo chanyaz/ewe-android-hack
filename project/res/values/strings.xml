@@ -295,6 +295,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
+    <!-- Enter traveler info button text -->
+    <string name="enter_traveler_info_TEMPLATE">Traveler %d Information</string>
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
@@ -599,21 +601,37 @@
     <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
     <string name="share_flight_title_TEMPLATE">Expedia Itinerary - %1$s (%2$s)</string>
     <!-- The first line of the share flight email -->
-    <string name="share_flight_start">Here is my flight reservation info:</string>
+    <plurals name="share_flight_start">
+        <item quantity="one">Here is my flight reservation info:</item>
+        <item quantity="two">Here is our flight reservation info:</item>
+        <item quantity="many">Here is our flight reservation info:</item>
+        <item quantity="other">Here is our flight reservation info:</item>
+    </plurals>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">One way trip from %1$s to %2$s</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Round trip from %1$s to %2$s</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Itinerary #: %s</string>
-    <!-- The user's name, presented to them.  %s is their name. -->
-    <string name="share_flight_name_TEMPLATE">Name: %s</string>
+    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc... %2$s is their name -->
+    <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
+    <plurals name="share_flight_name_TEMPLATE">
+        <item quantity="one">Traveler: %s</item>
+        <item quantity="two">Traveler %1$s: %2$s</item>
+        <item quantity="many">Traveler %1$s: %2$s</item>
+        <item quantity="other">Traveler %1$s: %2$s</item>
+    </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Outbound:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Return:</string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_ticket_cost_TEMPLATE">Total ticket cost: %s</string>
+    <plurals name="share_flight_ticket_cost_TEMPLATE">
+        <item quantity="one">Total ticket cost: %s</item>
+        <item quantity="two">Total ticket costs: %s</item>
+        <item quantity="many">Total ticket costs: %s</item>
+        <item quantity="other">Total ticket costs: %s</item>
+    </plurals>
     <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
     <string name="share_flight_taxes_fees_TEMPLATE">Taxes &amp; Fees: %s</string>
     <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
