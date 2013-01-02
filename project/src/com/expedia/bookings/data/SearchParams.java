@@ -45,8 +45,8 @@ public class SearchParams implements JSONable {
 	private SearchType mSearchType = SearchType.MY_LOCATION;
 
 	private String mQuery;
-	private Calendar mCheckInDate;
-	private Calendar mCheckOutDate;
+	private Date mCheckInDate;
+	private Date mCheckOutDate;
 	private int mNumAdults;
 	private List<Integer> mChildren;
 	private Set<String> mPropertyIds;
@@ -112,8 +112,8 @@ public class SearchParams implements JSONable {
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
 		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-		mCheckInDate = new GregorianCalendar(year, month, dayOfMonth);
-		mCheckOutDate = new GregorianCalendar(year, month, dayOfMonth + 1);
+		mCheckInDate = new Date(new GregorianCalendar(year, month, dayOfMonth));
+		mCheckOutDate = new Date(new GregorianCalendar(year, month, dayOfMonth + 1));
 	}
 
 	public SearchParams(JSONObject obj) {
@@ -269,21 +269,21 @@ public class SearchParams implements JSONable {
 	public void setCheckInDate(Calendar cal) {
 		if (mCheckInDate != null
 				&& mCheckOutDate != null
-				&& (cal.after(mCheckOutDate) || (cal.get(Calendar.YEAR) == mCheckOutDate.get(Calendar.YEAR)
-						&& cal.get(Calendar.MONTH) == mCheckOutDate.get(Calendar.MONTH) && cal
-						.get(Calendar.DAY_OF_MONTH) == mCheckOutDate.get(Calendar.DAY_OF_MONTH)))) {
+				&& (cal.after(mCheckOutDate) || (cal.get(Calendar.YEAR) == mCheckOutDate.getYear()
+						&& cal.get(Calendar.MONTH) == mCheckOutDate.getMonth() && cal.get(Calendar.DAY_OF_MONTH) == mCheckOutDate
+						.getDayOfMonth()))) {
 			int stayDuration = getStayDuration();
-			mCheckOutDate = (Calendar) cal.clone();
-			mCheckOutDate.add(Calendar.DAY_OF_MONTH, stayDuration);
+			Calendar checkout = (Calendar) cal.clone();
+			checkout.add(Calendar.DAY_OF_MONTH, stayDuration);
+
+			mCheckOutDate = new Date(checkout);
 		}
 
-		mCheckInDate = cal;
+		mCheckInDate = new Date(cal);
 	}
 
 	public Calendar getCheckInDate() {
-		// To be safe, make sure that we're always dealing with UTC
-		mCheckInDate.setTimeZone(CalendarUtils.getFormatTimeZone());
-		return mCheckInDate;
+		return mCheckInDate.getCalendar();
 	}
 
 	/**
@@ -295,15 +295,18 @@ public class SearchParams implements JSONable {
 	public void setCheckOutDate(Calendar cal) {
 		if (mCheckInDate != null
 				&& mCheckOutDate != null
-				&& (cal.before(mCheckInDate) || (cal.get(Calendar.YEAR) == mCheckInDate.get(Calendar.YEAR)
-						&& cal.get(Calendar.MONTH) == mCheckInDate.get(Calendar.MONTH) && cal
-						.get(Calendar.DAY_OF_MONTH) == mCheckInDate.get(Calendar.DAY_OF_MONTH)))) {
+				&& (cal.before(mCheckInDate) || (cal.get(Calendar.YEAR) == mCheckInDate.getYear()
+						&& cal.get(Calendar.MONTH) == mCheckInDate.getMonth() && cal.get(Calendar.DAY_OF_MONTH) == mCheckInDate
+						.getDayOfMonth()))) {
+
 			int stayDuration = getStayDuration();
-			mCheckInDate = (Calendar) cal.clone();
-			mCheckInDate.add(Calendar.DAY_OF_MONTH, -stayDuration);
+			Calendar checkin = (Calendar) cal.clone();
+			checkin.add(Calendar.DAY_OF_MONTH, -stayDuration);
+
+			mCheckInDate = new Date(checkin);
 		}
 
-		mCheckOutDate = cal;
+		mCheckOutDate = new Date(cal);
 	}
 
 	/**
@@ -315,13 +318,11 @@ public class SearchParams implements JSONable {
 			return 0;
 		}
 
-		return (int) CalendarUtils.getDaysBetween(mCheckInDate, mCheckOutDate);
+		return (int) CalendarUtils.getDaysBetween(mCheckInDate.getCalendar(), mCheckOutDate.getCalendar());
 	}
 
 	public Calendar getCheckOutDate() {
-		// To be safe, make sure that we're always dealing with GMT
-		mCheckOutDate.setTimeZone(CalendarUtils.getFormatTimeZone());
-		return mCheckOutDate;
+		return mCheckOutDate.getCalendar();
 	}
 
 	public void setNumAdults(int numAdults) {
@@ -400,15 +401,15 @@ public class SearchParams implements JSONable {
 		mSearchLatitude = obj.optDouble("latitude", 0);
 		mSearchLongitude = obj.optDouble("longitude", 0);
 
-		long checkinMillis = obj.optLong("checkinDate", -1);
-		if (checkinMillis != -1) {
-			mCheckInDate = Calendar.getInstance();
-			mCheckInDate.setTimeInMillis(checkinMillis);
+		JSONObject checkinDate = obj.optJSONObject("checkinDate");
+		if (checkinDate != null) {
+			mCheckInDate = new Date();
+			mCheckInDate.fromJson(checkinDate);
 		}
-		long checkoutMillis = obj.optLong("checkoutDate", -1);
-		if (checkoutMillis != -1) {
-			mCheckOutDate = Calendar.getInstance();
-			mCheckOutDate.setTimeInMillis(checkoutMillis);
+		JSONObject checkoutDate = obj.optJSONObject("checkoutDate");
+		if (checkoutDate != null) {
+			mCheckOutDate = new Date();
+			mCheckOutDate.fromJson(checkoutDate);
 		}
 
 		mNumAdults = obj.optInt("numAdults", 0);
@@ -458,10 +459,10 @@ public class SearchParams implements JSONable {
 				obj.put("longitude", mSearchLongitude);
 			}
 			if (mCheckInDate != null) {
-				obj.put("checkinDate", mCheckInDate.getTimeInMillis());
+				obj.put("checkinDate", mCheckInDate.toJson());
 			}
 			if (mCheckOutDate != null) {
-				obj.put("checkoutDate", mCheckOutDate.getTimeInMillis());
+				obj.put("checkoutDate", mCheckOutDate.toJson());
 			}
 			obj.put("numAdults", mNumAdults);
 			JSONUtils.putIntList(obj, "children", mChildren);
