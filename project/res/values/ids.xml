@@ -11,4 +11,7 @@
   <item type="id" name="tag_flight_trip"/>
   <item type="id" name="tag_flight_leg"/>
   <item type="id" name="tag_flight_trip_position"/>
+
+  <!-- QA Automation ids -->
+  <item type="id" name="preference_spoof_booking_checkbox" />
 </resources>
