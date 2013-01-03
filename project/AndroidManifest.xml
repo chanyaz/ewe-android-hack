@@ -98,6 +98,7 @@
         <activity
             android:name=".activity.HotelRulesActivity"
             android:theme="@style/FlightTheme" />
+        <activity android:name="com.expedia.bookings.activity.WebViewActivity" />
         <activity
             android:name=".activity.HotelWebViewActivity"
             android:theme="@style/FlightTheme" />

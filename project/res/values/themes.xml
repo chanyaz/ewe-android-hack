@@ -183,9 +183,25 @@
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
-
+    
     <style name="FlightTheme.CheckoutForms">
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Flights</item>
+    </style>
+
+    <style name="HotelWebViewTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/HotelWebViewActionBar</item>
+        <item name="actionBarStyle">@style/HotelWebViewActionBar</item>
+    </style>
+
+    <style name="HotelWebViewActionBar" parent="Widget.Sherlock.ActionBar">
+        <item name="android:background">@drawable/bg_action_bar</item>
+        <item name="background">@drawable/bg_action_bar</item>
+        <item name="android:logo">@drawable/ic_logo_hotels</item>
+        <item name="logo">@drawable/ic_logo_hotels</item>
+        <item name="titleTextStyle">@style/FlightActionBarTextAppearance</item>
+        <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
+        <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow</item>
     </style>
 
     <!--
