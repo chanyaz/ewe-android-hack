@@ -93,6 +93,7 @@
             <TextView
                 android:id="@+id/ca_insurance_action_text_view"
                 style="@style/FlightConfirmationAction"
+                android:drawableLeft="@drawable/ic_insurance"
                 android:text="@string/add_insurance" />
 
             <View
