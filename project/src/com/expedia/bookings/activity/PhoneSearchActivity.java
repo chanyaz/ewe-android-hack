@@ -2737,6 +2737,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	public void onHotelListFragmentAttached(HotelListFragment fragment) {
 		mHotelListFragment = fragment;
+		mHotelListFragment.setShowDistances(mShowDistance);
 	}
 
 	@Override
@@ -2758,6 +2759,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
 		mHotelMapFragment = fragment;
+		mHotelMapFragment.setShowDistances(mShowDistance);
 	}
 
 	@Override
