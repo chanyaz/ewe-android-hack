@@ -62,6 +62,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
 	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
+	private static final int DIALOG_CALLBACK_MINOR = 3;
 
 	private Context mContext;
 
@@ -242,7 +243,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 					|| (User.isLoggedIn(FlightBookingActivity.this) && Db.getUser() != null
 							&& Db.getUser().getPrimaryTraveler() != null
 							&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail()) && Db.getUser()
-								.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
+							.getPrimaryTraveler().getEmail().compareToIgnoreCase(billingInfo.getEmail()) != 0)) {
 				String email = traveler.getEmail();
 				if (TextUtils.isEmpty(email)) {
 					email = Db.getUser().getPrimaryTraveler().getEmail();
@@ -372,6 +373,11 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		case SESSION_TIMEOUT:
 			showUnavailableErrorDialog();
 			OmnitureTracking.trackErrorPageLoadFlightSearchExpired(mContext);
+			return;
+		case CANNOT_BOOK_WITH_MINOR:
+			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null, errors.get(0).getMessage(),
+					getString(android.R.string.ok), DIALOG_CALLBACK_MINOR);
+			frag.show(getSupportFragmentManager(), "cannotBookWithMinorDialog");
 			return;
 		default:
 			OmnitureTracking.trackErrorPageLoadFlightCheckout(mContext);
