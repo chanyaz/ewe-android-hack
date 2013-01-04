@@ -61,11 +61,6 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 			String travLabelFormat = getResources().getString(R.string.traveler_num_and_category_TEMPLATE);
 			String travLabel = String.format(travLabelFormat, i + 1, getResources().getString(R.string.adult));
 			travTripLabel.setText(travLabel);
-
-			if (i == Db.getFlightSearch().getSearchParams().getNumAdults() - 1) {
-				View divider = Ui.findView(travTrip, R.id.divider_one);
-				divider.setVisibility(View.GONE);
-			}
 		}
 
 		TextView fees = Ui.findView(body, R.id.display_fees);
