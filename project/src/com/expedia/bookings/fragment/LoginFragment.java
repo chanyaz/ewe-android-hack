@@ -486,6 +486,10 @@ public class LoginFragment extends Fragment {
 		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
 		BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
 		BackgroundDownloader.getInstance().cancelDownload(NET_SIGN_IN);
+		if (Session.getActiveSession() != null) {
+			Session.getActiveSession().removeCallback(mFacebookStatusCallback);
+		}
+
 		setIsLoading(false);
 
 		switch (mVisibilityState) {
