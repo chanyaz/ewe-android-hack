@@ -280,7 +280,9 @@ public class FlightConfirmationFragment extends Fragment {
 		//Where flights meets hotels
 		SearchParams sp = new SearchParams();
 		sp.setSearchType(SearchType.CITY);
-		sp.setNumAdults(Db.getTravelers().size());
+
+		// eb128: Fights supports booking up to six adults, hotels supports only booking four adults.
+		sp.setNumAdults(Math.min(4, Db.getFlightSearch().getSearchParams().getNumAdults()));
 
 		int legCount = Db.getFlightSearch().getSelectedFlightTrip().getLegCount();
 		FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
