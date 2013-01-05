@@ -138,6 +138,11 @@ public class WebViewFragment extends Fragment {
 								"document.getElementsByClassName('sign_link')[0].style.visibility='hidden'; " +
 								"})()");
 					}
+
+					// Insert javascript to remove the native app download banner
+					webview.loadUrl("javascript:(function() { " +
+							"document.getElementById('SmartBanner').style.display='none'; " +
+							"})()");
 				}
 
 				@Override
