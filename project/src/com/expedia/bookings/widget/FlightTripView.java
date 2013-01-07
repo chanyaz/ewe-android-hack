@@ -87,10 +87,6 @@ public class FlightTripView extends View {
 		setUp(pseudoLeg, minTime, maxTime);
 	}
 
-	// TODO: OPTIMIZE DRAWING CODE!
-	// This is all written for EASE of coding at the moment.  Once that's all been figured out,
-	// optimize some of the calls
-
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
