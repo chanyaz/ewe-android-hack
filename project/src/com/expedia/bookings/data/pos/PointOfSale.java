@@ -105,8 +105,11 @@ public class PointOfSale {
 		// The url for the best price guarantee policy (if available in the POS)
 		private String mBestPriceGuaranteePolicyUrl;
 
-		// The rules & restrictions disclaimer for every booking
+		// The rules & restrictions disclaimer for every hotel booking
 		private String mHotelBookingStatement;
+
+		// The rules & restrictions disclaimer for every flight booking
+		private String mFlightBookingStatement;
 
 		// The text in mRulesRestrictionsConfirmation that should be linked for terms and conditions
 		private String mTermsAndConditionsLinkText;
@@ -231,12 +234,22 @@ public class PointOfSale {
 
 	public CharSequence getLinkifiedHotelBookingStatement() {
 		PointOfSaleLocale posLocale = getPosLocale();
+		String statement = posLocale.mHotelBookingStatement;
 
-		SpannableStringBuilder text = new SpannableStringBuilder(posLocale.mHotelBookingStatement);
-		linkifyText(text, posLocale.mHotelBookingStatement, posLocale.mTermsAndConditionsLinkText,
-				posLocale.mTermsAndConditionsUrl);
-		linkifyText(text, posLocale.mHotelBookingStatement, posLocale.mPrivacyPolicyLinkText,
-				posLocale.mPrivacyPolicyUrl);
+		SpannableStringBuilder text = new SpannableStringBuilder(statement);
+		linkifyText(text, statement, posLocale.mTermsAndConditionsLinkText, posLocale.mTermsAndConditionsUrl);
+		linkifyText(text, statement, posLocale.mPrivacyPolicyLinkText, posLocale.mPrivacyPolicyUrl);
+
+		return text;
+	}
+
+	public CharSequence getLinkifiedFlightBookingStatement() {
+		PointOfSaleLocale posLocale = getPosLocale();
+		String statement = posLocale.mFlightBookingStatement;
+
+		SpannableStringBuilder text = new SpannableStringBuilder(statement);
+		linkifyText(text, statement, posLocale.mTermsAndConditionsLinkText, posLocale.mTermsAndConditionsUrl);
+		linkifyText(text, statement, posLocale.mPrivacyPolicyLinkText, posLocale.mPrivacyPolicyUrl);
 
 		return text;
 	}
@@ -535,6 +548,7 @@ public class PointOfSale {
 
 		// All fields for rules & restrictions disclaimer
 		locale.mHotelBookingStatement = data.optString("hotelBookingStatement", null);
+		locale.mFlightBookingStatement = data.optString("flightBookingStatement", null);
 		locale.mTermsAndConditionsLinkText = data.optString("termsAndConditionsURL", null);
 		locale.mTermsAndConditionsUrl = data.optString("termsAndConditionsURL", null);
 		locale.mTermsOfBookingLinkText = data.optString("termsOfBookingLinkText", null);
