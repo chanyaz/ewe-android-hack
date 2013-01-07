@@ -123,11 +123,6 @@ public class FlightLeg implements JSONable {
 		return sb.toString();
 	}
 
-	public String getBaggageFeeUrl() {
-		String urlFormat = "http://www.expedia.com/Flights-BagFees?originapt=%s&destinationapt=%s";
-		return String.format(urlFormat, getFirstWaypoint().mAirportCode, getLastWaypoint().mAirportCode);
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 

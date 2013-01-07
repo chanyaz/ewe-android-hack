@@ -479,7 +479,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 		body.append("\n\n");
 
-		body.append(getString(R.string.share_flight_additional_fees_TEMPLATE, firstLeg.getBaggageFeeUrl()));
+		body.append(getString(R.string.share_flight_additional_fees_TEMPLATE, trip.getBaggageFeesUrl()));
 
 		body.append("\n\n");
 

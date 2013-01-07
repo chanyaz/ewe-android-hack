@@ -91,7 +91,7 @@ public class FlightDetailsFragment extends Fragment {
 
 		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
 
-		FlightTrip trip = getFlightTrip();
+		final FlightTrip trip = getFlightTrip();
 		FlightLeg leg = getFlightLeg();
 
 		// Cache views
@@ -156,11 +156,6 @@ public class FlightDetailsFragment extends Fragment {
 		mBaggageInfoTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				FlightLeg leg = getFlightLeg();
-
-				//TODO:We need to set the correct url based on Point of Sale
-				String url = leg.getBaggageFeeUrl();
-
 				int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
 				String trackingName = null;
 				if (legPosition == 0) {
@@ -175,8 +170,8 @@ public class FlightDetailsFragment extends Fragment {
 					trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
 				}
 
-				Intent baggageIntent = WebViewActivity.getIntent(getActivity(), url, R.style.FlightTheme, 0, true,
-						trackingName);
+				Intent baggageIntent = WebViewActivity.getIntent(getActivity(), trip.getBaggageFeesUrl(),
+						R.style.FlightTheme, 0, true, trackingName);
 				getActivity().startActivity(baggageIntent);
 			}
 		});
