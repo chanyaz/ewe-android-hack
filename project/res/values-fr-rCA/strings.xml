@@ -615,7 +615,7 @@
     <!-- Gives the user a method of getting support.  %s is a phone number -->
     <string name="share_flight_support_TEMPLATE">Si vous avez des questions au sujet de cette réservation, veuillez communiquer avec Expedia au %s</string>
     <!-- Advertisement for the app the user just used -->
-    <string name="share_flight_shill_app">Réservez des vols et des hôtels de partout avec la fantastique appli mobile d\&apos;Expedia! http://www.expedia.com/app</string>
+    <string name="share_flight_shill_app">Réservez des vols et des hôtels de partout avec la fantastique appli mobile d\&apos;Expedia! http://www.expedia.ca/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->

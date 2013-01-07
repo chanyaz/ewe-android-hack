@@ -4,4 +4,7 @@
     <string name="hint_state_code">Prov.</string>
     <!-- Zip code hint -->
     <string name="PostalCode">Postal Code</string>
+
+    <!-- Advertisement for the app the user just used -->
+    <string name="share_flight_shill_app">Book flights and hotels from anywhere with Expedia\'s beautiful mobile app!  http://www.expedia.ca/app</string>
 </resources>
