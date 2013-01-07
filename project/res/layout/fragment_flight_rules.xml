@@ -35,6 +35,20 @@
             android:background="#D1D1D1" />
 
         <TextView
+            android:id="@+id/terms_of_booking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/Terms_of_Booking"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/terms_of_booking_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D1D1D1" />
+
+        <TextView
             android:id="@+id/privacy_policy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

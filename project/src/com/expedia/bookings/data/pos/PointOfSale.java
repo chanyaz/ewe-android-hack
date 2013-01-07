@@ -114,6 +114,12 @@ public class PointOfSale {
 		// The url to link to in mTermsAndConditionsLinkText
 		private String mTermsAndConditionsUrl;
 
+		// The Terms of Booking disclaimer for bookings on some POSes (UK, IT)
+		private String mTermsOfBookingLinkText;
+
+		// The url to link to in mTermsOfBookingLinkText
+		private String mTermsOfBookingUrl;
+
 		// The text in mRulesRestrictionsConfirmation that should be linked for the privacy policy
 		private String mPrivacyPolicyLinkText;
 
@@ -213,6 +219,10 @@ public class PointOfSale {
 
 	public String getTermsAndConditionsUrl() {
 		return getPosLocale().mTermsAndConditionsUrl;
+	}
+
+	public String getTermsOfBookingUrl() {
+		return getPosLocale().mTermsOfBookingUrl;
 	}
 
 	public String getPrivacyPolicyUrl() {
@@ -527,6 +537,8 @@ public class PointOfSale {
 		locale.mHotelBookingStatement = data.optString("hotelBookingStatement", null);
 		locale.mTermsAndConditionsLinkText = data.optString("termsAndConditionsURL", null);
 		locale.mTermsAndConditionsUrl = data.optString("termsAndConditionsURL", null);
+		locale.mTermsOfBookingLinkText = data.optString("termsOfBookingLinkText", null);
+		locale.mTermsOfBookingUrl = data.optString("termsOfBookingURL", null);
 		locale.mPrivacyPolicyLinkText = data.optString("privacyPolicyLinkText", null);
 		locale.mPrivacyPolicyUrl = data.optString("privacyPolicyURL", null);
 

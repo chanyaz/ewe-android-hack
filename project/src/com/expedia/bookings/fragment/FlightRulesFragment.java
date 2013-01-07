@@ -89,7 +89,10 @@ public class FlightRulesFragment extends SherlockFragment {
 	}
 
 	private void populateHeaderRows(View v) {
-		// rules and restrictions
+
+		final PointOfSale pos = PointOfSale.getPointOfSale();
+
+		// Rules and Restrictions
 		TextView rules = Ui.findView(v, R.id.rules_and_restrictions);
 		rules.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -102,24 +105,41 @@ public class FlightRulesFragment extends SherlockFragment {
 
 		});
 
-		// terms and conditions
+		// Terms and Conditions
 		TextView terms = Ui.findView(v, R.id.terms_and_conditions);
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = WebViewActivity.getIntent(mContext, PointOfSale.getPointOfSale()
-						.getTermsAndConditionsUrl(), R.style.FlightTheme, R.string.legal_information, true);
+				Intent intent = WebViewActivity.getIntent(mContext, pos.getTermsAndConditionsUrl(),
+						R.style.FlightTheme, R.string.legal_information, true);
 				mContext.startActivity(intent);
 			}
 		});
 
-		// privacy policy
+		// Terms of Booking
+		if (pos.getTermsOfBookingUrl() != null) {
+			TextView booking = Ui.findView(v, R.id.terms_of_booking);
+			booking.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = WebViewActivity.getIntent(mContext, pos.getTermsOfBookingUrl(),
+							R.style.FlightTheme, R.string.Terms_of_Booking, true);
+					mContext.startActivity(intent);
+				}
+			});
+		}
+		else {
+			Ui.findView(v, R.id.terms_of_booking).setVisibility(View.GONE);
+			Ui.findView(v, R.id.terms_of_booking_divider).setVisibility(View.GONE);
+		}
+
+		// Privacy Policy
 		TextView privacy = Ui.findView(v, R.id.privacy_policy);
 		privacy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = WebViewActivity.getIntent(mContext, PointOfSale.getPointOfSale().getPrivacyPolicyUrl(),
-						R.style.FlightTheme, R.string.legal_information, true);
+				Intent intent = WebViewActivity.getIntent(mContext, pos.getPrivacyPolicyUrl(), R.style.FlightTheme,
+						R.string.legal_information, true);
 				mContext.startActivity(intent);
 			}
 		});

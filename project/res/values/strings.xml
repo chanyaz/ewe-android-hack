@@ -505,6 +505,8 @@
     <string name="rules_and_restrictions">Rules and Restrictions</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">Terms and Conditions</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">Terms of Booking</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Privacy Policy</string>
     <!-- Fare information header -->

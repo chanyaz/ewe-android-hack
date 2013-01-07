@@ -45,16 +45,36 @@ public class HotelRulesFragment extends SherlockFragment {
 	}
 
 	private void populateHeaderRows(View view) {
+
+		final PointOfSale pos = PointOfSale.getPointOfSale();
+
 		// Terms and Conditions
 		TextView terms = Ui.findView(view, R.id.terms_and_conditions);
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = WebViewActivity.getIntent(getActivity(), PointOfSale.getPointOfSale()
-						.getTermsAndConditionsUrl(), R.style.HotelWebViewTheme, 0, true);
+				Intent intent = WebViewActivity.getIntent(getActivity(), pos.getTermsAndConditionsUrl(),
+						R.style.HotelWebViewTheme, 0, true);
 				startActivity(intent);
 			}
 		});
+
+		// Terms of Booking
+		if (pos.getTermsOfBookingUrl() != null) {
+			TextView booking = Ui.findView(view, R.id.terms_of_booking);
+			booking.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = WebViewActivity.getIntent(getActivity(), pos.getTermsOfBookingUrl(),
+							R.style.FlightTheme, R.string.Terms_of_Booking, true);
+					startActivity(intent);
+				}
+			});
+		}
+		else {
+			Ui.findView(view, R.id.terms_of_booking).setVisibility(View.GONE);
+			Ui.findView(view, R.id.terms_of_booking_divider).setVisibility(View.GONE);
+		}
 
 		// Privacy Policy
 		TextView privacy = Ui.findView(view, R.id.privacy_policy);
