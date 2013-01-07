@@ -468,7 +468,7 @@ public class BookingFormFragment extends Fragment {
 		}
 
 		// Setup the correct text (and link enabling) on the terms & conditions textview
-		mRulesRestrictionsTextView.setText(PointOfSale.getPointOfSale().getRulesRestrictionsConfirmation());
+		mRulesRestrictionsTextView.setText(PointOfSale.getPointOfSale().getLinkifiedHotelBookingStatement());
 		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
 		// Configure form validation

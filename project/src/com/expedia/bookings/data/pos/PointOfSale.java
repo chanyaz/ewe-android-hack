@@ -106,7 +106,7 @@ public class PointOfSale {
 		private String mBestPriceGuaranteePolicyUrl;
 
 		// The rules & restrictions disclaimer for every booking
-		private String mRulesRestrictionsConfirmation;
+		private String mHotelBookingStatement;
 
 		// The text in mRulesRestrictionsConfirmation that should be linked for terms and conditions
 		private String mTermsAndConditionsLinkText;
@@ -219,13 +219,13 @@ public class PointOfSale {
 		return getPosLocale().mPrivacyPolicyUrl;
 	}
 
-	public CharSequence getRulesRestrictionsConfirmation() {
+	public CharSequence getLinkifiedHotelBookingStatement() {
 		PointOfSaleLocale posLocale = getPosLocale();
 
-		SpannableStringBuilder text = new SpannableStringBuilder(posLocale.mRulesRestrictionsConfirmation);
-		linkifyText(text, posLocale.mRulesRestrictionsConfirmation, posLocale.mTermsAndConditionsLinkText,
+		SpannableStringBuilder text = new SpannableStringBuilder(posLocale.mHotelBookingStatement);
+		linkifyText(text, posLocale.mHotelBookingStatement, posLocale.mTermsAndConditionsLinkText,
 				posLocale.mTermsAndConditionsUrl);
-		linkifyText(text, posLocale.mRulesRestrictionsConfirmation, posLocale.mPrivacyPolicyLinkText,
+		linkifyText(text, posLocale.mHotelBookingStatement, posLocale.mPrivacyPolicyLinkText,
 				posLocale.mPrivacyPolicyUrl);
 
 		return text;
@@ -524,7 +524,7 @@ public class PointOfSale {
 		locale.mBestPriceGuaranteePolicyUrl = data.optString("bestPriceGuaranteePolicyURL", null);
 
 		// All fields for rules & restrictions disclaimer
-		locale.mRulesRestrictionsConfirmation = data.optString("hotelBookingStatement", null);
+		locale.mHotelBookingStatement = data.optString("hotelBookingStatement", null);
 		locale.mTermsAndConditionsLinkText = data.optString("termsAndConditionsURL", null);
 		locale.mTermsAndConditionsUrl = data.optString("termsAndConditionsURL", null);
 		locale.mPrivacyPolicyLinkText = data.optString("privacyPolicyLinkText", null);
