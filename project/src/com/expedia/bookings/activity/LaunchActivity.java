@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
@@ -154,6 +155,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
+
+		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.itineraries);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		mHockeyPuck.onCreateOptionsMenu(menu);
