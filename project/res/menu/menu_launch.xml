@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/itineraries"
+        android:icon="@drawable/ic_suitcase_small"
+        android:showAsAction="always|withText"
+        android:title="@string/itinerary"/>
+    <item
         android:id="@+id/settings"
         android:icon="@android:drawable/ic_menu_manage"
         android:showAsAction="never"
