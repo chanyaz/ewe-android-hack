@@ -47,6 +47,8 @@ public class FlightTrip implements JSONable {
 	// Rules associated with offer (will not exist until we have an itinerary)
 	private Map<String, Rule> mRules;
 
+	private String mBaggageFeesUrl;
+
 	public String getProductKey() {
 		return mProductKey;
 	}
@@ -160,6 +162,14 @@ public class FlightTrip implements JSONable {
 
 	public Set<String> getRules() {
 		return mRules.keySet();
+	}
+
+	public void setBaggageFeesUrl(String url) {
+		mBaggageFeesUrl = url;
+	}
+
+	public String getBaggageFeesUrl() {
+		return mBaggageFeesUrl;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -441,6 +451,7 @@ public class FlightTrip implements JSONable {
 			JSONUtils.putJSONable(obj, "fees", mFees);
 			JSONUtils.putJSONable(obj, "priceChangeAmount", mPriceChangeAmount);
 			obj.putOpt("seatsRemaining", mSeatsRemaining);
+			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
 
 			JSONArray arr = new JSONArray();
 			for (List<FlightSegmentAttributes> attributes : mFlightSegmentAttrs) {
@@ -485,6 +496,7 @@ public class FlightTrip implements JSONable {
 		mFees = JSONUtils.getJSONable(obj, "fees", Money.class);
 		mPriceChangeAmount = JSONUtils.getJSONable(obj, "priceChangeAmount", Money.class);
 		mSeatsRemaining = obj.optInt("seatsRemaining");
+		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
 
 		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");
 		for (int a = 0; a < arr.length(); a++) {

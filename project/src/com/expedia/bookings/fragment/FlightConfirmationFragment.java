@@ -445,9 +445,7 @@ public class FlightConfirmationFragment extends Fragment {
 
 		body.append("\n\n");
 
-		body.append(getString(R.string.share_flight_additional_fees_TEMPLATE,
-				SupportUtils.getBaggageFeeUrl(firstLeg.getFirstWaypoint().mAirportCode,
-						firstLeg.getLastWaypoint().mAirportCode)));
+		body.append(getString(R.string.share_flight_additional_fees_TEMPLATE, trip.getBaggageFeesUrl()));
 
 		body.append("\n\n");
 
