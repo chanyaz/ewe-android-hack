@@ -51,10 +51,8 @@ import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.LaunchFlightAdapter;
 import com.expedia.bookings.widget.LaunchHotelAdapter;
@@ -137,31 +135,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		Random rand = new Random();
 		bgView.setImageResource(BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
 
-		FontCache.setTypeface(v, R.id.hotels_label_text_view, FontCache.Font.ROBOTO_LIGHT);
-		FontCache.setTypeface(v, R.id.hotels_prompt_text_view, FontCache.Font.ROBOTO_LIGHT);
-		FontCache.setTypeface(v, R.id.flights_label_text_view, FontCache.Font.ROBOTO_LIGHT);
-		FontCache.setTypeface(v, R.id.flights_prompt_text_view, FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.error_message_text_view, Font.ROBOTO_LIGHT);
-
-		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
-
-		// H833 If the prompt is too wide on this POS/in this language, then hide it
-		// (and also hide its sibling to maintain a consistent look)
-		// Wrap this in a Runnable so as to happen after the TextViews have been measured
-		Ui.findView(v, R.id.hotels_prompt_text_view).post(new Runnable() {
-			@Override
-			public void run() {
-				View hotelPrompt = Ui.findView(v, R.id.hotels_prompt_text_view);
-				View hotelIcon = Ui.findView(v, R.id.big_hotel_icon);
-				View flightsPrompt = Ui.findView(v, R.id.flights_prompt_text_view);
-				View flightsIcon = Ui.findView(v, R.id.big_flights_icon);
-				if (hotelPrompt.getLeft() < hotelIcon.getRight() || flightsPrompt.getLeft() < flightsIcon.getRight()) {
-					hotelPrompt.setVisibility(View.INVISIBLE);
-					flightsPrompt.setVisibility(View.INVISIBLE);
-				}
-			}
-		});
 
 		mHotelsStreamListView.setScrollMultiplier(2.0);
 		mFlightsStreamListView.setScrollMultiplier(1.0);
@@ -674,25 +648,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		}
 	}
 
-	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.hotels_button:
-				NavUtils.goToHotels(getActivity());
-
-				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
-				break;
-			case R.id.flights_button:
-				NavUtils.goToFlights(getActivity());
-
-				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
-				break;
-			}
-
-			cleanUp();
-		}
-	};
+	
 
 	private final AdapterView.OnItemClickListener mHotelsStreamOnItemClickListener = new AdapterView.OnItemClickListener() {
 		@Override

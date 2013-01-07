@@ -4,10 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <include
-        android:layout_width="match_parent"
-        layout="@layout/snippet_launch_header" />
-
     <LinearLayout
         android:id="@+id/error_container"
         android:layout_width="match_parent"
