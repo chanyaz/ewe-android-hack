@@ -45,43 +45,36 @@ public class HotelRulesFragment extends SherlockFragment {
 	}
 
 	private void populateHeaderRows(View view) {
-		// terms and conditions
+		// Terms and Conditions
 		TextView terms = Ui.findView(view, R.id.terms_and_conditions);
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), WebViewActivity.class);
-				intent.putExtra(WebViewActivity.ARG_URL, PointOfSale.getPointOfSale()
-						.getTermsAndConditionsUrl());
-				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.HotelWebViewTheme);
-				intent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
+				Intent intent = WebViewActivity.getIntent(getActivity(), PointOfSale.getPointOfSale()
+						.getTermsAndConditionsUrl(), R.style.HotelWebViewTheme, 0, true);
 				startActivity(intent);
 			}
 		});
 
-		// privacy policy
+		// Privacy Policy
 		TextView privacy = Ui.findView(view, R.id.privacy_policy);
 		privacy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), WebViewActivity.class);
-				intent.putExtra(WebViewActivity.ARG_URL, PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
-				intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.HotelWebViewTheme);
-				intent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
+				Intent intent = WebViewActivity.getIntent(getActivity(), PointOfSale.getPointOfSale()
+						.getPrivacyPolicyUrl(), R.style.HotelWebViewTheme, 0, true);
 				startActivity(intent);
 			}
 		});
 
-		// privacy policy
+		// Best Price Guarantee
 		TextView guarantee = Ui.findView(view, R.id.best_price_guarantee);
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
 			guarantee.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(getActivity(), WebViewActivity.class);
-					intent.putExtra(WebViewActivity.ARG_URL, PointOfSale.getPointOfSale()
-							.getBestPriceGuaranteeUrl());
-					intent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.HotelWebViewTheme);
+					Intent intent = WebViewActivity.getIntent(getActivity(), PointOfSale.getPointOfSale()
+							.getBestPriceGuaranteeUrl(), R.style.HotelWebViewTheme, 0, true);
 					startActivity(intent);
 				}
 			});

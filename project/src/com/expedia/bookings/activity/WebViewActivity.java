@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
@@ -12,14 +14,50 @@ import com.expedia.bookings.utils.Ui;
 
 public class WebViewActivity extends SherlockFragmentActivity implements WebViewFragment.WebViewFragmentListener {
 
-	public static final String ARG_URL = "ARG_URL";
-	public static final String ARG_STYLE_RES_ID = "ARG_STYLE_RES_ID";
-	public static final String ARG_TITLE_RES_ID = "ARG_TITLE_RES_ID";
-	public static final String ARG_DISABLE_SIGN_IN = "ARG_DISABLE_SIGN_IN";
-	public static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
-	public static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
+	private static final String ARG_URL = "ARG_URL";
+	private static final String ARG_STYLE_RES_ID = "ARG_STYLE_RES_ID";
+	private static final String ARG_TITLE_RES_ID = "ARG_TITLE_RES_ID";
+	private static final String ARG_DISABLE_SIGN_IN = "ARG_DISABLE_SIGN_IN";
+	private static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
+	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 
 	private WebViewFragment mFragment;
+
+	public static Intent getIntent(Context context, String url, int styleResId, int titleResId) {
+		return getIntent(context, url, styleResId, titleResId, false, false);
+	}
+
+	public static Intent getIntent(Context context, String url, int styleResId, int titleResId, boolean disableSignIn) {
+		return getIntent(context, url, styleResId, titleResId, disableSignIn, false);
+	}
+
+	public static Intent getIntent(Context context, String url, int styleResId, int titleResId, boolean disableSignIn,
+			String trackingName) {
+		return getIntent(context, url, styleResId, titleResId, disableSignIn, false, trackingName);
+	}
+
+	public static Intent getIntent(Context context, String url, int styleResId, int titleResId, boolean disableSignIn,
+			boolean injectExpediaCookies) {
+		return getIntent(context, url, styleResId, titleResId, disableSignIn, injectExpediaCookies, null);
+	}
+
+	public static Intent getIntent(Context context, String url, int styleResId, int titleResId, boolean disableSignIn,
+			boolean injectExpediaCookies, String trackingName) {
+		Intent intent = new Intent(context, WebViewActivity.class);
+		intent.putExtra(ARG_URL, url);
+		if (styleResId != 0) {
+			intent.putExtra(ARG_STYLE_RES_ID, styleResId);
+		}
+		if (titleResId != 0) {
+			intent.putExtra(ARG_TITLE_RES_ID, titleResId);
+		}
+		intent.putExtra(ARG_DISABLE_SIGN_IN, disableSignIn);
+		intent.putExtra(ARG_INJECT_EXPEDIA_COOKIES, injectExpediaCookies);
+		if (trackingName != null) {
+			intent.putExtra(ARG_TRACKING_NAME, trackingName);
+		}
+		return intent;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

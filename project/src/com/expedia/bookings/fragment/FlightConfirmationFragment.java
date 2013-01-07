@@ -375,11 +375,8 @@ public class FlightConfirmationFragment extends Fragment {
 
 	private void addInsurance() {
 		String url = "http://www.expedia.ca/daily/enc4105/travelinsurance/default.asp";
-		Intent insuranceIntent = new Intent(getActivity(), WebViewActivity.class);
-		insuranceIntent.putExtra(WebViewActivity.ARG_URL, url);
-		insuranceIntent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
-		insuranceIntent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
-		insuranceIntent.putExtra(WebViewActivity.ARG_TITLE_RES_ID, R.string.insurance);
+		Intent insuranceIntent = WebViewActivity.getIntent(getActivity(), url, R.style.FlightTheme, R.string.insurance,
+				true);
 		startActivity(insuranceIntent);
 
 		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_ADDED_INSURANCE, true);

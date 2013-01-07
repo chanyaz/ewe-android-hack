@@ -161,27 +161,22 @@ public class FlightDetailsFragment extends Fragment {
 				//TODO:We need to set the correct url based on Point of Sale
 				String url = leg.getBaggageFeeUrl();
 
-				Intent baggageIntent = new Intent(getActivity(), WebViewActivity.class);
-				baggageIntent.putExtra(WebViewActivity.ARG_URL, url);
-				baggageIntent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
-				baggageIntent.putExtra(WebViewActivity.ARG_DISABLE_SIGN_IN, true);
-
 				int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
+				String trackingName = null;
 				if (legPosition == 0) {
 					if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-						baggageIntent.putExtra(WebViewActivity.ARG_TRACKING_NAME,
-								WebViewFragment.TrackingName.BaggageFeeOutbound.name());
+						trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
 					}
 					else {
-						baggageIntent.putExtra(WebViewActivity.ARG_TRACKING_NAME,
-								WebViewFragment.TrackingName.BaggageFeeOneWay.name());
+						trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
 					}
 				}
 				else if (legPosition == 1) {
-					baggageIntent.putExtra(WebViewActivity.ARG_TRACKING_NAME,
-							WebViewFragment.TrackingName.BaggageFeeInbound.name());
+					trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
 				}
 
+				Intent baggageIntent = WebViewActivity.getIntent(getActivity(), url, R.style.FlightTheme, 0, true,
+						trackingName);
 				getActivity().startActivity(baggageIntent);
 			}
 		});
