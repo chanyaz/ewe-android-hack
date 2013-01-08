@@ -53,6 +53,7 @@ import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.LocaleUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.BillingAddressWidget;
@@ -229,6 +230,10 @@ public class BookingFormFragment extends Fragment {
 		mCouponCodeWidget.setFieldAboveCouponCode(mSecurityCodeEditText, R.id.security_code_edit_text);
 		mCouponCodeWidget.setFieldBelowCouponCode(mRulesRestrictionsCheckbox, R.id.rules_restrictions_checkbox);
 		mCouponCodeWidget.restoreInstanceState(savedInstanceState);
+
+		if (!Db.getSelectedProperty().isMerchant()) {
+			Ui.findView(view, R.id.coupon_code).setVisibility(View.GONE);
+		}
 
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
