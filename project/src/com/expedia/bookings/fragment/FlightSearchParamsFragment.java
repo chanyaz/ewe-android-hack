@@ -110,6 +110,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	// Special code just for landscape
 	private boolean mIsLandscape;
 
+	// So we can tell if we are running this fragment for the very first time
+	private boolean mFirstRun;
+
 	public static FlightSearchParamsFragment newInstance(FlightSearchParams initialParams, boolean dimBackground) {
 		FlightSearchParamsFragment fragment = new FlightSearchParamsFragment();
 		Bundle args = new Bundle();
@@ -132,6 +135,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		mIsLandscape = getResources().getBoolean(R.bool.is_landscape);
+		mFirstRun = savedInstanceState == null;
 	}
 
 	@Override
@@ -312,7 +316,20 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		updateNumTravelersText();
 
-		if (savedInstanceState == null && Db.getFlightSearch().getSearchParams().getDepartureLocation() == null) {
+		return v;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		// Don't set the focus change listener until now, so that we can properly
+		// restore the state of the views.  Same with the adapter (so it doesn't
+		// constantly fire queries when nothing has changed).
+		mDepartureAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
+		mArrivalAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
+
+		if (mFirstRun && Db.getFlightSearch().getSearchParams().getDepartureLocation() == null) {
 			mDepartureAirportEditText.requestFocus();
 
 			// Dumb hack to get IME to show.  Without delaying this doesn't work (for some dumb reason)
@@ -333,19 +350,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				}
 			}, 250);
 		}
-
-		return v;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		// Don't set the focus change listener until now, so that we can properly
-		// restore the state of the views.  Same with the adapter (so it doesn't
-		// constantly fire queries when nothing has changed).
-		mDepartureAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
-		mArrivalAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
 	}
 
 	@Override
