@@ -12,6 +12,7 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
@@ -82,7 +83,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 			row[1] = displayName.first;
 			row[2] = displayName.second;
 			row[3] = suggestion.getAirportLocationCode();
-			row[4] = 0; // TODO: Use an icon for autocompleted airport?
+			row[4] = R.drawable.ic_location_search;
 			return row;
 		}
 
