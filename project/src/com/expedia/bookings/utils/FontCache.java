@@ -22,6 +22,7 @@ public class FontCache {
 		OCRA_STD("fonts/OCRAStd.otf"),
 		ROBOTO_LIGHT("fonts/Roboto-Light.ttf"),
 		ROBOTO_BOLD("fonts/Roboto-Bold.ttf"),
+		ROBOTO_REGULAR("fonts/Roboto-Regular.ttf"),
 		SIGNERICA_FAT("fonts/Signerica_Fat.ttf");
 
 		private String mPath;

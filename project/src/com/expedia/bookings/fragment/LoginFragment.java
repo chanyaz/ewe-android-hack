@@ -8,6 +8,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +26,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -38,7 +43,9 @@ import com.expedia.bookings.fragment.FlightTripPriceFragment.LoadingDetailsDialo
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -82,11 +89,11 @@ public class LoginFragment extends Fragment {
 	private ViewGroup mFacebookButtonContainer;
 
 	private TextView mStatusMessageTv;
-	private View mConnectWithFacebookBtn;
-	private View mSignInWithExpediaBtn;
+	private Button mConnectWithFacebookBtn;
+	private Button mSignInWithExpediaBtn;
 	private TextView mForgotYourPasswordTv;
-	private View mLinkAccountsBtn;
-	private View mCancelLinkAccountsBtn;
+	private Button mLinkAccountsBtn;
+	private Button mCancelLinkAccountsBtn;
 
 	private EditText mExpediaUserName;
 	private EditText mExpediaPassword;
@@ -147,12 +154,32 @@ public class LoginFragment extends Fragment {
 		mExpediaPassword = Ui.findView(v, R.id.password_edit_text);
 		mLinkPassword = Ui.findView(v, R.id.link_password_edit_text);
 
+		FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(mConnectWithFacebookBtn, Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(mSignInWithExpediaBtn, Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(mForgotYourPasswordTv, Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(mLinkAccountsBtn, Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(mCancelLinkAccountsBtn, Font.ROBOTO_REGULAR);
+		FontCache.setTypeface(mExpediaUserName, Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(mExpediaPassword, Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(mLinkPassword, Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(v, R.id.or_tv, Font.ROBOTO_LIGHT);
+
 		loadSavedState(savedInstanceState);
 
-		if (mStatusText != null) {
-			setStatusText(mStatusText);
+		if (mStatusText == null || mStatusText.equalsIgnoreCase(getString(R.string.expedia_account))) {
+			setStatusText(R.string.expedia_account, true);
+		}
+		else if (mStatusText != null) {
+			setStatusText(mStatusText, false);
 		}
 
+		if(mPathMode.equals(PathMode.FLIGHTS)){
+			ViewGroup outerContainer = Ui.findView(v, R.id.outer_container);
+			BitmapDrawable bg = new BitmapDrawable(getResources(), Db.getBackgroundImage(getActivity(), true));
+			outerContainer.setBackgroundDrawable(bg);
+		}
+		
 		initOnClicks();
 		setVisibilityState(mVisibilityState);
 
@@ -438,9 +465,11 @@ public class LoginFragment extends Fragment {
 				//goto previous state...
 				if (TextUtils.isEmpty(mExpediaUserName.getText())) {
 					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON);
+					setStatusText(R.string.expedia_account,true);
 				}
 				else {
 					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON);
+					setStatusText(R.string.expedia_account,true);
 				}
 			}
 		});
@@ -494,6 +523,7 @@ public class LoginFragment extends Fragment {
 
 		switch (mVisibilityState) {
 		case FACEBOOK_LINK:
+			this.setStatusText(R.string.expedia_account, true);
 			if (TextUtils.isEmpty(mExpediaUserName.getText())) {
 				setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON);
 			}
@@ -546,23 +576,24 @@ public class LoginFragment extends Fragment {
 	protected void setStatusTextExpediaAccountFound(String name) {
 		if (mContext != null && this.isAdded()) {
 			String str = String.format(getString(R.string.facebook_weve_found_your_account), name);
-			setStatusText(str);
+			setStatusText(str, false);
 		}
 	}
 
 	protected void setStatusTextFbInfoLoaded(String name) {
 		if (mContext != null && this.isAdded()) {
 			String str = String.format(getString(R.string.facebook_weve_fetched_your_info), name);
-			setStatusText(str);
+			setStatusText(str, false);
 		}
 	}
 
-	protected void setStatusText(final String text) {
+	protected void setStatusText(final String text, final boolean isHeading) {
 		Runnable runner = new Runnable() {
 			@Override
 			public void run() {
 				if (mStatusMessageTv != null) {
 					mStatusMessageTv.setText(Html.fromHtml(text));
+					setStatusTextMode(isHeading);
 				}
 			}
 		};
@@ -573,10 +604,34 @@ public class LoginFragment extends Fragment {
 
 	}
 
-	protected void setStatusText(int resId) {
+	protected void setStatusTextMode(boolean heading) {
+		LayoutParams lp = (LayoutParams) mStatusMessageTv.getLayoutParams();
+		Resources resources = getResources();
+
+		if (heading) {
+			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+			FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
+			int marginpx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25,
+					resources.getDisplayMetrics());
+			lp.leftMargin = marginpx;
+			lp.rightMargin = marginpx;
+		}
+		else {
+
+			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+			FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_REGULAR);
+			int marginpx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18,
+					resources.getDisplayMetrics());
+			lp.leftMargin = marginpx;
+			lp.rightMargin = marginpx;
+		}
+		mStatusMessageTv.setLayoutParams(lp);
+	}
+
+	protected void setStatusText(int resId, boolean isHeading) {
 		if (mContext != null && this.isAdded()) {
 			String str = getString(resId);
-			setStatusText(str);
+			setStatusText(str, isHeading);
 		}
 	}
 
@@ -655,7 +710,7 @@ public class LoginFragment extends Fragment {
 			setIsLoading(false);
 			if (response == null || response.hasErrors()) {
 				mExpediaPassword.setText("");
-				setStatusText(R.string.login_failed_try_again);
+				setStatusText(R.string.login_failed_try_again, false);
 			}
 			else {
 				User user = response.getUser();
@@ -742,7 +797,7 @@ public class LoginFragment extends Fragment {
 			}
 			else {
 				//TODO:Better error message
-				setStatusText(R.string.unspecified_error);
+				setStatusText(R.string.unspecified_error, false);
 				setIsLoading(false);
 			}
 		}
@@ -766,13 +821,13 @@ public class LoginFragment extends Fragment {
 				}
 				else {
 					//TODO:Better error message
-					setStatusText(R.string.unspecified_error);
+					setStatusText(R.string.unspecified_error, false);
 					setIsLoading(false);
 				}
 			}
 			else {
 				//TODO:Better error message
-				setStatusText(R.string.unspecified_error);
+				setStatusText(R.string.unspecified_error, false);
 				setIsLoading(false);
 			}
 		}
@@ -790,19 +845,19 @@ public class LoginFragment extends Fragment {
 					}
 				}
 				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.loginFailed) == 0) {
-					setStatusText(R.string.login_failed_try_again);
+					setStatusText(R.string.login_failed_try_again, false);
 					clearPasswordField();
 					setIsLoading(false);
 				}
 				else {
 					//TODO: Something...
-					setStatusText(R.string.unspecified_error);
+					setStatusText(R.string.unspecified_error, false);
 					setIsLoading(false);
 				}
 			}
 			else {
 				//TODO:Better error message
-				setStatusText(R.string.unspecified_error);
+				setStatusText(R.string.unspecified_error, false);
 				setIsLoading(false);
 			}
 		}
@@ -882,7 +937,7 @@ public class LoginFragment extends Fragment {
 							}
 						}
 						else {
-							setStatusText(R.string.unable_to_sign_into_facebook);
+							setStatusText(R.string.unable_to_sign_into_facebook, false);
 							setIsLoading(false);
 						}
 					}
@@ -890,7 +945,7 @@ public class LoginFragment extends Fragment {
 			}
 		}
 		else {
-			setStatusText(R.string.unable_to_sign_into_facebook);
+			setStatusText(R.string.unable_to_sign_into_facebook, false);
 			setIsLoading(false);
 		}
 	}

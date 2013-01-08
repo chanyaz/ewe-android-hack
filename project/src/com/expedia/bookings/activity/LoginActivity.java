@@ -44,6 +44,13 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
+		if(this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.HOTELS.name())){
+			actionBar.setIcon(R.drawable.ic_logo_hotels);
+		}else if(this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.FLIGHTS.name())){
+			actionBar.setIcon(R.drawable.ic_logo_flights);
+		}
+		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		if (mTitle != null) {
 			setTitle(mTitle);
@@ -51,6 +58,8 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		else {
 			setTitle(getString(R.string.sign_in));
 		}
+		
+		
 	}
 
 	@Override
