@@ -346,9 +346,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		// constantly fire queries when nothing has changed).
 		mDepartureAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
 		mArrivalAirportEditText.setOnFocusChangeListener(mAirportFocusChangeListener);
-
-		mDepartureAirportEditText.setAdapter(mAirportAdapter);
-		mArrivalAirportEditText.setAdapter(mAirportAdapter);
 	}
 
 	@Override
@@ -391,6 +388,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private OnFocusChangeListener mAirportFocusChangeListener = new OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
+			AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) v;
+			if (hasFocus) {
+				autoCompleteTextView.setAdapter(mAirportAdapter);
+			}
+			else {
+				autoCompleteTextView.setAdapter(null);
+			}
+
 			if (hasFocus) {
 				toggleCalendarDatePicker(false);
 
