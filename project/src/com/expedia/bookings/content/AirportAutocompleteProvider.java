@@ -24,12 +24,14 @@ public class AirportAutocompleteProvider extends ContentProvider {
 		SearchManager.SUGGEST_COLUMN_TEXT_1,
 		SearchManager.SUGGEST_COLUMN_TEXT_2,
 		SearchManager.SUGGEST_COLUMN_QUERY,
+		SearchManager.SUGGEST_COLUMN_ICON_1
 	};
 
 	public static final int COL_ID = 0;
 	public static final int COL_SUGGEST_COLUMN_TEXT_1 = 1;
 	public static final int COL_SUGGEST_COLUMN_TEXT_2 = 2;
 	public static final int COL_SUGGEST_COLUMN_QUERY = 3;
+	public static final int COL_SUGGEST_COLUMN_ICON_1 = 4;
 
 	public static final Uri CONTENT_FILTER_URI = Uri.parse("content://com.expedia.booking.autocomplete.air");
 
@@ -80,6 +82,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 			row[1] = displayName.first;
 			row[2] = displayName.second;
 			row[3] = suggestion.getAirportLocationCode();
+			row[4] = 0; // TODO: Use an icon for autocompleted airport?
 			return row;
 		}
 

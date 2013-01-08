@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.ContentResolver;
@@ -14,6 +16,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -21,7 +24,6 @@ import com.expedia.bookings.content.AirportAutocompleteProvider;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
 import com.mobiata.android.LocationServices;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -32,11 +34,19 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 	private static final int MAX_RECENTS = 10;
 
+	// Minimum time ago that we will use location stats
+	private static final long MINIMUM_TIME_AGO = 1000 * 60 * 60; // 1 hour
+
+	// Maximum # of nearby airports to report
+	private static final int MAX_NEARBY = 2;
+
 	private Map<String, String> mCountryCodeMap;
 
 	private ContentResolver mContent;
 
 	private RecentList<Location> mRecentSearches;
+
+	private boolean mShowNearbyAirports;
 
 	public AirportDropDownAdapter(Context context) {
 		super(context, null, 0);
@@ -54,19 +64,44 @@ public class AirportDropDownAdapter extends CursorAdapter {
 		}
 	}
 
+	public void setShowNearbyAirports(boolean showNearbyAirports) {
+		mShowNearbyAirports = showNearbyAirports;
+	}
+
 	@Override
 	public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
 		if (TextUtils.isEmpty(constraint)) {
 			int a = 0;
 			MatrixCursor cursor = new MatrixCursor(AirportAutocompleteProvider.COLUMNS);
+
+			// Add nearby airports if we know the user's recent location
+			long minTime = Calendar.getInstance().getTimeInMillis() - MINIMUM_TIME_AGO;
+			android.location.Location loc = LocationServices.getLastBestLocation(mContext, minTime);
+			if (mShowNearbyAirports && loc != null) {
+				List<Airport> airports = FlightStatsDbUtils.getNearestAirports(loc.getLatitude(), loc.getLongitude(),
+						true, MAX_NEARBY);
+
+				for (Airport airport : airports) {
+					Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
+					row[0] = a++;
+					row[1] = airport.mCity;
+					row[2] = airport.mAirportCode + "-" + airport.mName;
+					row[3] = airport.mAirportCode;
+					row[4] = R.drawable.ic_nearby_search;
+					cursor.addRow(row);
+				}
+			}
+
 			for (Location location : mRecentSearches.getList()) {
 				Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
 				row[0] = a++;
 				row[1] = location.getCity();
 				row[2] = location.getDescription();
 				row[3] = location.getDestinationId();
+				row[4] = R.drawable.ic_recent_search;
 				cursor.addRow(row);
 			}
+
 			return cursor;
 		}
 		else {
@@ -86,6 +121,16 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		ViewHolder vh = (ViewHolder) view.getTag();
+
+		int iconResId = cursor.getInt(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_ICON_1);
+		if (iconResId == 0) {
+			vh.mIcon1.setVisibility(View.GONE);
+		}
+		else {
+			vh.mIcon1.setImageResource(iconResId);
+			vh.mIcon1.setVisibility(View.VISIBLE);
+		}
+
 		vh.mTextView1.setText(cursor.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_1));
 		vh.mTextView2.setText(cursor.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_2));
 	}
@@ -96,6 +141,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 		View v = inflater.inflate(R.layout.simple_dropdown_item_2line, parent, false);
 
 		ViewHolder vh = new ViewHolder();
+		vh.mIcon1 = Ui.findView(v, android.R.id.icon1);
 		vh.mTextView1 = Ui.findView(v, android.R.id.text1);
 		vh.mTextView2 = Ui.findView(v, android.R.id.text2);
 		v.setTag(vh);
@@ -104,6 +150,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	}
 
 	private static class ViewHolder {
+		private ImageView mIcon1;
 		private TextView mTextView1;
 		private TextView mTextView2;
 	}

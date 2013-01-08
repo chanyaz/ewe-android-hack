@@ -390,6 +390,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		public void onFocusChange(View v, boolean hasFocus) {
 			AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) v;
 			if (hasFocus) {
+				mAirportAdapter.setShowNearbyAirports(v == mDepartureAirportEditText);
 				autoCompleteTextView.setAdapter(mAirportAdapter);
 			}
 			else {
