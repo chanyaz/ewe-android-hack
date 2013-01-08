@@ -237,6 +237,10 @@ public class BookingFormFragment extends DialogFragment {
 		mCouponCodeWidget.setFieldBelowCouponCode(mRulesRestrictionsCheckbox, R.id.rules_restrictions_checkbox);
 		mCouponCodeWidget.restoreInstanceState(savedInstanceState);
 
+		if (!Db.getSelectedProperty().isMerchant()) {
+			Ui.findView(view, R.id.coupon_code).setVisibility(View.GONE);
+		}
+
 		// 10758: rendering the saved layouts on a software layer
 		// to avoid the fuzziness of the saved section background
 		LayoutUtils.sayNoToJaggies(mGuestSavedLayout, view.findViewById(R.id.credit_card_security_code_container));
