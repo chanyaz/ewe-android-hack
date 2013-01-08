@@ -888,10 +888,27 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		case R.id.menu_select_sort_popularity:
+			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
+			mSortOptionSelectedId = item.getItemId();
+			rebuildFilter = true;
+			break;
 		case R.id.menu_select_sort_deals:
+			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
+			mSortOptionSelectedId = item.getItemId();
+			rebuildFilter = true;
+			break;
 		case R.id.menu_select_sort_price:
+			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
+			mSortOptionSelectedId = item.getItemId();
+			rebuildFilter = true;
+			break;
 		case R.id.menu_select_sort_user_rating:
+			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
+			mSortOptionSelectedId = item.getItemId();
+			rebuildFilter = true;
+			break;
 		case R.id.menu_select_sort_distance:
+			OmnitureTracking.trackLinkHotelSort(mContext, OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
 			mSortOptionSelectedId = item.getItemId();
 			rebuildFilter = true;
 			break;

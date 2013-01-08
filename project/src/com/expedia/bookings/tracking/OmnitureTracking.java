@@ -604,6 +604,16 @@ public class OmnitureTracking {
 		internalTrackLink(context, link);
 	}
 
+	public static final String HOTELS_SEARCH_SORT_POPULAR = "App.Hotels.Search.Sort.Popular";
+	public static final String HOTELS_SEARCH_SORT_PRICE = "App.Hotels.Search.Sort.Price";
+	public static final String HOTELS_SEARCH_SORT_DISTANCE = "App.Hotels.Search.Sort.Distance";
+	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotels.Search.Sort.Rating";
+	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotels.Search.Sort.Deals";
+
+	public static void trackLinkHotelSort(Context context, String pageName) {
+		internalTrackLink(context, pageName);
+	}
+
 	// Login
 
 	public static void trackLinkHotelsCheckoutLoginSuccess(Context context) {
