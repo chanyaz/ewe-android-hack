@@ -194,36 +194,39 @@ public class StrUtils {
 
 	public static String formatWaypoint(Waypoint waypoint) {
 		Airport airport = waypoint.getAirport();
-		StringBuilder sb = new StringBuilder();
 		if (airport != null) {
-			if (!TextUtils.isEmpty(airport.mCity)) {
-				sb.append(airport.mCity);
-			}
-			if (!TextUtils.isEmpty(airport.mCountryCode)) {
-				String countryCode = airport.mCountryCode;
-				if (countryCode.equals("US") && !TextUtils.isEmpty(airport.mStateCode)) {
-					sb.append(", " + airport.mStateCode);
-				}
-				else {
-					initCCToLocales();
-					Locale locale = sCCToLocales.get(countryCode);
-					String displayCountry = null;
-					if (locale != null) {
-						displayCountry = locale.getDisplayCountry();
-					}
-
-					if (!TextUtils.isEmpty(displayCountry)) {
-						sb.append(", " + displayCountry);
-					}
-					else {
-						sb.append(", " + airport.mCountryCode);
-					}
-				}
-			}
+			return formatAirport(airport);
 		}
 
-		if (sb.length() == 0) {
-			sb.append(waypoint.mAirportCode);
+		return waypoint.mAirportCode;
+	}
+
+	public static String formatAirport(Airport airport) {
+		StringBuilder sb = new StringBuilder();
+
+		if (!TextUtils.isEmpty(airport.mCity)) {
+			sb.append(airport.mCity);
+		}
+		if (!TextUtils.isEmpty(airport.mCountryCode)) {
+			String countryCode = airport.mCountryCode;
+			if (countryCode.equals("US") && !TextUtils.isEmpty(airport.mStateCode)) {
+				sb.append(", " + airport.mStateCode);
+			}
+			else {
+				initCCToLocales();
+				Locale locale = sCCToLocales.get(countryCode);
+				String displayCountry = null;
+				if (locale != null) {
+					displayCountry = locale.getDisplayCountry();
+				}
+
+				if (!TextUtils.isEmpty(displayCountry)) {
+					sb.append(", " + displayCountry);
+				}
+				else {
+					sb.append(", " + airport.mCountryCode);
+				}
+			}
 		}
 
 		return sb.toString();

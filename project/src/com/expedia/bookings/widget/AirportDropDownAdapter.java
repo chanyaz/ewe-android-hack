@@ -23,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.content.AirportAutocompleteProvider;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
@@ -84,7 +85,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 				for (Airport airport : airports) {
 					Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
 					row[0] = a++;
-					row[1] = airport.mCity;
+					row[1] = StrUtils.formatAirport(airport);
 					row[2] = airport.mAirportCode + "-" + airport.mName;
 					row[3] = airport.mAirportCode;
 					row[4] = R.drawable.ic_nearby_search;
