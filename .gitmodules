@@ -22,3 +22,6 @@
 [submodule "project/assets/ExpediaSharedData"]
 	path = project/assets/ExpediaSharedData
 	url = git@team.mobiata.com:General/ExpediaSharedData
+[submodule "project/assets/FlightStatsDb"]
+	path = project/assets/FlightStatsDb
+	url = git@team.mobiata.com:Android/FlightStatsDb.git
