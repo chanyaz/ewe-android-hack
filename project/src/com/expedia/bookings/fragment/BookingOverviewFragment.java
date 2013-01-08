@@ -491,6 +491,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 					displayedTotal.getFormattedMoney()));
 		}
 		else {
+			mCouponCodeLayout.setVisibility(View.GONE);
 			mPurchaseTotalTextView.setText(getString(R.string.collected_by_the_hotel_TEMPLATE,
 					displayedTotal.getFormattedMoney()));
 		}
@@ -519,7 +520,12 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		if (mShowSlideToWidget) {
-			mCouponCodeLayout.setVisibility(View.VISIBLE);
+			if (Db.getSelectedProperty().isMerchant()) {
+				mCouponCodeLayout.setVisibility(View.VISIBLE);
+			}
+			else {
+				mCouponCodeLayout.setVisibility(View.GONE);
+			}
 			mLegalInformationTextView.setVisibility(View.VISIBLE);
 		}
 		else {
