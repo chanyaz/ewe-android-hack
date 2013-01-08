@@ -31,6 +31,7 @@ public class ServerError implements JSONable {
 		PROFILE,
 		COMMIT_TRAVELER,
 		BACKGROUND_IMAGE,
+		TRIPS,
 	}
 
 	public static enum ErrorCode {
