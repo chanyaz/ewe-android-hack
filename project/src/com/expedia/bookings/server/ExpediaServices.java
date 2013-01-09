@@ -751,7 +751,7 @@ public class ExpediaServices implements DownloadListener {
 			assistanceOption = AssistanceType.NONE.name();
 		}
 		query.add(new BasicNameValuePair(prefix + "specialAssistanceOption", assistanceOption));
-		query.add(new BasicNameValuePair(prefix + "seatPreference", traveler.getSeatPreference().name()));
+		query.add(new BasicNameValuePair(prefix + "seatPreference", traveler.getSafeSeatPreference().name()));
 
 		if (!TextUtils.isEmpty(traveler.getPhoneCountryCode())) {
 			query.add(new BasicNameValuePair(prefix + "phoneCountryCode", traveler.getPhoneCountryCode()));
@@ -802,7 +802,7 @@ public class ExpediaServices implements DownloadListener {
 			assistanceOption = AssistanceType.NONE.name();
 		}
 		query.add(new BasicNameValuePair("specialAssistanceOption", assistanceOption));
-		query.add(new BasicNameValuePair("seatPreference", traveler.getSeatPreference().name()));
+		query.add(new BasicNameValuePair("seatPreference", traveler.getSafeSeatPreference().name()));
 
 		if (!TextUtils.isEmpty(traveler.getPhoneCountryCode())) {
 			query.add(new BasicNameValuePair("phoneCountryCode", traveler.getPhoneCountryCode()));

@@ -198,6 +198,15 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mSeatPreference;
 	}
 
+	public SeatPreference getSafeSeatPreference() {
+		if (getSeatPreference().equals(SeatPreference.WINDOW) || getSeatPreference().equals(SeatPreference.AISLE)) {
+			return getSeatPreference();
+		}
+		else {
+			return SeatPreference.WINDOW;
+		}
+	}
+
 	public String getSeatPreferenceString(Context context) {
 		SeatPreference pref = getSeatPreference();
 		Resources res = context.getResources();
