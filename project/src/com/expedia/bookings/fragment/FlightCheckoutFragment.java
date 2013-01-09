@@ -29,6 +29,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
@@ -137,7 +138,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 		// rules and restrictions link stuff
 		TextView tv = Ui.findView(v, R.id.legal_blurb);
-		tv.setText(Html.fromHtml(mContext.getString(R.string.fare_rules_link)));
+		tv.setText(PointOfSale.getPointOfSale().getStylizedFlightBookingStatement());
 
 		tv.setOnClickListener(new OnClickListener() {
 			@Override

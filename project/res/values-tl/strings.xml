@@ -531,8 +531,6 @@
     <string name="privacy_policy">Patakaran sa Pagiging Pribado</string>
     <!-- Fare information header -->
     <string name="fare_information">IMPORMASYON SA PASAHE</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">Sa pamamagitan ng pagbo-book, aking pinagtitibay na aking nabasa at tinatanggap ang &lt;u&gt;&lt;b&gt;Mga Alituntunin at Restriksiyon,&lt;/b&gt; ang &lt;b&gt;Mga Tuntunin at Kondisyon,&lt;/b&gt; ang &lt;b&gt;Patakaran sa Pagiging Pribado&lt;/b&gt; at &lt;b&gt;Impormasyon sa Pasahe.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

@@ -15,8 +15,12 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -111,6 +115,9 @@ public class PointOfSale {
 		// The rules & restrictions disclaimer for every flight booking
 		private String mFlightBookingStatement;
 
+		// The text in mRulesRestrictionsConfirmation that should be linked for rules and restrictions
+		private String mRulesAndRestrictionsLinkText;
+
 		// The text in mRulesRestrictionsConfirmation that should be linked for terms and conditions
 		private String mTermsAndConditionsLinkText;
 
@@ -122,6 +129,9 @@ public class PointOfSale {
 
 		// The url to link to in mTermsOfBookingLinkText
 		private String mTermsOfBookingUrl;
+
+		// The text in mRulesRestrictionsConfirmation that should be linked for the fare information
+		private String mFareInformationLinkText;
 
 		// The text in mRulesRestrictionsConfirmation that should be linked for the privacy policy
 		private String mPrivacyPolicyLinkText;
@@ -232,35 +242,76 @@ public class PointOfSale {
 		return getPosLocale().mPrivacyPolicyUrl;
 	}
 
+	/**
+	 * On tablet, we'll underline "Terms and Conditions", "Privacy Policy"
+	 * and "Terms of Booking" only, and they'll link directly to the
+	 * appropriate URLs.
+	 * @return Linkified CharSequence
+	 */
 	public CharSequence getLinkifiedHotelBookingStatement() {
 		PointOfSaleLocale posLocale = getPosLocale();
 		String statement = posLocale.mHotelBookingStatement;
-
 		SpannableStringBuilder text = new SpannableStringBuilder(statement);
 		linkifyText(text, statement, posLocale.mTermsAndConditionsLinkText, posLocale.mTermsAndConditionsUrl);
+		linkifyText(text, statement, posLocale.mTermsOfBookingLinkText, posLocale.mTermsOfBookingUrl);
 		linkifyText(text, statement, posLocale.mPrivacyPolicyLinkText, posLocale.mPrivacyPolicyUrl);
-
-		return text;
-	}
-
-	public CharSequence getLinkifiedFlightBookingStatement() {
-		PointOfSaleLocale posLocale = getPosLocale();
-		String statement = posLocale.mFlightBookingStatement;
-
-		SpannableStringBuilder text = new SpannableStringBuilder(statement);
-		linkifyText(text, statement, posLocale.mTermsAndConditionsLinkText, posLocale.mTermsAndConditionsUrl);
-		linkifyText(text, statement, posLocale.mPrivacyPolicyLinkText, posLocale.mPrivacyPolicyUrl);
-
 		return text;
 	}
 
 	private void linkifyText(SpannableStringBuilder text, String origText, String linkText, String url) {
+		if (TextUtils.isEmpty(linkText)) {
+			return;
+		}
 		int linkStart = origText.indexOf(linkText);
+
 		if (linkStart < 0) {
 			return;
 		}
 
 		text.setSpan(new URLSpan(url), linkStart, linkStart + linkText.length(), 0);
+	}
+
+	/**
+	 * On phone, we'll underline and bold "Rules and Restrictions",
+	 * "Terms and Conditions", "Privacy Policy", and "Terms of Booking"
+	 * @return Stylized CharSequence
+	 */
+	public CharSequence getStylizedHotelBookingStatement() {
+		return getStylizedStatement(getPosLocale().mHotelBookingStatement);
+	}
+
+	/**
+	 * On phone, we'll underline and bold "Rules and Restrictions",
+	 * "Terms and Conditions", "Privacy Policy", and "Terms of Booking"
+	 * @return Stylized CharSequence
+	 */
+	public CharSequence getStylizedFlightBookingStatement() {
+		return getStylizedStatement(getPosLocale().mFlightBookingStatement);
+	}
+
+	private CharSequence getStylizedStatement(String statement) {
+		PointOfSaleLocale posLocale = getPosLocale();
+		SpannableStringBuilder text = new SpannableStringBuilder(statement);
+		stylizeText(text, statement, posLocale.mRulesAndRestrictionsLinkText);
+		stylizeText(text, statement, posLocale.mTermsAndConditionsLinkText);
+		stylizeText(text, statement, posLocale.mTermsOfBookingLinkText);
+		stylizeText(text, statement, posLocale.mPrivacyPolicyLinkText);
+		stylizeText(text, statement, posLocale.mFareInformationLinkText);
+		return text;
+	}
+
+	private void stylizeText(SpannableStringBuilder text, String origText, String linkText) {
+		if (TextUtils.isEmpty(linkText)) {
+			return;
+		}
+		int linkStart = origText.indexOf(linkText);
+
+		if (linkStart < 0) {
+			return;
+		}
+
+		text.setSpan(new StyleSpan(Typeface.BOLD), linkStart, linkStart + linkText.length(), 0);
+		text.setSpan(new UnderlineSpan(), linkStart, linkStart + linkText.length(), 0);
 	}
 
 	public int getDualLanguageId() {
@@ -549,11 +600,13 @@ public class PointOfSale {
 		// All fields for rules & restrictions disclaimer
 		locale.mHotelBookingStatement = data.optString("hotelBookingStatement", null);
 		locale.mFlightBookingStatement = data.optString("flightBookingStatement", null);
-		locale.mTermsAndConditionsLinkText = data.optString("termsAndConditionsURL", null);
-		locale.mTermsAndConditionsUrl = data.optString("termsAndConditionsURL", null);
+		locale.mRulesAndRestrictionsLinkText = data.optString("rulesAndRestrictionsLinkText", null);
+		locale.mTermsAndConditionsLinkText = data.optString("termsAndConditionsLinkText", null);
 		locale.mTermsOfBookingLinkText = data.optString("termsOfBookingLinkText", null);
-		locale.mTermsOfBookingUrl = data.optString("termsOfBookingURL", null);
 		locale.mPrivacyPolicyLinkText = data.optString("privacyPolicyLinkText", null);
+		locale.mFareInformationLinkText = data.optString("fareInformationLinkText", null);
+		locale.mTermsAndConditionsUrl = data.optString("termsAndConditionsURL", null);
+		locale.mTermsOfBookingUrl = data.optString("termsOfBookingURL", null);
 		locale.mPrivacyPolicyUrl = data.optString("privacyPolicyURL", null);
 
 		// Language identifier

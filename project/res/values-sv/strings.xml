@@ -531,8 +531,6 @@
     <string name="privacy_policy">Integritetspolicy</string>
     <!-- Fare information header -->
     <string name="fare_information">PRISINFORMATION</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">Genom att slutföra bokningen bekräftar jag att jag har läst och accepterat Expedias &lt;u&gt;&lt;b&gt;regler och begränsningar,&lt;/b&gt; &lt;b&gt;regler och villkor,&lt;/b&gt; &lt;b&gt;integritetspolicy&lt;/b&gt; och &lt;b&gt;prisinformation.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

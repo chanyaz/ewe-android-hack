@@ -531,8 +531,6 @@
     <string name="privacy_policy">Política de privacidade</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMAÇÕES DE TARIFA</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">Ao concluir esta reserva, eu concordo que li e aceitei as &lt;u&gt;&lt;b&gt;Regras e Restrições,&lt;/b&gt; os &lt;b&gt;Termos e Condições,&lt;/b&gt; a &lt;b&gt;Política de Privacidade&lt;/b&gt; e &lt;b&gt;Informações de Tarifa.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

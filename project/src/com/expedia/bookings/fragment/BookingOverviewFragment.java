@@ -463,7 +463,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void updateViews() {
-		mLegalInformationTextView.setText(Html.fromHtml(getString(R.string.fare_rules_link)));
+		mLegalInformationTextView.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 
 		Rate rate = Db.getSelectedRate();
 		Rate discountRate = null;
