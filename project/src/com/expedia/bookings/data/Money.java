@@ -72,7 +72,7 @@ public class Money implements JSONable {
 	 * @return true if the amount is null or zero
 	 */
 	public boolean isZero() {
-		return mAmount == null || mAmount.equals(BigDecimal.ZERO);
+		return mAmount == null || mAmount.compareTo(BigDecimal.ZERO) == 0;
 	}
 
 	public String getCurrency() {
