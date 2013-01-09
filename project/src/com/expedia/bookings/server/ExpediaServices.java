@@ -1062,7 +1062,14 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public enum EndPoint {
-		PRODUCTION, DEV, INTEGRATION, STABLE, PROXY, PUBLIC_INTEGRATION, TRUNK
+		PRODUCTION,
+		DEV,
+		INTEGRATION,
+		STABLE,
+		PROXY,
+		PUBLIC_INTEGRATION,
+		TRUNK,
+		TRUNK_STUBBED,
 	}
 
 	/**
@@ -1112,6 +1119,10 @@ public class ExpediaServices implements DownloadListener {
 		}
 		case TRUNK: {
 			builder.append("wwwexpediacom.trunk.sb.karmalab.net/");
+			break;
+		}
+		case TRUNK_STUBBED: {
+			builder.append("wwwexpediacom.trunk-stubbed.sb.karmalab.net/");
 			break;
 		}
 		case PUBLIC_INTEGRATION: {
@@ -1180,6 +1191,9 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (which.equals("Trunk")) {
 			return EndPoint.TRUNK;
+		}
+		else if (which.equals("Trunk (Stubbed)")) {
+			return EndPoint.TRUNK_STUBBED;
 		}
 		else {
 			return EndPoint.PRODUCTION;

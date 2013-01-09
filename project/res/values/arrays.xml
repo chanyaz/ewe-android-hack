@@ -805,6 +805,7 @@
         <item>Trunk</item>
         <item>Proxy</item>
         <item>Public Integration</item>
+        <item>Trunk (Stubbed)</item>
     </string-array>
     <string-array name="section_strings_property_amenities" tools:ignore="MissingTranslation">
         <item>Property Amenities</item>
