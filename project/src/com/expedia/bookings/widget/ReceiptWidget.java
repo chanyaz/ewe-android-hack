@@ -152,7 +152,12 @@ public class ReceiptWidget {
 
 		Money totalSurcharge = rate.getTotalSurcharge();
 		if (totalSurcharge != null) {
-			addRateRow(mDetailsLayout, R.string.TaxesAndFees, totalSurcharge.getFormattedMoney());
+			if (totalSurcharge.isZero()) {
+				addRateRow(mDetailsLayout, R.string.taxes_and_fees, mContext.getString(R.string.included));
+			}
+			else {
+				addRateRow(mDetailsLayout, R.string.taxes_and_fees, totalSurcharge.getFormattedMoney());
+			}
 		}
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();

@@ -285,7 +285,8 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 
 		if (mConfState.getPrimaryTraveler() != null) {
 			appendLabelValue(context, body, R.string.name,
-					context.getString(R.string.name_template, mConfState.getPrimaryTraveler().getFirstName(), mConfState.getPrimaryTraveler().getLastName()));
+					context.getString(R.string.name_template, mConfState.getPrimaryTraveler().getFirstName(),
+							mConfState.getPrimaryTraveler().getLastName()));
 		}
 		else {
 			appendLabelValue(context, body, R.string.name,
@@ -346,7 +347,13 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 			}
 		}
 		if (totalSurcharge != null) {
-			appendLabelValue(context, body, R.string.TaxesAndFees, totalSurcharge.getFormattedMoney());
+			if (totalSurcharge.isZero()) {
+				appendLabelValue(context, body, R.string.taxes_and_fees, context.getString(R.string.included));
+			}
+			else {
+				appendLabelValue(context, body, R.string.taxes_and_fees, totalSurcharge.getFormattedMoney());
+			}
+
 			body.append("\n");
 		}
 

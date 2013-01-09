@@ -1257,6 +1257,10 @@
     <string name="GuestsLabel">Guests</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Taxes Included</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">Taxes &amp; Fees</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">Included</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hotel Fees (Paid at hotel)</string>
     <!-- Label for the rate per room per night. -->
