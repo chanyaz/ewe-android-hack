@@ -249,6 +249,7 @@ public class HotelsRobotHelper {
 			mSolo.pressMenuItem(0);
 		}
 		catch (AssertionFailedError E) {
+			enterLog(TAG, "Menu not there. Going back to try to refresh it.");
 			mSolo.goBack();
 			delay();
 			mSolo.pressMenuItem(1);
@@ -309,7 +310,7 @@ public class HotelsRobotHelper {
 
 		}
 		catch (Exception E) {
-			//nothing
+			enterLog(TAG, "Spoof bookings not there. Moving on.");
 		}
 
 	}
@@ -334,7 +335,7 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "AFTER TYPING TEXT");
 		delay(3);
 		enterLog(TAG, "Before clicking search button");
-		mSolo.clickInList(2);//Selecting search suggestion results
+		mSolo.clickInList(1);//Selecting search suggestion results
 								//some countries' list don't populate ever
 								//might break stuff
 		enterLog(TAG, "After clicking search button");
@@ -416,6 +417,7 @@ public class HotelsRobotHelper {
 			delay(1);
 		}
 		catch (Exception e) {
+			enterLog(TAG, "Deals sort not presented. Moving on.");
 			mSolo.goBack();
 		}
 
@@ -483,11 +485,12 @@ public class HotelsRobotHelper {
 		landscape();
 		portrait();
 		delay();
-		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_favorable));
+		enterLog(TAG, "Before pressing favorable");
+		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_favorable).toUpperCase());
 		delay(1);
 		screenshot("Favorable Reviews.");
 		delay(1);
-		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical));
+		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical).toUpperCase());
 		screenshot("Critical Reviews.");
 		delay(1);
 		landscape();
@@ -497,9 +500,7 @@ public class HotelsRobotHelper {
 	}
 
 	public void pressBookRoom() {
-		String bookNowString = mRes.getString(R.string.SELECT);
 
-		enterLog(TAG, "Pressing Book Room Button: " + bookNowString);
 		mSolo.clickOnButton(0);
 		Boolean didItLoad = mSolo.waitForActivity("RoomsAndRatesListActivity", 20000);
 		if (didItLoad) {
@@ -549,7 +550,7 @@ public class HotelsRobotHelper {
 		mSolo.scrollToTop();
 		mSolo.scrollDown();
 
-		String loginButtonText = mRes.getString(R.string.login_btn_text);
+		String loginButtonText = mRes.getString(R.string.log_in_for_faster_booking);
 
 		if (loginButtonText == null) {
 			//The US String is different from all other POS
@@ -580,8 +581,14 @@ public class HotelsRobotHelper {
 			mSolo.clickOnButton(1); //Log in button.
 		}
 		catch (Error e) {
+			enterLog(TAG, "Button must be clicked on by its text.");
 			delay(5);
-			mSolo.clickOnText(mRes.getString(R.string.log_in));
+			try {
+				mSolo.clickOnText(mRes.getString(R.string.sign_in_with_expedia));
+			}
+			catch (Error f) {
+				mSolo.clickOnText(mRes.getString(R.string.sign_in));
+			}
 		}
 		delay(5);
 		mSolo.scrollToTop();
@@ -621,16 +628,6 @@ public class HotelsRobotHelper {
 	//Frequently, different POS have different requirements as to what info has to be entered
 	//after log in. The try-catch blocks eliminate the need to hardcode what information is needed
 	//where, based upon the POS/locale that you are in.
-
-	public void pressCheckBox() {
-		try {
-			mSolo.scrollToBottom();
-			mSolo.clickOnCheckBox(0);
-		}
-		catch (AssertionFailedError e) {
-			//Nothing.
-		}
-	}
 
 	public void enterMissingInfo() {
 		String travelerInfo = mSolo.getString(R.string.enter_traveler_info);
@@ -750,6 +747,7 @@ public class HotelsRobotHelper {
 			mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
 		}
 		catch (Error e) {
+			enterLog(TAG, "Checkout button not there. Try to move on without it.");
 		}
 		delay();
 		landscape();
@@ -913,7 +911,7 @@ public class HotelsRobotHelper {
 			mSolo.clickOnText(mRes.getString(R.string.hint_select_departure));
 		}
 		catch (Error e) {
-
+			enterLog(TAG, "Select departure text not there.");
 		}
 		delay();
 		screenshot("Calendar");
@@ -940,7 +938,7 @@ public class HotelsRobotHelper {
 		delay();
 		mSolo.scrollToTop();
 		delay();
-		mSolo.clickOnText(mRes.getString(R.string.sort_flights));
+		mSolo.clickOnText(mRes.getString(R.string.sort_flights).toUpperCase());
 		screenshot("Sort fragment");
 		mSolo.goBack();
 		delay();
