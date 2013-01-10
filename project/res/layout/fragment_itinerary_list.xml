@@ -3,16 +3,34 @@
     android:id="@+id/outer_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#212527"
     android:orientation="vertical" >
 
     <!-- The listview -->
 
-    <ListView
-        android:id="@id/android:list"
+    <RelativeLayout
+        android:id="@+id/list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false" />
+        android:layout_weight="1" >
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="#66FFFFFF" />
+
+        <ListView
+            android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:cacheColorHint="#00000000"
+            android:divider="#00000000"
+            android:dividerHeight="0dp"
+            android:drawSelectorOnTop="false" />
+    </RelativeLayout>
 
     <!-- The No itins portion -->
 
@@ -28,15 +46,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center" >
+            android:gravity="center"
+            android:orientation="vertical" >
 
             <ImageView
                 android:id="@+id/no_trips_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_suitcase_small"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_suitcase_small" />
 
             <TextView
                 android:id="@+id/no_upcoming_trips"
@@ -60,8 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:padding="16dp"
             android:gravity="center_horizontal"
+            android:padding="16dp"
             android:text="@string/or_enter_an_itinerary_number" />
     </LinearLayout>
 
