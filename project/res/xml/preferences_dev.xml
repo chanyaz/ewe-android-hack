@@ -24,8 +24,8 @@
 
         <com.expedia.bookings.dialog.SpoofBookingCheckBoxPreference
             android:key="@string/preference_spoof_bookings"
-            android:summary="Do not actually perform bookings. Instead, simulate a successful booking response."
-            android:title="Spoof bookings" />
+            android:summary="Do not actually perform hotel bookings. Instead, simulate a successful booking response."
+            android:title="Spoof hotel bookings" />
 
         <CheckBoxPreference
             android:key="@string/preference_filter_merchant_properties"
