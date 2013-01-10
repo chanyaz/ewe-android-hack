@@ -3,8 +3,8 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.expedia.bookings.data.ItinItem;
-import com.expedia.bookings.data.ItinItem.ItinItemType;
+import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 
 import android.content.Context;
 import android.view.View;
@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 
 public class ItinItemAdapter extends BaseAdapter {
 
-	ArrayList<ItinItem> mItems = new ArrayList<ItinItem>();
+	ArrayList<TripComponent> mItems = new ArrayList<TripComponent>();
 	Context mContext;
 
 	public ItinItemAdapter(Context context) {
@@ -21,9 +21,8 @@ public class ItinItemAdapter extends BaseAdapter {
 
 		//TODO: REMOVE!
 		for (int i = 0; i < 5; i++) {
-			ItinItem item = new ItinItem();
-			item.setItinType(i % 2 == 0 ? ItinItemType.FLIGHT : ItinItemType.HOTEL);
-			mItems.add(item);
+			TripComponent tripComp = new TripComponent(i%2 == 0 ? Type.FLIGHT : Type.HOTEL);
+			mItems.add(tripComp);
 		}
 	}
 
@@ -33,7 +32,7 @@ public class ItinItemAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public ItinItem getItem(int arg0) {
+	public TripComponent getItem(int arg0) {
 		return mItems.get(arg0);
 	}
 
@@ -60,11 +59,11 @@ public class ItinItemAdapter extends BaseAdapter {
 		return card;
 	}
 
-	public void addItinItem(ItinItem item) {
+	public void addItinItem(TripComponent item) {
 		mItems.add(item);
 	}
 
-	public void addAllItinItems(List<ItinItem> items) {
+	public void addAllItinItems(List<TripComponent> items) {
 		mItems.addAll(items);
 	}
 
@@ -72,7 +71,7 @@ public class ItinItemAdapter extends BaseAdapter {
 		mItems.clear();
 	}
 
-	public void setItinItems(List<ItinItem> items) {
+	public void setItinItems(List<TripComponent> items) {
 		clearItinItems();
 		addAllItinItems(items);
 	}
