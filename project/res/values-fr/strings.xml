@@ -111,6 +111,8 @@
     <string name="select_a_flight_to_TEMPLATE">Choisir un vol vers %1$s</string>
     <!-- Select a flight back to (city name) -->
     <string name="select_a_flight_back_to_TEMPLATE">Choisir un vol retour vers %1$s</string>
+    <!-- Baggage fee loading error -->
+    <string name="baggage_fee_loading_error_TEMPLATE">Erreur lors du chargement des tarifs bagages ! Message d\&apos;erreur : %1$s</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Erreur dans le chargement de la page ! Message d\&apos;erreur : %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
