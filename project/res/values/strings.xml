@@ -56,6 +56,14 @@
     <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">Find Itinerary</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">Itinerary Number</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">No upcoming trips.</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">Or, Enter an Itinerary Number</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->

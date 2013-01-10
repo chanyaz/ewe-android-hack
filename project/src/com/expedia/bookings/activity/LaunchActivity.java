@@ -20,6 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.ItinItemListFragment;
+import com.expedia.bookings.fragment.ItineraryGuestAddDialogFragment;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -168,18 +169,25 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (menu != null) {
 			boolean itinButtonEnabled = true;
+			boolean addNewItinButtonEnabled;
 			if (mViewPager != null && mViewPager.getCurrentItem() == 1) {
 				itinButtonEnabled = false;
-
 			}
 			else {
 				itinButtonEnabled = true;
 			}
+			addNewItinButtonEnabled = !itinButtonEnabled;
 			MenuItem itinBtn = menu.findItem(R.id.itineraries);
 			if (itinBtn != null) {
 				itinBtn.setVisible(itinButtonEnabled);
 				itinBtn.setEnabled(itinButtonEnabled);
 			}
+			MenuItem addNewItinBtn = menu.findItem(R.id.add_itinerary);
+			if (addNewItinBtn != null) {
+				addNewItinBtn.setVisible(addNewItinButtonEnabled);
+				addNewItinBtn.setEnabled(addNewItinButtonEnabled);
+			}
+
 		}
 
 		DebugMenu.onPrepareOptionsMenu(this, menu);
@@ -197,6 +205,9 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			return true;
 		case R.id.itineraries:
 			gotoItineraries();
+			return true;
+		case R.id.add_itinerary:
+			showAddItinDialog();
 			return true;
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
@@ -250,6 +261,17 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		this.getSupportActionBar().setHomeButtonEnabled(true);
 		supportInvalidateOptionsMenu();
+	}
+
+	private void showAddItinDialog() {
+		ItineraryGuestAddDialogFragment addNewItinFrag = (ItineraryGuestAddDialogFragment) getSupportFragmentManager()
+				.findFragmentByTag(ItineraryGuestAddDialogFragment.TAG);
+		if (addNewItinFrag == null) {
+			addNewItinFrag = ItineraryGuestAddDialogFragment.newInstance();
+		}
+		if (!addNewItinFrag.isVisible()) {
+			addNewItinFrag.show(getSupportFragmentManager(), ItineraryGuestAddDialogFragment.TAG);
+		}
 	}
 
 	public class PagerAdapter extends FragmentPagerAdapter {

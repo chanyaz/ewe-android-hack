@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="0dp" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="64dp"
+        android:background="@drawable/dialog_top"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:text="@string/find_itinerary"
+        android:textColor="#004582"
+        android:textSize="22sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/dialog_stripe" />
+
+    <TextView
+        android:id="@+id/error_textview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:paddingLeft="24dp"
+        android:textColor="@color/holo_red_light"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/email_edit_text"
+        style="@style/Widget.EditText.Phone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/email_address"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:nextFocusDown="@+id/password_edit_text"
+        android:nextFocusRight="@+id/password_edit_text" />
+
+    <EditText
+        android:id="@+id/itin_number_edit_text"
+        style="@style/Widget.EditText.Phone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/itinerary_number"
+        android:imeOptions="actionDone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
+        android:background="@color/hotel_details_separator" />
+
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_signin_dialog_button"
+            android:text="@android:string/cancel"
+            android:textSize="14sp" />
+
+        <View
+            android:id="@+id/vertical_sep"
+            android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+            android:layout_height="match_parent"
+            android:background="@color/hotel_details_separator" />
+
+        <Button
+            android:id="@+id/find_itinerary_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_signin_dialog_button"
+            android:text="@string/find_itinerary"
+            android:textColor="@color/btn_signin_text_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>

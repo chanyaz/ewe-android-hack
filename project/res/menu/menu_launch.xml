@@ -7,6 +7,10 @@
         android:showAsAction="always"
         android:title="@string/itinerary"/>
     <item
+        android:id="@+id/add_itinerary"
+        android:title="Add"
+        android:showAsAction="always"/>
+    <item
         android:id="@+id/settings"
         android:icon="@android:drawable/ic_menu_manage"
         android:showAsAction="never"
