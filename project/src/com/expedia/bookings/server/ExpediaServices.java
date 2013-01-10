@@ -19,13 +19,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.client.protocol.ClientContext;
@@ -132,6 +132,10 @@ public class ExpediaServices implements DownloadListener {
 
 	// Flags for addBillingInfo()
 	public static final int F_HAS_TRAVELER = 32;
+
+	// Flags for GET vs. POST
+	private static final int F_GET = 64;
+	private static final int F_POST = 128;
 
 	private Context mContext;
 
@@ -931,12 +935,18 @@ public class ExpediaServices implements DownloadListener {
 		String serverUrl = getE3EndpointUrl(flags) + targetUrl;
 
 		// Create the request
-		HttpPost post = NetUtils.createHttpPost(serverUrl, params);
+		HttpRequestBase base;
+		if ((flags & F_GET) != 0) {
+			base = NetUtils.createHttpGet(serverUrl, params);
+		}
+		else {
+			base = NetUtils.createHttpPost(serverUrl, params);
+		}
 
 		// Some logging before passing the request along
 		Log.d("Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
 
-		return doRequest(post, responseHandler, flags);
+		return doRequest(base, responseHandler, flags);
 	}
 
 	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
