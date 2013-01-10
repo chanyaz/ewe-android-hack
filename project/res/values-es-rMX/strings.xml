@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Facebook -->
+    <!-- Weve found your user account -->
+    <string name="facebook_weve_found_your_account">Hola &lt;b&gt;%1$s&lt;/b&gt;: ¡parece que encontramos tu cuenta de Expedia! Ingresa tu contraseña de Expedia a continuación para vincular tus cuentas de Facebook y Expedia.</string>
+    <!-- Weve fetched your facebook info -->
+    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;: ¡ya cargamos tu información de Facebook!</string>
+    <!-- connect with facebook (button text) -->
+    <string name="connect_with_facebook">Conéctate con Facebook </string>
+    <!-- fetching information from Facebook -->
+    <string name="fetching_facebook_info">Extrayendo información de Facebook...</string>
+    <!-- Attempting to log you in with facebook credentials -->
+    <string name="attempting_to_log_in_with_facebook">Tratando de iniciar tu sesión con tu información de Facebook...</string>
+    <!-- We have encountered an error -->
+    <string name="unspecified_error">Encontramos un error no especificado. Favor de intentarlo más tarde.</string>
+    <!-- Unable to sign into facebook -->
+    <string name="unable_to_sign_into_facebook">No pudimos iniciar tu sesión con Facebook.</string>
+    <!-- Login failed try again -->
+    <string name="login_failed_try_again">Error de acceso, ingresa de nuevo tu contraseña e inténtalo de nuevo.</string>
+    <!-- Facebook connect expedia password hint -->
+    <string name="expedia_password_hint">Contraseña de Expedia</string>
+    <!-- Link accounts -->
+    <string name="link_accounts">Vincular cuentas</string>
+    <!-- Failure to update the user -->
+    <string name="failure_to_update_user">No se pudo extraer la información actualizada del usuario.</string>
+    <!-- Linking your accounts -->
+    <string name="linking_your_accounts">Vinculando tus cuentas...</string>
+    <!-- Sign in -->
+    <string name="sign_in">Inicia sesión</string>
+    <!-- Sign in with Expedia -->
+    <string name="sign_in_with_expedia">Inicia sesión con Expedia</string>
+    <!-- or -->
+    <string name="or">o </string>
+
     <!-- Nav Dropdown menu -->
     <!-- Home -->
     <string name="nav_home">Página principal</string>
@@ -20,24 +52,16 @@
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Vuela a&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Hospédate en&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label to present to the user on application load -->
-    <string name="launch_welcome">Bienvenido</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Desafortunadamente, no podemos conectarnos.</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Buscar vuelos</string>
-    <!-- Indicates that a flight itinerary flies on multiple airlines -->
-    <string name="multiple_airlines">Líneas aéreas múltiples</string>
-    <!-- Indicates how long a layover is.  %s is an amount of time, e.g. "3h 33m layover" -->
-    <string name="layover_template">&lt;b&gt;%s&lt;/b&gt; Escala</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">Aeropuerto de salida</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
     <string name="hint_arrival_airport">Aeropuerto de llegada</string>
-    <!-- Button label prompting user to select dates by tapping calendar -->
-    <string name="dates_prompt">No se han seleccionado fechas</string>
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Cargando vuelos...</string>
     <!-- Label for screen that is doing searches -->
@@ -50,15 +74,6 @@
     <string name="error_invalid_arrival_airport">El aeropuerto de llegada no es válido.</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
     <string name="error_invalid_departure_arrival_airports">Los aeropuertos de salida y llegada no son válidos.</string>
-    <!-- Pluralization for # of seats left on a flight -->
-    <plurals name="seats_left">
-        <item quantity="zero">¡Quedan &lt;b&gt;%d&lt;/b&gt; lugares!</item>
-        <item quantity="one">¡Queda &lt;b&gt;%d&lt;/b&gt; lugar!</item>
-        <item quantity="two">¡Quedan &lt;b&gt;%d&lt;/b&gt; lugares!</item>
-        <item quantity="few">¡Quedan &lt;b&gt;%d&lt;/b&gt; lugares!</item>
-        <item quantity="many">¡Quedan &lt;b&gt;%d&lt;/b&gt; lugares!</item>
-        <item quantity="other">¡Quedan &lt;b&gt;%d&lt;/b&gt; lugares!</item>
-    </plurals>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Detalles</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -90,26 +105,20 @@
         <item quantity="many">%s días</item>
         <item quantity="other">%s días</item>
     </plurals>
-    <!-- Button for entering flight traveler information manually -->
-    <string name="enter_info_manually">Ingresar la información manualmente</string>
-    <!-- Header for saved travelers (that you can fill info from while booking) -->
-    <string name="saved_travelers">Pasajeros guardados en el sistema</string>
-    <!-- Header for travelers you can pick from your contacts (that you can fill info from while booking) -->
-    <string name="from_contacts">Cargar la información de los contactos</string>
-    <!-- Error message when user tries to search for a flight to/from the same airport -->
-    <string name="error_same_origin_arrival">Los aeropuertos de salida y llegada deben ser distintos.</string>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: los datos de búsqueda desaparecieron de alguna manera.  Favor de reportar este error a DLew.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Seleccionar un vuelo a%1$s</string>
     <!-- Select a flight back to (city name) -->
     <string name="select_a_flight_back_to_TEMPLATE">Seleccionar un vuelo de regreso a%1$s</string>
-    <!-- Baggage fee loading error -->
-    <string name="baggage_fee_loading_error_TEMPLATE">Hubo un error cargando la información del equipaje Mensaje de error:%1$s</string>
+    <!-- Error message template when loading a webpage fails -->
+    <string name="web_view_loading_error_TEMPLATE">¡Error al cargar la página! Mensaje de error: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">El despegue será pronto...</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Lo sentimos pero reservar un vuelo por dispositivo móvil &lt;b&gt;todavía no está disponible&lt;/b&gt; en tu ubicación.</string>
+    <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
+    <string name="error_same_flight_departure_arrival">Los aeropuertos de salida y llegada deben ser diferentes</string>
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
@@ -118,14 +127,21 @@
     <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt;(Solo ida)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; a &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
-    <!-- Display for airports.  %1$s is the airport code, %2$s is the city name.  E.g., "BOS Boston" -->
-    <string name="search_airport_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Ordenar los vuelos</string>
     <!-- Edit search title -->
     <string name="edit_search">Modificar la búsqueda</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Seleccionar fechas</string>
+    <!-- Number of adults template -->
+    <plurals name="number_of_adults_TEMPLATE">
+        <item quantity="zero">%1$d adultos</item>
+        <item quantity="one">%1$d adulto</item>
+        <item quantity="two">%1$d adultos</item>
+        <item quantity="few">%1$d adultos</item>
+        <item quantity="many">%1$d adultos</item>
+        <item quantity="other">%1$d adultos</item>
+    </plurals>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -144,7 +160,7 @@
     <string name="round_trip_price_TEMPLATE">Viaje redondo por &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Reserva ahora por &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Book now info label, when there are only a few seats left -->
+    <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">Quedan%1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="one">Quedan%1$s en &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -175,6 +191,8 @@
     <string name="arrive_at_TEMPLATE">Destino%s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Operado por %s</string>
+    <!-- Carry-on baggage fees apply -->
+    <string name="carry_on_baggage_fees_apply">Aplican cargos por equipaje de mano</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -183,8 +201,6 @@
     <string name="or_select_new_paymet_method">Seleccionar un método de pago</string>
     <!-- Select Payment -->
     <string name="select_payment">Seleccionar el pago</string>
-    <!-- Choose from contacts -->
-    <string name="choose_from_contacts">Seleccionar entre los contactos...</string>
     <!-- Add new card -->
     <string name="add_new_card">Ingresar una tarjeta nueva</string>
     <!-- Overview button -->
@@ -217,38 +233,14 @@
         <item quantity="many">%1$d pasajeros</item>
         <item quantity="other">%1$d pasajeros</item>
     </plurals>
-    <!-- Long form date (e.g. August 16, 2012) -->
-    <string name="long_form_date_TEMPLATE">%1$s %2$d, %3$d</string>
     <!-- Checkout button text -->
     <string name="checkout_btn">Completar</string>
-    <!-- Notice when price changes on a flight -->
-    <string name="price_change_alert_TEMPLATE">El precio de tu viaje cambió de %1$s a %2$s.</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Verificando cambio de precios...</string>
-    <!-- The plus symbol for use in BaseFare "+" taxes and fees -->
-    <string name="plus_symbol">+</string>
-    <!-- The equals symbol for use in BaseFare + taxes and fees "=" total fare -->
-    <string name="equals_symbol">=</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">El precio cambió de %1$s</string>
 
-    <!-- Section Display Flights -->
-    <!-- Departs label with date (e.g. Depart: Aug 2nd) -->
-    <string name="departs_with_date_TEMPLATE">Salida: %1$s%2$s</string>
-    <!-- Arrives lable with date (e.g. Return: Aug 4th) -->
-    <string name="arrives_with_date_TEMPLATE">Regreso: %1$s%2$s</string>
-
     <!-- Checkout Activity -->
-    <!-- Review button text -->
-    <string name="review_btn"> Comentario</string>
-    <!-- checkout heading city and dates -->
-    <string name="checkout_heading_city_and_dates_TEMPLATE">%1$s - %2$s a %3$s</string>
-    <!-- Travelers label -->
-    <string name="travelers">Pasajeros</string>
-    <!-- Payment label -->
-    <string name="payment">Pago</string>
-    <!-- Login button text -->
-    <string name="login_btn_text">Iniciar sesión para realizar tu reservación más rápido</string>
     <!-- Expedia Account label -->
     <string name="expedia_account">Cuenta de Expedia</string>
     <!-- Checkout Information label -->
@@ -267,6 +259,8 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Cancelación gratuita&lt;/b&gt; antes del &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Log out -->
     <string name="log_out">Cerrar cesión</string>
+    <!-- You'll earn points for this trip -->
+    <string name="youll_earn_points_TEMPLATE">¡Obtendrás %1$s puntos por este viaje!</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -278,7 +272,7 @@
     <!-- Cost Summary -->
     <string name="cost_summary">Resumen del costo</string>
     <!-- Taxes and airline fees -->
-    <string name="taxes_and_airline_fees">Impuestos y cargos de la línea aérea</string>
+    <string name="taxes_and_airline_fees">Impuestos y cargos</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">Comisión de Expedia por la reservación</string>
     <!-- Flight -->
@@ -291,6 +285,10 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Información del pasajero</string>
+
+    <!-- Enter traveler info button text -->
+    <string name="enter_traveler_info_TEMPLATE">Información de %d del pasajero</string>
+
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Ayuda especial: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
@@ -303,10 +301,6 @@
     <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; vencimiento %2$s</string>
 
     <!-- Section edit contact -->
-    <!-- first name hint -->
-    <string name="first_name_hint">Nombre</string>
-    <!-- last name hint -->
-    <string name="last_name_hint">Apellido</string>
     <!-- name on card hint -->
     <string name="name_on_card_hint">Nombre tal como aparece en la tarjeta</string>
     <!-- email hint -->
@@ -325,8 +319,6 @@
     <string name="blanked_out_credit_card_TEMPLATE">xxxx-xxxx-xxxx-&lt;b&gt;%2$s&lt;/b&gt;</string>
 
     <!-- Section display address -->
-    <!-- Enter address info button text -->
-    <string name="enter_address_info">Ingresa la dirección</string>
     <!-- Two address lines to one -->
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
     <!-- Single Line City State Zip -->
@@ -341,8 +333,6 @@
     <string name="btn_set">Configurar</string>
     <!-- Security code label -->
     <string name="security_code">Código de seguridad</string>
-    <!-- Security code hint -->
-    <string name="security_code_hint">123</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -393,16 +383,6 @@
     <string name="middle_name">Segundo nombre</string>
     <!-- Last name label -->
     <string name="last_name">Apellido</string>
-    <!-- Full Name Label -->
-    <string name="full_name">Nombre completo</string>
-    <!-- Phone number label -->
-    <string name="phone_number_country_code">Código del país</string>
-    <!-- Phone number label -->
-    <string name="phone_number">Número de teléfono</string>
-    <!-- Gender label -->
-    <string name="gender">Sexo</string>
-    <!-- name as it appears on id warning message -->
-    <string name="name_as_appears_on_id_warning">Ingresa el nombre tal como aparece en la identificación oficial</string>
     <!-- date of birth label -->
     <string name="date_of_birth">Fecha de nacimiento</string>
     <!-- male -->
@@ -411,20 +391,12 @@
     <string name="female">Femenino</string>
     <!-- next page buttn -->
     <string name="next">Siguiente</string>
-    <!-- finish button -->
-    <string name="finish">Terminar</string>
-    <!-- Redress number label -->
-    <string name="redress_number">No. de rectificación</string>
     <!-- Passport country label -->
     <string name="passport_country">País del pasaporte</string>
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">Origen/país del pasaporte</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">No. de rectificación (si aplica)</string>
-    <!-- Seating label -->
-    <string name="seating">Asientos</string>
-    <!-- Assistance label -->
-    <string name="assistance">Ayuda</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Se está guardando la información del pasajero en tu cuenta...</string>
 
@@ -507,6 +479,10 @@
     <string name="add_to_flighttrack">Rastrea el vuelo con Flight Track</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Llama al Servicio de atención a clientes de Expedia</string>
+    <!-- Add Insurance label -->
+    <string name="add_insurance">Agregar seguro</string>
+    <!-- Insurance -->
+    <string name="insurance">Seguro</string>
 
     <!-- Add to calendar -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
@@ -531,6 +507,8 @@
     <string name="privacy_policy">Política de privacidad</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMACIÓN SOBRE LA TARIFA</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">Al completar esta reservación acepto que he leído y estoy de acuerdo con las &lt;u&gt;&lt;b&gt;Normas y restricciones,&lt;/b&gt; los &lt;b&gt;Términos y condiciones,&lt;/b&gt; la &lt;b&gt;Política de privacidad&lt;/b&gt; y &lt;b&gt;la información de la tarifa.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -589,21 +567,37 @@
     <!-- Subject line for flight booking email.  %1$s is the destination, %2$s is a date range (e.g., "Expedia Itinerary - Seattle (10/18 - 10/19)") -->
     <string name="share_flight_title_TEMPLATE">Itinerario de Expedia - %1$s (%2$s)</string>
     <!-- The first line of the share flight email -->
-    <string name="share_flight_start">Esta es la información de mi reservación de vuelo:</string>
+    <plurals name="share_flight_start">
+        <item quantity="one">Esta es la información de mi reservación de vuelo:</item>
+        <item quantity="two">Esta es la información de nuestra reservación de vuelo:</item>
+        <item quantity="many">Esta es la información de nuestra reservación de vuelo:</item>
+        <item quantity="other">Esta es la información de nuestra reservación de vuelo:</item>
+    </plurals>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Viaje de ida de %1$s a %2$s</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Viaje redondo de %1$s a %2$s</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">No. de itinerario: %s</string>
-    <!-- The user's name, presented to them.  %s is their name. -->
-    <string name="share_flight_name_TEMPLATE">Nombre: %s</string>
+    <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc... %2$s is their name -->
+    <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
+    <plurals name="share_flight_name_TEMPLATE">
+        <item quantity="one">Pasajero: %s</item>
+        <item quantity="two">Pasajero %1$s: %2$s</item>
+        <item quantity="many">Pasajero %1$s: %2$s</item>
+        <item quantity="other">Pasajero %1$s: %2$s</item>
+    </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Viaje de ida:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Viaje de regreso: </string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
-    <string name="share_flight_ticket_cost_TEMPLATE">Costo total del boleto: %s</string>
+    <plurals name="share_flight_ticket_cost_TEMPLATE">
+        <item quantity="one">Costo total del boleto: %s</item>
+        <item quantity="two">Costo total del boleto: %s</item>
+        <item quantity="many">Costo total del boleto: %s</item>
+        <item quantity="other">Costo total del boleto: %s</item>
+    </plurals>
     <!-- Presenting the taxes and fees cost of a flight.  %s is a price, e.g. "$500" -->
     <string name="share_flight_taxes_fees_TEMPLATE">Impuestos y cargos: %s</string>
     <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
@@ -624,11 +618,6 @@
     <string name="loading_suggestions">Cargando las sugerencias...</string>
     <string name="app_name">Expedia</string>
 
-    <!-- General -->
-    <!-- Connectivity -->
-    <!-- Dialog Message tell the user that their device has no internet connection -->
-    <string name="dialog_message_no_connection">Parece que no tienes conexión a Internet.</string>
-
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
     <string name="enter_search_location">Ingresa una ubicación para realizar una búsqueda…</string>
@@ -636,10 +625,6 @@
     <string name="hint_search_location">Buscar una ubicación</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Cargando las sugerencias…</string>
-    <!-- Label for recent searches user has made -->
-    <string name="recent_searches">Búsquedas recientes</string>
-    <!-- Label for searches that the user can make that are featured -->
-    <string name="featured_destinations">Destinos destacados</string>
     <!-- Label for button that starts search -->
     <string name="search_for_hotels">Busca hoteles</string>
     <!-- Label for picking search location -->
@@ -685,14 +670,6 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Buscar</string>
-    <!--
-         The string that appears at the top of the search header. Examples: "Chicago, IL - Aug 24 to Aug 25", "Minneapolis, MN - Dec 31, 2011 to Jan 1, 2012"
-        1$ - The search address
-        2$ - The check-in date
-        3$ - The check-out date
-        The dates may include year, if we cross a year boundary 
-    -->
-    <string name="booking_info_template">&lt;b&gt;%1$s&lt;/b&gt; — &lt;b&gt;%2$s&lt;/b&gt; a &lt;b&gt;%3$s&lt;/b&gt;</string>
     <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
     <plurals name="number_of_matching_hotels">
         <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hoteles que coinciden</item>
@@ -701,8 +678,6 @@
         <item quantity="many">&lt;b&gt;%d&lt;/b&gt; hoteles que coinciden</item>
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; hoteles que coinciden</item>
     </plurals>
-    <!-- Search header, Example: "42 Hotels Found" -->
-    <string name="search_header_num_hotels">Se encontraron %d hoteles </string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s a %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -720,49 +695,19 @@
     <!-- Button label for searching with newly selected parameters -->
     <string name="SEARCH">BUSCAR</string>
     <!-- Button label for searching the visible map area -->
-    <string name="SEARCH_MAP">BUSCAR EN EL MAPA</string>
-    <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Busca en el mapa</string>
     <!-- Message when app is loading saved search results -->
     <string name="loading_previous">Cargando los resultados de búsqueda previos</string>
-    <!-- Label for sort hotels button in bottom bar -->
-    <string name="sort_hotels">&amp;quot;Ordenar:&amp;quot;</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">ORDENAR</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Ordenar</string>
-    <!-- Label for sort hotels in hotel list -->
-    <string name="SORT">ORDENAR</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Cambiar la vista</string>
-    <!-- Template for sort hotels button in bottom bar.  %s is the sort type (e.g., "Sort: Popular") -->
-    <string name="sort_hotels_template">&lt;b&gt;Ordenar&lt;/b&gt;: %s</string>
-    <!-- Label for filter hotels button in bottom bar -->
-    <string name="filter_hotels">Filtrar hoteles</string>
-    <!-- A number of results -->
-    <plurals name="number_of_results">
-        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; resultados.</item>
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; resultado.</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; resultados.</item>
-        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; resultados.</item>
-        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; resultados.</item>
-    </plurals>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="mobile_exclusive">Exclusivamente para dispositivos móviles</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">¡Solo esta noche!</string>
-
-    <!-- To indicate how many people there are -->
-    <plurals name="num_people">
-        <item quantity="one">%d persona reservó este hotel en la última hora</item>
-        <item quantity="two">%d personas reservaron este hotel en la última hora</item>
-        <item quantity="many">1 persona reservó este hotel en las últimas %d horas</item>
-        <item quantity="other">%d personas </item>
-    </plurals>
-    <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
-    <string name="booked_this_in_the_last_hour">reservaron este hotel en la última hora </string>
-    <!-- Label for anxiety messaging to tell user how many people have recently booked this hotel -->
-    <string name="booked_this_in_the_last_hours_template">reservaron este hotel en las últimas %d horas</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -835,8 +780,6 @@
     <!-- Search list adapter -->
     <!-- The label for how much hotels cost - "from $120/night", for example -->
     <string name="from">De</string>
-    <!-- The label for how much hotels cost, with a strikethrough non-sale price (e.g., "From $120" with the price strikethrough") -->
-    <string name="from_template">De &lt;strike&gt;%s&lt;/strike&gt;</string>
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/noche</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
@@ -852,8 +795,6 @@
     <string name="filter_results">Filtrar los resultados</string>
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Filtrar</string>
-    <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
-    <string name="FILTER">FILTRAR</string>
 
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
@@ -870,44 +811,22 @@
     <string name="widget_savings_template">Ahorra %2.0f%%</string>
     <!-- Indicator to user to tap the widget to cause it to refresh -->
     <string name="refresh_widget">Toca la pantalla para actualizar</string>
-    <!-- Instructions on how to add widget to home screen -->
-    <string name="widget_add_instructions">Presiona y mantén presionado el dedo en tu pantalla principal para agregar la herramienta de radar de hoteles</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">No tienes conexión a Internet</string>
     <!-- Widget Branding title -->
     <string name="hotel_radar">Radar de hoteles</string>
     <!-- Widget Branding description -->
     <string name="book_a_room_tonight">Reserva una habitación esta noche.</string>
-    <!-- First string for widget upsell within app as a notification in the top bar -->
-    <string name="widget_upsell_short_1">Agregar la herramienta de radar de hoteles</string>
-    <!-- Second string for widget upsell within app as a notification in the app bar -->
-    <string name="widget_upsell_short_2">Recibe ofertas por noche ¡cerca de ti!</string>
 
     <!-- Hotel Details Fragment Activity -->
-    <!-- Label for "select hotel" on hotel details screen -->
-    <string name="SELECT">SELECCIONAR</string>
-    <!-- Label for menu button to book the hotel, needs to be short, 1 word preferably -->
-    <string name="select_hotel">Seleccionar un hotel</string>
-    <!-- Label for button to book the hotel -->
-    <string name="book_now">Reserva ahora</string>
     <!-- Label for the hotel's star rating -->
     <string name="star_rating">Clasificación por estrellas</string>
-    <!-- Title for star rating in hotel description section -->
-    <string name="star_rating_title">Clasificación por estrellas:</string>
-    <!-- Label for the hotel's trip advisor rating -->
-    <string name="user_rating">Evaluación de los usuarios</string>
-    <!-- Label for the address section of the description -->
-    <string name="address">Dirección </string>
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
 
     <!-- Hotel Details Fragment -->
-    <!-- Minimum room price for each hotel displayed above the summarized rates on the details fragment. -->
-    <string name="min_room_price_template">De %s</string>
     <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->
     <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; de</string>
-    <!-- Title for the reviews section in the details fragment stating the number of recommendations for the hotel -->
-    <string name="reviews_recommended_template">Recomendado por %1$d de %2$d huéspedes</string>
     <!-- Title for the amenities section in the hotel details fragment -->
     <string name="amenities">Amenidades</string>
     <!-- Label for button to see all reviews as a modal dialog -->
@@ -1060,8 +979,6 @@
     </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">No reembolsable</string>
-    <!-- Savings percentage label (e.g., "Save 20%") where %f represents the savings -->
-    <string name="savings_template">Ahorra\n %2.0f%%</string>
     <!-- Label for free nights -->
     <string name="free">¡GRATIS!</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
@@ -1080,16 +997,10 @@
     <string name="gallery_title_template">Fotos de &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Booking info -->
-    <!-- ActionBar button for confirm user info & book the room -->
-    <string name="BOOK">RESERVAR</string>
-    <!-- Label for book button long press -->
-    <string name="book_hotel">Reservar el hotel</string>
     <!-- edit label -->
     <string name="edit">Editar</string>
     <!-- Label for room type -->
     <string name="room_type">Tipo de habitación</string>
-    <!-- Error if we couldn't load the room type details -->
-    <string name="error_room_type_load">Lo sentimos, no pudimos cargar los detalles de la habitación.  Verifica tu conexión a Internet e intenta nuevamente.</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">Lo sentimos, no pudimos encontrar más detalles sobre esta habitación.</string>
     <!-- Label for bed type -->
@@ -1109,22 +1020,16 @@
     <string name="total_cost">Costo total</string>
     <!-- Label for "guest info" form field section -->
     <string name="guest_info">Información del huésped</string>
-    <!-- Label for "guest info" form field section -->
-    <string name="GUEST_INFO">INFORMACIÓN DEL HUÉSPED</string>
     <!-- The "first name" booking info field. -->
     <string name="FirstName">Nombre</string>
     <!-- The "last name" booking info field. -->
     <string name="LastName">Apellido</string>
-    <!-- Hint for "telephone country code" field (e.g., "+44") -->
-    <string name="hint_telephone_country_code">##</string>
     <!-- The "telephone" booking info field. -->
     <string name="Telephone">Teléfono</string>
     <!-- The "email for booking confirmation" booking info field. -->
     <string name="EmailForConf">Correo electrónico para confirmación</string>
     <!-- Label for "billing info" form field section -->
     <string name="billing_info">Información de pago</string>
-    <!-- Label for "billing info" form field section -->
-    <string name="BILLING_INFO">INFORMACIÓN DE PAGO</string>
     <!-- Address line 1 form field hint -->
     <string name="hint_address1">Dirección (línea 1)</string>
     <!-- Address line 2 form field hint -->
@@ -1157,12 +1062,6 @@
     <string name="rules_restrictions">Normas y restricciones</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">Si tienes una cuenta de Expedia Rewards favor de reservar con el mismo correo electrónico, y tus puntos aparecerán automáticamente después de tu estancia. Favor de notar que pueden pasar hasta 30 días para que los puntos aparezcan.</string>
-    <!-- Message explaining all aditional charges not shown that will be billed at the hotel -->
-    <string name="charges_info">El total de los cargos, incluidos los impuestos, se pagarán en el hotel.</string>
-    <!-- Message asking users to enter booking information (name, address, cc, etc.). -->
-    <string name="EnterBookingInfo">Ingresar la información de la reservación</string>
-    <!-- Message at the bottom of the booking screen with how much you will be charged -->
-    <string name="charge_details_template">Se cobrarán %s a tu tarjeta de crédito</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirmar y reservar</string>
     <!-- Label for clearing private data -->
@@ -1203,8 +1102,6 @@
     <string name="error_booking_succeeded_with_errors">Tu habitación ha sido apartada y reservada. Sin embargo surgieron los siguientes errores: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">No pudimos enviarte una confirmación por correo electrónico.</string>
-    <!-- Check in/out time + date template  1$ represents the check in/out time while 2$ represents the date (e.g. "3:00 PM on 5/24") -->
-    <string name="check_in_out_time_template">%1$s en %2$s</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
     <string name="enter_booking_info">Ingresar la información de la reservación</string>
     <!-- Title for action bar when the user is on the booking info screen -->
@@ -1227,8 +1124,6 @@
     <string name="itinerary_number">N.° de itinerario</string>
     <!-- Confirmation email label -->
     <string name="confirmation_email">Correo electrónico de confirmación</string>
-    <!-- Label for starting a new search -->
-    <string name="new_search">Nueva búsqueda</string>
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">NUEVA BÚSQUEDA</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
@@ -1249,8 +1144,6 @@
     <string name="TaxesAndFees">Impuestos incluidos</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Cargos del hotel (a pagar al hotel)</string>
-    <!-- Label for the rate per room per night. -->
-    <string name="RatePerRoomPerNight">Tarifa por habitación, por noche</string>
     <!-- Label for the total cost of the booking. -->
     <string name="Total">Total</string>
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
@@ -1279,20 +1172,12 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
     <string name="log_in">Iniciar sesión</string>
-    <!-- Label for menu item to log into account -->
-    <string name="log_in_to_expedia">Inicia sesión en Expedia</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Contraseña</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
     <string name="logging_in">Iniciando sesión…</string>
-    <!-- Message that tells user they successfully logged in -->
-    <string name="login_success">¡Se logró con éxito! Haz iniciado sesión</string>
     <!-- Message that tells user they failed to log in -->
     <string name="login_failed">Inicia tu sesión de nuevo por favor</string>
-    <!-- Message that tells user why they failed to stay logged in -->
-    <string name="logged_out_due_to_inactivity">Se cerró tu sesión por falta de actividad.</string>
-    <!-- Label for login widget button -->
-    <string name="account_login">Iniciar sesión</string>
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">¿Estás seguro de que quieres cerrar tu sesión de Expedia?</string>
     <!-- Label for login widget additional text -->
@@ -1301,8 +1186,6 @@
     <string name="enrolled_in_expedia_rewards">Inscrito en Expedia Rewards\u2122</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Haz iniciado sesión como</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as_template">Haz iniciado sesión como &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">Cuenta de Expedia</string>
     <!-- Label for loading user profile from expedia.com -->
@@ -1319,8 +1202,6 @@
     <string name="new_total">Nuevo total:</string>
     <!-- Label for credit card selection -->
     <string name="use_card">Utilizar la tarjeta:</string>
-    <!-- Label for credit card expired warning -->
-    <string name="stored_card_expired">La tarjeta de crédito guardada ya venció.</string>
     <!-- Label for when a user has entered an invalid coupon -->
     <string name="invalid_coupon">Este cupón no es válido</string>
     <!-- Label for when a user has entered a coupon which is expired -->
@@ -1345,8 +1226,6 @@
     <string name="cancellation_policy">Política de cancelación</string>
 
     <!-- About activity -->
-    <!-- Section Header for expedia section -->
-    <string name="EXPEDIA">EXPEDIA</string>
     <!-- Label for "contact Expedia" button in info page -->
     <string name="contact_expedia">Comunícate con Expedia</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
@@ -1367,8 +1246,6 @@
     <string name="expedia_website_description">Visita el sitio web para reservar vuelos, autos, paquetes y mucho más.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">Dinos qué piensas sobre la aplicación.</string>
-    <!-- Section Header for interaction section -->
-    <string name="INTERACT">INTERACTÚA</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Ayuda sobre la aplicación.</string>
     <!-- Extra description for "app support" button, when space allows -->
@@ -1383,16 +1260,12 @@
     <string name="tell_a_friend_subject">Hoteles de Expedia</string>
     <!-- Message body for "tell a friend" feature -->
     <string name="tell_a_friend_body">Hola, \n\n visita los Hoteles de Expedia para iPhone y para los teléfonos Android. Es GRATIS y puedes fácilmente buscar y reservar habitaciones en más de 140.000 hoteles en el mundo. Es la mejor forma de reservar hoteles en tu teléfono.\n\nhttp://www.expedia.com/app</string>
-    <!-- Section Header for our Rules and Restrictions -->
-    <string name="RULES_AND_RESTRICTIONS">NORMAS Y RESTRICCIONES</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Términos y condiciones</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Política de privacidad</string>
     <!-- Copyright information -->
     <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nTodos los derechos reservados.</string>
-    <!-- Dialog Title asking the user if they would like to sign out of their account and remove all data saved about them -->
-    <string name="dialog_title_log_out_and_clear_private_data">¿Quieres cerrar tu sesión y borrar la información?</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Tu sesión ha terminado y la información se ha borrado</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1403,16 +1276,12 @@
     <string name="dialog_message_cleared_private_data">Toda la información de pago y de contacto ha sido eliminada.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
     <string name="dialog_message_launch_expedia_mobile_site">¿Quieres abrir el sitio web móvil de Expedia?</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia Support site in an external browser -->
-    <string name="dialog_message_launch_expedia_support_site">¿Quieres visitar el sitio web de ayuda al cliente de Expedia?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">Suscríbete</string>
     <!-- Action button label to follow on twitter -->
     <string name="Follow">Sigue a</string>
     <!-- Action button label to like on facebook -->
     <string name="Like">Me gusta</string>
-    <!-- Leading text before we list the open source libraries we use -->
-    <string name="open_source_credits">Esta aplicación utiliza las siguientes librerías de código abierto.</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Esta aplicación utiliza el algoritmo Stack Blur de Mario Klingemann.</string>
 
@@ -1429,16 +1298,12 @@
     <string name="email_address">Dirección de correo electrónico</string>
     <!-- Hint to type in comments -->
     <string name="feedback_hint">¿Qué podríamos mejorar?</string>
-    <!-- Message displayed to users after they submit feedback -->
-    <string name="oosdk_thanks_txt">Gracias por enviar tu opinión. Valoramos los comentarios de nuestros clientes.</string>
 
     <!-- Preferences -->
     <!-- Category name for general preferences -->
     <string name="preference_category_general">General</string>
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">País</string>
-    <!-- Template for default point of sale -->
-    <string name="default_point_of_sale_template">Predeterminado (%s)</string>
 
     <!-- Strings used a lot of places -->
     <!-- A number of adults -->
@@ -1483,8 +1348,6 @@
     <string name="unit_miles_full">millas</string>
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">kilómetros</string>
-    <!-- Display for distances if the distance is 0 miles or 0 kilometers depending on the distance unit -->
-    <string name="distance_nearby">Cerca de</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s de distancia</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
@@ -1495,10 +1358,6 @@
     <string name="Settings">Configuración</string>
     <!-- Label for "about this app" menu item. -->
     <string name="About">Sobre</string>
-
-    <!-- Preferences strings -->
-    <!-- String for default preference setting (for any given preference) -->
-    <string name="Default">Predeterminado</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -1551,28 +1410,6 @@
     <string name="e3_error_hotel_information_hotel_service_failure">Ha surgido un error desconocido.</string>
     <string name="e3_error_hotel_information_unknown_error">Ha surgido un error desconocido.</string>
     <string name="e3_error_hotel_information_invalid_input">Ha surgido un error desconocido.</string>
-
-    <!-- Currency names -->
-    <string name="currency_aud">Dólar australiano</string>
-    <string name="currency_brl">Real brasileño</string>
-    <string name="currency_gbp">Libra británica</string>
-    <string name="currency_cad">Dólar canadiense</string>
-    <string name="currency_cny">Yuan chino</string>
-    <string name="currency_dkk">Kroner danés</string>
-    <string name="currency_eur">Euro</string>
-    <string name="currency_hkd">Dólar de Hong Kong</string>
-    <string name="currency_inr">Rupias indias</string>
-    <string name="currency_ils">Nuevo shequel israelí </string>
-    <string name="currency_jpy">Yen japonés</string>
-    <string name="currency_krw">Won coreano</string>
-    <string name="currency_mxn">Peso mexicano</string>
-    <string name="currency_nzd">Dólar neozelandés</string>
-    <string name="currency_nok">Kroner noruego</string>
-    <string name="currency_rub">Rublos rusos</string>
-    <string name="currency_sgd">Dólar de Singapur</string>
-    <string name="currency_sek">Krona sueco</string>
-    <string name="currency_chf">Francos suizos</string>
-    <string name="currency_usd">Dólar estadounidense</string>
 
     <!-- Country names -->
     <string name="country_af">Afganistán</string>
@@ -1759,9 +1596,9 @@
     <string name="country_re">Reunión</string>
     <string name="country_bl">San Bartolomé</string>
     <string name="country_sh">Santa Helena</string>
-    <string name="country_kn">San Cristobal y Nieves</string>
+    <string name="country_kn">San Cristóbal y Nieves</string>
     <string name="country_lc">Santa Lucía</string>
-    <string name="country_mf">Saint Martin (parque francesa)</string>
+    <string name="country_mf">Saint Martin (parte francesa)</string>
     <string name="country_pm">San Pedro y Miquelón</string>
     <string name="country_vc">San Vicente y las Granadinas</string>
     <string name="country_ws">Samoa</string>
@@ -1778,13 +1615,13 @@
     <string name="country_sb">Islas Salomón</string>
     <string name="country_so">Somalía</string>
     <string name="country_za">Sudáfrica</string>
-    <string name="country_gs">Islas Georgias del Sur y Sandwich del Sur</string>
+    <string name="country_gs">Islas Georgias del Sur y Sándwich del Sur</string>
     <string name="country_es">España</string>
     <string name="country_lk">Sri Lanka</string>
     <string name="country_sd">Sudán</string>
-    <string name="country_sr">Surinam</string>
+    <string name="country_sr">Suriname</string>
     <string name="country_sj">Svalbard y Jan Mayen</string>
-    <string name="country_sz">Suizalandia</string>
+    <string name="country_sz">Swazilandia</string>
     <string name="country_se">Suecia</string>
     <string name="country_ch">Suiza</string>
     <string name="country_sy">Siria, República Árabe</string>
