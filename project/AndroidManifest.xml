@@ -31,17 +31,6 @@
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
         <activity
-            android:name="com.expedia.bookings.activity.ItineraryActivity"
-            android:theme="@style/Theme.Phone.Dark"
-            android:label="Itin">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="com.expedia.bookings.activity.SearchActivity"
             android:theme="@android:style/Theme.NoDisplay" >
             <intent-filter>
