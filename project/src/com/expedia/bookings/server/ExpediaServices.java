@@ -81,6 +81,7 @@ import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -632,6 +633,11 @@ public class ExpediaServices implements DownloadListener {
 
 	public TripResponse getTrips(int flags) {
 		return doE3Request("api/trips", null, new TripResponseHandler(mContext), F_SECURE_REQUEST | F_GET);
+	}
+
+	public TripDetailsResponse getTripDetails(String tripId) {
+		return doE3Request("api/trips/" + tripId, null, new TripDetailsResponseHandler(mContext), F_SECURE_REQUEST
+				| F_GET);
 	}
 
 	public void clearCookies() {
