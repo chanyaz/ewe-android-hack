@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/itin_list_card_top_image_offset"
-        android:background="#66FF0000"
+        android:background="#39424B"
         android:orientation="vertical" >
 
         <RelativeLayout

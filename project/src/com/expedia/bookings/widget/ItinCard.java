@@ -155,7 +155,7 @@ public class ItinCard extends RelativeLayout {
 			RelativeLayout.LayoutParams params = (LayoutParams) mFloatTypeIcon.getLayoutParams();
 			boolean changed = params.topMargin != floatImageTopMargin || params.height != dimen
 					|| params.width != dimen;
-			if (changed) {
+			if (changed && !isWiggling(dimen)) {
 				params.topMargin = floatImageTopMargin;
 				params.height = dimen;
 				params.width = dimen;
