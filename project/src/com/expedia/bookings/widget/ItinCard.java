@@ -2,13 +2,13 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -29,61 +29,6 @@ public class ItinCard extends RelativeLayout {
 	private ImageView mFloatTypeIcon;
 
 	private boolean mShowExpanded = false;
-
-	private OnScrollChangedListener mScrollChangeListener = new OnScrollChangedListener() {
-		@Override
-		public void onScrollChanged() {
-			Rect cardRect = new Rect();
-			if (ItinCard.this.getLocalVisibleRect(cardRect)) {
-				//View is at least partly visible
-
-				int floatImageTopMargin = 0;
-				int floatImageHeight = mFloatTypeIcon.getHeight();
-				int floatImageHalfHeight = floatImageHeight / 2;
-				int imageContainerHeight = mImageContainer.getHeight();
-				int imageContainerHalfHeight = imageContainerHeight / 2;
-				int innerItinContainerTopMargin = mInnerContainer.getTop();
-
-				int maxTopMargin = innerItinContainerTopMargin + imageContainerHalfHeight - floatImageHeight;
-
-				Rect imageContainerRect = new Rect();
-				if (mImageContainer.getLocalVisibleRect(imageContainerRect)) {
-					int imageContainerCenterY = imageContainerRect.centerY();
-					floatImageTopMargin = innerItinContainerTopMargin + imageContainerCenterY - floatImageHeight;
-				}
-
-				//Bounds
-				if (floatImageTopMargin > maxTopMargin) {
-					floatImageTopMargin = maxTopMargin;
-				}
-				if (floatImageTopMargin < 0) {
-					floatImageTopMargin = 0;
-				}
-
-				double factor = 1e3;
-				double percentage = (0.0 + floatImageTopMargin) / maxTopMargin;
-				percentage = Math.round(percentage * factor) / factor;
-				int dimen = (int) (TYPE_IMAGE_START_SIZE + Math.round(percentage
-						* (TYPE_IMAGE_END_SIZE - TYPE_IMAGE_START_SIZE)));
-
-				Log.i("Percentage:" + percentage + " dimen:" + dimen);
-
-				RelativeLayout.LayoutParams params = (LayoutParams) mFloatTypeIcon.getLayoutParams();
-				boolean changed = params.topMargin != floatImageTopMargin || params.height != dimen
-						|| params.width != dimen;
-				if (changed) {
-					params.topMargin = floatImageTopMargin;
-					params.height = dimen;
-					params.width = dimen;
-					mFloatTypeIcon.setLayoutParams(params);
-				}
-
-			}
-			else {
-				//View is invisible
-			}
-		}
-	};
 
 	public ItinCard(Context context) {
 		super(context);
@@ -125,18 +70,8 @@ public class ItinCard extends RelativeLayout {
 		mCardImage = Ui.findView(view, R.id.itin_bg);
 		mFloatTypeIcon = Ui.findView(view, R.id.float_type_icon);
 		mExpandedContainer = Ui.findView(view, R.id.itin_expanded_container);
-	}
 
-	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		getViewTreeObserver().addOnScrollChangedListener(mScrollChangeListener);
-	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
-		getViewTreeObserver().removeOnScrollChangedListener(mScrollChangeListener);
+		this.setWillNotDraw(false);
 	}
 
 	@Override
@@ -154,8 +89,82 @@ public class ItinCard extends RelativeLayout {
 		super.onRestoreInstanceState(state);
 	}
 
+	@Override
+	public void onDraw(Canvas canvas) {
+		updateTypeIconPosition();
+		super.onDraw(canvas);
+	}
+
 	public void showExpanded(boolean show) {
 		mShowExpanded = show;
 		mExpandedContainer.setVisibility(mShowExpanded ? View.VISIBLE : View.GONE);
+	}
+
+	private int mLastDimen = 0;
+	private int mSecondLastDimen = 0;
+
+	public boolean isWiggling(int newDimen) {
+		boolean retVal = false;
+		if (mSecondLastDimen == newDimen) {
+			retVal = true;
+		}
+
+		//Shift
+		mSecondLastDimen = mLastDimen;
+		mLastDimen = newDimen;
+
+		return retVal;
+	}
+
+	public void updateTypeIconPosition() {
+		Rect cardRect = new Rect();
+		if (ItinCard.this.getLocalVisibleRect(cardRect)) {
+			//View is at least partly visible
+
+			int floatImageTopMargin = 0;
+			int floatImageHeight = mFloatTypeIcon.getHeight();
+			int floatImageHalfHeight = floatImageHeight / 2;
+			int imageContainerHeight = mImageContainer.getHeight();
+			int imageContainerHalfHeight = imageContainerHeight / 2;
+			int innerItinContainerTopMargin = mInnerContainer.getTop();
+
+			int maxTopMargin = innerItinContainerTopMargin + imageContainerHalfHeight - floatImageHeight;
+
+			Rect imageContainerRect = new Rect();
+			if (mImageContainer.getLocalVisibleRect(imageContainerRect)) {
+				int imageContainerCenterY = imageContainerRect.centerY();
+				floatImageTopMargin = innerItinContainerTopMargin + imageContainerCenterY - floatImageHeight;
+			}
+
+			//Bounds
+			if (floatImageTopMargin > maxTopMargin) {
+				floatImageTopMargin = maxTopMargin;
+			}
+			if (floatImageTopMargin < 0) {
+				floatImageTopMargin = 0;
+			}
+
+			double factor = 1e2;
+			double percentage = (0.0 + floatImageTopMargin) / maxTopMargin;
+			percentage = Math.round(percentage * factor) / factor;
+			int dimen = (int) (TYPE_IMAGE_START_SIZE + Math.round(percentage
+					* (TYPE_IMAGE_END_SIZE - TYPE_IMAGE_START_SIZE)));
+
+			Log.i("Percentage:" + percentage + " dimen:" + dimen);
+
+			RelativeLayout.LayoutParams params = (LayoutParams) mFloatTypeIcon.getLayoutParams();
+			boolean changed = params.topMargin != floatImageTopMargin || params.height != dimen
+					|| params.width != dimen;
+			if (changed) {
+				params.topMargin = floatImageTopMargin;
+				params.height = dimen;
+				params.width = dimen;
+				mFloatTypeIcon.setLayoutParams(params);
+			}
+
+		}
+		else {
+			//View is invisible
+		}
 	}
 }

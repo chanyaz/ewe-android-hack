@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/outer_itin_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -101,4 +101,4 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/btn_radio_off_pressed_holo_dark" />
 
-</RelativeLayout>
+</merge>

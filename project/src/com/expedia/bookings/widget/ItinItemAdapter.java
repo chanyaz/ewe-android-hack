@@ -5,10 +5,8 @@ import java.util.List;
 
 import com.expedia.bookings.data.ItinItem;
 import com.expedia.bookings.data.ItinItem.ItinItemType;
-import com.expedia.bookings.data.Itinerary;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
