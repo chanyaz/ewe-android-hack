@@ -578,7 +578,7 @@
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_round_trip_TEMPLATE">Aller-retour de %1$s à %2$s</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
-    <string name="share_flight_itinerary_TEMPLATE">Nºd\&apos;itinéraire : %s</string>
+    <string name="share_flight_itinerary_TEMPLATE">Nº d\&apos;itinéraire : %s</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc... %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">
