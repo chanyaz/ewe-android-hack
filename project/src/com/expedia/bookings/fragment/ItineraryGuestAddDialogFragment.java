@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,8 +30,6 @@ public class ItineraryGuestAddDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		Builder builder = new AlertDialog.Builder(getActivity());
-
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.fragment_add_guest_itinerary, null);
 
@@ -44,10 +40,13 @@ public class ItineraryGuestAddDialogFragment extends DialogFragment {
 
 		initOnClicks();
 
-		builder.setView(view);
-		Dialog dialog = builder.create();
+		Dialog dialog = new Dialog(getActivity(), R.style.ExpediaLoginDialog);
+		dialog.requestWindowFeature(STYLE_NO_TITLE);
+		dialog.setCancelable(true);
 		dialog.setCanceledOnTouchOutside(true);
-
+		dialog.setContentView(view);
+		
+		
 		return dialog;
 	}
 	
