@@ -59,7 +59,7 @@ public class FlightPriceBreakdownDialogFragment extends DialogFragment {
 			travTrip.bind(trip);
 
 			String travLabelFormat = getResources().getString(R.string.traveler_num_and_category_TEMPLATE);
-			String travLabel = String.format(travLabelFormat, i + 1, getResources().getString(R.string.adult));
+			String travLabel = String.format(travLabelFormat, i + 1);
 			travTripLabel.setText(travLabel);
 		}
 

@@ -287,8 +287,8 @@
     <string name="expedia_booking_fee">Expedia Booking Fee</string>
     <!-- Flight -->
     <string name="flight">Flight</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">Traveler %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE">Traveler %1$d</string>
     <!-- Adult -->
     <string name="adult">Adult</string>
 

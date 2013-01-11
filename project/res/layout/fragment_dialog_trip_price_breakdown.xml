@@ -82,16 +82,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/display_fees"
                         android:text="@string/expedia_booking_fee"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/display_fees"
+                        android:id="@id/display_fees"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@+id/label_flight_fee"
                         android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/label_flight_fee"
                         android:gravity="right"
                         android:textSize="18sp" />
                 </RelativeLayout>
@@ -116,17 +116,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/display_total_price_bottom"
                         android:text="@string/total_price_label"
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/display_total_price_bottom"
+                        android:id="@id/display_total_price_bottom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@+id/label_flight_total"
                         android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/label_flight_total"
                         android:gravity="right"
                         android:textSize="22sp" />
                 </RelativeLayout>

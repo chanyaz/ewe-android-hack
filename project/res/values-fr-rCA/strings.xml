@@ -277,8 +277,8 @@
     <string name="expedia_booking_fee">Frais de réservation</string>
     <!-- Flight -->
     <string name="flight">Vol</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">Voyageur %1$d - %2$s</string>
+    <!-- Traveler number and category e.g. "Traveler 1" -->
+    <string name="traveler_num_and_category_TEMPLATE">Voyageur %1$d</string>
     <!-- Adult -->
     <string name="adult">Adulte</string>
 
