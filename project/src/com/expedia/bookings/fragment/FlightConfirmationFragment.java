@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
@@ -342,7 +343,13 @@ public class FlightConfirmationFragment extends Fragment {
 	// Add insurance (Canada only)
 
 	private void addInsurance() {
-		String url = "http://www.expedia.ca/daily/enc4105/travelinsurance/default.asp";
+		String url;
+		if (Locale.getDefault().getLanguage().equals("fr")) {
+			url = "http://www.expedia.ca/daily/frc3084/travelinsurance/default.asp";
+		}
+		else {
+			url = "http://www.expedia.ca/daily/enc4105/travelinsurance/default.asp";
+		}
 		Intent insuranceIntent = new Intent(getActivity(), WebViewActivity.class);
 		insuranceIntent.putExtra(WebViewActivity.ARG_URL, url);
 		insuranceIntent.putExtra(WebViewActivity.ARG_STYLE_RES_ID, R.style.FlightTheme);
