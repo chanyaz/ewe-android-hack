@@ -28,6 +28,8 @@ public class ItinCard extends RelativeLayout {
 	private OptimizedImageView mCardImage;
 	private ImageView mFloatTypeIcon;
 
+	private int mPaddingBottom;
+
 	private boolean mShowExpanded = false;
 
 	public ItinCard(Context context) {
@@ -71,6 +73,10 @@ public class ItinCard extends RelativeLayout {
 		mFloatTypeIcon = Ui.findView(view, R.id.float_type_icon);
 		mExpandedContainer = Ui.findView(view, R.id.itin_expanded_container);
 
+		mPaddingBottom = getResources().getDimensionPixelSize(R.dimen.itin_list_card_top_image_offset);
+
+		showBottomPadding(true);
+
 		this.setWillNotDraw(false);
 	}
 
@@ -98,6 +104,11 @@ public class ItinCard extends RelativeLayout {
 	public void showExpanded(boolean show) {
 		mShowExpanded = show;
 		mExpandedContainer.setVisibility(mShowExpanded ? View.VISIBLE : View.GONE);
+	}
+
+	public void showBottomPadding(boolean show) {
+		int padding = show ? mPaddingBottom : 0;
+		setPadding(0, 0, 0, padding);
 	}
 
 	private int mLastDimen = 0;

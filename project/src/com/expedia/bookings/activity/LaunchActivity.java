@@ -11,12 +11,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.CollapseAnimation;
+import com.expedia.bookings.animation.ExpandAnimation;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.ItinItemListFragment;
@@ -35,6 +38,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	private static final int REQUEST_SETTINGS = 1;
 
+	private ViewGroup mHeader;
+
 	private LaunchFragment mLaunchFragment;
 	private ItinItemListFragment mItinListFragment;
 
@@ -51,6 +56,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		setContentView(R.layout.activity_launch);
 		getWindow().setBackgroundDrawable(null);
+
+		mHeader = Ui.findView(this, R.id.header);
 
 		mLaunchFragment = Ui.findSupportFragment(this, LaunchFragment.TAG);
 		if (mLaunchFragment == null) {
@@ -69,25 +76,23 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		mViewPager = Ui.findView(this, R.id.viewpager);
 		mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
 			@Override
-			public void onPageScrollStateChanged(int arg0) {
+			public void onPageScrollStateChanged(int state) {
 			}
 
 			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 			}
 
 			@Override
-			public void onPageSelected(int arg0) {
-				if (arg0 == 0) {
+			public void onPageSelected(int position) {
+				if (position == 0) {
 					gotoWaterfall();
 				}
-				else if (arg0 == 1) {
+				else if (position == 1) {
 					gotoItineraries();
 				}
 			}
-
 		});
 
 		// HockeyApp init
@@ -132,6 +137,21 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	public void onStart() {
 		super.onStart();
 		OmnitureTracking.trackPageLoadLaunchScreen(this);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mViewPager.getCurrentItem() == 1) {
+			if (!mItinListFragment.inListMode()) {
+				mItinListFragment.showList();
+				return;
+			}
+
+			mViewPager.setCurrentItem(0);
+			return;
+		}
+
+		super.onBackPressed();
 	}
 
 	@Override
@@ -250,16 +270,21 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	};
 
 	private void gotoWaterfall() {
-		this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		this.getSupportActionBar().setHomeButtonEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setHomeButtonEnabled(false);
+
 		mViewPager.setCurrentItem(0);
+		mItinListFragment.showList();
+
 		supportInvalidateOptionsMenu();
 	}
 
 	private void gotoItineraries() {
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
 		mViewPager.setCurrentItem(1);
-		this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		this.getSupportActionBar().setHomeButtonEnabled(true);
+
 		supportInvalidateOptionsMenu();
 	}
 
@@ -274,23 +299,46 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	public class PagerAdapter extends FragmentPagerAdapter {
+	public void hideHeader() {
+		if (mHeader.getVisibility() == View.GONE) {
+			return;
+		}
 
-		private List<Fragment> fragments;
+		if (mHeader.getAnimation() != null) {
+			mHeader.getAnimation().cancel();
+		}
+
+		mHeader.startAnimation(new CollapseAnimation(mHeader));
+	}
+
+	public void showHeader() {
+		if (mHeader.getVisibility() == View.VISIBLE) {
+			return;
+		}
+
+		if (mHeader.getAnimation() != null) {
+			mHeader.getAnimation().cancel();
+		}
+
+		mHeader.startAnimation(new ExpandAnimation(mHeader));
+	}
+
+	public class PagerAdapter extends FragmentPagerAdapter {
+		private List<Fragment> mFragments;
 
 		public PagerAdapter(FragmentManager fm, List<Fragment> fragments) {
 			super(fm);
-			this.fragments = fragments;
+			mFragments = fragments;
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			return this.fragments.get(position);
+			return mFragments.get(position);
 		}
 
 		@Override
 		public int getCount() {
-			return this.fragments.size();
+			return mFragments.size();
 		}
 	}
 }

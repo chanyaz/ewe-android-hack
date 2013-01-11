@@ -3,16 +3,15 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.expedia.bookings.data.trips.TripComponent;
-import com.expedia.bookings.data.trips.TripComponent.Type;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class ItinItemAdapter extends BaseAdapter {
+import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 
+public class ItinItemAdapter extends BaseAdapter {
 	ArrayList<TripComponent> mItems = new ArrayList<TripComponent>();
 	Context mContext;
 
@@ -21,7 +20,7 @@ public class ItinItemAdapter extends BaseAdapter {
 
 		//TODO: REMOVE!
 		for (int i = 0; i < 5; i++) {
-			TripComponent tripComp = new TripComponent(i%2 == 0 ? Type.FLIGHT : Type.HOTEL);
+			TripComponent tripComp = new TripComponent(i % 2 == 0 ? Type.FLIGHT : Type.HOTEL);
 			mItems.add(tripComp);
 		}
 	}
@@ -55,6 +54,7 @@ public class ItinItemAdapter extends BaseAdapter {
 		//card.bind(getItem(position));
 
 		card.showExpanded(position == 0);
+		card.showBottomPadding(position == getCount() - 1);
 
 		return card;
 	}

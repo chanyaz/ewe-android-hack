@@ -11,8 +11,7 @@
     <RelativeLayout
         android:id="@+id/list_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_height="match_parent" >
 
         <View
             android:layout_width="2dp"
@@ -84,6 +83,11 @@
             android:padding="16dp"
             android:text="@string/or_enter_an_itinerary_number" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <View
         android:id="@+id/content_shadow"
