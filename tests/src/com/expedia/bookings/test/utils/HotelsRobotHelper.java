@@ -245,10 +245,13 @@ public class HotelsRobotHelper {
 		//Sometimes the text displayed hasn't matched the string
 		//for the update locale
 		//This try catch block is a messy fix to be able to do more than one booking
+		delay();
 		try {
+			delay();
+	        enterLog(TAG, "TRYING TO OPEN THE MENU YO");
 			mSolo.pressMenuItem(0);
 		}
-		catch (AssertionFailedError E) {
+		catch (Error E) {
 			enterLog(TAG, "Menu not there. Going back to try to refresh it.");
 			mSolo.goBack();
 			delay();
@@ -356,7 +359,7 @@ public class HotelsRobotHelper {
 	public void filterFor(String filterText) { //filter currently does not work.
 		//solo.clickOnText(getStringFromR(R.string.filter_hotels));
 
-		String filter = mRes.getString(R.string.FILTER);
+		String filter = mRes.getString(R.string.filter);
 		//Korea and Japan do not support filtering because 
 		//most hotel names are in their respective languages' characters
 		if (mRes.getConfiguration().locale != APAC_LOCALES[4]
@@ -379,7 +382,7 @@ public class HotelsRobotHelper {
 
 	public void pressSort() {
 		delay(1);
-		String sortText = mRes.getString(R.string.SORT);
+		String sortText = mRes.getString(R.string.sort);
 		enterLog(TAG, "Clicking on label: " + sortText);
 
 		mSolo.clickOnButton(0);
@@ -486,11 +489,11 @@ public class HotelsRobotHelper {
 		portrait();
 		delay();
 		enterLog(TAG, "Before pressing favorable");
-		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_favorable).toUpperCase());
+		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_favorable));
 		delay(1);
 		screenshot("Favorable Reviews.");
 		delay(1);
-		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical).toUpperCase());
+		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical));
 		screenshot("Critical Reviews.");
 		delay(1);
 		landscape();
@@ -552,11 +555,6 @@ public class HotelsRobotHelper {
 
 		String loginButtonText = mRes.getString(R.string.log_in_for_faster_booking);
 
-		if (loginButtonText == null) {
-			//The US String is different from all other POS
-			//So we must check it make sure we're looking for the right one.
-			loginButtonText = mRes.getString(R.string.log_in_to_expedia);
-		}
 		enterLog(TAG, "Pressing button: " + loginButtonText);
 		try {
 			mSolo.clickOnText(loginButtonText);
@@ -739,7 +737,6 @@ public class HotelsRobotHelper {
 	}
 
 	public void confirmAndBook() throws Exception {
-
 		delay(5);
 		screenshot("Slide to checkout.");
 		delay();
@@ -795,19 +792,20 @@ public class HotelsRobotHelper {
 			else {
 				enterLog(TAG, "Never got to confirmation screen.");
 			}
-			if (mSolo.searchText("Hotels in", true)) {
+			if (mSolo.searchText(mRes.getString(R.string.add_insurance), true)) {
+				delay();
 				mSolo.scrollToTop();
 				screenshot("Confirmation Screen 1");
 				mSolo.scrollDown();
 				screenshot("Confirmation Screen 2");
-				mSolo.clickOnText("Hotels in");
+				mSolo.clickOnText("Seattle");
 			}
 			else {
 				try {
 					mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
 				}
 				catch (AssertionFailedError E) {
-					enterLog(TAG, "New Search string not localized: No " + mRes.getString(R.string.new_search));
+					enterLog(TAG, "New Search string not localized: No " + mRes.getString(R.string.NEW_SEARCH));
 					mSolo.clickOnText("NEW SEARCH");
 				}
 				enterLog(TAG, "Back at search!");
@@ -885,10 +883,10 @@ public class HotelsRobotHelper {
 
 		clearPrivateData();
 		launchFlights();
-
+		delay();
 		//If still on flights confirmation page
 		//click to do a new search
-		if (mSolo.searchText("Hotels in", true)) {
+		if (mSolo.searchText(mRes.getString(R.string.add_insurance), true)) {
 			mSolo.clickOnImageButton(0);
 			delay(10);
 		}
@@ -938,7 +936,7 @@ public class HotelsRobotHelper {
 		delay();
 		mSolo.scrollToTop();
 		delay();
-		mSolo.clickOnText(mRes.getString(R.string.sort_flights).toUpperCase());
+		mSolo.clickOnText(mRes.getString(R.string.sort_flights));
 		screenshot("Sort fragment");
 		mSolo.goBack();
 		delay();
@@ -967,6 +965,7 @@ public class HotelsRobotHelper {
 			launchHotels();
 			browseRooms(4, arrival, true);
 		}
+		else mSolo.goBack();
 
 	}
 }

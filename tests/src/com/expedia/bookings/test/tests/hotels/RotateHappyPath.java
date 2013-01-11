@@ -32,7 +32,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	}
 
 	void rotateFilter() {
-		mSolo.clickOnText(mRes.getString(R.string.FILTER));
+		mSolo.clickOnText(mRes.getString(R.string.filter));
 		mDriver.landscape();
 		mDriver.portrait();
 		mSolo.goBack();
