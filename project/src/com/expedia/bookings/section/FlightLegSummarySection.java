@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -150,15 +151,24 @@ public class FlightLegSummarySection extends RelativeLayout {
 			}
 		}
 
+		// 104 - modify card size depending on whether or not this is string is displayed to prevent overlap
+		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mMultiDayTextView.getLayoutParams();
+		Resources res = getResources();
+		int rightMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_right);
+		int topMargin;
+
 		int daySpan = leg.getDaySpan();
 		if (daySpan != 0) {
+			topMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_top_no_overlap);
 			mMultiDayTextView.setVisibility(View.VISIBLE);
 			String daySpanStr = sDaySpanFormatter.format(daySpan);
 			mMultiDayTextView.setText(getResources().getQuantityString(R.plurals.day_span, daySpan, daySpanStr));
 		}
 		else {
+			topMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_top);
 			mMultiDayTextView.setVisibility(View.INVISIBLE);
 		}
+		lp.setMargins(0, topMargin, rightMargin, 0);
 
 		mFlightTripView.setUp(leg, minTime, maxTime);
 	}
