@@ -1,236 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/outer_container"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <!-- Header message -->
-
-    <TextView
-        android:id="@+id/login_status_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="21dp"
-        android:layout_marginRight="21dp"
-        android:layout_marginTop="16dp"
-        android:bufferType="spannable"
-        android:text="@string/expedia_account"
-        android:textColor="#f3f3f3"
-        android:textSize="25sp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginBottom="11dp"
-        android:layout_marginLeft="19dp"
-        android:layout_marginRight="19dp"
-        android:layout_marginTop="16dp"
-        android:background="#797f86" />
-
-    <!-- The fields for expedia login -->
+    android:fillViewport="true" >
 
     <LinearLayout
-        android:id="@+id/expedia_signin_container"
+        android:id="@+id/outer_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="19dp"
-        android:layout_marginRight="19dp"
-        android:gravity="center_vertical"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/username_edit_text"
-            android:layout_width="fill_parent"
+        <!-- Header message -->
+
+        <TextView
+            android:id="@+id/login_status_textview"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:hint="@string/email_address"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:nextFocusDown="@+id/password_edit_text"
-            android:nextFocusRight="@+id/password_edit_text"
-            android:padding="12dp"
-            android:textColor="#c6c8c9"
-            android:textSize="18sp" />
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="21dp"
+            android:layout_marginTop="16dp"
+            android:bufferType="spannable"
+            android:text="@string/expedia_account"
+            android:textColor="#f3f3f3"
+            android:textSize="25sp" />
 
-        <EditText
-            android:id="@+id/password_edit_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="11dp"
-            android:hint="@string/hint_password"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:textColor="#c6c8c9"
-            android:textSize="18sp" />
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginBottom="11dp"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            android:layout_marginTop="16dp"
+            android:background="#797f86" />
 
-    <!-- Signin with Expedia -or- Connect with facebook -->
-
-    <LinearLayout
-        android:id="@+id/signin_button_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:gravity="center_vertical"
-        android:orientation="vertical" >
+        <!-- The fields for expedia login -->
 
         <LinearLayout
-            android:id="@+id/or_facebook_container"
+            android:id="@+id/expedia_signin_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/username_edit_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:hint="@string/email_address"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:nextFocusDown="@+id/password_edit_text"
+                android:nextFocusRight="@+id/password_edit_text"
+                android:padding="12dp"
+                android:textColor="#c6c8c9"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/password_edit_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="11dp"
+                android:hint="@string/hint_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:textColor="#c6c8c9"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <!-- Signin with Expedia -or- Connect with facebook -->
+
+        <LinearLayout
+            android:id="@+id/signin_button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
             android:orientation="vertical" >
 
             <LinearLayout
-                android:id="@+id/or_container"
+                android:id="@+id/or_facebook_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="12dp"
-                android:gravity="center"
-                android:orientation="horizontal" >
+                android:orientation="vertical" >
 
-                <View
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/or_container"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/divider_grey_gradient_left" />
-
-                <TextView
-                    android:id="@+id/or_tv"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
+                    android:layout_marginBottom="12dp"
                     android:gravity="center"
-                    android:text="@string/or"
-                    android:textColor="#c7c8ca"
+                    android:orientation="horizontal" >
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/divider_grey_gradient_left" />
+
+                    <TextView
+                        android:id="@+id/or_tv"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:text="@string/or"
+                        android:textColor="#c7c8ca"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/divider_grey_gradient_right" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/connect_with_facebook_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="17dp"
+                    android:background="@drawable/btn_facebook_signin"
+                    android:gravity="center"
+                    android:text="@string/connect_with_facebook"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:textStyle="italic" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/divider_grey_gradient_right" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/connect_with_facebook_btn"
+            <LinearLayout
+                android:id="@+id/sign_in_with_expedia_button_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="17dp"
                 android:layout_marginRight="17dp"
-                android:background="@drawable/btn_facebook_signin"
-                android:gravity="center"
-                android:text="@string/connect_with_facebook"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <Button
+                    android:id="@+id/sign_in_with_expedia_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_signin"
+                    android:gravity="center"
+                    android:text="@string/sign_in_with_expedia"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/forgot_your_password_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="@string/forgot_your_password"
+                    android:textColor="#f3f3f3"
+                    android:textColorLink="@android:color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
         </LinearLayout>
 
+        <!-- Facebook sigin in fields -->
+
         <LinearLayout
-            android:id="@+id/sign_in_with_expedia_button_container"
+            android:id="@+id/facebook_signin_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <EditText
+                android:id="@+id/link_password_edit_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_marginTop="14dp"
+                android:hint="@string/expedia_password_hint"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:textColor="#c6c8c9" />
+        </LinearLayout>
+
+        <!-- Facebook connect buttons -->
+
+        <LinearLayout
+            android:id="@+id/facebook_button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="17dp"
             android:layout_marginRight="17dp"
+            android:gravity="center_vertical"
             android:orientation="vertical"
             android:visibility="gone" >
 
             <Button
-                android:id="@+id/sign_in_with_expedia_btn"
+                android:id="@+id/link_accounts_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_signin"
+                android:layout_marginBottom="19dp"
+                android:background="@drawable/btn_link"
                 android:gravity="center"
-                android:text="@string/sign_in_with_expedia"
-                android:textColor="@android:color/black"
+                android:text="@string/link_accounts"
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/forgot_your_password_link"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/cancel_link_accounts_button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="@string/forgot_your_password"
-                android:textColor="#f3f3f3"
-                android:textColorLink="@android:color/white"
-                android:textSize="13sp" />
+                android:layout_marginTop="0dp"
+                android:background="@drawable/btn_cancel"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Facebook sigin in fields -->
-
-    <LinearLayout
-        android:id="@+id/facebook_signin_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <EditText
-            android:id="@+id/link_password_edit_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
-            android:layout_marginTop="14dp"
-            android:hint="@string/expedia_password_hint"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:textColor="#c6c8c9" />
-    </LinearLayout>
-
-    <!-- Facebook connect buttons -->
-
-    <LinearLayout
-        android:id="@+id/facebook_button_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="17dp"
-        android:layout_marginRight="17dp"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <Button
-            android:id="@+id/link_accounts_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="19dp"
-            android:background="@drawable/btn_link"
-            android:gravity="center"
-            android:text="@string/link_accounts"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/cancel_link_accounts_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:background="@drawable/btn_cancel"
-            android:gravity="center"
-            android:text="@string/cancel"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

@@ -9,7 +9,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -174,12 +173,6 @@ public class LoginFragment extends Fragment {
 			setStatusText(mStatusText, false);
 		}
 
-		if(mPathMode.equals(PathMode.FLIGHTS)){
-			ViewGroup outerContainer = Ui.findView(v, R.id.outer_container);
-			BitmapDrawable bg = new BitmapDrawable(getResources(), Db.getBackgroundImage(getActivity(), true));
-			outerContainer.setBackgroundDrawable(bg);
-		}
-		
 		initOnClicks();
 		setVisibilityState(mVisibilityState);
 
@@ -465,11 +458,11 @@ public class LoginFragment extends Fragment {
 				//goto previous state...
 				if (TextUtils.isEmpty(mExpediaUserName.getText())) {
 					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON);
-					setStatusText(R.string.expedia_account,true);
+					setStatusText(R.string.expedia_account, true);
 				}
 				else {
 					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON);
-					setStatusText(R.string.expedia_account,true);
+					setStatusText(R.string.expedia_account, true);
 				}
 			}
 		});

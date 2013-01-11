@@ -4,6 +4,8 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
@@ -21,6 +23,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	private static final String TAG_LOGIN_FRAGMENT = "TAG_LOGIN_FRAGMENT";
 	private static final String STATE_TITLE = "STATE_TITLE";
 
+	private BlurredBackgroundFragment mBgFragment;
 	private LoginFragment mLoginFragment;
 	private String mTitle;
 
@@ -44,9 +47,10 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		if(this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.HOTELS.name())){
+		if (this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.HOTELS.name())) {
 			actionBar.setIcon(R.drawable.ic_logo_hotels);
-		}else if(this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.FLIGHTS.name())){
+		}
+		else if (this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.FLIGHTS.name())) {
 			actionBar.setIcon(R.drawable.ic_logo_flights);
 		}
 		actionBar.setDisplayUseLogoEnabled(false);
@@ -58,22 +62,36 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		else {
 			setTitle(getString(R.string.sign_in));
 		}
-		
-		
+
+		boolean isFlights = this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.FLIGHTS.name());
+		if (savedInstanceState == null) {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			if (isFlights) {
+				mBgFragment = new BlurredBackgroundFragment();
+				mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
+				ft.add(R.id.background_container, mBgFragment, BlurredBackgroundFragment.TAG);
+			}
+
+			mLoginFragment = LoginFragment.newInstance(PathMode.valueOf(getIntent().getStringExtra(ARG_PATH_MODE)));
+			ft.add(R.id.login_fragment_container, mLoginFragment, TAG_LOGIN_FRAGMENT);
+			ft.commit();
+		}
+		else {
+			if (isFlights) {
+				mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
+				mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
+			}
+			mLoginFragment = Ui.findSupportFragment(this, TAG_LOGIN_FRAGMENT);
+		}
+
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mLoginFragment = Ui.findSupportFragment(this, TAG_LOGIN_FRAGMENT);
-		if (mLoginFragment == null) {
-			mLoginFragment = LoginFragment.newInstance(PathMode.valueOf(getIntent().getStringExtra(ARG_PATH_MODE)));
-		}
-		if (!mLoginFragment.isAdded()) {
-			ft.add(R.id.login_fragment_container, mLoginFragment, TAG_LOGIN_FRAGMENT);
-			ft.commit();
+		if (mBgFragment != null) {
+			mBgFragment.setFadeEnabled(true);
 		}
 
 	}
