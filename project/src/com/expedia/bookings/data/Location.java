@@ -1,5 +1,6 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -45,6 +46,15 @@ public class Location implements JSONable {
 
 	public void setStreetAddress(List<String> streetAddress) {
 		mStreetAddress = streetAddress;
+	}
+
+	// Handy shortcut
+	public void addStreetAddressLine(String line) {
+		if (mStreetAddress == null) {
+			mStreetAddress = new ArrayList<String>();
+		}
+
+		mStreetAddress.add(line);
 	}
 
 	public String getDescription() {
