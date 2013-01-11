@@ -19,17 +19,18 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:background="#66FFFFFF" />
+            android:background="#4D555D" />
 
         <ListView
             android:id="@id/android:list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:cacheColorHint="#00000000"
-            android:divider="#00000000"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
             android:dividerHeight="0dp"
-            android:drawSelectorOnTop="false" />
+            android:drawSelectorOnTop="false"
+            android:listSelector="@android:color/transparent" />
     </RelativeLayout>
 
     <!-- The No itins portion -->
