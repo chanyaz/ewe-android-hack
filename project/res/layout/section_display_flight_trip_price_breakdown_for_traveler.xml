@@ -13,17 +13,17 @@
             android:id="@+id/travler_num_and_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/display_total_price"
             android:layout_alignParentLeft="true"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/display_total_price"
+            android:id="@id/display_total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/travler_num_and_category"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/travler_num_and_category"
             android:gravity="right"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -33,17 +33,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/display_subtotal"
             android:layout_below="@+id/travler_num_and_category"
             android:text="@string/flight"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/display_subtotal"
+            android:id="@id/display_subtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/label_flight_price"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/label_flight_price"
             android:gravity="right"
             android:textSize="18sp" />
 
@@ -52,17 +52,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/display_taxes"
             android:layout_below="@+id/label_flight_price"
             android:text="@string/taxes_and_airline_fees"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/display_taxes"
+            android:id="@id/display_taxes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/label_flight_taxes"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/label_flight_taxes"
             android:gravity="right"
             android:textSize="18sp" />
 
@@ -81,16 +81,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/divider_one"
+            android:layout_toLeftOf="@+id/display_fees"
             android:text="@string/expedia_booking_fee"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/display_fees"
+            android:id="@id/display_fees"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/label_flight_fee"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/label_flight_fee"
             android:gravity="right"
             android:textSize="18sp" />
 
@@ -108,18 +108,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/display_total_price_bottom"
             android:layout_below="@+id/divider_two"
             android:text="@string/total_price_label"
             android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/display_total_price_bottom"
+            android:id="@id/display_total_price_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/label_flight_total"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/label_flight_total"
             android:gravity="right"
             android:textSize="22sp" />
     </RelativeLayout>
