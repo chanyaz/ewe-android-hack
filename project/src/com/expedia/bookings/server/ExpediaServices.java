@@ -273,12 +273,7 @@ public class ExpediaServices implements DownloadListener {
 		String prefix;
 		for (int i = 0; i < travelers.size(); i++) {
 			if (i == 0) {
-				if (travelers.size() == 1) {
-					prefix = "";
-				}
-				else {
-					prefix = "mainFlightPassenger.";
-				}
+				prefix = "mainFlightPassenger.";
 			}
 			else {
 				prefix = "associatedFlightPassengers[" + Integer.toString(i - 1) + "].";
@@ -702,10 +697,10 @@ public class ExpediaServices implements DownloadListener {
 			// Don't add firstname/lastname if we're adding it through the traveler interface later
 			query.add(new BasicNameValuePair("firstName", billingInfo.getFirstName()));
 			query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
+			query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
+			query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
 		}
 
-		query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
-		query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
 
 		if (billingInfo.getStoredCard() == null) {
