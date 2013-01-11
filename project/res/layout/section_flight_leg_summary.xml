@@ -85,7 +85,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/arrival_time_text_view"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="-2dp"
+        android:layout_marginTop="@dimen/flight_leg_day_textview_margin_top"
         android:textColor="#22599C"
         android:textSize="12dp"
         android:textStyle="bold"
