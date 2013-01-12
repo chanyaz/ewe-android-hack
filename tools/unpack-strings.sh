@@ -40,12 +40,3 @@ echo "Import strings"
 rm -r newstrs
 mkdir -p newstrs
 python $DIR/strings-import.py -d strings -o newstrs
-
-echo "Validating xml: no output is good news"
-for i in newstrs/project/res/values*/strings.xml ; do
-    xmllint --format --noout $i
-    grep --color=always -H "[^\]&apos;" $i
-    grep --color=always -H "&amp;amp;" $i
-    grep --color=always -H "&amp;apos;" $i
-    grep --color=always -H "\\\\apos;" $i
-done
