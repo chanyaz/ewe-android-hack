@@ -50,6 +50,7 @@ public class FlightTrip implements JSONable {
 	private Map<String, Rule> mRules;
 
 	private String mBaggageFeesUrl;
+	private boolean mMayChargeObFees;
 
 	public String getProductKey() {
 		return mProductKey;
@@ -180,6 +181,14 @@ public class FlightTrip implements JSONable {
 
 	public String getBaggageFeesUrl() {
 		return mBaggageFeesUrl;
+	}
+
+	public void setMayChargeObFees(boolean mayChargeObFees) {
+		mMayChargeObFees = mayChargeObFees;
+	}
+
+	public boolean getMayChargeObFees() {
+		return mMayChargeObFees;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -507,6 +516,7 @@ public class FlightTrip implements JSONable {
 			obj.putOpt("rewardsPoints", mRewardsPoints);
 			obj.putOpt("seatsRemaining", mSeatsRemaining);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
+			obj.putOpt("mayChargeObFees", mMayChargeObFees);
 
 			JSONArray arr = new JSONArray();
 			for (List<FlightSegmentAttributes> attributes : mFlightSegmentAttrs) {
@@ -553,6 +563,7 @@ public class FlightTrip implements JSONable {
 		mRewardsPoints = obj.optString("rewardsPoints");
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
+		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
 
 		JSONArray arr = obj.optJSONArray("flightSegmentAttributes");
 		for (int a = 0; a < arr.length(); a++) {
