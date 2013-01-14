@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/label_traveler_name"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="@dimen/flight_price_breakdown_margin"
             android:gravity="right"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/label_traveler_base_fare"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="@dimen/flight_price_breakdown_margin"
             android:gravity="right"
             android:textSize="18sp" />
 
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/label_traveler_taxes"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="@dimen/flight_price_breakdown_margin"
             android:gravity="right"
             android:textSize="18sp" />
 
