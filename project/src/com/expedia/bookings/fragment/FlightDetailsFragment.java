@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +35,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -52,9 +55,9 @@ public class FlightDetailsFragment extends Fragment {
 	private ScrollView mScrollView;
 	private ViewGroup mInfoContainer;
 	private InfoBarSection mInfoBar;
-	private TextView mBaggageInfoTextView;
-	private TextView mBaggageFeesApplyTextView;
-	private ViewGroup mBaggageContainer;
+	private TextView mFeesTextView;
+	private TextView mFeesSecondaryTextView;
+	private ViewGroup mFeesContainer;
 
 	// Cached copies, not to be stored
 	private FlightTripLeg mFlightTripLeg;
@@ -98,15 +101,75 @@ public class FlightDetailsFragment extends Fragment {
 		mScrollView = Ui.findView(v, R.id.flight_info_scroll_view);
 		mInfoContainer = Ui.findView(v, R.id.flight_info_container);
 		mInfoBar = Ui.findView(v, R.id.info_bar);
-		mBaggageInfoTextView = Ui.findView(v, R.id.baggage_fee_text_view);
-		mBaggageFeesApplyTextView = Ui.findView(v, R.id.carry_on_baggage_fees_apply_textview);
-		mBaggageContainer = Ui.findView(v, R.id.bagge_fee_container);
+		mFeesContainer = Ui.findView(v, R.id.fees_container);
+		mFeesTextView = Ui.findView(v, R.id.fees_text_view);
+		mFeesSecondaryTextView = Ui.findView(v, R.id.fees_secondary_text_view);
 
-		//We show the baggage fees apply message for Spirit airlines only
-		for (String airline : leg.getPrimaryAirlines()) {
-			if (airline.equalsIgnoreCase("NK")) {
-				mBaggageFeesApplyTextView.setVisibility(View.VISIBLE);
-				break;
+		if (trip.getMayChargeObFees()) {
+			mFeesTextView.setText(getString(R.string.additional_fees));
+			ViewUtils.setAllCaps(mFeesTextView);
+			mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_info_small, 0, 0, 0);
+
+			mFeesSecondaryTextView.setText(getString(R.string.payment_and_baggage_fees_may_apply));
+			mFeesSecondaryTextView.setVisibility(View.VISIBLE);
+
+			mFeesContainer.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final int numUrls = 2;
+					final String[] itemNames = new String[numUrls];
+					final String[] itemUrls = new String[numUrls];
+
+					itemNames[0] = getString(R.string.baggage_fees);
+					itemUrls[0] = trip.getBaggageFeesUrl();
+
+					itemNames[1] = getString(R.string.payment_processing_fees);
+					// TODO: currently this is hardcoded, story to use dynamic url: 270
+					itemUrls[1] = "http://www.expedia.co.uk/p/regulatory/obfees";
+
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setTitle(getString(R.string.additional_fees));
+					builder.setItems(itemNames, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							Intent intent = WebViewActivity.getIntent(getActivity(), itemUrls[which],
+									R.style.FlightTheme, 0, true);
+							getActivity().startActivity(intent);
+						}
+					});
+					builder.show();
+				}
+			});
+		}
+		else {
+			if (leg.isSpirit()) {
+				mFeesSecondaryTextView.setText(getString(R.string.carry_on_baggage_fees_apply));
+				mFeesSecondaryTextView.setVisibility(View.VISIBLE);
+			}
+			else {
+				mFeesSecondaryTextView.setVisibility(View.GONE);
+				mFeesTextView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
+						String trackingName = null;
+						if (legPosition == 0) {
+							if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+								trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
+							}
+							else {
+								trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
+							}
+						}
+						else if (legPosition == 1) {
+							trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
+						}
+
+						Intent baggageIntent = WebViewActivity.getIntent(getActivity(), trip.getBaggageFeesUrl(),
+								R.style.FlightTheme, 0, true, trackingName);
+						getActivity().startActivity(baggageIntent);
+					}
+				});
 			}
 		}
 
@@ -153,29 +216,6 @@ public class FlightDetailsFragment extends Fragment {
 				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).mDestination)));
 		mInfoContainer.addView(arriveAtSection);
 
-		mBaggageInfoTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
-				String trackingName = null;
-				if (legPosition == 0) {
-					if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-						trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
-					}
-					else {
-						trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
-					}
-				}
-				else if (legPosition == 1) {
-					trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
-				}
-
-				Intent baggageIntent = WebViewActivity.getIntent(getActivity(), trip.getBaggageFeesUrl(),
-						R.style.FlightTheme, 0, true, trackingName);
-				getActivity().startActivity(baggageIntent);
-			}
-		});
-
 		// We set the entire view invisible at first, so we can measure where we want everything to end up
 		v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
@@ -187,10 +227,10 @@ public class FlightDetailsFragment extends Fragment {
 				// appear on the bottom of the screen or scrolling with the content
 				mBaggageInScrollView = mScrollView.getHeight() < mInfoContainer.getHeight();
 				if (mBaggageInScrollView) {
-					((ViewGroup) mBaggageContainer.getParent()).removeView(mBaggageContainer);
-					mInfoContainer.addView(mBaggageContainer);
+					((ViewGroup) mFeesContainer.getParent()).removeView(mFeesContainer);
+					mInfoContainer.addView(mFeesContainer);
 
-					MarginLayoutParams lp = (MarginLayoutParams) mBaggageContainer.getLayoutParams();
+					MarginLayoutParams lp = (MarginLayoutParams) mFeesContainer.getLayoutParams();
 					mInfoContainer.setPadding(mInfoContainer.getPaddingLeft(), mInfoContainer.getPaddingTop(),
 							mInfoContainer.getPaddingRight(), cardMargins * 2);
 					lp.topMargin = cardMargins * 2;
@@ -288,14 +328,14 @@ public class FlightDetailsFragment extends Fragment {
 		// Animate the baggage fee (if it's not in the scroll view)
 		if (!mBaggageInScrollView) {
 			if (enter) {
-				values[0] = mBaggageContainer.getHeight();
+				values[0] = mFeesContainer.getHeight();
 				values[1] = 0;
 			}
 			else {
 				values[0] = 0;
-				values[1] = mBaggageContainer.getHeight();
+				values[1] = mFeesContainer.getHeight();
 			}
-			set.add(ObjectAnimator.ofFloat(mBaggageContainer, "translationY", values));
+			set.add(ObjectAnimator.ofFloat(mFeesContainer, "translationY", values));
 		}
 
 		// Make the entire screen fade out

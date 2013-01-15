@@ -123,6 +123,15 @@ public class FlightLeg implements JSONable {
 		return sb.toString();
 	}
 
+	public boolean isSpirit() {
+		for (String airline : getPrimaryAirlines()) {
+			if (airline.equalsIgnoreCase("NK")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 

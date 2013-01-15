@@ -203,6 +203,14 @@
     <string name="operated_by_TEMPLATE">Operated by %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Payment and baggage fees may apply</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Additional Fees</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Baggage Fees</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Payment Processing Fees</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
