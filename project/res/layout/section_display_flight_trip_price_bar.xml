@@ -51,7 +51,7 @@
             tools:ignore="RequiredSize" />
 
         <com.mobiata.android.widget.AutoResizeTextView
-            android:id="@+id/traveler_total"
+            android:id="@+id/trip_total"
             android:layout_gravity="center_vertical"
             gridlayout:layout_row="0"
             gridlayout:layout_rowSpan="2"
