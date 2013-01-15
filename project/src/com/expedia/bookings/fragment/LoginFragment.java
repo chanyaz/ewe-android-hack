@@ -467,6 +467,14 @@ public class LoginFragment extends Fragment {
 			}
 		});
 	}
+	
+	private void updateButtonState(){
+		if(Session.getActiveSession() != null && Session.getActiveSession().isOpened() && !mIsLoading){
+			mLinkAccountsBtn.setEnabled(true);
+		}else{
+			mLinkAccountsBtn.setEnabled(false);
+		}
+	}
 
 	private void setVisibilityState(VisibilityState state) {
 		mVisibilityState = state;
@@ -499,6 +507,8 @@ public class LoginFragment extends Fragment {
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
 		}
+		
+		updateButtonState();
 	}
 
 	public void goBack() {
@@ -594,7 +604,7 @@ public class LoginFragment extends Fragment {
 		if (mContext != null && this.isAdded()) {
 			mContext.runOnUiThread(runner);
 		}
-
+		updateButtonState();
 	}
 
 	protected void setStatusTextMode(boolean heading) {
@@ -744,6 +754,7 @@ public class LoginFragment extends Fragment {
 			Session fbSession = Session.getActiveSession();
 			if (fbSession == null || fbSession.isClosed()) {
 				Log.e("fbState invalid");
+				return null;
 			}
 
 			setLoadingText(R.string.attempting_to_log_in_with_facebook);
@@ -759,6 +770,7 @@ public class LoginFragment extends Fragment {
 			Session fbSession = Session.getActiveSession();
 			if (fbSession == null || fbSession.isClosed()) {
 				Log.e("fbState invalid");
+				return null;
 			}
 
 			setLoadingText(R.string.linking_your_accounts);
