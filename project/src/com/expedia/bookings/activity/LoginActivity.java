@@ -10,10 +10,8 @@ import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.Session;
 
 import android.support.v4.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 
 public class LoginActivity extends SherlockFragmentActivity implements TitleSettable {
@@ -94,12 +92,6 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 			mBgFragment.setFadeEnabled(true);
 		}
 
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -48,7 +49,6 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.mobiata.android.BackgroundDownloader;
@@ -259,6 +259,13 @@ public class LoginFragment extends Fragment {
 		mTitleSetter = (TitleSettable) mContext;
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Log.d("FB: onActivityResult");
+		Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
+	}
+
 	private void finishLoginActivity() {
 		if (mContext != null) {
 			mContext.finish();
@@ -319,16 +326,9 @@ public class LoginFragment extends Fragment {
 
 				//Do facebook things!!!
 				Session session = Session.getActiveSession();
-				if (session == null || session.getState() == null || session.getState().isClosed()
+				if (session == null || session.getState() == null || !session.getState().isOpened()
 						|| mFbUserName == null) {
-					if (session == null) {
-						session = new Session.Builder(mContext).setApplicationId(
-								ExpediaServices.getFacebookAppId(mContext)).build();
-						Session.setActiveSession(session);
-					}
-					setIsLoading(true);
-					setLoadingText(R.string.fetching_facebook_info);
-					getFacebookInfo();
+					doFacebookLogin();
 				}
 
 				setVisibilityState(VisibilityState.FACEBOOK_LINK);
@@ -467,11 +467,12 @@ public class LoginFragment extends Fragment {
 			}
 		});
 	}
-	
-	private void updateButtonState(){
-		if(Session.getActiveSession() != null && Session.getActiveSession().isOpened() && !mIsLoading){
+
+	private void updateButtonState() {
+		if (Session.getActiveSession() != null && Session.getActiveSession().isOpened() && !mIsLoading) {
 			mLinkAccountsBtn.setEnabled(true);
-		}else{
+		}
+		else {
 			mLinkAccountsBtn.setEnabled(false);
 		}
 	}
@@ -507,7 +508,7 @@ public class LoginFragment extends Fragment {
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
 		}
-		
+
 		updateButtonState();
 	}
 
@@ -821,7 +822,6 @@ public class LoginFragment extends Fragment {
 				}
 				else if (results.getFacebookLinkResponseCode().compareTo(FacebookLinkResponseCode.existing) == 0) {
 					setStatusTextExpediaAccountFound(mFbUserName);
-					//mContext.showLinkAccountsStuff(true);
 					setIsLoading(false);
 				}
 				else {
@@ -914,51 +914,82 @@ public class LoginFragment extends Fragment {
 	};
 
 	public void handleFacebookResponse(Session session, SessionState state, Exception exception) {
-		if (session.isOpened()) {
-
-			if (!session.getPermissions().contains("email")) {
-				List<String> permissions = new ArrayList<String>();
-				permissions.add("email");
-				NewPermissionsRequest permissionRequest = new NewPermissionsRequest(mContext,
-						permissions);
-				session.addCallback(mFacebookStatusCallback);
-				session.requestNewReadPermissions(permissionRequest);
-			}
-			else {
-
-				// make request to the /me API
-				Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-
-					// callback after Graph API response with user object
-					@Override
-					public void onCompleted(GraphUser user, Response response) {
-						Log.d("FB RESPONSE:" + response.toString());
-						if (user != null) {
-							setFbUserVars(user);
-							setStatusTextFbInfoLoaded(mFbUserName);
-							BackgroundDownloader bd = BackgroundDownloader.getInstance();
-							if (!bd.isDownloading(NET_AUTO_LOGIN)) {
-								bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
-							}
-						}
-						else {
-							setStatusText(R.string.unable_to_sign_into_facebook, false);
-							setIsLoading(false);
-						}
-					}
-				});
-			}
-		}
-		else {
+		Log.d("FB: handleFacebookResponse", exception);
+		if (session == null || state == null || exception != null || state.equals(SessionState.CLOSED)
+				|| state.equals(SessionState.CLOSED_LOGIN_FAILED)) {
 			setStatusText(R.string.unable_to_sign_into_facebook, false);
 			setIsLoading(false);
 		}
+		else if (session.isOpened()) {
+			fetchFacebookUserInfo(session);
+		}
+		else {
+			Log.d("FB: handleFacebookResponse - else");
+		}
 	}
 
-	protected void getFacebookInfo() {
+	protected void fetchFacebookUserInfo(Session session) {
+		Log.d("FB: fetchFacebookUserInfo");
+
+		// make request to the /me API
+		Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+
+			// callback after Graph API response with user object
+			@Override
+			public void onCompleted(GraphUser user, Response response) {
+				Log.d("FB: executeMeRequestAsync response:" + response.toString());
+				if (user != null && response.getError() == null) {
+
+					Log.d("FB: executeMeRequestAsync response - user != null && response.getError() == null");
+					setFbUserVars(user);
+					setStatusTextFbInfoLoaded(mFbUserName);
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(NET_AUTO_LOGIN)) {
+						bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
+					}
+				}
+				else {
+					Log.d("FB: executeMeRequestAsync response - user == null || response.getError() != null");
+					setStatusText(R.string.unable_to_sign_into_facebook, false);
+					setIsLoading(false);
+				}
+			}
+		});
+	}
+
+	protected void doFacebookLogin() {
+		Log.d("FB: doFacebookLogin");
+
+		setIsLoading(true);
+		setLoadingText(R.string.fetching_facebook_info);
 
 		// start Facebook Login
-		Session.openActiveSession(mContext, true, mFacebookStatusCallback);
+		Session currentSession = Session.getActiveSession();
+		if (currentSession == null || currentSession.getState().isClosed()) {
+			Session session = new Session.Builder(getActivity()).setApplicationId(
+					ExpediaServices.getFacebookAppId(mContext)).build();
+			Session.setActiveSession(session);
+			currentSession = session;
+		}
+		if (!currentSession.isOpened()) {
+			Log.d("FB: doFacebookLogin - !currentSession.isOpened()");
+			Session.OpenRequest openRequest = null;
+
+			openRequest = new Session.OpenRequest(this);
+
+			List<String> permissions = new ArrayList<String>();
+			permissions.add("email");
+
+			if (openRequest != null) {
+				openRequest.setPermissions(permissions);
+				currentSession.addCallback(mFacebookStatusCallback);
+				currentSession.openForRead(openRequest);
+			}
+		}
+		else {
+			Log.d("FB: doFacebookLogin - currentSession.isOpened()");
+			fetchFacebookUserInfo(currentSession);
+		}
 
 	}
 
