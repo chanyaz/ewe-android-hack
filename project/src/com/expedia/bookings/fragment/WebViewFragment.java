@@ -22,6 +22,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PersistantCookieStore;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewFragment extends Fragment {
@@ -108,6 +109,7 @@ public class WebViewFragment extends Fragment {
 		}
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mFrame = new FrameLayout(getActivity());
@@ -117,6 +119,10 @@ public class WebViewFragment extends Fragment {
 			mWebView.getSettings().setJavaScriptEnabled(true);
 			mWebView.getSettings().setLoadWithOverviewMode(true);
 			mWebView.getSettings().setUseWideViewPort(true);
+			mWebView.getSettings().setBuiltInZoomControls(true);
+			if (AndroidUtils.getSdkVersion() >= 11) {
+				mWebView.getSettings().setDisplayZoomControls(false);
+			}
 			mWebView.setWebViewClient(new WebViewClient() {
 
 				@Override
