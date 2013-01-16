@@ -46,6 +46,7 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 	private View mContentShadowView;
 
 	private boolean mInListMode = true;
+	private boolean mAllowLoadItins = false;
 
 	public static ItinItemListFragment newInstance() {
 		return new ItinItemListFragment();
@@ -98,6 +99,11 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 		return mInListMode;
 	}
 
+	public void enableLoadItins() {
+		mAllowLoadItins = true;
+		refreshAccountButtonState();
+	}
+
 	private void refreshAccountButtonState() {
 		if (User.isLoggedIn(getActivity())) {
 			if (Db.getUser() == null) {
@@ -147,9 +153,11 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser(), true);
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(NET_TRIPS)) {
-			bd.startDownload(NET_TRIPS, mTripDownload, mTripHandler);
+		if (mAllowLoadItins) {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			if (!bd.isDownloading(NET_TRIPS)) {
+				bd.startDownload(NET_TRIPS, mTripDownload, mTripHandler);
+			}
 		}
 
 	}

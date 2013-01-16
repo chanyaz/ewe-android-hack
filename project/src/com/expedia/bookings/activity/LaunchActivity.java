@@ -282,6 +282,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	private void gotoItineraries() {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
+		mItinListFragment.enableLoadItins();
 
 		mViewPager.setCurrentItem(1);
 
