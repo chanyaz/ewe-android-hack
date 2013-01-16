@@ -24,6 +24,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	private BlurredBackgroundFragment mBgFragment;
 	private LoginFragment mLoginFragment;
 	private String mTitle;
+	private PathMode mPathMode = PathMode.HOTELS;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -34,7 +35,9 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		//Set up theming stuff
 		if (this.getIntent().getStringExtra(ARG_PATH_MODE) == null) {
 			//Default to hotels mode...
-			this.getIntent().putExtra(ARG_PATH_MODE, PathMode.HOTELS.name());
+			this.getIntent().putExtra(ARG_PATH_MODE, mPathMode.name());
+		}else{
+			mPathMode = PathMode.valueOf(this.getIntent().getStringExtra(ARG_PATH_MODE));
 		}
 
 		if (savedInstanceState != null) {
@@ -45,10 +48,10 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		if (this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.HOTELS.name())) {
+		if (mPathMode.equals(PathMode.HOTELS)){
 			actionBar.setIcon(R.drawable.ic_logo_hotels);
 		}
-		else if (this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.FLIGHTS.name())) {
+		else if (mPathMode.equals(PathMode.FLIGHTS)){
 			actionBar.setIcon(R.drawable.ic_logo_flights);
 		}
 		actionBar.setDisplayUseLogoEnabled(false);
@@ -61,21 +64,20 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 			setTitle(getString(R.string.sign_in));
 		}
 
-		boolean isFlights = this.getIntent().getStringExtra(ARG_PATH_MODE).equalsIgnoreCase(PathMode.FLIGHTS.name());
 		if (savedInstanceState == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			if (isFlights) {
+			if (mPathMode.equals(PathMode.FLIGHTS)) {
 				mBgFragment = new BlurredBackgroundFragment();
 				mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
 				ft.add(R.id.background_container, mBgFragment, BlurredBackgroundFragment.TAG);
 			}
 
-			mLoginFragment = LoginFragment.newInstance(PathMode.valueOf(getIntent().getStringExtra(ARG_PATH_MODE)));
+			mLoginFragment = LoginFragment.newInstance(mPathMode);
 			ft.add(R.id.login_fragment_container, mLoginFragment, TAG_LOGIN_FRAGMENT);
 			ft.commit();
 		}
 		else {
-			if (isFlights) {
+			if (mPathMode.equals(PathMode.FLIGHTS)) {
 				mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
 				mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
 			}
