@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.expedia.bookings.server.ExpediaServices;
+import com.facebook.Session;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -100,6 +101,11 @@ public class User implements JSONable {
 
 		//Remove the login cookies
 		ExpediaServices.removeUserLoginCookies(context);
+
+		//Facebook log out
+		if (Session.getActiveSession() != null) {
+			Session.getActiveSession().closeAndClearTokenInformation();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
