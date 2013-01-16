@@ -248,7 +248,6 @@ public class HotelsRobotHelper {
 		delay();
 		try {
 			delay();
-	        enterLog(TAG, "TRYING TO OPEN THE MENU YO");
 			mSolo.pressMenuItem(0);
 		}
 		catch (Error E) {
@@ -321,6 +320,19 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Search Screen Methods
 
+	public void hotelListScreenshots() {
+		if (mAllowScreenshots) {
+			screenshot("Search Results");
+			mSolo.scrollDown();
+			delay(1);
+			screenshot("Results2");
+			delay(1);
+			mSolo.scrollDown();
+			delay(1);
+			screenshot("Results3");
+		}
+	}
+
 	public void selectLocation(String location) throws Exception {
 		enterLog(TAG, "Searching for destination " + location);
 		delay(5);
@@ -338,22 +350,20 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "AFTER TYPING TEXT");
 		delay(3);
 		enterLog(TAG, "Before clicking search button");
-		mSolo.clickInList(1);//Selecting search suggestion results
+
+		landscape();
+		portrait();
+
+		mSolo.clickInList(1); //Selecting search suggestion results
 								//some countries' list don't populate ever
 								//might break stuff
 		enterLog(TAG, "After clicking search button");
 
 		mSolo.waitForActivity("ExpediaBookingApp"); // Add another wait if this causes instability
 		enterLog(TAG, "Location searched for and results loaded!");
+
 		delay();
-		screenshot("Search Results");
-		mSolo.scrollDown();
-		delay(1);
-		screenshot("Results2");
-		delay(1);
-		mSolo.scrollDown();
-		delay(1);
-		screenshot("Results3");
+		hotelListScreenshots();
 	}
 
 	public void filterFor(String filterText) { //filter currently does not work.
@@ -388,20 +398,15 @@ public class HotelsRobotHelper {
 		mSolo.clickOnButton(0);
 		landscape();
 		portrait();
-		if (mAllowOrientationChange)
+
+		if (mAllowOrientationChange) {
 			mSolo.clickOnButton(0);
+		}
+
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_popular));
 		screenshot("Sort fragment");
 		delay(1);
-
-		/*Doesn't work when searching for city
-		mSolo.clickOnText(sortText);
-		delay(solo, 1);
-		mSolo.clickOnText(getStringFromR(R.string.sort_description_distance));
-		screenshot(mRes, solo, "Sort by Distance Results");
-		delay(solo, 1);
-		 */
 
 		mSolo.clickOnButton(0);
 		delay(1);
@@ -480,22 +485,28 @@ public class HotelsRobotHelper {
 	// Hotel Info Screen Methods
 	public void checkReviews() {
 		delay();
+
 		mSolo.scrollToTop();
 		mSolo.clickOnView(mSolo.getView(R.id.user_rating_text_view));
 		mSolo.waitForDialogToClose(10000);
+
 		screenshot("All reviews");
+
 		delay(1);
 		landscape();
 		portrait();
 		delay();
+
 		enterLog(TAG, "Before pressing favorable");
 		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_favorable));
 		delay(1);
 		screenshot("Favorable Reviews.");
 		delay(1);
+
 		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical));
 		screenshot("Critical Reviews.");
 		delay(1);
+
 		landscape();
 		portrait();
 		delay();
@@ -574,9 +585,13 @@ public class HotelsRobotHelper {
 
 		mSolo.typeText((EditText) mSolo.getView(R.id.password_edit_text), mUser.mLoginPassword);
 
+		landscape();
+		delay();
+		portrait();
 		delay(5);
+
 		try {
-			mSolo.clickOnButton(1); //Log in button.
+			mSolo.clickOnButton(0); //Log in button.
 		}
 		catch (Error e) {
 			enterLog(TAG, "Button must be clicked on by its text.");
@@ -642,11 +657,17 @@ public class HotelsRobotHelper {
 				delay();
 				screenshot("Picking traveler");
 				mSolo.clickOnText(mRes.getString(R.string.enter_traveler_info));
+				landscape();
+				delay();
+				portrait();
 				delay(5);
 				screenshot("Adding new traveler");
 				mSolo.enterText(0, mUser.mFirstName);
 				mSolo.enterText(2, mUser.mLastName);
 				mSolo.enterText(3, mUser.mPhoneNumber);
+				landscape();
+				portrait();
+				delay();
 				mSolo.clickOnScreen(450, 75);//generalize this
 				mSolo.clickOnButton(1);
 
@@ -678,6 +699,10 @@ public class HotelsRobotHelper {
 
 			mSolo.clearEditText(4);
 			mSolo.enterText(4, mUser.mZIPCode);
+			delay();
+
+			landscape();
+			portrait();
 			delay();
 
 			mSolo.clickOnText(mRes.getString(R.string.next));
@@ -733,7 +758,7 @@ public class HotelsRobotHelper {
 			enterLog(TAG, "Caught error: " + derpy.toString() +
 					" | when trying to exit credit card string.");
 		}
-		//pressCheckBox(); //Check box for terms & conditions occasionally needed.
+		//pressCheckBox(); //placeholder in case TOS checkbox comes back
 	}
 
 	public void confirmAndBook() throws Exception {
@@ -749,6 +774,7 @@ public class HotelsRobotHelper {
 		delay();
 		landscape();
 		portrait();
+
 		View sliderStart = mSolo.getView(R.id.slider_image);
 		int[] startLocation = new int[2];
 		sliderStart.getLocationOnScreen(startLocation);
@@ -855,7 +881,7 @@ public class HotelsRobotHelper {
 
 	public void captureInfoScreen() {
 		delay();
-		mSolo.pressMenuItem(1);
+		mSolo.clickOnMenuItem(mRes.getString(R.string.About));
 		landscape();
 		delay(2);
 		portrait();
@@ -881,16 +907,25 @@ public class HotelsRobotHelper {
 
 	public void flightsHappyPath(String departure, String arrival, boolean doHotelBooking) throws Exception {
 
+		landscape();
+		portrait();
+		delay();
+
 		clearPrivateData();
 		launchFlights();
 		delay();
+
 		//If still on flights confirmation page
 		//click to do a new search
 		if (mSolo.searchText(mRes.getString(R.string.add_insurance), true)) {
 			mSolo.clickOnImageButton(0);
 			delay(10);
 		}
+
 		screenshot("Flights Search Screen");
+
+		delay(5);
+
 		mSolo.clickOnEditText(0);
 		mSolo.enterText(0, departure);
 		delay();
@@ -904,6 +939,9 @@ public class HotelsRobotHelper {
 		mSolo.clickInList(0);
 		delay();
 
+		landscape();
+		portrait();
+
 		//Select Departure
 		try {
 			mSolo.clickOnText(mRes.getString(R.string.hint_select_departure));
@@ -911,19 +949,20 @@ public class HotelsRobotHelper {
 		catch (Error e) {
 			enterLog(TAG, "Select departure text not there.");
 		}
+
 		delay();
 		screenshot("Calendar");
 		delay();
 		CalendarTouchUtils.selectDay(mSolo, 5, R.id.calendar_date_picker);
 		delay();
+
 		//Click to search
 		mSolo.clickOnView(mSolo.getView(R.id.search_button));
 		delay(5);
 		screenshot("Loading Flights");
 		mSolo.waitForDialogToClose(10000);
 
-		//Scroll up and down and
-
+		//Scroll up and down
 		landscape();
 		delay();
 		screenshot("Search results");
@@ -965,7 +1004,9 @@ public class HotelsRobotHelper {
 			launchHotels();
 			browseRooms(4, arrival, true);
 		}
-		else mSolo.goBack();
+		else {
+			mSolo.goBack();
+		}
 
 	}
 }
