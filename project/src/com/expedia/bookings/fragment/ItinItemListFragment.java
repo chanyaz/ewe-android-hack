@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -16,11 +18,18 @@ import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinItemAdapter;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -67,11 +76,15 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 
 		mListView.setOnScrollListener(new OnScrollListener() {
 			@Override
-			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
-				int first = arg0.getFirstVisiblePosition();
-				int last = Math.min(arg0.getLastVisiblePosition() + 1, arg0.getChildCount());
-				for (int i = first; i < last && i >= 0 && i < arg0.getChildCount(); i++) {
-					arg0.getChildAt(i).invalidate();
+			public void onScroll(AbsListView arg0, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				Log.d("Scroll Range: firstItem:" + firstVisibleItem + " visibleItemCount:" + visibleItemCount);
+				for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
+					if (arg0.getChildAt(i) != null) {
+						arg0.getChildAt(i).invalidate();
+					}
+					else {
+						Log.d("Fail getting child at: " + i);
+					}
 				}
 			}
 
@@ -95,6 +108,7 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 
 				mAccountButton.bind(false, true, Db.getUser(), true);
+				onLoginCompleted();
 			}
 			else {
 				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
@@ -133,6 +147,11 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser(), true);
 
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (!bd.isDownloading(NET_TRIPS)) {
+			bd.startDownload(NET_TRIPS, mTripDownload, mTripHandler);
+		}
+
 	}
 
 	@Override
@@ -165,4 +184,31 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 
 		((LaunchActivity) getActivity()).showHeader();
 	}
+
+	//////////////
+	//TODO: REMOVE THIS STUFF WHEN WE GET A BETTER ITIN MANAGER IN PLACE
+	/////////////
+
+	private static final String NET_TRIPS = "NET_TRIPS";
+
+	private final Download<TripResponse> mTripDownload = new Download<TripResponse>() {
+		@Override
+		public TripResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			return services.getTrips(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
+		}
+	};
+
+	private final OnDownloadComplete<TripResponse> mTripHandler = new OnDownloadComplete<TripResponse>() {
+		@Override
+		public void onDownload(TripResponse response) {
+			List<Trip> trips = response.getTrips();
+			for (int i = 0; i < trips.size(); i++) {
+				((ItinItemAdapter) ItinItemListFragment.this.getListAdapter()).addAllItinItems(trips.get(0)
+						.getTripComponents());
+			}
+			((ItinItemAdapter) ItinItemListFragment.this.getListAdapter()).notifyDataSetChanged();
+
+		}
+	};
 }

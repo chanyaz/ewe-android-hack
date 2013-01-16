@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.trips.TripComponent;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
@@ -27,6 +29,7 @@ public class ItinCard extends RelativeLayout {
 	private ViewGroup mExpandedContainer;
 	private OptimizedImageView mCardImage;
 	private ImageView mFloatTypeIcon;
+	private TextView mItinHeaderText;
 
 	private int mPaddingBottom;
 
@@ -72,6 +75,7 @@ public class ItinCard extends RelativeLayout {
 		mCardImage = Ui.findView(view, R.id.itin_bg);
 		mFloatTypeIcon = Ui.findView(view, R.id.float_type_icon);
 		mExpandedContainer = Ui.findView(view, R.id.itin_expanded_container);
+		mItinHeaderText = Ui.findView(view, R.id.itin_heading_text);
 
 		mPaddingBottom = getResources().getDimensionPixelSize(R.dimen.itin_list_card_top_image_offset);
 
@@ -99,6 +103,10 @@ public class ItinCard extends RelativeLayout {
 	public void onDraw(Canvas canvas) {
 		updateTypeIconPosition();
 		super.onDraw(canvas);
+	}
+
+	public void bind(TripComponent tripComponent) {
+		mItinHeaderText.setText(tripComponent.getType().toString().toUpperCase() + " Fun Town");
 	}
 
 	public void showExpanded(boolean show) {
@@ -172,7 +180,6 @@ public class ItinCard extends RelativeLayout {
 				params.width = dimen;
 				mFloatTypeIcon.setLayoutParams(params);
 			}
-
 		}
 		else {
 			//View is invisible

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.expedia.bookings.data.trips.TripComponent;
-import com.expedia.bookings.data.trips.TripComponent.Type;
 
 public class ItinItemAdapter extends BaseAdapter {
 	ArrayList<TripComponent> mItems = new ArrayList<TripComponent>();
@@ -17,12 +16,6 @@ public class ItinItemAdapter extends BaseAdapter {
 
 	public ItinItemAdapter(Context context) {
 		mContext = context;
-
-		//TODO: REMOVE!
-		for (int i = 0; i < 5; i++) {
-			TripComponent tripComp = new TripComponent(i % 2 == 0 ? Type.FLIGHT : Type.HOTEL);
-			mItems.add(tripComp);
-		}
 	}
 
 	@Override
@@ -51,7 +44,7 @@ public class ItinItemAdapter extends BaseAdapter {
 		}
 
 		//bind card and stuff...
-		//card.bind(getItem(position));
+		card.bind(getItem(position));
 
 		card.showExpanded(position == 0);
 		card.showBottomPadding(position == getCount() - 1);
