@@ -41,8 +41,8 @@ import com.expedia.bookings.fragment.FlightSlideToPurchaseFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
+import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
-import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -57,7 +57,7 @@ import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.animation.AnimatorProxy;
 
-public class FlightTripOverviewActivity extends SherlockFragmentActivity implements SignInFragmentListener,
+public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
 		CheckoutInformationListener, RetryErrorDialogFragmentListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";

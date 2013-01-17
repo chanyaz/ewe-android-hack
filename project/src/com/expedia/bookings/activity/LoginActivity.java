@@ -36,7 +36,8 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		if (this.getIntent().getStringExtra(ARG_PATH_MODE) == null) {
 			//Default to hotels mode...
 			this.getIntent().putExtra(ARG_PATH_MODE, mPathMode.name());
-		}else{
+		}
+		else {
 			mPathMode = PathMode.valueOf(this.getIntent().getStringExtra(ARG_PATH_MODE));
 		}
 
@@ -48,10 +49,10 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
-		if (mPathMode.equals(PathMode.HOTELS)){
+		if (mPathMode.equals(PathMode.HOTELS)) {
 			actionBar.setIcon(R.drawable.ic_logo_hotels);
 		}
-		else if (mPathMode.equals(PathMode.FLIGHTS)){
+		else if (mPathMode.equals(PathMode.FLIGHTS)) {
 			actionBar.setIcon(R.drawable.ic_logo_flights);
 		}
 		actionBar.setDisplayUseLogoEnabled(false);

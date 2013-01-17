@@ -40,6 +40,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FlightTripPriceFragment.LoadingDetailsDialogFragment;
+import com.expedia.bookings.fragment.LoginFragment.LoadingDialogFragment.CancelListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -268,6 +269,12 @@ public class LoginFragment extends Fragment {
 
 	private void finishLoginActivity() {
 		if (mContext != null) {
+			if (User.isLoggedIn(mContext) && Db.getUser() != null) {
+				mContext.setResult(Activity.RESULT_OK);
+			}
+			else {
+				mContext.setResult(Activity.RESULT_CANCELED);
+			}
 			mContext.finish();
 		}
 	}
@@ -561,6 +568,12 @@ public class LoginFragment extends Fragment {
 		if (loading) {
 			if (ldf == null) {
 				ldf = LoadingDialogFragment.getInstance(message);
+				ldf.setCancelListener(new CancelListener() {
+					@Override
+					public void onCancel() {
+						finishLoginActivity();
+					}
+				});
 			}
 			else {
 				ldf.setText(message);
@@ -887,7 +900,7 @@ public class LoginFragment extends Fragment {
 				//TODO: set better error
 				Ui.showToast(mContext, R.string.failure_to_update_user);
 				setIsLoading(false);
-				mContext.finish();
+				finishLoginActivity();
 			}
 			else {
 				User user = response.getUser();
@@ -1000,6 +1013,12 @@ public class LoginFragment extends Fragment {
 		public static final String TAG = LoadingDetailsDialogFragment.class.getName();
 		private static final String ARG_MESSAGE = "ARG_MESSAGE";
 
+		private CancelListener mCancelListener;
+
+		public interface CancelListener {
+			public void onCancel();
+		}
+
 		public static LoadingDialogFragment getInstance(String message) {
 			LoadingDialogFragment frag = new LoadingDialogFragment();
 			Bundle args = new Bundle();
@@ -1026,8 +1045,17 @@ public class LoginFragment extends Fragment {
 		public void onCancel(DialogInterface dialog) {
 			super.onCancel(dialog);
 
-			// If the dialog is canceled without finishing loading, don't show this page.
-			getActivity().finish();
+			if (mCancelListener != null) {
+				mCancelListener.onCancel();
+			}
+			else {
+				// If the dialog is canceled without finishing loading, don't show this page.
+				getActivity().finish();
+			}
+		}
+
+		public void setCancelListener(CancelListener listener) {
+			mCancelListener = listener;
 		}
 
 		public void setText(String text) {
@@ -1039,8 +1067,20 @@ public class LoginFragment extends Fragment {
 		}
 	}
 
+	/////////////////////////////
+	//Interfaces
+
 	public interface TitleSettable {
 		public void setActionBarTitle(String title);
+	}
+
+	//This is here for compatibility with the old SignInFragment.SignInFragmentListener
+	public interface LogInListener {
+		public void onLoginStarted();
+
+		public void onLoginCompleted();
+
+		public void onLoginFailed();
 	}
 
 }

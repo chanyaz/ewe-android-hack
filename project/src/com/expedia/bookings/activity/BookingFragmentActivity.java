@@ -3,14 +3,15 @@ package com.expedia.bookings.activity;
 import java.util.Calendar;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +22,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.BookingFormFragment;
 import com.expedia.bookings.fragment.BookingFormFragment.BookingFormFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
-import com.expedia.bookings.fragment.SignInFragment;
-import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
+import com.expedia.bookings.fragment.LoginFragment.LogInListener;
+import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.TrackingUtils;
@@ -37,7 +38,7 @@ import com.mobiata.android.validation.ValidationError;
 
 // This is the TABLET booking activity for hotels.
 
-public class BookingFragmentActivity extends FragmentActivity implements SignInFragmentListener, BookingFormFragmentListener {
+public class BookingFragmentActivity extends FragmentActivity implements BookingFormFragmentListener, LogInListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -47,6 +48,8 @@ public class BookingFragmentActivity extends FragmentActivity implements SignInF
 	public static final String EXTRA_SPECIFIC_RATE = "EXTRA_SPECIFIC_RATE";
 
 	private static final long RESUME_TIMEOUT = 1000 * 60 * 20; // 20 minutes
+
+	private static final int LOGIN_REQUEST_CODE = 0;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Member vars
@@ -144,6 +147,18 @@ public class BookingFragmentActivity extends FragmentActivity implements SignInF
 
 		if (mKillReciever != null) {
 			mKillReciever.onDestroy();
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == BookingFragmentActivity.LOGIN_REQUEST_CODE) {
+			if (resultCode == Activity.RESULT_OK) {
+				onLoginCompleted();
+			}
+			else {
+				onLoginFailed();
+			}
 		}
 	}
 
@@ -260,20 +275,19 @@ public class BookingFragmentActivity extends FragmentActivity implements SignInF
 		}
 	};
 
+	@SuppressLint("NewApi")
 	private void showErrorDialog(String errorMsg) {
 		SimpleDialogFragment.newInstance(getString(R.string.error_booking_title), errorMsg).show(getFragmentManager(),
 				getString(R.string.tag_booking_error));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// SigninFragmentListener
-
+	// Login Handlers
 	@Override
 	public void onLoginStarted() {
-		FragmentManager fm = getSupportFragmentManager();
-		if (fm.findFragmentByTag(getString(R.string.tag_signin)) == null) {
-			SignInFragment.newInstance(false).show(getSupportFragmentManager(), getString(R.string.tag_signin));
-		}
+		Intent loginIntent = new Intent(this, LoginActivity.class);
+		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.HOTELS.name());
+		startActivityForResult(loginIntent, LOGIN_REQUEST_CODE);
 	}
 
 	@Override
@@ -283,7 +297,7 @@ public class BookingFragmentActivity extends FragmentActivity implements SignInF
 
 	@Override
 	public void onLoginFailed() {
-		//NOTE: If SignInFragment takes care of failure for us we should never see this
+		//The LoginActivity/Fragment handle this sort of thing, when we get here it just means we aren't logged in.
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -44,6 +44,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.Tracker;
@@ -166,8 +167,8 @@ public class BookingFormFragment extends Fragment {
 			throw new RuntimeException("Activity must implement BookingFormFragment.BookingFormFragmentListener!");
 		}
 
-		if (!(activity instanceof SignInFragment.SignInFragmentListener)) {
-			throw new RuntimeException("Activity must implement SignInFragment.SignInFragmentListener!");
+		if (!(activity instanceof LogInListener)) {
+			throw new RuntimeException("Activity must implement LogInListener!");
 		}
 
 		mListener = (BookingFormFragmentListener) activity;
@@ -992,7 +993,7 @@ public class BookingFormFragment extends Fragment {
 
 	private final AccountButtonClickListener mAccountButtonClickListener = new AccountButtonClickListener() {
 		public void accountLoginClicked() {
-			((SignInFragment.SignInFragmentListener) mActivity).onLoginStarted();
+			((LogInListener) mActivity).onLoginStarted();
 		}
 
 		public void accountLogoutClicked() {
@@ -1054,4 +1055,5 @@ public class BookingFormFragment extends Fragment {
 	public interface BookingFormFragmentListener {
 		public void onCheckout();
 	}
+
 }

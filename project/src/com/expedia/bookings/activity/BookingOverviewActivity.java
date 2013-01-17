@@ -24,12 +24,12 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingOverviewFragment;
 import com.expedia.bookings.fragment.BookingOverviewFragment.BookingOverviewFragmentListener;
-import com.expedia.bookings.fragment.SignInFragment.SignInFragmentListener;
+import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class BookingOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
-		SignInFragmentListener {
+		LogInListener {
 
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
 
@@ -242,7 +242,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 		}
 	}
 
-	// SignInFragmentListener implementation
+	//BookingOverviewFragmentListener implementation
 
 	@Override
 	public void checkoutStarted() {
@@ -257,6 +257,8 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 			mCheckoutMenuItem.setVisible(true);
 		}
 	}
+
+	// LogInListener implementation
 
 	@Override
 	public void onLoginStarted() {
