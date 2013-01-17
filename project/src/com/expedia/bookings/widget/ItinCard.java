@@ -18,7 +18,7 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
-public class ItinCard extends RelativeLayout {
+public abstract class ItinCard extends RelativeLayout {
 
 	private final int TYPE_IMAGE_START_SIZE;
 	private final int TYPE_IMAGE_END_SIZE;

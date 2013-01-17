@@ -24,6 +24,7 @@ import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
+import com.expedia.bookings.widget.HotelItinCard;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinItemAdapter;
 import com.mobiata.android.BackgroundDownloader;
@@ -170,7 +171,7 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 	public void showDetails(long id, float y) {
 		mInListMode = false;
 
-		ItinCard card = new ItinCard(getActivity());
+		ItinCard card = new HotelItinCard(getActivity());
 
 		ViewHelper.setAlpha(mDetailLayout, 1);
 		mDetailLayout.removeAllViews();

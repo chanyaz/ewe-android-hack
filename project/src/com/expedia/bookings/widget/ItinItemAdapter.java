@@ -37,7 +37,7 @@ public class ItinItemAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup Parent) {
 		ItinCard card;
 		if (convertView == null) {
-			card = new ItinCard(mContext);
+			card = new HotelItinCard(mContext);
 		}
 		else {
 			card = (ItinCard) convertView;
