@@ -49,7 +49,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	private static final String EXACT_LOCATION_MARKER = "EXACT_LOCATION_MARKER";
 
 	private Context mContext;
-	private GoogleMap mMapFragment;
+	private GoogleMap mMap;
 
 	private boolean mShowDistances;
 	private boolean mAddPropertiesWhenReady = false;
@@ -92,7 +92,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 		mContext = activity;
 
-		if (mMapFragment == null) {
+		if (mMap == null) {
 			// To initialize CameraUpdateFactory and BitmapDescriptorFactory
 			// since the GoogleMap is not ready
 			try {
@@ -113,20 +113,20 @@ public class HotelMapFragment extends SupportMapFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		mMapFragment = getMap();
+		mMap = getMap();
 
 		// Initial configuration
-		mMapFragment.setMyLocationEnabled(true);
-		mMapFragment.getUiSettings().setZoomControlsEnabled(false);
+		mMap.setMyLocationEnabled(true);
+		mMap.getUiSettings().setZoomControlsEnabled(false);
 
-		mMapFragment.setOnMapClickListener(new OnMapClickListener() {
+		mMap.setOnMapClickListener(new OnMapClickListener() {
 			public void onMapClick(LatLng point) {
 				if (mListener != null) {
 					mListener.onMapClicked();
 				}
 			}
 		});
-		mMapFragment.setOnMarkerClickListener(new OnMarkerClickListener() {
+		mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
 			public boolean onMarkerClick(Marker marker) {
 				if (mListener != null) {
 					Property property = mMarkersToProperties.get(marker);
@@ -140,14 +140,14 @@ public class HotelMapFragment extends SupportMapFragment {
 				return false;
 			}
 		});
-		mMapFragment.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+		mMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 			public void onInfoWindowClick(Marker marker) {
 				if (mListener != null) {
 					mListener.onPropertyBubbleClicked(mMarkersToProperties.get(marker));
 				}
 			}
 		});
-		mMapFragment.setOnCameraChangeListener(new OnCameraChangeListener() {
+		mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
 			public void onCameraChange(CameraPosition position) {
 				if (mOffsetAnimation && mCenterOffsetY != 0) {
 					animateCamera(CameraUpdateFactory.scrollBy(0, (float) mCenterOffsetY / 2.0f));
@@ -198,7 +198,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	private boolean isReady() {
-		return mContext != null && mMapFragment != null;
+		return mContext != null && mMap != null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -215,7 +215,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void reset() {
-		mMapFragment.clear();
+		mMap.clear();
 		mPropertiesToMarkers.clear();
 		mMarkersToProperties.clear();
 	}
@@ -255,7 +255,7 @@ public class HotelMapFragment extends SupportMapFragment {
 				MarkerOptions marker = new MarkerOptions();
 				marker.position(point);
 				marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.search_center_purple));
-				mExactLocationMarker = mMapFragment.addMarker(marker);
+				mExactLocationMarker = mMap.addMarker(marker);
 
 				if (mInstanceInfoWindowShowing != null && mInstanceInfoWindowShowing.equals(EXACT_LOCATION_MARKER)) {
 					mExactLocationMarker.showInfoWindow();
@@ -320,7 +320,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 			marker.icon((lowestRate.isOnSale()) ? mPinSale : mPin);
 
-			Marker actualMarker = mMapFragment.addMarker(marker);
+			Marker actualMarker = mMap.addMarker(marker);
 
 			if (mInstanceInfoWindowShowing != null && mInstanceInfoWindowShowing.equals(property.getPropertyId())) {
 				actualMarker.showInfoWindow();
