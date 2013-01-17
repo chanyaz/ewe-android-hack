@@ -1,94 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/header_container"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/launch_header_height"
-    android:layout_marginTop="@dimen/launch_tile_space_width"
-    android:orientation="horizontal" >
+    android:layout_height="@dimen/launch_header_height" >
 
-    <RelativeLayout
-        android:id="@+id/hotels_button"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/bg_launch_link_tile_header" >
+    <LinearLayout
+        android:id="@+id/header_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/launch_header_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/launch_tile_space_width"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/big_hotel_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/ic_big_hotels" />
+        <RelativeLayout
+            android:id="@+id/hotels_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/launch_header_height"
+            android:layout_weight="1"
+            android:background="@drawable/bg_launch_link_tile_header" >
 
-        <TextView
-            android:id="@+id/hotels_label_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/launch_header_primary_text_margin"
-            android:layout_marginRight="@dimen/launch_header_primary_text_margin"
-            android:text="@string/nav_hotels"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/launch_header_primary_text_size" />
+            <ImageView
+                android:id="@+id/big_hotel_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/ic_big_hotels" />
 
-        <TextView
-            android:id="@+id/hotels_prompt_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/hotels_label_text_view"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/launch_header_secondary_text_margin"
-            android:layout_marginRight="@dimen/launch_header_primary_text_margin"
-            android:text="@string/launch_hotel_secondary_text"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="@dimen/launch_header_secondary_text_size" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/hotels_label_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/launch_header_primary_text_margin"
+                android:layout_marginRight="@dimen/launch_header_primary_text_margin"
+                android:text="@string/nav_hotels"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/launch_header_primary_text_size" />
 
-    <View
-        android:layout_width="@dimen/launch_tile_space_width"
-        android:layout_height="match_parent"
-        android:background="@android:color/black" />
+            <TextView
+                android:id="@+id/hotels_prompt_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/hotels_label_text_view"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/launch_header_secondary_text_margin"
+                android:layout_marginRight="@dimen/launch_header_primary_text_margin"
+                android:text="@string/launch_hotel_secondary_text"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/launch_header_secondary_text_size" />
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/flights_button"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/bg_launch_link_tile_header" >
+        <View
+            android:layout_width="@dimen/launch_tile_space_width"
+            android:layout_height="match_parent"
+            android:background="@android:color/black" />
 
-        <ImageView
-            android:id="@+id/big_flights_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/ic_big_flights" />
+        <RelativeLayout
+            android:id="@+id/flights_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/launch_header_height"
+            android:layout_weight="1"
+            android:background="@drawable/bg_launch_link_tile_header" >
 
-        <TextView
-            android:id="@+id/flights_label_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/launch_header_primary_text_margin"
-            android:layout_marginRight="@dimen/launch_header_primary_text_margin"
-            android:text="@string/nav_flights"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/launch_header_primary_text_size" />
+            <ImageView
+                android:id="@+id/big_flights_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/ic_big_flights" />
 
-        <TextView
-            android:id="@+id/flights_prompt_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/flights_label_text_view"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/launch_header_secondary_text_margin"
-            android:layout_marginRight="@dimen/launch_header_primary_text_margin"
-            android:text="@string/launch_flight_secondary_text"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="@dimen/launch_header_secondary_text_size" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/flights_label_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/launch_header_primary_text_margin"
+                android:layout_marginRight="@dimen/launch_header_primary_text_margin"
+                android:text="@string/nav_flights"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/launch_header_primary_text_size" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/flights_prompt_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/flights_label_text_view"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/launch_header_secondary_text_margin"
+                android:layout_marginRight="@dimen/launch_header_primary_text_margin"
+                android:text="@string/launch_flight_secondary_text"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/launch_header_secondary_text_size" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

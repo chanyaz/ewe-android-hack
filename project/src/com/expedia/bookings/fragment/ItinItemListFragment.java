@@ -28,9 +28,9 @@ import com.expedia.bookings.widget.HotelItinCard;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinItemAdapter;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -76,24 +76,7 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 
 		refreshAccountButtonState();
 
-		mListView.setOnScrollListener(new OnScrollListener() {
-			@Override
-			public void onScroll(AbsListView arg0, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				Log.d("Scroll Range: firstItem:" + firstVisibleItem + " visibleItemCount:" + visibleItemCount);
-				for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
-					if (arg0.getChildAt(i) != null) {
-						arg0.getChildAt(i).invalidate();
-					}
-					else {
-						Log.d("Fail getting child at: " + i);
-					}
-				}
-			}
-
-			@Override
-			public void onScrollStateChanged(AbsListView arg0, int arg1) {
-			}
-		});
+		mListView.setOnScrollListener(mOnScrollListener);
 	}
 
 	public boolean inListMode() {
@@ -193,6 +176,27 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 
 		((LaunchActivity) getActivity()).showHeader();
 	}
+
+	// Listeners
+
+	private OnScrollListener mOnScrollListener = new OnScrollListener() {
+		@Override
+		public void onScroll(AbsListView parent, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+			Log.d("Scroll Range: firstItem:" + firstVisibleItem + " visibleItemCount:" + visibleItemCount);
+			for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
+				if (parent.getChildAt(i) != null) {
+					parent.getChildAt(i).invalidate();
+				}
+				else {
+					Log.d("Fail getting child at: " + i);
+				}
+			}
+		}
+
+		@Override
+		public void onScrollStateChanged(AbsListView arg0, int arg1) {
+		}
+	};
 
 	//////////////
 	//TODO: REMOVE THIS STUFF WHEN WE GET A BETTER ITIN MANAGER IN PLACE
