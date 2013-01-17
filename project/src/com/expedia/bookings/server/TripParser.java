@@ -97,16 +97,16 @@ public class TripParser {
 	}
 
 	private BookingStatus parseBookingStatus(String status) {
-		if (status.equals("SAVED")) {
+		if ("SAVED".equals(status)) {
 			return BookingStatus.SAVED;
 		}
-		else if (status.equals("PENDING")) {
+		else if ("PENDING".equals(status)) {
 			return BookingStatus.PENDING;
 		}
-		else if (status.equals("BOOKED")) {
+		else if ("BOOKED".equals(status)) {
 			return BookingStatus.BOOKED;
 		}
-		else if (status.equals("CANCELLED")) {
+		else if ("CANCELLED".equals(status)) {
 			return BookingStatus.CANCELLED;
 		}
 
@@ -114,13 +114,13 @@ public class TripParser {
 	}
 
 	private TimePeriod parseTimePeriod(String period) {
-		if (period.equals("UPCOMING")) {
+		if ("UPCOMING".equals(period)) {
 			return TimePeriod.UPCOMING;
 		}
-		else if (period.equals("INPROGRESS")) {
+		else if ("INPROGRESS".equals(period)) {
 			return TimePeriod.INPROGRESS;
 		}
-		else if (period.equals("COMPLETED")) {
+		else if ("COMPLETED".equals(period)) {
 			return TimePeriod.COMPLETED;
 		}
 
