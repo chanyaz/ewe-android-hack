@@ -8,23 +8,25 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.LinearLayout;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
-import com.expedia.bookings.R;
-import com.mobiata.android.Log;
+import com.expedia.bookings.animation.ExpandAnimation;
+import com.expedia.bookings.data.trips.TripComponent;
 
-public class ItinListView extends ScrollView {
+public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener {
 	public static final int MODE_LIST = 0;
 	public static final int MODE_DETAIL = 1;
 
-	private Adapter mAdapter;
+	private ItinItemAdapter mAdapter;
 
-	private LinearLayout mContent;
-	private int mLaunchHeaderHeight;
+	private OnItemClickListener mOnItemClickListener;
+	private OnScrollListener mOnScrollListener;
 
 	private int mMode;
-	private int mCurrentDetailPosition;
+	private int mDetailPosition;
 
 	public ItinListView(Context context) {
 		this(context, null);
@@ -33,18 +35,20 @@ public class ItinListView extends ScrollView {
 	public ItinListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		mContent = new LinearLayout(context);
+		setOnItemClickListener(null);
 		mContent.setOrientation(LinearLayout.VERTICAL);
 		addView(mContent);
 
-		mLaunchHeaderHeight = context.getResources().getDimensionPixelSize(R.dimen.launch_header_height);
+		setOnScrollListener(null);
 	}
 
-	public void setAdapter(Adapter adapter) {
-		mAdapter = adapter;
-		mAdapter.registerDataSetObserver(mDataSetObserver);
+	public void addAllItinItems(List<TripComponent> items) {
+		if (mAdapter == null) {
+			mAdapter = new ItinItemAdapter(getContext());
+			setAdapter(mAdapter);
+		}
 
-		bindDataSet();
+		mAdapter.addAllItinItems(items);
 	}
 
 	public int getMode() {
@@ -65,29 +69,72 @@ public class ItinListView extends ScrollView {
 		}
 	}
 
-	private void showList() {
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		showDetail(position);
 
+		if (mOnItemClickListener != null) {
+			mOnItemClickListener.onItemClick(parent, view, position, id);
+		}
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
+			if (getChildAt(i) != null) {
+				getChildAt(i).invalidate();
+			}
+		}
+
+		if (mOnScrollListener != null) {
+			mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+		}
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		if (mOnScrollListener != null) {
+			mOnScrollListener.onScrollStateChanged(view, scrollState);
+		}
+	}
+
+	@Override
+	public void setOnItemClickListener(OnItemClickListener listener) {
+		mOnItemClickListener = listener;
+		super.setOnItemClickListener(this);
+	}
+
+	@Override
+	public void setOnScrollListener(OnScrollListener listener) {
+		mOnScrollListener = listener;
+		super.setOnScrollListener(this);
+	}
+
+	private void showList() {
+		mMode = MODE_LIST;
 	}
 
 	private void showDetail() {
-		showDetail(mCurrentDetailPosition);
+		showDetail(mDetailPosition);
 	}
 
 	private void showDetail(int position) {
-		View view = mContent.getChildAt(position + 1);
-		view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getHeight()));
+		mMode = MODE_DETAIL;
+		mDetailPosition = position;
 
-		smoothScrollTo(0, view.getTop());
+		final int start = getFirstVisiblePosition();
+		final int count = getChildCount();
 
 		// pass scrolling to child scrollview
 	}
 
-	private void bindDataSet() {
+		if (position >= start && position < start + count) {
 		mContent.removeAllViews();
 		mContent.addView(new View(getContext()), new LayoutParams(LayoutParams.MATCH_PARENT, mLaunchHeaderHeight));
 
-		if (mAdapter == null) {
-			return;
+			if (view != null) {
+				view.startAnimation(new ExpandAnimation(view, getHeight()));
+			}
 		}
 
 		final int size = mAdapter.getCount();
@@ -98,7 +145,7 @@ public class ItinListView extends ScrollView {
 			view.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					showDetail(position);
+		smoothScrollToPosition(position);
 				}
 			});
 

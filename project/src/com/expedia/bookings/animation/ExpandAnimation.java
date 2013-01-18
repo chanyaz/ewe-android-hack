@@ -6,15 +6,26 @@ import android.view.animation.Transformation;
 
 public class ExpandAnimation extends Animation {
 	private View mView;
-	private int mViewHeight;
+
+	private int mStartHeight;
+	private int mEndHeight;
 
 	public ExpandAnimation(View view) {
+		this(view, 0, view.getLayoutParams().height);
+	}
+
+	public ExpandAnimation(View view, int endHeight) {
+		this(view, view.getLayoutParams().height, endHeight);
+	}
+
+	public ExpandAnimation(View view, int startHeight, int endHeight) {
 		setDuration(200);
 
 		mView = view;
-		mViewHeight = view.getLayoutParams().height;
+		mStartHeight = startHeight;
+		mEndHeight = endHeight;
 
-		mView.getLayoutParams().height = 0;
+		mView.getLayoutParams().height = startHeight;
 		mView.setVisibility(View.VISIBLE);
 	}
 
@@ -23,11 +34,11 @@ public class ExpandAnimation extends Animation {
 		super.applyTransformation(interpolatedTime, t);
 
 		if (interpolatedTime < 1) {
-			mView.getLayoutParams().height = (int) (mViewHeight * interpolatedTime);
+			mView.getLayoutParams().height = (int) ((mEndHeight - mStartHeight) * interpolatedTime) + mStartHeight;
 			mView.requestLayout();
 		}
 		else {
-			mView.getLayoutParams().height = mViewHeight;
+			mView.getLayoutParams().height = mEndHeight;
 			mView.requestLayout();
 		}
 	}
@@ -35,6 +46,6 @@ public class ExpandAnimation extends Animation {
 	@Override
 	public void cancel() {
 		super.cancel();
-		mView.getLayoutParams().height = mViewHeight;
+		mView.getLayoutParams().height = mEndHeight;
 	}
 }

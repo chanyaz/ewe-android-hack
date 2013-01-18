@@ -184,7 +184,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	public void onBackPressed() {
 		if (mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
 			if (!mItinListFragment.inListMode()) {
-				mItinListFragment.showList();
+				mItinListFragment.setListMode();
 				return;
 			}
 
@@ -351,8 +351,21 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		supportInvalidateOptionsMenu();
 	}
 
+	private void showAddItinDialog() {
+		ItineraryGuestAddDialogFragment addNewItinFrag = (ItineraryGuestAddDialogFragment) getSupportFragmentManager()
+				.findFragmentByTag(ItineraryGuestAddDialogFragment.TAG);
+		if (addNewItinFrag == null) {
+			addNewItinFrag = ItineraryGuestAddDialogFragment.newInstance();
+		}
+		if (!addNewItinFrag.isVisible()) {
+			addNewItinFrag.show(getSupportFragmentManager(), ItineraryGuestAddDialogFragment.TAG);
+		}
+	}
+
 	public void setHeaderOffset(int offset) {
-		mHeader.setOffset(offset);
+		if (mViewPager.getCurrentItem() == 1) {
+			mHeader.setOffset(offset);
+		}
 	}
 
 	public class PagerAdapter extends FragmentPagerAdapter {

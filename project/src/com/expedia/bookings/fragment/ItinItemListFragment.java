@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -13,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.expedia.bookings.R;
@@ -21,6 +24,7 @@ import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.server.ExpediaServices;
@@ -50,7 +54,6 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 
 	private AccountButton mAccountButton;
 
-	private ItinItemAdapter mAdapter;
 	private boolean mAllowLoadItins = false;
 
 	public static ItinItemListFragment newInstance() {
@@ -73,10 +76,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		mAccountButton = Ui.findView(view, R.id.account_button_root);
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
 
-		mAdapter = new ItinItemAdapter(getActivity());
-		mAdapter.registerDataSetObserver(mDataSetObserver);
-
-		mListView.setAdapter(mAdapter);
+		mListView.setEmptyView(mEmptyView);
 		mListView.setOnScrollListener(mOnScrollListener);
 		mAccountButton.setListener(this);
 
@@ -104,7 +104,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		return mListView.getMode() == ItinListView.MODE_LIST;
 	}
 
-	public void showList() {
+	public void setListMode() {
 		mListView.setMode(ItinListView.MODE_LIST);
 	}
 
@@ -204,23 +204,21 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		invalidateOptionsMenu();
 	}
 
-	private void setListVisibility() {
-		final boolean listVisible = mAdapter != null && mAdapter.getCount() > 0;
-
-		mListView.setVisibility(listVisible ? View.VISIBLE : View.GONE);
-		mEmptyView.setVisibility(listVisible ? View.GONE : View.VISIBLE);
-	}
-
-	private final DataSetObserver mDataSetObserver = new DataSetObserver() {
-		public void onChanged() {
-			setListVisibility();
-		};
-	};
-
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
 		@Override
-		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-			mActivity.setHeaderOffset(-scrollView.getScrollY());
+		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+			if (firstVisibleItem == 0) {
+				if (view.getChildAt(0) != null) {
+					mActivity.setHeaderOffset(view.getChildAt(0).getTop());
+				}
+			}
+			else {
+				mActivity.setHeaderOffset(-9999);
+			}
+		}
+
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState) {
 		}
 	};
 
@@ -240,11 +238,13 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		@Override
 		public void onDownload(TripResponse response) {
 			List<Trip> trips = response.getTrips();
+			List<TripComponent> tripComponents = new ArrayList<TripComponent>();
+
 			for (int i = 0; i < trips.size(); i++) {
-				mAdapter.addAllItinItems(trips.get(0).getTripComponents());
+				tripComponents.addAll(trips.get(i).getTripComponents());
 			}
 
-			mAdapter.notifyDataSetChanged();
+			mListView.addAllItinItems(tripComponents);
 		}
 	};
 }
