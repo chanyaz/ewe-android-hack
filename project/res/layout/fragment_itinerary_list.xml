@@ -8,30 +8,10 @@
 
     <!-- The listview -->
 
-    <RelativeLayout
-        android:id="@+id/list_container"
+    <com.expedia.bookings.widget.ItinListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:background="#4D555D" />
-
-        <ListView
-            android:id="@id/android:list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:cacheColorHint="@android:color/transparent"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:drawSelectorOnTop="false"
-            android:listSelector="@android:color/transparent" />
-    </RelativeLayout>
+        android:layout_height="match_parent" />
 
     <!-- The No itins portion -->
 
@@ -83,17 +63,5 @@
             android:padding="16dp"
             android:text="@string/or_enter_an_itinerary_number" />
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/detail_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <View
-        android:id="@+id/content_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/launch_content_top_shadow" />
 
 </RelativeLayout>

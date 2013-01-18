@@ -11,15 +11,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.animation.CollapseAnimation;
-import com.expedia.bookings.animation.ExpandAnimation;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.ItinItemListFragment;
@@ -31,6 +28,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.LaunchHeaderView;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -38,7 +36,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	private static final int REQUEST_SETTINGS = 1;
 
-	private ViewGroup mHeader;
+	private LaunchHeaderView mHeader;
 
 	private LaunchFragment mLaunchFragment;
 	private ItinItemListFragment mItinListFragment;
@@ -275,6 +273,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		mViewPager.setCurrentItem(0);
 		mItinListFragment.showList();
+		mHeader.show();
 
 		supportInvalidateOptionsMenu();
 	}
@@ -285,6 +284,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		mItinListFragment.enableLoadItins();
 
 		mViewPager.setCurrentItem(1);
+		mHeader.setOffset();
 
 		supportInvalidateOptionsMenu();
 	}
@@ -300,28 +300,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	public void hideHeader() {
-		if (mHeader.getVisibility() == View.GONE) {
-			return;
-		}
-
-		if (mHeader.getAnimation() != null) {
-			mHeader.getAnimation().cancel();
-		}
-
-		mHeader.startAnimation(new CollapseAnimation(mHeader));
-	}
-
-	public void showHeader() {
-		if (mHeader.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
-		if (mHeader.getAnimation() != null) {
-			mHeader.getAnimation().cancel();
-		}
-
-		mHeader.startAnimation(new ExpandAnimation(mHeader));
+	public void setHeaderOffset(int offset) {
+		mHeader.setOffset(offset);
 	}
 
 	public class PagerAdapter extends FragmentPagerAdapter {

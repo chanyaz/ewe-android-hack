@@ -2,16 +2,15 @@ package com.expedia.bookings.fragment;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LaunchActivity;
@@ -24,29 +23,29 @@ import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
-import com.expedia.bookings.widget.HotelItinCard;
-import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinItemAdapter;
+import com.expedia.bookings.widget.ItinListView;
+import com.expedia.bookings.widget.ScrollView;
+import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
-public class ItinItemListFragment extends ListFragment implements AccountButtonClickListener,
+public class ItinItemListFragment extends Fragment implements AccountButtonClickListener,
 		ConfirmLogoutDialogFragment.DoLogoutListener {
 
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
+	private static final String NET_TRIPS = "NET_TRIPS";
+
+	private LaunchActivity mActivity;
+
+	private ItinListView mListView;
+	private View mEmptyView;
 
 	private AccountButton mAccountButton;
 
-	private ListView mListView;
-	private ViewGroup mDetailLayout;
-	private View mContentShadowView;
-
-	private boolean mInListMode = true;
+	private ItinItemAdapter mAdapter;
 	private boolean mAllowLoadItins = false;
 
 	public static ItinItemListFragment newInstance() {
@@ -54,18 +53,28 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		mActivity = (LaunchActivity) activity;
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
 
-		mAccountButton = Ui.findView(view, R.id.account_button_root);
 		mListView = Ui.findView(view, android.R.id.list);
-		mDetailLayout = Ui.findView(view, R.id.detail_layout);
-		mContentShadowView = Ui.findView(view, R.id.content_shadow);
+		mEmptyView = Ui.findView(view, android.R.id.empty);
+		mAccountButton = Ui.findView(view, R.id.account_button_root);
 
+		mAdapter = new ItinItemAdapter(getActivity());
+		mAdapter.registerDataSetObserver(mDataSetObserver);
+
+		mListView.setAdapter(mAdapter);
+		mListView.setOnScrollListener(mOnScrollListener);
 		mAccountButton.setListener(this);
 
-		setListAdapter(new ItinItemAdapter(getActivity()));
+		setListVisibility();
 
 		return view;
 	}
@@ -75,12 +84,14 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 		super.onResume();
 
 		refreshAccountButtonState();
-
-		mListView.setOnScrollListener(mOnScrollListener);
 	}
 
 	public boolean inListMode() {
-		return mInListMode;
+		return mListView.getMode() == ItinListView.MODE_LIST;
+	}
+
+	public void showList() {
+		mListView.setMode(ItinListView.MODE_LIST);
 	}
 
 	public void enableLoadItins() {
@@ -143,66 +154,31 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 				bd.startDownload(NET_TRIPS, mTripDownload, mTripHandler);
 			}
 		}
-
 	}
 
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		showDetails(id, ViewHelper.getY(v));
+	private void setListVisibility() {
+		final boolean listVisible = mAdapter != null && mAdapter.getCount() > 0;
+
+		mListView.setVisibility(listVisible ? View.VISIBLE : View.GONE);
+		mEmptyView.setVisibility(listVisible ? View.GONE : View.VISIBLE);
 	}
 
-	public void showDetails(long id, float y) {
-		mInListMode = false;
-
-		ItinCard card = new HotelItinCard(getActivity());
-
-		ViewHelper.setAlpha(mDetailLayout, 1);
-		mDetailLayout.removeAllViews();
-		mDetailLayout.addView(card);
-
-		ObjectAnimator.ofFloat(mListView, "alpha", 1, 0).start();
-		ObjectAnimator.ofFloat(mContentShadowView, "alpha", 1, 0).start();
-		ObjectAnimator.ofFloat(card, "translationY", y, 0).start();
-
-		((LaunchActivity) getActivity()).hideHeader();
-	}
-
-	public void showList() {
-		mInListMode = true;
-
-		ObjectAnimator.ofFloat(mListView, "alpha", 0, 1).start();
-		ObjectAnimator.ofFloat(mContentShadowView, "alpha", 0, 1).start();
-		ObjectAnimator.ofFloat(mDetailLayout, "alpha", 1, 0).start();
-
-		((LaunchActivity) getActivity()).showHeader();
-	}
-
-	// Listeners
+	private final DataSetObserver mDataSetObserver = new DataSetObserver() {
+		public void onChanged() {
+			setListVisibility();
+		};
+	};
 
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
 		@Override
-		public void onScroll(AbsListView parent, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-			Log.d("Scroll Range: firstItem:" + firstVisibleItem + " visibleItemCount:" + visibleItemCount);
-			for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
-				if (parent.getChildAt(i) != null) {
-					parent.getChildAt(i).invalidate();
-				}
-				else {
-					Log.d("Fail getting child at: " + i);
-				}
-			}
-		}
-
-		@Override
-		public void onScrollStateChanged(AbsListView arg0, int arg1) {
+		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			mActivity.setHeaderOffset(-scrollView.getScrollY());
 		}
 	};
 
 	//////////////
 	//TODO: REMOVE THIS STUFF WHEN WE GET A BETTER ITIN MANAGER IN PLACE
 	/////////////
-
-	private static final String NET_TRIPS = "NET_TRIPS";
 
 	private final Download<TripResponse> mTripDownload = new Download<TripResponse>() {
 		@Override
@@ -217,11 +193,10 @@ public class ItinItemListFragment extends ListFragment implements AccountButtonC
 		public void onDownload(TripResponse response) {
 			List<Trip> trips = response.getTrips();
 			for (int i = 0; i < trips.size(); i++) {
-				((ItinItemAdapter) ItinItemListFragment.this.getListAdapter()).addAllItinItems(trips.get(0)
-						.getTripComponents());
+				mAdapter.addAllItinItems(trips.get(0).getTripComponents());
 			}
-			((ItinItemAdapter) ItinItemListFragment.this.getListAdapter()).notifyDataSetChanged();
 
+			mAdapter.notifyDataSetChanged();
 		}
 	};
 }

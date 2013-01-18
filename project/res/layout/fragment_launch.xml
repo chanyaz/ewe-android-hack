@@ -69,13 +69,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@id/divider" />
-
-        <View
-            android:id="@+id/content_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/launch_content_top_shadow" />
     </RelativeLayout>
 
 </LinearLayout>
