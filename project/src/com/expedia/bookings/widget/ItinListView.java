@@ -8,9 +8,9 @@ import android.widget.Adapter;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.widget.ScrollView.OnScrollListener;
+import com.mobiata.android.Log;
 
-public class ItinListView extends ScrollView implements OnScrollListener {
+public class ItinListView extends ScrollView {
 	public static final int MODE_LIST = 0;
 	public static final int MODE_DETAIL = 1;
 
@@ -28,8 +28,6 @@ public class ItinListView extends ScrollView implements OnScrollListener {
 
 	public ItinListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
-		setOnScrollListener(this);
 
 		mContent = new LinearLayout(context);
 		mContent.setOrientation(LinearLayout.VERTICAL);
@@ -105,13 +103,15 @@ public class ItinListView extends ScrollView implements OnScrollListener {
 	}
 
 	@Override
-	public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-		super.onScrollChanged(x, y, oldx, oldy);
+	protected void onScrollChanged(int x, int y, int oldx, int oldy) {
+		Log.t("Scrolling");
 
 		final int size = mContent.getChildCount();
 		for (int i = 1; i < size; i++) {
 			((ItinCard) mContent.getChildAt(i)).updateTypeIconPosition();
 		}
+
+		super.onScrollChanged(x, y, oldx, oldy);
 	}
 
 	private DataSetObserver mDataSetObserver = new DataSetObserver() {
@@ -119,4 +119,5 @@ public class ItinListView extends ScrollView implements OnScrollListener {
 			bindDataSet();
 		};
 	};
+
 }

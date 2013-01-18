@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -66,8 +65,7 @@ public abstract class ItinCard extends RelativeLayout {
 	}
 
 	private void init(Context context, AttributeSet attr) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.row_itin_expanded, this);
+		View view = inflate(context, R.layout.row_itin_expanded, this);
 
 		mOuterContainer = Ui.findView(view, R.id.outer_itin_container);
 		mInnerContainer = Ui.findView(view, R.id.inner_itin_container);
