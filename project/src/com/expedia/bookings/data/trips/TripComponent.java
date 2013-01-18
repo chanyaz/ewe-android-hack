@@ -9,10 +9,6 @@ import com.mobiata.android.json.JSONable;
 
 /**
  * Represents an individual segment of a trip.
- * 
- * TODO: Perhaps split into different types?  So far,
- * details are not vivid enough to justify this move.
- *
  */
 public class TripComponent implements JSONable {
 

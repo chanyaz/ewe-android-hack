@@ -14,7 +14,7 @@ import com.mobiata.android.json.JSONable;
  * Not mutable; it wouldn't make sense to allow someone to change one
  * field without the other. 
  */
-public class DateTime implements JSONable {
+public class DateTime implements JSONable, Comparable<DateTime> {
 
 	private long mMillisFromEpoch;
 	private int mTzOffsetMillis;
@@ -58,5 +58,39 @@ public class DateTime implements JSONable {
 		mMillisFromEpoch = obj.optLong("millisFromEpoch");
 		mTzOffsetMillis = obj.optInt("tzOffsetMillis");
 		return true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Comparable
+
+	@Override
+	public int compareTo(DateTime another) {
+		if (mMillisFromEpoch < another.mMillisFromEpoch) {
+			return -1;
+		}
+		else if (mMillisFromEpoch > another.mMillisFromEpoch) {
+			return 1;
+		}
+
+		if (mTzOffsetMillis < another.mTzOffsetMillis) {
+			return -1;
+		}
+		else if (mTzOffsetMillis > another.mTzOffsetMillis) {
+			return 1;
+		}
+
+		return 0;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof DateTime)) {
+			return false;
+		}
+
+		DateTime other = (DateTime) o;
+
+		return mMillisFromEpoch == other.mMillisFromEpoch
+				&& mTzOffsetMillis == other.mTzOffsetMillis;
 	}
 }

@@ -20,6 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -84,6 +85,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		PointOfSale.init(this);
 		FontCache.initialize(this);
 		AdTracker.initialize(this);
+		ItineraryManager.getInstance().init(this);
 
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
 			SettingUtils.save(this, PREF_FIRST_LAUNCH, true);
