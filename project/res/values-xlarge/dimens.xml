@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
-	<dimen name="gallery_size">600dp</dimen>
+
+    <!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
+    <dimen name="gallery_size">600dp</dimen>
+
+    <!-- Login screen -->
+    <dimen name="login_field_text_size">22sp</dimen>
+    <dimen name="login_field_padding">12dp</dimen>
+    <dimen name="login_field_width">508dp</dimen>
+    <dimen name="login_button_width">328dp</dimen>
+    <dimen name="login_button_text_size">16dp</dimen>
+    <dimen name="login_side_margin_large">24dp</dimen>
+    <dimen name="login_side_margin_medium">20dp</dimen>
+    <dimen name="login_side_margin_small">16dp</dimen>
+    <dimen name="login_or_spacing">24dp</dimen>
+    <dimen name="login_header_top_spacing">36dp</dimen>
+    <dimen name="login_header_text_size">33sp</dimen>
+    <dimen name="login_header_divider_spacing">20dp</dimen>
+    <dimen name="login_divider_content_spacing">64dp</dimen>
+    <dimen name="login_divider_height">3dp</dimen>
+    <dimen name="login_button_spacing">24dp</dimen>
+    <dimen name="login_fb_buttons_top_spacing">30dp</dimen>
+    <dimen name="login_field_spacing">28dp</dimen>
+    <dimen name="login_bottom_room_spacing">6dp</dimen>
+    <dimen name="login_heading_width">640dp</dimen>
+
 </resources>

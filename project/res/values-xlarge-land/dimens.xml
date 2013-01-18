@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
-	<dimen name="gallery_size">600dp</dimen>
+
+    <!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
+    <dimen name="gallery_size">600dp</dimen>
+
+    <!-- Login screen -->
+    <dimen name="login_header_top_spacing">24dp</dimen>
+    <dimen name="login_divider_content_spacing">36dp</dimen>
+    <dimen name="login_heading_width">960dp</dimen>
+
 </resources>

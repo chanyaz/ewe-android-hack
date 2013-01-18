@@ -8,29 +8,30 @@
         android:id="@+id/outer_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:orientation="vertical" >
 
         <!-- Header message -->
 
         <TextView
             android:id="@+id/login_status_textview"
-            android:layout_width="wrap_content"
+            style="@style/LoginFormHeading"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:layout_marginRight="21dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="@dimen/login_side_margin_large"
+            android:layout_marginRight="@dimen/login_side_margin_large"
+            android:layout_marginTop="@dimen/login_header_top_spacing"
             android:bufferType="spannable"
             android:text="@string/expedia_account"
             android:textColor="#f3f3f3"
-            android:textSize="25sp" />
+            android:textSize="@dimen/login_header_text_size" />
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginBottom="11dp"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
-            android:layout_marginTop="16dp"
+            style="@style/LoginFormHeading"
+            android:layout_height="@dimen/login_divider_height"
+            android:layout_marginBottom="@dimen/login_divider_content_spacing"
+            android:layout_marginLeft="@dimen/login_side_margin_medium"
+            android:layout_marginRight="@dimen/login_side_margin_medium"
+            android:layout_marginTop="@dimen/login_header_divider_spacing"
             android:background="#797f86" />
 
         <!-- The fields for expedia login -->
@@ -39,37 +40,28 @@
             android:id="@+id/expedia_signin_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
-            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/login_side_margin_medium"
+            android:layout_marginRight="@dimen/login_side_margin_medium"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <EditText
                 android:id="@+id/username_edit_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                style="@style/LoginFormEditText"
                 android:hint="@string/email_address"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:nextFocusDown="@+id/password_edit_text"
-                android:nextFocusRight="@+id/password_edit_text"
-                android:padding="12dp"
-                android:textColor="#c6c8c9"
-                android:textSize="18sp" />
+                android:nextFocusRight="@+id/password_edit_text" />
 
             <EditText
                 android:id="@+id/password_edit_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="11dp"
+                style="@style/LoginFormEditText"
+                android:layout_marginBottom="@dimen/login_bottom_room_spacing"
+                android:layout_marginTop="@dimen/login_field_spacing"
                 android:hint="@string/hint_password"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:padding="12dp"
-                android:textColor="#c6c8c9"
-                android:textSize="18sp" />
+                android:inputType="textPassword" />
         </LinearLayout>
 
         <!-- Signin with Expedia -or- Connect with facebook -->
@@ -78,33 +70,34 @@
             android:id="@+id/signin_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/login_or_spacing"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:id="@+id/or_facebook_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="vertical" >
 
                 <LinearLayout
                     android:id="@+id/or_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginBottom="@dimen/login_or_spacing"
                     android:gravity="center"
                     android:orientation="horizontal" >
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="@integer/login_or_spacers_weight" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:layout_weight="1"
+                        android:layout_weight="@integer/login_or_lines_weight"
                         android:background="@drawable/divider_grey_gradient_left" />
 
                     <TextView
@@ -121,48 +114,42 @@
                     <View
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:layout_weight="1"
+                        android:layout_weight="@integer/login_or_lines_weight"
                         android:background="@drawable/divider_grey_gradient_right" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="@integer/login_or_spacers_weight" />
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/connect_with_facebook_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="17dp"
-                    android:layout_marginRight="17dp"
+                    style="@style/LoginFormButton"
+                    android:layout_marginLeft="@dimen/login_side_margin_small"
+                    android:layout_marginRight="@dimen/login_side_margin_small"
                     android:background="@drawable/btn_facebook_signin"
                     android:gravity="center"
-                    android:text="@string/connect_with_facebook"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:text="@string/connect_with_facebook" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/sign_in_with_expedia_button_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="17dp"
-                android:layout_marginRight="17dp"
+                android:layout_marginLeft="@dimen/login_side_margin_small"
+                android:layout_marginRight="@dimen/login_side_margin_small"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="gone" >
 
                 <Button
                     android:id="@+id/sign_in_with_expedia_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/LoginFormButton"
                     android:background="@drawable/btn_signin"
                     android:gravity="center"
                     android:text="@string/sign_in_with_expedia"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/forgot_your_password_link"
@@ -182,23 +169,19 @@
             android:id="@+id/facebook_signin_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone" >
 
             <EditText
                 android:id="@+id/link_password_edit_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginLeft="19dp"
-                android:layout_marginRight="19dp"
-                android:layout_marginTop="14dp"
+                style="@style/LoginFormEditText"
+                android:layout_marginBottom="@dimen/login_bottom_room_spacing"
+                android:layout_marginLeft="@dimen/login_side_margin_medium"
+                android:layout_marginRight="@dimen/login_side_margin_medium"
                 android:hint="@string/expedia_password_hint"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:padding="12dp"
-                android:textColor="#c6c8c9" />
+                android:inputType="textPassword" />
         </LinearLayout>
 
         <!-- Facebook connect buttons -->
@@ -207,35 +190,28 @@
             android:id="@+id/facebook_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:layout_marginRight="17dp"
-            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/login_side_margin_small"
+            android:layout_marginRight="@dimen/login_side_margin_small"
+            android:layout_marginTop="@dimen/login_fb_buttons_top_spacing"
+            android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone" >
 
             <Button
                 android:id="@+id/link_accounts_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="19dp"
+                style="@style/LoginFormButton"
+                android:layout_marginBottom="@dimen/login_button_spacing"
                 android:background="@drawable/btn_link"
                 android:gravity="center"
-                android:text="@string/link_accounts"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="@string/link_accounts" />
 
             <Button
                 android:id="@+id/cancel_link_accounts_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/LoginFormButton"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/btn_cancel"
                 android:gravity="center"
-                android:text="@string/cancel"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="@string/cancel" />
         </LinearLayout>
     </LinearLayout>
 

@@ -25,6 +25,8 @@
     <integer name="num_hotel_description_sections_per_row">2</integer>
     <integer name="search_params_input_weight">1</integer>
     <integer name="search_params_image_weight">1</integer>
+    <integer name="login_or_lines_weight">1</integer>
+    <integer name="login_or_spacers_weight">1</integer>
 
     <!-- Country codes -->
     <integer name="country_phone_code_af">93</integer>
