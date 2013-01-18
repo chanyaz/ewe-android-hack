@@ -81,6 +81,7 @@ import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -138,6 +139,9 @@ public class ExpediaServices implements DownloadListener {
 	// Flags for GET vs. POST
 	private static final int F_GET = 64;
 	private static final int F_POST = 128;
+
+	// Skips all cookie sending/receiving
+	private static final int F_IGNORE_COOKIES = 256;
 
 	private Context mContext;
 
@@ -630,9 +634,20 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("api/trips", null, new TripResponseHandler(mContext), F_SECURE_REQUEST | F_GET);
 	}
 
-	public TripDetailsResponse getTripDetails(String tripId) {
-		return doE3Request("api/trips/" + tripId, null, new TripDetailsResponseHandler(mContext), F_SECURE_REQUEST
-				| F_GET);
+	public TripDetailsResponse getTripDetails(Trip trip) {
+		List<BasicNameValuePair> query = null;
+
+		int flags = F_SECURE_REQUEST | F_GET;
+
+		if (trip.isGuest()) {
+			query = new ArrayList<BasicNameValuePair>();
+			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
+			query.add(new BasicNameValuePair("email", trip.getGuestEmailAddress()));
+
+			flags |= F_IGNORE_COOKIES;
+		}
+
+		return doE3Request("api/trips/" + trip.getTripId(), query, new TripDetailsResponseHandler(mContext), flags);
 	}
 
 	public void clearCookies() {
@@ -983,17 +998,22 @@ public class ExpediaServices implements DownloadListener {
 		HttpParams httpParameters = client.getParams();
 		HttpConnectionParams.setSoTimeout(httpParameters, 100000);
 
-		// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
-		PersistantCookieStore cookieStore = getCookieStore(mContext);
+		boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
+
 		HttpContext httpContext = new BasicHttpContext();
-		httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
-		CookieSpecRegistry cookieSpecRegistry = new CookieSpecRegistry();
-		cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory(mContext));
-		httpContext.setAttribute(ClientContext.COOKIESPEC_REGISTRY, cookieSpecRegistry);
+		PersistantCookieStore cookieStore = null;
+		if (!ignoreCookies) {
+			// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
+			cookieStore = getCookieStore(mContext);
+			httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
+			CookieSpecRegistry cookieSpecRegistry = new CookieSpecRegistry();
+			cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory(mContext));
+			httpContext.setAttribute(ClientContext.COOKIESPEC_REGISTRY, cookieSpecRegistry);
 
-		Log.v("Sending cookies: " + cookieStore.toString());
+			Log.v("Sending cookies: " + cookieStore.toString());
 
-		HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");
+			HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");
+		}
 
 		// When not a release build, allow SSL from all connections
 		if ((flags & F_SECURE_REQUEST) != 0 && !AndroidUtils.isRelease(mContext)) {
@@ -1032,9 +1052,11 @@ public class ExpediaServices implements DownloadListener {
 			client.close();
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 
-			Log.v("Received cookies: " + cookieStore.toString());
+			if (!ignoreCookies) {
+				Log.v("Received cookies: " + cookieStore.toString());
 
-			cookieStore.save(mContext, COOKIES_FILE);
+				cookieStore.save(mContext, COOKIES_FILE);
+			}
 
 			mRequest = null;
 		}
