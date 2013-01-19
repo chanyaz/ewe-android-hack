@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="custome_rules" default="debug">
+
+    <!-- Fixes duplicate class files for ant builds of test projects -->
+    <target name="-post-compile">
+        <delete verbose="true">
+            <fileset dir="${out.classes.absolute.dir}" includes="${library.paths}" />
+        </delete>
+        <path id="out.dex.jar.input.ref">
+            <fileset dir="${jar.libs.absolute.dir}" includes="*.jar" />
+        </path>
+    </target>
+</project>
