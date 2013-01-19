@@ -10,4 +10,21 @@
             <fileset dir="${jar.libs.absolute.dir}" includes="*.jar" />
         </path>
     </target>
+
+    <target name="unit" depends="-setup">
+        <exec executable="${adb}" failonerror="true">
+            <arg value="shell" />
+            <arg value="am" />
+            <arg value="instrument" />
+            <arg value="-w" />
+            <arg value="-r" />
+            <arg value="-e" />
+            <arg value="package" />
+            <arg value="com.expedia.bookings.test.tests.unit" />
+            <arg value="-e" />
+            <arg value="debug" />
+            <arg value="false" />
+            <arg value="com.expedia.bookings.test/com.zutubi.android.junitreport.JUnitReportTestRunner" />
+        </exec>
+    </target>
 </project>
