@@ -1282,7 +1282,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		if (currentFilter == null || !filter.equals(currentFilter) && mIsActivityResumed) {
 			Log.d("Filter has changed, notifying listeners.");
 			if (currentFilter == null) {
-				Log.d("HERE current filter null");
+				Log.d("Filter diff: Current filter == null");
 			}
 			else {
 				filter.diff(currentFilter);

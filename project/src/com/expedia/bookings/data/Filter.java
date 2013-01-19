@@ -6,6 +6,8 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
@@ -274,34 +276,28 @@ public class Filter implements JSONable {
 
 		Filter other = (Filter) o;
 
-		if (!equalHotelNames(other)) {
+		if (!TextUtils.equals(mHotelName, other.getHotelName())) {
 			// not equal
 			return false;
 		}
 
 		// Check the rest
-		return mSearchRadius == other.getSearchRadius()
-				&& mDistanceUnit == other.getDistanceUnit()
-				&& mPriceRange == other.getPriceRange()
-				&& mMinStarRating == other.getMinimumStarRating()
-				&& mSort == other.getSort();
-	}
-
-	private boolean equalHotelNames(Filter other) {
-		// Check that hotel names match
-		String otherHotelName = other.getHotelName();
-		boolean hasHotelName = mHotelName != null;
-		boolean otherHasHotelName = otherHotelName != null;
-		if (hasHotelName != otherHasHotelName
-				|| (hasHotelName && otherHasHotelName && !mHotelName.equals(otherHotelName))) {
-			return false;
-		}
-
-		return true;
+		boolean ret = true;
+		ret &= mSearchRadius == other.getSearchRadius();
+		ret &= mDistanceUnit == other.getDistanceUnit();
+		ret &= mPriceRange == other.getPriceRange();
+		ret &= mMinStarRating == other.getMinimumStarRating();
+		ret &= mSort == other.getSort();
+		return ret;
 	}
 
 	public void diff(Filter other) {
-		if (!equalHotelNames(other)) {
+		if (other == null) {
+			Log.d("Filter diff: other == null");
+			return;
+		}
+
+		if (!TextUtils.equals(mHotelName, other.getHotelName())) {
 			Log.d("Filter diff: Hotel Names: " + mHotelName + ", " + other.getHotelName());
 		}
 
@@ -309,19 +305,19 @@ public class Filter implements JSONable {
 			Log.d("Filter diff: Search Radius: " + mSearchRadius + ", " + other.getSearchRadius());
 		}
 
-		if (mDistanceUnit != other.getDistanceUnit()){
+		if (mDistanceUnit != other.getDistanceUnit()) {
 			Log.d("Filter diff: Distance Units: " + mDistanceUnit + ", " + other.getDistanceUnit());
 		}
 
-		if (mPriceRange != other.getPriceRange()){
+		if (mPriceRange != other.getPriceRange()) {
 			Log.d("Filter diff: Price Range: " + mPriceRange + ", " + other.getPriceRange());
 		}
 
-		if (mMinStarRating != other.getMinimumStarRating()){
+		if (mMinStarRating != other.getMinimumStarRating()) {
 			Log.d("Filter diff: Star Rating: " + mMinStarRating + ", " + other.getMinimumStarRating());
 		}
 
-		if (mSort != other.getSort()){
+		if (mSort != other.getSort()) {
 			Log.d("Filter diff: Sort: " + mSort + ", " + other.getSort());
 		}
 	}
