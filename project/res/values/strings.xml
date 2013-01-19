@@ -263,6 +263,10 @@
     <string name="expedia_account">Expedia Account</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Checkout Information</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Do you accept all of the conditions outlined above?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">I Accept</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Slide to purchase.</string>
     <!-- Your card will be charged -->
