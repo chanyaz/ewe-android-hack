@@ -3,6 +3,8 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,9 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchHeaderView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -123,12 +128,43 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		});
 	}
 
+	private DialogInterface.OnCancelListener mGooglePlayServicesOnCancelListener = new DialogInterface.OnCancelListener() {
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			Log.d("Google Play Services: onCancel");
+			checkGooglePlayServices();
+		}
+	};
+
+	private void checkGooglePlayServices() {
+		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		switch (result) {
+		case ConnectionResult.SERVICE_MISSING:
+		case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
+		case ConnectionResult.SERVICE_DISABLED:
+			Log.d("Google Play Services: Raising dialog for user recoverable error");
+			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(result, this, 0);
+			dialog.setOnCancelListener(mGooglePlayServicesOnCancelListener);
+			dialog.show();
+			break;
+		case ConnectionResult.SUCCESS:
+			// We are fine - proceed
+			Log.d("Google Play Services: Everything fine, proceeding");
+			break;
+		default:
+			// The rest are unrecoverable codes that developer configuration error or what have you
+			throw new RuntimeException("Google Play Services status code indicates unrecoverable error: " + result);
+		}
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 
 		//HockeyApp crash
 		mHockeyPuck.onResume();
+
+		checkGooglePlayServices();
 	}
 
 	@Override
