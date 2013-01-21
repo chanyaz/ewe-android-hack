@@ -154,7 +154,7 @@ public class ItineraryManager implements JSONable {
 				@Override
 				protected Collection<Trip> doInBackground(Void... params) {
 					// If the user is logged in, retrieve a listing of current trips for logged in user
-					if (User.isLoggedIn(mContext) || true) {
+					if (User.isLoggedIn(mContext)) {
 						ExpediaServices services = new ExpediaServices(mContext);
 						TripResponse response = services.getTrips(0);
 
