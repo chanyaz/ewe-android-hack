@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;飯店&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">很抱歉，我們無法建立連線。</string>
+    <!-- Itinerary -->
+    <string name="itinerary">行程</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">搜尋行程</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">行程編號</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">沒有即將出發的旅行</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">或者請輸入行程編號</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -277,10 +287,10 @@
     <string name="expedia_booking_fee">Expedia 預訂費用</string>
     <!-- Flight -->
     <string name="flight">航班</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">旅客 %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE">旅客 %1$d</string>
     <!-- Adult -->
-    <string name="adult"> 成人</string>
+    <string name="adult">成人</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
@@ -378,11 +388,11 @@
     <!-- Traveler Information -->
     <string name="traveler_information">旅客資訊</string>
     <!-- First name label -->
-    <string name="first_name">名字</string>
+    <string name="first_name">名字 (英文)</string>
     <!-- Middle name label -->
-    <string name="middle_name">中間名</string>
+    <string name="middle_name">中間名 (英文)</string>
     <!-- Last name label -->
-    <string name="last_name">姓氏</string>
+    <string name="last_name">姓氏 (英文)</string>
     <!-- date of birth label -->
     <string name="date_of_birth">出生日期</string>
     <!-- male -->
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">規則和限制</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">條款和條件</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">預訂條款</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">隱私權政策</string>
     <!-- Fare information header -->
     <string name="fare_information">票價資訊</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">完成此預訂表示我已經閱讀並接受&lt;u&gt;&lt;b&gt;規則和限制&lt;/b&gt;、&lt;b&gt;條款和條件&lt;/b&gt;、&lt;b&gt;隱私權政策&lt;/b&gt;和&lt;b&gt;票價資訊。&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">房客</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">含稅</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">稅金和費用</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">包含</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">飯店費用 (在飯店支付)</string>
     <!-- Label for the total cost of the booking. -->

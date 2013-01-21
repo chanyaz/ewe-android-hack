@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">Manatili sa &lt;font color="#b2b2b2"&gt;&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Pasensiya na, hindi kami makakonekta.</string>
+    <!-- Itinerary -->
+    <string name="itinerary">Itinerary</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">Hanapin ang Itinerary</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">Numero ng Itinerary</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">Walang gaganaping biyahe.</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">O, ipasok ang Numero ng Itinerary</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -83,7 +93,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Mga Flight na Parating sa %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Pasensiya na, hindi kami makakonekta sa mga server ng Expedia.  Mangyaring saka na muling subukan.</string>
+    <string name="error_server">Pasensiya na, hindi kami makakonekta sa mga server ng Expedia.  Mangyaring saka na lang muling subukan.</string>
     <!-- Label for changing sort order on flights -->
     <string name="filter_flight_sort">Ayusin ang Mga Flight Ayon sa:</string>
     <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
@@ -126,7 +136,7 @@
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
     <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (One Way)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; patungo &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; patungo sa &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Ayusin ang mga Flight</string>
     <!-- Edit search title -->
@@ -222,7 +232,7 @@
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Kasama na ang mga buwis at bayarin</string>
     <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s: %2$s patungo %3$s</string>
+    <string name="trip_to_with_date">%1$s: %2$s patungong  %3$s</string>
     <!-- Number of traverlers template -->
 
     <plurals name="number_of_travelers_TEMPLATE">
@@ -277,8 +287,8 @@
     <string name="expedia_booking_fee">Bayarin sa Pagbo-book sa Expedia</string>
     <!-- Flight -->
     <string name="flight">Flight</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">Magbibiyahe %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE"> Magbibiyahe%1$d</string>
     <!-- Adult -->
     <string name="adult"> Nasa Edad Na</string>
 
@@ -480,7 +490,7 @@
     <!-- Button label for calling expedia customer support -->
     <string name="call_expedia_customer_support">Tawagan ang Customer Support ng Expedia </string>
     <!-- Add Insurance label -->
-    <string name="add_insurance">Idagdaga ang Insurance</string>
+    <string name="add_insurance">Magdagdag ng Insurance</string>
     <!-- Insurance -->
     <string name="insurance">Insurance</string>
 
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">Mga Alituntunin at Restriksiyon</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">Mga Tuntunin at Kondisyon</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">Mga Tuntunin sa Pagbo-book</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Patakaran sa Pagiging Pribado</string>
     <!-- Fare information header -->
     <string name="fare_information">IMPORMASYON SA PASAHE</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">Sa pamamagitan ng pagbo-book, aking pinagtitibay na aking nabasa at tinatanggap ang &lt;u&gt;&lt;b&gt;Mga Alituntunin at Restriksiyon,&lt;/b&gt; ang &lt;b&gt;Mga Tuntunin at Kondisyon,&lt;/b&gt; ang &lt;b&gt;Patakaran sa Pagiging Pribado&lt;/b&gt; at &lt;b&gt;Impormasyon sa Pasahe.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -530,7 +540,7 @@
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Nag-expire na ang credit card na inyong sinusubukang gamitin, mangyaring gumamit ng ibang credit card.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
-    <string name="error_flight_unhandled">Pasensiya na, hindi namin maproseso ang inyong order sa oras na ito. Pakisubukan muli.</string>
+    <string name="error_flight_unhandled">Pasensiya na, hindi namin maproseso ang inyong order sa oras na ito. Pakisubukang muli.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Pasensiya na, hindi namin maproseso ang inyong order sa oras na ito. Pakisubukan na lamang sa ibang pagkakataon o tawagan ang Expedia Customer Support at banggitin ang numero ng itinerary na ito: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
@@ -701,7 +711,7 @@
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">AYUSIN</string>
     <!-- Label for sort hotels in hotel list -->
-    <string name="sort">Pag-uri-uriin</string>
+    <string name="sort">Ayusin</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">Mag-switch ng View</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">Mga Bisita</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Mga Kasamang Buwis</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">Mga Buwis &amp; Bayarin</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">Kasama</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Mga Babayarin sa Hotel (Babayaran sa hotel)</string>
     <!-- Label for the total cost of the booking. -->
@@ -1468,7 +1482,7 @@
     <string name="country_cu">Cuba</string>
     <string name="country_cy">Cyprus</string>
     <string name="country_cz">Czech Republic</string>
-    <string name="country_ci">Côte d\&apos;Ivoire</string>
+    <string name="country_ci">Côte d’Ivoire</string>
     <string name="country_dk">Denmark</string>
     <string name="country_dj">Djibouti</string>
     <string name="country_dm">Dominica</string>
@@ -1526,11 +1540,11 @@
     <string name="country_kz">Kazakhstan</string>
     <string name="country_ke">Kenya</string>
     <string name="country_ki">Kiribati</string>
-    <string name="country_kp">Korea, Democratic People\&apos;s Republic of</string>
+    <string name="country_kp">Korea, Democratic People’s Republic of</string>
     <string name="country_kr">Korea</string>
     <string name="country_kw">Kuwait</string>
     <string name="country_kg">Kyrgyzstan</string>
-    <string name="country_la">Lao People\&apos;s Democratic Republic</string>
+    <string name="country_la">Lao People’s Democratic Republic</string>
     <string name="country_lv">Latvia</string>
     <string name="country_lb">Lebanon</string>
     <string name="country_ls">Lesotho</string>

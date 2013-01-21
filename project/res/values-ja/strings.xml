@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;に滞在&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">残念ながら、接続できません。</string>
+    <!-- Itinerary -->
+    <string name="itinerary">旅程</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">旅程を検索する</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">旅程番号</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">予約された旅行はありません。</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">または、旅程番号を入力してください。</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -277,8 +287,8 @@
     <string name="expedia_booking_fee">エクスペディア予約手数料</string>
     <!-- Flight -->
     <string name="flight">フライト</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">旅行者 %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE">旅行者  名%1$d</string>
     <!-- Adult -->
     <string name="adult">大人</string>
 
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">規則および制限事項</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">利用規約</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">予約条件</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">プライバシー ポリシー</string>
     <!-- Fare information header -->
     <string name="fare_information">料金情報</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">この予約の完了をもって、&lt;u&gt;&lt;b&gt;規則および制限事項&lt;/b&gt;、&lt;b&gt;利用規約&lt;/b&gt;、&lt;b&gt;プライバシーポリシー&lt;/b&gt;、および&lt;b&gt;運賃表を読み、その内容に同意したものとみなされます。&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">宿泊者</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">税込み</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">税金 &amp; サービス料</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">含まれています</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">ホテル手数料 (ホテルで支払)</string>
     <!-- Label for the total cost of the booking. -->

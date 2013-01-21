@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Menginap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
+    <!-- Itinerary -->
+    <string name="itinerary">Rencana Perjalanan</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">Cari Rencana Perjalanan</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">Nomor Rencana Perjalanan</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">Tidak ada perjalanan akan datang.</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">Atau, Masukkan Nomor Rencana Perjalanan</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -277,8 +287,8 @@
     <string name="expedia_booking_fee">Biaya Pemesanan Expedia</string>
     <!-- Flight -->
     <string name="flight">Penerbangan</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">Pelancong %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE">Pelancong %1$d</string>
     <!-- Adult -->
     <string name="adult">Dewasa</string>
 
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">Peraturan dan Batasan</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">Syarat dan Ketentuan</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">Ketentuan Pemesanan</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Kebijakan Privasi</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMASI TARIF</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima &lt;u&gt;&lt;b&gt;Peraturan dan Batasan,&lt;/b&gt; &lt;b&gt;Syarat dan Ketentuan,&lt;/b&gt; &lt;b&gt;Kebijakan Privasi,&lt;/b&gt; dan &lt;b&gt;Informasi Tiket.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">Tamu</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Pajak Termasuk</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">Pajak &amp; Biaya</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">Termasuk</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Biaya Hotel (Dibayar di hotel)</string>
     <!-- Label for the total cost of the booking. -->

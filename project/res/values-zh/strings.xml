@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;酒店&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">很遗憾，我们无法建立连接。</string>
+    <!-- Itinerary -->
+    <string name="itinerary">行程</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">查找行程</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">行程编号</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">近期无旅行计划。</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">或者输入行程编号</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -277,8 +287,8 @@
     <string name="expedia_booking_fee">Expedia 预订费</string>
     <!-- Flight -->
     <string name="flight">航班</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">旅客 %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE"> 旅客 %1$d</string>
     <!-- Adult -->
     <string name="adult"> 成人</string>
 
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">规则和限制</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">条款和条件</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">预订条款</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">隐私政策</string>
     <!-- Fare information header -->
     <string name="fare_information">票价信息</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">完成此预订，即表示我已阅读并接受&lt;u&gt;&lt;b&gt;规则和限制、&lt;/b&gt;&lt;b&gt;条款和条件、&lt;/b&gt;&lt;b&gt;隐私政策&lt;/b&gt;以及&lt;b&gt;票价信息。&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">宾客</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">含税</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">税款与服务费</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">已包含</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">酒店费用（在酒店付款）</string>
     <!-- Label for the total cost of the booking. -->

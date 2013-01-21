@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;เข้าพักที่&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">ขออภัย ไม่สามารถเชื่อมต่อได้</string>
+    <!-- Itinerary -->
+    <string name="itinerary">แผนการเดินทาง</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">ไม่มีการเดินทางเร็วๆ นี้</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">หรือป้อนหมายเลขแผนการเดินทาง</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -277,8 +287,8 @@
     <string name="expedia_booking_fee">ค่าธรรมเนียมการจองของ Expedia</string>
     <!-- Flight -->
     <string name="flight">เที่ยวบิน</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">ผู้เดินทาง %1$d%2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE">ผู้เดินทาง%1$d</string>
     <!-- Adult -->
     <string name="adult">ผู้ใหญ่ </string>
 
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">กฎและข้อจำกัด</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">ข้อตกลงและเงื่อนไข </string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">เงื่อนไขในการจอง</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">นโยบายความเป็นส่วนตัว </string>
     <!-- Fare information header -->
     <string name="fare_information">ข้อมูลค่าโดยสาร</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">เมื่อดำเนินการจองนี้ให้เสร็จสมบูรณ์ ข้าพเจ้ายอมรับว่าได้อ่านและยอมรับใน &lt;u&gt;&lt;b&gt;กฎและข้อจำกัด &lt;/b&gt; &lt;b&gt;ข้อกำหนดและเงื่อนไข&lt;/b&gt; &lt;b&gt;นโยบายความเป็นส่วนตัว&lt;/b&gt; และ &lt;b&gt;ข้อมูลค่าโดยสารแล้ว&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1143,6 +1153,10 @@
     <string name="GuestsLabel">ผู้เข้าพัก </string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">รวมภาษี</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">ภาษีและค่าธรรมเนียม </string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">รวม</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">ค่าธรรมเนียมโรงแรม (จ่ายที่โรงแรม)</string>
     <!-- Label for the total cost of the booking. -->

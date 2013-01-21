@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Overnacht in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Helaas, we kunnen geen verbinding maken</string>
+    <!-- Itinerary -->
+    <string name="itinerary">Reisplan</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">Vind reisplan</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">Reisplannummer</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">Geen toekomstige reizen</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">Of voer een reisplannummer in</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -277,8 +287,8 @@
     <string name="expedia_booking_fee">Expedia boekingstoeslag</string>
     <!-- Flight -->
     <string name="flight">Vlucht</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE"> Reiziger %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE"> Reiziger %1$d</string>
     <!-- Adult -->
     <string name="adult">Volwassene</string>
 
@@ -503,13 +513,13 @@
     <!-- Rules and Restrictions for flight -->
     <string name="rules_and_restrictions">Regels en beperkingen</string>
     <!-- Terms and Conditions for flight -->
-    <string name="terms_and_conditions">Algemene Voorwaarden</string>
+    <string name="terms_and_conditions">Voorwaarden en bepalingen</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">Voorwaarden voor het boeken</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Privacybeleid</string>
     <!-- Fare information header -->
     <string name="fare_information">PRIJSGEGEVENS</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">Door deze boeking te voltooien bevestig ik dat ik de &lt;u&gt;&lt;b&gt;Regels en Beperkingen,&lt;/b&gt; de &lt;b&gt;Voorwaarden,&lt;/b&gt; het &lt;b&gt;Privacybeleid&lt;/b&gt; en de &lt;b&gt;Prijsgegevens heb gelezen en goedgekeurd.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -604,7 +614,7 @@
     <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
     <string name="share_flight_airfare_total_TEMPLATE">Totaalprijs: %s</string>
     <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">De airline berekent mogelijk extra toeslagen voor ingecheckte bagage of andere optionele diensten.  %s</string>
+    <string name="share_flight_additional_fees_TEMPLATE">De luchtvaartmaatschappij berekent mogelijk extra toeslagen voor ingecheckte bagage of andere optionele diensten.  %s</string>
     <!-- Gives the user a method of getting support.  %s is a phone number -->
     <string name="share_flight_support_TEMPLATE">Bel Expedia op %s als je vragen hebt over deze boeking</string>
     <!-- Advertisement for the app the user just used -->
@@ -1143,6 +1153,10 @@
     <string name="GuestsLabel">Gasten</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Belastingen inbegrepen</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">Belastingen &amp; Toeslagen</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">Inbegrepen</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hoteltoeslagen (te betalen in het hotel)</string>
     <!-- Label for the total cost of the booking. -->

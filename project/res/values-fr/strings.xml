@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Séjour à&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Nous ne sommes pas en mesure de nous connecter.</string>
+    <!-- Itinerary -->
+    <string name="itinerary">Voyage</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">Trouver un voyage</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">Numéro de voyage</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">Pas de voyages à venir.</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">Ou saisir un numéro de voyage</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -163,7 +173,7 @@
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">Il reste %1$s place à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="two">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="few">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="many">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -277,7 +287,7 @@
     <string name="expedia_booking_fee">Frais de réservation Expedia</string>
     <!-- Flight -->
     <string name="flight">Vol</string>
-    <!-- Traveler number and category e.g. "Traveler 1" -->
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">Voyageur %1$d</string>
     <!-- Adult -->
     <string name="adult">Adulte</string>
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">Conditions et restrictions</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">Conditions d\&apos;utilisation</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">Conditions de réservation</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Charte de confidentialité</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMATIONS SUR LES TARIFS</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">En finalisant cette réservation, je confirme avoir lu et accepté les &lt;u&gt;&lt;b&gt;conditions et  restrictions&lt;/b&gt;, les &lt;b&gt;conditions générales d\&apos;utilisation&lt;/b&gt;, la &lt;b&gt;charte de confidentialité&lt;/b&gt; et les &lt;b&gt;informations sur les tarifs.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">Personnes</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Taxes incluses</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">Taxes et frais</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">Inclus</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Frais d\&apos;hôtel (à régler sur place)</string>
     <!-- Label for the total cost of the booking. -->
