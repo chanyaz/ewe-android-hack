@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -26,6 +27,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.ResourceUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -59,9 +61,6 @@ public class PointOfSale {
 
 	// The POS's contact phone number
 	private String mSupportPhoneNumber;
-
-	// The POS's contact phone number for flights issues
-	private String mFlightSupportPhoneNumber;
 
 	// The two-letter country code associated with this locale (e.g. "US")
 	private String mTwoLetterCountryCode;
@@ -167,10 +166,6 @@ public class PointOfSale {
 
 	public String getSupportPhoneNumber() {
 		return mSupportPhoneNumber;
-	}
-
-	public String getFlightSupportPhoneNumber() {
-		return mFlightSupportPhoneNumber;
 	}
 
 	public String getThreeLetterCountryCode() {
@@ -516,7 +511,7 @@ public class PointOfSale {
 			Iterator<String> keys = posData.keys();
 			while (keys.hasNext()) {
 				String posName = keys.next();
-				PointOfSale pos = parsePointOfSale(posData.optJSONObject(posName));
+				PointOfSale pos = parsePointOfSale(context, posData.optJSONObject(posName));
 				pos.mTwoLetterCountryCode = posName.toLowerCase();
 				sPointOfSale.put(pos.mPointOfSale, pos);
 
@@ -533,7 +528,7 @@ public class PointOfSale {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static PointOfSale parsePointOfSale(JSONObject data) {
+	private static PointOfSale parsePointOfSale(Context context, JSONObject data) throws JSONException {
 		PointOfSale pos = new PointOfSale();
 
 		pos.mPointOfSale = PointOfSaleId.getPointOfSaleFromId(data.optInt("pointOfSaleId"));
@@ -547,8 +542,7 @@ public class PointOfSale {
 		pos.mSiteId = data.optInt("siteId");
 
 		// Support
-		pos.mSupportPhoneNumber = data.optString("contactPhoneNumber", null);
-		pos.mFlightSupportPhoneNumber = data.optString("flightsContactPhoneNumber", null);
+		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
 
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES
@@ -579,6 +573,31 @@ public class PointOfSale {
 		pos.mDefaultLocales = stringJsonArrayToArray(mappedLocales);
 
 		return pos;
+	}
+
+	// e.g. "supportPhoneNumber": {
+	//  "*": "<Default #>",
+	//  "iPhone": "<iPhone #>",
+	//  "iPad": "<iPad #>",
+	//  "Android": "<Android non-tablet #>",
+	//  "AndroidTablet": "<Android tablet #>"
+	// },
+	private static String parseDeviceSpecificPhoneNumber(Context context, JSONObject data, String name)
+			throws JSONException {
+		if (!data.has(name)) {
+			return null;
+		}
+		JSONObject numbers = data.getJSONObject(name);
+
+		// Try to find a device specific number
+		String deviceSpecificKey = AndroidUtils.isTablet(context) ? "AndroidTablet" : "Android";
+		String result = numbers.optString(deviceSpecificKey, null);
+		if (!TextUtils.isEmpty(result)) {
+			return result;
+		}
+		
+		// Just use the default number (or null if it doesn't exist)
+		return numbers.optString("*", null);
 	}
 
 	private static String[] stringJsonArrayToArray(JSONArray stringJsonArr) {

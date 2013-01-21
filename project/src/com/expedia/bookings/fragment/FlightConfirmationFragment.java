@@ -201,7 +201,7 @@ public class FlightConfirmationFragment extends Fragment {
 		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getFlightSupportPhoneNumber());
+				SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
 			}
 		});
 
@@ -491,7 +491,7 @@ public class FlightConfirmationFragment extends Fragment {
 		body.append("\n\n");
 
 		body.append(getString(R.string.share_flight_support_TEMPLATE, PointOfSale.getPointOfSale()
-				.getFlightSupportPhoneNumber()));
+				.getSupportPhoneNumber()));
 
 		body.append("\n\n");
 
@@ -609,7 +609,7 @@ public class FlightConfirmationFragment extends Fragment {
 				+ origin.mAirportCode));
 		sb.append("\n\n");
 		sb.append(getString(R.string.calendar_flight_desc_support_TEMPLATE,
-				PointOfSale.getPointOfSale().getFlightSupportPhoneNumber()));
+				PointOfSale.getPointOfSale().getSupportPhoneNumber()));
 		sb.append("\n\n");
 		intent.putExtra(Events.DESCRIPTION, sb.toString());
 		return intent;
