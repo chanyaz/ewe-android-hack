@@ -32,9 +32,10 @@
 
             <ImageView
                 android:id="@+id/no_trips_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
                 android:layout_marginBottom="16dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ic_suitcase_small" />
 
             <TextView
@@ -42,6 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:textSize="22sp"
+                android:textColor="@android:color/white"
                 android:text="@string/no_upcoming_trips" />
 
             <include
@@ -61,6 +64,9 @@
             android:layout_weight="0"
             android:gravity="center_horizontal"
             android:padding="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
             android:text="@string/or_enter_an_itinerary_number" />
     </LinearLayout>
 

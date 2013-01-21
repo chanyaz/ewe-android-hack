@@ -54,14 +54,17 @@ public class ItinItemAdapter extends BaseAdapter {
 
 	public void addItinItem(TripComponent item) {
 		mItems.add(item);
+		notifyDataSetChanged();
 	}
 
 	public void addAllItinItems(List<TripComponent> items) {
 		mItems.addAll(items);
+		notifyDataSetChanged();
 	}
 
 	public void clearItinItems() {
 		mItems.clear();
+		notifyDataSetChanged();
 	}
 
 	public void setItinItems(List<TripComponent> items) {

@@ -1,9 +1,13 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.LinearLayout;
 

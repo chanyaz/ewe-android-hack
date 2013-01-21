@@ -8,8 +8,14 @@
         android:title="@string/itinerary"/>
     <item
         android:id="@+id/add_itinerary"
-        android:title="Add"
-        android:showAsAction="always"/>
+        android:icon="@drawable/ic_action_bar_checkmark_white"
+        android:showAsAction="ifRoom"
+        android:title="Add"/>
+    <item
+        android:id="@+id/ab_log_out"
+        android:icon="@drawable/ic_traveler_white"
+        android:showAsAction="ifRoom"
+        android:title="LogOut"/>
     <item
         android:id="@+id/settings"
         android:icon="@android:drawable/ic_menu_manage"

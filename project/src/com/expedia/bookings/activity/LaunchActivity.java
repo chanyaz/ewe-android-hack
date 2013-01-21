@@ -21,6 +21,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItineraryGuestAddDialogFragment;
 import com.expedia.bookings.fragment.LaunchFragment;
@@ -41,6 +42,9 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	private static final int REQUEST_SETTINGS = 1;
 
+	private static final int PAGER_POS_WATERFALL = 0;
+	private static final int PAGER_POS_ITIN = 1;
+
 	private LaunchHeaderView mHeader;
 
 	private LaunchFragment mLaunchFragment;
@@ -48,6 +52,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	private PagerAdapter mPagerAdapter;
 	private ViewPager mViewPager;
+	private int mPagerPosition = PAGER_POS_WATERFALL;
 
 	private HockeyPuck mHockeyPuck;
 
@@ -89,11 +94,13 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 			@Override
 			public void onPageSelected(int position) {
-				if (position == 0) {
-					gotoWaterfall();
-				}
-				else if (position == 1) {
-					gotoItineraries();
+				if (mViewPager != null && position != mPagerPosition) {
+					if (position == PAGER_POS_WATERFALL) {
+						gotoWaterfall();
+					}
+					else if (position == PAGER_POS_ITIN) {
+						gotoItineraries();
+					}
 				}
 			}
 		});
@@ -175,13 +182,13 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (mViewPager.getCurrentItem() == 1) {
+		if (mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
 			if (!mItinListFragment.inListMode()) {
 				mItinListFragment.showList();
 				return;
 			}
 
-			mViewPager.setCurrentItem(0);
+			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
 			return;
 		}
 
@@ -221,16 +228,21 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		boolean retVal = super.onPrepareOptionsMenu(menu);
 		if (menu != null) {
 			boolean itinButtonEnabled = true;
-			boolean addNewItinButtonEnabled;
-			if (mViewPager != null && mViewPager.getCurrentItem() == 1) {
+			boolean addNewItinButtonEnabled = false;
+			boolean logoutBtnEnabled = false;
+
+			if (mViewPager != null && mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
 				itinButtonEnabled = false;
 			}
 			else {
 				itinButtonEnabled = true;
 			}
 			addNewItinButtonEnabled = !itinButtonEnabled;
+			logoutBtnEnabled = !itinButtonEnabled && User.isLoggedIn(this) && Db.getUser() != null;
+
 			MenuItem itinBtn = menu.findItem(R.id.itineraries);
 			if (itinBtn != null) {
 				itinBtn.setVisible(itinButtonEnabled);
@@ -241,6 +253,11 @@ public class LaunchActivity extends SherlockFragmentActivity {
 				addNewItinBtn.setVisible(addNewItinButtonEnabled);
 				addNewItinBtn.setEnabled(addNewItinButtonEnabled);
 			}
+			MenuItem logOutBtn = menu.findItem(R.id.ab_log_out);
+			if (logOutBtn != null) {
+				logOutBtn.setVisible(logoutBtnEnabled);
+				logOutBtn.setEnabled(logoutBtnEnabled);
+			}
 
 		}
 
@@ -248,7 +265,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		mHockeyPuck.onPrepareOptionsMenu(menu);
 
-		return super.onPrepareOptionsMenu(menu);
+		return retVal;
 	}
 
 	@Override
@@ -261,7 +278,14 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			gotoItineraries();
 			return true;
 		case R.id.add_itinerary:
-			showAddItinDialog();
+			if (mItinListFragment != null) {
+				mItinListFragment.showAddItinDialog();
+			}
+			return true;
+		case R.id.ab_log_out:
+			if (mItinListFragment != null) {
+				mItinListFragment.accountLogoutClicked();
+			}
 			return true;
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
@@ -307,7 +331,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setHomeButtonEnabled(false);
 
-		mViewPager.setCurrentItem(0);
+		mPagerPosition = PAGER_POS_WATERFALL;
+		mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
 		mItinListFragment.showList();
 		mHeader.show();
 
@@ -319,21 +344,11 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		getSupportActionBar().setHomeButtonEnabled(true);
 		mItinListFragment.enableLoadItins();
 
-		mViewPager.setCurrentItem(1);
+		mPagerPosition = PAGER_POS_ITIN;
+		mViewPager.setCurrentItem(PAGER_POS_ITIN);
 		mHeader.setOffset();
 
 		supportInvalidateOptionsMenu();
-	}
-
-	private void showAddItinDialog() {
-		ItineraryGuestAddDialogFragment addNewItinFrag = (ItineraryGuestAddDialogFragment) getSupportFragmentManager()
-				.findFragmentByTag(ItineraryGuestAddDialogFragment.TAG);
-		if (addNewItinFrag == null) {
-			addNewItinFrag = ItineraryGuestAddDialogFragment.newInstance();
-		}
-		if (!addNewItinFrag.isVisible()) {
-			addNewItinFrag.show(getSupportFragmentManager(), ItineraryGuestAddDialogFragment.TAG);
-		}
 	}
 
 	public void setHeaderOffset(int offset) {
