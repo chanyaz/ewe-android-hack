@@ -443,12 +443,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		boolean toBroadcastSearchCompleted = false;
 		SearchResponse searchResponse = Db.getSearchResponse();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
+
 		if (getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
 			//If this is a search coming from flights, we expect the Db.searchParams to already be valid
 			mSearchEditText.setText(Db.getSearchParams().getUserQuery());
 			Log.i("searchEditText...:" + mSearchEditText.getText().toString());
 			Db.resetFilter();
-			mTag = getString(R.string.tag_hotel_list);
 			mShowDistance = false;
 			startSearch();
 			getIntent().removeExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS);
@@ -471,10 +473,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			}
 		}
 		else {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			Db.setSearchParams(new SearchParams(prefs));
 			String filterJson = prefs.getString("filter", null);
-			mTag = prefs.getString("tag", getString(R.string.tag_hotel_list));
 			mShowDistance = prefs.getBoolean("showDistance", true);
 
 			if (filterJson != null) {
