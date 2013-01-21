@@ -159,14 +159,16 @@ public class TripParser {
 			property.setThumbnail(new Media(propertyJson.optString("photoThumbnailURL", null)));
 
 			JSONObject addressJson = propertyJson.optJSONObject("address");
-			Location location = new Location();
-			location.addStreetAddressLine(addressJson.optString("fullAddress", null));
-			location.setCity(addressJson.optString("city", null));
-			location.setStateCode(addressJson.optString("countrySubdivisionCode", null));
-			location.setCountryCode(addressJson.optString("countryCode", null));
-			location.setLatitude(propertyJson.optDouble("latitude"));
-			location.setLongitude(propertyJson.optDouble("longitude"));
-			property.setLocation(location);
+			if (addressJson != null) {
+				Location location = new Location();
+				location.addStreetAddressLine(addressJson.optString("fullAddress", null));
+				location.setCity(addressJson.optString("city", null));
+				location.setStateCode(addressJson.optString("countrySubdivisionCode", null));
+				location.setCountryCode(addressJson.optString("countryCode", null));
+				location.setLatitude(propertyJson.optDouble("latitude"));
+				location.setLongitude(propertyJson.optDouble("longitude"));
+				property.setLocation(location);
+			}
 
 			hotel.setProperty(property);
 		}
