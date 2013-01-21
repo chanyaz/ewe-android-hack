@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Bo i&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Tyvärr kan vi inte ansluta. </string>
+    <!-- Itinerary -->
+    <string name="itinerary">Resplan</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">Hitta resplan</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">Resplansnummer</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">Inga kommande resor.</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">Eller ange ett resplansnummer</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -116,7 +126,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Lyfter snart...</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">Flygbokning via mobilär &lt;b&gt;tyvärr inte tillgängligt&lt;/b&gt; där du befinner dig än. </string>
+    <string name="invalid_flights_pos">Flygbokning via mobil är &lt;b&gt;tyvärr inte tillgängligt&lt;/b&gt; där du befinner dig än. </string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Avgångs- och ankomstflygplats kan inte vara densamma. </string>
 
@@ -277,8 +287,8 @@
     <string name="expedia_booking_fee">Expedias bokningsavgift</string>
     <!-- Flight -->
     <string name="flight">Flyg</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">Resenär %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE"> resenär%1$d</string>
     <!-- Adult -->
     <string name="adult"> vuxen</string>
 
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">Regler och begränsningar</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">Regler och villkor</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">Bokningsvillkor</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Integritetspolicy</string>
     <!-- Fare information header -->
     <string name="fare_information">PRISINFORMATION</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">Genom att slutföra bokningen bekräftar jag att jag har läst och accepterat Expedias &lt;u&gt;&lt;b&gt;regler och begränsningar,&lt;/b&gt; &lt;b&gt;regler och villkor,&lt;/b&gt; &lt;b&gt;integritetspolicy&lt;/b&gt; och &lt;b&gt;prisinformation.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">Gäster</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Inkl. skatter</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">Skatter och avgifter</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">Inkluderas</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hotellavgifter (betalas på hotellet)</string>
     <!-- Label for the total cost of the booking. -->

@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Fique em&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Não é possível conectar.</string>
+    <!-- Itinerary -->
+    <string name="itinerary">Itinerário</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">Buscar itinerário</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">Número do itinerário</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">Nenhuma viagem futura.</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">Ou digite um número de itinerário</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -277,8 +287,8 @@
     <string name="expedia_booking_fee">Taxa de reserva da Expedia</string>
     <!-- Flight -->
     <string name="flight">Voo</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">Viajante %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE">Viajante%1$d</string>
     <!-- Adult -->
     <string name="adult"> adulto</string>
 
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">Regras e Restrições</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">Termos e condições</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">Termos da Reserva</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Política de privacidade</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMAÇÕES DE TARIFA</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">Ao concluir esta reserva, eu concordo que li e aceitei as &lt;u&gt;&lt;b&gt;Regras e Restrições,&lt;/b&gt; os &lt;b&gt;Termos e Condições,&lt;/b&gt; a &lt;b&gt;Política de Privacidade&lt;/b&gt; e &lt;b&gt;Informações de Tarifa.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">Hóspedes</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Impostos incluídos</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">Impostos e taxas</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">Incluídos</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Tarifas do hotel (pagas no hotel)</string>
     <!-- Label for the total cost of the booking. -->

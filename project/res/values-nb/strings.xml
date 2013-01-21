@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Bo i&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Beklager, det er ikke mulig å koble til.</string>
+    <!-- Itinerary -->
+    <string name="itinerary">Reiserute</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">Finn reiserute</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">Reiserutenummer</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">Ingen forestående reiser.</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">Eller skriv inn et reiserutenummer</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -277,8 +287,8 @@
     <string name="expedia_booking_fee">Expedia bestillingsavgift</string>
     <!-- Flight -->
     <string name="flight">Flyvning</string>
-    <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
-    <string name="traveler_num_and_category_TEMPLATE">Reisende %1$d - %2$s</string>
+    <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
+    <string name="traveler_num_and_category_TEMPLATE">Reisende%1$d</string>
     <!-- Adult -->
     <string name="adult">Voksen</string>
 
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">Regler og begrensninger</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">Vilkår</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">Betingelser for bestilling</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Personvernregler</string>
     <!-- Fare information header -->
     <string name="fare_information">PRISINFORMASJON</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">Ved å fullføre denne bestillingen bekrefter jeg at jeg har lest og godkjent &lt;u&gt;&lt;b&gt;regler og begrensninger,&lt;/b&gt; &lt;b&gt;betingelser,&lt;/b&gt;&lt;b&gt; personvernbestemmelser&lt;/b&gt; og &lt;b&gt;prisinformasjon.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">Gjester</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Skatter inkludert</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">Skatter og avgifter</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">Inkludert</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hotellgebyrer (Betales på hotell)</string>
     <!-- Label for the total cost of the booking. -->

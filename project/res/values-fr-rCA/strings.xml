@@ -54,6 +54,16 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Restez à&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Il nous est impossible d\&apos;établir la connexion.</string>
+    <!-- Itinerary -->
+    <string name="itinerary">Itinéraire</string>
+    <!-- Find Itinerary -->
+    <string name="find_itinerary">Chercher un itinéraire</string>
+    <!-- Itinerary Number -->
+    <string name="itinerary_number">Numéro d’itinéraire</string>
+    <!-- No upcoming trips -->
+    <string name="no_upcoming_trips">Aucun voyage prochain.</string>
+    <!-- Or enter an itinerary number -->
+    <string name="or_enter_an_itinerary_number">Ou entrez un numéro d\&apos;itinéraire</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -112,7 +122,7 @@
     <!-- Select a flight back to (city name) -->
     <string name="select_a_flight_back_to_TEMPLATE">Sélectionnez un vol de retour vers %1$s</string>
     <!-- Error message template when loading a webpage fails -->
-    <string name="web_view_loading_error_TEMPLATE">Erreur de chargement de la page! Message d\&apos;erreur :  %1$s</string>
+    <string name="web_view_loading_error_TEMPLATE">Erreur de chargement de la page! Message d\&apos;erreur : %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Décolle bientôt...</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
@@ -172,7 +182,7 @@
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">INFORMATION SUR LES FRAIS DE BAGAGE</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
-    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s à %2$s</string>
+    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s temps d\&apos;attente&lt;/b&gt; à %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m, Economy (K) on a Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Label for "coach" cabin code -->
@@ -274,7 +284,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Taxes et frais</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Frais de réservation</string>
+    <string name="expedia_booking_fee">Frais de réservation par Expedia</string>
     <!-- Flight -->
     <string name="flight">Vol</string>
     <!-- Traveler number and category e.g. "Traveler 1 - Adult" -->
@@ -503,12 +513,12 @@
     <string name="rules_and_restrictions">Règlements et restrictions</string>
     <!-- Terms and Conditions for flight -->
     <string name="terms_and_conditions">Conditions générales</string>
+    <!-- Terms of Booking for some POSes (UK, IT) -->
+    <string name="Terms_of_Booking">Conditions de réservation</string>
     <!-- Privacy policy -->
     <string name="privacy_policy">Politique de confidentialité</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMATION SUR LE TARIF</string>
-    <!-- Link from checkout screen to legal information page -->
-    <string name="fare_rules_link">En effectuant cette réservation, je confirme avoir lu et accepter les &lt;u&gt;&lt;b&gt;règles et restrictions,&lt;/b&gt; les &lt;b&gt;conditions générales,&lt;/b&gt; la &lt;b&gt;politique de confidentialité &lt;/b&gt; et &lt;b&gt;l\&apos;information sur le tarif.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -557,9 +567,9 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">Code CVV pour &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="cvv_code_TEMPLATE">Code CVV &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
-    <string name="card_ending_TEMPLATE">carte se terminant dans %s</string>
+    <string name="card_ending_TEMPLATE">se terminant par %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Terminer la réservation</string>
 
@@ -1047,7 +1057,7 @@
     <!-- Label for entering new credit card information -->
     <string name="enter_a_new_card">Entrez une nouvelle carte</string>
     <!-- Card number form field hint -->
-    <string name="hint_card_number">Nº de carte de crédit</string>
+    <string name="hint_card_number">Numéro de carte</string>
     <!-- Card expiration month form field hint -->
     <string name="hint_expiration_month">m</string>
     <!-- Card expiration year form field hint -->
@@ -1142,6 +1152,10 @@
     <string name="GuestsLabel">Personnes</string>
     <!-- Label indicating taxes are included for this booking. -->
     <string name="TaxesAndFees">Taxes comprises</string>
+    <!-- Label for the taxes and fees for a hotel room booking. -->
+    <string name="taxes_and_fees">Taxes et frais</string>
+    <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
+    <string name="included">Inclus</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Frais d\&apos;hôtel (dus à l\&apos;hôtel)</string>
     <!-- Label for the total cost of the booking. -->
