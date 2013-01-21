@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -321,7 +320,7 @@ public class ExpediaServices implements DownloadListener {
 	public TravelerCommitResponse commitTraveler(Traveler traveler) {
 		if (User.isLoggedIn(mContext)) {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-			addFlightTraveler(query, traveler);
+			addFlightTraveler(query, traveler, "");
 			addPOSParams(query);
 			Log.i("update-travler body:" + NetUtils.getParamsForLogging(query));
 			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
@@ -756,8 +755,6 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
 	}
 
-	// TODO this is a blatant copy/paste of the other method of the same name. Do not do this in the long run.
-	// TODO More specifically, see if this method should be shared between flight/checkout and update-traveler
 	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler, String prefix) {
 		SimpleDateFormat isoDateFormatter = new SimpleDateFormat(ISO_FORMAT);
 		query.add(new BasicNameValuePair(prefix + "firstName", traveler.getFirstName()));
@@ -807,69 +804,6 @@ public class ExpediaServices implements DownloadListener {
 		if (traveler.hasTuid()) {
 			query.add(new BasicNameValuePair(prefix + "tuid", traveler.getTuid().toString()));
 		}
-	}
-
-	private void addFlightTraveler(List<BasicNameValuePair> query, Traveler traveler) {
-		SimpleDateFormat isoDateFormatter = new SimpleDateFormat(ISO_FORMAT);//new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
-		query.add(new BasicNameValuePair("firstName", traveler.getFirstName()));
-		if (!TextUtils.isEmpty(traveler.getMiddleName())) {
-			query.add(new BasicNameValuePair("middleName", traveler.getMiddleName()));
-		}
-		query.add(new BasicNameValuePair("lastName", traveler.getLastName()));
-		query.add(new BasicNameValuePair("birthDate", isoDateFormatter.format(traveler.getBirthDateInMillis())));
-		query.add(new BasicNameValuePair("gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
-
-		String assistanceOption;
-		if (traveler.getAssistance() != null) {
-			assistanceOption = traveler.getAssistance().name();
-		}
-		else {
-			assistanceOption = AssistanceType.NONE.name();
-		}
-		query.add(new BasicNameValuePair("specialAssistanceOption", assistanceOption));
-		query.add(new BasicNameValuePair("seatPreference", traveler.getSafeSeatPreference().name()));
-
-		if (!TextUtils.isEmpty(traveler.getPhoneCountryCode())) {
-			query.add(new BasicNameValuePair("phoneCountryCode", traveler.getPhoneCountryCode()));
-		}
-		if (!TextUtils.isEmpty(traveler.getPhoneNumber())) {
-
-			query.add(new BasicNameValuePair("phone", traveler.getPrimaryPhoneNumber().getAreaCode()
-					+ traveler.getPrimaryPhoneNumber().getNumber()));
-		}
-
-		//Email is required (but there is no traveler email entry)
-		String email = traveler.getEmail();
-		if (TextUtils.isEmpty(email)) {
-			email = Db.getBillingInfo().getEmail();
-		}
-		if (TextUtils.isEmpty(email)) {
-			email = Db.getUser().getPrimaryTraveler().getEmail();
-		}
-
-		//TODO: This is a quick fix for the 2.0 api
-		//If the query already has an email address, we don't include a second one
-		boolean alreadyHasEmail = false;
-		for (BasicNameValuePair item : query) {
-			if (item.getName() != null && item.getName().compareTo("email") == 0) {
-				alreadyHasEmail = true;
-				break;
-			}
-		}
-		if (!alreadyHasEmail) {
-			query.add(new BasicNameValuePair("email", email));
-		}
-
-		if (!TextUtils.isEmpty(traveler.getPrimaryPassportCountry())) {
-			query.add(new BasicNameValuePair("passportCountryCode", traveler.getPrimaryPassportCountry()));
-		}
-		if (!TextUtils.isEmpty(traveler.getRedressNumber())) {
-			query.add(new BasicNameValuePair("TSARedressNumber", traveler.getRedressNumber()));
-		}
-		if (traveler.hasTuid()) {
-			query.add(new BasicNameValuePair("tuid", traveler.getTuid().toString()));
-		}
-
 	}
 
 	//////////////////////////////////////////////////////////////////////////
