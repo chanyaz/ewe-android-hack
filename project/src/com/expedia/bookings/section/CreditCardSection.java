@@ -68,6 +68,7 @@ public class CreditCardSection extends LinearLayout {
 				break;
 			case VISA:
 				resId = R.drawable.ic_visa_grey_cvv;
+				break;
 			default:
 				resId = 0;
 				break;
