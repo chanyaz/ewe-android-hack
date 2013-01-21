@@ -173,11 +173,11 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Helpful Methods
 	public void launchHotels() {
-		mSolo.clickOnView(mSolo.getView(R.id.hotels_button));
+		mSolo.clickOnText(mRes.getString(R.string.nav_hotels));
 	}
 
 	public void launchFlights() {
-		mSolo.clickOnView(mSolo.getView(R.id.flights_button));
+		mSolo.clickOnText(mRes.getString(R.string.nav_flights));
 	}
 
 	public void enterLog(String TAG, String logText) {
