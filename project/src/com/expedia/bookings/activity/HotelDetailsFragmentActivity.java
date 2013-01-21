@@ -19,6 +19,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
@@ -49,7 +50,6 @@ import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.animation.AnimatorProxy;
-import com.omniture.AppMeasurement;
 
 public class HotelDetailsFragmentActivity extends SherlockFragmentActivity implements HotelMiniMapFragmentListener,
 		HotelMiniGalleryFragmentListener {
@@ -360,7 +360,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		setContentView(R.layout.hotel_details_main);
 		getWindow().setBackgroundDrawable(null);
 
-		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_MINI_GALLERY_TAG);
+		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(
+				FRAGMENT_MINI_GALLERY_TAG);
 		if (mGalleryFragment == null) {
 			boolean fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
 			mGalleryFragment = HotelDetailsMiniGalleryFragment.newInstance(fromLaunch);
@@ -371,13 +372,17 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			ft.commit();
 		}
 
-		mPricePromoFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_price_promo_fragment_container, HotelDetailsPricePromoFragment.class, FRAGMENT_PRICE_PROMO_TAG);
+		mPricePromoFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_price_promo_fragment_container,
+				HotelDetailsPricePromoFragment.class, FRAGMENT_PRICE_PROMO_TAG);
 
-		mIntroFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_intro_fragment_container, HotelDetailsIntroFragment.class, FRAGMENT_INTRO_TAG);
+		mIntroFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_intro_fragment_container,
+				HotelDetailsIntroFragment.class, FRAGMENT_INTRO_TAG);
 
-		mMapFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_map_fragment_container, HotelDetailsMiniMapFragment.class, FRAGMENT_MINI_MAP_TAG);
+		mMapFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_map_fragment_container,
+				HotelDetailsMiniMapFragment.class, FRAGMENT_MINI_MAP_TAG);
 
-		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container, HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
+		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container,
+				HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
 		// Tracking
 		if (savedInstanceState == null) {
@@ -605,16 +610,17 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	public void onPageLoad() {
 		Log.d("Tracking \"App.Hotels.Infosite\" pageLoad");
 
-		AppMeasurement s = new AppMeasurement(getApplication());
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(this);
 
 		TrackingUtils.addStandardFields(this, s);
 
-		s.pageName = "App.Hotels.Infosite";
+		s.setAppState("App.Hotels.Infosite");
 
-		s.events = "event32";
+		s.setEvents("event32");
 
 		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
+		s.setEvar(25, "Shopper");
+		s.setProp(25, "Shopper");
 
 		// Rating or highly rated
 		Property property = Db.getSelectedProperty();
@@ -626,7 +632,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		// Position, if opened from list
 		int position = getIntent().getIntExtra(EXTRA_POSITION, -1);
 		if (position != -1) {
-			s.eVar39 = position + "";
+			s.setEvar(39, position + "");
 		}
 
 		// Send the tracking data

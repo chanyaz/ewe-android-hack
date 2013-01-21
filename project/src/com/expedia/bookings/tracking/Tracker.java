@@ -5,10 +5,10 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Property;
@@ -21,7 +21,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.omniture.AppMeasurement;
 
 /**
  * Contains specific events to track.
@@ -34,11 +33,11 @@ public class Tracker {
 	public static void trackAppLoading(final Context context) {
 		Log.d("Tracking \"App.Loading\" pageLoad...");
 
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
-		s.pageName = "App.Loading";
+		s.setAppState("App.Loading");
 
 		// Determine if this is a new install, an upgrade, or just a regular launch
 		String trackVersion = SettingUtils.get(context, TRACK_VERSION, null);
@@ -63,17 +62,17 @@ public class Tracker {
 		boolean save = false;
 		if (trackVersion == null) {
 			// New install
-			s.events = "event28";
+			s.setEvents("event28");
 			save = true;
 		}
 		else if (!trackVersion.equals(currentVersion)) {
 			// App was upgraded
-			s.events = "event29";
+			s.setEvents("event29");
 			save = true;
 		}
 		else {
 			// Regular launch
-			s.events = "event27";
+			s.setEvents("event27");
 		}
 
 		if (save) {
@@ -90,25 +89,27 @@ public class Tracker {
 		// Start actually tracking the search result change
 		Log.d("Tracking \"App.Hotels.Search\" pageLoad...");
 
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
-		s.pageName = "App.Hotels.Search";
+		s.setAppState("App.Hotels.Search");
 
 		if (refinements != null) {
 			// Whether this was the first search or a refined search
-			s.events = "event31";
+			s.setEvents("event31");
 
 			// Refinement
-			s.eVar28 = s.prop16 = refinements;
+			s.setEvar(28, refinements);
+			s.setProp(16, refinements);
 		}
 		else {
-			s.events = "event30";
+			s.setEvents("event30");
 		}
 
 		// LOB Search
-		s.eVar2 = s.prop2 = "hotels";
+		s.setEvar(2, "hotels");
+		s.setProp(2, "hotels");
 
 		// Region
 		DecimalFormat df = new DecimalFormat("#.######");
@@ -119,27 +120,33 @@ public class Tracker {
 		else {
 			region = df.format(searchParams.getSearchLatitude()) + "|" + df.format(searchParams.getSearchLongitude());
 		}
-		s.eVar4 = s.prop4 = region;
+		s.setEvar(4, region);
+		s.setProp(4, region);
 
 		// Check in/check out date
-		s.eVar5 = s.prop5 = CalendarUtils.getDaysBetween(Calendar.getInstance(), searchParams.getCheckInDate()) + "";
-		s.eVar6 = s.prop6 = CalendarUtils.getDaysBetween(searchParams.getCheckInDate(),
-				searchParams.getCheckOutDate()) + "";
+		String days5 = CalendarUtils.getDaysBetween(Calendar.getInstance(), searchParams.getCheckInDate()) + "";
+		s.setEvar(5, days5);
+		s.setProp(5, days5);
+
+		String days6 = CalendarUtils.getDaysBetween(searchParams.getCheckInDate(), searchParams.getCheckOutDate()) + "";
+		s.setEvar(6, days6);
+		s.setProp(6, days6);
 
 		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
+		s.setEvar(25, "Shopper");
+		s.setProp(25, "Shopper");
 
 		// Number adults searched for
-		s.eVar47 = "A" + searchParams.getNumAdults() + "|C" + searchParams.getNumChildren();
+		s.setEvar(47, "A" + searchParams.getNumAdults() + "|C" + searchParams.getNumChildren());
 
 		// Freeform location
 		if (!TextUtils.isEmpty(searchParams.getUserQuery())) {
-			s.eVar48 = searchParams.getUserQuery();
+			s.setEvar(48, searchParams.getUserQuery());
 		}
 
 		// Number of search results
 		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties() != null) {
-			s.prop1 = searchResponse.getFilteredAndSortedProperties().length + "";
+			s.setProp(1, searchResponse.getFilteredAndSortedProperties().length + "");
 		}
 
 		// Send the tracking data
@@ -149,17 +156,18 @@ public class Tracker {
 	public static void trackAppHotelsRoomsRates(Context context, Property property, String referrer) {
 		Log.d("Tracking \"App.Hotels.RoomsRates\" event");
 
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
-		s.pageName = "App.Hotels.RoomsRates";
+		s.setAppState("App.Hotels.RoomsRates");
 
 		// Promo description
-		s.eVar9 = property.getLowestRate().getPromoDescription();
+		s.setEvar(9, property.getLowestRate().getPromoDescription());
 
 		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
+		s.setEvar(25, "Shopper");
+		s.setProp(25, "Shopper");
 
 		// Rating or highly rated
 		TrackingUtils.addHotelRating(s, property);
@@ -169,7 +177,7 @@ public class Tracker {
 
 		// Referrer (determines whether a specific rate was clicked into here or not - only applicable for
 		// the tablet version of the UI).
-		s.referrer = referrer;
+		// TODO: referrer has been moved in version 3.x of the library, original line s.referrer = referrer;
 
 		// Send the tracking data
 		s.track();
@@ -179,16 +187,17 @@ public class Tracker {
 			BookingInfoValidation validation) {
 		Log.d("Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
 
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
-		s.pageName = "App.Hotels.Checkout.Payment";
+		s.setAppState("App.Hotels.Checkout.Payment");
 
-		s.events = "event34";
+		s.setEvents("event34");
 
 		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Shopper";
+		s.setEvar(25, "Shopper");
+		s.setProp(25, "Shopper");
 
 		// Products
 		TrackingUtils.addProducts(s, property);
@@ -205,7 +214,8 @@ public class Tracker {
 			referrerId = "CKO.BD.CompletedBillingInfo";
 		}
 
-		s.eVar28 = s.prop16 = referrerId;
+		s.setEvar(28, referrerId);
+		s.setProp(16, referrerId);
 
 		// Send the tracking data
 		s.track();
@@ -215,37 +225,41 @@ public class Tracker {
 			Property property, BillingInfo billingInfo, Rate rate, BookingResponse response) {
 		Log.d("Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
 
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
-		s.pageName = "App.Hotels.Checkout.Confirmation";
+		s.setAppState("App.Hotels.Checkout.Confirmation");
 
-		s.events = "purchase";
+		s.setEvents("purchase");
 
 		// Promo description
 		if (rate != null) {
-			s.eVar9 = rate.getPromoDescription();
+			s.setEvar(9, rate.getPromoDescription());
 		}
 
 		// Shopper/Confirmer
-		s.eVar25 = s.prop25 = "Confirmer";
+		s.setEvar(25, "Confirmer");
+		s.setProp(25, "Confirmer");
 
 		// Product details
 		DateFormat df = new SimpleDateFormat("yyyyMMdd");
 		String checkIn = df.format(searchParams.getCheckInDate().getTime());
 		String checkOut = df.format(searchParams.getCheckOutDate().getTime());
-		s.eVar30 = "Hotel:" + checkIn + "-" + checkOut + ":N";
+		s.setEvar(30, "Hotel:" + checkIn + "-" + checkOut + ":N");
 
 		// Unique confirmation id
 		// 14103: Remove timestamp from the purchaseID variable
-		s.prop15 = s.purchaseID = response.getItineraryId();
+		s.setProp(15, response.getItineraryId());
+		s.setPurchaseID(response.getItineraryId());
 
 		// Billing country code
-		s.prop46 = s.state = billingInfo.getLocation().getCountryCode();
+		s.setProp(46, billingInfo.getLocation().getCountryCode());
+		s.setGeoState(billingInfo.getLocation().getCountryCode());
 
 		// Billing zip codes
-		s.prop49 = s.zip = billingInfo.getLocation().getPostalCode();
+		s.setProp(49, billingInfo.getLocation().getPostalCode());
+		s.setGeoZip(billingInfo.getLocation().getPostalCode());
 
 		// Products
 		int numDays = searchParams.getStayDuration();
@@ -256,7 +270,7 @@ public class Tracker {
 		TrackingUtils.addProducts(s, property, numDays, totalCost);
 
 		// Currency code
-		s.currencyCode = rate.getTotalAmountAfterTax().getCurrency();
+		s.setCurrencyCode(rate.getTotalAmountAfterTax().getCurrency());
 
 		// Send the tracking data
 		s.track();

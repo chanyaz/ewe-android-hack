@@ -2,11 +2,11 @@ package com.expedia.bookings.tracking;
 
 import java.util.Date;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.provider.Settings;
 
+import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
@@ -17,10 +17,9 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Item;
 import com.google.analytics.tracking.android.Transaction;
 import com.mobiata.android.util.SettingUtils;
-import com.omniture.AppMeasurement;
 
 public class AdTracker {
-	private static AppMeasurement mAppMeasurement;
+	private static ADMS_Measurement mAppMeasurement;
 	private static String mAndroidId;
 	private static String mMarketingDate;
 
@@ -42,7 +41,7 @@ public class AdTracker {
 		Somo.initialize(context, userId, applicationId, pos.useSomoTracking());
 
 		// Omniture
-		mAppMeasurement = new AppMeasurement((Application) context.getApplicationContext());
+		mAppMeasurement = ADMS_Measurement.sharedInstance(context.getApplicationContext());
 		mAndroidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 		mMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), "");
 	}
@@ -65,10 +64,10 @@ public class AdTracker {
 		//Somo.trackLaunch();
 
 		// Omniture
-		mAppMeasurement.visitorID = mAndroidId;
-		mAppMeasurement.eVar7 = mAndroidId;
-		mAppMeasurement.eVar10 = mMarketingDate;
-		mAppMeasurement.eVar27 = "App Launch";
+		mAppMeasurement.setVisitorID(mAndroidId);
+		mAppMeasurement.setEvar(7, mAndroidId);
+		mAppMeasurement.setEvar(10, mMarketingDate);
+		mAppMeasurement.setEvar(27, "App Launch");
 
 		mAppMeasurement.track();
 	}

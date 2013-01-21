@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
 import com.activeandroid.ActiveAndroid;
+import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.SearchParams;
@@ -32,7 +33,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.nullwire.trace.ExceptionHandler;
-import com.omniture.AppMeasurement;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
@@ -57,18 +57,22 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		try {
-			final ApplicationInfo ai = this.getPackageManager().getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA);
+			final ApplicationInfo ai = this.getPackageManager().getApplicationInfo(this.getPackageName(),
+					PackageManager.GET_META_DATA);
 			if (ai.metaData != null) {
 				String key = (String) ai.metaData.get("com.google.android.maps.v2.API_KEY");
 				if (isRelease && !getString(R.string.mapsv2_prod_key).equals(key)) {
-					throw new RuntimeException("You are not using the release maps key for a release build. Edit AndroidManifest.xml");
+					throw new RuntimeException(
+							"You are not using the release maps key for a release build. Edit AndroidManifest.xml");
 				}
 
 				if (!isRelease && !getString(R.string.mapsv2_dev_key).equals(key)) {
-					throw new RuntimeException("You are using the release maps key for a debug build. Edit AndroidManifest.xml");
+					throw new RuntimeException(
+							"You are using the release maps key for a debug build. Edit AndroidManifest.xml");
 				}
 			}
-		} catch (PackageManager.NameNotFoundException e) {
+		}
+		catch (PackageManager.NameNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 
@@ -121,17 +125,18 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	public void uncaughtException(Thread thread, Throwable ex) {
 		// Log the crash
 		Log.d("Tracking \"crash\" onClick");
-		AppMeasurement s = new AppMeasurement(this);
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(this);
 		TrackingUtils.addStandardFields(this, s);
-		s.events = "event39";
-		s.eVar28 = s.prop16 = "App.Crash";
+		s.setEvents("event39");
+		s.setEvar(28, "App.Crash");
+		s.setProp(16, "App.Crash");
 
 		final Writer writer = new StringWriter();
 		final PrintWriter printWriter = new PrintWriter(writer);
 		ex.printStackTrace(printWriter);
-		s.prop36 = ex.getMessage() + "|" + writer.toString();
+		s.setProp(36, ex.getMessage() + "|" + writer.toString());
 
-		Log.i("prop36: " + s.prop36);
+		Log.i("prop36: " + s.getProp(36));
 
 		TrackingUtils.trackOnClick(s);
 

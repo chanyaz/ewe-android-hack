@@ -40,6 +40,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView.OnSuggestionListener;
 import android.widget.TextView;
 
+import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
@@ -54,9 +55,9 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.CalendarDialogFragment;
 import com.expedia.bookings.fragment.CalendarDialogFragment.CalendarDialogFragmentListener;
 import com.expedia.bookings.fragment.FilterDialogFragment;
@@ -95,7 +96,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
-import com.omniture.AppMeasurement;
 
 @TargetApi(11)
 public class SearchResultsFragmentActivity extends FragmentActivity implements LocationListener,
@@ -625,11 +625,12 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 			// Track that the full details has a pageload
 			Log.d("Tracking \"App.Hotels.Details\" pageLoad");
 
-			AppMeasurement s = TrackingUtils.createSimpleEvent(this, "App.Hotels.Details", "event32", "Shopper", null);
+			ADMS_Measurement s = TrackingUtils
+					.createSimpleEvent(this, "App.Hotels.Details", "event32", "Shopper", null);
 
 			TrackingUtils.addHotelRating(s, property);
 
-			s.eVar8 = property.getLowestRate().getPromoDescription();
+			s.setEvar(8, property.getLowestRate().getPromoDescription());
 
 			s.track();
 		}
@@ -645,10 +646,10 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 				referrer = "App.Hotels.Search.QuickView.Map";
 			}
 
-			AppMeasurement s = TrackingUtils.createSimpleEvent(this, "App.Hotels.Search.QuickView", null, "Shopper",
+			ADMS_Measurement s = TrackingUtils.createSimpleEvent(this, "App.Hotels.Search.QuickView", null, "Shopper",
 					referrer);
 
-			s.eVar8 = property.getLowestRate().getPromoDescription();
+			s.setEvar(8, property.getLowestRate().getPromoDescription());
 
 			s.track();
 		}
@@ -1162,7 +1163,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 				else {
 					Db.addAvailabilityResponse(availabilityResponse);
 
-					Db.getProperty(availabilityResponse.getProperty().getPropertyId()).updateFrom(availabilityResponse.getProperty());
+					Db.getProperty(availabilityResponse.getProperty().getPropertyId()).updateFrom(
+							availabilityResponse.getProperty());
 
 					notifyAvailabilityQueryComplete();
 

@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -20,6 +19,7 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.SparseArray;
 
+import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
@@ -34,7 +34,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-import com.omniture.AppMeasurement;
 
 /**
  * Utilities for omniture tracking.  Should rarely (if ever) be called directly; instead, most calls
@@ -60,7 +59,7 @@ public class TrackingUtils {
 	 */
 	public static void trackSimpleEvent(Context context, String pageName, String events, String shopperConfirmer,
 			String referrerId) {
-		AppMeasurement s = createSimpleEvent(context, pageName, events, shopperConfirmer, referrerId);
+		ADMS_Measurement s = createSimpleEvent(context, pageName, events, shopperConfirmer, referrerId);
 
 		// Handle the tracking different for pageLoads and onClicks.
 		// If there is no pageName, it is an onClick (by default)
@@ -78,75 +77,80 @@ public class TrackingUtils {
 		trackSimpleEvent(context, "App.Error." + errorName, "event38", null, null);
 	}
 
-	public static void trackOnClick(AppMeasurement s) {
-		s.trackLink(null, "o", s.eVar28);
+	public static void trackOnClick(ADMS_Measurement s) {
+		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
-	public static AppMeasurement createSimpleEvent(Context context, String pageName, String events,
+	public static ADMS_Measurement createSimpleEvent(Context context, String pageName, String events,
 			String shopperConfirmer, String referrerId) {
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 
 		addStandardFields(context, s);
 
-		s.pageName = pageName;
+		s.setAppState(pageName);
 
 		if (events != null) {
-			s.events = events;
+			s.setEvents(events);
 		}
 
 		if (shopperConfirmer != null) {
-			s.eVar25 = s.prop25 = shopperConfirmer;
+			s.setEvar(25, shopperConfirmer);
+			s.setProp(25, shopperConfirmer);
 		}
 
 		if (referrerId != null) {
-			s.eVar28 = s.prop16 = referrerId;
+			s.setEvar(25, referrerId);
+			s.setProp(16, referrerId);
 		}
 
 		return s;
 	}
 
-	public static void addStandardFields(Context context, AppMeasurement s) {
+	public static void addStandardFields(Context context, ADMS_Measurement s) {
 		// Information gathering (before we run in and start setting variables)
 		Calendar now = Calendar.getInstance();
 		Date gmt = new Date(now.getTimeInMillis() - now.getTimeZone().getOffset(now.getTimeInMillis()));
 
 		// Add debugging flag if not release
 		if (!AndroidUtils.isRelease(context) || DebugUtils.isLogEnablerInstalled(context)) {
-			s.debugTracking = true;
+			s.setDebugLogging(true);
 		}
 
 		// Add offline tracking, so user doesn't have to be online to be tracked
-		s.trackOffline = true;
+		s.setOfflineTrackingEnabled(true);
 
 		// account
 		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
 		if (AndroidUtils.isRelease(context)) {
-			s.account = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
-			s.account += ",expediaglobalapp";
+			String id = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
+			id += ",expediaglobalapp";
+			s.setReportSuiteIDs(id);
 		}
 		else {
-			s.account = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
-			s.account += ",expediaglobalappdev";
+			String id = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
+			id += ",expediaglobalappdev";
+			s.setReportSuiteIDs(id);
 		}
 
 		// Amobee tracking
 
-		s.visitorID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-		s.eVar7 = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-		s.eVar10 = SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), "");
+		s.setVisitorID(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
+		s.setEvar(7, Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
+		s.setEvar(10, SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), ""));
 
 		// Server
-		s.trackingServer = "om.expedia.com";
-		s.trackingServerSecure = "oms.expedia.com";
+		s.setTrackingServer("om.expedia.com");
+		// trackingServerSecure;    //Removed, trackingServer value is used for secure server if ssl=YES
+		s.setSSL(true);
 
 		// Add the country locale
-		s.eVar31 = Locale.getDefault().getCountry();
+		s.setEvar(31, Locale.getDefault().getCountry());
 
 		// Experience segmentation
-		s.eVar50 = (usingTabletInterface) ? "app.tablet.android" : "app.phone.android";
+		s.setEvar(50, (usingTabletInterface) ? "app.tablet.android" : "app.phone.android");
 
 		// TPID
-		s.prop7 = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
 		// hashed email
 		// Normally we store this in a setting; in 1.0 we stored this in BillingInfo, but
@@ -163,47 +167,47 @@ public class TrackingUtils {
 			emailHashed = prefs.getString(EMAIL_HASH_KEY, null);
 		}
 		if (emailHashed != null && !emailHashed.equals(NO_EMAIL)) {
-			s.prop11 = emailHashed;
+			s.setProp(11, emailHashed);
 		}
 
 		// Unique device id
-		s.prop12 = Installation.id(context);
+		s.setProp(12, Installation.id(context));
 
 		// GMT timestamp
-		s.prop32 = gmt.getTime() + "";
+		s.setProp(32, gmt.getTime() + "");
 
 		// Device carrier network info - format is "android|<carrier>|<network>"
 		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		s.prop33 = "android|" + tm.getNetworkOperatorName() + "|" + getNetworkType(tm);
+		s.setProp(33, "android|" + tm.getNetworkOperatorName() + "|" + getNetworkType(tm));
 
 		// App version
-		s.prop35 = AndroidUtils.getAppVersion(context);
+		s.setProp(35, AndroidUtils.getAppVersion(context));
 
 		// Language/locale
-		s.prop37 = Locale.getDefault().getLanguage();
+		s.setProp(37, Locale.getDefault().getLanguage());
 
 		// Screen orientation
 		Configuration config = context.getResources().getConfiguration();
 		switch (config.orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
-			s.prop39 = "landscape";
+			s.setProp(39, "landscape");
 			break;
 		case Configuration.ORIENTATION_PORTRAIT:
-			s.prop39 = "portrait";
+			s.setProp(39, "portrait");
 			break;
 		case Configuration.ORIENTATION_SQUARE:
-			s.prop39 = "square";
+			s.setProp(39, "square");
 			break;
 		case Configuration.ORIENTATION_UNDEFINED:
-			s.prop39 = "undefined";
+			s.setProp(39, "undefined");
 			break;
 		}
 
 		// User location
 		Location bestLastLocation = LocationServices.getLastBestLocation(context, 0);
 		if (bestLastLocation != null) {
-			s.prop40 = bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
-					+ bestLastLocation.getAccuracy();
+			s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
+					+ bestLastLocation.getAccuracy());
 		}
 	}
 
@@ -218,21 +222,23 @@ public class TrackingUtils {
 
 	// The "products" field uses this format:
 	// Hotel;<supplier> Hotel:<hotel id>
-	public static void addProducts(AppMeasurement s, Property property) {
+	public static void addProducts(ADMS_Measurement s, Property property) {
 		// Determine supplier type
 		String supplierType = property.getSupplierType();
-		s.products = "Hotel;" + supplierType + " Hotel:" + property.getPropertyId();
+		s.setProducts("Hotel;" + supplierType + " Hotel:" + property.getPropertyId());
 	}
 
-	public static void addProducts(AppMeasurement s, Property property, int numNights, double totalCost) {
+	public static void addProducts(ADMS_Measurement s, Property property, int numNights, double totalCost) {
 		addProducts(s, property);
 
 		DecimalFormat df = new DecimalFormat("#.##");
-		s.products += ";" + numNights + ";" + df.format(totalCost);
+		String products = s.getProducts();
+		products += ";" + numNights + ";" + df.format(totalCost);
+		s.setProducts(products);
 	}
 
-	public static void addHotelRating(AppMeasurement s, Property property) {
-		s.prop38 = property.getAverageExpediaRating() + "";
+	public static void addHotelRating(ADMS_Measurement s, Property property) {
+		s.setProp(38, property.getAverageExpediaRating() + "");
 	}
 
 	private static SparseArray<String> mNetworkTypes = null;

@@ -3,9 +3,9 @@ package com.expedia.bookings.tracking;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
-import android.app.Application;
 import android.content.Context;
 
+import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
@@ -17,7 +17,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.Log;
-import com.omniture.AppMeasurement;
 
 /**
  * The spec behind this class can be found here: http://confluence/display/Omniture/Mobile+App+Flight+Tracking
@@ -226,11 +225,11 @@ public class OmnitureTracking {
 	public static void trackLinkFlightCheckoutLoginSuccess(Context context) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
 
-		AppMeasurement s = createTrackLinkEvent(context, FLIGHT_CHECKOUT_LOGIN_SUCCESS);
+		ADMS_Measurement s = createTrackLinkEvent(context, FLIGHT_CHECKOUT_LOGIN_SUCCESS);
 
-		s.events = "event26";
+		s.setEvents("event26");
 
-		s.trackLink(null, "o", s.eVar28);
+		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
 	public static void trackLinkFlightCheckoutLoginCancel(Context context) {
@@ -294,7 +293,7 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadFlightCheckoutConfirmation(Context context) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
-		AppMeasurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_CONFIRMATION);
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_CONFIRMATION);
 		addVars25And26LobAsConfirmer(s);
 
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
@@ -305,21 +304,21 @@ public class OmnitureTracking {
 		String numTravelers = "1"; // TODO: note this hardcoded as 1 for the time being as it is always one now
 		String price = trip.getTotalFare().getAmount().toString();
 
-		s.products = "Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price;
+		s.setProducts("Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price);
 
-		s.currencyCode = trip.getTotalFare().getCurrency();
-		s.events = "purchase";
+		s.setCurrencyCode(trip.getTotalFare().getCurrency());
+		s.setEvents("purchase");
 
 		// order number with an "onum" prefix, described here: http://confluence/pages/viewpage.action?pageId=419913476
 		final String orderId = Db.getFlightCheckout().getOrderId();
-		s.purchaseID = "onum" + orderId;
+		s.setPurchaseID("onum" + orderId);
 
 		// TRL
 		Itinerary itin = Db.getItinerary(trip.getItineraryNumber());
-		s.prop71 = itin.getItineraryNumber();
+		s.setProp(71, itin.getItineraryNumber());
 
 		// order #
-		s.prop72 = orderId;
+		s.setProp(72, orderId);
 
 		s.track();
 	}
@@ -424,18 +423,23 @@ public class OmnitureTracking {
 
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
 
-		AppMeasurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_ROUNDTRIP_OUT);
+		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_ROUNDTRIP_OUT);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
 		// Search Type: value always 'Flight'
-		s.eVar2 = s.prop2 = "Flight";
+		s.setEvar(2, "Flight");
+		s.setProp(2, "Flight");
 
 		// Search Origin: 3 letter airport code of origin
-		s.eVar3 = s.prop3 = searchParams.getDepartureLocation().getDestinationId();
+		String origin = searchParams.getDepartureLocation().getDestinationId();
+		s.setEvar(3, origin);
+		s.setProp(3, origin);
 
 		// Search Destination: 3 letter airport code of destination
-		s.eVar4 = s.prop4 = searchParams.getArrivalLocation().getDestinationId();
+		String dest = searchParams.getArrivalLocation().getDestinationId();
+		s.setEvar(4, dest);
+		s.setProp(4, dest);
 
 		// day computation date, TODO test this stuff
 		final Calendar departureDate = searchParams.getDepartureDate().getCalendar();
@@ -444,15 +448,19 @@ public class OmnitureTracking {
 		final Calendar now = Calendar.getInstance();
 
 		// num days between current day (now) and flight departure date
-		s.eVar5 = s.prop5 = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
+		String numDaysOut = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
+		s.setEvar(5, numDaysOut);
+		s.setProp(5, numDaysOut);
 
 		// num days between departure and return dates
-		s.eVar6 = s.prop6 = Long.toString(CalendarUtils.getDaysBetween(departureDate, returnDate));
+		String numDays = Long.toString(CalendarUtils.getDaysBetween(departureDate, returnDate));
+		s.setEvar(6, numDays);
+		s.setProp(6, numDays);
 
-		s.eVar47 = getEvar47String(searchParams);
+		s.setEvar(47, getEvar47String(searchParams));
 
 		// Success event for 'Search'
-		s.events = "event30";
+		s.setEvents("event30");
 
 		s.track();
 	}
@@ -466,30 +474,37 @@ public class OmnitureTracking {
 
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
 
-		AppMeasurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_RESULTS_ONE_WAY);
+		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_RESULTS_ONE_WAY);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
 		// Search Type: value always 'Flight'
-		s.eVar2 = s.prop2 = "Flight";
+		s.setEvar(2, "Flight");
+		s.setProp(2, "Flight");
 
 		// Search Origin: 3 letter airport code of origin
-		s.eVar3 = s.prop3 = searchParams.getDepartureLocation().getDestinationId();
+		String origin = searchParams.getDepartureLocation().getDestinationId();
+		s.setEvar(3, origin);
+		s.setProp(3, origin);
 
 		// Search Destination: 3 letter airport code of destination
-		s.eVar4 = s.prop4 = searchParams.getArrivalLocation().getDestinationId();
+		String dest = searchParams.getArrivalLocation().getDestinationId();
+		s.setEvar(4, dest);
+		s.setProp(4, dest);
 
-		// day computation date, TODO test this stuff
+		// day computation date
 		final Calendar departureDate = searchParams.getDepartureDate().getCalendar();
 		final Calendar now = Calendar.getInstance();
 
 		// num days between current day (now) and flight departure date
-		s.eVar5 = s.prop5 = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
+		String daysOut = Long.toString(CalendarUtils.getDaysBetween(now, departureDate));
+		s.setEvar(5, daysOut);
+		s.setProp(5, daysOut);
 
-		s.eVar47 = getEvar47String(searchParams);
+		s.setEvar(47, getEvar47String(searchParams));
 
 		// Success event for 'Search'
-		s.events = "event30";
+		s.setEvents("event30");
 
 		s.track();
 	}
@@ -619,11 +634,11 @@ public class OmnitureTracking {
 	public static void trackLinkHotelsCheckoutLoginSuccess(Context context) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + HOTELS_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
 
-		AppMeasurement s = createTrackLinkEvent(context, HOTELS_CHECKOUT_LOGIN_SUCCESS);
+		ADMS_Measurement s = createTrackLinkEvent(context, HOTELS_CHECKOUT_LOGIN_SUCCESS);
 
-		s.events = "event26";
+		s.setEvents("event26");
 
-		s.trackLink(null, "o", s.eVar28);
+		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
 	public static void trackLinkHotelsCheckoutLoginCancel(Context context) {
@@ -721,46 +736,48 @@ public class OmnitureTracking {
 
 	private static void internalTrackLink(Context context, String link) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + link + "\" linkClick");
-		AppMeasurement s = createTrackLinkEvent(context, link);
-		s.trackLink(null, "o", s.eVar28);
+		ADMS_Measurement s = createTrackLinkEvent(context, link);
+		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
-	private static AppMeasurement createTrackLinkEvent(Context context, String link) {
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+	private static ADMS_Measurement createTrackLinkEvent(Context context, String link) {
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
 		// link
-		s.eVar28 = s.prop16 = link;
+		s.setEvar(28, link);
+		s.setProp(16, link);
 
 		return s;
 	}
 
-	private static AppMeasurement createTrackPageLoadEventBase(Context context, String pageName) {
-		AppMeasurement s = new AppMeasurement((Application) context.getApplicationContext());
+	private static ADMS_Measurement createTrackPageLoadEventBase(Context context, String pageName) {
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 
 		// set the pageName
-		s.pageName = s.eVar18 = pageName;
+		s.setAppState(pageName);
+		s.setEvar(18, pageName);
 
 		TrackingUtils.addStandardFields(context, s);
 
 		return s;
 	}
 
-	private static AppMeasurement createTrackPageLoadEventStandardAsShopper(Context context, String pageName) {
-		AppMeasurement s = createTrackPageLoadEventBase(context, pageName);
+	private static ADMS_Measurement createTrackPageLoadEventStandardAsShopper(Context context, String pageName) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 		addVars25And26LobAsShopper(s);
 		return s;
 	}
 
-	private static AppMeasurement createTrackPageLoadEventPriceChangeAsShopper(Context context, String pageName) {
-		AppMeasurement s = createTrackPageLoadEventPriceChange(context, pageName);
+	private static ADMS_Measurement createTrackPageLoadEventPriceChangeAsShopper(Context context, String pageName) {
+		ADMS_Measurement s = createTrackPageLoadEventPriceChange(context, pageName);
 		addVars25And26LobAsShopper(s);
 		return s;
 	}
 
-	private static AppMeasurement createTrackPageLoadEventPriceChange(Context context, String pageName) {
-		AppMeasurement s = createTrackPageLoadEventBase(context, pageName);
+	private static ADMS_Measurement createTrackPageLoadEventPriceChange(Context context, String pageName) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 
@@ -768,8 +785,8 @@ public class OmnitureTracking {
 		// decrease in price. Round to whole integers.
 		String priceChange = trip.computePercentagePriceChangeForOmnitureTracking();
 		if (priceChange != null) {
-			s.events = "event62";
-			s.prop9 = priceChange;
+			s.setEvents("event62");
+			s.setProp(9, priceChange);
 		}
 
 		return s;
@@ -780,15 +797,19 @@ public class OmnitureTracking {
 	// yourself wanting to use these methods in a new public event method, think about creating an internal method that
 	// uses these methods.
 
-	private static AppMeasurement addVars25And26LobAsShopper(AppMeasurement s) {
-		s.eVar25 = s.prop25 = "Shopper";
-		s.eVar26 = s.prop26 = "FLT Shopper";
+	private static ADMS_Measurement addVars25And26LobAsShopper(ADMS_Measurement s) {
+		s.setEvar(25, "Shopper");
+		s.setProp(25, "Shopper");
+		s.setEvar(26, "FLT Shopper");
+		s.setProp(26, "FLT Shopper");
 		return s;
 	}
 
-	private static AppMeasurement addVars25And26LobAsConfirmer(AppMeasurement s) {
-		s.eVar25 = s.prop25 = "Confirmer";
-		s.eVar26 = s.prop26 = "CKO Shopper";
+	private static ADMS_Measurement addVars25And26LobAsConfirmer(ADMS_Measurement s) {
+		s.setEvar(25, "Confirmer");
+		s.setProp(25, "Confirmer");
+		s.setEvar(26, "CKO Shopper");
+		s.setProp(26, "CKO Shopper");
 		return s;
 	}
 
