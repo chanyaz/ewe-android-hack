@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.provider.Settings;
 
-import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
@@ -19,11 +18,12 @@ import com.google.analytics.tracking.android.Transaction;
 import com.mobiata.android.util.SettingUtils;
 
 public class AdTracker {
-	private static ADMS_Measurement mAppMeasurement;
+	private static Context mContext;
 	private static String mAndroidId;
 	private static String mMarketingDate;
 
 	public static void initialize(Context context) {
+		mContext = context;
 		final Resources res = context.getResources();
 
 		// Google
@@ -41,7 +41,6 @@ public class AdTracker {
 		Somo.initialize(context, userId, applicationId, pos.useSomoTracking());
 
 		// Omniture
-		mAppMeasurement = ADMS_Measurement.sharedInstance(context.getApplicationContext());
 		mAndroidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 		mMarketingDate = SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), "");
 	}
@@ -63,13 +62,7 @@ public class AdTracker {
 		Amobee.trackLaunch();
 		//Somo.trackLaunch();
 
-		// Omniture
-		mAppMeasurement.setVisitorID(mAndroidId);
-		mAppMeasurement.setEvar(7, mAndroidId);
-		mAppMeasurement.setEvar(10, mMarketingDate);
-		mAppMeasurement.setEvar(27, "App Launch");
-
-		mAppMeasurement.track();
+		OmnitureTracking.trackAppLaunch(mContext, mAndroidId, mMarketingDate);
 	}
 
 	public static void trackLogin() {

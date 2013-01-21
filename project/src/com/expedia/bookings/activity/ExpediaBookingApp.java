@@ -1,9 +1,6 @@
 package com.expedia.bookings.activity;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 
@@ -16,14 +13,13 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
 import com.activeandroid.ActiveAndroid;
-import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.AdTracker;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -123,22 +119,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	@Override
 	public void uncaughtException(Thread thread, Throwable ex) {
-		// Log the crash
-		Log.d("Tracking \"crash\" onClick");
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(this);
-		TrackingUtils.addStandardFields(this, s);
-		s.setEvents("event39");
-		s.setEvar(28, "App.Crash");
-		s.setProp(16, "App.Crash");
-
-		final Writer writer = new StringWriter();
-		final PrintWriter printWriter = new PrintWriter(writer);
-		ex.printStackTrace(printWriter);
-		s.setProp(36, ex.getMessage() + "|" + writer.toString());
-
-		Log.i("prop36: " + s.getProp(36));
-
-		TrackingUtils.trackOnClick(s);
+		OmnitureTracking.trackCrash(this, ex);
 
 		// Perform a heap dump on OOME for easy reference.
 		String exceptionClass = ex == null ? "" : ex.getClass() == null ? "" : ex.getClass().getName();

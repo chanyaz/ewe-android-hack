@@ -40,7 +40,6 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView.OnSuggestionListener;
 import android.widget.TextView;
 
-import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
@@ -78,6 +77,7 @@ import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
@@ -622,22 +622,9 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 
 		// Track what was just pressed
 		if (showingFullDetails) {
-			// Track that the full details has a pageload
-			Log.d("Tracking \"App.Hotels.Details\" pageLoad");
-
-			ADMS_Measurement s = TrackingUtils
-					.createSimpleEvent(this, "App.Hotels.Details", "event32", "Shopper", null);
-
-			TrackingUtils.addHotelRating(s, property);
-
-			s.setEvar(8, property.getLowestRate().getPromoDescription());
-
-			s.track();
+			OmnitureTracking.trackPageLoadHotelDetails(mContext, property);
 		}
 		else if (selectionChanged && !detailsShowing) {
-			// Track that the mini details has a pageload
-			Log.d("Tracking \"App.Hotels.Search.QuickView\" onClick");
-
 			String referrer = null;
 			if (source == SOURCE_LIST) {
 				referrer = "App.Hotels.Search.QuickView.List";
@@ -646,12 +633,7 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 				referrer = "App.Hotels.Search.QuickView.Map";
 			}
 
-			ADMS_Measurement s = TrackingUtils.createSimpleEvent(this, "App.Hotels.Search.QuickView", null, "Shopper",
-					referrer);
-
-			s.setEvar(8, property.getLowestRate().getPromoDescription());
-
-			s.track();
+			OmnitureTracking.trackPageLoadHotelsSearchQuickView(mContext, property, referrer);
 		}
 	}
 

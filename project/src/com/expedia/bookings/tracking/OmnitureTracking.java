@@ -1,11 +1,19 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.content.Context;
+import android.provider.Settings;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Filter;
@@ -15,8 +23,10 @@ import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
 
 /**
  * The spec behind this class can be found here: http://confluence/display/Omniture/Mobile+App+Flight+Tracking
@@ -142,6 +152,8 @@ public class OmnitureTracking {
 	private static final String HOTELS_SEARCH_REFINE_NAME = "App.Hotels.Search.Refine.Name";
 	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Refine.PriceRange";
 	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
+
+	private static final DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC TRACK LINK METHODS
@@ -709,6 +721,128 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelsCheckoutPaymentCid(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_CID);
+	}
+
+	public static void trackCrash(Context context, Throwable ex) {
+		// Log the crash
+		Log.d("Tracking \"crash\" onClick");
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		TrackingUtils.addStandardFields(context, s);
+		s.setEvents("event39");
+		s.setEvar(28, "App.Crash");
+		s.setProp(16, "App.Crash");
+
+		final Writer writer = new StringWriter();
+		final PrintWriter printWriter = new PrintWriter(writer);
+		ex.printStackTrace(printWriter);
+		s.setProp(36, ex.getMessage() + "|" + writer.toString());
+
+		Log.i("prop36: " + s.getProp(36));
+
+		TrackingUtils.trackOnClick(s);
+	}
+
+	public static void trackPageLoadHotelsInfosite(Context context, int position) {
+		Log.d("Tracking \"App.Hotels.Infosite\" pageLoad");
+
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+
+		TrackingUtils.addStandardFields(context, s);
+
+		s.setAppState("App.Hotels.Infosite");
+
+		s.setEvents("event32");
+
+		// Shopper/Confirmer
+		s.setEvar(25, "Shopper");
+		s.setProp(25, "Shopper");
+
+		// Rating or highly rated
+		Property property = Db.getSelectedProperty();
+		TrackingUtils.addHotelRating(s, property);
+
+		// Products
+		TrackingUtils.addProducts(s, property);
+
+		// Position, if opened from list
+
+		if (position != -1) {
+			s.setEvar(39, position + "");
+		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackPageLoadHotelsInfositeMap(Context context) {
+		Log.d("Tracking \"App.Hotels.Infosite.Map\" pageLoad");
+
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+
+		TrackingUtils.addStandardFields(context, s);
+
+		s.setAppState("App.Hotels.Infosite.Map");
+
+		// Shopper/Confirmer
+		s.setEvar(25, "Shopper");
+		s.setProp(25, "Shopper");
+
+		// Products
+		TrackingUtils.addProducts(s, Db.getSelectedProperty());
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackPageLoadHotelDetails(Context context, Property property) {
+		// Track that the full details has a pageload
+		Log.d("Tracking \"App.Hotels.Details\" pageLoad");
+
+		ADMS_Measurement s = TrackingUtils
+				.createSimpleEvent(context, "App.Hotels.Details", "event32", "Shopper", null);
+
+		TrackingUtils.addHotelRating(s, property);
+
+		s.setEvar(8, property.getLowestRate().getPromoDescription());
+
+		s.track();
+	}
+
+	public static void trackPageLoadHotelsSearchQuickView(Context context, Property property, String referrer) {
+		// Track that the mini details has a pageload
+		Log.d("Tracking \"App.Hotels.Search.QuickView\" onClick");
+
+		ADMS_Measurement s = TrackingUtils.createSimpleEvent(context, "App.Hotels.Search.QuickView", null, "Shopper",
+				referrer);
+
+		s.setEvar(8, property.getLowestRate().getPromoDescription());
+
+		s.track();
+	}
+
+	public static void trackAppLaunch(Context context, String id, String date) {
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		s.setVisitorID(id);
+		s.setEvar(7, id);
+		s.setEvar(10, date);
+		s.setEvar(27, "App Launch");
+		s.track();
+	}
+
+	public static void trackAppInstall(Context context) {
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+
+		String marketingDate = FORMATTER.format(new Date());
+		String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+		SettingUtils.save(context, context.getString(R.string.preference_amobee_marketing_date), marketingDate);
+
+		s.setVisitorID(androidId);
+		s.setEvar(7, androidId);
+		s.setEvar(10, marketingDate);
+		s.setEvar(28, "App Install");
+
+		s.track();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

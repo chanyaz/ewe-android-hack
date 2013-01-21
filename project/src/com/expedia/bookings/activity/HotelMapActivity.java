@@ -15,14 +15,13 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentMapActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.HotelMapFragment;
 import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
-import com.expedia.bookings.tracking.TrackingUtils;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
@@ -88,7 +87,7 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 		addressTextView.setText(location.getStreetAddressString() + "\n" + location.toFormattedString());
 
 		if (savedInstanceState == null) {
-			onPageLoad();
+			OmnitureTracking.trackPageLoadHotelsInfositeMap(getApplicationContext());
 		}
 	}
 
@@ -161,7 +160,7 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 		super.onStart();
 
 		if (mWasStopped) {
-			onPageLoad();
+			OmnitureTracking.trackPageLoadHotelsInfositeMap(getApplicationContext());
 			mWasStopped = false;
 		}
 	}
@@ -178,29 +177,6 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Omniture tracking
-
-	public void onPageLoad() {
-		Log.d("Tracking \"App.Hotels.Infosite.Map\" pageLoad");
-
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(getApplication());
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.setAppState("App.Hotels.Infosite.Map");
-
-		// Shopper/Confirmer
-		s.setEvar(25, "Shopper");
-		s.setProp(25, "Shopper");
-
-		// Products
-		TrackingUtils.addProducts(s, Db.getSelectedProperty());
-
-		// Send the tracking data
-		s.track();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

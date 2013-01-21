@@ -19,7 +19,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
@@ -35,6 +34,7 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
@@ -177,7 +177,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		super.onStart();
 
 		if (mWasStopped) {
-			onPageLoad();
+			OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
 			mWasStopped = false;
 		}
 	}
@@ -386,7 +386,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		// Tracking
 		if (savedInstanceState == null) {
-			onPageLoad();
+			OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
 
 			// Track here if user opened app from widget.  Currently assumes that all widget searches
 			// are "nearby" - if this ever changes, this needs to be updated.
@@ -603,40 +603,4 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		isGalleryFullscreen = !isGalleryFullscreen;
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Omniture tracking
-
-	public void onPageLoad() {
-		Log.d("Tracking \"App.Hotels.Infosite\" pageLoad");
-
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(this);
-
-		TrackingUtils.addStandardFields(this, s);
-
-		s.setAppState("App.Hotels.Infosite");
-
-		s.setEvents("event32");
-
-		// Shopper/Confirmer
-		s.setEvar(25, "Shopper");
-		s.setProp(25, "Shopper");
-
-		// Rating or highly rated
-		Property property = Db.getSelectedProperty();
-		TrackingUtils.addHotelRating(s, property);
-
-		// Products
-		TrackingUtils.addProducts(s, property);
-
-		// Position, if opened from list
-		int position = getIntent().getIntExtra(EXTRA_POSITION, -1);
-		if (position != -1) {
-			s.setEvar(39, position + "");
-		}
-
-		// Send the tracking data
-		s.track();
-	}
-
 }
