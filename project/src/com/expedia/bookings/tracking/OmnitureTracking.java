@@ -79,18 +79,15 @@ public class OmnitureTracking {
 
 	private static final String HOTELS_CHECKOUT_LOGIN = "App.Hotels.Checkout.Login";
 	private static final String HOTELS_CHECKOUT_LOGIN_SUCCESS = "App.Hotels.Checkout.Login.Success";
-	private static final String HOTELS_CHECKOUT_LOGIN_CANCEL = "App.Hotels.Checkout.Login.Cancel";
 	private static final String HOTELS_CHECKOUT_LOGIN_FORGOT = "App.Hotels.Checkout.Login.Forgot";
 
 	private static final String HOTELS_CHECKOUT_TRAVELER_SELECT = "App.Hotels.Checkout.Traveler.Select";
 	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
-	private static final String HOTELS_CHECKOUT_TRAVELER_EDIT_SAVE = "App.Hotels.Checkout.Traveler.Edit.Save";
 	private static final String HOTELS_CHECKOUT_TRAVELER_ENTER_MANUALLY = "App.Hotels.Checkout.Traveler.EnterManually";
 
 	private static final String HOTELS_CHECKOUT_WARSAW = "App.Hotels.Checkout.Warsaw";
 
 	private static final String HOTELS_CHECKOUT_PAYMENT_SELECT = "App.Hotels.Checkout.Payment.Select";
-	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_ADDRESS = "App.Hotels.Checkout.Payment.Edit.Address";
 	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_CARD = "App.Hotels.Checkout.Payment.Edit.Card";
 	private static final String HOTELS_CHECKOUT_PAYMENT_EDIT_SAVE = "App.Hotels.Checkout.Payment.Edit.Save";
 	private static final String HOTELS_CHECKOUT_PAYMENT_SELECT_EXISTING = "App.Hotels.Checkout.Payment.Select.Existing";
@@ -132,11 +129,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE = "App.Flight.Search.Roundtrip.In.RefineSearch";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT = "App.Flight.Search.Roundtrip.In.RemoveOut";
 
-	private static final String FLIGHT_RATE_DETAILS_REMOVE_OUT = "App.Flight.RateDetails.RemoveOut";
-	private static final String FLIGHT_RATE_DETAILS_REMOVE_IN = "App.Flight.RateDetails.RemoveIn";
-
 	private static final String FLIGHT_CHECKOUT_LOGIN_SUCCESS = "App.Flight.Checkout.Login.Success";
-	private static final String FLIGHT_CHECKOUT_LOGIN_CANCEL = "App.Flight.Checkout.Login.Cancel";
 	private static final String FLIGHT_CHECKOUT_LOGIN_FORGOT = "App.Flight.Checkout.Login.Forgot";
 
 	private static final String FLIGHT_CHECKOUT_TRAVELER_SELECT_EXISTING = "App.Flight.Checkout.Traveler.Select.Existing";
@@ -226,14 +219,6 @@ public class OmnitureTracking {
 		internalTrackLink(context, FLIGHT_SEARCH_ROUNDTRIP_IN_REMOVE_OUT);
 	}
 
-	public static void trackLinkFlightRateDetailsRemoveOut(Context context) {
-		internalTrackLink(context, FLIGHT_RATE_DETAILS_REMOVE_OUT);
-	}
-
-	public static void trackLinkFlightRateDetailsRemoveIn(Context context) {
-		internalTrackLink(context, FLIGHT_RATE_DETAILS_REMOVE_IN);
-	}
-
 	public static void trackLinkFlightCheckoutLoginSuccess(Context context) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
 
@@ -242,10 +227,6 @@ public class OmnitureTracking {
 		s.setEvents("event26");
 
 		s.trackLink(null, "o", s.getEvar(28), null, null);
-	}
-
-	public static void trackLinkFlightCheckoutLoginCancel(Context context) {
-		internalTrackLink(context, FLIGHT_CHECKOUT_LOGIN_CANCEL);
 	}
 
 	public static void trackLinkFlightCheckoutLoginForgot(Context context) {
@@ -653,19 +634,11 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
 
-	public static void trackLinkHotelsCheckoutLoginCancel(Context context) {
-		internalTrackLink(context, HOTELS_CHECKOUT_LOGIN_CANCEL);
-	}
-
 	public static void trackLinkHotelsCheckoutLoginForgot(Context context) {
 		internalTrackLink(context, HOTELS_CHECKOUT_LOGIN_FORGOT);
 	}
 
 	// Travelers
-
-	public static void trackPageLoadHotelsTravelerEditSave(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_TRAVELER_EDIT_SAVE);
-	}
 
 	public static void trackPageLoadHotelsTravelerEditInfo(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_TRAVELER_EDIT_INFO);
@@ -683,10 +656,6 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelsCheckoutPaymentSelect(Context context) {
 		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_SELECT);
-	}
-
-	public static void trackPageLoadHotelsCheckoutPaymentEditAddress(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_EDIT_ADDRESS);
 	}
 
 	public static void trackPageLoadHotelsCheckoutPaymentEditCard(Context context) {
