@@ -14,5 +14,8 @@ for i in $path/values*/strings.xml ; do
     grep --color=always -n -H "&amp;amp;" $i
     grep --color=always -n -H "&amp;apos;" $i
     grep --color=always -n -H "\\\\apos;" $i
+    grep --color=always -n -H "\"> " $i
+    grep --color=always -n -H " </string>" $i
+    grep --color=always -n -H " </item>" $i
 done
 
