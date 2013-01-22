@@ -58,6 +58,22 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
+	public void removeGuestTrip(String tripId) {
+		Trip trip = mTrips.get(tripId);
+
+		if (trip == null) {
+			Log.w("Tried to remove a guest tripId that doesn't exist: " + tripId);
+		}
+		else if (!trip.isGuest()) {
+			Log.w("Tried to remove a non-guest trip, DENIED because only the ItinManager is allowed to do that: "
+					+ tripId);
+		}
+		else {
+			mTrips.remove(tripId);
+			onTripRemoved(trip);
+		}
+	}
+
 	/**
 	 * Get a list of the current Trips.
 	 * 
@@ -137,6 +153,12 @@ public class ItineraryManager implements JSONable {
 		public void onTripUpdated(Trip trip);
 
 		/**
+		 * Notification for when a Trip has been removed, either automatically
+		 * from a logged in user account or manually for guest trips.
+		 */
+		public void onTripRemoved(Trip trip);
+
+		/**
 		 * Once the sync process is done it returns the list of Trips as
 		 * it thinks exists.  Returns all trips currently in the ItineraryManager.
 		 */
@@ -162,6 +184,12 @@ public class ItineraryManager implements JSONable {
 	private void onTripUpdated(Trip trip) {
 		for (ItinerarySyncListener listener : mSyncListeners) {
 			listener.onTripUpdated(trip);
+		}
+	}
+
+	private void onTripRemoved(Trip trip) {
+		for (ItinerarySyncListener listener : mSyncListeners) {
+			listener.onTripRemoved(trip);
 		}
 	}
 
@@ -201,17 +229,29 @@ public class ItineraryManager implements JSONable {
 						// TODO: ERROR HANDLING
 
 						if (response != null && !response.hasErrors()) {
+							Set<String> currentTrips = new HashSet<String>(mTrips.keySet());
+
 							for (Trip trip : response.getTrips()) {
+								String tripId = trip.getTripId();
 
 								// TODO: Determine if we got full details and update if possible
-								if (!mTrips.containsKey(trip.getTripId())) {
-									mTrips.put(trip.getTripId(), trip);
+								if (!mTrips.containsKey(tripId)) {
+									mTrips.put(tripId, trip);
 
 									onTripAdded(trip);
 								}
+
+								currentTrips.remove(tripId);
+							}
+
+							// Remove all trips that were not returned by the server
+							for (String tripId : currentTrips) {
+								Trip trip = mTrips.remove(tripId);
+								onTripRemoved(trip);
 							}
 						}
 					}
+
 					// Now that we have set of fresh trips, refresh each one
 					mTripSyncQueue.addAll(mTrips.values());
 
