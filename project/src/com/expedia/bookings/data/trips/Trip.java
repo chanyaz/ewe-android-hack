@@ -127,10 +127,18 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 	public void addTripComponent(TripComponent tripComponent) {
 		mTripComponents.add(tripComponent);
+		tripComponent.setParentTrip(this);
 	}
 
 	public List<TripComponent> getTripComponents() {
 		return mTripComponents;
+	}
+
+	// Call whenever mTripComponents is updated (outside of addTripComponent())
+	private void associateTripWithComponents() {
+		for (TripComponent component : mTripComponents) {
+			component.setParentTrip(this);
+		}
 	}
 
 	public long getLastQuickUpdateMillis() {
@@ -164,6 +172,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mTimePeriod = other.mTimePeriod;
 
 		mTripComponents = other.mTripComponents;
+		associateTripWithComponents();
 
 		long updateTime = Calendar.getInstance().getTimeInMillis();
 		if (isFullUpdate) {
@@ -225,6 +234,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mTimePeriod = JSONUtils.getEnum(obj, "timePeriod", TimePeriod.class);
 
 		mTripComponents = JSONUtils.getJSONableList(obj, "tripComponents", TripComponent.class);
+		associateTripWithComponents();
 
 		mLastQuickUpdate = obj.optLong("lastQuickUpdate");
 		mLastFullUpdate = obj.optLong("lastFullUpdate");

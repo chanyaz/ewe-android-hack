@@ -26,6 +26,10 @@ public class TripComponent implements JSONable {
 
 	private BookingStatus mBookingStatus;
 
+	// The parent trip; do NOT serialize this, as it is just a reference
+	// that should be set by the parent.
+	private Trip mParent;
+
 	public TripComponent(Type type) {
 		mType = type;
 	}
@@ -56,6 +60,14 @@ public class TripComponent implements JSONable {
 
 	public void setBookingStatus(BookingStatus bookingStatus) {
 		mBookingStatus = bookingStatus;
+	}
+
+	public void setParentTrip(Trip trip) {
+		mParent = trip;
+	}
+
+	public Trip getParentTrip() {
+		return mParent;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
