@@ -32,7 +32,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirmationFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
-import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -115,7 +115,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 
 		// Track page load
 		if (savedInstanceState == null) {
-			Tracker.trackAppHotelsCheckoutConfirmation(this, Db.getSearchParams(), Db.getSelectedProperty(),
+			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, Db.getSearchParams(), Db.getSelectedProperty(),
 					Db.getBillingInfo(), Db.getSelectedRate(), Db.getBookingResponse());
 		}
 	}
@@ -211,7 +211,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 
 	@Override
 	public void onNewSearch() {
-		Tracker.trackNewSearch(this);
+		OmnitureTracking.trackNewSearch(this);
 
 		// Ensure we can't come back here again
 		mConfState.delete();
@@ -235,7 +235,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 
 	@Override
 	public void onShowOnMap() {
-		Tracker.trackViewOnMap(this);
+		OmnitureTracking.trackViewOnMap(this);
 
 		Intent newIntent = new Intent(Intent.ACTION_VIEW);
 		String queryAddress = StrUtils.formatAddress(Db.getSelectedProperty().getLocation()).replace("\n", " ");

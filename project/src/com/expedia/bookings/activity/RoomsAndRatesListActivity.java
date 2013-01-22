@@ -25,7 +25,6 @@ import com.expedia.bookings.fragment.RoomsAndRatesFragment;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.StrUtils;
@@ -148,7 +147,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		}
 
 		if (savedInstanceState == null) {
-			Tracker.trackAppHotelsRoomsRates(this, property, null);
+			OmnitureTracking.trackAppHotelsRoomsRates(this, property, null);
 		}
 	}
 
@@ -157,7 +156,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		super.onStart();
 
 		if (mWasStopped && Db.getSelectedProperty() != null) {
-			Tracker.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), null);
+			OmnitureTracking.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), null);
 			mWasStopped = false;
 		}
 

@@ -78,7 +78,6 @@ import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -1414,7 +1413,7 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		mLastSearchParamsJson = Db.getSearchParams().toJson().toString();
 		mLastFilterJson = filter.toJson().toString();
 
-		Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), refinements);
+		OmnitureTracking.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), refinements);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

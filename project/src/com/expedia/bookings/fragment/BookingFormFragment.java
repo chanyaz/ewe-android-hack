@@ -47,7 +47,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
-import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
@@ -318,7 +318,8 @@ public class BookingFormFragment extends Fragment {
 		}
 
 		if (savedInstanceState == null) {
-			Tracker.trackAppHotelsCheckoutPayment(getActivity(), Db.getSelectedProperty(), mBookingInfoValidation);
+			OmnitureTracking.trackAppHotelsCheckoutPayment(getActivity(), Db.getSelectedProperty(),
+					mBookingInfoValidation);
 		}
 
 		return view;

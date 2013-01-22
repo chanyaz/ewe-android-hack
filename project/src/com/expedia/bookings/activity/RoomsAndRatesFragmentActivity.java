@@ -17,7 +17,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.BookingInfoFragment;
 import com.expedia.bookings.fragment.BookingInfoFragment.BookingInfoFragmentListener;
 import com.expedia.bookings.fragment.RoomsAndRatesFragment.RoomsAndRatesFragmentListener;
-import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -73,7 +73,7 @@ public class RoomsAndRatesFragmentActivity extends FragmentActivity implements R
 			String referrer = getIntent().getBooleanExtra(EXTRA_SPECIFIC_RATE, false) ? "App.Hotels.ViewSpecificRoom"
 					: "App.Hotels.ViewAllRooms";
 
-			Tracker.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), referrer);
+			OmnitureTracking.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), referrer);
 		}
 
 		mKillReciever = new ActivityKillReceiver(this);

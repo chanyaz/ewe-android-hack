@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.expedia.bookings.tracking.AdTracker;
-import com.expedia.bookings.tracking.Tracker;
+import com.expedia.bookings.tracking.FlurryTracking;
+import com.expedia.bookings.tracking.GreystripeTracking;
+import com.expedia.bookings.tracking.MillennialTracking;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
+import com.mobiata.android.util.NetUtils;
 
 /**
  * This is a routing Activity that points users towards either the phone or
@@ -22,6 +26,8 @@ import com.expedia.bookings.utils.NavUtils;
  */
 public class SearchActivity extends Activity {
 
+	private Context mContext;
+
 	private static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
 
 	public static Intent createIntent(Context context, boolean openedFromWidget) {
@@ -35,9 +41,11 @@ public class SearchActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = this;
 
 		// Track the app loading
-		Tracker.trackAppLoading(this);
+		trackAppLoading();
+		OmnitureTracking.trackAppLoading(mContext);
 		AdTracker.trackLaunch();
 
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
@@ -56,6 +64,24 @@ public class SearchActivity extends Activity {
 
 		// Finish this Activity after routing
 		finish();
+	}
+
+	private void trackAppLoading() {
+		// Start a background thread to do conversion tracking
+		new Thread(new Runnable() {
+			public void run() {
+				// Millennial tracking (possibly)
+				if (!MillennialTracking.hasTrackedMillennial(mContext) && NetUtils.isOnline(mContext)) {
+					MillennialTracking.trackConversion(mContext);
+				}
+
+				// GreyStripe tracking
+				GreystripeTracking.trackDownload(mContext);
+
+				// Flurry tracking
+				FlurryTracking.trackConversion(mContext);
+			}
+		}).start();
 	}
 
 }

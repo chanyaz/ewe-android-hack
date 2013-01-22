@@ -92,7 +92,6 @@ import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.tracking.Tracker;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -110,7 +109,6 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
-import com.mobiata.android.MapUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.location.LocationFinder;
@@ -1837,7 +1835,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		if (mTag.equals(getString(R.string.tag_hotel_list))) {
 			newFragmentTag = getString(R.string.tag_hotel_map);
-			Tracker.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), null);
+			OmnitureTracking.trackAppHotelsSearch(this, Db.getSearchParams(), Db.getSearchResponse(), null);
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
@@ -2627,7 +2625,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mOldFilter = filter.copy();
 
 		// Start actually tracking the search result change
-		Tracker.trackAppHotelsSearch(this, searchParams, searchResponse, refinements);
+		OmnitureTracking.trackAppHotelsSearch(this, searchParams, searchResponse, refinements);
 	}
 
 	private void onOpenFilterPanel() {
