@@ -45,14 +45,17 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Adds a guest trip to the itinerary list.
-	 * 
-	 * IMPORTANT: If a sync is not in progress, you will need
-	 * to start your own sync; it will not start one automatically.
 	 */
-	public void addGuestTrip(String email, String tripId) {
+	public void addGuestTrip(String email, String tripId, boolean startSyncIfNotInProgress) {
 		Trip trip = new Trip(email, tripId);
 		mTrips.put(tripId, trip);
-		addTripToQueue(trip);
+
+		if (isSyncing()) {
+			mTripSyncQueue.add(trip);
+		}
+		else if (startSyncIfNotInProgress) {
+			startSync();
+		}
 	}
 
 	/**
@@ -244,12 +247,6 @@ public class ItineraryManager implements JSONable {
 		}
 		else {
 			Log.i("Tried to start a sync while one is already in progress.");
-		}
-	}
-
-	private void addTripToQueue(Trip trip) {
-		if (isSyncing()) {
-			mTripSyncQueue.add(trip);
 		}
 	}
 
