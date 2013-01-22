@@ -7,7 +7,7 @@
 
     <target
         name="checkstyle"
-        depends="-set-debug-mode, -build-setup"
+        depends="nodeps, -set-debug-mode, -build-setup"
         description="Run checkstyle on all source code for project" >
 
         <echo message="Using android jar: ${project.target.android.jar}"/>
