@@ -224,7 +224,7 @@ public class HotelMapFragment extends SupportMapFragment {
 			showExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
 					params.getSearchDisplayText(getActivity()));
 			animateCamera(CameraUpdateFactory.newLatLngZoom(
-					new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), 12));
+					new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), 12.0f));
 		}
 	}
 
@@ -343,7 +343,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void focusProperty(Property property, boolean animate) {
-		focusProperty(property, animate, -1);
+		focusProperty(property, animate, -1.0f);
 	}
 
 	public void focusProperty(Property property, boolean animate, float zoom) {
@@ -351,7 +351,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		marker.showInfoWindow();
 		CameraUpdate camUpdate;
 
-		if (zoom != -1) {
+		if (zoom != -1.0f) {
 			camUpdate = CameraUpdateFactory.newLatLngZoom(marker.getPosition(), zoom);
 		}
 		else {
@@ -381,7 +381,8 @@ public class HotelMapFragment extends SupportMapFragment {
 				builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
 			}
 
-			animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 50));
+			animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(),
+						(int) getResources().getDisplayMetrics().density * 50));
 		}
 	}
 
