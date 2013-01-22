@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -143,6 +144,20 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		}
 	};
 
+	private DialogInterface.OnKeyListener mGooglePlayServicesOnKeyListener = new DialogInterface.OnKeyListener() {
+		@Override
+		public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+			Log.d("Google Play Services: onKey");
+			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+				finish();
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	};
+
 	private void checkGooglePlayServices() {
 		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		switch (result) {
@@ -152,6 +167,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			Log.d("Google Play Services: Raising dialog for user recoverable error");
 			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(result, this, 0);
 			dialog.setOnCancelListener(mGooglePlayServicesOnCancelListener);
+			dialog.setOnKeyListener(mGooglePlayServicesOnKeyListener);
 			dialog.show();
 			break;
 		case ConnectionResult.SUCCESS:
