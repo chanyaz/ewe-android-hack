@@ -90,6 +90,22 @@ public class ItineraryManager implements JSONable {
 		return mTrips.values();
 	}
 
+	/**
+	 * Indicates that the user has logged out.  We remove
+	 * ALL trips (even guest trips) in this situation.
+	 */
+	public void onSignOut() {
+		// TODO: Handle when sync is in progress
+
+		for (Trip trip : mTrips.values()) {
+			onTripRemoved(trip);
+		}
+
+		mTrips.clear();
+
+		save();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data
 

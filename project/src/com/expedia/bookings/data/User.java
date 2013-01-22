@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.facebook.Session;
 import com.mobiata.android.FileCipher;
@@ -106,6 +107,8 @@ public class User implements JSONable {
 		if (Session.getActiveSession() != null) {
 			Session.getActiveSession().closeAndClearTokenInformation();
 		}
+
+		ItineraryManager.getInstance().onSignOut();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
