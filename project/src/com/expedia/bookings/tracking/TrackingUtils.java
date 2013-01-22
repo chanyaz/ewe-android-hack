@@ -83,7 +83,7 @@ public class TrackingUtils {
 
 	public static ADMS_Measurement createSimpleEvent(Context context, String pageName, String events,
 			String shopperConfirmer, String referrerId) {
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = OmnitureTracking.getFreshTrackingObject(context);
 
 		addStandardFields(context, s);
 
@@ -120,17 +120,7 @@ public class TrackingUtils {
 		s.setOfflineTrackingEnabled(true);
 
 		// account
-		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
-		if (AndroidUtils.isRelease(context)) {
-			String id = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
-			id += ",expediaglobalapp";
-			s.setReportSuiteIDs(id);
-		}
-		else {
-			String id = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
-			id += ",expediaglobalappdev";
-			s.setReportSuiteIDs(id);
-		}
+		s.setReportSuiteIDs(getReportSuiteIds(context));
 
 		// Amobee tracking
 
@@ -139,14 +129,14 @@ public class TrackingUtils {
 		s.setEvar(10, SettingUtils.get(context, context.getString(R.string.preference_amobee_marketing_date), ""));
 
 		// Server
-		s.setTrackingServer("om.expedia.com");
-		// trackingServerSecure;    //Removed, trackingServer value is used for secure server if ssl=YES
+		s.setTrackingServer(getTrackingServer());
 		s.setSSL(true);
 
 		// Add the country locale
 		s.setEvar(31, Locale.getDefault().getCountry());
 
 		// Experience segmentation
+		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
 		s.setEvar(50, (usingTabletInterface) ? "app.tablet.android" : "app.phone.android");
 
 		// TPID
@@ -239,6 +229,24 @@ public class TrackingUtils {
 
 	public static void addHotelRating(ADMS_Measurement s, Property property) {
 		s.setProp(38, property.getAverageExpediaRating() + "");
+	}
+
+	public static String getReportSuiteIds(Context context) {
+		String id;
+		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
+		if (AndroidUtils.isRelease(context)) {
+			id = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
+			id += ",expediaglobalapp";
+		}
+		else {
+			id = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
+			id += ",expediaglobalappdev";
+		}
+		return id;
+	}
+
+	public static String getTrackingServer() {
+		return "om.expedia.com";
 	}
 
 	private static SparseArray<String> mNetworkTypes = null;

@@ -72,7 +72,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			throw new RuntimeException(e);
 		}
 
-		// Setup Omniture logging for crashes
+		// Init required for Omniture tracking
+		OmnitureTracking.init(this);
+		// Setup Omniture for tracking crashes
 		mOriginalUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(this);
 

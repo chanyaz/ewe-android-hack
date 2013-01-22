@@ -159,6 +159,11 @@ public class OmnitureTracking {
 	// The SettingUtils key for the last version tracked
 	private static final String TRACK_VERSION = "tracking_version";
 
+	public static void init(Context context) {
+		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		s.configureMeasurement(TrackingUtils.getReportSuiteIds(context), TrackingUtils.getTrackingServer());
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC TRACK LINK METHODS
 
@@ -706,7 +711,7 @@ public class OmnitureTracking {
 	public static void trackCrash(Context context, Throwable ex) {
 		// Log the crash
 		Log.d("Tracking \"crash\" onClick");
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 		TrackingUtils.addStandardFields(context, s);
 		s.setEvents("event39");
 		s.setEvar(28, "App.Crash");
@@ -725,7 +730,7 @@ public class OmnitureTracking {
 	public static void trackPageLoadHotelsInfosite(Context context, int position) {
 		Log.d("Tracking \"App.Hotels.Infosite\" pageLoad");
 
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
@@ -757,7 +762,7 @@ public class OmnitureTracking {
 	public static void trackPageLoadHotelsInfositeMap(Context context) {
 		Log.d("Tracking \"App.Hotels.Infosite.Map\" pageLoad");
 
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
@@ -801,7 +806,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLaunch(Context context, String id, String date) {
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 		s.setVisitorID(id);
 		s.setEvar(7, id);
 		s.setEvar(10, date);
@@ -810,7 +815,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppInstall(Context context) {
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		String marketingDate = FORMATTER.format(new Date());
 		String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -830,7 +835,7 @@ public class OmnitureTracking {
 		// Start actually tracking the search result change
 		Log.d("Tracking \"App.Hotels.Search\" pageLoad...");
 
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
@@ -897,7 +902,7 @@ public class OmnitureTracking {
 	public static void trackAppHotelsRoomsRates(Context context, Property property, String referrer) {
 		Log.d("Tracking \"App.Hotels.RoomsRates\" event");
 
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
@@ -928,7 +933,8 @@ public class OmnitureTracking {
 			BookingInfoValidation validation) {
 		Log.d("Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
 
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		s.clearVars();
 
 		TrackingUtils.addStandardFields(context, s);
 
@@ -966,7 +972,7 @@ public class OmnitureTracking {
 			Property property, BillingInfo billingInfo, Rate rate, BookingResponse response) {
 		Log.d("Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
 
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
@@ -1030,7 +1036,7 @@ public class OmnitureTracking {
 	public static void trackAppLoading(Context context) {
 		Log.d("Tracking \"App.Loading\" pageLoad...");
 
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
@@ -1068,6 +1074,17 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Private helper methods
 
+	/**
+	 * Method that returns a tracking object without any parameters set to be manipulating for tracking. Because the 
+	 * library uses a static object for tracking, clearVars() must be called in order to remove potentially set
+	 * variables from being erroneously sent along with the tracking call.
+	 */
+	public static ADMS_Measurement getFreshTrackingObject(Context context) {
+		ADMS_Measurement a = ADMS_Measurement.sharedInstance(context);
+		a.clearVars();
+		return a;
+	}
+
 	private static void internalTrackPageLoadEventStandard(Context context, String pageName) {
 		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventStandardAsShopper(context, pageName).track();
@@ -1095,7 +1112,7 @@ public class OmnitureTracking {
 	}
 
 	private static ADMS_Measurement createTrackLinkEvent(Context context, String link) {
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		TrackingUtils.addStandardFields(context, s);
 
@@ -1107,7 +1124,7 @@ public class OmnitureTracking {
 	}
 
 	private static ADMS_Measurement createTrackPageLoadEventBase(Context context, String pageName) {
-		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
+		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		// set the pageName
 		s.setAppState(pageName);
