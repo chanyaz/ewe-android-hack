@@ -141,6 +141,12 @@ public class Trip implements JSONable, Comparable<Trip> {
 		return mLastFullUpdate;
 	}
 
+	// A trip is not valid until it's at least had some data loaded;
+	// you can add an invalid guest trip.
+	public boolean isValidTrip() {
+		return mStartDate != null;
+	}
+
 	public void updateFrom(Trip other, boolean isFullUpdate) {
 		// For now, we assume that updateFrom() will always have more details than
 		// we have now, so we blow away most current data.  This may not be true

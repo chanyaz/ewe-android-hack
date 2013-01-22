@@ -70,7 +70,11 @@ public class ItineraryManager implements JSONable {
 		}
 		else {
 			mTrips.remove(tripId);
-			onTripRemoved(trip);
+
+			// Do not inform of removal if it was never valid (since we never informed of adding in the first place)
+			if (trip.isValidTrip()) {
+				onTripRemoved(trip);
+			}
 		}
 	}
 
@@ -289,13 +293,13 @@ public class ItineraryManager implements JSONable {
 							onTripUpdateFailed(trip);
 						}
 						else {
-							boolean hadBasicInfo = trip.getStartDate() != null;
+							boolean isValidTrip = trip.isValidTrip();
 
 							Trip updatedTrip = response.getTrip();
 							trip.updateFrom(updatedTrip, false);
 
 							// We only consider a guest trip added once it has some meaningful info
-							if (!hadBasicInfo && trip.isGuest()) {
+							if (!isValidTrip && trip.isGuest()) {
 								onTripAdded(trip);
 							}
 
