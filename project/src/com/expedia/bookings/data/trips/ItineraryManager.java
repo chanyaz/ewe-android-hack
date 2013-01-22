@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,7 +110,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Data syncing
+	// Sync listener
 
 	public interface ItinerarySyncListener {
 		/**
@@ -128,27 +130,46 @@ public class ItineraryManager implements JSONable {
 		public void onSyncFinished(Collection<Trip> trips);
 	}
 
+	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<ItineraryManager.ItinerarySyncListener>();
+
+	public void addSyncListener(ItinerarySyncListener listener) {
+		mSyncListeners.add(listener);
+	}
+
+	public void removeSyncListener(ItinerarySyncListener listener) {
+		mSyncListeners.remove(listener);
+	}
+
+	private void onTripUpdated(Trip trip) {
+		for (ItinerarySyncListener listener : mSyncListeners) {
+			listener.onTripUpdated(trip);
+		}
+	}
+
+	private void onSyncFinished(Collection<Trip> trips) {
+		for (ItinerarySyncListener listener : mSyncListeners) {
+			listener.onSyncFinished(trips);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Data syncing
+
 	private Queue<Trip> mTripSyncQueue = new PriorityQueue<Trip>();
 
 	private AsyncTask<Void, Trip, Collection<Trip>> mSyncTask;
-
-	private ItinerarySyncListener mSyncListener;
 
 	// TODO: Figure out better values for this
 	private static final long UPDATE_TRIP_QUICK_CUTOFF = 1000 * 60 * 60 * 24; // 1 day
 
 	/**
-	 * Start a sync operation with a specific listener.  If a sync is already
-	 * in progress then calls to this are ignored.
+	 * Start a sync operation.
 	 * 
-	 * Possible improvement (if desired): if a sync is already in progress,
-	 * update the listener.
+	 * If a sync is already in progress then calls to this are ignored.
 	 */
-	public void startSync(ItinerarySyncListener listener) {
+	public void startSync() {
 		if (!isSyncing()) {
 			mTripSyncQueue.clear();
-
-			mSyncListener = listener;
 
 			mSyncTask = new AsyncTask<Void, Trip, Collection<Trip>>() {
 				@Override
@@ -208,14 +229,14 @@ public class ItineraryManager implements JSONable {
 				protected void onProgressUpdate(Trip... values) {
 					super.onProgressUpdate(values);
 
-					mSyncListener.onTripUpdated(values[0]);
+					onTripUpdated(values[0]);
 				}
 
 				@Override
 				protected void onPostExecute(Collection<Trip> trips) {
 					super.onPostExecute(trips);
 
-					mSyncListener.onSyncFinished(trips);
+					onSyncFinished(trips);
 				}
 			};
 
