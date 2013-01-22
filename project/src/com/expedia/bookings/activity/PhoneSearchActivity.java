@@ -1500,6 +1500,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private static final String INSTANCE_SEARCH_TEXT_SELECTION_START = "INSTANCE_SEARCH_TEXT_SELECTION_START";
 	private static final String INSTANCE_SEARCH_TEXT_SELECTION_END = "INSTANCE_SEARCH_TEXT_SELECTION_END";
 	private static final String INSTANCE_DISPLAY_TYPE = "INSTANCE_DISPLAY_TYPE";
+	private static final String INSTANCE_ACTIVITY_STATE = "INSTANCE_ACTIVITY_STATE";
 
 	private Bundle saveActivityState() {
 		Bundle outState = new Bundle();
@@ -1519,6 +1520,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		// #9733: You cannot keep displaying a PopupWindow on rotation.  Since it's not essential the popup
 		// stay visible, it's easier here just to hide it between activity shifts.
 		outState.putInt(INSTANCE_DISPLAY_TYPE, mDisplayType.ordinal());
+
+		outState.putInt(INSTANCE_ACTIVITY_STATE, mActivityState.ordinal());
 
 		return outState;
 	}
@@ -1540,6 +1543,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mSearchTextSelectionEnd = savedInstanceState.getInt(INSTANCE_SEARCH_TEXT_SELECTION_END);
 			mAddresses = savedInstanceState.getParcelableArrayList(INSTANCE_ADDRESSES);
 			mDisplayType = DisplayType.values()[savedInstanceState.getInt(INSTANCE_DISPLAY_TYPE)];
+			mActivityState = ActivityState.values()[savedInstanceState.getInt(INSTANCE_ACTIVITY_STATE)];
 
 			mOldSearchParams = JSONUtils
 					.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, SearchParams.class);
