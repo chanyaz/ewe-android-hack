@@ -394,6 +394,18 @@ public class HotelMapFragment extends SupportMapFragment {
 		return getMap().getCameraPosition().target;
 	}
 
+	public void notifySearchLocationFound() {
+		SearchParams params = Db.getSearchParams();
+		animateCamera(CameraUpdateFactory.newLatLngZoom(
+				new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), 12.0f));
+	}
+
+	public void notifyPropertySelected() {
+		showBalloon(Db.getSelectedProperty());
+		focusProperty(Db.getSelectedProperty(), true);
+	}
+
+
 	//////////////////////////////////////////////////////////////////////////
 	// Listeners
 

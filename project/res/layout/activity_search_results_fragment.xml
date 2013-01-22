@@ -18,7 +18,7 @@
         <fragment
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:name="com.expedia.bookings.fragment.HotelMapFragment"
+            android:name="com.expedia.bookings.maps.HotelMapFragment"
             android:tag="@string/tag_hotel_map" />
 
         <LinearLayout

@@ -25,7 +25,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentMapActivity;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,12 +68,12 @@ import com.expedia.bookings.fragment.HotelDetailsFragment;
 import com.expedia.bookings.fragment.HotelDetailsFragment.HotelDetailsFragmentListener;
 import com.expedia.bookings.fragment.HotelListFragment;
 import com.expedia.bookings.fragment.HotelListFragment.HotelListFragmentListener;
-import com.expedia.bookings.fragment.HotelMapFragment;
-import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.fragment.MiniDetailsFragment;
 import com.expedia.bookings.fragment.MiniDetailsFragment.MiniDetailsFragmentListener;
 import com.expedia.bookings.fragment.SortDialogFragment;
 import com.expedia.bookings.fragment.SortDialogFragment.SortDialogFragmentListener;
+import com.expedia.bookings.maps.HotelMapFragment;
+import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.ExpediaServices.ReviewSort;
@@ -98,7 +98,7 @@ import com.mobiata.android.util.NetUtils;
 import com.omniture.AppMeasurement;
 
 @TargetApi(11)
-public class SearchResultsFragmentActivity extends FragmentMapActivity implements LocationListener,
+public class SearchResultsFragmentActivity extends FragmentActivity implements LocationListener,
 		OnFilterChangedListener, SortDialogFragmentListener, CalendarDialogFragmentListener,
 		GeocodeDisambiguationDialogFragmentListener, GuestsDialogFragmentListener, HotelDetailsFragmentListener,
 		OnCollageImageClickedListener, MiniDetailsFragmentListener, HotelMapFragmentListener, HotelListFragmentListener {
@@ -698,6 +698,9 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	public void hideDetails() {
 		FragmentManager fm = getSupportFragmentManager();
 		fm.popBackStack(MINI_DETAILS_PUSH, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+		// Refocus the map pins
+		mHotelMapFragment.showAll();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1550,13 +1553,23 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	}
 
 	@Override
-	public void onBalloonShown(Property property) {
+	public void onPropertyClicked(Property property) {
 		propertySelected(property, SOURCE_MAP);
 	}
 
 	@Override
-	public void onBalloonClicked(Property property) {
+	public void onPropertyBubbleClicked(Property property) {
 		propertySelected(property, SOURCE_MAP);
+	}
+
+	@Override
+	public void onExactLocationClicked() {
+		// ignore
+	}
+
+	@Override
+	public void onMapClicked() {
+		hideDetails();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1575,13 +1588,5 @@ public class SearchResultsFragmentActivity extends FragmentMapActivity implement
 	@Override
 	public void onListItemClicked(Property property, int position) {
 		propertySelected(property, SOURCE_LIST);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// MapActivity
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
 	}
 }
