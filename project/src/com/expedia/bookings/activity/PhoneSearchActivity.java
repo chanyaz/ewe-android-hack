@@ -133,7 +133,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private enum DisplayType {
-		NONE(false), KEYBOARD(true), CALENDAR(true), GUEST_PICKER(true), FILTER(false);
+		NONE(false),
+		KEYBOARD(true),
+		CALENDAR(true),
+		GUEST_PICKER(true),
+		FILTER(false),
+		;
 
 		private boolean mIsSearchDisplay;
 
@@ -144,6 +149,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		public boolean isSearchDisplay() {
 			return mIsSearchDisplay;
 		}
+	}
+
+	private enum ActivityState {
+		NONE,
+		SEARCHING,
+		;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -227,6 +238,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private String mTag;
 
 	private DisplayType mDisplayType = DisplayType.NONE;
+	private ActivityState mActivityState = ActivityState.NONE;
 	private boolean mShowDistance = true;
 
 	private int mSortOptionSelectedId;
@@ -1302,12 +1314,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		SettingUtils.commitOrApply(editor);
 	}
 
-	private void resetFilter() {
-		Log.d("Resetting filter...");
-
-		Db.resetFilter();
-	}
-
 	@Override
 	public boolean onSearchRequested() {
 		Log.d("onSearchRequested called");
@@ -1323,6 +1329,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private void startSearch() {
 		Log.i("Starting a new search...");
+		mActivityState = ActivityState.SEARCHING;
 
 		Db.setSearchResponse(null);
 		Db.clearAvailabilityResponses();
@@ -1469,7 +1476,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			Search.add(this, Db.getSearchParams());
 		}
 
-		resetFilter();
+		Log.d("Resetting filter...");
+		Db.resetFilter();
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.cancelDownload(KEY_SEARCH);
@@ -1560,6 +1568,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		onSearchResultsChanged();
+		mActivityState = ActivityState.NONE;
 	}
 
 	private void broadcastSearchStarted() {
@@ -2800,11 +2809,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	@Override
 	public void onFilterChanged() {
 		supportInvalidateOptionsMenu();
-		if (mHotelListFragment != null) {
-			mHotelListFragment.notifyFilterChanged();
-		}
-		if (mHotelMapFragment != null) {
-			mHotelMapFragment.notifyFilterChanged();
+		if (mActivityState != ActivityState.SEARCHING) {
+			if (mHotelListFragment != null) {
+				mHotelListFragment.notifyFilterChanged();
+			}
+			if (mHotelMapFragment != null) {
+				mHotelMapFragment.notifyFilterChanged();
+			}
 		}
 	}
 
