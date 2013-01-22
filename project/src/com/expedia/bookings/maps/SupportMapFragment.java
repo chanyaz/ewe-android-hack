@@ -28,7 +28,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		boolean isAnimated;
 	}
 
-	private ArrayList<QueuedCameraUpdate> mUpdateQueue = new ArrayList<QueuedCameraUpdate>();
+	private QueuedCameraUpdate mSavedCameraUpdate;
 
 	public void animateCamera(CameraUpdate cameraUpdate) {
 		changeCamera(cameraUpdate, true);
@@ -53,16 +53,8 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 			QueuedCameraUpdate queuedUpdate = new QueuedCameraUpdate();
 			queuedUpdate.cameraUpdate = cameraUpdate;
 			queuedUpdate.isAnimated = animate;
-			mUpdateQueue.add(queuedUpdate);
+			mSavedCameraUpdate = queuedUpdate;
 		}
-	}
-
-	private void drainCameraUpdateQueue() {
-		for (QueuedCameraUpdate update : mUpdateQueue) {
-			changeCamera(update.cameraUpdate, update.isAnimated);
-		}
-		// We are done with the queue for good
-		mUpdateQueue = null;
 	}
 
 	@Override
@@ -83,6 +75,9 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 	protected void onMapLayout() {
 		mLoaded = true;
-		drainCameraUpdateQueue();
+		if (mSavedCameraUpdate != null) {
+			changeCamera(mSavedCameraUpdate.cameraUpdate, mSavedCameraUpdate.isAnimated);
+			mSavedCameraUpdate = null;
+		}
 	}
 }
