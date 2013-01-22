@@ -224,7 +224,7 @@ public class ItineraryManager implements JSONable {
 
 	private Queue<Trip> mTripSyncQueue = new PriorityQueue<Trip>();
 
-	private AsyncTask<Void, Trip, Collection<Trip>> mSyncTask;
+	private AsyncTask<Void, ProgressUpdate, Collection<Trip>> mSyncTask;
 
 	// TODO: Figure out better values for this
 	private static final long UPDATE_TRIP_QUICK_CUTOFF = 1000 * 60 * 60 * 24; // 1 day
@@ -238,7 +238,7 @@ public class ItineraryManager implements JSONable {
 		if (!isSyncing()) {
 			mTripSyncQueue.clear();
 
-			mSyncTask = new AsyncTask<Void, Trip, Collection<Trip>>() {
+			mSyncTask = new AsyncTask<Void, ProgressUpdate, Collection<Trip>>() {
 				@Override
 				protected Collection<Trip> doInBackground(Void... params) {
 					// If the user is logged in, retrieve a listing of current trips for logged in user
@@ -258,7 +258,7 @@ public class ItineraryManager implements JSONable {
 								if (!mTrips.containsKey(tripId)) {
 									mTrips.put(tripId, trip);
 
-									onTripAdded(trip);
+									publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
 								}
 
 								currentTrips.remove(tripId);
@@ -267,7 +267,7 @@ public class ItineraryManager implements JSONable {
 							// Remove all trips that were not returned by the server
 							for (String tripId : currentTrips) {
 								Trip trip = mTrips.remove(tripId);
-								onTripRemoved(trip);
+								publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
 							}
 						}
 					}
@@ -290,7 +290,7 @@ public class ItineraryManager implements JSONable {
 						TripDetailsResponse response = services.getTripDetails(trip);
 
 						if (response == null || response.hasErrors()) {
-							onTripUpdateFailed(trip);
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
 						}
 						else {
 							boolean isValidTrip = trip.isValidTrip();
@@ -300,10 +300,10 @@ public class ItineraryManager implements JSONable {
 
 							// We only consider a guest trip added once it has some meaningful info
 							if (!isValidTrip && trip.isGuest()) {
-								onTripAdded(trip);
+								publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
 							}
 
-							publishProgress(trip);
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATED, trip));
 
 							// POSSIBLE TODO: Only call tripUpated() when it's actually changed
 						}
@@ -315,10 +315,25 @@ public class ItineraryManager implements JSONable {
 				}
 
 				@Override
-				protected void onProgressUpdate(Trip... values) {
+				protected void onProgressUpdate(ProgressUpdate... values) {
 					super.onProgressUpdate(values);
 
-					onTripUpdated(values[0]);
+					ProgressUpdate update = values[0];
+
+					switch (update.mType) {
+					case ADDED:
+						onTripAdded(update.mTrip);
+						break;
+					case UPDATED:
+						onTripUpdated(update.mTrip);
+						break;
+					case UPDATE_FAILED:
+						onTripUpdateFailed(update.mTrip);
+						break;
+					case REMOVED:
+						onTripRemoved(update.mTrip);
+						break;
+					}
 				}
 
 				@Override
@@ -338,6 +353,23 @@ public class ItineraryManager implements JSONable {
 
 	public boolean isSyncing() {
 		return mSyncTask != null && mSyncTask.getStatus() != AsyncTask.Status.FINISHED;
+	}
+
+	private static class ProgressUpdate {
+		public static enum Type {
+			ADDED,
+			UPDATED,
+			UPDATE_FAILED,
+			REMOVED
+		}
+
+		public Type mType;
+		public Trip mTrip;
+
+		public ProgressUpdate(Type type, Trip trip) {
+			mType = type;
+			mTrip = trip;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
