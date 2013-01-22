@@ -50,6 +50,8 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// STANDARD PAGE NAME CONSTANTS
 
+	private static final String TAG = "OmnitureTracking";
+
 	// Launcher
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
 
@@ -236,7 +238,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackLinkFlightCheckoutLoginSuccess(Context context) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
+		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
 
 		ADMS_Measurement s = createTrackLinkEvent(context, FLIGHT_CHECKOUT_LOGIN_SUCCESS);
 
@@ -301,7 +303,7 @@ public class OmnitureTracking {
 	// Flights tracking events
 
 	public static void trackPageLoadFlightCheckoutConfirmation(Context context) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
+		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, FLIGHT_CHECKOUT_CONFIRMATION);
 		addVars25And26LobAsConfirmer(s);
 
@@ -430,7 +432,7 @@ public class OmnitureTracking {
 	private static void trackPageLoadFlightSearchResultsOutboundList(Context context) {
 		markTrackNewSearchResultSet(false);
 
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
+		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_ROUNDTRIP_OUT);
 
@@ -481,7 +483,7 @@ public class OmnitureTracking {
 	private static void trackPageLoadFlightSearchResultsOneWay(Context context) {
 		markTrackNewSearchResultSet(false);
 
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
+		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_RESULTS_ONE_WAY);
 
@@ -641,7 +643,7 @@ public class OmnitureTracking {
 	// Login
 
 	public static void trackLinkHotelsCheckoutLoginSuccess(Context context) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + HOTELS_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
+		Log.d(TAG, "Tracking \"" + HOTELS_CHECKOUT_LOGIN_SUCCESS + "\" linkClick");
 
 		ADMS_Measurement s = createTrackLinkEvent(context, HOTELS_CHECKOUT_LOGIN_SUCCESS);
 
@@ -710,7 +712,7 @@ public class OmnitureTracking {
 
 	public static void trackCrash(Context context, Throwable ex) {
 		// Log the crash
-		Log.d("Tracking \"crash\" onClick");
+		Log.d(TAG, "Tracking \"crash\" onClick");
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		TrackingUtils.addStandardFields(context, s);
 		s.setEvents("event39");
@@ -728,7 +730,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadHotelsInfosite(Context context, int position) {
-		Log.d("Tracking \"App.Hotels.Infosite\" pageLoad");
+		Log.d(TAG, "Tracking \"App.Hotels.Infosite\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
@@ -760,7 +762,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadHotelsInfositeMap(Context context) {
-		Log.d("Tracking \"App.Hotels.Infosite.Map\" pageLoad");
+		Log.d(TAG, "Tracking \"App.Hotels.Infosite.Map\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
@@ -781,7 +783,7 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelDetails(Context context, Property property) {
 		// Track that the full details has a pageload
-		Log.d("Tracking \"App.Hotels.Details\" pageLoad");
+		Log.d(TAG, "Tracking \"App.Hotels.Details\" pageLoad");
 
 		ADMS_Measurement s = TrackingUtils
 				.createSimpleEvent(context, "App.Hotels.Details", "event32", "Shopper", null);
@@ -795,7 +797,7 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelsSearchQuickView(Context context, Property property, String referrer) {
 		// Track that the mini details has a pageload
-		Log.d("Tracking \"App.Hotels.Search.QuickView\" onClick");
+		Log.d(TAG, "Tracking \"App.Hotels.Search.QuickView\" onClick");
 
 		ADMS_Measurement s = TrackingUtils.createSimpleEvent(context, "App.Hotels.Search.QuickView", null, "Shopper",
 				referrer);
@@ -806,6 +808,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppLaunch(Context context, String id, String date) {
+		Log.d(TAG, "Tracking \"App Launch\" pageLoad");
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		s.setVisitorID(id);
 		s.setEvar(7, id);
@@ -815,6 +818,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppInstall(Context context) {
+		Log.d(TAG, "Tracking \"App Install\" pageLoad");
+
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
 		String marketingDate = FORMATTER.format(new Date());
@@ -833,7 +838,7 @@ public class OmnitureTracking {
 	public static void trackAppHotelsSearch(Context context, SearchParams searchParams, SearchResponse searchResponse,
 			String refinements) {
 		// Start actually tracking the search result change
-		Log.d("Tracking \"App.Hotels.Search\" pageLoad...");
+		Log.d(TAG, "Tracking \"App.Hotels.Search\" pageLoad...");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
@@ -900,7 +905,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackAppHotelsRoomsRates(Context context, Property property, String referrer) {
-		Log.d("Tracking \"App.Hotels.RoomsRates\" event");
+		Log.d(TAG, "Tracking \"App.Hotels.RoomsRates\" event");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
@@ -931,7 +936,7 @@ public class OmnitureTracking {
 
 	public static void trackAppHotelsCheckoutPayment(Context context, Property property,
 			BookingInfoValidation validation) {
-		Log.d("Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
+		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 		s.clearVars();
@@ -970,7 +975,7 @@ public class OmnitureTracking {
 
 	public static void trackAppHotelsCheckoutConfirmation(Context context, SearchParams searchParams,
 			Property property, BillingInfo billingInfo, Rate rate, BookingResponse response) {
-		Log.d("Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
+		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Confirmation\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
@@ -1024,17 +1029,17 @@ public class OmnitureTracking {
 	}
 
 	public static void trackViewOnMap(Context context) {
-		Log.d("Tracking \"CKO.CP.ViewInMaps\" onClick");
+		Log.d(TAG, "Tracking \"CKO.CP.ViewInMaps\" onClick");
 		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.ViewInMaps");
 	}
 
 	public static void trackNewSearch(Context context) {
-		Log.d("Tracking \"new search\" onClick");
+		Log.d(TAG, "Tracking \"new search\" onClick");
 		TrackingUtils.trackSimpleEvent(context, null, null, "Shopper", "CKO.CP.StartNewSearch");
 	}
 
 	public static void trackAppLoading(Context context) {
-		Log.d("Tracking \"App.Loading\" pageLoad...");
+		Log.d(TAG, "Tracking \"App.Loading\" pageLoad...");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
 
@@ -1086,27 +1091,27 @@ public class OmnitureTracking {
 	}
 
 	private static void internalTrackPageLoadEventStandard(Context context, String pageName) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventStandardAsShopper(context, pageName).track();
 	}
 
 	private static void internalTrackPageLoadEventStandardNoVars25And25LobShopper(Context context, String pageName) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventBase(context, pageName).track();
 	}
 
 	private static void internalTrackPageLoadEventPriceChange(Context context, String pageName) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventPriceChange(context, pageName).track();
 	}
 
 	private static void internalTrackPageLoadEventPriceChangeAsShopper(Context context, String pageName) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + pageName + "\" pageLoad");
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventPriceChangeAsShopper(context, pageName).track();
 	}
 
 	private static void internalTrackLink(Context context, String link) {
-		Log.d("ExpediaBookingsTracking", "Tracking \"" + link + "\" linkClick");
+		Log.d(TAG, "Tracking \"" + link + "\" linkClick");
 		ADMS_Measurement s = createTrackLinkEvent(context, link);
 		s.trackLink(null, "o", s.getEvar(28), null, null);
 	}
