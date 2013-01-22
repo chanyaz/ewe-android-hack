@@ -519,6 +519,8 @@
     <string name="privacy_policy">개인정보 보호정책</string>
     <!-- Fare information header -->
     <string name="fare_information">요금 정보</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">이 예약을 완료함으로써 본인은 &lt;u&gt;&lt;b&gt;규칙과 제한사항,&lt;/b&gt; &lt;b&gt;이용약관,&lt;/b&gt; &lt;b&gt;개인정보 보호정책&lt;/b&gt; 및 &lt;b&gt;요금 정보&lt;/b&gt;&lt;/u&gt;를 모두 읽었고 이에 동의함을 명시합니다.</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

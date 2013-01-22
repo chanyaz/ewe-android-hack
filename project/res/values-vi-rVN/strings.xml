@@ -519,6 +519,8 @@
     <string name="privacy_policy">Quyền riêng tư</string>
     <!-- Fare information header -->
     <string name="fare_information">THÔNG TIN GIÁ VÉ</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">Hoàn tất quá trình đặt trước này cũng đồng nghĩa với việc tôi đã đọc và đồng ý với &lt;u&gt;&lt;b&gt;các Quy định và Giới hạn,&lt;/b&gt; &lt;b&gt;Điều khoản và Điều kiện&lt;/b&gt;, &lt;b&gt;Quyền riêng tư&lt;/b&gt; và &lt;b&gt;Thông tin Giá vé.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

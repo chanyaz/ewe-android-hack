@@ -519,6 +519,8 @@
     <string name="privacy_policy">隱私權政策</string>
     <!-- Fare information header -->
     <string name="fare_information">票價資訊</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">完成此預訂表示我已經閱讀並接受&lt;u&gt;&lt;b&gt;規則和限制&lt;/b&gt;、&lt;b&gt;條款和條件&lt;/b&gt;、&lt;b&gt;隱私權政策&lt;/b&gt;和&lt;b&gt;票價資訊。&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

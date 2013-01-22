@@ -521,6 +521,7 @@
     <string name="privacy_policy">Charte de confidentialité</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMATIONS SUR LES TARIFS</string>
+    <string name="fare_rules_link">En finalisant cette réservation, je confirme avoir lu et accepté les &lt;u&gt;&lt;b&gt;conditions et  restrictions&lt;/b&gt;, les &lt;b&gt;conditions générales d\&apos;utilisation&lt;/b&gt;, la &lt;b&gt;charte de confidentialité&lt;/b&gt; et les &lt;b&gt;informations sur les tarifs.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

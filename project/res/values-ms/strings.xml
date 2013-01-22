@@ -519,6 +519,8 @@
     <string name="privacy_policy">Dasar Privasi</string>
     <!-- Fare information header -->
     <string name="fare_information">MAKLUMAT TAMBANG</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">Dengan melengkapkan tempahan ini, saya bersetuju bahawa saya telah membaca dan menerima &lt;u&gt;&lt;b&gt;Peraturan dan Sekatan,&lt;/b&gt; &lt;b&gt;Terma dan Syarat,&lt;/b&gt; &lt;b&gt;Dasar Privasi&lt;/b&gt; dan &lt;b&gt;Maklumat Tambang.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

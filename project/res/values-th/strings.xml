@@ -519,6 +519,8 @@
     <string name="privacy_policy">นโยบายความเป็นส่วนตัว </string>
     <!-- Fare information header -->
     <string name="fare_information">ข้อมูลค่าโดยสาร</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">เมื่อดำเนินการจองนี้ให้เสร็จสมบูรณ์ ข้าพเจ้ายอมรับว่าได้อ่านและยอมรับใน &lt;u&gt;&lt;b&gt;กฎและข้อจำกัด &lt;/b&gt; &lt;b&gt;ข้อกำหนดและเงื่อนไข&lt;/b&gt; &lt;b&gt;นโยบายความเป็นส่วนตัว&lt;/b&gt; และ &lt;b&gt;ข้อมูลค่าโดยสารแล้ว&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

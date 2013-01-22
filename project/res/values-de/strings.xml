@@ -519,6 +519,8 @@
     <string name="privacy_policy">Datenschutzrichtlinien</string>
     <!-- Fare information header -->
     <string name="fare_information">Preisinformationen</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">Durch den Abschluss dieser Buchung bestätige ich, dass ich die &lt;u&gt;&lt;b&gt;Richtlinien und Einschränkungen&lt;/b&gt;, die &lt;b&gt;Allgemeinen Geschäftsbedingungen&lt;/b&gt;, die &lt;b&gt;Datenschutzerklärung&lt;/b&gt; und die &lt;b&gt;Preisinformationen zur Kenntnis genommen und akzeptiert habe.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

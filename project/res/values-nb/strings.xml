@@ -519,6 +519,8 @@
     <string name="privacy_policy">Personvernregler</string>
     <!-- Fare information header -->
     <string name="fare_information">PRISINFORMASJON</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">Ved å fullføre denne bestillingen bekrefter jeg at jeg har lest og godkjent &lt;u&gt;&lt;b&gt;regler og begrensninger,&lt;/b&gt; &lt;b&gt;betingelser,&lt;/b&gt;&lt;b&gt; personvernbestemmelser&lt;/b&gt; og &lt;b&gt;prisinformasjon.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

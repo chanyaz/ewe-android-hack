@@ -519,6 +519,8 @@
     <string name="privacy_policy">プライバシー ポリシー</string>
     <!-- Fare information header -->
     <string name="fare_information">料金情報</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">この予約の完了をもって、&lt;u&gt;&lt;b&gt;規則および制限事項&lt;/b&gt;、&lt;b&gt;利用規約&lt;/b&gt;、&lt;b&gt;プライバシーポリシー&lt;/b&gt;、および&lt;b&gt;運賃表を読み、その内容に同意したものとみなされます。&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->

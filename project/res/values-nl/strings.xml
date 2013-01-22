@@ -520,6 +520,8 @@
     <string name="privacy_policy">Privacybeleid</string>
     <!-- Fare information header -->
     <string name="fare_information">PRIJSGEGEVENS</string>
+    <!-- Link from checkout screen to legal information page -->
+    <string name="fare_rules_link">Door deze boeking te voltooien bevestig ik dat ik de &lt;u&gt;&lt;b&gt;Regels en Beperkingen,&lt;/b&gt; de &lt;b&gt;Voorwaarden,&lt;/b&gt; het &lt;b&gt;Privacybeleid&lt;/b&gt; en de &lt;b&gt;Prijsgegevens heb gelezen en goedgekeurd.&lt;/b&gt;&lt;/u&gt;</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
