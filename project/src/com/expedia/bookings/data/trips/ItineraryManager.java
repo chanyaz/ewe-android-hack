@@ -153,6 +153,16 @@ public class ItineraryManager implements JSONable {
 		public void onTripUpdated(Trip trip);
 
 		/**
+		 * Notification when a trip failed to update 
+		 * 
+		 * This can be particularly useful to know when a guest trip that
+		 * was added can't be updated at all. 
+		 * 
+		 * POSSIBLE TODO: info on why the update failed?
+		 */
+		public void onTripUpateFailed(Trip trip);
+
+		/**
 		 * Notification for when a Trip has been removed, either automatically
 		 * from a logged in user account or manually for guest trips.
 		 */
@@ -184,6 +194,12 @@ public class ItineraryManager implements JSONable {
 	private void onTripUpdated(Trip trip) {
 		for (ItinerarySyncListener listener : mSyncListeners) {
 			listener.onTripUpdated(trip);
+		}
+	}
+
+	private void onTripUpdateFailed(Trip trip) {
+		for (ItinerarySyncListener listener : mSyncListeners) {
+			listener.onTripUpateFailed(trip);
 		}
 	}
 
@@ -269,9 +285,10 @@ public class ItineraryManager implements JSONable {
 						ExpediaServices services = new ExpediaServices(mContext);
 						TripDetailsResponse response = services.getTripDetails(trip);
 
-						// TODO: HANDLE ERROR SITUATIONS
-
-						if (response != null && !response.hasErrors()) {
+						if (response == null || response.hasErrors()) {
+							onTripUpdateFailed(trip);
+						}
+						else {
 							boolean hadBasicInfo = trip.getStartDate() != null;
 
 							Trip updatedTrip = response.getTrip();
