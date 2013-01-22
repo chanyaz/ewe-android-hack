@@ -4,22 +4,28 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-public class ExpandAnimation extends Animation {
+public class ResizeAnimation extends Animation {
+	public interface AnimationStepListener {
+		public void onAnimationStep(Animation animation);
+	}
+
 	private View mView;
 
 	private int mStartHeight;
 	private int mEndHeight;
 
-	public ExpandAnimation(View view) {
+	private AnimationStepListener mAnimationStepListener;
+
+	public ResizeAnimation(View view) {
 		this(view, 0, view.getLayoutParams().height);
 	}
 
-	public ExpandAnimation(View view, int endHeight) {
+	public ResizeAnimation(View view, int endHeight) {
 		this(view, view.getLayoutParams().height, endHeight);
 	}
 
-	public ExpandAnimation(View view, int startHeight, int endHeight) {
-		setDuration(200);
+	public ResizeAnimation(View view, int startHeight, int endHeight) {
+		setDuration(400);
 
 		mView = view;
 		mStartHeight = startHeight;
@@ -27,6 +33,10 @@ public class ExpandAnimation extends Animation {
 
 		mView.getLayoutParams().height = startHeight;
 		mView.setVisibility(View.VISIBLE);
+	}
+
+	public void setAnimationStepListener(AnimationStepListener onAnimationStepListener) {
+		mAnimationStepListener = onAnimationStepListener;
 	}
 
 	@Override
@@ -40,6 +50,10 @@ public class ExpandAnimation extends Animation {
 		else {
 			mView.getLayoutParams().height = mEndHeight;
 			mView.requestLayout();
+		}
+
+		if (mAnimationStepListener != null) {
+			mAnimationStepListener.onAnimationStep(this);
 		}
 	}
 

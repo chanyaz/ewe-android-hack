@@ -32,6 +32,7 @@ import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.ItinItemAdapter;
 import com.expedia.bookings.widget.ItinListView;
+import com.expedia.bookings.widget.ItinScrollView;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.mobiata.android.BackgroundDownloader;
@@ -48,7 +49,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 
 	private LaunchActivity mActivity;
 
-	private ItinListView mListView;
+	private ItinScrollView mListView;
 	private View mEmptyView;
 	private View mOrEnterNumberTv;
 
@@ -205,20 +206,21 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	}
 
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
-		@Override
-		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-			if (firstVisibleItem == 0) {
-				if (view.getChildAt(0) != null) {
-					mActivity.setHeaderOffset(view.getChildAt(0).getTop());
-				}
-			}
-			else {
-				mActivity.setHeaderOffset(-9999);
-			}
-		}
+		//		@Override
+		//		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		//			if (firstVisibleItem == 0) {
+		//				if (view.getChildAt(0) != null) {
+		//					mActivity.setHeaderOffset(view.getChildAt(0).getTop());
+		//				}
+		//			}
+		//			else {
+		//				mActivity.setHeaderOffset(-9999);
+		//			}
+		//		}
 
 		@Override
-		public void onScrollStateChanged(AbsListView view, int scrollState) {
+		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			mActivity.setHeaderOffset(-y);
 		}
 	};
 
