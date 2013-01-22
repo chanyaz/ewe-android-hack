@@ -48,7 +48,6 @@ public class HotelMapFragment extends SupportMapFragment {
 	private static final String INSTANCE_INFO_WINDOW_SHOWING = "INSTANCE_INFO_WINDOW_SHOWING";
 	private static final String EXACT_LOCATION_MARKER = "EXACT_LOCATION_MARKER";
 
-	private Context mContext;
 	private GoogleMap mMap;
 
 	private boolean mShowDistances;
@@ -90,13 +89,11 @@ public class HotelMapFragment extends SupportMapFragment {
 			throw new RuntimeException("HotelMapFragment Activity must implement listener!");
 		}
 
-		mContext = activity;
-
 		if (mMap == null) {
 			// To initialize CameraUpdateFactory and BitmapDescriptorFactory
 			// since the GoogleMap is not ready
 			try {
-				MapsInitializer.initialize(mContext);
+				MapsInitializer.initialize(activity);
 			}
 			catch (GooglePlayServicesNotAvailableException e) {
 				Log.e("Google Play Services not availiable", e);
@@ -192,13 +189,11 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void onRestoreSavedInstanceState(Bundle bundle) {
-		if (bundle != null) {
-			mInstanceInfoWindowShowing = bundle.getString(INSTANCE_INFO_WINDOW_SHOWING);
-		}
+		mInstanceInfoWindowShowing = bundle.getString(INSTANCE_INFO_WINDOW_SHOWING);
 	}
 
 	private boolean isReady() {
-		return mContext != null && mMap != null;
+		return getActivity() != null && mMap != null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -227,7 +222,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	public void showExactLocation(SearchParams params) {
 		if (params.hasSearchLatLon() && params.getSearchType() != SearchParams.SearchType.MY_LOCATION) {
 			showExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
-					params.getSearchDisplayText(mContext));
+					params.getSearchDisplayText(getActivity()));
 			animateCamera(CameraUpdateFactory.newLatLngZoom(
 					new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), 12));
 		}
@@ -305,15 +300,15 @@ public class HotelMapFragment extends SupportMapFragment {
 			Distance distanceFromuser = property.getDistanceFromUser();
 			Rate lowestRate = property.getLowestRate();
 			String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
-			snippet = mContext.getString(R.string.map_snippet_price_template, formattedMoney);
+			snippet = getString(R.string.map_snippet_price_template, formattedMoney);
 
 			if (mShowDistances && distanceFromuser != null) {
-				snippet = mContext.getString(R.string.map_snippet_template, snippet,
-						distanceFromuser.formatDistance(mContext, DistanceUnit.getDefaultDistanceUnit()));
+				snippet = getString(R.string.map_snippet_template, snippet,
+						distanceFromuser.formatDistance(getActivity(), DistanceUnit.getDefaultDistanceUnit()));
 			}
 			else if (lowestRate.isOnSale()) {
-				snippet = mContext.getString(R.string.map_snippet_template, snippet,
-						mContext.getString(R.string.widget_savings_template, lowestRate.getDiscountPercent() * 100));
+				snippet = getString(R.string.map_snippet_template, snippet,
+						getString(R.string.widget_savings_template, lowestRate.getDiscountPercent() * 100));
 			}
 
 			marker.snippet(snippet);
