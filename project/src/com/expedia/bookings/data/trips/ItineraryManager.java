@@ -116,6 +116,16 @@ public class ItineraryManager implements JSONable {
 	// Sync listener
 
 	public interface ItinerarySyncListener {
+
+		/**
+		 * Notes when a trip is added with basic info.
+		 * 
+		 * Note: Guest trips will not have this called right when you add them
+		 * (because they have no meaningful info at that point, and may not
+		 * even be a valid trip).
+		 */
+		public void onTripAdded(Trip trip);
+
 		/**
 		 * Each Trip that is updated during a sync gets its own callback
 		 * so that you can update the UI before the entire sync process
@@ -141,6 +151,12 @@ public class ItineraryManager implements JSONable {
 
 	public void removeSyncListener(ItinerarySyncListener listener) {
 		mSyncListeners.remove(listener);
+	}
+
+	private void onTripAdded(Trip trip) {
+		for (ItinerarySyncListener listener : mSyncListeners) {
+			listener.onTripAdded(trip);
+		}
 	}
 
 	private void onTripUpdated(Trip trip) {
@@ -190,6 +206,8 @@ public class ItineraryManager implements JSONable {
 								// TODO: Determine if we got full details and update if possible
 								if (!mTrips.containsKey(trip.getTripId())) {
 									mTrips.put(trip.getTripId(), trip);
+
+									onTripAdded(trip);
 								}
 							}
 						}
@@ -214,8 +232,15 @@ public class ItineraryManager implements JSONable {
 						// TODO: HANDLE ERROR SITUATIONS
 
 						if (response != null && !response.hasErrors()) {
+							boolean hadBasicInfo = trip.getStartDate() != null;
+
 							Trip updatedTrip = response.getTrip();
 							trip.updateFrom(updatedTrip, false);
+
+							// We only consider a guest trip added once it has some meaningful info
+							if (!hadBasicInfo && trip.isGuest()) {
+								onTripAdded(trip);
+							}
 
 							publishProgress(trip);
 
