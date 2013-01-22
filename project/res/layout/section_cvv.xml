@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.CVVSection xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -20,7 +21,7 @@
         android:textColor="@color/cvv_normal"
         android:textSize="20dp" />
 
-    <TextView
+    <com.mobiata.android.widget.AutoResizeTextView
         android:id="@+id/cvv_explanation_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,6 +37,8 @@
         android:shadowRadius=".1"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        mobiata:maxTextSize="15dp"
+        mobiata:minTextSize="13dp" />
 
 </com.expedia.bookings.section.CVVSection>
