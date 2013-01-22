@@ -6,7 +6,7 @@ import android.view.animation.Transformation;
 
 public class ResizeAnimation extends Animation {
 	public interface AnimationStepListener {
-		public void onAnimationStep(Animation animation);
+		public void onAnimationStep(Animation animation, float interpolatedTime);
 	}
 
 	private View mView;
@@ -53,7 +53,7 @@ public class ResizeAnimation extends Animation {
 		}
 
 		if (mAnimationStepListener != null) {
-			mAnimationStepListener.onAnimationStep(this);
+			mAnimationStepListener.onAnimationStep(this, interpolatedTime);
 		}
 	}
 

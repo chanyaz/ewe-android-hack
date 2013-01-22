@@ -34,7 +34,9 @@ public class ItinScrollView extends ScrollView {
 
 	private int mMode;
 	private int mDetailPosition = -1;
+
 	private int mExpandedCardOriginalSize;
+	private int mOriginalScrollY;
 
 	private boolean mDataChanged;
 
@@ -166,7 +168,11 @@ public class ItinScrollView extends ScrollView {
 		final ItinCard view = (ItinCard) mContainer.getChildAt(mDetailPosition);
 		final int animationPosition = mDetailPosition;
 
-		Animation animation = new ResizeAnimation(view, mExpandedCardOriginalSize);
+		final int startY = getScrollY();
+		final int stopY = mOriginalScrollY;
+		;
+
+		final ResizeAnimation animation = new ResizeAnimation(view, mExpandedCardOriginalSize);
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -181,6 +187,14 @@ public class ItinScrollView extends ScrollView {
 				view.showSummary(animationPosition == 0);
 				view.showDetails(false);
 				view.setOnClickListener(new ClickListener(animationPosition));
+
+				scrollTo(0, stopY);
+			}
+		});
+		animation.setAnimationStepListener(new AnimationStepListener() {
+			@Override
+			public void onAnimationStep(Animation animation, float interpolatedTime) {
+				scrollTo(0, (int) (((stopY - startY) * interpolatedTime) + startY));
 			}
 		});
 
@@ -199,7 +213,12 @@ public class ItinScrollView extends ScrollView {
 
 		// Expand detail card
 		final ItinCard view = (ItinCard) mContainer.getChildAt(mDetailPosition);
+
 		mExpandedCardOriginalSize = view.getHeight();
+		mOriginalScrollY = getScrollY();
+
+		final int startY = getScrollY();
+		final int stopY = view.getTop();
 
 		final ResizeAnimation animation = new ResizeAnimation(view, getHeight());
 		animation.setAnimationListener(new AnimationListener() {
@@ -207,7 +226,6 @@ public class ItinScrollView extends ScrollView {
 			public void onAnimationStart(Animation animation) {
 				view.showSummary(true);
 				view.showDetails(true);
-				smoothScrollTo(0, view.getTop());
 			}
 
 			@Override
@@ -216,13 +234,13 @@ public class ItinScrollView extends ScrollView {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				smoothScrollTo(0, view.getTop());
+				scrollTo(0, stopY);
 			}
 		});
 		animation.setAnimationStepListener(new AnimationStepListener() {
 			@Override
-			public void onAnimationStep(Animation animation) {
-				smoothScrollTo(0, view.getTop());
+			public void onAnimationStep(Animation animation, float interpolatedTime) {
+				scrollTo(0, (int) (((stopY - startY) * interpolatedTime) + startY));
 			}
 		});
 
