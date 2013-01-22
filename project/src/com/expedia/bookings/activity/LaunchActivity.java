@@ -333,7 +333,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		mPagerPosition = PAGER_POS_WATERFALL;
 		mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
-		mItinListFragment.showList();
+		mItinListFragment.setListMode();
 		mHeader.show();
 
 		supportInvalidateOptionsMenu();

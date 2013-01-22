@@ -14,7 +14,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.TripComponent;
-import com.mobiata.android.Log;
 
 public class ItinScrollView extends ScrollView {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -70,10 +69,8 @@ public class ItinScrollView extends ScrollView {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		Log.t("onTouchEvent");
-
 		if (mMode == MODE_DETAIL) {
-			return mContainer.getChildAt(mDetailPosition).onTouchEvent(event);
+			return mContainer.getChildAt(mDetailPosition).dispatchTouchEvent(event);
 		}
 
 		return super.onTouchEvent(event);
@@ -81,10 +78,8 @@ public class ItinScrollView extends ScrollView {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
-		Log.t("onInterceptTouchEvent");
-
 		if (mMode == MODE_DETAIL) {
-			return mContainer.getChildAt(mDetailPosition).onTouchEvent(event);
+			return mContainer.getChildAt(mDetailPosition).dispatchTouchEvent(event);
 		}
 
 		return super.onInterceptTouchEvent(event);
@@ -105,6 +100,10 @@ public class ItinScrollView extends ScrollView {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	public void clearItinItems() {
+		mAdapter.clearItinItems();
+	}
 
 	public void addAllItinItems(List<TripComponent> items) {
 		mAdapter.addAllItinItems(items);
@@ -164,8 +163,9 @@ public class ItinScrollView extends ScrollView {
 			return;
 		}
 
-		final int animationPosition = mDetailPosition;
 		final ItinCard view = (ItinCard) mContainer.getChildAt(mDetailPosition);
+		final int animationPosition = mDetailPosition;
+
 		Animation animation = new ResizeAnimation(view, mExpandedCardOriginalSize);
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
@@ -200,6 +200,7 @@ public class ItinScrollView extends ScrollView {
 		// Expand detail card
 		final ItinCard view = (ItinCard) mContainer.getChildAt(mDetailPosition);
 		mExpandedCardOriginalSize = view.getHeight();
+
 		final ResizeAnimation animation = new ResizeAnimation(view, getHeight());
 		animation.setAnimationListener(new AnimationListener() {
 			@Override

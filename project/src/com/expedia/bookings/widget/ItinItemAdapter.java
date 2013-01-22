@@ -16,13 +16,7 @@ public class ItinItemAdapter extends BaseAdapter {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private Context mContext;
-
 	private List<TripComponent> mItems = new ArrayList<TripComponent>();
-
-	private int mDetailPosition = -1;
-	private int mLastDetailPosition = -1;
-
-	private int mExpandedCardHeight;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTOR
@@ -76,8 +70,6 @@ public class ItinItemAdapter extends BaseAdapter {
 		//bind card and stuff...
 		card.bind(getItem(position));
 		card.showSummary(position == 0);
-		card.showDetails(position == mDetailPosition);
-		card.showBottomPadding(position == getCount() - 1);
 
 		return card;
 	}
@@ -104,10 +96,5 @@ public class ItinItemAdapter extends BaseAdapter {
 	public void setItinItems(List<TripComponent> items) {
 		mItems = items;
 		notifyDataSetChanged();
-	}
-
-	public void setDetailPosition(int position, int expandedHeight) {
-		mLastDetailPosition = mDetailPosition;
-		mDetailPosition = position;
 	}
 }

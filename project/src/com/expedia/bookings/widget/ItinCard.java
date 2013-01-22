@@ -35,8 +35,6 @@ public abstract class ItinCard extends RelativeLayout {
 	private ImageView mFloatTypeIcon;
 	private TextView mItinHeaderText;
 
-	private int mPaddingBottom;
-
 	private boolean mShowSummary = true;
 	private boolean mShowDetails = true;
 
@@ -67,8 +65,6 @@ public abstract class ItinCard extends RelativeLayout {
 		mDetailsScrollView = Ui.findView(this, R.id.details_scroll_view);
 		mItinHeaderText = Ui.findView(this, R.id.itin_heading_text);
 
-		mPaddingBottom = getResources().getDimensionPixelSize(R.dimen.itin_list_card_top_image_offset);
-
 		setWillNotDraw(false);
 	}
 
@@ -88,11 +84,6 @@ public abstract class ItinCard extends RelativeLayout {
 	public void showDetails(final boolean show) {
 		mDetailsScrollView.setVisibility(show ? VISIBLE : GONE);
 		mShowDetails = show;
-	}
-
-	public void showBottomPadding(boolean show) {
-		int padding = show ? mPaddingBottom : 0;
-		setPadding(0, 0, 0, padding);
 	}
 
 	public void updateTypeIconPosition() {

@@ -6,7 +6,6 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -14,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.expedia.bookings.R;
@@ -30,8 +27,6 @@ import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
-import com.expedia.bookings.widget.ItinItemAdapter;
-import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinScrollView;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
@@ -81,10 +76,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		mListView.setOnScrollListener(mOnScrollListener);
 		mAccountButton.setListener(this);
 
-		setListVisibility();
-		
-		
-		mOrEnterNumberTv.setOnClickListener(new OnClickListener(){
+		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				showAddItinDialog();
@@ -102,18 +94,18 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	}
 
 	public boolean inListMode() {
-		return mListView.getMode() == ItinListView.MODE_LIST;
+		return mListView.getMode() == ItinScrollView.MODE_LIST;
 	}
 
 	public void setListMode() {
-		mListView.setMode(ItinListView.MODE_LIST);
+		mListView.setMode(ItinScrollView.MODE_LIST);
 	}
 
 	public void enableLoadItins() {
 		mAllowLoadItins = true;
 		refreshAccountButtonState();
 	}
-	
+
 	public synchronized void showAddItinDialog() {
 		ItineraryGuestAddDialogFragment addNewItinFrag = (ItineraryGuestAddDialogFragment) getFragmentManager()
 				.findFragmentByTag(ItineraryGuestAddDialogFragment.TAG);
@@ -169,28 +161,28 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 
 		// Update UI
 		mAccountButton.bind(false, false, null, true);
-		
+
 		//TODO: We should keep around the guest itins...
-		if(mAdapter != null){
-			mAdapter.clearItinItems();
-		}
-		
+		mListView.clearItinItems();
+
 		invalidateOptionsMenu();
 	}
-	
+
 	@SuppressLint("NewApi")
-	public void invalidateOptionsMenu(){
-		if(this.getActivity() != null){
-			if(getActivity() instanceof SherlockActivity){
+	public void invalidateOptionsMenu() {
+		if (this.getActivity() != null) {
+			if (getActivity() instanceof SherlockActivity) {
 				((SherlockActivity) getActivity()).supportInvalidateOptionsMenu();
-			}else if(AndroidUtils.getSdkVersion() >= 11){
+			}
+			else if (AndroidUtils.getSdkVersion() >= 11) {
 				getActivity().invalidateOptionsMenu();
-			}else{
-				throw new RuntimeException("ItinItemListFragment should be attached to a SherlockActivity if sdk version < 11");
+			}
+			else {
+				throw new RuntimeException(
+						"ItinItemListFragment should be attached to a SherlockActivity if sdk version < 11");
 			}
 		}
 	}
-	
 
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser(), true);
@@ -201,23 +193,11 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 				bd.startDownload(NET_TRIPS, mTripDownload, mTripHandler);
 			}
 		}
-		
+
 		invalidateOptionsMenu();
 	}
 
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
-		//		@Override
-		//		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		//			if (firstVisibleItem == 0) {
-		//				if (view.getChildAt(0) != null) {
-		//					mActivity.setHeaderOffset(view.getChildAt(0).getTop());
-		//				}
-		//			}
-		//			else {
-		//				mActivity.setHeaderOffset(-9999);
-		//			}
-		//		}
-
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			mActivity.setHeaderOffset(-y);
@@ -225,7 +205,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	};
 
 	//////////////
-	//TODO: REMOVE THIS STUFF WHEN WE GET A BETTER ITIN MANAGER IN PLACE
+	// TODO: REMOVE THIS STUFF WHEN WE GET A BETTER ITIN MANAGER IN PLACE
 	/////////////
 
 	private final Download<TripResponse> mTripDownload = new Download<TripResponse>() {

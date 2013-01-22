@@ -11,7 +11,8 @@
     <com.expedia.bookings.widget.ItinScrollView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
 
     <!-- The No itins portion -->
 
@@ -43,9 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:textSize="22sp"
+                android:text="@string/no_upcoming_trips"
                 android:textColor="@android:color/white"
-                android:text="@string/no_upcoming_trips" />
+                android:textSize="22sp" />
 
             <include
                 android:id="@+id/account_button_root"
@@ -64,10 +65,10 @@
             android:layout_weight="0"
             android:gravity="center_horizontal"
             android:padding="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:text="@string/or_enter_an_itinerary_number"
             android:textColor="@android:color/white"
-            android:text="@string/or_enter_an_itinerary_number" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </RelativeLayout>
