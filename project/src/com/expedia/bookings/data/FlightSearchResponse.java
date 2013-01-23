@@ -106,7 +106,7 @@ public class FlightSearchResponse extends Response {
 			JSONUtils.putJSONableList(obj, "legs", new ArrayList<FlightLeg>(legMap.values()));
 
 			JSONUtils.putJSONableList(obj, "searchCities", mSearchCities);
-			obj.put("obFeesDetails", mObFeesDetails);
+			obj.putOpt("obFeesDetails", mObFeesDetails);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -135,7 +135,7 @@ public class FlightSearchResponse extends Response {
 		}
 
 		mSearchCities = JSONUtils.getJSONableList(obj, "searchCities", Location.class);
-		mObFeesDetails = obj.optString("obFeesDetails");
+		mObFeesDetails = obj.optString("obFeesDetails", null);
 		return true;
 	}
 }

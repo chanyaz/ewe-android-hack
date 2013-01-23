@@ -106,7 +106,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		// Put in all airline names, weighting towards non-operating names
 		mOperatingAirlineNames.putAll(mAirlineNames);
 		mResponse.setAirlineNames(mOperatingAirlineNames);
-		mResponse.setObFeesDetails(response.optString("obFeesDetails"));
+		mResponse.setObFeesDetails(response.optString("obFeesDetails", null));
 
 		Log.d("Flight search response parse time: " + ((System.nanoTime() - start) / 1000000) + " ms; # trips="
 				+ mResponse.getTripCount() + ", # legs=" + mLegs.size());
