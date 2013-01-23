@@ -95,14 +95,13 @@ public class RateRules implements JSONable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean fromJson(JSONObject obj) {
 		mServiceFeesText = obj.optString("serviceFeesText", null);
 		mTaxesText = obj.optString("taxesText", null);
 
-		mAcceptedCreditCardBrands = (List<CreditCardBrand>) JSONUtils.getJSONableList(obj, "acceptedCreditCardBrands",
+		mAcceptedCreditCardBrands = JSONUtils.getJSONableList(obj, "acceptedCreditCardBrands",
 				CreditCardBrand.class);
-		mPolicies = (List<Policy>) JSONUtils.getJSONableList(obj, "policies", Policy.class);
+		mPolicies = JSONUtils.getJSONableList(obj, "policies", Policy.class);
 
 		return true;
 	}

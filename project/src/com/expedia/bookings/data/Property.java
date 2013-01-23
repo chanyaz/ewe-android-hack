@@ -335,23 +335,22 @@ public class Property implements JSONable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean fromJson(JSONObject obj) {
 		mName = obj.optString("name", null);
 		mPropertyId = obj.optString("propertyId", null);
-		mLocation = (Location) JSONUtils.getJSONable(obj, "location", Location.class);
+		mLocation = JSONUtils.getJSONable(obj, "location", Location.class);
 		mDescriptionText = obj.optString("description", null);
-		mThumbnail = (Media) JSONUtils.getJSONable(obj, "thumbnail", Media.class);
-		mMedia = (List<Media>) JSONUtils.getJSONableList(obj, "media", Media.class);
+		mThumbnail = JSONUtils.getJSONable(obj, "thumbnail", Media.class);
+		mMedia = JSONUtils.getJSONableList(obj, "media", Media.class);
 		mAvailable = obj.optBoolean("available", false);
-		mDistanceFromUser = (Distance) JSONUtils.getJSONable(obj, "distanceFromUser", Distance.class);
+		mDistanceFromUser = JSONUtils.getJSONable(obj, "distanceFromUser", Distance.class);
 		mSupplierType = obj.optString("supplierType", null);
 		mHotelRating = obj.optDouble("hotelRating");
 		mTotalReviews = obj.optInt("totalReviews", 0);
 		mTotalRecommendations = obj.optInt("totalRecommendations", 0);
 		mAverageExpediaRating = obj.optDouble("averageExpediaRating", 0);
 		mAmenityMask = obj.optInt("amenityMask");
-		mLowestRate = (Rate) JSONUtils.getJSONable(obj, "lowestRate", Rate.class);
+		mLowestRate = JSONUtils.getJSONable(obj, "lowestRate", Rate.class);
 
 		return true;
 	}

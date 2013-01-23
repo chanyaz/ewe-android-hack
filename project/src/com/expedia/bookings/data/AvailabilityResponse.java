@@ -155,12 +155,11 @@ public class AvailabilityResponse extends Response {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 
-		mRates = (List<Rate>) JSONUtils.getJSONableList(obj, "rates", Rate.class);
+		mRates = JSONUtils.getJSONableList(obj, "rates", Rate.class);
 
 		return true;
 	}

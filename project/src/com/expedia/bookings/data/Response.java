@@ -156,10 +156,9 @@ public class Response implements JSONable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mErrors = (List<ServerError>) JSONUtils.getJSONableList(obj, "errors", ServerError.class);
+		mErrors = JSONUtils.getJSONableList(obj, "errors", ServerError.class);
 		mTimestamp = obj.optLong("timestamp");
 		return true;
 	}

@@ -639,52 +639,51 @@ public class Rate implements JSONable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean fromJson(JSONObject obj) {
 		mRatePlanCode = obj.optString("ratePlanCode", null);
 		mRatePlanName = obj.optString("ratePlanName", null);
 		mRoomDescription = obj.optString("roomDescription", null);
 		mRoomLongDescription = obj.optString("roomLongDescription", null);
 
-		mRateBreakdown = (List<RateBreakdown>) JSONUtils.getJSONableList(obj, "rateBreakdown", RateBreakdown.class);
+		mRateBreakdown = JSONUtils.getJSONableList(obj, "rateBreakdown", RateBreakdown.class);
 		mRateChange = obj.optBoolean("rateChange", false);
 		mHasFreeCancellation = obj.optBoolean("hasFreeCancellation", false);
 		mNonRefundable = obj.optBoolean("nonRefundable", false);
 
-		mDailyAmountBeforeTax = (Money) JSONUtils.getJSONable(obj, "dailyAmountBeforeTax", Money.class);
-		mTotalAmountBeforeTax = (Money) JSONUtils.getJSONable(obj, "totalAmountBeforeTax", Money.class);
-		mTotalAmountAfterTax = (Money) JSONUtils.getJSONable(obj, "totalAmountAfterTax", Money.class);
+		mDailyAmountBeforeTax = JSONUtils.getJSONable(obj, "dailyAmountBeforeTax", Money.class);
+		mTotalAmountBeforeTax = JSONUtils.getJSONable(obj, "totalAmountBeforeTax", Money.class);
+		mTotalAmountAfterTax = JSONUtils.getJSONable(obj, "totalAmountAfterTax", Money.class);
 
 		mRateType = obj.optInt("rateType");
 		mRateKey = obj.optString("rateKey", null);
 		mRoomTypeCode = obj.optString("roomTypeCode", null);
 
-		mTaxesAndFeesPerRoom = (Money) JSONUtils.getJSONable(obj, "taxesAndFeesPerRoom", Money.class);
-		mExtraGuestFee = (Money) JSONUtils.getJSONable(obj, "extraGuestFee", Money.class);
+		mTaxesAndFeesPerRoom = JSONUtils.getJSONable(obj, "taxesAndFeesPerRoom", Money.class);
+		mExtraGuestFee = JSONUtils.getJSONable(obj, "extraGuestFee", Money.class);
 
 		mBookingCode = obj.optString("bookingCode", null);
 		mRoomTypeName = obj.optString("roomTypeName", null);
 
 		mPromoDescription = obj.optString("promoDescription", null);
-		mAverageRate = (Money) JSONUtils.getJSONable(obj, "averageRate", Money.class);
-		mAverageBaseRate = (Money) JSONUtils.getJSONable(obj, "averageBaseRate", Money.class);
+		mAverageRate = JSONUtils.getJSONable(obj, "averageRate", Money.class);
+		mAverageBaseRate = JSONUtils.getJSONable(obj, "averageBaseRate", Money.class);
 		mDiscountPercent = obj.optDouble("discountPercent", UNSET_DISCOUNT_PERCENT);
-		mTotalSurcharge = (Money) JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
+		mTotalSurcharge = JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
 		if (mTotalSurcharge == null) {
 			// Try surcharge from EAN
-			mTotalSurcharge = (Money) JSONUtils.getJSONable(obj, "surcharge", Money.class);
+			mTotalSurcharge = JSONUtils.getJSONable(obj, "surcharge", Money.class);
 		}
-		mTotalMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
-		mTotalPriceWithMandatoryFees = (Money) JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
+		mTotalMandatoryFees = JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
+		mTotalPriceWithMandatoryFees = JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
 		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];
-		mPriceToShowUsers = (Money) JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
-		mStrikethroughPriceToShowUsers = (Money) JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers",
+		mPriceToShowUsers = JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
+		mStrikethroughPriceToShowUsers = JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers",
 				Money.class);
 		mNumberOfNights = obj.optInt("numberOfNights", 0);
 		mNumRoomsLeft = obj.optInt("numRoomsLeft", 0);
 		mValueAdds = JSONUtils.getStringList(obj, "valueAdds");
 
-		mRateRules = (RateRules) JSONUtils.getJSONable(obj, "rateRules", RateRules.class);
+		mRateRules = JSONUtils.getJSONable(obj, "rateRules", RateRules.class);
 
 		return true;
 	}

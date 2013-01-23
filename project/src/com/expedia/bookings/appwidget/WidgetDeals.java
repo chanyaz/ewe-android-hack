@@ -135,11 +135,10 @@ public class WidgetDeals implements JSONable {
 		return obj;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fromJson(JSONObject obj) {
 
-		mDeals = (List<Property>) JSONUtils.getJSONableList(obj, "deals", Property.class);
+		mDeals = JSONUtils.getJSONableList(obj, "deals", Property.class);
 		if (mDeals == null) {
 			return false;
 		}
