@@ -2,10 +2,8 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -18,6 +16,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
 
 public class FlightPaymentCreditCardFragment extends Fragment implements Validatable {
@@ -91,20 +90,9 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		if (focused == null || !(focused instanceof EditText)) {
 			focused = Ui.findView(mSectionCreditCard, R.id.edit_creditcard_number);
 		}
-		final View finalFocused = focused;
-		if (finalFocused != null && finalFocused instanceof EditText) {
-			finalFocused.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					//Dumb but effective - show the keyboard by emulating a click on the view
-					finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
-							SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
-					finalFocused.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
-							SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0));
-				}
-			}, 200);
+		if (focused != null && focused instanceof EditText) {
+			FocusViewRunnable.focusView(this, focused);
 		}
-
 	}
 
 	@Override
