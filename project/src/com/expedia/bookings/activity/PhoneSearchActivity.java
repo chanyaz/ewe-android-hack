@@ -316,15 +316,16 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					mRadiusCheckedId = R.id.radius_all_button;
 					searchResponse.clearCache();
 				}
-				broadcastSearchCompleted(searchResponse);
-
-				hideLoading();
 
 				// #9773: Show distance sort initially, if user entered street address-level search params
 				if (mShowDistance) {
 					mSortOptionSelectedId = R.id.menu_select_sort_distance;
 					buildFilter();
 				}
+
+				broadcastSearchCompleted(searchResponse);
+
+				hideLoading();
 
 				mLastSearchTime = Calendar.getInstance().getTimeInMillis();
 			}
@@ -626,16 +627,19 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
 			if (downloader.isDownloading(KEY_LOADING_PREVIOUS)) {
 				Log.d("Already loading previous search results, resuming the load...");
+				mActivityState = ActivityState.SEARCHING;
 				downloader.registerDownloadCallback(KEY_LOADING_PREVIOUS, mLoadSavedResultsCallback);
 				showLoading(true, R.string.loading_previous);
 			}
 			else if (downloader.isDownloading(KEY_GEOCODE)) {
 				Log.d("Already geocoding, resuming the search...");
+				mActivityState = ActivityState.SEARCHING;
 				downloader.registerDownloadCallback(KEY_GEOCODE, mGeocodeCallback);
 				showLoading(true, R.string.progress_searching_hotels);
 			}
 			else if (downloader.isDownloading(KEY_SEARCH)) {
 				Log.d("Already searching, resuming the search...");
+				mActivityState = ActivityState.SEARCHING;
 				downloader.registerDownloadCallback(KEY_SEARCH, mSearchCallback);
 				showLoading(true, R.string.progress_searching_hotels);
 			}
