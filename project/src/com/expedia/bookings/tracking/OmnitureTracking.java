@@ -50,7 +50,7 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// STANDARD PAGE NAME CONSTANTS
 
-	private static final String TAG = "OmnitureTracking";
+	private static final String TAG = OmnitureTracking.class.getSimpleName();
 
 	// Launcher
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
