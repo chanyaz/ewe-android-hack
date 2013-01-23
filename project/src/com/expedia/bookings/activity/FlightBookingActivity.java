@@ -375,8 +375,10 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			OmnitureTracking.trackErrorPageLoadFlightSearchExpired(mContext);
 			return;
 		case CANNOT_BOOK_WITH_MINOR:
-			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null, errors.get(0).getMessage(),
-					getString(android.R.string.ok), DIALOG_CALLBACK_MINOR);
+			DialogFragment frag = SimpleCallbackDialogFragment
+					.newInstance(null,
+							getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
+							DIALOG_CALLBACK_MINOR);
 			frag.show(getSupportFragmentManager(), "cannotBookWithMinorDialog");
 			return;
 		default:

@@ -551,6 +551,8 @@
     <string name="error_invalid_card_number">The credit card number you entered is invalid, please try again.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">The credit card you tried to use has expired, please use a different credit card.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Sorry, booking for children under the age of 18 is not yet supported.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Sorry, we don\'t seem to be able to process your order right now. Please try again.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
