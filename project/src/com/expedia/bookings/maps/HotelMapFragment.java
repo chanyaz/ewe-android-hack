@@ -48,6 +48,8 @@ public class HotelMapFragment extends SupportMapFragment {
 	private static final String INSTANCE_INFO_WINDOW_SHOWING = "INSTANCE_INFO_WINDOW_SHOWING";
 	private static final String EXACT_LOCATION_MARKER = "EXACT_LOCATION_MARKER";
 
+	private static float DEFAULT_ZOOM = 12.0f;
+
 	private GoogleMap mMap;
 
 	private boolean mShowDistances;
@@ -241,7 +243,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 		if (isAnimated) {
 			animateCamera(CameraUpdateFactory.newLatLngZoom(
-					new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), 12.0f));
+					new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), DEFAULT_ZOOM));
 		}
 	}
 
@@ -414,7 +416,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	public void notifySearchLocationFound() {
 		SearchParams params = Db.getSearchParams();
 		animateCamera(CameraUpdateFactory.newLatLngZoom(
-				new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), 12.0f));
+				new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), DEFAULT_ZOOM));
 	}
 
 	public void notifyPropertySelected() {
