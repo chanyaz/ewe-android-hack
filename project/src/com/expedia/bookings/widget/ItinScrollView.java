@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.TripComponentAdapter;
 
 public class ItinScrollView extends ScrollView {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +28,7 @@ public class ItinScrollView extends ScrollView {
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private ItinItemAdapter mAdapter;
+	private TripComponentAdapter mAdapter;
 
 	private LinearLayout mContainer;
 	private View mEmptyView;
@@ -58,7 +59,7 @@ public class ItinScrollView extends ScrollView {
 
 		addView(mContainer);
 
-		mAdapter = new ItinItemAdapter(context);
+		mAdapter = new TripComponentAdapter(context);
 		mAdapter.registerDataSetObserver(mDataSetObserver);
 		setOnScrollListener(null);
 
@@ -95,21 +96,24 @@ public class ItinScrollView extends ScrollView {
 				getChildAt(i).invalidate();
 			}
 		}
-
 		super.onScrollChanged(x, y, oldx, oldy);
+	}
+
+	@Override
+	public void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		mAdapter.disableSelfManagement();
+	}
+
+	@Override
+	public void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		mAdapter.enableSelfManagement();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	public void clearItinItems() {
-		mAdapter.clearItinItems();
-	}
-
-	public void addAllItinItems(List<TripComponent> items) {
-		mAdapter.addAllItinItems(items);
-	}
 
 	public int getMode() {
 		return mMode;

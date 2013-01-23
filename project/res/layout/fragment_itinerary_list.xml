@@ -56,6 +56,15 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 layout="@layout/include_account_button_flights" />
+
+            <ProgressBar
+                android:id="@+id/empty_progress_bar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:indeterminateOnly="true"
+                android:visibility="gone" />
         </LinearLayout>
 
         <TextView

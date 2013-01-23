@@ -23,6 +23,7 @@ public class ItineraryGuestAddDialogFragment extends DialogFragment {
 	private View mCancelBtn;
 	private EditText mEmailEdit;
 	private EditText mItinNumEdit;
+	private AddGuestItineraryDialogListener mListener;
 
 	public static ItineraryGuestAddDialogFragment newInstance() {
 		return new ItineraryGuestAddDialogFragment();
@@ -45,17 +46,16 @@ public class ItineraryGuestAddDialogFragment extends DialogFragment {
 		dialog.setCancelable(true);
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.setContentView(view);
-		
-		
+
 		return dialog;
 	}
-	
+
 	@Override
 	public void onDismiss(DialogInterface dialog) {
 		if (isAdded()) {
 			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		}
-		
+
 		super.onDismiss(dialog);
 	}
 
@@ -66,8 +66,10 @@ public class ItineraryGuestAddDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				String emailAddr = mEmailEdit.getText().toString();
 				String itinNumber = mItinNumEdit.getText().toString();
-				//TODO: Download itin or make the manager do it or something
-				Ui.showToast(getActivity(), "Fakin it!");
+				if (mListener != null) {
+					mListener.onFindItinClicked(emailAddr, itinNumber);
+				}
+				ItineraryGuestAddDialogFragment.this.dismissAllowingStateLoss();
 			}
 
 		});
@@ -75,10 +77,23 @@ public class ItineraryGuestAddDialogFragment extends DialogFragment {
 
 			@Override
 			public void onClick(View arg0) {
+				if (mListener != null)
+				{
+					mListener.onCancel();
+				}
 				ItineraryGuestAddDialogFragment.this.dismissAllowingStateLoss();
 			}
 		});
 	}
 
-	
+	public void setListener(AddGuestItineraryDialogListener listener) {
+		mListener = listener;
+	}
+
+	public interface AddGuestItineraryDialogListener {
+		public void onFindItinClicked(String email, String itinNumber);
+
+		public void onCancel();
+	}
+
 }

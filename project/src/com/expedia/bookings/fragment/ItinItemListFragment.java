@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.expedia.bookings.R;
@@ -20,24 +20,21 @@ import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.data.trips.TripComponent;
-import com.expedia.bookings.data.trips.TripResponse;
+import com.expedia.bookings.fragment.ItineraryGuestAddDialogFragment.AddGuestItineraryDialogListener;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.ItinScrollView;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
 public class ItinItemListFragment extends Fragment implements AccountButtonClickListener,
-		ConfirmLogoutDialogFragment.DoLogoutListener {
+		ConfirmLogoutDialogFragment.DoLogoutListener, ItinerarySyncListener {
 
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
 	private static final String NET_TRIPS = "NET_TRIPS";
@@ -47,6 +44,8 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	private ItinScrollView mListView;
 	private View mEmptyView;
 	private View mOrEnterNumberTv;
+	private ItineraryManager mItinManager;
+	private ProgressBar mEmptyProgressBar;
 
 	private AccountButton mAccountButton;
 
@@ -61,6 +60,8 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		super.onAttach(activity);
 
 		mActivity = (LaunchActivity) activity;
+		mItinManager = ItineraryManager.getInstance();
+		mItinManager.addSyncListener(this);
 	}
 
 	@Override
@@ -71,6 +72,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		mEmptyView = Ui.findView(view, android.R.id.empty);
 		mAccountButton = Ui.findView(view, R.id.account_button_root);
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
+		mEmptyProgressBar = Ui.findView(view, R.id.empty_progress_bar);
 
 		mListView.setEmptyView(mEmptyView);
 		mListView.setOnScrollListener(mOnScrollListener);
@@ -91,6 +93,19 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		super.onResume();
 
 		refreshAccountButtonState();
+
+		syncItinManager();
+	}
+
+	public void syncItinManager() {
+		if (mAllowLoadItins) {
+			mItinManager.startSync();
+			setIsLoading(true);
+		}
+	}
+
+	public void setIsLoading(boolean isLoading) {
+		mEmptyProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 	}
 
 	public boolean inListMode() {
@@ -103,6 +118,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 
 	public void enableLoadItins() {
 		mAllowLoadItins = true;
+		syncItinManager();
 		refreshAccountButtonState();
 	}
 
@@ -113,6 +129,21 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 			addNewItinFrag = ItineraryGuestAddDialogFragment.newInstance();
 		}
 		if (!addNewItinFrag.isAdded() && !addNewItinFrag.isVisible()) {
+			addNewItinFrag.setListener(new AddGuestItineraryDialogListener() {
+
+				@Override
+				public void onFindItinClicked(String email, String itinNumber) {
+					mItinManager.addGuestTrip(email, itinNumber, true);
+					setIsLoading(true);
+				}
+
+				@Override
+				public void onCancel() {
+					// We dont care...
+
+				}
+
+			});
 			addNewItinFrag.show(getFragmentManager(), ItineraryGuestAddDialogFragment.TAG);
 		}
 	}
@@ -162,10 +193,9 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		// Update UI
 		mAccountButton.bind(false, false, null, true);
 
-		//TODO: We should keep around the guest itins...
-		mListView.clearItinItems();
-
 		invalidateOptionsMenu();
+
+		syncItinManager();
 	}
 
 	@SuppressLint("NewApi")
@@ -187,12 +217,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser(), true);
 
-		if (mAllowLoadItins) {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			if (!bd.isDownloading(NET_TRIPS)) {
-				bd.startDownload(NET_TRIPS, mTripDownload, mTripHandler);
-			}
-		}
+		syncItinManager();
 
 		invalidateOptionsMenu();
 	}
@@ -204,29 +229,33 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		}
 	};
 
-	//////////////
-	// TODO: REMOVE THIS STUFF WHEN WE GET A BETTER ITIN MANAGER IN PLACE
-	/////////////
+	@Override
+	public void onTripAdded(Trip trip) {
+		// TODO Auto-generated method stub
 
-	private final Download<TripResponse> mTripDownload = new Download<TripResponse>() {
-		@Override
-		public TripResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			return services.getTrips(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
-		}
-	};
+	}
 
-	private final OnDownloadComplete<TripResponse> mTripHandler = new OnDownloadComplete<TripResponse>() {
-		@Override
-		public void onDownload(TripResponse response) {
-			List<Trip> trips = response.getTrips();
-			List<TripComponent> tripComponents = new ArrayList<TripComponent>();
+	@Override
+	public void onTripUpdated(Trip trip) {
+		// TODO Auto-generated method stub
 
-			for (int i = 0; i < trips.size(); i++) {
-				tripComponents.addAll(trips.get(i).getTripComponents());
-			}
+	}
 
-			mListView.addAllItinItems(tripComponents);
-		}
-	};
+	@Override
+	public void onTripUpateFailed(Trip trip) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTripRemoved(Trip trip) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSyncFinished(Collection<Trip> trips) {
+		setIsLoading(false);
+	}
+
 }
