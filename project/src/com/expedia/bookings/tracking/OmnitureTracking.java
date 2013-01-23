@@ -939,7 +939,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"App.Hotels.Checkout.Payment\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
-		s.clearVars();
 
 		TrackingUtils.addStandardFields(context, s);
 
