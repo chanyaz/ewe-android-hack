@@ -2,10 +2,8 @@ package com.expedia.bookings.utils;
 
 import java.util.List;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,48 +16,14 @@ import com.mobiata.android.util.SettingUtils;
 
 public class GuestsPickerUtils {
 
-	private static final int MAX_PER_TYPE = 4;
 	private static final int MAX_GUESTS = 5;
 	private static final int MIN_ADULTS = 1;
+	private static final int MAX_ADULTS = 4;
 	private static final int MIN_CHILDREN = 0;
+	private static final int MAX_CHILDREN = 4;
 	private static final int DEFAULT_CHILD_AGE = 10;
 	public static final int MIN_CHILD_AGE = 0;
 	public static final int MAX_CHILD_AGE = 17;
-
-	@TargetApi(11)
-	public static void configureDisplayedValues(Context context, android.widget.NumberPicker adultsNumberPicker,
-			android.widget.NumberPicker childrenNumberPicker) {
-		adultsNumberPicker.setDisplayedValues(getAdultsDisplayedValues(context));
-		childrenNumberPicker.setDisplayedValues(getChildDisplayedValues(context));
-	}
-
-	private static String[] getAdultsDisplayedValues(Context context) {
-		Resources r = context.getResources();
-		String[] adultDisplayedValues = new String[MAX_PER_TYPE];
-		for (int a = 1; a <= MAX_PER_TYPE; a++) {
-			adultDisplayedValues[a - 1] = r.getQuantityString(R.plurals.number_of_adults, a, a);
-		}
-		return adultDisplayedValues;
-	}
-
-	private static String[] getChildDisplayedValues(Context context) {
-		Resources r = context.getResources();
-		String[] childDisplayedValues = new String[MAX_PER_TYPE + 1];
-		for (int a = 0; a <= MAX_PER_TYPE; a++) {
-			childDisplayedValues[a] = r.getQuantityString(R.plurals.number_of_children, a, a);
-		}
-		return childDisplayedValues;
-	}
-
-	// Handles updates to which values are valid in NumberPicker setups
-	@TargetApi(11)
-	public static void updateNumberPickerRanges(android.widget.NumberPicker adultsNumberPicker,
-			android.widget.NumberPicker childrenNumberPicker) {
-		adultsNumberPicker.setMinValue(MIN_ADULTS);
-		adultsNumberPicker.setMaxValue(getMaxAdults(childrenNumberPicker.getValue()));
-		childrenNumberPicker.setMinValue(MIN_CHILDREN);
-		childrenNumberPicker.setMaxValue(getMaxChildren(adultsNumberPicker.getValue()));
-	}
 
 	public static void updateNumberPickerRanges(com.expedia.bookings.widget.NumberPicker adultsNumberPicker,
 			com.expedia.bookings.widget.NumberPicker childrenNumberPicker) {
@@ -69,37 +33,12 @@ public class GuestsPickerUtils {
 		childrenNumberPicker.setMaxValue(getMaxChildren(adultsNumberPicker.getValue()));
 	}
 
-	public static void updateNumberPickerRanges(com.expedia.bookings.widget.SimpleNumberPicker adultsNumberPicker,
-			com.expedia.bookings.widget.SimpleNumberPicker childrenNumberPicker) {
-		adultsNumberPicker.setMinValue(MIN_ADULTS);
-		adultsNumberPicker.setMaxValue(getMaxAdults(childrenNumberPicker.getValue()));
-		childrenNumberPicker.setMinValue(MIN_CHILDREN);
-		childrenNumberPicker.setMaxValue(getMaxChildren(adultsNumberPicker.getValue()));
+	public static int getMaxAdults(int numChildren) {
+		return Math.min(MAX_ADULTS, MAX_GUESTS - numChildren);
 	}
 
-	public static int getMaxPerType() {
-		return MAX_PER_TYPE;
-	}
-
-	private static int getMaxAdults(int numChildren) {
-		return Math.min(MAX_PER_TYPE, MAX_GUESTS - numChildren);
-	}
-
-	private static int getMaxChildren(int numAdults) {
-		return Math.min(MAX_PER_TYPE, MAX_GUESTS - numAdults);
-	}
-
-	public static void configureAndUpdateDisplayedValues(Context context,
-			com.mobiata.android.widget.NumberPicker adultsNumberPicker,
-			com.mobiata.android.widget.NumberPicker childrenNumberPicker) {
-		int numAdults = adultsNumberPicker.getCurrent();
-		int numChildren = childrenNumberPicker.getCurrent();
-
-		adultsNumberPicker.setRange(MIN_ADULTS, getMaxAdults(numChildren), getAdultsDisplayedValues(context));
-		childrenNumberPicker.setRange(MIN_CHILDREN, getMaxChildren(numAdults), getChildDisplayedValues(context));
-
-		adultsNumberPicker.setCurrent(numAdults);
-		childrenNumberPicker.setCurrent(numChildren);
+	public static int getMaxChildren(int numAdults) {
+		return Math.min(MAX_CHILDREN, MAX_GUESTS - numAdults);
 	}
 
 	public static void configureAndUpdateDisplayedValues(Context context,
@@ -116,6 +55,7 @@ public class GuestsPickerUtils {
 		adultsNumberPicker.setValue(numAdults);
 		childrenNumberPicker.setValue(numChildren);
 	}
+
 	public static void showOrHideChildAgeSpinners(Context context, List<Integer> children, View container,
 			OnItemSelectedListener listener) {
 		showOrHideChildAgeSpinners(context, children, container, listener, View.GONE);
@@ -137,7 +77,7 @@ public class GuestsPickerUtils {
 			return;
 		}
 
-		for (int i = 0; i < GuestsPickerUtils.getMaxPerType(); i++) {
+		for (int i = 0; i < MAX_CHILDREN; i++) {
 			View row = GuestsPickerUtils.getChildAgeLayout(container, i);
 			int visibility = i < numChildren ? View.VISIBLE : hiddenState;
 			row.setVisibility(visibility);
@@ -194,12 +134,7 @@ public class GuestsPickerUtils {
 				continue;
 			}
 
-			Spinner ageSpinner = (Spinner) row;
-			if (ageSpinner == null) {
-				continue;
-			}
-
-			Integer age = (Integer) ageSpinner.getSelectedItem();
+			Integer age = (Integer) ((Spinner) row).getSelectedItem();
 			children.set(i, age);
 		}
 	}

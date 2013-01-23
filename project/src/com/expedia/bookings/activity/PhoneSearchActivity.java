@@ -530,12 +530,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
 		mAdultsNumberPicker.setMinValue(1);
-		mAdultsNumberPicker.setMaxValue(GuestsPickerUtils.getMaxPerType());
+		mAdultsNumberPicker.setMaxValue(GuestsPickerUtils.getMaxAdults(0));
 		mAdultsNumberPicker.setValue(searchParams.getNumAdults());
 
 		mChildrenNumberPicker.setFormatter(mChildrenNumberPickerFormatter);
 		mChildrenNumberPicker.setMinValue(0);
-		mChildrenNumberPicker.setMaxValue(GuestsPickerUtils.getMaxPerType());
+		mChildrenNumberPicker.setMaxValue(GuestsPickerUtils.getMaxChildren(1));
 		mChildrenNumberPicker.setValue(searchParams.getNumChildren());
 
 		showFragment(mTag);
