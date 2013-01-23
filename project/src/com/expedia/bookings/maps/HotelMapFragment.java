@@ -69,9 +69,14 @@ public class HotelMapFragment extends SupportMapFragment {
 	// Data being displayed.  It is assumed that the overlay doesn't need
 	// to keep track of state because the app will maintain this data
 	private List<Property> mProperties;
-	private double mExactLocationLatitude;
-	private double mExactLocationLongitude;
-	private String mExactLocationTitle;
+
+	private class ExactLocationData {
+		public double lat;
+		public double lng;
+		public String title;
+		public SearchParams.SearchType type;
+	}
+	private ExactLocationData mExactLocation;
 
 	private boolean mOffsetAnimation = false;
 	private double mCenterOffsetY;
@@ -204,7 +209,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void notifySearchComplete() {
-		showExactLocation(Db.getSearchParams());
+		showExactLocation(Db.getSearchParams(), false);
 		setSearchResponse(Db.getSearchResponse());
 		showAll();
 	}
@@ -213,25 +218,35 @@ public class HotelMapFragment extends SupportMapFragment {
 		mMap.clear();
 		mPropertiesToMarkers.clear();
 		mMarkersToProperties.clear();
+		mExactLocation = null;
+		mExactLocationMarker = null;
 	}
 
 	public void setCenterOffsetY(double offsetY) {
 		mCenterOffsetY = offsetY;
 	}
 
-	public void showExactLocation(SearchParams params) {
-		if (params.hasSearchLatLon() && params.getSearchType() != SearchParams.SearchType.MY_LOCATION) {
-			showExactLocation(params.getSearchLatitude(), params.getSearchLongitude(),
-					params.getSearchDisplayText(getActivity()));
+	private void showExactLocation(SearchParams params, boolean isAnimated) {
+		if (mExactLocation == null) {
+			mExactLocation = new ExactLocationData();
+		}
+
+		ExactLocationData exact = new ExactLocationData();
+		exact.lat = params.getSearchLatitude();
+		exact.lng = params.getSearchLongitude();
+		exact.title = params.getSearchDisplayText(getActivity());
+		exact.type = params.getSearchType();
+
+		showExactLocation(exact);
+
+		if (isAnimated) {
 			animateCamera(CameraUpdateFactory.newLatLngZoom(
 					new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), 12.0f));
 		}
 	}
 
-	public void showExactLocation(double lat, double lng, String title) {
-		mExactLocationLatitude = lat;
-		mExactLocationLongitude = lng;
-		mExactLocationTitle = title;
+	private void showExactLocation(ExactLocationData exactLocation) {
+		mExactLocation = exactLocation;
 
 		if (isReady()) {
 			addExactLocation();
@@ -243,8 +258,10 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	// Only call this if isReady()
 	private void addExactLocation() {
-		if (mShowDistances) {
-			LatLng point = new LatLng(mExactLocationLatitude, mExactLocationLongitude);
+		if (mExactLocation != null
+				&& mExactLocation.type != SearchParams.SearchType.MY_LOCATION
+				&& (mExactLocation.type.shouldShowDistance() || mExactLocation.type == SearchParams.SearchType.VISIBLE_MAP_AREA)) {
+			LatLng point = new LatLng(mExactLocation.lat, mExactLocation.lng);
 
 			if (mExactLocationMarker == null) {
 				MarkerOptions marker = new MarkerOptions();
@@ -258,7 +275,7 @@ public class HotelMapFragment extends SupportMapFragment {
 			}
 
 			mExactLocationMarker.setPosition(point);
-			mExactLocationMarker.setTitle(mExactLocationTitle);
+			mExactLocationMarker.setTitle(mExactLocation.title);
 		}
 	}
 
@@ -332,7 +349,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		if (mProperties != null) {
 			reset();
 
-			showExactLocation(mExactLocationLatitude, mExactLocationLongitude, mExactLocationTitle);
+			showExactLocation(Db.getSearchParams(), false);
 			setSearchResponse(Db.getSearchResponse());
 			showAll();
 		}
