@@ -311,6 +311,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Traveler %d Information</string>

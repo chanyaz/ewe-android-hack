@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -359,6 +360,15 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (mPos.equals(YoYoPosition.OVERWRITE_TRAVELER)) {
 			this.closeOverwriteDialog();
 		}
+	}
+
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		if (mOneFragment != null) {
+			mOneFragment.onTouchedAnywhere();
+		}
+
+		return super.dispatchTouchEvent(ev);
 	}
 
 	public boolean validate(Validatable validatable) {

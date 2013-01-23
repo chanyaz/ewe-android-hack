@@ -78,7 +78,7 @@
         android:id="@+id/edit_birth_date_text_btn"
         style="@style/FakeSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:bufferType="spannable"
         android:gravity="center_vertical"
         android:hint="@string/date_of_birth"

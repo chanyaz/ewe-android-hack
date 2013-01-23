@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity.Validatable;
@@ -24,12 +25,16 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 	SectionTravelerInfo mSectionTravelerInfo;
 	int mTravelerIndex = -1;
 
+	// EB48: This warning has this behavior:
+	// 1. Always shown whenever the user enters the screen.
+	// 2. Disappears on *any* interaction (touch or type)
+	private TextView mNameMatchWarningTextView;
+
 	boolean mAttemptToLeaveMade = false;
 
 	public static FlightTravelerInfoOneFragment newInstance() {
 		FlightTravelerInfoOneFragment fragment = new FlightTravelerInfoOneFragment();
 		Bundle args = new Bundle();
-		//TODO:Set args here..
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -45,6 +50,7 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 		View v = inflater.inflate(R.layout.fragment_flight_traveler_info_step1, container, false);
 		mAttemptToLeaveMade = false;
 		mSectionTravelerInfo = Ui.findView(v, R.id.traveler_info);
+		mNameMatchWarningTextView = Ui.findView(v, R.id.name_match_warning_text_view);
 
 		mSectionTravelerInfo.addChangeListener(new SectionChangeListener() {
 			@Override
@@ -53,8 +59,13 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionTravelerInfo.hasValidInput();
 				}
+
 				//We attempt a save on change
 				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
+
+				if (mNameMatchWarningTextView.getVisibility() != View.GONE) {
+					mNameMatchWarningTextView.setVisibility(View.GONE);
+				}
 			}
 		});
 
@@ -73,6 +84,9 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 		mTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		mSectionTravelerInfo.bind(mTraveler);
 
+		// Need to do this after bind() so it isn't hidden through the onChange() listener
+		mNameMatchWarningTextView.setVisibility(View.VISIBLE);
+
 		View focused = this.getView().findFocus();
 		if (focused == null || !(focused instanceof EditText)) {
 			focused = Ui.findView(mSectionTravelerInfo, R.id.edit_first_name);
@@ -83,18 +97,14 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
 	public boolean validate() {
 		mAttemptToLeaveMade = true;
 		return mSectionTravelerInfo != null ? mSectionTravelerInfo.hasValidInput() : false;
+	}
+
+	public void onTouchedAnywhere() {
+		if (getActivity() != null && mNameMatchWarningTextView.getVisibility() != View.GONE) {
+			mNameMatchWarningTextView.setVisibility(View.GONE);
+		}
 	}
 }
