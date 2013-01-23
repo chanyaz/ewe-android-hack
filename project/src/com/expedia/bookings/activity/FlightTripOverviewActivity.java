@@ -53,8 +53,8 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
@@ -162,25 +162,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		mTripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 
-		FragmentTransaction overviewTransaction = getSupportFragmentManager().beginTransaction();
-		mOverviewFragment = Ui.findSupportFragment(this, TAG_OVERVIEW_FRAG);
-		if (mOverviewFragment == null) {
-			mOverviewFragment = FlightTripOverviewFragment.newInstance(mTripKey, mDisplayMode);
-		}
-		if (!mOverviewFragment.isAdded()) {
-			overviewTransaction.add(R.id.trip_overview_container, mOverviewFragment, TAG_OVERVIEW_FRAG);
-			overviewTransaction.commit();
-		}
-
-		FragmentTransaction bottomBarTrans = getSupportFragmentManager().beginTransaction();
-		mPriceBottomFragment = Ui.findSupportFragment(this, TAG_PRICE_BAR_BOTTOM_FRAG);
-		if (mPriceBottomFragment == null) {
-			mPriceBottomFragment = FlightTripPriceFragment.newInstance();
-		}
-		if (!mPriceBottomFragment.isAdded()) {
-			bottomBarTrans.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
-			bottomBarTrans.commit();
-		}
+		addOverviewFragment();
 
 		//We load things from disk in the background
 		startLoadChain();
@@ -361,11 +343,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
-	public void attachCheckout() {
+	public void attachCheckoutFragment() {
 		if (mSafeToAttach) {
 			boolean refreshCheckoutData = !mLoadedDbInfo;
 			loadCachedData();//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
-			FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
 			mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 			if (mCheckoutFragment == null) {
 				mCheckoutFragment = FlightCheckoutFragment.newInstance();
@@ -375,18 +356,19 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				mCheckoutFragment.refreshData();
 			}
 
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 			if (mCheckoutFragment.isDetached()) {
-				checkoutTransaction.attach(mCheckoutFragment);
-				checkoutTransaction.commit();
+				transaction.attach(mCheckoutFragment);
+				transaction.commit();
 			}
 			else if (!mCheckoutFragment.isAdded()) {
-				checkoutTransaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
-				checkoutTransaction.commit();
+				transaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
+				transaction.commit();
 			}
 		}
 	}
 
-	public void detachCheckout() {
+	public void detachCheckoutFragment() {
 		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
 		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 		if (mCheckoutFragment != null && mCheckoutFragment.isAdded()) {
@@ -395,28 +377,39 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
-	public void replacePriceBarWithSlideToCheckout() {
-		FragmentTransaction showSlideToCheckoutTransaction = getSupportFragmentManager().beginTransaction();
+	private void addOverviewFragment() {
+		mOverviewFragment = Ui.findSupportFragment(this, TAG_OVERVIEW_FRAG);
+		if (mOverviewFragment == null) {
+			mOverviewFragment = FlightTripOverviewFragment.newInstance(mTripKey, mDisplayMode);
+		}
+		if (!mOverviewFragment.isAdded()) {
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			transaction.add(R.id.trip_overview_container, mOverviewFragment, TAG_OVERVIEW_FRAG);
+			transaction.commit();
+		}
+	}
+
+	private void addSlideToCheckoutFragment() {
 		mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
 		if (mSlideToPurchaseFragment == null) {
 			mSlideToPurchaseFragment = FlightSlideToPurchaseFragment.newInstance();
 		}
 		if (!mSlideToPurchaseFragment.isAdded()) {
-			showSlideToCheckoutTransaction.replace(R.id.trip_price_container_bottom, mSlideToPurchaseFragment,
-					TAG_SLIDE_TO_PURCHASE_FRAG);
-			showSlideToCheckoutTransaction.commit();
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			transaction.replace(R.id.trip_price_container_bottom, mSlideToPurchaseFragment, TAG_SLIDE_TO_PURCHASE_FRAG);
+			transaction.commit();
 		}
 	}
 
-	public void replaceSlideToCheckoutWithPriceBar() {
-		FragmentTransaction bottomBarTrans = getSupportFragmentManager().beginTransaction();
+	private void addPriceBarFragment() {
 		mPriceBottomFragment = Ui.findSupportFragment(this, TAG_PRICE_BAR_BOTTOM_FRAG);
 		if (mPriceBottomFragment == null) {
 			mPriceBottomFragment = FlightTripPriceFragment.newInstance();
 		}
 		if (!mPriceBottomFragment.isAdded()) {
-			bottomBarTrans.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
-			bottomBarTrans.commit();
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			transaction.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
+			transaction.commit();
 		}
 	}
 
@@ -477,7 +470,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			int duration = animate ? ANIMATION_DURATION : 1;
 
-			replaceSlideToCheckoutWithPriceBar();
+			addPriceBarFragment();
 
 			if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 				mBackToOverviewArea.setOnClickListener(null);
@@ -523,7 +516,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			mDisplayMode = DisplayMode.CHECKOUT;
 			setActionBarCheckoutMode();
-			attachCheckout();
+			attachCheckoutFragment();
 
 			int duration = animate ? ANIMATION_DURATION : 1;
 
@@ -638,7 +631,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 				switch (action) {
 				case MotionEvent.ACTION_DOWN:
-					attachCheckout();
+					attachCheckoutFragment();
 					mLastPosY = arg1.getY();
 					if (mOverviewContainer != null) {
 						mOverviewContainer.getParent().requestDisallowInterceptTouchEvent(true);
@@ -742,12 +735,12 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private void setCheckoutVisibility(float percentage) {
 		if (mCheckoutContainer != null && mSafeToAttach) {
 			if (percentage == 0) {
-				detachCheckout();
+				detachCheckoutFragment();
 				mCheckoutContainer.setVisibility(View.INVISIBLE);
 			}
 			else {
 				mCheckoutContainer.setVisibility(View.VISIBLE);
-				attachCheckout();
+				attachCheckoutFragment();
 			}
 
 			if (AndroidUtils.getSdkVersion() >= 11) {
@@ -912,7 +905,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			}
 
 			//Bring in the slide to checkout view
-			replacePriceBarWithSlideToCheckout();
+			addSlideToCheckoutFragment();
 
 			//Scroll to bottom to display legal text
 			mContentScrollView.scrollTo(0, this.mCheckoutContainer.getBottom());
@@ -929,7 +922,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			}
 
 			//Bring in the price bar
-			replaceSlideToCheckoutWithPriceBar();
+			addPriceBarFragment();
 		}
 	}
 
