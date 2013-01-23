@@ -148,7 +148,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		@Override
 		public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 			Log.d("Google Play Services: onKey");
-			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 				finish();
 				return true;
 			}
