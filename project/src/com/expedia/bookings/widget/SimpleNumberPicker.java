@@ -81,6 +81,7 @@ public class SimpleNumberPicker extends LinearLayout {
 
 	public void setValue(int value) {
 		mValue = value;
+		update();
 	}
 
 	public int getMinValue() {

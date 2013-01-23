@@ -16,9 +16,9 @@ import com.mobiata.android.util.SettingUtils;
 
 public class GuestsPickerUtils {
 
-	private static final int MAX_GUESTS = 5;
+	private static final int MAX_GUESTS = 6;
 	private static final int MIN_ADULTS = 1;
-	private static final int MAX_ADULTS = 4;
+	private static final int MAX_ADULTS = 6;
 	private static final int MIN_CHILDREN = 0;
 	private static final int MAX_CHILDREN = 4;
 	private static final int DEFAULT_CHILD_AGE = 10;
