@@ -24,38 +24,81 @@
         android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/centered_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
+            android:id="@+id/empty_list_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="visible" >
 
-            <ImageView
-                android:id="@+id/no_trips_image"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_marginBottom="16dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_suitcase_small" />
-
-            <TextView
-                android:id="@+id/no_upcoming_trips"
+            <LinearLayout
+                android:id="@+id/centered_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="@string/no_upcoming_trips"
-                android:textColor="@android:color/white"
-                android:textSize="22sp" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-            <include
-                android:id="@+id/account_button_root"
+                <ImageView
+                    android:id="@+id/no_trips_image"
+                    android:layout_width="96dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="64dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_suitcase_small" />
+
+                <TextView
+                    android:id="@+id/no_upcoming_trips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:text="@string/no_upcoming_trips"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/login_button"
+                    style="@style/LoginFormButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/btn_cancel"
+                    android:bufferType="spannable"
+                    android:gravity="center"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/or_enter_itin_number_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                layout="@layout/include_account_button_flights" />
+                android:layout_weight="0"
+                android:drawableLeft="@drawable/ratingbar_star_white_full"
+                android:drawablePadding="4dp"
+                android:gravity="center_horizontal"
+                android:padding="16dp"
+                android:text="@string/or_enter_an_itinerary_number"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/empty_list_loading_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/fetching_your_itin_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/fetching_your_itinerary"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
 
             <ProgressBar
                 android:id="@+id/empty_progress_bar"
@@ -63,21 +106,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:indeterminateOnly="true"
-                android:visibility="gone" />
+                android:indeterminateOnly="true" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/or_enter_itin_number_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:gravity="center_horizontal"
-            android:padding="16dp"
-            android:text="@string/or_enter_an_itinerary_number"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
     </LinearLayout>
 
 </RelativeLayout>

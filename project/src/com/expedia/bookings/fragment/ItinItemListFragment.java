@@ -7,12 +7,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.expedia.bookings.R;
@@ -25,16 +25,14 @@ import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.fragment.ItineraryGuestAddDialogFragment.AddGuestItineraryDialogListener;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
-import com.expedia.bookings.widget.AccountButton;
-import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.ItinScrollView;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
-public class ItinItemListFragment extends Fragment implements AccountButtonClickListener,
-		ConfirmLogoutDialogFragment.DoLogoutListener, ItinerarySyncListener {
+public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialogFragment.DoLogoutListener,
+		ItinerarySyncListener {
 
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
 	private static final String NET_TRIPS = "NET_TRIPS";
@@ -45,9 +43,9 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	private View mEmptyView;
 	private View mOrEnterNumberTv;
 	private ItineraryManager mItinManager;
-	private ProgressBar mEmptyProgressBar;
-
-	private AccountButton mAccountButton;
+	private ViewGroup mEmptyListLoadingContainer;
+	private ViewGroup mEmptyListContent;
+	private Button mLoginButton;
 
 	private boolean mAllowLoadItins = false;
 
@@ -70,13 +68,23 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 
 		mListView = Ui.findView(view, android.R.id.list);
 		mEmptyView = Ui.findView(view, android.R.id.empty);
-		mAccountButton = Ui.findView(view, R.id.account_button_root);
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
-		mEmptyProgressBar = Ui.findView(view, R.id.empty_progress_bar);
+		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
+		mEmptyListContent = Ui.findView(view, R.id.empty_list_content);
+		mLoginButton = Ui.findView(view, R.id.login_button);
+		mLoginButton.setText(Html.fromHtml(getString(R.string.log_in_for_your_trips)));
 
 		mListView.setEmptyView(mEmptyView);
 		mListView.setOnScrollListener(mOnScrollListener);
-		mAccountButton.setListener(this);
+
+		mLoginButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+				loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.HOTELS.name());
+				startActivity(loginIntent);
+			}
+		});
 
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
 			@Override
@@ -92,7 +100,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	public void onResume() {
 		super.onResume();
 
-		refreshAccountButtonState();
+		updateLoginState();
 
 		syncItinManager();
 	}
@@ -105,7 +113,8 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	}
 
 	public void setIsLoading(boolean isLoading) {
-		mEmptyProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 	}
 
 	public boolean inListMode() {
@@ -119,7 +128,6 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	public void enableLoadItins() {
 		mAllowLoadItins = true;
 		syncItinManager();
-		refreshAccountButtonState();
 	}
 
 	public synchronized void showAddItinDialog() {
@@ -148,37 +156,15 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		}
 	}
 
-	private void refreshAccountButtonState() {
-		if (User.isLoggedIn(getActivity())) {
-			if (Db.getUser() == null) {
-				Db.loadUser(getActivity());
-			}
-
-			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
-
-				mAccountButton.bind(false, true, Db.getUser(), true);
-				onLoginCompleted();
-			}
-			else {
-				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
-				User.signOut(getActivity());
-				mAccountButton.bind(false, false, null, true);
-			}
+	private void updateLoginState() {
+		if (User.isLoggedIn(getActivity()) && Db.getUser() != null) {
+			mLoginButton.setVisibility(View.GONE);
 		}
 		else {
-			mAccountButton.bind(false, false, null, true);
+			mLoginButton.setVisibility(View.VISIBLE);
 		}
 	}
 
-	@Override
-	public void accountLoginClicked() {
-		Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.FLIGHTS.name());
-		startActivity(loginIntent);
-	}
-
-	@Override
 	public void accountLogoutClicked() {
 		ConfirmLogoutDialogFragment df = new ConfirmLogoutDialogFragment();
 		df.setDoLogoutListener(this);
@@ -191,7 +177,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 		User.signOut(getActivity());
 
 		// Update UI
-		mAccountButton.bind(false, false, null, true);
+		updateLoginState();
 
 		invalidateOptionsMenu();
 
@@ -215,7 +201,7 @@ public class ItinItemListFragment extends Fragment implements AccountButtonClick
 	}
 
 	public void onLoginCompleted() {
-		mAccountButton.bind(false, true, Db.getUser(), true);
+		updateLoginState();
 
 		syncItinManager();
 

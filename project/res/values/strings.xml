@@ -61,9 +61,13 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Itinerary Number</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">No upcoming trips.</string>
+    <string name="no_upcoming_trips">Nothing upcoming.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Or, Enter an Itinerary Number</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Fetching your itinerary...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
