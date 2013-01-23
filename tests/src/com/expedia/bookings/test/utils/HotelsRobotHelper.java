@@ -338,9 +338,6 @@ public class HotelsRobotHelper {
 		delay(5);
 		mSolo.clickOnEditText(0);
 		enterLog(TAG, "After clicking EDIT TEXT");
-		landscape();
-		delay(1);
-		portrait();
 		delay(1);
 		mSolo.clearEditText(0);
 		enterLog(TAG, "After clearing EDIT TEXT");
@@ -353,7 +350,9 @@ public class HotelsRobotHelper {
 
 		landscape();
 		portrait();
-
+		if(mAllowOrientationChange) {
+			mSolo.clickOnEditText(0);
+		}
 		mSolo.clickInList(1); //Selecting search suggestion results
 								//some countries' list don't populate ever
 								//might break stuff
