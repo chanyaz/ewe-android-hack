@@ -819,7 +819,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Deals</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">User Rating</string>
+    <string name="sort_description_rating">Rating</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">All</string>

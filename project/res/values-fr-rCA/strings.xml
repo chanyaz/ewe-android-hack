@@ -748,7 +748,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Aubaines</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Classement des utilisateurs</string>
+    <string name="sort_description_rating">Note utilisateur</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Tous</string>
