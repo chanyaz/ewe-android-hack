@@ -19,6 +19,8 @@ public class FlightSearchResponse extends Response {
 
 	private Map<String, String> mAirlineNames;
 
+	private String mObFeesDetails;
+
 	public FlightSearchResponse() {
 		mTrips = new ArrayList<FlightTrip>();
 		mAirlineNames = new HashMap<String, String>();
@@ -63,6 +65,14 @@ public class FlightSearchResponse extends Response {
 		return mAirlineNames;
 	}
 
+	public void setObFeesDetails(String obFeesDetails) {
+		mObFeesDetails = obFeesDetails;
+	}
+
+	public String getObFeesDetails() {
+		return mObFeesDetails;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 	//
@@ -96,6 +106,7 @@ public class FlightSearchResponse extends Response {
 			JSONUtils.putJSONableList(obj, "legs", new ArrayList<FlightLeg>(legMap.values()));
 
 			JSONUtils.putJSONableList(obj, "searchCities", mSearchCities);
+			obj.put("obFeesDetails", mObFeesDetails);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -124,6 +135,7 @@ public class FlightSearchResponse extends Response {
 		}
 
 		mSearchCities = JSONUtils.getJSONableList(obj, "searchCities", Location.class);
+		mObFeesDetails = obj.optString("obFeesDetails");
 		return true;
 	}
 }

@@ -124,8 +124,7 @@ public class FlightDetailsFragment extends Fragment {
 					itemUrls[0] = trip.getBaggageFeesUrl();
 
 					itemNames[1] = getString(R.string.payment_processing_fees);
-					// TODO: currently this is hardcoded, story to use dynamic url: 270
-					itemUrls[1] = "http://www.expedia.co.uk/p/regulatory/obfees";
+					itemUrls[1] = Db.getFlightSearch().getSearchResponse().getObFeesDetails();
 
 					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 					builder.setTitle(getString(R.string.additional_fees));
