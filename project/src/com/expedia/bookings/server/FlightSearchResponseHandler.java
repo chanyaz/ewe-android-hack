@@ -107,7 +107,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		mOperatingAirlineNames.putAll(mAirlineNames);
 		mResponse.setAirlineNames(mOperatingAirlineNames);
 
-		Log.d("Flight search response parse time: " + ((System.nanoTime() - start) / 1000000) + " ms");
+		Log.d("Flight search response parse time: " + ((System.nanoTime() - start) / 1000000) + " ms; # trips="
+				+ mResponse.getTripCount() + ", # legs=" + mLegs.size());
 
 		return mResponse;
 	}
