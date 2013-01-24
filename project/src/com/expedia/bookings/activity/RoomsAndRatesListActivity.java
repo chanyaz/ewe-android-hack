@@ -80,13 +80,6 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
 
-		// This code allows us to test the RoomsAndRatesListActivity standalone, for layout purposes.
-		// Just point the default launcher activity towards this instead of SearchActivity
-		Intent intent = getIntent();
-		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
-			Db.loadTestData(this);
-		}
-
 		if (checkFinishConditionsAndFinish()) {
 			return;
 		}

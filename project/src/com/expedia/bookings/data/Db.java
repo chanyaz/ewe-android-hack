@@ -23,6 +23,7 @@ import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
@@ -874,6 +875,15 @@ public class Db {
 
 	private static final String TEST_DATA_FILE = "testdata.json";
 
+	// Do not let people use these methods in non-debug builds
+	private static void safetyFirst(Context context) {
+		if (AndroidUtils.isRelease(context)) {
+			throw new RuntimeException(
+					"This debug method should NEVER be called in a release build"
+							+ " (you should probably even remove it from the codebase)");
+		}
+	}
+
 	/**
 	 * Call in onCreate(); will either save (if we are in the middle of the app)
 	 * or will reload (if you launched to this specific Activity)
@@ -881,6 +891,8 @@ public class Db {
 	 * Should be used for TESTING ONLY.  Do not check in any calls to this!
 	 */
 	public static void saveOrLoadDbForTesting(Activity activity) {
+		safetyFirst(activity);
+
 		Intent intent = activity.getIntent();
 		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
 			loadTestData(activity);
@@ -891,6 +903,8 @@ public class Db {
 	}
 
 	public static void saveDbForTesting(Context context) {
+		safetyFirst(context);
+
 		Log.i("Saving test data...");
 
 		JSONObject obj = new JSONObject();
@@ -927,6 +941,8 @@ public class Db {
 
 	// Fills the Db with test data that allows you to launch into just about any Activity
 	public static void loadTestData(Context context) {
+		safetyFirst(context);
+
 		Log.i("Loading test data...");
 
 		File file = context.getFileStreamPath(TEST_DATA_FILE);
