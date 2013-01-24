@@ -35,9 +35,10 @@
             android:id="@+id/current_stored_payment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_payment_method_row"
             android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp" >
+            android:paddingBottom="@dimen/payment_option_vertical_padding"
+            android:paddingTop="@dimen/payment_option_vertical_padding" >
 
             <include
                 android:id="@+id/stored_creditcard_section"

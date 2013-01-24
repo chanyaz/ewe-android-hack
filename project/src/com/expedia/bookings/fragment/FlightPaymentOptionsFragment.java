@@ -96,6 +96,14 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		ViewUtils.setAllCaps(mCurrentPaymentLabel);
 		ViewUtils.setAllCaps(mNewPaymentLabel);
 
+		mCurrentStoredPaymentContainer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mListener.setMode(YoYoMode.NONE);
+				mListener.moveBackwards();
+			}
+		});
+
 		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
