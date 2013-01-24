@@ -10,7 +10,9 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Process;
 import android.text.TextUtils;
@@ -871,6 +873,22 @@ public class Db {
 	// ONLY USE IN DEBUG BUILDS
 
 	private static final String TEST_DATA_FILE = "testdata.json";
+
+	/**
+	 * Call in onCreate(); will either save (if we are in the middle of the app)
+	 * or will reload (if you launched to this specific Activity)
+	 * 
+	 * Should be used for TESTING ONLY.  Do not check in any calls to this!
+	 */
+	public static void saveOrLoadDbForTesting(Activity activity) {
+		Intent intent = activity.getIntent();
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			loadTestData(activity);
+		}
+		else {
+			saveDbForTesting(activity);
+		}
+	}
 
 	public static void saveDbForTesting(Context context) {
 		Log.i("Saving test data...");
