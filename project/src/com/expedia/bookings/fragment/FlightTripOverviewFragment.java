@@ -305,11 +305,9 @@ public class FlightTripOverviewFragment extends Fragment {
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
 			View header = Ui.findView(tempFlight, R.id.info_text_view);
-			View price = Ui.findView(tempFlight, R.id.price_text_view);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
 
 			setViewAlpha(percentage, header);
-			setViewAlpha(percentage, price);
 			setViewAlpha(percentage, airline);
 		}
 	}
