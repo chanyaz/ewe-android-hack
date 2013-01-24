@@ -54,6 +54,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -282,8 +283,9 @@ public class FlightConfirmationFragment extends Fragment {
 		SearchParams sp = new SearchParams();
 		sp.setSearchType(SearchType.CITY);
 
-		// eb128: Fights supports booking up to six adults, hotels supports only booking four adults.
-		sp.setNumAdults(Math.min(4, Db.getFlightSearch().getSearchParams().getNumAdults()));
+		// Assuming all the travelers are adults, we set the most adults we can
+		sp.setNumAdults(Math.min(GuestsPickerUtils.getMaxAdults(0), Db.getFlightSearch().getSearchParams()
+				.getNumAdults()));
 
 		int legCount = Db.getFlightSearch().getSelectedFlightTrip().getLegCount();
 		FlightLeg firstLeg = Db.getFlightSearch().getSelectedFlightTrip().getLeg(0);
