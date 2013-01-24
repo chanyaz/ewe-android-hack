@@ -3,6 +3,7 @@ package com.expedia.bookings.maps;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -308,52 +309,87 @@ public class HotelMapFragment extends SupportMapFragment {
 	private void addProperties() {
 		// Add a marker for each property
 		for (Property property : mProperties) {
-			MarkerOptions marker = new MarkerOptions();
-
-			Location location = property.getLocation();
-			marker.position(new LatLng(location.getLatitude(), location.getLongitude()));
-
-			marker.title(property.getName());
-
-			String snippet = "";
-			Distance distanceFromuser = property.getDistanceFromUser();
-			Rate lowestRate = property.getLowestRate();
-			String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
-			snippet = getString(R.string.map_snippet_price_template, formattedMoney);
-
-			if (mShowDistances && distanceFromuser != null) {
-				snippet = getString(R.string.map_snippet_template, snippet,
-						distanceFromuser.formatDistance(getActivity(), DistanceUnit.getDefaultDistanceUnit()));
-			}
-			else if (lowestRate.isOnSale()) {
-				snippet = getString(R.string.map_snippet_template, snippet,
-						getString(R.string.widget_savings_template, lowestRate.getDiscountPercent() * 100));
-			}
-
-			marker.snippet(snippet);
-
-			marker.icon((lowestRate.isOnSale()) ? mPinSale : mPin);
-
-			Marker actualMarker = mMap.addMarker(marker);
-
-			if (mInstanceInfoWindowShowing != null && mInstanceInfoWindowShowing.equals(property.getPropertyId())) {
-				actualMarker.showInfoWindow();
-			}
-
-			mPropertiesToMarkers.put(property, actualMarker);
-			mMarkersToProperties.put(actualMarker, property);
+			addMarker(property);
 		}
 	}
 
-	public void notifyFilterChanged() {
-		// Act as if an entire search has been done again.
-		// TODO: This could be cleaned up a little in the future.
-		if (mProperties != null) {
-			reset();
+	private void addMarker(Property property) {
+		MarkerOptions marker = new MarkerOptions();
 
-			showExactLocation(Db.getSearchParams(), false);
-			setSearchResponse(Db.getSearchResponse());
-			showAll();
+		Location location = property.getLocation();
+		marker.position(new LatLng(location.getLatitude(), location.getLongitude()));
+
+		marker.title(property.getName());
+
+		String snippet = "";
+		Distance distanceFromuser = property.getDistanceFromUser();
+		Rate lowestRate = property.getLowestRate();
+		String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
+		snippet = getString(R.string.map_snippet_price_template, formattedMoney);
+
+		if (mShowDistances && distanceFromuser != null) {
+			snippet = getString(R.string.map_snippet_template, snippet,
+					distanceFromuser.formatDistance(getActivity(), DistanceUnit.getDefaultDistanceUnit()));
+		}
+		else if (lowestRate.isOnSale()) {
+			snippet = getString(R.string.map_snippet_template, snippet,
+					getString(R.string.widget_savings_template, lowestRate.getDiscountPercent() * 100));
+		}
+
+		marker.snippet(snippet);
+
+		marker.icon((lowestRate.isOnSale()) ? mPinSale : mPin);
+
+		Marker actualMarker = mMap.addMarker(marker);
+
+		if (mInstanceInfoWindowShowing != null && mInstanceInfoWindowShowing.equals(property.getPropertyId())) {
+			actualMarker.showInfoWindow();
+		}
+
+		mPropertiesToMarkers.put(property, actualMarker);
+		mMarkersToProperties.put(actualMarker, property);
+	}
+
+	public void notifyFilterChanged() {
+		if (mProperties != null) {
+			List<Property> newSet = Arrays.asList(Db.getSearchResponse().getFilteredAndSortedProperties());
+			boolean changed = false;
+
+			if (newSet.size() > mProperties.size()) {
+				HashSet<Property> addSet = new HashSet<Property>(newSet);
+				addSet.removeAll(mProperties);
+
+				// Add properties
+				for (Property add : addSet) {
+					addMarker(add);
+				}
+
+				changed = true;
+			}
+			else if (newSet.size() == mProperties.size()) {
+				// ignore
+			}
+			else {
+				// Remove properties
+				HashSet<Property> deleteSet = new HashSet<Property>(mProperties);
+				deleteSet.removeAll(newSet);
+
+				for (Property deleted : deleteSet) {
+					Marker marker = mPropertiesToMarkers.get(deleted);
+					if (marker != null) {
+						mPropertiesToMarkers.remove(deleted);
+						mMarkersToProperties.remove(marker);
+						marker.remove();
+					}
+				}
+
+				changed = true;
+			}
+
+			if (changed) {
+				mProperties = newSet;
+				showAll();
+			}
 		}
 	}
 
@@ -393,7 +429,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	public void showAll() {
 		if (mProperties != null) {
-			LatLngBounds.Builder builder = new LatLngBounds.Builder();
+			final LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
 			for (Property property : mProperties) {
 				Location location = property.getLocation();
