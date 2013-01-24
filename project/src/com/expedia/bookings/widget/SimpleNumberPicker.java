@@ -26,11 +26,13 @@ public class SimpleNumberPicker extends LinearLayout {
 
 	// Change listener
 	private OnValueChangeListener mOnValueChangeListener;
+
 	public interface OnValueChangeListener {
 		void onValueChange(SimpleNumberPicker picker, int oldVal, int newVal);
 	}
 
 	private Formatter mFormatter;
+
 	public interface Formatter {
 		public String format(int value);
 	}
@@ -93,7 +95,7 @@ public class SimpleNumberPicker extends LinearLayout {
 			return;
 		}
 		if (minValue < 0) {
-			throw new IllegalArgumentException("minValue must be >= 0");
+			throw new IllegalArgumentException("minValue must be >= 0, was=" + minValue);
 		}
 		mMinValue = minValue;
 		if (mMinValue > mValue) {
@@ -111,7 +113,7 @@ public class SimpleNumberPicker extends LinearLayout {
 			return;
 		}
 		if (maxValue < 0) {
-			throw new IllegalArgumentException("maxValue must be >= 0");
+			throw new IllegalArgumentException("maxValue must be >= 0, was=" + maxValue);
 		}
 		mMaxValue = maxValue;
 		if (mMaxValue < mValue) {
@@ -144,11 +146,11 @@ public class SimpleNumberPicker extends LinearLayout {
 		notifyChange(previous, current);
 	}
 
-	private void changeCurrentByOne(boolean increment) {
-		if (increment) {
+	private synchronized void changeCurrentByOne(boolean increment) {
+		if (increment && mValue != mMaxValue) {
 			changeCurrent(mValue + 1);
 		}
-		else {
+		else if (mValue != mMinValue) {
 			changeCurrent(mValue - 1);
 		}
 	}
@@ -213,4 +215,3 @@ public class SimpleNumberPicker extends LinearLayout {
 		}
 	};
 }
-
