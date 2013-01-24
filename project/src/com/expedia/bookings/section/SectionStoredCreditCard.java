@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -32,6 +34,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		init(context);
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public SectionStoredCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
@@ -40,8 +43,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	private void init(Context context) {
 		mContext = context;
 
-		mFields.add(mDisplayCardDesc);
-		mFields.add(mDisplayCreditCardActiveIcon);
+		mFields.add(mDisplayCard);
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	public void setUseActiveCardIcon(boolean active, boolean bind) {
 		mUseActiveCreditCardIcon = active;
 		if (bind) {
-			mDisplayCreditCardActiveIcon.bindData(mStoredCard);
+			mDisplayCard.bindData(mStoredCard);
 		}
 	}
 
@@ -80,10 +82,11 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
-	SectionField<TextView, StoredCreditCard> mDisplayCardDesc = new SectionField<TextView, StoredCreditCard>(
+	SectionField<TextView, StoredCreditCard> mDisplayCard = new SectionField<TextView, StoredCreditCard>(
 			R.id.display_stored_card_desc) {
 		@Override
 		public void onHasFieldAndData(TextView field, StoredCreditCard data) {
+			// Text
 			String desc = data.getDescription();
 			if (TextUtils.isEmpty(desc)) {
 				field.setText("");
@@ -92,7 +95,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				//We replace american express with amex. Why? Because there is a mingle card for it, that's why!
 				String amexRegex = "american\\s*express";
 				String replacement = "AMEX";
-				Pattern amexPattern = Pattern.compile(amexRegex,Pattern.CASE_INSENSITIVE);
+				Pattern amexPattern = Pattern.compile(amexRegex, Pattern.CASE_INSENSITIVE);
 				Matcher amexPatternMatcher = amexPattern.matcher(desc);
 				StringBuffer sb = new StringBuffer();
 				while (amexPatternMatcher.find()) {
@@ -101,19 +104,15 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				amexPatternMatcher.appendTail(sb);
 				field.setText(sb.toString());
 			}
-		}
-	};
 
-	SectionField<ImageView, StoredCreditCard> mDisplayCreditCardActiveIcon = new SectionField<ImageView, StoredCreditCard>(
-			R.id.display_credit_card_active_icon) {
-		@Override
-		public void onHasFieldAndData(ImageView field, StoredCreditCard data) {
+			// Icon
 			if (mUseActiveCreditCardIcon) {
-				field.setImageResource(R.drawable.ic_credit_card_blue_entered);
+				field.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_credit_card_blue_entered, 0, 0, 0);
 			}
 			else {
-				field.setImageResource(R.drawable.ic_credit_card);
+				field.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_credit_card, 0, 0, 0);
 			}
+
 		}
 	};
 
