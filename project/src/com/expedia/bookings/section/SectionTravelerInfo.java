@@ -891,6 +891,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	SectionFieldEditable<TelephoneSpinner, Traveler> mEditPhoneNumberCountryCodeSpinner = new SectionFieldEditable<TelephoneSpinner, Traveler>(
 			R.id.edit_phone_number_country_code_spinner) {
 
+		private boolean mSetFieldManually = false;
+
 		Validator<TelephoneSpinner> mValidator = new Validator<TelephoneSpinner>() {
 			@Override
 			public int validate(TelephoneSpinner obj) {
@@ -909,7 +911,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 						String countryCode = "" + spinner.getSelectedTelephoneCountryCode();
 						getData().setPhoneCountryCode(countryCode);
 					}
-					onChange(SectionTravelerInfo.this);
+
+					if (!mSetFieldManually) {
+						onChange(SectionTravelerInfo.this);
+					}
+					else {
+						mSetFieldManually = false;
+					}
 				}
 
 				@Override
@@ -927,6 +935,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (targetCountryCode.equalsIgnoreCase("" + adapter.getCountryCode(i))) {
 						field.setSelection(i);
+						mSetFieldManually = true;
 						break;
 					}
 				}
@@ -937,6 +946,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
 						getField().setSelection(i);
+						mSetFieldManually = true;
 						break;
 					}
 				}
@@ -956,6 +966,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	SectionFieldEditable<Spinner, Traveler> mEditGenderSpinner = new SectionFieldEditable<Spinner, Traveler>(
 			R.id.edit_gender_spinner) {
+
+		private boolean mSetFieldManually = false;
 
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
@@ -982,7 +994,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 						GenderSpinnerAdapter genderAdapter = (GenderSpinnerAdapter) parent.getAdapter();
 						getData().setGender(genderAdapter.getGender(position));
 					}
-					onChange(SectionTravelerInfo.this);
+
+					if (!mSetFieldManually) {
+						onChange(SectionTravelerInfo.this);
+					}
+					else {
+						mSetFieldManually = false;
+					}
 				}
 
 				@Override
@@ -1003,6 +1021,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			int currentPos = adapter.getGenderPosition(data.getGender());
 			if (currentPos >= 0) {
 				field.setSelection(currentPos);
+				mSetFieldManually = true;
 			}
 		}
 
@@ -1019,6 +1038,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	SectionFieldEditable<Spinner, Traveler> mEditSeatPreferenceSpinner = new SectionFieldEditable<Spinner, Traveler>(
 			R.id.edit_seat_preference_spinner) {
+
+		private boolean mSetFieldManually = false;
 
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
@@ -1047,7 +1068,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 						SeatPreferenceSpinnerAdapter adapter = (SeatPreferenceSpinnerAdapter) parent.getAdapter();
 						getData().setSeatPreference(adapter.getSeatPreference(position));
 					}
-					onChange(SectionTravelerInfo.this);
+
+					if (!mSetFieldManually) {
+						onChange(SectionTravelerInfo.this);
+					}
+					else {
+						mSetFieldManually = false;
+					}
 				}
 
 				@Override
@@ -1063,6 +1090,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			int pos = adapter.getSeatPreferencePosition(data.getSeatPreference());
 			if (pos >= 0) {
 				field.setSelection(pos);
+				mSetFieldManually = true;
 			}
 
 		}
@@ -1080,6 +1108,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	SectionFieldEditable<Spinner, Traveler> mEditAssistancePreferenceSpinner = new SectionFieldEditable<Spinner, Traveler>(
 			R.id.edit_assistance_preference_spinner) {
+
+		private boolean mSetFieldManually = false;
 
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
@@ -1107,7 +1137,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 								.getAdapter();
 						getData().setAssistance(assistanceTypeAdapter.getAssistanceType(position));
 					}
-					onChange(SectionTravelerInfo.this);
+
+					if (!mSetFieldManually) {
+						onChange(SectionTravelerInfo.this);
+					}
+					else {
+						mSetFieldManually = false;
+					}
 				}
 
 				@Override
@@ -1123,6 +1159,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			int pos = adapter.getAssistanceTypePosition(data.getAssistance());
 			if (pos >= 0) {
 				field.setSelection(pos);
+				mSetFieldManually = true;
 			}
 		}
 

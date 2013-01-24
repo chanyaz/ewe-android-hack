@@ -431,6 +431,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	SectionFieldEditable<Spinner, Location> mEditCountrySpinner = new SectionFieldEditable<Spinner, Location>(
 			R.id.edit_country_spinner) {
 
+		private boolean mSetFieldManually = false;
+
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
 			public int validate(Spinner obj) {
@@ -458,7 +460,13 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 						updateCountryDependantValidation();
 						updatePostalCodeFormat();
 					}
-					onChange(SectionLocation.this);
+
+					if (!mSetFieldManually) {
+						onChange(SectionLocation.this);
+					}
+					else {
+						mSetFieldManually = false;
+					}
 				}
 
 				@Override
@@ -495,12 +503,14 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			CountrySpinnerAdapter adapter = (CountrySpinnerAdapter) field.getAdapter();
 			if (TextUtils.isEmpty(data.getCountryCode())) {
 				field.setSelection(adapter.getDefaultLocalePosition());
+				mSetFieldManually = true;
 			}
 			else {
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (adapter.getItemValue(i, CountryDisplayType.THREE_LETTER)
 							.equalsIgnoreCase(data.getCountryCode())) {
 						field.setSelection(i);
+						mSetFieldManually = true;
 						break;
 					}
 				}
