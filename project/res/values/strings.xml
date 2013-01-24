@@ -373,6 +373,8 @@
     <string name="address_state_hint">State</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Zip</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint">Billing Zipcode</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->

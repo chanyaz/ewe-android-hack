@@ -57,15 +57,6 @@
             <include
                 android:id="@+id/current_payment_cc_section"
                 layout="@layout/section_hotel_display_creditcard_info" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/simple_grey_divider_height"
-                android:background="#59FFFFFF" />
-
-            <include
-                android:id="@+id/current_payment_address_section"
-                layout="@layout/section_hotel_display_address_info" />
         </LinearLayout>
 
         <TextView

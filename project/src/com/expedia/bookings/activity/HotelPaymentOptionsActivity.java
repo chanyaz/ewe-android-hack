@@ -14,7 +14,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.fragment.HotelPaymentAddressFragment;
 import com.expedia.bookings.fragment.HotelPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
@@ -26,7 +25,6 @@ import com.expedia.bookings.utils.Ui;
 
 public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implements HotelPaymentYoYoListener {
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
-	public static final String ADDRESS_FRAGMENT_TAG = "ADDRESS_FRAGMENT_TAG";
 	public static final String CREDIT_CARD_FRAGMENT_TAG = "CREDIT_CARD_FRAGMENT_TAG";
 	public static final String SAVE_FRAGMENT_TAG = "SAVE_FRAGMENT_TAG";
 
@@ -34,7 +32,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 	public static final String STATE_TAG_DEST = "STATE_TAG_DEST";
 
 	private HotelPaymentOptionsFragment mOptionsFragment;
-	private HotelPaymentAddressFragment mAddressFragment;
 	private HotelPaymentCreditCardFragment mCCFragment;
 
 	private MenuItem mMenuDone;
@@ -51,7 +48,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 
 	//Where we want to return to after our action
 	public enum YoYoPosition {
-		OPTIONS, ADDRESS, CREDITCARD, SAVE
+		OPTIONS, CREDITCARD, SAVE
 	}
 
 	public interface Validatable {
@@ -81,20 +78,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 
 		mPos = YoYoPosition.OPTIONS;
 		mMode = YoYoMode.NONE;
-		supportInvalidateOptionsMenu();
-	}
-
-	public void displayAddress() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mAddressFragment = Ui.findSupportFragment(this, ADDRESS_FRAGMENT_TAG);
-		if (mAddressFragment == null) {
-			mAddressFragment = HotelPaymentAddressFragment.newInstance();
-		}
-		if (!mAddressFragment.isAdded()) {
-			ft.replace(android.R.id.content, mAddressFragment, ADDRESS_FRAGMENT_TAG);
-			ft.commit();
-		}
-		mPos = YoYoPosition.ADDRESS;
 		supportInvalidateOptionsMenu();
 	}
 
@@ -147,12 +130,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		if (mMode.equals(YoYoMode.YOYO)) {
 			switch (mPos) {
 			case OPTIONS:
-				displayAddress();
-				break;
-			case ADDRESS:
-				if (validate(mAddressFragment)) {
-					displayCreditCard();
-				}
+				displayCreditCard();
 				break;
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
@@ -175,20 +153,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
 			switch (mPos) {
-			case ADDRESS:
-				if (validate(mAddressFragment)) {
-					if (User.isLoggedIn(this)
-							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
-							&& workingBillingInfoChanged()) {
-						displaySaveDialog();
-					}
-					else {
-						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-						displayOptions();
-					}
-				}
-				break;
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
 					if (User.isLoggedIn(this)
@@ -229,16 +193,8 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			case OPTIONS:
 				displayCheckout();
 				break;
-			case ADDRESS:
-				//If we are backing up we want to restore the base billing info...
-				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
-					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
-				}
-				displayOptions();
-				break;
 			case CREDITCARD:
-				displayAddress();
+				displayOptions();
 				break;
 			case SAVE:
 				closeSaveDialog();
@@ -251,7 +207,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		}
 		else if (mMode.equals(YoYoMode.EDIT)) {
 			switch (mPos) {
-			case ADDRESS:
 			case CREDITCARD:
 				//If we are backing up we want to restore the base billing info...
 				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
@@ -264,9 +219,9 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				//Back on save means cancel
 				if (mBeforeSaveDialogPos != null) {
 					switch (mBeforeSaveDialogPos) {
-					case ADDRESS:
-						displayAddress();
-						break;
+					//					case ADDRESS:
+					//						displayAddress();
+					//						break;
 					case CREDITCARD:
 						displayCreditCard();
 						break;
@@ -310,7 +265,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			billMan.loadWorkingBillingInfoFromDisk(this);
 			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
 				//If we don't have a saved state, but we do have a saved temp billingInfo go ahead to the entry screens
-				mPos = YoYoPosition.ADDRESS;
+				mPos = YoYoPosition.CREDITCARD;
 				mMode = YoYoMode.YOYO;
 			}
 		}
@@ -331,9 +286,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 			switch (mPos) {
 			case OPTIONS:
 				displayOptions();
-				break;
-			case ADDRESS:
-				displayAddress();
 				break;
 			case CREDITCARD:
 				displayCreditCard();
@@ -413,10 +365,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 				setShowNextButton(false);
 				setShowDoneButton(false);
 				break;
-			case ADDRESS:
-				setShowNextButton(true);
-				setShowDoneButton(false);
-				break;
 			case CREDITCARD:
 				setShowNextButton(false);
 				setShowDoneButton(true);
@@ -455,10 +403,6 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		String titleStr = getString(R.string.payment_method);
 		if (mPos != null) {
 			switch (mPos) {
-			case ADDRESS:
-				titleStr = getString(R.string.billing_address);
-				actionBar.setTitle(titleStr);
-				break;
 			case CREDITCARD:
 				actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP
 						| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);

@@ -13,26 +13,12 @@
         android:layout_weight="0"
         android:src="@drawable/ic_credit_card_gray" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/display_creditcard_number_masked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/display_creditcard_number_masked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:bufferType="spannable"
-            android:gravity="center_horizontal"
-            android:textColor="@color/data_review_grey"
-            android:textSize="16sp" />
-
-        <include
-            android:id="@+id/section_location_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/section_display_address" />
-    </LinearLayout>
+        android:bufferType="spannable"
+        android:textColor="@color/data_review_grey"
+        android:textSize="16sp" />
 
 </com.expedia.bookings.section.SectionBillingInfo>

@@ -39,6 +39,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
+import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.PaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -500,7 +501,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void updateViewVisibilities() {
-		PaymentFlowState state = PaymentFlowState.getInstance(getActivity());
+		HotelPaymentFlowState state = HotelPaymentFlowState.getInstance(getActivity());
 		if (state == null) {
 			//This is a rare case that happens when the fragment is attached and then detached quickly
 			return;

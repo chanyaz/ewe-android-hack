@@ -22,16 +22,14 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.PaymentFlowState;
-import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionBillingInfo;
-import com.expedia.bookings.section.SectionLocation;
+import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelPaymentOptionsFragment extends Fragment {
 
-	SectionLocation mSectionCurrentBillingAddress;
 	SectionBillingInfo mSectionCurrentCreditCard;
 	SectionStoredCreditCard mSectionStoredPayment;
 	View mNewCreditCardBtn;
@@ -46,7 +44,6 @@ public class HotelPaymentOptionsFragment extends Fragment {
 	ViewGroup mStoredCardsContainer;
 	ViewGroup mCurrentStoredPaymentContainer;
 
-	View mAddressErrorImage;
 	View mCardErrorImage;
 
 	PaymentFlowState mValidationState;
@@ -72,12 +69,10 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_hotel_payment_options, container, false);
 
 		//Sections
-		mSectionCurrentBillingAddress = Ui.findView(v, R.id.current_payment_address_section);
 		mSectionCurrentCreditCard = Ui.findView(v, R.id.current_payment_cc_section);
 		mSectionStoredPayment = Ui.findView(v, R.id.stored_creditcard_section);
 
 		//Section error indicators
-		mAddressErrorImage = Ui.findView(mSectionCurrentBillingAddress, R.id.error_image);
 		mCardErrorImage = Ui.findView(mSectionCurrentCreditCard, R.id.error_image);
 
 		//Other views
@@ -103,16 +98,6 @@ public class HotelPaymentOptionsFragment extends Fragment {
 					mListener.moveForward();
 
 					OmnitureTracking.trackLinkHotelsCheckoutPaymentEnterManually(getActivity());
-				}
-			}
-		});
-
-		mSectionCurrentBillingAddress.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mListener != null) {
-					mListener.setMode(YoYoMode.EDIT);
-					mListener.displayAddress();
 				}
 			}
 		});
@@ -201,7 +186,6 @@ public class HotelPaymentOptionsFragment extends Fragment {
 
 		BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 
-		mSectionCurrentBillingAddress.bind(mBillingInfo.getLocation());
 		mSectionCurrentCreditCard.bind(mBillingInfo);
 		mSectionStoredPayment.bind(mBillingInfo.getStoredCard());
 	}
@@ -240,7 +224,6 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		mCurrentStoredPaymentContainer.setVisibility(hasSelectedStoredCard ? View.VISIBLE : View.GONE);
 
 		if (displayManualCurrentPayment) {
-			this.mAddressErrorImage.setVisibility(addressValid ? View.GONE : View.VISIBLE);
 			this.mCardErrorImage.setVisibility(cardValid ? View.GONE : View.VISIBLE);
 		}
 
@@ -262,8 +245,6 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		public boolean moveBackwards();
 
 		public void displayOptions();
-
-		public void displayAddress();
 
 		public void displayCreditCard();
 
