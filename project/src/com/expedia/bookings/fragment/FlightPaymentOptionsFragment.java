@@ -155,6 +155,7 @@ public class FlightPaymentOptionsFragment extends Fragment {
 		}
 
 		if (cards != null && cards.size() > 0) {
+			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
 			boolean firstCard = true;
 			//Inflate stored cards
 			Resources res = getResources();
@@ -164,7 +165,8 @@ public class FlightPaymentOptionsFragment extends Fragment {
 						R.layout.section_display_stored_credit_card, null);
 				card.setUseActiveCardIcon(false, false);
 				card.bind(cards.get(i));
-				card.setPadding(0, 5, 0, (i == cards.size() - 1) ? 10 : 5);
+				card.setPadding(0, paymentOptionPadding, 0, (i == cards.size() - 1) ? 10 : paymentOptionPadding);
+				card.setBackgroundResource(R.drawable.bg_payment_method_row);
 				card.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -189,9 +191,6 @@ public class FlightPaymentOptionsFragment extends Fragment {
 						LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
 								LayoutParams.MATCH_PARENT,
 								res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
-						divLayoutParams.setMargins(0,
-								res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
-								res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
 						divider.setLayoutParams(divLayoutParams);
 						divider.setBackgroundColor(res.getColor(R.color.divider_grey));
 						mStoredCardsContainer.addView(divider);
