@@ -468,7 +468,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addBasicParams(query, params);
 
-		addBillingInfo(query, billingInfo, 0);
+		addBillingInfo(query, billingInfo, F_HOTELS);
 
 		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
 
@@ -718,21 +718,26 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
 
 		if (billingInfo.getStoredCard() == null) {
-
-			// F670: Location can be null if we are using a stored credit card
 			Location location = billingInfo.getLocation();
-			if (location != null && location.getStreetAddress() != null) {
-				query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
-				if (location.getStreetAddress().size() > 1) {
-					String address2 = location.getStreetAddress().get(1);
-					if (!TextUtils.isEmpty(address2)) {
-						query.add(new BasicNameValuePair("streetAddress2", address2));
-					}
-				}
-				query.add(new BasicNameValuePair("city", location.getCity()));
-				query.add(new BasicNameValuePair("state", location.getStateCode()));
+			if ((flags & F_HOTELS) != 0) {
+				// 130 Hotels reservation requires only postalCode for US POS, no billing info for other POS
 				query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
-				query.add(new BasicNameValuePair("country", location.getCountryCode()));
+			}
+			else {
+				// F670: Location can be null if we are using a stored credit card
+				if (location != null && location.getStreetAddress() != null) {
+					query.add(new BasicNameValuePair("streetAddress", location.getStreetAddress().get(0)));
+					if (location.getStreetAddress().size() > 1) {
+						String address2 = location.getStreetAddress().get(1);
+						if (!TextUtils.isEmpty(address2)) {
+							query.add(new BasicNameValuePair("streetAddress2", address2));
+						}
+					}
+					query.add(new BasicNameValuePair("city", location.getCity()));
+					query.add(new BasicNameValuePair("state", location.getStateCode()));
+					query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
+					query.add(new BasicNameValuePair("country", location.getCountryCode()));
+				}
 			}
 
 			query.add(new BasicNameValuePair("creditCardNumber", billingInfo.getNumber()));
