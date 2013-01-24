@@ -49,13 +49,11 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
-import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
 		CheckoutInformationListener, RetryErrorDialogFragmentListener {
@@ -735,25 +733,17 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private void setCheckoutVisibility(float percentage) {
 		if (mCheckoutContainer != null && mSafeToAttach) {
 			if (percentage == 0) {
-				detachCheckoutFragment();
 				mCheckoutContainer.setVisibility(View.INVISIBLE);
 			}
 			else {
 				mCheckoutContainer.setVisibility(View.VISIBLE);
-				attachCheckoutFragment();
-			}
-
-			if (AndroidUtils.getSdkVersion() >= 11) {
-				this.mCheckoutContainer.setAlpha(percentage);
-			}
-			else {
-				AnimatorProxy.wrap(mCheckoutContainer).setAlpha(percentage);
 			}
 		}
 	}
 
 	private void setCheckoutContainerPaddingFromPercentage(float percentage) {
-		float topPadding = mStackedHeight + (mUnstackedHeight - mStackedHeight) * (1f - percentage);
+		int usefulMax = Math.max(mContentScrollView.getHeight(), mUnstackedHeight);
+		float topPadding = mStackedHeight + (usefulMax - mStackedHeight) * (1f - percentage);
 		setCheckoutContainerTopPadding(topPadding);
 	}
 
@@ -763,8 +753,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (pos < this.mStackedHeight) {
 			pos = this.mStackedHeight;
 		}
-		if (this.mUnstackedHeight > this.mStackedHeight && pos > this.mUnstackedHeight) {
-			pos = this.mUnstackedHeight;
+
+		int usefulMax = Math.max(mContentScrollView.getHeight(), mUnstackedHeight);
+
+		if (usefulMax > this.mStackedHeight && pos > usefulMax) {
+			pos = usefulMax;
 		}
 		if (mCheckoutContainer != null) {
 			mCheckoutContainer.setPadding(0, pos, 0, 0);

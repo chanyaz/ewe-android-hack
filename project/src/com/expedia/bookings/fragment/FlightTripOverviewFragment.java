@@ -224,7 +224,6 @@ public class FlightTripOverviewFragment extends Fragment {
 			placeCardsFromPercentage(percentage);
 			placeTopBarFromPercentage(percentage);
 			setCardsAlpha(percentage);
-			setTopBarAlpha(percentage);
 			setTopCardBgAlpha(percentage);
 		}
 	}
@@ -300,10 +299,6 @@ public class FlightTripOverviewFragment extends Fragment {
 			params.topMargin = -top;
 			mFlightDateAndTravCount.setLayoutParams(params);
 		}
-	}
-
-	protected void setTopBarAlpha(float percentage) {
-		setViewAlpha(percentage, mFlightDateAndTravCount);
 	}
 
 	protected void setCardsAlpha(float percentage) {
