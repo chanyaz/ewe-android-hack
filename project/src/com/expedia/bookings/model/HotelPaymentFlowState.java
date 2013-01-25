@@ -12,13 +12,13 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 
 public class HotelPaymentFlowState {
-	SectionLocation mBillingAddress;
-	SectionBillingInfo mCardInfo;
+	SectionLocation mSectionLocation;
+	SectionBillingInfo mSectionBillingInfo;
 
 	private HotelPaymentFlowState(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mBillingAddress = (SectionLocation) inflater.inflate(R.layout.section_hotel_edit_address, null);
-		mCardInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard, null);
+		mSectionLocation = (SectionLocation) inflater.inflate(R.layout.section_hotel_edit_address, null);
+		mSectionBillingInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_edit_creditcard, null);
 	}
 
 	public static HotelPaymentFlowState getInstance(Context context) {
@@ -32,14 +32,17 @@ public class HotelPaymentFlowState {
 		if (billingInfo.getLocation() == null) {
 			billingInfo.setLocation(new Location());
 		}
-		mBillingAddress.bind(billingInfo.getLocation());
-		mCardInfo.bind(billingInfo);
+		mSectionLocation.bind(billingInfo.getLocation());
+		mSectionBillingInfo.bind(billingInfo);
 	}
 
+	/**
+	 * For hotels flow we do not need billing address information for all POS that are not US 
+	 */
 	public boolean hasValidBillingAddress(BillingInfo billingInfo) {
 		bind(billingInfo);
 		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES)) {
-			return mBillingAddress.hasValidInput();
+			return mSectionLocation.hasValidInput();
 		}
 		else {
 			return true;
@@ -48,13 +51,6 @@ public class HotelPaymentFlowState {
 
 	public boolean hasValidCardInfo(BillingInfo billingInfo) {
 		bind(billingInfo);
-		return mCardInfo.hasValidInput();
+		return mSectionBillingInfo.hasValidInput();
 	}
-
-	public boolean allBillingInfoIsValid(BillingInfo billingInfo) {
-		bind(billingInfo);
-		return mBillingAddress.hasValidInput()
-				&& mCardInfo.hasValidInput();
-	}
-
 }

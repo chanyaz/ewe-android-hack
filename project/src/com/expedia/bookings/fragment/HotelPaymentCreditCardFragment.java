@@ -30,7 +30,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 	BillingInfo mBillingInfo;
 
-	SectionBillingInfo mHotelSectionCreditCard;
+	SectionBillingInfo mSectionBillingInfo;
 	SectionLocation mSectionLocation;
 
 	boolean mAttemptToLeaveMade = false;
@@ -68,13 +68,13 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 			mBillingInfo.setEmail(Db.getUser().getPrimaryTraveler().getEmail());
 		}
 
-		mHotelSectionCreditCard = Ui.findView(v, R.id.creditcard_section);
-		mHotelSectionCreditCard.addChangeListener(new SectionChangeListener() {
+		mSectionBillingInfo = Ui.findView(v, R.id.creditcard_section);
+		mSectionBillingInfo.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
 				if (mAttemptToLeaveMade) {
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
-					mHotelSectionCreditCard.hasValidInput();
+					mSectionBillingInfo.hasValidInput();
 				}
 				//Attempt to save on change
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
@@ -122,7 +122,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 
 		View focused = this.getView().findFocus();
 		if (focused == null || !(focused instanceof EditText)) {
-			focused = Ui.findView(mHotelSectionCreditCard, R.id.edit_creditcard_number);
+			focused = Ui.findView(mSectionBillingInfo, R.id.edit_creditcard_number);
 		}
 		if (focused != null && focused instanceof EditText) {
 			FocusViewRunnable.focusView(this, focused);
@@ -147,7 +147,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	}
 
 	public void bindAll() {
-		mHotelSectionCreditCard.bind(mBillingInfo);
+		mSectionBillingInfo.bind(mBillingInfo);
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	 * account for the different combinations. SectionLocation is null if POS is not US as it is not needed.
 	 */
 	private boolean hasValidInput() {
-		boolean hasValidCreditCard = mHotelSectionCreditCard != null ? mHotelSectionCreditCard.hasValidInput() : false;
+		boolean hasValidCreditCard = mSectionBillingInfo != null ? mSectionBillingInfo.hasValidInput() : false;
 		boolean hasValidPaymentLocation = mSectionLocation != null ? mSectionLocation.hasValidInput() : true;
 		return hasValidCreditCard && hasValidPaymentLocation;
 	}
