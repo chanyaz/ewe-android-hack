@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
@@ -34,6 +35,16 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 				JSONObject detailResponse = response.optJSONObject("flightDetailResponse");
 				if (detailResponse != null && detailResponse.has("offer")) {
 					FlightTrip newOffer = FlightSearchResponseHandler.parseTrip(detailResponse.optJSONObject("offer"));
+
+					// Online booking fees parsing
+					String obFeeTotalAmount = detailResponse.optString("obFeeTotalAmount", null);
+					if (!TextUtils.isEmpty(obFeeTotalAmount)) {
+						Money obFees = ParserUtils.createMoney(obFeeTotalAmount, newOffer.getTotalFare().getCurrency());
+						if (!obFees.isZero()) {
+							newOffer.setOnlineBookingFeesAmount(obFees);
+						}
+					}
+
 					checkoutResponse.setNewOffer(newOffer);
 				}
 			}

@@ -38,6 +38,14 @@ public class FlightTrip implements JSONable {
 	// Possible price change from last time we queried this trip
 	private Money mPriceChangeAmount;
 
+	// Server indicates ahead of time *if* we might be charged
+	// online booking feess
+	private boolean mMayChargeObFees;
+
+	// Possible online booking fees (only set when server processes a
+	// real credit card, on non-US/CA POS for specific routes)
+	private Money mOnlineBookingFeesAmount;
+
 	private int mSeatsRemaining;
 
 	// These are modifiers for each segment in leg
@@ -50,7 +58,6 @@ public class FlightTrip implements JSONable {
 	private Map<String, Rule> mRules;
 
 	private String mBaggageFeesUrl;
-	private boolean mMayChargeObFees;
 
 	public String getProductKey() {
 		return mProductKey;
@@ -189,6 +196,20 @@ public class FlightTrip implements JSONable {
 
 	public boolean getMayChargeObFees() {
 		return mMayChargeObFees;
+	}
+
+	public void setOnlineBookingFeesAmount(Money amount) {
+		mOnlineBookingFeesAmount = amount;
+	}
+
+	public Money getOnlineBookingFeesAmount() {
+		return mOnlineBookingFeesAmount;
+	}
+
+	public Money getTotalFareWithObFees() {
+		Money money = new Money(mTotalFare);
+		money.add(mOnlineBookingFeesAmount);
+		return money;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -467,6 +488,10 @@ public class FlightTrip implements JSONable {
 			mPriceChangeAmount = other.mPriceChangeAmount;
 		}
 
+		if (other.mOnlineBookingFeesAmount != null) {
+			mOnlineBookingFeesAmount = other.mOnlineBookingFeesAmount;
+		}
+
 		if (other.mSeatsRemaining != 0) {
 			mSeatsRemaining = other.mSeatsRemaining;
 		}
@@ -513,6 +538,7 @@ public class FlightTrip implements JSONable {
 			JSONUtils.putJSONable(obj, "taxes", mTaxes);
 			JSONUtils.putJSONable(obj, "fees", mFees);
 			JSONUtils.putJSONable(obj, "priceChangeAmount", mPriceChangeAmount);
+			JSONUtils.putJSONable(obj, "onlineBookingFeesAmount", mOnlineBookingFeesAmount);
 			obj.putOpt("rewardsPoints", mRewardsPoints);
 			obj.putOpt("seatsRemaining", mSeatsRemaining);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
@@ -560,6 +586,7 @@ public class FlightTrip implements JSONable {
 		mTaxes = JSONUtils.getJSONable(obj, "taxes", Money.class);
 		mFees = JSONUtils.getJSONable(obj, "fees", Money.class);
 		mPriceChangeAmount = JSONUtils.getJSONable(obj, "priceChangeAmount", Money.class);
+		mOnlineBookingFeesAmount = JSONUtils.getJSONable(obj, "onlineBookingFeesAmount", Money.class);
 		mRewardsPoints = obj.optString("rewardsPoints");
 		mSeatsRemaining = obj.optInt("seatsRemaining");
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
