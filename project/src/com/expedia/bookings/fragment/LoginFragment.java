@@ -2,7 +2,9 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -55,7 +57,13 @@ import com.facebook.model.GraphUser;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.Log;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
+import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class LoginFragment extends Fragment {
 	private static final String ARG_PATH_MODE = "ARG_PATH_MODE";
@@ -76,6 +84,8 @@ public class LoginFragment extends Fragment {
 	private static final String STATE_PATH_MODE = "STATE_PATH_MODE";
 	private static final String STATE_EMPTY_EXP_USERNAME = "STATE_EMPTY_EXP_USERNAME";
 	private static final String STATE_EMPTY_EXP_PASSWORD = "STATE_EMPTY_EXP_PASSWORD";
+
+	private static final int ANIM_BUTTON_FLIP_DURATION = 200;
 
 	private Activity mContext;
 	private TitleSettable mTitleSetter;
@@ -100,6 +110,11 @@ public class LoginFragment extends Fragment {
 	private EditText mLinkPassword;
 
 	private LoadingDialogFragment mLoadingFragment;
+
+	//ANIMATION
+	private Semaphore mButtonToggleSemaphore = new Semaphore(1);
+	private Animator mLastButtonToggleAnimator;
+	private float mLastButtonTogglePercentage = -1f;
 
 	//STATE
 	private String mFbUserId;
@@ -175,7 +190,7 @@ public class LoginFragment extends Fragment {
 		}
 
 		initOnClicks();
-		setVisibilityState(mVisibilityState);
+		setVisibilityState(mVisibilityState, false);
 
 		return v;
 	}
@@ -342,7 +357,7 @@ public class LoginFragment extends Fragment {
 				//Do facebook things!!!
 				doFacebookLogin();
 
-				setVisibilityState(VisibilityState.FACEBOOK_LINK);
+				setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
 			}
 		});
 
@@ -378,11 +393,12 @@ public class LoginFragment extends Fragment {
 				mEmptyUsername = TextUtils.isEmpty(s);
 				mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 
-				if (mEmptyUsername) {
-					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON);
+				if (mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WTIH_FB_BUTTON)) {
+					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, true);
 				}
-				else {
-					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON);
+				else if (!mVisibilityState.equals(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON)) {
+
+					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, true);
 				}
 			}
 		};
@@ -468,11 +484,11 @@ public class LoginFragment extends Fragment {
 
 				//goto previous state...
 				if (TextUtils.isEmpty(mExpediaUserName.getText())) {
-					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON);
+					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 					setStatusText(R.string.expedia_account, true);
 				}
 				else {
-					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON);
+					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
 					setStatusText(R.string.expedia_account, true);
 				}
 			}
@@ -488,7 +504,7 @@ public class LoginFragment extends Fragment {
 		}
 	}
 
-	private void setVisibilityState(VisibilityState state) {
+	private void setVisibilityState(VisibilityState state, boolean animate) {
 		mVisibilityState = state;
 		switch (mVisibilityState) {
 		case FACEBOOK_LINK:
@@ -503,21 +519,24 @@ public class LoginFragment extends Fragment {
 		case EXPEDIA_WITH_EXPEDIA_BUTTON:
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
 			mSigninButtonContainer.setVisibility(View.VISIBLE);
-			mOrFacebookContainer.setVisibility(View.GONE);
+			mOrFacebookContainer.setVisibility(View.VISIBLE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
+			toggleLoginButtons(false, animate);
 			break;
 		case EXPEDIA_WTIH_FB_BUTTON:
 		default:
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
 			mSigninButtonContainer.setVisibility(View.VISIBLE);
 			mOrFacebookContainer.setVisibility(View.VISIBLE);
-			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
+			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
 			mFacebookButtonContainer.setVisibility(View.GONE);
 			mTitleSetter.setActionBarTitle(getResources().getString(R.string.sign_in));
+			toggleLoginButtons(true, animate);
+			break;
 		}
 
 		updateButtonState();
@@ -540,10 +559,10 @@ public class LoginFragment extends Fragment {
 		case FACEBOOK_LINK:
 			this.setStatusText(R.string.expedia_account, true);
 			if (TextUtils.isEmpty(mExpediaUserName.getText())) {
-				setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON);
+				setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
 			}
 			else {
-				setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON);
+				setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
 			}
 			break;
 		default:
@@ -707,6 +726,165 @@ public class LoginFragment extends Fragment {
 		this.mFbUserName = null;
 		this.mFbUserId = null;
 		this.mFbUserEmail = null;
+	}
+
+	//////////////////////////////////
+	// Animations
+
+	private void toggleLoginButtons(final boolean toggleToFacebook, final boolean animate) {
+		if (!animate) {
+			if (toggleToFacebook) {
+				mOrFacebookContainer.setVisibility(View.VISIBLE);
+				mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
+				setButtonFlipPercentage(0f);
+			}
+			else {
+				mOrFacebookContainer.setVisibility(View.GONE);
+				mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
+				setButtonFlipPercentage(1f);
+			}
+		}
+		else {
+			mOrFacebookContainer.setVisibility(View.VISIBLE);
+			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
+
+			Animator anim = getToggleAnimator(toggleToFacebook);
+			anim.setDuration(ANIM_BUTTON_FLIP_DURATION);
+			anim.addListener(new AnimatorListener() {
+
+				boolean wasCancelled = false;
+
+				@Override
+				public void onAnimationCancel(Animator arg0) {
+					wasCancelled = true;
+				}
+
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					if (!wasCancelled) {
+						//We only cancel when another animation starts, so we dont want to do anything with visibility now
+						mOrFacebookContainer.setVisibility(toggleToFacebook ? View.VISIBLE : View.GONE);
+						mSigninWithExpediaButtonContainer.setVisibility(toggleToFacebook ? View.GONE : View.VISIBLE);
+					}
+					mButtonToggleSemaphore.release();
+				}
+
+				@Override
+				public void onAnimationRepeat(Animator arg0) {
+				}
+
+				@Override
+				public void onAnimationStart(Animator arg0) {
+					if (mButtonToggleSemaphore.tryAcquire()) {
+						mLastButtonToggleAnimator = arg0;
+					}
+					else {
+						if (mLastButtonToggleAnimator != null && mLastButtonToggleAnimator.isStarted()) {
+							mLastButtonToggleAnimator.cancel();
+						}
+						try {
+							mButtonToggleSemaphore.acquire();
+							mLastButtonToggleAnimator = arg0;
+						}
+						catch (Exception ex) {
+							Log.e("Exception starting animation", ex);
+						}
+					}
+				}
+			});
+			anim.start();
+		}
+	}
+
+	private Animator getToggleAnimator(boolean toggleToFacebook) {
+
+		float start = toggleToFacebook ? 1f : 0f;
+		float end = toggleToFacebook ? 0f : 1f;
+		if (mLastButtonTogglePercentage >= 0f && mLastButtonTogglePercentage <= 1) {
+			start = mLastButtonTogglePercentage;
+		}
+
+		ValueAnimator animator = ValueAnimator.ofFloat(start, end);
+		animator.addUpdateListener(new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator anim) {
+				Float f = (Float) anim.getAnimatedValue();
+				setButtonFlipPercentage(f.floatValue());
+			}
+		});
+
+		return animator;
+	}
+
+	/**
+	 * Set the button flip animation percentage
+	 * 
+	 * 0 = Facebook button showing, Login with Expedia is not showing
+	 * 1 = Login with Expedia showing, Login with facebook not showing.
+	 * 
+	 * @param percentage
+	 */
+	private void setButtonFlipPercentage(float percentage) {
+		Log.d("FLIP: setButtonFlipPercentage():" + percentage);
+
+		if (percentage > 1f) {
+			percentage = 1f;
+		}
+		if (percentage < 0f) {
+			percentage = 0f;
+		}
+
+		mLastButtonTogglePercentage = percentage;
+
+		int maxDegrees = 180;
+		float fbAlpha = 0;
+		float expAlpha = 0;
+		float fbRotationX = 0;
+		float expRotationX = 0;
+
+		if (percentage < 0.5f) {
+			//Facebook dominates
+			fbAlpha = 1f - percentage;
+			expAlpha = 0f;
+
+			fbRotationX = percentage * maxDegrees;
+		}
+		else {
+			//Expedia dominates
+			fbAlpha = 0f;
+			expAlpha = percentage;
+
+			expRotationX = percentage * maxDegrees + 180;
+		}
+
+		setViewAlpha(mOrFacebookContainer, fbAlpha);
+		setViewAlpha(mSigninWithExpediaButtonContainer, expAlpha);
+
+		setViewRotationX(mOrFacebookContainer, fbRotationX);
+		setViewRotationX(mSigninWithExpediaButtonContainer, expRotationX);
+	}
+
+	//////////////////////////////////
+	// Animation Helpers
+
+	@SuppressLint("NewApi")
+	private void setViewAlpha(View v, float alpha) {
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			v.setAlpha(alpha);
+		}
+		else {
+			AnimatorProxy.wrap(v).setAlpha(alpha);
+		}
+	}
+
+	@SuppressLint("NewApi")
+	private void setViewRotationX(View v, float rotationX) {
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			v.setRotationX(rotationX);
+		}
+		else {
+			AnimatorProxy.wrap(v).setRotationX(rotationX);
+		}
 	}
 
 	//////////////////////////////////

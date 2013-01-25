@@ -66,25 +66,26 @@
 
         <!-- Signin with Expedia -or- Connect with facebook -->
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/signin_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_or_spacing"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:id="@+id/or_facebook_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:gravity="center"
                 android:orientation="vertical" >
 
                 <LinearLayout
                     android:id="@+id/or_container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/login_or_spacing"
                     android:gravity="center"
                     android:orientation="horizontal" >
@@ -133,10 +134,11 @@
                     android:text="@string/connect_with_facebook" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/sign_in_with_expedia_button_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="@dimen/login_side_margin_small"
                 android:layout_marginRight="@dimen/login_side_margin_small"
                 android:gravity="center"
@@ -146,6 +148,7 @@
                 <Button
                     android:id="@+id/sign_in_with_expedia_btn"
                     style="@style/LoginFormButton"
+                    android:layout_alignParentTop="true"
                     android:background="@drawable/btn_signin"
                     android:gravity="center"
                     android:text="@string/sign_in_with_expedia"
@@ -155,13 +158,16 @@
                     android:id="@+id/forgot_your_password_link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/sign_in_with_expedia_btn"
+                    android:layout_below="@id/sign_in_with_expedia_btn"
+                    android:layout_gravity="left"
                     android:padding="8dp"
                     android:text="@string/forgot_your_password"
                     android:textColor="#f3f3f3"
                     android:textColorLink="@android:color/white"
                     android:textSize="13sp" />
-            </LinearLayout>
-        </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
 
         <!-- Facebook sigin in fields -->
 
