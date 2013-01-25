@@ -55,23 +55,51 @@ public class PriceChangeDialogFragment extends DialogFragment {
 		final FlightTrip currentOffer = JSONUtils.getJSONable(args, ARG_CURRENT_OFFER, FlightTrip.class);
 		final FlightTrip newOffer = JSONUtils.getJSONable(args, ARG_NEW_OFFER, FlightTrip.class);
 
-		// Determine the price change (up or down)
+		// Calculate message (based on online booking fees and whether the fare went up/down)
+		CharSequence message;
+
 		Money diff = new Money(currentOffer.getTotalFare());
 		diff.subtract(newOffer.getTotalFare());
 
-		int strId;
-		if (diff.getAmount().compareTo(BigDecimal.ZERO) < 0) {
-			strId = R.string.error_flight_price_increased;
+		String obFeesFormatted = null;
+		Money obFees = newOffer.getOnlineBookingFeesAmount();
+		if (obFees != null) {
+			obFeesFormatted = obFees.getFormattedMoney();
 		}
-		else {
-			strId = R.string.error_flight_price_decreased;
-		}
+
+		int compareTo = diff.getAmount().compareTo(BigDecimal.ZERO);
 
 		// Reset the price to always be positive for formatting purposes
 		diff.setAmount(diff.getAmount().abs());
+		String diffFormatted = diff.getFormattedMoney();
+		String totalFareFormatted = newOffer.getTotalFareWithObFees().getFormattedMoney();
+		if (compareTo < 0) {
+			if (obFeesFormatted != null) {
+				message = getString(R.string.error_flight_price_increased_with_fee, obFeesFormatted, diffFormatted,
+						totalFareFormatted);
+			}
+			else {
+				message = getString(R.string.error_flight_price_increased, diffFormatted, totalFareFormatted);
+			}
+		}
+		else if (compareTo > 0) {
+			if (obFeesFormatted != null) {
+				message = getString(R.string.error_flight_price_decreased_with_fee, obFeesFormatted, diffFormatted,
+						totalFareFormatted);
+			}
+			else {
+				message = getString(R.string.error_flight_price_decreased, diffFormatted, totalFareFormatted);
+			}
+		}
+		else if (obFeesFormatted != null) {
+			message = getString(R.string.error_flight_added_processing_fee, obFeesFormatted, totalFareFormatted);
+		}
+		else {
+			throw new RuntimeException("Somehow got a PRICE_CHANGE exception with no price changing!");
+		}
 
 		AlertDialog.Builder builder = new Builder(getActivity());
-		builder.setMessage(getString(strId, diff.getFormattedMoney(), newOffer.getTotalFare().getFormattedMoney()));
+		builder.setMessage(message);
 		builder.setPositiveButton(R.string.accept, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
