@@ -150,29 +150,29 @@ public class FlightDetailsFragment extends Fragment {
 			}
 			else {
 				mFeesSecondaryTextView.setVisibility(View.GONE);
-				mFeesTextView.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
-						String trackingName = null;
-						if (legPosition == 0) {
-							if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-								trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
-							}
-							else {
-								trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
-							}
-						}
-						else if (legPosition == 1) {
-							trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
-						}
-
-						Intent baggageIntent = WebViewActivity.getIntent(getActivity(), trip.getBaggageFeesUrl(),
-								R.style.FlightTheme, R.string.baggage_fees, true, trackingName);
-						getActivity().startActivity(baggageIntent);
-					}
-				});
 			}
+			mFeesTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
+					String trackingName = null;
+					if (legPosition == 0) {
+						if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+							trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
+						}
+						else {
+							trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
+						}
+					}
+					else if (legPosition == 1) {
+						trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
+					}
+
+					Intent baggageIntent = WebViewActivity.getIntent(getActivity(), trip.getBaggageFeesUrl(),
+							R.style.FlightTheme, R.string.baggage_fees, true, trackingName);
+					getActivity().startActivity(baggageIntent);
+				}
+			});
 		}
 
 		// Format header
