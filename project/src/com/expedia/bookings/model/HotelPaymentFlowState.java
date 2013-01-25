@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 
@@ -36,7 +38,12 @@ public class HotelPaymentFlowState {
 
 	public boolean hasValidBillingAddress(BillingInfo billingInfo) {
 		bind(billingInfo);
-		return mBillingAddress.hasValidInput();
+		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES)) {
+			return mBillingAddress.hasValidInput();
+		}
+		else {
+			return true;
+		}
 	}
 
 	public boolean hasValidCardInfo(BillingInfo billingInfo) {

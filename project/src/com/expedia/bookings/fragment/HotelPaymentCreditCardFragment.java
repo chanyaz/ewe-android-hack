@@ -7,14 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
@@ -26,6 +31,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	BillingInfo mBillingInfo;
 
 	SectionBillingInfo mHotelSectionCreditCard;
+	SectionLocation mSectionLocation;
 
 	boolean mAttemptToLeaveMade = false;
 
@@ -75,6 +81,30 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 			}
 		});
 
+		if (!PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES)) {
+			// remove the SectionLocation/postalCode as it is not needed in all POS other than US
+			RelativeLayout rl = Ui.findView(v, R.id.edit_creditcard_exp_date_and_zipcode_container);
+			rl.removeViewAt(1); // remove the SectionLocation
+
+			TextView tv = Ui.findView(rl, R.id.edit_creditcard_exp_text_btn);
+			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) tv.getLayoutParams();
+			lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		}
+		else {
+			// grab reference to the SectionLocation as we will need to perform validation
+			mSectionLocation = Ui.findView(v, R.id.section_location_address);
+			mSectionLocation.addChangeListener(new SectionChangeListener() {
+				@Override
+				public void onChange() {
+					if (mAttemptToLeaveMade) {
+						//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
+						mSectionLocation.hasValidInput();
+					}
+					//Attempt to save on change
+					Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
+				}
+			});
+		}
 		return v;
 	}
 
@@ -113,10 +143,20 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	@Override
 	public boolean attemptToLeave() {
 		mAttemptToLeaveMade = true;
-		return mHotelSectionCreditCard != null ? mHotelSectionCreditCard.hasValidInput() : false;
+		return hasValidInput();
 	}
 
 	public void bindAll() {
 		mHotelSectionCreditCard.bind(mBillingInfo);
+	}
+
+	/**
+	 * Performs validation on the form. We can possibly have both SectionBillingInfo and SectionLocation, so we must
+	 * account for the different combinations. SectionLocation is null if POS is not US as it is not needed.
+	 */
+	private boolean hasValidInput() {
+		boolean hasValidCreditCard = mHotelSectionCreditCard != null ? mHotelSectionCreditCard.hasValidInput() : false;
+		boolean hasValidPaymentLocation = mSectionLocation != null ? mSectionLocation.hasValidInput() : true;
+		return hasValidCreditCard && hasValidPaymentLocation;
 	}
 }

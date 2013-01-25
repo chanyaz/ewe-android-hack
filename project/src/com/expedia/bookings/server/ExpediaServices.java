@@ -721,7 +721,9 @@ public class ExpediaServices implements DownloadListener {
 			Location location = billingInfo.getLocation();
 			if ((flags & F_HOTELS) != 0) {
 				// 130 Hotels reservation requires only postalCode for US POS, no billing info for other POS
-				query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
+				if (location != null && !TextUtils.isEmpty(location.getPostalCode())) {
+					query.add(new BasicNameValuePair("postalCode", location.getPostalCode()));
+				}
 			}
 			else {
 				// F670: Location can be null if we are using a stored credit card
