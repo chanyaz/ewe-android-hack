@@ -11,6 +11,7 @@ import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 public class WebViewActivity extends SherlockFragmentActivity implements WebViewFragment.WebViewFragmentListener {
 
@@ -72,6 +73,7 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 
 		if (savedInstanceState == null) {
 			String url = extras.getString(ARG_URL);
+			Log.v("WebView url: " + url);
 			boolean disableSignIn = extras.getBoolean(ARG_DISABLE_SIGN_IN, false);
 			boolean injectExpediaCookies = extras.getBoolean(ARG_INJECT_EXPEDIA_COOKIES, false);
 			String name = extras.getString(ARG_TRACKING_NAME);
