@@ -379,6 +379,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	}
 
 	public void setHeaderOffset(int offset) {
+		offset = Math.min(offset, 0);
+
 		if (mViewPager.getCurrentItem() == 1) {
 			mHeader.setOffset(offset);
 		}

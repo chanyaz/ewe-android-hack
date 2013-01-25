@@ -48,7 +48,7 @@
         <LinearLayout
             android:id="@+id/itin_expanded_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical" >
 
             <TextView
@@ -63,69 +63,19 @@
                 android:textColor="@android:color/white"
                 android:textSize="18dp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#4D555D" />
+
             <ScrollView
                 android:id="@+id/details_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:visibility="gone" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#00FF00" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#0000FF" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#00FF00" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#0000FF" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#00FF00" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#0000FF" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#00FF00" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#0000FF" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#00FF00" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="#0000FF" />
-                </LinearLayout>
-            </ScrollView>
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"

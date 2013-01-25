@@ -1,25 +1,28 @@
 package com.expedia.bookings.widget;
 
-import java.util.List;
-
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
-import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponentAdapter;
 
-public class ItinScrollView extends ScrollView {
+public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	public static final int SCROLL_HEADER_HIDDEN = -9999;
 
 	public static final int MODE_LIST = 0;
 	public static final int MODE_DETAIL = 1;
@@ -30,74 +33,39 @@ public class ItinScrollView extends ScrollView {
 
 	private TripComponentAdapter mAdapter;
 
-	private LinearLayout mContainer;
-	private View mEmptyView;
+	private OnItemClickListener mOnItemClickListener;
+	private OnScrollListener mOnScrollListener;
 
 	private int mMode;
 	private int mDetailPosition = -1;
-
 	private int mExpandedCardOriginalSize;
 	private int mOriginalScrollY;
-
-	private boolean mDataChanged;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public ItinScrollView(Context context) {
+	public ItinListView(Context context) {
 		this(context, null);
 	}
 
-	public ItinScrollView(Context context, AttributeSet attrs) {
+	public ItinListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		final int headerHeight = context.getResources().getDimensionPixelSize(R.dimen.launch_header_height);
-		mContainer = new LinearLayout(context);
-		mContainer.setOrientation(LinearLayout.VERTICAL);
-		mContainer.setPadding(0, headerHeight, 0, 0);
+		final View headerView = new View(context);
+		headerView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, headerHeight));
 
-		addView(mContainer);
+		addHeaderView(headerView);
 
 		mAdapter = new TripComponentAdapter(context);
-		mAdapter.registerDataSetObserver(mDataSetObserver);
-		setOnScrollListener(null);
-
-		populateList();
+		setAdapter(mAdapter);
+		setOnItemClickListener(null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (mMode == MODE_DETAIL) {
-			return mContainer.getChildAt(mDetailPosition).dispatchTouchEvent(event);
-		}
-
-		return super.onTouchEvent(event);
-	}
-
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent event) {
-		if (mMode == MODE_DETAIL) {
-			return mContainer.getChildAt(mDetailPosition).dispatchTouchEvent(event);
-		}
-
-		return super.onInterceptTouchEvent(event);
-	}
-
-	@Override
-	protected void onScrollChanged(int x, int y, int oldx, int oldy) {
-		final int count = mContainer.getChildCount();
-		for (int i = 1; i < count; i++) {
-			if (getChildAt(i) != null) {
-				getChildAt(i).invalidate();
-			}
-		}
-		super.onScrollChanged(x, y, oldx, oldy);
-	}
 
 	@Override
 	public void onDetachedFromWindow() {
@@ -109,6 +77,38 @@ public class ItinScrollView extends ScrollView {
 	public void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		mAdapter.enableSelfManagement();
+	}
+
+	@Override
+	public void setOnItemClickListener(OnItemClickListener listener) {
+		mOnItemClickListener = listener;
+		super.setOnItemClickListener(this);
+	}
+
+	@Override
+	public void setOnScrollListener(OnScrollListener listener) {
+		mOnScrollListener = listener;
+		super.setOnScrollListener(this);
+	}
+
+	// Touch overrides
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (mMode == MODE_DETAIL) {
+			return getChildAt(mDetailPosition - getFirstVisiblePosition()).dispatchTouchEvent(event);
+		}
+
+		return super.onTouchEvent(event);
+	}
+
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent event) {
+		if (mMode == MODE_DETAIL) {
+			return getChildAt(mDetailPosition - getFirstVisiblePosition()).dispatchTouchEvent(event);
+		}
+
+		return super.onInterceptTouchEvent(event);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +123,7 @@ public class ItinScrollView extends ScrollView {
 		switch (mode) {
 		default:
 		case MODE_LIST: {
-			showList();
+			hideDetails();
 			break;
 		}
 		case MODE_DETAIL: {
@@ -133,48 +133,35 @@ public class ItinScrollView extends ScrollView {
 		}
 	}
 
-	public void setEmptyView(View emptyView) {
-		mEmptyView = emptyView;
-		updateEmptyStatus(mAdapter.isEmpty());
-	}
+	public int getListScrollY() {
+		int offset = -getScrollY();
 
-	public View getEmptyView() {
-		return mEmptyView;
+		if (getFirstVisiblePosition() == 0 && getChildCount() > 0) {
+			offset += getChildAt(0).getTop();
+		}
+		else {
+			offset = SCROLL_HEADER_HIDDEN;
+		}
+
+		return offset;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private void populateList() {
-		mContainer.removeAllViews();
-
-		if (mAdapter == null) {
-			return;
-		}
-
-		final int count = mAdapter.getCount();
-		for (int i = 0; i < count; i++) {
-			View view = mAdapter.getView(i, null, mContainer);
-			view.setOnClickListener(new ClickListener(i));
-
-			mContainer.addView(view);
-		}
-	}
-
-	private void showList() {
-		mMode = MODE_LIST;
-
+	private void hideDetails() {
 		if (mDetailPosition < 0) {
 			return;
 		}
 
-		final ItinCard view = (ItinCard) mContainer.getChildAt(mDetailPosition);
+		mMode = MODE_LIST;
+
+		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
 		final int animationPosition = mDetailPosition;
 
 		final int startY = getScrollY();
 		final int stopY = mOriginalScrollY;
-		;
 
 		final ResizeAnimation animation = new ResizeAnimation(view, mExpandedCardOriginalSize);
 		animation.setAnimationListener(new AnimationListener() {
@@ -190,15 +177,17 @@ public class ItinScrollView extends ScrollView {
 			public void onAnimationEnd(Animation animation) {
 				view.showSummary(animationPosition == 0);
 				view.showDetails(false);
-				view.setOnClickListener(new ClickListener(animationPosition));
+				invalidateViews();
 
 				scrollTo(0, stopY);
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 		});
 		animation.setAnimationStepListener(new AnimationStepListener() {
 			@Override
 			public void onAnimationStep(Animation animation, float interpolatedTime) {
 				scrollTo(0, (int) (((stopY - startY) * interpolatedTime) + startY));
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 		});
 
@@ -215,8 +204,7 @@ public class ItinScrollView extends ScrollView {
 		mMode = MODE_DETAIL;
 		mDetailPosition = position;
 
-		// Expand detail card
-		final ItinCard view = (ItinCard) mContainer.getChildAt(mDetailPosition);
+		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
 
 		mExpandedCardOriginalSize = view.getHeight();
 		mOriginalScrollY = getScrollY();
@@ -230,6 +218,7 @@ public class ItinScrollView extends ScrollView {
 			public void onAnimationStart(Animation animation) {
 				view.showSummary(true);
 				view.showDetails(true);
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 
 			@Override
@@ -239,75 +228,49 @@ public class ItinScrollView extends ScrollView {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				scrollTo(0, stopY);
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 		});
 		animation.setAnimationStepListener(new AnimationStepListener() {
 			@Override
 			public void onAnimationStep(Animation animation, float interpolatedTime) {
 				scrollTo(0, (int) (((stopY - startY) * interpolatedTime) + startY));
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 		});
 
 		view.startAnimation(animation);
 	}
 
-	private void updateEmptyStatus(boolean empty) {
-		if (empty) {
-			if (mEmptyView != null) {
-				mEmptyView.setVisibility(View.VISIBLE);
-				setVisibility(View.GONE);
-			}
-			else {
-				setVisibility(View.VISIBLE);
-			}
+	//////////////////////////////////////////////////////////////////////////////////////
+	// IMPLEMENTATIONS
+	//////////////////////////////////////////////////////////////////////////////////////
 
-			if (mDataChanged) {
-				this.onLayout(false, getLeft(), getTop(), getRight(), getBottom());
-			}
-		}
-		else {
-			if (mEmptyView != null) {
-				mEmptyView.setVisibility(View.GONE);
-			}
-			setVisibility(View.VISIBLE);
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		showDetails(position);
+
+		if (mOnItemClickListener != null) {
+			mOnItemClickListener.onItemClick(parent, view, position, id);
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////
-	// LISTENERS
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private DataSetObserver mDataSetObserver = new DataSetObserver() {
-		public void onChanged() {
-			mDataChanged = true;
-			updateEmptyStatus(mAdapter.isEmpty());
-			populateList();
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		final int count = getChildCount();
+		for (int i = 0; i < count; i++) {
+			getChildAt(i).invalidate();
 		}
 
-		public void onInvalidated() {
-			mDataChanged = true;
-			updateEmptyStatus(mAdapter.isEmpty());
-			populateList();
+		if (mOnScrollListener != null) {
+			mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
 		}
-	};
+	}
 
-	//////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE CLASSES
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private class ClickListener implements OnClickListener {
-		private int mPosition;
-
-		public ClickListener(int position) {
-			mPosition = position;
-		}
-
-		@Override
-		public void onClick(View v) {
-			if (mMode == MODE_LIST) {
-				showDetails(mPosition);
-				v.setOnClickListener(null);
-			}
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		if (mOnScrollListener != null) {
+			mOnScrollListener.onScrollStateChanged(view, scrollState);
 		}
 	}
 }

@@ -6,14 +6,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
-import com.expedia.bookings.widget.HotelItinCard;
-import com.expedia.bookings.widget.ItinCard;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
+import com.expedia.bookings.widget.FlightItinCard;
+import com.expedia.bookings.widget.HotelItinCard;
+import com.expedia.bookings.widget.ItinCard;
 
 public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncListener {
 
@@ -78,7 +79,17 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 			card = (ItinCard) convertView;
 		}
 		else {
-			card = new HotelItinCard(mContext);
+			switch (getItem(position).getType()) {
+			case FLIGHT: {
+				card = new FlightItinCard(mContext);
+				break;
+			}
+			default:
+			case HOTEL: {
+				card = new HotelItinCard(mContext);
+				break;
+			}
+			}
 		}
 
 		//bind card and stuff...

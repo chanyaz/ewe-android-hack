@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,6 +18,14 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public abstract class ItinCard extends RelativeLayout {
+	//////////////////////////////////////////////////////////////////////////////////////
+	// ABSTRACT METHODS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	protected abstract String getHeaderText(TripComponent tripComponent);
+
+	protected abstract View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent);
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -35,9 +45,6 @@ public abstract class ItinCard extends RelativeLayout {
 	private ImageView mFloatTypeIcon;
 	private TextView mItinHeaderText;
 
-	private boolean mShowSummary = true;
-	private boolean mShowDetails = true;
-
 	private int mLastDimen = 0;
 	private int mSecondLastDimen = 0;
 
@@ -55,7 +62,7 @@ public abstract class ItinCard extends RelativeLayout {
 		TYPE_IMAGE_START_SIZE = (int) getResources().getDimension(R.dimen.itin_list_icon_start_size);
 		TYPE_IMAGE_END_SIZE = (int) getResources().getDimension(R.dimen.itin_list_icon_end_size);
 
-		inflate(context, R.layout.row_itin_expanded, this);
+		inflate(context, R.layout.widget_itin_card, this);
 
 		mInnerContainer = Ui.findView(this, R.id.inner_itin_container);
 		mImageContainer = Ui.findView(this, R.id.itin_image_container);
@@ -73,17 +80,21 @@ public abstract class ItinCard extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void bind(TripComponent tripComponent) {
-		mItinHeaderText.setText(tripComponent.getType().toString().toUpperCase() + " Fun Town");
+		mItinHeaderText.setText(getHeaderText(tripComponent));
+
+		View detailsView = getDetailsView(LayoutInflater.from(getContext()), mDetailsScrollView, tripComponent);
+		if (detailsView != null) {
+			mDetailsScrollView.removeAllViews();
+			mDetailsScrollView.addView(detailsView);
+		}
 	}
 
 	public void showSummary(boolean show) {
 		mExpandedContainer.setVisibility(show ? VISIBLE : GONE);
-		mShowSummary = show;
 	}
 
 	public void showDetails(final boolean show) {
 		mDetailsScrollView.setVisibility(show ? VISIBLE : GONE);
-		mShowDetails = show;
 	}
 
 	public void updateTypeIconPosition() {
@@ -120,7 +131,7 @@ public abstract class ItinCard extends RelativeLayout {
 			int dimen = (int) (TYPE_IMAGE_START_SIZE + Math.round(percentage
 					* (TYPE_IMAGE_END_SIZE - TYPE_IMAGE_START_SIZE)));
 
-			Log.i("Percentage:" + percentage + " dimen:" + dimen);
+			Log.t("Percentage: %f - dimen: %d", percentage, dimen);
 
 			RelativeLayout.LayoutParams params = (LayoutParams) mFloatTypeIcon.getLayoutParams();
 			boolean changed = params.topMargin != floatImageTopMargin || params.height != dimen
