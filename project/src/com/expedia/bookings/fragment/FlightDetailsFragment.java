@@ -117,12 +117,15 @@ public class FlightDetailsFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					final int numUrls = 2;
+					final int[] itemNamesResIds = new int[numUrls];
 					final String[] itemNames = new String[numUrls];
 					final String[] itemUrls = new String[numUrls];
 
+					itemNamesResIds[0] = R.string.baggage_fees;
 					itemNames[0] = getString(R.string.baggage_fees);
 					itemUrls[0] = trip.getBaggageFeesUrl();
 
+					itemNamesResIds[1] = R.string.payment_processing_fees;
 					itemNames[1] = getString(R.string.payment_processing_fees);
 					itemUrls[1] = Db.getFlightSearch().getSearchResponse().getObFeesDetails();
 
@@ -132,7 +135,7 @@ public class FlightDetailsFragment extends Fragment {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							Intent intent = WebViewActivity.getIntent(getActivity(), itemUrls[which],
-									R.style.FlightTheme, 0, true);
+									R.style.FlightTheme, itemNamesResIds[which], true);
 							getActivity().startActivity(intent);
 						}
 					});
@@ -165,7 +168,7 @@ public class FlightDetailsFragment extends Fragment {
 						}
 
 						Intent baggageIntent = WebViewActivity.getIntent(getActivity(), trip.getBaggageFeesUrl(),
-								R.style.FlightTheme, 0, true, trackingName);
+								R.style.FlightTheme, R.string.baggage_fees, true, trackingName);
 						getActivity().startActivity(baggageIntent);
 					}
 				});
