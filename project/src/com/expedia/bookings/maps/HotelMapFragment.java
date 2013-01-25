@@ -56,6 +56,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	private boolean mShowDistances;
 	private boolean mAddPropertiesWhenReady = false;
 	private boolean mAddExactMarkerWhenReady = false;
+	private boolean mShowAllWhenReady = false;
 
 	private Marker mExactLocationMarker;
 
@@ -180,6 +181,10 @@ public class HotelMapFragment extends SupportMapFragment {
 				addExactLocation();
 				mAddExactMarkerWhenReady = false;
 			}
+			if (mShowAllWhenReady) {
+				showAll();
+				mShowAllWhenReady = false;
+			}
 		}
 	}
 
@@ -214,7 +219,12 @@ public class HotelMapFragment extends SupportMapFragment {
 	public void notifySearchComplete() {
 		showExactLocation(Db.getSearchParams(), false);
 		setSearchResponse(Db.getSearchResponse());
-		showAll();
+		if (isReady()) {
+			showAll();
+		}
+		else {
+			mShowAllWhenReady = true;
+		}
 	}
 
 	public void reset() {
@@ -351,44 +361,19 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void notifyFilterChanged() {
-		if (mProperties != null) {
+		if (mProperties != null && Db.getSearchResponse() != null) {
 			List<Property> newSet = Arrays.asList(Db.getSearchResponse().getFilteredAndSortedProperties());
-			boolean changed = false;
-
-			if (newSet.size() > mProperties.size()) {
-				HashSet<Property> addSet = new HashSet<Property>(newSet);
-				addSet.removeAll(mProperties);
-
-				// Add properties
-				for (Property add : addSet) {
-					addMarker(add);
-				}
-
-				changed = true;
+			for (Property property : mProperties) {
+				boolean visibility = newSet.contains(property);
+				Marker marker = mPropertiesToMarkers.get(property);
+				marker.setVisible(visibility);
 			}
-			else if (newSet.size() == mProperties.size()) {
-				// ignore
+
+			if (isReady()) {
+				showAll();
 			}
 			else {
-				// Remove properties
-				HashSet<Property> deleteSet = new HashSet<Property>(mProperties);
-				deleteSet.removeAll(newSet);
-
-				for (Property deleted : deleteSet) {
-					Marker marker = mPropertiesToMarkers.get(deleted);
-					if (marker != null) {
-						mPropertiesToMarkers.remove(deleted);
-						mMarkersToProperties.remove(marker);
-						marker.remove();
-					}
-				}
-
-				changed = true;
-			}
-
-			if (changed) {
-				mProperties = newSet;
-				showAll();
+				mShowAllWhenReady = true;
 			}
 		}
 	}
@@ -432,8 +417,11 @@ public class HotelMapFragment extends SupportMapFragment {
 			final LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
 			for (Property property : mProperties) {
-				Location location = property.getLocation();
-				builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
+				Marker marker = mPropertiesToMarkers.get(property);
+				if (marker != null && marker.isVisible()) {
+					Location location = property.getLocation();
+					builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
+				}
 			}
 
 			animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(),
