@@ -214,6 +214,10 @@ public class LoginFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 
+		if (Session.getActiveSession() != null) {
+			Session.getActiveSession().removeCallback(mFacebookStatusCallback);
+		}
+
 		if (mContext.isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(NET_MANUAL_LOGIN);
 			BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
@@ -233,6 +237,10 @@ public class LoginFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		if (Session.getActiveSession() != null) {
+			Session.getActiveSession().addCallback(mFacebookStatusCallback);
+		}
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(NET_MANUAL_LOGIN)) {
@@ -332,11 +340,7 @@ public class LoginFragment extends Fragment {
 				}
 
 				//Do facebook things!!!
-				Session session = Session.getActiveSession();
-				if (session == null || session.getState() == null || !session.getState().isOpened()
-						|| mFbUserName == null) {
-					doFacebookLogin();
-				}
+				doFacebookLogin();
 
 				setVisibilityState(VisibilityState.FACEBOOK_LINK);
 			}
@@ -626,19 +630,18 @@ public class LoginFragment extends Fragment {
 		Resources resources = getResources();
 
 		if (heading) {
-			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
+			float textSize = resources.getDimensionPixelSize(R.dimen.login_header_text_size);
+			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 			FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_LIGHT);
-			int marginpx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25,
-					resources.getDisplayMetrics());
+			int marginpx = resources.getDimensionPixelSize(R.dimen.login_header_text_size);
 			lp.leftMargin = marginpx;
 			lp.rightMargin = marginpx;
 		}
 		else {
-
-			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+			float textSize = resources.getDimensionPixelSize(R.dimen.login_header_text_small_size);
+			mStatusMessageTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 			FontCache.setTypeface(mStatusMessageTv, Font.ROBOTO_REGULAR);
-			int marginpx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18,
-					resources.getDisplayMetrics());
+			int marginpx = resources.getDimensionPixelSize(R.dimen.login_header_text_small_size);
 			lp.leftMargin = marginpx;
 			lp.rightMargin = marginpx;
 		}
@@ -975,6 +978,7 @@ public class LoginFragment extends Fragment {
 
 		setIsLoading(true);
 		setLoadingText(R.string.fetching_facebook_info);
+		setStatusText(R.string.connect_with_facebook, true);
 
 		// start Facebook Login
 		Session currentSession = Session.getActiveSession();

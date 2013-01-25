@@ -16,6 +16,7 @@
     <dimen name="login_or_spacing">24dp</dimen>
     <dimen name="login_header_top_spacing">36dp</dimen>
     <dimen name="login_header_text_size">33sp</dimen>
+    <dimen name="login_header_text_small_size">22sp</dimen>
     <dimen name="login_header_divider_spacing">20dp</dimen>
     <dimen name="login_divider_content_spacing">64dp</dimen>
     <dimen name="login_divider_height">3dp</dimen>
