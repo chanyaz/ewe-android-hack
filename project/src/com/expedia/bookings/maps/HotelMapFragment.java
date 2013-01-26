@@ -3,22 +3,17 @@ package com.expedia.bookings.maps;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
-import android.view.ViewGroup;
-import android.view.LayoutInflater;
-
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
@@ -41,7 +36,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import com.mobiata.android.Log;
 
 public class HotelMapFragment extends SupportMapFragment {
@@ -383,20 +377,37 @@ public class HotelMapFragment extends SupportMapFragment {
 		marker.showInfoWindow();
 	}
 
+	/**
+	 * Shows all properties visible on the map.
+	 * 
+	 * If there are properties but all are hidden (due to filtering),
+	 * then it shows the area they would appear (if they weren't
+	 * hidden).
+	 */
 	public void showAll() {
-		if (mProperties != null) {
-			final LatLngBounds.Builder builder = new LatLngBounds.Builder();
+		if (mProperties != null && mProperties.size() > 0) {
+			LatLngBounds.Builder builder = new LatLngBounds.Builder();
+			LatLngBounds.Builder allBuilder = new LatLngBounds.Builder();
 
+			int numIncluded = 0;
 			for (Property property : mProperties) {
 				Marker marker = mPropertiesToMarkers.get(property);
+				Location location = property.getLocation();
+				LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 				if (marker != null && marker.isVisible()) {
-					Location location = property.getLocation();
-					builder.include(new LatLng(location.getLatitude(), location.getLongitude()));
+					builder.include(latLng);
+					numIncluded++;
 				}
+
+				allBuilder.include(latLng);
+			}
+
+			if (numIncluded == 0) {
+				builder = allBuilder;
 			}
 
 			animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(),
-						(int) getResources().getDisplayMetrics().density * 50));
+					(int) getResources().getDisplayMetrics().density * 50));
 		}
 	}
 
@@ -418,7 +429,6 @@ public class HotelMapFragment extends SupportMapFragment {
 		showBalloon(Db.getSelectedProperty());
 		focusProperty(Db.getSelectedProperty(), true);
 	}
-
 
 	//////////////////////////////////////////////////////////////////////////
 	// Listeners
