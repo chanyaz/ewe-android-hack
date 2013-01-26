@@ -428,7 +428,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 		// For some Expedia-suggested locations they do not return a latitude/longitude; in those
 		// cases, do not try to move the map around
-		if (latitude != 0 && longitude != 0) {
+		if (latitude != 0 || longitude != 0) {
 			animateCamera(CameraUpdateFactory.newLatLngZoom(
 					new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), DEFAULT_ZOOM));
 		}
