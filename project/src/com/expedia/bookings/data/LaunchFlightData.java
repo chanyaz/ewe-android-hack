@@ -1,12 +1,13 @@
 package com.expedia.bookings.data;
 
-import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.json.JSONable;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
 
 public class LaunchFlightData implements JSONable {
 

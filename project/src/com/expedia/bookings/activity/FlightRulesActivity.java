@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.os.Bundle;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;

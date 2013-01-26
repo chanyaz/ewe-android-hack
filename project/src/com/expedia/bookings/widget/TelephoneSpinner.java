@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.mobiata.android.widget.Spinner;
 

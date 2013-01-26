@@ -20,7 +20,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
-import com.mobiata.android.Log;
 
 public class FlightSlideToPurchaseFragment extends Fragment {
 

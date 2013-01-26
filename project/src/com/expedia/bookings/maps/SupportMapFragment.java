@@ -1,7 +1,5 @@
 package com.expedia.bookings.maps;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;

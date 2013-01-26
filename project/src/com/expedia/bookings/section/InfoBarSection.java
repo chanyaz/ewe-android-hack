@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;

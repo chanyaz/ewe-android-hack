@@ -1,12 +1,12 @@
 package com.expedia.bookings.widget;
 
-import com.expedia.bookings.R;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
+
+import com.expedia.bookings.R;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.view.ViewHelper;
 
 public class LaunchHeaderView extends RelativeLayout {
 	private int mOffset;

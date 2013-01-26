@@ -1,9 +1,10 @@
 package com.expedia.bookings.data;
 
-import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONable;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONable;
 
 /**
  *

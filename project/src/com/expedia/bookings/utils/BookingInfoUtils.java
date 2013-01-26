@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.mobiata.android.Log;
 

@@ -1,5 +1,8 @@
 package com.expedia.bookings.activity;
 
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -10,12 +13,6 @@ import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.Session;
-import com.mobiata.android.Log;
-
-import android.support.v4.app.FragmentTransaction;
-import android.content.Intent;
-import android.os.Bundle;
 
 public class LoginActivity extends SherlockFragmentActivity implements TitleSettable {
 

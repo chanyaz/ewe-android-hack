@@ -4,9 +4,10 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.text.TextUtils;
+
+import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerCommitResponse;
-import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
