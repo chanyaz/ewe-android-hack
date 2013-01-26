@@ -422,8 +422,16 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	public void notifySearchLocationFound() {
 		SearchParams params = Db.getSearchParams();
-		animateCamera(CameraUpdateFactory.newLatLngZoom(
-				new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), DEFAULT_ZOOM));
+
+		double latitude = params.getSearchLatitude();
+		double longitude = params.getSearchLongitude();
+
+		// For some Expedia-suggested locations they do not return a latitude/longitude; in those
+		// cases, do not try to move the map around
+		if (latitude != 0 && longitude != 0) {
+			animateCamera(CameraUpdateFactory.newLatLngZoom(
+					new LatLng(params.getSearchLatitude(), params.getSearchLongitude()), DEFAULT_ZOOM));
+		}
 	}
 
 	public void notifyPropertySelected() {
