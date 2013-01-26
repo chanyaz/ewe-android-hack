@@ -214,6 +214,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void reset() {
+		mProperties = null;
 		mMap.clear();
 		mPropertiesToMarkers.clear();
 		mMarkersToProperties.clear();
