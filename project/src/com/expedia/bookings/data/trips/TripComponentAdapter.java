@@ -86,11 +86,11 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 			// If types don't match set convertView to null
 			// in order to create correct instance below
 			if (!card.getType().equals(tripComponent.getType())) {
-				convertView = null;
+				card = null;
 			}
 		}
 
-		if (convertView == null) {
+		if (card == null) {
 			switch (tripComponent.getType()) {
 			case HOTEL: {
 				card = new HotelItinCard(mContext);
@@ -111,9 +111,10 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 			}
 		}
 
-		//bind card and stuff...
-		card.bind(tripComponent);
-		card.showSummary(position == 0);
+		if (card != null) {
+			card.bind(tripComponent);
+			card.showSummary(position == 0);
+		}
 
 		return card;
 	}

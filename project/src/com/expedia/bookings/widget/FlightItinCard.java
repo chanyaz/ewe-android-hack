@@ -51,11 +51,10 @@ public class FlightItinCard extends ItinCard {
 	public void bind(TripComponent tripComponent) {
 		mFlightTrip = ((TripFlight) tripComponent).getFlightTrip();
 
-		if (mFlightTrip.getLegCount() > 0) {
+		if (mFlightTrip != null && mFlightTrip.getLegCount() > 0) {
 			mDestination = mFlightTrip.getLeg(mFlightTrip.getLegCount() - 1).getLastWaypoint();
+			super.bind(tripComponent);
 		}
-
-		super.bind(tripComponent);
 	}
 
 	@Override
