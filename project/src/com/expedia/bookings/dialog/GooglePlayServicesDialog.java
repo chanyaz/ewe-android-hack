@@ -1,0 +1,62 @@
+package com.expedia.bookings.dialog;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.view.KeyEvent;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.mobiata.android.Log;
+
+public class GooglePlayServicesDialog {
+	private Activity mActivity;
+
+	public GooglePlayServicesDialog(Activity activity) {
+		mActivity = activity;
+	}
+
+	private final DialogInterface.OnCancelListener mGooglePlayServicesOnCancelListener = new DialogInterface.OnCancelListener() {
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			Log.d("Google Play Services: onCancel");
+			startChecking();
+		}
+	};
+
+	private final DialogInterface.OnKeyListener mGooglePlayServicesOnKeyListener = new DialogInterface.OnKeyListener() {
+		@Override
+		public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+			Log.d("Google Play Services: onKey");
+			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+				mActivity.finish();
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	};
+
+	public void startChecking() {
+		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
+		switch (result) {
+		case ConnectionResult.SERVICE_MISSING:
+		case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
+		case ConnectionResult.SERVICE_DISABLED:
+			Log.d("Google Play Services: Raising dialog for user recoverable error " + result);
+			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(result, mActivity, 0);
+			dialog.setOnCancelListener(mGooglePlayServicesOnCancelListener);
+			dialog.setOnKeyListener(mGooglePlayServicesOnKeyListener);
+			dialog.show();
+			break;
+		case ConnectionResult.SUCCESS:
+			// We are fine - proceed
+			Log.d("Google Play Services: Everything fine, proceeding");
+			break;
+		default:
+			// The rest are unrecoverable codes that developer configuration error or what have you
+			throw new RuntimeException("Google Play Services status code indicates unrecoverable error: " + result);
+		}
+	}
+}

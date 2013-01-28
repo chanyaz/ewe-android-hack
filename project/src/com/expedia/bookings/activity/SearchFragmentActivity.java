@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
 import com.expedia.bookings.utils.Ui;
@@ -85,6 +86,9 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 		super.onResume();
 
 		mHockeyPuck.onResume();
+
+		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
+		gpsd.startChecking();
 	}
 
 	@Override
