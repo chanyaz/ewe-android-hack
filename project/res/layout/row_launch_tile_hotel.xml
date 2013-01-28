@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/launch_tile_banner_height"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/launch_tile_overlay"
+        android:background="@color/launch_tile_overlay"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
