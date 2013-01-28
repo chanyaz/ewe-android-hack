@@ -40,6 +40,7 @@ public class FlightsScreenshotSweep extends
 	
 	public void testMethod() throws Exception {
 		for(int i = 0; i < mDriver.FLIGHTS_LOCALES.length; i++) {
+			mDriver.setScreenshotCount(0);
 			mDriver.changePOS(mDriver.FLIGHTS_LOCALES[i]);
 			mDriver.flightsHappyPath("LAX", "SEA", false);
 		}

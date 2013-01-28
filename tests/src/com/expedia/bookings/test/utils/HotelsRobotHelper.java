@@ -83,7 +83,11 @@ public class HotelsRobotHelper {
 	public static Locale[] FLIGHTS_LOCALES = new Locale[] {
 			AMERICAN_LOCALES[2],
 			AMERICAN_LOCALES[3],
-			AMERICAN_LOCALES[5]
+			AMERICAN_LOCALES[5],
+			WESTERN_LOCALES[9],
+			WESTERN_LOCALES[7],
+			WESTERN_LOCALES[4],
+			WESTERN_LOCALES[14],
 	};
 
 	public static final Map<Locale, Integer> LOCALE_TO_COUNTRY = new HashMap<Locale, Integer>();
@@ -173,11 +177,11 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Helpful Methods
 	public void launchHotels() {
-		mSolo.clickOnText(mRes.getString(R.string.nav_hotels));
+		mSolo.clickOnView(mSolo.getView(R.id.hotels_button));
 	}
 
 	public void launchFlights() {
-		mSolo.clickOnText(mRes.getString(R.string.nav_flights));
+		mSolo.clickOnView(mSolo.getView(R.id.flights_button));
 	}
 
 	public void enterLog(String TAG, String logText) {
@@ -350,10 +354,10 @@ public class HotelsRobotHelper {
 
 		landscape();
 		portrait();
-		if(mAllowOrientationChange) {
+		if (mAllowOrientationChange) {
 			mSolo.clickOnEditText(0);
 		}
-		mSolo.clickInList(1); //Selecting search suggestion results
+		mSolo.clickInList(2); //Selecting search suggestion results
 								//some countries' list don't populate ever
 								//might break stuff
 		enterLog(TAG, "After clicking search button");
@@ -684,28 +688,7 @@ public class HotelsRobotHelper {
 			delay(1);
 			screenshot("Add new card");
 			delay(1);
-			landscape();
-			portrait();
-			delay();
-			mSolo.clearEditText(0);
-			mSolo.enterText(0, mUser.mAddressLine1);
 
-			mSolo.clearEditText(2);
-			mSolo.enterText(2, mUser.mCityName);
-
-			mSolo.clearEditText(3);
-			mSolo.enterText(3, mUser.mStateCode);
-
-			mSolo.clearEditText(4);
-			mSolo.enterText(4, mUser.mZIPCode);
-			delay();
-
-			landscape();
-			portrait();
-			delay();
-
-			mSolo.clickOnText(mRes.getString(R.string.next));
-			delay(1);
 			landscape();
 			portrait();
 			delay(5);
@@ -717,51 +700,27 @@ public class HotelsRobotHelper {
 			mSolo.enterText(1, mUser.mFirstName + " " + mUser.mLastName);
 
 			mSolo.clickOnText(mRes.getString(R.string.expiration_date));
-			landscape();
-			portrait();
-			delay(5);
-
+			
 			//Expiration date entry
 			mSolo.clickOnButton(1);
-			delay(2);
-			mSolo.clickOnButton(0);
-			delay(1);
-			mSolo.clickOnButton(1);
-			delay();
-			mSolo.clickOnButton(0);
 
-			mSolo.scrollToTop();
 			mSolo.clickOnText(mRes.getString(R.string.button_done));
-			delay(1);
-
+			mSolo.clickOnText(mRes.getString(R.string.no_thanks));
+			
 		}
 		catch (Error e) {
-			mSolo.scrollToTop();
-			try {
-				mSolo.clickOnText(mRes.getString(R.string.button_done));
-			}
-			catch (Error q) {
-				mSolo.clickOnText(mRes.getString(R.string.checkout_btn));
-			}
-
+			enterLog(TAG, e.toString());
 		}
-		delay();
-		try {
-			mSolo.clickOnButton(0);
-		}
-		catch (Exception derp) {
-			enterLog(TAG, "Caught Exception:" + derp.toString() +
-					" | when trying to exit credit card string.");
-		}
-		catch (Error derpy) {
-			enterLog(TAG, "Caught error: " + derpy.toString() +
-					" | when trying to exit credit card string.");
-		}
-		//pressCheckBox(); //placeholder in case TOS checkbox comes back
 	}
 
 	public void confirmAndBook() throws Exception {
 		delay(5);
+		try {
+			mSolo.clickOnText(mRes.getString(R.string.I_Accept));
+		}
+		catch (Error e) {
+			enterLog(TAG, "There is no 'I accept' button on this POS");
+		}
 		screenshot("Slide to checkout.");
 		delay();
 		try {
@@ -826,16 +785,8 @@ public class HotelsRobotHelper {
 				mSolo.clickOnText("Seattle");
 			}
 			else {
-				try {
-					mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
-				}
-				catch (AssertionFailedError E) {
-					enterLog(TAG, "New Search string not localized: No " + mRes.getString(R.string.NEW_SEARCH));
-					mSolo.clickOnText("NEW SEARCH");
-				}
-				enterLog(TAG, "Back at search!");
-				delay(5);
-				mSolo.goBack();
+				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
+				enterLog(TAG, "Going back to launcher.");
 			}
 		}
 	}
@@ -916,7 +867,7 @@ public class HotelsRobotHelper {
 
 		//If still on flights confirmation page
 		//click to do a new search
-		if (mSolo.searchText(mRes.getString(R.string.add_insurance), true)) {
+		if (mSolo.searchText("qa-ehcc@mobiata.com", true)) {
 			mSolo.clickOnImageButton(0);
 			delay(10);
 		}
@@ -925,17 +876,15 @@ public class HotelsRobotHelper {
 
 		delay(5);
 
-		mSolo.clickOnEditText(0);
+		//mSolo.clickOnEditText(0);
+		mSolo.clickOnView( (View) mSolo.getView(R.id.departure_airport_edit_text));
 		mSolo.enterText(0, departure);
 		delay();
-		mSolo.clickInList(0);
-		delay();
-
+		
 		//Arrival Field
-		mSolo.clickOnEditText(1);
+		//mSolo.clickOnEditText(1);
+		mSolo.clickOnView( (View) mSolo.getView(R.id.arrival_airport_edit_text));
 		mSolo.enterText(1, arrival);
-		delay();
-		mSolo.clickInList(0);
 		delay();
 
 		landscape();

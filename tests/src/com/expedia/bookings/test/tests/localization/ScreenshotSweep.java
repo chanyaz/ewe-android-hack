@@ -64,18 +64,23 @@ public class ScreenshotSweep extends
 		mDriver.changeAPI("Production");
 
 		for (int i = 0; i < locales.length; i++) {
+			
+			mDriver.setScreenshotCount(1);
 			mDriver.enterLog(TAG, "Starting sweep of " + locales[i].toString());
-
+			System.gc();
 			Locale testingLocale = locales[i];
 			mDriver.setLocale(testingLocale);
-			mDriver.setScreenshotCount(1);
+
 			mDriver.setLocale(testingLocale);
 			mDriver.delay();
 			mDriver.changePOS(locales[i]);
 
 			mDriver.launchHotels();
+			if (mSolo.searchText(mRes.getString(R.string.NEW_SEARCH))) {
+				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
+			}
 			mDriver.delay();
-
+			System.gc();
 			mDriver.pressCalendar();
 			mDriver.pressGuestPicker();
 			mDriver.selectLocation("San Francisco");
@@ -88,14 +93,14 @@ public class ScreenshotSweep extends
 			mDriver.checkReviews();
 			mDriver.pressBookRoom();
 			mDriver.selectRoom(0);
-
+			System.gc();
 			mDriver.delay();
 
 			mDriver.logInAndBook();
 			mDriver.setLocale(testingLocale);
 			mDriver.delay(5);
+			mSolo.goBack();
 
-			mDriver.captureInfoScreen();
 			mDriver.checkFlightsScreen();
 		}
 	}
