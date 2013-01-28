@@ -5,11 +5,9 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,9 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightBookingActivity;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget;
@@ -32,15 +28,18 @@ import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class FlightSlideToPurchaseFragment extends Fragment {
 
+	private static final String ARG_TOTAL_PRICE = "ARG_TOTAL_PRICE";
 	private static final String HAS_ACCEPTED_TOS = "HAS_ACCEPTED_TOS";
 
 	private SlideToWidget mSlider;
 	private boolean mHasAcceptedTOS;
+	private String mTotalPrice;
+	private ISlideToListener mListener;
 
-	public static FlightSlideToPurchaseFragment newInstance() {
+	public static FlightSlideToPurchaseFragment newInstance(Money totalPrice) {
 		FlightSlideToPurchaseFragment fragment = new FlightSlideToPurchaseFragment();
 		Bundle args = new Bundle();
-		//TODO:Set args here..
+		args.putString(ARG_TOTAL_PRICE, totalPrice.getFormattedMoney());
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -58,41 +57,17 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 		}
 		showHideAcceptTOS(v, false);
 
+		// Arguments
+		mTotalPrice = getArguments().getString(ARG_TOTAL_PRICE);
+
 		// Slide To Purchase
 		TextView price = Ui.findView(v, R.id.purchase_total_text_view);
 		String template = getResources().getString(R.string.your_card_will_be_charged_TEMPLATE);
-		String text = String.format(template, Db.getFlightSearch().getSelectedFlightTrip().getTotalFare()
-				.getFormattedMoney());
+		String text = String.format(template, mTotalPrice);
 		price.setText(text);
 
 		mSlider = Ui.findView(v, R.id.slide_to_purchase_widget);
-		mSlider.addSlideToListener(new ISlideToListener() {
-
-			@Override
-			public void onSlideStart() {
-			}
-
-			@Override
-			public void onSlideAllTheWay() {
-
-				//Ensure proper email address
-				if (User.isLoggedIn(getActivity()) && !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
-					//This should always be a valid email because it is the account email
-					Db.getBillingInfo().setEmail(Db.getUser().getPrimaryTraveler().getEmail());
-				}
-
-				Db.getBillingInfo().save(getActivity());
-
-				Intent intent = new Intent(getActivity(), FlightBookingActivity.class);
-				startActivity(intent);
-
-			}
-
-			@Override
-			public void onSlideAbort() {
-			}
-
-		});
+		mSlider.addSlideToListener(mListener);
 
 		return v;
 	}
@@ -100,6 +75,14 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+
+		if (!(activity instanceof ISlideToListener)) {
+			throw new RuntimeException(FlightSlideToPurchaseFragment.class.getSimpleName()
+					+ " must bind to an activity that implements "
+					+ mListener.getClass().getSimpleName());
+		}
+
+		mListener = (ISlideToListener) activity;
 	}
 
 	@Override

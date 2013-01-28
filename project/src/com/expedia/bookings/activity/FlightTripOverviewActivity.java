@@ -32,6 +32,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -48,6 +49,7 @@ import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
@@ -56,7 +58,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
-		CheckoutInformationListener, RetryErrorDialogFragmentListener {
+		CheckoutInformationListener, RetryErrorDialogFragmentListener, ISlideToListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -390,7 +392,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private void addSlideToCheckoutFragment() {
 		mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
 		if (mSlideToPurchaseFragment == null) {
-			mSlideToPurchaseFragment = FlightSlideToPurchaseFragment.newInstance();
+			Money totalFare = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+			mSlideToPurchaseFragment = FlightSlideToPurchaseFragment.newInstance(totalFare);
 		}
 		if (!mSlideToPurchaseFragment.isAdded()) {
 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -930,6 +933,34 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void onCancelError() {
 		finish();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ISlideToListener
+	// (for FlightSlideToPurchaseFragment)
+
+	@Override
+	public void onSlideStart() {
+	}
+
+	@Override
+	public void onSlideAllTheWay() {
+
+		//Ensure proper email address
+		if (User.isLoggedIn(this) && !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+			//This should always be a valid email because it is the account email
+			Db.getBillingInfo().setEmail(Db.getUser().getPrimaryTraveler().getEmail());
+		}
+
+		Db.getBillingInfo().save(this);
+
+		Intent intent = new Intent(this, FlightBookingActivity.class);
+		startActivity(intent);
+
+	}
+
+	@Override
+	public void onSlideAbort() {
 	}
 
 }
