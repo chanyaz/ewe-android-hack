@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="36dp"
+            android:paddingBottom="50dp"
             android:paddingTop="36dp" />
     </ScrollView>
 
@@ -57,7 +57,6 @@
             android:id="@+id/fees_secondary_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:drawablePadding="5dp"
             android:textColor="#838794"
             android:textSize="12dp"
