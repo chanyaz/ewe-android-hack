@@ -68,7 +68,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	// to keep track of state because the app will maintain this data
 	private List<Property> mProperties;
 
-	private boolean mOffsetAnimation = false;
+	private boolean mAnimationOffsetsEnabled = false;
 	private double mCenterOffsetY;
 
 	public static HotelMapFragment newInstance() {
@@ -141,9 +141,9 @@ public class HotelMapFragment extends SupportMapFragment {
 		});
 		mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
 			public void onCameraChange(CameraPosition position) {
-				if (mOffsetAnimation && mCenterOffsetY != 0) {
-					animateCamera(CameraUpdateFactory.scrollBy(0, (float) mCenterOffsetY / 2.0f));
-					mOffsetAnimation = false;
+				if (mAnimationOffsetsEnabled && mCenterOffsetY != 0) {
+					animateCamera(CameraUpdateFactory.scrollBy(0, (float) mCenterOffsetY));
+					mAnimationOffsetsEnabled = false;
 				}
 			}
 		});
@@ -362,6 +362,8 @@ public class HotelMapFragment extends SupportMapFragment {
 		marker.showInfoWindow();
 		CameraUpdate camUpdate;
 
+		mAnimationOffsetsEnabled = true;
+
 		if (zoom != -1.0f) {
 			camUpdate = CameraUpdateFactory.newLatLngZoom(marker.getPosition(), zoom);
 		}
@@ -369,7 +371,6 @@ public class HotelMapFragment extends SupportMapFragment {
 			camUpdate = CameraUpdateFactory.newLatLng(marker.getPosition());
 		}
 
-		mOffsetAnimation = true;
 		if (animate) {
 			animateCamera(camUpdate);
 		}

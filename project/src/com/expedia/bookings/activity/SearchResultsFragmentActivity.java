@@ -657,6 +657,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		ft.add(R.id.fragment_mini_details, mMiniDetailsFragment, getString(R.string.tag_mini_details));
 		ft.addToBackStack(MINI_DETAILS_PUSH);
 		ft.commit();
+
+		mHotelMapFragment.setCenterOffsetY((float) (getResources().getDimensionPixelSize(R.dimen.mini_details_height) / 2.0f));
 	}
 
 	public void showHotelDetailsFragment() {
@@ -682,6 +684,7 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		fm.popBackStack(MINI_DETAILS_PUSH, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 		// Refocus the map pins
+		mHotelMapFragment.setCenterOffsetY(0);
 		mHotelMapFragment.showAll();
 	}
 
