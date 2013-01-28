@@ -21,16 +21,38 @@
             android:text="@string/Do_you_accept"
             android:textColor="#FCFCFC" />
 
-        <Button
-            android:id="@+id/button_i_accept"
+        <!-- We build this whole oval manually instead of as a simple 9patch for l337 animation effects -->
+
+        <LinearLayout
+            android:id="@+id/layout_i_accept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_slide_to_purchase_circle"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:text="@string/I_Accept"
-            android:textColor="#FCFCFC"
-            android:textSize="26sp" />
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/image_i_accept_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_slide_to_purchase_circle_left" />
+
+            <TextView
+                android:id="@+id/text_i_accept_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_slide_to_purchase_circle_center"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:gravity="center"
+                android:text="@string/I_Accept"
+                android:textColor="#FCFCFC"
+                android:textSize="26sp" />
+
+            <ImageView
+                android:id="@+id/image_i_accept_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_slide_to_purchase_circle_right" />
+            </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

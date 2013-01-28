@@ -1,7 +1,12 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -9,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -20,6 +24,11 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class FlightSlideToPurchaseFragment extends Fragment {
 
@@ -117,22 +126,119 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 		ViewGroup layoutSlideToPurchase = Ui.findView(view, R.id.layout_slide_to_purchase);
 
 		if (mHasAcceptedTOS) {
-			layoutConfirmTOS.setVisibility(View.INVISIBLE);
-			layoutSlideToPurchase.setVisibility(View.VISIBLE);
+			if (layoutConfirmTOS.getVisibility() != View.INVISIBLE
+					|| layoutSlideToPurchase.getVisibility() != View.VISIBLE) {
+				hideAcceptTOS(layoutConfirmTOS, layoutSlideToPurchase, animated);
+			}
 		}
 		else {
-			layoutConfirmTOS.setVisibility(View.VISIBLE);
-			layoutSlideToPurchase.setVisibility(View.INVISIBLE);
-
-			Button buttonIAccept = Ui.findView(layoutConfirmTOS, R.id.button_i_accept);
-			buttonIAccept.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					mHasAcceptedTOS = true;
-					showHideAcceptTOS(view, true);
-				}
-			});
+			if (layoutConfirmTOS.getVisibility() != View.VISIBLE
+					|| layoutSlideToPurchase.getVisibility() != View.INVISIBLE) {
+				showAcceptTOS(layoutConfirmTOS, layoutSlideToPurchase);
+			}
 		}
 
+	}
+
+	private void hideAcceptTOS(final View layoutConfirmTOS, final View layoutSlideToPurchase, final boolean animated) {
+		if (!animated) {
+			layoutConfirmTOS.setVisibility(View.INVISIBLE);
+			layoutSlideToPurchase.setVisibility(View.VISIBLE);
+			return;
+		}
+
+		View iAccept = Ui.findView(layoutConfirmTOS, R.id.layout_i_accept);
+		View iAcceptLeft = Ui.findView(layoutConfirmTOS, R.id.image_i_accept_left);
+		View iAcceptCenter = Ui.findView(layoutConfirmTOS, R.id.text_i_accept_center);
+		View iAcceptRight = Ui.findView(layoutConfirmTOS, R.id.image_i_accept_right);
+		View labelDoYouAccept = Ui.findView(layoutConfirmTOS, R.id.label_do_you_accept);
+		View sliderImage = Ui.findView(layoutSlideToPurchase, R.id.slider_image_holder);
+
+		List<Animator> iAcceptList = new ArrayList<Animator>();
+
+		// Fade out the "do you accept" label
+		iAcceptList.add(ObjectAnimator.ofFloat(labelDoYouAccept, "alpha", 1f, 0f));
+
+		// Gracefully morph the "I accept" button into the slide to accept circle
+		Rect sliderRect = new Rect();
+		sliderImage.getGlobalVisibleRect(sliderRect);
+
+		// I accept layout should move itself and its children over 
+		// to fit on top of the slide to purchase button.
+		Rect iAcceptRect = new Rect();
+		iAccept.getGlobalVisibleRect(iAcceptRect);
+		float translateX = (float) sliderRect.left - iAcceptRect.left + 28;
+		float translateY = (float) sliderRect.top - iAcceptRect.top + 28;
+		iAcceptList.add(ObjectAnimator.ofFloat(iAccept, "translationX", 0f, translateX));
+		iAcceptList.add(ObjectAnimator.ofFloat(iAccept, "translationY", 0f, translateY));
+
+		// Right half of the I accept button
+		// should slide over to butt up against the left half
+		translateX = iAcceptLeft.getRight() - iAcceptRight.getLeft();
+		iAcceptList.add(ObjectAnimator.ofFloat(iAcceptRight, "translationX", 0f, translateX));
+
+		// Middle of the I accept button should shrink down to nothing
+		translateX = -iAcceptCenter.getWidth() / 2.0f;
+		iAcceptList.add(ObjectAnimator.ofFloat(iAcceptCenter, "scaleX", 1f, 0f));
+		iAcceptList.add(ObjectAnimator.ofFloat(iAcceptCenter, "translationX", 0f, translateX));
+
+		// All of the "I accept" animators put together
+		AnimatorSet iAcceptAnim = new AnimatorSet();
+		iAcceptAnim.playTogether(iAcceptList);
+		iAcceptAnim.setDuration(250);
+
+		// Fade in the "slide to purchase"
+		Animator slideToAnim = ObjectAnimator.ofFloat(layoutSlideToPurchase, "alpha", 0f, 1f);
+		slideToAnim.setDuration(100);
+
+		AnimatorSet allAnim = new AnimatorSet();
+		allAnim.playSequentially(iAcceptAnim, slideToAnim);
+		allAnim.addListener(new AnimatorListener() {
+
+			@Override
+			public void onAnimationCancel(Animator arg0) {
+				layoutConfirmTOS.setVisibility(View.INVISIBLE);
+				layoutSlideToPurchase.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				layoutConfirmTOS.setVisibility(View.INVISIBLE);
+				layoutSlideToPurchase.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@SuppressLint("NewApi")
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				layoutConfirmTOS.setVisibility(View.VISIBLE);
+				if (AnimatorProxy.NEEDS_PROXY) {
+					AnimatorProxy.wrap(layoutSlideToPurchase).setAlpha(0f);
+				}
+				else {
+					layoutSlideToPurchase.setAlpha(0f);
+				}
+				layoutSlideToPurchase.setVisibility(View.VISIBLE);
+			}
+		});
+		allAnim.start();
+	}
+
+	private void showAcceptTOS(final View layoutConfirmTOS, final View layoutSlideToPurchase) {
+		Ui.findView(layoutConfirmTOS, R.id.layout_i_accept).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mHasAcceptedTOS = true;
+				hideAcceptTOS(layoutConfirmTOS, layoutSlideToPurchase, true);
+			}
+		});
+
+		layoutConfirmTOS.setVisibility(View.VISIBLE);
+		layoutSlideToPurchase.setVisibility(View.INVISIBLE);
 	}
 }
