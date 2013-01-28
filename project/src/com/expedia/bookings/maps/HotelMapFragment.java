@@ -337,12 +337,15 @@ public class HotelMapFragment extends SupportMapFragment {
 				marker.setVisible(visibility);
 			}
 
-			if (isReady()) {
-				showAll();
-			}
-			else {
-				mShowAllWhenReady = true;
-			}
+			// We don't want to do this because the map animation
+			// is really choppy with the filter popup showing
+			// http://code.google.com/p/android/issues/detail?id=43425
+			//if (isReady()) {
+			//	showAll();
+			//}
+			//else {
+			//	mShowAllWhenReady = true;
+			//}
 		}
 	}
 
