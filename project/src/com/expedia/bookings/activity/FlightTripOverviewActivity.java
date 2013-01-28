@@ -393,7 +393,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
 		if (mSlideToPurchaseFragment == null) {
 			Money totalFare = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
-			mSlideToPurchaseFragment = FlightSlideToPurchaseFragment.newInstance(totalFare);
+			String template = getString(R.string.your_card_will_be_charged_TEMPLATE);
+			String text = String.format(template, totalFare.getFormattedMoney());
+			mSlideToPurchaseFragment = FlightSlideToPurchaseFragment.newInstance(text);
 		}
 		if (!mSlideToPurchaseFragment.isAdded()) {
 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

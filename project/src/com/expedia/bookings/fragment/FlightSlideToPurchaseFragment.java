@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -12,10 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget;
@@ -24,22 +27,22 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.animation.AnimatorProxy;
+import com.nineoldandroids.view.ViewHelper;
 
 public class FlightSlideToPurchaseFragment extends Fragment {
 
-	private static final String ARG_TOTAL_PRICE = "ARG_TOTAL_PRICE";
+	private static final String ARG_TOTAL_PRICE_STRING = "ARG_TOTAL_PRICE";
 	private static final String HAS_ACCEPTED_TOS = "HAS_ACCEPTED_TOS";
 
 	private SlideToWidget mSlider;
 	private boolean mHasAcceptedTOS;
-	private String mTotalPrice;
+	private String mTotalPriceString;
 	private ISlideToListener mListener;
 
-	public static FlightSlideToPurchaseFragment newInstance(Money totalPrice) {
+	public static FlightSlideToPurchaseFragment newInstance(String totalPriceString) {
 		FlightSlideToPurchaseFragment fragment = new FlightSlideToPurchaseFragment();
 		Bundle args = new Bundle();
-		args.putString(ARG_TOTAL_PRICE, totalPrice.getFormattedMoney());
+		args.putString(ARG_TOTAL_PRICE_STRING, totalPriceString);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -58,13 +61,11 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 		showHideAcceptTOS(v, false);
 
 		// Arguments
-		mTotalPrice = getArguments().getString(ARG_TOTAL_PRICE);
+		mTotalPriceString = getArguments().getString(ARG_TOTAL_PRICE_STRING);
 
 		// Slide To Purchase
 		TextView price = Ui.findView(v, R.id.purchase_total_text_view);
-		String template = getResources().getString(R.string.your_card_will_be_charged_TEMPLATE);
-		String text = String.format(template, mTotalPrice);
-		price.setText(text);
+		price.setText(mTotalPriceString);
 
 		mSlider = Ui.findView(v, R.id.slide_to_purchase_widget);
 		mSlider.addSlideToListener(mListener);
@@ -121,6 +122,21 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 			}
 		}
 
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Animation effects
+
+	@Override
+	public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+		Animation anim;
+		if (enter) {
+			anim = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
+		}
+		else {
+			anim = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+		}
+		return anim;
 	}
 
 	private void hideAcceptTOS(final View layoutConfirmTOS, final View layoutSlideToPurchase, final boolean animated) {
@@ -196,16 +212,10 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 
 			}
 
-			@SuppressLint("NewApi")
 			@Override
 			public void onAnimationStart(Animator arg0) {
 				layoutConfirmTOS.setVisibility(View.VISIBLE);
-				if (AnimatorProxy.NEEDS_PROXY) {
-					AnimatorProxy.wrap(layoutSlideToPurchase).setAlpha(0f);
-				}
-				else {
-					layoutSlideToPurchase.setAlpha(0f);
-				}
+				ViewHelper.setAlpha(layoutSlideToPurchase, 0f);
 				layoutSlideToPurchase.setVisibility(View.VISIBLE);
 			}
 		});
