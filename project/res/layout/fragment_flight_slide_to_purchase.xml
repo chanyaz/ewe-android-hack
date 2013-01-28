@@ -14,7 +14,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/label_do_you_accept"
+            android:id="@+id/do_you_accept_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
@@ -30,33 +30,33 @@
             android:orientation="horizontal" >
 
             <ImageView
-                android:id="@+id/image_i_accept_left"
+                android:id="@+id/i_accept_left_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/btn_slide_to_purchase_circle_left" />
 
             <TextView
-                android:id="@+id/text_i_accept_center"
+                android:id="@+id/i_accept_center_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_slide_to_purchase_circle_center"
+                android:gravity="center"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:gravity="center"
                 android:text="@string/I_Accept"
                 android:textColor="#FCFCFC"
                 android:textSize="26sp" />
 
             <ImageView
-                android:id="@+id/image_i_accept_right"
+                android:id="@+id/i_accept_right_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/btn_slide_to_purchase_circle_right" />
-            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_slide_to_purchase"
+        android:id="@+id/slide_to_purchase_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -65,7 +65,7 @@
         android:paddingTop="5dp" >
 
         <com.expedia.bookings.widget.SlideToWidget
-            android:id="@+id/slide_to_wid"
+            android:id="@+id/slide_to_purchase_widget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             slideto:destComplete="@drawable/slide_complete"
@@ -76,11 +76,11 @@
             slideto:sliderText="@string/slide_to_purchase" />
 
         <TextView
-            android:id="@+id/trip_price"
+            android:id="@+id/purchase_total_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/your_card_will_be_charged_TEMPLATE"
-            android:textColor="#FCFCFC" />
+            android:textColor="#FCFCFC"
+            android:textSize="@dimen/slide_to_purchase_price_text_size" />
     </LinearLayout>
 
 </FrameLayout>

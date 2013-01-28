@@ -59,13 +59,13 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 		showHideAcceptTOS(v, false);
 
 		// Slide To Purchase
-		TextView price = Ui.findView(v, R.id.trip_price);
+		TextView price = Ui.findView(v, R.id.purchase_total_text_view);
 		String template = getResources().getString(R.string.your_card_will_be_charged_TEMPLATE);
 		String text = String.format(template, Db.getFlightSearch().getSelectedFlightTrip().getTotalFare()
 				.getFormattedMoney());
 		price.setText(text);
 
-		mSlider = Ui.findView(v, R.id.slide_to_wid);
+		mSlider = Ui.findView(v, R.id.slide_to_purchase_widget);
 		mSlider.addSlideToListener(new ISlideToListener() {
 
 			@Override
@@ -123,7 +123,7 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 
 	private void showHideAcceptTOS(final View view, final boolean animated) {
 		ViewGroup layoutConfirmTOS = Ui.findView(view, R.id.layout_confirm_tos);
-		ViewGroup layoutSlideToPurchase = Ui.findView(view, R.id.layout_slide_to_purchase);
+		ViewGroup layoutSlideToPurchase = Ui.findView(view, R.id.slide_to_purchase_layout);
 
 		if (mHasAcceptedTOS) {
 			if (layoutConfirmTOS.getVisibility() != View.INVISIBLE
@@ -148,10 +148,10 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 		}
 
 		View iAccept = Ui.findView(layoutConfirmTOS, R.id.layout_i_accept);
-		View iAcceptLeft = Ui.findView(layoutConfirmTOS, R.id.image_i_accept_left);
-		View iAcceptCenter = Ui.findView(layoutConfirmTOS, R.id.text_i_accept_center);
-		View iAcceptRight = Ui.findView(layoutConfirmTOS, R.id.image_i_accept_right);
-		View labelDoYouAccept = Ui.findView(layoutConfirmTOS, R.id.label_do_you_accept);
+		View iAcceptLeft = Ui.findView(layoutConfirmTOS, R.id.i_accept_left_image);
+		View iAcceptCenter = Ui.findView(layoutConfirmTOS, R.id.i_accept_center_text);
+		View iAcceptRight = Ui.findView(layoutConfirmTOS, R.id.i_accept_right_image);
+		View labelDoYouAccept = Ui.findView(layoutConfirmTOS, R.id.do_you_accept_label);
 		View sliderImage = Ui.findView(layoutSlideToPurchase, R.id.slider_image_holder);
 
 		List<Animator> iAcceptList = new ArrayList<Animator>();
