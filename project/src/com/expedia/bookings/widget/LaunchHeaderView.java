@@ -2,14 +2,20 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-public class LaunchHeaderView extends RelativeLayout {
+public class LaunchHeaderView extends RelativeLayout implements OnClickListener {
 	private int mOffset;
+
+	private OnClickListener mHotelOnClickListener;
+	private OnClickListener mFlightOnClickListener;
 
 	public LaunchHeaderView(Context context) {
 		this(context, null);
@@ -19,6 +25,17 @@ public class LaunchHeaderView extends RelativeLayout {
 		super(context, attrs);
 
 		inflate(context, R.layout.widget_launch_header, this);
+
+		Ui.findView(this, R.id.hotels_button).setOnClickListener(this);
+		Ui.findView(this, R.id.flights_button).setOnClickListener(this);
+	}
+
+	public void setHotelOnClickListener(OnClickListener onClickListener) {
+		mHotelOnClickListener = onClickListener;
+	}
+
+	public void setFlightOnClickListener(OnClickListener onClickListener) {
+		mFlightOnClickListener = onClickListener;
 	}
 
 	public void show() {
@@ -45,6 +62,24 @@ public class LaunchHeaderView extends RelativeLayout {
 		}
 		else {
 			ViewHelper.setTranslationY(this, offset);
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.hotels_button: {
+			if (mHotelOnClickListener != null) {
+				mHotelOnClickListener.onClick(v);
+			}
+			break;
+		}
+		case R.id.flights_button: {
+			if (mFlightOnClickListener != null) {
+				mFlightOnClickListener.onClick(v);
+			}
+			break;
+		}
 		}
 	}
 }

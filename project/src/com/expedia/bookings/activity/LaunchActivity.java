@@ -110,8 +110,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
 
-		Ui.findView(this, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
-		Ui.findView(this, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
+		mHeader.setHotelOnClickListener(mHeaderItemOnClickListener);
+		mHeader.setFlightOnClickListener(mHeaderItemOnClickListener);
 
 		FontCache.setTypeface((TextView) Ui.findView(this, R.id.hotels_label_text_view), FontCache.Font.ROBOTO_LIGHT);
 		FontCache.setTypeface((TextView) Ui.findView(this, R.id.hotels_prompt_text_view), FontCache.Font.ROBOTO_LIGHT);
