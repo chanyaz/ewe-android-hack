@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,8 +39,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private int mMode;
 	private int mDetailPosition = -1;
-	private int mExpandedCardOriginalSize;
 	private int mOriginalScrollY;
+
+	private int mExpandedCardHeight;
+	private int mExpandedCardPaddingBottom;
+	private int mExpandedCardOriginalHeight;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -52,11 +56,14 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	public ItinListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		final int headerHeight = context.getResources().getDimensionPixelSize(R.dimen.launch_header_height);
+		final Resources res = context.getResources();
+
+		final int headerHeight = res.getDimensionPixelSize(R.dimen.launch_header_height);
 		final View headerView = new View(context);
 		headerView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, headerHeight));
-
 		addHeaderView(headerView);
+
+		mExpandedCardPaddingBottom = res.getDimensionPixelSize(R.dimen.itin_list_card_top_image_offset);
 
 		mAdapter = new TripComponentAdapter(context);
 		setAdapter(mAdapter);
@@ -66,6 +73,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+
+		mExpandedCardHeight = h - mExpandedCardPaddingBottom;
+	}
 
 	@Override
 	public void onDetachedFromWindow() {
@@ -166,7 +180,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		final int startY = getScrollY();
 		final int stopY = mOriginalScrollY;
 
-		final ResizeAnimation animation = new ResizeAnimation(view, mExpandedCardOriginalSize);
+		final ResizeAnimation animation = new ResizeAnimation(view, mExpandedCardOriginalHeight);
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -209,13 +223,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
 
-		mExpandedCardOriginalSize = view.getHeight();
+		mExpandedCardOriginalHeight = view.getHeight();
 		mOriginalScrollY = getScrollY();
 
 		final int startY = getScrollY();
 		final int stopY = view.getTop();
 
-		final ResizeAnimation animation = new ResizeAnimation(view, getHeight());
+		final ResizeAnimation animation = new ResizeAnimation(view, mExpandedCardHeight);
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
