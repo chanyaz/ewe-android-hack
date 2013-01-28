@@ -171,10 +171,8 @@ public class FlightDetailsFragment extends Fragment {
 				mFeesSecondaryTextView.setText(getString(R.string.carry_on_baggage_fees_apply));
 				mFeesSecondaryTextView.setVisibility(View.VISIBLE);
 			}
-			else {
-				mFeesSecondaryTextView.setVisibility(View.GONE);
-			}
-			mFeesTextView.setOnClickListener(new OnClickListener() {
+
+			mFeesContainer.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
