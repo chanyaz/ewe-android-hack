@@ -18,12 +18,15 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
+import com.mobiata.flightlib.data.Waypoint;
 
 // Make sure to call init() before using in the app!
 public class ItineraryManager implements JSONable {
@@ -312,6 +315,30 @@ public class ItineraryManager implements JSONable {
 							boolean isValidTrip = trip.isValidTrip();
 
 							Trip updatedTrip = response.getTrip();
+
+							// Look for flight images
+							TripFlight tripFlight;
+							FlightTrip flightTrip;
+							Waypoint waypoint;
+							String destinationCode;
+
+							for (TripComponent tripComponent : updatedTrip.getTripComponents()) {
+								if (tripComponent.getType().equals(TripComponent.Type.FLIGHT)) {
+									tripFlight = (TripFlight) tripComponent;
+									flightTrip = tripFlight.getFlightTrip();
+									waypoint = flightTrip.getLeg(flightTrip.getLegCount() - 1).getLastWaypoint();
+									destinationCode = waypoint.mAirportCode;
+
+									BackgroundImageResponse imageResponse = services.getFlightsBackgroundImage(
+											destinationCode, 0, 0);
+
+									if (imageResponse != null) {
+										tripFlight.setDestinationImageUrl(imageResponse.getImageUrl());
+									}
+								}
+							}
+
+							// Update trip
 							trip.updateFrom(updatedTrip, false);
 
 							// We only consider a guest trip added once it has some meaningful info
@@ -373,10 +400,7 @@ public class ItineraryManager implements JSONable {
 
 	private static class ProgressUpdate {
 		public static enum Type {
-			ADDED,
-			UPDATED,
-			UPDATE_FAILED,
-			REMOVED
+			ADDED, UPDATED, UPDATE_FAILED, REMOVED
 		}
 
 		public Type mType;

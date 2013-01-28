@@ -16,6 +16,8 @@ public class TripFlight extends TripComponent {
 
 	private List<Traveler> mTravelers;
 
+	private String mDestinationImageUrl;
+
 	public TripFlight() {
 		super(Type.FLIGHT);
 	}
@@ -38,6 +40,14 @@ public class TripFlight extends TripComponent {
 
 	public List<Traveler> getTravelers() {
 		return mTravelers;
+	}
+
+	public String getDestinationImageUrl() {
+		return mDestinationImageUrl;
+	}
+
+	public void setDestinationImageUrl(String destinationImageUrl) {
+		mDestinationImageUrl = destinationImageUrl;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

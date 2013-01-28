@@ -14,13 +14,19 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 
 public abstract class ItinCard extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// ABSTRACT METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	public abstract Type getType();
+
+	protected abstract String getHeaderImageUrl(TripComponent tripComponent);
 
 	protected abstract String getHeaderText(TripComponent tripComponent);
 
@@ -79,7 +85,15 @@ public abstract class ItinCard extends RelativeLayout {
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public void bind(TripComponent tripComponent) {
+	public void bind(final TripComponent tripComponent) {
+		String headerImageUrl = getHeaderImageUrl(tripComponent);
+		if (headerImageUrl != null) {
+			UrlBitmapDrawable.loadImageView(headerImageUrl, mCardImage);
+		}
+		else {
+			Log.t("Null image for %s", tripComponent.toString());
+		}
+
 		mItinHeaderText.setText(getHeaderText(tripComponent));
 
 		View detailsView = getDetailsView(LayoutInflater.from(getContext()), mDetailsScrollView, tripComponent);

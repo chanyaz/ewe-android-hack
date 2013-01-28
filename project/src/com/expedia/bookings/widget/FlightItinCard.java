@@ -9,21 +9,62 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.mobiata.flightlib.data.Waypoint;
 
 public class FlightItinCard extends ItinCard {
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE MEMBERS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	private FlightTrip mFlightTrip;
+	private Waypoint mDestination;
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	//////////////////////////////////////////////////////////////////////////////////////
+
 	public FlightItinCard(Context context) {
-		super(context);
+		this(context, null);
 	}
 
 	public FlightItinCard(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////////
+	// OVERRIDES
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Type getType() {
+		return Type.FLIGHT;
+	}
+
+	@Override
+	public void bind(TripComponent tripComponent) {
+		mFlightTrip = ((TripFlight) tripComponent).getFlightTrip();
+
+		if (mFlightTrip.getLegCount() > 0) {
+			mDestination = mFlightTrip.getLeg(mFlightTrip.getLegCount() - 1).getLastWaypoint();
+		}
+
+		super.bind(tripComponent);
+	}
+
+	@Override
+	protected String getHeaderImageUrl(TripComponent tripComponent) {
+		return ((TripFlight) tripComponent).getDestinationImageUrl();
+	}
+
 	@Override
 	protected String getHeaderText(TripComponent tripComponent) {
-		FlightTrip flight = ((TripFlight) tripComponent).getFlightTrip();
-		return flight.getLeg(flight.getLegCount() - 1).getLastWaypoint().getAirport().mCity;
+		if (mDestination != null) {
+			return mDestination.getAirport().mCity;
+		}
+
+		return "Flight Card";
 	}
 
 	@Override

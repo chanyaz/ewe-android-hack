@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.utils.Ui;
 
@@ -25,6 +27,8 @@ public class HotelItinCard extends ItinCard {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	private Property mProperty;
 
 	private TextView mCheckInDateTextView;
 	private TextView mCheckOutDateTextView;
@@ -47,12 +51,24 @@ public class HotelItinCard extends ItinCard {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	protected String getHeaderText(TripComponent tripComponent) {
-		if (((TripHotel) tripComponent).getProperty() != null) {
-			return ((TripHotel) tripComponent).getProperty().getName();
-		}
+	public Type getType() {
+		return Type.HOTEL;
+	}
 
-		return null;
+	@Override
+	public void bind(TripComponent tripComponent) {
+		mProperty = ((TripHotel) tripComponent).getProperty();
+		super.bind(tripComponent);
+	}
+
+	@Override
+	protected String getHeaderImageUrl(TripComponent tripComponent) {
+		return mProperty.getThumbnail().getUrl();
+	}
+
+	@Override
+	protected String getHeaderText(TripComponent tripComponent) {
+		return mProperty.getName();
 	}
 
 	public View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripHotel) {

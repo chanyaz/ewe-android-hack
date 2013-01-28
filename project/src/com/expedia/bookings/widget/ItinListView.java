@@ -136,6 +136,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	public int getListScrollY() {
 		int offset = -getScrollY();
 
+		if (mAdapter.getCount() < 1) {
+			offset = 0;
+		}
 		if (getFirstVisiblePosition() == 0 && getChildCount() > 0) {
 			offset += getChildAt(0).getTop();
 		}

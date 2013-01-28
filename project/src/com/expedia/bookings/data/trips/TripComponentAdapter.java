@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
+import com.expedia.bookings.widget.CarItinCard;
+import com.expedia.bookings.widget.CruiseItinCard;
 import com.expedia.bookings.widget.FlightItinCard;
 import com.expedia.bookings.widget.HotelItinCard;
 import com.expedia.bookings.widget.ItinCard;
@@ -74,26 +76,43 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 
 	@Override
 	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
-		ItinCard card;
-		if (convertView != null && convertView instanceof ItinCard) {
+		TripComponent tripComponent = getItem(position);
+		ItinCard card = null;
+
+		// Try to cast view to the appropriate type
+		if (convertView != null) {
 			card = (ItinCard) convertView;
-		}
-		else {
-			switch (getItem(position).getType()) {
-			case FLIGHT: {
-				card = new FlightItinCard(mContext);
-				break;
+
+			// If types don't match set convertView to null
+			// in order to create correct instance below
+			if (!card.getType().equals(tripComponent.getType())) {
+				convertView = null;
 			}
-			default:
+		}
+
+		if (convertView == null) {
+			switch (tripComponent.getType()) {
 			case HOTEL: {
 				card = new HotelItinCard(mContext);
 				break;
 			}
+			case FLIGHT: {
+				card = new FlightItinCard(mContext);
+				break;
+			}
+			case CAR:
+				card = new CarItinCard(mContext);
+				break;
+			case CRUISE:
+				card = new CruiseItinCard(mContext);
+				break;
+			default:
+				break;
 			}
 		}
 
 		//bind card and stuff...
-		card.bind(getItem(position));
+		card.bind(tripComponent);
 		card.showSummary(position == 0);
 
 		return card;
