@@ -19,6 +19,12 @@ public class CruiseItinCard extends ItinCard {
 	}
 
 	@Override
+	public int getTypeIconResId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
 	public Type getType() {
 		return Type.CRUISE;
 	}

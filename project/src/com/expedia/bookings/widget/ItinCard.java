@@ -24,6 +24,8 @@ public abstract class ItinCard extends RelativeLayout {
 	// ABSTRACT METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	public abstract int getTypeIconResId();
+
 	public abstract Type getType();
 
 	protected abstract String getHeaderImageUrl(TripComponent tripComponent);
@@ -86,6 +88,10 @@ public abstract class ItinCard extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void bind(final TripComponent tripComponent) {
+		// Type icon
+		mFloatTypeIcon.setImageResource(getTypeIconResId());
+
+		// Image
 		String headerImageUrl = getHeaderImageUrl(tripComponent);
 		if (headerImageUrl != null) {
 			UrlBitmapDrawable.loadImageView(headerImageUrl, mCardImage);
@@ -94,8 +100,10 @@ public abstract class ItinCard extends RelativeLayout {
 			Log.t("Null image for %s", tripComponent.toString());
 		}
 
+		// Header text
 		mItinHeaderText.setText(getHeaderText(tripComponent));
 
+		// Details view
 		View detailsView = getDetailsView(LayoutInflater.from(getContext()), mDetailsScrollView, tripComponent);
 		if (detailsView != null) {
 			mDetailsScrollView.removeAllViews();

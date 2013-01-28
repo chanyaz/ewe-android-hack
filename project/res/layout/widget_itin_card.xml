@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#4D555D" />
+
     <LinearLayout
         android:id="@+id/inner_itin_container"
         android:layout_width="match_parent"
@@ -25,6 +31,12 @@
                 android:layout_centerInParent="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/default_flights_background" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_card_image_overlay" />
 
             <View
                 android:id="@+id/target_type_icon_space_holder"

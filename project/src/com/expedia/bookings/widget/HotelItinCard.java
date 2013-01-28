@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -49,6 +50,11 @@ public class HotelItinCard extends ItinCard {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////
+	
+	@Override
+	public int getTypeIconResId() {
+		return R.drawable.ic_type_circle_hotel;
+	}
 
 	@Override
 	public Type getType() {
@@ -63,6 +69,9 @@ public class HotelItinCard extends ItinCard {
 
 	@Override
 	protected String getHeaderImageUrl(TripComponent tripComponent) {
+		if (mProperty.getMediaCount() > 0) {
+			return mProperty.getMedia(0).getUrl(Media.IMAGE_BIG_SUFFIX);
+		}
 		return mProperty.getThumbnail().getUrl();
 	}
 

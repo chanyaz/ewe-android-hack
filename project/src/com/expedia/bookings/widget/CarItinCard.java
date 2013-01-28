@@ -17,6 +17,12 @@ public class CarItinCard extends ItinCard {
 	public CarItinCard(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
+	
+	@Override
+	public int getTypeIconResId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	@Override
 	public Type getType() {

@@ -38,6 +38,11 @@ public class FlightItinCard extends ItinCard {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
+	public int getTypeIconResId() {
+		return R.drawable.ic_type_circle_flight;
+	}
+
+	@Override
 	public Type getType() {
 		return Type.FLIGHT;
 	}

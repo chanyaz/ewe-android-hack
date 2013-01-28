@@ -17,11 +17,11 @@ public class ResizeAnimation extends Animation {
 	private AnimationStepListener mAnimationStepListener;
 
 	public ResizeAnimation(View view) {
-		this(view, 0, view.getLayoutParams().height);
+		this(view, 0, view.getHeight());
 	}
 
 	public ResizeAnimation(View view, int endHeight) {
-		this(view, view.getLayoutParams().height, endHeight);
+		this(view, view.getHeight(), endHeight);
 	}
 
 	public ResizeAnimation(View view, int startHeight, int endHeight) {
