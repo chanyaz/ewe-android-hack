@@ -106,6 +106,11 @@ public class ExpediaServices implements DownloadListener {
 
 	public static final int HOTEL_MAX_RESULTS = 200;
 
+	// It is appalling how often the HotelOffers call fails; these
+	// variables below control how many times we retry on failure
+	private static final int MAX_ATLANTIS_ERROR_RETRIES = 10;
+	private static final int MAX_AVAILABILITY_ERROR_RETRIES = 3;
+
 	private static final String COOKIES_FILE = "cookies.dat";
 
 	public enum ReviewSort {
@@ -441,15 +446,32 @@ public class ExpediaServices implements DownloadListener {
 		AvailabilityResponseHandler responseHandler = new AvailabilityResponseHandler(mContext, params, property);
 		AvailabilityResponse response = doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler, 0);
 
-		// #12701: Often times, Atlantis cache screws up and returns the error "Hotel product's PIID that is
-		// provided by Atlantis has expired."  This error only happens once - the next request is usually fine.
-		// As a result, the workaround here is to immediately make a second identical request if the first one
-		// fails (for ONLY that reason).
-		if (response != null && response.hasErrors()) {
+		int numTries = 1;
+		while (response != null && response.hasErrors()) {
+			numTries++;
+
+			// #12701: Often times, Atlantis cache screws up and returns the error "Hotel product's PIID that is
+			// provided by Atlantis has expired."  This error can happen multiple times. As a result, the workaround
+			// here is to immediately make multiple identical request if the previous ones fail.
+			//
+			// We also retry for any other generic error (just in case).  This call kind of has reliability issues.
 			ServerError error = response.getErrors().get(0);
 			if (error.getErrorCode() == ErrorCode.HOTEL_ROOM_UNAVAILABLE
-					&& "Hotel product\u0027s PIID that is provided by Atlantis has expired".equals(error.getMessage())) {
-				Log.w("Atlantis PIID expired, automatically retrying HotelOffers request once.");
+					&& "Hotel product\u0027s PIID that is provided by Atlantis has expired".equals(error
+							.getMessage())) {
+				if (numTries > MAX_ATLANTIS_ERROR_RETRIES) {
+					return response;
+				}
+
+				Log.w("Atlantis PIID expired, automatically retrying HotelOffers request.  Attempt #" + numTries);
+				response = doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler, 0);
+			}
+			else {
+				if (numTries > MAX_AVAILABILITY_ERROR_RETRIES) {
+					return response;
+				}
+
+				Log.w("Random availability error, automatically retrying HotelOffers request.  Attempt #" + numTries);
 				response = doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler, 0);
 			}
 		}
