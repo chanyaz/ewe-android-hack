@@ -30,15 +30,12 @@
         </EditText>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/edit_creditcard_exp_text_btn"
-        style="@style/FakeSpinner.Dark"
+    <include
+        android:id="@+id/edit_creditcard_exp_date_and_zipcode_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:bufferType="spannable"
-        android:gravity="center_vertical"
-        android:hint="@string/expiration_date"
-        android:textSize="18dp" />
+        android:layout_marginBottom="12dp"
+        layout="@layout/snippet_hotel_edit_creditcard_exp_date_and_zipcode" />
 
     <TextView
         android:id="@+id/cardholder_label"
