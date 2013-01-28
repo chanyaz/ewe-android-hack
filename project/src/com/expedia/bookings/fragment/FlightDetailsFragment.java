@@ -65,7 +65,7 @@ public class FlightDetailsFragment extends Fragment {
 	private FlightLeg mFlightLeg;
 
 	// Temporary data set for animation
-	private boolean mBaggageInScrollView;
+	private boolean mFeesContainerInScrollView;
 
 	public static FlightDetailsFragment newInstance(FlightTrip trip, FlightLeg leg, int legPosition) {
 		FlightDetailsFragment fragment = new FlightDetailsFragment();
@@ -105,6 +105,50 @@ public class FlightDetailsFragment extends Fragment {
 		mFeesTextView = Ui.findView(v, R.id.fees_text_view);
 		mFeesSecondaryTextView = Ui.findView(v, R.id.fees_secondary_text_view);
 
+		// Format header
+		mInfoBar.bindFlightDetails(trip, leg);
+
+		// Format content
+		// Depart from row
+		FlightInfoSection departFromSection = FlightInfoSection.inflate(inflater, container);
+		departFromSection.bind(R.drawable.ic_departure_arrow_small, getString(R.string.depart_from_TEMPLATE,
+				StrUtils.formatWaypoint(leg.getSegment(0).mOrigin)));
+		mInfoContainer.addView(departFromSection);
+
+		// Add each card, with layovers in between
+		final int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
+		Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+		Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
+		int segmentCount = leg.getSegmentCount();
+		for (int a = 0; a < segmentCount; a++) {
+			Flight flight = leg.getSegment(a);
+
+			if (a != 0) {
+				FlightInfoSection flightLayoverSection = FlightInfoSection.inflate(inflater, container);
+				Flight prevFlight = leg.getSegment(a - 1);
+				Layover layover = new Layover(prevFlight, flight);
+				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
+				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
+				flightLayoverSection.bind(R.drawable.ic_clock_small,
+						Html.fromHtml(getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint)));
+				mInfoContainer.addView(flightLayoverSection);
+			}
+
+			FlightSegmentSection flightSegmentSection = (FlightSegmentSection) inflater.inflate(
+					R.layout.section_flight_segment, mInfoContainer, false);
+			flightSegmentSection.bind(flight, trip.getFlightSegmentAttributes(leg).get(a), minTime, maxTime);
+			MarginLayoutParams params = (MarginLayoutParams) flightSegmentSection.getLayoutParams();
+			params.setMargins(0, cardMargins, 0, cardMargins);
+			mInfoContainer.addView(flightSegmentSection);
+		}
+
+		// Arrive at row
+		FlightInfoSection arriveAtSection = FlightInfoSection.inflate(inflater, container);
+		arriveAtSection.bind(R.drawable.ic_return_arrow_small, getString(R.string.arrive_at_TEMPLATE,
+				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).mDestination)));
+		mInfoContainer.addView(arriveAtSection);
+
+		// Footer
 		if (trip.getMayChargeObFees()) {
 			mFeesTextView.setText(getString(R.string.additional_fees));
 			ViewUtils.setAllCaps(mFeesTextView);
@@ -175,50 +219,6 @@ public class FlightDetailsFragment extends Fragment {
 			});
 		}
 
-		// Format header
-		mInfoBar.bindFlightDetails(trip, leg);
-
-		// Format content
-		// Depart from row
-		FlightInfoSection departFromSection = FlightInfoSection.inflate(inflater, container);
-		departFromSection.bind(R.drawable.ic_departure_arrow_small, getString(R.string.depart_from_TEMPLATE,
-				StrUtils.formatWaypoint(leg.getSegment(0).mOrigin)));
-		mInfoContainer.addView(departFromSection);
-
-		// Add each card, with layovers in between
-		final int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
-		Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
-		Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
-		int segmentCount = leg.getSegmentCount();
-		for (int a = 0; a < segmentCount; a++) {
-			Flight flight = leg.getSegment(a);
-
-			if (a != 0) {
-				FlightInfoSection flightLayoverSection = FlightInfoSection.inflate(inflater, container);
-				Flight prevFlight = leg.getSegment(a - 1);
-				Layover layover = new Layover(prevFlight, flight);
-				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
-				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
-				flightLayoverSection.bind(R.drawable.ic_clock_small,
-						Html.fromHtml(getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint)));
-				mInfoContainer.addView(flightLayoverSection);
-			}
-
-			FlightSegmentSection flightSegmentSection = (FlightSegmentSection) inflater.inflate(
-					R.layout.section_flight_segment, mInfoContainer, false);
-			flightSegmentSection.bind(flight, trip.getFlightSegmentAttributes(leg).get(a), minTime, maxTime);
-			MarginLayoutParams params = (MarginLayoutParams) flightSegmentSection.getLayoutParams();
-			params.setMargins(0, cardMargins, 0, cardMargins);
-			mInfoContainer.addView(flightSegmentSection);
-		}
-
-		// Arrive at row
-		FlightInfoSection arriveAtSection = FlightInfoSection.inflate(inflater, container);
-		arriveAtSection.bind(R.drawable.ic_return_arrow_small, getString(R.string.arrive_at_TEMPLATE,
-				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).mDestination)));
-		mInfoContainer.addView(arriveAtSection);
-
-		// We set the entire view invisible at first, so we can measure where we want everything to end up
 		v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
@@ -227,8 +227,8 @@ public class FlightDetailsFragment extends Fragment {
 
 				// This is for determining whether the baggage info text view should
 				// appear on the bottom of the screen or scrolling with the content
-				mBaggageInScrollView = mScrollView.getHeight() < mInfoContainer.getHeight();
-				if (mBaggageInScrollView) {
+				mFeesContainerInScrollView = mScrollView.getHeight() < mInfoContainer.getHeight();
+				if (mFeesContainerInScrollView) {
 					((ViewGroup) mFeesContainer.getParent()).removeView(mFeesContainer);
 					mInfoContainer.addView(mFeesContainer);
 
@@ -237,7 +237,6 @@ public class FlightDetailsFragment extends Fragment {
 							mInfoContainer.getPaddingRight(), cardMargins * 2);
 					lp.topMargin = cardMargins * 2;
 					lp.bottomMargin = 0;
-
 				}
 
 				mListener.onFlightDetailsLayout(FlightDetailsFragment.this);
@@ -328,7 +327,7 @@ public class FlightDetailsFragment extends Fragment {
 		set.add(ObjectAnimator.ofFloat(mInfoBar, "translationY", values));
 
 		// Animate the baggage fee (if it's not in the scroll view)
-		if (!mBaggageInScrollView) {
+		if (!mFeesContainerInScrollView) {
 			if (enter) {
 				values[0] = mFeesContainer.getHeight();
 				values[1] = 0;
