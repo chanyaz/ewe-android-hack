@@ -1553,6 +1553,10 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 	@Override
 	public void onMapClicked() {
 		hideDetails();
+		Db.setSelectedProperty((Property) null);
+		if (mHotelListFragment != null && mHotelListFragment.isAdded()) {
+			mHotelListFragment.clearSelectedProperty();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

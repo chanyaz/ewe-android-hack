@@ -228,6 +228,11 @@ public class HotelListFragment extends ListFragment {
 		}
 	}
 
+	public void clearSelectedProperty() {
+		mAdapter.setSelectedPosition(-1);
+		mAdapter.notifyDataSetChanged();
+	}
+
 	private int getPositionOfProperty(Property property) {
 		if (property != null) {
 			int count = mAdapter.getCount();
