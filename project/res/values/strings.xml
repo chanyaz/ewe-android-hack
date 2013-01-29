@@ -374,7 +374,7 @@
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Zip</string>
     <!-- Billing Postal Code hint -->
-    <string name="address_postal_code_hint">Billing Zipcode</string>
+    <string name="address_postal_code_hint_hotels">Billing Zipcode</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
