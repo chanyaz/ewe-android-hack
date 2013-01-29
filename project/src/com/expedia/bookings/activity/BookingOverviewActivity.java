@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,11 +26,12 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingOverviewFragment;
 import com.expedia.bookings.fragment.BookingOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
+import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class BookingOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
-		LogInListener {
+		LogInListener, ISlideToListener {
 
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
 
@@ -271,5 +273,21 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onLoginFailed() {
+	}
+
+	// ISlideToListener implementation
+
+	@Override
+	public void onSlideStart() {
+	}
+
+	@Override
+	public void onSlideAllTheWay() {
+		Db.getBillingInfo().save(this);
+		startActivity(new Intent(this, HotelBookingActivity.class));
+	}
+
+	@Override
+	public void onSlideAbort() {
 	}
 }

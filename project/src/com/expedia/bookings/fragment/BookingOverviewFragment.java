@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -16,14 +18,10 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -48,13 +46,12 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.CouponCodeWidget;
+import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.HotelReceiptMini;
 import com.expedia.bookings.widget.LinearLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
-import com.expedia.bookings.widget.SlideToWidget;
-import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -69,6 +66,8 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		public void checkoutEnded();
 	}
+
+	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
 
 	private static final String INSTANCE_REFRESHED_USER = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_IN_CHECKOUT = "INSTANCE_IN_CHECKOUT";
@@ -101,11 +100,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private TextView mLegalInformationTextView;
 	private View mScrollSpacerView;
 
-	private LinearLayout mSlideToPurchaseLayout;
+	private FrameLayout mSlideToPurchaseFragmentLayout;
 
 	private boolean mShowSlideToWidget;
-	private SlideToWidget mSlideToPurchaseWidget;
-	private TextView mPurchaseTotalTextView;
+	private String mTotalPriceString;
+	private FlightSlideToPurchaseFragment mSlideToPurchaseFragment;
 
 	private boolean mRefreshedUser;
 
@@ -162,10 +161,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
 		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
 
-		mSlideToPurchaseLayout = Ui.findView(view, R.id.slide_to_purchase_layout);
-
-		mSlideToPurchaseWidget = Ui.findView(view, R.id.slide_to_purchase_widget);
-		mPurchaseTotalTextView = Ui.findView(view, R.id.purchase_total_text_view);
+		mSlideToPurchaseFragmentLayout = Ui.findView(view, R.id.slide_to_purchase_fragment_layout);
 
 		ViewUtils.setAllCaps((TextView) Ui.findView(view, R.id.checkout_information_header_text_view));
 
@@ -175,9 +171,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mScrollView.setOnTouchListener(mScrollViewListener);
 		mHotelReceipt.setOnSizeChangedListener(mScrollViewListener);
 		mCheckoutLayout.setOnSizeChangedListener(mScrollViewListener);
-		mSlideToPurchaseLayout.setOnSizeChangedListener(mScrollViewListener);
-
-		mSlideToPurchaseWidget.addSlideToListener(mSlideToListener);
+		mSlideToPurchaseFragmentLayout.setOnSizeChangedListener(mScrollViewListener);
 
 		ViewHelper.setAlpha(mCheckoutLayout, 0);
 
@@ -245,9 +239,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 
 		mCouponCodeWidget.startTextWatcher();
-		if (mSlideToPurchaseWidget != null) {
-			mSlideToPurchaseWidget.resetSlider();
-		}
 
 		refreshData();
 
@@ -486,13 +477,12 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		if (Db.getSelectedProperty().isMerchant()) {
-			mPurchaseTotalTextView.setText(getString(R.string.your_card_will_be_charged_TEMPLATE,
-					displayedTotal.getFormattedMoney()));
+			mTotalPriceString = getString(R.string.your_card_will_be_charged_TEMPLATE,
+					displayedTotal.getFormattedMoney());
 		}
 		else {
 			mCouponCodeLayout.setVisibility(View.GONE);
-			mPurchaseTotalTextView.setText(getString(R.string.collected_by_the_hotel_TEMPLATE,
-					displayedTotal.getFormattedMoney()));
+			mTotalPriceString = getString(R.string.collected_by_the_hotel_TEMPLATE, displayedTotal.getFormattedMoney());
 		}
 
 		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
@@ -564,14 +554,14 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		final int scrollViewHeight = mScrollView.getHeight();
 		final int receiptMiniHeight = mScrollViewListener.getReceiptMiniHeight();
 		final int checkoutLayoutHeight = mCheckoutLayout.getHeight();
-		final int slideToPurchaseLayoutHeight = mSlideToPurchaseLayout.getHeight();
+		final int slideToPurchaseFragmentHeight = mSlideToPurchaseFragmentLayout.getHeight();
 
 		final boolean viewsInflated = scrollViewHeight > 0 && receiptMiniHeight > 0 && checkoutLayoutHeight > 0
-				&& slideToPurchaseLayoutHeight > 0;
+				&& slideToPurchaseFragmentHeight > 0;
 
 		if (getInCheckout() && mShowSlideToWidget) {
 			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 16f);
-			height = slideToPurchaseLayoutHeight + paddingBottom;
+			height = slideToPurchaseFragmentHeight + paddingBottom;
 		}
 		else {
 			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 8f);
@@ -582,10 +572,15 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			height = 0;
 		}
 
-		ViewGroup.LayoutParams lp = mScrollSpacerView.getLayoutParams();
-		lp.height = height;
-
-		mScrollSpacerView.setLayoutParams(lp);
+		final int finalHeight = height;
+		getView().post(new Runnable() {
+			@Override
+			public void run() {
+				ViewGroup.LayoutParams lp = mScrollSpacerView.getLayoutParams();
+				lp.height = finalHeight;
+				mScrollSpacerView.setLayoutParams(lp);
+			}
+		});
 	}
 
 	public boolean getInCheckout() {
@@ -670,7 +665,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	private void showPurchaseViews(boolean animate) {
-		if (mSlideToPurchaseLayout.getVisibility() == View.VISIBLE) {
+		if (mSlideToPurchaseFragment != null && mSlideToPurchaseFragment.isVisible()) {
 			return;
 		}
 
@@ -681,37 +676,32 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			}
 		}).start();
 
-		mSlideToPurchaseLayout.setVisibility(View.VISIBLE);
-		setScrollSpacerViewHeight();
-
-		if (animate) {
-			mSlideToPurchaseLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up));
+		FragmentManager manager = getChildFragmentManager();
+		mSlideToPurchaseFragment = (FlightSlideToPurchaseFragment) manager
+				.findFragmentByTag(TAG_SLIDE_TO_PURCHASE_FRAG);
+		if (mSlideToPurchaseFragment == null) {
+			mSlideToPurchaseFragment = FlightSlideToPurchaseFragment.newInstance(mTotalPriceString);
 		}
+		if (!mSlideToPurchaseFragment.isAdded()) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.replace(R.id.slide_to_purchase_fragment_layout, mSlideToPurchaseFragment,
+					TAG_SLIDE_TO_PURCHASE_FRAG);
+			transaction.commit();
+		}
+
+		setScrollSpacerViewHeight();
 	}
 
 	private void hidePurchaseViews() {
-		if (mSlideToPurchaseLayout.getVisibility() != View.VISIBLE) {
+		if (mSlideToPurchaseFragment == null || !mSlideToPurchaseFragment.isVisible()) {
 			return;
 		}
 
-		Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
-		animation.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-			}
-
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-			}
-
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				mSlideToPurchaseLayout.setVisibility(View.INVISIBLE);
-			}
-		});
+		FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+		transaction.remove(mSlideToPurchaseFragment);
+		transaction.commit();
 
 		setScrollSpacerViewHeight();
-		mSlideToPurchaseLayout.startAnimation(animation);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -828,27 +818,11 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 	};
 
-	private SlideToWidget.ISlideToListener mSlideToListener = new ISlideToListener() {
-		@Override
-		public void onSlideStart() {
-		}
-
-		@Override
-		public void onSlideAllTheWay() {
-			Db.getBillingInfo().save(getActivity());
-			startActivity(new Intent(getActivity(), HotelBookingActivity.class));
-		}
-
-		@Override
-		public void onSlideAbort() {
-		}
-	};
-
 	// Scroll Listener
 
 	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
 			OnTouchListener, HotelReceipt.OnSizeChangedListener, HotelReceiptMini.OnSizeChangedListener,
-			LinearLayout.OnSizeChangedListener {
+			LinearLayout.OnSizeChangedListener, FrameLayout.OnSizeChangedListener {
 
 		private static final float FADE_RANGE = 100.0f;
 
