@@ -100,6 +100,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void setOnItemClickListener(OnItemClickListener listener) {
+		Log.t("ItinListView OnItemClickListener set");
 		mOnItemClickListener = listener;
 		super.setOnItemClickListener(this);
 	}
@@ -114,7 +115,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		Log.t("onTouchEvent");
 		if (mMode == MODE_DETAIL) {
+			Log.t("Passing onTouchEvent to child");
 			return getChildAt(mDetailPosition - getFirstVisiblePosition()).dispatchTouchEvent(event);
 		}
 
@@ -123,7 +126,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
+		Log.t("onTouchEvent");
 		if (mMode == MODE_DETAIL) {
+			Log.t("Passing onTouchEvent to child");
 			return getChildAt(mDetailPosition - getFirstVisiblePosition()).dispatchTouchEvent(event);
 		}
 
@@ -272,6 +277,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Log.t("onItemClick %d", position);
+
 		showDetails(position);
 
 		if (mOnItemClickListener != null) {
