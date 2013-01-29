@@ -104,7 +104,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 	private boolean mShowSlideToWidget;
 	private String mTotalPriceString;
-	private FlightSlideToPurchaseFragment mSlideToPurchaseFragment;
+	private SlideToPurchaseFragment mSlideToPurchaseFragment;
 
 	private boolean mRefreshedUser;
 
@@ -677,10 +677,10 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}).start();
 
 		FragmentManager manager = getChildFragmentManager();
-		mSlideToPurchaseFragment = (FlightSlideToPurchaseFragment) manager
+		mSlideToPurchaseFragment = (SlideToPurchaseFragment) manager
 				.findFragmentByTag(TAG_SLIDE_TO_PURCHASE_FRAG);
 		if (mSlideToPurchaseFragment == null) {
-			mSlideToPurchaseFragment = FlightSlideToPurchaseFragment.newInstance(mTotalPriceString);
+			mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(mTotalPriceString);
 		}
 		if (!mSlideToPurchaseFragment.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();

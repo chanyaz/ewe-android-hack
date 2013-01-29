@@ -29,7 +29,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-public class FlightSlideToPurchaseFragment extends Fragment {
+public class SlideToPurchaseFragment extends Fragment {
 
 	private static final String ARG_TOTAL_PRICE_STRING = "ARG_TOTAL_PRICE";
 	private static final String HAS_ACCEPTED_TOS = "HAS_ACCEPTED_TOS";
@@ -39,8 +39,8 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 	private String mTotalPriceString;
 	private ISlideToListener mListener;
 
-	public static FlightSlideToPurchaseFragment newInstance(String totalPriceString) {
-		FlightSlideToPurchaseFragment fragment = new FlightSlideToPurchaseFragment();
+	public static SlideToPurchaseFragment newInstance(String totalPriceString) {
+		SlideToPurchaseFragment fragment = new SlideToPurchaseFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_TOTAL_PRICE_STRING, totalPriceString);
 		fragment.setArguments(args);
@@ -49,7 +49,7 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_slide_to_purchase, container, false);
+		View v = inflater.inflate(R.layout.fragment_slide_to_purchase, container, false);
 
 		// Click to accept TOS
 		if (savedInstanceState != null && savedInstanceState.containsKey(HAS_ACCEPTED_TOS)) {
@@ -78,7 +78,7 @@ public class FlightSlideToPurchaseFragment extends Fragment {
 		super.onAttach(activity);
 
 		if (!(activity instanceof ISlideToListener)) {
-			throw new RuntimeException(FlightSlideToPurchaseFragment.class.getSimpleName()
+			throw new RuntimeException(SlideToPurchaseFragment.class.getSimpleName()
 					+ " must bind to an activity that implements "
 					+ mListener.getClass().getSimpleName());
 		}

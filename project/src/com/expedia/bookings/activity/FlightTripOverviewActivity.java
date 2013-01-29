@@ -38,7 +38,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
-import com.expedia.bookings.fragment.FlightSlideToPurchaseFragment;
+import com.expedia.bookings.fragment.SlideToPurchaseFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
@@ -83,7 +83,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private FlightTripOverviewFragment mOverviewFragment;
 	private FlightTripPriceFragment mPriceBottomFragment;
 	private FlightCheckoutFragment mCheckoutFragment;
-	private FlightSlideToPurchaseFragment mSlideToPurchaseFragment;
+	private SlideToPurchaseFragment mSlideToPurchaseFragment;
 
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
@@ -395,7 +395,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			Money totalFare = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
 			String template = getString(R.string.your_card_will_be_charged_TEMPLATE);
 			String text = String.format(template, totalFare.getFormattedMoney());
-			mSlideToPurchaseFragment = FlightSlideToPurchaseFragment.newInstance(text);
+			mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(text);
 		}
 		if (!mSlideToPurchaseFragment.isAdded()) {
 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
