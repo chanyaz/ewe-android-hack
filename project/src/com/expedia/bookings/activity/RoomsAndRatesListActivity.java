@@ -147,12 +147,6 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-		if (mWasStopped && Db.getSelectedProperty() != null) {
-			OmnitureTracking.trackAppHotelsRoomsRates(this, Db.getSelectedProperty(), null);
-			mWasStopped = false;
-		}
-
 		OmnitureTracking.trackPageLoadHotelsRoomsRates(this);
 	}
 
