@@ -52,6 +52,11 @@ public class OmnitureTracking {
 
 	private static final String TAG = OmnitureTracking.class.getSimpleName();
 
+	private enum LOB {
+		HOTELS,
+		FLIGHTS
+	}
+
 	// Launcher
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
 
@@ -563,19 +568,19 @@ public class OmnitureTracking {
 	// Hotels tracking events
 
 	public static void trackPageLoadHotelsRoomsRates(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_ROOMS_RATES);
+		internalTrackPageLoadEventStandard(context, HOTELS_ROOMS_RATES, LOB.HOTELS);
 	}
 
 	public static void trackPageLoadHotelsRateDetails(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_RATE_DETAILS);
+		internalTrackPageLoadEventStandard(context, HOTELS_RATE_DETAILS, LOB.HOTELS);
 	}
 
 	public static void trackPageLoadHotelsCheckoutInfo(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_INFO);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_INFO, LOB.HOTELS);
 	}
 
 	public static void trackPageLoadHotelsLogin(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_LOGIN);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_LOGIN, LOB.HOTELS);
 	}
 
 	public static void trackLinkHotelRefineName(Context context, String refinement) {
@@ -659,11 +664,11 @@ public class OmnitureTracking {
 	// Travelers
 
 	public static void trackPageLoadHotelsTravelerEditInfo(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_TRAVELER_EDIT_INFO);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_TRAVELER_EDIT_INFO, LOB.HOTELS);
 	}
 
 	public static void trackPageLoadHotelsTravelerSelect(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_TRAVELER_SELECT);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_TRAVELER_SELECT, LOB.HOTELS);
 	}
 
 	public static void trackLinkHotelsCheckoutTravelerEnterManually(Context context) {
@@ -673,15 +678,15 @@ public class OmnitureTracking {
 	// Payment
 
 	public static void trackPageLoadHotelsCheckoutPaymentSelect(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_SELECT);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_SELECT, LOB.HOTELS);
 	}
 
 	public static void trackPageLoadHotelsCheckoutPaymentEditCard(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_EDIT_CARD);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_EDIT_CARD, LOB.HOTELS);
 	}
 
 	public static void trackPageLoadHotelsCheckoutPaymentEditSave(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_EDIT_SAVE);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_EDIT_SAVE, LOB.HOTELS);
 	}
 
 	public static void trackLinkHotelsCheckoutPaymentSelectExisting(Context context) {
@@ -695,19 +700,19 @@ public class OmnitureTracking {
 	// Overview
 
 	public static void trackPageLoadHotelsCheckoutSlideToPurchase(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_SLIDE_TO_PURCHASE);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_SLIDE_TO_PURCHASE, LOB.HOTELS);
 	}
 
 	// Rules
 
 	public static void trackPageLoadHotelsCheckoutWarsaw(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_WARSAW);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_WARSAW, LOB.HOTELS);
 	}
 
 	// CVV Checkout
 
 	public static void trackPageLoadHotelsCheckoutPaymentCid(Context context) {
-		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_CID);
+		internalTrackPageLoadEventStandard(context, HOTELS_CHECKOUT_PAYMENT_CID, LOB.HOTELS);
 	}
 
 	public static void trackCrash(Context context, Throwable ex) {
@@ -1089,9 +1094,15 @@ public class OmnitureTracking {
 		return a;
 	}
 
+	@Deprecated
 	private static void internalTrackPageLoadEventStandard(Context context, String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventStandardAsShopper(context, pageName).track();
+	}
+
+	private static void internalTrackPageLoadEventStandard(Context context, String pageName, LOB lob) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		createTrackPageLoadEventStandardAsShopper(context, pageName, lob).track();
 	}
 
 	private static void internalTrackPageLoadEventStandardNoVars25And25LobShopper(Context context, String pageName) {
@@ -1139,9 +1150,16 @@ public class OmnitureTracking {
 		return s;
 	}
 
+	@Deprecated
 	private static ADMS_Measurement createTrackPageLoadEventStandardAsShopper(Context context, String pageName) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 		addVars25And26LobAsShopper(s);
+		return s;
+	}
+
+	private static ADMS_Measurement createTrackPageLoadEventStandardAsShopper(Context context, String pageName, LOB lob) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
+		addVars25And26LobAsShopper(s, lob);
 		return s;
 	}
 
@@ -1172,11 +1190,29 @@ public class OmnitureTracking {
 	// yourself wanting to use these methods in a new public event method, think about creating an internal method that
 	// uses these methods.
 
+	@Deprecated
 	private static ADMS_Measurement addVars25And26LobAsShopper(ADMS_Measurement s) {
 		s.setEvar(25, "Shopper");
 		s.setProp(25, "Shopper");
 		s.setEvar(26, "FLT Shopper");
 		s.setProp(26, "FLT Shopper");
+		return s;
+	}
+
+	private static ADMS_Measurement addVars25And26LobAsShopper(ADMS_Measurement s, LOB lob) {
+		s.setEvar(25, "Shopper");
+		s.setProp(25, "Shopper");
+
+		switch (lob) {
+		case FLIGHTS:
+			s.setEvar(26, "FLT Shopper");
+			s.setProp(26, "FLT Shopper");
+			break;
+		case HOTELS:
+			s.setEvar(26, "HOT Shopper");
+			s.setProp(26, "HOT Shopper");
+			break;
+		}
 		return s;
 	}
 
