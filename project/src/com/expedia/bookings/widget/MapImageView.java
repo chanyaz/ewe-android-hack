@@ -124,6 +124,10 @@ public class MapImageView extends ImageView {
 		}
 	}
 
+	public void setPoiPoint(Location location) {
+		setPoiPoint(location.getLatitude(), location.getLongitude());
+	}
+
 	public void setPoiPoint(double latitude, double longitude) {
 		mPoiPoint = new StaticMapPoint(latitude, longitude);
 	}

@@ -17,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.TripComponentAdapter;
+import com.mobiata.android.Log;
 
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +38,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
 
-	private int mMode;
+	private int mMode = MODE_LIST;
 	private int mDetailPosition = -1;
 	private int mOriginalScrollY;
 
@@ -54,7 +55,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	public ItinListView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+		this(context, attrs, 0);
+	}
+
+	public ItinListView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
 
 		final Resources res = context.getResources();
 
@@ -220,6 +225,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private void showDetails(int position) {
 		mMode = MODE_DETAIL;
 		mDetailPosition = position;
+
+		Log.t("Showing itin details for position %d", position);
 
 		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
 

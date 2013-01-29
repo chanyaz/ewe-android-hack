@@ -34,6 +34,7 @@ public class HotelItinCard extends ItinCard {
 	private TextView mCheckInDateTextView;
 	private TextView mCheckOutDateTextView;
 	private TextView mGuestsTextView;
+	private MapImageView mStaticMapImageView;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -50,7 +51,7 @@ public class HotelItinCard extends ItinCard {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////
-	
+
 	@Override
 	public int getTypeIconResId() {
 		return R.drawable.ic_type_circle_hotel;
@@ -69,10 +70,14 @@ public class HotelItinCard extends ItinCard {
 
 	@Override
 	protected String getHeaderImageUrl(TripComponent tripComponent) {
-		if (mProperty.getMediaCount() > 0) {
+		if (mProperty != null && mProperty.getMediaCount() > 0) {
 			return mProperty.getMedia(0).getUrl(Media.IMAGE_BIG_SUFFIX);
 		}
-		return mProperty.getThumbnail().getUrl();
+		else if (mProperty != null) {
+			return mProperty.getThumbnail().getUrl();
+		}
+
+		return "";
 	}
 
 	@Override
@@ -86,6 +91,7 @@ public class HotelItinCard extends ItinCard {
 		mCheckInDateTextView = Ui.findView(view, R.id.check_in_date_text_view);
 		mCheckOutDateTextView = Ui.findView(view, R.id.check_out_date_text_view);
 		mGuestsTextView = Ui.findView(view, R.id.guests_text_view);
+		mStaticMapImageView = Ui.findView(view, R.id.mini_map);
 
 		bind((TripHotel) tripHotel);
 
@@ -100,5 +106,8 @@ public class HotelItinCard extends ItinCard {
 		mCheckInDateTextView.setText(DATE_FORMAT.format(tripHotel.getStartDate().getCalendar().getTime()));
 		mCheckOutDateTextView.setText(DATE_FORMAT.format(tripHotel.getEndDate().getCalendar().getTime()));
 		mGuestsTextView.setText("2");
+
+		mStaticMapImageView.setCenterPoint(mProperty.getLocation());
+		mStaticMapImageView.setPoiPoint(mProperty.getLocation());
 	}
 }
