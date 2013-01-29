@@ -50,7 +50,7 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// STANDARD PAGE NAME CONSTANTS
 
-	private static final String TAG = OmnitureTracking.class.getSimpleName();
+	private static final String TAG = "OmnitureTracking";
 
 	private enum LOB {
 		HOTELS,
