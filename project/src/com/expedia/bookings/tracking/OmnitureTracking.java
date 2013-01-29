@@ -277,7 +277,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackErrorPageLoadFlightUnsupportedPOS(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_NOT_YET_AVAILABLE);
+		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_NOT_YET_AVAILABLE, LOB.FLIGHTS);
 	}
 
 	public static void trackErrorPageLoadFlightCheckout(Context context) {
@@ -289,19 +289,19 @@ public class OmnitureTracking {
 	}
 
 	public static void trackErrorPageLoadFlightPaymentFailed(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_CHECKOUT_PAYMENT_FAILED);
+		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_CHECKOUT_PAYMENT_FAILED, LOB.FLIGHTS);
 	}
 
 	public static void trackErrorPageLoadFlightIncorrectCVV(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_CHECKOUT_PAYMENT_CVV);
+		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_CHECKOUT_PAYMENT_CVV, LOB.FLIGHTS);
 	}
 
 	public static void trackErrorPageLoadFlightSoldOut(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_SOLD_OUT);
+		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_SOLD_OUT, LOB.FLIGHTS);
 	}
 
 	public static void trackErrorPageLoadFlightSearchExpired(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_SEARCH_EXPIRED);
+		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_SEARCH_EXPIRED, LOB.FLIGHTS);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -340,59 +340,59 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightCheckoutPaymentCid(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_CID);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_CID, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightCheckoutSlideToPurchase(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightCheckoutPaymentEditSave(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_SAVE);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_SAVE, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightCheckoutPaymentEditCard(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightCheckoutPaymentEditAddress(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_ADDRESS);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_EDIT_ADDRESS, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightCheckoutPaymentSelect(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_SELECT);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_PAYMENT_SELECT, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightCheckoutWarsaw(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_WARSAW);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_WARSAW, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightTravelerEditSave(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_EDIT_SAVE);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_EDIT_SAVE, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightTravelerEditPassport(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_EDIT_PASSPORT);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_EDIT_PASSPORT, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightTravelerEditDetails(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_EDIT_DETAILS);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_EDIT_DETAILS, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightTravelerEditInfo(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightTravelerSelect(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_SELECT);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_TRAVELER_SELECT, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightLogin(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_LOGIN);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_LOGIN, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightCheckoutInfo(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_INFO);
+		internalTrackPageLoadEventStandard(context, FLIGHT_CHECKOUT_INFO, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightRateDetailsOverview(Context context) {
@@ -439,7 +439,8 @@ public class OmnitureTracking {
 
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
 
-		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_ROUNDTRIP_OUT);
+		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_ROUNDTRIP_OUT,
+				LOB.FLIGHTS);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
@@ -482,7 +483,7 @@ public class OmnitureTracking {
 	}
 
 	private static void trackPageLoadFlightSearchResultsInboundList(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN);
+		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN, LOB.FLIGHTS);
 	}
 
 	private static void trackPageLoadFlightSearchResultsOneWay(Context context) {
@@ -490,7 +491,8 @@ public class OmnitureTracking {
 
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
 
-		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_RESULTS_ONE_WAY);
+		ADMS_Measurement s = createTrackPageLoadEventStandardAsShopper(context, FLIGHT_SEARCH_RESULTS_ONE_WAY,
+				LOB.FLIGHTS);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
@@ -526,28 +528,28 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightBaggageFeeOneWay(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE);
+		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightBaggageFeeOutbound(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_OUTBOUND_BAGGAGE_FEE);
+		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_OUTBOUND_BAGGAGE_FEE, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightBaggageFeeInbound(Context context) {
-		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_INBOUND_BAGGAGE_FEE);
+		internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_INBOUND_BAGGAGE_FEE, LOB.FLIGHTS);
 	}
 
 	public static void trackPageLoadFlightSearchResultsDetails(Context context, int legPosition) {
 		if (legPosition == 0) {
 			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS);
+				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS, LOB.FLIGHTS);
 			}
 			else {
-				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_DETAILS);
+				internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ONE_WAY_DETAILS, LOB.FLIGHTS);
 			}
 		}
 		else if (legPosition == 1) {
-			internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS);
+			internalTrackPageLoadEventStandard(context, FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS, LOB.FLIGHTS);
 
 		}
 	}
@@ -1094,12 +1096,6 @@ public class OmnitureTracking {
 		return a;
 	}
 
-	@Deprecated
-	private static void internalTrackPageLoadEventStandard(Context context, String pageName) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		createTrackPageLoadEventStandardAsShopper(context, pageName).track();
-	}
-
 	private static void internalTrackPageLoadEventStandard(Context context, String pageName, LOB lob) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackPageLoadEventStandardAsShopper(context, pageName, lob).track();
@@ -1150,13 +1146,6 @@ public class OmnitureTracking {
 		return s;
 	}
 
-	@Deprecated
-	private static ADMS_Measurement createTrackPageLoadEventStandardAsShopper(Context context, String pageName) {
-		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
-		addVars25And26LobAsShopper(s);
-		return s;
-	}
-
 	private static ADMS_Measurement createTrackPageLoadEventStandardAsShopper(Context context, String pageName, LOB lob) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(context, pageName);
 		addVars25And26LobAsShopper(s, lob);
@@ -1165,7 +1154,7 @@ public class OmnitureTracking {
 
 	private static ADMS_Measurement createTrackPageLoadEventPriceChangeAsShopper(Context context, String pageName) {
 		ADMS_Measurement s = createTrackPageLoadEventPriceChange(context, pageName);
-		addVars25And26LobAsShopper(s);
+		addVars25And26LobAsShopper(s, LOB.FLIGHTS);
 		return s;
 	}
 
@@ -1189,15 +1178,6 @@ public class OmnitureTracking {
 	// methods found above, NOT to be used from within the public methods used in the business logic. If you find
 	// yourself wanting to use these methods in a new public event method, think about creating an internal method that
 	// uses these methods.
-
-	@Deprecated
-	private static ADMS_Measurement addVars25And26LobAsShopper(ADMS_Measurement s) {
-		s.setEvar(25, "Shopper");
-		s.setProp(25, "Shopper");
-		s.setEvar(26, "FLT Shopper");
-		s.setProp(26, "FLT Shopper");
-		return s;
-	}
 
 	private static ADMS_Measurement addVars25And26LobAsShopper(ADMS_Measurement s, LOB lob) {
 		s.setEvar(25, "Shopper");
