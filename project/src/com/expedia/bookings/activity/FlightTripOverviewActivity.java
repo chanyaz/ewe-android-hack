@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import android.annotation.SuppressLint;
@@ -29,21 +28,19 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
-import com.expedia.bookings.fragment.SlideToPurchaseFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
+import com.expedia.bookings.fragment.SlideToPurchaseFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -75,7 +72,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	//We only want to load from disk once: when the activity is first started
 	private boolean mLoadedDbInfo = false;
-	private Semaphore mLoadCachedDataSem = new Semaphore(1);
 	private Semaphore mTransitionSem = new Semaphore(1);
 
 	private boolean mSafeToAttach = true;
@@ -165,7 +161,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		addOverviewFragment();
 
 		//We load things from disk in the background
-		startLoadChain();
+		loadCachedData(false);
 	}
 
 	@Override
@@ -233,120 +229,23 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
-	//We do some work on separate threads to keep the UI nice and snappy
-	private void startLoadChain() {
-
-		Runnable loadCacheRunnable = new Runnable() {
-			@Override
-			public void run() {
-				loadCachedData();
-			}
-		};
-
-		Thread startUpThread = new Thread(loadCacheRunnable);
-		startUpThread.start();
-	}
-
-	private void loadCachedData() {
-		boolean semGot = false;
-		try {
-			if (!mLoadedDbInfo && mLoadCachedDataSem.tryAcquire()) {
-				semGot = true;
-				Db.loadBillingInfo(this);
-				BillingInfo billingInfo = Db.getBillingInfo();
-
-				//Load billing info (only if we don't have a valid card already)
-				if (billingInfo == null || TextUtils.isEmpty(billingInfo.getNumber())) {
-					billingInfo.load(this);
-					StoredCreditCard stored = billingInfo.getStoredCard();
-					if (stored != null) {
-						if (User.isLoggedIn(this)) {
-							if (Db.getUser() == null) {
-								Db.loadUser(this);
-							}
-							List<StoredCreditCard> usrCards = Db.getUser().getStoredCreditCards();
-							boolean cardFound = false;
-							for (int i = 0; i < usrCards.size(); i++) {
-								if (stored.getId().compareTo(usrCards.get(i).getId()) == 0) {
-									cardFound = true;
-									break;
-								}
-							}
-							//If the storedcard is not part of the user's collection of stored cards, we can't use it
-							if (!cardFound) {
-								Db.resetBillingInfo();
-							}
-						}
-						else {
-							//If we have an expedia account card, but we aren't logged in, we get rid of it
-							Db.resetBillingInfo();
-						}
-					}
+	private void loadCachedData(boolean wait) {
+		if (!mLoadedDbInfo) {
+			CheckoutDataLoader.CheckoutDataLoadedListener listener = new CheckoutDataLoader.CheckoutDataLoadedListener() {
+				@Override
+				public void onCheckoutDataLoaded(boolean wasSuccessful) {
+					mLoadedDbInfo = wasSuccessful;
 				}
 
-				//Load traveler info (only if we don't have traveler info already)
-				if (Db.getTravelers() == null || Db.getTravelers().size() == 0 || !Db.getTravelers().get(0).hasName()) {
-					Db.loadTravelers(this);
-					List<Traveler> travelers = Db.getTravelers();
-					if (travelers != null && travelers.size() > 0) {
-						if (User.isLoggedIn(this)) {
-							//If we are logged in, we need to ensure that any expedia account users are associated with the currently logged in account
-							if (Db.getUser() == null) {
-								Db.loadUser(this);
-							}
-							List<Traveler> userTravelers = Db.getUser().getAssociatedTravelers();
-							for (int i = 0; i < travelers.size(); i++) {
-								Traveler trav = travelers.get(i);
-								if (trav.hasTuid()) {
-									boolean travFound = false;
-									for (int j = 0; j < userTravelers.size(); j++) {
-										Traveler usrTrav = userTravelers.get(j);
-										if (usrTrav.getTuid().compareTo(trav.getTuid()) == 0) {
-											travFound = true;
-											break;
-										}
-									}
-									if (!travFound) {
-										travelers.set(i, new Traveler());
-									}
-								}
-							}
-						}
-						else {
-							//Remove logged in travelers (because the user is not logged in)
-							for (int i = 0; i < travelers.size(); i++) {
-								Traveler trav = travelers.get(i);
-								if (trav.hasTuid()) {
-									travelers.set(i, new Traveler());
-								}
-							}
-						}
-					}
-				}
-
-				//We only load from disk once
-				mLoadedDbInfo = true;
-			}
-			else {
-				//We wait for the semaphore
-				mLoadCachedDataSem.acquire();
-				semGot = true;
-			}
-		}
-		catch (Exception ex) {
-			Log.e("Exception loading data..", ex);
-		}
-		finally {
-			if (semGot) {
-				mLoadCachedDataSem.release();
-			}
+			};
+			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
 		}
 	}
 
 	public void attachCheckoutFragment() {
 		if (mSafeToAttach) {
 			boolean refreshCheckoutData = !mLoadedDbInfo;
-			loadCachedData();//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
+			loadCachedData(true);//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
 			mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 			if (mCheckoutFragment == null) {
 				mCheckoutFragment = FlightCheckoutFragment.newInstance();

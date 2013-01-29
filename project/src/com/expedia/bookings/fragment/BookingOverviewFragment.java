@@ -27,6 +27,7 @@ import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
@@ -135,13 +136,6 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_booking_overview, container, false);
 
-		//If we had data on disk, it should already be loaded at this point
-		mBillingInfo = Db.getBillingInfo();
-
-		if (mBillingInfo.getLocation() == null) {
-			mBillingInfo.setLocation(new Location());
-		}
-
 		mScrollView = Ui.findView(view, R.id.scroll_view);
 
 		mHotelReceipt = Ui.findView(view, R.id.receipt);
@@ -175,7 +169,15 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 
 		ViewHelper.setAlpha(mCheckoutLayout, 0);
 
+		//We start loading the checkout data on the parent activity, but if it isn't finished we should wait
+		if (CheckoutDataLoader.getInstance().isLoading()) {
+			CheckoutDataLoader.getInstance().waitForCurrentThreadToFinish();
+		}
+
 		mBillingInfo = Db.getBillingInfo();
+		if (mBillingInfo.getLocation() == null) {
+			mBillingInfo.setLocation(new Location());
+		}
 
 		// Detect user state, update account button accordingly
 		if (User.isLoggedIn(getActivity())) {
