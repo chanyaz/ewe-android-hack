@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -23,6 +24,7 @@ import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.Trip.TimePeriod;
+import com.expedia.bookings.data.trips.TripActivity;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
@@ -74,6 +76,14 @@ public class TripParser {
 		if (flights != null) {
 			for (int b = 0; b < flights.length(); b++) {
 				trip.addTripComponent(parseTripFlight(flights.optJSONObject(b)));
+			}
+		}
+
+		// Parse activities
+		JSONArray activities = tripJson.optJSONArray("activities");
+		if (activities != null) {
+			for (int b = 0; b < activities.length(); b++) {
+				trip.addTripComponent(parseTripActivity(activities.optJSONObject(b)));
 			}
 		}
 
@@ -297,5 +307,27 @@ public class TripParser {
 		waypoint.setTerminal(obj.optString("airportTerminal"));
 
 		mWaypoints.put(obj.optString("id"), waypoint);
+	}
+
+	private TripActivity parseTripActivity(JSONObject obj) {
+		TripActivity tripActivity = new TripActivity();
+
+		parseTripCommon(obj, tripActivity);
+
+		if (obj.has("uniqueID")) {
+			Activity activity = new Activity();
+
+			activity.setId(obj.optString("uniqueID", null));
+			activity.setTitle(obj.optString("activityTitle", null));
+			activity.setDetailsUrl(obj.optString("activityDetailsURL", null));
+
+			JSONObject priceJson = obj.optJSONObject("price");
+			activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),
+					priceJson.optString("currency", null)));
+
+			tripActivity.setActivity(activity);
+		}
+
+		return tripActivity;
 	}
 }
