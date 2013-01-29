@@ -19,8 +19,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.fragment.HotelMapFragment;
-import com.expedia.bookings.fragment.HotelMapFragment.HotelMapFragmentListener;
+import com.expedia.bookings.maps.HotelMapFragment;
+import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -75,12 +75,12 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 		setContentView(R.layout.activity_hotel_map);
 
 		mHotelMapFragment = Ui.findSupportFragment(this, getString(R.string.tag_single_hotel_map));
-		mHotelMapFragment.setShowSingleProperty(true);
 		mHotelMapFragment.setShowDistances(Db.getSearchParams().getSearchType().shouldShowDistance());
 		mHotelMapFragment.notifySearchLocationFound();
+		mHotelMapFragment.setProperty(Db.getSelectedProperty());
+		mHotelMapFragment.focusProperty(Db.getSelectedProperty(), false, 12.0f);
 
-		Property property = Db.getSelectedProperty();
-		Location location = property.getLocation();
+		Location location = Db.getSelectedProperty().getLocation();
 
 		// Display the address
 		TextView addressTextView = Ui.findView(this, R.id.address_text_view);
@@ -184,14 +184,26 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 
 	@Override
 	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
+		//ignore
 	}
 
 	@Override
-	public void onBalloonShown(Property property) {
+	public void onPropertyClicked(Property property) {
+		//ignore
 	}
 
 	@Override
-	public void onBalloonClicked(Property property) {
+	public void onMapClicked() {
+		//ignore
 	}
 
+	@Override
+	public void onExactLocationClicked() {
+		//ignore
+	}
+
+	@Override
+	public void onPropertyBubbleClicked(Property property) {
+		//ignore
+	}
 }
