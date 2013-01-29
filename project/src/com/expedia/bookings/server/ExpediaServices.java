@@ -106,6 +106,8 @@ public class ExpediaServices implements DownloadListener {
 
 	public static final int HOTEL_MAX_RESULTS = 200;
 
+	public static final int FLIGHT_MAX_TRIPS = 1600;
+
 	// It is appalling how often the HotelOffers call fails; these
 	// variables below control how many times we retry on failure
 	private static final int MAX_ATLANTIS_ERROR_RETRIES = 10;
@@ -255,6 +257,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("numberOfAdultTravelers", Integer.toString(params.getNumAdults())));
 
 		addPOSParams(query);
+
+		query.add(new BasicNameValuePair("maxOfferCount", Integer.toString(FLIGHT_MAX_TRIPS)));
 
 		return doFlightsRequest("api/flight/search", query, new FlightSearchResponseHandler(mContext), flags);
 	}
