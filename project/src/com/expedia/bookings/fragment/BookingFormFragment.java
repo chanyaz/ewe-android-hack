@@ -553,6 +553,7 @@ public class BookingFormFragment extends Fragment {
 				return (obj.length() < 3) ? BookingInfoValidation.ERROR_SHORT_SECURITY_CODE : 0;
 			}
 		}));
+		mValidationProcessor.add(mPostalCodeEditText, requiredFieldValidator);
 		mGuestInfoValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
 				if (PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
