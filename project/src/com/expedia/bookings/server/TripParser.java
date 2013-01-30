@@ -538,8 +538,8 @@ public class TripParser {
 			waypoint.mAirportTerminal = locationJson.optString("airportTerminal", null);
 
 			Location location = new Location();
-			location.setLatitude(locationJson.optDouble("latitude"));
-			location.setLongitude(locationJson.optDouble("longitude"));
+			location.setLatitude(locationJson.optDouble("latitude", 0));
+			location.setLongitude(locationJson.optDouble("longitude", 0));
 			location.setCity(locationJson.optString("city", null));
 			location.setCountryCode(locationJson.optString("countryCode", null));
 
