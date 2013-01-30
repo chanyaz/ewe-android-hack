@@ -92,6 +92,21 @@ public class PointOfSale {
 	// Used to determine the default POS, based on the device's locale
 	private String[] mDefaultLocales;
 
+	// Used to determine which fields are required for Hotels checkout
+	private RequiredPaymentFieldsHotels mRequiredPaymentFieldsHotels;
+
+	/**
+	 * This enum defines the different types of fields required for hotels checkout.
+	 */
+	public enum RequiredPaymentFieldsHotels {
+		NONE,
+		POSTAL_CODE,
+	}
+
+	public RequiredPaymentFieldsHotels getRequiredPaymentFieldsHotels() {
+		return mRequiredPaymentFieldsHotels;
+	}
+
 	/**
 	 * There can be multiple different locales for a given POS.
 	 *
@@ -572,6 +587,8 @@ public class PointOfSale {
 		JSONArray mappedLocales = data.optJSONArray("automaticallyMappedLocales");
 		pos.mDefaultLocales = stringJsonArrayToArray(mappedLocales);
 
+		pos.mRequiredPaymentFieldsHotels = parseRequiredPaymentFieldsHotels(data);
+
 		return pos;
 	}
 
@@ -595,9 +612,25 @@ public class PointOfSale {
 		if (!TextUtils.isEmpty(result)) {
 			return result;
 		}
-		
+
 		// Just use the default number (or null if it doesn't exist)
 		return numbers.optString("*", null);
+	}
+
+	/**
+	 * Parses out "requiredPaymentFields:hotels" from JSON file. Must be updated if JSON file returns new values
+	 * for this field. Currently the only value for this field is "postalCode" (or omitted).
+	 */
+	private static RequiredPaymentFieldsHotels parseRequiredPaymentFieldsHotels(JSONObject data) {
+		String paymentFields = data.optString("requiredPaymentFields:hotels");
+		RequiredPaymentFieldsHotels type;
+		if ("postalCode".equals(paymentFields)) {
+			type = RequiredPaymentFieldsHotels.POSTAL_CODE;
+		}
+		else {
+			type = RequiredPaymentFieldsHotels.NONE;
+		}
+		return type;
 	}
 
 	private static String[] stringJsonArrayToArray(JSONArray stringJsonArr) {
