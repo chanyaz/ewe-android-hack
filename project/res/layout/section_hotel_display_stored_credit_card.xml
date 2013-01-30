@@ -13,6 +13,7 @@
         android:drawablePadding="6dp"
         android:gravity="center_vertical"
         android:paddingLeft="8.5dp"
+        android:textColor="@android:color/white"
         android:textSize="18sp" />
 
 </com.expedia.bookings.section.SectionStoredCreditCard>

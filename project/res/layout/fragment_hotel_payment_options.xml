@@ -37,6 +37,7 @@
             android:id="@+id/current_stored_payment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_payment_method_row"
             android:orientation="vertical"
             android:paddingBottom="@dimen/payment_option_vertical_padding"
             android:paddingTop="@dimen/payment_option_vertical_padding" >
@@ -93,6 +94,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/or_select_new_paymet_method"
+            android:textColor="#59FFFFFF"
             android:textSize="@dimen/data_form_section_header_text"
             android:textStyle="bold" />
 
@@ -108,12 +110,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_payment_method_row"
             android:drawableLeft="@drawable/ic_add_credit_card"
-            android:drawablePadding="6dp"
+            android:drawablePadding="3dp"
             android:gravity="center_vertical"
             android:paddingBottom="@dimen/payment_option_vertical_padding"
             android:paddingLeft="13dp"
             android:paddingTop="@dimen/payment_option_vertical_padding"
             android:text="@string/add_new_card"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
     </LinearLayout>
 

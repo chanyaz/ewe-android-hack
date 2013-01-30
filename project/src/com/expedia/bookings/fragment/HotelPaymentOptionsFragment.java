@@ -135,6 +135,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 				card.setUseActiveCardIcon(false, false);
 				card.bind(cards.get(i));
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
+				card.setBackgroundResource(R.drawable.bg_payment_method_row);
 				card.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {

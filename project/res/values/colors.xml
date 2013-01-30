@@ -61,6 +61,7 @@
     <color name="hotel_details_text_color">#494e54</color>
     <color name="bg_row_summarized_room_rate_pressed">#dbdbdb</color>
     <color name="bg_row_state_pressed">#dcddde</color>
+    <color name="bg_payment_row_state_pressed">#33000000</color>
     <color name="bg_tablet_content">#e3e4e6</color>
     <color name="text_shadow_color">#a5ffffff</color>
     <color name="bg_tablet_gallery">#333333</color>
