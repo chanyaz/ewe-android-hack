@@ -86,6 +86,14 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		mStoredCardsContainer = Ui.findView(v, R.id.new_payment_stored_cards);
 		mCurrentStoredPaymentContainer = Ui.findView(v, R.id.current_stored_payment_container);
 
+		mCurrentStoredPaymentContainer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mListener.setMode(YoYoMode.NONE);
+				mListener.moveBackwards();
+			}
+		});
+
 		mNewCreditCardBtn = Ui.findView(v, R.id.new_payment_new_card);
 
 		mNewCreditCardBtn.setOnClickListener(new OnClickListener() {
@@ -125,15 +133,24 @@ public class HotelPaymentOptionsFragment extends Fragment {
 
 		if (cards != null && cards.size() > 0) {
 			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
+			boolean firstCard = true;
 
 			//Inflate stored cards
 			Resources res = getResources();
 			for (int i = 0; i < cards.size(); i++) {
 				final StoredCreditCard storedCard = cards.get(i);
+
+				//Skip this card if it is the selected card
+				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null
+						&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId()
+								.compareToIgnoreCase(storedCard.getId()) == 0) {
+					continue;
+				}
+
 				SectionStoredCreditCard card = (SectionStoredCreditCard) inflater.inflate(
 						R.layout.section_hotel_display_stored_credit_card, null);
 				card.setUseActiveCardIcon(false, false);
-				card.bind(cards.get(i));
+				card.bind(storedCard);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);
 				card.setOnClickListener(new OnClickListener() {
@@ -150,7 +167,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 				});
 
 				//Add dividers
-				if (i != 0) {
+				if (!firstCard) {
 					View divider = new View(getActivity());
 					LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
 							LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
@@ -158,7 +175,9 @@ public class HotelPaymentOptionsFragment extends Fragment {
 					divider.setBackgroundColor(0x63FFFFFF);
 					mStoredCardsContainer.addView(divider);
 				}
+
 				mStoredCardsContainer.addView(card);
+				firstCard = false;
 			}
 		}
 
