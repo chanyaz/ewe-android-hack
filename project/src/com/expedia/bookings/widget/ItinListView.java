@@ -121,18 +121,26 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			return getChildAt(mDetailPosition - getFirstVisiblePosition()).dispatchTouchEvent(event);
 		}
 
-		return super.onTouchEvent(event);
+		boolean handled = super.onTouchEvent(event);
+
+		Log.t("onTouchEvent handled %s", handled);
+
+		return handled;
 	}
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
-		Log.t("onTouchEvent");
+		Log.t("onInterceptTouchEvent");
 		if (mMode == MODE_DETAIL) {
-			Log.t("Passing onTouchEvent to child");
+			Log.t("Passing onInterceptTouchEvent to child");
 			return getChildAt(mDetailPosition - getFirstVisiblePosition()).dispatchTouchEvent(event);
 		}
 
-		return super.onInterceptTouchEvent(event);
+		boolean handled = super.onTouchEvent(event);
+
+		Log.t("onInterceptTouchEvent handled %s", handled);
+
+		return handled;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -18,7 +18,8 @@
         android:background="@drawable/bg_itin_card"
         android:orientation="vertical" >
 
-        <ScrollView
+        <com.expedia.bookings.widget.ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" >
@@ -99,7 +100,7 @@
                     android:layout_weight="1"
                     android:visibility="gone" />
             </LinearLayout>
-        </ScrollView>
+        </com.expedia.bookings.widget.ScrollView>
 
         <LinearLayout
             android:id="@+id/summary_button_layout"

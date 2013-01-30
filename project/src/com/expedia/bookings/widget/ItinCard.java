@@ -14,9 +14,11 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 public abstract class ItinCard extends RelativeLayout {
@@ -43,6 +45,7 @@ public abstract class ItinCard extends RelativeLayout {
 	private ViewGroup mDetailsLayout;
 	private ViewGroup mSummaryButtonLayout;
 
+	private ScrollView mScrollView;
 	private OptimizedImageView mHeaderImageView;
 	private ImageView mItinTypeImageView;
 	private TextView mHeaderTextView;
@@ -65,9 +68,12 @@ public abstract class ItinCard extends RelativeLayout {
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mSummaryButtonLayout = Ui.findView(this, R.id.summary_button_layout);
 
+		mScrollView = Ui.findView(this, R.id.scroll_view);
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mHeaderTextView = Ui.findView(this, R.id.header_text_view);
+
+		mScrollView.setOnScrollListener(mOnScrollListener);
 
 		setWillNotDraw(false);
 	}
@@ -75,6 +81,11 @@ public abstract class ItinCard extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public boolean hasFocusable() {
+		return false;
+	}
 
 	public void bind(final TripComponent tripComponent) {
 		// Type icon
@@ -93,17 +104,11 @@ public abstract class ItinCard extends RelativeLayout {
 		mHeaderTextView.setText(getHeaderText(tripComponent));
 
 		// Details view
-		//		View detailsView = getDetailsView(LayoutInflater.from(getContext()), mDetailsLayout, tripComponent);
-		//		if (detailsView != null) {
-		//			mDetailsLayout.removeAllViews();
-		//			mDetailsLayout.addView(detailsView);
-		//		}
-
-		final int count = getChildCount();
-		for (int i = 0; i < count; i++) {
-			getChildAt(i).setFocusable(false);
+		View detailsView = getDetailsView(LayoutInflater.from(getContext()), mDetailsLayout, tripComponent);
+		if (detailsView != null) {
+			mDetailsLayout.removeAllViews();
+			mDetailsLayout.addView(detailsView);
 		}
-
 	}
 
 	public void showSummary(boolean show) {
@@ -113,8 +118,13 @@ public abstract class ItinCard extends RelativeLayout {
 		mSummaryButtonLayout.setVisibility(visibility);
 	}
 
+	public void hideDetails() {
+
+	}
+
 	public void showDetails(final boolean show) {
 		mDetailsLayout.setVisibility(show ? VISIBLE : GONE);
+		ObjectAnimator.ofFloat(mSummaryButtonLayout, "alpha", 1).start();
 	}
 
 	public void updateLayout() {
@@ -136,7 +146,7 @@ public abstract class ItinCard extends RelativeLayout {
 
 		percent = Math.min(1.0f, Math.max(0.25f, percent));
 
-		final int typeImageTranslationY = headerImageHalfHeight - itinTypeImageHalfHeight;
+		final int typeImageTranslationY = -mScrollView.getScrollY() + headerImageHalfHeight - itinTypeImageHalfHeight;
 		final int viewTranslationY = Math.max(0, (headerImageHeight - (int) (percent * (float) headerImageHeight)));
 
 		ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
@@ -155,4 +165,16 @@ public abstract class ItinCard extends RelativeLayout {
 		updateLayout();
 		super.onDraw(canvas);
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// LISTENERS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	private OnScrollListener mOnScrollListener = new OnScrollListener() {
+		@Override
+		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			updateLayout();
+		}
+
+	};
 }
