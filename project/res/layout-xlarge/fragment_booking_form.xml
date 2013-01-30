@@ -68,19 +68,6 @@
 
             <include layout="@layout/include_guest_info_fields" />
 
-            <!-- Billing info form fields -->
-
-            <!--<TextView-->
-                <!--android:id="@+id/billing_info_section_title"-->
-                <!--style="@style/TabletSectionHeader.Details"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/booking_form_section_margin"-->
-                <!--android:text="@string/billing_info" />-->
-
-            <!--<include layout="@layout/include_saved_billing_info" />-->
-            <!--<include layout="@layout/include_billing_info_fields" />-->
-
             <!-- Credit card info form fields -->
 
             <TextView

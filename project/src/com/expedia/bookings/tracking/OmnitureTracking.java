@@ -26,6 +26,7 @@ import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -1011,13 +1012,15 @@ public class OmnitureTracking {
 		s.setProp(15, response.getItineraryId());
 		s.setPurchaseID(response.getItineraryId());
 
-		// Billing country code
-		s.setProp(46, billingInfo.getLocation().getCountryCode());
-		s.setGeoState(billingInfo.getLocation().getCountryCode());
+		Location location = billingInfo.getLocation();
+		// Not all POS need a location so it is null in some cases
+		if (location != null) {
+			s.setProp(46, location.getCountryCode());
+			s.setGeoState(location.getCountryCode());
 
-		// Billing zip codes
-		s.setProp(49, billingInfo.getLocation().getPostalCode());
-		s.setGeoZip(billingInfo.getLocation().getPostalCode());
+			s.setProp(49, location.getPostalCode());
+			s.setGeoZip(location.getPostalCode());
+		}
 
 		// Products
 		int numDays = searchParams.getStayDuration();

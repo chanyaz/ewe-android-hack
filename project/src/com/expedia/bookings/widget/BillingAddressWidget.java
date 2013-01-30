@@ -68,7 +68,7 @@ public class BillingAddressWidget {
 	public BillingAddressWidget(Context context, View rootView) {
 		mContext = context;
 
-		mSectionTitle = rootView.findViewById(R.id.billing_info_section_title);
+//		mSectionTitle = rootView.findViewById(R.id.billing_info_section_title);
 		mBillingSavedLayout = (ViewGroup) rootView.findViewById(R.id.saved_billing_info_layout);
 		mBillingFormLayout = (ViewGroup) rootView.findViewById(R.id.billing_info_layout);
 

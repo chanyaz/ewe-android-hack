@@ -28,6 +28,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -44,6 +46,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -57,7 +60,6 @@ import com.expedia.bookings.utils.LocaleUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
-import com.expedia.bookings.widget.BillingAddressWidget;
 import com.expedia.bookings.widget.CouponCodeWidget;
 import com.expedia.bookings.widget.ReceiptWidget;
 import com.expedia.bookings.widget.StoredCardSpinnerAdapter;
@@ -84,7 +86,6 @@ public class BookingFormFragment extends Fragment {
 	}
 
 	private static String GUESTS_EXPANDED = "GUESTS_EXPANDED";
-	private static String BILLING_EXPANDED = "BILLING_EXPANDED";
 	private static String RULES_RESTRICTIONS_CHECKED = "RULES_RESTRICTIONS_CHECKED";
 	private static String USER_PROFILE_IS_FRESH = "USER_PROFILE_IS_FRESH";
 	private static String SELECTED_CARD_POSITION = "SELECTED_CARD_POSITION";
@@ -98,7 +99,7 @@ public class BookingFormFragment extends Fragment {
 	private TelephoneSpinner mTelephoneCountryCodeSpinner;
 	private EditText mTelephoneEditText;
 	private EditText mEmailEditText;
-	private BillingAddressWidget mBillingAddressWidget;
+	private EditText mPostalCodeEditText;
 	private View mCreditCardInfoContainer;
 	private EditText mCardNumberEditText;
 	private EditText mExpirationMonthEditText;
@@ -217,8 +218,6 @@ public class BookingFormFragment extends Fragment {
 		mAccountButton.setListener(mAccountButtonClickListener);
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), false);
 		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
-		mBillingAddressWidget = new BillingAddressWidget(getActivity(), mRootBillingView);
-		mBillingAddressWidget.restoreInstanceState(savedInstanceState);
 		mCouponCodeWidget.setCouponCodeAppliedListener(new CouponCodeWidget.CouponCodeAppliedListener() {
 			@Override
 			public void couponCodeApplied() {
@@ -301,9 +300,22 @@ public class BookingFormFragment extends Fragment {
 			}
 			else {
 				expandGuestsForm(false);
-				mBillingAddressWidget.update(null);
 			}
 			mFormHasBeenFocused = false;
+		}
+
+		if (!PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES)) {
+			// remove the postalCode as it is not needed in all POS other than US/CA
+			RelativeLayout rl = Ui.findView(view, R.id.tablet_hotel_credit_card_and_zipcode_container);
+			rl.removeViewAt(1); // remove the billing zipcode
+
+			LinearLayout ll = Ui.findView(rl, R.id.credit_card_security_code_container);
+			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) ll.getLayoutParams();
+			lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		}
+		else {
+			// grab reference to the postal code EditText as we will need to perform validation
+			mPostalCodeEditText = Ui.findView(view, R.id.billing_zipcode_edit_text);
 		}
 
 		if (savedInstanceState == null) {
@@ -336,7 +348,6 @@ public class BookingFormFragment extends Fragment {
 		}
 
 		mReceiptWidget.saveInstanceState(outState);
-		mBillingAddressWidget.saveInstanceState(outState);
 		mCouponCodeWidget.saveInstanceState(outState);
 	}
 
@@ -582,7 +593,9 @@ public class BookingFormFragment extends Fragment {
 		mTelephoneCountryCodeSpinner.setOnFocusChangeListener(l);
 		mTelephoneEditText.setOnFocusChangeListener(l);
 		mEmailEditText.setOnFocusChangeListener(l);
-		mBillingAddressWidget.setOnFocusChangeListener(l);
+		if (mPostalCodeEditText != null) {
+			mPostalCodeEditText.setOnFocusChangeListener(l);
+		}
 		mCardNumberEditText.setOnFocusChangeListener(l);
 		mExpirationMonthEditText.setOnFocusChangeListener(l);
 		mExpirationYearEditText.setOnFocusChangeListener(l);
@@ -668,15 +681,13 @@ public class BookingFormFragment extends Fragment {
 	private void fixFocus() {
 		// Handle where guest forms are pointing down (if expanded)
 		if (mGuestsExpanded) {
-			int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.address1_edit_text
-					: R.id.card_number_edit_text;
+			int nextId = R.id.card_number_edit_text;
 			mEmailEditText.setNextFocusDownId(nextId);
 			mEmailEditText.setNextFocusRightId(nextId);
 		}
 
 		// Handle where card info is pointing up
-		int nextId = (mBillingAddressWidget.isVisible() && mBillingAddressWidget.isExpanded()) ? R.id.postal_code_edit_text
-				: R.id.email_edit_text;
+		int nextId = R.id.email_edit_text;
 		mCardNumberEditText.setNextFocusUpId(nextId);
 		mCardNumberEditText.setNextFocusLeftId(nextId);
 		mExpirationMonthEditText.setNextFocusUpId(nextId);
@@ -809,7 +820,11 @@ public class BookingFormFragment extends Fragment {
 		billingInfo.setTelephone(mTelephoneEditText.getText().toString());
 		billingInfo.setEmail(mEmailEditText.getText().toString());
 
-		billingInfo.setLocation(mBillingAddressWidget.getLocation());
+		if (mPostalCodeEditText != null) {
+			Location location = new Location();
+			location.setPostalCode(mPostalCodeEditText.getText().toString());
+			billingInfo.setLocation(location);
+		}
 
 		billingInfo.setNumber(mCardNumberEditText.getText().toString());
 		String expirationMonth = mExpirationMonthEditText.getText().toString();
@@ -896,11 +911,15 @@ public class BookingFormFragment extends Fragment {
 		}
 		mSecurityCodeEditText.setText(billingInfo.getSecurityCode());
 
-		mBillingAddressWidget.update(billingInfo.getLocation());
+		Location location = billingInfo.getLocation();
+		if (location != null) {
+			if (mPostalCodeEditText != null) {
+				mPostalCodeEditText.setText(location.getPostalCode());
+			}
+		}
 		if (mUserProfileIsFresh && Db.getUser() != null && Db.getUser().hasStoredCreditCards()) {
 			// otherwise we want them to add a new CC anyways
 			mCreditCardInfoContainer.setVisibility(View.GONE);
-			mBillingAddressWidget.hide();
 			mStoredCardContainer.setVisibility(View.VISIBLE);
 			mCardAdapter = new StoredCardSpinnerAdapter((Context) mActivity, Db.getUser().getStoredCreditCards());
 			if (mSelectedCardPosition >= 0) {
@@ -940,7 +959,9 @@ public class BookingFormFragment extends Fragment {
 		mRulesRestrictionsCheckbox.setChecked(false);
 
 		expandGuestsForm(false);
-		mBillingAddressWidget.update(null);
+		if (mPostalCodeEditText != null) {
+			mPostalCodeEditText.setText(null);
+		}
 	}
 
 	private void checkSectionsCompleted(boolean trackCompletion) {
@@ -972,7 +993,6 @@ public class BookingFormFragment extends Fragment {
 				syncFormFieldsFromBillingInfo(mRootBillingView);
 				syncBillingInfo();
 				expandGuestsForm(false);
-				mBillingAddressWidget.update(null);
 			}
 			else {
 				mUserProfileIsFresh = true;
@@ -1029,12 +1049,10 @@ public class BookingFormFragment extends Fragment {
 	private void updateEnterNewCreditCard() {
 		if (mCardAdapter == null || mCardAdapter.getSelectedCard() == null) {
 			// user has selected enter new credit card
-			mBillingAddressWidget.show();
 			mCreditCardInfoContainer.setVisibility(View.VISIBLE);
 		}
 		else {
 			// user has selected a stored credit card
-			mBillingAddressWidget.hide();
 			mCreditCardInfoContainer.setVisibility(View.GONE);
 		}
 	}
