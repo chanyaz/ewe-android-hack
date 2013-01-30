@@ -40,7 +40,7 @@ import com.mobiata.flightlib.data.Waypoint;
  */
 public class TripParser {
 
-	private Map<String, Waypoint> mWaypoints;
+	private Map<String, TripWaypoint> mWaypoints;
 
 	public Trip parseTrip(JSONObject tripJson) {
 		Trip trip = new Trip();
@@ -57,7 +57,7 @@ public class TripParser {
 		// Parse waypoints (used for flights parsing, if flights details response)
 		JSONArray waypoints = tripJson.optJSONArray("waypoints");
 		if (waypoints != null) {
-			mWaypoints = new HashMap<String, Waypoint>();
+			mWaypoints = new HashMap<String, TripWaypoint>();
 			for (int b = 0; b < waypoints.length(); b++) {
 				parseWaypoint(waypoints.optJSONObject(b));
 			}
@@ -257,8 +257,10 @@ public class TripParser {
 
 				Flight segment = new Flight();
 
-				segment.mOrigin = mWaypoints.get(segmentJson.opt("departureWaypointId"));
-				segment.mDestination = mWaypoints.get(segmentJson.opt("arrivalWaypointId"));
+				TripWaypoint origin = mWaypoints.get(segmentJson.opt("departureWaypointId"));
+				TripWaypoint destination = mWaypoints.get(segmentJson.opt("arrivalWaypointId"));
+				segment.mOrigin = convertTripWaypointForFlight(origin);
+				segment.mDestination = convertTripWaypointForFlight(destination);
 
 				FlightCode flightCode = new FlightCode();
 				flightCode.mAirlineCode = segmentJson.optString("airlineCode");
@@ -294,21 +296,6 @@ public class TripParser {
 		component.setBookingStatus(parseBookingStatus(obj.optString("bookingStatus")));
 	}
 
-	public void parseWaypoint(JSONObject obj) {
-		Waypoint waypoint = new Waypoint(obj.optString("type").equals("FLIGHT_DEPARTURE") ? Waypoint.F_DEPARTURE
-				: Waypoint.F_ARRIVAL);
-
-		JSONObject timeJson = obj.optJSONObject("time");
-		waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED,
-				timeJson.optLong("epochSeconds") * 1000, timeJson.optInt("timeZoneOffsetSeconds"));
-
-		JSONObject airportJson = obj.optJSONObject("location");
-		waypoint.mAirportCode = airportJson.optString("airportCode");
-		waypoint.setTerminal(obj.optString("airportTerminal"));
-
-		mWaypoints.put(obj.optString("id"), waypoint);
-	}
-
 	private TripActivity parseTripActivity(JSONObject obj) {
 		TripActivity tripActivity = new TripActivity();
 
@@ -329,5 +316,53 @@ public class TripParser {
 		}
 
 		return tripActivity;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Internal Waypoint class
+	//
+	// This is temporary; it will be removed from the API soon, but in the
+	// meantime we have to deal with it.
+
+	private static class TripWaypoint {
+		private String mType;
+
+		private DateTime mTime;
+
+		private Location mLocation;
+
+		// For flights only
+		private String mAirportCode;
+		private String mAirportTerminal;
+	}
+
+	public void parseWaypoint(JSONObject obj) {
+		TripWaypoint waypoint = new TripWaypoint();
+
+		waypoint.mType = obj.optString("type");
+
+		JSONObject timeJson = obj.optJSONObject("time");
+		waypoint.mTime = new DateTime(timeJson.optLong("epochSeconds") * 1000, timeJson.optInt("timeZoneOffsetSeconds"));
+
+		JSONObject locationJson = obj.optJSONObject("location");
+		if (locationJson != null) {
+			waypoint.mAirportCode = locationJson.optString("airportCode", null);
+			waypoint.mAirportTerminal = locationJson.optString("airportTerminal", null);
+		}
+
+		mWaypoints.put(obj.optString("id"), waypoint);
+	}
+
+	private Waypoint convertTripWaypointForFlight(TripWaypoint tripWaypoint) {
+		Waypoint waypoint = new Waypoint(tripWaypoint.mType.equals("FLIGHT_DEPARTURE") ? Waypoint.F_DEPARTURE
+				: Waypoint.F_ARRIVAL);
+
+		waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED,
+				tripWaypoint.mTime.getMillisFromEpoch(), tripWaypoint.mTime.getTzOffsetMillis());
+
+		waypoint.mAirportCode = tripWaypoint.mAirportCode;
+		waypoint.setTerminal(tripWaypoint.mAirportTerminal);
+
+		return waypoint;
 	}
 }

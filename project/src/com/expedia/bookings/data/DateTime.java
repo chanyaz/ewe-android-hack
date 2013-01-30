@@ -27,6 +27,14 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 		mTzOffsetMillis = tzOffsetMillis;
 	}
 
+	public long getMillisFromEpoch() {
+		return mMillisFromEpoch;
+	}
+
+	public int getTzOffsetMillis() {
+		return mTzOffsetMillis;
+	}
+
 	public Calendar getCalendar() {
 		if (mCal == null) {
 			mCal = Calendar.getInstance();
