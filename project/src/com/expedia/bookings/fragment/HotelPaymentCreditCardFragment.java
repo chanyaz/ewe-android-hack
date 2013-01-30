@@ -16,7 +16,6 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
@@ -81,16 +80,9 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 			}
 		});
 
-		if (!PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES)) {
-			// remove the SectionLocation/postalCode as it is not needed in all POS other than US
-			RelativeLayout rl = Ui.findView(v, R.id.edit_creditcard_exp_date_and_zipcode_container);
-			rl.removeViewAt(1); // remove the SectionLocation
-
-			TextView tv = Ui.findView(rl, R.id.edit_creditcard_exp_text_btn);
-			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) tv.getLayoutParams();
-			lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-		}
-		else {
+		PointOfSale.RequiredPaymentFieldsHotels requiredFields = PointOfSale.getPointOfSale()
+				.getRequiredPaymentFieldsHotels();
+		if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE)) {
 			// grab reference to the SectionLocation as we will need to perform validation
 			mSectionLocation = Ui.findView(v, R.id.section_location_address);
 			mSectionLocation.addChangeListener(new SectionChangeListener() {
@@ -105,6 +97,16 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 				}
 			});
 		}
+		else if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.NONE)) {
+			// remove the SectionLocation/postalCode as it is not needed
+			RelativeLayout rl = Ui.findView(v, R.id.edit_creditcard_exp_date_and_zipcode_container);
+			rl.removeViewAt(1); // remove the SectionLocation
+
+			TextView tv = Ui.findView(rl, R.id.edit_creditcard_exp_text_btn);
+			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) tv.getLayoutParams();
+			lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		}
+
 		return v;
 	}
 

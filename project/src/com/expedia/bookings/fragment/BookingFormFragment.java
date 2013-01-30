@@ -46,7 +46,6 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -304,18 +303,20 @@ public class BookingFormFragment extends Fragment {
 			mFormHasBeenFocused = false;
 		}
 
-		if (!PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES)) {
-			// remove the postalCode as it is not needed in all POS other than US/CA
+		PointOfSale.RequiredPaymentFieldsHotels requiredFields = PointOfSale.getPointOfSale()
+				.getRequiredPaymentFieldsHotels();
+		if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE)) {
+			// grab reference to the postal code EditText as we will need to perform validation
+			mPostalCodeEditText = Ui.findView(view, R.id.billing_zipcode_edit_text);
+		}
+		else if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.NONE)) {
+			// remove the postalCode as it is not needed
 			RelativeLayout rl = Ui.findView(view, R.id.tablet_hotel_credit_card_and_zipcode_container);
 			rl.removeViewAt(1); // remove the billing zipcode
 
 			LinearLayout ll = Ui.findView(rl, R.id.credit_card_security_code_container);
 			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) ll.getLayoutParams();
 			lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-		}
-		else {
-			// grab reference to the postal code EditText as we will need to perform validation
-			mPostalCodeEditText = Ui.findView(view, R.id.billing_zipcode_edit_text);
 		}
 
 		if (savedInstanceState == null) {
