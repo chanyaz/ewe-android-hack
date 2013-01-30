@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Stay in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
     <!-- Find Itinerary -->
@@ -68,6 +70,16 @@
     <string name="fetching_your_itinerary">Fetching your itinerary...</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Depart (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Arrive (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">CONFIRMATION CODE</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">PASSENGERS</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Flight receipt and policies</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->

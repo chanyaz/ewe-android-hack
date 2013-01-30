@@ -4,105 +4,84 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
+    <!-- DEPARTURE/ARRIVAL TIMES -->
+
+    <RelativeLayout
+        android:id="@+id/arrival_departure_times_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp" >
+
+        <TextView
+            android:id="@+id/departure_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/departure_time_tz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/departure_time"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/departure_arrival_arrow"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/slide_hint" />
+
+        <TextView
+            android:id="@+id/arrival_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/arrival_time_tz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/arrival_time"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <!-- Map / image -->
+
+    <ImageView
+        android:id="@+id/trip_map"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="#660000FF" />
+
+    <!-- Flight legs -->
+
     <LinearLayout
+        android:id="@+id/flight_leg_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="vertical" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="16dp" >
-
-            <TextView
-                android:id="@+id/check_in_date_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="22dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Check In"
-                android:textColor="@android:color/white"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:background="#4D555D" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="16dp" >
-
-            <TextView
-                android:id="@+id/check_out_date_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="22dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Check Out"
-                android:textColor="@android:color/white"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:background="#4D555D" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="16dp" >
-
-            <TextView
-                android:id="@+id/guests_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="22dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Guests"
-                android:textColor="@android:color/white"
-                android:textSize="14dp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- ADDRESS -->
+    <!-- Confirmation Code -->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="ADDRESS"
+        android:text="@string/confirmation_code_label"
         android:textColor="#4D555D"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:textStyle="bold" />
 
     <View
@@ -112,22 +91,22 @@
         android:background="#4D555D" />
 
     <TextView
+        android:id="@+id/confirmation_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:text="200 West 22nd St\nNew York, NY 10001"
         android:textColor="@android:color/white" />
 
-    <!-- PHONE -->
+    <!-- Passengers -->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="PHONE"
+        android:text="@string/passengers_label"
         android:textColor="#4D555D"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:textStyle="bold" />
 
     <View
@@ -137,60 +116,18 @@
         android:background="#4D555D" />
 
     <TextView
+        android:id="@+id/passenger_name_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:text="(212) 675-1911"
         android:textColor="@android:color/white" />
 
-    <!-- ROOM TYPE -->
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="ROOM TYPE"
-        android:textColor="#4D555D"
-        android:textSize="12dp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="8dp"
-        android:background="#4D555D" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:text="One Queen Bed"
-        android:textColor="@android:color/white" />
-
-    <!-- BOOKING INFO -->
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="BOOING INFO"
-        android:textColor="#4D555D"
-        android:textSize="12dp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="8dp"
-        android:background="#4D555D" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:text="View receipt and policies"
+        android:text="@string/flight_receipt_and_policies"
         android:textColor="@android:color/white" />
 
 </LinearLayout>
