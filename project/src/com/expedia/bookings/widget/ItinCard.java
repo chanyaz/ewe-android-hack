@@ -84,6 +84,7 @@ public abstract class ItinCard extends RelativeLayout {
 
 	@Override
 	public boolean hasFocusable() {
+		// TODO: This feels very wrong. Find out why onItemClick isn't working and fix it for real
 		return false;
 	}
 
