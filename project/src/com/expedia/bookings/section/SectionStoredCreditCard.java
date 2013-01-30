@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -22,27 +23,35 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 	Context mContext;
 	StoredCreditCard mStoredCard;
 	boolean mUseActiveCreditCardIcon = true;
+	int mActiveCardIconResId = 0;
+	int mStoredCardIconResId = 0;
 
 	public SectionStoredCreditCard(Context context) {
 		super(context);
-		init(context);
+		init(context, null);
 	}
 
 	public SectionStoredCreditCard(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(context);
+		init(context, attrs);
 	}
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public SectionStoredCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init(context);
+		init(context, attrs);
 	}
 
-	private void init(Context context) {
+	private void init(Context context, AttributeSet attrs) {
 		mContext = context;
 
 		mFields.add(mDisplayCard);
+
+		if (attrs != null) {
+			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.stored_credit_card_section);
+			mActiveCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_activeIcon, 0);
+			mStoredCardIconResId = a.getResourceId(R.styleable.stored_credit_card_section_storedIcon, 0);
+		}
 	}
 
 	@Override
@@ -106,10 +115,10 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 			// Icon
 			if (mUseActiveCreditCardIcon) {
-				field.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_credit_card_blue_entered, 0, 0, 0);
+				field.setCompoundDrawablesWithIntrinsicBounds(mActiveCardIconResId, 0, 0, 0);
 			}
 			else {
-				field.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_credit_card, 0, 0, 0);
+				field.setCompoundDrawablesWithIntrinsicBounds(mStoredCardIconResId, 0, 0, 0);
 			}
 
 		}

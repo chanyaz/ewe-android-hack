@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionStoredCreditCard xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    app:activeIcon="@drawable/ic_credit_card_blue_entered"
+    app:storedIcon="@drawable/ic_credit_card" >
 
     <TextView
         android:id="@+id/display_stored_card_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_credit_card_blue_entered"
         android:drawablePadding="6dp"
         android:gravity="center_vertical"
         android:paddingLeft="8.5dp"

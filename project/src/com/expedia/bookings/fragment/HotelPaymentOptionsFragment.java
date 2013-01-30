@@ -124,6 +124,8 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		}
 
 		if (cards != null && cards.size() > 0) {
+			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
+
 			//Inflate stored cards
 			Resources res = getResources();
 			for (int i = 0; i < cards.size(); i++) {
@@ -132,6 +134,7 @@ public class HotelPaymentOptionsFragment extends Fragment {
 						R.layout.section_hotel_display_stored_credit_card, null);
 				card.setUseActiveCardIcon(false, false);
 				card.bind(cards.get(i));
+				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
