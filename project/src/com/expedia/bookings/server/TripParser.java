@@ -13,6 +13,10 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.Activity;
+import com.expedia.bookings.data.Car;
+import com.expedia.bookings.data.Car.Category;
+import com.expedia.bookings.data.Car.Type;
+import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -25,6 +29,7 @@ import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.Trip.TimePeriod;
 import com.expedia.bookings.data.trips.TripActivity;
+import com.expedia.bookings.data.trips.TripCar;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
@@ -79,6 +84,14 @@ public class TripParser {
 			}
 		}
 
+		// Parse cars
+		JSONArray cars = tripJson.optJSONArray("cars");
+		if (cars != null) {
+			for (int b = 0; b < cars.length(); b++) {
+				trip.addTripComponent(parseTripCar(cars.optJSONObject(b)));
+			}
+		}
+
 		// Parse activities
 		JSONArray activities = tripJson.optJSONArray("activities");
 		if (activities != null) {
@@ -87,7 +100,7 @@ public class TripParser {
 			}
 		}
 
-		// TODO: Parse more component types?
+		// TODO: Parse cruises (once those are available to be parsed)
 
 		return trip;
 	}
@@ -292,8 +305,41 @@ public class TripParser {
 		return flight;
 	}
 
-	private void parseTripCommon(JSONObject obj, TripComponent component) {
-		component.setBookingStatus(parseBookingStatus(obj.optString("bookingStatus")));
+	private TripCar parseTripCar(JSONObject obj) {
+		TripCar tripCar = new TripCar();
+
+		parseTripCommon(obj, tripCar);
+
+		if (obj.has("uniqueID")) {
+			Car car = new Car();
+
+			car.setId(obj.optString("uniqueID", null));
+			car.setConfNumber(obj.optString("confirmationNumber", null));
+
+			JSONObject priceJson = obj.optJSONObject("price");
+			car.setPrice(ParserUtils.createMoney(priceJson.optString("base", null),
+					priceJson.optString("currency", null)));
+
+			addTripWaypointToCar(mWaypoints.get(obj.optString("pickupWaypointId")), car);
+			addTripWaypointToCar(mWaypoints.get(obj.optString("dropoffWaypointId")), car);
+
+			JSONObject vendorJson = obj.optJSONObject("carVendor");
+			CarVendor vendor = new CarVendor();
+			vendor.setCode(vendorJson.optString("code", null));
+			vendor.setShortName(vendorJson.optString("shortName", null));
+			vendor.setLongName(vendorJson.optString("longName", null));
+			vendor.setLogo(new Media(vendorJson.optString("logoURL", null)));
+			car.setVendor(vendor);
+
+			car.setCategoryImage(new Media(obj.optString("carCategoryImageURL")));
+			car.setCategory(parseCarCategory(obj.optString("carCategory")));
+
+			car.setType(parseCarType(obj.optString("carType")));
+
+			tripCar.setCar(car);
+		}
+
+		return tripCar;
 	}
 
 	private TripActivity parseTripActivity(JSONObject obj) {
@@ -316,6 +362,148 @@ public class TripParser {
 		}
 
 		return tripActivity;
+	}
+
+	private void parseTripCommon(JSONObject obj, TripComponent component) {
+		component.setBookingStatus(parseBookingStatus(obj.optString("bookingStatus")));
+	}
+
+	private Car.Category parseCarCategory(String category) {
+		if (TextUtils.isEmpty(category)) {
+			return null;
+		}
+
+		if (category.equals("Mini")) {
+			return Category.MINI;
+		}
+		else if (category.equals("Economy")) {
+			return Category.ECONOMY;
+		}
+		else if (category.equals("Compact")) {
+			return Category.COMPACT;
+		}
+		else if (category.equals("Midsize")) {
+			return Category.MIDSIZE;
+		}
+		else if (category.equals("Standard")) {
+			return Category.STANDARD;
+		}
+		else if (category.equals("Fullsize")) {
+			return Category.FULLSIZE;
+		}
+		else if (category.equals("Premium")) {
+			return Category.PREMIUM;
+		}
+		else if (category.equals("Luxury")) {
+			return Category.LUXURY;
+		}
+		else if (category.equals("Special")) {
+			return Category.SPECIAL;
+		}
+		else if (category.equals("Mini Elite")) {
+			return Category.MINI_ELITE;
+		}
+		else if (category.equals("Economy Elite")) {
+			return Category.ECONOMY_ELITE;
+		}
+		else if (category.equals("Compact Elite")) {
+			return Category.COMPACT_ELITE;
+		}
+		else if (category.equals("Midsize Elite")) {
+			return Category.MIDSIZE_ELITE;
+		}
+		else if (category.equals("Standard Elite")) {
+			return Category.STANDARD_ELITE;
+		}
+		else if (category.equals("Fullsize Elite")) {
+			return Category.FULLSIZE_ELITE;
+		}
+		else if (category.equals("Premium Elite")) {
+			return Category.PREMIUM_ELITE;
+		}
+		else if (category.equals("Luxury Elite")) {
+			return Category.LUXURY_ELITE;
+		}
+		else if (category.equals("Oversize")) {
+			return Category.OVERSIZE;
+		}
+
+		return null;
+	}
+
+	private Car.Type parseCarType(String type) {
+		if (TextUtils.isEmpty(type)) {
+			return null;
+		}
+
+		if (type.equals("2/4Door Car")) {
+			return Type.TWO_DOOR_CAR;
+		}
+		else if (type.equals("2/3Door Car")) {
+			return Type.THREE_DOOR_CAR;
+		}
+		else if (type.equals("4/5Door Car")) {
+			return Type.FOUR_DOOR_CAR;
+		}
+		else if (type.equals("Van")) {
+			return Type.VAN;
+		}
+		else if (type.equals("Wagon")) {
+			return Type.WAGON;
+		}
+		else if (type.equals("Limousine")) {
+			return Type.LIMOUSINE;
+		}
+		else if (type.equals("Recreational Vehicle")) {
+			return Type.RECREATIONAL_VEHICLE;
+		}
+		else if (type.equals("Convertible")) {
+			return Type.CONVERTIBLE;
+		}
+		else if (type.equals("SportsCar")) {
+			return Type.SPORTS_CAR;
+		}
+		else if (type.equals("SUV")) {
+			return Type.SUV;
+		}
+		else if (type.equals("Pickup Regular Cab")) {
+			return Type.PICKUP_REGULAR_CAB;
+		}
+		else if (type.equals("Open Air All-Terrain")) {
+			return Type.OPEN_AIR_ALL_TERRAIN;
+		}
+		else if (type.equals("Special")) {
+			return Type.SPECIAL;
+		}
+		else if (type.equals("Commercial Van/Truck")) {
+			return Type.COMMERCIAL_VAN_TRUCK;
+		}
+		else if (type.equals("Pickup Extended Cab")) {
+			return Type.PICKUP_EXTENDED_CAB;
+		}
+		else if (type.equals("Special Offer Car")) {
+			return Type.SPECIAL_OFFER_CAR;
+		}
+		else if (type.equals("Coupe")) {
+			return Type.COUPE;
+		}
+		else if (type.equals("Monospace")) {
+			return Type.MONOSPACE;
+		}
+		else if (type.equals("Motorhome")) {
+			return Type.MOTORHOME;
+		}
+		else if (type.equals("2 Wheel Vehicle")) {
+			return Type.TWO_WHEEL_VEHICLE;
+		}
+		else if (type.equals("Roadster")) {
+			return Type.ROADSTER;
+		}
+		else if (type.equals("Crossover")) {
+			return Type.CROSSOVER;
+		}
+
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -348,6 +536,19 @@ public class TripParser {
 		if (locationJson != null) {
 			waypoint.mAirportCode = locationJson.optString("airportCode", null);
 			waypoint.mAirportTerminal = locationJson.optString("airportTerminal", null);
+
+			Location location = new Location();
+			location.setLatitude(locationJson.optDouble("latitude"));
+			location.setLongitude(locationJson.optDouble("longitude"));
+			location.setCity(locationJson.optString("city", null));
+			location.setCountryCode(locationJson.optString("countryCode", null));
+
+			String fullAddress = locationJson.optString("fullAddress", null);
+			if (!TextUtils.isEmpty(fullAddress)) {
+				location.addStreetAddressLine(fullAddress);
+			}
+
+			waypoint.mLocation = location;
 		}
 
 		mWaypoints.put(obj.optString("id"), waypoint);
@@ -364,5 +565,16 @@ public class TripParser {
 		waypoint.setTerminal(tripWaypoint.mAirportTerminal);
 
 		return waypoint;
+	}
+
+	private void addTripWaypointToCar(TripWaypoint tripWaypoint, Car car) {
+		if (tripWaypoint.mType.equals("CAR_PICKUP")) {
+			car.setPickupDateTime(tripWaypoint.mTime);
+			car.setPickupLocation(tripWaypoint.mLocation);
+		}
+		else {
+			car.setDropoffDateTime(tripWaypoint.mTime);
+			car.setDropoffLocation(tripWaypoint.mLocation);
+		}
 	}
 }
