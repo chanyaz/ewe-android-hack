@@ -28,8 +28,6 @@ public class FrameLayout extends android.widget.FrameLayout {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 
-		Log.e("DOUG: onSizeChanged: " + w + "x" + h);
-
 		if (mOnSizeChangedListener != null) {
 			mOnSizeChangedListener.onSizeChanged(w, h, oldw, oldh);
 		}
