@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.BoundedBottomImageView;
 import com.expedia.bookings.widget.FadingImageView;
 import com.mobiata.android.util.Ui;
@@ -30,12 +31,12 @@ public class BlurredBackgroundFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_blurred_bg, container, false);
 
+		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
+
 		mBackgroundBgView = Ui.findView(v, R.id.background_bg_view);
 		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
 
-		setBitmap(Db.getBackgroundImage(getActivity(), false),Db.getBackgroundImage(getActivity(), true));
-
-		//displayBackground();
+		setBitmap(Db.getBackgroundImage(getActivity(), false), Db.getBackgroundImage(getActivity(), true));
 
 		return v;
 	}

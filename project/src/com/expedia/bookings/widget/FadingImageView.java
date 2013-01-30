@@ -20,6 +20,7 @@ public class FadingImageView extends ImageView {
 
 	private int mStartFadeY;
 	private int mEndFadeY;
+	private int mFadeSize;
 
 	private boolean mEnabled = true;
 
@@ -40,6 +41,7 @@ public class FadingImageView extends ImageView {
 	public void setFadeRange(int startY, int endY) {
 		mStartFadeY = startY;
 		mEndFadeY = endY;
+		mFadeSize = endY - startY;
 
 		mEnabled = true;
 
@@ -68,26 +70,25 @@ public class FadingImageView extends ImageView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		Rect rect = mBounds;
-		int size = mEndFadeY - mStartFadeY;
 
-		if (!mEnabled || size <= 0 || mStartFadeY < rect.top - size || mEndFadeY > rect.bottom + size) {
+		if (!mEnabled || mFadeSize <= 0 || mStartFadeY < rect.top - mFadeSize || mEndFadeY > rect.bottom + mFadeSize) {
 			// Short circuit the fade drawing if unnecessary
 			super.onDraw(canvas);
 		}
 		else {
 			// Save the previously drawn layer (in the fading area)
-			canvas.saveLayer(rect.left, rect.top + mStartFadeY, rect.right, rect.top + mEndFadeY, null, SAVE_FLAGS);
+			canvas.saveLayer(rect.left, mStartFadeY - rect.top, rect.right, mEndFadeY - rect.top, null, SAVE_FLAGS);
 
 			// Clip to just the area we want to draw (helps performance quite a bit)
-			canvas.clipRect(rect.left, rect.top + mStartFadeY, rect.right, rect.bottom);
+			canvas.clipRect(rect.left, mStartFadeY - rect.top, rect.right, rect.bottom);
 
 			// Draw the blurred image
 			super.onDraw(canvas);
 
 			// Alpha mask the blurred image
-			mFadePaint.setShader(new LinearGradient(0, rect.top + mStartFadeY, 0, rect.top
-					+ mEndFadeY, ALPHA_START, ALPHA_END, Shader.TileMode.CLAMP));
-			canvas.drawRect(rect.left, rect.top + mStartFadeY, rect.right, rect.top + mEndFadeY, mFadePaint);
+			mFadePaint.setShader(new LinearGradient(0, mStartFadeY - rect.top, 0,
+					mEndFadeY - rect.top, ALPHA_START, ALPHA_END, Shader.TileMode.CLAMP));
+			canvas.drawRect(rect.left, mStartFadeY - rect.top, rect.right, mEndFadeY - rect.top, mFadePaint);
 
 			// Restore the layer
 			canvas.restore();
