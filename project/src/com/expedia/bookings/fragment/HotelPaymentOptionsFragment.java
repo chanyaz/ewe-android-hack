@@ -191,7 +191,8 @@ public class HotelPaymentOptionsFragment extends Fragment {
 		super.onAttach(activity);
 
 		if (!(activity instanceof HotelPaymentYoYoListener)) {
-			throw new RuntimeException("HotelPaymentOptiosnFragment activity must implement HotelPaymentYoYoListener!");
+			throw new RuntimeException(HotelPaymentOptionsFragment.class.getSimpleName() + " activity must implement "
+					+ HotelPaymentYoYoListener.class.getSimpleName());
 		}
 
 		mListener = (HotelPaymentYoYoListener) activity;
