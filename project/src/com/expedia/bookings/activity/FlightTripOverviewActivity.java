@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -123,9 +124,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			}
 		}
 
-		ViewGroup outerContainer = Ui.findView(this, R.id.outer_container);
-		BitmapDrawable bg = new BitmapDrawable(getResources(), Db.getBackgroundImage(this, true));
-		outerContainer.setBackgroundDrawable(bg);
+		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
+		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
 
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
