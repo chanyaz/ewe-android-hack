@@ -32,7 +32,7 @@
             android:layout_marginLeft="@dimen/login_side_margin_medium"
             android:layout_marginRight="@dimen/login_side_margin_medium"
             android:layout_marginTop="@dimen/login_header_divider_spacing"
-            android:background="#797f86" />
+            android:background="#5CFFFFFF" />
 
         <!-- The fields for expedia login -->
 
