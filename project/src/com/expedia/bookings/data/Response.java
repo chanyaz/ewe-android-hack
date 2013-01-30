@@ -118,14 +118,6 @@ public class Response implements JSONable {
 					View v = parent.findViewById(R.id.address1_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
-				else if (!isStoredCreditCard && "city".equals(field)) {
-					View v = parent.findViewById(R.id.city_edit_text);
-					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
-				}
-				else if (!isStoredCreditCard && "state".equals(field)) {
-					View v = parent.findViewById(R.id.state_edit_text);
-					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
-				}
 				else if (!isStoredCreditCard && "postalCode".equals(field)) {
 					View v = parent.findViewById(R.id.postal_code_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
