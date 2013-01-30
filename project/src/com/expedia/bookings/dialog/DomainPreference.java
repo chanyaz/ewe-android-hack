@@ -17,9 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.ClearPrivateDataUtil;
 
 public class DomainPreference extends ListPreference {
 	private Context mContext;
@@ -115,10 +115,7 @@ public class DomainPreference extends ListPreference {
 					setValue(value);
 					callChangeListener(value);
 
-					// Delete private data
-					Db.deleteBillingInfo(mContext);
-
-					User.signOut(mContext);
+					ClearPrivateDataUtil.clear(mContext);
 
 					// Inform the men
 					Toast.makeText(mContext, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();

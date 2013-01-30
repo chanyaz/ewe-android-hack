@@ -1,0 +1,60 @@
+package com.expedia.bookings.utils;
+
+import android.content.Context;
+
+import com.expedia.bookings.data.BackgroundImageCache;
+import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.model.WorkingBillingInfoManager;
+import com.expedia.bookings.model.WorkingTravelerManager;
+import com.expedia.bookings.server.ExpediaServices;
+
+public class ClearPrivateDataUtil {
+	public static void clear(Context context) {
+		BillingInfo info = new BillingInfo();
+		info.delete(context);
+
+		boolean signedIn = User.isLoggedIn(context);
+		if (signedIn) {
+			User.signOut(context);
+		}
+
+		Db.deleteCachedFlightData(context);
+		Db.deleteTravelers(context);
+
+		WorkingBillingInfoManager biManager = new WorkingBillingInfoManager();
+		biManager.deleteWorkingBillingInfoFile(context);
+
+		WorkingTravelerManager travManager = new WorkingTravelerManager();
+		travManager.deleteWorkingTravelerFile(context);
+
+		try {
+			//If the data has already been populated in memory, we should clear that....
+			if (Db.getWorkingBillingInfoManager() != null) {
+				Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(context);
+			}
+
+			if (Db.getWorkingTravelerManager() != null) {
+				Db.getWorkingTravelerManager().clearWorkingTraveler(context);
+			}
+
+			Db.getBillingInfo().delete(context);
+			Db.getTravelers().clear();
+
+			BackgroundImageCache cache = Db.getBackgroundImageCache(context);
+			if (cache != null) {
+				cache.clearDiskCache(context);
+				cache.clearMemCache();
+			}
+
+		}
+		catch (Exception ex) {
+			//Don't care
+		}
+
+		ExpediaServices services = new ExpediaServices(context);
+		services.clearCookies();
+	}
+}
+
