@@ -114,6 +114,12 @@ public class PersistantCookieStore extends BasicCookieStore {
 		}
 	}
 
+	public void log() {
+		for (Cookie cookie : getCookies()) {
+			Log.v("Cookie: " + cookie.toString());
+		}
+	}
+
 	public void load(Context context, String fileName) {
 		File file = context.getFileStreamPath(fileName);
 		if (!file.exists()) {

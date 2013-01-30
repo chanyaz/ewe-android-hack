@@ -172,6 +172,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public static void removeUserLoginCookies(Context context) {
+		Log.d("Cookies: Removing user login cookies");
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
 		cookieStore.load(context, COOKIES_FILE);
 		String[] userCookieNames = { "user", "minfo", "accttype" };
@@ -677,7 +678,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public void clearCookies() {
-		Log.d("Clearing cookies!");
+		Log.d("Cookies: Clearing!");
 
 		PersistantCookieStore cookieStore = new PersistantCookieStore();
 		cookieStore.clear();
@@ -978,7 +979,8 @@ public class ExpediaServices implements DownloadListener {
 			cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory(mContext));
 			httpContext.setAttribute(ClientContext.COOKIESPEC_REGISTRY, cookieSpecRegistry);
 
-			Log.v("Sending cookies: " + cookieStore.toString());
+			Log.v("Sending cookies:");
+			cookieStore.log();
 
 			HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");
 		}
@@ -1021,7 +1023,8 @@ public class ExpediaServices implements DownloadListener {
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 
 			if (!ignoreCookies) {
-				Log.v("Received cookies: " + cookieStore.toString());
+				Log.v("Received cookies: ");
+				cookieStore.log();
 
 				cookieStore.save(mContext, COOKIES_FILE);
 			}
