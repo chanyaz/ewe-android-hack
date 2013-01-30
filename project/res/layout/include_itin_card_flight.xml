@@ -75,6 +75,7 @@
     <!-- Confirmation Code -->
 
     <TextView
+        android:id="@+id/confirmation_code_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -100,6 +101,7 @@
     <!-- Passengers -->
 
     <TextView
+        android:id="@+id/passengers_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"

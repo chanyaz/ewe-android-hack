@@ -75,9 +75,9 @@
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Arrive (%1$s)</string>
     <!-- Confirmation Code Label-->
-    <string name="confirmation_code_label">CONFIRMATION CODE</string>
+    <string name="confirmation_code_label">Confirmation Code</string>
     <!-- Passengers Label -->
-    <string name="passengers_label">PASSENGERS</string>
+    <string name="passengers_label">Passengers</string>
     <!-- Flight receipt and policies -->
     <string name="flight_receipt_and_policies">Flight receipt and policies</string>
 

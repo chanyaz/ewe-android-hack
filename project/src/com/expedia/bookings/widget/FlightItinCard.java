@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
@@ -19,6 +20,7 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
@@ -87,6 +89,12 @@ public class FlightItinCard extends ItinCard {
 
 		if (mTripFlight != null && mTripFlight.getFlightTrip() != null && mTripFlight.getFlightTrip().getLegCount() > 0) {
 			Resources res = getResources();
+
+			TextView confirmationCodeLabel = Ui.findView(view, R.id.confirmation_code_label);
+			TextView passengersLabel = Ui.findView(view, R.id.passengers_label);
+
+			ViewUtils.setAllCaps(confirmationCodeLabel);
+			ViewUtils.setAllCaps(passengersLabel);
 
 			FlightLeg firstLeg = mTripFlight.getFlightTrip().getLeg(0);
 			FlightLeg lastLeg = mTripFlight.getFlightTrip().getLeg(mTripFlight.getFlightTrip().getLegCount() - 1);
