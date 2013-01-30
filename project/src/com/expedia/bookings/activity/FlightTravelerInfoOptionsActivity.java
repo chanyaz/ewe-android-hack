@@ -365,7 +365,7 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		if (mOneFragment != null) {
-			mOneFragment.onTouchedAnywhere();
+			mOneFragment.onInteraction();
 		}
 
 		return super.dispatchTouchEvent(ev);

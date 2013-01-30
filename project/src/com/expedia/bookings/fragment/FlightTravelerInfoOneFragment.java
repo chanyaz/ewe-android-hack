@@ -63,9 +63,7 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 				//We attempt a save on change
 				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
 
-				if (mNameMatchWarningTextView.getVisibility() != View.GONE) {
-					mNameMatchWarningTextView.setVisibility(View.GONE);
-				}
+				onInteraction();
 			}
 		});
 
@@ -102,7 +100,7 @@ public class FlightTravelerInfoOneFragment extends Fragment implements Validatab
 		return mSectionTravelerInfo != null ? mSectionTravelerInfo.hasValidInput() : false;
 	}
 
-	public void onTouchedAnywhere() {
+	public void onInteraction() {
 		if (getActivity() != null && mNameMatchWarningTextView.getVisibility() != View.GONE) {
 			mNameMatchWarningTextView.setVisibility(View.GONE);
 		}
