@@ -503,7 +503,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		boolean travelerValid = hasValidTravler();
 
 		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid;
-		if (getInCheckout() && mShowSlideToWidget) {
+		if (isInCheckout() && mShowSlideToWidget) {
 			showPurchaseViews();
 		}
 		else {
@@ -561,7 +561,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		final boolean viewsInflated = scrollViewHeight > 0 && receiptMiniHeight > 0 && checkoutLayoutHeight > 0
 				&& slideToPurchaseFragmentHeight > 0;
 
-		if (getInCheckout() && mShowSlideToWidget) {
+		if (isInCheckout() && mShowSlideToWidget) {
 			final int paddingBottom = (int) (getResources().getDisplayMetrics().density * 16f);
 			height = slideToPurchaseFragmentHeight + paddingBottom;
 		}
@@ -585,7 +585,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		});
 	}
 
-	public boolean getInCheckout() {
+	public boolean isInCheckout() {
 		return mInCheckout;
 	}
 
@@ -607,7 +607,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void startCheckout(final boolean animate, boolean scrollToCheckout) {
-		if (!getInCheckout()) {
+		if (!isInCheckout()) {
 			OmnitureTracking.trackPageLoadHotelsCheckoutInfo(getActivity());
 		}
 
@@ -637,7 +637,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	public void endCheckout() {
-		if (getInCheckout()) {
+		if (isInCheckout()) {
 			OmnitureTracking.trackPageLoadHotelsRateDetails(getActivity());
 		}
 
@@ -919,12 +919,12 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			// If we've lifted our finger that means the scroll view is scrolling
 			// with the remaining momentum. If it's scrolling down, and it's gone
 			// past the checkout state, stop it at the checkout position.
-			if (!mTouchDown && y <= oldy && oldy >= mCheckoutY && getInCheckout()) {
+			if (!mTouchDown && y <= oldy && oldy >= mCheckoutY && isInCheckout()) {
 				mScrollView.scrollTo(0, (int) mCheckoutY);
 				mHotelReceipt.showMiniDetailsLayout();
 				return;
 			}
-			else if (mTouchDown && y >= mCheckoutY && !getInCheckout()) {
+			else if (mTouchDown && y >= mCheckoutY && !isInCheckout()) {
 				startCheckout(false, false);
 			}
 
@@ -967,7 +967,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mReceiptHeight = h;
 			measure();
 
-			if (getInCheckout()) {
+			if (isInCheckout()) {
 				startCheckout(false, true);
 			}
 		}

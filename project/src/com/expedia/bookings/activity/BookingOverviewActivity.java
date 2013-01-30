@@ -68,7 +68,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onBackPressed() {
-		if (mBookingOverviewFragment.getInCheckout()) {
+		if (mBookingOverviewFragment.isInCheckout()) {
 			mBookingOverviewFragment.endCheckout();
 			mCheckoutMenuItem.setVisible(true);
 
@@ -114,7 +114,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 		mCheckoutMenuItem.setActionView(tv);
 
 		if (mBookingOverviewFragment != null) {
-			mCheckoutMenuItem.setVisible(!mBookingOverviewFragment.getInCheckout());
+			mCheckoutMenuItem.setVisible(!mBookingOverviewFragment.isInCheckout());
 		}
 
 		return super.onCreateOptionsMenu(menu);
@@ -124,7 +124,7 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
-			if (mBookingOverviewFragment.getInCheckout()) {
+			if (mBookingOverviewFragment.isInCheckout()) {
 				mBookingOverviewFragment.endCheckout();
 				return true;
 			}
