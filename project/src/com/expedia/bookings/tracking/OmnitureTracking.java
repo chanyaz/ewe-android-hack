@@ -1012,14 +1012,16 @@ public class OmnitureTracking {
 		s.setProp(15, response.getItineraryId());
 		s.setPurchaseID(response.getItineraryId());
 
-		Location location = billingInfo.getLocation();
-		// Not all POS need a location so it is null in some cases
-		if (location != null) {
-			s.setProp(46, location.getCountryCode());
-			s.setGeoState(location.getCountryCode());
+		if (billingInfo != null) {
+			Location location = billingInfo.getLocation();
+			// Not all POS need a location so it is null in some cases
+			if (location != null) {
+				s.setProp(46, location.getCountryCode());
+				s.setGeoState(location.getCountryCode());
 
-			s.setProp(49, location.getPostalCode());
-			s.setGeoZip(location.getPostalCode());
+				s.setProp(49, location.getPostalCode());
+				s.setGeoZip(location.getPostalCode());
+			}
 		}
 
 		// Products
