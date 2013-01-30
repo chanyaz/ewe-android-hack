@@ -169,7 +169,7 @@
         <activity
             android:name="com.expedia.bookings.activity.FlightTripOverviewActivity"
             android:label="Overview"
-            android:theme="@style/FlightTheme" >
+            android:theme="@style/FlightTheme.Transparent" >
         </activity>
         <activity
             android:name="com.expedia.bookings.activity.FlightBookingActivity"
