@@ -335,7 +335,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			}
 			else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
 				simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
-				handleError();
 			}
 			else {
 				handleError();
@@ -592,7 +591,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		if (Db.getSearchResponse() != null && Db.getSearchResponse().getPropertiesCount() == 0) {
 			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
-			handleError();
 		}
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
