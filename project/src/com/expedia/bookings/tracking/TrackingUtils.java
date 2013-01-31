@@ -130,7 +130,7 @@ public class TrackingUtils {
 
 		// Server
 		s.setTrackingServer(getTrackingServer());
-		s.setSSL(true);
+		s.setSSL(false);
 
 		// Add the country locale
 		s.setEvar(31, Locale.getDefault().getCountry());
