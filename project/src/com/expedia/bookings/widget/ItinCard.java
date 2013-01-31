@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
@@ -88,7 +89,10 @@ public abstract class ItinCard extends RelativeLayout {
 		return false;
 	}
 
-	public void bind(final TripComponent tripComponent) {
+	public void bind(final ItinCardData itinCardData) {
+
+		TripComponent tripComponent = itinCardData.getTripComponent();
+
 		// Type icon
 		mItinTypeImageView.setImageResource(getTypeIconResId());
 

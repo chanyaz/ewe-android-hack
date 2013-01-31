@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
@@ -62,13 +63,15 @@ public class FlightItinCard extends ItinCard {
 	}
 
 	@Override
-	public void bind(TripComponent tripComponent) {
-		mTripFlight = ((TripFlight) tripComponent);
+	public void bind(ItinCardData itinCardData) {
+		//mTripFlight = ((ItinCardDataFlight) itinCardData)
+
+		mTripFlight = (TripFlight) itinCardData.getTripComponent();
 
 		if (mTripFlight != null && mTripFlight.getFlightTrip().getLegCount() > 0) {
 			mDestination = mTripFlight.getFlightTrip().getLeg(mTripFlight.getFlightTrip().getLegCount() - 1)
 					.getLastWaypoint();
-			super.bind(tripComponent);
+			super.bind(itinCardData);
 		}
 	}
 
@@ -101,7 +104,7 @@ public class FlightItinCard extends ItinCard {
 
 			FlightLeg firstLeg = mTripFlight.getFlightTrip().getLeg(0);
 			FlightLeg lastLeg = mTripFlight.getFlightTrip().getLeg(mTripFlight.getFlightTrip().getLegCount() - 1);
-			
+
 			Calendar minTime = firstLeg.getFirstWaypoint().getMostRelevantDateTime();
 			Calendar maxTime = lastLeg.getLastWaypoint().getMostRelevantDateTime();
 
@@ -156,19 +159,20 @@ public class FlightItinCard extends ItinCard {
 						flightLegContainer.addView(getWayPointView(segment.mOrigin, WaypointType.DEPARTURE, inflater));
 						flightLegContainer.addView(getDividerView());
 					}
-					
-					flightLegContainer.addView(getFlightView(segment,minTime,maxTime,inflater));
+
+					flightLegContainer.addView(getFlightView(segment, minTime, maxTime, inflater));
 					flightLegContainer.addView(getDividerView());
 
 					if (isLastSegment) {
-						flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
+						flightLegContainer
+								.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
 					}
 					else {
-						flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
+						flightLegContainer
+								.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
 						flightLegContainer.addView(getDividerView());
 					}
 
-					
 				}
 			}
 
@@ -189,28 +193,33 @@ public class FlightItinCard extends ItinCard {
 		View v = inflater.inflate(R.layout.snippet_itin_waypoint_row, null);
 		Resources res = getResources();
 		//TODO: Set icon based on type
-		
+
 		String airportName = waypoint.mAirportCode;
 		Ui.setText(v, R.id.layover_airport_name, airportName);
-		if(type.equals(WaypointType.LAYOVER)){
+		if (type.equals(WaypointType.LAYOVER)) {
 			//TODO: Need to get a different set of gates...
-			String arrivalGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE), waypoint.getTerminal(), waypoint.getGate());
-			String departureGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE), waypoint.getTerminal(), waypoint.getGate());
+			String arrivalGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE),
+					waypoint.getTerminal(), waypoint.getGate());
+			String departureGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE),
+					waypoint.getTerminal(), waypoint.getGate());
 			Ui.setText(v, R.id.layover_terminal_gate_one, arrivalGate);
 			Ui.setText(v, R.id.layover_terminal_gate_two, departureGate);
-			
-		}else{
-			Ui.findView(v,R.id.layover_terminal_gate_two ).setVisibility(View.GONE);
-			
-			String termGate = String.format(res.getString(R.string.generic_terminal_TEMPLATE), waypoint.getTerminal(), waypoint.getGate());
+
+		}
+		else {
+			Ui.findView(v, R.id.layover_terminal_gate_two).setVisibility(View.GONE);
+
+			String termGate = String.format(res.getString(R.string.generic_terminal_TEMPLATE), waypoint.getTerminal(),
+					waypoint.getGate());
 			Ui.setText(v, R.id.layover_terminal_gate_one, termGate);
 		}
-		
+
 		return v;
 	}
 
 	private View getFlightView(Flight flight, Calendar minTime, Calendar maxTime, LayoutInflater inflater) {
-		FlightLegSummarySection v = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_summary_itin, null);
+		FlightLegSummarySection v = (FlightLegSummarySection) inflater.inflate(
+				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
 		return v;
 	}

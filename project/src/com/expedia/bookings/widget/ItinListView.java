@@ -16,7 +16,7 @@ import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
-import com.expedia.bookings.data.trips.TripComponentAdapter;
+import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.mobiata.android.Log;
 
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener {
@@ -33,7 +33,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private TripComponentAdapter mAdapter;
+	private ItinCardDataAdapter mAdapter;
 
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
@@ -70,7 +70,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		mExpandedCardPaddingBottom = res.getDimensionPixelSize(R.dimen.itin_list_card_top_image_offset);
 
-		mAdapter = new TripComponentAdapter(context);
+		mAdapter = new ItinCardDataAdapter(context);
 		setAdapter(mAdapter);
 		setOnItemClickListener(null);
 	}

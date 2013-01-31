@@ -18,7 +18,7 @@ import com.expedia.bookings.widget.FlightItinCard;
 import com.expedia.bookings.widget.HotelItinCard;
 import com.expedia.bookings.widget.ItinCard;
 
-public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncListener {
+public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener {
 
 	public enum TripComponentSortOrder {
 		START_DATE
@@ -30,17 +30,17 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 
 	private Context mContext;
 	private ItineraryManager mItinManager;
-	private ArrayList<TripComponent> mTripComponents;
+	private ArrayList<ItinCardData> mItinCardDatas;
 	private TripComponentSortOrder mSortOrder = TripComponentSortOrder.START_DATE;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTOR
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public TripComponentAdapter(Context context) {
+	public ItinCardDataAdapter(Context context) {
 		mContext = context;
 		mItinManager = ItineraryManager.getInstance();
-		mTripComponents = new ArrayList<TripComponent>();
+		mItinCardDatas = new ArrayList<ItinCardData>();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -49,17 +49,17 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 
 	@Override
 	public synchronized int getCount() {
-		if (mTripComponents != null) {
-			return mTripComponents.size();
+		if (mItinCardDatas != null) {
+			return mItinCardDatas.size();
 		}
 
 		return 0;
 	}
 
 	@Override
-	public synchronized TripComponent getItem(int position) {
-		if (mTripComponents != null) {
-			return mTripComponents.get(position);
+	public synchronized ItinCardData getItem(int position) {
+		if (mItinCardDatas != null) {
+			return mItinCardDatas.get(position);
 		}
 
 		return null;
@@ -67,7 +67,7 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 
 	@Override
 	public synchronized long getItemId(int position) {
-		if (mTripComponents != null) {
+		if (mItinCardDatas != null) {
 			return position;
 		}
 
@@ -76,7 +76,8 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 
 	@Override
 	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
-		TripComponent tripComponent = getItem(position);
+		ItinCardData data = getItem(position);
+		TripComponent tripComponent = data.getTripComponent();
 		ItinCard card = null;
 
 		// Try to cast view to the appropriate type
@@ -112,7 +113,7 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 		}
 
 		if (card != null) {
-			card.bind(tripComponent);
+			card.bind(data);
 			card.showSummary(position == 0);
 		}
 
@@ -159,14 +160,18 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 	 */
 	public synchronized void syncWithManager() {
 		//Add Items
-		mTripComponents.clear();
+		mItinCardDatas.clear();
 		Collection<Trip> trips = mItinManager.getTrips();
 		if (trips != null) {
 			for (Trip trip : trips) {
 				if (trip.getTripComponents() != null) {
 					List<TripComponent> components = trip.getTripComponents();
 					for (TripComponent comp : components) {
-						mTripComponents.add(comp);
+						//mItinCardDatas.add(comp);
+						List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
+						if (items != null) {
+							this.mItinCardDatas.addAll(items);
+						}
 					}
 				}
 			}
@@ -213,22 +218,21 @@ public class TripComponentAdapter extends BaseAdapter implements ItinerarySyncLi
 
 	private void sortItems() {
 		if (mSortOrder.equals(TripComponentSortOrder.START_DATE)) {
-			Collections.sort(mTripComponents, mTripComponentStartDateComparator);
+			Collections.sort(mItinCardDatas, mItinCardDataStartDateComparator);
 		}
 	}
 
-	Comparator<TripComponent> mTripComponentStartDateComparator = new Comparator<TripComponent>() {
+	Comparator<ItinCardData> mItinCardDataStartDateComparator = new Comparator<ItinCardData>() {
 
 		@Override
-		public int compare(TripComponent compOne, TripComponent compTwo) {
-			if (compOne.getStartDate() == null) {
+		public int compare(ItinCardData dataOne, ItinCardData dataTwo) {
+			if (dataOne.getStartDate() == null) {
 				return -1;
 			}
-			if (compTwo.getStartDate() == null) {
+			if (dataTwo.getStartDate() == null) {
 				return 1;
 			}
-			return compOne.getStartDate().compareTo(compTwo.getStartDate());
+			return dataOne.getStartDate().compareTo(dataTwo.getStartDate());
 		}
 	};
-
 }

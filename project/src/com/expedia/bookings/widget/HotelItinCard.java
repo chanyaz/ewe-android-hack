@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
@@ -63,9 +64,9 @@ public class HotelItinCard extends ItinCard {
 	}
 
 	@Override
-	public void bind(TripComponent tripComponent) {
-		mProperty = ((TripHotel) tripComponent).getProperty();
-		super.bind(tripComponent);
+	public void bind(ItinCardData itinCardData) {
+		mProperty = ((TripHotel) itinCardData.getTripComponent()).getProperty();
+		super.bind(itinCardData);
 	}
 
 	@Override
