@@ -590,6 +590,11 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			mProgressBar.reset();
 		}
 
+		if (Db.getSearchResponse() != null && Db.getSearchResponse().getPropertiesCount() == 0) {
+			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
+			handleError();
+		}
+
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
 		// setDisplayType here because it could possibly add a TextWatcher before the view has restored causing the listener to fire
