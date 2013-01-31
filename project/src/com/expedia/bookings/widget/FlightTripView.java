@@ -4,7 +4,9 @@ import java.util.Calendar;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
@@ -52,17 +54,27 @@ public class FlightTripView extends View {
 
 		Resources r = context.getResources();
 
+		int lineColor = r.getColor(R.color.flight_trip);
+		int textColor = r.getColor(R.color.airport_text);
+		
+		if(attrs != null){
+			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.FlightTripView, 0, 0);
+			lineColor = ta.getColor(R.styleable.FlightTripView_flightLineColor, r.getColor(R.color.flight_trip));
+			textColor = ta.getColor(R.styleable.FlightTripView_waypointTextColor, r.getColor(R.color.airport_text));
+			ta.recycle();
+		}
+		
 		mMinPaddingBetweenLabels = r.getDimension(R.dimen.flight_line_min_padding_between_labels);
 
 		mTripPaint = new Paint();
-		mTripPaint.setColor(context.getResources().getColor(R.color.flight_trip));
+		mTripPaint.setColor(lineColor);
 		mTripPaint.setStrokeWidth(r.getDimension(R.dimen.flight_trip_view_stroke_width));
 		mTripPaint.setStyle(Style.STROKE);
 		mTripPaint.setAntiAlias(true);
 
 		mTextPaint = new TextPaint();
 		mTextPaint.setTextAlign(Align.CENTER);
-		mTextPaint.setColor(r.getColor(R.color.airport_text));
+		mTextPaint.setColor(textColor);
 		mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		mTextPaint.setAntiAlias(true);
 
