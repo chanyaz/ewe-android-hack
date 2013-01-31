@@ -46,8 +46,10 @@ public class ItinCardDataFactory {
 	private static ArrayList<ItinCardData> generateFlightCardData(TripFlight tc) {
 		ArrayList<ItinCardData> retData = new ArrayList<ItinCardData>();
 
-		for (int i = 0; i < tc.getFlightTrip().getLegCount(); i++) {
-			retData.add(new ItinCardDataFlight(tc, i));
+		if (tc.getFlightTrip() != null) {
+			for (int i = 0; i < tc.getFlightTrip().getLegCount(); i++) {
+				retData.add(new ItinCardDataFlight(tc, i));
+			}
 		}
 
 		return retData;

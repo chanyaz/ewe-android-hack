@@ -98,6 +98,7 @@ public class FlightItinCard extends ItinCard {
 
 		if (mTripFlight != null && mTripFlight.getFlightTrip() != null && mTripFlight.getFlightTrip().getLegCount() > 0) {
 			Resources res = getResources();
+			FlightLeg leg = mData.getFlightLeg();
 
 			TextView confirmationCodeLabel = Ui.findView(view, R.id.confirmation_code_label);
 			TextView passengersLabel = Ui.findView(view, R.id.passengers_label);
@@ -105,18 +106,15 @@ public class FlightItinCard extends ItinCard {
 			ViewUtils.setAllCaps(confirmationCodeLabel);
 			ViewUtils.setAllCaps(passengersLabel);
 
-			FlightLeg firstLeg = mTripFlight.getFlightTrip().getLeg(0);
-			FlightLeg lastLeg = mTripFlight.getFlightTrip().getLeg(mTripFlight.getFlightTrip().getLegCount() - 1);
+			Calendar departureTimeCal = leg.getFirstWaypoint().getMostRelevantDateTime();
+			Calendar arrivalTimeCal = leg.getLastWaypoint().getMostRelevantDateTime();
 
-			Calendar minTime = firstLeg.getFirstWaypoint().getMostRelevantDateTime();
-			Calendar maxTime = lastLeg.getLastWaypoint().getMostRelevantDateTime();
-
-			String departureTime = formatTime(firstLeg.getFirstWaypoint().getMostRelevantDateTime());
-			String departureTz = String.format(res.getString(R.string.depart_tz_TEMPLATE), firstLeg.getFirstWaypoint()
-					.getMostRelevantDateTime().getTimeZone().getDisplayName(false, TimeZone.SHORT));
-			String arrivalTime = formatTime(lastLeg.getLastWaypoint().getMostRelevantDateTime());
-			String arrivalTz = String.format(res.getString(R.string.arrive_tz_TEMPLATE), lastLeg.getLastWaypoint()
-					.getMostRelevantDateTime().getTimeZone().getDisplayName(false, TimeZone.SHORT));
+			String departureTime = formatTime(departureTimeCal);
+			String departureTz = String.format(res.getString(R.string.depart_tz_TEMPLATE), departureTimeCal
+					.getTimeZone().getDisplayName(false, TimeZone.SHORT));
+			String arrivalTime = formatTime(arrivalTimeCal);
+			String arrivalTz = String.format(res.getString(R.string.arrive_tz_TEMPLATE), arrivalTimeCal.getTimeZone()
+					.getDisplayName(false, TimeZone.SHORT));
 
 			Ui.setText(view, R.id.departure_time, departureTime);
 			Ui.setText(view, R.id.departure_time_tz, departureTz);
@@ -149,19 +147,18 @@ public class FlightItinCard extends ItinCard {
 
 			//Add the flight stuff
 			ViewGroup flightLegContainer = Ui.findView(view, R.id.flight_leg_container);
-			FlightLeg f = mData.getFlightLeg();
-			for (int j = 0; j < f.getSegmentCount(); j++) {
-				Flight segment = f.getSegment(j);
+			for (int j = 0; j < leg.getSegmentCount(); j++) {
+				Flight segment = leg.getSegment(j);
 
 				boolean isFirstSegment = (j == 0);
-				boolean isLastSegment = (j == f.getSegmentCount() - 1);
+				boolean isLastSegment = (j == leg.getSegmentCount() - 1);
 
 				if (isFirstSegment) {
 					flightLegContainer.addView(getWayPointView(segment.mOrigin, WaypointType.DEPARTURE, inflater));
 					flightLegContainer.addView(getDividerView());
 				}
 
-				flightLegContainer.addView(getFlightView(segment, minTime, maxTime, inflater));
+				flightLegContainer.addView(getFlightView(segment, departureTimeCal, arrivalTimeCal, inflater));
 				flightLegContainer.addView(getDividerView());
 
 				if (isLastSegment) {
