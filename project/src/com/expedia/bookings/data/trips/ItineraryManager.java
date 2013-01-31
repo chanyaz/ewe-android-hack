@@ -19,6 +19,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
@@ -326,14 +327,19 @@ public class ItineraryManager implements JSONable {
 								if (tripComponent.getType().equals(TripComponent.Type.FLIGHT)) {
 									tripFlight = (TripFlight) tripComponent;
 									flightTrip = tripFlight.getFlightTrip();
-									waypoint = flightTrip.getLeg(flightTrip.getLegCount() - 1).getLastWaypoint();
-									destinationCode = waypoint.mAirportCode;
+									for (int i = 0; i < flightTrip.getLegCount(); i++) {
+										FlightLeg fl = flightTrip.getLeg(i);
+										waypoint = fl.getLastWaypoint();
+										destinationCode = waypoint.mAirportCode;
 
-									BackgroundImageResponse imageResponse = services.getFlightsBackgroundImage(
-											destinationCode, 0, 0);
+										BackgroundImageResponse imageResponse = services.getFlightsBackgroundImage(
+												destinationCode, 0, 0);
 
-									if (imageResponse != null) {
-										tripFlight.setDestinationImageUrl(imageResponse.getImageUrl());
+										if (imageResponse != null) {
+											tripFlight.setLegDestinationImageUrl(i, imageResponse.getImageUrl());
+										}else{
+											tripFlight.setLegDestinationImageUrl(i, "");
+										}
 									}
 								}
 							}

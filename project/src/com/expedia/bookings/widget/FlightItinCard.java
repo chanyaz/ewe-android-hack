@@ -18,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
@@ -33,8 +34,8 @@ public class FlightItinCard extends ItinCard {
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	private ItinCardDataFlight mData;
 	private TripFlight mTripFlight;
-	private Waypoint mDestination;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -64,26 +65,28 @@ public class FlightItinCard extends ItinCard {
 
 	@Override
 	public void bind(ItinCardData itinCardData) {
-		//mTripFlight = ((ItinCardDataFlight) itinCardData)
+		mData = (ItinCardDataFlight) itinCardData;
+		mTripFlight = (TripFlight) mData.getTripComponent();
 
-		mTripFlight = (TripFlight) itinCardData.getTripComponent();
-
-		if (mTripFlight != null && mTripFlight.getFlightTrip().getLegCount() > 0) {
-			mDestination = mTripFlight.getFlightTrip().getLeg(mTripFlight.getFlightTrip().getLegCount() - 1)
-					.getLastWaypoint();
-			super.bind(itinCardData);
-		}
+		super.bind(itinCardData);
 	}
 
 	@Override
 	protected String getHeaderImageUrl(TripComponent tripComponent) {
-		return ((TripFlight) tripComponent).getDestinationImageUrl();
+		TripFlight tripFlight = (TripFlight) tripComponent;
+		if (tripFlight != null && mData != null && tripFlight.getLegDestinationImageUrl(mData.getLegNumber()) != null) {
+			return tripFlight.getLegDestinationImageUrl(mData.getLegNumber());
+		}
+		else {
+			return "";
+		}
 	}
 
 	@Override
 	protected String getHeaderText(TripComponent tripComponent) {
-		if (mDestination != null) {
-			return mDestination.getAirport().mCity;
+		if (mData != null) {
+			return mData.getFlightLeg().getFirstWaypoint().getAirport().mCity + " -> "
+					+ mData.getFlightLeg().getLastWaypoint().getAirport().mCity;
 		}
 
 		return "Flight Card";
@@ -146,34 +149,31 @@ public class FlightItinCard extends ItinCard {
 
 			//Add the flight stuff
 			ViewGroup flightLegContainer = Ui.findView(view, R.id.flight_leg_container);
-			for (int i = 0; i < mTripFlight.getFlightTrip().getLegCount(); i++) {
-				FlightLeg f = mTripFlight.getFlightTrip().getLeg(i);
-				for (int j = 0; j < f.getSegmentCount(); j++) {
-					Flight segment = f.getSegment(j);
+			FlightLeg f = mData.getFlightLeg();
+			for (int j = 0; j < f.getSegmentCount(); j++) {
+				Flight segment = f.getSegment(j);
 
-					boolean isFirstSegment = (i == 0 && j == 0);
-					boolean isLastSegment = (i == mTripFlight.getFlightTrip().getLegCount() - 1 && j == f
-							.getSegmentCount() - 1);
+				boolean isFirstSegment = (j == 0);
+				boolean isLastSegment = (j == f.getSegmentCount() - 1);
 
-					if (isFirstSegment) {
-						flightLegContainer.addView(getWayPointView(segment.mOrigin, WaypointType.DEPARTURE, inflater));
-						flightLegContainer.addView(getDividerView());
-					}
-
-					flightLegContainer.addView(getFlightView(segment, minTime, maxTime, inflater));
+				if (isFirstSegment) {
+					flightLegContainer.addView(getWayPointView(segment.mOrigin, WaypointType.DEPARTURE, inflater));
 					flightLegContainer.addView(getDividerView());
-
-					if (isLastSegment) {
-						flightLegContainer
-								.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
-					}
-					else {
-						flightLegContainer
-								.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
-						flightLegContainer.addView(getDividerView());
-					}
-
 				}
+
+				flightLegContainer.addView(getFlightView(segment, minTime, maxTime, inflater));
+				flightLegContainer.addView(getDividerView());
+
+				if (isLastSegment) {
+					flightLegContainer
+							.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
+				}
+				else {
+					flightLegContainer
+							.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
+					flightLegContainer.addView(getDividerView());
+				}
+
 			}
 
 		}

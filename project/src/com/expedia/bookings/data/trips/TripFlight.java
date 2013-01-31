@@ -16,7 +16,7 @@ public class TripFlight extends TripComponent {
 
 	private List<Traveler> mTravelers;
 
-	private String mDestinationImageUrl;
+	private List<String> mDestinationImageUrls = new ArrayList<String>();
 
 	public TripFlight() {
 		super(Type.FLIGHT);
@@ -42,12 +42,23 @@ public class TripFlight extends TripComponent {
 		return mTravelers;
 	}
 
-	public String getDestinationImageUrl() {
-		return mDestinationImageUrl;
+	public String getLegDestinationImageUrl(int legNum) {
+		if (legNum < mDestinationImageUrls.size()) {
+			return mDestinationImageUrls.get(legNum);
+		}
+		return null;
 	}
 
-	public void setDestinationImageUrl(String destinationImageUrl) {
-		mDestinationImageUrl = destinationImageUrl;
+	public void setLegDestinationImageUrl(int legNum, String destinationImageUrl) {
+		if (legNum == mDestinationImageUrls.size()) {
+			mDestinationImageUrls.add(destinationImageUrl);
+		}
+		else {
+			while (legNum >= mDestinationImageUrls.size()) {
+				mDestinationImageUrls.add("");
+			}
+			mDestinationImageUrls.set(legNum, destinationImageUrl);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
