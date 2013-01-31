@@ -104,14 +104,9 @@ public class BookingFormFragment extends Fragment {
 	private EditText mExpirationMonthEditText;
 	private EditText mExpirationYearEditText;
 	private EditText mSecurityCodeEditText;
-	private TextView mConfirmBookButton;
-	private View mCloseFormButton;
 	private AccountButton mAccountButton;
 	private View mStoredCardContainer;
 	private Spinner mStoredCardSpinner;
-
-	// Cached data from arrays
-	private String[] mCountryCodes;
 
 	// Cached views (non-interactive)
 	private ScrollView mScrollView;
@@ -136,12 +131,6 @@ public class BookingFormFragment extends Fragment {
 
 	private ReceiptWidget mReceiptWidget;
 	private CouponCodeWidget mCouponCodeWidget;
-
-	// This is a tracking variable to solve a nasty problem.  The problem is that Spinner.onItemSelectedListener()
-	// fires wildly when you set the Spinner's position manually (sometimes twice at a time).  We only want to track
-	// when a user *explicitly* clicks on a new country.  What this does is keep track of what the system thinks
-	// is the selected country - only the user can get this out of alignment, thus causing tracking.
-	private int mSelectedCountryPosition;
 
 	private BookingInfoValidation mBookingInfoValidation;
 
@@ -260,7 +249,6 @@ public class BookingFormFragment extends Fragment {
 		for (int i = 0; i < twoLetterCountryCodes.length; i++) {
 			threeLetterCountryCodes[i] = LocaleUtils.convertCountryCode(twoLetterCountryCodes[i]);
 		}
-		mCountryCodes = threeLetterCountryCodes;
 		configureForm();
 
 		if (savedInstanceState != null) {
@@ -456,30 +444,6 @@ public class BookingFormFragment extends Fragment {
 			mRulesRestrictionsCheckbox.setVisibility(View.GONE);
 		}
 
-		if (mConfirmBookButton != null) {
-			mConfirmBookButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					confirmAndBook();
-				}
-			});
-		}
-
-		if (mCloseFormButton != null) {
-			mCloseFormButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					dismissKeyboard(v);
-
-					saveBillingInfo();
-
-					checkSectionsCompleted(false);
-				}
-			});
-		}
-
 		// Setup the correct text (and link enabling) on the terms & conditions textview
 		mRulesRestrictionsTextView.setText(PointOfSale.getPointOfSale().getLinkifiedHotelBookingStatement());
 		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -603,10 +567,6 @@ public class BookingFormFragment extends Fragment {
 		mExpirationMonthEditText.setOnFocusChangeListener(l);
 		mExpirationYearEditText.setOnFocusChangeListener(l);
 		mSecurityCodeEditText.setOnFocusChangeListener(l);
-
-		if (mConfirmBookButton != null) {
-			mConfirmBookButton.setOnFocusChangeListener(l);
-		}
 	}
 
 	//private void updateChargeDetails() {
@@ -699,9 +659,6 @@ public class BookingFormFragment extends Fragment {
 
 	private void setSpinnerSelection(Spinner spinner, String target) {
 		final int position = findAdapterIndex(spinner.getAdapter(), target);
-		if (!(spinner instanceof TelephoneSpinner)) {
-			mSelectedCountryPosition = position;
-		}
 		spinner.setSelection(position);
 	}
 
@@ -718,18 +675,6 @@ public class BookingFormFragment extends Fragment {
 			}
 		}
 		return -1;
-	}
-
-	private void setSpinnerSelection(Spinner spinner, String[] codes, String targetCode) {
-		for (int n = 0; n < codes.length; n++) {
-			if (targetCode.equals(codes[n])) {
-				if (!(spinner instanceof TelephoneSpinner)) {
-					mSelectedCountryPosition = n;
-				}
-				spinner.setSelection(n);
-				return;
-			}
-		}
 	}
 
 	public void confirmAndBook() {
