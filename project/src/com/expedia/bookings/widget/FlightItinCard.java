@@ -6,6 +6,7 @@ import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
+import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
@@ -132,7 +134,39 @@ public class FlightItinCard extends ItinCard {
 			Ui.setText(view, R.id.passenger_name_list, travString);
 
 			//TODO: Use a real value. Seems like we might need to add an accessor someplace in the Flight Class in flight lib for this
-			Ui.setText(view, R.id.confirmation_code, "XQKLP");
+			String bookingCode = "ROBOT";
+			Ui.setText(view, R.id.confirmation_code, bookingCode);
+
+			//Add the flight stuff
+			ViewGroup flightLegContainer = Ui.findView(view, R.id.flight_leg_container);
+			for (int i = 0; i < mTripFlight.getFlightTrip().getLegCount(); i++) {
+				FlightLeg f = mTripFlight.getFlightTrip().getLeg(i);
+				for (int j = 0; j < f.getSegmentCount(); j++) {
+					Flight segment = f.getSegment(j);
+
+					boolean isFirstSegment = (i == 0 && j == 0);
+					boolean isLastSegment = (i == mTripFlight.getFlightTrip().getLegCount() - 1 && j == f
+							.getSegmentCount() - 1);
+
+					if (isFirstSegment) {
+						flightLegContainer.addView(getWayPointView(segment.mOrigin, WaypointType.DEPARTURE, inflater));
+						flightLegContainer.addView(getDividerView());
+					}
+					else {
+						flightLegContainer.addView(getFlightView(segment));
+						flightLegContainer.addView(getDividerView());
+
+						if (isLastSegment) {
+							flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
+						}
+						else {
+							flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
+							flightLegContainer.addView(getDividerView());
+						}
+
+					}
+				}
+			}
 
 		}
 
@@ -142,6 +176,53 @@ public class FlightItinCard extends ItinCard {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	private enum WaypointType {
+		DEPARTURE, ARRIVAL, LAYOVER
+	}
+
+	private View getWayPointView(Waypoint waypoint, WaypointType type, LayoutInflater inflater) {
+		View v = inflater.inflate(R.layout.snippet_itin_waypoint_row, null);
+		Resources res = getResources();
+		//TODO: Set icon based on type
+		
+		String airportName = waypoint.mAirportCode;
+		Ui.setText(v, R.id.layover_airport_name, airportName);
+		if(type.equals(WaypointType.LAYOVER)){
+			//TODO: Need to get a different set of gates...
+			String arrivalGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE), waypoint.getTerminal(), waypoint.getGate());
+			String departureGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE), waypoint.getTerminal(), waypoint.getGate());
+			Ui.setText(v, R.id.layover_terminal_gate_one, arrivalGate);
+			Ui.setText(v, R.id.layover_terminal_gate_two, departureGate);
+			
+		}else{
+			Ui.findView(v,R.id.layover_terminal_gate_two ).setVisibility(View.GONE);
+			
+			String termGate = String.format(res.getString(R.string.generic_terminal_TEMPLATE), waypoint.getTerminal(), waypoint.getGate());
+			Ui.setText(v, R.id.layover_terminal_gate_one, termGate);
+		}
+		
+		return v;
+	}
+
+	private View getFlightView(Flight flight) {
+		TextView tv = new TextView(this.getContext());
+		tv.setText("FLIGHT:" + flight.getPrimaryFlightCode().mAirlineName + " " + flight.getPrimaryFlightCode().mNumber);
+		return tv;
+	}
+
+	private View getDividerView() {
+		//TODO: WHY U NO USE DIMENS!?!?!
+		View v = new View(this.getContext());
+		v.setBackgroundColor(Color.argb(128, 255, 255, 255));
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 1);
+		lp.leftMargin = 10;
+		lp.rightMargin = 10;
+		lp.topMargin = 10;
+		lp.bottomMargin = 10;
+		v.setLayoutParams(lp);
+		return v;
+	}
 
 	private String formatTime(Calendar cal) {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());

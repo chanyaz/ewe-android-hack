@@ -80,6 +80,14 @@
     <string name="passengers_label">Passengers</string>
     <!-- Flight receipt and policies -->
     <string name="flight_receipt_and_policies">Flight receipt and policies</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Booking Info</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Arrivate Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Depart Terminal %1$s, Gate %2$s</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
