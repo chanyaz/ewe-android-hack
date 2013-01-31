@@ -133,6 +133,12 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		OmnitureTracking.trackPageLoadLaunchScreen(this);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 
@@ -144,9 +150,12 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
-		OmnitureTracking.trackPageLoadLaunchScreen(this);
+	protected void onPause() {
+		super.onPause();
+
+		if (isFinishing() && mLaunchFragment != null) {
+			mLaunchFragment.cleanUp();
+		}
 	}
 
 	@Override

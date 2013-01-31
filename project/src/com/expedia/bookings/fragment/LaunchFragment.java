@@ -796,8 +796,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		mFlightsStreamListView.setAdapter(null);
 		mFlightAdapter.setDestinations(null);
 		mFlightAdapter = null;
-
-		// TODO: Clean up more as necessary (e.g., cleaning out the ImageCache).
 	}
 
 	/**
