@@ -2,13 +2,13 @@ package com.expedia.bookings.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
@@ -21,7 +21,8 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	private static final String TAG_LOGIN_FRAGMENT = "TAG_LOGIN_FRAGMENT";
 	private static final String STATE_TITLE = "STATE_TITLE";
 
-	private BlurredBackgroundFragment mBgFragment;
+	private ImageView mBgImageView;
+
 	private LoginFragment mLoginFragment;
 	private String mTitle;
 	private PathMode mPathMode = PathMode.HOTELS;
@@ -30,7 +31,10 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_login);
+
+		mBgImageView = Ui.findView(this, R.id.background_image_view);
 
 		//Set up theming stuff
 		if (this.getIntent().getStringExtra(ARG_PATH_MODE) == null) {
@@ -65,36 +69,19 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 			setTitle(getString(R.string.sign_in));
 		}
 
-		if (savedInstanceState == null) {
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			if (mPathMode.equals(PathMode.FLIGHTS)) {
-				mBgFragment = new BlurredBackgroundFragment();
-				mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
-				ft.add(R.id.background_container, mBgFragment, BlurredBackgroundFragment.TAG);
-			}
+		// Set the background (based on mode)
+		if (mPathMode.equals(PathMode.FLIGHTS)) {
+			mBgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
+		}
 
+		// Create/grab the login fragment
+		mLoginFragment = Ui.findSupportFragment(this, TAG_LOGIN_FRAGMENT);
+		if (mLoginFragment == null) {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			mLoginFragment = LoginFragment.newInstance(mPathMode);
 			ft.add(R.id.login_fragment_container, mLoginFragment, TAG_LOGIN_FRAGMENT);
 			ft.commit();
 		}
-		else {
-			if (mPathMode.equals(PathMode.FLIGHTS)) {
-				mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
-				mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
-			}
-			mLoginFragment = Ui.findSupportFragment(this, TAG_LOGIN_FRAGMENT);
-		}
-
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		if (mBgFragment != null) {
-			mBgFragment.setFadeEnabled(true);
-		}
-
 	}
 
 	@Override
