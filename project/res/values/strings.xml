@@ -88,6 +88,8 @@
     <string name="arrival_terminal_TEMPLATE">Arrivate Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Depart Terminal %1$s, Gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->

@@ -165,8 +165,16 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public void accountLogoutClicked() {
-		ConfirmLogoutDialogFragment df = new ConfirmLogoutDialogFragment();
-		df.setDoLogoutListener(this);
+		if(!User.isLoggedIn(getActivity())){
+			doLogout();
+			return;
+		}
+		if(Db.getUser() == null){
+			Db.loadUser(getActivity());
+		}
+		String email = Db.getUser().getPrimaryTraveler().getEmail();
+		String logoutMessage = String.format(getResources().getString(R.string.itin_logout_confirmation_message_TEMPLATE), email);
+		ConfirmLogoutDialogFragment df = ConfirmLogoutDialogFragment.getInstance(this, logoutMessage);
 		df.show(getFragmentManager(), ConfirmLogoutDialogFragment.TAG);
 	}
 

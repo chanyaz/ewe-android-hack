@@ -24,6 +24,7 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 
 	public static ConfirmLogoutDialogFragment getInstance(DoLogoutListener listener) {
 		ConfirmLogoutDialogFragment instance = new ConfirmLogoutDialogFragment();
+		instance.setDoLogoutListener(listener);
 		Bundle args = new Bundle();
 		instance.setArguments(args);
 		return instance;
@@ -31,6 +32,7 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 
 	public static ConfirmLogoutDialogFragment getInstance(DoLogoutListener listener, String message) {
 		ConfirmLogoutDialogFragment instance = new ConfirmLogoutDialogFragment();
+		instance.setDoLogoutListener(listener);
 		Bundle args = new Bundle();
 		args.putString(ARG_MESSAGE, message);
 		instance.setArguments(args);
@@ -40,6 +42,7 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 	public static ConfirmLogoutDialogFragment getInstance(DoLogoutListener listener, String message,
 			String negativeBtnText, String positiveBtnText) {
 		ConfirmLogoutDialogFragment instance = new ConfirmLogoutDialogFragment();
+		instance.setDoLogoutListener(listener);
 		Bundle args = new Bundle();
 		args.putString(ARG_MESSAGE, message);
 		args.putString(ARG_NEGATIVE_BTN_TEXT, negativeBtnText);
