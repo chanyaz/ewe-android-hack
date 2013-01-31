@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tablet_hotel_credit_card_and_zipcode_container"
     android:layout_width="fill_parent"
@@ -14,8 +13,8 @@
         style="@style/BookingSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/billing_zipcode_edit_text"
         android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/billing_zipcode_edit_text"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 

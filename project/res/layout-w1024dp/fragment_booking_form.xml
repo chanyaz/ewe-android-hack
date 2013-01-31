@@ -41,11 +41,12 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="@integer/booking_info_form_width_weight"
             android:layout_marginLeft="8dp"
+            android:layout_weight="@integer/booking_info_form_width_weight"
             android:orientation="vertical" >
 
             <!-- Login Section -->
+
             <include
                 android:id="@+id/account_button_root"
                 android:layout_width="fill_parent"
@@ -79,15 +80,19 @@
                 android:text="@string/credit_card_info" />
 
             <include layout="@layout/include_stored_card_spinner" />
+
             <include layout="@layout/include_credit_card_info" />
+
             <include layout="@layout/include_credit_card_security" />
 
             <!-- Coupon codes -->
+
             <include layout="@layout/include_coupon_code" />
 
             <!-- Terms and conditions -->
-            <include layout="@layout/snippet_hotel_tablet_checkout_rules_restrictions" />
 
+            <include layout="@layout/snippet_hotel_tablet_checkout_rules_restrictions" />
         </LinearLayout>
     </LinearLayout>
+
 </ScrollView>
