@@ -216,6 +216,21 @@ public class BookingFormFragment extends Fragment {
 		mAccountButton = (AccountButton) view.findViewById(R.id.account_button_root);
 		mAccountButton.setListener(mAccountButtonClickListener);
 		mReceiptWidget = new ReceiptWidget(getActivity(), view.findViewById(R.id.receipt), false);
+
+		if (enablePostalCode()) {
+			// grab reference to the postal code EditText as we will need to perform validation
+			mPostalCodeEditText = Ui.findView(view, R.id.billing_zipcode_edit_text);
+		}
+		else {
+			// remove the postalCode as it is not needed
+			RelativeLayout rl = Ui.findView(view, R.id.tablet_hotel_credit_card_and_zipcode_container);
+			rl.removeViewAt(1); // remove the billing zipcode
+
+			LinearLayout ll = Ui.findView(rl, R.id.credit_card_security_code_container);
+			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) ll.getLayoutParams();
+			lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		}
+
 		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
 		mCouponCodeWidget.setCouponCodeAppliedListener(new CouponCodeWidget.CouponCodeAppliedListener() {
 			@Override
@@ -301,22 +316,6 @@ public class BookingFormFragment extends Fragment {
 				expandGuestsForm(false);
 			}
 			mFormHasBeenFocused = false;
-		}
-
-		PointOfSale.RequiredPaymentFieldsHotels requiredFields = PointOfSale.getPointOfSale()
-				.getRequiredPaymentFieldsHotels();
-		if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE)) {
-			// grab reference to the postal code EditText as we will need to perform validation
-			mPostalCodeEditText = Ui.findView(view, R.id.billing_zipcode_edit_text);
-		}
-		else if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.NONE)) {
-			// remove the postalCode as it is not needed
-			RelativeLayout rl = Ui.findView(view, R.id.tablet_hotel_credit_card_and_zipcode_container);
-			rl.removeViewAt(1); // remove the billing zipcode
-
-			LinearLayout ll = Ui.findView(rl, R.id.credit_card_security_code_container);
-			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) ll.getLayoutParams();
-			lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
 		}
 
 		if (savedInstanceState == null) {
@@ -554,7 +553,9 @@ public class BookingFormFragment extends Fragment {
 				return (obj.length() < 3) ? BookingInfoValidation.ERROR_SHORT_SECURITY_CODE : 0;
 			}
 		}));
-		mValidationProcessor.add(mPostalCodeEditText, requiredFieldValidator);
+		if (enablePostalCode()) {
+			mValidationProcessor.add(mPostalCodeEditText, requiredFieldValidator);
+		}
 		mGuestInfoValidationProcessor.add(mRulesRestrictionsCheckbox, new Validator<CheckBox>() {
 			public int validate(CheckBox obj) {
 				if (PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox() && !obj.isChecked()) {
@@ -974,6 +975,17 @@ public class BookingFormFragment extends Fragment {
 	private void dismissKeyboard(View view) {
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
+
+	private boolean enablePostalCode() {
+		PointOfSale.RequiredPaymentFieldsHotels requiredFields = PointOfSale.getPointOfSale()
+				.getRequiredPaymentFieldsHotels();
+		if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.POSTAL_CODE)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	private final Download<SignInResponse> mLoginDownload = new Download<SignInResponse>() {
