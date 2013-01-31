@@ -29,6 +29,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
@@ -335,8 +336,13 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 			OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket(mContext);
 			return;
+		case INVALID_INPUT:
 		case PAYMENT_FAILED:
 			String field = firstError.getExtra("field");
+
+			if (firstError.getErrorCode() == ErrorCode.PAYMENT_FAILED) {
+				OmnitureTracking.trackErrorPageLoadFlightPaymentFailed(mContext);
+			}
 
 			// Handle each type of failure differently
 			if ("cvv".equals(field)) {
@@ -360,7 +366,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				return;
 			}
 
-			OmnitureTracking.trackErrorPageLoadFlightPaymentFailed(mContext);
 			break;
 		case TRIP_ALREADY_BOOKED:
 			// If the trip was already booked, just act like everything is hunky-dory
