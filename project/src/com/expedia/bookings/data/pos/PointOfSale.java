@@ -39,6 +39,14 @@ import com.mobiata.android.util.SettingUtils;
  */
 public class PointOfSale {
 
+	/**
+	 * This enum defines the different types of fields required for hotels checkout.
+	 */
+	public enum RequiredPaymentFieldsHotels {
+		NONE,
+		POSTAL_CODE,
+	}
+
 	public static final String ACTION_POS_CHANGED = "com.expedia.bookings.action.pos_changed";
 
 	// The identifier for this point of sale
@@ -94,18 +102,6 @@ public class PointOfSale {
 
 	// Used to determine which fields are required for Hotels checkout
 	private RequiredPaymentFieldsHotels mRequiredPaymentFieldsHotels;
-
-	/**
-	 * This enum defines the different types of fields required for hotels checkout.
-	 */
-	public enum RequiredPaymentFieldsHotels {
-		NONE,
-		POSTAL_CODE,
-	}
-
-	public RequiredPaymentFieldsHotels getRequiredPaymentFieldsHotels() {
-		return mRequiredPaymentFieldsHotels;
-	}
 
 	/**
 	 * There can be multiple different locales for a given POS.
@@ -250,6 +246,10 @@ public class PointOfSale {
 
 	public String getPrivacyPolicyUrl() {
 		return getPosLocale().mPrivacyPolicyUrl;
+	}
+
+	public RequiredPaymentFieldsHotels getRequiredPaymentFieldsHotels() {
+		return mRequiredPaymentFieldsHotels;
 	}
 
 	/**
