@@ -315,6 +315,27 @@ public class OmnitureTracking {
 
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 
+		// Flight: <departure Airport Code>-<Destination Airport Code>:<departure date YYYYMMDD>-<return date YYYYMMDD>:<promo code applied N/Y>
+		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
+		String origin = searchParams.getDepartureLocation().getDestinationId();
+		String dest = searchParams.getArrivalLocation().getDestinationId();
+
+		String eVar30 = "Flight:";
+		eVar30 += origin;
+		eVar30 += "-";
+		eVar30 += dest;
+		eVar30 += ":";
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		eVar30 += df.format(searchParams.getDepartureDate().getCalendar().getTime());
+		if (searchParams.isRoundTrip()) {
+			eVar30 += "-";
+			eVar30 += df.format(searchParams.getReturnDate().getCalendar().getTime());
+		}
+
+		eVar30 += ":N";
+		s.setEvar(30, eVar30);
+
 		// products variable, described here: http://confluence/display/Omniture/Product+string+format
 		String airlineCode = trip.getLeg(0).getPrimaryAirlines().iterator().next();
 		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(trip.getLegCount());
