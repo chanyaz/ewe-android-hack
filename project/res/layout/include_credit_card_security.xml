@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/security_code_edit_text"
+        android:layout_centerVertical="true"
         android:hint="@string/address_postal_code_hint_hotels"
         android:imeOptions="flagNoExtractUi"
         android:inputType="number"
