@@ -22,7 +22,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.ItinItemListFragment;
-import com.expedia.bookings.fragment.ItineraryGuestAddDialogFragment;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -31,7 +30,6 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchHeaderView;
-import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -147,6 +145,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
+		
+		supportInvalidateOptionsMenu();
 	}
 
 	@Override
@@ -219,7 +219,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 				itinButtonEnabled = true;
 			}
 			addNewItinButtonEnabled = !itinButtonEnabled;
-			logoutBtnEnabled = !itinButtonEnabled && User.isLoggedIn(this) && Db.getUser() != null;
+			logoutBtnEnabled = !itinButtonEnabled && User.isLoggedIn(this);
 
 			MenuItem itinBtn = menu.findItem(R.id.itineraries);
 			if (itinBtn != null) {
@@ -327,17 +327,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		mHeader.setOffset();
 
 		supportInvalidateOptionsMenu();
-	}
-
-	private void showAddItinDialog() {
-		ItineraryGuestAddDialogFragment addNewItinFrag = (ItineraryGuestAddDialogFragment) getSupportFragmentManager()
-				.findFragmentByTag(ItineraryGuestAddDialogFragment.TAG);
-		if (addNewItinFrag == null) {
-			addNewItinFrag = ItineraryGuestAddDialogFragment.newInstance();
-		}
-		if (!addNewItinFrag.isVisible()) {
-			addNewItinFrag.show(getSupportFragmentManager(), ItineraryGuestAddDialogFragment.TAG);
-		}
 	}
 
 	public void setHeaderOffset(int offset) {
