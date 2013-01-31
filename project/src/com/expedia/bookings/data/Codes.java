@@ -21,6 +21,7 @@ public class Codes {
 	public static final String SHOW_BRANDING = "SHOW_BRANDING";
 	public static final String DISPLAY_MODAL_VIEW = "DISPLAY_MODAL_VIEW";
 	public static final String DISCOUNT_RATE = "DISCOUNT_RATE";
+	public static final String CONTENT_STRING = "CONTENT_STRING";
 
 	//If the calling activity has already set the search params, we don't need to clear/reset them
 	public static final String TAG_EXTERNAL_SEARCH_PARAMS = "TAG_EXTERNAL_SEARCH_PARAMS";

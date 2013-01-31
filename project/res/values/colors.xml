@@ -112,5 +112,6 @@
     <color name="AboutAppsTitleTextColor">#232323</color>
     <color name="AboutAppsTextColor">#454545</color>
     <color name="AboutTextSelectedStateColor">#d79100</color>
+    <color name="link_text_dark">#5c5cff</color>
 
 </resources>

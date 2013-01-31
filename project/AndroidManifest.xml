@@ -116,6 +116,9 @@
             android:theme="@style/FlightTheme" />
         <activity android:name="com.expedia.bookings.activity.WebViewActivity" />
         <activity
+            android:name="com.expedia.bookings.activity.TextViewActivity"
+            android:theme="@style/Theme.Phone" />
+        <activity
             android:name="com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity"
             android:label="Add Traveler"
             android:theme="@style/Theme.Phone.Dark" />

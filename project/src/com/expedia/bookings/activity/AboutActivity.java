@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TextViewActivity;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.AboutUtils;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
@@ -119,6 +122,17 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		privacy_policy_link.setText(Html.fromHtml(String.format("<a href=\"%s\">%s</a>",
 				posInfo.getPrivacyPolicyUrl(), mContext.getString(R.string.info_label_privacy_policy))));
 		privacy_policy_link.setMovementMethod(LinkMovementMethod.getInstance());
+
+		TextView open_source_licenses_link = Ui.findView(this, R.id.open_source_licenses_link);
+		open_source_licenses_link.setText(Html.fromHtml(String.format("<u>%s</u>", mContext.getString(R.string.view_open_source_software_licenses))));
+		open_source_licenses_link.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(AboutActivity.this, TextViewActivity.class);
+				intent.putExtra(Codes.CONTENT_STRING, GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(mContext));
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override

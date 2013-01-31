@@ -92,6 +92,14 @@
                 android:paddingTop="10dp"
                 android:text="@string/stack_blur_credit"
                 android:textColor="#232323" />
+
+            <TextView
+                android:id="@+id/open_source_licenses_link"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:textColor="@color/link_text_dark" />
         </LinearLayout>
     </ScrollView>
 
