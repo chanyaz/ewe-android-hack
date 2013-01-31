@@ -572,7 +572,7 @@
     <!-- Button label for calling -->
     <string name="call_support">Support</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">It looks like the airline just rasied the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
+    <string name="error_flight_price_increased">It looks like the airline just raised the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">We just found your requested flights on sale for %1$s less. Are you happy for us to charge you a new total of %2$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
