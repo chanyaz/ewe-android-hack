@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
@@ -55,6 +56,8 @@ public class ClearPrivateDataUtil {
 
 		ExpediaServices services = new ExpediaServices(context);
 		services.clearCookies();
+
+		ConfirmationState.delete(context, ConfirmationState.Type.FLIGHT);
+		ConfirmationState.delete(context, ConfirmationState.Type.HOTEL);
 	}
 }
-
