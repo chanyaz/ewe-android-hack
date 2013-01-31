@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.FlightLegSummarySection xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="2dp"
+    android:paddingTop="1dp">
+
+    <TextView
+        android:id="@+id/airline_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_toLeftOf="@+id/price_text_view"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/operating_carrier_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/airline_text_view"
+        android:layout_below="@+id/airline_text_view"
+        android:layout_marginLeft="6dp"
+        android:src="@drawable/ic_operating_carrier"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/operating_carrier_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/operating_carrier_image_view"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="1dp"
+        android:layout_toRightOf="@+id/operating_carrier_image_view"
+        android:textColor="@android:color/white"
+        android:textSize="12dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/departure_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/operating_carrier_text_view"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp"
+        android:paddingBottom="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/arrival_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/operating_carrier_text_view"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:textColor="@android:color/white"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/multi_day_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/arrival_time_text_view"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="@dimen/flight_leg_day_textview_margin_top"
+        android:textColor="#22599C"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <com.expedia.bookings.widget.FlightTripView
+        android:id="@+id/flight_trip_view"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_below="@+id/operating_carrier_text_view"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        app:flightLineColor="#739EB5"
+        app:waypointTextColor="@android:color/white"
+        android:layout_toLeftOf="@+id/arrival_time_text_view"
+        android:layout_toRightOf="@+id/departure_time_text_view" />
+
+</com.expedia.bookings.section.FlightLegSummarySection>

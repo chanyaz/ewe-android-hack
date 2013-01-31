@@ -20,6 +20,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Flight;
@@ -100,6 +101,9 @@ public class FlightItinCard extends ItinCard {
 
 			FlightLeg firstLeg = mTripFlight.getFlightTrip().getLeg(0);
 			FlightLeg lastLeg = mTripFlight.getFlightTrip().getLeg(mTripFlight.getFlightTrip().getLegCount() - 1);
+			
+			Calendar minTime = firstLeg.getFirstWaypoint().getMostRelevantDateTime();
+			Calendar maxTime = lastLeg.getLastWaypoint().getMostRelevantDateTime();
 
 			String departureTime = formatTime(firstLeg.getFirstWaypoint().getMostRelevantDateTime());
 			String departureTz = String.format(res.getString(R.string.depart_tz_TEMPLATE), firstLeg.getFirstWaypoint()
@@ -152,19 +156,19 @@ public class FlightItinCard extends ItinCard {
 						flightLegContainer.addView(getWayPointView(segment.mOrigin, WaypointType.DEPARTURE, inflater));
 						flightLegContainer.addView(getDividerView());
 					}
-					else {
-						flightLegContainer.addView(getFlightView(segment));
-						flightLegContainer.addView(getDividerView());
+					
+					flightLegContainer.addView(getFlightView(segment,minTime,maxTime,inflater));
+					flightLegContainer.addView(getDividerView());
 
-						if (isLastSegment) {
-							flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
-						}
-						else {
-							flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
-							flightLegContainer.addView(getDividerView());
-						}
-
+					if (isLastSegment) {
+						flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
 					}
+					else {
+						flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
+						flightLegContainer.addView(getDividerView());
+					}
+
+					
 				}
 			}
 
@@ -205,10 +209,10 @@ public class FlightItinCard extends ItinCard {
 		return v;
 	}
 
-	private View getFlightView(Flight flight) {
-		TextView tv = new TextView(this.getContext());
-		tv.setText("FLIGHT:" + flight.getPrimaryFlightCode().mAirlineName + " " + flight.getPrimaryFlightCode().mNumber);
-		return tv;
+	private View getFlightView(Flight flight, Calendar minTime, Calendar maxTime, LayoutInflater inflater) {
+		FlightLegSummarySection v = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_summary_itin, null);
+		v.bindFlight(flight, minTime, maxTime);
+		return v;
 	}
 
 	private View getDividerView() {
