@@ -65,6 +65,11 @@ public class PriceChangeDialogFragment extends DialogFragment {
 		Money obFees = newOffer.getOnlineBookingFeesAmount();
 		if (obFees != null) {
 			obFeesFormatted = obFees.getFormattedMoney();
+
+			// For legacy client reasons, the total fare is updated with the obFees,
+			// so in order to determine if a price change + obFees has occurred we
+			// have to account for it in the difference in price.
+			diff.add(obFees);
 		}
 
 		int compareTo = diff.getAmount().compareTo(BigDecimal.ZERO);
