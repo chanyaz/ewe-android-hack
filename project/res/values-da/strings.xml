@@ -14,8 +14,8 @@
     <string name="attempting_to_log_in_with_facebook">Forsøger at logge dig på med dine login-oplysninger for facebook...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Vi er stødt på en uspecificeret fejl. Prøv igen senere.</string>
-    <!-- Unable to sign into facebook -->
-    <string name="unable_to_sign_into_facebook">Kan ikke logge på facebook. </string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="unable_to_sign_into_facebook">Kan ikke logge på Facebook. </string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Login mislykket. Genindtast din adgangskode og forsøg igen.</string>
     <!-- Facebook connect expedia password hint -->

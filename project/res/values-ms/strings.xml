@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Cuba membolehkan anda log masuk menggunakan kelayakan facebook...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Kami telah mengalami ralat yang tidak ditentukan. Sila cuba lagi kemudian.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Tidak dapat log masuk ke facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Log masuk gagal, sila masukkan semula kata laluan anda dan cuba lagi.</string>

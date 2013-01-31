@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">正在尝试使用 Facebook 帐户和密码登录网站...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">出现错误，具体信息不明。请稍后重试。</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">无法登录 Facebook。</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">登录失败，请重新输入密码，再试一次。</string>

@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Bezig met aanmelden via Facebook...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Er deed zich een onbekende fout voor. Probeer het later opnieuw.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Aanmelding via Facebook mislukt.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Aanmelding mislukt, voer je wachtwoord opnieuw in probeer nog een keer.</string>

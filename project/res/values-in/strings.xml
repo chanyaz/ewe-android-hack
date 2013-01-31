@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Mencoba memasukkan Anda dengan kredensial Facebook...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Kami mengalami masalah yang tidak diketahui. Harap coba lagi nanti.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Tidak bisa masuk ke Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Gagal masuk. Silakan masukkan kembali kata sandi Anda dan coba lagi.</string>

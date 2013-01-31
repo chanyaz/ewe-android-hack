@@ -14,8 +14,8 @@
     <string name="attempting_to_log_in_with_facebook">Attempting to log you in with facebook credentials...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">We have encountered an unspecified error. Please try again later.</string>
-    <!-- Unable to sign into facebook -->
-    <string name="unable_to_sign_into_facebook">Unable to sign into facebook.</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="unable_to_sign_into_facebook">Unable to sign in to Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Login failed, please re-enter your password and try again.</string>
     <!-- Facebook connect expedia password hint -->

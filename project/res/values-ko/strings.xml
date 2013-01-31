@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Facebook 인증으로 로그인 시도 중...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">알 수 없는 오류가 발생했습니다. 나중에 다시 시도해 주세요.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Facebook에 로그인할 수 없습니다.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">로그인하지 못했습니다. 비밀번호를 다시 입력하고 재시도해 주세요.</string>

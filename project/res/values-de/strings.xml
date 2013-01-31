@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Anmeldung mit Facebook-Benutzerdaten wird versucht...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Leider ist ein unbestimmter Fehler aufgetreten. Bitte versuchen Sie es später erneut.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Die Anmeldung bei Facebook hat leider nicht geklappt.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Die Anmeldung hat leider nicht geklappt. Bitte geben Sie Ihr Passwort ein und versuchen Sie es erneut.</string>

@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Đang đăng nhập với thông tin Facebook của quý vị...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Chúng tôi đã gặp lỗi không xác định. Vui lòng thử lại sau.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Không thể đăng nhập Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Không đăng nhập được, vui lòng nhập lại mật khẩu và thử lại.</string>

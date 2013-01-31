@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Vi försöker logga in dig med dina inloggningsuppgifter för Facebook...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Vi har stött på ett ospecificerat fel. Försök igen senare.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Inloggning på Facebook misslyckades.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Inloggningen misslyckades. Ange ditt lösenord och försök igen.</string>

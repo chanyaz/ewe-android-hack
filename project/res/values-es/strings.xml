@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Iniciando sesión con tus datos de Facebook...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Hemos encontrado un error desconocido. Vuelve a intentarlo más tarde.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">No ha sido posible iniciar sesión en Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">No se ha podido iniciar sesión. Vuelve a introducir tu contraseña e inténtalo de nuevo.</string>

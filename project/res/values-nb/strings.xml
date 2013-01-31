@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Prøver å logge deg inn med Facebook-detaljene dine...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">En uspesifert feil har oppstått. Prøv igjen senere.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Det er ikke mulig å logge inn på Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Login feilet. Skriv inn passordet ditt og prøv på nytt.</string>

@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">กำลังล็อกอินคุณด้วยข้อมูล Facebook...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้ง</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">ไม่สามารถลงชื่อเข้าใช้·Facebook</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">ล็อกอินไม่สำเร็จ โปรดป้อนรหัสผ่านของคุณใหม่แล้วลองอีกครั้ง</string>

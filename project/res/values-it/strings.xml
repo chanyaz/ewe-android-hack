@@ -14,7 +14,7 @@
     <string name="attempting_to_log_in_with_facebook">Tentativi di accesso alle tue credenziali Facebook in corso...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Abbiamo riscontrato un errore generico. Riprova più tardi.</string>
-    <!-- Unable to sign into facebook -->
+    <!-- Unable to sign in to Facebook -->
     <string name="unable_to_sign_into_facebook">Impossibile accedere a Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Accesso non riuscito: reinserisci la tua password e riprova.</string>
