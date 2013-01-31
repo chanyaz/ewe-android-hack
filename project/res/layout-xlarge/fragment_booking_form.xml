@@ -85,32 +85,8 @@
             <include layout="@layout/include_coupon_code" />
 
             <!-- Terms and conditions -->
+            <include layout="@layout/snippet_hotel_tablet_checkout_rules_restrictions" />
 
-            <RelativeLayout
-                android:id="@+id/rules_restrictions_layout"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" >
-
-                <CheckBox
-                    android:id="@+id/rules_restrictions_checkbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp" />
-
-                <TextView
-                    android:id="@+id/rules_restrictions_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignWithParentIfMissing="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/rules_restrictions_checkbox"
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp" />
-            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
