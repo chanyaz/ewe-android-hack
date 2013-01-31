@@ -9,6 +9,17 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
+    <!--
+	    The bg shade acts as either a cover over the image view, or as
+	    the background of the entire activity (as it has a naturally transparent bg)
+    -->
+
+    <View
+        android:id="@+id/background_shade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/window_background_dark" />
+
     <FrameLayout
         android:id="@+id/login_fragment_container"
         android:layout_width="match_parent"

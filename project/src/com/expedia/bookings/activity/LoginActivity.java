@@ -1,7 +1,9 @@
 package com.expedia.bookings.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -22,6 +24,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	private static final String STATE_TITLE = "STATE_TITLE";
 
 	private ImageView mBgImageView;
+	private View mBgShadeView;
 
 	private LoginFragment mLoginFragment;
 	private String mTitle;
@@ -35,14 +38,12 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		setContentView(R.layout.activity_login);
 
 		mBgImageView = Ui.findView(this, R.id.background_image_view);
+		mBgShadeView = Ui.findView(this, R.id.background_shade);
 
-		//Set up theming stuff
-		if (this.getIntent().getStringExtra(ARG_PATH_MODE) == null) {
-			//Default to hotels mode...
-			this.getIntent().putExtra(ARG_PATH_MODE, mPathMode.name());
-		}
-		else {
-			mPathMode = PathMode.valueOf(this.getIntent().getStringExtra(ARG_PATH_MODE));
+		// Set up theming stuff
+		Intent intent = getIntent();
+		if (intent.hasExtra(ARG_PATH_MODE)) {
+			mPathMode = PathMode.valueOf(intent.getStringExtra(ARG_PATH_MODE));
 		}
 
 		if (savedInstanceState != null) {
@@ -51,7 +52,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 			}
 		}
 
-		//Actionbar
+		// Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		if (mPathMode.equals(PathMode.HOTELS)) {
 			actionBar.setIcon(R.drawable.ic_logo_hotels);
@@ -72,6 +73,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		// Set the background (based on mode)
 		if (mPathMode.equals(PathMode.FLIGHTS)) {
 			mBgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
+			mBgShadeView.setBackgroundColor(getResources().getColor(R.color.login_shade_flights));
 		}
 
 		// Create/grab the login fragment

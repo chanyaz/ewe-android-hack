@@ -129,6 +129,7 @@
     <style name="LoginTheme" parent="Theme.Phone.Dark">
         <item name="logo">@drawable/ic_launcher</item>
         <item name="android:logo">@drawable/ic_launcher</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="LaunchTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">

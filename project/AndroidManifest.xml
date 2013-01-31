@@ -195,7 +195,8 @@
         <!-- Login/Facebook -->
         <activity
             android:name="com.expedia.bookings.activity.LoginActivity"
-            android:theme="@style/LoginTheme" >
+            android:theme="@style/LoginTheme"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
 
         <meta-data
