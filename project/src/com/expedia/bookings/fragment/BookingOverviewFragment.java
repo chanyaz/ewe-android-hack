@@ -18,6 +18,9 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -166,6 +169,22 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		mHotelReceipt.setOnSizeChangedListener(mScrollViewListener);
 		mCheckoutLayout.setOnSizeChangedListener(mScrollViewListener);
 		mSlideToPurchaseFragmentLayout.setOnSizeChangedListener(mScrollViewListener);
+
+		if (mSlideToPurchaseFragment == null) {
+			FragmentManager manager = getChildFragmentManager();
+			mSlideToPurchaseFragment = (SlideToPurchaseFragment) manager.findFragmentByTag(TAG_SLIDE_TO_PURCHASE_FRAG);
+			if (mSlideToPurchaseFragment == null) {
+				mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(mTotalPriceString);
+			}
+
+			if (!mSlideToPurchaseFragment.isAdded()) {
+				FragmentTransaction transaction = manager.beginTransaction();
+				transaction.replace(R.id.slide_to_purchase_fragment_layout, mSlideToPurchaseFragment,
+						TAG_SLIDE_TO_PURCHASE_FRAG);
+				transaction.setCustomAnimations(0, 0);
+				transaction.commit();
+			}
+		}
 
 		ViewHelper.setAlpha(mCheckoutLayout, 0);
 
@@ -486,6 +505,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			mCouponCodeLayout.setVisibility(View.GONE);
 			mTotalPriceString = getString(R.string.collected_by_the_hotel_TEMPLATE, displayedTotal.getFormattedMoney());
 		}
+		mSlideToPurchaseFragment.setTotalPriceString(mTotalPriceString);
 
 		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
 	}
@@ -575,12 +595,13 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		final int finalHeight = height;
-		getView().post(new Runnable() {
+		ViewGroup.LayoutParams lp = mScrollSpacerView.getLayoutParams();
+		lp.height = finalHeight;
+		mScrollSpacerView.setLayoutParams(lp);
+		mScrollView.post(new Runnable() {
 			@Override
 			public void run() {
-				ViewGroup.LayoutParams lp = mScrollSpacerView.getLayoutParams();
-				lp.height = finalHeight;
-				mScrollSpacerView.setLayoutParams(lp);
+				mScrollView.requestLayout();
 			}
 		});
 	}
@@ -667,43 +688,49 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	}
 
 	private void showPurchaseViews(boolean animate) {
-		if (mSlideToPurchaseFragment != null && mSlideToPurchaseFragment.isVisible()) {
+		if (mSlideToPurchaseFragmentLayout.getVisibility() == View.VISIBLE) {
 			return;
 		}
 
 		new Thread(new Runnable() {
+
 			@Override
 			public void run() {
 				OmnitureTracking.trackPageLoadHotelsCheckoutSlideToPurchase(getActivity());
 			}
 		}).start();
 
-		FragmentManager manager = getChildFragmentManager();
-		mSlideToPurchaseFragment = (SlideToPurchaseFragment) manager
-				.findFragmentByTag(TAG_SLIDE_TO_PURCHASE_FRAG);
-		if (mSlideToPurchaseFragment == null) {
-			mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(mTotalPriceString);
-		}
-		if (!mSlideToPurchaseFragment.isAdded()) {
-			FragmentTransaction transaction = manager.beginTransaction();
-			transaction.replace(R.id.slide_to_purchase_fragment_layout, mSlideToPurchaseFragment,
-					TAG_SLIDE_TO_PURCHASE_FRAG);
-			transaction.commit();
-		}
-
+		mSlideToPurchaseFragmentLayout.setVisibility(View.VISIBLE);
 		setScrollSpacerViewHeight();
+
+		if (animate) {
+			mSlideToPurchaseFragmentLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up));
+		}
 	}
 
 	private void hidePurchaseViews() {
-		if (mSlideToPurchaseFragment == null || !mSlideToPurchaseFragment.isVisible()) {
+		if (mSlideToPurchaseFragmentLayout.getVisibility() != View.VISIBLE) {
 			return;
 		}
 
-		FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-		transaction.remove(mSlideToPurchaseFragment);
-		transaction.commit();
+		Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+		animation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mSlideToPurchaseFragmentLayout.setVisibility(View.INVISIBLE);
+			}
+		});
 
 		setScrollSpacerViewHeight();
+		mSlideToPurchaseFragmentLayout.startAnimation(animation);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

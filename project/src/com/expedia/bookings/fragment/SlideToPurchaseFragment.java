@@ -12,10 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -60,12 +57,13 @@ public class SlideToPurchaseFragment extends Fragment {
 		}
 		showHideAcceptTOS(v, false);
 
-		// Arguments
-		mTotalPriceString = getArguments().getString(ARG_TOTAL_PRICE_STRING);
-
-		// Slide To Purchase
-		TextView price = Ui.findView(v, R.id.purchase_total_text_view);
-		price.setText(mTotalPriceString);
+		// Total price string
+		if (savedInstanceState != null && savedInstanceState.containsKey(ARG_TOTAL_PRICE_STRING)) {
+			setTotalPriceString(v, savedInstanceState.getString(ARG_TOTAL_PRICE_STRING));
+		}
+		else {
+			setTotalPriceString(v, getArguments().getString(ARG_TOTAL_PRICE_STRING));
+		}
 
 		mSlider = Ui.findView(v, R.id.slide_to_purchase_widget);
 		mSlider.addSlideToListener(mListener);
@@ -103,6 +101,7 @@ public class SlideToPurchaseFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(HAS_ACCEPTED_TOS, mHasAcceptedTOS);
+		outState.putString(ARG_TOTAL_PRICE_STRING, mTotalPriceString);
 	}
 
 	private void showHideAcceptTOS(final View view, final boolean animated) {
@@ -122,6 +121,18 @@ public class SlideToPurchaseFragment extends Fragment {
 			}
 		}
 
+	}
+
+	public void setTotalPriceString(String totalPriceString) {
+		setTotalPriceString(getView(), totalPriceString);
+	}
+
+	private void setTotalPriceString(View v, String totalPriceString) {
+		mTotalPriceString = totalPriceString;
+
+		// Slide To Purchase
+		TextView price = Ui.findView(v, R.id.purchase_total_text_view);
+		price.setText(mTotalPriceString);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
