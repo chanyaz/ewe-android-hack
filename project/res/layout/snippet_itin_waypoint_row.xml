@@ -24,21 +24,21 @@
             android:id="@+id/layover_airport_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:textColor="@color/itin_white_text"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/layover_terminal_gate_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:textColor="@color/itin_offwhite_text"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/layover_terminal_gate_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:textColor="@color/itin_offwhite_text"
             android:textSize="14sp" />
     </LinearLayout>
 

@@ -7,6 +7,14 @@
     <color name="launch_band">#36ffffff</color>
     <color name="launch_tile_overlay">#A6000000</color>
 
+    <!-- Itinerary colors -->
+    <color name="itin_white_text">#F3F3F3</color>
+    <color name="itin_offwhite_text">#A9ABAE</color>
+    <color name="itin_divider_color">#454E56</color>
+    <color name="itin_flight_header_text_color">#739EB5</color>
+    <color name="itin_flight_divider_color">#739EB5</color>
+    <color name="itin_flight_line_color">#5195BB</color>
+
     <!-- Flights colors -->
     <color name="plane_window_background">#CACACA</color>
     <color name="flight_trip">#0D6599</color>

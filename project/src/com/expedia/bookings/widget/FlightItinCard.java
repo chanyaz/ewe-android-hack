@@ -6,7 +6,6 @@ import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -102,9 +101,13 @@ public class FlightItinCard extends ItinCard {
 
 			TextView confirmationCodeLabel = Ui.findView(view, R.id.confirmation_code_label);
 			TextView passengersLabel = Ui.findView(view, R.id.passengers_label);
+			TextView bookingInfoLabel = Ui.findView(view, R.id.booking_info_label);
+			TextView insuranceLabel = Ui.findView(view, R.id.insurance_label);
 
 			ViewUtils.setAllCaps(confirmationCodeLabel);
 			ViewUtils.setAllCaps(passengersLabel);
+			ViewUtils.setAllCaps(bookingInfoLabel);
+			ViewUtils.setAllCaps(insuranceLabel);
 
 			Calendar departureTimeCal = leg.getFirstWaypoint().getMostRelevantDateTime();
 			Calendar arrivalTimeCal = leg.getLastWaypoint().getMostRelevantDateTime();
@@ -224,7 +227,7 @@ public class FlightItinCard extends ItinCard {
 	private View getDividerView() {
 		//TODO: WHY U NO USE DIMENS!?!?!
 		View v = new View(this.getContext());
-		v.setBackgroundColor(Color.argb(128, 255, 255, 255));
+		v.setBackgroundColor(getResources().getColor(R.color.itin_divider_color));
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 1);
 		lp.leftMargin = 10;
 		lp.rightMargin = 10;

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:textColor="@android:color/white"
+            android:textColor="@color/itin_white_text"
             android:textSize="22sp" />
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/departure_time"
-            android:textColor="@android:color/white"
+            android:textColor="@color/itin_offwhite_text"
             android:textSize="12sp" />
 
         <ImageView
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:textColor="@android:color/white"
+            android:textColor="@color/itin_white_text"
             android:textSize="22sp" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/arrival_time"
-            android:textColor="@android:color/white"
+            android:textColor="@color/itin_offwhite_text"
             android:textSize="12sp" />
     </RelativeLayout>
 
@@ -62,7 +62,7 @@
         android:id="@+id/trip_map"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:background="#660000FF" />
+        android:background="#330000FF" />
 
     <!-- Flight legs -->
 
@@ -83,7 +83,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/confirmation_code_label"
-        android:textColor="#4D555D"
+        android:textColor="@color/itin_flight_header_text_color"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -91,14 +91,14 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:background="#4D555D" />
+        android:background="@color/itin_flight_divider_color" />
 
     <TextView
         android:id="@+id/confirmation_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/itin_white_text" />
 
     <!-- Passengers -->
 
@@ -109,7 +109,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/passengers_label"
-        android:textColor="#4D555D"
+        android:textColor="@color/itin_flight_header_text_color"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -117,14 +117,14 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:background="#4D555D" />
+        android:background="@color/itin_flight_divider_color" />
 
     <TextView
         android:id="@+id/passenger_name_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/itin_white_text" />
 
     <!-- Booking Info -->
 
@@ -135,7 +135,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/booking_info"
-        android:textColor="#4D555D"
+        android:textColor="@color/itin_flight_header_text_color"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -143,7 +143,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:background="#4D555D" />
+        android:background="@color/itin_flight_divider_color" />
 
     <TextView
         android:layout_width="match_parent"
@@ -154,7 +154,7 @@
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="@string/flight_receipt_and_policies"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/itin_white_text" />
 
     <!-- Insurance -->
 
@@ -165,7 +165,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/insurance"
-        android:textColor="#4D555D"
+        android:textColor="@color/itin_flight_header_text_color"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -173,7 +173,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:background="#4D555D" />
+        android:background="@color/itin_flight_divider_color" />
 
     <LinearLayout
         android:id="@+id/incusrance_container"
@@ -190,14 +190,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/itin_white_text" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="20dp"
             android:layout_margin="12dp"
             android:layout_weight="0"
-            android:background="#66FFFFFF" />
+            android:background="@color/itin_divider_color" />
 
         <ImageView
             android:id="@+id/insurance_button"
