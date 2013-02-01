@@ -49,6 +49,8 @@ public class PointOfSale {
 
 	public static final String ACTION_POS_CHANGED = "com.expedia.bookings.action.pos_changed";
 
+	private static final int INVALID_SITE_ID = -1;
+
 	// The identifier for this point of sale
 	private PointOfSaleId mPointOfSale;
 
@@ -171,8 +173,17 @@ public class PointOfSale {
 		return mTPID;
 	}
 
+	/**
+	 * In almost all cases TPID == SiteID. The one exception is for the AT POS. We only define this one exception in
+	 * the shared JSON file, so we need to fallback on the TPID for all other POS to ensure siteId is returned.
+	 */
 	public int getSiteId() {
-		return mSiteId;
+		if (mSiteId == INVALID_SITE_ID) {
+			return mTPID;
+		}
+		else {
+			return mSiteId;
+		}
 	}
 
 	public String getSupportPhoneNumber() {
@@ -554,7 +565,7 @@ public class PointOfSale {
 		// Server access
 		pos.mUrl = data.optString("url", null);
 		pos.mTPID = data.optInt("TPID");
-		pos.mSiteId = data.optInt("siteId");
+		pos.mSiteId = data.optInt("siteId", INVALID_SITE_ID);
 
 		// Support
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
