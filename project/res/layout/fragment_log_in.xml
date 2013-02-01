@@ -66,7 +66,7 @@
 
         <!-- Signin with Expedia -or- Connect with facebook -->
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/signin_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +78,6 @@
                 android:id="@+id/or_facebook_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:gravity="center"
                 android:orientation="vertical" >
 
@@ -138,7 +137,6 @@
                 android:id="@+id/sign_in_with_expedia_button_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:layout_marginLeft="@dimen/login_side_margin_small"
                 android:layout_marginRight="@dimen/login_side_margin_small"
                 android:gravity="center"
@@ -167,7 +165,7 @@
                     android:textColorLink="@android:color/white"
                     android:textSize="13sp" />
             </RelativeLayout>
-        </RelativeLayout>
+        </FrameLayout>
 
         <!-- Facebook sigin in fields -->
 
