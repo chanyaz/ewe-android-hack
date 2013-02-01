@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
@@ -24,6 +25,18 @@ public class TextViewActivity extends SherlockActivity {
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setLogo(R.drawable.ic_action_bar_expedia_logo);
 		getSupportActionBar().setTitle("");
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home: {
+			finish();
+			return true;
+		}
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 }
 
