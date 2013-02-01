@@ -257,7 +257,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			return true;
 		case R.id.add_itinerary:
 			if (mItinListFragment != null) {
-				mItinListFragment.showAddItinDialog();
+				mItinListFragment.startAddGuestItinActivity();
 			}
 			return true;
 		case R.id.ab_log_out:

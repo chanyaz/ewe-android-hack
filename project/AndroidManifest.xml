@@ -213,6 +213,13 @@
             android:label="Link Accounts"
             android:theme="@style/FlightTheme" >
         </activity>
+        
+        <!-- Itineraries -->
+        <activity
+            android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"
+            android:theme="@style/LoginTheme"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
 
         <!-- Testing -->
         <activity android:name=".test.activity.CalendarDatePickerTestActivity" />

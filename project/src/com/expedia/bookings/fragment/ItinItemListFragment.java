@@ -18,6 +18,7 @@ import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
@@ -25,7 +26,6 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.fragment.ItineraryGuestAddDialogFragment.AddGuestItineraryDialogListener;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.widget.ItinListView;
 import com.mobiata.android.util.AndroidUtils;
@@ -88,7 +88,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				showAddItinDialog();
+				startAddGuestItinActivity();
 			}
 		});
 
@@ -129,30 +129,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		syncItinManager();
 	}
 
-	public synchronized void showAddItinDialog() {
-		ItineraryGuestAddDialogFragment addNewItinFrag = (ItineraryGuestAddDialogFragment) getFragmentManager()
-				.findFragmentByTag(ItineraryGuestAddDialogFragment.TAG);
-		if (addNewItinFrag == null) {
-			addNewItinFrag = ItineraryGuestAddDialogFragment.newInstance();
-		}
-		if (!addNewItinFrag.isAdded() && !addNewItinFrag.isVisible()) {
-			addNewItinFrag.setListener(new AddGuestItineraryDialogListener() {
-
-				@Override
-				public void onFindItinClicked(String email, String itinNumber) {
-					mItinManager.addGuestTrip(email, itinNumber, true);
-					setIsLoading(true);
-				}
-
-				@Override
-				public void onCancel() {
-					// We dont care...
-
-				}
-
-			});
-			addNewItinFrag.show(getFragmentManager(), ItineraryGuestAddDialogFragment.TAG);
-		}
+	public synchronized void startAddGuestItinActivity() {	
+		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
+		startActivity(intent);
 	}
 
 	private void updateLoginState() {
