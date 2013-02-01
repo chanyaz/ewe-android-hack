@@ -92,7 +92,6 @@ public class LoginFragment extends Fragment {
 
 	//UI ELEMENTS
 	private ViewGroup mExpediaSigninContainer;
-	private ViewGroup mSigninButtonContainer;
 	private ViewGroup mOrFacebookContainer;
 	private ViewGroup mSigninWithExpediaButtonContainer;
 	private ViewGroup mFacebookSigninContainer;
@@ -153,7 +152,6 @@ public class LoginFragment extends Fragment {
 		}
 
 		mExpediaSigninContainer = Ui.findView(v, R.id.expedia_signin_container);
-		mSigninButtonContainer = Ui.findView(v, R.id.sign_in_with_expedia_button_container);
 		mOrFacebookContainer = Ui.findView(v, R.id.or_facebook_container);
 		mSigninWithExpediaButtonContainer = Ui.findView(v, R.id.sign_in_with_expedia_button_container);
 		mFacebookSigninContainer = Ui.findView(v, R.id.facebook_signin_container);
@@ -508,7 +506,6 @@ public class LoginFragment extends Fragment {
 		switch (mVisibilityState) {
 		case FACEBOOK_LINK:
 			mExpediaSigninContainer.setVisibility(View.GONE);
-			mSigninButtonContainer.setVisibility(View.GONE);
 			mOrFacebookContainer.setVisibility(View.GONE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
 			mFacebookSigninContainer.setVisibility(View.VISIBLE);
@@ -517,7 +514,6 @@ public class LoginFragment extends Fragment {
 			break;
 		case EXPEDIA_WITH_EXPEDIA_BUTTON:
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
-			mSigninButtonContainer.setVisibility(View.VISIBLE);
 			mOrFacebookContainer.setVisibility(View.VISIBLE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
@@ -528,7 +524,6 @@ public class LoginFragment extends Fragment {
 		case EXPEDIA_WTIH_FB_BUTTON:
 		default:
 			mExpediaSigninContainer.setVisibility(View.VISIBLE);
-			mSigninButtonContainer.setVisibility(View.VISIBLE);
 			mOrFacebookContainer.setVisibility(View.VISIBLE);
 			mSigninWithExpediaButtonContainer.setVisibility(View.VISIBLE);
 			mFacebookSigninContainer.setVisibility(View.GONE);
