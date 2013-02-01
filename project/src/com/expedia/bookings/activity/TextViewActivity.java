@@ -1,8 +1,8 @@
 package com.expedia.bookings.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -12,6 +12,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 
 public class TextViewActivity extends SherlockActivity {
+	public static Intent getIntent(Context context, String data) {
+		Intent intent = new Intent(context, TextViewActivity.class);
+		intent.putExtra(Codes.CONTENT_STRING, data);
+		return intent;
+	}
+
 	@Override
 	public void onCreate(Bundle onSaveInstanceState) {
 		super.onCreate(onSaveInstanceState);

@@ -9,10 +9,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TextViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.ContactExpediaDialogFragment;
 import com.expedia.bookings.fragment.ExpediaWebsiteDialogFragment;
 import com.expedia.bookings.utils.AboutUtils;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.app.HoneycombAboutActivity;
 
@@ -84,6 +86,13 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 		addSimpleRow(standardSection, getString(R.string.info_label_privacy_policy), new OnClickListener() {
 			public void onClick(View v) {
 				SocialUtils.openSite(mContext, PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
+			}
+		});
+
+		addSimpleRow(standardSection, getString(R.string.view_open_source_software_licenses), new OnClickListener() {
+			public void onClick(View v) {
+				String license = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(mContext);
+				startActivity(TextViewActivity.getIntent(TabletAboutActivity.this, license));
 			}
 		});
 
