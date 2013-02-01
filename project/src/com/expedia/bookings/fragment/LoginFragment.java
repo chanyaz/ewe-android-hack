@@ -396,8 +396,7 @@ public class LoginFragment extends Fragment {
 				if (mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WTIH_FB_BUTTON)) {
 					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, true);
 				}
-				else if (!mVisibilityState.equals(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON)) {
-
+				else if (!mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON)) {
 					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, true);
 				}
 			}
