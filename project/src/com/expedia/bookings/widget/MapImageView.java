@@ -102,6 +102,10 @@ public class MapImageView extends ImageView {
 
 		int width = getWidth();
 		int height = getResources().getDimensionPixelSize(R.dimen.hotel_details_map_visible_size) * 2;
+		if (width == 0 || height == 0) {
+			// It would be a useless image anyways
+			return;
+		}
 
 		String oldUri = mStaticMapUri;
 
