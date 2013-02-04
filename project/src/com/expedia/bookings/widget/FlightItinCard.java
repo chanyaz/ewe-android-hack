@@ -1,7 +1,9 @@
 package com.expedia.bookings.widget;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import android.content.Context;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
@@ -108,6 +111,18 @@ public class FlightItinCard extends ItinCard {
 			ViewUtils.setAllCaps(passengersLabel);
 			ViewUtils.setAllCaps(bookingInfoLabel);
 			ViewUtils.setAllCaps(insuranceLabel);
+
+			MapImageView mapImageView = Ui.findView(view, R.id.mini_map);
+			List<Location> airPorts = new ArrayList<Location>();
+			airPorts.add(waypointToLocation(leg.getFirstWaypoint()));
+			for (int i = 0; i < leg.getSegmentCount(); i++) {
+				Waypoint wp = leg.getSegment(i).mDestination;
+				airPorts.add(waypointToLocation(wp));
+			}
+			mapImageView.setCenterPoint(airPorts.size() > 0 ? airPorts.get(0) : null);
+			for (Location loc : airPorts) {
+				mapImageView.setPoiPoint(loc);
+			}
 
 			Calendar departureTimeCal = leg.getFirstWaypoint().getMostRelevantDateTime();
 			Calendar arrivalTimeCal = leg.getLastWaypoint().getMostRelevantDateTime();
@@ -240,5 +255,14 @@ public class FlightItinCard extends ItinCard {
 	private String formatTime(Calendar cal) {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());
 		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
+	}
+
+	private Location waypointToLocation(Waypoint wp) {
+		Location location = new Location();
+		location.setLatitude(wp.getAirport().getLatE6() / 1E6);
+		location.setLongitude(wp.getAirport().getLonE6() / 1E6);
+		location.setCity(wp.getAirport().mCity);
+		location.setCountryCode(wp.getAirport().mCountryCode);
+		return location;
 	}
 }

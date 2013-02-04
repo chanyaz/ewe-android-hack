@@ -56,13 +56,15 @@
             android:textSize="12sp" />
     </RelativeLayout>
 
-    <!-- Map / image -->
+    <!-- MAP -->
 
-    <ImageView
-        android:id="@+id/trip_map"
+    <com.expedia.bookings.widget.MapImageView
+        android:id="@+id/mini_map"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="#330000FF" />
+        android:layout_height="@dimen/itin_map_total_size"
+        android:background="#aaaaaa"
+        android:focusable="false"
+        android:scaleType="centerCrop" />
 
     <!-- Flight legs -->
 
