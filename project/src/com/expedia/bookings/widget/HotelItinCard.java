@@ -36,6 +36,9 @@ public class HotelItinCard extends ItinCard {
 	private TextView mCheckOutDateTextView;
 	private TextView mGuestsTextView;
 	private MapImageView mStaticMapImageView;
+	private TextView mAddressTextView;
+	private TextView mPhoneNumberTextView;
+	private TextView mRoomTypeTextView;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -93,6 +96,7 @@ public class HotelItinCard extends ItinCard {
 		mCheckOutDateTextView = Ui.findView(view, R.id.check_out_date_text_view);
 		mGuestsTextView = Ui.findView(view, R.id.guests_text_view);
 		mStaticMapImageView = Ui.findView(view, R.id.mini_map);
+		mAddressTextView = Ui.findView(view, R.id.address_text_view);
 
 		bind((TripHotel) tripHotel);
 
@@ -110,5 +114,7 @@ public class HotelItinCard extends ItinCard {
 
 		mStaticMapImageView.setCenterPoint(mProperty.getLocation());
 		mStaticMapImageView.setPoiPoint(mProperty.getLocation());
+
+		mAddressTextView.setText(mProperty.getLocation().getStreetAddressString());
 	}
 }

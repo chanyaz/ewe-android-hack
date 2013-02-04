@@ -122,6 +122,7 @@
         android:background="#4D555D" />
 
     <TextView
+        android:id="@+id/address_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -147,6 +148,7 @@
         android:background="#4D555D" />
 
     <TextView
+        android:id="@+id/phone_number_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -172,6 +174,7 @@
         android:background="#4D555D" />
 
     <TextView
+        android:id="@+id/room_type_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
