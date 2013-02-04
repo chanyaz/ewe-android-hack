@@ -36,7 +36,7 @@ public class BookingInfoValidation {
 					|| view.getId() == R.id.email_edit_text) {
 				guestsCompleted = false;
 			}
-			else if (view.getId() == R.id.postal_code_edit_text) {
+			else if (view.getId() == R.id.billing_zipcode_edit_text) {
 				billingCompleted = false;
 			}
 			else if (view.getId() == R.id.card_number_edit_text || view.getId() == R.id.expiration_month_edit_text
