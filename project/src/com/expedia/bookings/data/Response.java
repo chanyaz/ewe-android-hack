@@ -119,7 +119,7 @@ public class Response implements JSONable {
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
 				else if (!isStoredCreditCard && "postalCode".equals(field)) {
-					View v = parent.findViewById(R.id.postal_code_edit_text);
+					View v = parent.findViewById(R.id.billing_zipcode_edit_text);
 					errors.add(new ValidationError(v, ValidationError.ERROR_DATA_INVALID));
 				}
 			}

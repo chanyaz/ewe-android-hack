@@ -55,8 +55,10 @@
             android:imeOptions="flagNoExtractUi"
             android:inputType="number"
             android:maxLength="4"
-            android:nextFocusLeft="@+id/expiration_year_edit_text"
-            android:nextFocusUp="@+id/expiration_year_edit_text"
+            android:nextFocusDown="@id/billing_zipcode_edit_text"
+            android:nextFocusLeft="@id/expiration_year_edit_text"
+            android:nextFocusRight="@id/billing_zipcode_edit_text"
+            android:nextFocusUp="@id/expiration_year_edit_text"
             mobiata:errorTextColor="@android:color/black" />
     </LinearLayout>
 
@@ -70,6 +72,8 @@
         android:imeOptions="flagNoExtractUi"
         android:inputType="number"
         android:maxLength="5"
+        android:nextFocusLeft="@id/security_code_edit_text"
+        android:nextFocusUp="@id/security_code_edit_text"
         android:textColorHint="@color/hint_color"
         mobiata:useClearFieldDrawable="false" />
 

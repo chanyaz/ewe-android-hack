@@ -13,13 +13,11 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -34,7 +32,6 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -230,7 +227,7 @@ public class BookingFormFragment extends Fragment {
 				}
 			}
 		});
-		mCouponCodeWidget.setFieldAboveCouponCode(mSecurityCodeEditText, R.id.security_code_edit_text);
+		mCouponCodeWidget.setFieldAboveCouponCode(mPostalCodeEditText, R.id.billing_zipcode_edit_text);
 		mCouponCodeWidget.setFieldBelowCouponCode(mRulesRestrictionsCheckbox, R.id.rules_restrictions_checkbox);
 		mCouponCodeWidget.restoreInstanceState(savedInstanceState);
 
@@ -421,22 +418,6 @@ public class BookingFormFragment extends Fragment {
 			mRulesRestrictionsCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					buttonView.setError(null);
-				}
-			});
-
-			// Configure credit card security code field to point towards the checkbox
-			mSecurityCodeEditText.setNextFocusDownId(R.id.rules_restrictions_checkbox);
-			mSecurityCodeEditText.setNextFocusRightId(R.id.rules_restrictions_checkbox);
-
-			mSecurityCodeEditText.setImeOptions(mSecurityCodeEditText.getImeOptions() | EditorInfo.IME_ACTION_NEXT);
-			mSecurityCodeEditText.setOnEditorActionListener(new OnEditorActionListener() {
-				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-					if (actionId == EditorInfo.IME_ACTION_NEXT) {
-						// TODO: IMPLEMENT THIS
-						// .focusOnRulesAndRestrictions();
-						return true;
-					}
-					return false;
 				}
 			});
 		}
