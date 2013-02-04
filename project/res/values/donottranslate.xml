@@ -15,7 +15,7 @@
     <string name="facebook_app_id">131538103586818</string>
 
     <!-- MapsV2 -->
-    <string name="mapsv2_dev_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
+    <string name="mapsv2_dev_key">AIzaSyBTFyqFPgQ62bgYGvuTGCipFrxUbqZuF6k</string>
     <string name="mapsv2_prod_key">AIzaSyDyJFDB5IjNcq47xmyRgmGc8BGutqdZnI4</string>
 
     <!-- Tracking tags -->
