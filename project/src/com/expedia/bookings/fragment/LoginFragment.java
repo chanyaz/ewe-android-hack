@@ -863,7 +863,7 @@ public class LoginFragment extends Fragment {
 
 	@SuppressLint("NewApi")
 	private void setViewAlpha(View v, float alpha) {
-		if (AndroidUtils.getSdkVersion() >= 11) {
+		if (!AnimatorProxy.NEEDS_PROXY) {
 			v.setAlpha(alpha);
 		}
 		else {
@@ -873,7 +873,7 @@ public class LoginFragment extends Fragment {
 
 	@SuppressLint("NewApi")
 	private void setViewRotationX(View v, float rotationX) {
-		if (AndroidUtils.getSdkVersion() >= 11) {
+		if (!AnimatorProxy.NEEDS_PROXY) {
 			v.setRotationX(rotationX);
 		}
 		else {
