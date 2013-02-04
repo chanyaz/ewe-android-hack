@@ -209,24 +209,38 @@ public class FlightItinCard extends ItinCard {
 		Resources res = getResources();
 		//TODO: Set icon based on type
 
-		String airportName = waypoint.mAirportCode;
+		String airportName = waypoint.getAirport().mName;
 		Ui.setText(v, R.id.layover_airport_name, airportName);
 		if (type.equals(WaypointType.LAYOVER)) {
-			//TODO: Need to get a different set of gates...
-			String arrivalGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE),
-					waypoint.getTerminal(), waypoint.getGate());
-			String departureGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE),
-					waypoint.getTerminal(), waypoint.getGate());
-			Ui.setText(v, R.id.layover_terminal_gate_one, arrivalGate);
-			Ui.setText(v, R.id.layover_terminal_gate_two, departureGate);
+			//TODO: Need to get a different set of gates, so we will need another waypoint object...
+
+			if (waypoint.getTerminal() == null || waypoint.getGate() == null) {
+				Ui.setText(v, R.id.layover_terminal_gate_one, R.string.no_terminal_gate_information);
+				Ui.findView(v, R.id.layover_terminal_gate_two).setVisibility(View.GONE);
+			}
+			else {
+				String arrivalGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE),
+						waypoint.getTerminal(), waypoint.getGate());
+				String departureGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE),
+						waypoint.getTerminal(), waypoint.getGate());
+
+				Ui.setText(v, R.id.layover_terminal_gate_one, arrivalGate);
+				Ui.setText(v, R.id.layover_terminal_gate_two, departureGate);
+			}
 
 		}
 		else {
 			Ui.findView(v, R.id.layover_terminal_gate_two).setVisibility(View.GONE);
 
-			String termGate = String.format(res.getString(R.string.generic_terminal_TEMPLATE), waypoint.getTerminal(),
-					waypoint.getGate());
-			Ui.setText(v, R.id.layover_terminal_gate_one, termGate);
+			if (waypoint.getTerminal() == null || waypoint.getGate() == null) {
+				Ui.setText(v, R.id.layover_terminal_gate_one, R.string.no_terminal_gate_information);
+			}
+			else {
+				String termGate = String.format(res.getString(R.string.generic_terminal_TEMPLATE),
+						waypoint.getTerminal(),
+						waypoint.getGate());
+				Ui.setText(v, R.id.layover_terminal_gate_one, termGate);
+			}
 		}
 
 		return v;
