@@ -66,6 +66,9 @@ public class FlightDetailsFragment extends Fragment {
 	// Temporary data set for animation
 	private boolean mFeesContainerInScrollView;
 
+	// We need to do two layout passes to figure out where everything goes
+	private boolean mFirstLayoutPass = true;
+
 	public static FlightDetailsFragment newInstance(FlightTrip trip, FlightLeg leg, int legPosition) {
 		FlightDetailsFragment fragment = new FlightDetailsFragment();
 		Bundle args = new Bundle();
@@ -199,24 +202,36 @@ public class FlightDetailsFragment extends Fragment {
 		v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				// Remove the global layout listener, since we only want to do this once
-				v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				if (mFirstLayoutPass) {
+					// In the first layout pass, we adapt the info container for however tall the info bar/fees
+					// container will be.
 
-				// This is for determining whether the baggage info text view should
-				// appear on the bottom of the screen or scrolling with the content
-				mFeesContainerInScrollView = mScrollView.getHeight() < mInfoContainer.getHeight();
-				if (mFeesContainerInScrollView) {
-					((ViewGroup) mFeesContainer.getParent()).removeView(mFeesContainer);
-					mInfoContainer.addView(mFeesContainer);
-
-					MarginLayoutParams lp = (MarginLayoutParams) mFeesContainer.getLayoutParams();
-					mInfoContainer.setPadding(mInfoContainer.getPaddingLeft(), mInfoContainer.getPaddingTop(),
-							mInfoContainer.getPaddingRight(), cardMargins * 2);
-					lp.topMargin = cardMargins * 2;
-					lp.bottomMargin = 0;
+					LayoutUtils.addPadding(mInfoContainer, 0, mInfoBar.getHeight(), 0, mFeesContainer.getHeight());
+					mFirstLayoutPass = false;
 				}
+				else {
+					// In the second layout pass, we determine if the info container will be scrolling within
+					// its parent (and thus the baggage fees link would need to be moved)
 
-				mListener.onFlightDetailsLayout(FlightDetailsFragment.this);
+					// Remove the global layout listener
+					v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+					// This is for determining whether the baggage info text view should
+					// appear on the bottom of the screen or scrolling with the content
+					mFeesContainerInScrollView = mScrollView.getHeight() < mInfoContainer.getHeight();
+					if (mFeesContainerInScrollView) {
+						((ViewGroup) mFeesContainer.getParent()).removeView(mFeesContainer);
+						mInfoContainer.addView(mFeesContainer);
+
+						MarginLayoutParams lp = (MarginLayoutParams) mFeesContainer.getLayoutParams();
+						mInfoContainer.setPadding(mInfoContainer.getPaddingLeft(), mInfoContainer.getPaddingTop(),
+								mInfoContainer.getPaddingRight(), cardMargins * 2);
+						lp.topMargin = cardMargins * 2;
+						lp.bottomMargin = 0;
+					}
+
+					mListener.onFlightDetailsLayout(FlightDetailsFragment.this);
+				}
 			}
 		});
 

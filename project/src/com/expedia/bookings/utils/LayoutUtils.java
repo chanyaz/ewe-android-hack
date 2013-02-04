@@ -65,6 +65,15 @@ public class LayoutUtils {
 				v.getPaddingBottom() + bottom);
 	}
 
+	/**
+	 * Convenience method for modifying the padding of a View instead of completely
+	 * resetting it.
+	 */
+	public static void addPadding(View v, int left, int top, int right, int bottom) {
+		v.setPadding(v.getPaddingLeft() + left, v.getPaddingTop() + top, v.getPaddingRight() + right,
+				v.getPaddingBottom() + bottom);
+	}
+
 	public static float getSaleTextSize(Context context) {
 		TextPaint textPaint = new TextPaint();
 		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
