@@ -15,13 +15,13 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">Une erreur non spécifiée s\&apos;est produite. Veuillez réessayer plus tard.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Impossible de se connecter à Facebook. </string>
+    <string name="unable_to_sign_into_facebook">Impossible de se connecter à Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Accès non réussi. Veuillez saisir à nouveau votre mot de passe et réessayer.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Mot de passe Expedia</string>
     <!-- Link accounts -->
-    <string name="link_accounts">Lier les comptes</string>
+    <string name="link_accounts">Associer les comptes</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">Impossible de récupérer les informations mises à jour.</string>
     <!-- Linking your accounts -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Séjour à&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Nous ne sommes pas en mesure de nous connecter.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Voyage</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Numéro de voyage</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Pas de voyages à venir.</string>
+    <string name="no_upcoming_trips">Aucun voyage prévu !</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Ou saisir un numéro de voyage</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Recherche de votre voyage...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Connectez-vous&lt;/b&gt; pour voir vos voyages</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Départ (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Arrivée (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Code de confirmation</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Passagers</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Reçu et conditions du voyage</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Infos réservation</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Porte %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Arrivée - Terminal %1$s, Porte %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Départ - Terminal %1$s, Porte %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">En vous déconnectant de %1$s vous supprimerez tous les voyages associés à ce compte. Êtes-vous sûr de vouloir vous déconnecter ?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -87,7 +113,7 @@
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">Détails</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
-    <string name="select">Sélectionner</string>
+    <string name="select">Choisir</string>
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
     <string name="outbound_TEMPLATE">Vols aller pour %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
@@ -126,7 +152,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Décolle bientôt...</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">Désolés, la réservation de vols via mobile&lt;b&gt;n\&apos;est pas encore disponible&lt;/b&gt; pour votre position actuelle.</string>
+    <string name="invalid_flights_pos">Désolés, la réservation de vols via mobile &lt;b&gt;n\&apos;est pas encore disponible&lt;/b&gt; pour votre position actuelle.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Les aéroports de départ et d\&apos;arrivée doivent être différents.</string>
 
@@ -188,7 +214,7 @@
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Économique</string>
     <!-- Label for "premium coach" cabin code -->
-    <string name="cabin_code_premium_coach">V.I.P. Économique</string>
+    <string name="cabin_code_premium_coach">VIP Économique</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Affaires</string>
     <!-- Label for "first" cabin code -->
@@ -203,12 +229,20 @@
     <string name="operated_by_TEMPLATE">Compagnie : %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Supplément pour bagages à main</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Supplément pour les bagages et les frais de réservation</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Frais supplémentaires</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Tarifs bagages</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Traitement des frais de réservation</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
-    <string name="edit_current_payment_details">Moyen de paiement actuel</string>
+    <string name="edit_current_payment_details">Mode de paiement actuel</string>
     <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">Choisir un moyen de paiement</string>
+    <string name="or_select_new_paymet_method">Choisir un mode de paiement</string>
     <!-- Select Payment -->
     <string name="select_payment">Choisir le paiement</string>
     <!-- Add new card -->
@@ -216,9 +250,9 @@
     <!-- Overview button -->
     <string name="overview_btn">Aperçu</string>
     <!-- Stored Payment label -->
-    <string name="stored_payment_label">Choisir un moyen de paiement sauvegardé</string>
+    <string name="stored_payment_label">Choisir un mode de paiement sauvegardé</string>
     <!-- Payment Method -->
-    <string name="payment_method">Moyen de paiement</string>
+    <string name="payment_method">Mode de paiement</string>
     <!-- Billing Address -->
     <string name="billing_address">Adresse de facturation</string>
     <!-- Card Info -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Compte Expedia</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Informations sur le paiement</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Acceptez-vous toutes les conditions indiquées ci-dessus ?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">J\&apos;accepte</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Faire glisser pour effectuer le paiement.</string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informations sur le voyageur</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Si le nom du voyageur ne correspond pas à celui sur la pièce d\&apos;identité, l\&apos;embarquement pourrait être refusé.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Informations sur le voyageur %d</string>
@@ -355,32 +395,34 @@
     <string name="address_state_hint">Dép.</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Code postal</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Code postal de facturation</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
-    <string name="save_billing_info">Sauvegarder les détails de facturation</string>
+    <string name="save_billing_info">Enregistrer les détails de facturation</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Sauvegarder ce moyen de paiement dans votre compte Expedia pour réserver plus rapidement dans le futur ?</string>
+    <string name="save_billing_info_message">Enregistrer ce mode de paiement dans votre compte Expedia pour réserver plus rapidement dans le futur ?</string>
     <!-- save -->
     <string name="save">Enregistrer</string>
     <!-- dont save -->
-    <string name="dont_save">Ne pas sauvegarder</string>
+    <string name="dont_save">Ne pas enregistrer</string>
 
     <!-- Save traveler dialog -->
     <!-- save traveler -->
-    <string name="save_traveler">Sauvegarder le voyageur</string>
+    <string name="save_traveler">Enregistrer le voyageur</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Sauvegarder les informations sur %1$s dans votre compte Expedia pour réserver plus rapidement dans le futur ?</string>
+    <string name="save_traveler_message_TEMPLATE">Enregistrer les informations sur %1$s dans votre compte Expedia pour réserver plus rapidement dans le futur ?</string>
     <!-- no thanks -->
     <string name="no_thanks">Non, merci</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
-    <string name="cant_save_traveler">Impossible de sauvegarder le voyageur</string>
+    <!-- Can't Save Traveler -->
+    <string name="cant_save_traveler">Impossible d\&apos;enregistrer le voyageur</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Vous avez déjà sauvegardé un voyageur ayant \"%1$s\" comme nom.</string>
+    <string name="you_already_have_traveler_TEMPLATE">Vous avez déjà enregistré un voyageur ayant \"%1$s\" comme nom.</string>
     <!-- Don't save -->
-    <string name="dont_save">Ne pas sauvegarder</string>
+    <string name="dont_save">Ne pas enregistrer</string>
     <!-- Overwrite -->
     <string name="overwrite">Écraser</string>
 
@@ -532,13 +574,21 @@
     <!-- Button label for calling -->
     <string name="call_support">Assistance</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">La compagnie aérienne vient d\&apos;augmenter le prix de %1$s. Acceptez-vous de payer le nouveau prix total de %2$s ?</string>
+    <string name="error_flight_price_increased">La compagnie aérienne vient d\&apos;augmenter le prix de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Nous venons de trouver les vols que vous avez demandés pour %1$s de moins. Souhaitez-vous payer le nouveau total de %2$s ?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">La compagnie aérienne applique des frais de réservation de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">La compagnie aérienne applique des frais de réservation %1$s et le prix de votre billet a augmenté de %2$s. Acceptez-vous de payer le nouveau total de %3$s ?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">La compagnie aérienne applique des frais de réservation de %1$s, mais nous venons de trouver votre vol à %2$s de moins. Acceptez-vous de payer le nouveau total de %3$s ?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Le numéro de carte de paiement que vous avez saisi n\&apos;est pas valide, veuillez réessayer.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">La carte de paiement que vous avez essayé d\&apos;utiliser a expiré. Veuillez utiliser une autre carte. </string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Désolés, les réservations pour les enfants de moins de 18 ans ne sont pas encore possibles. </string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -578,15 +628,15 @@
     <string name="share_flight_title_TEMPLATE">Voyage Expedia - %1$s (%2$s)</string>
     <!-- The first line of the share flight email -->
     <plurals name="share_flight_start">
-        <item quantity="one">Ci-après les informations de ma réservation de vol :</item>
-        <item quantity="two">Ci-après les détails de ma réservation de vol :</item>
-        <item quantity="many">Ci-après les détails de ma réservation de vol :</item>
-        <item quantity="other">Ci-après les détails de ma réservation de vol :</item>
+        <item quantity="one">Les détails de ma réservation de vol :</item>
+        <item quantity="two">Les détails de ma réservation de vol :</item>
+        <item quantity="many">Les détails de ma réservation de vol :</item>
+        <item quantity="other">Les détails de ma réservation de vol :</item>
     </plurals>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Aller simple de %1$s à %2$s</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Aller retour au départ de %1$s vers %2$s</string>
+    <string name="share_flight_round_trip_TEMPLATE">Aller-retour au départ de %1$s vers %2$s</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Numéro de voyage : %s</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc... %2$s is their name -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Promos</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Avis voyageurs</string>
+    <string name="sort_description_rating">Note clients</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Tout</string>
@@ -1171,7 +1221,7 @@
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Le montant sera entièrement prélevé sur votre carte de paiement au moment de la réservation.</string>
+    <string name="PolicyImmediateChargeRequired">Le montant sera entièrement prélevé de votre carte de paiement au moment de la réservation.</string>
     <!-- Policy displayed to user when the room is non-refundable -->
     <string name="PolicyNonRefundable">Nous vous proposons un prix exceptionnellement bas. Et c\&apos;est pour cette raison que ce tarif n\&apos;est pas remboursable. Si vous décidez d\&apos;annuler cette réservation, vous ne recevrez aucun remboursement.</string>
     <!-- Policy displayed to user when a deposit is required -->
@@ -1298,6 +1348,8 @@
     <string name="Like">J\&apos;aime</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Cette application utilise l\&apos;algorithme Stack Blur de Mario Klingemann. </string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Voir les licences pour logiciels Open Source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1519,7 +1571,7 @@
     <string name="country_gw">Guinée-Bissau</string>
     <string name="country_gy">Guyana</string>
     <string name="country_ht">Haïti</string>
-    <string name="country_hm">Îles Heard et MacDonald</string>
+    <string name="country_hm">Îles Heard et McDonald</string>
     <string name="country_va">Cité du Vatican</string>
     <string name="country_hn">Honduras</string>
     <string name="country_hk">Hong Kong</string>

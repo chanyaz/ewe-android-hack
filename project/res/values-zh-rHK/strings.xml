@@ -7,7 +7,7 @@
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">您好，&lt;b&gt;%1$s&lt;/b&gt;！我們已載入您的 Facebook 資料！</string>
     <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">連接 Facebook </string>
+    <string name="connect_with_facebook">連接 Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">正從 Facebook 載入資料...</string>
     <!-- Attempting to log you in with facebook credentials -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;逗留&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">抱歉，我們無法連線。</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
     <!-- Find Itinerary -->
@@ -64,6 +66,30 @@
     <string name="no_upcoming_trips">沒有即將進行的旅程。</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">或輸入行程編號</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">正載入您的行程...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;登入&lt;/b&gt;以查閱行程</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">出發 (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">抵達 (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">確認碼</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">旅客</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">機票收據和規定</string>
+    <!-- Booking info label -->
+    <string name="booking_info">預訂資料</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">客運大樓：%1$s，閘口：%2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">接機大樓：%1$s，閘口：%2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">候機大樓：%1$s，閘口：%2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">登出 %1$s 將令所有與此帳戶相關的行程項目被移除。確定要登出嗎？</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">由 %s 營運</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">收取隨身行李費。</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">可能收取款項及行李費</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">額外費用</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">行李費</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">付款處理費</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -218,7 +252,7 @@
     <!-- Stored Payment label -->
     <string name="stored_payment_label">選擇已儲存的付款方法</string>
     <!-- Payment Method -->
-    <string name="payment_method">付款方法 </string>
+    <string name="payment_method">付款方法</string>
     <!-- Billing Address -->
     <string name="billing_address">帳單地址</string>
     <!-- Card Info -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Expedia 帳戶</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">結帳資料</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">您接受上述所有條件嗎？</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">我接受</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">滑動來購買。</string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅客資料</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能被拒絕登機。</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">旅客 %d 資料</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">州</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">郵遞區號</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">帳單郵遞區號</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">不用了</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">無法儲存旅客</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">您已有一位已儲存的旅客，姓名為 \"%1$s\"。</string>
@@ -474,7 +516,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">您將飛往 %s！</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">行程編號 %s 已寄發至 </string>
+    <string name="itinerary_confirmation_TEMPLATE">行程編號 %s 已寄發至</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">預訂客房</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -535,10 +577,18 @@
     <string name="error_flight_price_increased">航空公司剛將您的機票價格提高了 %1$s。您願意支付新的總額 %2$s 嗎？</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">您要求的航班剛減價 %1$s。您願意支付新的總額 %2$s 嗎？</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">航空公司將收取付款處理費 %1$s。您願意支付新的總額 %2$s 嗎？</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">航空公司將收取付款處理費 %1$s，並剛將您的機票價格提高了%2$s。您願意支付新的總額 %3$s 嗎？</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">航空公司將收取付款處理費 %1$s，但我們剛得悉您要求的航班減價 %2$s。您願意支付新的總額 %3$s 嗎？</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">您輸入的信用卡號碼無效，請再試一次。</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">您剛使用的信用卡已過期，請使用另一張信用卡。</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">很抱歉，系統尚未支援 18 歲以下兒童的預訂。</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">很抱歉，我們現時無法處理您的預訂。請再試一次。</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">優惠</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">用戶評級</string>
+    <string name="sort_description_rating">評分</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">全部</string>
@@ -836,7 +886,7 @@
 
     <!-- Hotel Details Fragment -->
     <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->
-    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 低至 </string>
+    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 低至</string>
     <!-- Title for the amenities section in the hotel details fragment -->
     <string name="amenities">服務設施</string>
     <!-- Label for button to see all reviews as a modal dialog -->
@@ -944,7 +994,7 @@
         1$ is the user name
         2$ is the place they are from
     -->
-    <string name="user_review_name_and_location_signature">%1$s，%2$s </string>
+    <string name="user_review_name_and_location_signature">%1$s，%2$s</string>
     <!-- User review no critical reviews -->
     <string name="user_review_no_critical_reviews">這間酒店沒有任何批評的評價</string>
     <!-- User review no favorable reviews -->
@@ -1123,7 +1173,7 @@
     <!-- Title for confirmation screen -->
     <string name="booking_complete">完成預訂</string>
     <!-- Friendly message at the top of the receipt -->
-    <string name="Enjoy_your_stay">祝旅居愉快！</string>
+    <string name="Enjoy_your_stay">祝旅途愉快！</string>
     <!-- Format for a first/last name -->
     <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
@@ -1297,7 +1347,9 @@
     <!-- Action button label to like on facebook -->
     <string name="Like">讚</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">此應用程式使用 Mario Klingemann 的 Stack Blur 演算法</string>
+    <string name="stack_blur_credit">此應用程式使用 Mario Klingemann 的 Stack Blur 演算法。</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">檢視開放原碼軟件授權</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1307,7 +1359,7 @@
     <!-- Section header for rating (1-5 stars) -->
     <string name="oosdk_rating_overall_header">請給我們一個評級</string>
     <!-- Footer for the view -->
-    <string name="powered_by_opinion_lab"> <a href="http://mobile.opinionlab.com/static/privacy.html">私隱政策</a></string>
+    <string name="powered_by_opinion_lab"> 技術支援：Opinion Lab　<a href="http://mobile.opinionlab.com/static/privacy.html">私隱政策</a></string>
     <!-- Hint to type in email address -->
     <string name="email_address">電郵地址</string>
     <!-- Hint to type in comments -->

@@ -15,7 +15,7 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">出现错误，具体信息不明。请稍后重试。</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">无法登录 Facebook。</string>
+    <string name="unable_to_sign_into_facebook">无法登录到 Facebook。</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">登录失败，请重新输入密码，再试一次。</string>
     <!-- Facebook connect expedia password hint -->
@@ -37,7 +37,7 @@
     <!-- Home -->
     <string name="nav_home">主页</string>
     <!-- Flights -->
-    <string name="nav_flights"> 航班</string>
+    <string name="nav_flights">航班</string>
     <!-- Hotels -->
     <string name="nav_hotels">酒店</string>
     <!-- Account -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;酒店&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">很遗憾，我们无法建立连接。</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">行程编号</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">近期无旅行计划。</string>
+    <string name="no_upcoming_trips">没有即将到来的行程。</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">或者输入行程编号</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">正在获取您的行程单...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;登录&lt;/b&gt;查看您的旅行</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">出发 (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">到达 (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">确认代码</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">乘客</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">航班收据和政策</string>
+    <!-- Booking info label -->
+    <string name="booking_info">预订信息</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">航站楼 %1$s，登机口 %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">进港航站楼 %1$s，登机口 %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">出港航站楼 %1$s，登机口 %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">退出 %1$s 将删除与该帐户关联的所有行程项目。是否确定要退出？</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -182,7 +208,7 @@
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">行李费信息</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
-    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;在 %2$s 中途停留 </string>
+    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;在 %2$s 中途停留</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m, Economy (K) on a Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Label for "coach" cabin code -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">由 %s 运营</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">随身行李需付费。</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">可能收取帐款和行李费用</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">附加费用</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">行李费用</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">帐款处理费用</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -216,7 +250,7 @@
     <!-- Overview button -->
     <string name="overview_btn">概要</string>
     <!-- Stored Payment label -->
-    <string name="stored_payment_label">选择以保存的付款方式</string>
+    <string name="stored_payment_label">选择已保存的付款方式</string>
     <!-- Payment Method -->
     <string name="payment_method">付款方式</string>
     <!-- Billing Address -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Expedia 帐户</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">付款信息</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">是否要接受此处概述的所有条件？</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">我接受</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">滑动屏幕即可购买。</string>
     <!-- Your card will be charged -->
@@ -288,13 +326,15 @@
     <!-- Flight -->
     <string name="flight">航班</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE"> 旅客 %1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">旅客 %1$d</string>
     <!-- Adult -->
-    <string name="adult"> 成人</string>
+    <string name="adult">成人</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅客信息</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">如果旅客的姓名与政府签发的带照片的身份证不符，则可能被拒绝登机。</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">旅客 %d 信息</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">省</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">邮编</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">帐单邮编</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">不，谢谢</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">无法保存旅客</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">您已经保存了姓名为“%1$s”的旅客。</string>
@@ -474,7 +516,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">准备出发去%s吧！</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">编号为 %s 的行程已发往 </string>
+    <string name="itinerary_confirmation_TEMPLATE">编号为 %s 的行程已发往</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">预订房间</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -535,10 +577,18 @@
     <string name="error_flight_price_increased">航空公司刚刚将您的机票价格提高了 %1$s。您是否乐意支付新的总价 %2$s？</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">我们刚刚发现，您预订的航班正在促销，票价降低了 %1$s。您是否同意我们按新的总价 %2$s 收款？</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">似乎该航空公司收取 %1$s 的帐款处理费用。您是否乐意支付新的总价 %2$s？</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">似乎该航空公司收取 %1$s 的帐款处理费用，并且刚刚将您的票价调高了 %2$s。您是否乐意支付新的总价 %3$s？</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">似乎该航空公司收取 %1$s 的帐款处理费用，但我们刚发现您申请的航班降价了 %2$s。您是否乐意支付新的总价 %3$s？</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">您输入的信用卡号无效，请再试一次。</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">您尝试使用的信用卡已过期，请换一张信用卡。</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">很抱歉，尚不支持为年龄不满 18 岁的儿童进行预订。</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">很抱歉，我们此刻似乎无法处理您的订单。请再试一次。</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -697,7 +747,7 @@
     <!-- Label indicating that geolocation failed -->
     <string name="geolocation_failed">无法确定搜索位置。</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-    <string name="NoGeocodingResults">无法找到位置：%s。 </string>
+    <string name="NoGeocodingResults">无法找到位置：%s。</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
     <string name="ChooseLocation">您的意思是…</string>
     <!-- Button label for upgrading the app -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">优惠</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">用户评分</string>
+    <string name="sort_description_rating">评级</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">全部</string>
@@ -1298,6 +1348,8 @@
     <string name="Like">赞</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">此应用程序使用 Mario Klingemann 开发的 Stack Blur 算法。</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">查看开源软件许可</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1357,11 +1409,11 @@
     <!-- Abbreviated miles (used in distance_template) -->
     <string name="unit_miles">英里</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
-    <string name="unit_kilometers"> 公里</string>
+    <string name="unit_kilometers">公里</string>
     <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full"> 英里</string>
+    <string name="unit_miles_full">英里</string>
     <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full"> 公里</string>
+    <string name="unit_kilometers_full">公里</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s外</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->

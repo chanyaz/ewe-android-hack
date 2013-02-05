@@ -3,7 +3,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Chào &lt;b&gt;%1$s&lt;/b&gt;, có vẻ chúng tôi đã tìm được tài khoản Expedia của quý vị! Vui lòng nhập mật khẩu Expedia vào dưới đây để kết nối tài khoản Facebook và Expedia của mình. </string>
+    <string name="facebook_weve_found_your_account">Chào &lt;b&gt;%1$s&lt;/b&gt;, có vẻ chúng tôi đã tìm được tài khoản Expedia của quý vị! Vui lòng nhập mật khẩu Expedia vào dưới đây để kết nối tài khoản Facebook và Expedia của mình.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Chào &lt;b&gt;%1$s&lt;/b&gt;, chúng tôi vừa tải xong thông tin tài khoản Facebook của quý vị!</string>
     <!-- connect with facebook (button text) -->
@@ -53,7 +53,9 @@
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Nghỉ tại&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
-    <string name="error_launch_connection">Rất tiếc, chúng tôi không thể kết nối. </string>
+    <string name="error_launch_connection">Rất tiếc, chúng tôi không thể kết nối.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
     <!-- Find Itinerary -->
@@ -64,6 +66,30 @@
     <string name="no_upcoming_trips">Không có chuyến đi nào sắp đến.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Hoặc nhập số hành trình</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Đang truy xuất lịch trình...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Đăng nhập&lt;/b&gt; để xem thông tin chuyến đi</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Khởi hành (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Đến (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Mã xác nhận</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Hành khách</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Biên nhận và chính sách Chuyến bay</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Thông tin đặt chỗ</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Nhà ga %1$s, Cổng %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Ga đến %1$s, Cổng %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Ga khởi hành %1$s, Cổng %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Thoát %1$s sẽ đồng thời gỡ mọi lịch trình liên kết với tài khoản này. Quý vị có chắc chắn muốn thoát không?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -101,9 +127,9 @@
     <!-- Label for filtering flights by airline (aka, Delta) -->
     <string name="filter_flight_airline">Hãng hàng không ưu tiên</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">K.hành </string>
+    <string name="sort_description_departure">K.hành</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Đến </string>
+    <string name="sort_description_arrival">Đến</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Thời gian</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Điều hành bởi %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Áp dụng phí hành lý xách tay.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Có thể áp dụng phụ phí thanh toán và hành lý</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Phụ phí</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Phí hành lý</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Phụ phí quy trình thanh toán</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Tài khoản Expedia</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Thông tin thanh toán</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Quý vị có đồng ý mọi điều kiện được tóm tắt bên trên không?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Tôi đồng ý</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Trượt để thanh toán</string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Thông tin khách</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Khách có thể không được lên máy bay nếu tên khách không trùng khớp với giấy tờ tùy thân (ID) có ảnh hợp lệ.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Thông tin khách %d</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">Bang</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">ZIP</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Mã vùng thanh toán</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">Không, cảm ơn</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Không thể lưu khách</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Quý vị đã lưu khách tên \"%1$s\".</string>
@@ -535,10 +577,18 @@
     <string name="error_flight_price_increased">Dường như hãng hàng không vừa nâng giá vé của quý vị thêm %1$s.  Quý vị có đồng ý thanh toán tổng giá mới %2$s không?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Chúng tôi vừa biết giá vé máy bay quý vị tìm đã giảm %1$s. Quý vị có vui lòng để chúng tôi tính tổng giá mới %2$s không?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s. Quý vị có đồng ý thanh toán tổng giá mới %2$s không?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s và nâng giá vé của quý vị thêm %2$s. Quý vị có đồng ý thanh toán tổng giá mới %3$s không?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s, tuy nhiên, chúng tôi phát hiện chuyến bay quý vị yêu cầu vừa giảm giá %2$s. Quý vị có đồng ý thanh toán tổng giá mới %3$s không?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Số thẻ tín dụng quý vị nhập không hợp lệ, vui lòng nhập lại.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Thẻ tín dụng quý vị dự định sử dụng đã hết hạn, vui lòng sử dụng thẻ khác.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Rất tiếc, hiện tính năng đặt cho trẻ em dưới 18 tuổi chưa được hỗ trợ.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -598,9 +648,9 @@
         <item quantity="other">Khách %1$s: %2$s</item>
     </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
-    <string name="share_flight_section_outbound">Chuyến bay đi: </string>
+    <string name="share_flight_section_outbound">Chuyến bay đi:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Trở về:  </string>
+    <string name="share_flight_section_return">Trở về:</string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
     <plurals name="share_flight_ticket_cost_TEMPLATE">
         <item quantity="one">Tổng giá vé: %s</item>
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Ưu đãi</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Xếp hạng từ người dùng</string>
+    <string name="sort_description_rating">Xếp hạng</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Tất cả</string>
@@ -1298,6 +1348,8 @@
     <string name="Like">Thích</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Ứng dụng này sử dụng thuật toán Stack Blur của Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Xem bản quyền phần mềm mã nguồn mở</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

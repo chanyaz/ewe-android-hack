@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Stay in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Unfortunately, we can\&apos;t connect.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Itinerary Number</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">No upcoming trips.</string>
+    <string name="no_upcoming_trips">Nothing upcoming.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Or, Enter an Itinerary Number</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Fetching your itinerary...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Depart (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Arrive (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Confirmation Code</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Passengers</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Flight receipt and policies</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Booking Info</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Arrivate Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Depart Terminal %1$s, Gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Operated by %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Payment and baggage fees may apply</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Additional Fees</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Baggage Fees</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Payment Processing Fees</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Expedia Account</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Checkout Information</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Do you accept all of the conditions outlined above?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">I Accept</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Slide to purchase.</string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveller Information</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Traveller %d Information</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">County</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postcode</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Billing Postcode</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,12 +417,12 @@
     <string name="no_thanks">No Thanks</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
-    <string name="cant_save_traveler">Can’t Save Traveller</string>
+    <!-- Can't Save Traveler -->
+    <string name="cant_save_traveler">Can\&apos;t Save Traveller</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">You already have a saved traveller with the name \"%1$s\".</string>
     <!-- Don't save -->
-    <string name="dont_save">Don’t Save</string>
+    <string name="dont_save">Don\&apos;t Save</string>
     <!-- Overwrite -->
     <string name="overwrite">Overwrite</string>
 
@@ -535,10 +577,18 @@
     <string name="error_flight_price_increased">It looks like the airline just raised the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">We just found your requested flights on sale for %1$s less. Are you happy for us to charge you a new total of %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">It looks like the airline is charging a payment processing fee of %1$s. Are you happy to pay a new total of %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">It looks like the airline is charging a payment processing fee of %1$s and has just raised the price of your ticket by %2$s. Are you happy to pay a new total of %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">It looks like the airline is charging a payment processing fee of %1$s but we just found your requested flights on sale for %2$s less. Are you happy to pay a new total of %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">The credit card number you entered is invalid, please try again.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">The credit card you tried to use has expired, please use a different credit card.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Sorry, booking for children under the age of 18 is not yet supported.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Sorry, we don\&apos;t seem to be able to process your order right now. Please try again.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Deals</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">User Rating</string>
+    <string name="sort_description_rating">Rating</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">All</string>
@@ -1298,6 +1348,8 @@
     <string name="Like">Like</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">This app makes use of the Stack Blur algorithm by Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">View Open Source Software Licenses</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

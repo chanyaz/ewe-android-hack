@@ -5,7 +5,7 @@
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt; 님! Expedia 계정을 갖고 계신 것 같네요. Facebook과 Expedia 계정을 연결하려면 아래에 Expedia 비밀번호를 입력해 주세요.</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt; 님! 고객님의 Facebook 정보를 가져왔습니다. </string>
+    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt; 님! 고객님의 Facebook 정보를 가져왔습니다.</string>
     <!-- connect with facebook (button text) -->
     <string name="connect_with_facebook">Facebook을 이용하여 연결</string>
     <!-- fetching information from Facebook -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;숙박지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">일정</string>
     <!-- Find Itinerary -->
@@ -64,6 +66,30 @@
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">또는 일정 번호를 입력하세요.</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">고객님 여행을 보려면 &lt;b&gt;로그인&lt;/b&gt;해 주세요.</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">출발 (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">도착 (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">확인 코드</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">승객</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">항공편 영수증 및 정책</string>
+    <!-- Booking info label -->
+    <string name="booking_info">예약 정보</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">도착 터미널 %1$s, 게이트 %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">출발 터미널 %1$s, 게이트 %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">%1$s에서 로그아웃하면 이 계정과 연결된 모든 일정 항목이 제거됩니다. 그래도 로그아웃하시겠어요?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">%s에서 운영</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">기내 반입 휴대 수하물 요금이 적용됩니다.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">지불 및 수하물 관련 요금이 적용될 수 있습니다.</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">추가 요금</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">수하물 요금</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">지불 처리 요금</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Expedia 계정</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">체크아웃 정보</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">위에 나온 모든 약관에 동의하시나요?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">동의</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">구매하려면 밀어주세요.</string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">여행객 정보</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">여행객 이름이 정부가 발급한 사진이 부착된 ID와 맞지 않는 경우 탑승이 거부될 수 있습니다.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">여행객 %d 정보</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">도</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">우편번호</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">청구지 우편번호</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">나중에 하기</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">여행객을 저장할 수 없습니다.</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">\"%1$s\" 이름으로 저장된 여행객이 이미 있습니다.</string>
@@ -532,13 +574,21 @@
     <!-- Button label for calling -->
     <string name="call_support">고객 지원</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">해당 항공사가 방금 고객님의 항공권 가격을 %1$s만큼 올린 것 같습니다. 지불할 새 총액은 %2$s인데 괜찮으세요?</string>
+    <string name="error_flight_price_increased">해당 항공사가 방금 고객님의 항공권 가격을 %1$s만큼 올린 것 같습니다.  지불할 새 총액은 %2$s인데 괜찮으세요?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">고객님이 요청하신 항공편의 가격이 %1$s만큼 내려간 것이 방금 확인되었습니다. 청구될 새 총액은 %2$s인데 괜찮으세요?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">해당 항공사가 %1$s의 지불 처리 요금을 부과하는 것 같습니다. 지불할 새 총액은 %2$s인데 괜찮으세요?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">해당 항공사가 %1$s의 지불 처리 요금을 부과하고 고객님의 항공권 가격을 %2$s만큼 올린 것 같습니다. 지불할 새 총액은 %3$s인데 괜찮으세요?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">해당 항공사가 %1$s의 지불 처리 요금을 부과하지만 고객님이 요청하신 항공편의 가격이 %2$s만큼 할인된 것이 방금 확인되었습니다. 지불할 새 총액은 %3$s인데 괜찮으세요?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">입력하신 신용카드 번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">사용하시려는 신용카드가 만료되었습니다. 다른 신용카드를 사용해 주세요.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">죄송합니다. 만 18세 미만 아동의 예약은 아직 지원되지 않습니다.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -600,7 +650,7 @@
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">출국편:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">귀국편: </string>
+    <string name="share_flight_section_return">귀국편:</string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
     <plurals name="share_flight_ticket_cost_TEMPLATE">
         <item quantity="one">항공권 요금 총액: %s</item>
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">할인율순</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">고객 평점순</string>
+    <string name="sort_description_rating">평점순</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">모두</string>
@@ -1298,6 +1348,8 @@
     <string name="Like">좋아요</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">이 앱은 마리오 클링거만(Mario Klingemann)의 Stack Blur 알고리즘을 사용합니다.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">오픈 소스 소프트웨어 라이센스 보기</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

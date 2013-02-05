@@ -15,15 +15,15 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">Kami telah mengalami ralat yang tidak ditentukan. Sila cuba lagi kemudian.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Tidak dapat log masuk ke facebook.</string>
+    <string name="unable_to_sign_into_facebook">Tidak dapat mengelog masuk ke Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Log masuk gagal, sila masukkan semula kata laluan anda dan cuba lagi.</string>
     <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Kata Laluan Expedia</string>
+    <string name="expedia_password_hint">Kata laluan Expedia</string>
     <!-- Link accounts -->
     <string name="link_accounts">Pautkan Akaun</string>
     <!-- Failure to update the user -->
-    <string name="failure_to_update_user">Kegagalan mendapatkan maklumat pengguna yang dikemaskini.</string>
+    <string name="failure_to_update_user">Kegagalan mendapatkan maklumat pengguna yang dikemas kini.</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Memautkan akaun anda...</string>
     <!-- Sign in -->
@@ -47,13 +47,15 @@
     <!-- Label for launch screen hotel button secondary text -->
     <string name="launch_hotel_secondary_text">Dapatkan bilik.</string>
     <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">Pergi bercuti. </string>
+    <string name="launch_flight_secondary_text">Pergi bercuti.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Terbang ke&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Inap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
-    <string name="error_launch_connection">Malangnya, kami tidak dapat bersambung.</string>
+    <string name="error_launch_connection">Malangnya, kita tidak dapat berhubung.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Jadual Perjalanan</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Nombor Jadual Perjalanan</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Tiada perjalanan akan datang.</string>
+    <string name="no_upcoming_trips">Tiada akan datang.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Atau, Masukkan Nombor Jadual Perjalanan</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Mendapatkan jadual perjalanan anda...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Log masuk&lt;/b&gt; untuk perjalanan anda</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Berlepas (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Tiba (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Kod Pengesahan</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Penumpang</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Resit dan dasar penerbangan</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Maklumat Tempahan</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Pintu %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Terminal Ketibaan %1$s, Pintu %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Terminal Berlepas %1$s, Pintu %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Mengelog keluar daripada %1$s akan mengeluarkan mana-mana item jadual perjalanan yang berkaitan dengan akaun ini. Adakah anda pasti anda ingin mengelog keluar?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -101,9 +127,9 @@
     <!-- Label for filtering flights by airline (aka, Delta) -->
     <string name="filter_flight_airline">Syarikat Penerbangan Keutamaan</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Berlepas </string>
+    <string name="sort_description_departure">Berlepas</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Tiba </string>
+    <string name="sort_description_arrival">Tiba</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Tempoh</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -124,7 +150,7 @@
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Ralat memuatkan halaman! Mesej ralat: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Akan Berlepas Tak Lama Lagi...</string>
+    <string name="taking_off_soon">Akan Berlepas Tidak Lama Lagi...</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Maaf, tetapi tempahan penerbangan mudah alih &lt;b&gt;belum lagi tersedia&lt;/b&gt; di lokasi anda.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
@@ -132,7 +158,7 @@
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
-    <string name="hint_select_departure">Pilih sebuah tarikh berlepas</string>
+    <string name="hint_select_departure">Pilih tarikh berlepas</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
     <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (Satu Hala)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
@@ -157,11 +183,11 @@
     <!-- Nothing is selected -->
     <string name="calendar_instructions_nothing_selected">Ketik untuk memilih &lt;b&gt;&lt;font color="#3b5998"&gt;tarikh berlepas&lt;/font&gt;&lt;/b&gt; anda.</string>
     <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">Ketik sebuah &lt;b&gt;&lt;font color="#3b5998"&gt;tarikh kembali&lt;/font&gt;&lt;/b&gt;. (Opsyenal)</string>
+    <string name="calendar_instructions_start_selected">Ketik &lt;b&gt;&lt;font color="#3b5998"&gt;tarikh kembali&lt;/font&gt;&lt;/b&gt;. (Opsyenal)</string>
     <!-- Start date and end date selected -->
     <string name="calendar_instructions_range_selected_TEMPLATE">Perjalanan %1$d mlm dipilih.</string>
     <!-- Start date and end date sameday -->
-    <string name="calendar_instructions_range_selected_same_day">Perjalanan hari sama dipilih. </string>
+    <string name="calendar_instructions_range_selected_same_day">Perjalanan hari sama dipilih.</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -202,13 +228,21 @@
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Dikendalikan oleh %s</string>
     <!-- Carry-on baggage fees apply -->
-    <string name="carry_on_baggage_fees_apply">Yuran bagasi bawaan dikenakan.</string>
+    <string name="carry_on_baggage_fees_apply">Yuran bagasi tangan dikenakan.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Yuran bagasi dan pembayaran mungkin dikenakan</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Yuran Tambahan</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Yuran Bagasi</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Yuran Pemprosesan Pembayaran</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
     <string name="edit_current_payment_details">Butiran Pembayaran Semasa</string>
     <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">Pilih sebuah Kaedah Pembayaran</string>
+    <string name="or_select_new_paymet_method">Pilih Kaedah Pembayaran</string>
     <!-- Select Payment -->
     <string name="select_payment">Pilih Pembayaran</string>
     <!-- Add new card -->
@@ -255,8 +289,12 @@
     <string name="expedia_account">Akaun Expedia</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Maklumat Daftar Keluar</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Adakah anda menerima kesemua syarat yang digariskan di atas?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Saya Terima</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Gelongsor untuk membeli.</string>
+    <string name="slide_to_purchase">Gelangsar untuk membeli.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kad anda akan dicaj %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -264,7 +302,7 @@
     <!-- Checkout menu item -->
     <string name="menu_checkout">Daftar keluar</string>
     <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">Jaminan Harga Terbaik </string>
+    <string name="best_price_guarantee">Jaminan Harga Terbaik</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Pembatalan Percuma&lt;/b&gt; sebelum &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Log out -->
@@ -276,7 +314,7 @@
     <!-- Done menu item -->
     <string name="menu_done">Selesai</string>
     <!-- unable to load traveler details message -->
-    <string name="unable_to_load_traveler_message">Kami tidak dapat memuatkan butiran pengembara ini. Sila semak sambungan rangkaian anda dan cuba lagi. </string>
+    <string name="unable_to_load_traveler_message">Kami tidak dapat memuatkan butiran pengembara ini. Sila semak sambungan rangkaian anda dan cuba lagi.</string>
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Maklumat Pengembara</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Pengembara mungkin tidak dibenarkan menaiki kapal jika namanya tidak sepadan dengan ID bergambar yang dikeluarkan oleh kerajaan.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Maklumat %d Pengembara</string>
@@ -346,21 +386,23 @@
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
-    <string name="address_line_one_hint">Alaman baris 1</string>
+    <string name="address_line_one_hint">Alamat baris 1</string>
     <!-- Address line 2 hint -->
-    <string name="address_line_two_hint">Alaman baris 2</string>
+    <string name="address_line_two_hint">Alamat baris 2</string>
     <!-- Address city hint -->
     <string name="address_city_hint">Bandar</string>
     <!-- Address state hint -->
     <string name="address_state_hint">Negeri</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Poskod</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Poskod Pengebilan</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
     <string name="save_billing_info">Simpan Maklumat Pengebilan</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Simpan kaedah pembayaran ini di bawah akaun Expedia anda untuk mempercepatkan pembelian anda pada masa hadapan? </string>
+    <string name="save_billing_info_message">Simpan kaedah pembayaran ini di bawah akaun Expedia anda untuk mempercepatkan pembelian anda pada masa hadapan?</string>
     <!-- save -->
     <string name="save">Simpan</string>
     <!-- dont save -->
@@ -370,12 +412,12 @@
     <!-- save traveler -->
     <string name="save_traveler">Simpan Pengembara</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Simpan maklumat %1$s di bawah akaun Expedia anda untuk mempercepatkan pembelian anda pada masa hadapan? </string>
+    <string name="save_traveler_message_TEMPLATE">Simpan maklumat %1$s di bawah akaun Expedia anda untuk mempercepatkan pembelian anda pada masa hadapan?</string>
     <!-- no thanks -->
     <string name="no_thanks">Tidak, Terima Kasih</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Tidak Dapat Menyimpan Pengembara</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Anda sudah pun mempunyai pengembara tersimpan dengan nama \"%1$s\".</string>
@@ -414,7 +456,7 @@
     <!-- None -->
     <string name="none">Tiada</string>
     <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s adalah &lt;/font&gt; %2$s</string>
+    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s adalah&lt;/font&gt; %2$s</string>
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
@@ -474,7 +516,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">Anda akan pergi ke %s!</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">Jadual Perjalanan #%s telah dihantarkan ke</string>
+    <string name="itinerary_confirmation_TEMPLATE">Jadual Perjalanan #%s telah dihantar ke</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Dapatkan Bilik</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -532,13 +574,21 @@
     <!-- Button label for calling -->
     <string name="call_support">Sokongan</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Nampaknya syarikat penerbangan baru sahaja meningkatkan harga tiket anda sebanyak %1$s.  Anda tidak keberatan membayar jumlah baru sebanyak %2$s?</string>
+    <string name="error_flight_price_increased">Nampaknya syarikat penerbangan baru sahaja meningkatkan harga tiket anda sebanyak %1$s.  Anda tidak keberatan untuk membayar jumlah baru sebanyak %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Kami baru menemui penerbangan yang anda minta ditawarkan pada harga yang kurang sebanyak %1$s. Anda tidak keberatan jika kami mengenakan anda bayaran jumlah baru sebanyak %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Nampaknya syarikat penerbangan mengenakan yuran pemprosesan pembayaran sebanyak %1$s. Anda tidak keberatan untuk membayar jumlah baru sebanyak %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Nampaknya syarikat penerbangan mengenakan yuran pemprosesan pembayaran sebanyak %1$s dan baru  sahaja meningkatkan harga tiket anda sebanyak %2$s. Anda tidak keberatan untuk membayar jumlah baru sebanyak %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Nampaknya syarikat penerbangan mengenakan yuran pemprosesan pembayaran sebanyak %1$s tetapi kami baru menemui penerbangan yang anda minta ditawarkan pada harga yang kurang sebanyak %2$s. Anda tidak keberatan untuk membayar jumlah baru sebanyak %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Nombor kad kredit yang anda masukkan tidak sah, sila cuba lagi.</string>
     <!-- Error shown to user if their credit card has expired -->
-    <string name="error_expired_payment">Kad kredit yang anda cuba gunakan telah tamat tempoh, sila gunakan kad kredit yang lain. </string>
+    <string name="error_expired_payment">Kad kredit yang anda cuba gunakan telah tamat tempoh, sila gunakan kad kredit yang lain.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Maaf, tempahan untuk kanak-kanak di bawah umur 18 tahun belum lagi disokong.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Maaf, kami tidak dapat memproses tempahan anda pada masa ini. Sila cuba lagi.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -578,10 +628,10 @@
     <string name="share_flight_title_TEMPLATE">Jadual Perjalanan Expedia - %1$s (%2$s)</string>
     <!-- The first line of the share flight email -->
     <plurals name="share_flight_start">
-        <item quantity="one">Ini adalah maklumat tempahan pnrbgn saya: </item>
-        <item quantity="two">Ini adalah maklumat tempahan pnrbgn kami: </item>
-        <item quantity="many">Ini adalah maklumat tempahan pnrbgn kami: </item>
-        <item quantity="other">Ini adalah maklumat tempahan pnrbgn kami: </item>
+        <item quantity="one">Ini adalah maklumat tempahan pnrbgn saya:</item>
+        <item quantity="two">Ini adalah maklumat tempahan pnrbgn kami:</item>
+        <item quantity="many">Ini adalah maklumat tempahan pnrbgn kami:</item>
+        <item quantity="other">Ini adalah maklumat tempahan pnrbgn kami:</item>
     </plurals>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
     <string name="share_flight_one_way_TEMPLATE">Perjalanan sehala dari %1$s ke %2$s</string>
@@ -600,7 +650,7 @@
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Keluar:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Kembali: </string>
+    <string name="share_flight_section_return">Kembali:</string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
     <plurals name="share_flight_ticket_cost_TEMPLATE">
         <item quantity="one">Jumlah kos tiket: %s</item>
@@ -613,7 +663,7 @@
     <!-- Presenting the airfare total cost of a flight.  %s is a price, e.g. "$500" -->
     <string name="share_flight_airfare_total_TEMPLATE">Jumlah tambang udara: %s</string>
     <!-- Alerts the user to potential other charges.  %s is a URL -->
-    <string name="share_flight_additional_fees_TEMPLATE">Syarikat penerbangan mungkin mengenakan yuran tambahan untuk bagasi berdaftar atau perkhidmatan opsyenal yang lain. %s</string>
+    <string name="share_flight_additional_fees_TEMPLATE">Syarikat penerbangan mungkin mengenakan yuran tambahan untuk bagasi berdaftar atau perkhidmatan opsyenal yang lain.  %s</string>
     <!-- Gives the user a method of getting support.  %s is a phone number -->
     <string name="share_flight_support_TEMPLATE">Jika anda mempunyai soalan mengenai tempahan ini, sila hubungi Expedia di talian %s</string>
     <!-- Advertisement for the app the user just used -->
@@ -653,7 +703,7 @@
         <item quantity="other">Pilih umur setiap kanak-kanak</item>
     </plurals>
     <!-- Title of "select child age" spinner dialog box -->
-    <string name="prompt_select_child_age">Pilih Umur Kanak-Kanak (%1$s - %2$s)</string>
+    <string name="prompt_select_child_age">Pilih Umur Kanak-Kanak (%1$s–%2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
         <item quantity="one">&lt;b&gt;%d&lt;/b&gt; tahun</item>
@@ -697,7 +747,7 @@
     <!-- Label indicating that geolocation failed -->
     <string name="geolocation_failed">Tidak dapat menentukan lokasi carian.</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-    <string name="NoGeocodingResults">Tidak dapat mencari lokasi %s</string>
+    <string name="NoGeocodingResults">Tidak dapat mencari lokasi %s.</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
     <string name="ChooseLocation">Adakah anda maksudkan…</string>
     <!-- Button label for upgrading the app -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Tawaran</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Penarafan Pengguna</string>
+    <string name="sort_description_rating">Penarafan</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Semua</string>
@@ -830,7 +880,7 @@
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Label for the hotel's star rating -->
-    <string name="star_rating">Pengadaran Bintang</string>
+    <string name="star_rating">Penarafan Bintang</string>
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
 
@@ -1004,7 +1054,7 @@
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-    <string name="gallery_title_template">Foto &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <string name="gallery_title_template">Gambar &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Booking info -->
     <!-- edit label -->
@@ -1109,7 +1159,7 @@
     <!-- Error message when we couldn't get a response -->
     <string name="error_booking_null">Tidak boleh menyambung ke pelayan Expedia.  Sila semak sambungan anda dan cuba lagi.</string>
     <!-- Error message when booking completed with errors -->
-    <string name="error_booking_succeeded_with_errors">Bilik hotel anda telah ditempah.  Walau bagaimanapun, terdapat ralat berikut: %s</string>
+    <string name="error_booking_succeeded_with_errors">Bilik hotel anda telah ditempah. Walau bagaimanapun, terdapat ralat berikut: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Kami tidak dapat menghantar e-mel pengesahan.</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
@@ -1179,7 +1229,7 @@
     <!-- Policy displayed to user when a guarantee is required -->
     <string name="PolicyGuaranteeRequired">Maklumat kad kredit diperlukan untuk membolehkan kami menjamin tempahan anda. Kad kredit anda tidak akan dicaj sehingga ketibaan anda di hotel atau tarikh akhir pembatalan telah berlalu.</string>
     <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">Dengan meneruskan tempahan ini, anda bersetuju kepada segala terma dan syarat, yang termasuk Dasar Pembatalan dan segala terma dan syarat yang terkandung dalam Perjanjian Pengguna.\n\nAnda bersetuju untuk membayar kos tempahan anda. Jika anda tidak membayar hutang ini dan ia dikutip melalui penggunaan agensi kutipan, peguam, atau melalui prosiding undang-undang lain, anda bersetuju untuk membayar semua kos atau bayaran yang munasabah, termasuk bayaran peguam dan kos mahkamah, yang ditanggungi sehubungan usaha kutipan sedemikian.</string>
+    <string name="PolicyExpediaMerchant">Dengan meneruskan tempahan ini, anda bersetuju kepada segala terma dan syarat, yang termasuk Dasar Pembatalan dan segala terma dan syarat yang terkandung dalam Perjanjian Pengguna.\n\nAnda bersetuju untuk membayar kos tempahan anda. Jika anda tidak membayar hutang ini dan ia dikutip melalui penggunaan agensi kutipan, peguam, atau melalui prosiding undang-undang lain, anda bersetuju untuk membayar semua kos atau bayaran yang munasabah, termasuk bayaran peguam dan kos mahkamah, yang ditanggung sehubungan usaha kutipan sedemikian.</string>
     <!-- Expedia agent hotel policies -->
     <string name="PolicyExpediaAgent">Anda membuat tempahan bagi hartanah yang tidak terdiskaun. Semua kadar yang dipaparkan adalah harga setiap malam, dan berdasarkan dwiinap bagi setiap bilik melainkan dinyatakan sebaliknya. Semak dengan teliti penerangan bilik dan peraturan kadar untuk memastikan bilik yang anda pilih boleh menampung kesemua rombongan anda. Sesetengah kadar mungkin memerlukan pengenalan khas. Bayaran tempahan kami, cukai dan surcaj lain yang dikenakan oleh hotel tidak disertakan. Bilangan orang dewasa atau kanak-kanak tambahan yang melebihi penghunian bilik yang tersenarai boleh dikenakan caj tambahan di atas budi bicara hartanah tersebut.\n\nPermintaan untuk lebih daripada 2 orang, atau untuk lebih penghuni daripada yang ditunjukkan bagi kadar pilihan anda, akan dihantarkan ke hotel berkenaan, namun adalah tidak terjamin. Jika diterima, mereka akan dikenakan caj tambahan mengikut budi bicara hartanah berkenaan.</string>
 
@@ -1297,7 +1347,9 @@
     <!-- Action button label to like on facebook -->
     <string name="Like">Suka</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Aplikasi ini menggunakan algoritma Stack Blur oleh by Mario Klingemann.</string>
+    <string name="stack_blur_credit">Aplikasi ini menggunakan algoritma Stack Blur oleh Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Lihat Lesen Perisian Sumber Terbuka</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1305,7 +1357,7 @@
     <!-- Header title -->
     <string name="app_feedback">Maklum Balas Aplikasi</string>
     <!-- Section header for rating (1-5 stars) -->
-    <string name="oosdk_rating_overall_header">Sila Berikan Kami Pengadaran</string>
+    <string name="oosdk_rating_overall_header">Sila Beri Kami Penarafan</string>
     <!-- Footer for the view -->
     <string name="powered_by_opinion_lab">Dikuasakan oleh Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Dasar Privasi</a></string>
     <!-- Hint to type in email address -->
@@ -1426,7 +1478,7 @@
     <string name="e3_error_hotel_information_invalid_input">Ralat tidak diketahui berlaku.</string>
 
     <!-- Country names -->
-    <string name="country_af">Afganistan</string>
+    <string name="country_af">Afghanistan</string>
     <string name="country_al">Albania</string>
     <string name="country_dz">Algeria</string>
     <string name="country_as">Samoa Amerika</string>

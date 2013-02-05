@@ -3,19 +3,19 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;, det ser ud til, at vi har fundet din Expedia-konto! Indtast venligst din adgangskode til Expedia nedenfor for at forbinde din facebook-konto og din Expedia-konto. </string>
+    <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;, det ser ud til, at vi har fundet din Expedia-konto! Indtast venligst din adgangskode til Expedia nedenfor for at forbinde din facebook-konto og din Expedia-konto.</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Hej &lt;b&gt;%1$s&lt;/b&gt;, vi har hentet dine facebook-oplysninger!</string>
+    <string name="facebook_weve_fetched_your_info">Hej &lt;b&gt;%1$s&lt;/b&gt;, vi har hentet dine Facebook-oplysninger!</string>
     <!-- connect with facebook (button text) -->
-    <string name="connect_with_facebook">Forbind med facebook</string>
+    <string name="connect_with_facebook">Forbind med Facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Henter oplysninger fra facebook...</string>
+    <string name="fetching_facebook_info">Henter oplysninger fra Facebook...</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Forsøger at logge dig på med dine login-oplysninger for facebook...</string>
+    <string name="attempting_to_log_in_with_facebook">Forsøger at logge dig på med dine login-oplysninger for Facebook...</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Vi er stødt på en uspecificeret fejl. Prøv igen senere.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Kan ikke logge på Facebook. </string>
+    <string name="unable_to_sign_into_facebook">Kan ikke logge på Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Login mislykket. Genindtast din adgangskode og forsøg igen.</string>
     <!-- Facebook connect expedia password hint -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Overnat i&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Vi beklager, men vi kan ikke oprette forbindelse.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rejseplan</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Rejseplansnummer</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Ingen kommende rejser</string>
+    <string name="no_upcoming_trips">Ingen kommende rejser.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Eller indtast et rejseplansnummer</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Henter din rejseplan...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Log på&lt;/b&gt; for at se dine rejser</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Afgang (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Ankomst (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Bekræftelseskode</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Passagerer</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Kvittering og politikker for flyrejsen</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Reservationsinfo</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Ankomst: terminal %1$s, gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Afgang: terminal %1$s, gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger af %1$s, vil det fjerne alle rejseplansoplysninger for denne konto. Er du sikker på, du vil logge af?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -95,7 +121,7 @@
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Beklager, vi kunne desværre ikke få forbindelse med Expedias servere.  Prøv igen senere.</string>
     <!-- Label for changing sort order on flights -->
-    <string name="filter_flight_sort">Sorter fly efter: </string>
+    <string name="filter_flight_sort">Sorter fly efter:</string>
     <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
     <string name="filter_flight_time">Flytidspunkt</string>
     <!-- Label for filtering flights by airline (aka, Delta) -->
@@ -126,7 +152,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Afgang om lidt...</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">Vi beklager, men flyreservation via mobilen er &lt;b&gt;endnu ikke tilgængelig&lt;/b&gt;, hvor du befinder dig. </string>
+    <string name="invalid_flights_pos">Vi beklager, men flyreservation via mobilen er &lt;b&gt;endnu ikke tilgængelig&lt;/b&gt;, hvor du befinder dig.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Afrejse- og hjemrejselufthavne skal være forskellige.</string>
 
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Drives af %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Gebyrer for håndbagage er gældende.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Gebyrer for betaling og bagage kan være gældende</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Yderligere gebyrer</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Bagagegebyr</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Gebyr for betalingsadministration</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,8 +289,12 @@
     <string name="expedia_account">Expedia-konto</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Betalingsoplysninger</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Accepterer du alle de betingelser, der er beskrevet ovenfor?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Jeg accepterer</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Skub for at købe. </string>
+    <string name="slide_to_purchase">Skub for at købe.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Der trækkes %1$s fra dit kort</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Oplysninger om rejsende</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Boarding kan nægtes, hvis den rejsendes navn ikke stemmer overens med det officielle billed-id.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Oplysninger om rejsende %d</string>
@@ -354,7 +394,9 @@
     <!-- Address state hint -->
     <string name="address_state_hint">Stat</string>
     <!-- Postal Code hint -->
-    <string name="address_postal_code_hint">Postkode</string>
+    <string name="address_postal_code_hint">Postnummer</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Postnummer for fakturering</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">Nej tak</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Kan ikke gemme rejsende</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Du har allerede gemt en rejsende ved navn \"%1$s\".</string>
@@ -535,18 +577,26 @@
     <string name="error_flight_price_increased">Det lader til, at flyselskabet lige har hævet prisen på din billet med %1$s. Vil du gerne betale det nye samlede beløb på %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Vi har lige fundet dine ønskede flybilletter på udsalg, hvor du kan spare %1$s. Vi du gerne betale det nye samlede beløb på %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s. Vil du gerne betale det nye samlede beløb på %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s og har lige hævet prisen på din flybillet med %2$s. Vil du gerne betale det nye samlede beløb på %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s, men vi har lige fundet dine ønskede flybilletter på udsalg, hvor du kan spare %2$s. Vil du gerne betale det nye samlede beløb på %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Du har indtastet et ugyldigt kortnummer. Prøv venligst igen.</string>
     <!-- Error shown to user if their credit card has expired -->
-    <string name="error_expired_payment">Det kreditkort, du forsøgte at anvende, er udløbet. Forsøg venligst med et andet kreditkort. </string>
+    <string name="error_expired_payment">Det kreditkort, du forsøgte at anvende, er udløbet. Forsøg venligst med et andet kreditkort.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Vi beklager, men reservationer for børn under 18 år understøttes endnu ikke.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Forsøg venligst igen.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Forsøg venligst igen, eller ring til Expedias kundeservice. Opgiv følgende rejseplansnummer: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available">Vi beklager meget, men dit fly er ikke længere tilgængeligt. </string>
+    <string name="error_flight_no_longer_available">Vi beklager meget, men dit fly er ikke længere tilgængeligt.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available">Vi beklager meget, men et af dine fly er ikke længere tilgængeligt. </string>
+    <string name="error_flights_no_longer_available">Vi beklager meget, men et af dine fly er ikke længere tilgængeligt.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">Vælg et nyt fly</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -598,7 +648,7 @@
         <item quantity="other">Rejsende%1$s: %2$s</item>
     </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
-    <string name="share_flight_section_outbound">Udrejse: </string>
+    <string name="share_flight_section_outbound">Udrejse:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Returrejse:</string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Tilbud</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Brugeranmeldelse</string>
+    <string name="sort_description_rating">Antal stjerner</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Alle</string>
@@ -779,7 +829,7 @@
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable">Ingen tilgængelige hoteller</string>
     <!-- Message displayed when user need to change input to correct search -->
-    <string name="please_try_a_different_location_or_date">Forsøg venligst med en anden beliggenhed eller dato. </string>
+    <string name="please_try_a_different_location_or_date">Forsøg venligst med en anden beliggenhed eller dato.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1283,7 +1333,7 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Du er logget ud og oplysningerne er slettet</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Du er logget ud af din Expedia-konto, og alle gemte betalings- og kontaktoplysninger er blevet slettet. </string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">Du er logget ud af din Expedia-konto, og alle gemte betalings- og kontaktoplysninger er blevet slettet.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Personlige oplysninger er slettet</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -1298,6 +1348,8 @@
     <string name="Like">Synes godt om</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Denne app anvender Stack Blur-algoritmen af Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Se licenser til open source-software</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1393,7 +1445,7 @@
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
     <string name="e3_error_checkout_payment_failed">Vi var desværre ikke i stand til at gennemføre købet. Kontroller venligst, at du har indtastet de korrekte oplysninger.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
-    <string name="e3_error_checkout_invalid_expiration">Kreditkortets udløbsdato ugyldig. </string>
+    <string name="e3_error_checkout_invalid_expiration">Kreditkortets udløbsdato ugyldig.</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
