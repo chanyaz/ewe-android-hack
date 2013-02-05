@@ -132,10 +132,10 @@ public class FlightItinCard extends ItinCard {
 			Calendar arrivalTimeCal = leg.getLastWaypoint().getMostRelevantDateTime();
 
 			String departureTime = formatTime(departureTimeCal);
-			String departureTz = String.format(res.getString(R.string.depart_tz_TEMPLATE), departureTimeCal
+			String departureTz = res.getString(R.string.depart_tz_TEMPLATE, departureTimeCal
 					.getTimeZone().getDisplayName(false, TimeZone.SHORT));
 			String arrivalTime = formatTime(arrivalTimeCal);
-			String arrivalTz = String.format(res.getString(R.string.arrive_tz_TEMPLATE), arrivalTimeCal.getTimeZone()
+			String arrivalTz = res.getString(R.string.arrive_tz_TEMPLATE, arrivalTimeCal.getTimeZone()
 					.getDisplayName(false, TimeZone.SHORT));
 
 			Ui.setText(view, R.id.departure_time, departureTime);
@@ -268,14 +268,14 @@ public class FlightItinCard extends ItinCard {
 		if (type.equals(WaypointType.LAYOVER)) {
 			//TODO: Need to get a different set of gates, so we will need another waypoint object...
 
-			if (waypoint.getTerminal() == null || waypoint.getGate() == null) {
+			if (TextUtils.isEmpty(waypoint.getTerminal()) || TextUtils.isEmpty(waypoint.getGate())) {
 				Ui.setText(v, R.id.layover_terminal_gate_one, R.string.no_terminal_gate_information);
 				Ui.findView(v, R.id.layover_terminal_gate_two).setVisibility(View.GONE);
 			}
 			else {
-				String arrivalGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE),
+				String arrivalGate = res.getString(R.string.arrival_terminal_TEMPLATE,
 						waypoint.getTerminal(), waypoint.getGate());
-				String departureGate = String.format(res.getString(R.string.arrival_terminal_TEMPLATE),
+				String departureGate = res.getString(R.string.arrival_terminal_TEMPLATE,
 						waypoint.getTerminal(), waypoint.getGate());
 
 				Ui.setText(v, R.id.layover_terminal_gate_one, arrivalGate);
@@ -286,11 +286,11 @@ public class FlightItinCard extends ItinCard {
 		else {
 			Ui.findView(v, R.id.layover_terminal_gate_two).setVisibility(View.GONE);
 
-			if (waypoint.getTerminal() == null || waypoint.getGate() == null) {
+			if (TextUtils.isEmpty(waypoint.getTerminal()) || TextUtils.isEmpty(waypoint.getGate())) {
 				Ui.setText(v, R.id.layover_terminal_gate_one, R.string.no_terminal_gate_information);
 			}
 			else {
-				String termGate = String.format(res.getString(R.string.generic_terminal_TEMPLATE),
+				String termGate = res.getString(R.string.generic_terminal_TEMPLATE,
 						waypoint.getTerminal(), waypoint.getGate());
 				Ui.setText(v, R.id.layover_terminal_gate_one, termGate);
 			}
