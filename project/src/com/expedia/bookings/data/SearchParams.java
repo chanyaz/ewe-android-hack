@@ -33,7 +33,7 @@ public class SearchParams implements JSONable {
 		ADDRESS(true, true),
 		POI(true, true),
 		CITY(false, false),
-		VISIBLE_MAP_AREA(false, true),
+		VISIBLE_MAP_AREA(false, false),
 		FREEFORM(false, false),
 		;
 
