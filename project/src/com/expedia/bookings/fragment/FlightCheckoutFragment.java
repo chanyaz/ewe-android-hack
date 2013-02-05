@@ -298,7 +298,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 				SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
 						R.layout.section_display_traveler_info_btn, null);
 				//travelerSection.setOnClickListener(new OnTravelerClickListener(i, false));
-				dressSectionTraveler(travelerSection,i);
+				dressSectionTraveler(travelerSection, i);
 				mTravelerSections.add(travelerSection);
 			}
 		}
@@ -316,35 +316,50 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mTravelerContainer.removeAllViews();
 		mTravelerSections.clear();
 
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		Traveler traveler;
 		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
-		for (int i = 0; i < numAdults; i++) {
-			traveler = getTraveler(i);
-
-			// The traveler has information, fill it in
-			SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
-					R.layout.section_display_traveler_info_btn, null);
-
-			dressSectionTraveler(travelerSection,i);
-			mTravelerSections.add(travelerSection);
-
-			if (traveler != null && traveler.hasName()) {
-				mTravelerContainer.addView(travelerSection);
-			}
-
-			// This traveler is likely blank, show the empty label, prompt user to fill in
-			else {
-				View v = inflater.inflate(R.layout.snippet_booking_overview_traveler, null);
-				dressSectionTraveler(v, i);
-
-				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
-				tv.setText(mContext.getString(R.string.enter_traveler_info_TEMPLATE, i + 1)); // no zero index for users
-
-				mTravelerContainer.addView(v);
+		if (numAdults == 1) {
+			constructIndividualTravelerBox(0, numAdults);
+		}
+		else {
+			for (int i = 0; i < numAdults; i++) {
+				constructIndividualTravelerBox(i, numAdults);
 			}
 		}
+	}
+
+	private void constructIndividualTravelerBox(int index, int numAdults) {
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		Traveler traveler = getTraveler(index);
+
+		// The traveler has information, fill it in
+		SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
+				R.layout.section_display_traveler_info_btn, null);
+
+		dressSectionTraveler(travelerSection, index);
+		mTravelerSections.add(travelerSection);
+
+		if (traveler != null && traveler.hasName()) {
+			mTravelerContainer.addView(travelerSection);
+		}
+
+		// This traveler is likely blank, show the empty label, prompt user to fill in
+		else {
+			View v = inflater.inflate(R.layout.snippet_booking_overview_traveler, null);
+			dressSectionTraveler(v, index);
+
+			TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
+
+			if (numAdults == 1) {
+				tv.setText(mContext.getString(R.string.traveler_information));
+			}
+			else {
+				tv.setText(mContext.getString(R.string.traveler_num_and_category_TEMPLATE, index + 1)); // no zero index for users
+			}
+
+			mTravelerContainer.addView(v);
+		}
+
 	}
 
 	private void dressSectionTraveler(View travelerSection, int travelerIndex) {
