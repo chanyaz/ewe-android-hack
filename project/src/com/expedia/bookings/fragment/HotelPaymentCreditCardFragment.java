@@ -98,7 +98,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		else if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.NONE)) {
 			// remove the SectionLocation/postalCode as it is not needed
 			ViewGroup vg = Ui.findView(v, R.id.edit_creditcard_exp_date_and_zipcode_container);
-			vg.removeViewAt(1);
+			vg.removeView(Ui.findView(v, R.id.section_location_address));
 		}
 
 		return v;
