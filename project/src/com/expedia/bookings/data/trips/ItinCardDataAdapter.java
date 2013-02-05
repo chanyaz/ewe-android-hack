@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.CarItinCard;
 import com.expedia.bookings.widget.CruiseItinCard;
 import com.expedia.bookings.widget.FlightItinCard;
@@ -76,48 +77,69 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	@Override
 	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
-		ItinCardData data = getItem(position);
-		TripComponent tripComponent = data.getTripComponent();
 		ItinCard card = null;
 
-		// Try to cast view to the appropriate type
-		if (convertView != null) {
-			card = (ItinCard) convertView;
-
-			// If types don't match set convertView to null
-			// in order to create correct instance below
-			if (!card.getType().equals(tripComponent.getType())) {
-				card = null;
+		Type cardType = Type.values()[getItemViewType(position)];
+		switch (cardType) {
+		case HOTEL: {
+			if (convertView instanceof HotelItinCard) {
+				card = (HotelItinCard) convertView;
 			}
-		}
-
-		if (card == null) {
-			switch (tripComponent.getType()) {
-			case HOTEL: {
+			else {
 				card = new HotelItinCard(mContext);
-				break;
 			}
-			case FLIGHT: {
+			break;
+		}
+		case FLIGHT: {
+			if (convertView instanceof FlightItinCard) {
+				card = (FlightItinCard) convertView;
+			}
+			else {
 				card = new FlightItinCard(mContext);
-				break;
 			}
-			case CAR:
+			break;
+		}
+		case CAR: {
+			if (convertView instanceof CarItinCard) {
+				card = (CarItinCard) convertView;
+			}
+			else {
 				card = new CarItinCard(mContext);
-				break;
-			case CRUISE:
-				card = new CruiseItinCard(mContext);
-				break;
-			default:
-				break;
 			}
+			break;
+		}
+		case CRUISE: {
+			if (convertView instanceof CruiseItinCard) {
+				card = (CruiseItinCard) convertView;
+			}
+			else {
+				card = new CruiseItinCard(mContext);
+			}
+
+			break;
+		}
+		default:
+			break;
 		}
 
 		if (card != null) {
+			ItinCardData data = getItem(position);
 			card.bind(data);
 			card.showSummary(position == 0);
 		}
 
 		return card;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		Type type = getItem(position).getTripComponent().getType();
+		return type.ordinal();
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return TripComponent.Type.values().length;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
