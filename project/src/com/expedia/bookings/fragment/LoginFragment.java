@@ -1105,7 +1105,7 @@ public class LoginFragment extends Fragment {
 		if (session == null || state == null || exception != null || state.equals(SessionState.CLOSED)
 				|| state.equals(SessionState.CLOSED_LOGIN_FAILED)) {
 			setStatusText(R.string.unable_to_sign_into_facebook, false);
-			setIsLoading(false);
+			goBack();
 		}
 		else if (session.isOpened()) {
 			fetchFacebookUserInfo(session);
