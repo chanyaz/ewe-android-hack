@@ -22,25 +22,19 @@ public class ItinCardDataFactory {
 	}
 
 	public static List<ItinCardData> generateCardData(TripComponent tc) {
-		ArrayList<ItinCardData> retList = new ArrayList<ItinCardData>();
-
-		if (tc.getType().equals(Type.FLIGHT)) {
-			retList = generateFlightCardData((TripFlight) tc);
+		Type type = tc.getType();
+		switch (type) {
+		case FLIGHT:
+			return generateFlightCardData((TripFlight) tc);
+		case HOTEL:
+			return generateHotelCardData((TripHotel) tc);
+		case ACTIVITY:
+			return generateActivityCardData((TripActivity) tc);
+		case CAR:
+			return generateCarCardData((TripCar) tc);
+		default:
+			return generateGenericCardData(tc);
 		}
-		else if (tc.getType().equals(Type.HOTEL)) {
-			retList = generateHotelCardData((TripHotel) tc);
-		}
-		else if (tc.getType().equals(Type.ACTIVITY)) {
-			retList = generateActivityCardData((TripActivity) tc);
-		}
-		else if (tc.getType().equals(Type.CAR)) {
-			retList = generateCarCardData((TripCar) tc);
-		}
-		else {
-			retList = generateGenericCardData(tc);
-		}
-
-		return retList;
 	}
 
 	private static ArrayList<ItinCardData> generateFlightCardData(TripFlight tc) {
