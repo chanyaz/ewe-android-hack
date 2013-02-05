@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:layout_marginBottom="16dp"
     android:orientation="vertical" >
 
     <!-- DEPARTURE/ARRIVAL TIMES -->
@@ -172,13 +173,14 @@
         android:textStyle="bold" />
 
     <View
+        android:id="@+id/insurance_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_margin="8dp"
         android:background="@color/itin_flight_divider_color" />
 
     <LinearLayout
-        android:id="@+id/incusrance_container"
+        android:id="@+id/insurance_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"

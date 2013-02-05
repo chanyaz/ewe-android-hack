@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -16,12 +17,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.section.FlightLegSummarySection;
@@ -162,6 +166,40 @@ public class FlightItinCard extends ItinCard {
 			//TODO: Use a real value. Seems like we might need to add an accessor someplace in the Flight Class in flight lib for this
 			String bookingCode = "ROBOT";
 			Ui.setText(view, R.id.confirmation_code, bookingCode);
+
+			//Insurance
+			boolean hasInsurance = (this.mTripFlight.getParentTrip().getTripInsurance() != null && this.mTripFlight
+					.getParentTrip().getTripInsurance().size() > 0);
+			int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
+			View insuranceDivider = Ui.findView(view, R.id.insurance_divider);
+			View insuranceContainer = Ui.findView(view, R.id.insurance_container);
+			insuranceLabel.setVisibility(insuranceVisibility);
+			insuranceDivider.setVisibility(insuranceVisibility);
+			insuranceContainer.setVisibility(insuranceVisibility);
+			if (hasInsurance) {
+				Insurance insurance = null;
+				for (int i = 0; i < this.mTripFlight.getParentTrip().getTripInsurance().size(); i++) {
+					if (mTripFlight.getParentTrip().getTripInsurance().get(i).getLineOfBusiness()
+							.equals(InsuranceLineOfBusiness.AIR)) {
+						insurance = mTripFlight.getParentTrip().getTripInsurance().get(i);
+					}
+				}
+				if (insurance != null) {
+					TextView insuranceName = Ui.findView(view, R.id.insurance_name);
+					insuranceName.setText(insurance.getPolicyName());
+					final Insurance finalInsurance = insurance;
+
+					View insuranceLinkView = Ui.findView(view, R.id.insurance_button);
+					insuranceLinkView.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View arg0) {
+							Intent insuranceIntent = WebViewActivity.getIntent(getContext(),
+									finalInsurance.getTermsUrl(), R.style.FlightTheme, R.string.insurance, true);
+							getContext().startActivity(insuranceIntent);
+						}
+					});
+				}
+			}
 
 			//Add the flight stuff
 			ViewGroup flightLegContainer = Ui.findView(view, R.id.flight_leg_container);

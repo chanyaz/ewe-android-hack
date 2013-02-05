@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.trips.BookingStatus;
+import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.Trip.TimePeriod;
 import com.expedia.bookings.data.trips.TripActivity;
@@ -101,6 +102,14 @@ public class TripParser {
 		}
 
 		// TODO: Parse cruises (once those are available to be parsed)
+
+		//Parse insurance
+		JSONArray insurance = tripJson.optJSONArray("insurance");
+		if (insurance != null) {
+			for (int b = 0; b < insurance.length(); b++) {
+				trip.addInsurance(parseTripInsurance(insurance.optJSONObject(b)));
+			}
+		}
 
 		return trip;
 	}
@@ -381,6 +390,18 @@ public class TripParser {
 		}
 
 		return tripActivity;
+	}
+
+	private Insurance parseTripInsurance(JSONObject obj) {
+		Insurance retVal = new Insurance();
+
+		if (obj.has("name")) {
+			retVal.setPolicyName(obj.optString("name", null));
+			retVal.setTermsUrl(obj.optString("termsURL", null));
+			retVal.setInsuranceLineOfBusiness(obj.optString("lineOfBusiness", ""));
+		}
+
+		return retVal;
 	}
 
 	private void parseTripCommon(JSONObject obj, TripComponent component) {

@@ -38,6 +38,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 	private TimePeriod mTimePeriod;
 
 	private List<TripComponent> mTripComponents = new ArrayList<TripComponent>();
+	private List<Insurance> mTripInsurance = new ArrayList<Insurance>();
 
 	// There are two levels of details - a quick, cached copy from the API and
 	// a full, up-to-date copy.  Thus, two possible update times.
@@ -130,8 +131,16 @@ public class Trip implements JSONable, Comparable<Trip> {
 		tripComponent.setParentTrip(this);
 	}
 
+	public void addInsurance(Insurance insurance) {
+		mTripInsurance.add(insurance);
+	}
+
 	public List<TripComponent> getTripComponents() {
 		return mTripComponents;
+	}
+
+	public List<Insurance> getTripInsurance() {
+		return mTripInsurance;
 	}
 
 	// Call whenever mTripComponents is updated (outside of addTripComponent())
@@ -174,6 +183,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mTripComponents = other.mTripComponents;
 		associateTripWithComponents();
 
+		mTripInsurance = other.getTripInsurance();
+
 		long updateTime = Calendar.getInstance().getTimeInMillis();
 		if (isFullUpdate) {
 			mLastFullUpdate = updateTime;
@@ -206,6 +217,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 			JSONUtils.putEnum(obj, "timePeriod", mTimePeriod);
 
 			JSONUtils.putJSONableList(obj, "tripComponents", mTripComponents);
+			JSONUtils.putJSONableList(obj, "insurance", mTripInsurance);
 
 			obj.putOpt("lastQuickUpdate", mLastQuickUpdate);
 			obj.putOpt("lastFullUpdate", mLastFullUpdate);
@@ -235,6 +247,10 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 		mTripComponents = JSONUtils.getJSONableList(obj, "tripComponents", TripComponent.class);
 		associateTripWithComponents();
+
+		if (obj.has("insurance")) {
+			mTripInsurance = JSONUtils.getJSONableList(obj, "insurance", Insurance.class);
+		}
 
 		mLastQuickUpdate = obj.optLong("lastQuickUpdate");
 		mLastFullUpdate = obj.optLong("lastFullUpdate");
