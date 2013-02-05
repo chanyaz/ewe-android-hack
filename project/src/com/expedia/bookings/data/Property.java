@@ -16,34 +16,22 @@ public class Property implements JSONable {
 
 	public static enum Amenity {
 		// @formatter:off
-		BUSINESS_CENTER(0x0000001, R.string.AmenityBusinessCenter),
-		FITNESS_CENTER(0x0000002, R.string.AmenityFitnessCenter),
-		HOT_TUB(0x0000004, R.string.AmenityHotTub),
-		INTERNET(0x0000008, R.string.AmenityInternet),
-		KIDS_ACTIVITIES(0x0000010, R.string.AmenityKidsActivities),
-		KITCHEN(0x0000020, R.string.AmenityKitchen),
-		PETS_ALLOWED(0x0000040, R.string.AmenityPetsAllowed),
-		POOL(0x0000080, R.string.AmenityPool),
-		RESTAURANT(0x0000100, R.string.AmenityRestaurant),
-		SPA(0x0000200, R.string.AmenitySpa),
-		WHIRLPOOL_BATH(0x0000400, R.string.AmenityWhirlpoolBath),
-		BREAKFAST(0x0000800, R.string.AmenityBreakfast),
-		BABYSITTING(0x0001000, R.string.AmenityBabysitting),
-		JACUZZI(0x0002000, R.string.AmenityJacuzzi),
-		PARKING(0x0004000, R.string.AmenityParking),
-		ROOM_SERVICE(0x0008000, R.string.AmenityRoomService),
-		ACCESSIBLE_PATHS(0x0010000, R.string.AmenityAccessiblePaths),
-		ACCESSIBLE_BATHROOM(0x0020000, R.string.AmenityAccessibleBathroom),
-		ROLL_IN_SHOWER(0x0040000, R.string.AmenityRollInShower),
-		HANDICAPPED_PARKING(0x0080000, R.string.AmenityHandicappedParking),
-		IN_ROOM_ACCESSIBILITY(0x0100000, R.string.AmenityInRoomAccessibility),
-		DEAF_ACCESSIBILITY_EQUIPMENT(0x0200000, R.string.AmenityDeafAccessibilityEquipment),
-		BRAILLE_SIGNAGE(0x0400000, R.string.AmenityBrailleSignage),
-		FREE_AIRPORT_SHUTTLE(0x0800000, R.string.AmenityFreeAirportShuttle),
-		POOL_INDOOR(0x1000000, R.string.AmenityPoolIndoor),
-		POOL_OUTDOOR(0x2000000, R.string.AmenityPoolOutdoor),
-		EXTENDED_PARKING(0x4000000, R.string.AmenityExtendedParking),
-		FREE_PARKING(0x8000000, R.string.AmenityFreeParking);
+		BUSINESS_CENTER(0x0000001, R.string.AmenityBusinessCenter), FITNESS_CENTER(0x0000002,
+				R.string.AmenityFitnessCenter), HOT_TUB(0x0000004, R.string.AmenityHotTub), INTERNET(0x0000008,
+				R.string.AmenityInternet), KIDS_ACTIVITIES(0x0000010, R.string.AmenityKidsActivities), KITCHEN(
+				0x0000020, R.string.AmenityKitchen), PETS_ALLOWED(0x0000040, R.string.AmenityPetsAllowed), POOL(
+				0x0000080, R.string.AmenityPool), RESTAURANT(0x0000100, R.string.AmenityRestaurant), SPA(0x0000200,
+				R.string.AmenitySpa), WHIRLPOOL_BATH(0x0000400, R.string.AmenityWhirlpoolBath), BREAKFAST(0x0000800,
+				R.string.AmenityBreakfast), BABYSITTING(0x0001000, R.string.AmenityBabysitting), JACUZZI(0x0002000,
+				R.string.AmenityJacuzzi), PARKING(0x0004000, R.string.AmenityParking), ROOM_SERVICE(0x0008000,
+				R.string.AmenityRoomService), ACCESSIBLE_PATHS(0x0010000, R.string.AmenityAccessiblePaths), ACCESSIBLE_BATHROOM(
+				0x0020000, R.string.AmenityAccessibleBathroom), ROLL_IN_SHOWER(0x0040000, R.string.AmenityRollInShower), HANDICAPPED_PARKING(
+				0x0080000, R.string.AmenityHandicappedParking), IN_ROOM_ACCESSIBILITY(0x0100000,
+				R.string.AmenityInRoomAccessibility), DEAF_ACCESSIBILITY_EQUIPMENT(0x0200000,
+				R.string.AmenityDeafAccessibilityEquipment), BRAILLE_SIGNAGE(0x0400000, R.string.AmenityBrailleSignage), FREE_AIRPORT_SHUTTLE(
+				0x0800000, R.string.AmenityFreeAirportShuttle), POOL_INDOOR(0x1000000, R.string.AmenityPoolIndoor), POOL_OUTDOOR(
+				0x2000000, R.string.AmenityPoolOutdoor), EXTENDED_PARKING(0x4000000, R.string.AmenityExtendedParking), FREE_PARKING(
+				0x8000000, R.string.AmenityFreeParking);
 		// @formatter:on
 
 		private int flag;
@@ -74,6 +62,8 @@ public class Property implements JSONable {
 	private String mDescriptionText;
 	private Media mThumbnail;
 	private List<Media> mMedia;
+	private String mLocalPhone;
+	private String mTollFreePhone;
 
 	// These change based on when the user requests data
 	private boolean mAvailable;
@@ -188,6 +178,22 @@ public class Property implements JSONable {
 			return 0;
 		}
 		return mMedia.size();
+	}
+
+	public String getLocalPhone() {
+		return mLocalPhone;
+	}
+
+	public void setLocalPhone(String localPhone) {
+		mLocalPhone = localPhone;
+	}
+
+	public String getTollFreePhone() {
+		return mTollFreePhone;
+	}
+
+	public void setTollFreePhone(String tollFreePhone) {
+		mTollFreePhone = tollFreePhone;
 	}
 
 	public boolean isAvailable() {

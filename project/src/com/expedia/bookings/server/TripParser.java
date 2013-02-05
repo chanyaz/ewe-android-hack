@@ -193,8 +193,27 @@ public class TripParser {
 				property.setLocation(location);
 			}
 
+			property.setLocalPhone(propertyJson.optString("localPhone"));
+			property.setTollFreePhone(propertyJson.optString("tollFreePhone"));
+
 			hotel.setProperty(property);
 		}
+
+		int guests = 0;
+		JSONArray roomsJson = obj.optJSONArray("rooms");
+		if (roomsJson != null) {
+			for (int i = 0; i < roomsJson.length(); i++) {
+				JSONObject room = roomsJson.optJSONObject(i);
+				property.setDescriptionText(room.optString("roomRatePlanDescription"));
+
+				JSONObject roomPreferences = room.optJSONObject("roomPreferences");
+				JSONObject otherOccupantInfo = roomPreferences.optJSONObject("otherOccupantInfo");
+				guests += otherOccupantInfo.optInt("adultCount");
+				guests += otherOccupantInfo.optInt("childAndInfantCount");
+			}
+		}
+
+		hotel.setGuests(guests);
 
 		return hotel;
 	}

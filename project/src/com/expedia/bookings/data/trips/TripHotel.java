@@ -9,6 +9,7 @@ import com.mobiata.android.json.JSONUtils;
 public class TripHotel extends TripComponent {
 
 	private Property mProperty;
+	private int mGuests;
 
 	public TripHotel() {
 		super(Type.HOTEL);
@@ -20,6 +21,14 @@ public class TripHotel extends TripComponent {
 
 	public void setProperty(Property property) {
 		mProperty = property;
+	}
+
+	public int getGuests() {
+		return mGuests;
+	}
+
+	public void setGuests(int guests) {
+		mGuests = guests;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -34,6 +43,7 @@ public class TripHotel extends TripComponent {
 
 		try {
 			JSONUtils.putJSONable(obj, "property", mProperty);
+			obj.put("guests", mGuests);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -45,6 +55,7 @@ public class TripHotel extends TripComponent {
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
+		mGuests = obj.optInt("guests");
 		return true;
 	}
 }

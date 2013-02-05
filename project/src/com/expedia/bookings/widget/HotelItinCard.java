@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,6 +98,8 @@ public class HotelItinCard extends ItinCard {
 		mGuestsTextView = Ui.findView(view, R.id.guests_text_view);
 		mStaticMapImageView = Ui.findView(view, R.id.mini_map);
 		mAddressTextView = Ui.findView(view, R.id.address_text_view);
+		mPhoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
+		mRoomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
 
 		bind((TripHotel) tripHotel);
 
@@ -110,11 +113,19 @@ public class HotelItinCard extends ItinCard {
 	private void bind(TripHotel tripHotel) {
 		mCheckInDateTextView.setText(DATE_FORMAT.format(tripHotel.getStartDate().getCalendar().getTime()));
 		mCheckOutDateTextView.setText(DATE_FORMAT.format(tripHotel.getEndDate().getCalendar().getTime()));
-		mGuestsTextView.setText("2");
+		mGuestsTextView.setText(String.valueOf(tripHotel.getGuests()));
 
 		mStaticMapImageView.setCenterPoint(mProperty.getLocation());
 		mStaticMapImageView.setPoiPoint(mProperty.getLocation());
 
 		mAddressTextView.setText(mProperty.getLocation().getStreetAddressString());
+		mRoomTypeTextView.setText(mProperty.getDescriptionText());
+
+		if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {
+			mPhoneNumberTextView.setText(mProperty.getTollFreePhone());
+		}
+		else {
+			mPhoneNumberTextView.setText(mProperty.getLocalPhone());
+		}
 	}
 }

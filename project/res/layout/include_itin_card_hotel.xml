@@ -109,6 +109,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:text="ADDRESS"
         android:textColor="#4D555D"
@@ -126,7 +127,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:text="200 West 22nd St\nNew York, NY 10001"
         android:textColor="@android:color/white" />
 
     <!-- PHONE -->
@@ -152,6 +152,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="(212) 675-1911"
         android:textColor="@android:color/white" />
 
@@ -178,7 +179,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:text="One Queen Bed"
+        android:layout_marginRight="16dp"
         android:textColor="@android:color/white" />
 
     <!-- BOOKING INFO -->
@@ -202,7 +203,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="View receipt and policies"
         android:textColor="@android:color/white" />
 
