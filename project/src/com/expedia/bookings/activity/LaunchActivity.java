@@ -1,15 +1,7 @@
 package com.expedia.bookings.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,12 +11,9 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
-import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
@@ -37,17 +26,9 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	private static final int REQUEST_SETTINGS = 1;
 
-	private static final int PAGER_POS_WATERFALL = 0;
-	private static final int PAGER_POS_ITIN = 1;
-
 	private LaunchHeaderView mHeader;
 
 	private LaunchFragment mLaunchFragment;
-	private ItinItemListFragment mItinListFragment;
-
-	private PagerAdapter mPagerAdapter;
-	private ViewPager mViewPager;
-	private int mPagerPosition = PAGER_POS_WATERFALL;
 
 	private HockeyPuck mHockeyPuck;
 
@@ -62,43 +43,14 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		mHeader = Ui.findView(this, R.id.header);
 
-		mLaunchFragment = Ui.findSupportFragment(this, LaunchFragment.TAG);
-		if (mLaunchFragment == null) {
+		if (savedInstanceState == null) {
 			mLaunchFragment = LaunchFragment.newInstance();
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.content_container, mLaunchFragment, LaunchFragment.TAG).commit();
 		}
-		mItinListFragment = Ui.findSupportFragment(this, ItinItemListFragment.TAG);
-		if (mItinListFragment == null) {
-			mItinListFragment = ItinItemListFragment.newInstance();
+		else {
+			mLaunchFragment = Ui.findSupportFragment(this, LaunchFragment.TAG);
 		}
-
-		List<Fragment> frags = new ArrayList<Fragment>();
-		frags.add(mLaunchFragment);
-		frags.add(mItinListFragment);
-		mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), frags);
-
-		mViewPager = Ui.findView(this, R.id.viewpager);
-		mViewPager.setAdapter(mPagerAdapter);
-		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-			@Override
-			public void onPageScrollStateChanged(int state) {
-			}
-
-			@Override
-			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-			}
-
-			@Override
-			public void onPageSelected(int position) {
-				if (mViewPager != null && position != mPagerPosition) {
-					if (position == PAGER_POS_WATERFALL) {
-						gotoWaterfall();
-					}
-					else if (position == PAGER_POS_ITIN) {
-						gotoItineraries();
-					}
-				}
-			}
-		});
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
@@ -145,7 +97,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
-		
+
 		supportInvalidateOptionsMenu();
 	}
 
@@ -156,21 +108,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		if (isFinishing() && mLaunchFragment != null) {
 			mLaunchFragment.cleanUp();
 		}
-	}
-
-	@Override
-	public void onBackPressed() {
-		if (mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
-			if (!mItinListFragment.inListMode()) {
-				mItinListFragment.setListMode();
-				return;
-			}
-
-			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
-			return;
-		}
-
-		super.onBackPressed();
 	}
 
 	@Override
@@ -196,8 +133,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
 
-		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.itineraries);
-
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		mHockeyPuck.onCreateOptionsMenu(menu);
 
@@ -207,37 +142,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		boolean retVal = super.onPrepareOptionsMenu(menu);
-		if (menu != null) {
-			boolean itinButtonEnabled = true;
-			boolean addNewItinButtonEnabled = false;
-			boolean logoutBtnEnabled = false;
-
-			if (mViewPager != null && mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
-				itinButtonEnabled = false;
-			}
-			else {
-				itinButtonEnabled = true;
-			}
-			addNewItinButtonEnabled = !itinButtonEnabled;
-			logoutBtnEnabled = !itinButtonEnabled && User.isLoggedIn(this);
-
-			MenuItem itinBtn = menu.findItem(R.id.itineraries);
-			if (itinBtn != null) {
-				itinBtn.setVisible(itinButtonEnabled);
-				itinBtn.setEnabled(itinButtonEnabled);
-			}
-			MenuItem addNewItinBtn = menu.findItem(R.id.add_itinerary);
-			if (addNewItinBtn != null) {
-				addNewItinBtn.setVisible(addNewItinButtonEnabled);
-				addNewItinBtn.setEnabled(addNewItinButtonEnabled);
-			}
-			MenuItem logOutBtn = menu.findItem(R.id.ab_log_out);
-			if (logOutBtn != null) {
-				logOutBtn.setVisible(logoutBtnEnabled);
-				logOutBtn.setEnabled(logoutBtnEnabled);
-			}
-
-		}
 
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 
@@ -249,22 +153,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			gotoWaterfall();
-			return true;
-		case R.id.itineraries:
-			gotoItineraries();
-			return true;
-		case R.id.add_itinerary:
-			if (mItinListFragment != null) {
-				mItinListFragment.startAddGuestItinActivity();
-			}
-			return true;
-		case R.id.ab_log_out:
-			if (mItinListFragment != null) {
-				mItinListFragment.accountLogoutClicked();
-			}
-			return true;
 		case R.id.settings:
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);
@@ -305,54 +193,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		}
 	};
 
-	private void gotoWaterfall() {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		getSupportActionBar().setHomeButtonEnabled(false);
-
-		mPagerPosition = PAGER_POS_WATERFALL;
-		mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
-		mItinListFragment.setListMode();
-		mHeader.show();
-
-		supportInvalidateOptionsMenu();
-	}
-
-	private void gotoItineraries() {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		mItinListFragment.enableLoadItins();
-
-		mPagerPosition = PAGER_POS_ITIN;
-		mViewPager.setCurrentItem(PAGER_POS_ITIN);
-		mHeader.setOffset();
-
-		supportInvalidateOptionsMenu();
-	}
-
 	public void setHeaderOffset(int offset) {
-		offset = Math.min(offset, 0);
-
-		if (mViewPager.getCurrentItem() == 1) {
-			mHeader.setOffset(offset);
-		}
-	}
-
-	public class PagerAdapter extends FragmentPagerAdapter {
-		private List<Fragment> mFragments;
-
-		public PagerAdapter(FragmentManager fm, List<Fragment> fragments) {
-			super(fm);
-			mFragments = fragments;
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			return mFragments.get(position);
-		}
-
-		@Override
-		public int getCount() {
-			return mFragments.size();
-		}
+		//We leave this around so we dont have to alter the ItinItemListFragment at all
 	}
 }
