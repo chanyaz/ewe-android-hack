@@ -43,4 +43,22 @@ public class CruiseItinCard extends ItinCard {
 	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
 		return null;
 	}
+
+	@Override
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected SummaryButton getSummaryLeftButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected SummaryButton getSummaryRightButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

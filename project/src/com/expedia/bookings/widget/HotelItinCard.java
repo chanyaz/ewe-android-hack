@@ -3,7 +3,10 @@ package com.expedia.bookings.widget;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.SocialUtils;
 
 public class HotelItinCard extends ItinCard {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +58,7 @@ public class HotelItinCard extends ItinCard {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
-	// OVERRIDES
+	// ABSTRACT IMPLEMENTATIONS
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -104,6 +108,37 @@ public class HotelItinCard extends ItinCard {
 		bind((TripHotel) tripHotel);
 
 		return view;
+	}
+
+	@Override
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+		return null;
+	}
+
+	@Override
+	protected SummaryButton getSummaryLeftButton() {
+		return new SummaryButton(R.drawable.ic_urgency_clock, "DIRECTIONS", new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="
+						+ mProperty.getLocation().getStreetAddressString()));
+
+				intent.setComponent(new ComponentName("com.google.android.apps.maps",
+						"com.google.android.maps.MapsActivity"));
+
+				getContext().startActivity(intent);
+			}
+		});
+	}
+
+	@Override
+	protected SummaryButton getSummaryRightButton() {
+		return new SummaryButton(R.drawable.ic_urgency_clock, "CALL HOTEL", new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SocialUtils.call(getContext(), mProperty.getTollFreePhone());
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

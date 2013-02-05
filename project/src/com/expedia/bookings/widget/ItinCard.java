@@ -35,7 +35,41 @@ public abstract class ItinCard extends RelativeLayout {
 
 	protected abstract String getHeaderText(TripComponent tripComponent);
 
+	protected abstract View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent);
+
 	protected abstract View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent);
+
+	protected abstract SummaryButton getSummaryLeftButton();
+
+	protected abstract SummaryButton getSummaryRightButton();
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE CLASSES
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	protected final class SummaryButton {
+		private int mIconResId;
+		private String mText;
+		private OnClickListener mOnClickListener;
+
+		public SummaryButton(int iconResId, String text, OnClickListener onClickListener) {
+			mIconResId = iconResId;
+			mText = text;
+			mOnClickListener = onClickListener;
+		}
+
+		public int getIconResId() {
+			return mIconResId;
+		}
+
+		public String getText() {
+			return mText;
+		}
+
+		public OnClickListener getOnClickListener() {
+			return mOnClickListener;
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -50,6 +84,9 @@ public abstract class ItinCard extends RelativeLayout {
 	private OptimizedImageView mHeaderImageView;
 	private ImageView mItinTypeImageView;
 	private TextView mHeaderTextView;
+
+	private TextView mSummaryLeftButton;
+	private TextView mSummaryRightButton;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -73,6 +110,9 @@ public abstract class ItinCard extends RelativeLayout {
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mHeaderTextView = Ui.findView(this, R.id.header_text_view);
+
+		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
+		mSummaryRightButton = Ui.findView(this, R.id.summary_right_button);
 
 		mScrollView.setOnScrollListener(mOnScrollListener);
 
@@ -113,6 +153,21 @@ public abstract class ItinCard extends RelativeLayout {
 		if (detailsView != null) {
 			mDetailsLayout.removeAllViews();
 			mDetailsLayout.addView(detailsView);
+		}
+
+		// Buttons
+		SummaryButton leftButton = getSummaryLeftButton();
+		if (leftButton != null) {
+			mSummaryLeftButton.setCompoundDrawablesWithIntrinsicBounds(leftButton.getIconResId(), 0, 0, 0);
+			mSummaryLeftButton.setText(leftButton.getText());
+			mSummaryLeftButton.setOnClickListener(leftButton.getOnClickListener());
+		}
+
+		SummaryButton rightButton = getSummaryRightButton();
+		if (rightButton != null) {
+			mSummaryRightButton.setCompoundDrawablesWithIntrinsicBounds(rightButton.getIconResId(), 0, 0, 0);
+			mSummaryRightButton.setText(rightButton.getText());
+			mSummaryRightButton.setOnClickListener(rightButton.getOnClickListener());
 		}
 	}
 

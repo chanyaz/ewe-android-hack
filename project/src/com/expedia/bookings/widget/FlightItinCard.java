@@ -180,12 +180,10 @@ public class FlightItinCard extends ItinCard {
 				flightLegContainer.addView(getDividerView());
 
 				if (isLastSegment) {
-					flightLegContainer
-							.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
+					flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
 				}
 				else {
-					flightLegContainer
-							.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
+					flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
 					flightLegContainer.addView(getDividerView());
 				}
 
@@ -194,6 +192,24 @@ public class FlightItinCard extends ItinCard {
 		}
 
 		return view;
+	}
+
+	@Override
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected SummaryButton getSummaryLeftButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected SummaryButton getSummaryRightButton() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -237,8 +253,7 @@ public class FlightItinCard extends ItinCard {
 			}
 			else {
 				String termGate = String.format(res.getString(R.string.generic_terminal_TEMPLATE),
-						waypoint.getTerminal(),
-						waypoint.getGate());
+						waypoint.getTerminal(), waypoint.getGate());
 				Ui.setText(v, R.id.layover_terminal_gate_one, termGate);
 			}
 		}
