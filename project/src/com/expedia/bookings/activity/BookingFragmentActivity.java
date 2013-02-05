@@ -275,10 +275,9 @@ public class BookingFragmentActivity extends FragmentActivity implements Booking
 		}
 	};
 
-	@SuppressLint("NewApi")
 	private void showErrorDialog(String errorMsg) {
-		SimpleDialogFragment.newInstance(getString(R.string.error_booking_title), errorMsg).show(getFragmentManager(),
-				getString(R.string.tag_booking_error));
+		SimpleDialogFragment.newInstance(getString(R.string.error_booking_title), errorMsg).show(
+				getSupportFragmentManager(), getString(R.string.tag_booking_error));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
