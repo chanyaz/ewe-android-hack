@@ -58,7 +58,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -352,7 +351,7 @@ public class LoginFragment extends Fragment {
 					bd.cancelDownload(NET_MANUAL_LOGIN);
 				}
 
-				//Do facebook things!!!
+				// Do facebook things!!!
 				doFacebookLogin();
 
 				setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
@@ -482,12 +481,12 @@ public class LoginFragment extends Fragment {
 				//goto previous state...
 				if (TextUtils.isEmpty(mExpediaUserName.getText())) {
 					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
-					setStatusText(R.string.expedia_account, true);
 				}
 				else {
 					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
-					setStatusText(R.string.expedia_account, true);
 				}
+
+				setStatusText(R.string.expedia_account, true);
 			}
 		});
 	}
