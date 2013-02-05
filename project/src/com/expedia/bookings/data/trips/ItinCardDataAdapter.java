@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.widget.ActivityItinCard;
 import com.expedia.bookings.widget.CarItinCard;
 import com.expedia.bookings.widget.CruiseItinCard;
 import com.expedia.bookings.widget.FlightItinCard;
@@ -77,56 +78,37 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	@Override
 	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
-		ItinCard card = null;
-
-		Type cardType = Type.values()[getItemViewType(position)];
-		switch (cardType) {
-		case HOTEL: {
-			if (convertView instanceof HotelItinCard) {
-				card = (HotelItinCard) convertView;
-			}
-			else {
+		ItinCard card = (ItinCard) convertView;
+		if (card == null) {
+			Type cardType = Type.values()[getItemViewType(position)];
+			switch (cardType) {
+			case HOTEL: {
 				card = new HotelItinCard(mContext);
+				break;
 			}
-			break;
-		}
-		case FLIGHT: {
-			if (convertView instanceof FlightItinCard) {
-				card = (FlightItinCard) convertView;
-			}
-			else {
+			case FLIGHT: {
 				card = new FlightItinCard(mContext);
+				break;
 			}
-			break;
-		}
-		case CAR: {
-			if (convertView instanceof CarItinCard) {
-				card = (CarItinCard) convertView;
-			}
-			else {
+			case CAR: {
 				card = new CarItinCard(mContext);
+				break;
 			}
-			break;
-		}
-		case CRUISE: {
-			if (convertView instanceof CruiseItinCard) {
-				card = (CruiseItinCard) convertView;
-			}
-			else {
+			case CRUISE: {
 				card = new CruiseItinCard(mContext);
+				break;
 			}
-
-			break;
+			case ACTIVITY: {
+				card = new ActivityItinCard(mContext);
+				break;
+			}
+			default:
+				throw new RuntimeException("The card type doesn't match any of our predefined types.");
+			}
 		}
-		default:
-			break;
-		}
-
-		if (card != null) {
-			ItinCardData data = getItem(position);
-			card.bind(data);
-			card.showSummary(position == 0);
-		}
+		
+		card.bind(getItem(position));
+		card.showSummary(position == 0);
 
 		return card;
 	}
