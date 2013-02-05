@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.trips.BookingStatus;
+import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.Trip.TimePeriod;
@@ -245,6 +246,18 @@ public class TripParser {
 		// short-circuit out of the info early
 		if (!obj.has("legs")) {
 			return flight;
+		}
+
+		//Parse confirmations
+		JSONArray confirmationArr = obj.optJSONArray("confirmationNumbers");
+		for (int a = 0; a < confirmationArr.length(); a++) {
+			JSONObject confJson = confirmationArr.optJSONObject(a);
+			if (confJson != null) {
+				FlightConfirmation conf = new FlightConfirmation();
+				conf.setCarrier(confJson.optString("airlineName"));
+				conf.setConfirmationCode(confJson.optString("number"));
+				flight.addConfirmation(conf);
+			}
 		}
 
 		FlightTrip flightTrip = new FlightTrip();

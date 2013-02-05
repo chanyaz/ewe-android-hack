@@ -18,6 +18,8 @@ public class TripFlight extends TripComponent {
 
 	private List<String> mDestinationImageUrls = new ArrayList<String>();
 
+	private List<FlightConfirmation> mConfirmations = new ArrayList<FlightConfirmation>();
+
 	public TripFlight() {
 		super(Type.FLIGHT);
 	}
@@ -40,6 +42,14 @@ public class TripFlight extends TripComponent {
 
 	public List<Traveler> getTravelers() {
 		return mTravelers;
+	}
+
+	public void addConfirmation(FlightConfirmation confirmation) {
+		mConfirmations.add(confirmation);
+	}
+
+	public List<FlightConfirmation> getConfirmations() {
+		return mConfirmations;
 	}
 
 	public String getLegDestinationImageUrl(int legNum) {
@@ -74,6 +84,7 @@ public class TripFlight extends TripComponent {
 		try {
 			JSONUtils.putJSONable(obj, "flightTrip", mFlightTrip);
 			JSONUtils.putJSONableList(obj, "travelers", mTravelers);
+			JSONUtils.putJSONableList(obj, "confirmationNumbers", mConfirmations);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -86,6 +97,7 @@ public class TripFlight extends TripComponent {
 		super.fromJson(obj);
 		mFlightTrip = JSONUtils.getJSONable(obj, "flightTrip", FlightTrip.class);
 		mTravelers = JSONUtils.getJSONableList(obj, "travelers", Traveler.class);
+		mConfirmations = JSONUtils.getJSONableList(obj, "confirmationNumbers", FlightConfirmation.class);
 		return true;
 	}
 }

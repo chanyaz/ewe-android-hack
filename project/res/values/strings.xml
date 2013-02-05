@@ -54,7 +54,7 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Stay in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
@@ -74,7 +74,7 @@
     <string name="depart_tz_TEMPLATE">Depart (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Arrive (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Confirmation Code</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passengers</string>
@@ -92,6 +92,8 @@
     <string name="no_terminal_gate_information">Terminal and Gate information not available.</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">Booking code unavailable.</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -235,7 +237,7 @@
     <string name="payment_and_baggage_fees_may_apply">Payment and baggage fees may apply</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Additional Fees</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Baggage Fees</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Payment Processing Fees</string>

@@ -163,9 +163,15 @@ public class FlightItinCard extends ItinCard {
 			String travString = travelerSb.toString().replaceFirst(",", "").trim();
 			Ui.setText(view, R.id.passenger_name_list, travString);
 
-			//TODO: Use a real value. Seems like we might need to add an accessor someplace in the Flight Class in flight lib for this
-			String bookingCode = "ROBOT";
-			Ui.setText(view, R.id.confirmation_code, bookingCode);
+			//Confirmation code
+			if (mTripFlight.getConfirmations() != null && mTripFlight.getConfirmations().size() > 0
+					&& !TextUtils.isEmpty(mTripFlight.getConfirmations().get(0).getConfirmationCode())) {
+				//TODO: Confirmation codes come in an array, I think there should only ever be one, but in the event of more than one, we should do something...
+				Ui.setText(view, R.id.confirmation_code, mTripFlight.getConfirmations().get(0).getConfirmationCode());
+			}
+			else {
+				Ui.setText(view, R.id.confirmation_code, R.string.missing_booking_code);
+			}
 
 			//Insurance
 			boolean hasInsurance = (this.mTripFlight.getParentTrip().getTripInsurance() != null && this.mTripFlight
