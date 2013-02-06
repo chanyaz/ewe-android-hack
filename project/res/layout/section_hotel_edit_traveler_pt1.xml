@@ -74,7 +74,7 @@
         <EditText
             android:id="@+id/edit_phone_number"
             android:layout_width="0dp"
-            android:layout_gravity="fill_horizontal"
+            android:layout_gravity="center_vertical|fill_horizontal"
             gridlayout:layout_columnSpan="2"
             android:hint="@string/phone_number_hint"
             android:inputType="phone"
