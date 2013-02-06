@@ -23,8 +23,11 @@ public class LaunchHeaderView extends RelativeLayout implements OnClickListener 
 
 	public LaunchHeaderView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+	}
 
-		inflate(context, R.layout.widget_launch_header, this);
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
 
 		Ui.findView(this, R.id.hotels_button).setOnClickListener(this);
 		Ui.findView(this, R.id.flights_button).setOnClickListener(this);
