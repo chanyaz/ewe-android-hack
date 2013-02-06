@@ -13,7 +13,8 @@
         <item name="android:textAppearance">@style/TextAppearance.Small</item>
         <item name="android:textColor">@color/itin_section_divider_text</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingLeft">8dip</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:layout_margin">8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
         <item name="android:textAllCaps">true</item>
