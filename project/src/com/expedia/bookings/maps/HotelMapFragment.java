@@ -319,7 +319,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		}
 		else if (lowestRate.isOnSale()) {
 			snippet = getString(R.string.map_snippet_template, snippet,
-					getString(R.string.widget_savings_template, lowestRate.getDiscountPercent() * 100));
+					getString(R.string.widget_savings_template, lowestRate.getDiscountPercent()));
 		}
 
 		marker.snippet(snippet);
