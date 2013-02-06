@@ -46,6 +46,7 @@ public class HotelItinCard extends ItinCard {
 	private TextView mAddressTextView;
 	private TextView mPhoneNumberTextView;
 	private TextView mRoomTypeTextView;
+	private TextView mDetailsTextView;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -118,6 +119,7 @@ public class HotelItinCard extends ItinCard {
 		mAddressTextView = Ui.findView(view, R.id.address_text_view);
 		mPhoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
 		mRoomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
+		mDetailsTextView = Ui.findView(view, R.id.details_text_view);
 
 		bind((TripHotel) tripHotel);
 
@@ -154,7 +156,7 @@ public class HotelItinCard extends ItinCard {
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private void bind(TripHotel tripHotel) {
+	private void bind(final TripHotel tripHotel) {
 		mCheckInDateTextView.setText(DETAIL_DATE_FORMAT.format(tripHotel.getStartDate().getCalendar().getTime()));
 		mCheckOutDateTextView.setText(DETAIL_DATE_FORMAT.format(tripHotel.getEndDate().getCalendar().getTime()));
 		mGuestsTextView.setText(String.valueOf(tripHotel.getGuests()));
@@ -171,5 +173,12 @@ public class HotelItinCard extends ItinCard {
 		else {
 			mPhoneNumberTextView.setText(mProperty.getLocalPhone());
 		}
+
+		mDetailsTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SocialUtils.openSite(getContext(), tripHotel.getParentTrip().getDetailsUrl());
+			}
+		});
 	}
 }
