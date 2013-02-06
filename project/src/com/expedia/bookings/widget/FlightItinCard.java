@@ -116,6 +116,7 @@ public class FlightItinCard extends ItinCard {
 			ViewUtils.setAllCaps(bookingInfoLabel);
 			ViewUtils.setAllCaps(insuranceLabel);
 
+			//Map
 			MapImageView mapImageView = Ui.findView(view, R.id.mini_map);
 			List<Location> airPorts = new ArrayList<Location>();
 			airPorts.add(waypointToLocation(leg.getFirstWaypoint()));
@@ -128,6 +129,7 @@ public class FlightItinCard extends ItinCard {
 				mapImageView.setPoiPoint(loc);
 			}
 
+			//Arrival / Departure times
 			Calendar departureTimeCal = leg.getFirstWaypoint().getMostRelevantDateTime();
 			Calendar arrivalTimeCal = leg.getLastWaypoint().getMostRelevantDateTime();
 
@@ -143,6 +145,7 @@ public class FlightItinCard extends ItinCard {
 			Ui.setText(view, R.id.arrival_time, arrivalTime);
 			Ui.setText(view, R.id.arrival_time_tz, arrivalTz);
 
+			//Traveler names
 			StringBuilder travelerSb = new StringBuilder();
 			for (Traveler trav : mTripFlight.getTravelers()) {
 				travelerSb.append(",");
@@ -159,9 +162,23 @@ public class FlightItinCard extends ItinCard {
 					travelerSb.append(trav.getLastName().trim());
 				}
 			}
-
 			String travString = travelerSb.toString().replaceFirst(",", "").trim();
 			Ui.setText(view, R.id.passenger_name_list, travString);
+
+			//Booking info (View receipt and polocies)
+			View bookingInfo = Ui.findView(view, R.id.booking_info);
+			final String infoUrl = mTripFlight.getParentTrip().getDetailsUrl();
+			if (!TextUtils.isEmpty(infoUrl)) {
+				bookingInfo.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						Intent insuranceIntent = WebViewActivity.getIntent(getContext(), infoUrl, R.style.FlightTheme,
+								R.string.insurance, true);
+						getContext().startActivity(insuranceIntent);
+
+					}
+				});
+			}
 
 			//Confirmation code
 			if (mTripFlight.getConfirmations() != null && mTripFlight.getConfirmations().size() > 0

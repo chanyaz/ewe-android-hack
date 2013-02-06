@@ -149,6 +149,7 @@
         android:background="@color/itin_flight_divider_color" />
 
     <TextView
+        android:id="@+id/booking_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
