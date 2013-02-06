@@ -6,9 +6,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -31,6 +36,7 @@ import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
+import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -260,16 +266,49 @@ public class FlightItinCard extends ItinCard {
 		return null;
 	}
 
+	@SuppressLint("DefaultLocale")
 	@Override
 	protected SummaryButton getSummaryLeftButton() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SummaryButton(R.drawable.ic_menu_map_normal, getResources().getString(R.string.directions)
+				.toUpperCase(), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//TODO: Investigate compatibility
+				Airport airport = mData.getFlightLeg().getFirstWaypoint().getAirport();
+				String format = "geo:0,0?q=%f,%f (%s)";
+				String uriStr = String.format(format, airport.getLatitude(), airport.getLongitude(), airport.mName);
+				Uri airportUri = Uri.parse(uriStr);
+				Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
+
+				intent.setComponent(new ComponentName("com.google.android.apps.maps",
+						"com.google.android.maps.MapsActivity"));
+
+				getContext().startActivity(intent);
+			}
+		});
 	}
 
+	@SuppressLint("DefaultLocale")
 	@Override
 	protected SummaryButton getSummaryRightButton() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SummaryButton(R.drawable.ic_calendar_add, getResources().getString(R.string.add_event)
+				.toUpperCase(), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//TODO: Investigate compatibility... works on my 2.2 and 4.2 devices with default android cal
+				Resources res = getResources();
+				Calendar startCal = mData.getStartDate().getCalendar();
+				Calendar endCal = mData.getEndDate().getCalendar();
+				Intent intent = new Intent(Intent.ACTION_EDIT);
+				intent.setType("vnd.android.cursor.item/event");
+				intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+				intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
+				intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
+				intent.putExtra(Events.TITLE, res.getString(R.string.flight_to_TEMPLATE, mData.getFlightLeg()
+						.getLastWaypoint().getAirport().mCity));
+				getContext().startActivity(intent);
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -94,6 +94,12 @@
     <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
     <!-- Booking code unavailable message -->
     <string name="missing_booking_code">Booking code unavailable.</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">Flight to %1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">Add Event</string>
+    <!-- Directions -->
+    <string name="directions">Directions</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
