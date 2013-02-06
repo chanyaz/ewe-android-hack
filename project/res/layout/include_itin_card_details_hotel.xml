@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -16,20 +17,21 @@
             android:orientation="vertical"
             android:padding="16dp" >
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/check_in_date_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="22dp"
-                android:textStyle="bold" />
+                android:textColor="#f4f4f4"
+                android:textSize="26dp"
+                app:textStyle="medium" />
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Check In"
-                android:textColor="@android:color/white"
-                android:textSize="14dp" />
+                android:textColor="#a9abae"
+                android:textSize="14dp"
+                app:textStyle="light" />
         </LinearLayout>
 
         <View
@@ -46,20 +48,21 @@
             android:orientation="vertical"
             android:padding="16dp" >
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/check_out_date_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="22dp"
-                android:textStyle="bold" />
+                android:textColor="#f4f4f4"
+                android:textSize="26dp"
+                app:textStyle="medium" />
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Check Out"
-                android:textColor="@android:color/white"
-                android:textSize="14dp" />
+                android:textColor="#a9abae"
+                android:textSize="14dp"
+                app:textStyle="light" />
         </LinearLayout>
 
         <View
@@ -76,20 +79,21 @@
             android:orientation="vertical"
             android:padding="16dp" >
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/guests_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="22dp"
-                android:textStyle="bold" />
+                android:textColor="#f4f4f4"
+                android:textSize="26dp"
+                app:textStyle="medium" />
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Guests"
-                android:textColor="@android:color/white"
-                android:textSize="14dp" />
+                android:textColor="#a9abae"
+                android:textSize="14dp"
+                app:textStyle="light" />
         </LinearLayout>
     </LinearLayout>
 
