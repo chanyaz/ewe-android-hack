@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
@@ -78,7 +79,7 @@ public class CalendarDialogFragment extends DialogFragment {
 		builder.setView(view);
 
 		// Dialog-specific stuff
-		builder.setTitle(getTitleText());
+		builder.setTitle(getTitleText(Db.getSearchParams()));
 
 		// Configure buttons
 		builder.setPositiveButton(R.string.search, new OnClickListener() {
@@ -123,7 +124,16 @@ public class CalendarDialogFragment extends DialogFragment {
 		if (getShowsDialog()) {
 			mCalendarDatePicker.setOnDateChangedListener(new OnDateChangedListener() {
 				public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-					updateTitle();
+					Calendar start = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
+							.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
+					Calendar end = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
+							.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
+
+					SearchParams workingSearchParams = new SearchParams();
+					workingSearchParams.setCheckInDate(start);
+					workingSearchParams.setCheckOutDate(end);
+
+					updateTitle(workingSearchParams);
 				}
 			});
 		}
@@ -152,12 +162,12 @@ public class CalendarDialogFragment extends DialogFragment {
 		}
 	}
 
-	private CharSequence getTitleText() {
-		return CalendarUtils.getCalendarDatePickerTitle(getActivity(), Db.getSearchParams());
+	private CharSequence getTitleText(SearchParams workingSearchParams) {
+		return CalendarUtils.getCalendarDatePickerTitle(getActivity(), workingSearchParams);
 	}
 
-	private void updateTitle() {
-		getDialog().setTitle(getTitleText());
+	private void updateTitle(SearchParams workingSearchParams) {
+		getDialog().setTitle(getTitleText(workingSearchParams));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
