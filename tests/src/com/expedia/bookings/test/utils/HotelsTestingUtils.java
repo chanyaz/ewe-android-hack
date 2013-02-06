@@ -113,7 +113,7 @@ public class HotelsTestingUtils {
 		RobotiumWorkflowUtils.enterText(solo, R.id.expiration_month_edit_text, "11");
 		RobotiumWorkflowUtils.enterText(solo, R.id.expiration_year_edit_text, "14");
 		RobotiumWorkflowUtils.enterText(solo, R.id.address1_edit_text, "1 Rincon Hill");
-		RobotiumWorkflowUtils.enterText(solo, R.id.postal_code_edit_text, "94107");
+		RobotiumWorkflowUtils.enterText(solo, R.id.billing_zipcode_edit_text, "94107");
 
 		//will always need to enter security code, regardless of login state
 		RobotiumWorkflowUtils.enterText(solo, R.id.security_code_edit_text, "123");
