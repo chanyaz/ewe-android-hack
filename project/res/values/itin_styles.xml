@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="TextView" />
+
+    <style name="TextView.Itin" />
+
+    <style name="TextView.Itin.SectionHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:background">@drawable/itin_section_divider</item>
+        <item name="android:textAppearance">@style/TextAppearance.Small</item>
+        <item name="android:textColor">@color/itin_section_divider_text</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">8dip</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14dp</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="TextView.Itin.SectionText">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/itin_section_text</item>
+        <item name="textStyle">light</item>
+    </style>
+
+</resources>

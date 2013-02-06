@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings" >
 
     <View
         android:layout_width="2dp"
@@ -106,16 +107,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/summary_left_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_urgency_clock"
                     android:gravity="center"
-                    android:padding="16dp"
+                    android:padding="8dp"
                     android:text="DIRECTIONS"
-                    android:textColor="@android:color/white"
-                    android:textSize="14dp" />
+                    android:textColor="@color/itin_white_text"
+                    android:textSize="12dp"
+                    app:textStyle="bold" />
 
                 <View
                     android:layout_width="1dp"
@@ -124,16 +127,18 @@
                     android:layout_marginTop="8dp"
                     android:background="#4D555D" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/summary_right_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_urgency_clock"
                     android:gravity="center"
-                    android:padding="16dp"
-                    android:text="CALL HOTEL"
-                    android:textColor="@android:color/white"
-                    android:textSize="14dp" />
+                    android:padding="8dp"
+                    android:text="ADD EVENT"
+                    android:textColor="@color/itin_white_text"
+                    android:textSize="12dp"
+                    app:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

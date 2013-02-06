@@ -109,109 +109,75 @@
 
     <!-- ADDRESS -->
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:text="ADDRESS"
-        android:textColor="#4D555D"
-        android:textSize="12dp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:background="#4D555D" />
+        android:text="ADDRESS" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/address_text_view"
+        style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:textColor="@android:color/white" />
+        android:layout_marginRight="16dp" />
 
     <!-- PHONE -->
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="PHONE"
-        android:textColor="#4D555D"
-        android:textSize="12dp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:background="#4D555D" />
+        android:text="PHONE" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/phone_number_text_view"
+        style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:text="(212) 675-1911"
-        android:textColor="@android:color/white" />
+        android:layout_marginRight="16dp" />
 
     <!-- ROOM TYPE -->
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="ROOM TYPE"
-        android:textColor="#4D555D"
-        android:textSize="12dp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:background="#4D555D" />
+        android:text="ROOM TYPE" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/room_type_text_view"
+        style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:textColor="@android:color/white" />
+        android:layout_marginRight="16dp" />
 
     <!-- BOOKING INFO -->
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="BOOING INFO"
-        android:textColor="#4D555D"
-        android:textSize="12dp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
         android:layout_margin="8dp"
-        android:background="#4D555D" />
+        android:text="BOOKING INFO" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/details_text_view"
+        style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:text="View receipt and policies"
-        android:textColor="@android:color/white" />
+        android:text="View receipt and policies" />
 
 </LinearLayout>
