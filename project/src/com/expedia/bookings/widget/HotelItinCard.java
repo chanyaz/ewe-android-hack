@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import android.content.ComponentName;
@@ -29,7 +30,8 @@ public class HotelItinCard extends ItinCard {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
+	private static final SimpleDateFormat SUMMARY_DATE_FORMAT = new SimpleDateFormat("h:mma", Locale.getDefault());
+	private static final SimpleDateFormat DETAIL_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -94,8 +96,20 @@ public class HotelItinCard extends ItinCard {
 		return mProperty.getName();
 	}
 
+	@Override
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_hotel, container, false);
+
+		Date checkinTime = ((TripHotel) tripComponent).getCheckinTime();
+		if (checkinTime != null) {
+			view.setText(SUMMARY_DATE_FORMAT.format(checkinTime));
+		}
+
+		return view;
+	}
+
 	public View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripHotel) {
-		View view = inflater.inflate(R.layout.include_itin_card_hotel, container, false);
+		View view = inflater.inflate(R.layout.include_itin_card_details_hotel, container, false);
 
 		mCheckInDateTextView = Ui.findView(view, R.id.check_in_date_text_view);
 		mCheckOutDateTextView = Ui.findView(view, R.id.check_out_date_text_view);
@@ -108,11 +122,6 @@ public class HotelItinCard extends ItinCard {
 		bind((TripHotel) tripHotel);
 
 		return view;
-	}
-
-	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
-		return null;
 	}
 
 	@Override
@@ -146,8 +155,8 @@ public class HotelItinCard extends ItinCard {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private void bind(TripHotel tripHotel) {
-		mCheckInDateTextView.setText(DATE_FORMAT.format(tripHotel.getStartDate().getCalendar().getTime()));
-		mCheckOutDateTextView.setText(DATE_FORMAT.format(tripHotel.getEndDate().getCalendar().getTime()));
+		mCheckInDateTextView.setText(DETAIL_DATE_FORMAT.format(tripHotel.getStartDate().getCalendar().getTime()));
+		mCheckOutDateTextView.setText(DETAIL_DATE_FORMAT.format(tripHotel.getEndDate().getCalendar().getTime()));
 		mGuestsTextView.setText(String.valueOf(tripHotel.getGuests()));
 
 		mStaticMapImageView.setCenterPoint(mProperty.getLocation());

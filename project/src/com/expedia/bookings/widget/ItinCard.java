@@ -130,7 +130,6 @@ public abstract class ItinCard extends RelativeLayout {
 	}
 
 	public void bind(final ItinCardData itinCardData) {
-
 		TripComponent tripComponent = itinCardData.getTripComponent();
 
 		// Type icon
@@ -147,6 +146,14 @@ public abstract class ItinCard extends RelativeLayout {
 
 		// Header text
 		mHeaderTextView.setText(getHeaderText(tripComponent));
+
+		// Summary text
+
+		View summaryView = getSummaryView(LayoutInflater.from(getContext()), mSummaryLayout, tripComponent);
+		if (summaryView != null) {
+			mSummaryLayout.removeAllViews();
+			mSummaryLayout.addView(summaryView);
+		}
 
 		// Details view
 		View detailsView = getDetailsView(LayoutInflater.from(getContext()), mDetailsLayout, tripComponent);
