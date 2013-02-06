@@ -19,6 +19,7 @@ import com.expedia.bookings.widget.CruiseItinCard;
 import com.expedia.bookings.widget.FlightItinCard;
 import com.expedia.bookings.widget.HotelItinCard;
 import com.expedia.bookings.widget.ItinCard;
+import com.mobiata.android.Log;
 
 public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener {
 
@@ -106,7 +107,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 				throw new RuntimeException("The card type doesn't match any of our predefined types.");
 			}
 		}
-		
+
 		card.bind(getItem(position));
 		card.showSummary(position == 0);
 
@@ -130,26 +131,27 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	@Override
 	public void onTripAdded(Trip trip) {
-
+		Log.d("ItinCardDataAdapter - ItinerarayManager - onTripAdded");
 	}
 
 	@Override
 	public void onTripUpdated(Trip trip) {
-
+		Log.d("ItinCardDataAdapter - ItinerarayManager - onTripUpdated");
 	}
 
 	@Override
 	public void onTripUpateFailed(Trip trip) {
-
+		Log.d("ItinCardDataAdapter - ItinerarayManager - onTripUpateFailed");
 	}
 
 	@Override
 	public void onTripRemoved(Trip trip) {
-
+		Log.d("ItinCardDataAdapter - ItinerarayManager - onTripRemoved");
 	}
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
+		Log.d("ItinCardDataAdapter - ItinerarayManager - onSyncFinished");
 		syncWithManager();
 	}
 

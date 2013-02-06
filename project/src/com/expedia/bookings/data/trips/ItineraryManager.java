@@ -284,10 +284,12 @@ public class ItineraryManager implements JSONable {
 								currentTrips.remove(tripId);
 							}
 
-							// Remove all trips that were not returned by the server
+							// Remove all trips that were not returned by the server (not including guest trips)
 							for (String tripId : currentTrips) {
-								Trip trip = mTrips.remove(tripId);
-								publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+								if (!mTrips.get(tripId).isGuest()) {
+									Trip trip = mTrips.remove(tripId);
+									publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+								}
 							}
 						}
 					}
@@ -337,7 +339,8 @@ public class ItineraryManager implements JSONable {
 
 										if (imageResponse != null) {
 											tripFlight.setLegDestinationImageUrl(i, imageResponse.getImageUrl());
-										}else{
+										}
+										else {
 											tripFlight.setLegDestinationImageUrl(i, "");
 										}
 									}

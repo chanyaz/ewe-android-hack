@@ -175,7 +175,6 @@ public class FlightItinCard extends ItinCard {
 						Intent insuranceIntent = WebViewActivity.getIntent(getContext(), infoUrl, R.style.FlightTheme,
 								R.string.insurance, true);
 						getContext().startActivity(insuranceIntent);
-
 					}
 				});
 			}
