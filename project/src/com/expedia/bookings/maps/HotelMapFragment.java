@@ -152,6 +152,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		mPin = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal);
 		mPinSale = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_sale);
 
+		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();
 	}
 
@@ -174,7 +175,10 @@ public class HotelMapFragment extends SupportMapFragment {
 		}
 	}
 
+	@Override
 	public void onSaveInstanceState(Bundle bundle) {
+		super.onSaveInstanceState(bundle);
+
 		if (mExactLocationMarker != null && mExactLocationMarker.isInfoWindowShown()) {
 			bundle.putString(INSTANCE_INFO_WINDOW_SHOWING, EXACT_LOCATION_MARKER);
 		}
@@ -188,6 +192,10 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void onRestoreSavedInstanceState(Bundle bundle) {
+		if (bundle == null) {
+			return;
+		}
+
 		mInstanceInfoWindowShowing = bundle.getString(INSTANCE_INFO_WINDOW_SHOWING);
 	}
 
