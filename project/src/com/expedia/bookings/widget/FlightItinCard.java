@@ -113,7 +113,7 @@ public class FlightItinCard extends ItinCard {
 
 	@Override
 	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
-		View view = inflater.inflate(R.layout.include_itin_card_flight, container, false);
+		View view = inflater.inflate(R.layout.include_itin_card_details_flight, container, false);
 
 		if (mTripFlight != null && mTripFlight.getFlightTrip() != null && mTripFlight.getFlightTrip().getLegCount() > 0) {
 			Resources res = getResources();
