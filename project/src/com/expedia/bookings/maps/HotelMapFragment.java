@@ -459,7 +459,6 @@ public class HotelMapFragment extends SupportMapFragment {
 	private void checkIfSearchIsCurrentLocation() {
 		SearchParams params = Db.getSearchParams();
 		boolean showCurrentLocation = params.getSearchType() == SearchParams.SearchType.MY_LOCATION;
-		Log.d("HERE show current location=" + showCurrentLocation);
 		if (mMap != null) {
 			mMap.setMyLocationEnabled(showCurrentLocation);
 		}
