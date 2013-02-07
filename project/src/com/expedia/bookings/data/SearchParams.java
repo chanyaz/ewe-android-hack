@@ -279,8 +279,11 @@ public class SearchParams implements JSONable {
 	 * @param cal
 	 */
 	public void setCheckInDate(Calendar cal) {
-		if (mCheckInDate != null && mCheckOutDate != null
-				&& (cal.after(mCheckOutDate) || cal.equals(mCheckOutDate.getCalendar()))) {
+		if (mCheckInDate != null
+				&& mCheckOutDate != null
+				&& (cal.after(mCheckOutDate) || (cal.get(Calendar.YEAR) == mCheckOutDate.getYear()
+						&& cal.get(Calendar.MONTH) == mCheckOutDate.getMonth() && cal.get(Calendar.DAY_OF_MONTH) == mCheckOutDate
+						.getDayOfMonth()))) {
 			int stayDuration = getStayDuration();
 			Calendar checkout = (Calendar) cal.clone();
 			checkout.add(Calendar.DAY_OF_MONTH, stayDuration);
@@ -302,8 +305,12 @@ public class SearchParams implements JSONable {
 	 * @param cal
 	 */
 	public void setCheckOutDate(Calendar cal) {
-		if (mCheckInDate != null && mCheckOutDate != null
-				&& (cal.before(mCheckInDate) || cal.equals(mCheckInDate.getCalendar()))) {
+		if (mCheckInDate != null
+				&& mCheckOutDate != null
+				&& (cal.before(mCheckInDate) || (cal.get(Calendar.YEAR) == mCheckInDate.getYear()
+						&& cal.get(Calendar.MONTH) == mCheckInDate.getMonth() && cal.get(Calendar.DAY_OF_MONTH) == mCheckInDate
+						.getDayOfMonth()))) {
+
 			int stayDuration = getStayDuration();
 			Calendar checkin = (Calendar) cal.clone();
 			checkin.add(Calendar.DAY_OF_MONTH, -stayDuration);
