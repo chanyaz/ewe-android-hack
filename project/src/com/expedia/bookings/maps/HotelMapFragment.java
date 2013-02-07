@@ -160,6 +160,8 @@ public class HotelMapFragment extends SupportMapFragment {
 	// But we attached and received actions to perform
 	private void runReadyActions() {
 		if (isReady()) {
+			checkIfSearchIsCurrentLocation();
+
 			if (mAddPropertiesWhenReady) {
 				addProperties();
 				mAddPropertiesWhenReady = false;
@@ -215,6 +217,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		setSearchResponse(Db.getSearchResponse());
 		if (isReady()) {
 			showAll();
+			checkIfSearchIsCurrentLocation();
 		}
 		else {
 			mShowAllWhenReady = true;
@@ -451,6 +454,15 @@ public class HotelMapFragment extends SupportMapFragment {
 	public void notifyPropertySelected() {
 		showBalloon(Db.getSelectedProperty());
 		focusProperty(Db.getSelectedProperty(), true);
+	}
+
+	private void checkIfSearchIsCurrentLocation() {
+		SearchParams params = Db.getSearchParams();
+		boolean showCurrentLocation = params.getSearchType() == SearchParams.SearchType.MY_LOCATION;
+		Log.d("HERE show current location=" + showCurrentLocation);
+		if (mMap != null) {
+			mMap.setMyLocationEnabled(showCurrentLocation);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
