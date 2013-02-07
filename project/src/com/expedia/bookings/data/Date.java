@@ -117,18 +117,10 @@ public class Date implements JSONable, Comparable<Object> {
 	}
 
 	public boolean after(Object o) {
-		if (!(o instanceof Date) && !(o instanceof Calendar)) {
-			throw new IllegalArgumentException("Expected Date or Calendar, got " + o);
-		}
-
 		return compareTo(o) > 0;
 	}
 
 	public boolean before(Object o) {
-		if (!(o instanceof Date) && !(o instanceof Calendar)) {
-			throw new IllegalArgumentException("Expected Date or Calendar, got " + o);
-		}
-
 		return compareTo(o) < 0;
 	}
 
