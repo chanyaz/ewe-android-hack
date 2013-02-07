@@ -102,7 +102,36 @@
     <string name="add_event">Add Event</string>
     <!-- Directions -->
     <string name="directions">Directions</string>
-
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">Flight departs on %1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">Flight currently in progress.</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">Flight landed on %1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">Flight in progress</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">Flight departs in %1$s, %2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s hours</item>
+        <item quantity="one">%1$s hour</item>
+        <item quantity="two">%1$s hours</item>
+        <item quantity="few">%1$s hours</item>
+        <item quantity="many">%1$s hours</item>
+        <item quantity="other">%1$s hours</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s minutes</item>
+        <item quantity="one">%1$s minute</item>
+        <item quantity="two">%1$s minutes</item>
+        <item quantity="few">%1$s minutes</item>
+        <item quantity="many">%1$s minutes</item>
+        <item quantity="other">%1$s minutes</item>
+    </plurals>
+    
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Search Flights</string>

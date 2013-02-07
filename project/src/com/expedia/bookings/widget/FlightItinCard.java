@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -268,8 +269,45 @@ public class FlightItinCard extends ItinCard {
 
 	@Override
 	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (mData == null || mData.getStartDate() == null || mData.getEndDate() == null) {
+			//Bad data (we don't show any summary view in this case)
+			return null;
+		}
+
+		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_flight, container, false);
+		Resources res = getResources();
+		Calendar now = Calendar.getInstance();
+
+		if (mData.getStartDate().getCalendar().before(now) && mData.getEndDate().getCalendar().before(now)) {
+			//flight complete
+			String dateStr = DateUtils.formatDateTime(getContext(), mData.getEndDate().getCalendar()
+					.getTimeInMillis(),
+					DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
+			view.setText(res.getString(R.string.flight_landed_on_TEMPLATE, dateStr));
+		}
+		else if (mData.getStartDate().getCalendar().before(now) && mData.getEndDate().getCalendar().after(now)) {
+			//flight in progress
+			view.setText(res.getString(R.string.flight_in_progress));
+		}
+		else if (mData.getStartDate().getCalendar().getTimeInMillis() - now.getTimeInMillis() > DateUtils.DAY_IN_MILLIS) {
+			//More than 24 hours away
+			String dateStr = DateUtils.formatDateTime(getContext(), mData.getStartDate().getCalendar()
+					.getTimeInMillis(),
+					DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
+			view.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
+		}
+		else {
+			//Less than 24 hours in the future...
+			long duration = mData.getStartDate().getCalendar().getTimeInMillis() - now.getTimeInMillis();
+			int minutes = (int) ((int) (duration % DateUtils.HOUR_IN_MILLIS) / (DateUtils.MINUTE_IN_MILLIS));
+			int hours = (int) Math.floor(duration / DateUtils.HOUR_IN_MILLIS);
+
+			view.setText(res.getString(R.string.flight_departs_in_hours_minutes_TEMPLATE,
+					res.getQuantityString(R.plurals.hour_span, hours, hours),
+					res.getQuantityString(R.plurals.minute_span, minutes, minutes)));
+		}
+		return view;
 	}
 
 	@SuppressLint("DefaultLocale")
