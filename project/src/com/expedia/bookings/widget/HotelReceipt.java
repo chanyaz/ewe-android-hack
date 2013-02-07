@@ -336,7 +336,6 @@ public class HotelReceipt extends FrameLayout {
 
 	private String formatCheckInOutDate(Calendar cal) {
 		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(getContext());
-		medDf.setTimeZone(CalendarUtils.getFormatTimeZone());
 		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
 				+ medDf.format(cal.getTime());
 	}
