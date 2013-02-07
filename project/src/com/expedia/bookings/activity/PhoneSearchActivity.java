@@ -2727,10 +2727,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		if (tag.equals(getString(R.string.tag_hotel_list))) {
-			mContentViewPager.setCurrentItem(0);
+			mContentViewPager.setCurrentItem(VIEWPAGER_PAGE_HOTEL);
 		}
 		else {
-			mContentViewPager.setCurrentItem(1);
+			mContentViewPager.setCurrentItem(VIEWPAGER_PAGE_MAP);
 		}
 
 		mTag = tag;
@@ -2812,8 +2812,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//////////////////////////////////////////////////////////////////////////
 	// View pager adapter
 
+	private static final int VIEWPAGER_PAGE_HOTEL = 0;
+	private static final int VIEWPAGER_PAGE_MAP = 1;
+
 	public class ListAndMapViewPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
 		private static final int NUM_FRAGMENTS = 2;
+		// The page position of the fragments
 
 		public ListAndMapViewPagerAdapter() {
 			super(getSupportFragmentManager());
@@ -2830,10 +2834,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			Fragment frag;
 
 			switch (position) {
-			case 0:
+			case VIEWPAGER_PAGE_HOTEL:
 				frag = HotelListFragment.newInstance();
 				break;
-			case 1:
+			case VIEWPAGER_PAGE_MAP:
 				frag = HotelMapFragment.newInstance();
 				break;
 			default:
