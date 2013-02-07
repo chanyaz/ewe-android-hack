@@ -140,7 +140,10 @@ public class TrackingUtils {
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
 		// Unique device id
-		s.setProp(12, Installation.id(context));
+		String id = Installation.id(context);
+		if (id != null) {
+			s.setProp(12, md5(id));
+		}
 
 		// GMT timestamp
 		s.setProp(32, gmt.getTime() + "");
