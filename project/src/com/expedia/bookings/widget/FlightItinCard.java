@@ -98,8 +98,7 @@ public class FlightItinCard extends ItinCard {
 	@Override
 	protected String getHeaderText(TripComponent tripComponent) {
 		if (mData != null) {
-			return mData.getFlightLeg().getFirstWaypoint().getAirport().mCity + " -> "
-					+ mData.getFlightLeg().getLastWaypoint().getAirport().mCity;
+			return mData.getFlightLeg().getLastWaypoint().getAirport().mCity;
 		}
 
 		return "Flight Card";
