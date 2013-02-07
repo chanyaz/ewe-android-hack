@@ -153,6 +153,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		mPinSale = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_sale);
 
 		onRestoreSavedInstanceState(savedInstanceState);
+		initMapCameraToGoodSpot();
 		runReadyActions();
 	}
 
@@ -462,6 +463,16 @@ public class HotelMapFragment extends SupportMapFragment {
 		if (mMap != null) {
 			mMap.setMyLocationEnabled(showCurrentLocation);
 		}
+	}
+
+	private void initMapCameraToGoodSpot() {
+		LatLngBounds.Builder builder = new LatLngBounds.Builder();
+		// Right now just the top-left latlng for the US
+		// and bottom-right latlng for the US
+		builder.include(new LatLng(50.513427, -125.529297));
+		builder.include(new LatLng(25.085599, -63.984375));
+		setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(builder.build(),
+				(int) getResources().getDisplayMetrics().density * 50));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
