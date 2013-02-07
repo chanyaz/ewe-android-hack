@@ -769,6 +769,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					setShowDistance(searchType == SearchType.ADDRESS);
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
+					notifySearchLocationFound();
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
@@ -1402,6 +1403,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		if (searchParams.hasEnoughToSearch()) {
 			Log.d("User already has region id or lat/lng for freeform location, skipping geocoding.");
+			notifySearchLocationFound();
 			startSearchDownloader();
 			return;
 		}
@@ -1458,7 +1460,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
 					searchParams.setSearchType(searchType);
-
+					notifySearchLocationFound();
 					setShowDistance(searchType == SearchType.ADDRESS);
 					startSearchDownloader();
 				}
@@ -1470,6 +1472,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		Log.d("onLocationFound(): " + location.toString());
 		Db.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 		setShowDistance(true);
+		notifySearchLocationFound();
 		startSearchDownloader();
 	}
 
@@ -1568,6 +1571,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//----------------------------------
 	// BROADCAST METHODS
 	//----------------------------------
+
+	private void notifySearchLocationFound() {
+		if (mHotelMapFragment != null) {
+			mHotelMapFragment.notifySearchLocationFound();
+		}
+	}
 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
 		Db.setSearchResponse(searchResponse);
