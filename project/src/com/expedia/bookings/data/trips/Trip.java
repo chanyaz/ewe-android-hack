@@ -219,7 +219,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 			obj.putOpt("title", mTitle);
 			obj.putOpt("description", mDescription);
-			obj.putOpt("detailsURL", mDetailsUrl);
+			obj.putOpt("webDetailsURL", mDetailsUrl);
 
 			JSONUtils.putJSONable(obj, "startDate", mStartDate);
 			JSONUtils.putJSONable(obj, "endDate", mEndDate);
@@ -249,7 +249,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 		mTitle = obj.optString("title");
 		mDescription = obj.optString("description");
-		mDetailsUrl = obj.optString("detailsURL");
+		mDetailsUrl = obj.optString("webDetailsURL");
 
 		mStartDate = JSONUtils.getJSONable(obj, "startDate", DateTime.class);
 		mEndDate = JSONUtils.getJSONable(obj, "endDate", DateTime.class);

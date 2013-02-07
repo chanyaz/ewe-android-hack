@@ -185,9 +185,9 @@ public class FlightItinCard extends ItinCard {
 				bookingInfo.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						Intent insuranceIntent = WebViewActivity.getIntent(getContext(), infoUrl, R.style.FlightTheme,
-								R.string.insurance, true);
-						getContext().startActivity(insuranceIntent);
+						Intent bookingInfoIntent = WebViewActivity.getIntent(getContext(), infoUrl, R.style.FlightTheme,
+								R.string.booking_info, true);
+						getContext().startActivity(bookingInfoIntent);
 					}
 				});
 			}

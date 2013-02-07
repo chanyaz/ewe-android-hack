@@ -55,7 +55,7 @@ public class TripParser {
 		trip.setTripNumber(tripJson.optString("tripNumber"));
 		trip.setTitle(tripJson.optString("title"));
 		trip.setDescription(tripJson.optString("description"));
-		trip.setDetailsUrl(tripJson.optString("detailsURL"));
+		trip.setDetailsUrl(tripJson.optString("webDetailsURL"));
 		trip.setStartDate(parseDateTime(tripJson.opt("startTime")));
 		trip.setEndDate(parseDateTime(tripJson.opt("endTime")));
 
