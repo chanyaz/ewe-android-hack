@@ -107,8 +107,9 @@ public class FlightItinCard extends ItinCard {
 
 	@Override
 	protected View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
-		// TODO Auto-generated method stub
-		return null;
+		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_title_generic, container, false);
+		view.setText(getHeaderText(tripComponent));
+		return view;
 	}
 
 	@Override
