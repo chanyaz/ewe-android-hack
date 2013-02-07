@@ -79,9 +79,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-				loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.HOTELS.name());
-				startActivity(loginIntent);
+				startLoginActivity();
 			}
 		});
 
@@ -129,9 +127,15 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		syncItinManager();
 	}
 
-	public synchronized void startAddGuestItinActivity() {	
+	public synchronized void startAddGuestItinActivity() {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		startActivity(intent);
+	}
+
+	public synchronized void startLoginActivity() {
+		Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.HOTELS.name());
+		startActivity(loginIntent);
 	}
 
 	private void updateLoginState() {
@@ -144,15 +148,15 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public void accountLogoutClicked() {
-		if(!User.isLoggedIn(getActivity())){
+		if (!User.isLoggedIn(getActivity())) {
 			doLogout();
 			return;
 		}
-		if(Db.getUser() == null){
+		if (Db.getUser() == null) {
 			Db.loadUser(getActivity());
 		}
 		String email = Db.getUser().getPrimaryTraveler().getEmail();
-		String logoutMessage = String.format(getResources().getString(R.string.itin_logout_confirmation_message_TEMPLATE), email);
+		String logoutMessage = getResources().getString(R.string.itin_logout_confirmation_message_TEMPLATE, email);
 		ConfirmLogoutDialogFragment df = ConfirmLogoutDialogFragment.getInstance(this, logoutMessage);
 		df.show(getFragmentManager(), ConfirmLogoutDialogFragment.TAG);
 	}

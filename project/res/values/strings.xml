@@ -60,6 +60,8 @@
     <string name="itinerary">Itinerary</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find Itinerary</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">Find Itinerary #</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Itinerary Number</string>
     <!-- No upcoming trips -->

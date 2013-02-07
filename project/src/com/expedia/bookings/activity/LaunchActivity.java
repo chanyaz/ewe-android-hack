@@ -145,7 +145,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
-		
+
 		supportInvalidateOptionsMenu();
 	}
 
@@ -210,6 +210,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		if (menu != null) {
 			boolean itinButtonEnabled = true;
 			boolean addNewItinButtonEnabled = false;
+			boolean loginBtnEnabled = false;
 			boolean logoutBtnEnabled = false;
 
 			if (mViewPager != null && mViewPager.getCurrentItem() == PAGER_POS_ITIN) {
@@ -219,6 +220,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 				itinButtonEnabled = true;
 			}
 			addNewItinButtonEnabled = !itinButtonEnabled;
+			loginBtnEnabled = !itinButtonEnabled && !User.isLoggedIn(this);
 			logoutBtnEnabled = !itinButtonEnabled && User.isLoggedIn(this);
 
 			MenuItem itinBtn = menu.findItem(R.id.itineraries);
@@ -230,6 +232,20 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			if (addNewItinBtn != null) {
 				addNewItinBtn.setVisible(addNewItinButtonEnabled);
 				addNewItinBtn.setEnabled(addNewItinButtonEnabled);
+			}
+			//We have a submenu here, but if we arent showing login we may as well just go to the guest add screen and not show the submenu
+			Menu addNewItinMenu = addNewItinBtn.getSubMenu();
+			if (addNewItinMenu != null) {
+				MenuItem loginBtn = addNewItinMenu.findItem(R.id.add_itinerary_login);
+				if (loginBtn != null) {
+					loginBtn.setVisible(loginBtnEnabled);
+					loginBtn.setEnabled(loginBtnEnabled);
+				}
+				MenuItem addGuestBtn = addNewItinMenu.findItem(R.id.add_itinerary_guest);
+				if (addGuestBtn != null) {
+					addGuestBtn.setVisible(loginBtnEnabled);
+					addGuestBtn.setEnabled(loginBtnEnabled);
+				}
 			}
 			MenuItem logOutBtn = menu.findItem(R.id.ab_log_out);
 			if (logOutBtn != null) {
@@ -256,6 +272,19 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			gotoItineraries();
 			return true;
 		case R.id.add_itinerary:
+			if (User.isLoggedIn(this)) {
+				if (mItinListFragment != null) {
+					mItinListFragment.startAddGuestItinActivity();
+				}
+				return true;
+			}
+			return false;
+		case R.id.add_itinerary_login:
+			if (mItinListFragment != null) {
+				mItinListFragment.startLoginActivity();
+			}
+			return true;
+		case R.id.add_itinerary_guest:
 			if (mItinListFragment != null) {
 				mItinListFragment.startAddGuestItinActivity();
 			}
