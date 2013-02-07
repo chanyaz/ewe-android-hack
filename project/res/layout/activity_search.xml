@@ -34,16 +34,19 @@
             android:layout_height="fill_parent"
             android:background="#E4E4E4" />
 
+        <View
+            android:id="@+id/search_progress_dimmer"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/map_dimmer"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/search_progress_text_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:shadowColor="#88FFFFFF"
-            android:shadowDx="0"
-            android:shadowDy="1"
-            android:shadowRadius=".1"
             android:textColor="#555555"
             android:textStyle="bold" />
     </RelativeLayout>

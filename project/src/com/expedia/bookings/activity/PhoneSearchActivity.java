@@ -220,6 +220,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// Progress bar stuff
 	private ViewGroup mProgressBarLayout;
 	private View mProgressBarHider;
+	private View mProgressBarDimmer;
 	private GLTagProgressBar mProgressBar;
 	private TextView mProgressText;
 
@@ -259,6 +260,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private boolean mIsActivityResumed = false;
 	private boolean mIsOptionsMenuCreated = false;
 	private boolean mIsSearchEditTextTextWatcherEnabled = false;
+	private boolean mGLProgressBarStarted = false;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
@@ -1140,6 +1142,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mProgressBar = (GLTagProgressBar) findViewById(R.id.search_progress_bar);
 		mProgressText = (TextView) findViewById(R.id.search_progress_text_view);
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
+		mProgressBarDimmer = findViewById(R.id.search_progress_dimmer);
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
@@ -1993,6 +1996,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private void hideLoading() {
 		mProgressBarLayout.setVisibility(View.GONE);
+		mProgressBarDimmer.setVisibility(View.GONE);
 
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
@@ -2011,14 +2015,27 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void showLoading(boolean showProgress, String text) {
 		mProgressBarLayout.setVisibility(View.VISIBLE);
 
-		// In the case that the user is an emulator and this isn't a release build,
-		// disable the hanging tag for speed purposes
-		if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
-			mProgressBar.setVisibility(View.GONE);
+		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_HOTEL) {
+			if (!mGLProgressBarStarted) {
+				mProgressBarHider.setVisibility(View.VISIBLE);
+			}
+
+			// In the case that the user is an emulator and this isn't a release build,
+			// disable the hanging tag for speed purposes
+			if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
+				mProgressBar.setVisibility(View.GONE);
+			}
+			else {
+				mProgressBar.setVisibility(View.VISIBLE);
+				mProgressBar.setShowProgress(showProgress);
+			}
+			mProgressText.setTextColor(getResources().getColor(R.color.hotel_list_progress_text_color));
 		}
 		else {
-			mProgressBar.setVisibility(View.VISIBLE);
-			mProgressBar.setShowProgress(showProgress);
+			// Map
+			mProgressBarHider.setVisibility(View.GONE); // In case the hang tag never drew, we don't want to see it on the map fragment
+			mProgressBarDimmer.setVisibility(View.VISIBLE);
+			mProgressText.setTextColor(getResources().getColor(R.color.hotel_map_progress_text_color));
 		}
 
 		mProgressText.setText(text);
@@ -2026,6 +2043,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	@Override
 	public void onDrawStarted() {
+		mGLProgressBarStarted = true;
 		mProgressBarHider.postDelayed(new Runnable() {
 			public void run() {
 				mProgressBarHider.setVisibility(View.GONE);
