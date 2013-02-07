@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -95,6 +96,21 @@ public class HotelItinCard extends ItinCard {
 	@Override
 	protected String getHeaderText(TripComponent tripComponent) {
 		return mProperty.getName();
+	}
+
+	@Override
+	protected View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+		ViewGroup view = (ViewGroup) inflater.inflate(R.layout.include_itin_card_title_hotel, container, false);
+
+		TextView hotelNameTextView = Ui.findView(view, R.id.hotel_name_text_view);
+		RatingBar hotelRatingBar = Ui.findView(view, R.id.hotel_rating_bar);
+
+		if (mProperty != null) {
+			hotelNameTextView.setText(mProperty.getName());
+			hotelRatingBar.setRating((float) mProperty.getHotelRating());
+		}
+
+		return view;
 	}
 
 	@Override

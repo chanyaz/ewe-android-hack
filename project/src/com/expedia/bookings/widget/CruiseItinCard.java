@@ -40,6 +40,12 @@ public class CruiseItinCard extends ItinCard {
 	}
 
 	@Override
+	protected View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
 		return null;
 	}

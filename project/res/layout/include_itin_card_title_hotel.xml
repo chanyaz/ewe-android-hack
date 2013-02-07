@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left|center"
+    android:orientation="vertical" >
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/hotel_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/itin_white_text"
+        android:textSize="18dp"
+        app:textStyle="normal" />
+
+    <RatingBar
+        android:id="@+id/hotel_rating_bar"
+        style="@style/RatingBarSmall.Shadowed.UserReview.Light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:stepSize="0.5" />
+
+</LinearLayout>

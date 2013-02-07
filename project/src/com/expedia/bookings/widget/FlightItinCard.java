@@ -105,6 +105,12 @@ public class FlightItinCard extends ItinCard {
 	}
 
 	@Override
+	protected View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
 		View view = inflater.inflate(R.layout.include_itin_card_flight, container, false);
 
@@ -140,11 +146,11 @@ public class FlightItinCard extends ItinCard {
 			Calendar arrivalTimeCal = leg.getLastWaypoint().getMostRelevantDateTime();
 
 			String departureTime = formatTime(departureTimeCal);
-			String departureTz = res.getString(R.string.depart_tz_TEMPLATE, departureTimeCal
-					.getTimeZone().getDisplayName(false, TimeZone.SHORT));
-			String arrivalTime = formatTime(arrivalTimeCal);
-			String arrivalTz = res.getString(R.string.arrive_tz_TEMPLATE, arrivalTimeCal.getTimeZone()
+			String departureTz = res.getString(R.string.depart_tz_TEMPLATE, departureTimeCal.getTimeZone()
 					.getDisplayName(false, TimeZone.SHORT));
+			String arrivalTime = formatTime(arrivalTimeCal);
+			String arrivalTz = res.getString(R.string.arrive_tz_TEMPLATE,
+					arrivalTimeCal.getTimeZone().getDisplayName(false, TimeZone.SHORT));
 
 			Ui.setText(view, R.id.departure_time, departureTime);
 			Ui.setText(view, R.id.departure_time_tz, departureTz);
@@ -291,24 +297,26 @@ public class FlightItinCard extends ItinCard {
 	@SuppressLint("DefaultLocale")
 	@Override
 	protected SummaryButton getSummaryRightButton() {
-		return new SummaryButton(R.drawable.ic_calendar_add, getResources().getString(R.string.add_event)
-				.toUpperCase(), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//TODO: Investigate compatibility... works on my 2.2 and 4.2 devices with default android cal
-				Resources res = getResources();
-				Calendar startCal = mData.getStartDate().getCalendar();
-				Calendar endCal = mData.getEndDate().getCalendar();
-				Intent intent = new Intent(Intent.ACTION_EDIT);
-				intent.setType("vnd.android.cursor.item/event");
-				intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
-				intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
-				intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
-				intent.putExtra(Events.TITLE, res.getString(R.string.flight_to_TEMPLATE, mData.getFlightLeg()
-						.getLastWaypoint().getAirport().mCity));
-				getContext().startActivity(intent);
-			}
-		});
+		return new SummaryButton(R.drawable.ic_calendar_add,
+				getResources().getString(R.string.add_event).toUpperCase(), new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						//TODO: Investigate compatibility... works on my 2.2 and 4.2 devices with default android cal
+						Resources res = getResources();
+						Calendar startCal = mData.getStartDate().getCalendar();
+						Calendar endCal = mData.getEndDate().getCalendar();
+						Intent intent = new Intent(Intent.ACTION_EDIT);
+						intent.setType("vnd.android.cursor.item/event");
+						intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+						intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
+						intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
+						intent.putExtra(
+								Events.TITLE,
+								res.getString(R.string.flight_to_TEMPLATE, mData.getFlightLeg().getLastWaypoint()
+										.getAirport().mCity));
+						getContext().startActivity(intent);
+					}
+				});
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -334,10 +342,10 @@ public class FlightItinCard extends ItinCard {
 				Ui.findView(v, R.id.layover_terminal_gate_two).setVisibility(View.GONE);
 			}
 			else {
-				String arrivalGate = res.getString(R.string.arrival_terminal_TEMPLATE,
-						waypoint.getTerminal(), waypoint.getGate());
-				String departureGate = res.getString(R.string.arrival_terminal_TEMPLATE,
-						waypoint.getTerminal(), waypoint.getGate());
+				String arrivalGate = res.getString(R.string.arrival_terminal_TEMPLATE, waypoint.getTerminal(),
+						waypoint.getGate());
+				String departureGate = res.getString(R.string.arrival_terminal_TEMPLATE, waypoint.getTerminal(),
+						waypoint.getGate());
 
 				Ui.setText(v, R.id.layover_terminal_gate_one, arrivalGate);
 				Ui.setText(v, R.id.layover_terminal_gate_two, departureGate);
@@ -351,8 +359,8 @@ public class FlightItinCard extends ItinCard {
 				Ui.setText(v, R.id.layover_terminal_gate_one, R.string.no_terminal_gate_information);
 			}
 			else {
-				String termGate = res.getString(R.string.generic_terminal_TEMPLATE,
-						waypoint.getTerminal(), waypoint.getGate());
+				String termGate = res.getString(R.string.generic_terminal_TEMPLATE, waypoint.getTerminal(),
+						waypoint.getGate());
 				Ui.setText(v, R.id.layover_terminal_gate_one, termGate);
 			}
 		}

@@ -2,12 +2,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings" >
 
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:background="#4D555D" />
-
     <LinearLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
@@ -18,6 +12,52 @@
         android:layout_marginTop="@dimen/itin_list_card_top_image_offset"
         android:background="@drawable/bg_itin_card"
         android:orientation="vertical" >
+
+        <!-- ###################################################################### -->
+        <!-- TITLE LAYOUT -->
+        <!-- ###################################################################### -->
+
+        <LinearLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#2C2F32"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/list_selector_holo_dark"
+                android:padding="8dp"
+                android:src="@drawable/ic_action_bar_checkmark_white" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/itin_divider_color" />
+
+            <FrameLayout
+                android:id="@+id/title_content_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/list_selector_holo_dark"
+                android:padding="8dp"
+                android:src="@drawable/ic_action_share" />
+        </LinearLayout>
+
+        <!-- ###################################################################### -->
+        <!-- SCROLLVIEW -->
+        <!-- ###################################################################### -->
 
         <com.expedia.bookings.widget.ScrollView
             android:id="@+id/scroll_view"
@@ -50,19 +90,20 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/bg_card_image_overlay" />
 
-                    <View
-                        android:id="@+id/target_type_icon_space_holder"
-                        android:layout_width="@dimen/itin_list_icon_end_size"
-                        android:layout_height="@dimen/itin_list_icon_end_size"
+                    <ImageView
+                        android:id="@+id/itin_type_static_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:visibility="invisible" />
+                        android:paddingBottom="32dp" />
 
                     <TextView
                         android:id="@+id/header_text_view"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/target_type_icon_space_holder"
-                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
                         android:textColor="#FFFFFF"
                         android:textSize="18dp"
                         android:textStyle="bold" />
@@ -89,6 +130,10 @@
             </LinearLayout>
         </com.expedia.bookings.widget.ScrollView>
 
+        <!-- ###################################################################### -->
+        <!-- ACTION BUTTON LAYOUT -->
+        <!-- ###################################################################### -->
+
         <LinearLayout
             android:id="@+id/summary_button_layout"
             android:layout_width="match_parent"
@@ -104,19 +149,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:orientation="horizontal" >
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/summary_left_button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/list_selector_holo_dark"
-                    android:drawableLeft="@drawable/ic_urgency_clock"
+                    android:focusable="true"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="DIRECTIONS"
                     android:textColor="@color/itin_white_text"
                     android:textSize="12dp"
                     app:textStyle="bold" />
@@ -131,19 +175,22 @@
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/summary_right_button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/list_selector_holo_dark"
-                    android:drawableLeft="@drawable/ic_urgency_clock"
+                    android:focusable="true"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="ADD EVENT"
                     android:textColor="@color/itin_white_text"
                     android:textSize="12dp"
                     app:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <!-- ###################################################################### -->
+    <!-- FLOATING TYPE IMAGEVIEW -->
+    <!-- ###################################################################### -->
 
     <ImageView
         android:id="@+id/itin_type_image_view"

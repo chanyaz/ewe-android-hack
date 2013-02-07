@@ -27,17 +27,27 @@ public abstract class ItinCard extends RelativeLayout {
 	// ABSTRACT METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	// Type
+
 	public abstract int getTypeIconResId();
 
 	public abstract Type getType();
+
+	// Header image
 
 	protected abstract String getHeaderImageUrl(TripComponent tripComponent);
 
 	protected abstract String getHeaderText(TripComponent tripComponent);
 
+	// Views
+
+	protected abstract View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent);
+
 	protected abstract View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent);
 
 	protected abstract View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent);
+
+	// Action buttons
 
 	protected abstract SummaryButton getSummaryLeftButton();
 
@@ -76,13 +86,17 @@ public abstract class ItinCard extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private ViewGroup mCardLayout;
+	private ViewGroup mTitleLayout;
+	private ViewGroup mTitleContentLayout;
 	private ViewGroup mSummaryLayout;
 	private ViewGroup mDetailsLayout;
 	private ViewGroup mSummaryButtonLayout;
 
+	private ImageView mItinTypeImageView;
+	private ImageView mItinTypeStaticImageView;
+
 	private ScrollView mScrollView;
 	private OptimizedImageView mHeaderImageView;
-	private ImageView mItinTypeImageView;
 	private TextView mHeaderTextView;
 
 	private TextView mSummaryLeftButton;
@@ -102,12 +116,16 @@ public abstract class ItinCard extends RelativeLayout {
 		inflate(context, R.layout.widget_itin_card, this);
 
 		mCardLayout = Ui.findView(this, R.id.card_layout);
+		mTitleLayout = Ui.findView(this, R.id.title_layout);
+		mTitleContentLayout = Ui.findView(this, R.id.title_content_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mSummaryButtonLayout = Ui.findView(this, R.id.summary_button_layout);
 
-		mScrollView = Ui.findView(this, R.id.scroll_view);
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
+		mItinTypeStaticImageView = Ui.findView(this, R.id.itin_type_static_image_view);
+
+		mScrollView = Ui.findView(this, R.id.scroll_view);
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mHeaderTextView = Ui.findView(this, R.id.header_text_view);
 
@@ -127,13 +145,23 @@ public abstract class ItinCard extends RelativeLayout {
 	public boolean hasFocusable() {
 		// TODO: This feels very wrong. Find out why onItemClick isn't working and fix it for real
 		return false;
+		//return super.hasFocusable();
 	}
 
 	public void bind(final ItinCardData itinCardData) {
+		LayoutInflater layoutInflater = LayoutInflater.from(getContext());
 		TripComponent tripComponent = itinCardData.getTripComponent();
+
+		// Title
+		View titleView = getTitleView(layoutInflater, mTitleContentLayout, tripComponent);
+		if (titleView != null) {
+			mTitleContentLayout.removeAllViews();
+			mTitleContentLayout.addView(titleView);
+		}
 
 		// Type icon
 		mItinTypeImageView.setImageResource(getTypeIconResId());
+		mItinTypeStaticImageView.setImageResource(getTypeIconResId());
 
 		// Image
 		String headerImageUrl = getHeaderImageUrl(tripComponent);
@@ -149,14 +177,14 @@ public abstract class ItinCard extends RelativeLayout {
 
 		// Summary text
 
-		View summaryView = getSummaryView(LayoutInflater.from(getContext()), mSummaryLayout, tripComponent);
+		View summaryView = getSummaryView(layoutInflater, mSummaryLayout, tripComponent);
 		if (summaryView != null) {
 			mSummaryLayout.removeAllViews();
 			mSummaryLayout.addView(summaryView);
 		}
 
 		// Details view
-		View detailsView = getDetailsView(LayoutInflater.from(getContext()), mDetailsLayout, tripComponent);
+		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, tripComponent);
 		if (detailsView != null) {
 			mDetailsLayout.removeAllViews();
 			mDetailsLayout.addView(detailsView);
@@ -190,7 +218,12 @@ public abstract class ItinCard extends RelativeLayout {
 	}
 
 	public void showDetails(final boolean show) {
+		mItinTypeImageView.setVisibility(show ? INVISIBLE : VISIBLE);
+		mItinTypeStaticImageView.setVisibility(show ? VISIBLE : INVISIBLE);
+
+		mTitleLayout.setVisibility(show ? VISIBLE : GONE);
 		mDetailsLayout.setVisibility(show ? VISIBLE : GONE);
+
 		ObjectAnimator.ofFloat(mSummaryButtonLayout, "alpha", 1).start();
 	}
 
@@ -213,12 +246,15 @@ public abstract class ItinCard extends RelativeLayout {
 
 		percent = Math.min(1.0f, Math.max(0.25f, percent));
 
-		final int typeImageTranslationY = -mScrollView.getScrollY() + headerImageHalfHeight - itinTypeImageHalfHeight;
+		final int typeImageTranslationY = headerImageHalfHeight - itinTypeImageHalfHeight;
 		final int viewTranslationY = Math.max(0, (headerImageHeight - (int) (percent * (float) headerImageHeight)));
 
 		ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
 		ViewHelper.setScaleX(mItinTypeImageView, percent);
 		ViewHelper.setScaleY(mItinTypeImageView, percent);
+
+		ViewHelper.setScaleX(mItinTypeStaticImageView, percent);
+		ViewHelper.setScaleY(mItinTypeStaticImageView, percent);
 
 		ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
 	}

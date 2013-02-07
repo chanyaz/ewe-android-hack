@@ -17,7 +17,7 @@ public class CarItinCard extends ItinCard {
 	public CarItinCard(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
-	
+
 	@Override
 	public int getTypeIconResId() {
 		// TODO Auto-generated method stub
@@ -37,6 +37,12 @@ public class CarItinCard extends ItinCard {
 	@Override
 	protected String getHeaderText(TripComponent tripComponent) {
 		return "Car Card";
+	}
+
+	@Override
+	protected View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
