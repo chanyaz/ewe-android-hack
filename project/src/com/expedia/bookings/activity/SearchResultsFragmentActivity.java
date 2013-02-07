@@ -43,6 +43,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
@@ -764,8 +765,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		invalidateOptionsMenu();
 	}
 
-	public void setDates(Calendar checkIn, Calendar checkOut) {
-		Log.d("Setting dates: " + checkIn.getTimeInMillis() + " to " + checkOut.getTimeInMillis());
+	public void setDates(Date checkIn, Date checkOut) {
+		Log.d("Setting dates: " + checkIn + " to " + checkOut);
 
 		Db.getSearchParams().setCheckInDate(checkIn);
 		Db.getSearchParams().setCheckOutDate(checkOut);
@@ -1456,7 +1457,7 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 	// CalendarDialogFragmentListener
 
 	@Override
-	public void onChangeDates(Calendar start, Calendar end) {
+	public void onChangeDates(Date start, Date end) {
 		setDates(start, end);
 		startSearch();
 	}

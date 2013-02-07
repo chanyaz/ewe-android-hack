@@ -73,6 +73,7 @@ import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.ConfirmationState.Type;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
@@ -2313,35 +2314,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			syncDatesFromPicker();
+			CalendarUtils.syncParamsFromDatePicker(mEditedSearchParams, mDatesCalendarDatePicker);
 
 			displayRefinementInfo();
 			setActionBarBookingInfoText();
 		}
 	};
-
-	private void syncDatesFromPicker() {
-		Calendar startCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
-		Calendar endCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
-
-		final int startYear = mDatesCalendarDatePicker.getStartYear();
-		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
-		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-
-		final int endYear = mDatesCalendarDatePicker.getEndYear();
-		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
-
-		startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
-		endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
-
-		startCalendar.set(Calendar.MILLISECOND, 0);
-		endCalendar.set(Calendar.MILLISECOND, 0);
-
-		SearchParams searchParams = mEditedSearchParams;
-		searchParams.setCheckInDate(startCalendar);
-		searchParams.setCheckOutDate(endCalendar);
-	}
 
 	private final SimpleNumberPicker.OnValueChangeListener mNumberPickerChangedListener = new SimpleNumberPicker.OnValueChangeListener() {
 		@Override

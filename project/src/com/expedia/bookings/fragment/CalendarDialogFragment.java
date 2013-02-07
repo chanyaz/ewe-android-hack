@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -124,15 +124,8 @@ public class CalendarDialogFragment extends DialogFragment {
 		if (getShowsDialog()) {
 			mCalendarDatePicker.setOnDateChangedListener(new OnDateChangedListener() {
 				public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-					Calendar start = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
-							.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
-					Calendar end = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
-							.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
-
 					SearchParams workingSearchParams = new SearchParams();
-					workingSearchParams.setCheckInDate(start);
-					workingSearchParams.setCheckOutDate(end);
-
+					CalendarUtils.syncParamsFromDatePicker(workingSearchParams, mCalendarDatePicker);
 					updateTitle(workingSearchParams);
 				}
 			});
@@ -174,15 +167,15 @@ public class CalendarDialogFragment extends DialogFragment {
 	// Listener
 
 	private void notifyDateChangedListener() {
-		Calendar start = new GregorianCalendar(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
-				.getStartMonth(), mCalendarDatePicker.getStartDayOfMonth());
-		Calendar end = new GregorianCalendar(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
-				.getEndMonth(), mCalendarDatePicker.getEndDayOfMonth());
+		Date start = new Date(mCalendarDatePicker.getStartYear(), mCalendarDatePicker
+				.getStartMonth() + 1, mCalendarDatePicker.getStartDayOfMonth());
+		Date end = new Date(mCalendarDatePicker.getEndYear(), mCalendarDatePicker
+				.getEndMonth() + 1, mCalendarDatePicker.getEndDayOfMonth());
 
 		mListener.onChangeDates(start, end);
 	}
 
 	public interface CalendarDialogFragmentListener {
-		public void onChangeDates(Calendar start, Calendar end);
+		public void onChangeDates(Date start, Date end);
 	}
 }

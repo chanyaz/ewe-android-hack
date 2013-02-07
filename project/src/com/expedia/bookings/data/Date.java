@@ -165,12 +165,6 @@ public class Date implements JSONable, Comparable<Object> {
 
 	@Override
 	public String toString() {
-		JSONObject obj = toJson();
-		try {
-			return obj.toString(2);
-		}
-		catch (JSONException e) {
-			return obj.toString();
-		}
+		return toJson().toString();
 	}
 }

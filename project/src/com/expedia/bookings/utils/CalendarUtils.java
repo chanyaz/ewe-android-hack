@@ -8,6 +8,7 @@ import android.text.Html;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.mobiata.android.text.format.Time;
@@ -95,6 +96,14 @@ public class CalendarUtils {
 		maxTime.normalize(true);
 
 		calendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
+	}
+	
+	public static void syncParamsFromDatePicker(SearchParams searchParams, CalendarDatePicker picker) {
+		Date startDate = new Date(picker.getStartYear(), picker.getStartMonth() + 1, picker.getStartDayOfMonth());
+		Date endDate = new Date(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());
+
+		searchParams.setCheckInDate(startDate);
+		searchParams.setCheckOutDate(endDate);
 	}
 
 	// #9770: Add an hour of buffer so that the date range is always > the number of days
