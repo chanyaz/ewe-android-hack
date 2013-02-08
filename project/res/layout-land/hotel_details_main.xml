@@ -27,7 +27,8 @@
             android:id="@+id/hotel_details_landscape"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="55" >
+            android:layout_weight="55"
+            android:fadingEdge="none" >
 
             <LinearLayout
                 android:layout_width="match_parent"
