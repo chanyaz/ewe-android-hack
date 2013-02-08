@@ -94,14 +94,6 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/bg_card_image_overlay" />
 
-                    <ImageView
-                        android:id="@+id/itin_type_static_image_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:paddingBottom="32dp"
-                        android:visibility="invisible" />
-
                     <TextView
                         android:id="@+id/header_text_view"
                         android:layout_width="match_parent"

@@ -106,7 +106,6 @@ public abstract class ItinCard extends RelativeLayout {
 	private ViewGroup mActionButtonLayout;
 
 	private ImageView mItinTypeImageView;
-	private ImageView mItinTypeStaticImageView;
 
 	private ScrollView mScrollView;
 	private OptimizedImageView mHeaderImageView;
@@ -141,7 +140,6 @@ public abstract class ItinCard extends RelativeLayout {
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
 
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
-		mItinTypeStaticImageView = Ui.findView(this, R.id.itin_type_static_image_view);
 
 		mScrollView = Ui.findView(this, R.id.scroll_view);
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
@@ -181,7 +179,6 @@ public abstract class ItinCard extends RelativeLayout {
 
 		// Type icon
 		mItinTypeImageView.setImageResource(getTypeIconResId());
-		mItinTypeStaticImageView.setImageResource(getTypeIconResId());
 
 		// Image
 		String headerImageUrl = getHeaderImageUrl(tripComponent);
@@ -268,8 +265,6 @@ public abstract class ItinCard extends RelativeLayout {
 
 				mScrollView.scrollTo(0, 0);
 
-				mItinTypeImageView.setVisibility(VISIBLE);
-				mItinTypeStaticImageView.setVisibility(INVISIBLE);
 				mSummaryDividerView.setVisibility(GONE);
 				mDetailsLayout.setVisibility(GONE);
 			}
@@ -287,22 +282,17 @@ public abstract class ItinCard extends RelativeLayout {
 		}
 
 		// Alpha
-		ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 0, 1).setDuration(400).start();
-		ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 0, 1).setDuration(400).start();
-		ObjectAnimator.ofFloat(mItinTypeStaticImageView, "alpha", 0, 1).setDuration(400).start();
+		ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400).start();
+		ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 1).setDuration(400).start();
+		ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 1).setDuration(400).start();
 
 		// TranslationY
 		ObjectAnimator.ofFloat(mHeaderTextView, "translationY", 0).setDuration(400).start();
-		ObjectAnimator
-				.ofFloat(mItinTypeStaticImageView, "translationY", ViewHelper.getTranslationY(mItinTypeImageView))
-				.setDuration(400).start();
 	}
 
 	public void expand() {
 		updateLayout();
 
-		mItinTypeImageView.setVisibility(INVISIBLE);
-		mItinTypeStaticImageView.setVisibility(VISIBLE);
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);
 
@@ -315,13 +305,12 @@ public abstract class ItinCard extends RelativeLayout {
 		}
 
 		// Alpha
-		ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1, 0).setDuration(400).start();
-		ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 1, 0).setDuration(400).start();
-		ObjectAnimator.ofFloat(mItinTypeStaticImageView, "alpha", 1, 0).setDuration(400).start();
+		ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 0).setDuration(200).start();
+		ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 0).setDuration(200).start();
+		ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 0).setDuration(200).start();
 
 		// TranslationY
 		ObjectAnimator.ofFloat(mHeaderTextView, "translationY", -50).setDuration(400).start();
-		ObjectAnimator.ofFloat(mItinTypeStaticImageView, "translationY", -50).setDuration(400).start();
 	}
 
 	// Type icon position and size
@@ -351,9 +340,6 @@ public abstract class ItinCard extends RelativeLayout {
 		ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
 		ViewHelper.setScaleX(mItinTypeImageView, percent);
 		ViewHelper.setScaleY(mItinTypeImageView, percent);
-
-		ViewHelper.setScaleX(mItinTypeStaticImageView, percent);
-		ViewHelper.setScaleY(mItinTypeStaticImageView, percent);
 
 		ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
 	}
