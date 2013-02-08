@@ -7,11 +7,14 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -19,7 +22,6 @@ import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 public abstract class ItinCard extends RelativeLayout {
@@ -85,6 +87,8 @@ public abstract class ItinCard extends RelativeLayout {
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	private int mTitleLayoutHeight;
+
 	private ViewGroup mCardLayout;
 	private ViewGroup mTitleLayout;
 	private ViewGroup mTitleContentLayout;
@@ -114,6 +118,8 @@ public abstract class ItinCard extends RelativeLayout {
 		super(context, attrs);
 
 		inflate(context, R.layout.widget_itin_card, this);
+
+		mTitleLayoutHeight = getResources().getDimensionPixelSize(R.dimen.itin_title_height);
 
 		mCardLayout = Ui.findView(this, R.id.card_layout);
 		mTitleLayout = Ui.findView(this, R.id.title_layout);
@@ -214,17 +220,33 @@ public abstract class ItinCard extends RelativeLayout {
 	}
 
 	public void hideDetails() {
+		mItinTypeImageView.setVisibility(VISIBLE);
+		mItinTypeStaticImageView.setVisibility(INVISIBLE);
 
+		Animation titleAnimation = new ResizeAnimation(mTitleLayout, mTitleLayoutHeight, 0);
+		titleAnimation.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mDetailsLayout.setVisibility(GONE);
+			}
+		});
+		mTitleLayout.startAnimation(titleAnimation);
 	}
 
-	public void showDetails(final boolean show) {
-		mItinTypeImageView.setVisibility(show ? INVISIBLE : VISIBLE);
-		mItinTypeStaticImageView.setVisibility(show ? VISIBLE : INVISIBLE);
+	public void showDetails() {
+		mItinTypeImageView.setVisibility(INVISIBLE);
+		mItinTypeStaticImageView.setVisibility(VISIBLE);
 
-		mTitleLayout.setVisibility(show ? VISIBLE : GONE);
-		mDetailsLayout.setVisibility(show ? VISIBLE : GONE);
-
-		ObjectAnimator.ofFloat(mSummaryButtonLayout, "alpha", 1).start();
+		mTitleLayout.startAnimation(new ResizeAnimation(mTitleLayout, 0, mTitleLayoutHeight));
+		mDetailsLayout.setVisibility(VISIBLE);
 	}
 
 	public void updateLayout() {
@@ -246,7 +268,7 @@ public abstract class ItinCard extends RelativeLayout {
 
 		percent = Math.min(1.0f, Math.max(0.25f, percent));
 
-		final int typeImageTranslationY = headerImageHalfHeight - itinTypeImageHalfHeight;
+		final int typeImageTranslationY = mHeaderImageView.getTop() + headerImageHalfHeight - itinTypeImageHalfHeight;
 		final int viewTranslationY = Math.max(0, (headerImageHeight - (int) (percent * (float) headerImageHeight)));
 
 		ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);

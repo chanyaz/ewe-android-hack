@@ -20,8 +20,9 @@
         <LinearLayout
             android:id="@+id/title_layout"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/itin_title_height"
             android:background="#2C2F32"
+            android:gravity="center"
             android:orientation="horizontal"
             android:visibility="gone" >
 

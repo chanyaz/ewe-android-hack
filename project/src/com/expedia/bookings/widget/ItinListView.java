@@ -82,7 +82,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
-
 		mExpandedCardHeight = h - mExpandedCardPaddingBottom;
 	}
 
@@ -202,6 +201,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
+				view.showSummary(animationPosition == 0);
+				view.hideDetails();
 			}
 
 			@Override
@@ -210,10 +211,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				view.showSummary(animationPosition == 0);
-				view.showDetails(false);
 				invalidateViews();
-
 				scrollTo(0, stopY);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
@@ -254,7 +252,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			@Override
 			public void onAnimationStart(Animation animation) {
 				view.showSummary(true);
-				view.showDetails(true);
+				view.showDetails();
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 
