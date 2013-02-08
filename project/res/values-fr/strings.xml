@@ -394,7 +394,7 @@
     <!-- Address state hint -->
     <string name="address_state_hint">Dép.</string>
     <!-- Postal Code hint -->
-    <string name="address_postal_code_hint">Code postal</string>
+    <string name="address_postal_code_hint">CP</string>
     <!-- Billing Postal Code hint -->
     <string name="address_postal_code_hint_hotels">Code postal de facturation</string>
 
