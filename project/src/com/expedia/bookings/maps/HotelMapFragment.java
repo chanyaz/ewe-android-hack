@@ -153,7 +153,6 @@ public class HotelMapFragment extends SupportMapFragment {
 		mPinSale = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_sale);
 
 		onRestoreSavedInstanceState(savedInstanceState);
-		initMapCameraToGoodSpot();
 		runReadyActions();
 	}
 
@@ -196,6 +195,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	public void onRestoreSavedInstanceState(Bundle bundle) {
 		if (bundle == null) {
+			initMapCameraToGoodSpot();
 			return;
 		}
 
