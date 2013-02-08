@@ -13,12 +13,12 @@
         android:maxLines="1"
         android:singleLine="true"
         android:textColor="@color/itin_white_text"
-        android:textSize="18dp"
+        android:textSize="16dp"
         app:textStyle="normal" />
 
     <RatingBar
         android:id="@+id/hotel_rating_bar"
-        style="@style/RatingBarSmall.Shadowed.UserReview.Light"
+        style="@style/RatingBarSmall.Shadowed.Star.Dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:isIndicator="true"

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -107,6 +108,9 @@ public abstract class ItinCard extends RelativeLayout {
 
 	private ImageView mItinTypeImageView;
 
+	private ImageButton mCloseImageButton;
+	private ImageButton mShareImageButton;
+
 	private ScrollView mScrollView;
 	private OptimizedImageView mHeaderImageView;
 	private ImageView mHeaderOverlayImageView;
@@ -141,6 +145,9 @@ public abstract class ItinCard extends RelativeLayout {
 
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 
+		mCloseImageButton = Ui.findView(this, R.id.close_image_button);
+		mShareImageButton = Ui.findView(this, R.id.share_image_button);
+
 		mScrollView = Ui.findView(this, R.id.scroll_view);
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mHeaderOverlayImageView = Ui.findView(this, R.id.header_overlay_image_view);
@@ -167,8 +174,8 @@ public abstract class ItinCard extends RelativeLayout {
 	}
 
 	public void bind(final ItinCardData itinCardData) {
-		LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-		TripComponent tripComponent = itinCardData.getTripComponent();
+		final TripComponent tripComponent = itinCardData.getTripComponent();
+		final LayoutInflater layoutInflater = LayoutInflater.from(getContext());
 
 		// Title
 		View titleView = getTitleView(layoutInflater, mTitleContentLayout, tripComponent);
@@ -176,6 +183,13 @@ public abstract class ItinCard extends RelativeLayout {
 			mTitleContentLayout.removeAllViews();
 			mTitleContentLayout.addView(titleView);
 		}
+
+		mShareImageButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onShareButtonClick(tripComponent);
+			}
+		});
 
 		// Type icon
 		mItinTypeImageView.setImageResource(getTypeIconResId());
@@ -363,6 +377,5 @@ public abstract class ItinCard extends RelativeLayout {
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			updateLayout();
 		}
-
 	};
 }

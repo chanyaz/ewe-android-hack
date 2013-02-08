@@ -177,7 +177,6 @@ public class HotelItinCard extends ItinCard {
 
 	@Override
 	protected void onShareButtonClick(TripComponent tripComponent) {
-		// TODO Auto-generated method stub
 
 	}
 
