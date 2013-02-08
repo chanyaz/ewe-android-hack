@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -20,26 +21,29 @@
         android:layout_weight="1"
         android:orientation="vertical" >
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/layover_airport_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/itin_white_text"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:textStyle="light" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/layover_terminal_gate_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/itin_offwhite_text"
-            android:textSize="14sp" />
+            android:textSize="15sp"
+            app:textStyle="light" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/layover_terminal_gate_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/itin_offwhite_text"
-            android:textSize="14sp" />
+            android:textSize="15sp"
+            app:textStyle="light" />
     </LinearLayout>
 
 </LinearLayout>

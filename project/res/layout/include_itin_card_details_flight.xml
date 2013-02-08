@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_marginBottom="16dp"
@@ -13,23 +14,25 @@
         android:layout_height="wrap_content"
         android:padding="15dp" >
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/departure_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:textColor="@color/itin_white_text"
-            android:textSize="22sp" />
+            android:textSize="26sp"
+            app:textStyle="normal" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/departure_time_tz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/departure_time"
             android:textColor="@color/itin_offwhite_text"
-            android:textSize="12sp" />
+            android:textSize="14sp"
+            app:textStyle="light" />
 
         <ImageView
             android:id="@+id/departure_arrival_arrow"
@@ -38,23 +41,25 @@
             android:layout_centerInParent="true"
             android:src="@drawable/slide_hint" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/arrival_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:textColor="@color/itin_white_text"
-            android:textSize="22sp" />
+            android:textSize="26sp"
+            app:textStyle="medium" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/arrival_time_tz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/arrival_time"
             android:textColor="@color/itin_offwhite_text"
-            android:textSize="12sp" />
+            android:textSize="14sp"
+            app:textStyle="light" />
     </RelativeLayout>
 
     <!-- MAP -->
@@ -73,87 +78,64 @@
         android:id="@+id/flight_leg_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:orientation="vertical" />
 
     <!-- Confirmation Code -->
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/confirmation_code_label"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/confirmation_code_label"
-        android:textColor="@color/itin_flight_header_text_color"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:text="@string/confirmation_code_label" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="8dp"
-        android:background="@color/itin_flight_divider_color" />
-
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/confirmation_code"
+        style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:textColor="@color/itin_white_text" />
+        android:layout_marginRight="16dp" />
 
     <!-- Passengers -->
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/passengers_label"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/passengers_label"
-        android:textColor="@color/itin_flight_header_text_color"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:text="@string/passengers_label" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="8dp"
-        android:background="@color/itin_flight_divider_color" />
-
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/passenger_name_list"
+        style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:textColor="@color/itin_white_text" />
+        android:layout_marginRight="16dp" />
 
     <!-- Booking Info -->
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/booking_info_label"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/booking_info"
-        android:textColor="@color/itin_flight_header_text_color"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:text="@string/booking_info" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="8dp"
-        android:background="@color/itin_flight_divider_color" />
-
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/booking_info"
+        style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:drawableLeft="@drawable/ic_info_small"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
@@ -162,23 +144,12 @@
 
     <!-- Insurance -->
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/insurance_label"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/insurance"
-        android:textColor="@color/itin_flight_header_text_color"
-        android:textSize="12sp"
-        android:textStyle="bold" />
-
-    <View
-        android:id="@+id/insurance_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="8dp"
-        android:background="@color/itin_flight_divider_color" />
+        android:text="@string/insurance" />
 
     <LinearLayout
         android:id="@+id/insurance_container"
@@ -189,13 +160,15 @@
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/insurance_name"
+            style="@style/TextView.Itin.SectionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textColor="@color/itin_white_text" />
+            android:textSize="15sp"
+            app:textStyle="light" />
 
         <View
             android:layout_width="1dp"

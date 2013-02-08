@@ -185,7 +185,8 @@ public class FlightItinCard extends ItinCard {
 				bookingInfo.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						Intent bookingInfoIntent = WebViewActivity.getIntent(getContext(), infoUrl, R.style.FlightTheme,
+						Intent bookingInfoIntent = WebViewActivity.getIntent(getContext(), infoUrl,
+								R.style.FlightTheme,
 								R.string.booking_info, true);
 						getContext().startActivity(bookingInfoIntent);
 					}
@@ -206,10 +207,8 @@ public class FlightItinCard extends ItinCard {
 			boolean hasInsurance = (this.mTripFlight.getParentTrip().getTripInsurance() != null && this.mTripFlight
 					.getParentTrip().getTripInsurance().size() > 0);
 			int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
-			View insuranceDivider = Ui.findView(view, R.id.insurance_divider);
 			View insuranceContainer = Ui.findView(view, R.id.insurance_container);
 			insuranceLabel.setVisibility(insuranceVisibility);
-			insuranceDivider.setVisibility(insuranceVisibility);
 			insuranceContainer.setVisibility(insuranceVisibility);
 			if (hasInsurance) {
 				Insurance insurance = null;

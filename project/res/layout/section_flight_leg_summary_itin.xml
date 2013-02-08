@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.FlightLegSummarySection xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app1="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="2dp"
     android:paddingTop="1dp" >
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/airline_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,8 +20,9 @@
         android:ellipsize="middle"
         android:singleLine="true"
         android:textColor="@color/itin_white_text"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app1:textStyle="medium" />
 
     <ImageView
         android:id="@+id/operating_carrier_image_view"
@@ -32,7 +34,7 @@
         android:src="@drawable/ic_operating_carrier"
         android:visibility="gone" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/operating_carrier_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +47,7 @@
         android:textSize="12sp"
         android:visibility="gone" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/departure_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,9 +56,10 @@
         android:layout_marginTop="6dp"
         android:paddingBottom="16dp"
         android:textColor="@color/itin_offwhite_text"
-        android:textSize="14sp" />
+        android:textSize="15sp"
+        app1:textStyle="light" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/arrival_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,9 +68,10 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="6dp"
         android:textColor="@color/itin_offwhite_text"
-        android:textSize="14sp" />
+        android:textSize="15sp"
+        app1:textStyle="light" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/multi_day_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
