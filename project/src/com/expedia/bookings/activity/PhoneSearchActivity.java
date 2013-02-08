@@ -47,6 +47,8 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -176,6 +178,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_VERSION_FILE = "savedsearch-version.dat";
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
+
+	private static final int ANIMATION_DIMMER_FADE_DURATION = 500;//ms
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -2004,8 +2008,31 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// Progress bar tag
 
 	private void hideLoading() {
-		mProgressBarLayout.setVisibility(View.GONE);
-		mProgressBarDimmer.setVisibility(View.GONE);
+		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_MAP) {
+			Animation fadeout = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+			fadeout.setDuration(ANIMATION_DIMMER_FADE_DURATION);
+			fadeout.setAnimationListener(new Animation.AnimationListener() {
+				@Override
+				public void onAnimationEnd(Animation anim) {
+					mProgressBarLayout.setVisibility(View.GONE);
+					mProgressBarDimmer.setVisibility(View.GONE);
+				}
+
+				@Override
+				public void onAnimationStart(Animation anim) {
+					//ignore
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation anim) {
+					//ignore
+				}
+			});
+			mProgressBarDimmer.startAnimation(fadeout);
+		}
+		else {
+			mProgressBarLayout.setVisibility(View.GONE);
+		}
 
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
@@ -2038,12 +2065,20 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				mProgressBar.setVisibility(View.VISIBLE);
 				mProgressBar.setShowProgress(showProgress);
 			}
+
+			// Dark text on light background
 			mProgressText.setTextColor(getResources().getColor(R.color.hotel_list_progress_text_color));
 		}
 		else {
 			// Map
 			mProgressBarHider.setVisibility(View.GONE); // In case the hang tag never drew, we don't want to see it on the map fragment
+
+			Animation fadein = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+			fadein.setDuration(ANIMATION_DIMMER_FADE_DURATION);
+			mProgressBarDimmer.startAnimation(fadein);
 			mProgressBarDimmer.setVisibility(View.VISIBLE);
+
+			// Light text on dark background
 			mProgressText.setTextColor(getResources().getColor(R.color.hotel_map_progress_text_color));
 		}
 
