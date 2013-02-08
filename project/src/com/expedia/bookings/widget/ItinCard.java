@@ -237,6 +237,15 @@ public abstract class ItinCard extends RelativeLayout {
 		mDetailsLayout.removeAllViews();
 	}
 
+	public void setShowSummary(boolean showSummary) {
+		mShowSummary = showSummary;
+	}
+
+	public void updateSummaryVisibility() {
+		mSummaryLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
+		mActionButtonLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
+	}
+
 	public void collapse() {
 		final int startY = mScrollView.getScrollY();
 		final int stopY = 0;
