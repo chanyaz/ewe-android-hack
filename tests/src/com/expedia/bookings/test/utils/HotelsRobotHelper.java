@@ -19,20 +19,6 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Static Locale Data
 	//TODO make these a different container so cool methods can be used
-	public static final String[] LOCALES = {
-			"en_UK", "fr_CA", "en_HK",
-			"zh_HK", "es_AR", "en_AU",
-			"de_AT", "fr_BE", "nl_BE",
-			"pt_BR", "en_CA", "da_DK",
-			"fr_FR", "de_DE", "en_IN",
-			"id_ID", "en_IE", "it_IT",
-			"ja_JP", "es_MX", "en_MY",
-			"nl_NL", "en_NZ", "nb_NO",
-			"en_SG", "en_PH", "ko_KR",
-			"es_ES", "sv_SE", "zh_TW",
-			"en_US", "th_TH", "vi_VN",
-			"tl_PH", "zh_CN"
-	};
 
 	public static Locale[] AMERICAN_LOCALES = new Locale[] {
 			new Locale("es", "AR"),
@@ -357,7 +343,7 @@ public class HotelsRobotHelper {
 		if (mAllowOrientationChange) {
 			mSolo.clickOnEditText(0);
 		}
-		mSolo.clickInList(2); //Selecting search suggestion results
+		mSolo.clickInList(1); //Selecting search suggestion results
 								//some countries' list don't populate ever
 								//might break stuff
 		enterLog(TAG, "After clicking search button");
@@ -693,20 +679,29 @@ public class HotelsRobotHelper {
 			portrait();
 			delay(5);
 			screenshot("Credit card info.");
-			delay(1);
-			mSolo.clearEditText(0);
-			mSolo.enterText(0, mUser.mCreditCardNumber);
-			mSolo.clearEditText(1);
-			mSolo.enterText(1, mUser.mFirstName + " " + mUser.mLastName);
 
-			mSolo.clickOnText(mRes.getString(R.string.expiration_date));
+			// Enter Credit Card Number
+			mSolo.enterText((EditText) mSolo.getView(R.id.edit_creditcard_number),
+					mUser.mCreditCardNumber);
+
+			// Enter Cardholder's name
+			mSolo.typeText((EditText) mSolo.getView(R.id.edit_name_on_card),
+					mUser.mFirstName + " " + mUser.mLastName);
 			
-			//Expiration date entry
+			// Enter Postal Code
+			mSolo.typeText((EditText) mSolo.getView(R.id.edit_address_postal_code),
+					mUser.mZIPCode);
+
+			// Pick generic date
+			mSolo.clickOnText(mRes.getString(R.string.expiration_date));
 			mSolo.clickOnButton(1);
 
+			// Press done to enter this data
 			mSolo.clickOnText(mRes.getString(R.string.button_done));
-			mSolo.clickOnText(mRes.getString(R.string.no_thanks));
 			
+			// Do not save this card info
+			mSolo.clickOnText(mRes.getString(R.string.no_thanks));
+
 		}
 		catch (Error e) {
 			enterLog(TAG, e.toString());
@@ -716,7 +711,7 @@ public class HotelsRobotHelper {
 	public void confirmAndBook() throws Exception {
 		delay(5);
 		try {
-			mSolo.clickOnText(mRes.getString(R.string.I_Accept));
+			mSolo.clickOnView(mSolo.getView(R.id.i_accept_center_text));
 		}
 		catch (Error e) {
 			enterLog(TAG, "There is no 'I accept' button on this POS");
@@ -877,13 +872,13 @@ public class HotelsRobotHelper {
 		delay(5);
 
 		//mSolo.clickOnEditText(0);
-		mSolo.clickOnView( (View) mSolo.getView(R.id.departure_airport_edit_text));
+		mSolo.clickOnView((View) mSolo.getView(R.id.departure_airport_edit_text));
 		mSolo.enterText(0, departure);
 		delay();
-		
+
 		//Arrival Field
 		//mSolo.clickOnEditText(1);
-		mSolo.clickOnView( (View) mSolo.getView(R.id.arrival_airport_edit_text));
+		mSolo.clickOnView((View) mSolo.getView(R.id.arrival_airport_edit_text));
 		mSolo.enterText(1, arrival);
 		delay();
 
