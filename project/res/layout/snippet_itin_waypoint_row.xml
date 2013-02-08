@@ -12,7 +12,7 @@
         android:layout_height="32dp"
         android:layout_margin="10dp"
         android:layout_weight="0"
-        android:src="@drawable/ic_departure_arrow_small" />
+        android:src="@drawable/ic_departure_details" />
 
     <LinearLayout
         android:id="@+id/text_container"

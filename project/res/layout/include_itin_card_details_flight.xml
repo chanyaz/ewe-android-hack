@@ -182,7 +182,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:src="@drawable/ic_passport_country" />
+            android:src="@drawable/ic_travel_insurance_globe" />
     </LinearLayout>
 
 </LinearLayout>

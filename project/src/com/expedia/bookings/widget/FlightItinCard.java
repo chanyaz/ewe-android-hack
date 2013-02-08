@@ -20,6 +20,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -312,7 +313,7 @@ public class FlightItinCard extends ItinCard {
 	@SuppressLint("DefaultLocale")
 	@Override
 	protected SummaryButton getSummaryLeftButton() {
-		return new SummaryButton(R.drawable.ic_menu_map_normal, getResources().getString(R.string.directions)
+		return new SummaryButton(R.drawable.ic_direction, getResources().getString(R.string.directions)
 				.toUpperCase(), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -334,7 +335,7 @@ public class FlightItinCard extends ItinCard {
 	@SuppressLint("DefaultLocale")
 	@Override
 	protected SummaryButton getSummaryRightButton() {
-		return new SummaryButton(R.drawable.ic_calendar_add,
+		return new SummaryButton(R.drawable.ic_add_event,
 				getResources().getString(R.string.add_event).toUpperCase(), new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -367,7 +368,20 @@ public class FlightItinCard extends ItinCard {
 	private View getWayPointView(Waypoint waypoint, WaypointType type, LayoutInflater inflater) {
 		View v = inflater.inflate(R.layout.snippet_itin_waypoint_row, null);
 		Resources res = getResources();
-		//TODO: Set icon based on type
+
+		ImageView waypointTypeIcon = Ui.findView(v, R.id.waypoint_type_image);
+		switch (type) {
+		case DEPARTURE:
+			waypointTypeIcon.setImageResource(R.drawable.ic_departure_details);
+			break;
+		case LAYOVER:
+			//TODO: We are waiting on the asset for layovers
+			waypointTypeIcon.setImageResource(R.drawable.ic_departure_details);
+			break;
+		case ARRIVAL:
+			waypointTypeIcon.setImageResource(R.drawable.ic_arrival_details);
+			break;
+		}
 
 		String airportName = waypoint.getAirport().mName;
 		Ui.setText(v, R.id.layover_airport_name, airportName);
