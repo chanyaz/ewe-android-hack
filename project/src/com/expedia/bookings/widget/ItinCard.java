@@ -182,18 +182,10 @@ public abstract class ItinCard extends RelativeLayout {
 		mHeaderTextView.setText(getHeaderText(tripComponent));
 
 		// Summary text
-
 		View summaryView = getSummaryView(layoutInflater, mSummaryLayout, tripComponent);
 		if (summaryView != null) {
 			mSummaryLayout.removeAllViews();
 			mSummaryLayout.addView(summaryView);
-		}
-
-		// Details view
-		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, tripComponent);
-		if (detailsView != null) {
-			mDetailsLayout.removeAllViews();
-			mDetailsLayout.addView(detailsView);
 		}
 
 		// Buttons
@@ -210,6 +202,19 @@ public abstract class ItinCard extends RelativeLayout {
 			mSummaryRightButton.setText(rightButton.getText());
 			mSummaryRightButton.setOnClickListener(rightButton.getOnClickListener());
 		}
+	}
+
+	public void inflateDetailsView(final ItinCardData itinCardData) {
+		LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, itinCardData.getTripComponent());
+		if (detailsView != null) {
+			mDetailsLayout.removeAllViews();
+			mDetailsLayout.addView(detailsView);
+		}
+	}
+
+	public void destroyDetailsView() {
+		mDetailsLayout.removeAllViews();
 	}
 
 	public void showSummary(boolean show) {
