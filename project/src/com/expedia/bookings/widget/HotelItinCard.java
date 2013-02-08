@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import android.content.ComponentName;
@@ -31,7 +30,6 @@ public class HotelItinCard extends ItinCard {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final SimpleDateFormat SUMMARY_DATE_FORMAT = new SimpleDateFormat("h:mma", Locale.getDefault());
 	private static final SimpleDateFormat DETAIL_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -121,9 +119,9 @@ public class HotelItinCard extends ItinCard {
 	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
 		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_hotel, container, false);
 
-		Date checkinTime = ((TripHotel) tripComponent).getCheckinTime();
+		String checkinTime = ((TripHotel) tripComponent).getCheckInTime();
 		if (checkinTime != null) {
-			view.setText(SUMMARY_DATE_FORMAT.format(checkinTime));
+			view.setText("Check-in after " + checkinTime);
 		}
 
 		return view;
@@ -167,7 +165,12 @@ public class HotelItinCard extends ItinCard {
 		return new SummaryButton(R.drawable.ic_urgency_clock, "CALL HOTEL", new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.call(getContext(), mProperty.getTollFreePhone());
+				if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {
+					SocialUtils.call(getContext(), mProperty.getTollFreePhone());
+				}
+				else {
+					SocialUtils.call(getContext(), mProperty.getLocalPhone());
+				}
 			}
 		});
 	}
@@ -200,6 +203,13 @@ public class HotelItinCard extends ItinCard {
 			else {
 				mPhoneNumberTextView.setText(mProperty.getLocalPhone());
 			}
+
+			mPhoneNumberTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), mPhoneNumberTextView.getText().toString());
+				}
+			});
 		}
 
 		mDetailsTextView.setOnClickListener(new OnClickListener() {

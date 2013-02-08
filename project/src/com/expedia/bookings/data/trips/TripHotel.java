@@ -1,7 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +9,7 @@ import com.mobiata.android.json.JSONUtils;
 public class TripHotel extends TripComponent {
 
 	private Property mProperty;
-	private Date mCheckinTime;
+	private String mCheckInTime;
 	private int mGuests;
 
 	public TripHotel() {
@@ -26,12 +24,12 @@ public class TripHotel extends TripComponent {
 		mProperty = property;
 	}
 
-	public Date getCheckinTime() {
-		return mCheckinTime;
+	public String getCheckInTime() {
+		return mCheckInTime;
 	}
 
-	public void setCheckinTime(Date checkinTime) {
-		mCheckinTime = checkinTime;
+	public void setCheckInTime(String checkInTime) {
+		mCheckInTime = checkInTime;
 	}
 
 	public int getGuests() {

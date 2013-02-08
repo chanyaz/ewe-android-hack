@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#f4f4f4"
-                android:textSize="26dp"
+                android:textSize="24dp"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#f4f4f4"
-                android:textSize="26dp"
+                android:textSize="24dp"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
@@ -84,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#f4f4f4"
-                android:textSize="26dp"
+                android:textSize="24dp"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
@@ -127,9 +127,12 @@
     <!-- PHONE -->
 
     <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader"
+        style="@style/TextView.Itin.SectionHeader.NoMargin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:text="PHONE" />
 
     <com.expedia.bookings.widget.TextView
@@ -137,9 +140,10 @@
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/list_selector_holo_dark"
+        android:padding="8dp" />
 
     <!-- ROOM TYPE -->
 

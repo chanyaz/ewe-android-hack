@@ -125,11 +125,13 @@
                     android:visibility="gone" />
 
                 <View
+                    android:id="@+id/summary_divider_view"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:background="#4D555D" />
+                    android:background="#4D555D"
+                    android:visibility="gone" />
 
                 <!-- ###################################################################### -->
                 <!-- DETAILS LAYOUT -->
