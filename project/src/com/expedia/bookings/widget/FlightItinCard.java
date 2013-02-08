@@ -281,8 +281,7 @@ public class FlightItinCard extends ItinCard {
 
 		if (mData.getStartDate().getCalendar().before(now) && mData.getEndDate().getCalendar().before(now)) {
 			//flight complete
-			String dateStr = DateUtils.formatDateTime(getContext(), mData.getEndDate().getCalendar()
-					.getTimeInMillis(),
+			String dateStr = DateUtils.formatDateTime(getContext(), mData.getEndDate().getCalendar().getTimeInMillis(),
 					DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
 			view.setText(res.getString(R.string.flight_landed_on_TEMPLATE, dateStr));
 		}
@@ -293,8 +292,7 @@ public class FlightItinCard extends ItinCard {
 		else if (mData.getStartDate().getCalendar().getTimeInMillis() - now.getTimeInMillis() > DateUtils.DAY_IN_MILLIS) {
 			//More than 24 hours away
 			String dateStr = DateUtils.formatDateTime(getContext(), mData.getStartDate().getCalendar()
-					.getTimeInMillis(),
-					DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
+					.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
 			view.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
 		}
 		else {
@@ -355,6 +353,12 @@ public class FlightItinCard extends ItinCard {
 						getContext().startActivity(intent);
 					}
 				});
+	}
+
+	@Override
+	protected void onShareButtonClick(TripComponent tripComponent) {
+		// TODO Auto-generated method stub
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

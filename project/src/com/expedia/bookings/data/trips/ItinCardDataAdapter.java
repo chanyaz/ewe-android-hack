@@ -109,7 +109,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		}
 
 		card.bind(getItem(position));
-		card.showSummary(position == 0);
+		card.setShowSummary(position == 0);
+
+		if (position == 0) {
+			card.updateSummaryVisibility();
+		}
 
 		return card;
 	}

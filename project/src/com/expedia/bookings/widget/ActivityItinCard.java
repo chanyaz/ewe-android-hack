@@ -67,4 +67,10 @@ public class ActivityItinCard extends ItinCard {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	protected void onShareButtonClick(TripComponent tripComponent) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -27,6 +27,7 @@
             android:visibility="gone" >
 
             <ImageButton
+                android:id="@+id/close_image_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/list_selector_holo_dark"
@@ -49,6 +50,7 @@
                 android:layout_weight="1" />
 
             <ImageButton
+                android:id="@+id/share_image_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/list_selector_holo_dark"
@@ -86,6 +88,7 @@
                         android:src="@drawable/default_flights_background" />
 
                     <ImageView
+                        android:id="@+id/header_overlay_image_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
@@ -96,7 +99,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:paddingBottom="32dp" />
+                        android:paddingBottom="32dp"
+                        android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/header_text_view"
@@ -110,10 +114,15 @@
                         android:textStyle="bold" />
                 </RelativeLayout>
 
+                <!-- ###################################################################### -->
+                <!-- SUMMARY LAYOUT -->
+                <!-- ###################################################################### -->
+
                 <FrameLayout
                     android:id="@+id/summary_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
@@ -121,6 +130,10 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:background="#4D555D" />
+
+                <!-- ###################################################################### -->
+                <!-- DETAILS LAYOUT -->
+                <!-- ###################################################################### -->
 
                 <FrameLayout
                     android:id="@+id/details_layout"
@@ -136,10 +149,11 @@
         <!-- ###################################################################### -->
 
         <LinearLayout
-            android:id="@+id/summary_button_layout"
+            android:id="@+id/action_button_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="@dimen/itin_action_button_height"
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <View
                 android:layout_width="match_parent"
@@ -150,7 +164,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="match_parent"
                 android:orientation="horizontal" >
 
                 <com.expedia.bookings.widget.TextView

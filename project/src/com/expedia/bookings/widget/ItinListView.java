@@ -192,8 +192,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mMode = MODE_LIST;
 
 		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
-		final int animationPosition = mDetailPosition;
-
 		final int startY = getScrollY();
 		final int stopY = mOriginalScrollY;
 
@@ -201,8 +199,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
-				view.showSummary(animationPosition == 0);
-				view.hideDetails();
+				view.collapse();
 			}
 
 			@Override
@@ -253,8 +250,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
-				view.showSummary(true);
-				view.showDetails();
+				view.expand();
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 

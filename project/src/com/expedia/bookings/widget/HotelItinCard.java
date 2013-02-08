@@ -95,7 +95,11 @@ public class HotelItinCard extends ItinCard {
 
 	@Override
 	protected String getHeaderText(TripComponent tripComponent) {
-		return mProperty.getName();
+		if (mProperty != null) {
+			return mProperty.getName();
+		}
+
+		return null;
 	}
 
 	@Override
@@ -168,6 +172,12 @@ public class HotelItinCard extends ItinCard {
 		});
 	}
 
+	@Override
+	protected void onShareButtonClick(TripComponent tripComponent) {
+		// TODO Auto-generated method stub
+
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -177,17 +187,19 @@ public class HotelItinCard extends ItinCard {
 		mCheckOutDateTextView.setText(DETAIL_DATE_FORMAT.format(tripHotel.getEndDate().getCalendar().getTime()));
 		mGuestsTextView.setText(String.valueOf(tripHotel.getGuests()));
 
-		mStaticMapImageView.setCenterPoint(mProperty.getLocation());
-		mStaticMapImageView.setPoiPoint(mProperty.getLocation());
+		if (mProperty != null) {
+			mStaticMapImageView.setCenterPoint(mProperty.getLocation());
+			mStaticMapImageView.setPoiPoint(mProperty.getLocation());
 
-		mAddressTextView.setText(mProperty.getLocation().getStreetAddressString());
-		mRoomTypeTextView.setText(mProperty.getDescriptionText());
+			mAddressTextView.setText(mProperty.getLocation().getStreetAddressString());
+			mRoomTypeTextView.setText(mProperty.getDescriptionText());
 
-		if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {
-			mPhoneNumberTextView.setText(mProperty.getTollFreePhone());
-		}
-		else {
-			mPhoneNumberTextView.setText(mProperty.getLocalPhone());
+			if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {
+				mPhoneNumberTextView.setText(mProperty.getTollFreePhone());
+			}
+			else {
+				mPhoneNumberTextView.setText(mProperty.getLocalPhone());
+			}
 		}
 
 		mDetailsTextView.setOnClickListener(new OnClickListener() {

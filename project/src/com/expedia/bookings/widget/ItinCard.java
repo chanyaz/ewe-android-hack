@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimation;
+import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -22,6 +23,7 @@ import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 public abstract class ItinCard extends RelativeLayout {
@@ -34,6 +36,10 @@ public abstract class ItinCard extends RelativeLayout {
 	public abstract int getTypeIconResId();
 
 	public abstract Type getType();
+
+	// Title share button
+
+	protected abstract void onShareButtonClick(TripComponent tripComponent);
 
 	// Header image
 
@@ -87,20 +93,24 @@ public abstract class ItinCard extends RelativeLayout {
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	private boolean mShowSummary = false;
+
 	private int mTitleLayoutHeight;
+	private int mActionButtonLayoutHeight;
 
 	private ViewGroup mCardLayout;
 	private ViewGroup mTitleLayout;
 	private ViewGroup mTitleContentLayout;
 	private ViewGroup mSummaryLayout;
 	private ViewGroup mDetailsLayout;
-	private ViewGroup mSummaryButtonLayout;
+	private ViewGroup mActionButtonLayout;
 
 	private ImageView mItinTypeImageView;
 	private ImageView mItinTypeStaticImageView;
 
 	private ScrollView mScrollView;
 	private OptimizedImageView mHeaderImageView;
+	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
 
 	private TextView mSummaryLeftButton;
@@ -120,19 +130,21 @@ public abstract class ItinCard extends RelativeLayout {
 		inflate(context, R.layout.widget_itin_card, this);
 
 		mTitleLayoutHeight = getResources().getDimensionPixelSize(R.dimen.itin_title_height);
+		mActionButtonLayoutHeight = getResources().getDimensionPixelSize(R.dimen.itin_action_button_height);
 
 		mCardLayout = Ui.findView(this, R.id.card_layout);
 		mTitleLayout = Ui.findView(this, R.id.title_layout);
 		mTitleContentLayout = Ui.findView(this, R.id.title_content_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
-		mSummaryButtonLayout = Ui.findView(this, R.id.summary_button_layout);
+		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
 
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 		mItinTypeStaticImageView = Ui.findView(this, R.id.itin_type_static_image_view);
 
 		mScrollView = Ui.findView(this, R.id.scroll_view);
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
+		mHeaderOverlayImageView = Ui.findView(this, R.id.header_overlay_image_view);
 		mHeaderTextView = Ui.findView(this, R.id.header_text_view);
 
 		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
@@ -182,10 +194,18 @@ public abstract class ItinCard extends RelativeLayout {
 		mHeaderTextView.setText(getHeaderText(tripComponent));
 
 		// Summary text
+
 		View summaryView = getSummaryView(layoutInflater, mSummaryLayout, tripComponent);
 		if (summaryView != null) {
 			mSummaryLayout.removeAllViews();
 			mSummaryLayout.addView(summaryView);
+		}
+
+		// Details view
+		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, tripComponent);
+		if (detailsView != null) {
+			mDetailsLayout.removeAllViews();
+			mDetailsLayout.addView(detailsView);
 		}
 
 		// Buttons
@@ -217,18 +237,11 @@ public abstract class ItinCard extends RelativeLayout {
 		mDetailsLayout.removeAllViews();
 	}
 
-	public void showSummary(boolean show) {
-		final int visibility = show ? VISIBLE : GONE;
+	public void collapse() {
+		final int startY = mScrollView.getScrollY();
+		final int stopY = 0;
 
-		mSummaryLayout.setVisibility(visibility);
-		mSummaryButtonLayout.setVisibility(visibility);
-	}
-
-	public void hideDetails() {
-		mItinTypeImageView.setVisibility(VISIBLE);
-		mItinTypeStaticImageView.setVisibility(INVISIBLE);
-
-		Animation titleAnimation = new ResizeAnimation(mTitleLayout, mTitleLayoutHeight, 0);
+		ResizeAnimation titleAnimation = new ResizeAnimation(mTitleLayout, mTitleLayoutHeight, 0);
 		titleAnimation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -240,19 +253,61 @@ public abstract class ItinCard extends RelativeLayout {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
+				updateSummaryVisibility();
+
 				mDetailsLayout.setVisibility(GONE);
+				mItinTypeImageView.setVisibility(VISIBLE);
+				mItinTypeStaticImageView.setVisibility(INVISIBLE);
+			}
+		});
+		titleAnimation.setAnimationStepListener(new AnimationStepListener() {
+			@Override
+			public void onAnimationStep(Animation animation, float interpolatedTime) {
+				mScrollView.scrollTo(0, (int) (((stopY - startY) * interpolatedTime) + startY));
 			}
 		});
 		mTitleLayout.startAnimation(titleAnimation);
+
+		if (!mShowSummary) {
+			mActionButtonLayout.startAnimation(new ResizeAnimation(mActionButtonLayout, 0));
+		}
+
+		// Alpha
+		ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 0, 1).start();
+		ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 0, 1).start();
+		ObjectAnimator.ofFloat(mItinTypeStaticImageView, "alpha", 0, 1).start();
+
+		// TranslationY
+		ObjectAnimator.ofFloat(mHeaderTextView, "translationY", -50, 0).start();
+		ObjectAnimator.ofFloat(mItinTypeStaticImageView, "translationY", -50, 0).start();
 	}
 
-	public void showDetails() {
+	public void expand() {
+		updateLayout();
+
 		mItinTypeImageView.setVisibility(INVISIBLE);
 		mItinTypeStaticImageView.setVisibility(VISIBLE);
+		mDetailsLayout.setVisibility(VISIBLE);
 
 		mTitleLayout.startAnimation(new ResizeAnimation(mTitleLayout, 0, mTitleLayoutHeight));
-		mDetailsLayout.setVisibility(VISIBLE);
+
+		if (mActionButtonLayout.getVisibility() != VISIBLE) {
+			mSummaryLayout.setVisibility(VISIBLE);
+			mActionButtonLayout.setVisibility(VISIBLE);
+			mActionButtonLayout.startAnimation(new ResizeAnimation(mActionButtonLayout, mActionButtonLayoutHeight));
+		}
+
+		// Alpha
+		ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1, 0).start();
+		ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 1, 0).start();
+		ObjectAnimator.ofFloat(mItinTypeStaticImageView, "alpha", 1, 0).start();
+
+		// TranslationY
+		ObjectAnimator.ofFloat(mHeaderTextView, "translationY", 0, -50).start();
+		ObjectAnimator.ofFloat(mItinTypeStaticImageView, "translationY", 0, -50).start();
 	}
+
+	// Type icon position and size
 
 	public void updateLayout() {
 		if (getTop() <= 0) {
