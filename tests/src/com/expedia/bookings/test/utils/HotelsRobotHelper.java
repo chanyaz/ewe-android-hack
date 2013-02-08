@@ -809,7 +809,7 @@ public class HotelsRobotHelper {
 		selectLocation(location);
 
 		for (int i = 0; i < numberOfHotels / 4; i++) {
-			for (int j = 0; j < 4; j++) {
+			for (int j = 2; j < 6; j++) {
 				selectHotel(j);
 				checkReviews();
 				delay(3);
@@ -819,7 +819,7 @@ public class HotelsRobotHelper {
 			mSolo.scrollDown();
 		}
 		if (completeABooking) {
-			selectHotel(0);
+			selectHotel(2);
 			pressBookRoom();
 			selectRoom(0);
 			logInAndBook();
