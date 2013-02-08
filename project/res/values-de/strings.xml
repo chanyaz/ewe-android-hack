@@ -181,7 +181,7 @@
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">Hier tippen, um das &lt;b&gt;&lt;font color="#3b5998"&gt;Datum Ihres Hinfluges&lt;/font&gt;&lt;/b&gt; auszuwählen.</string>
+    <string name="calendar_instructions_nothing_selected">Tippen Sie auf das &lt;b&gt;&lt;font color="#3b5998"&gt;Datum Ihres Hinfluges&lt;/font&gt;&lt;/b&gt;.</string>
     <!-- Start date is selected -->
     <string name="calendar_instructions_start_selected">Wählen Sie das &lt;b&gt;&lt;font color="#3b5998"&gt;Datum Ihres Rückfluges&lt;/font&gt;&lt;/b&gt;. (optional)</string>
     <!-- Start date and end date selected -->
