@@ -14,7 +14,7 @@ import android.text.Html;
 import android.text.TextUtils;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
@@ -42,7 +42,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 
-public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity implements
+public class ConfirmationFragmentActivity extends SherlockFragmentActivity implements
 		BookingConfirmationFragmentListener {
 
 	private Context mContext;
@@ -402,13 +402,5 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		sb.append(label);
 		sb.append(": ");
 		sb.append(value);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// MapActivity
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
 	}
 }

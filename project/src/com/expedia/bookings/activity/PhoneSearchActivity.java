@@ -65,7 +65,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -124,7 +124,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
-public class PhoneSearchActivity extends SherlockFragmentMapActivity implements OnDrawStartedListener,
+public class PhoneSearchActivity extends SherlockFragmentActivity implements OnDrawStartedListener,
 		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -2934,14 +2934,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	private ListAndMapViewPagerAdapter mListAndMapViewPagerAdapter;
-
-	//////////////////////////////////////////////////////////////////////////
-	// FragmentMapActivity
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
-	}
 
 	// Number picker formatters
 	private final SimpleNumberPicker.Formatter mAdultsNumberPickerFormatter = new SimpleNumberPicker.Formatter() {

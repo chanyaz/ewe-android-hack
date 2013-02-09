@@ -39,8 +39,6 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/mapsv2_dev_key"/>
 
-        <uses-library android:name="com.google.android.maps" />
-
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
         <activity
