@@ -16,20 +16,13 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.widget.HotelItemizedOverlay;
+import com.expedia.bookings.widget.MapImageView;
 import com.expedia.bookings.widget.ReceiptWidget;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.mobiata.android.MapUtils;
 import com.mobiata.android.util.Ui;
 
 public class ConfirmationReceiptFragment extends Fragment {
 
 	private ReceiptWidget mReceiptWidget;
-
-	private MapView mMapView;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle methods
@@ -70,17 +63,6 @@ public class ConfirmationReceiptFragment extends Fragment {
 		return receipt;
 	}
 
-	@Override
-	public void onDestroyView() {
-		ViewGroup mapViewLayout = (ViewGroup) getView().findViewById(R.id.receipt_map_layout);
-		if (mapViewLayout != null && mMapView != null) {
-			mapViewLayout.removeView(mMapView);
-			mMapView.setEnabled(true);
-			mMapView.getOverlays().clear();
-		}
-		super.onDestroyView();
-	}
-
 	private void configureMapSection(ViewGroup container) {
 		ViewGroup mapContainer = (ViewGroup) container.findViewById(R.id.receipt_map_layout);
 		if (mapContainer == null) {
@@ -88,21 +70,11 @@ public class ConfirmationReceiptFragment extends Fragment {
 		}
 
 		// Show on the map where the hotel is
-		mMapView = MapUtils.createMapView(getActivity());
-		mapContainer.addView(mMapView);
-
-		List<Property> properties = new ArrayList<Property>(1);
-		properties.add(Db.getSelectedProperty());
-		List<Overlay> overlays = mMapView.getOverlays();
-		HotelItemizedOverlay overlay = new HotelItemizedOverlay(getActivity(), properties, mMapView);
-		overlays.add(overlay);
-		MapController mc = mMapView.getController();
-		GeoPoint center = overlay.getCenter();
-		GeoPoint offsetCenter = new GeoPoint(center.getLatitudeE6() + 1000, center.getLongitudeE6() - 8000);
-		mc.setCenter(offsetCenter);
-		mc.setZoom(15);
-		// disabling the map so that it does not respond to touch events
-		mMapView.setEnabled(false);
+		MapImageView mapView = Ui.findView(container, R.id.mini_map);
+		Property searchProperty = Db.getSelectedProperty();
+		if (searchProperty != null) {
+			mapView.setCenterPoint(searchProperty.getLocation());
+		}
 	}
 
 	private void configureRatingsSection(ViewGroup container) {

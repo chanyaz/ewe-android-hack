@@ -16,19 +16,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.widget.HotelItemizedOverlay;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.mobiata.android.MapUtils;
+import com.expedia.bookings.widget.MapImageView;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class BookingConfirmationFragment extends Fragment {
 
 	private BookingConfirmationFragmentListener mListener;
-
-	private MapView mMapView;
 
 	public static BookingConfirmationFragment newInstance() {
 		BookingConfirmationFragment fragment = new BookingConfirmationFragment();
@@ -84,25 +77,9 @@ public class BookingConfirmationFragment extends Fragment {
 		if (mapViewLayout == null) {
 			return;
 		}
-		mMapView = MapUtils.createMapView(getActivity());
-		mMapView.setClickable(true);
-		mapViewLayout.addView(mMapView);
-		mMapView.setEnabled(false);
 
-		List<Property> properties = new ArrayList<Property>(1);
-		properties.add(property);
-		List<Overlay> overlays = mMapView.getOverlays();
-		HotelItemizedOverlay overlay = new HotelItemizedOverlay(getActivity(), properties, mMapView);
-		overlays.add(overlay);
-		final MapController mc = mMapView.getController();
-		mc.setZoom(15);
-		mc.setCenter(overlay.getCenter());
-		mMapView.post(new Runnable() {
-			@Override
-			public void run() {
-				mc.setCenter(getAdjustedCenter(mMapView));
-			}
-		});
+		MapImageView miniMap = (MapImageView) mapViewLayout.findViewById(R.id.mini_map);
+		miniMap.setCenterPoint(property.getLocation());
 
 		// Thumbnail in the map
 		ImageView thumbnail = (ImageView) container.findViewById(R.id.thumbnail_image_view);
@@ -119,29 +96,6 @@ public class BookingConfirmationFragment extends Fragment {
 			// on a software layer to prevent the jaggies.
 			LayoutUtils.sayNoToJaggies(thumbnail);
 		}
-	}
-
-	@Override
-	public void onDestroyView() {
-		ViewGroup mapViewLayout = (ViewGroup) getView().findViewById(R.id.map_layout);
-		if (mapViewLayout != null && mMapView != null) {
-			mapViewLayout.removeView(mMapView);
-			mMapView.setEnabled(true);
-			mMapView.getOverlays().clear();
-		}
-		super.onDestroyView();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Convenience method
-
-	private GeoPoint getAdjustedCenter(MapView mapView) {
-		GeoPoint center = mapView.getMapCenter();
-		final int thirdDistance = (mapView.getLongitudeSpan() / 3);
-		final int halfDistance = (mapView.getLongitudeSpan() / 2);
-		final int moveDistance = halfDistance - thirdDistance;
-
-		return new GeoPoint(center.getLatitudeE6(), center.getLongitudeE6() - moveDistance);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
