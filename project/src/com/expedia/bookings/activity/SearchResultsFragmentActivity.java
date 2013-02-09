@@ -328,6 +328,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 	protected void onPostResume() {
 		super.onPostResume();
 
+		updateMapOffsets(mMiniDetailsFragment != null);
+
 		// #13546 - Need to put any methods that may affect Fragment state in onPostResume() instead of
 		// onResume() for the compatibility library (otherwise we get state loss errors).
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -647,7 +649,9 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 	private static final String MINI_DETAILS_PUSH = "mini_details_push";
 
 	public void showMiniDetailsFragment() {
-		mMiniDetailsFragment = MiniDetailsFragment.newInstance();
+		if (mMiniDetailsFragment == null) {
+			mMiniDetailsFragment = MiniDetailsFragment.newInstance();
+		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -659,7 +663,7 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		ft.addToBackStack(MINI_DETAILS_PUSH);
 		ft.commit();
 
-		mHotelMapFragment.setCenterOffsetY((float) (getResources().getDimensionPixelSize(R.dimen.mini_details_height) / 2.0f));
+		updateMapOffsets(true);
 	}
 
 	public void showHotelDetailsFragment() {
@@ -685,8 +689,17 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		fm.popBackStack(MINI_DETAILS_PUSH, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 		// Refocus the map pins
-		mHotelMapFragment.setCenterOffsetY(0);
+		updateMapOffsets(false);
 		mHotelMapFragment.showAll();
+	}
+
+	private void updateMapOffsets(boolean needsOffset) {
+		if (needsOffset) {
+			mHotelMapFragment.setCenterOffsetY((float) (getResources().getDimensionPixelSize(R.dimen.mini_details_height) / 2.0f));
+		}
+		else {
+			mHotelMapFragment.setCenterOffsetY(0);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
