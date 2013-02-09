@@ -231,6 +231,12 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
 	protected void onPostResume() {
 		super.onPostResume();
 
@@ -278,6 +284,8 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		if (mCurrentAnimator != null && mCurrentAnimator.isRunning()) {
 			mCurrentAnimator.end();
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

@@ -348,6 +348,12 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
 	public void onPause() {
 		super.onPause();
 
@@ -360,6 +366,8 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		if (mPos.equals(YoYoPosition.OVERWRITE_TRAVELER)) {
 			this.closeOverwriteDialog();
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

@@ -75,7 +75,6 @@ import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.ConfirmationState.Type;
-import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
@@ -138,8 +137,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		KEYBOARD(true),
 		CALENDAR(true),
 		GUEST_PICKER(true),
-		FILTER(false),
-		;
+		FILTER(false), ;
 
 		private boolean mIsSearchDisplay;
 
@@ -154,8 +152,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private enum ActivityState {
 		NONE,
-		SEARCHING,
-		;
+		SEARCHING, ;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -581,6 +578,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		else {
 			saveParams();
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -662,6 +661,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		mIsActivityResumed = true;
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -2879,6 +2880,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	public class ListAndMapViewPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
 		private static final int NUM_FRAGMENTS = 2;
+
 		// The page position of the fragments
 
 		public ListAndMapViewPagerAdapter() {

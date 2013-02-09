@@ -27,9 +27,9 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
@@ -134,6 +134,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		if (bd.isDownloading(DOWNLOAD_KEY)) {
 			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
 		}
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -148,6 +150,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		super.onPause();
 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import java.util.Calendar;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -26,6 +25,7 @@ import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
@@ -113,6 +113,8 @@ public class BookingFragmentActivity extends FragmentActivity implements Booking
 			return;
 		}
 		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -135,6 +137,8 @@ public class BookingFragmentActivity extends FragmentActivity implements Booking
 		super.onPause();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.unregisterDownloadCallback(BOOKING_DOWNLOAD_KEY, mBookingCallback);
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

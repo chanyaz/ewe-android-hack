@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TextViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobiata.android.util.AndroidUtils;
@@ -123,7 +123,8 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		privacy_policy_link.setMovementMethod(LinkMovementMethod.getInstance());
 
 		TextView open_source_licenses_link = Ui.findView(this, R.id.open_source_licenses_link);
-		open_source_licenses_link.setText(Html.fromHtml(String.format("<u>%s</u>", mContext.getString(R.string.view_open_source_software_licenses))));
+		open_source_licenses_link.setText(Html.fromHtml(String.format("<u>%s</u>",
+				mContext.getString(R.string.view_open_source_software_licenses))));
 		open_source_licenses_link.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -131,6 +132,18 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 				startActivity(TextViewActivity.getIntent(AboutActivity.this, license));
 			}
 		});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override

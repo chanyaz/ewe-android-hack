@@ -7,7 +7,6 @@ import java.util.concurrent.Semaphore;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -186,6 +185,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		else {
 			gotoOverviewMode(false);
 		}
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -200,6 +201,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		if (this.isFinishing()) {
 			clearCCNumber();
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

@@ -163,6 +163,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			mRoomsAndRatesFragment.showProgress();
 			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
 		}
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -188,6 +190,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		else {
 			BackgroundDownloader.getInstance().cancelDownload(DOWNLOAD_KEY);
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

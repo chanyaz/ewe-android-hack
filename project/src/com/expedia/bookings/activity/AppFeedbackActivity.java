@@ -11,6 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.opinionlab.oo.sdk.android.CommentCardActivity;
 
 public class AppFeedbackActivity extends CommentCardActivity {
@@ -73,5 +74,17 @@ public class AppFeedbackActivity extends CommentCardActivity {
 
 		TextView privacyPolicyTextView = (TextView) findViewById(R.id.powered_by_opinion_lab_text_view);
 		privacyPolicyTextView.setMovementMethod(LinkMovementMethod.getInstance());
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 }

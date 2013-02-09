@@ -322,6 +322,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		Db.getFilter().addOnFilterChangedListener(this);
 
 		invalidateOptionsMenu();
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -384,6 +386,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 			bd.unregisterDownloadCallback(key);
 		}
 		bd.unregisterDownloadCallback(KEY_REVIEWS);
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -664,6 +668,9 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		ft.commit();
 
 		updateMapOffsets(true);
+
+		mHotelMapFragment
+				.setCenterOffsetY((float) (getResources().getDimensionPixelSize(R.dimen.mini_details_height) / 2.0f));
 	}
 
 	public void showHotelDetailsFragment() {

@@ -17,6 +17,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightConfirmationFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -102,6 +103,8 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		super.onResume();
 
 		mBgFragment.setFadeEnabled(true);
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -111,6 +114,8 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		if (isFinishing()) {
 			Db.setBillingInfo(null);
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

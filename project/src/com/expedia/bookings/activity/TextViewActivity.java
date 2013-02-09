@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.tracking.OmnitureTracking;
 
 public class TextViewActivity extends SherlockActivity {
 	public static Intent getIntent(Context context, String data) {
@@ -34,6 +34,18 @@ public class TextViewActivity extends SherlockActivity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
@@ -45,4 +57,3 @@ public class TextViewActivity extends SherlockActivity {
 		return super.onOptionsItemSelected(item);
 	}
 }
-

@@ -227,6 +227,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 				bd.startDownload(REVIEWS_DOWNLOAD_KEY, mReviewsDownload, mReviewsCallback);
 			}
 		}
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -250,6 +252,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			bd.unregisterDownloadCallback(INFO_DOWNLOAD_KEY);
 			bd.unregisterDownloadCallback(REVIEWS_DOWNLOAD_KEY);
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

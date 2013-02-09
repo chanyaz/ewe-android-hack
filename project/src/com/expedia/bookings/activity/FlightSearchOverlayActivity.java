@@ -15,6 +15,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment.FlightSearchParamsFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
@@ -48,6 +49,18 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity implem
 		}
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override

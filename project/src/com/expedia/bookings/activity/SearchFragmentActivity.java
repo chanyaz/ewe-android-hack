@@ -12,6 +12,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -89,6 +90,14 @@ public class SearchFragmentActivity extends FragmentActivity implements SearchPa
 
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
+
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.Activity;
 import android.content.Context;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -170,6 +171,19 @@ public class OmnitureTracking {
 	public static void init(Context context) {
 		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 		s.configureMeasurement(TrackingUtils.getReportSuiteIds(context), TrackingUtils.getTrackingServer());
+	}
+
+	// Lifecycle tracking
+
+	public static void onResume(Activity activity) {
+		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance(activity);
+		measurement.startActivity(activity);
+
+	}
+
+	public static void onPause() {
+		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance();
+		measurement.stopActivity();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

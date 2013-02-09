@@ -103,6 +103,14 @@ public class RoomsAndRatesFragmentActivity extends FragmentActivity implements R
 			return;
 		}
 		mLastResumeTime = Calendar.getInstance().getTimeInMillis();
+
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override

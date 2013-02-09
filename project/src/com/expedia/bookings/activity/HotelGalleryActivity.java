@@ -31,6 +31,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -149,6 +150,18 @@ public class HotelGalleryActivity extends FragmentActivity {
 				mPager.setCurrentItem(0);
 			}
 		});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	public Media getHotelMedia(int position) {

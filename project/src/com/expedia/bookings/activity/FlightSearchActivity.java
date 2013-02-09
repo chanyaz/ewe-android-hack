@@ -119,6 +119,14 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 			mSearchParamsFragment.setSearchParams(new FlightSearchParams(Db.getFlightSearch().getSearchParams()));
 			mUpdateOnResume = false;
 		}
+
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override

@@ -120,6 +120,12 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 
@@ -129,6 +135,8 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 			Db.setCreateTripResponse(null);
 			Db.setCouponDiscountRate(null);
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
