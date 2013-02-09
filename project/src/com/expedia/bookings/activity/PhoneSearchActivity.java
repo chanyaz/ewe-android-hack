@@ -2835,7 +2835,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	@Override
 	public void onPropertyClicked(Property property) {
-		//ignore
+		if (mHotelMapFragment != null) {
+			mHotelMapFragment.focusProperty(property, true);
+		}
 	}
 
 	@Override
