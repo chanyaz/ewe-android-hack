@@ -361,21 +361,24 @@ public class HotelMapFragment extends SupportMapFragment {
 	public void notifyFilterChanged() {
 		if (mProperties != null && Db.getSearchResponse() != null) {
 			List<Property> newSet = Arrays.asList(Db.getSearchResponse().getFilteredAndSortedProperties());
+
+			// Add properties we have not seen.
+			// This happens if we are already filtered,
+			// map is created, then the filter contraints are relaxed.
+			if (newSet.size() > mProperties.size()) {
+				for (Property property : newSet) {
+					if (!mProperties.contains(property)) {
+						addMarker(property);
+					}
+				}
+			}
+
+			// Toggle visibility
 			for (Property property : mProperties) {
 				boolean visibility = newSet.contains(property);
 				Marker marker = mPropertiesToMarkers.get(property);
 				marker.setVisible(visibility);
 			}
-
-			// We don't want to do this because the map animation
-			// is really choppy with the filter popup showing
-			// http://code.google.com/p/android/issues/detail?id=43425
-			//if (isReady()) {
-			//	showAll();
-			//}
-			//else {
-			//	mShowAllWhenReady = true;
-			//}
 		}
 	}
 
