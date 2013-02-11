@@ -136,7 +136,7 @@ public class HotelReceipt extends FrameLayout {
 
 		// Configuring the header at the top
 		if (property.getThumbnail() != null) {
-			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView);
+			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView, R.drawable.ic_image_placeholder);
 			mThumbnailImageView.setVisibility(View.VISIBLE);
 		}
 		else {
