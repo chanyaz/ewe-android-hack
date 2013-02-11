@@ -29,10 +29,9 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.Insurance;
+import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.TripComponent;
-import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.section.FlightLegSummarySection;
@@ -43,7 +42,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
-public class FlightItinCard extends ItinCard {
+public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -86,8 +85,8 @@ public class FlightItinCard extends ItinCard {
 	}
 
 	@Override
-	protected String getHeaderImageUrl(TripComponent tripComponent) {
-		TripFlight tripFlight = (TripFlight) tripComponent;
+	protected String getHeaderImageUrl(ItinCardDataFlight itinCardData) {
+		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
 		if (tripFlight != null && mData != null && tripFlight.getLegDestinationImageUrl(mData.getLegNumber()) != null) {
 			return tripFlight.getLegDestinationImageUrl(mData.getLegNumber());
 		}
@@ -97,7 +96,7 @@ public class FlightItinCard extends ItinCard {
 	}
 
 	@Override
-	protected String getHeaderText(TripComponent tripComponent) {
+	protected String getHeaderText(ItinCardDataFlight itinCardData) {
 		if (mData != null) {
 			return mData.getFlightLeg().getLastWaypoint().getAirport().mCity;
 		}
@@ -106,14 +105,14 @@ public class FlightItinCard extends ItinCard {
 	}
 
 	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataFlight itinCardData) {
 		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_title_generic, container, false);
-		view.setText(getHeaderText(tripComponent));
+		view.setText(getHeaderText(itinCardData));
 		return view;
 	}
 
 	@Override
-	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardDataFlight itinCardData) {
 		View view = inflater.inflate(R.layout.include_itin_card_details_flight, container, false);
 
 		if (mTripFlight != null && mTripFlight.getFlightTrip() != null && mTripFlight.getFlightTrip().getLegCount() > 0) {
@@ -187,8 +186,7 @@ public class FlightItinCard extends ItinCard {
 					@Override
 					public void onClick(View arg0) {
 						Intent bookingInfoIntent = WebViewActivity.getIntent(getContext(), infoUrl,
-								R.style.FlightTheme,
-								R.string.booking_info, true);
+								R.style.FlightTheme, R.string.booking_info, true);
 						getContext().startActivity(bookingInfoIntent);
 					}
 				});
@@ -268,7 +266,7 @@ public class FlightItinCard extends ItinCard {
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataFlight itinCardData) {
 
 		if (mData == null || mData.getStartDate() == null || mData.getEndDate() == null) {
 			//Bad data (we don't show any summary view in this case)
@@ -310,31 +308,32 @@ public class FlightItinCard extends ItinCard {
 
 	@SuppressLint("DefaultLocale")
 	@Override
-	protected SummaryButton getSummaryLeftButton() {
-		return new SummaryButton(R.drawable.ic_direction, getResources().getString(R.string.directions)
-				.toUpperCase(), new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//TODO: Investigate compatibility
-				Airport airport = mData.getFlightLeg().getFirstWaypoint().getAirport();
-				String format = "geo:0,0?q=%f,%f (%s)";
-				String uriStr = String.format(format, airport.getLatitude(), airport.getLongitude(), airport.mName);
-				Uri airportUri = Uri.parse(uriStr);
-				Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
+	protected SummaryButton getSummaryLeftButton(ItinCardDataFlight itinCardData) {
+		return new SummaryButton(R.drawable.ic_direction, getResources().getString(R.string.directions).toUpperCase(),
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						//TODO: Investigate compatibility
+						Airport airport = mData.getFlightLeg().getFirstWaypoint().getAirport();
+						String format = "geo:0,0?q=%f,%f (%s)";
+						String uriStr = String.format(format, airport.getLatitude(), airport.getLongitude(),
+								airport.mName);
+						Uri airportUri = Uri.parse(uriStr);
+						Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
 
-				intent.setComponent(new ComponentName("com.google.android.apps.maps",
-						"com.google.android.maps.MapsActivity"));
+						intent.setComponent(new ComponentName("com.google.android.apps.maps",
+								"com.google.android.maps.MapsActivity"));
 
-				getContext().startActivity(intent);
-			}
-		});
+						getContext().startActivity(intent);
+					}
+				});
 	}
 
 	@SuppressLint("DefaultLocale")
 	@Override
-	protected SummaryButton getSummaryRightButton() {
-		return new SummaryButton(R.drawable.ic_add_event,
-				getResources().getString(R.string.add_event).toUpperCase(), new OnClickListener() {
+	protected SummaryButton getSummaryRightButton(ItinCardDataFlight itinCardData) {
+		return new SummaryButton(R.drawable.ic_add_event, getResources().getString(R.string.add_event).toUpperCase(),
+				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						//TODO: Investigate compatibility... works on my 2.2 and 4.2 devices with default android cal
@@ -356,9 +355,7 @@ public class FlightItinCard extends ItinCard {
 	}
 
 	@Override
-	protected void onShareButtonClick(TripComponent tripComponent) {
-		// TODO Auto-generated method stub
-
+	protected void onShareButtonClick(ItinCardDataFlight itinCardData) {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

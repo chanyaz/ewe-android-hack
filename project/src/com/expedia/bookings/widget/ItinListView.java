@@ -217,7 +217,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				invalidateViews();
 				scrollTo(0, stopY);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				view.destroyDetailsView();
 			}
 		});
 		animation.setAnimationStepListener(new AnimationStepListener() {
@@ -242,7 +241,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mDetailPosition = position;
 
 		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
-		view.inflateDetailsView(mAdapter.getItem(mDetailPosition - getFirstVisiblePosition()));
 
 		mExpandedCardOriginalHeight = view.getHeight();
 		mOriginalScrollY = getScrollY();

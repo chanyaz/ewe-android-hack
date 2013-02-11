@@ -25,4 +25,8 @@ public class ItinCardData {
 	public DateTime getEndDate() {
 		return mTripComponent.getEndDate();
 	}
+
+	public String getDetailsUrl() {
+		return mTripComponent.getParentTrip().getDetailsUrl();
+	}
 }

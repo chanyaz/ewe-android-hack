@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 
 public class CruiseItinCard extends ItinCard {
@@ -30,47 +30,41 @@ public class CruiseItinCard extends ItinCard {
 	}
 
 	@Override
-	protected String getHeaderImageUrl(TripComponent tripComponent) {
+	protected String getHeaderImageUrl(ItinCardData itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected String getHeaderText(TripComponent tripComponent) {
+	protected String getHeaderText(ItinCardData itinCardData) {
 		return "Cruise Card";
 	}
 
 	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
-		// TODO Auto-generated method stub
+	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardData itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardData itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
-		// TODO Auto-generated method stub
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardData itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton() {
-		// TODO Auto-generated method stub
+	protected SummaryButton getSummaryLeftButton(ItinCardData itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected SummaryButton getSummaryRightButton() {
-		// TODO Auto-generated method stub
+	protected SummaryButton getSummaryRightButton(ItinCardData itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected void onShareButtonClick(TripComponent tripComponent) {
-		// TODO Auto-generated method stub
-
+	protected void onShareButtonClick(ItinCardData itinCardData) {
 	}
 }

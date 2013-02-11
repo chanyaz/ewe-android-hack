@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -17,7 +18,6 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
  *
  */
 public class ItinCardDataFactory {
-
 	private ItinCardDataFactory() {
 	}
 
@@ -37,8 +37,8 @@ public class ItinCardDataFactory {
 		}
 	}
 
-	private static ArrayList<ItinCardData> generateFlightCardData(TripFlight tc) {
-		ArrayList<ItinCardData> retData = new ArrayList<ItinCardData>();
+	private static List<ItinCardData> generateFlightCardData(TripFlight tc) {
+		List<ItinCardData> retData = new ArrayList<ItinCardData>();
 
 		if (tc.getFlightTrip() != null) {
 			for (int i = 0; i < tc.getFlightTrip().getLegCount(); i++) {
@@ -49,26 +49,21 @@ public class ItinCardDataFactory {
 		return retData;
 	}
 
-	private static ArrayList<ItinCardData> generateHotelCardData(TripHotel tc) {
-		ArrayList<ItinCardData> retData = new ArrayList<ItinCardData>();
-
-		retData.add(new ItinCardDataHotel(tc));
-
-		return retData;
+	private static List<ItinCardData> generateHotelCardData(TripHotel tc) {
+		return Arrays.asList((ItinCardData) new ItinCardDataHotel(tc));
 	}
 
-	private static ArrayList<ItinCardData> generateActivityCardData(TripActivity tc) {
+	private static List<ItinCardData> generateActivityCardData(TripActivity tc) {
 		return null;
 	}
 
-	private static ArrayList<ItinCardData> generateCarCardData(TripCar tc) {
-		return null;
+	private static List<ItinCardData> generateCarCardData(TripCar tc) {
+		return Arrays.asList((ItinCardData) new ItinCardDataCar(tc));
 	}
 
-	private static ArrayList<ItinCardData> generateGenericCardData(TripComponent tc) {
-		ArrayList<ItinCardData> retData = new ArrayList<ItinCardData>();
+	private static List<ItinCardData> generateGenericCardData(TripComponent tc) {
+		List<ItinCardData> retData = new ArrayList<ItinCardData>();
 		retData.add(new ItinCardData(tc));
 		return retData;
 	}
-
 }

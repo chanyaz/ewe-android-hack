@@ -18,7 +18,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -26,7 +25,8 @@ import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-public abstract class ItinCard extends RelativeLayout {
+@SuppressWarnings("unchecked")
+public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC ENUYMS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -47,27 +47,27 @@ public abstract class ItinCard extends RelativeLayout {
 
 	// Title share button
 
-	protected abstract void onShareButtonClick(TripComponent tripComponent);
+	protected abstract void onShareButtonClick(T itinCardData);
 
 	// Header image
 
-	protected abstract String getHeaderImageUrl(TripComponent tripComponent);
+	protected abstract String getHeaderImageUrl(T itinCardData);
 
-	protected abstract String getHeaderText(TripComponent tripComponent);
+	protected abstract String getHeaderText(T itinCardData);
 
 	// Views
 
-	protected abstract View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent);
+	protected abstract View getTitleView(LayoutInflater inflater, ViewGroup container, T itinCardData);
 
-	protected abstract View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent);
+	protected abstract View getSummaryView(LayoutInflater inflater, ViewGroup container, T itinCardData);
 
-	protected abstract View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent);
+	protected abstract View getDetailsView(LayoutInflater inflater, ViewGroup container, T itinCardData);
 
 	// Action buttons
 
-	protected abstract SummaryButton getSummaryLeftButton();
+	protected abstract SummaryButton getSummaryLeftButton(T itinCardData);
 
-	protected abstract SummaryButton getSummaryRightButton();
+	protected abstract SummaryButton getSummaryRightButton(T itinCardData);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE CLASSES
@@ -100,6 +100,8 @@ public abstract class ItinCard extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	private T mItinCardData;
 
 	private DisplayState mDisplayState = DisplayState.COLLAPSED;
 	private boolean mShowSummary = false;
@@ -185,11 +187,11 @@ public abstract class ItinCard extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void bind(final ItinCardData itinCardData) {
-		final TripComponent tripComponent = itinCardData.getTripComponent();
 		final LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+		mItinCardData = (T) itinCardData;
 
 		// Title
-		View titleView = getTitleView(layoutInflater, mTitleContentLayout, tripComponent);
+		View titleView = getTitleView(layoutInflater, mTitleContentLayout, (T) itinCardData);
 		if (titleView != null) {
 			mTitleContentLayout.removeAllViews();
 			mTitleContentLayout.addView(titleView);
@@ -198,7 +200,7 @@ public abstract class ItinCard extends RelativeLayout {
 		mShareImageButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onShareButtonClick(tripComponent);
+				onShareButtonClick((T) itinCardData);
 			}
 		});
 
@@ -206,41 +208,41 @@ public abstract class ItinCard extends RelativeLayout {
 		mItinTypeImageView.setImageResource(getTypeIconResId());
 
 		// Image
-		String headerImageUrl = getHeaderImageUrl(tripComponent);
+		String headerImageUrl = getHeaderImageUrl((T) itinCardData);
 		if (headerImageUrl != null) {
 			UrlBitmapDrawable.loadImageView(headerImageUrl, mHeaderImageView);
 		}
 		else {
-			Log.t("Null image for %s", tripComponent.toString());
+			Log.t("Null image for %s", itinCardData.toString());
 		}
 
 		// Header text
-		mHeaderTextView.setText(getHeaderText(tripComponent));
+		mHeaderTextView.setText(getHeaderText((T) itinCardData));
 
 		// Summary text
 
-		View summaryView = getSummaryView(layoutInflater, mSummaryLayout, tripComponent);
+		View summaryView = getSummaryView(layoutInflater, mSummaryLayout, (T) itinCardData);
 		if (summaryView != null) {
 			mSummaryLayout.removeAllViews();
 			mSummaryLayout.addView(summaryView);
 		}
 
 		// Details view
-		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, tripComponent);
+		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, (T) itinCardData);
 		if (detailsView != null) {
 			mDetailsLayout.removeAllViews();
 			mDetailsLayout.addView(detailsView);
 		}
 
 		// Buttons
-		SummaryButton leftButton = getSummaryLeftButton();
+		SummaryButton leftButton = getSummaryLeftButton((T) itinCardData);
 		if (leftButton != null) {
 			mSummaryLeftButton.setCompoundDrawablesWithIntrinsicBounds(leftButton.getIconResId(), 0, 0, 0);
 			mSummaryLeftButton.setText(leftButton.getText());
 			mSummaryLeftButton.setOnClickListener(leftButton.getOnClickListener());
 		}
 
-		SummaryButton rightButton = getSummaryRightButton();
+		SummaryButton rightButton = getSummaryRightButton((T) itinCardData);
 		if (rightButton != null) {
 			mSummaryRightButton.setCompoundDrawablesWithIntrinsicBounds(rightButton.getIconResId(), 0, 0, 0);
 			mSummaryRightButton.setText(rightButton.getText());
@@ -248,9 +250,9 @@ public abstract class ItinCard extends RelativeLayout {
 		}
 	}
 
-	public void inflateDetailsView(final ItinCardData itinCardData) {
+	public void inflateDetailsView() {
 		LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, itinCardData.getTripComponent());
+		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, (T) mItinCardData);
 		if (detailsView != null) {
 			mDetailsLayout.removeAllViews();
 			mDetailsLayout.addView(detailsView);
@@ -296,6 +298,8 @@ public abstract class ItinCard extends RelativeLayout {
 
 				mSummaryDividerView.setVisibility(GONE);
 				mDetailsLayout.setVisibility(GONE);
+
+				destroyDetailsView();
 			}
 		});
 		titleAnimation.setAnimationStepListener(new AnimationStepListener() {
@@ -325,8 +329,9 @@ public abstract class ItinCard extends RelativeLayout {
 
 	public void expand() {
 		mDisplayState = DisplayState.EXPANDED;
+
+		inflateDetailsView();
 		updateClickable();
-		updateLayout();
 
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);

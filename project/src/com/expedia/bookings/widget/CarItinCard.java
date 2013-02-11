@@ -5,12 +5,13 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 
-public class CarItinCard extends ItinCard {
+public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	public CarItinCard(Context context) {
 		this(context, null);
 	}
@@ -30,47 +31,44 @@ public class CarItinCard extends ItinCard {
 	}
 
 	@Override
-	protected String getHeaderImageUrl(TripComponent tripComponent) {
+	protected String getHeaderImageUrl(ItinCardDataCar itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected String getHeaderText(TripComponent tripComponent) {
+	protected String getHeaderText(ItinCardDataCar itinCardData) {
 		return "Car Card";
 	}
 
 	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
-		// TODO Auto-generated method stub
+	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataCar itinCardData) {
+		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_title_generic, container, false);
+		view.setText(getHeaderText(itinCardData));
+		return view;
+	}
+
+	@Override
+	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardDataCar itinCardData) {
+		View view = inflater.inflate(R.layout.include_itin_card_details_car, container, false);
+		return view;
+	}
+
+	@Override
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataCar itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+	protected SummaryButton getSummaryLeftButton(ItinCardDataCar itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
-		// TODO Auto-generated method stub
+	protected SummaryButton getSummaryRightButton(ItinCardDataCar itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected SummaryButton getSummaryRightButton() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void onShareButtonClick(TripComponent tripComponent) {
-		// TODO Auto-generated method stub
-
+	protected void onShareButtonClick(ItinCardDataCar itinCardData) {
 	}
 }

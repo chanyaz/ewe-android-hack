@@ -1,13 +1,7 @@
 package com.expedia.bookings.widget;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,27 +10,15 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Media;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
 
-public class HotelItinCard extends ItinCard {
-	//////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE CONSTANTS
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private static final SimpleDateFormat DETAIL_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
-
+public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	private Property mProperty;
 
 	private TextView mCheckInDateTextView;
 	private TextView mCheckOutDateTextView;
@@ -74,60 +56,38 @@ public class HotelItinCard extends ItinCard {
 	}
 
 	@Override
-	public void bind(ItinCardData itinCardData) {
-		mProperty = ((TripHotel) itinCardData.getTripComponent()).getProperty();
-		super.bind(itinCardData);
+	protected String getHeaderImageUrl(ItinCardDataHotel itinCardData) {
+		return itinCardData.getHeaderImageUrl();
 	}
 
 	@Override
-	protected String getHeaderImageUrl(TripComponent tripComponent) {
-		if (mProperty != null && mProperty.getMediaCount() > 0) {
-			return mProperty.getMedia(0).getUrl(Media.IMAGE_BIG_SUFFIX);
-		}
-		else if (mProperty != null) {
-			return mProperty.getThumbnail().getUrl();
-		}
-
-		return "";
+	protected String getHeaderText(ItinCardDataHotel itinCardData) {
+		return itinCardData.getHeaderText();
 	}
 
 	@Override
-	protected String getHeaderText(TripComponent tripComponent) {
-		if (mProperty != null) {
-			return mProperty.getName();
-		}
-
-		return null;
-	}
-
-	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataHotel itinCardData) {
 		ViewGroup view = (ViewGroup) inflater.inflate(R.layout.include_itin_card_title_hotel, container, false);
 
 		TextView hotelNameTextView = Ui.findView(view, R.id.hotel_name_text_view);
 		RatingBar hotelRatingBar = Ui.findView(view, R.id.hotel_rating_bar);
 
-		if (mProperty != null) {
-			hotelNameTextView.setText(mProperty.getName());
-			hotelRatingBar.setRating((float) mProperty.getHotelRating());
-		}
+		hotelNameTextView.setText(itinCardData.getPropertyName());
+		hotelRatingBar.setRating(itinCardData.getHotelRating());
 
 		return view;
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, TripComponent tripComponent) {
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataHotel itinCardData) {
 		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_hotel, container, false);
 
-		String checkinTime = ((TripHotel) tripComponent).getCheckInTime();
-		if (checkinTime != null) {
-			view.setText("Check-in after " + checkinTime);
-		}
+		view.setText("Check-in after " + itinCardData.getCheckInTime());
 
 		return view;
 	}
 
-	public View getDetailsView(LayoutInflater inflater, ViewGroup container, TripComponent tripHotel) {
+	public View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardDataHotel itinCardData) {
 		View view = inflater.inflate(R.layout.include_itin_card_details_hotel, container, false);
 
 		mCheckInDateTextView = Ui.findView(view, R.id.check_in_date_text_view);
@@ -139,82 +99,71 @@ public class HotelItinCard extends ItinCard {
 		mRoomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
 		mDetailsTextView = Ui.findView(view, R.id.details_text_view);
 
-		bind((TripHotel) tripHotel);
+		bind(itinCardData);
 
 		return view;
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton() {
+	protected SummaryButton getSummaryLeftButton(final ItinCardDataHotel itinCardData) {
 		return new SummaryButton(R.drawable.ic_urgency_clock, "DIRECTIONS", new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="
-						+ mProperty.getLocation().getStreetAddressString()));
+				Intent intent = itinCardData.getDirectionsIntent();
 
-				intent.setComponent(new ComponentName("com.google.android.apps.maps",
-						"com.google.android.maps.MapsActivity"));
-
-				getContext().startActivity(intent);
+				if (intent != null) {
+					getContext().startActivity(intent);
+				}
 			}
 		});
 	}
 
 	@Override
-	protected SummaryButton getSummaryRightButton() {
+	protected SummaryButton getSummaryRightButton(final ItinCardDataHotel itinCardData) {
 		return new SummaryButton(R.drawable.ic_urgency_clock, "CALL HOTEL", new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {
-					SocialUtils.call(getContext(), mProperty.getTollFreePhone());
-				}
-				else {
-					SocialUtils.call(getContext(), mProperty.getLocalPhone());
+				String phone = itinCardData.getRelevantPhone();
+				if (phone != null) {
+					SocialUtils.call(getContext(), phone);
 				}
 			}
 		});
 	}
 
 	@Override
-	protected void onShareButtonClick(TripComponent tripComponent) {
-
+	protected void onShareButtonClick(ItinCardDataHotel itinCardData) {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private void bind(final TripHotel tripHotel) {
-		mCheckInDateTextView.setText(DETAIL_DATE_FORMAT.format(tripHotel.getStartDate().getCalendar().getTime()));
-		mCheckOutDateTextView.setText(DETAIL_DATE_FORMAT.format(tripHotel.getEndDate().getCalendar().getTime()));
-		mGuestsTextView.setText(String.valueOf(tripHotel.getGuests()));
+	private void bind(final ItinCardDataHotel itinCardData) {
+		mCheckInDateTextView.setText(itinCardData.getFormattedCheckInDate());
+		mCheckOutDateTextView.setText(itinCardData.getFormattedCheckOutDate());
+		mGuestsTextView.setText(itinCardData.getFormattedGuests());
 
-		if (mProperty != null) {
-			mStaticMapImageView.setCenterPoint(mProperty.getLocation());
-			mStaticMapImageView.setPoiPoint(mProperty.getLocation());
-
-			mAddressTextView.setText(mProperty.getLocation().getStreetAddressString());
-			mRoomTypeTextView.setText(mProperty.getDescriptionText());
-
-			if (!TextUtils.isEmpty(mProperty.getTollFreePhone())) {
-				mPhoneNumberTextView.setText(mProperty.getTollFreePhone());
-			}
-			else {
-				mPhoneNumberTextView.setText(mProperty.getLocalPhone());
-			}
-
-			mPhoneNumberTextView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					SocialUtils.call(getContext(), mPhoneNumberTextView.getText().toString());
-				}
-			});
+		if (itinCardData.getPropertyLocation() != null) {
+			mStaticMapImageView.setCenterPoint(itinCardData.getPropertyLocation());
+			mStaticMapImageView.setPoiPoint(itinCardData.getPropertyLocation());
 		}
+
+		mAddressTextView.setText(itinCardData.getAddressString());
+		mRoomTypeTextView.setText(itinCardData.getRoomDescription());
+
+		mPhoneNumberTextView.setText(itinCardData.getRelevantPhone());
+		mPhoneNumberTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SocialUtils.call(getContext(), itinCardData.getRelevantPhone());
+			}
+		});
 
 		mDetailsTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.openSite(getContext(), tripHotel.getParentTrip().getDetailsUrl());
+				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
 			}
 		});
 	}
