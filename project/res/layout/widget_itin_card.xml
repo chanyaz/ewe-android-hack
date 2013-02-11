@@ -12,6 +12,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="@dimen/itin_list_card_top_image_offset"
         android:background="@drawable/bg_itin_card"
+        android:layerType="hardware"
         android:orientation="vertical" >
 
         <!-- ###################################################################### -->
@@ -208,6 +209,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layerType="hardware"
         android:src="@drawable/btn_radio_off_pressed_holo_dark" />
 
 </merge>

@@ -20,7 +20,6 @@ import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
@@ -157,8 +156,6 @@ public abstract class ItinCard extends RelativeLayout {
 		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
 		mSummaryRightButton = Ui.findView(this, R.id.summary_right_button);
 
-		mScrollView.setOnScrollListener(mOnScrollListener);
-
 		setWillNotDraw(false);
 	}
 
@@ -264,6 +261,7 @@ public abstract class ItinCard extends RelativeLayout {
 		final int stopY = 0;
 
 		ResizeAnimation titleAnimation = new ResizeAnimation(mTitleLayout, mTitleLayoutHeight, 0);
+		titleAnimation.setDuration(300);
 		titleAnimation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -289,10 +287,14 @@ public abstract class ItinCard extends RelativeLayout {
 				mScrollView.scrollTo(0, (int) (((stopY - startY) * interpolatedTime) + startY));
 			}
 		});
+
 		mTitleLayout.startAnimation(titleAnimation);
 
 		if (!mShowSummary) {
-			mActionButtonLayout.startAnimation(new ResizeAnimation(mActionButtonLayout, 0));
+			ResizeAnimation actionButtonAnimation = new ResizeAnimation(mActionButtonLayout, 0);
+			actionButtonAnimation.setDuration(300);
+
+			mActionButtonLayout.startAnimation(actionButtonAnimation);
 		}
 
 		// Alpha
@@ -330,10 +332,6 @@ public abstract class ItinCard extends RelativeLayout {
 	// Type icon position and size
 
 	public void updateLayout() {
-		if (getTop() <= 0) {
-			return;
-		}
-
 		int itinTypeImageHeight = mItinTypeImageView.getHeight();
 		int itinTypeImageHalfHeight = itinTypeImageHeight / 2;
 		int headerImageHeight = mHeaderImageView.getHeight();
@@ -347,9 +345,12 @@ public abstract class ItinCard extends RelativeLayout {
 		}
 
 		percent = Math.min(1.0f, Math.max(0.25f, percent));
+		if (getTop() <= 0) {
+			percent = 1f;
+		}
 
 		final int typeImageTranslationY = mHeaderImageView.getTop() + headerImageHalfHeight - itinTypeImageHalfHeight;
-		final int viewTranslationY = Math.max(0, (headerImageHeight - (int) (percent * (float) headerImageHeight)));
+		final int viewTranslationY = Math.max(0, (headerImageHeight - (int) (percent * (float) headerImageHeight)) / 2);
 
 		ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
 		ViewHelper.setScaleX(mItinTypeImageView, percent);
@@ -364,18 +365,7 @@ public abstract class ItinCard extends RelativeLayout {
 
 	@Override
 	public void onDraw(Canvas canvas) {
-		updateLayout();
 		super.onDraw(canvas);
+		updateLayout();
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////////
-	// LISTENERS
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private OnScrollListener mOnScrollListener = new OnScrollListener() {
-		@Override
-		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-			updateLayout();
-		}
-	};
 }
