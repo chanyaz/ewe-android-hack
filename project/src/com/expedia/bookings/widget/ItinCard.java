@@ -28,6 +28,14 @@ import com.nineoldandroids.view.ViewHelper;
 
 public abstract class ItinCard extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
+	// PUBLIC ENUYMS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	public enum DisplayState {
+		COLLAPSED, EXPANDED
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	// ABSTRACT METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,6 +101,7 @@ public abstract class ItinCard extends RelativeLayout {
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	private DisplayState mDisplayState = DisplayState.COLLAPSED;
 	private boolean mShowSummary = false;
 
 	private int mTitleLayoutHeight;
@@ -156,19 +165,24 @@ public abstract class ItinCard extends RelativeLayout {
 		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
 		mSummaryRightButton = Ui.findView(this, R.id.summary_right_button);
 
+		updateClickable();
+		updateLayout();
+
 		setWillNotDraw(false);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// VIEW OVERRIDES
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public boolean hasFocusable() {
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public boolean hasFocusable() {
-		// TODO: This feels very wrong. Find out why onItemClick isn't working and fix it for real
-		return false;
-		//return super.hasFocusable();
-	}
 
 	public void bind(final ItinCardData itinCardData) {
 		final TripComponent tripComponent = itinCardData.getTripComponent();
@@ -257,6 +271,9 @@ public abstract class ItinCard extends RelativeLayout {
 	}
 
 	public void collapse() {
+		mDisplayState = DisplayState.COLLAPSED;
+		updateClickable();
+
 		final int startY = mScrollView.getScrollY();
 		final int stopY = 0;
 
@@ -307,6 +324,8 @@ public abstract class ItinCard extends RelativeLayout {
 	}
 
 	public void expand() {
+		mDisplayState = DisplayState.EXPANDED;
+		updateClickable();
 		updateLayout();
 
 		mSummaryDividerView.setVisibility(VISIBLE);
@@ -357,6 +376,14 @@ public abstract class ItinCard extends RelativeLayout {
 		ViewHelper.setScaleY(mItinTypeImageView, percent);
 
 		ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE METHODS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	private void updateClickable() {
+		mScrollView.setEnabled(mDisplayState == DisplayState.EXPANDED);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

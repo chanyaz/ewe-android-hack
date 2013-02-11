@@ -113,15 +113,27 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (mMode == MODE_DETAIL) {
-			return getChildAt(mDetailPosition - getFirstVisiblePosition()).dispatchTouchEvent(event);
+			getChildAt(mDetailPosition - getFirstVisiblePosition()).dispatchTouchEvent(event);
+			return true;
+		}
+
+		final int position = findMotionPosition((int) event.getY());
+		if (position != INVALID_POSITION) {
+			View child = getChildAt(position - getFirstVisiblePosition());
+			MotionEvent childEvent = MotionEvent.obtain(event);
+			childEvent.offsetLocation(0, -child.getTop());
+
+			if (child.dispatchTouchEvent(childEvent)) {
+				return true;
+			}
 		}
 
 		return super.onTouchEvent(event);
 	}
 
 	@Override
-	public boolean onInterceptTouchEvent(MotionEvent event) {
-		return onTouchEvent(event);
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		return onTouchEvent(ev);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -165,6 +177,18 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	int findMotionPosition(int y) {
+		int childCount = getChildCount();
+		for (int i = 0; i < childCount; i++) {
+			View v = getChildAt(i);
+			if (y <= v.getBottom()) {
+				return getFirstVisiblePosition() + i;
+			}
+		}
+
+		return INVALID_POSITION;
+	}
 
 	private void hideDetails() {
 		if (mDetailPosition < 0) {
