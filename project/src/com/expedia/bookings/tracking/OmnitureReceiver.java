@@ -9,6 +9,7 @@ public class OmnitureReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getAction().equals("com.android.vending.INSTALL_REFERRER")) {
 			OmnitureTracking.trackAppInstallCustom(context);
+			OmnitureTracking.trackGooglePlayReferralLink(context, intent);
 		}
 	}
 }

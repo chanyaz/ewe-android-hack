@@ -278,6 +278,11 @@
                 <action android:name="com.expedia.bookings.action.pos_changed" />
             </intent-filter>
         </receiver>
+
+        <!-- Google Play Campaign Tracking -->
+        <!-- Note: Only the first defined INSTALL_REFERRER BroadcastReceiver receives the Broadcast from the system -->
+        <!-- InstallReceiver then broadcasts the message again to reach the other BroadcastReceivers -->
+
         <receiver
             android:name="com.expedia.bookings.tracking.InstallReceiver"
             android:exported="true" >

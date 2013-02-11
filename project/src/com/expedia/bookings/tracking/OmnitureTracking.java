@@ -11,10 +11,12 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
+import com.adobe.adms.measurement.ADMS_ReferrerHandler;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
@@ -876,6 +878,11 @@ public class OmnitureTracking {
 		s.setEvar(28, "App Install");
 
 		s.track();
+	}
+
+	public static void trackGooglePlayReferralLink(Context context, Intent intent) {
+		ADMS_ReferrerHandler handler = new ADMS_ReferrerHandler();
+		handler.processIntent(context, intent);
 	}
 
 	public static void trackAppHotelsSearch(Context context, SearchParams searchParams, SearchResponse searchResponse,
