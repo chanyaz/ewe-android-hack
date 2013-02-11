@@ -47,7 +47,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	private String mStartLastName = "";
 
 	//Where we want to return to after our action
-	private enum YoYoPosition {
+	public enum YoYoPosition {
 		OPTIONS, ONE
 	}
 

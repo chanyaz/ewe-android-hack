@@ -13,8 +13,8 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
-import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoPosition;
+import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
+import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
@@ -52,6 +52,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
 	private static final int DIALOG_CALLBACK_INVALID_PAYMENT = 2;
+	private static final int DIALOG_CALLBACK_INVALID_PHONENUMBER = 3;
 
 	private Context mContext;
 
@@ -155,10 +156,30 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	private void launchHotelPaymentCreditCardFragment() {
 		Intent intent = new Intent(mContext, HotelPaymentOptionsActivity.class);
-		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_MODE, YoYoMode.YOYO.name());
-		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_DEST, YoYoPosition.CREDITCARD.name());
+		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_MODE,
+				HotelPaymentOptionsActivity.YoYoMode.YOYO.name());
+		intent.putExtra(HotelPaymentOptionsActivity.STATE_TAG_DEST,
+				HotelPaymentOptionsActivity.YoYoPosition.CREDITCARD.name());
 
 		Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
+
+		startActivity(intent);
+	}
+
+	private void launchHotelTravelerPhoneNumberFragment() {
+		Intent intent = new Intent(mContext, HotelTravelerInfoOptionsActivity.class);
+		intent.putExtra(HotelTravelerInfoOptionsActivity.STATE_TAG_MODE,
+				HotelPaymentOptionsActivity.YoYoMode.EDIT.name());
+		intent.putExtra(HotelTravelerInfoOptionsActivity.STATE_TAG_DEST,
+				HotelTravelerInfoOptionsActivity.YoYoPosition.ONE.name());
+
+		Traveler traveler = Db.getTravelers().get(0);
+		if (traveler.getPrimaryPhoneNumber() != null) {
+			traveler.getPrimaryPhoneNumber().setNumber(null);
+			traveler.getPrimaryPhoneNumber().setAreaCode(null);
+		}
+		Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(0));
+		Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(true);
 
 		startActivity(intent);
 	}
@@ -297,6 +318,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		boolean hasCVVError = false;
 		boolean hasExpirationDateError = false;
 		boolean hasCreditCardNumberError = false;
+		boolean hasPhoneError = false;
 
 		// Log all errors, in case we need to see them
 		for (int a = 0; a < errors.size(); a++) {
@@ -316,6 +338,9 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			}
 			else if (field.equals("cvv")) {
 				hasCVVError = true;
+			}
+			else if (field.equals("phone")) {
+				hasPhoneError = true;
 			}
 		}
 
@@ -354,6 +379,13 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
 						DIALOG_CALLBACK_INVALID_CC);
 				frag.show(getSupportFragmentManager(), "badCcNumberDialog");
+				return;
+			}
+			else if (hasPhoneError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.ean_error_invalid_phone_number), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_PHONENUMBER);
+				frag.show(getSupportFragmentManager(), "badPhoneNumberDialog");
 				return;
 			}
 			break;
@@ -412,6 +444,10 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		case DIALOG_CALLBACK_INVALID_CC:
 		case DIALOG_CALLBACK_INVALID_PAYMENT:
 			launchHotelPaymentCreditCardFragment();
+			finish();
+			break;
+		case DIALOG_CALLBACK_INVALID_PHONENUMBER:
+			launchHotelTravelerPhoneNumberFragment();
 			finish();
 			break;
 		}

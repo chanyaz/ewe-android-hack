@@ -383,6 +383,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return getOrCreatePrimaryPhoneNumber().getNumber();
 	}
 
+	public void setPhoneAreaCode(String areaCode) {
+		getOrCreatePrimaryPhoneNumber().setAreaCode(areaCode);
+	}
+
+	public String getPhoneAreaCode() {
+		return getOrCreatePrimaryPhoneNumber().getAreaCode();
+	}
+
 	public void setPhoneCountryCode(String phoneCountryCode) {
 		getOrCreatePrimaryPhoneNumber().setCountryCode(phoneCountryCode);
 	}
