@@ -860,7 +860,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppInstall(Context context) {
+	public static void trackAppInstallCustom(Context context) {
 		Log.d(TAG, "Tracking \"App Install\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
