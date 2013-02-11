@@ -771,7 +771,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
 					searchParams.setSearchType(searchType);
 
-					setShowDistance(searchType == SearchType.ADDRESS);
+					setShowDistance(searchType.shouldShowDistance());
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
 					notifySearchLocationFound();
@@ -958,7 +958,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				LatLng center = mHotelMapFragment.getCameraCenter();
 				searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
 				searchParams.setSearchLatLon(center.latitude, center.longitude);
-				setShowDistance(true);
+				setShowDistance(searchParams.getSearchType().shouldShowDistance());
 				startSearch();
 			}
 			break;
@@ -1376,7 +1376,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		case ADDRESS:
 		case POI:
 		case FREEFORM:
-			setShowDistance(searchType != SearchType.CITY);
+			setShowDistance(searchType.shouldShowDistance());
 			stopLocation();
 			startGeocode();
 			break;
@@ -1466,7 +1466,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
 					searchParams.setSearchType(searchType);
 					notifySearchLocationFound();
-					setShowDistance(searchType == SearchType.ADDRESS);
+					setShowDistance(searchType.shouldShowDistance());
 					startSearchDownloader();
 				}
 			}
