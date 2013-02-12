@@ -42,9 +42,10 @@
         android:background="#4D555D" />
 
     <ImageButton
+        android:id="@+id/location_map_image_button"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:background="@drawable/list_selector_holo_dark"
-        android:src="@drawable/map_pin_normal" />
+        android:src="@drawable/ic_location_pin" />
 
 </merge>

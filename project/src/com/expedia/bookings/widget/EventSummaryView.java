@@ -5,7 +5,11 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
@@ -26,6 +30,7 @@ public class EventSummaryView extends LinearLayout {
 	private TextView mTimeTextView;
 	private TextView mDateTextView;
 	private TextView mLocationtextView;
+	private ImageButton mLocationMapImageButton;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -50,10 +55,19 @@ public class EventSummaryView extends LinearLayout {
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public void bind(Date date, Location location) {
+	public void bind(Date date, final Location location) {
 		mTimeTextView.setText(TIME_FORMAT.format(date));
 		mDateTextView.setText(DATE_FORMAT.format(date));
 		mLocationtextView.setText(location.toFormattedString());
+		mLocationMapImageButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri
+						.parse("http://maps.google.com/maps?q=" + location.toFormattedString()));
+
+				getContext().startActivity(intent);
+			}
+		});
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -68,5 +82,6 @@ public class EventSummaryView extends LinearLayout {
 		mTimeTextView = Ui.findView(this, R.id.time_text_view);
 		mDateTextView = Ui.findView(this, R.id.date_text_view);
 		mLocationtextView = Ui.findView(this, R.id.location_text_view);
+		mLocationMapImageButton = Ui.findView(this, R.id.location_map_image_button);
 	}
 }
