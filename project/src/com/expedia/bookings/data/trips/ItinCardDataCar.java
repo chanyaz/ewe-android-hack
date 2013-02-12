@@ -21,6 +21,8 @@ public class ItinCardDataCar extends ItinCardData {
 			return null;
 		}
 
+		// TODO: swap this hackery out for localized strings
+
 		String[] words = mCar.getType().toString().replace("_", " ").split(" ");
 		for (int i = 0; i < words.length; i++) {
 			words[i] = words[i].substring(0, 1).toUpperCase() + words[i].substring(1).toLowerCase();

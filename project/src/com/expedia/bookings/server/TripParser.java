@@ -496,13 +496,13 @@ public class TripParser {
 			return null;
 		}
 
-		if (type.equals("2/4Door Car")) {
+		if (type.equals("TwoDoorCar")) {
 			return Type.TWO_DOOR_CAR;
 		}
-		else if (type.equals("2/3Door Car") || type.equals("ThreeDoorCar")) {
+		else if (type.equals("ThreeDoorCar")) {
 			return Type.THREE_DOOR_CAR;
 		}
-		else if (type.equals("4/5Door Car")) {
+		else if (type.equals("FourDoorCar")) {
 			return Type.FOUR_DOOR_CAR;
 		}
 		else if (type.equals("Van")) {
@@ -514,7 +514,7 @@ public class TripParser {
 		else if (type.equals("Limousine")) {
 			return Type.LIMOUSINE;
 		}
-		else if (type.equals("Recreational Vehicle")) {
+		else if (type.equals("RecreationalVehicle")) {
 			return Type.RECREATIONAL_VEHICLE;
 		}
 		else if (type.equals("Convertible")) {
@@ -526,22 +526,22 @@ public class TripParser {
 		else if (type.equals("SUV")) {
 			return Type.SUV;
 		}
-		else if (type.equals("Pickup Regular Cab")) {
+		else if (type.equals("PickupRegularCab")) {
 			return Type.PICKUP_REGULAR_CAB;
 		}
-		else if (type.equals("Open Air All-Terrain")) {
+		else if (type.equals("OpenAirAllTerrain")) {
 			return Type.OPEN_AIR_ALL_TERRAIN;
 		}
 		else if (type.equals("Special")) {
 			return Type.SPECIAL;
 		}
-		else if (type.equals("Commercial Van/Truck")) {
+		else if (type.equals("CommercialVanTruck")) {
 			return Type.COMMERCIAL_VAN_TRUCK;
 		}
-		else if (type.equals("Pickup Extended Cab")) {
+		else if (type.equals("PickupExtendedCab")) {
 			return Type.PICKUP_EXTENDED_CAB;
 		}
-		else if (type.equals("Special Offer Car")) {
+		else if (type.equals("SpecialOfferCar")) {
 			return Type.SPECIAL_OFFER_CAR;
 		}
 		else if (type.equals("Coupe")) {
@@ -553,7 +553,7 @@ public class TripParser {
 		else if (type.equals("Motorhome")) {
 			return Type.MOTORHOME;
 		}
-		else if (type.equals("2 Wheel Vehicle")) {
+		else if (type.equals("TwoWheelVehicle")) {
 			return Type.TWO_WHEEL_VEHICLE;
 		}
 		else if (type.equals("Roadster")) {
