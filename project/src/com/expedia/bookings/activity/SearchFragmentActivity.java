@@ -19,6 +19,8 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.DialogUtils;
 import com.mobiata.android.util.NetUtils;
 
+// This is the TABLET search fragment activity
+
 public class SearchFragmentActivity extends FragmentActivity implements SearchParamsFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////

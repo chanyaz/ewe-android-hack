@@ -97,6 +97,8 @@ import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 
+// This is the FRAGMENT search results activity
+
 @TargetApi(11)
 public class SearchResultsFragmentActivity extends FragmentActivity implements LocationListener,
 		OnFilterChangedListener, SortDialogFragmentListener, CalendarDialogFragmentListener,
