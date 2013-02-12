@@ -455,6 +455,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private boolean mSearchViewFocused = false;
 	private boolean mUseCondensedActionBar = false;
 
+	private View mGuestsActionView;
 	private TextView mGuestsTextView;
 
 	private boolean mCreatedOptionsMenu = false;
@@ -484,16 +485,15 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		if (mUseCondensedActionBar) {
 			mFilterMenuItem.setTitle(R.string.filter);
 
-			// Configure the custom action view (which is more condensed than the normal one
-			mGuestsMenuItem.setActionView(R.layout.action_menu_item_guests);
-			View actionView = mGuestsMenuItem.getActionView();
-			View button = actionView.findViewById(R.id.guests_button);
+			// Configure the custom action view (which is more condensed than the normal one)
+			mGuestsActionView = getLayoutInflater().inflate(R.layout.action_menu_item_guests, null);
+			View button = mGuestsActionView.findViewById(R.id.guests_button);
 			button.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					showGuestsDialog();
 				}
 			});
-			mGuestsTextView = (TextView) actionView.findViewById(R.id.guests_text_view);
+			mGuestsTextView = (TextView) mGuestsActionView.findViewById(R.id.guests_text_view);
 		}
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
@@ -509,6 +509,10 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		// the preparation (it will get run on its own course later).
 		if (mSearchView == null) {
 			return super.onPrepareOptionsMenu(menu);
+		}
+
+		if (mGuestsActionView != null) {
+			mGuestsMenuItem.setActionView(mGuestsActionView);
 		}
 
 		SearchParams params = Db.getSearchParams();
