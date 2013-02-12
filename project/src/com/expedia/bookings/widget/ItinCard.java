@@ -235,13 +235,6 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			mSummaryLayout.addView(summaryView);
 		}
 
-		// Details view
-		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, (T) itinCardData);
-		if (detailsView != null) {
-			mDetailsLayout.removeAllViews();
-			mDetailsLayout.addView(detailsView);
-		}
-
 		// Buttons
 		SummaryButton leftButton = getSummaryLeftButton((T) itinCardData);
 		if (leftButton != null) {

@@ -316,6 +316,9 @@ public class TripParser {
 				JSONObject segmentJson = segmentsArr.optJSONObject(b);
 
 				Flight segment = new Flight();
+				
+				//required for flight map
+				segment.mStatusCode = Flight.STATUS_UNKNOWN;
 
 				TripWaypoint origin = mWaypoints.get(segmentJson.opt("departureWaypointId"));
 				TripWaypoint destination = mWaypoints.get(segmentJson.opt("arrivalWaypointId"));

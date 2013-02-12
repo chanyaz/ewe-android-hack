@@ -1,9 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
@@ -14,6 +12,8 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -26,7 +26,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
@@ -34,21 +33,30 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.Ui;
+import com.google.android.gms.maps.GoogleMap;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
+import com.mobiata.flightlib.maps.FlightMarkerManager;
+import com.mobiata.flightlib.maps.MapCameraManager;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
+
+	private static final String FRAG_TAG_FLIGHT_MAP = "FRAG_TAG_FLIGHT_MAP";
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private ItinCardDataFlight mData;
 	private TripFlight mTripFlight;
+	private FlightMapProvider mFlightMapProvider;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -128,19 +136,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			ViewUtils.setAllCaps(passengersLabel);
 			ViewUtils.setAllCaps(bookingInfoLabel);
 			ViewUtils.setAllCaps(insuranceLabel);
-
-			//Map
-			MapImageView mapImageView = Ui.findView(view, R.id.mini_map);
-			List<Location> airPorts = new ArrayList<Location>();
-			airPorts.add(waypointToLocation(leg.getFirstWaypoint()));
-			for (int i = 0; i < leg.getSegmentCount(); i++) {
-				Waypoint wp = leg.getSegment(i).mDestination;
-				airPorts.add(waypointToLocation(wp));
-			}
-			mapImageView.setCenterPoint(airPorts.size() > 0 ? airPorts.get(0) : null);
-			for (Location loc : airPorts) {
-				mapImageView.setPoiPoint(loc);
-			}
 
 			//Arrival / Departure times
 			Calendar departureTimeCal = leg.getFirstWaypoint().getMostRelevantDateTime();
@@ -359,6 +354,77 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
+	// PUBLIC METHODS
+	//////////////////////////////////////////////////////////////////////////////////////
+	
+	public void attachFlightMap() {
+		if (mFlightMapProvider != null) {
+			setHardwareAccelerationEnabled(false);
+			ViewGroup mapContainer = Ui.findView(this, R.id.flight_map_container);
+			mapContainer.setId(R.id.itin_flight_map_container_active);
+
+			FragmentManager fragManager = mFlightMapProvider.getFlightMapFragmentManager();
+			SupportMapFragment mapFrag = mFlightMapProvider.getFlightMapFragment(new MapInstantiatedListener() {
+				@Override
+				public void onMapInstantiated(SupportMapFragment mapFrag) {
+					GoogleMap map = mapFrag.getMap();
+					if (map != null) {
+						map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+						map.setMyLocationEnabled(false);
+						map.getUiSettings().setAllGesturesEnabled(false);
+						map.getUiSettings().setZoomControlsEnabled(false);
+						map.getUiSettings().setZoomGesturesEnabled(false);
+						map.getUiSettings().setMyLocationButtonEnabled(false);
+
+						FlightMarkerManager flightMarkerManager = new FlightMarkerManager(map,
+								R.drawable.map_pin_normal, R.drawable.map_pin_normal, R.drawable.map_pin_sale);
+
+						MapCameraManager mapCameraManager = new MapCameraManager(map);
+						flightMarkerManager.setFlights(mData.getFlightLeg().getSegments());
+						mapCameraManager.showFlight(mData.getFlightLeg().getSegment(0), FlightItinCard.this.getWidth(),
+								getResources()
+										.getDimensionPixelSize(R.dimen.itin_map_total_size), 40);
+
+					}
+
+				}
+			});
+
+			FragmentTransaction transaction = fragManager.beginTransaction();
+			if (!mapFrag.isAdded()) {
+				transaction.add(R.id.itin_flight_map_container_active, mapFrag, FRAG_TAG_FLIGHT_MAP);
+				transaction.commit();
+			}
+		}
+	}
+
+	@SuppressLint("NewApi")
+	public void removeFlightMap() {
+		if (mFlightMapProvider != null) {
+			setHardwareAccelerationEnabled(true);
+			FragmentManager fragManager = mFlightMapProvider.getFlightMapFragmentManager();
+			SupportMapFragment mapFrag = (SupportMapFragment) fragManager.findFragmentByTag(FRAG_TAG_FLIGHT_MAP);
+			if (mapFrag != null) {
+				FragmentTransaction transaction = fragManager.beginTransaction();
+				transaction.remove(mapFrag);
+				transaction.commitAllowingStateLoss();
+				fragManager.executePendingTransactions();
+			}
+
+			ViewGroup mapContainer = Ui.findView(this, R.id.itin_flight_map_container_active);
+
+			if (mapContainer != null) {
+				mapContainer.setId(R.id.flight_map_container);
+				mapContainer.removeAllViews();
+			}
+		}
+	}
+
+	public void setFlightMapProvider(FlightMapProvider flightMapProvider) {
+		mFlightMapProvider = flightMapProvider;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
@@ -444,13 +510,28 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());
 		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
 	}
+	
+	@SuppressLint("NewApi")
+	private void setHardwareAccelerationEnabled(boolean enabled){
+		if (AndroidUtils.getSdkVersion() >= 11) {
+				int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
+				
+				setLayerType(layerType, null);
+				Ui.findView(this, R.id.card_layout).setLayerType(layerType, null);
+				Ui.findView(this, R.id.itin_type_image_view).setLayerType(layerType, null);
+		}
+	}
 
-	private Location waypointToLocation(Waypoint wp) {
-		Location location = new Location();
-		location.setLatitude(wp.getAirport().getLatE6() / 1E6);
-		location.setLongitude(wp.getAirport().getLonE6() / 1E6);
-		location.setCity(wp.getAirport().mCity);
-		location.setCountryCode(wp.getAirport().mCountryCode);
-		return location;
+	//////////////////////////////////////////////////////////////////////////////////////
+	// INTERFACES
+	//////////////////////////////////////////////////////////////////////////////////////
+	public interface FlightMapProvider {
+		public FragmentManager getFlightMapFragmentManager();
+
+		public SupportMapFragment getFlightMapFragment(MapInstantiatedListener listener);
+	}
+
+	public interface MapInstantiatedListener {
+		public void onMapInstantiated(SupportMapFragment mapFrag);
 	}
 }

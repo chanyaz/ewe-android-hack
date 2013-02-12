@@ -1,10 +1,15 @@
 package com.expedia.bookings.widget;
 
+import android.os.Bundle;
+
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.AbsListView;
@@ -13,12 +18,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
+import com.expedia.bookings.widget.FlightItinCard.FlightMapProvider;
+import com.expedia.bookings.widget.FlightItinCard.MapInstantiatedListener;
+import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.maps.SupportMapFragment;
 
-public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener {
+public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, FlightMapProvider {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -217,6 +227,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				invalidateViews();
 				scrollTo(0, stopY);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+				if(view.getType().equals(Type.FLIGHT)){
+					((FlightItinCard) view).removeFlightMap();
+				}
 			}
 		});
 		animation.setAnimationStepListener(new AnimationStepListener() {
@@ -241,7 +254,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mDetailPosition = position;
 
 		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
-
+		if(view.getType().equals(Type.FLIGHT)){
+			((FlightItinCard) view).setFlightMapProvider(this);
+		}
+		
 		mExpandedCardOriginalHeight = view.getHeight();
 		mOriginalScrollY = getScrollY();
 
@@ -253,6 +269,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			@Override
 			public void onAnimationStart(Animation animation) {
 				view.expand();
+				
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 
@@ -264,6 +281,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			public void onAnimationEnd(Animation animation) {
 				scrollTo(0, stopY);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+				if(view.getType().equals(Type.FLIGHT)){
+					((FlightItinCard) view).attachFlightMap();
+				}
 			}
 		});
 		animation.setAnimationStepListener(new AnimationStepListener() {
@@ -308,4 +328,31 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mOnScrollListener.onScrollStateChanged(view, scrollState);
 		}
 	}
+
+	@Override
+	public FragmentManager getFlightMapFragmentManager() {
+		if(getContext() instanceof SherlockFragmentActivity){
+			return ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
+		}
+		else{
+			throw new RuntimeException("ItinListView.getContext() should return a SherlockFragmentActivity for compatibility with SupportMapFragment");
+		}
+	}
+
+	@Override
+	public SupportMapFragment getFlightMapFragment(final MapInstantiatedListener listener) {
+		SupportMapFragment frag = new SupportMapFragment() {
+			@Override
+			public View onCreateView(LayoutInflater inflater, ViewGroup root, Bundle data) {
+				View view = super.onCreateView(inflater, root, data);
+				if (listener != null) {
+					listener.onMapInstantiated(this);
+				}
+				return view;
+			}
+		};
+		frag.setRetainInstance(false);
+		return frag;
+	}
+	
 }
