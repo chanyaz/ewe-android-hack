@@ -76,8 +76,12 @@ public class ItinCardDataCar extends ItinCardData {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public String getCarTypeDescription(Context context) {
-		final int resId = CAR_TYPE_DESCRIPTION_MAP.get(mCar.getType());
-		return context.getString(resId);
+		final Integer resId = CAR_TYPE_DESCRIPTION_MAP.get(mCar.getType());
+		if (resId != null) {
+			return context.getString(resId);
+		}
+
+		return null;
 	}
 
 	public String getFormattedPickUpDate() {
