@@ -243,16 +243,14 @@
 
     <style name="RatingBar.UserReview">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_yellow</item>
-        <item name="android:minHeight">13dip</item>
-        <item name="android:maxHeight">13dip</item>
+        <item name="android:minHeight">12dp</item>
+        <item name="android:maxHeight">12dp</item>
     </style>
 
     <style name="RatingBar.UserReview.Yellow" />
 
     <style name="RatingBar.UserReview.White">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_white</item>
-        <item name="android:minHeight">12dip</item>
-        <item name="android:maxHeight">12dip</item>
     </style>
 
     <style name="Widget.EditText" parent="@android:style/Widget.EditText">
