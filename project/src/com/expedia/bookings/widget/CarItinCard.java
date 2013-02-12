@@ -60,6 +60,14 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	}
 
 	@Override
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataCar itinCardData) {
+		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_car, container, false);
+		view.setText("Pick up after " + itinCardData.getFormattedPickUpTime());
+
+		return view;
+	}
+
+	@Override
 	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, final ItinCardDataCar itinCardData) {
 		View view = inflater.inflate(R.layout.include_itin_card_details_car, container, false);
 
@@ -68,6 +76,8 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		TextView dropOffDateTextView = Ui.findView(view, R.id.drop_off_date_text_view);
 		TextView daysTextView = Ui.findView(view, R.id.days_text_view);
 		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
+		EventSummaryView pickUpEventSummaryView = Ui.findView(view, R.id.pick_up_event_summary_view);
+		EventSummaryView dropOffEventSummaryView = Ui.findView(view, R.id.drop_off_event_summary_view);
 		TextView vendorPhoneTextView = Ui.findView(view, R.id.vendor_phone_text_view);
 		TextView detailsTextView = Ui.findView(view, R.id.details_text_view);
 
@@ -81,6 +91,12 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 			staticMapImageView.setCenterPoint(relevantLocation);
 			staticMapImageView.setPoiPoint(relevantLocation);
 		}
+
+		pickUpEventSummaryView.bind(itinCardData.getPickUpDate().getCalendar().getTime(),
+				itinCardData.getPickUpLocation());
+
+		dropOffEventSummaryView.bind(itinCardData.getDropOffDate().getCalendar().getTime(),
+				itinCardData.getDropOffLocation());
 
 		vendorPhoneTextView.setText(itinCardData.getRelevantVendorPhone());
 		vendorPhoneTextView.setOnClickListener(new OnClickListener() {
@@ -98,11 +114,6 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		});
 
 		return view;
-	}
-
-	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataCar itinCardData) {
-		return null;
 	}
 
 	@Override

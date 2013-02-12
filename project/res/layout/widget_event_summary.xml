@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings" >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/time_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/itin_section_text"
+            android:textSize="24dp"
+            app:textStyle="medium" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/date_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/itin_section_text"
+            android:textSize="16dp"
+            app:textStyle="light" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/location_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/itin_offwhite_text"
+            android:textSize="16dp"
+            app:textStyle="light" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#4D555D" />
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/list_selector_holo_dark"
+        android:src="@drawable/map_pin_normal" />
+
+</merge>

@@ -115,6 +115,14 @@
         android:layout_height="wrap_content"
         android:text="PICK UP" />
 
+    <com.expedia.bookings.widget.EventSummaryView
+        android:id="@+id/pick_up_event_summary_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp" />
+
     <!-- DROP OFF -->
 
     <com.expedia.bookings.widget.TextView
@@ -122,6 +130,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DROP OFF" />
+
+    <com.expedia.bookings.widget.EventSummaryView
+        android:id="@+id/drop_off_event_summary_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp" />
 
     <!-- PHONE -->
 

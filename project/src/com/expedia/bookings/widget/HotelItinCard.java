@@ -68,7 +68,6 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	@Override
 	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataHotel itinCardData) {
 		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_hotel, container, false);
-
 		view.setText("Check-in after " + itinCardData.getCheckInTime());
 
 		return view;

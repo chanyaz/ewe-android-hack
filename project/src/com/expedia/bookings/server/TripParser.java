@@ -384,7 +384,6 @@ public class TripParser {
 			car.setCategory(parseCarCategory(obj.optString("carCategory")));
 
 			car.setType(parseCarType(obj.optString("carType")));
-			car.setTypeString(obj.optString("carType"));
 
 			tripCar.setCar(car);
 		}

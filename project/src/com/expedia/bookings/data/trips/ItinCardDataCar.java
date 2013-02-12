@@ -54,6 +54,7 @@ public class ItinCardDataCar extends ItinCardData {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	private static final SimpleDateFormat DETAIL_TIME_FORMAT = new SimpleDateFormat("hh:mm a", Locale.getDefault());
 	private static final SimpleDateFormat DETAIL_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -84,12 +85,32 @@ public class ItinCardDataCar extends ItinCardData {
 		return null;
 	}
 
+	public DateTime getPickUpDate() {
+		return getTripComponent().getParentTrip().getStartDate();
+	}
+
+	public DateTime getDropOffDate() {
+		return getTripComponent().getParentTrip().getEndDate();
+	}
+
+	public Location getPickUpLocation() {
+		return mCar.getPickupLocation();
+	}
+
+	public Location getDropOffLocation() {
+		return mCar.getDropoffLocation();
+	}
+
+	public String getFormattedPickUpTime() {
+		return DETAIL_TIME_FORMAT.format(getPickUpDate().getCalendar().getTime());
+	}
+
 	public String getFormattedPickUpDate() {
-		return DETAIL_DATE_FORMAT.format(getTripComponent().getParentTrip().getStartDate().getCalendar().getTime());
+		return DETAIL_DATE_FORMAT.format(getPickUpDate().getCalendar().getTime());
 	}
 
 	public String getFormattedDropOffDate() {
-		return DETAIL_DATE_FORMAT.format(getTripComponent().getParentTrip().getEndDate().getCalendar().getTime());
+		return DETAIL_DATE_FORMAT.format(getDropOffDate().getCalendar().getTime());
 	}
 
 	public String getFormattedDays() {
