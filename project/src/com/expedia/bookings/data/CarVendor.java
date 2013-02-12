@@ -12,6 +12,8 @@ public class CarVendor implements JSONable {
 
 	private String mShortName;
 	private String mLongName;
+	private String mTollFreePhone;
+	private String mLocalPhone;
 
 	private Media mLogo;
 
@@ -45,6 +47,22 @@ public class CarVendor implements JSONable {
 
 	public void setLogo(Media logo) {
 		mLogo = logo;
+	}
+
+	public String getTollFreePhone() {
+		return mTollFreePhone;
+	}
+
+	public void setTollFreePhone(String argName) {
+		mTollFreePhone = argName;
+	}
+
+	public String getLocalPhone() {
+		return mLocalPhone;
+	}
+
+	public void setLocalPhone(String argName) {
+		mLocalPhone = argName;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

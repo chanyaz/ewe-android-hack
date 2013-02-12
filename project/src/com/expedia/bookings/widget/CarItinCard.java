@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
 
 public class CarItinCard extends ItinCard<ItinCardDataCar> {
@@ -49,8 +51,21 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	}
 
 	@Override
-	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardDataCar itinCardData) {
+	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, final ItinCardDataCar itinCardData) {
 		View view = inflater.inflate(R.layout.include_itin_card_details_car, container, false);
+
+		// Find
+		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
+
+		// Bind
+		phoneNumberTextView.setText(itinCardData.getRelevantVendorPhone());
+		phoneNumberTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SocialUtils.call(getContext(), itinCardData.getRelevantVendorPhone());
+			}
+		});
+
 		return view;
 	}
 
@@ -64,7 +79,10 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		return new SummaryButton(R.drawable.ic_direction, R.string.directions, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				final Intent intent = itinCardData.getDirectionsIntent();
+				if (intent != null) {
+					getContext().startActivity(intent);
+				}
 			}
 		});
 	}
@@ -74,7 +92,7 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		return new SummaryButton(R.drawable.ic_phone, itinCardData.getVendorName(), new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.call(getContext(), itinCardData.getVendorPhone());
+				SocialUtils.call(getContext(), itinCardData.getRelevantVendorPhone());
 			}
 		});
 	}

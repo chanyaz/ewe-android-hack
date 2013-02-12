@@ -376,6 +376,8 @@ public class TripParser {
 			vendor.setShortName(vendorJson.optString("shortName", null));
 			vendor.setLongName(vendorJson.optString("longName", null));
 			vendor.setLogo(new Media(vendorJson.optString("logoURL", null)));
+			vendor.setTollFreePhone(vendorJson.optString("phoneNumber"));
+			vendor.setLocalPhone(vendorJson.optString("localPhoneNumber"));
 			car.setVendor(vendor);
 
 			car.setCategoryImage(new Media(obj.optString("carCategoryImageURL")));

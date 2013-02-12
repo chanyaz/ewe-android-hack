@@ -3,7 +3,11 @@ package com.expedia.bookings.data.trips;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
@@ -54,7 +58,21 @@ public class ItinCardDataCar extends ItinCardData {
 		return mCar.getVendor().getShortName();
 	}
 
-	public String getVendorPhone() {
-		return "(888) 555-1212";
+	public String getRelevantVendorPhone() {
+		if (!TextUtils.isEmpty(mCar.getVendor().getTollFreePhone())) {
+			return mCar.getVendor().getTollFreePhone();
+		}
+
+		return mCar.getVendor().getLocalPhone();
+	}
+
+	public Intent getDirectionsIntent() {
+		final String address = mCar.getPickupLocation().getStreetAddressString();
+		final Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + address);
+
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		intent.setComponent(new ComponentName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity"));
+
+		return intent;
 	}
 }
