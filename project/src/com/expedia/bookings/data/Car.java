@@ -9,49 +9,11 @@ import com.mobiata.android.json.JSONable;
 public class Car implements JSONable {
 
 	public static enum Category {
-		MINI,
-		ECONOMY,
-		COMPACT,
-		MIDSIZE,
-		STANDARD,
-		FULLSIZE,
-		PREMIUM,
-		LUXURY,
-		SPECIAL,
-		MINI_ELITE,
-		ECONOMY_ELITE,
-		COMPACT_ELITE,
-		MIDSIZE_ELITE,
-		STANDARD_ELITE,
-		FULLSIZE_ELITE,
-		PREMIUM_ELITE,
-		LUXURY_ELITE,
-		OVERSIZE;
+		MINI, ECONOMY, COMPACT, MIDSIZE, STANDARD, FULLSIZE, PREMIUM, LUXURY, SPECIAL, MINI_ELITE, ECONOMY_ELITE, COMPACT_ELITE, MIDSIZE_ELITE, STANDARD_ELITE, FULLSIZE_ELITE, PREMIUM_ELITE, LUXURY_ELITE, OVERSIZE;
 	}
 
 	public static enum Type {
-		TWO_DOOR_CAR,
-		THREE_DOOR_CAR,
-		FOUR_DOOR_CAR,
-		VAN,
-		WAGON,
-		LIMOUSINE,
-		RECREATIONAL_VEHICLE,
-		CONVERTIBLE,
-		SPORTS_CAR,
-		SUV,
-		PICKUP_REGULAR_CAB,
-		OPEN_AIR_ALL_TERRAIN,
-		SPECIAL,
-		COMMERCIAL_VAN_TRUCK,
-		PICKUP_EXTENDED_CAB,
-		SPECIAL_OFFER_CAR,
-		COUPE,
-		MONOSPACE,
-		MOTORHOME,
-		TWO_WHEEL_VEHICLE,
-		ROADSTER,
-		CROSSOVER;
+		TWO_DOOR_CAR, THREE_DOOR_CAR, FOUR_DOOR_CAR, VAN, WAGON, LIMOUSINE, RECREATIONAL_VEHICLE, CONVERTIBLE, SPORTS_CAR, SUV, PICKUP_REGULAR_CAB, OPEN_AIR_ALL_TERRAIN, SPECIAL, COMMERCIAL_VAN_TRUCK, PICKUP_EXTENDED_CAB, SPECIAL_OFFER_CAR, COUPE, MONOSPACE, MOTORHOME, TWO_WHEEL_VEHICLE, ROADSTER, CROSSOVER;
 	}
 
 	private String mId;
@@ -72,6 +34,7 @@ public class Car implements JSONable {
 	private Media mCategoryImage;
 
 	private Type mType;
+	private String mTypeString;
 
 	public String getId() {
 		return mId;
@@ -159,6 +122,14 @@ public class Car implements JSONable {
 
 	public void setType(Type type) {
 		mType = type;
+	}
+
+	public String getTypeString() {
+		return mTypeString;
+	}
+
+	public void setTypeString(String type) {
+		mTypeString = type;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

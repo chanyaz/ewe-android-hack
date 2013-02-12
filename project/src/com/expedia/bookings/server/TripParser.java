@@ -382,6 +382,7 @@ public class TripParser {
 			car.setCategory(parseCarCategory(obj.optString("carCategory")));
 
 			car.setType(parseCarType(obj.optString("carType")));
+			car.setTypeString(obj.optString("carType"));
 
 			tripCar.setCar(car);
 		}
@@ -498,7 +499,7 @@ public class TripParser {
 		if (type.equals("2/4Door Car")) {
 			return Type.TWO_DOOR_CAR;
 		}
-		else if (type.equals("2/3Door Car")) {
+		else if (type.equals("2/3Door Car") || type.equals("ThreeDoorCar")) {
 			return Type.THREE_DOOR_CAR;
 		}
 		else if (type.equals("4/5Door Car")) {

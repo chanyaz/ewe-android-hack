@@ -37,7 +37,7 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 
 	@Override
 	protected String getHeaderText(ItinCardDataCar itinCardData) {
-		return "Car Card";
+		return itinCardData.getFormattedCarType();
 	}
 
 	@Override
@@ -59,13 +59,24 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton(ItinCardDataCar itinCardData) {
-		return null;
+	protected SummaryButton getSummaryLeftButton(final ItinCardDataCar itinCardData) {
+		return new SummaryButton(R.drawable.ic_direction, "DIRECTIONS", new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
 	}
 
 	@Override
-	protected SummaryButton getSummaryRightButton(ItinCardDataCar itinCardData) {
-		return null;
+	protected SummaryButton getSummaryRightButton(final ItinCardDataCar itinCardData) {
+		return new SummaryButton(R.drawable.ic_phone, itinCardData.getVendorName().toUpperCase(),
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+
+					}
+				});
 	}
 
 	@Override
