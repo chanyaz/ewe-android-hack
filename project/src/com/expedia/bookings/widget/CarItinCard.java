@@ -9,12 +9,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
 
 public class CarItinCard extends ItinCard<ItinCardDataCar> {
+	//////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	//////////////////////////////////////////////////////////////////////////////////////
+
 	public CarItinCard(Context context) {
 		this(context, null);
 	}
@@ -22,6 +27,10 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	public CarItinCard(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// ABSTRACT IMPLEMENTATIONS
+	//////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public int getTypeIconResId() {
@@ -55,14 +64,36 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		View view = inflater.inflate(R.layout.include_itin_card_details_car, container, false);
 
 		// Find
-		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
+		TextView pickUpDateTextView = Ui.findView(view, R.id.pick_up_date_text_view);
+		TextView dropOffDateTextView = Ui.findView(view, R.id.drop_off_date_text_view);
+		TextView daysTextView = Ui.findView(view, R.id.days_text_view);
+		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
+		TextView vendorPhoneTextView = Ui.findView(view, R.id.vendor_phone_text_view);
+		TextView detailsTextView = Ui.findView(view, R.id.details_text_view);
 
 		// Bind
-		phoneNumberTextView.setText(itinCardData.getRelevantVendorPhone());
-		phoneNumberTextView.setOnClickListener(new OnClickListener() {
+		pickUpDateTextView.setText(itinCardData.getFormattedPickUpDate());
+		dropOffDateTextView.setText(itinCardData.getFormattedDropOffDate());
+		daysTextView.setText(itinCardData.getFormattedDays());
+
+		Location relevantLocation = itinCardData.getRelevantLocation();
+		if (relevantLocation != null) {
+			staticMapImageView.setCenterPoint(relevantLocation);
+			staticMapImageView.setPoiPoint(relevantLocation);
+		}
+
+		vendorPhoneTextView.setText(itinCardData.getRelevantVendorPhone());
+		vendorPhoneTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				SocialUtils.call(getContext(), itinCardData.getRelevantVendorPhone());
+			}
+		});
+
+		detailsTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
 			}
 		});
 
@@ -79,7 +110,7 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		return new SummaryButton(R.drawable.ic_direction, R.string.directions, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final Intent intent = itinCardData.getDirectionsIntent();
+				final Intent intent = itinCardData.getRelevantDirectionsIntent();
 				if (intent != null) {
 					getContext().startActivity(intent);
 				}

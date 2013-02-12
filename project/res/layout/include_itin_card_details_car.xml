@@ -18,7 +18,7 @@
             android:padding="16dp" >
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/check_in_date_text_view"
+                android:id="@+id/pick_up_date_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#f4f4f4"
@@ -49,7 +49,7 @@
             android:padding="16dp" >
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/check_out_date_text_view"
+                android:id="@+id/drop_off_date_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#f4f4f4"
@@ -80,7 +80,7 @@
             android:padding="16dp" >
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/guests_text_view"
+                android:id="@+id/days_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#f4f4f4"
@@ -118,16 +118,24 @@
     <!-- DROP OFF -->
 
     <com.expedia.bookings.widget.TextView
+        style="@style/TextView.Itin.SectionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DROP OFF" />
+
+    <!-- PHONE -->
+
+    <com.expedia.bookings.widget.TextView
         style="@style/TextView.Itin.SectionHeader.NoMargin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="DROP OFF" />
+        android:text="AGENCY PHONE" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/phone_number_text_view"
+        android:id="@+id/vendor_phone_text_view"
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -135,23 +143,6 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/list_selector_holo_dark"
         android:padding="8dp" />
-
-    <!-- PHONE -->
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="AGENCY PHONE" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/agency_phone_text_view"
-        style="@style/TextView.Itin.SectionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
 
     <!-- BOOKING INFO -->
 
