@@ -45,7 +45,7 @@
     </style>
 
     <style name="Theme.Light.Fullscreen.Panel" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
-        <item name="android:windowBackground">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Tablet.Confirmation" parent="@style/Theme.Sherlock.Light">
