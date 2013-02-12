@@ -2,15 +2,14 @@ package com.expedia.bookings.activity;
 
 import java.util.Calendar;
 
-import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
@@ -23,7 +22,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class RoomsAndRatesFragmentActivity extends FragmentActivity implements RoomsAndRatesFragmentListener,
+public class RoomsAndRatesFragmentActivity extends SherlockFragmentActivity implements RoomsAndRatesFragmentListener,
 		BookingInfoFragmentListener {
 
 	//////////////////////////////////////////////////////////////////////////
@@ -80,13 +79,12 @@ public class RoomsAndRatesFragmentActivity extends FragmentActivity implements R
 		mKillReciever.onCreate();
 	}
 
-	@TargetApi(11)
 	@Override
 	protected void onStart() {
 		super.onStart();
 
 		// Configure the ActionBar
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
@@ -125,10 +123,9 @@ public class RoomsAndRatesFragmentActivity extends FragmentActivity implements R
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
-	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 

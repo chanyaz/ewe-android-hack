@@ -3,18 +3,17 @@ package com.expedia.bookings.activity;
 import java.util.Calendar;
 import java.util.List;
 
-import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
@@ -38,7 +37,7 @@ import com.mobiata.android.validation.ValidationError;
 
 // This is the TABLET booking activity for hotels.
 
-public class BookingFragmentActivity extends FragmentActivity implements BookingFormFragmentListener, LogInListener {
+public class BookingFragmentActivity extends SherlockFragmentActivity implements BookingFormFragmentListener, LogInListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -90,13 +89,12 @@ public class BookingFragmentActivity extends FragmentActivity implements Booking
 		mKillReciever.onCreate();
 	}
 
-	@TargetApi(11)
 	@Override
 	protected void onStart() {
 		super.onStart();
 
 		// Configure the ActionBar
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
@@ -169,10 +167,9 @@ public class BookingFragmentActivity extends FragmentActivity implements Booking
 	//////////////////////////////////////////////////////////////////////////
 	// ActionBar
 
-	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_tablet_booking, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_tablet_booking, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 

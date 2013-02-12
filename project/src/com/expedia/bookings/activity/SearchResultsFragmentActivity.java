@@ -10,8 +10,6 @@ import java.util.Queue;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -24,22 +22,23 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
-import android.widget.SearchView.OnSuggestionListener;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
+import com.actionbarsherlock.widget.SearchView.OnSuggestionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
@@ -97,10 +96,9 @@ import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 
-// This is the FRAGMENT search results activity
+// This is the TABLET search results activity
 
-@TargetApi(11)
-public class SearchResultsFragmentActivity extends FragmentActivity implements LocationListener,
+public class SearchResultsFragmentActivity extends SherlockFragmentActivity implements LocationListener,
 		OnFilterChangedListener, SortDialogFragmentListener, CalendarDialogFragmentListener,
 		GeocodeDisambiguationDialogFragmentListener, GuestsDialogFragmentListener, HotelDetailsFragmentListener,
 		OnCollageImageClickedListener, MiniDetailsFragmentListener, HotelMapFragmentListener, HotelListFragmentListener {
@@ -237,7 +235,7 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		super.onStart();
 
 		// Configure the ActionBar
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
@@ -473,8 +471,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 	public boolean onCreateOptionsMenu(Menu menu) {
 		mCreatedOptionsMenu = true;
 
-		getMenuInflater().inflate(R.menu.menu_fragment_search, menu);
-		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_fragment_search, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		mGuestsMenuItem = menu.findItem(R.id.menu_guests);
 		mDatesMenuItem = menu.findItem(R.id.menu_dates);
@@ -704,7 +702,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 
 	private void updateMapOffsets(boolean needsOffset) {
 		if (needsOffset) {
-			mHotelMapFragment.setCenterOffsetY((float) (getResources().getDimensionPixelSize(R.dimen.mini_details_height) / 2.0f));
+			mHotelMapFragment.setCenterOffsetY((float) (getResources().getDimensionPixelSize(
+					R.dimen.mini_details_height) / 2.0f));
 		}
 		else {
 			mHotelMapFragment.setCenterOffsetY(0);
