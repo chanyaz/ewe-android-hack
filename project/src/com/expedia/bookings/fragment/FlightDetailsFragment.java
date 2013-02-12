@@ -239,8 +239,8 @@ public class FlightDetailsFragment extends Fragment {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onStart() {
+		super.onStart();
 		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(getActivity(),
 				getArguments().getInt(ARG_LEG_POSITION, 0));
 	}
