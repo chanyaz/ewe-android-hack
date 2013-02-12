@@ -130,7 +130,29 @@
         <item quantity="many">%1$s minutes</item>
         <item quantity="other">%1$s minutes</item>
     </plurals>
-    
+    <!-- Car types -->
+    <string name="car_type_two_door">Two Door</string>
+    <string name="car_type_three_door">Three Door</string>
+    <string name="car_type_four_door">Four Door</string>
+    <string name="car_type_van">Van</string>
+    <string name="car_type_wagon">Wagon</string>
+    <string name="car_type_limousine">Limousine</string>
+    <string name="car_type_recreational_vehicle">Recreational Vehicle</string>
+    <string name="car_type_convertible">Convertible</string>
+    <string name="car_type_sports_car">Sports Car</string>
+    <string name="car_type_suv">SUV</string>
+    <string name="car_type_pickup_regular_cab">Pickup Regular Cab</string>
+    <string name="car_type_open_air_all_terrain">Open Air All Terrain</string>
+    <string name="car_type_special">Special</string>
+    <string name="car_type_commercial_van_truck">Commercial Van/Truck</string>
+    <string name="car_type_pickup_extended_cab">Pickup Extended Cab</string>
+    <string name="car_type_special_offer_car">Special Offer Car</string>
+    <string name="car_type_coupe">Coupe</string>
+    <string name="car_type_monospace">Monospace</string>
+    <string name="car_type_motor_home">Motor Home</string>
+    <string name="car_type_two_wheel_vehicle">Two Wheel Vehicle</string>
+    <string name="car_type_roadster">Roadster</string>
+    <string name="car_type_crossover">Crossover</string>
     
     <!-- Flights -->
     <!-- Label for flight search part of app -->

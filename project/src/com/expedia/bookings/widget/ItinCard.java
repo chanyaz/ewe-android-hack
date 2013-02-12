@@ -78,6 +78,10 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		private String mText;
 		private OnClickListener mOnClickListener;
 
+		public SummaryButton(int iconResId, int textResId, OnClickListener onClickListener) {
+			this(iconResId, getContext().getString(textResId), onClickListener);
+		}
+
 		public SummaryButton(int iconResId, String text, OnClickListener onClickListener) {
 			mIconResId = iconResId;
 			mText = text;

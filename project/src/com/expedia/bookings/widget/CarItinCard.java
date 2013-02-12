@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.mobiata.android.SocialUtils;
 
 public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	public CarItinCard(Context context) {
@@ -37,7 +38,7 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 
 	@Override
 	protected String getHeaderText(ItinCardDataCar itinCardData) {
-		return itinCardData.getFormattedCarType();
+		return itinCardData.getCarTypeDescription(getContext());
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 
 	@Override
 	protected SummaryButton getSummaryLeftButton(final ItinCardDataCar itinCardData) {
-		return new SummaryButton(R.drawable.ic_direction, "DIRECTIONS", new OnClickListener() {
+		return new SummaryButton(R.drawable.ic_direction, R.string.directions, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 
@@ -70,13 +71,12 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 
 	@Override
 	protected SummaryButton getSummaryRightButton(final ItinCardDataCar itinCardData) {
-		return new SummaryButton(R.drawable.ic_phone, itinCardData.getVendorName().toUpperCase(),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-
-					}
-				});
+		return new SummaryButton(R.drawable.ic_phone, itinCardData.getVendorName(), new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SocialUtils.call(getContext(), itinCardData.getVendorPhone());
+			}
+		});
 	}
 
 	@Override
