@@ -29,8 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/guests_button"
         android:layout_alignTop="@+id/guests_button"
-        android:layout_marginTop="-5dp"
-        android:layout_marginRight="-8dp"
         android:gravity="top|right"
         android:shadowColor="#88000000"
         android:shadowDx="0"
