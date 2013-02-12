@@ -17,19 +17,6 @@ import com.mobiata.android.SocialUtils;
 
 public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	//////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE MEMBERS
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private TextView mCheckInDateTextView;
-	private TextView mCheckOutDateTextView;
-	private TextView mGuestsTextView;
-	private MapImageView mStaticMapImageView;
-	private TextView mAddressTextView;
-	private TextView mPhoneNumberTextView;
-	private TextView mRoomTypeTextView;
-	private TextView mDetailsTextView;
-
-	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
 
@@ -87,19 +74,46 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 		return view;
 	}
 
-	public View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardDataHotel itinCardData) {
+	public View getDetailsView(LayoutInflater inflater, ViewGroup container, final ItinCardDataHotel itinCardData) {
 		View view = inflater.inflate(R.layout.include_itin_card_details_hotel, container, false);
 
-		mCheckInDateTextView = Ui.findView(view, R.id.check_in_date_text_view);
-		mCheckOutDateTextView = Ui.findView(view, R.id.check_out_date_text_view);
-		mGuestsTextView = Ui.findView(view, R.id.guests_text_view);
-		mStaticMapImageView = Ui.findView(view, R.id.mini_map);
-		mAddressTextView = Ui.findView(view, R.id.address_text_view);
-		mPhoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
-		mRoomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
-		mDetailsTextView = Ui.findView(view, R.id.details_text_view);
+		// Find
+		TextView checkInDateTextView = Ui.findView(view, R.id.check_in_date_text_view);
+		TextView checkOutDateTextView = Ui.findView(view, R.id.check_out_date_text_view);
+		TextView guestsTextView = Ui.findView(view, R.id.guests_text_view);
+		MapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
+		TextView addressTextView = Ui.findView(view, R.id.address_text_view);
+		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
+		TextView roomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
+		TextView detailsTextView = Ui.findView(view, R.id.details_text_view);
 
-		bind(itinCardData);
+		// Bind
+		checkInDateTextView.setText(itinCardData.getFormattedCheckInDate());
+		checkOutDateTextView.setText(itinCardData.getFormattedCheckOutDate());
+		guestsTextView.setText(itinCardData.getFormattedGuests());
+
+		if (itinCardData.getPropertyLocation() != null) {
+			staticMapImageView.setCenterPoint(itinCardData.getPropertyLocation());
+			staticMapImageView.setPoiPoint(itinCardData.getPropertyLocation());
+		}
+
+		addressTextView.setText(itinCardData.getAddressString());
+		roomTypeTextView.setText(itinCardData.getRoomDescription());
+
+		phoneNumberTextView.setText(itinCardData.getRelevantPhone());
+		phoneNumberTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SocialUtils.call(getContext(), itinCardData.getRelevantPhone());
+			}
+		});
+
+		detailsTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
+			}
+		});
 
 		return view;
 	}
@@ -109,8 +123,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 		return new SummaryButton(R.drawable.ic_urgency_clock, "DIRECTIONS", new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = itinCardData.getDirectionsIntent();
-
+				final Intent intent = itinCardData.getDirectionsIntent();
 				if (intent != null) {
 					getContext().startActivity(intent);
 				}
@@ -133,38 +146,5 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 
 	@Override
 	protected void onShareButtonClick(ItinCardDataHotel itinCardData) {
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE METHODS
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private void bind(final ItinCardDataHotel itinCardData) {
-		mCheckInDateTextView.setText(itinCardData.getFormattedCheckInDate());
-		mCheckOutDateTextView.setText(itinCardData.getFormattedCheckOutDate());
-		mGuestsTextView.setText(itinCardData.getFormattedGuests());
-
-		if (itinCardData.getPropertyLocation() != null) {
-			mStaticMapImageView.setCenterPoint(itinCardData.getPropertyLocation());
-			mStaticMapImageView.setPoiPoint(itinCardData.getPropertyLocation());
-		}
-
-		mAddressTextView.setText(itinCardData.getAddressString());
-		mRoomTypeTextView.setText(itinCardData.getRoomDescription());
-
-		mPhoneNumberTextView.setText(itinCardData.getRelevantPhone());
-		mPhoneNumberTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SocialUtils.call(getContext(), itinCardData.getRelevantPhone());
-			}
-		});
-
-		mDetailsTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
-			}
-		});
 	}
 }
