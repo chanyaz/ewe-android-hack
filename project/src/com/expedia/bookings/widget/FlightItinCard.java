@@ -38,6 +38,8 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.utils.CalendarAPIUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.GoogleMap;
 import com.mobiata.android.Log;
@@ -254,14 +256,16 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				Flight segment = leg.getSegment(j);
 				boolean isFirstSegment = (j == 0);
 				boolean isLastSegment = (j == leg.getSegmentCount() - 1);
-				
-				Log.d("Segment #" + j + " out of " + leg.getSegmentCount() + " isFirst:" + isFirstSegment + " isLast:" + isLastSegment);
+
+				Log.d("Segment #" + j + " out of " + leg.getSegmentCount() + " isFirst:" + isFirstSegment + " isLast:"
+						+ isLastSegment);
 
 				if (isFirstSegment) {
 					flightLegContainer
 							.addView(getWayPointView(segment.mOrigin, null, WaypointType.DEPARTURE, inflater));
 					flightLegContainer.addView(getDividerView());
-				}else{
+				}
+				else {
 					flightLegContainer.addView(getWayPointView(prevSegment.mDestination, segment.mOrigin,
 							WaypointType.LAYOVER, inflater));
 					flightLegContainer.addView(getDividerView());
@@ -352,27 +356,37 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	@SuppressLint("DefaultLocale")
 	@Override
 	protected SummaryButton getSummaryRightButton(final ItinCardDataFlight itinCardData) {
-		return new SummaryButton(R.drawable.ic_add_event, getResources().getString(R.string.add_event).toUpperCase(),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						//TODO: Investigate compatibility... works on my 2.2 and 4.2 devices with default android cal
-						Resources res = getResources();
-						Calendar startCal = itinCardData.getStartDate().getCalendar();
-						Calendar endCal = itinCardData.getEndDate().getCalendar();
-						Intent intent = new Intent(Intent.ACTION_EDIT);
-						intent.setType("vnd.android.cursor.item/event");
-						intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
-						intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
-						intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
-						intent.putExtra(
-								Events.TITLE,
-								res.getString(R.string.flight_to_TEMPLATE, itinCardData.getFlightLeg()
-										.getLastWaypoint()
-										.getAirport().mCity));
-						getContext().startActivity(intent);
-					}
-				});
+		if (!CalendarAPIUtils.deviceSupportsCalendarAPI(getContext())) {
+			return null;
+		}
+		else {
+			return new SummaryButton(R.drawable.ic_add_event, getResources().getString(R.string.add_event)
+					.toUpperCase(),
+					new OnClickListener() {
+						@SuppressLint("NewApi")
+						@Override
+						public void onClick(View v) {
+							Resources res = getResources();
+							Calendar startCal = itinCardData.getStartDate().getCalendar();
+							Calendar endCal = itinCardData.getEndDate().getCalendar();
+							Waypoint origin = itinCardData.getFlightLeg().getFirstWaypoint();
+							Waypoint destination = itinCardData.getFlightLeg().getLastWaypoint();
+							Intent intent = new Intent(Intent.ACTION_INSERT);
+							intent.setData(Events.CONTENT_URI);
+							intent.putExtra(
+									Events.TITLE,
+									res.getString(R.string.flight_to_TEMPLATE,
+											StrUtils.getWaypointCityOrCode(destination)));
+							intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
+							intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
+							intent.putExtra(Events.EVENT_LOCATION,
+									res.getString(R.string.calendar_flight_location_TEMPLATE,
+											origin.getAirport().mName,
+											StrUtils.getWaypointCityOrCode(origin)));
+							getContext().startActivity(intent);
+						}
+					});
+		}
 	}
 
 	@Override

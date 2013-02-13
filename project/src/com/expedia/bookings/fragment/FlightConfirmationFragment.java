@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,10 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
@@ -54,11 +50,11 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.CalendarAPIUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
@@ -172,7 +168,7 @@ public class FlightConfirmationFragment extends Fragment {
 			}
 		});
 
-		if (supportsCalendar()) {
+		if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity())) {
 			Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -548,35 +544,6 @@ public class FlightConfirmationFragment extends Fragment {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Add to Calendar
-
-	private boolean supportsCalendar() {
-		Uri data = null;
-		try {
-			Class<?> clz = Class.forName("android.provider.CalendarContract");
-			for (Class<?> c : clz.getDeclaredClasses()) {
-				if (c.getName().equals("android.provider.CalendarContract$Events")) {
-					Field f = c.getField("CONTENT_URI");
-					data = (Uri) f.get(null);
-				}
-			}
-		}
-		catch (Exception e) {
-			Log.d("Reflection error trying to look for calendar support", e);
-		}
-		finally {
-			if (data == null) {
-				Log.d("Device does not support calendaring.");
-				return false;
-			}
-		}
-
-		Intent dummy = new Intent(Intent.ACTION_INSERT);
-		dummy.setData(data);
-
-		PackageManager packageManager = getActivity().getPackageManager();
-		List<ResolveInfo> list = packageManager.queryIntentActivities(dummy, PackageManager.MATCH_DEFAULT_ONLY);
-		return list.size() > 0;
-	}
 
 	private void addToCalendar() {
 		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
