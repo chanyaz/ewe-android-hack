@@ -25,6 +25,6 @@
 [submodule "project/assets/FlightStatsDb"]
 	path = project/assets/FlightStatsDb
 	url = git@team.mobiata.com:Android/FlightStatsDb.git
-[submodule "lib/GooglePlayServices"]
-	path = lib/GooglePlayServices
+[submodule "lib/google-play-services"]
+	path = lib/google-play-services
 	url = git@team.mobiata.com:Android/google-play-services
