@@ -5,7 +5,7 @@
 
     <style name="TextView.Itin" />
 
-    <style name="TextView.Itin.SectionHeader.NoMargin">
+    <style name="TextView.Itin.SectionHeader">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">32dp</item>
@@ -21,7 +21,7 @@
         <item name="textStyle">medium</item>
     </style>
 
-    <style name="TextView.Itin.SectionHeader" parent="TextView.Itin.SectionHeader.NoMargin">
+    <style name="TextView.Itin.SectionHeader.Padded">
         <item name="android:layout_margin">8dp</item>
     </style>
 

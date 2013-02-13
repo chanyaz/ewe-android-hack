@@ -153,6 +153,9 @@
     <string name="car_type_two_wheel_vehicle">Two Wheel Vehicle</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+    <!-- Action Buttons -->
+    <string name="itin_action_redeem">Redeem</string>
+    <string name="itin_action_support">Support</string>
     
     <!-- Flights -->
     <!-- Label for flight search part of app -->

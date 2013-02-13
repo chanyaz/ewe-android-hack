@@ -85,7 +85,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/confirmation_code_label"
-        style="@style/TextView.Itin.SectionHeader"
+        style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/confirmation_code_label" />
@@ -103,7 +103,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/passengers_label"
-        style="@style/TextView.Itin.SectionHeader"
+        style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/passengers_label" />
@@ -121,7 +121,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/booking_info_label"
-        style="@style/TextView.Itin.SectionHeader"
+        style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/booking_info" />
@@ -144,7 +144,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/insurance_label"
-        style="@style/TextView.Itin.SectionHeader"
+        style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/insurance" />

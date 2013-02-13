@@ -140,10 +140,20 @@ public class ItinCardDataCar extends ItinCardData {
 		return pickup ? mCar.getPickupLocation() : mCar.getDropoffLocation();
 	}
 
-	public Intent getRelevantDirectionsIntent() {
-		final Location location = getRelevantLocation();
-		final Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + location.getStreetAddressString());
+	public Intent getPikcupDirectionsIntent() {
+		return createDirectionsIntent(getPickUpLocation());
+	}
 
+	public Intent getDropOffDirectionsIntent() {
+		return createDirectionsIntent(getDropOffLocation());
+	}
+
+	public Intent getRelevantDirectionsIntent() {
+		return createDirectionsIntent(getRelevantLocation());
+	}
+
+	private Intent createDirectionsIntent(Location location) {
+		final Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + location.toFormattedString());
 		final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		intent.setComponent(new ComponentName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity"));
 

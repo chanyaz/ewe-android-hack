@@ -1,5 +1,9 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,9 +15,10 @@ public class Activity implements JSONable {
 	private String mId;
 
 	private Money mPrice;
-
 	private String mTitle;
 	private String mDetailsUrl;
+	private Integer mGuestsCount;
+	private List<Traveler> mTravlers;
 
 	public String getId() {
 		return mId;
@@ -47,6 +52,46 @@ public class Activity implements JSONable {
 		mDetailsUrl = detailsUrl;
 	}
 
+	public int getGuestCount() {
+		return mGuestsCount;
+	}
+
+	public void setGuestCount(Integer guestCount) {
+		mGuestsCount = guestCount;
+	}
+
+	public Traveler getTraveler(int index) {
+		if (mTravlers != null) {
+			return mTravlers.get(index);
+		}
+
+		return null;
+	}
+
+	public List<Traveler> getTravlers() {
+		return mTravlers;
+	}
+
+	public void addTravler(Traveler traveler) {
+		if (mTravlers == null) {
+			mTravlers = new ArrayList<Traveler>();
+		}
+
+		mTravlers.add(traveler);
+	}
+
+	public void addTravlers(Collection<? extends Traveler> travelers) {
+		if (mTravlers == null) {
+			mTravlers = new ArrayList<Traveler>();
+		}
+
+		mTravlers.addAll(travelers);
+	}
+
+	public void setTravlers(Collection<? extends Traveler> travelers) {
+		mTravlers = new ArrayList<Traveler>(travelers);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -57,7 +102,6 @@ public class Activity implements JSONable {
 			obj.putOpt("id", mId);
 			JSONUtils.putJSONable(obj, "price", mPrice);
 			obj.putOpt("title", mTitle);
-			obj.putOpt("detailsUrl", mDetailsUrl);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -70,7 +114,6 @@ public class Activity implements JSONable {
 		mId = obj.optString("id", null);
 		mPrice = JSONUtils.getJSONable(obj, "price", Money.class);
 		mTitle = obj.optString("title", mTitle);
-		mDetailsUrl = obj.optString("detailsUrl", null);
 		return true;
 	}
 }

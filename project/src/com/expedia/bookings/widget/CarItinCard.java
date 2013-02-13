@@ -93,10 +93,10 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		}
 
 		pickUpEventSummaryView.bind(itinCardData.getPickUpDate().getCalendar().getTime(),
-				itinCardData.getPickUpLocation());
+				itinCardData.getPickUpLocation(), true);
 
 		dropOffEventSummaryView.bind(itinCardData.getDropOffDate().getCalendar().getTime(),
-				itinCardData.getDropOffLocation());
+				itinCardData.getDropOffLocation(), true);
 
 		vendorPhoneTextView.setText(itinCardData.getRelevantVendorPhone());
 		vendorPhoneTextView.setOnClickListener(new OnClickListener() {

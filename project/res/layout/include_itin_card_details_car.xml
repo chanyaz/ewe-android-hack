@@ -97,7 +97,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- HOTEL MAP -->
+    <!-- MAP -->
 
     <com.expedia.bookings.widget.MapImageView
         android:id="@+id/mini_map"
@@ -110,7 +110,7 @@
     <!-- PICK UP -->
 
     <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader"
+        style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="PICK UP" />
@@ -126,7 +126,7 @@
     <!-- DROP OFF -->
 
     <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader"
+        style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DROP OFF" />
@@ -142,7 +142,7 @@
     <!-- PHONE -->
 
     <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader.NoMargin"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -163,7 +163,7 @@
     <!-- BOOKING INFO -->
 
     <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader.NoMargin"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
