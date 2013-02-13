@@ -23,6 +23,7 @@
     <dimen name="itin_list_card_top_image_offset">16dp</dimen>
     <dimen name="itin_card_bg_image_height">160dp</dimen>
     <dimen name="itin_action_button_height">48dp</dimen>
+    <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
 
     <!-- Flight search -->
     <dimen name="airport_row_height">56dp</dimen>

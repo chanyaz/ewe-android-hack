@@ -56,9 +56,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private ItinCardDataFlight mData;
-	private TripFlight mTripFlight;
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -87,17 +84,14 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	@Override
 	public void bind(ItinCardData itinCardData) {
-		mData = (ItinCardDataFlight) itinCardData;
-		mTripFlight = (TripFlight) mData.getTripComponent();
-
 		super.bind(itinCardData);
 	}
 
 	@Override
 	protected String getHeaderImageUrl(ItinCardDataFlight itinCardData) {
 		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
-		if (tripFlight != null && mData != null && tripFlight.getLegDestinationImageUrl(mData.getLegNumber()) != null) {
-			return tripFlight.getLegDestinationImageUrl(mData.getLegNumber());
+		if (tripFlight != null && itinCardData != null && tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber()) != null) {
+			return tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber());
 		}
 		else {
 			return "";
@@ -106,8 +100,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	@Override
 	protected String getHeaderText(ItinCardDataFlight itinCardData) {
-		if (mData != null) {
-			return mData.getFlightLeg().getLastWaypoint().getAirport().mCity;
+		if (itinCardData != null) {
+			return itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
 		}
 
 		return "Flight Card";
@@ -124,14 +118,28 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardDataFlight itinCardData) {
 		View view = inflater.inflate(R.layout.include_itin_card_details_flight, container, false);
 
-		if (mTripFlight != null && mTripFlight.getFlightTrip() != null && mTripFlight.getFlightTrip().getLegCount() > 0) {
+		ItinCardDataFlight data = (ItinCardDataFlight) itinCardData;
+		TripFlight tripFlight = (TripFlight) data.getTripComponent();
+		
+		if (tripFlight != null && tripFlight.getFlightTrip() != null && tripFlight.getFlightTrip().getLegCount() > 0) {
 			Resources res = getResources();
-			FlightLeg leg = mData.getFlightLeg();
+			FlightLeg leg = data.getFlightLeg();
 
 			TextView confirmationCodeLabel = Ui.findView(view, R.id.confirmation_code_label);
 			TextView passengersLabel = Ui.findView(view, R.id.passengers_label);
 			TextView bookingInfoLabel = Ui.findView(view, R.id.booking_info_label);
 			TextView insuranceLabel = Ui.findView(view, R.id.insurance_label);
+
+			TextView departureTimeTv = Ui.findView(view, R.id.departure_time);
+			TextView departureTimeTzTv = Ui.findView(view, R.id.departure_time_tz);
+			TextView arrivalTimeTv = Ui.findView(view, R.id.arrival_time);
+			TextView arrivalTimeTzTv = Ui.findView(view, R.id.arrival_time_tz);
+			TextView passengerNameListTv = Ui.findView(view, R.id.passenger_name_list);
+			TextView confirmationCodeListTv = Ui.findView(view, R.id.confirmation_code);
+
+			View bookingInfoView = Ui.findView(view, R.id.booking_info);
+			ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
+			ViewGroup flightLegContainer = Ui.findView(view, R.id.flight_leg_container);
 
 			ViewUtils.setAllCaps(confirmationCodeLabel);
 			ViewUtils.setAllCaps(passengersLabel);
@@ -149,14 +157,14 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			String arrivalTz = res.getString(R.string.arrive_tz_TEMPLATE,
 					arrivalTimeCal.getTimeZone().getDisplayName(false, TimeZone.SHORT));
 
-			Ui.setText(view, R.id.departure_time, departureTime);
-			Ui.setText(view, R.id.departure_time_tz, departureTz);
-			Ui.setText(view, R.id.arrival_time, arrivalTime);
-			Ui.setText(view, R.id.arrival_time_tz, arrivalTz);
+			departureTimeTv.setText(departureTime);
+			departureTimeTzTv.setText(departureTz);
+			arrivalTimeTv.setText(arrivalTime);
+			arrivalTimeTzTv.setText(arrivalTz);
 
 			//Traveler names
 			StringBuilder travelerSb = new StringBuilder();
-			for (Traveler trav : mTripFlight.getTravelers()) {
+			for (Traveler trav : tripFlight.getTravelers()) {
 				travelerSb.append(",");
 				travelerSb.append(" ");
 				if (!TextUtils.isEmpty(trav.getFirstName())) {
@@ -172,13 +180,12 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				}
 			}
 			String travString = travelerSb.toString().replaceFirst(",", "").trim();
-			Ui.setText(view, R.id.passenger_name_list, travString);
+			passengerNameListTv.setText(travString);
 
 			//Booking info (View receipt and polocies)
-			View bookingInfo = Ui.findView(view, R.id.booking_info);
-			final String infoUrl = mTripFlight.getParentTrip().getDetailsUrl();
+			final String infoUrl = tripFlight.getParentTrip().getDetailsUrl();
 			if (!TextUtils.isEmpty(infoUrl)) {
-				bookingInfo.setOnClickListener(new OnClickListener() {
+				bookingInfoView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
 						Intent bookingInfoIntent = WebViewActivity.getIntent(getContext(), infoUrl,
@@ -189,49 +196,48 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			}
 
 			//Confirmation code
-			if (mTripFlight.getConfirmations() != null && mTripFlight.getConfirmations().size() > 0
-					&& !TextUtils.isEmpty(mTripFlight.getConfirmations().get(0).getConfirmationCode())) {
+			if (tripFlight.getConfirmations() != null && tripFlight.getConfirmations().size() > 0
+					&& !TextUtils.isEmpty(tripFlight.getConfirmations().get(0).getConfirmationCode())) {
 				//TODO: Confirmation codes come in an array, I think there should only ever be one, but in the event of more than one, we should do something...
-				Ui.setText(view, R.id.confirmation_code, mTripFlight.getConfirmations().get(0).getConfirmationCode());
+				confirmationCodeListTv.setText(tripFlight.getConfirmations().get(0).getConfirmationCode());
 			}
 			else {
-				Ui.setText(view, R.id.confirmation_code, R.string.missing_booking_code);
+				confirmationCodeListTv.setText(R.string.missing_booking_code);
 			}
 
+			//TODO: Insurance can be on any card type, this needs to move up to ItinCard
 			//Insurance
-			boolean hasInsurance = (this.mTripFlight.getParentTrip().getTripInsurance() != null && this.mTripFlight
+			boolean hasInsurance = (tripFlight.getParentTrip().getTripInsurance() != null && tripFlight
 					.getParentTrip().getTripInsurance().size() > 0);
 			int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
-			View insuranceContainer = Ui.findView(view, R.id.insurance_container);
 			insuranceLabel.setVisibility(insuranceVisibility);
 			insuranceContainer.setVisibility(insuranceVisibility);
 			if (hasInsurance) {
-				Insurance insurance = null;
-				for (int i = 0; i < this.mTripFlight.getParentTrip().getTripInsurance().size(); i++) {
-					if (mTripFlight.getParentTrip().getTripInsurance().get(i).getLineOfBusiness()
+				insuranceContainer.removeAllViews();
+				for (int i = 0; i < tripFlight.getParentTrip().getTripInsurance().size(); i++) {
+					if (tripFlight.getParentTrip().getTripInsurance().get(i).getLineOfBusiness()
 							.equals(InsuranceLineOfBusiness.AIR)) {
-						insurance = mTripFlight.getParentTrip().getTripInsurance().get(i);
+						View insuranceRow = inflater.inflate(R.layout.snippet_itin_insurance_row, insuranceContainer);
+
+						final Insurance insurance = tripFlight.getParentTrip().getTripInsurance().get(i);
+						TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
+						insuranceName.setText(insurance.getPolicyName());
+
+						View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
+						insuranceLinkView.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View arg0) {
+								Intent insuranceIntent = WebViewActivity.getIntent(getContext(),
+										insurance.getTermsUrl(), R.style.FlightTheme, R.string.insurance, true);
+								getContext().startActivity(insuranceIntent);
+							}
+						});
 					}
 				}
-				if (insurance != null) {
-					TextView insuranceName = Ui.findView(view, R.id.insurance_name);
-					insuranceName.setText(insurance.getPolicyName());
-					final Insurance finalInsurance = insurance;
 
-					View insuranceLinkView = Ui.findView(view, R.id.insurance_button);
-					insuranceLinkView.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View arg0) {
-							Intent insuranceIntent = WebViewActivity.getIntent(getContext(),
-									finalInsurance.getTermsUrl(), R.style.FlightTheme, R.string.insurance, true);
-							getContext().startActivity(insuranceIntent);
-						}
-					});
-				}
 			}
 
 			//Add the flight stuff
-			ViewGroup flightLegContainer = Ui.findView(view, R.id.flight_leg_container);
 			for (int j = 0; j < leg.getSegmentCount(); j++) {
 				Flight segment = leg.getSegment(j);
 
@@ -255,7 +261,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				}
 
 			}
-
 		}
 
 		return view;
@@ -264,7 +269,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	@Override
 	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataFlight itinCardData) {
 
-		if (mData == null || mData.getStartDate() == null || mData.getEndDate() == null) {
+		if (itinCardData == null || itinCardData.getStartDate() == null || itinCardData.getEndDate() == null) {
 			//Bad data (we don't show any summary view in this case)
 			return null;
 		}
@@ -273,25 +278,25 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		Resources res = getResources();
 		Calendar now = Calendar.getInstance();
 
-		if (mData.getStartDate().getCalendar().before(now) && mData.getEndDate().getCalendar().before(now)) {
+		if (itinCardData.getStartDate().getCalendar().before(now) && itinCardData.getEndDate().getCalendar().before(now)) {
 			//flight complete
-			String dateStr = DateUtils.formatDateTime(getContext(), mData.getEndDate().getCalendar().getTimeInMillis(),
+			String dateStr = DateUtils.formatDateTime(getContext(), itinCardData.getEndDate().getCalendar().getTimeInMillis(),
 					DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
 			view.setText(res.getString(R.string.flight_landed_on_TEMPLATE, dateStr));
 		}
-		else if (mData.getStartDate().getCalendar().before(now) && mData.getEndDate().getCalendar().after(now)) {
+		else if (itinCardData.getStartDate().getCalendar().before(now) && itinCardData.getEndDate().getCalendar().after(now)) {
 			//flight in progress
 			view.setText(res.getString(R.string.flight_in_progress));
 		}
-		else if (mData.getStartDate().getCalendar().getTimeInMillis() - now.getTimeInMillis() > DateUtils.DAY_IN_MILLIS) {
+		else if (itinCardData.getStartDate().getCalendar().getTimeInMillis() - now.getTimeInMillis() > DateUtils.DAY_IN_MILLIS) {
 			//More than 24 hours away
-			String dateStr = DateUtils.formatDateTime(getContext(), mData.getStartDate().getCalendar()
+			String dateStr = DateUtils.formatDateTime(getContext(), itinCardData.getStartDate().getCalendar()
 					.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
 			view.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
 		}
 		else {
 			//Less than 24 hours in the future...
-			long duration = mData.getStartDate().getCalendar().getTimeInMillis() - now.getTimeInMillis();
+			long duration = itinCardData.getStartDate().getCalendar().getTimeInMillis() - now.getTimeInMillis();
 			int minutes = (int) ((int) (duration % DateUtils.HOUR_IN_MILLIS) / (DateUtils.MINUTE_IN_MILLIS));
 			int hours = (int) Math.floor(duration / DateUtils.HOUR_IN_MILLIS);
 
@@ -304,13 +309,13 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	@SuppressLint("DefaultLocale")
 	@Override
-	protected SummaryButton getSummaryLeftButton(ItinCardDataFlight itinCardData) {
+	protected SummaryButton getSummaryLeftButton(final ItinCardDataFlight itinCardData) {
 		return new SummaryButton(R.drawable.ic_direction, getResources().getString(R.string.directions).toUpperCase(),
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						//TODO: Investigate compatibility
-						Airport airport = mData.getFlightLeg().getFirstWaypoint().getAirport();
+						Airport airport = itinCardData.getFlightLeg().getFirstWaypoint().getAirport();
 						String format = "geo:0,0?q=%f,%f (%s)";
 						String uriStr = String.format(format, airport.getLatitude(), airport.getLongitude(),
 								airport.mName);
@@ -327,15 +332,15 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	@SuppressLint("DefaultLocale")
 	@Override
-	protected SummaryButton getSummaryRightButton(ItinCardDataFlight itinCardData) {
+	protected SummaryButton getSummaryRightButton(final ItinCardDataFlight itinCardData) {
 		return new SummaryButton(R.drawable.ic_add_event, getResources().getString(R.string.add_event).toUpperCase(),
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						//TODO: Investigate compatibility... works on my 2.2 and 4.2 devices with default android cal
 						Resources res = getResources();
-						Calendar startCal = mData.getStartDate().getCalendar();
-						Calendar endCal = mData.getEndDate().getCalendar();
+						Calendar startCal = itinCardData.getStartDate().getCalendar();
+						Calendar endCal = itinCardData.getEndDate().getCalendar();
 						Intent intent = new Intent(Intent.ACTION_EDIT);
 						intent.setType("vnd.android.cursor.item/event");
 						intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
@@ -343,7 +348,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 						intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
 						intent.putExtra(
 								Events.TITLE,
-								res.getString(R.string.flight_to_TEMPLATE, mData.getFlightLeg().getLastWaypoint()
+								res.getString(R.string.flight_to_TEMPLATE, itinCardData.getFlightLeg().getLastWaypoint()
 										.getAirport().mCity));
 						getContext().startActivity(intent);
 					}
@@ -359,7 +364,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void attachFlightMap() {
-		if (getContext() instanceof SherlockFragmentActivity) {
+		final ItinCardDataFlight cardData = getItinCardData();
+		if (cardData != null && getContext() instanceof SherlockFragmentActivity) {
 			FragmentManager fragManager = ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
 
 			setHardwareAccelerationEnabled(false);
@@ -383,8 +389,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 								R.drawable.map_pin_normal, R.drawable.map_pin_normal, R.drawable.map_pin_sale);
 
 						MapCameraManager mapCameraManager = new MapCameraManager(map);
-						flightMarkerManager.setFlights(mData.getFlightLeg().getSegments());
-						mapCameraManager.showFlight(mData.getFlightLeg().getSegment(0), FlightItinCard.this.getWidth(),
+						flightMarkerManager.setFlights(cardData.getFlightLeg().getSegments());
+						mapCameraManager.showFlight(cardData.getFlightLeg().getSegment(0), FlightItinCard.this.getWidth(),
 								getResources()
 										.getDimensionPixelSize(R.dimen.itin_map_total_size), 40);
 
@@ -493,14 +499,14 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	private View getDividerView() {
-		//TODO: WHY U NO USE DIMENS!?!?!
 		View v = new View(this.getContext());
 		v.setBackgroundColor(getResources().getColor(R.color.itin_divider_color));
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 1);
-		lp.leftMargin = 10;
-		lp.rightMargin = 10;
-		lp.topMargin = 10;
-		lp.bottomMargin = 10;
+		int padding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
+		lp.leftMargin = padding;
+		lp.rightMargin = padding;
+		lp.topMargin = padding;
+		lp.bottomMargin = padding;
 		v.setLayoutParams(lp);
 		return v;
 	}
