@@ -18,7 +18,7 @@ public class Activity implements JSONable {
 	private String mTitle;
 	private String mDetailsUrl;
 	private Integer mGuestsCount;
-	private List<Traveler> mTravlers;
+	private List<Traveler> mTravelers;
 
 	public String getId() {
 		return mId;
@@ -61,35 +61,35 @@ public class Activity implements JSONable {
 	}
 
 	public Traveler getTraveler(int index) {
-		if (mTravlers != null) {
-			return mTravlers.get(index);
+		if (mTravelers != null) {
+			return mTravelers.get(index);
 		}
 
 		return null;
 	}
 
-	public List<Traveler> getTravlers() {
-		return mTravlers;
+	public List<Traveler> getTravelers() {
+		return mTravelers;
 	}
 
-	public void addTravler(Traveler traveler) {
-		if (mTravlers == null) {
-			mTravlers = new ArrayList<Traveler>();
+	public void addTraveler(Traveler traveler) {
+		if (mTravelers == null) {
+			mTravelers = new ArrayList<Traveler>();
 		}
 
-		mTravlers.add(traveler);
+		mTravelers.add(traveler);
 	}
 
-	public void addTravlers(Collection<? extends Traveler> travelers) {
-		if (mTravlers == null) {
-			mTravlers = new ArrayList<Traveler>();
+	public void addTravelers(Collection<? extends Traveler> travelers) {
+		if (mTravelers == null) {
+			mTravelers = new ArrayList<Traveler>();
 		}
 
-		mTravlers.addAll(travelers);
+		mTravelers.addAll(travelers);
 	}
 
-	public void setTravlers(Collection<? extends Traveler> travelers) {
-		mTravlers = new ArrayList<Traveler>(travelers);
+	public void setTravelers(Collection<? extends Traveler> travelers) {
+		mTravelers = new ArrayList<Traveler>(travelers);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

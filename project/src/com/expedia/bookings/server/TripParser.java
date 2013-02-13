@@ -279,30 +279,7 @@ public class TripParser {
 		// Parse passengers
 		JSONArray passengersArr = obj.optJSONArray("passengers");
 		for (int a = 0; a < passengersArr.length(); a++) {
-			JSONObject passengerJson = passengersArr.optJSONObject(a);
-
-			Traveler traveler = new Traveler();
-			traveler.setFirstName(passengerJson.optString("firstName"));
-			traveler.setMiddleName(passengerJson.optString("middleName"));
-			traveler.setLastName(passengerJson.optString("lastName"));
-
-			String gender = passengerJson.optString("gender");
-			if ("Male".equals(gender)) {
-				traveler.setGender(Gender.MALE);
-			}
-			else if ("Female".equals(gender)) {
-				traveler.setGender(Gender.FEMALE);
-			}
-
-			// For now, just parse the first phone number
-			JSONArray phoneNumbersArr = passengerJson.optJSONArray("phoneNumbers");
-			if (phoneNumbersArr != null && phoneNumbersArr.length() > 0) {
-				JSONObject firstPhoneJson = phoneNumbersArr.optJSONObject(0);
-				traveler.setPhoneCountryCode(firstPhoneJson.optString("countryCode"));
-				traveler.setPhoneNumber(firstPhoneJson.optString("phone"));
-			}
-
-			flight.addTraveler(traveler);
+			flight.addTraveler(parseTraveler(passengersArr.optJSONObject(a)));
 		}
 
 		// Parse the legs
@@ -316,7 +293,7 @@ public class TripParser {
 				JSONObject segmentJson = segmentsArr.optJSONObject(b);
 
 				Flight segment = new Flight();
-				
+
 				//required for flight map
 				segment.mStatusCode = Flight.STATUS_UNKNOWN;
 
@@ -411,6 +388,12 @@ public class TripParser {
 			activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),
 					priceJson.optString("currency", null)));
 
+			// Parse travelers
+			JSONArray travelersArr = obj.optJSONArray("travelers");
+			for (int i = 0; i < travelersArr.length(); i++) {
+				activity.addTraveler(parseTraveler(travelersArr.optJSONObject(i)));
+			}
+
 			tripActivity.setActivity(activity);
 		}
 
@@ -427,6 +410,33 @@ public class TripParser {
 		}
 
 		return retVal;
+	}
+
+	private Traveler parseTraveler(JSONObject obj) {
+		Traveler traveler = new Traveler();
+		traveler.setFirstName(obj.optString("firstName"));
+		traveler.setMiddleName(obj.optString("middleName"));
+		traveler.setLastName(obj.optString("lastName"));
+
+		String gender = obj.optString("gender");
+		if ("Male".equals(gender)) {
+			traveler.setGender(Gender.MALE);
+		}
+		else if ("Female".equals(gender)) {
+			traveler.setGender(Gender.FEMALE);
+		}
+
+		// For now, just parse the first phone number
+		JSONArray phoneNumbersArr = obj.optJSONArray("phoneNumbers");
+		if (phoneNumbersArr != null && phoneNumbersArr.length() > 0) {
+			JSONObject firstPhoneJson = phoneNumbersArr.optJSONObject(0);
+			traveler.setPhoneCountryCode(firstPhoneJson.optString("countryCode"));
+			traveler.setPhoneNumber(firstPhoneJson.optString("phone"));
+		}
+
+		traveler.setIsRedeemer(obj.optBoolean("isRedeemer"));
+
+		return traveler;
 	}
 
 	private void parseTripCommon(JSONObject obj, TripComponent component) {

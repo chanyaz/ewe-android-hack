@@ -43,6 +43,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private SeatPreference mSeatPreference = SeatPreference.WINDOW;
 	private AssistanceType mAssistance = AssistanceType.NONE;
 
+	// Activities
+	private boolean mIsRedeemer;
+
 	// Utility - not actually coming from the Expedia
 	private boolean mSaveTravelerToExpediaAccount = false;
 
@@ -274,6 +277,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mSaveTravelerToExpediaAccount;
 	}
 
+	public boolean getIsRedeemer() {
+		return mIsRedeemer;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Setters
 
@@ -367,6 +374,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setSaveTravelerToExpediaAccount(boolean save) {
 		mSaveTravelerToExpediaAccount = save;
+	}
+
+	public void setIsRedeemer(boolean isRedeemer) {
+		mIsRedeemer = isRedeemer;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -497,12 +508,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return NOT_EQUAL;
 		}
 
-		if (this.getFirstName() != null && this.getLastName() != null
-				&& another.getFirstName() != null && another.getLastName() != null) {
-			if (this.getFirstName().trim()
-					.compareToIgnoreCase(another.getFirstName().trim()) == 0
-					&& this.getLastName().trim()
-							.compareToIgnoreCase(another.getLastName().trim()) == 0) {
+		if (this.getFirstName() != null && this.getLastName() != null && another.getFirstName() != null
+				&& another.getLastName() != null) {
+			if (this.getFirstName().trim().compareToIgnoreCase(another.getFirstName().trim()) == 0
+					&& this.getLastName().trim().compareToIgnoreCase(another.getLastName().trim()) == 0) {
 				return EQUAL;
 			}
 			else {
