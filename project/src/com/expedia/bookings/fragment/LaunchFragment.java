@@ -655,6 +655,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				return;
 			}
 
+			cleanUp();
+
 			Object item = mHotelAdapter.getItem(position);
 			if (item == null) {
 				return;
@@ -709,8 +711,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
 				mContext.startActivity(intent);
 			}
-
-			cleanUp();
 		}
 	};
 
@@ -720,6 +720,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			if (mLaunchingActivity) {
 				return;
 			}
+
+			cleanUp();
 
 			mLaunchingActivity = true;
 
@@ -750,8 +752,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				intent.putExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, true);
 				mContext.startActivity(intent);
 			}
-
-			cleanUp();
 		}
 	};
 
