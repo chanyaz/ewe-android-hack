@@ -30,6 +30,18 @@ public class CruiseItinCard extends ItinCard {
 	}
 
 	@Override
+	protected String getShareSubject(ItinCardData itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getShareText(ItinCardData itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	protected String getHeaderImageUrl(ItinCardData itinCardData) {
 		return null;
 	}
@@ -62,9 +74,5 @@ public class CruiseItinCard extends ItinCard {
 	@Override
 	protected SummaryButton getSummaryRightButton(ItinCardData itinCardData) {
 		return null;
-	}
-
-	@Override
-	protected void onShareButtonClick(ItinCardData itinCardData) {
 	}
 }

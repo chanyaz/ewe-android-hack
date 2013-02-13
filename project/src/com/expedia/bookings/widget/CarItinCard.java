@@ -43,6 +43,18 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	}
 
 	@Override
+	protected String getShareSubject(ItinCardDataCar itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getShareText(ItinCardDataCar itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	protected String getHeaderImageUrl(ItinCardDataCar itinCardData) {
 		return null;
 	}
@@ -137,9 +149,5 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 				SocialUtils.call(getContext(), itinCardData.getRelevantVendorPhone());
 			}
 		});
-	}
-
-	@Override
-	protected void onShareButtonClick(ItinCardDataCar itinCardData) {
 	}
 }

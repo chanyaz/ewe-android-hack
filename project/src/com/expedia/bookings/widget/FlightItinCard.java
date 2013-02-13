@@ -87,6 +87,18 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	@Override
+	protected String getShareSubject(ItinCardDataFlight itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getShareText(ItinCardDataFlight itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void bind(ItinCardData itinCardData) {
 		super.bind(itinCardData);
 	}
@@ -217,8 +229,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 			//TODO: Insurance can be on any card type, this needs to move up to ItinCard
 			//Insurance
-			boolean hasInsurance = (tripFlight.getParentTrip().getTripInsurance() != null && tripFlight
-					.getParentTrip().getTripInsurance().size() > 0);
+			boolean hasInsurance = (tripFlight.getParentTrip().getTripInsurance() != null && tripFlight.getParentTrip()
+					.getTripInsurance().size() > 0);
 			int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
 			insuranceLabel.setVisibility(insuranceVisibility);
 			insuranceContainer.setVisibility(insuranceVisibility);
@@ -296,8 +308,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				&& itinCardData.getEndDate().getCalendar().before(now)) {
 			//flight complete
 			String dateStr = DateUtils.formatDateTime(getContext(), itinCardData.getEndDate().getCalendar()
-					.getTimeInMillis(),
-					DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
+					.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
 			view.setText(res.getString(R.string.flight_landed_on_TEMPLATE, dateStr));
 		}
 		else if (itinCardData.getStartDate().getCalendar().before(now)
@@ -355,36 +366,27 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		}
 		else {
 			return new SummaryButton(R.drawable.ic_add_event, getResources().getString(R.string.add_event)
-					.toUpperCase(),
-					new OnClickListener() {
-						@SuppressLint("NewApi")
-						@Override
-						public void onClick(View v) {
-							Resources res = getResources();
-							Calendar startCal = itinCardData.getStartDate().getCalendar();
-							Calendar endCal = itinCardData.getEndDate().getCalendar();
-							Waypoint origin = itinCardData.getFlightLeg().getFirstWaypoint();
-							Waypoint destination = itinCardData.getFlightLeg().getLastWaypoint();
-							Intent intent = new Intent(Intent.ACTION_INSERT);
-							intent.setData(Events.CONTENT_URI);
-							intent.putExtra(
-									Events.TITLE,
-									res.getString(R.string.flight_to_TEMPLATE,
-											StrUtils.getWaypointCityOrCode(destination)));
-							intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
-							intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
-							intent.putExtra(Events.EVENT_LOCATION,
-									res.getString(R.string.calendar_flight_location_TEMPLATE,
-											origin.getAirport().mName,
-											StrUtils.getWaypointCityOrCode(origin)));
-							getContext().startActivity(intent);
-						}
-					});
+					.toUpperCase(), new OnClickListener() {
+				@SuppressLint("NewApi")
+				@Override
+				public void onClick(View v) {
+					Resources res = getResources();
+					Calendar startCal = itinCardData.getStartDate().getCalendar();
+					Calendar endCal = itinCardData.getEndDate().getCalendar();
+					Waypoint origin = itinCardData.getFlightLeg().getFirstWaypoint();
+					Waypoint destination = itinCardData.getFlightLeg().getLastWaypoint();
+					Intent intent = new Intent(Intent.ACTION_INSERT);
+					intent.setData(Events.CONTENT_URI);
+					intent.putExtra(Events.TITLE,
+							res.getString(R.string.flight_to_TEMPLATE, StrUtils.getWaypointCityOrCode(destination)));
+					intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
+					intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
+					intent.putExtra(Events.EVENT_LOCATION, res.getString(R.string.calendar_flight_location_TEMPLATE,
+							origin.getAirport().mName, StrUtils.getWaypointCityOrCode(origin)));
+					getContext().startActivity(intent);
+				}
+			});
 		}
-	}
-
-	@Override
-	protected void onShareButtonClick(ItinCardDataFlight itinCardData) {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -420,8 +422,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 						flightMarkerManager.setFlights(cardData.getFlightLeg().getSegments());
 						mapCameraManager.showFlight(cardData.getFlightLeg().getSegment(0),
 								FlightItinCard.this.getWidth(),
-								getResources()
-										.getDimensionPixelSize(R.dimen.itin_map_total_size), 40);
+								getResources().getDimensionPixelSize(R.dimen.itin_map_total_size), 40);
 
 					}
 					return view;

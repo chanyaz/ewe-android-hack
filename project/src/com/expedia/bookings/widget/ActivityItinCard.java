@@ -33,6 +33,18 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	}
 
 	@Override
+	protected String getShareSubject(ItinCardDataActivity itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getShareText(ItinCardDataActivity itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	protected String getHeaderImageUrl(ItinCardDataActivity itinCardData) {
 		return null;
 	}
@@ -95,9 +107,5 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 			public void onClick(View v) {
 			}
 		});
-	}
-
-	@Override
-	protected void onShareButtonClick(ItinCardDataActivity itinCardData) {
 	}
 }

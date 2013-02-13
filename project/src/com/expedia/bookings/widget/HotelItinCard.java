@@ -43,6 +43,18 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	}
 
 	@Override
+	protected String getShareSubject(ItinCardDataHotel itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getShareText(ItinCardDataHotel itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	protected String getHeaderImageUrl(ItinCardDataHotel itinCardData) {
 		return itinCardData.getHeaderImageUrl();
 	}
@@ -141,9 +153,5 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 				}
 			}
 		});
-	}
-
-	@Override
-	protected void onShareButtonClick(ItinCardDataHotel itinCardData) {
 	}
 }

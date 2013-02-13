@@ -20,6 +20,7 @@ import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
@@ -48,7 +49,9 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	// Title share button
 
-	protected abstract void onShareButtonClick(T itinCardData);
+	protected abstract String getShareSubject(T itinCardData);
+
+	protected abstract String getShareText(T itinCardData);
 
 	// Header image
 
@@ -208,7 +211,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mShareImageButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onShareButtonClick((T) itinCardData);
+				SocialUtils.share(getContext(), getShareSubject((T) itinCardData), getShareText((T) itinCardData));
 			}
 		});
 
