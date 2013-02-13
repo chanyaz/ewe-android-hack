@@ -10,6 +10,7 @@ import java.util.Queue;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -30,15 +32,15 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.SearchView.OnSuggestionListener;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
-import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
-import com.actionbarsherlock.widget.SearchView.OnSuggestionListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
@@ -98,6 +100,11 @@ import com.mobiata.android.util.NetUtils;
 
 // This is the TABLET search results activity
 
+// Target(HONEYCOMB) because the ABS SearchView is not ready for prime time
+// (as of 2013.02.13). The dropdown suggestion code is all TODOed in ABS:SearchView.java.
+// So for now, we'll use the Honeycomb SearchView in here.
+
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class SearchResultsFragmentActivity extends SherlockFragmentActivity implements LocationListener,
 		OnFilterChangedListener, SortDialogFragmentListener, CalendarDialogFragmentListener,
 		GeocodeDisambiguationDialogFragmentListener, GuestsDialogFragmentListener, HotelDetailsFragmentListener,
