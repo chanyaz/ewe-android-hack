@@ -342,6 +342,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				String val = SettingUtils.get(this,
 						getString(R.string.preference_flight_fake_price_change),
 						getString(R.string.preference_flight_fake_price_change_default));
+				currentOffer.getTotalFare().add(new BigDecimal(val));
 				newOffer.getTotalFare().add(new BigDecimal(val));
 			}
 
