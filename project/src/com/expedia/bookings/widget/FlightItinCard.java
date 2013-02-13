@@ -40,6 +40,7 @@ import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.GoogleMap;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
@@ -247,14 +248,22 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			}
 
 			//Add the flight stuff
+
+			Flight prevSegment = null;
 			for (int j = 0; j < leg.getSegmentCount(); j++) {
 				Flight segment = leg.getSegment(j);
-
 				boolean isFirstSegment = (j == 0);
 				boolean isLastSegment = (j == leg.getSegmentCount() - 1);
+				
+				Log.d("Segment #" + j + " out of " + leg.getSegmentCount() + " isFirst:" + isFirstSegment + " isLast:" + isLastSegment);
 
 				if (isFirstSegment) {
-					flightLegContainer.addView(getWayPointView(segment.mOrigin, WaypointType.DEPARTURE, inflater));
+					flightLegContainer
+							.addView(getWayPointView(segment.mOrigin, null, WaypointType.DEPARTURE, inflater));
+					flightLegContainer.addView(getDividerView());
+				}else{
+					flightLegContainer.addView(getWayPointView(prevSegment.mDestination, segment.mOrigin,
+							WaypointType.LAYOVER, inflater));
 					flightLegContainer.addView(getDividerView());
 				}
 
@@ -262,13 +271,11 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				flightLegContainer.addView(getDividerView());
 
 				if (isLastSegment) {
-					flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.ARRIVAL, inflater));
-				}
-				else {
-					flightLegContainer.addView(getWayPointView(segment.mDestination, WaypointType.LAYOVER, inflater));
-					flightLegContainer.addView(getDividerView());
+					flightLegContainer.addView(getWayPointView(segment.mDestination, null, WaypointType.ARRIVAL,
+							inflater));
 				}
 
+				prevSegment = segment;
 			}
 		}
 
@@ -451,8 +458,12 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		DEPARTURE, ARRIVAL, LAYOVER
 	}
 
-	private View getWayPointView(Waypoint waypoint, WaypointType type, LayoutInflater inflater) {
+	private View getWayPointView(Waypoint primaryWaypoint, Waypoint secondaryWaypoint, WaypointType type,
+			LayoutInflater inflater) {
 		View v = inflater.inflate(R.layout.snippet_itin_waypoint_row, null);
+		TextView firstRowText = Ui.findView(v, R.id.layover_terminal_gate_one);
+		TextView secondRowText = Ui.findView(v, R.id.layover_terminal_gate_two);
+
 		Resources res = getResources();
 
 		ImageView waypointTypeIcon = Ui.findView(v, R.id.waypoint_type_image);
@@ -462,43 +473,60 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			break;
 		case LAYOVER:
 			//TODO: We are waiting on the asset for layovers
-			waypointTypeIcon.setImageResource(R.drawable.ic_departure_details);
+			waypointTypeIcon.setImageResource(R.drawable.ic_layover_details);
 			break;
 		case ARRIVAL:
 			waypointTypeIcon.setImageResource(R.drawable.ic_arrival_details);
 			break;
 		}
 
-		String airportName = waypoint.getAirport().mName;
+		String airportName = primaryWaypoint.getAirport().mName;
 		Ui.setText(v, R.id.layover_airport_name, airportName);
 		if (type.equals(WaypointType.LAYOVER)) {
-			//TODO: Need to get a different set of gates, so we will need another waypoint object...
 
-			if (TextUtils.isEmpty(waypoint.getTerminal()) || TextUtils.isEmpty(waypoint.getGate())) {
-				Ui.setText(v, R.id.layover_terminal_gate_one, R.string.no_terminal_gate_information);
-				Ui.findView(v, R.id.layover_terminal_gate_two).setVisibility(View.GONE);
+			boolean validPrimaryWaypoint = primaryWaypoint != null && !TextUtils.isEmpty(primaryWaypoint.getTerminal())
+					&& !TextUtils.isEmpty(primaryWaypoint.getGate());
+			boolean validSecondaryWaypoint = secondaryWaypoint != null
+					&& !TextUtils.isEmpty(secondaryWaypoint.getTerminal())
+					&& !TextUtils.isEmpty(secondaryWaypoint.getGate());
+
+			if (!validPrimaryWaypoint && !validSecondaryWaypoint) {
+				firstRowText.setText(R.string.no_terminal_gate_information);
+				secondRowText.setVisibility(View.GONE);
 			}
 			else {
-				String arrivalGate = res.getString(R.string.arrival_terminal_TEMPLATE, waypoint.getTerminal(),
-						waypoint.getGate());
-				String departureGate = res.getString(R.string.arrival_terminal_TEMPLATE, waypoint.getTerminal(),
-						waypoint.getGate());
+				secondRowText.setVisibility(View.VISIBLE);
+				String arrivalGate;
+				String departureGate;
+				if (validPrimaryWaypoint) {
+					arrivalGate = res.getString(R.string.arrival_terminal_TEMPLATE, primaryWaypoint.getTerminal(),
+							primaryWaypoint.getGate());
+				}
+				else {
+					arrivalGate = res.getString(R.string.no_arrival_terminal_gate_information);
+				}
 
-				Ui.setText(v, R.id.layover_terminal_gate_one, arrivalGate);
-				Ui.setText(v, R.id.layover_terminal_gate_two, departureGate);
+				if (validSecondaryWaypoint) {
+					departureGate = res.getString(R.string.arrival_terminal_TEMPLATE, secondaryWaypoint.getTerminal(),
+							secondaryWaypoint.getGate());
+				}
+				else {
+					departureGate = res.getString(R.string.no_departure_terminal_gate_information);
+				}
+				firstRowText.setText(arrivalGate);
+				secondRowText.setText(departureGate);
 			}
-
 		}
 		else {
-			Ui.findView(v, R.id.layover_terminal_gate_two).setVisibility(View.GONE);
+			secondRowText.setVisibility(View.GONE);
 
-			if (TextUtils.isEmpty(waypoint.getTerminal()) || TextUtils.isEmpty(waypoint.getGate())) {
-				Ui.setText(v, R.id.layover_terminal_gate_one, R.string.no_terminal_gate_information);
+			if (TextUtils.isEmpty(primaryWaypoint.getTerminal()) || TextUtils.isEmpty(primaryWaypoint.getGate())) {
+				firstRowText.setText(R.string.no_terminal_gate_information);
 			}
 			else {
-				String termGate = res.getString(R.string.generic_terminal_TEMPLATE, waypoint.getTerminal(),
-						waypoint.getGate());
-				Ui.setText(v, R.id.layover_terminal_gate_one, termGate);
+				String termGate = res.getString(R.string.generic_terminal_TEMPLATE, primaryWaypoint.getTerminal(),
+						primaryWaypoint.getGate());
+				firstRowText.setText(termGate);
 			}
 		}
 
