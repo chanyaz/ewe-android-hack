@@ -335,6 +335,16 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		case PRICE_CHANGE:
 			FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
 			FlightTrip newOffer = response.getNewOffer();
+
+			// If the debug setting is made to fake a price change, then fake the price here too
+			// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
+			if (!AndroidUtils.isRelease(this)) {
+				String val = SettingUtils.get(this,
+						getString(R.string.preference_flight_fake_price_change),
+						getString(R.string.preference_flight_fake_price_change_default));
+				newOffer.getTotalFare().add(new BigDecimal(val));
+			}
+
 			PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
 			fragment.show(getSupportFragmentManager(), PriceChangeDialogFragment.TAG);
 
