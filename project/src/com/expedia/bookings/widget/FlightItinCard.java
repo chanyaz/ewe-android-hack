@@ -29,6 +29,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -90,7 +91,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	@Override
 	protected String getHeaderImageUrl(ItinCardDataFlight itinCardData) {
 		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
-		if (tripFlight != null && itinCardData != null && tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber()) != null) {
+		if (tripFlight != null && itinCardData != null
+				&& tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber()) != null) {
 			return tripFlight.getLegDestinationImageUrl(itinCardData.getLegNumber());
 		}
 		else {
@@ -120,7 +122,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 		ItinCardDataFlight data = (ItinCardDataFlight) itinCardData;
 		TripFlight tripFlight = (TripFlight) data.getTripComponent();
-		
+
 		if (tripFlight != null && tripFlight.getFlightTrip() != null && tripFlight.getFlightTrip().getLegCount() > 0) {
 			Resources res = getResources();
 			FlightLeg leg = data.getFlightLeg();
@@ -195,11 +197,18 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				});
 			}
 
-			//Confirmation code
-			if (tripFlight.getConfirmations() != null && tripFlight.getConfirmations().size() > 0
-					&& !TextUtils.isEmpty(tripFlight.getConfirmations().get(0).getConfirmationCode())) {
-				//TODO: Confirmation codes come in an array, I think there should only ever be one, but in the event of more than one, we should do something...
-				confirmationCodeListTv.setText(tripFlight.getConfirmations().get(0).getConfirmationCode());
+			//Confirmation code list
+			if (tripFlight.getConfirmations() != null && tripFlight.getConfirmations().size() > 0) {
+				StringBuilder confCodeSb = new StringBuilder();
+				for (FlightConfirmation confirmation : tripFlight.getConfirmations()) {
+					if (!TextUtils.isEmpty(confirmation.getConfirmationCode())) {
+						confCodeSb.append(",");
+						confCodeSb.append(" ");
+						confCodeSb.append(confirmation.getConfirmationCode());
+					}
+				}
+				String confCodeStr = confCodeSb.toString().replaceFirst(",", "").trim();
+				confirmationCodeListTv.setText(confCodeStr);
 			}
 			else {
 				confirmationCodeListTv.setText(R.string.missing_booking_code);
@@ -278,13 +287,16 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		Resources res = getResources();
 		Calendar now = Calendar.getInstance();
 
-		if (itinCardData.getStartDate().getCalendar().before(now) && itinCardData.getEndDate().getCalendar().before(now)) {
+		if (itinCardData.getStartDate().getCalendar().before(now)
+				&& itinCardData.getEndDate().getCalendar().before(now)) {
 			//flight complete
-			String dateStr = DateUtils.formatDateTime(getContext(), itinCardData.getEndDate().getCalendar().getTimeInMillis(),
+			String dateStr = DateUtils.formatDateTime(getContext(), itinCardData.getEndDate().getCalendar()
+					.getTimeInMillis(),
 					DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
 			view.setText(res.getString(R.string.flight_landed_on_TEMPLATE, dateStr));
 		}
-		else if (itinCardData.getStartDate().getCalendar().before(now) && itinCardData.getEndDate().getCalendar().after(now)) {
+		else if (itinCardData.getStartDate().getCalendar().before(now)
+				&& itinCardData.getEndDate().getCalendar().after(now)) {
 			//flight in progress
 			view.setText(res.getString(R.string.flight_in_progress));
 		}
@@ -348,7 +360,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 						intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
 						intent.putExtra(
 								Events.TITLE,
-								res.getString(R.string.flight_to_TEMPLATE, itinCardData.getFlightLeg().getLastWaypoint()
+								res.getString(R.string.flight_to_TEMPLATE, itinCardData.getFlightLeg()
+										.getLastWaypoint()
 										.getAirport().mCity));
 						getContext().startActivity(intent);
 					}
@@ -390,7 +403,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 						MapCameraManager mapCameraManager = new MapCameraManager(map);
 						flightMarkerManager.setFlights(cardData.getFlightLeg().getSegments());
-						mapCameraManager.showFlight(cardData.getFlightLeg().getSegment(0), FlightItinCard.this.getWidth(),
+						mapCameraManager.showFlight(cardData.getFlightLeg().getSegment(0),
+								FlightItinCard.this.getWidth(),
 								getResources()
 										.getDimensionPixelSize(R.dimen.itin_map_total_size), 40);
 
