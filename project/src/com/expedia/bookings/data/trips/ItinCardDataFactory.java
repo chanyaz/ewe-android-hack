@@ -24,16 +24,21 @@ public class ItinCardDataFactory {
 	public static List<ItinCardData> generateCardData(TripComponent tc) {
 		Type type = tc.getType();
 		switch (type) {
-		case FLIGHT:
+		case FLIGHT: {
 			return generateFlightCardData((TripFlight) tc);
-		case HOTEL:
+		}
+		case HOTEL: {
 			return generateHotelCardData((TripHotel) tc);
-		case ACTIVITY:
-			return generateActivityCardData((TripActivity) tc);
-		case CAR:
+		}
+		case CAR: {
 			return generateCarCardData((TripCar) tc);
-		default:
+		}
+		case ACTIVITY: {
+			return generateActivityCardData((TripActivity) tc);
+		}
+		default: {
 			return generateGenericCardData(tc);
+		}
 		}
 	}
 
@@ -54,7 +59,7 @@ public class ItinCardDataFactory {
 	}
 
 	private static List<ItinCardData> generateActivityCardData(TripActivity tc) {
-		return null;
+		return Arrays.asList((ItinCardData) new ItinCardDataActivity(tc));
 	}
 
 	private static List<ItinCardData> generateCarCardData(TripCar tc) {

@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 
-public class ActivityItinCard extends ItinCard {
+public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	public ActivityItinCard(Context context) {
 		this(context, null);
 	}
@@ -30,47 +30,41 @@ public class ActivityItinCard extends ItinCard {
 	}
 
 	@Override
-	protected String getHeaderImageUrl(ItinCardData itinCardData) {
+	protected String getHeaderImageUrl(ItinCardDataActivity itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected String getHeaderText(ItinCardData itinCardData) {
+	protected String getHeaderText(ItinCardDataActivity itinCardData) {
 		return "Activity Card";
 	}
 
 	@Override
-	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardData itinCardData) {
-		// TODO Auto-generated method stub
+	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataActivity itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardData itinCardData) {
+	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, ItinCardDataActivity itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardData itinCardData) {
-		// TODO Auto-generated method stub
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataActivity itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton(ItinCardData itinCardData) {
-		// TODO Auto-generated method stub
+	protected SummaryButton getSummaryLeftButton(ItinCardDataActivity itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected SummaryButton getSummaryRightButton(ItinCardData itinCardData) {
-		// TODO Auto-generated method stub
+	protected SummaryButton getSummaryRightButton(ItinCardDataActivity itinCardData) {
 		return null;
 	}
 
 	@Override
-	protected void onShareButtonClick(ItinCardData itinCardData) {
-		// TODO Auto-generated method stub
-
+	protected void onShareButtonClick(ItinCardDataActivity itinCardData) {
 	}
 }
