@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
@@ -42,7 +43,6 @@ import com.expedia.bookings.utils.CalendarAPIUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.GoogleMap;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
@@ -202,16 +202,14 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 			//Confirmation code list
 			if (tripFlight.getConfirmations() != null && tripFlight.getConfirmations().size() > 0) {
-				StringBuilder confCodeSb = new StringBuilder();
-				for (FlightConfirmation confirmation : tripFlight.getConfirmations()) {
-					if (!TextUtils.isEmpty(confirmation.getConfirmationCode())) {
-						confCodeSb.append(",");
-						confCodeSb.append(" ");
-						confCodeSb.append(confirmation.getConfirmationCode());
+				List<FlightConfirmation> confirmations = tripFlight.getConfirmations();
+				String confirmationString = confirmations.get(0).getConfirmationCode();
+				for (int i = 1; i < confirmations.size(); i++) {
+					if (!TextUtils.isEmpty(confirmations.get(i).getConfirmationCode())) {
+						confirmationString += ", " + confirmations.get(i).getConfirmationCode();
 					}
 				}
-				String confCodeStr = confCodeSb.toString().replaceFirst(",", "").trim();
-				confirmationCodeListTv.setText(confCodeStr);
+				confirmationCodeListTv.setText(confirmationString);
 			}
 			else {
 				confirmationCodeListTv.setText(R.string.missing_booking_code);
@@ -250,15 +248,11 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			}
 
 			//Add the flight stuff
-
 			Flight prevSegment = null;
 			for (int j = 0; j < leg.getSegmentCount(); j++) {
 				Flight segment = leg.getSegment(j);
 				boolean isFirstSegment = (j == 0);
 				boolean isLastSegment = (j == leg.getSegmentCount() - 1);
-
-				Log.d("Segment #" + j + " out of " + leg.getSegmentCount() + " isFirst:" + isFirstSegment + " isLast:"
-						+ isLastSegment);
 
 				if (isFirstSegment) {
 					flightLegContainer
