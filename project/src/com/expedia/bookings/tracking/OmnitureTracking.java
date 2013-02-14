@@ -171,19 +171,23 @@ public class OmnitureTracking {
 	private static final String TRACK_VERSION = "tracking_version";
 
 	public static void init(Context context) {
+		Log.d(TAG, "init");
 		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 		s.configureMeasurement(TrackingUtils.getReportSuiteIds(context), TrackingUtils.getTrackingServer());
+		s.setVisitorID(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
 	}
 
 	// Lifecycle tracking
 
 	public static void onResume(Activity activity) {
+		Log.d(TAG, "onResume");
 		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance(activity);
 		measurement.startActivity(activity);
 
 	}
 
 	public static void onPause() {
+		Log.d(TAG, "onPause");
 		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance();
 		measurement.stopActivity();
 	}
