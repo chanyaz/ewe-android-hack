@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,6 +39,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
 
+	private int mScrollState = SCROLL_STATE_IDLE;
+
 	private int mMode = MODE_LIST;
 	private int mDetailPosition = -1;
 	private int mOriginalScrollY;
@@ -73,6 +76,15 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDES
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public void onRestoreInstanceState(Parcelable state) {
+		super.onRestoreInstanceState(state);
+
+		if (mMode == MODE_DETAIL) {
+			showDetails();
+		}
+	}
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -129,7 +141,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		return onTouchEvent(ev);
+		if (mScrollState == SCROLL_STATE_IDLE) {
+			return onTouchEvent(ev);
+		}
+
+		return super.onInterceptTouchEvent(ev);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -307,9 +323,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		mScrollState = scrollState;
+
 		if (mOnScrollListener != null) {
 			mOnScrollListener.onScrollStateChanged(view, scrollState);
 		}
 	}
-
 }
