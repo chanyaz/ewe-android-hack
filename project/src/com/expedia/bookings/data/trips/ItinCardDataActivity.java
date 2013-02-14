@@ -1,10 +1,12 @@
 package com.expedia.bookings.data.trips;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.DateTime;
+import com.expedia.bookings.data.Traveler;
 
 public class ItinCardDataActivity extends ItinCardData {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -54,5 +56,9 @@ public class ItinCardDataActivity extends ItinCardData {
 
 	public String getFormattedGuestCount() {
 		return String.valueOf(mActivity.getGuestCount());
+	}
+
+	public List<Traveler> getTravelers() {
+		return mActivity.getTravelers();
 	}
 }

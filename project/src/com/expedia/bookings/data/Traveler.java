@@ -28,6 +28,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private String mFirstName;
 	private String mMiddleName;
 	private String mLastName;
+	private String mFullName;
 	private Location mHomeAddress;
 	private List<Phone> mPhoneNumbers = new ArrayList<Phone>();
 	private String mEmail;
@@ -61,12 +62,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	//These names should be consistance with valid api values
 	public enum AssistanceType {
-		NONE,
-		BLIND_WITH_SEEING_EYE_DOG,
-		DEAF_WITH_HEARING_DOG,
-		WHEELCHAIR_CAN_CLIMB_STAIRS,
-		WHEELCHAIR_CANNOT_CLIMB_STAIRS,
-		WHEELCHAIR_IMMOBILE
+		NONE, BLIND_WITH_SEEING_EYE_DOG, DEAF_WITH_HEARING_DOG, WHEELCHAIR_CAN_CLIMB_STAIRS, WHEELCHAIR_CANNOT_CLIMB_STAIRS, WHEELCHAIR_IMMOBILE
 	}
 
 	public Traveler() {
@@ -124,6 +120,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public String getLastName() {
 		return mLastName;
+	}
+
+	public String getFullName() {
+		return mFullName;
 	}
 
 	public Location getHomeAddress() {
@@ -302,6 +302,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setLastName(String lastName) {
 		mLastName = lastName;
+	}
+
+	public void setFullName(String fullName) {
+		mFullName = fullName;
 	}
 
 	public void setHomeAddress(Location homeAddress) {
