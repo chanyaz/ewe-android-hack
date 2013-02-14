@@ -2377,10 +2377,12 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			CalendarUtils.syncParamsFromDatePicker(mEditedSearchParams, mDatesCalendarDatePicker);
+			if (mEditedSearchParams != null) {
+				CalendarUtils.syncParamsFromDatePicker(mEditedSearchParams, mDatesCalendarDatePicker);
 
-			displayRefinementInfo();
-			setActionBarBookingInfoText();
+				displayRefinementInfo();
+				setActionBarBookingInfoText();
+			}
 		}
 	};
 
