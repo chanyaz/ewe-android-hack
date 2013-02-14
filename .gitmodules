@@ -28,3 +28,6 @@
 [submodule "lib/google-play-services"]
 	path = lib/google-play-services
 	url = git@team.mobiata.com:Android/google-play-services
+[submodule "lib/svg-android"]
+	path = lib/svg-android
+	url = git@team.mobiata.com:Android/svg-android.git
