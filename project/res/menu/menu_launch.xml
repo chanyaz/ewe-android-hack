@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/itineraries"
-        android:actionLayout="@layout/header_itinerary_btn"
-        android:showAsAction="always"
-        android:title="@string/itinerary"/>
-    <item
         android:id="@+id/add_itinerary"
         android:icon="@drawable/ic_action_bar_checkmark_white"
         android:showAsAction="ifRoom"
@@ -23,7 +18,7 @@
     <item
         android:id="@+id/ab_log_out"
         android:icon="@drawable/ic_traveler_white"
-        android:showAsAction="ifRoom"
+        android:showAsAction="never"
         android:title="@string/log_out"/>
     <item
         android:id="@+id/settings"

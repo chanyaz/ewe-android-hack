@@ -12,14 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
-import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -35,8 +32,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		ItinerarySyncListener {
 
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
-
-	private LaunchActivity mActivity;
 
 	private ItinListView mItinListView;
 	private View mEmptyView;
@@ -56,7 +51,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mActivity = (LaunchActivity) activity;
 		mItinManager = ItineraryManager.getInstance();
 		mItinManager.addSyncListener(this);
 	}
@@ -74,7 +68,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mLoginButton.setText(Html.fromHtml(getString(R.string.log_in_for_your_trips)));
 
 		mItinListView.setEmptyView(mEmptyView);
-		mItinListView.setOnScrollListener(mOnScrollListener);
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -197,17 +190,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		invalidateOptionsMenu();
 	}
-
-	private OnScrollListener mOnScrollListener = new OnScrollListener() {
-		@Override
-		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-			mActivity.setHeaderOffset(((ItinListView) view).getListScrollY());
-		}
-
-		@Override
-		public void onScrollStateChanged(AbsListView view, int scrollState) {
-		}
-	};
 
 	@Override
 	public void onTripAdded(Trip trip) {

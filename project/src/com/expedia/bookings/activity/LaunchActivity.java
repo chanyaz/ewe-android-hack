@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +10,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.View;
-import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.internal.app.ActionBarWrapper;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
@@ -24,12 +29,9 @@ import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.DebugMenu;
-import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.LaunchHeaderView;
+import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -39,8 +41,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 	private static final int PAGER_POS_WATERFALL = 0;
 	private static final int PAGER_POS_ITIN = 1;
-
-	private LaunchHeaderView mHeader;
 
 	private LaunchFragment mLaunchFragment;
 	private ItinItemListFragment mItinListFragment;
@@ -60,8 +60,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_launch);
 		getWindow().setBackgroundDrawable(null);
 
-		mHeader = Ui.findView(this, R.id.header);
-
+		// Get/create fragments
 		mLaunchFragment = Ui.findSupportFragment(this, LaunchFragment.TAG);
 		if (mLaunchFragment == null) {
 			mLaunchFragment = LaunchFragment.newInstance();
@@ -71,6 +70,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			mItinListFragment = ItinItemListFragment.newInstance();
 		}
 
+		// View Pager
 		List<Fragment> frags = new ArrayList<Fragment>();
 		frags.add(mLaunchFragment);
 		frags.add(mItinListFragment);
@@ -100,34 +100,22 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			}
 		});
 
+		// Tabs
+
+		Tab shopTab = getSupportActionBar().newTab().setText("Shop").setTabListener(mShopTabListener);
+		Tab itineraryTab = getSupportActionBar().newTab().setText("Itinerary").setTabListener(mItineraryTabListener);
+
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.addTab(shopTab);
+		actionBar.addTab(itineraryTab);
+
+		enableEmbeddedTabs(actionBar);
+
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
-
-		mHeader.setHotelOnClickListener(mHeaderItemOnClickListener);
-		mHeader.setFlightOnClickListener(mHeaderItemOnClickListener);
-
-		FontCache.setTypeface((TextView) Ui.findView(this, R.id.hotels_label_text_view), FontCache.Font.ROBOTO_LIGHT);
-		FontCache.setTypeface((TextView) Ui.findView(this, R.id.hotels_prompt_text_view), FontCache.Font.ROBOTO_LIGHT);
-		FontCache.setTypeface((TextView) Ui.findView(this, R.id.flights_label_text_view), FontCache.Font.ROBOTO_LIGHT);
-		FontCache.setTypeface((TextView) Ui.findView(this, R.id.flights_prompt_text_view), FontCache.Font.ROBOTO_LIGHT);
-
-		// H833 If the prompt is too wide on this POS/in this language, then hide it
-		// (and also hide its sibling to maintain a consistent look)
-		// Wrap this in a Runnable so as to happen after the TextViews have been measured
-		Ui.findView(this, R.id.hotels_prompt_text_view).post(new Runnable() {
-			@Override
-			public void run() {
-				View hotelPrompt = Ui.findView(LaunchActivity.this, R.id.hotels_prompt_text_view);
-				View hotelIcon = Ui.findView(LaunchActivity.this, R.id.big_hotel_icon);
-				View flightsPrompt = Ui.findView(LaunchActivity.this, R.id.flights_prompt_text_view);
-				View flightsIcon = Ui.findView(LaunchActivity.this, R.id.big_flights_icon);
-				if (hotelPrompt.getLeft() < hotelIcon.getRight() || flightsPrompt.getLeft() < flightsIcon.getRight()) {
-					hotelPrompt.setVisibility(View.INVISIBLE);
-					flightsPrompt.setVisibility(View.INVISIBLE);
-				}
-			}
-		});
 	}
 
 	@Override
@@ -196,8 +184,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
 
-		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.itineraries);
-
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		mHockeyPuck.onCreateOptionsMenu(menu);
 
@@ -223,11 +209,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			loginBtnEnabled = !itinButtonEnabled && !User.isLoggedIn(this);
 			logoutBtnEnabled = !itinButtonEnabled && User.isLoggedIn(this);
 
-			MenuItem itinBtn = menu.findItem(R.id.itineraries);
-			if (itinBtn != null) {
-				itinBtn.setVisible(itinButtonEnabled);
-				itinBtn.setEnabled(itinButtonEnabled);
-			}
 			MenuItem addNewItinBtn = menu.findItem(R.id.add_itinerary);
 			if (addNewItinBtn != null) {
 				addNewItinBtn.setVisible(addNewItinButtonEnabled);
@@ -252,7 +233,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 				logOutBtn.setVisible(logoutBtnEnabled);
 				logOutBtn.setEnabled(logoutBtnEnabled);
 			}
-
 		}
 
 		DebugMenu.onPrepareOptionsMenu(this, menu);
@@ -265,13 +245,11 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
+		case android.R.id.home: {
 			gotoWaterfall();
 			return true;
-		case R.id.itineraries:
-			gotoItineraries();
-			return true;
-		case R.id.add_itinerary:
+		}
+		case R.id.add_itinerary: {
 			if (User.isLoggedIn(this)) {
 				if (mItinListFragment != null) {
 					mItinListFragment.startAddGuestItinActivity();
@@ -279,30 +257,36 @@ public class LaunchActivity extends SherlockFragmentActivity {
 				return true;
 			}
 			return false;
-		case R.id.add_itinerary_login:
+		}
+		case R.id.add_itinerary_login: {
 			if (mItinListFragment != null) {
 				mItinListFragment.startLoginActivity();
 			}
 			return true;
-		case R.id.add_itinerary_guest:
+		}
+		case R.id.add_itinerary_guest: {
 			if (mItinListFragment != null) {
 				mItinListFragment.startAddGuestItinActivity();
 			}
 			return true;
-		case R.id.ab_log_out:
+		}
+		case R.id.ab_log_out: {
 			if (mItinListFragment != null) {
 				mItinListFragment.accountLogoutClicked();
 			}
 			return true;
-		case R.id.settings:
+		}
+		case R.id.settings: {
 			Intent intent = new Intent(this, ExpediaBookingPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);
 			mLaunchFragment.cleanUp();
 			return true;
-		case R.id.about:
+		}
+		case R.id.about: {
 			Intent aboutIntent = new Intent(this, AboutActivity.class);
 			startActivity(aboutIntent);
 			return true;
+		}
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {
@@ -312,57 +296,61 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.hotels_button:
-				NavUtils.goToHotels(LaunchActivity.this);
-
-				OmnitureTracking.trackLinkLaunchScreenToHotels(LaunchActivity.this);
-				break;
-			case R.id.flights_button:
-				NavUtils.goToFlights(LaunchActivity.this);
-
-				OmnitureTracking.trackLinkLaunchScreenToFlights(LaunchActivity.this);
-				break;
-			}
-
-			if (mLaunchFragment != null) {
-				mLaunchFragment.cleanUp();
-			}
-		}
-	};
-
 	private void gotoWaterfall() {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		getSupportActionBar().setHomeButtonEnabled(false);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(false);
+		actionBar.setHomeButtonEnabled(false);
 
 		mPagerPosition = PAGER_POS_WATERFALL;
 		mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
-		mItinListFragment.setListMode();
-		mHeader.show();
+
+		Tab tab = actionBar.getTabAt(PAGER_POS_WATERFALL);
+		if (tab != null) {
+			actionBar.selectTab(tab);
+		}
+
+		if (mItinListFragment == null) {
+			mItinListFragment.setListMode();
+		}
 
 		supportInvalidateOptionsMenu();
 	}
 
 	private void gotoItineraries() {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		mItinListFragment.enableLoadItins();
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
+
+		if (mItinListFragment != null) {
+			mItinListFragment.enableLoadItins();
+		}
 
 		mPagerPosition = PAGER_POS_ITIN;
 		mViewPager.setCurrentItem(PAGER_POS_ITIN);
-		mHeader.setOffset();
+
+		Tab tab = actionBar.getTabAt(PAGER_POS_ITIN);
+		if (tab != null) {
+			actionBar.selectTab(tab);
+		}
 
 		supportInvalidateOptionsMenu();
 	}
 
-	public void setHeaderOffset(int offset) {
-		offset = Math.min(offset, 0);
+	private void enableEmbeddedTabs(Object actionBar) {
+		try {
+			if (actionBar instanceof ActionBarWrapper) {
+				Field actionBarField = actionBar.getClass().getDeclaredField("mActionBar");
+				actionBarField.setAccessible(true);
+				actionBar = actionBarField.get(actionBar);
+			}
 
-		if (mViewPager.getCurrentItem() == 1) {
-			mHeader.setOffset(offset);
+			Method setHasEmbeddedTabsMethod = actionBar.getClass().getDeclaredMethod("setHasEmbeddedTabs",
+					boolean.class);
+			setHasEmbeddedTabsMethod.setAccessible(true);
+			setHasEmbeddedTabsMethod.invoke(actionBar, true);
+		}
+		catch (Exception e) {
+			Log.e("Error embedding ActionBar tabs.", e);
 		}
 	}
 
@@ -384,4 +372,34 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			return mFragments.size();
 		}
 	}
+
+	private TabListener mShopTabListener = new TabListener() {
+		@Override
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			gotoWaterfall();
+		}
+
+		@Override
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		}
+
+		@Override
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		}
+	};
+
+	private TabListener mItineraryTabListener = new TabListener() {
+		@Override
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			gotoItineraries();
+		}
+
+		@Override
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		}
+
+		@Override
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		}
+	};
 }

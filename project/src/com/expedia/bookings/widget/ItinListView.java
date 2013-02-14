@@ -62,17 +62,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		super(context, attrs, defStyle);
 
 		final Resources res = context.getResources();
-
-		final int headerHeight = res.getDimensionPixelSize(R.dimen.launch_header_height);
-		final View headerView = new View(context);
-		headerView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, headerHeight));
-		addHeaderView(headerView);
-
 		mExpandedCardPaddingBottom = res.getDimensionPixelSize(R.dimen.itin_list_card_top_image_offset);
 
 		mAdapter = new ItinCardDataAdapter(context);
 		setAdapter(mAdapter);
 		setOnItemClickListener(null);
+		setOnScrollListener(null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

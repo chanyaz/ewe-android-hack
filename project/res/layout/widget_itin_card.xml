@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layerType="hardware" >
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_itin_card_path" />
+
     <LinearLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"

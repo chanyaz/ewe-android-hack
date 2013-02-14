@@ -51,8 +51,10 @@ import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.LaunchFlightAdapter;
 import com.expedia.bookings.widget.LaunchHotelAdapter;
@@ -80,17 +82,10 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	private static final int NUM_FLIGHT_DESTINATIONS = 5;
 
 	// Background images
-	private static final Integer[] BACKGROUND_RES_IDS = new Integer[] {
-			R.drawable.bg_launch_london,
-			R.drawable.bg_launch_ny,
-			R.drawable.bg_launch_paris,
-			R.drawable.bg_launch_sea,
-			R.drawable.bg_launch_sf,
-			R.drawable.bg_launch_toronto,
-			R.drawable.bg_launch_hongkong,
-			R.drawable.bg_launch_petronas,
-			R.drawable.bg_launch_vegas,
-	};
+	private static final Integer[] BACKGROUND_RES_IDS = new Integer[] { R.drawable.bg_launch_london,
+			R.drawable.bg_launch_ny, R.drawable.bg_launch_paris, R.drawable.bg_launch_sea, R.drawable.bg_launch_sf,
+			R.drawable.bg_launch_toronto, R.drawable.bg_launch_hongkong, R.drawable.bg_launch_petronas,
+			R.drawable.bg_launch_vegas, };
 
 	private Context mContext;
 
@@ -130,6 +125,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
 		mFlightsStreamListView = Ui.findView(v, R.id.flights_stream_list_view);
 
+		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
+		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
+
 		// Pick background image at random
 		ImageView bgView = Ui.findView(v, R.id.background_view);
 		Random rand = new Random();
@@ -139,6 +137,23 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		mHotelsStreamListView.setScrollMultiplier(2.0);
 		mFlightsStreamListView.setScrollMultiplier(1.0);
+
+		// H833 If the prompt is too wide on this POS/in this language, then hide it
+		// (and also hide its sibling to maintain a consistent look)
+		// Wrap this in a Runnable so as to happen after the TextViews have been measured
+		Ui.findView(v, R.id.hotels_prompt_text_view).post(new Runnable() {
+			@Override
+			public void run() {
+				View hotelPrompt = Ui.findView(getActivity(), R.id.hotels_prompt_text_view);
+				View hotelIcon = Ui.findView(getActivity(), R.id.big_hotel_icon);
+				View flightsPrompt = Ui.findView(getActivity(), R.id.flights_prompt_text_view);
+				View flightsIcon = Ui.findView(getActivity(), R.id.big_flights_icon);
+				if (hotelPrompt.getLeft() < hotelIcon.getRight() || flightsPrompt.getLeft() < flightsIcon.getRight()) {
+					hotelPrompt.setVisibility(View.INVISIBLE);
+					flightsPrompt.setVisibility(View.INVISIBLE);
+				}
+			}
+		});
 
 		return v;
 	}
@@ -398,18 +413,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	// Flight destination search
 
-	private final static String[] DESTINATION_IDS = new String[] {
-			"SEA",
-			"SFO",
-			"LON",
-			"PAR",
-			"LAS",
-			"NYC",
-			"YYZ",
-			"HKG",
-			"MIA",
-			"BKK",
-	};
+	private final static String[] DESTINATION_IDS = new String[] { "SEA", "SFO", "LON", "PAR", "LAS", "NYC", "YYZ",
+			"HKG", "MIA", "BKK", };
 
 	private Download<List<Destination>> mFlightsDownload = new Download<List<Destination>>() {
 		@Override
@@ -445,8 +450,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					continue;
 				}
 				else if (suggestResponse.hasErrors()) {
-					Log.w("Got an error response from server autocompleting for: "
-							+ destinationId + ", " + suggestResponse.getErrors().get(0).getPresentableMessage(mContext));
+					Log.w("Got an error response from server autocompleting for: " + destinationId + ", "
+							+ suggestResponse.getErrors().get(0).getPresentableMessage(mContext));
 					continue;
 				}
 
@@ -473,8 +478,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					Log.w("Got a null response from server looking for destination bg for: " + destId);
 				}
 				else if (imageResponse.hasErrors()) {
-					Log.w("Got an error response from server looking for destination bg for: "
-							+ destId + ", " + imageResponse.getErrors().get(0).getPresentableMessage(mContext));
+					Log.w("Got an error response from server looking for destination bg for: " + destId + ", "
+							+ imageResponse.getErrors().get(0).getPresentableMessage(mContext));
 				}
 				else {
 					Log.v("Got destination data for: " + destId);
@@ -890,4 +895,26 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		startMarqueeImpl();
 		return true;
 	}
+
+	// Listeners 
+
+	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.hotels_button:
+				NavUtils.goToHotels(getActivity());
+
+				OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
+				break;
+			case R.id.flights_button:
+				NavUtils.goToFlights(getActivity());
+
+				OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
+				break;
+			}
+
+			cleanUp();
+		}
+	};
 }
