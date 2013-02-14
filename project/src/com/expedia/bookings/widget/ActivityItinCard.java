@@ -6,10 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +74,14 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	}
 
 	@Override
+	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataActivity itinCardData) {
+		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_activity, container, false);
+		view.setText(Html.fromHtml("Valid starting <strong>" + itinCardData.getLongFormattedActiveDate() + "</strong>"));
+
+		return view;
+	}
+
+	@Override
 	protected View getDetailsView(LayoutInflater inflater, ViewGroup container, final ItinCardDataActivity itinCardData) {
 		View view = inflater.inflate(R.layout.include_itin_card_details_activity, container, false);
 
@@ -106,11 +114,6 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		});
 
 		return view;
-	}
-
-	@Override
-	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataActivity itinCardData) {
-		return null;
 	}
 
 	@Override

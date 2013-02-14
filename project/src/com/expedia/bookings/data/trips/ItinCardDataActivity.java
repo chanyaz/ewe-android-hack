@@ -13,7 +13,8 @@ public class ItinCardDataActivity extends ItinCardData {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final SimpleDateFormat DETAIL_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
+	private static final SimpleDateFormat DETAIL_SHORT_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
+	private static final SimpleDateFormat DETAIL_LONG_DATE_FORMAT = new SimpleDateFormat("MMMM d", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -46,12 +47,16 @@ public class ItinCardDataActivity extends ItinCardData {
 		return getTripComponent().getParentTrip().getEndDate();
 	}
 
+	public String getLongFormattedActiveDate() {
+		return DETAIL_LONG_DATE_FORMAT.format(getActiveDate().getCalendar().getTime());
+	}
+
 	public String getFormattedActiveDate() {
-		return DETAIL_DATE_FORMAT.format(getActiveDate().getCalendar().getTime());
+		return DETAIL_SHORT_DATE_FORMAT.format(getActiveDate().getCalendar().getTime());
 	}
 
 	public String getFormattedExpirationDate() {
-		return DETAIL_DATE_FORMAT.format(getExpirationDate().getCalendar().getTime());
+		return DETAIL_SHORT_DATE_FORMAT.format(getExpirationDate().getCalendar().getTime());
 	}
 
 	public String getFormattedGuestCount() {
