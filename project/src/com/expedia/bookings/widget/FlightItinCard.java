@@ -489,54 +489,80 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			break;
 		}
 
+		boolean primaryWaypointExists = primaryWaypoint != null;
+		boolean primaryWaypointHasGate = primaryWaypointExists && !TextUtils.isEmpty(primaryWaypoint.getGate());
+		boolean primaryWaypointHasTerm = primaryWaypointExists && !TextUtils.isEmpty(primaryWaypoint.getTerminal());
+		boolean primaryWaypointHasAll = primaryWaypointExists && primaryWaypointHasGate && primaryWaypointHasTerm;
+
 		String airportName = primaryWaypoint.getAirport().mName;
 		Ui.setText(v, R.id.layover_airport_name, airportName);
 		if (type.equals(WaypointType.LAYOVER)) {
 
-			boolean validPrimaryWaypoint = primaryWaypoint != null && !TextUtils.isEmpty(primaryWaypoint.getTerminal())
-					&& !TextUtils.isEmpty(primaryWaypoint.getGate());
-			boolean validSecondaryWaypoint = secondaryWaypoint != null
-					&& !TextUtils.isEmpty(secondaryWaypoint.getTerminal())
-					&& !TextUtils.isEmpty(secondaryWaypoint.getGate());
+			secondRowText.setVisibility(View.VISIBLE);
 
-			if (!validPrimaryWaypoint && !validSecondaryWaypoint) {
-				firstRowText.setText(R.string.no_terminal_gate_information);
-				secondRowText.setVisibility(View.GONE);
+			boolean secondaryWaypointExists = secondaryWaypoint != null;
+			boolean secondaryWaypointHasGate = secondaryWaypointExists
+					&& !TextUtils.isEmpty(secondaryWaypoint.getGate());
+			boolean secondaryWaypointHasTerm = secondaryWaypointExists
+					&& !TextUtils.isEmpty(secondaryWaypoint.getTerminal());
+			boolean secondaryWaypointHasAll = secondaryWaypointExists && secondaryWaypointHasGate
+					&& secondaryWaypointHasTerm;
+
+			String primaryText = null;
+			if (primaryWaypointHasAll) {
+				primaryText = res.getString(R.string.arrival_terminal_TEMPLATE, primaryWaypoint.getTerminal(),
+						primaryWaypoint.getGate());
+			}
+			else if (primaryWaypointHasTerm) {
+				primaryText = res.getString(R.string.arrive_terminal_but_no_gate_TEMPLATE,
+						primaryWaypoint.getTerminal());
+			}
+			else if (primaryWaypointHasGate) {
+				primaryText = res.getString(R.string.arrive_gate_number_only_TEMPLATE, primaryWaypoint.getGate());
 			}
 			else {
-				secondRowText.setVisibility(View.VISIBLE);
-				String arrivalGate;
-				String departureGate;
-				if (validPrimaryWaypoint) {
-					arrivalGate = res.getString(R.string.arrival_terminal_TEMPLATE, primaryWaypoint.getTerminal(),
-							primaryWaypoint.getGate());
-				}
-				else {
-					arrivalGate = res.getString(R.string.no_arrival_terminal_gate_information);
-				}
-
-				if (validSecondaryWaypoint) {
-					departureGate = res.getString(R.string.arrival_terminal_TEMPLATE, secondaryWaypoint.getTerminal(),
-							secondaryWaypoint.getGate());
-				}
-				else {
-					departureGate = res.getString(R.string.no_departure_terminal_gate_information);
-				}
-				firstRowText.setText(arrivalGate);
-				secondRowText.setText(departureGate);
+				primaryText = res.getString(R.string.no_arrival_terminal_gate_information);
 			}
+
+			String secondaryText = null;
+			if (secondaryWaypointHasAll) {
+				secondaryText = res.getString(R.string.departure_terminal_TEMPLATE, secondaryWaypoint.getTerminal(),
+						secondaryWaypoint.getGate());
+			}
+			else if (secondaryWaypointHasTerm) {
+				secondaryText = res.getString(R.string.depart_terminal_but_no_gate_TEMPLATE,
+						secondaryWaypoint.getTerminal());
+			}
+			else if (secondaryWaypointHasGate) {
+				secondaryText = res.getString(R.string.depart_gate_number_only_TEMPLATE, secondaryWaypoint.getGate());
+			}
+			else {
+				secondaryText = res.getString(R.string.no_departure_terminal_gate_information);
+			}
+
+			firstRowText.setText(primaryText);
+			secondRowText.setText(secondaryText);
+
 		}
 		else {
 			secondRowText.setVisibility(View.GONE);
 
-			if (TextUtils.isEmpty(primaryWaypoint.getTerminal()) || TextUtils.isEmpty(primaryWaypoint.getGate())) {
-				firstRowText.setText(R.string.no_terminal_gate_information);
+			String primaryText = null;
+			if (primaryWaypointHasAll) {
+				primaryText = res.getString(R.string.generic_terminal_TEMPLATE, primaryWaypoint.getTerminal(),
+						primaryWaypoint.getGate());
+			}
+			else if (primaryWaypointHasTerm) {
+				primaryText = res.getString(R.string.terminal_but_no_gate_TEMPLATE, primaryWaypoint.getTerminal());
+			}
+			else if (primaryWaypointHasGate) {
+				primaryText = res.getString(R.string.gate_number_only_TEMPLATE, primaryWaypoint.getGate());
 			}
 			else {
-				String termGate = res.getString(R.string.generic_terminal_TEMPLATE, primaryWaypoint.getTerminal(),
-						primaryWaypoint.getGate());
-				firstRowText.setText(termGate);
+				primaryText = res.getString(R.string.no_terminal_gate_information);
 			}
+
+			firstRowText.setText(primaryText);
 		}
 
 		return v;

@@ -87,15 +87,27 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Arrivate Terminal %1$s, Gate %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Arrive Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Depart Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Terminal and gate information not available.</string>
+    <string name="no_terminal_gate_information">Terminal &amp; Gate Unavailable</string>
     <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Arrival terminal and gate information not available.</string>
+    <string name="no_arrival_terminal_gate_information">Arrival Terminal &amp; Gate Unavailable</string>
     <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Departure terminal and gate information not available.</string>
+    <string name="no_departure_terminal_gate_information">Departure Terminal &amp; Gate Unavailable</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Arrive Gate %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Depart Gate %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate Unavailable</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrive Terminal %1$s, Gate Unavailable</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Depart Terminal %1$s, Gate Unavailable</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
     <!-- Booking code unavailable message -->
@@ -160,7 +172,7 @@
     <!-- Action Buttons -->
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
-    
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Search Flights</string>
