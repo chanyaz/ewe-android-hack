@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -87,6 +89,8 @@ import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.facebook.Session;
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
@@ -367,6 +371,30 @@ public class ExpediaServices implements DownloadListener {
 		}
 		catch (Exception ex) {
 			Log.e("Exception downloading Bitmap", ex);
+		}
+		return null;
+	}
+
+	/**
+	 * Download an svg from the provided url.
+	 * Used for download airport terminal maps
+	 * Sometimes this is gzipped and we account for that
+	 * @param url
+	 * @return
+	 */
+	public SVG getSvgFromUrl(String url) {
+		try {
+			URL dlUrl = new URL(url);
+			URLConnection connection = dlUrl.openConnection();
+			connection.setRequestProperty("accept-encoding", "gzip");
+			InputStream stream = connection.getInputStream();
+			if ("gzip".equalsIgnoreCase(connection.getContentEncoding())) {
+				stream = new GZIPInputStream(stream);
+			}
+			return SVGParser.getSVGFromInputStream(stream);
+		}
+		catch (Exception ex) {
+			Log.e("Exception downloading svg", ex);
 		}
 		return null;
 	}

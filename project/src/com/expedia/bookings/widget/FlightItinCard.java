@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
@@ -467,7 +468,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		DEPARTURE, ARRIVAL, LAYOVER
 	}
 
-	private View getWayPointView(Waypoint primaryWaypoint, Waypoint secondaryWaypoint, WaypointType type,
+	private View getWayPointView(final Waypoint primaryWaypoint, Waypoint secondaryWaypoint, WaypointType type,
 			LayoutInflater inflater) {
 		View v = inflater.inflate(R.layout.snippet_itin_waypoint_row, null);
 		TextView firstRowText = Ui.findView(v, R.id.layover_terminal_gate_one);
@@ -565,6 +566,15 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			firstRowText.setText(primaryText);
 		}
 
+		v.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(getContext(), TerminalMapActivity.class);
+				intent.putExtra(TerminalMapActivity.ARG_AIRPORT_CODE, primaryWaypoint.mAirportCode);
+				getContext().startActivity(intent);
+			}
+		});
+		
 		return v;
 	}
 
