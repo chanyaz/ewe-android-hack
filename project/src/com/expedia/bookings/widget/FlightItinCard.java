@@ -6,14 +6,18 @@ import java.util.List;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -56,6 +60,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	private static final String FRAG_TAG_FLIGHT_MAP = "FRAG_TAG_FLIGHT_MAP";
+	private static final String FRAG_TAG_AIRPORT_ACTION_CHOOSER = "FRAG_TAG_AIRPORT_ACTION_CHOOSER";
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -345,15 +350,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 					public void onClick(View v) {
 						//TODO: Investigate compatibility
 						Airport airport = itinCardData.getFlightLeg().getFirstWaypoint().getAirport();
-						String format = "geo:0,0?q=%f,%f (%s)";
-						String uriStr = String.format(format, airport.getLatitude(), airport.getLongitude(),
-								airport.mName);
-						Uri airportUri = Uri.parse(uriStr);
-						Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
-
-						intent.setComponent(new ComponentName("com.google.android.apps.maps",
-								"com.google.android.maps.MapsActivity"));
-
+						Intent intent = getAirportDirectionsIntent(airport);
 						getContext().startActivity(intent);
 					}
 				});
@@ -458,6 +455,18 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				mapContainer.removeAllViews();
 			}
 		}
+	}
+
+	public static Intent getAirportDirectionsIntent(Airport airport) {
+		String format = "geo:0,0?q=%f,%f (%s)";
+		String uriStr = String.format(format, airport.getLatitude(), airport.getLongitude(),
+				airport.mName);
+		Uri airportUri = Uri.parse(uriStr);
+		Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
+
+		intent.setComponent(new ComponentName("com.google.android.apps.maps",
+				"com.google.android.maps.MapsActivity"));
+		return intent;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -570,9 +579,10 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		terminalMapDirectionsBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(getContext(), TerminalMapActivity.class);
-				intent.putExtra(TerminalMapActivity.ARG_AIRPORT_CODE, primaryWaypoint.mAirportCode);
-				getContext().startActivity(intent);
+				TerminalMapsOrDirectionsDialogFragment fragment = TerminalMapsOrDirectionsDialogFragment
+						.newInstance(primaryWaypoint.getAirport());
+				FragmentManager fragManager = ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
+				fragment.show(fragManager, FRAG_TAG_AIRPORT_ACTION_CHOOSER);
 			}
 		});
 
@@ -612,6 +622,54 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			setLayerType(layerType, null);
 			Ui.findView(this, R.id.card_layout).setLayerType(layerType, null);
 			Ui.findView(this, R.id.itin_type_image_view).setLayerType(layerType, null);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// CLASSES
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	public static class TerminalMapsOrDirectionsDialogFragment extends DialogFragment {
+
+		private Airport mAirport;
+
+		public static TerminalMapsOrDirectionsDialogFragment newInstance(Airport airport) {
+			TerminalMapsOrDirectionsDialogFragment frag = new TerminalMapsOrDirectionsDialogFragment();
+			frag.setAirport(airport);
+			return frag;
+		}
+
+		public void setAirport(Airport airport) {
+			mAirport = airport;
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+			final CharSequence directions = getString(R.string.directions);
+			final CharSequence terminalMaps = getString(R.string.terminal_maps);
+			final CharSequence[] options = { directions, terminalMaps };
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setItems(options, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					if (options[which].equals(directions)) {
+						Intent intent = FlightItinCard.getAirportDirectionsIntent(mAirport);
+						getActivity().startActivity(intent);
+						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
+					}
+					else if (options[which].equals(terminalMaps)) {
+						Intent intent = new Intent(getActivity(), TerminalMapActivity.class);
+						intent.putExtra(TerminalMapActivity.ARG_AIRPORT_CODE, mAirport.mAirportCode);
+						getActivity().startActivity(intent);
+						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
+					}
+					else {
+						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
+					}
+				}
+			});
+			return builder.create();
 		}
 	}
 }
