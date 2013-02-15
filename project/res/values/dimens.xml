@@ -203,4 +203,7 @@
     <dimen name="login_bottom_room_spacing">6dp</dimen>
     <dimen name="login_heading_width">440dp</dimen>
 
+    <!-- SearchParamsFragment -->
+    <dimen name="child_ages_layout_width">500dp</dimen>
+
 </resources>
