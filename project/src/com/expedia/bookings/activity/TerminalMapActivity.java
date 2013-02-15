@@ -10,9 +10,13 @@ import android.widget.SpinnerAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.TerminalMapFragment;
+import com.expedia.bookings.fragment.TerminalMapLegendDialogFragment;
+import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.AirportMap;
@@ -100,7 +104,23 @@ public class TerminalMapActivity extends SherlockFragmentActivity implements OnN
 		case android.R.id.home:
 			finish();
 			return true;
+		case R.id.menu_legend:
+			showLegendDialog();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = this.getSupportMenuInflater();
+		inflater.inflate(R.menu.menu_terminal_map, menu);
+		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_legend);
+		return true;
+	}
+
+	public void showLegendDialog() {
+		TerminalMapLegendDialogFragment frag = TerminalMapLegendDialogFragment.newInstance();
+		frag.show(getSupportFragmentManager(), TerminalMapLegendDialogFragment.TAG);
 	}
 }

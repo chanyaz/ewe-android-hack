@@ -120,6 +120,8 @@
     <string name="directions">Directions</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Terminal Maps</string>
+    <!-- Legend -->
+    <string name="legend">Legend</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Flight departs on %1$s</string>
     <!-- Flight currently in progress -->
