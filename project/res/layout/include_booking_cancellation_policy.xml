@@ -29,4 +29,12 @@
         android:textColor="#6A6D71" 
         android:visibility="gone"/>
 
+    <TextView
+        android:id="@+id/lawyer_label_expedia_rewards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="phone"
+        android:textColor="#6A6D71" 
+        android:visibility="gone" />
+
 </LinearLayout>

@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.widget.MapImageView;
@@ -43,6 +45,15 @@ public class ConfirmationReceiptFragment extends Fragment {
 		TextView contactView = Ui.findView(receipt, R.id.contact_text_view);
 		String contactText = ConfirmationUtils.determineContactText(getActivity());
 		ConfirmationUtils.configureContactView(getActivity(), contactView, contactText);
+
+		TextView lawyer_label_expedia_rewards = (TextView) receipt.findViewById(R.id.lawyer_label_expedia_rewards);
+		if (lawyer_label_expedia_rewards != null
+				&& PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES) {
+			String lawyerText = getString(R.string.lawyer_label_expedia_rewards_TEMPLATE);
+			String supportNumber = PointOfSale.getPointOfSale().getSupportPhoneNumber();
+			lawyer_label_expedia_rewards.setText(String.format(lawyerText, supportNumber));
+			lawyer_label_expedia_rewards.setVisibility(View.VISIBLE);
+		}
 
 		/*
 		 * The map section (only appears on phone versions)
