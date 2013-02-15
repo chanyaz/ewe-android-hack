@@ -473,6 +473,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		View v = inflater.inflate(R.layout.snippet_itin_waypoint_row, null);
 		TextView firstRowText = Ui.findView(v, R.id.layover_terminal_gate_one);
 		TextView secondRowText = Ui.findView(v, R.id.layover_terminal_gate_two);
+		View terminalMapDirectionsBtn = Ui.findView(v, R.id.terminal_map_or_directions_btn);
 
 		Resources res = getResources();
 
@@ -566,7 +567,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			firstRowText.setText(primaryText);
 		}
 
-		v.setOnClickListener(new OnClickListener(){
+		terminalMapDirectionsBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(getContext(), TerminalMapActivity.class);
@@ -574,7 +575,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				getContext().startActivity(intent);
 			}
 		});
-		
+
 		return v;
 	}
 

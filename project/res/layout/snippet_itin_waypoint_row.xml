@@ -46,4 +46,19 @@
             app:textStyle="light" />
     </LinearLayout>
 
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:layout_weight="0"
+        android:background="@color/itin_divider_color" />
+
+    <ImageView
+        android:id="@+id/terminal_map_or_directions_btn"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginRight="12dp"
+        android:layout_weight="0"
+        android:src="@drawable/ic_direction" />
+
 </LinearLayout>
