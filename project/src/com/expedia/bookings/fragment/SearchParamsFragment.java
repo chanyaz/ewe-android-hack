@@ -50,7 +50,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -418,7 +417,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 					if (mChildAgesButton.getAlpha() == 0) {
 						showChildAgesButton(true);
 					}
-					else if (!isChildAgesPopupVisible()) {
+					else {
 						showChildAgesPopup(true);
 					}
 				}
@@ -549,23 +548,41 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	}
 
 	private void showChildAgesPopup(boolean animated) {
-		if (animated) {
-			Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
-			mChildAgesLayout.startAnimation(fadeIn);
+		if (!isChildAgesPopupVisible()) {
+			if (animated) {
+				Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
+				mChildAgesLayout.startAnimation(fadeIn);
+			}
+			mChildAgesLayout.setVisibility(View.VISIBLE);
 		}
-		mChildAgesLayout.setVisibility(View.VISIBLE);
 
 		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), Db.getSearchParams().getChildren(),
 				mChildAgesLayout, mChildAgeSelectedListener);
 
-		int[] location = new int[2];
-		Rect outRect = new Rect();
-		mChildAgesButton.getLocationInWindow(location);
-		mChildAgesButton.getWindowVisibleDisplayFrame(outRect);
+		// This needs to be run after mChildAgesPopup layout (because of getHeight()).
+		// It also requires TargetApi(11) because [gs]etTranslationY is API 11. But 
+		// that's ok because this activity only targets tablet.
+		mChildAgesLayout.post(new Runnable() {
+			@TargetApi(11)
+			@Override
+			public void run() {
+				int[] button = new int[2];
+				mChildAgesButton.getLocationInWindow(button);
+				int buttonTop = button[1];
 
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mChildAgesLayout.getLayoutParams();
-		params.topMargin = location[1] - 10;
-		params.rightMargin = outRect.width() - location[0] - mChildAgesButton.getWidth() - 10;
+				int[] popup = new int[2];
+				mChildAgesLayout.getLocationInWindow(popup);
+				int popupTop = popup[1] - (int) mChildAgesLayout.getTranslationY();
+
+				int max = getView().getHeight() - mChildAgesLayout.getHeight();
+				int padding = (int) (12 * getResources().getDisplayMetrics().density);
+
+				int translation = Math.min(max, buttonTop - popupTop - padding);
+
+				mChildAgesLayout.setTranslationY(translation);
+			}
+		});
+
 	}
 
 	private void hideChildAgesPopup(boolean animated) {
