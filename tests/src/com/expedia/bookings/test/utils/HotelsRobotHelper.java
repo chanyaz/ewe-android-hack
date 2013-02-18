@@ -1,10 +1,13 @@
 package com.expedia.bookings.test.utils;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import junit.framework.AssertionFailedError;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
@@ -122,11 +125,13 @@ public class HotelsRobotHelper {
 	private static final String TAG = "com.expedia.bookings.test";
 	private boolean mAllowScreenshots;
 	private boolean mAllowOrientationChange;
+	private boolean mWriteEventsToFile;
 	private int mScreenShotCount;
 	private Solo mSolo;
 	private Resources mRes;
 	private HotelsUserData mUser; //user info container
 	private ScreenshotUtils mScreen;
+	private EventTrackingUtils mFileWriter;
 	private int mScreenWidth;
 	private int mScreenHeight;
 
@@ -138,8 +143,9 @@ public class HotelsRobotHelper {
 
 	//Constructor for user created book user container
 	public HotelsRobotHelper(Solo solo, Resources res, HotelsUserData customUser) {
-		mAllowScreenshots = true;
-		mAllowOrientationChange = true;
+		mAllowScreenshots = false;
+		mAllowOrientationChange = false;
+		mWriteEventsToFile = false;
 		mScreenShotCount = 1;
 		mSolo = solo;
 		mRes = res;
@@ -224,6 +230,42 @@ public class HotelsRobotHelper {
 		int w = 479;
 		int h = 46;
 		mSolo.clickOnScreen(w, h);
+	}
+
+	public void createFileWriter() {
+		mFileWriter = new EventTrackingUtils();
+		mWriteEventsToFile = true;
+		mFileWriter.addLineToFile("Install Event within a couple of minutes",
+				true, mWriteEventsToFile);
+	}
+
+	public void closeFileWriter() {
+		mFileWriter.closeFileWriter();
+	}
+
+	//Can't use before instantiating mFileWriter!
+	// Reading any instructions from a text file
+	// Expected file format:
+	// Line 1: Device information
+	// Other lines: any other info
+	public void readInstructionsToOutFile(String inputFile) {
+		BufferedReader fileIn;
+		try {
+			fileIn = new BufferedReader(new FileReader(inputFile));
+			String deviceName = fileIn.readLine();
+			mFileWriter.addLineToFile("Device: " + deviceName, false, mWriteEventsToFile);
+			String fileLine;
+			while ((fileLine = fileIn.readLine()) != null) {
+				mFileWriter.addLineToFile(fileLine, false, mWriteEventsToFile);
+			}
+			fileIn.close();
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -337,6 +379,11 @@ public class HotelsRobotHelper {
 		enterLog(TAG, "AFTER TYPING TEXT");
 		delay(3);
 		enterLog(TAG, "Before clicking search button");
+
+		//If keeping track of events, write current locale/POS to file
+		String currentPOS = mRes.getConfiguration().locale.toString();
+		Log.d(TAG, "Current POS/Locale: " + currentPOS);
+		mFileWriter.addLineToFile("POS: " + currentPOS, false, mWriteEventsToFile);
 
 		landscape();
 		portrait();
@@ -592,6 +639,9 @@ public class HotelsRobotHelper {
 				mSolo.clickOnText(mRes.getString(R.string.sign_in));
 			}
 		}
+		// Log log in event for ad tracking
+		mFileWriter.addLineToFile("Log in event at", true, mWriteEventsToFile);
+
 		delay(5);
 		mSolo.scrollToTop();
 		delay();
@@ -687,7 +737,7 @@ public class HotelsRobotHelper {
 			// Enter Cardholder's name
 			mSolo.typeText((EditText) mSolo.getView(R.id.edit_name_on_card),
 					mUser.mFirstName + " " + mUser.mLastName);
-			
+
 			// Enter Postal Code
 			mSolo.typeText((EditText) mSolo.getView(R.id.edit_address_postal_code),
 					mUser.mZIPCode);
@@ -698,7 +748,7 @@ public class HotelsRobotHelper {
 
 			// Press done to enter this data
 			mSolo.clickOnText(mRes.getString(R.string.button_done));
-			
+
 			// Do not save this card info
 			mSolo.clickOnText(mRes.getString(R.string.no_thanks));
 
@@ -767,6 +817,9 @@ public class HotelsRobotHelper {
 				delay(1);
 				screenshot("Confirmation Screen 2");
 				mSolo.scrollToTop();
+
+				// Log booking event for ad tracking
+				mFileWriter.addLineToFile("BOOKING EVENT", true, mWriteEventsToFile);
 			}
 			else {
 				enterLog(TAG, "Never got to confirmation screen.");
@@ -819,6 +872,7 @@ public class HotelsRobotHelper {
 			selectRoom(0);
 			logInAndBook();
 		}
+
 	}
 
 	////////////////////////////////////////////////////////////////
