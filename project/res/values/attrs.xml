@@ -17,6 +17,7 @@
     <!-- TextView -->
     <declare-styleable name="TextView">
         <attr name="textStyle" />
+        <attr name="textAllCaps" format="boolean" />
     </declare-styleable>
 
     <!-- Gallery -->

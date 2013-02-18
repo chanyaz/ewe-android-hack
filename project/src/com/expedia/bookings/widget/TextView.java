@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.mobiata.android.util.ViewUtils;
 
 public class TextView extends android.widget.TextView {
 	private static final int NORMAL = 0;
@@ -36,10 +37,15 @@ public class TextView extends android.widget.TextView {
 	private void init(Context context, AttributeSet attrs, int defStyle) {
 		final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextView, defStyle, 0);
 		final int textStyle = a.getInt(R.styleable.TextView_textStyle, 0);
+		final boolean allCaps = a.getBoolean(R.styleable.TextView_textAllCaps, false);
 		a.recycle();
 
 		if (textStyle > 0) {
 			setTypefaceByStyle(this, textStyle);
+		}
+
+		if (allCaps) {
+			ViewUtils.setAllCaps(this);
 		}
 	}
 
