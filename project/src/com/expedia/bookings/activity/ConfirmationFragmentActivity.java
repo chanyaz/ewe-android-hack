@@ -22,6 +22,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.ConfirmationState.Type;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Policy;
@@ -30,6 +31,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirmationFragmentListener;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -78,6 +80,13 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 				}
 			}
 			else {
+				//Add guest itin to itin manager
+				if (Db.getCreateTripResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
+					String email = Db.getBillingInfo().getEmail();
+					String tripId = Db.getCreateTripResponse().getTripId();
+					ItineraryManager.getInstance().addGuestTrip(email, tripId, true);
+				}
+
 				// Start a background thread to save this data to the disk
 				new Thread(new Runnable() {
 					public void run() {
