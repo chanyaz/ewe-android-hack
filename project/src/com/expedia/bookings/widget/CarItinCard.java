@@ -92,6 +92,8 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		EventSummaryView dropOffEventSummaryView = Ui.findView(view, R.id.drop_off_event_summary_view);
 		TextView vendorPhoneTextView = Ui.findView(view, R.id.vendor_phone_text_view);
 		TextView detailsTextView = Ui.findView(view, R.id.details_text_view);
+		TextView insuranceLabel = Ui.findView(view, R.id.insurance_label);
+		ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
 
 		// Bind
 		pickUpDateTextView.setText(itinCardData.getFormattedPickUpDate());
@@ -124,6 +126,14 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
 			}
 		});
+		
+		boolean hasInsurance = hasInsurance();
+		int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
+		insuranceLabel.setVisibility(insuranceVisibility);
+		insuranceContainer.setVisibility(insuranceVisibility);
+		if (hasInsurance) {
+			addInsuranceRows(inflater, insuranceContainer);
+		}
 
 		return view;
 	}

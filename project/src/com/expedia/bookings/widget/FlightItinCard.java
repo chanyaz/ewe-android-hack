@@ -36,8 +36,6 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.FlightConfirmation;
-import com.expedia.bookings.data.trips.Insurance;
-import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -233,40 +231,18 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				confirmationCodeListTv.setText(R.string.missing_booking_code);
 			}
 
-			//TODO: Insurance can be on any card type, this needs to move up to ItinCard
 			//Insurance
-			boolean hasInsurance = (tripFlight.getParentTrip().getTripInsurance() != null && tripFlight.getParentTrip()
-					.getTripInsurance().size() > 0);
+			boolean hasInsurance = hasInsurance();
 			int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
 			insuranceLabel.setVisibility(insuranceVisibility);
 			insuranceContainer.setVisibility(insuranceVisibility);
 			if (hasInsurance) {
-				insuranceContainer.removeAllViews();
-				for (int i = 0; i < tripFlight.getParentTrip().getTripInsurance().size(); i++) {
-					if (tripFlight.getParentTrip().getTripInsurance().get(i).getLineOfBusiness()
-							.equals(InsuranceLineOfBusiness.AIR)) {
-						View insuranceRow = inflater.inflate(R.layout.snippet_itin_insurance_row, insuranceContainer);
-
-						final Insurance insurance = tripFlight.getParentTrip().getTripInsurance().get(i);
-						TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
-						insuranceName.setText(insurance.getPolicyName());
-
-						View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
-						insuranceLinkView.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View arg0) {
-								Intent insuranceIntent = WebViewActivity.getIntent(getContext(),
-										insurance.getTermsUrl(), R.style.FlightTheme, R.string.insurance, true);
-								getContext().startActivity(insuranceIntent);
-							}
-						});
-					}
-				}
-
+				addInsuranceRows(inflater, insuranceContainer);
 			}
 
 			//Add the flight stuff
 			Flight prevSegment = null;
+			int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
 			for (int j = 0; j < leg.getSegmentCount(); j++) {
 				Flight segment = leg.getSegment(j);
 				boolean isFirstSegment = (j == 0);
@@ -275,16 +251,16 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				if (isFirstSegment) {
 					flightLegContainer
 							.addView(getWayPointView(segment.mOrigin, null, WaypointType.DEPARTURE, inflater));
-					flightLegContainer.addView(getDividerView());
+					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
 				else {
 					flightLegContainer.addView(getWayPointView(prevSegment.mDestination, segment.mOrigin,
 							WaypointType.LAYOVER, inflater));
-					flightLegContainer.addView(getDividerView());
+					flightLegContainer.addView(getHorizontalDividerView(divPadding));
 				}
 
 				flightLegContainer.addView(getFlightView(segment, departureTimeCal, arrivalTimeCal, inflater));
-				flightLegContainer.addView(getDividerView());
+				flightLegContainer.addView(getHorizontalDividerView(divPadding));
 
 				if (isLastSegment) {
 					flightLegContainer.addView(getWayPointView(segment.mDestination, null, WaypointType.ARRIVAL,
@@ -593,19 +569,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		FlightLegSummarySection v = (FlightLegSummarySection) inflater.inflate(
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
-		return v;
-	}
-
-	private View getDividerView() {
-		View v = new View(this.getContext());
-		v.setBackgroundColor(getResources().getColor(R.color.itin_divider_color));
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 1);
-		int padding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
-		lp.leftMargin = padding;
-		lp.rightMargin = padding;
-		lp.topMargin = padding;
-		lp.bottomMargin = padding;
-		v.setLayoutParams(lp);
 		return v;
 	}
 

@@ -1,8 +1,12 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +19,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
+import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -393,6 +400,89 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	protected T getItinCardData() {
 		return mItinCardData;
+	}
+
+	/**
+	 * Add this trip's insurance to the passed in container
+	 * @param inflater
+	 * @param insuranceContainer
+	 */
+	protected void addInsuranceRows(LayoutInflater inflater, ViewGroup insuranceContainer) {
+		if (hasInsurance()) {
+			insuranceContainer.removeAllViews();
+
+			int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
+			int viewAddedCount = 0;
+			List<Insurance> insuranceList = this.getItinCardData().getTripComponent().getParentTrip()
+					.getTripInsurance();
+
+			for (final Insurance insurance : insuranceList) {
+				//Air insurance should only be added for flights, other types should be added to all itin card details
+				if (!insurance.getLineOfBusiness().equals(InsuranceLineOfBusiness.AIR) || getType().equals(Type.FLIGHT)) {
+					if (viewAddedCount > 0) {
+						insuranceContainer.addView(getHorizontalDividerView(divPadding));
+					}
+					View insuranceRow = inflater.inflate(R.layout.snippet_itin_insurance_row, null);
+					TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
+					insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
+
+					View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
+					insuranceLinkView.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View arg0) {
+							Intent insuranceIntent = WebViewActivity.getIntent(getContext(),
+									insurance.getTermsUrl(), R.style.FlightTheme, R.string.insurance, true);
+							getContext().startActivity(insuranceIntent);
+						}
+					});
+					
+					insuranceContainer.addView(insuranceRow);
+					viewAddedCount++;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Does this particular card have displayable insurance info
+	 * @return
+	 */
+	protected boolean hasInsurance() {
+		boolean hasInsurance = false;
+		if (this.getItinCardData() != null && this.getItinCardData().getTripComponent() != null
+				&& this.getItinCardData().getTripComponent().getParentTrip() != null) {
+
+			List<Insurance> insuranceList = this.getItinCardData().getTripComponent().getParentTrip()
+					.getTripInsurance();
+			if (insuranceList != null && insuranceList.size() > 0) {
+				for (int i = 0; i < insuranceList.size(); i++) {
+					Insurance ins = insuranceList.get(i);
+					if (ins.getLineOfBusiness().equals(InsuranceLineOfBusiness.AIR) && getType().equals(Type.FLIGHT)) {
+						hasInsurance = true;
+					}
+					else if (!ins.getLineOfBusiness().equals(InsuranceLineOfBusiness.AIR)) {
+						hasInsurance = true;
+					}
+				}
+			}
+		}
+		return hasInsurance;
+	}
+
+	/**
+	 * Get a horizontal divider view with the itin divider color 
+	 * @return
+	 */
+	protected View getHorizontalDividerView(int margin) {
+		View v = new View(this.getContext());
+		v.setBackgroundColor(getResources().getColor(R.color.itin_divider_color));
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 1);
+		lp.leftMargin = margin;
+		lp.rightMargin = margin;
+		lp.topMargin = margin;
+		lp.bottomMargin = margin;
+		v.setLayoutParams(lp);
+		return v;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

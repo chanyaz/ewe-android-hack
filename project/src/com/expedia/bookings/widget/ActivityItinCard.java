@@ -91,6 +91,8 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		TextView guestCountTextView = Ui.findView(view, R.id.guest_count_text_view);
 		ViewGroup guestsLayout = Ui.findView(view, R.id.guests_layout);
 		TextView detailsTextView = Ui.findView(view, R.id.details_text_view);
+		TextView insuranceLabel = Ui.findView(view, R.id.insurance_label);
+		ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
 
 		// Bind
 		activeDateTextView.setText(itinCardData.getFormattedActiveDate());
@@ -112,6 +114,14 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
 			}
 		});
+		
+		boolean hasInsurance = hasInsurance();
+		int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
+		insuranceLabel.setVisibility(insuranceVisibility);
+		insuranceContainer.setVisibility(insuranceVisibility);
+		if (hasInsurance) {
+			addInsuranceRows(inflater, insuranceContainer);
+		}
 
 		return view;
 	}

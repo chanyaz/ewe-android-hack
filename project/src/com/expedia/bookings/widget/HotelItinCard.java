@@ -97,6 +97,8 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
 		TextView roomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
 		TextView detailsTextView = Ui.findView(view, R.id.details_text_view);
+		TextView insuranceLabel = Ui.findView(view, R.id.insurance_label);
+		ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
 
 		// Bind
 		checkInDateTextView.setText(itinCardData.getFormattedCheckInDate());
@@ -125,6 +127,14 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
 			}
 		});
+		
+		boolean hasInsurance = hasInsurance();
+		int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
+		insuranceLabel.setVisibility(insuranceVisibility);
+		insuranceContainer.setVisibility(insuranceVisibility);
+		if (hasInsurance) {
+			addInsuranceRows(inflater, insuranceContainer);
+		}
 
 		return view;
 	}

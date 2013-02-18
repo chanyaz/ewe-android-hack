@@ -185,4 +185,24 @@
         android:padding="8dp"
         android:text="@string/itin_card_details_details" />
 
+    <!-- Insurance -->
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/insurance_label"
+        style="@style/TextView.Itin.SectionHeader.Padded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/insurance"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/insurance_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical"
+        android:visibility="gone" >
+    </LinearLayout>
+
 </LinearLayout>

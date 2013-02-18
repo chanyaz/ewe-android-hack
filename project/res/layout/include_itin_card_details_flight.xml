@@ -64,11 +64,10 @@
 
     <!-- MAP -->
 
-	<FrameLayout
+    <FrameLayout
         android:id="@+id/flight_map_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/itin_map_total_size" 
-        />
+        android:layout_height="@dimen/itin_map_total_size" />
 
     <!-- Flight legs -->
 
@@ -147,7 +146,8 @@
         style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/insurance" />
+        android:text="@string/insurance"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/insurance_container"
@@ -155,8 +155,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:orientation="vertical" >
-
+        android:orientation="vertical"
+        android:visibility="gone" >
     </LinearLayout>
 
 </LinearLayout>
