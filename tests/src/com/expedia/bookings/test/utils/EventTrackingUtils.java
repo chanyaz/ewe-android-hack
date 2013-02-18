@@ -18,7 +18,6 @@ public class EventTrackingUtils {
 		Date fileTimeInfo = new Date();
 		String fileTimeStamp = fileTimeInfo.toString();
 		mFileName = "/sdcard/" + fileTimeStamp + ".txt";
-
 		// Create the empty file with default permissions, etc.
 		File file = new File(mFileName);
 
@@ -46,7 +45,11 @@ public class EventTrackingUtils {
 			mFileWriter.println(line + timestamp);
 		}
 	}
-
+	
+	public void flushFileWriter() {
+		mFileWriter.flush();
+	}
+	
 	public void closeFileWriter() {
 		mFileWriter.close();
 	}

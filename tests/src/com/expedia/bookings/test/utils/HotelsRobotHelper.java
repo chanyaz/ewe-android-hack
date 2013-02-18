@@ -243,6 +243,10 @@ public class HotelsRobotHelper {
 		mFileWriter.closeFileWriter();
 	}
 
+	public void flushFileWriter() {
+		mFileWriter.flushFileWriter();
+	}
+
 	//Can't use before instantiating mFileWriter!
 	// Reading any instructions from a text file
 	// Expected file format:

@@ -64,6 +64,7 @@ public class AdvRegressionTest extends ActivityInstrumentationTestCase2<SearchAc
 			mDriver.delay();
 			mDriver.browseRooms(1, "NYC", true);
 			mSolo.goBack();
+			mDriver.flushFileWriter();
 		}
 
 		//Must close the fileWriter to write text to file.
