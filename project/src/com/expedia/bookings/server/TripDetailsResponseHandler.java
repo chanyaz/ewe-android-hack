@@ -31,7 +31,14 @@ public class TripDetailsResponseHandler extends JsonResponseHandler<TripDetailsR
 				return tripResponse;
 			}
 
-			tripResponse.setTrip(parser.parseTrip(response));
+			JSONObject responseData = response.optJSONObject("responseData");
+
+			// Back-compat method of grabbing trip details response (can be deleted later)
+			if (responseData == null) {
+				responseData = response;
+			}
+
+			tripResponse.setTrip(parser.parseTrip(responseData));
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse JSON trip details response", e);

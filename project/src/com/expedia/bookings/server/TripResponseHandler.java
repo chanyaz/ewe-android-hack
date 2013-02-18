@@ -32,7 +32,13 @@ public class TripResponseHandler extends JsonResponseHandler<TripResponse> {
 				return tripResponse;
 			}
 
-			JSONArray tripsArr = response.getJSONArray("response");
+			JSONArray tripsArr = response.optJSONArray("responseData");
+
+			// Back-compat method of grabbing trips response (can be deleted later)
+			if (tripsArr == null) {
+				tripsArr = response.optJSONArray("response");
+			}
+
 			int len = tripsArr.length();
 			for (int a = 0; a < len; a++) {
 				JSONObject tripJson = tripsArr.optJSONObject(a);
