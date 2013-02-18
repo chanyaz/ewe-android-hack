@@ -106,12 +106,19 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			ft.commit();
 
-			// If the debug setting is made to fake a price change, then fake the current price
+			// If the debug setting is made to fake a price change, then fake the current price (by changing it)
 			if (!AndroidUtils.isRelease(mContext)) {
-				String val = SettingUtils.get(mContext,
-						getString(R.string.preference_flight_fake_price_change),
-						getString(R.string.preference_flight_fake_price_change_default));
-				Db.getFlightSearch().getSelectedFlightTrip().getTotalFare().add(new BigDecimal(val));
+				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+
+				BigDecimal fakePriceChange = getFakePriceChangeAmount();
+				BigDecimal fakeObFees = getFakeObFeesAmount();
+
+				// We change the total price we're sending to the server, so that it
+				// thinks there has been a price change.  Note that you can't have the
+				// fake price change == -fake ob fees, or else we'll end up with the
+				// correct price and it'll just book.  :P
+				trip.getTotalFare().add(fakePriceChange);
+				trip.getTotalFare().subtract(fakeObFees);
 			}
 		}
 
@@ -267,6 +274,16 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		@Override
 		public void onDownload(FlightCheckoutResponse results) {
 			mProgressFragment.dismiss();
+
+			// Modify the response to fake online booking fees
+			if (!AndroidUtils.isRelease(mContext)) {
+				BigDecimal fakeObFees = getFakeObFeesAmount();
+				if (!fakeObFees.equals(BigDecimal.ZERO)) {
+					Money amount = new Money(results.getNewOffer().getTotalFare());
+					amount.setAmount(fakeObFees);
+					results.getNewOffer().setOnlineBookingFeesAmount(amount);
+				}
+			}
 
 			Db.setFlightCheckout(results);
 
@@ -490,5 +507,22 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	public void onCancelUnhandledException() {
 		finish();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Debug code
+
+	private BigDecimal getFakePriceChangeAmount() {
+		String amount = SettingUtils.get(mContext,
+				getString(R.string.preference_flight_fake_price_change),
+				getString(R.string.preference_flight_fake_price_change_default));
+		return new BigDecimal(amount);
+	}
+
+	private BigDecimal getFakeObFeesAmount() {
+		String amount = SettingUtils.get(mContext,
+				getString(R.string.preference_flight_fake_obfees),
+				getString(R.string.preference_flight_fake_obfees_default));
+		return new BigDecimal(amount);
 	}
 }
