@@ -66,4 +66,8 @@ public class ItinCardDataActivity extends ItinCardData {
 	public List<Traveler> getTravelers() {
 		return mActivity.getTravelers();
 	}
+	
+	public String getVoucherPrintUrl() {
+		return mActivity.getVoucherPrintUrl();
+	}
 }

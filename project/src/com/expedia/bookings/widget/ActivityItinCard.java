@@ -117,16 +117,17 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	}
 
 	@Override
-	protected SummaryButton getSummaryLeftButton(ItinCardDataActivity itinCardData) {
+	protected SummaryButton getSummaryLeftButton(final ItinCardDataActivity itinCardData) {
 		return new SummaryButton(R.drawable.ic_printer_redeem, R.string.itin_action_redeem, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				SocialUtils.openSite(getContext(), itinCardData.getVoucherPrintUrl());
 			}
 		});
 	}
 
 	@Override
-	protected SummaryButton getSummaryRightButton(ItinCardDataActivity itinCardData) {
+	protected SummaryButton getSummaryRightButton(final ItinCardDataActivity itinCardData) {
 		return new SummaryButton(R.drawable.ic_phone, R.string.itin_action_support, new OnClickListener() {
 			@Override
 			public void onClick(View v) {

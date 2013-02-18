@@ -383,6 +383,7 @@ public class TripParser {
 			activity.setTitle(obj.optString("activityTitle", null));
 			activity.setDetailsUrl(obj.optString("activityDetailsURL", null));
 			activity.setGuestCount(obj.optInt("travelerCount"));
+			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
 
 			JSONObject priceJson = obj.optJSONObject("price");
 			activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),

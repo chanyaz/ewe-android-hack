@@ -19,6 +19,7 @@ public class Activity implements JSONable {
 	private String mDetailsUrl;
 	private Integer mGuestsCount;
 	private List<Traveler> mTravelers;
+	private String mVoucherPrintUrl;
 
 	public String getId() {
 		return mId;
@@ -90,6 +91,14 @@ public class Activity implements JSONable {
 
 	public void setTravelers(Collection<? extends Traveler> travelers) {
 		mTravelers = new ArrayList<Traveler>(travelers);
+	}
+
+	public String getVoucherPrintUrl() {
+		return mVoucherPrintUrl;
+	}
+
+	public void setVoucherPrintUrl(String argName) {
+		mVoucherPrintUrl = argName;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
