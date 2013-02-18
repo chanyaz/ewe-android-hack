@@ -30,7 +30,7 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Active"
+                android:text="@string/itin_card_details_active"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />
@@ -63,7 +63,7 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Expires"
+                android:text="@string/itin_card_details_expires"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />
@@ -96,7 +96,7 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guests"
+                android:text="@string/itin_card_details_guests"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />
@@ -112,7 +112,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="GUESTS" />
+        android:text="@string/itin_card_details_guests" />
 
     <LinearLayout
         android:id="@+id/guests_layout"
@@ -131,7 +131,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="BOOKING INFO" />
+        android:text="@string/itin_card_details_booking_info" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/details_text_view"
@@ -143,6 +143,6 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/list_selector_holo_dark"
         android:padding="8dp"
-        android:text="View receipt and policies" />
+        android:text="@string/itin_card_details_details" />
 
 </LinearLayout>

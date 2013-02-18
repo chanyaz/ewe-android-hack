@@ -28,7 +28,7 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Check In"
+                android:text="@string/itin_card_details_check_in"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />
@@ -59,7 +59,7 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Check Out"
+                android:text="@string/itin_card_details_check_out"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />
@@ -90,7 +90,7 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guests"
+                android:text="@string/itin_card_details_guests"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />
@@ -113,7 +113,7 @@
         style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ADDRESS" />
+        android:text="@string/itin_card_details_address" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/address_text_view"
@@ -133,7 +133,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="PHONE" />
+        android:text="@string/itin_card_details_phone" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/phone_number_text_view"
@@ -151,7 +151,7 @@
         style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ROOM TYPE" />
+        android:text="@string/itin_card_details_room_type" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/room_type_text_view"
@@ -171,7 +171,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="BOOKING INFO" />
+        android:text="@string/itin_card_details_booking_info" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/details_text_view"
@@ -183,6 +183,6 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/list_selector_holo_dark"
         android:padding="8dp"
-        android:text="View receipt and policies" />
+        android:text="@string/itin_card_details_details" />
 
 </LinearLayout>

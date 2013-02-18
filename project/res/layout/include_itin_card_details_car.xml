@@ -28,7 +28,7 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pick Up"
+                android:text="@string/itin_card_details_pick_up"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />
@@ -59,7 +59,7 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Drop Off"
+                android:text="@string/itin_card_details_drop_off"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />
@@ -90,7 +90,7 @@
             <com.expedia.bookings.widget.TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Days"
+                android:text="@string/itin_card_details_days"
                 android:textColor="#a9abae"
                 android:textSize="14dp"
                 app:textStyle="light" />
@@ -113,7 +113,7 @@
         style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PICK UP" />
+        android:text="@string/itin_card_details_pick_up" />
 
     <com.expedia.bookings.widget.EventSummaryView
         android:id="@+id/pick_up_event_summary_view"
@@ -129,7 +129,7 @@
         style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DROP OFF" />
+        android:text="@string/itin_card_details_drop_off" />
 
     <com.expedia.bookings.widget.EventSummaryView
         android:id="@+id/drop_off_event_summary_view"
@@ -148,7 +148,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="AGENCY PHONE" />
+        android:text="@string/itin_card_details_agency_phone" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/vendor_phone_text_view"
@@ -169,7 +169,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="BOOKING INFO" />
+        android:text="@string/itin_card_details_booking_info" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/details_text_view"
@@ -181,6 +181,6 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/list_selector_holo_dark"
         android:padding="8dp"
-        android:text="View receipt and policies" />
+        android:text="@string/itin_card_details_details" />
 
 </LinearLayout>
