@@ -115,7 +115,7 @@ public class TripParser {
 		}
 		else if (obj instanceof JSONObject) {
 			JSONObject json = (JSONObject) obj;
-			return new DateTime(json.optLong("epochSeconds") * 1000, json.optInt("timeZoneOffsetSeconds"));
+			return new DateTime(json.optLong("epochSeconds") * 1000, json.optInt("timeZoneOffsetSeconds") * 1000);
 		}
 		else if (obj instanceof String) {
 			// TODO: DELETE ONCE OBSELETE
