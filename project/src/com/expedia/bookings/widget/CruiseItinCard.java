@@ -20,7 +20,6 @@ public class CruiseItinCard extends ItinCard {
 
 	@Override
 	public int getTypeIconResId() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -31,13 +30,11 @@ public class CruiseItinCard extends ItinCard {
 
 	@Override
 	protected String getShareSubject(ItinCardData itinCardData) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String getShareText(ItinCardData itinCardData) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

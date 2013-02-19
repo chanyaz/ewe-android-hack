@@ -259,6 +259,11 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			mSummaryRightButton.setText(rightButton.getText());
 			mSummaryRightButton.setOnClickListener(rightButton.getOnClickListener());
 		}
+
+		mSummaryLeftButton.setVisibility(leftButton != null ? VISIBLE : GONE);
+		mSummaryRightButton.setVisibility(rightButton != null ? VISIBLE : GONE);
+		Ui.findView(this, R.id.action_button_divider).setVisibility(
+				(leftButton != null && rightButton != null) ? VISIBLE : GONE);
 	}
 
 	public void inflateDetailsView() {
