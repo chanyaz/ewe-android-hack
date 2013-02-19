@@ -19,6 +19,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchHeaderView;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -178,6 +179,10 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			// We know we don't need any of these images later in the app, so we might as well
+			// clear up a bit of memory here.
+			TwoLevelImageCache.clearMemoryCache();
+
 			switch (v.getId()) {
 			case R.id.hotels_button:
 				NavUtils.goToHotels(LaunchActivity.this);
