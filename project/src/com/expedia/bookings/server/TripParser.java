@@ -4,8 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -594,7 +592,7 @@ public class TripParser {
 			location.setLongitude(obj.optDouble("longitude"));
 			location.addStreetAddressLine(obj.optString("addressLine1"));
 			location.addStreetAddressLine(obj.optString("addressLine2"));
-			location.setCity(obj.optString("addressLine3"));
+			location.setCity(obj.optString("cityName", obj.optString("addressLine3")));
 			location.setStateCode(obj.optString("provinceStateName"));
 			location.setPostalCode(obj.optString("postalCode"));
 
