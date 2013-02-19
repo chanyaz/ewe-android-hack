@@ -3,19 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layerType="hardware" >
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_itin_card_path" />
-
     <LinearLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="@dimen/itin_list_card_top_image_offset"
+        android:layout_marginTop="8dp"
         android:background="@drawable/bg_itin_card"
         android:layerType="hardware"
         android:orientation="vertical" >

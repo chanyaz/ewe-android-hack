@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AbsListView;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -27,12 +29,14 @@ import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.widget.ItinListView;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.view.ViewHelper;
 
 public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialogFragment.DoLogoutListener,
 		ItinerarySyncListener {
 
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
 
+	private View mItinPathView;
 	private ItinListView mItinListView;
 	private View mEmptyView;
 	private View mOrEnterNumberTv;
@@ -59,6 +63,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
 
+		mItinPathView = Ui.findView(view, R.id.itin_path_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
 		mEmptyView = Ui.findView(view, android.R.id.empty);
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
@@ -68,6 +73,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mLoginButton.setText(Html.fromHtml(getString(R.string.log_in_for_your_trips)));
 
 		mItinListView.setEmptyView(mEmptyView);
+		mItinListView.setOnScrollListener(mOnScrollListener);
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -219,4 +225,24 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public void onSyncFinished(Collection<Trip> trips) {
 		setIsLoading(false);
 	}
+
+	private OnScrollListener mOnScrollListener = new OnScrollListener() {
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState) {
+		}
+
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+			int translationY = 0;
+			if (firstVisibleItem == 0) {
+				View child = view.getChildAt(0);
+				if (child != null) {
+					translationY = child.getTop() + (child.getHeight() / 2);
+					translationY = Math.max(0, translationY);
+				}
+			}
+
+			ViewHelper.setTranslationY(mItinPathView, translationY);
+		}
+	};
 }
