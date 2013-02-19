@@ -94,11 +94,11 @@ public class ItinCardDataCar extends ItinCardData {
 	}
 
 	public Location getPickUpLocation() {
-		return mCar.getPickupLocation();
+		return mCar.getPickUpLocation();
 	}
 
 	public Location getDropOffLocation() {
-		return mCar.getDropoffLocation();
+		return mCar.getDropOffLocation();
 	}
 
 	public String getFormattedPickUpTime() {
@@ -136,8 +136,8 @@ public class ItinCardDataCar extends ItinCardData {
 	}
 
 	public Location getRelevantLocation() {
-		boolean pickup = System.currentTimeMillis() > mCar.getPickupDateTime().getMillisFromEpoch();
-		return pickup ? mCar.getPickupLocation() : mCar.getDropoffLocation();
+		boolean pickup = System.currentTimeMillis() > mCar.getPickUpDateTime().getMillisFromEpoch();
+		return pickup ? mCar.getPickUpLocation() : mCar.getDropOffLocation();
 	}
 
 	public Intent getPikcupDirectionsIntent() {

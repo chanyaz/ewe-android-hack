@@ -47,9 +47,6 @@ import com.mobiata.flightlib.data.Waypoint;
  *
  */
 public class TripParser {
-
-	private Map<String, TripWaypoint> mWaypoints;
-
 	public Trip parseTrip(JSONObject tripJson) {
 		Trip trip = new Trip();
 		trip.setTripId(tripJson.optString("tripId"));
@@ -62,15 +59,6 @@ public class TripParser {
 
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
 		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
-
-		// Parse waypoints (used for flights parsing, if flights details response)
-		JSONArray waypoints = tripJson.optJSONArray("waypoints");
-		if (waypoints != null) {
-			mWaypoints = new HashMap<String, TripWaypoint>();
-			for (int b = 0; b < waypoints.length(); b++) {
-				parseWaypoint(waypoints.optJSONObject(b));
-			}
-		}
 
 		// Parse hotels
 		JSONArray hotels = tripJson.optJSONArray("hotels");
@@ -304,10 +292,8 @@ public class TripParser {
 				//required for flight map
 				segment.mStatusCode = Flight.STATUS_UNKNOWN;
 
-				TripWaypoint origin = mWaypoints.get(segmentJson.opt("departureWaypointId"));
-				TripWaypoint destination = mWaypoints.get(segmentJson.opt("arrivalWaypointId"));
-				segment.mOrigin = convertTripWaypointForFlight(origin);
-				segment.mDestination = convertTripWaypointForFlight(destination);
+				segment.mOrigin = parseWaypoint(segmentJson, Waypoint.F_ARRIVAL);
+				segment.mDestination = parseWaypoint(segmentJson, Waypoint.F_DEPARTURE);
 
 				FlightCode flightCode = new FlightCode();
 				flightCode.mAirlineCode = segmentJson.optString("airlineCode");
@@ -354,8 +340,11 @@ public class TripParser {
 			car.setPrice(ParserUtils.createMoney(priceJson.optString("base", null),
 					priceJson.optString("currency", null)));
 
-			addTripWaypointToCar(mWaypoints.get(obj.optString("pickupWaypointId")), car);
-			addTripWaypointToCar(mWaypoints.get(obj.optString("dropoffWaypointId")), car);
+			car.setPickUpDateTime(parseDateTime(obj.optJSONObject("pickupTime")));
+			car.setDropOffDateTime(parseDateTime(obj.optJSONObject("dropOffTime")));
+
+			car.setPickUpLocation(parseLocation(obj.optJSONObject("pickupLocation")));
+			car.setDropOffLocation(parseLocation(obj.optJSONObject("dropOffLocation")));
 
 			JSONObject vendorJson = obj.optJSONObject("carVendor");
 			CarVendor vendor = new CarVendor();
@@ -598,75 +587,44 @@ public class TripParser {
 		return null;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Internal Waypoint class
-	//
-	// This is temporary; it will be removed from the API soon, but in the
-	// meantime we have to deal with it.
+	private Location parseLocation(JSONObject obj) {
+		if (obj != null) {
+			Location location = new Location();
+			location.setLatitude(obj.optDouble("latitude"));
+			location.setLongitude(obj.optDouble("longitude"));
+			location.addStreetAddressLine(obj.optString("addressLine1"));
+			location.addStreetAddressLine(obj.optString("addressLine2"));
+			location.setCity(obj.optString("addressLine3"));
+			location.setStateCode(obj.optString("provinceStateName"));
+			location.setPostalCode(obj.optString("postalCode"));
 
-	private static class TripWaypoint {
-		private String mType;
+			return location;
+		}
 
-		private DateTime mTime;
-
-		private Location mLocation;
-
-		// For flights only
-		private String mAirportCode;
-		private String mAirportTerminal;
+		return null;
 	}
 
-	public void parseWaypoint(JSONObject obj) {
-		TripWaypoint waypoint = new TripWaypoint();
+	public Waypoint parseWaypoint(JSONObject obj, int type) {
+		if (obj != null && (type == Waypoint.F_ARRIVAL || type == Waypoint.F_DEPARTURE)) {
+			Waypoint waypoint = new Waypoint(type);
+			String locationName = type == Waypoint.F_ARRIVAL ? "arrivalLocation" : "departureLocation";
+			String timeName = type == Waypoint.F_ARRIVAL ? "arrivalTime" : "departureTime";
 
-		waypoint.mType = obj.optString("type");
-
-		JSONObject timeJson = obj.optJSONObject("time");
-		waypoint.mTime = new DateTime(timeJson.optLong("epochSeconds") * 1000, timeJson.optInt("timeZoneOffsetSeconds"));
-
-		JSONObject locationJson = obj.optJSONObject("location");
-		if (locationJson != null) {
-			waypoint.mAirportCode = locationJson.optString("airportCode", null);
-			waypoint.mAirportTerminal = locationJson.optString("airportTerminal", null);
-
-			Location location = new Location();
-			location.setLatitude(locationJson.optDouble("latitude", 0));
-			location.setLongitude(locationJson.optDouble("longitude", 0));
-			location.setCity(locationJson.optString("city", null));
-			location.setCountryCode(locationJson.optString("countryCode", null));
-
-			String fullAddress = locationJson.optString("fullAddress", null);
-			if (!TextUtils.isEmpty(fullAddress)) {
-				location.addStreetAddressLine(fullAddress);
+			JSONObject locationJson = obj.optJSONObject(locationName);
+			if (locationJson != null) {
+				waypoint.mAirportCode = locationJson.optString("airportCode");
 			}
 
-			waypoint.mLocation = location;
+			JSONObject timeJson = obj.optJSONObject(timeName);
+			if (timeJson != null) {
+				DateTime time = parseDateTime(timeJson);
+				waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED,
+						time.getMillisFromEpoch(), time.getTzOffsetMillis());
+			}
+
+			return waypoint;
 		}
 
-		mWaypoints.put(obj.optString("id"), waypoint);
-	}
-
-	private Waypoint convertTripWaypointForFlight(TripWaypoint tripWaypoint) {
-		Waypoint waypoint = new Waypoint(tripWaypoint.mType.equals("FLIGHT_DEPARTURE") ? Waypoint.F_DEPARTURE
-				: Waypoint.F_ARRIVAL);
-
-		waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED,
-				tripWaypoint.mTime.getMillisFromEpoch(), tripWaypoint.mTime.getTzOffsetMillis());
-
-		waypoint.mAirportCode = tripWaypoint.mAirportCode;
-		waypoint.setTerminal(tripWaypoint.mAirportTerminal);
-
-		return waypoint;
-	}
-
-	private void addTripWaypointToCar(TripWaypoint tripWaypoint, Car car) {
-		if (tripWaypoint.mType.equals("CAR_PICKUP")) {
-			car.setPickupDateTime(tripWaypoint.mTime);
-			car.setPickupLocation(tripWaypoint.mLocation);
-		}
-		else {
-			car.setDropoffDateTime(tripWaypoint.mTime);
-			car.setDropoffLocation(tripWaypoint.mLocation);
-		}
+		return null;
 	}
 }

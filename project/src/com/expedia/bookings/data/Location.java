@@ -54,7 +54,9 @@ public class Location implements JSONable {
 			mStreetAddress = new ArrayList<String>();
 		}
 
-		mStreetAddress.add(line);
+		if (line != null) {
+			mStreetAddress.add(line);
+		}
 	}
 
 	public String getDescription() {

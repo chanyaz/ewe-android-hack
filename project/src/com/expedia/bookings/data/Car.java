@@ -60,11 +60,11 @@ public class Car implements JSONable {
 
 	private Money mPrice;
 
-	private DateTime mPickupDateTime;
-	private Location mPickupLocation;
+	private DateTime mPickUpDateTime;
+	private Location mPickUpLocation;
 
-	private DateTime mDropoffDateTime;
-	private Location mDropoffLocation;
+	private DateTime mDropOffDateTime;
+	private Location mDropOffLocation;
 
 	private CarVendor mVendor;
 
@@ -97,36 +97,36 @@ public class Car implements JSONable {
 		mPrice = price;
 	}
 
-	public DateTime getPickupDateTime() {
-		return mPickupDateTime;
+	public DateTime getPickUpDateTime() {
+		return mPickUpDateTime;
 	}
 
-	public void setPickupDateTime(DateTime pickupDateTime) {
-		mPickupDateTime = pickupDateTime;
+	public void setPickUpDateTime(DateTime pickUpDateTime) {
+		mPickUpDateTime = pickUpDateTime;
 	}
 
-	public Location getPickupLocation() {
-		return mPickupLocation;
+	public Location getPickUpLocation() {
+		return mPickUpLocation;
 	}
 
-	public void setPickupLocation(Location pickupLocation) {
-		mPickupLocation = pickupLocation;
+	public void setPickUpLocation(Location pickUpLocation) {
+		mPickUpLocation = pickUpLocation;
 	}
 
-	public DateTime getDropoffDateTime() {
-		return mDropoffDateTime;
+	public DateTime getDropOffDateTime() {
+		return mDropOffDateTime;
 	}
 
-	public void setDropoffDateTime(DateTime dropoffDateTime) {
-		mDropoffDateTime = dropoffDateTime;
+	public void setDropOffDateTime(DateTime dropOffDateTime) {
+		mDropOffDateTime = dropOffDateTime;
 	}
 
-	public Location getDropoffLocation() {
-		return mDropoffLocation;
+	public Location getDropOffLocation() {
+		return mDropOffLocation;
 	}
 
-	public void setDropoffLocation(Location dropoffLocation) {
-		mDropoffLocation = dropoffLocation;
+	public void setDropOffLocation(Location dropOffLocation) {
+		mDropOffLocation = dropOffLocation;
 	}
 
 	public CarVendor getVendor() {
@@ -174,10 +174,10 @@ public class Car implements JSONable {
 			obj.putOpt("confNumber", mConfNumber);
 
 			JSONUtils.putJSONable(obj, "price", mPrice);
-			JSONUtils.putJSONable(obj, "pickupDateTime", mPickupDateTime);
-			JSONUtils.putJSONable(obj, "pickupLocation", mPickupLocation);
-			JSONUtils.putJSONable(obj, "dropoffDateTime", mDropoffDateTime);
-			JSONUtils.putJSONable(obj, "dropoffLocation", mDropoffLocation);
+			JSONUtils.putJSONable(obj, "pickupDateTime", mPickUpDateTime);
+			JSONUtils.putJSONable(obj, "pickupLocation", mPickUpLocation);
+			JSONUtils.putJSONable(obj, "dropoffDateTime", mDropOffDateTime);
+			JSONUtils.putJSONable(obj, "dropoffLocation", mDropOffLocation);
 
 			JSONUtils.putJSONable(obj, "vendor", mVendor);
 
@@ -200,10 +200,10 @@ public class Car implements JSONable {
 		mConfNumber = obj.optString("confNumber", null);
 
 		mPrice = JSONUtils.getJSONable(obj, "price", Money.class);
-		mPickupDateTime = JSONUtils.getJSONable(obj, "pickupDateTime", DateTime.class);
-		mPickupLocation = JSONUtils.getJSONable(obj, "pickupLocation", Location.class);
-		mDropoffDateTime = JSONUtils.getJSONable(obj, "dropoffDateTime", DateTime.class);
-		mDropoffLocation = JSONUtils.getJSONable(obj, "dropoffLocation", Location.class);
+		mPickUpDateTime = JSONUtils.getJSONable(obj, "pickupDateTime", DateTime.class);
+		mPickUpLocation = JSONUtils.getJSONable(obj, "pickupLocation", Location.class);
+		mDropOffDateTime = JSONUtils.getJSONable(obj, "dropoffDateTime", DateTime.class);
+		mDropOffLocation = JSONUtils.getJSONable(obj, "dropoffLocation", Location.class);
 
 		mVendor = JSONUtils.getJSONable(obj, "vendor", CarVendor.class);
 
