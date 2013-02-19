@@ -118,7 +118,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private T mItinCardData;
 
 	private DisplayState mDisplayState = DisplayState.COLLAPSED;
-	private boolean mShowSummary = false;
+	private boolean mShowSummary;
 
 	private int mTitleLayoutHeight;
 	private int mActionButtonLayoutHeight;
@@ -274,7 +274,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	public void destroyDetailsView() {
 		mDetailsLayout.removeAllViews();
 	}
-
+	
 	public void setShowSummary(boolean showSummary) {
 		mShowSummary = showSummary;
 	}
@@ -398,6 +398,10 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PROTECTED METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+	
+	protected boolean hasDetails() {
+		return true;
+	}
 
 	protected T getItinCardData() {
 		return mItinCardData;

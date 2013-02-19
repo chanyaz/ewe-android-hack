@@ -252,10 +252,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	private void showDetails(int position) {
-		mMode = MODE_DETAIL;
-		mDetailPosition = position;
+		final ItinCard view = (ItinCard) getChildAt(position - getFirstVisiblePosition());
+		if (!view.hasDetails()) {
+			return;
+		}
 
-		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
+		mDetailPosition = position;
+		mMode = MODE_DETAIL;
 
 		mExpandedCardOriginalHeight = view.getHeight();
 		mOriginalScrollY = getScrollY();
