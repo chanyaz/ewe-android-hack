@@ -23,14 +23,13 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.Insurance;
-import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
-import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -181,9 +180,6 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
 		mSummaryRightButton = Ui.findView(this, R.id.summary_right_button);
-
-		ViewUtils.setAllCaps(mSummaryLeftButton);
-		ViewUtils.setAllCaps(mSummaryRightButton);
 
 		updateClickable();
 		updateLayout();
@@ -440,7 +436,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 							getContext().startActivity(insuranceIntent);
 						}
 					});
-					
+
 					insuranceContainer.addView(insuranceRow);
 					viewAddedCount++;
 				}

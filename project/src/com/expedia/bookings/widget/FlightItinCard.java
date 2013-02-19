@@ -320,7 +320,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	@SuppressLint("DefaultLocale")
 	@Override
 	protected SummaryButton getSummaryLeftButton(final ItinCardDataFlight itinCardData) {
-		return new SummaryButton(R.drawable.ic_direction, getResources().getString(R.string.directions).toUpperCase(),
+		return new SummaryButton(R.drawable.ic_direction, R.string.directions,
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -339,8 +339,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			return null;
 		}
 		else {
-			return new SummaryButton(R.drawable.ic_add_event, getResources().getString(R.string.add_event)
-					.toUpperCase(), new OnClickListener() {
+			return new SummaryButton(R.drawable.ic_add_event, R.string.add_event, new OnClickListener() {
 				@SuppressLint("NewApi")
 				@Override
 				public void onClick(View v) {

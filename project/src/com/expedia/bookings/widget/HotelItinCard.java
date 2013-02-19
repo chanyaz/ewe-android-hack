@@ -141,7 +141,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 
 	@Override
 	protected SummaryButton getSummaryLeftButton(final ItinCardDataHotel itinCardData) {
-		return new SummaryButton(R.drawable.ic_urgency_clock, "DIRECTIONS", new OnClickListener() {
+		return new SummaryButton(R.drawable.ic_urgency_clock, R.string.itin_action_directions, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final Intent intent = itinCardData.getDirectionsIntent();
@@ -154,7 +154,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 
 	@Override
 	protected SummaryButton getSummaryRightButton(final ItinCardDataHotel itinCardData) {
-		return new SummaryButton(R.drawable.ic_urgency_clock, "CALL HOTEL", new OnClickListener() {
+		return new SummaryButton(R.drawable.ic_urgency_clock, R.string.itin_action_call_hotel, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String phone = itinCardData.getRelevantPhone();

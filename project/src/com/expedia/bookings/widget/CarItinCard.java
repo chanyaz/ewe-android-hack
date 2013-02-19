@@ -126,7 +126,7 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
 			}
 		});
-		
+
 		boolean hasInsurance = hasInsurance();
 		int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
 		insuranceLabel.setVisibility(insuranceVisibility);
@@ -140,7 +140,7 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 
 	@Override
 	protected SummaryButton getSummaryLeftButton(final ItinCardDataCar itinCardData) {
-		return new SummaryButton(R.drawable.ic_direction, R.string.directions, new OnClickListener() {
+		return new SummaryButton(R.drawable.ic_direction, R.string.itin_action_directions, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final Intent intent = itinCardData.getRelevantDirectionsIntent();

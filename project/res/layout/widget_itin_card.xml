@@ -179,6 +179,7 @@
                     android:padding="8dp"
                     android:textColor="@color/itin_white_text"
                     android:textSize="12dp"
+                    app:textAllCaps="true"
                     app:textStyle="bold" />
 
                 <View
@@ -200,6 +201,7 @@
                     android:padding="8dp"
                     android:textColor="@color/itin_white_text"
                     android:textSize="12dp"
+                    app:textAllCaps="true"
                     app:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
