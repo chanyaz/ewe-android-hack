@@ -122,8 +122,6 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mKillReceiver.onDestroy();
-
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
 		}
