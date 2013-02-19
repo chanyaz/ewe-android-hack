@@ -1180,14 +1180,19 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				else {
 					Db.addAvailabilityResponse(availabilityResponse);
 
-					Db.getProperty(availabilityResponse.getProperty().getPropertyId()).updateFrom(
-							availabilityResponse.getProperty());
+					Property availabilityProperty = availabilityResponse.getProperty();
+					String propertyId = availabilityProperty.getPropertyId();
+
+					Property searchProperty = Db.getProperty(propertyId);
+					if (searchProperty != null) {
+						searchProperty.updateFrom(availabilityProperty);
+					}
 
 					notifyAvailabilityQueryComplete();
 
 					// Immediately kick off another (more expensive) request to get more data (if possible)
 					if (availabilityResponse.canRequestMoreData()) {
-						startRoomsAndRatesDownload(Db.getProperty(availabilityResponse.getProperty().getPropertyId()));
+						startRoomsAndRatesDownload(availabilityProperty);
 					}
 				}
 			}
