@@ -127,7 +127,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
 			}
 		});
-		
+
 		boolean hasInsurance = hasInsurance();
 		int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
 		insuranceLabel.setVisibility(insuranceVisibility);
@@ -141,7 +141,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 
 	@Override
 	protected SummaryButton getSummaryLeftButton(final ItinCardDataHotel itinCardData) {
-		return new SummaryButton(R.drawable.ic_urgency_clock, R.string.itin_action_directions, new OnClickListener() {
+		return new SummaryButton(R.drawable.ic_direction, R.string.itin_action_directions, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final Intent intent = itinCardData.getDirectionsIntent();
@@ -154,7 +154,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 
 	@Override
 	protected SummaryButton getSummaryRightButton(final ItinCardDataHotel itinCardData) {
-		return new SummaryButton(R.drawable.ic_urgency_clock, R.string.itin_action_call_hotel, new OnClickListener() {
+		return new SummaryButton(R.drawable.ic_phone, R.string.itin_action_call_hotel, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String phone = itinCardData.getRelevantPhone();
