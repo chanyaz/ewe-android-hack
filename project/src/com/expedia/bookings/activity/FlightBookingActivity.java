@@ -13,6 +13,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -90,9 +91,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		setContentView(R.layout.activity_flight_booking);
 
-		ViewGroup outerContainer = Ui.findView(this, R.id.outer_container);
-		BitmapDrawable bg = new BitmapDrawable(getResources(), Db.getBackgroundImage(this, true));
-		outerContainer.setBackgroundDrawable(bg);
+		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
+		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
 
 		setTitle(R.string.title_complete_booking);
 
