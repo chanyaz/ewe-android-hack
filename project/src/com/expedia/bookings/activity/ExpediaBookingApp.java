@@ -33,6 +33,8 @@ import com.nullwire.trace.ExceptionHandler;
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
 
+	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 4); // 4 MB
+
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
 
 	@Override
@@ -115,8 +117,16 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		int memoryClass = ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).getMemoryClass();
 		Log.i("MaxMemory=" + maxMemory + " bytes (" + (maxMemory / 1048576) + "MB) MemoryClass=" + memoryClass + "MB");
 
+		// Here's what we're aiming for, in terms of memory cache size:
+		// 1. At least MIN_IMAGE_CACHE_SIZE
+		// 2. No greater than 1/8th the memory available
+		int maxCacheSize = (1024 * 1024 * memoryClass) / 8;
+		if (maxCacheSize < MIN_IMAGE_CACHE_SIZE) {
+			maxCacheSize = MIN_IMAGE_CACHE_SIZE;
+		}
+
 		// Init TwoLevelImageCache
-		TwoLevelImageCache.init(this);
+		TwoLevelImageCache.init(this, maxCacheSize);
 	}
 
 	@Override
