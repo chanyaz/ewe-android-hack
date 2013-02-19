@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 
@@ -20,7 +21,7 @@ public class CruiseItinCard extends ItinCard {
 
 	@Override
 	public int getTypeIconResId() {
-		return 0;
+		return R.drawable.ic_type_circle_cruise;
 	}
 
 	@Override
