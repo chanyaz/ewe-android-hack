@@ -54,7 +54,7 @@ public class ItinCardDataCar extends ItinCardData {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final SimpleDateFormat DETAIL_TIME_FORMAT = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+	private static final SimpleDateFormat DETAIL_TIME_FORMAT = new SimpleDateFormat("h:mm a", Locale.getDefault());
 	private static final SimpleDateFormat DETAIL_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -21,7 +21,7 @@ public class EventSummaryView extends LinearLayout {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+	private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("h:mm a", Locale.getDefault());
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EE, MMM d, yyyy", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////
