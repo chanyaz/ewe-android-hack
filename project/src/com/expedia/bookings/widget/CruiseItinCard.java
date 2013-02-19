@@ -73,4 +73,11 @@ public class CruiseItinCard extends ItinCard {
 	protected SummaryButton getSummaryRightButton(ItinCardData itinCardData) {
 		return null;
 	}
+
+	// Overrides
+
+	@Override
+	protected boolean hasDetails() {
+		return false;
+	}
 }
