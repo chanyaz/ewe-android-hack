@@ -247,12 +247,20 @@ public class PointOfSale {
 		return getPosLocale().mBestPriceGuaranteePolicyUrl;
 	}
 
+	public String getTermsAndConditionsLinkText() {
+		return getPosLocale().mTermsAndConditionsLinkText;
+	}
+
 	public String getTermsAndConditionsUrl() {
 		return getPosLocale().mTermsAndConditionsUrl;
 	}
 
 	public String getTermsOfBookingUrl() {
 		return getPosLocale().mTermsOfBookingUrl;
+	}
+
+	public String getPrivacyPolicyUrlLinkText() {
+		return getPosLocale().mPrivacyPolicyLinkText;
 	}
 
 	public String getPrivacyPolicyUrl() {

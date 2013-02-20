@@ -10,9 +10,9 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -426,8 +426,17 @@ public class BookingFormFragment extends Fragment {
 		}
 
 		// Setup the correct text (and link enabling) on the terms & conditions textview
-		mRulesRestrictionsTextView.setText(PointOfSale.getPointOfSale().getLinkifiedHotelBookingStatement());
-		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		mRulesRestrictionsTextView.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
+		//		mRulesRestrictionsTextView.setMovementMethod(LinkMovementMethod.getInstance());
+		mRulesRestrictionsTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String privUrl = PointOfSale.getPointOfSale().getPrivacyPolicyUrl();
+				String termsUrl = PointOfSale.getPointOfSale().getTermsAndConditionsUrl();
+				TabletPrivacyPolicyDialogFragment df = TabletPrivacyPolicyDialogFragment.newInstance(privUrl, termsUrl);
+				df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "privacyPolicyDialogFragment");
+			}
+		});
 
 		// Configure form validation
 		// Setup validators and error handlers
