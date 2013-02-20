@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.text.Html;
@@ -122,12 +123,16 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private int mTitleLayoutHeight;
 	private int mActionButtonLayoutHeight;
 
+	private int mExpandedCardHeaderImageHeight;
+	private int mMiniCardHeaderImageHeight;
+
 	private View mTopExtraPaddingView;
 	private View mBottomExtraPaddingView;
 
 	private ViewGroup mCardLayout;
 	private ViewGroup mTitleLayout;
 	private ViewGroup mTitleContentLayout;
+	private ViewGroup mHeaderLayout;
 	private ViewGroup mSummaryLayout;
 	private ViewGroup mDetailsLayout;
 	private ViewGroup mActionButtonLayout;
@@ -159,8 +164,11 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		inflate(context, R.layout.widget_itin_card, this);
 
-		mTitleLayoutHeight = getResources().getDimensionPixelSize(R.dimen.itin_title_height);
-		mActionButtonLayoutHeight = getResources().getDimensionPixelSize(R.dimen.itin_action_button_height);
+		final Resources res = getResources();
+		mTitleLayoutHeight = res.getDimensionPixelSize(R.dimen.itin_title_height);
+		mActionButtonLayoutHeight = res.getDimensionPixelSize(R.dimen.itin_action_button_height);
+		mExpandedCardHeaderImageHeight = res.getDimensionPixelSize(R.dimen.itin_card_expanded_image_height);
+		mMiniCardHeaderImageHeight = res.getDimensionPixelSize(R.dimen.itin_card_mini_image_height);
 
 		mTopExtraPaddingView = Ui.findView(this, R.id.top_extra_padding_view);
 		mBottomExtraPaddingView = Ui.findView(this, R.id.bottom_extra_padding_view);
@@ -168,6 +176,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mCardLayout = Ui.findView(this, R.id.card_layout);
 		mTitleLayout = Ui.findView(this, R.id.title_layout);
 		mTitleContentLayout = Ui.findView(this, R.id.title_content_layout);
+		mHeaderLayout = Ui.findView(this, R.id.header_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
@@ -186,6 +195,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
 		mSummaryRightButton = Ui.findView(this, R.id.summary_right_button);
 
+		updateHeaderImageHeight();
 		updateClickable();
 		updateLayout();
 
@@ -278,12 +288,23 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	}
 
 	public void setShowSummary(boolean showSummary) {
-		mShowSummary = showSummary;
+		if (mShowSummary != showSummary) {
+			mShowSummary = showSummary;
+			updateHeaderImageHeight();
+		}
 	}
 
 	public void updateSummaryVisibility() {
 		mSummaryLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
 		mActionButtonLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
+	}
+
+	public void updateHeaderImageHeight() {
+		final int height = mShowSummary ? mExpandedCardHeaderImageHeight : mMiniCardHeaderImageHeight;
+		mHeaderLayout.getLayoutParams().height = height;
+		mHeaderLayout.requestLayout();
+		mHeaderImageView.getLayoutParams().height = height;
+		mHeaderImageView.requestLayout();
 	}
 
 	public void setShowExtraTopPadding(boolean show) {
@@ -347,6 +368,11 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// TranslationY
 		ObjectAnimator.ofFloat(mHeaderTextView, "translationY", 0).setDuration(400).start();
+
+		if (!mShowSummary) {
+			mHeaderLayout.startAnimation(new ResizeAnimation(mHeaderLayout, mMiniCardHeaderImageHeight));
+			mHeaderImageView.startAnimation(new ResizeAnimation(mHeaderImageView, mMiniCardHeaderImageHeight));
+		}
 	}
 
 	public void expand() {
@@ -373,17 +399,25 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		// TranslationY
 		ObjectAnimator.ofFloat(mHeaderTextView, "translationY", -50).setDuration(400).start();
+
+		if (!mShowSummary) {
+			mHeaderLayout.startAnimation(new ResizeAnimation(mHeaderLayout, mExpandedCardHeaderImageHeight));
+			mHeaderImageView.startAnimation(new ResizeAnimation(mHeaderImageView, mExpandedCardHeaderImageHeight));
+		}
 	}
 
 	// Type icon position and size
 
 	public void updateLayout() {
-		int itinTypeImageHeight = mItinTypeImageView.getHeight();
-		int itinTypeImageHalfHeight = itinTypeImageHeight / 2;
+		int typeImageHeight = mItinTypeImageView.getHeight();
+		int typeImageHalfHeight = typeImageHeight / 2;
 		int headerImageHeight = mHeaderImageView.getHeight();
-		int headerImageHalfHeight = headerImageHeight / 2;
+		int expandedTypeImageY = headerImageHeight / 2;
+		int miniTypeImageY = (int) (headerImageHeight * 0.4f);
+		int typeImageY = mShowSummary ? expandedTypeImageY : miniTypeImageY;
 
 		float percent = 0;
+		float percentIcon = 0;
 
 		Rect headerImageVisibleRect = new Rect();
 		if (getLocalVisibleRect(headerImageVisibleRect)) {
@@ -395,12 +429,14 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			percent = 1f;
 		}
 
-		final int typeImageTranslationY = mHeaderImageView.getTop() + headerImageHalfHeight - itinTypeImageHalfHeight;
+		percentIcon = mShowSummary ? percent : Math.min(0.75f, percent);
+
+		final int typeImageTranslationY = mHeaderImageView.getTop() + typeImageY - typeImageHalfHeight;
 		final int viewTranslationY = Math.max(0, (headerImageHeight - (int) (percent * (float) headerImageHeight)) / 2);
 
 		ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
-		ViewHelper.setScaleX(mItinTypeImageView, percent);
-		ViewHelper.setScaleY(mItinTypeImageView, percent);
+		ViewHelper.setScaleX(mItinTypeImageView, percentIcon);
+		ViewHelper.setScaleY(mItinTypeImageView, percentIcon);
 
 		ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
 	}

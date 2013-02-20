@@ -21,10 +21,11 @@
     <dimen name="itin_list_icon_start_size">32dp</dimen>
     <dimen name="itin_list_icon_end_size">48dp</dimen>
     <dimen name="itin_list_card_top_image_offset">16dp</dimen>
-    <dimen name="itin_card_bg_image_height">160dp</dimen>
+    <dimen name="itin_card_expanded_image_height">160dp</dimen>
+    <dimen name="itin_card_mini_image_height">100dp</dimen>
     <dimen name="itin_action_button_height">48dp</dimen>
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
-    
+
     <!-- Terminal map legend widths -->
     <dimen name="terminal_map_legend_2cols_width">307dp</dimen>
     <dimen name="terminal_map_legend_3cols_width">460dp</dimen>

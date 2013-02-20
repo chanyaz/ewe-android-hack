@@ -88,7 +88,7 @@
                     <RelativeLayout
                         android:id="@+id/header_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/itin_card_bg_image_height"
+                        android:layout_height="@dimen/itin_card_expanded_image_height"
                         android:gravity="center" >
 
                         <com.expedia.bookings.widget.OptimizedImageView
