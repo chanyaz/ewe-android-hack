@@ -409,7 +409,10 @@ public class ItineraryManager implements JSONable {
 
 	private static class ProgressUpdate {
 		public static enum Type {
-			ADDED, UPDATED, UPDATE_FAILED, REMOVED
+			ADDED,
+			UPDATED,
+			UPDATE_FAILED,
+			REMOVED,
 		}
 
 		public Type mType;
