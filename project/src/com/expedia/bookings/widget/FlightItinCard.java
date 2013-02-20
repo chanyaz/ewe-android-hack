@@ -20,6 +20,7 @@ import android.provider.CalendarContract.Events;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -49,11 +50,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.maps.FlightMarkerManager;
 import com.mobiata.flightlib.maps.MapCameraManager;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.mobiata.flightlib.utils.FormatUtils;
 
 public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
@@ -282,37 +285,118 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			return null;
 		}
 
-		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_flight, container, false);
+		View view = inflater.inflate(R.layout.include_itin_card_summary_flight, container, false);
+		TextView topLine = Ui.findView(view, R.id.flight_status_top_line);
+		TextView bottomLine = Ui.findView(view, R.id.flight_status_bottom_line);
+		ImageView bulb = Ui.findView(view, R.id.flight_status_bulb);
+
 		Resources res = getResources();
 		Calendar now = Calendar.getInstance();
+		Flight flight = itinCardData.getMostRelevantFlightSegment();
 
-		if (itinCardData.getStartDate().getCalendar().before(now)
-				&& itinCardData.getEndDate().getCalendar().before(now)) {
-			//flight complete
-			String dateStr = DateUtils.formatDateTime(getContext(), itinCardData.getEndDate().getCalendar()
-					.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
-			view.setText(res.getString(R.string.flight_landed_on_TEMPLATE, dateStr));
-		}
-		else if (itinCardData.getStartDate().getCalendar().before(now)
-				&& itinCardData.getEndDate().getCalendar().after(now)) {
-			//flight in progress
-			view.setText(res.getString(R.string.flight_in_progress));
-		}
-		else if (itinCardData.getStartDate().getCalendar().getTimeInMillis() - now.getTimeInMillis() > DateUtils.DAY_IN_MILLIS) {
-			//More than 24 hours away
-			String dateStr = DateUtils.formatDateTime(getContext(), itinCardData.getStartDate().getCalendar()
-					.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
-			view.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
+		if (flight.isRedAlert()) {
+			if (Flight.STATUS_CANCELLED.equals(flight.mStatusCode)) {
+				topLine.setText(R.string.flight_canceled);
+			}
+			else if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
+				if (flight.mDiverted != null) {
+					topLine.setText(res.getString(R.string.flight_diverted_TEMPLATE, flight.getArrivalWaypoint().mAirportCode));
+				}
+				else {
+					topLine.setText(R.string.flight_diverted);
+				}
+			}
+			else if (Flight.STATUS_REDIRECTED.equals(flight.mStatusCode)) {
+				topLine.setText(R.string.flight_redirected);
+			}
+			bottomLine.setText(FormatUtils.formatFlightNumber(flight, getContext()));
+			bulb.setImageResource(R.drawable.ic_flight_status_cancelled);
 		}
 		else {
-			//Less than 24 hours in the future...
-			long duration = itinCardData.getStartDate().getCalendar().getTimeInMillis() - now.getTimeInMillis();
-			int minutes = (int) ((int) (duration % DateUtils.HOUR_IN_MILLIS) / (DateUtils.MINUTE_IN_MILLIS));
-			int hours = (int) Math.floor(duration / DateUtils.HOUR_IN_MILLIS);
+			Calendar departure = flight.mOrigin.getMostRelevantDateTime();
+			Calendar arrival = flight.getArrivalWaypoint().getMostRelevantDateTime();
+			Waypoint summaryWaypoint = null;
+			int bottomLineTextId = -1;
 
-			view.setText(res.getString(R.string.flight_departs_in_hours_minutes_TEMPLATE,
-					res.getQuantityString(R.plurals.hour_span, hours, hours),
-					res.getQuantityString(R.plurals.minute_span, minutes, minutes)));
+			if (arrival.before(now)) {
+				//flight complete
+				String dateStr = DateUtils.formatDateTime(getContext(), DateTimeUtils.getTimeInLocalTimeZone(arrival)
+						.getTime(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
+				topLine.setText(res.getString(R.string.flight_landed_on_TEMPLATE, dateStr));
+				bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+
+				summaryWaypoint = flight.getArrivalWaypoint();
+				bottomLineTextId = R.string.at_airport_TEMPLATE;
+			}
+			else if (departure.before(now)) {
+				//flight in progress
+				topLine.setText(res.getString(R.string.flight_in_progress));
+				bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+			}
+			else if (departure.getTimeInMillis() - now.getTimeInMillis() > DateUtils.DAY_IN_MILLIS) {
+				//More than 24 hours away
+				String dateStr = DateUtils.formatDateTime(getContext(), DateTimeUtils.getTimeInLocalTimeZone(departure)
+						.getTime(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
+				topLine.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
+				bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+
+				summaryWaypoint = flight.mOrigin;
+				bottomLineTextId = R.string.from_airport_TEMPLATE;
+			}
+			else {
+				//Less than 24 hours in the future...
+				boolean stringHasBeenSet = false;
+
+				int flightStatusDrawableId = R.drawable.ic_flight_status_on_time;
+				Delay delay = flight.mOrigin.getDelay();
+				if (delay.mDelayType == Delay.DELAY_GATE_ACTUAL || delay.mDelayType == Delay.DELAY_GATE_ESTIMATED) {
+					if (delay.mDelay > 0) {
+						topLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, DateUtils
+								.getRelativeTimeSpanString(departure.getTimeInMillis(), now.getTimeInMillis(),
+										DateUtils.MINUTE_IN_MILLIS, 0)));
+						stringHasBeenSet = true;
+						flightStatusDrawableId = R.drawable.ic_flight_status_delayed;
+					}
+				}
+
+				if (!stringHasBeenSet) {
+					topLine.setText(res.getString(R.string.flight_departs_on_time_TEMPLATE, DateUtils
+							.getRelativeTimeSpanString(departure.getTimeInMillis(), now.getTimeInMillis(),
+									DateUtils.MINUTE_IN_MILLIS, 0)));
+				}
+				bulb.setImageResource(flightStatusDrawableId);
+
+				summaryWaypoint = flight.mOrigin;
+				bottomLineTextId = R.string.from_airport_TEMPLATE;
+			}
+
+			if (summaryWaypoint != null) {
+				boolean hasGate = summaryWaypoint.hasGate();
+				boolean hasTerminal = summaryWaypoint.hasTerminal();
+				if (hasGate && hasTerminal) {
+					bottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
+							summaryWaypoint.mAirportCode,
+							res.getString(R.string.generic_terminal_TEMPLATE, summaryWaypoint.getTerminal(),
+									summaryWaypoint.getGate()))));
+				}
+				else if (hasTerminal) {
+					bottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
+							summaryWaypoint.mAirportCode,
+							res.getString(R.string.terminal_but_no_gate_TEMPLATE,
+									summaryWaypoint.getTerminal()))));
+				}
+				else if (hasGate) {
+					bottomLine.setText(Html.fromHtml(res.getString(bottomLineTextId,
+							summaryWaypoint.mAirportCode,
+							res.getString(R.string.gate_number_only_TEMPLATE, summaryWaypoint.getGate()))));
+				}
+				else {
+					bottomLine.setVisibility(View.GONE);
+				}
+			}
+			else {
+				bottomLine.setVisibility(View.GONE);
+			}
 		}
 		return view;
 	}

@@ -1,9 +1,11 @@
 package com.expedia.bookings.data.trips;
 
 import java.util.Calendar;
+import java.util.List;
 
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
+import com.mobiata.flightlib.data.Flight;
 
 public class ItinCardDataFlight extends ItinCardData {
 
@@ -23,6 +25,20 @@ public class ItinCardDataFlight extends ItinCardData {
 
 	public FlightLeg getFlightLeg() {
 		return ((TripFlight) getTripComponent()).getFlightTrip().getLeg(mLegNumber);
+	}
+
+	// the most relevant flight segment is the currently-active segment if it has not yet landed,
+	// otherwise, it is the next segment to take off
+	public Flight getMostRelevantFlightSegment() {
+		Calendar now = Calendar.getInstance();
+		List<Flight> segments = getFlightLeg().getSegments();
+		for (Flight segment : segments) {
+			if (segment.mOrigin.getMostRelevantDateTime().after(now)
+					|| segment.getArrivalWaypoint().getMostRelevantDateTime().after(now)) {
+				return segment;
+			}
+		}
+		return segments.get(segments.size() - 1);
 	}
 
 	@Override

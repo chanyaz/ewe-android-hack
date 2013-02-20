@@ -27,6 +27,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
+import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 
 // Make sure to call init() before using in the app!
@@ -342,6 +343,15 @@ public class ItineraryManager implements JSONable {
 										}
 										else {
 											tripFlight.setLegDestinationImageUrl(i, "");
+										}
+
+										for (Flight segment : fl.getSegments()) {
+											if (Math.abs(segment.mOrigin.getMostRelevantDateTime().getTimeInMillis() - now) <= (60 * 60 * 24 * 1000)) {
+												segment.updateFrom(services.getUpdatedFlight(segment));
+											}
+											else if (segment.getArrivalWaypoint().getMostRelevantDateTime().getTimeInMillis() < now) {
+												segment.mStatusCode = Flight.STATUS_LANDED;
+											}
 										}
 									}
 								}

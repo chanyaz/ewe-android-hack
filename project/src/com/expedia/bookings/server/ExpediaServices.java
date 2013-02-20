@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -97,8 +98,16 @@ import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.FlightCode;
 
 public class ExpediaServices implements DownloadListener {
+
+	// please note that these keys are specific to EB (for tracking purposes)
+	// if you need FLEX API keys for another app, please obtain your own
+	private static final String FS_FLEX_APP_ID = "db824f8c";
+	private static final String FS_FLEX_APP_KEY = "6cf6ac9c083a45e93c6a290bf0cd442e";
+	private static final String FS_FLEX_BASE_URI = "https://api.flightstats.com/flex";
 
 	private static final String BAZAAR_VOICE_BASE_URL = "http://reviews.expedia.com/data/reviews.json";
 	private static final String BAZAAR_VOICE_API_TOKEN = "tq2es494c5r0o2443tc4byu2q";
@@ -375,6 +384,9 @@ public class ExpediaServices implements DownloadListener {
 		return null;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////
+	// Ancillary flight data
+
 	/**
 	 * Download an svg from the provided url.
 	 * Used for download airport terminal maps
@@ -397,6 +409,31 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Exception downloading svg", ex);
 		}
 		return null;
+	}
+
+	public Flight getUpdatedFlight(Flight flight) {
+		ArrayList<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
+		parameters.add(new BasicNameValuePair("appId", FS_FLEX_APP_ID));
+		parameters.add(new BasicNameValuePair("appKey", FS_FLEX_APP_KEY));
+
+		String baseUrl;
+
+		if (flight.mFlightHistoryId != -1) {
+			// get based on flight history id
+			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flight.mFlightHistoryId + "?";
+		}
+		else {
+			// get based on flight number
+			FlightCode flightCode = flight.getOperatingFlightCode();
+			Calendar departure = flight.mOrigin.getBestSearchDateTime();
+			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flightCode.mAirlineCode + "/" + flightCode.mNumber
+					+ "/dep/" + departure.get(Calendar.YEAR) + "/" + (departure.get(Calendar.MONTH) + 1) + "/" + departure.get(Calendar.DAY_OF_MONTH) + "?";
+
+			parameters.add(new BasicNameValuePair("utc", "false"));
+			parameters.add(new BasicNameValuePair("airport", flight.mOrigin.mAirportCode));
+		}
+
+		return doFlightStatsRequest(baseUrl, parameters, new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode)).getFlight();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -970,6 +1007,12 @@ public class ExpediaServices implements DownloadListener {
 	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
 			ResponseHandler<T> responseHandler, int flags) {
 		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
+	}
+
+	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler) {
+		HttpRequestBase base = NetUtils.createHttpGet(baseUrl, params);
+
+		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
 	}
 
 	private <T extends Response> T doRequest(HttpRequestBase request, ResponseHandler<T> responseHandler, int flags) {

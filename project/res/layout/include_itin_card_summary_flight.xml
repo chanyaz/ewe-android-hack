@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.expedia.bookings"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:drawableLeft="@drawable/btn_radio_on_holo_dark"
-    android:drawablePadding="16dp"
-    android:gravity="center_vertical"
-    android:padding="16dp"
-    android:textColor="#F3F3F3"
-    app:textStyle="light" />
+    android:layout_height="wrap_content"
+    android:padding="16dp" >
+
+    <ImageView
+        android:id="@+id/flight_status_bulb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@null" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/flight_status_bulb"
+        android:orientation="vertical" >
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_status_top_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/itin_white_text"
+            android:textSize="16sp"
+            app:textStyle="bold|light" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_status_bottom_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/itin_offwhite_text"
+            android:textSize="15sp"
+            app:textStyle="light" />
+    </LinearLayout>
+
+</RelativeLayout>

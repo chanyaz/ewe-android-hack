@@ -108,6 +108,10 @@
     <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrive Terminal %1$s, Gate Unavailable</string>
     <!-- Itin flight terminal only template -->
     <string name="depart_terminal_but_no_gate_TEMPLATE">Depart Terminal %1$s, Gate Unavailable</string>
+    <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
+    <string name="at_airport_TEMPLATE">&lt;b&gt;At %1$s&lt;/b&gt; - %2$s</string>
+    <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
+    <string name="from_airport_TEMPLATE">&lt;b&gt;From %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Logging out of %1$s will remove any itinerary items associated with this account. Are you sure you want to logout?</string>
     <!-- Booking code unavailable message -->
@@ -122,6 +126,14 @@
     <string name="terminal_maps">Terminal Maps</string>
     <!-- Legend -->
     <string name="legend">Legend</string>
+    <!-- Flight has been canceled -->
+    <string name="flight_canceled">Flight canceled</string>
+    <!-- Flight has been redirected (location unknown) -->
+    <string name="flight_redirected">Flight redirected</string>
+    <!-- Flight has been diverted (location unknown) -->
+    <string name="flight_diverted">Flight diverted</string>
+    <!-- Flight has been diverted to {airport} template -->
+    <string name="flight_diverted_TEMPLATE">Flight diverted to %1$s</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Flight departs on %1$s</string>
     <!-- Flight currently in progress -->
@@ -130,26 +142,10 @@
     <string name="flight_landed_on_TEMPLATE">Flight landed on %1$s</string>
     <!-- Flight in progress -->
     <string name="flight_in_progress">Flight in progress</string>
-    <!-- Depart in {# of hours}, {# of minutes} template -->
-    <string name="flight_departs_in_hours_minutes_TEMPLATE">Flight departs in %1$s, %2$s</string>
-    <!-- hours plural -->
-    <plurals name="hour_span">
-        <item quantity="zero">%1$s hours</item>
-        <item quantity="one">%1$s hour</item>
-        <item quantity="two">%1$s hours</item>
-        <item quantity="few">%1$s hours</item>
-        <item quantity="many">%1$s hours</item>
-        <item quantity="other">%1$s hours</item>
-    </plurals>
-    <!-- minutes plural -->
-    <plurals name="minute_span">
-        <item quantity="zero">%1$s minutes</item>
-        <item quantity="one">%1$s minute</item>
-        <item quantity="two">%1$s minutes</item>
-        <item quantity="few">%1$s minutes</item>
-        <item quantity="many">%1$s minutes</item>
-        <item quantity="other">%1$s minutes</item>
-    </plurals>
+    <!-- Departs late {duration from now} -->
+    <string name="flight_departs_late_TEMPLATE">Departs late %1$s</string>
+    <!-- Departs on time {duration from now} -->
+    <string name="flight_departs_on_time_TEMPLATE">Departs on time %1$s</string>
     <!-- Car types -->
     <string name="car_type_two_door">Two Door</string>
     <string name="car_type_three_door">Three Door</string>
