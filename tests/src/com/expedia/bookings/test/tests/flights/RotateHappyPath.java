@@ -33,6 +33,7 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mDriver = new HotelsRobotHelper(mSolo, mRes);
 		mDriver.setScreenshotCount(1);
 		mDriver.setAllowOrientationChange(true);
+		mDriver.setWriteEventsToFile(false);
 		
 	}
                                                       

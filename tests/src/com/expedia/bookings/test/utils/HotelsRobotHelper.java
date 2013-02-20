@@ -134,6 +134,7 @@ public class HotelsRobotHelper {
 	private EventTrackingUtils mFileWriter;
 	private int mScreenWidth;
 	private int mScreenHeight;
+	private static final String mScreenshotDirectory = "Robotium-Screenshots";
 
 	//Defaults are set, including the default user booking info
 	//which is set to the qa-ehcc@mobiata.com account's info
@@ -150,7 +151,7 @@ public class HotelsRobotHelper {
 		mSolo = solo;
 		mRes = res;
 		mUser = customUser;
-		mScreen = new ScreenshotUtils("Robotium-Screenshots", mSolo);
+		mScreen = new ScreenshotUtils(mScreenshotDirectory, mSolo);
 		mScreenWidth = mRes.getDisplayMetrics().widthPixels;
 		mScreenWidth = mRes.getDisplayMetrics().heightPixels;
 
@@ -195,6 +196,10 @@ public class HotelsRobotHelper {
 
 	public void setAllowOrientationChange(Boolean allowed) {
 		mAllowOrientationChange = allowed;
+	}
+
+	public void setWriteEventsToFile(Boolean allowed) {
+		mWriteEventsToFile = allowed;
 	}
 
 	public void setScreenshotCount(int count) {
@@ -269,6 +274,9 @@ public class HotelsRobotHelper {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+		}
+		finally {
+			closeFileWriter();
 		}
 	}
 
@@ -644,7 +652,9 @@ public class HotelsRobotHelper {
 			}
 		}
 		// Log log in event for ad tracking
-		mFileWriter.addLineToFile("Log in event at", true, mWriteEventsToFile);
+		if (mWriteEventsToFile) {
+			mFileWriter.addLineToFile("Log in event at", true, mWriteEventsToFile);
+		}
 
 		delay(5);
 		mSolo.scrollToTop();
@@ -733,7 +743,7 @@ public class HotelsRobotHelper {
 			portrait();
 			delay(5);
 			screenshot("Credit card info.");
-
+			
 			// Enter Credit Card Number
 			mSolo.enterText((EditText) mSolo.getView(R.id.edit_creditcard_number),
 					mUser.mCreditCardNumber);
@@ -929,19 +939,14 @@ public class HotelsRobotHelper {
 
 		delay(5);
 
-		//mSolo.clickOnEditText(0);
 		mSolo.clickOnView((View) mSolo.getView(R.id.departure_airport_edit_text));
 		mSolo.enterText(0, departure);
 		delay();
 
-		//Arrival Field
-		//mSolo.clickOnEditText(1);
 		mSolo.clickOnView((View) mSolo.getView(R.id.arrival_airport_edit_text));
-		mSolo.enterText(1, arrival);
+		mSolo.enterText((EditText) mSolo.getView(R.id.arrival_airport_edit_text) , arrival);
 		delay();
-
-		landscape();
-		portrait();
+		
 
 		//Select Departure
 		try {
@@ -950,6 +955,9 @@ public class HotelsRobotHelper {
 		catch (Error e) {
 			enterLog(TAG, "Select departure text not there.");
 		}
+
+		landscape();
+		portrait();
 
 		delay();
 		screenshot("Calendar");

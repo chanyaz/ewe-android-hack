@@ -19,8 +19,8 @@ public class AdvRegressionTest extends ActivityInstrumentationTestCase2<SearchAc
 		super("com.expedia.bookings", SearchActivity.class);
 	}
 
-	private static final String TAG = "SearchTest";
-
+	private static final String TAG = AdvRegressionTest.class.getSimpleName();
+	private static final String mInputFileDirectory = "/sdcard/advTestInput.txt";
 	private Solo mSolo;
 
 	private Resources mRes;
@@ -53,7 +53,7 @@ public class AdvRegressionTest extends ActivityInstrumentationTestCase2<SearchAc
 
 	private void testMethod(Locale[] locales) throws Exception {
 		mDriver.createFileWriter();
-		mDriver.readInstructionsToOutFile("/sdcard/advTestInput.txt");
+		mDriver.readInstructionsToOutFile(mInputFileDirectory);
 		Locale currentLocale;
 
 		for (int i = 0; i < locales.length; i++) {
