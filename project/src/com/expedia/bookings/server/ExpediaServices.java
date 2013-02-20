@@ -424,7 +424,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else {
 			// get based on flight number
-			FlightCode flightCode = flight.getOperatingFlightCode();
+			FlightCode flightCode = flight.getPrimaryFlightCode();
 			Calendar departure = flight.mOrigin.getBestSearchDateTime();
 			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flightCode.mAirlineCode + "/" + flightCode.mNumber
 					+ "/dep/" + departure.get(Calendar.YEAR) + "/" + (departure.get(Calendar.MONTH) + 1) + "/" + departure.get(Calendar.DAY_OF_MONTH) + "?";

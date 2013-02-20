@@ -34,7 +34,7 @@ public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<
 				flight.mFlightHistoryId = json.getInt("flightId");
 				flight.mStatusCode = json.getString("status");
 				
-				parseFlightCode(json, flight, false);
+				parseFlightCode(json, flight, true);
 				
 				flight.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
 				flight.mOrigin.mAirportCode = json.getString("departureAirportFsCode");
@@ -104,17 +104,29 @@ public class FlightStatsFlightStatusResponseHandler extends JsonResponseHandler<
 	}
 	
 	private void parseFlightCode(JSONObject json, Flight flight, boolean isOperator) throws JSONException {
-		if (json.has("carrierFsCode") && json.has("flightNumber")) {
+		String carrierCodeKey = "carrierFsCode";
+		if (!json.has(carrierCodeKey)) {
+			carrierCodeKey = "fsCode";
+		}
+
+		if (json.has(carrierCodeKey) && json.has("flightNumber")) {
 			FlightCode flightCode = new FlightCode();
-			flightCode.mAirlineCode = json.getString("carrierFsCode");
+			flightCode.mAirlineCode = json.getString(carrierCodeKey);
 			flightCode.mNumber = json.getString("flightNumber");
+			String relationship = json.optString("relationship");
 			int flags = 0;
+
 			if (isOperator) {
-				flags |= Flight.F_OPERATING_AIRLINE_CODE;
+				flags = Flight.F_OPERATING_AIRLINE_CODE | Flight.F_PRIMARY_AIRLINE_CODE;
 			}
-			else if (mAirline != null && mAirline.length() > 0) {
+
+			if (mAirline != null && mAirline.length() > 0) {
 				flags |= (flightCode.mAirlineCode.equalsIgnoreCase(mAirline)) ? Flight.F_PRIMARY_AIRLINE_CODE : 0;
 			}
+			else if ("S".equals(relationship) || "X".equals(relationship)) {
+				flags |= Flight.F_PRIMARY_AIRLINE_CODE;
+			}
+
 			flight.addFlightCode(flightCode, flags);
 		}
 		else {
