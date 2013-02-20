@@ -395,7 +395,10 @@ public class HotelsRobotHelper {
 		//If keeping track of events, write current locale/POS to file
 		String currentPOS = mRes.getConfiguration().locale.toString();
 		Log.d(TAG, "Current POS/Locale: " + currentPOS);
-		mFileWriter.addLineToFile("POS: " + currentPOS, false, mWriteEventsToFile);
+
+		if (mWriteEventsToFile) {
+			mFileWriter.addLineToFile("POS: " + currentPOS, false, mWriteEventsToFile);
+		}
 
 		landscape();
 		portrait();
@@ -743,33 +746,59 @@ public class HotelsRobotHelper {
 			portrait();
 			delay(5);
 			screenshot("Credit card info.");
-			
-			// Enter Credit Card Number
-			mSolo.enterText((EditText) mSolo.getView(R.id.edit_creditcard_number),
-					mUser.mCreditCardNumber);
 
-			// Enter Cardholder's name
-			mSolo.typeText((EditText) mSolo.getView(R.id.edit_name_on_card),
-					mUser.mFirstName + " " + mUser.mLastName);
-
-			// Enter Postal Code
-			mSolo.typeText((EditText) mSolo.getView(R.id.edit_address_postal_code),
-					mUser.mZIPCode);
-
-			// Pick generic date
-			mSolo.clickOnText(mRes.getString(R.string.expiration_date));
-			mSolo.clickOnButton(1);
-
-			// Press done to enter this data
-			mSolo.clickOnText(mRes.getString(R.string.button_done));
-
-			// Do not save this card info
-			mSolo.clickOnText(mRes.getString(R.string.no_thanks));
-
+			if (mSolo.searchText(mRes.getString(R.string.billing_address))) {
+				inputBillingAddress();
+			}
+			inputCCBillingInfo();
 		}
 		catch (Error e) {
 			enterLog(TAG, e.toString());
 		}
+	}
+
+	public void inputBillingAddress() {
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_line_one),
+				mUser.mAddressLine1);
+
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_city),
+				mUser.mCityName);
+
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_state),
+				mUser.mStateCode);
+
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_postal_code),
+				mUser.mZIPCode);
+
+		mSolo.clickOnText(mRes.getString(R.string.next));
+
+	}
+
+	public void inputCCBillingInfo() {
+		// Enter Credit Card Number
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_creditcard_number),
+				mUser.mCreditCardNumber);
+
+		// Enter Cardholder's name
+		mSolo.typeText((EditText) mSolo.getView(R.id.edit_name_on_card),
+				mUser.mFirstName + " " + mUser.mLastName);
+
+		// Enter Postal Code
+		mSolo.typeText((EditText) mSolo.getView(R.id.edit_address_postal_code),
+				mUser.mZIPCode);
+
+		// Pick generic date
+		mSolo.clickOnText(mRes.getString(R.string.expiration_date));
+		mSolo.clickOnButton(1);
+
+		// Press done to enter this data
+		mSolo.clickOnText(mRes.getString(R.string.button_done));
+
+		// Do not save this card info
+		mSolo.clickOnText(mRes.getString(R.string.no_thanks));
+
+		mSolo.clickOnView(mSolo.getView(R.id.done_button));
+
 	}
 
 	public void confirmAndBook() throws Exception {
@@ -833,18 +862,20 @@ public class HotelsRobotHelper {
 				mSolo.scrollToTop();
 
 				// Log booking event for ad tracking
-				mFileWriter.addLineToFile("BOOKING EVENT", true, mWriteEventsToFile);
+				if (mWriteEventsToFile) {
+					mFileWriter.addLineToFile("BOOKING EVENT", true, mWriteEventsToFile);
+				}
 			}
 			else {
 				enterLog(TAG, "Never got to confirmation screen.");
 			}
-			if (mSolo.searchText(mRes.getString(R.string.add_insurance), true)) {
+			if (mSolo.searchText(mUser.mLoginEmail, true)) {
 				delay();
 				mSolo.scrollToTop();
 				screenshot("Confirmation Screen 1");
 				mSolo.scrollDown();
 				screenshot("Confirmation Screen 2");
-				mSolo.clickOnText("Seattle");
+				mSolo.clickOnActionBarItem(R.drawable.ic_action_bar_magnifying_glass);
 			}
 			else {
 				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
@@ -944,9 +975,8 @@ public class HotelsRobotHelper {
 		delay();
 
 		mSolo.clickOnView((View) mSolo.getView(R.id.arrival_airport_edit_text));
-		mSolo.enterText((EditText) mSolo.getView(R.id.arrival_airport_edit_text) , arrival);
+		mSolo.enterText((EditText) mSolo.getView(R.id.arrival_airport_edit_text), arrival);
 		delay();
-		
 
 		//Select Departure
 		try {
