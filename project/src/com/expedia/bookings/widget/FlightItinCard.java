@@ -652,6 +652,25 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		FlightLegSummarySection v = (FlightLegSummarySection) inflater.inflate(
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
+
+		if (flight.isRedAlert()) {
+			TextView tv = Ui.findView(v, R.id.delay_text_view);
+			tv.setTextColor(0xffa00000);  // TODO make R.color
+			tv.setText(getResources().getString(R.string.flight_canceled));
+			tv.setVisibility(View.VISIBLE);
+		}
+		else if (flight.mOrigin.getMostRelevantDateTime().after(Calendar.getInstance())) {
+			Delay delay = flight.mOrigin.getDelay();
+			if (delay.mDelayType == Delay.DELAY_GATE_ACTUAL || delay.mDelayType == Delay.DELAY_GATE_ESTIMATED) {
+				if (delay.mDelay > 0) {
+					TextView tv = Ui.findView(v, R.id.delay_text_view);
+					tv.setTextColor(0xffefd766);  // TODO make R.color
+					tv.setText(getResources().getString(R.string.flight_departs_x_late_TEMPLATE, DateTimeUtils.formatDuration(getResources(), delay.mDelay)));
+					tv.setVisibility(View.VISIBLE);
+				}
+			}
+		}
+
 		return v;
 	}
 

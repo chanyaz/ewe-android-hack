@@ -97,4 +97,18 @@
         app:flightLineColor="@color/itin_flight_line_color"
         app:waypointTextColor="@color/itin_offwhite_text" />
 
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/delay_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/airline_text_view"
+        android:layout_below="@id/multi_day_text_view"
+        android:layout_marginRight="10dp"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:textStyle="medium" />
+
 </com.expedia.bookings.section.FlightLegSummarySection>
