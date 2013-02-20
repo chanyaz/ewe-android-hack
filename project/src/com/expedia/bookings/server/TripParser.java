@@ -125,18 +125,26 @@ public class TripParser {
 
 			try {
 				String str = (String) obj;
-				Date date = DATE_FORMAT.parse(str);
+				Date date = FLIGHT_DATE_FORMAT.parse(str);
 				return new DateTime(date.getTime(), 0);
 			}
 			catch (ParseException e) {
-				throw new RuntimeException(e);
+			}
+
+			try {
+				String str = (String) obj;
+				Date date = HOTEL_DATE_FORMAT.parse(str);
+				return new DateTime(date.getTime(), 0);
+			}
+			catch (ParseException e) {
 			}
 		}
 
 		throw new RuntimeException("Could not parse date time: " + obj);
 	}
 
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+	private static final DateFormat FLIGHT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+	private static final DateFormat HOTEL_DATE_FORMAT = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");
 
 	private BookingStatus parseBookingStatus(String status) {
 		if ("SAVED".equals(status)) {
