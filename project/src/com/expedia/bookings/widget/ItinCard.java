@@ -26,7 +26,6 @@ import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
@@ -123,6 +122,9 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private int mTitleLayoutHeight;
 	private int mActionButtonLayoutHeight;
 
+	private View mTopExtraPaddingView;
+	private View mBottomExtraPaddingView;
+
 	private ViewGroup mCardLayout;
 	private ViewGroup mTitleLayout;
 	private ViewGroup mTitleContentLayout;
@@ -159,6 +161,9 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		mTitleLayoutHeight = getResources().getDimensionPixelSize(R.dimen.itin_title_height);
 		mActionButtonLayoutHeight = getResources().getDimensionPixelSize(R.dimen.itin_action_button_height);
+
+		mTopExtraPaddingView = Ui.findView(this, R.id.top_extra_padding_view);
+		mBottomExtraPaddingView = Ui.findView(this, R.id.bottom_extra_padding_view);
 
 		mCardLayout = Ui.findView(this, R.id.card_layout);
 		mTitleLayout = Ui.findView(this, R.id.title_layout);
@@ -226,9 +231,6 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		if (headerImageUrl != null) {
 			UrlBitmapDrawable.loadImageView(headerImageUrl, mHeaderImageView);
 		}
-		else {
-			Log.t("Null image for %s", itinCardData.toString());
-		}
 
 		// Header text
 		mHeaderTextView.setText(getHeaderText((T) itinCardData));
@@ -274,7 +276,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	public void destroyDetailsView() {
 		mDetailsLayout.removeAllViews();
 	}
-	
+
 	public void setShowSummary(boolean showSummary) {
 		mShowSummary = showSummary;
 	}
@@ -282,6 +284,14 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	public void updateSummaryVisibility() {
 		mSummaryLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
 		mActionButtonLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
+	}
+
+	public void setShowExtraTopPadding(boolean show) {
+		mTopExtraPaddingView.setVisibility(show ? VISIBLE : GONE);
+	}
+
+	public void setShowExtraBottomPadding(boolean show) {
+		mBottomExtraPaddingView.setVisibility(show ? VISIBLE : GONE);
 	}
 
 	public void collapse() {
@@ -398,7 +408,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PROTECTED METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
-	
+
 	protected boolean hasDetails() {
 		return true;
 	}

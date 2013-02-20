@@ -115,6 +115,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			card.updateSummaryVisibility();
 		}
 
+		card.setShowExtraTopPadding(position == 0);
+		card.setShowExtraBottomPadding(position == getCount() - 1);
+
 		return card;
 	}
 

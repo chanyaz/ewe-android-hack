@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -27,8 +27,10 @@ import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.widget.ItinListView;
+import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialogFragment.DoLogoutListener,
@@ -74,6 +76,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		mItinListView.setEmptyView(mEmptyView);
 		mItinListView.setOnScrollListener(mOnScrollListener);
+		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -235,14 +238,36 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 			int translationY = 0;
 			if (firstVisibleItem == 0) {
-				View child = view.getChildAt(0);
+				View child = view.getChildAt(firstVisibleItem);
 				if (child != null) {
 					translationY = child.getTop() + (child.getHeight() / 2);
 					translationY = Math.max(0, translationY);
 				}
 			}
 
+			float scaleY = 1f;
+			if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+				View child = view.getChildAt(visibleItemCount - 1);
+				if (child != null) {
+					final int height = mItinPathView.getHeight();
+					scaleY = (child.getTop() + (child.getHeight() / 2) - translationY) / (float) height;
+				}
+			}
+
 			ViewHelper.setTranslationY(mItinPathView, translationY);
+			ViewHelper.setScaleY(mItinPathView, scaleY);
+		}
+	};
+
+	private OnListModeChangedListener mOnListModeChangedListener = new OnListModeChangedListener() {
+		@Override
+		public void onListModeChanged(int mode) {
+			if (mode == ItinListView.MODE_LIST) {
+				ObjectAnimator.ofFloat(mItinPathView, "alpha", 1f).setDuration(200).start();
+			}
+			else if (mode == ItinListView.MODE_DETAIL) {
+				ObjectAnimator.ofFloat(mItinPathView, "alpha", 0f).setDuration(200).start();
+			}
 		}
 	};
 }

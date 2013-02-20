@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -14,13 +13,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener {
+	//////////////////////////////////////////////////////////////////////////////////////
+	// INTERFACES
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	public interface OnListModeChangedListener {
+		public void onListModeChanged(int mode);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -39,14 +45,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
 
-	private int mScrollState = SCROLL_STATE_IDLE;
-
 	private int mMode = MODE_LIST;
+	private OnListModeChangedListener mOnListModeChangedListener;
+
+	private int mScrollState = SCROLL_STATE_IDLE;
 	private int mDetailPosition = -1;
 	private int mOriginalScrollY;
 
-	private int mExpandedCardHeight;
-	private int mExpandedCardPaddingBottom;
 	private int mExpandedCardOriginalHeight;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -63,9 +68,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public ItinListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
-		final Resources res = context.getResources();
-		mExpandedCardPaddingBottom = res.getDimensionPixelSize(R.dimen.itin_list_card_top_image_offset);
 
 		mAdapter = new ItinCardDataAdapter(context);
 		setAdapter(mAdapter);
@@ -84,12 +86,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		if (mMode == MODE_DETAIL) {
 			showDetails();
 		}
-	}
-
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		mExpandedCardHeight = h - mExpandedCardPaddingBottom;
 	}
 
 	@Override
@@ -132,8 +128,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			childEvent.offsetLocation(0, -child.getTop());
 
 			if (child.dispatchTouchEvent(childEvent)) {
+				childEvent.recycle();
 				return true;
 			}
+
+			childEvent.recycle();
 		}
 
 		return super.onTouchEvent(event);
@@ -170,6 +169,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 	}
 
+	public void setOnListModeChangedListener(OnListModeChangedListener onListModeChangedListener) {
+		mOnListModeChangedListener = onListModeChangedListener;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -192,6 +195,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		mMode = MODE_LIST;
+		if (mOnListModeChangedListener != null) {
+			mOnListModeChangedListener.onListModeChanged(mMode);
+		}
 
 		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
 		final int startY = getScrollY();
@@ -243,6 +249,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		mDetailPosition = position;
 		mMode = MODE_DETAIL;
+		if (mOnListModeChangedListener != null) {
+			mOnListModeChangedListener.onListModeChanged(mMode);
+		}
 
 		mExpandedCardOriginalHeight = view.getHeight();
 		mOriginalScrollY = getScrollY();
@@ -250,7 +259,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		final int startY = getScrollY();
 		final int stopY = view.getTop();
 
-		final ResizeAnimation animation = new ResizeAnimation(view, mExpandedCardHeight);
+		final ResizeAnimation animation = new ResizeAnimation(view, getHeight());
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
