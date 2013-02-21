@@ -6,12 +6,14 @@
     android:orientation="vertical" >
 
     <TextView
-        android:layout_width="wrap_content"
+        style="@style/DialogWindowTitle.Holo.Light"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="22dp"
-        android:text="@string/Choose_message_style"
-        android:textColor="#35b6e5"
-        android:textSize="22dp" />
+        android:gravity="center_vertical|left"
+        android:minHeight="@dimen/alert_dialog_title_height"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/Choose_message_style" />
 
     <View
         android:layout_width="match_parent"
@@ -31,12 +33,11 @@
             android:background="@drawable/bg_action_bar_button"
             android:drawableTop="@drawable/ic_share_long"
             android:gravity="center_horizontal"
-            android:paddingBottom="30dp"
-            android:paddingTop="20dp"
+            android:paddingBottom="24dp"
+            android:paddingTop="16dp"
             android:singleLine="true"
             android:text="@string/Long_message"
-            android:textColor="#000"
-            android:textSize="12dp" />
+            android:textAppearance="@style/TextAppearance.Small" />
 
         <TextView
             android:id="@+id/short_button"
@@ -46,12 +47,11 @@
             android:background="@drawable/bg_action_bar_button"
             android:drawableTop="@drawable/ic_share_short"
             android:gravity="center_horizontal"
-            android:paddingBottom="30dp"
-            android:paddingTop="20dp"
+            android:paddingBottom="24dp"
+            android:paddingTop="16dp"
             android:singleLine="true"
             android:text="@string/Short_message"
-            android:textColor="#000"
-            android:textSize="12dp" />
+            android:textAppearance="@style/TextAppearance.Small" />
     </LinearLayout>
 
 </LinearLayout>

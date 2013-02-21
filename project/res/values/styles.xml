@@ -742,6 +742,37 @@
 
     <style name="LoginFormHeading">
         <item name="android:layout_width">match_parent</item>
+    </style> 
+    
+    <!-- DIALOGS -->
+
+    <style name="DialogWindowTitle" />
+
+    <style name="DialogWindowTitle.Holo" />
+
+    <style name="DialogWindowTitle.Holo.Light">
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.Holo.Light.DialogWindowTitle</item>
     </style>
+    
+    <!-- TEXT APPEARANCE -->
+
+    <style name="TextAppearance" />
+
+    <style name="TextAppearance.Holo" />
+    
+    <style name="TextAppearance.Small">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/secondary_text_holo_light</item>
+    </style>
+    
+    <style name="TextAppearance.Holo.Light" />
+
+    <style name="TextAppearance.Holo.Light.DialogWindowTitle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/holo_blue_light</item>
+    </style>
+
 
 </resources>
