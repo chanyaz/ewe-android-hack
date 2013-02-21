@@ -34,7 +34,7 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 			mIntent = new Intent(context, WebViewActivity.class);
 		}
 
-		public Intent build() {
+		public Intent getIntent() {
 			return mIntent;
 		}
 

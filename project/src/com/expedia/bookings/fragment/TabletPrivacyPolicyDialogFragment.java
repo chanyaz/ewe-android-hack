@@ -49,7 +49,7 @@ public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
 				builder.setDisableSignIn(true);
 				builder.setInjectExpediaCookies(true);
 
-				getActivity().startActivity(builder.build());
+				getActivity().startActivity(builder.getIntent());
 			}
 		});
 		return builder.create();

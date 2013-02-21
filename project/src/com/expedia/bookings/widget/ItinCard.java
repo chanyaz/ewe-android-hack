@@ -485,7 +485,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 							builder.setTheme(R.style.FlightTheme);
 							builder.setTitle(R.string.insurance);
 							builder.setDisableSignIn(true);
-							getContext().startActivity(builder.build());
+							getContext().startActivity(builder.getIntent());
 						}
 					});
 
