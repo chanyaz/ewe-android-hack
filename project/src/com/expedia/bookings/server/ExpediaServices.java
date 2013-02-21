@@ -103,6 +103,8 @@ import com.mobiata.flightlib.data.FlightCode;
 
 public class ExpediaServices implements DownloadListener {
 
+	private static final String ISO_FORMAT = "yyyy-MM-dd";
+
 	// please note that these keys are specific to EB (for tracking purposes)
 	// if you need FLEX API keys for another app, please obtain your own
 	private static final String FS_FLEX_APP_ID = "db824f8c";
@@ -129,8 +131,9 @@ public class ExpediaServices implements DownloadListener {
 	private static final String COOKIES_FILE = "cookies.dat";
 
 	public enum ReviewSort {
-		NEWEST_REVIEW_FIRST("NewestReviewFirst"), HIGHEST_RATING_FIRST("HighestRatingFirst"), LOWEST_RATING_FIRST(
-				"LowestRatingFirst");
+		NEWEST_REVIEW_FIRST("NewestReviewFirst"),
+		HIGHEST_RATING_FIRST("HighestRatingFirst"),
+		LOWEST_RATING_FIRST("LowestRatingFirst");
 
 		private String mKey;
 
@@ -176,6 +179,9 @@ public class ExpediaServices implements DownloadListener {
 		mContext = context;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Cookies
+
 	// Allows one to get the cookie store out of services, in case we need to
 	// inject the cookies elsewhere (e.g., a WebView)
 	public static PersistantCookieStore getCookieStore(Context context) {
@@ -195,9 +201,17 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	//// Expedia Suggest API
+	public void clearCookies() {
+		Log.d("Cookies: Clearing!");
 
+		PersistantCookieStore cookieStore = new PersistantCookieStore();
+		cookieStore.clear();
+		cookieStore.save(mContext, COOKIES_FILE);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Expedia Suggest API
+	//
 	// Documentation:
 	// http://confluence/display/POS/Expedia+Suggest+%28Type+Ahead%29+API+Family
 	//
@@ -247,6 +261,8 @@ public class ExpediaServices implements DownloadListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia Flights API
+	//
+	// Documentation: http://www.expedia.com/static/mobile/APIConsole/flight.html
 
 	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -349,25 +365,6 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	/**
-	 * Update (or create) an expedia account traveler
-	 * @param traveler
-	 * @return
-	 */
-	public TravelerCommitResponse commitTraveler(Traveler traveler) {
-		if (User.isLoggedIn(mContext)) {
-			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-			addFlightTraveler(query, traveler, "");
-			addCommonParams(query);
-			Log.i("update-travler body:" + NetUtils.getParamsForLogging(query));
-			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
-					traveler), F_SECURE_REQUEST);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
 	 * Get the url for a background image, based on a destination code
 	 * @param destinationCode
 	 * @return
@@ -452,9 +449,9 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	//// E3 API
-
-	private static final String ISO_FORMAT = "yyyy-MM-dd";
+	// Expedia hotel API
+	//
+	// Documentation: http://www.expedia.com/static/mobile/APIConsole/
 
 	public SearchResponse search(SearchParams params, int sortType) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -561,6 +558,19 @@ public class ExpediaServices implements DownloadListener {
 		return response;
 	}
 
+	public CreateTripResponse createTripWithCoupon(String couponCode, SearchParams params, Property property, Rate rate) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addCommonParams(query);
+		addHotelSearchParams(query, params);
+
+		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
+		query.add(new BasicNameValuePair("couponCode", couponCode));
+
+		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
+		return doE3Request("MobileHotel/Webapp/CreateTrip", query, responseHandler, F_SECURE_REQUEST);
+	}
+
 	public BookingResponse reservation(SearchParams params, Property property, Rate rate, BillingInfo billingInfo,
 			String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -623,18 +633,63 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
-	public CreateTripResponse createTripWithCoupon(String couponCode, SearchParams params, Property property, Rate rate) {
+	private void addHotelSearchParams(List<BasicNameValuePair> query, SearchParams params) {
+		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
+
+		// #13586: We need a second SimpleDateFormat because on 2.2 and below.  See
+		// ticket for more info (bug is complex).
+		//
+		// Update: having removed the timezone portion, no longer sure if this is necessary;
+		// but I sure don't want to break anything.
+		DateFormat df2 = new SimpleDateFormat(ISO_FORMAT);
+
+		query.add(new BasicNameValuePair("checkInDate", df.format(params.getCheckInDate().getTime())));
+		query.add(new BasicNameValuePair("checkOutDate", df2.format(params.getCheckOutDate().getTime())));
+
+		StringBuilder guests = new StringBuilder();
+		guests.append(params.getNumAdults());
+		List<Integer> children = params.getChildren();
+		if (children != null) {
+			for (int child : children) {
+				guests.append("," + child);
+			}
+		}
+
+		query.add(new BasicNameValuePair("room1", guests.toString()));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Expedia Itinerary API
+	//
+	// Documentation: https://www.expedia.com/static/mobile/APIConsole/trip.html
+
+	public TripResponse getTrips(int flags) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		addCommonParams(query);
+		return doE3Request("api/trips", query, new TripResponseHandler(mContext), F_SECURE_REQUEST | F_GET);
+	}
+
+	public TripDetailsResponse getTripDetails(Trip trip) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
-		addHotelSearchParams(query, params);
 
-		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
-		query.add(new BasicNameValuePair("couponCode", couponCode));
+		int flags = F_SECURE_REQUEST | F_GET;
 
-		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("MobileHotel/Webapp/CreateTrip", query, responseHandler, F_SECURE_REQUEST);
+		if (trip.isGuest()) {
+			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
+			query.add(new BasicNameValuePair("email", trip.getGuestEmailAddress()));
+
+			flags |= F_IGNORE_COOKIES;
+		}
+
+		return doE3Request("api/trips/" + trip.getTripId(), query, new TripDetailsResponseHandler(mContext), flags);
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Expedia user account API
+	//
+	// Documentation: https://www.expedia.com/static/mobile/APIConsole/flight.html
 
 	public SignInResponse signIn(String email, String password, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
@@ -682,111 +737,40 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("api/user/profile", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
-	public FacebookLinkResponse facebookAutoLogin(String facebookUserId, String facebookAccessToken) {
-		Session fbSession = Session.getActiveSession();
-		if (fbSession == null || fbSession.isClosed()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookAutoLogin");
+	/**
+	 * Update (or create) an expedia account traveler
+	 * @param traveler
+	 * @return
+	 */
+	public TravelerCommitResponse commitTraveler(Traveler traveler) {
+		if (User.isLoggedIn(mContext)) {
+			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+			addFlightTraveler(query, traveler, "");
+			addCommonParams(query);
+			Log.i("update-travler body:" + NetUtils.getParamsForLogging(query));
+			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
+					traveler), F_SECURE_REQUEST);
+		}
+		else {
+			return null;
+		}
+	}
+
+	private void addProfileTypes(List<BasicNameValuePair> query, int flags) {
+		List<String> profileTypes = new ArrayList<String>();
+
+		if ((flags & F_HOTELS) != 0) {
+			profileTypes.add("HOTEL");
+		}
+		if ((flags & F_FLIGHTS) != 0) {
+			profileTypes.add("FLIGHT");
 		}
 
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-
-		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext), F_SECURE_REQUEST);
+		query.add(new BasicNameValuePair("profileTypes", StrUtils.join(profileTypes, ",")));
 	}
 
-	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
-			String facebookEmailAddress) {
-
-		Session fbSession = Session.getActiveSession();
-		if (fbSession == null || fbSession.isClosed()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
-		}
-
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-		query.add(new BasicNameValuePair("email", facebookEmailAddress));
-
-		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext),
-				F_SECURE_REQUEST);
-	}
-
-	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
-			String facebookEmailAddress, String expediaPassword) {
-		Session fbSession = Session.getActiveSession();
-		if (fbSession == null || fbSession.isClosed()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
-		}
-
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-		query.add(new BasicNameValuePair("email", facebookEmailAddress));
-		query.add(new BasicNameValuePair("password", expediaPassword));
-
-		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext),
-				F_SECURE_REQUEST);
-	}
-
-	public TripResponse getTrips(int flags) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		addCommonParams(query);
-		return doE3Request("api/trips", query, new TripResponseHandler(mContext), F_SECURE_REQUEST | F_GET);
-	}
-
-	public TripDetailsResponse getTripDetails(Trip trip) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		int flags = F_SECURE_REQUEST | F_GET;
-
-		if (trip.isGuest()) {
-			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
-			query.add(new BasicNameValuePair("email", trip.getGuestEmailAddress()));
-
-			flags |= F_IGNORE_COOKIES;
-		}
-
-		return doE3Request("api/trips/" + trip.getTripId(), query, new TripDetailsResponseHandler(mContext), flags);
-	}
-
-	public void clearCookies() {
-		Log.d("Cookies: Clearing!");
-
-		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.clear();
-		cookieStore.save(mContext, COOKIES_FILE);
-	}
-
-	private void addHotelSearchParams(List<BasicNameValuePair> query, SearchParams params) {
-		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
-
-		// #13586: We need a second SimpleDateFormat because on 2.2 and below.  See
-		// ticket for more info (bug is complex).
-		//
-		// Update: having removed the timezone portion, no longer sure if this is necessary;
-		// but I sure don't want to break anything.
-		DateFormat df2 = new SimpleDateFormat(ISO_FORMAT);
-
-		query.add(new BasicNameValuePair("checkInDate", df.format(params.getCheckInDate().getTime())));
-		query.add(new BasicNameValuePair("checkOutDate", df2.format(params.getCheckOutDate().getTime())));
-
-		StringBuilder guests = new StringBuilder();
-		guests.append(params.getNumAdults());
-		List<Integer> children = params.getChildren();
-		if (children != null) {
-			for (int child : children) {
-				guests.append("," + child);
-			}
-		}
-
-		query.add(new BasicNameValuePair("room1", guests.toString()));
-	}
+	//////////////////////////////////////////////////////////////////////////
+	// Expedia Common
 
 	private void addCommonParams(List<BasicNameValuePair> query) {
 		// Source type
@@ -805,19 +789,6 @@ public class ExpediaServices implements DownloadListener {
 
 		// Client id (see https://confluence/display/POS/ewe+trips+api#ewetripsapi-apiclients)
 		query.add(new BasicNameValuePair("clientid", "expedia.phone.android:" + AndroidUtils.getAppVersion(mContext)));
-	}
-
-	private void addProfileTypes(List<BasicNameValuePair> query, int flags) {
-		List<String> profileTypes = new ArrayList<String>();
-
-		if ((flags & F_HOTELS) != 0) {
-			profileTypes.add("HOTEL");
-		}
-		if ((flags & F_FLIGHTS) != 0) {
-			profileTypes.add("FLIGHT");
-		}
-
-		query.add(new BasicNameValuePair("profileTypes", StrUtils.join(profileTypes, ",")));
 	}
 
 	private void addBillingInfo(List<BasicNameValuePair> query, BillingInfo billingInfo, int flags) {
@@ -928,7 +899,81 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	//// BazaarVoice (Reviews) API
+	// Facebook Login API
+
+	public static String getFacebookAppId(Context context) {
+		EndPoint endPoint = getEndPoint(context);
+		String appId = null;
+		switch (endPoint) {
+		case INTEGRATION:
+		case STABLE:
+		case DEV:
+		case TRUNK:
+		case PUBLIC_INTEGRATION:
+		case PROXY:
+			appId = context.getString(R.string.facebook_dev_app_id);
+			break;
+		case PRODUCTION:
+		default:
+			appId = context.getString(R.string.facebook_app_id);
+			break;
+		}
+		return appId;
+
+	}
+
+	public FacebookLinkResponse facebookAutoLogin(String facebookUserId, String facebookAccessToken) {
+		Session fbSession = Session.getActiveSession();
+		if (fbSession == null || fbSession.isClosed()) {
+			throw new RuntimeException("We must be logged into facebook inorder to call facebookAutoLogin");
+		}
+
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("provider", "Facebook"));
+		query.add(new BasicNameValuePair("userId", facebookUserId));
+		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
+
+		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext), F_SECURE_REQUEST);
+	}
+
+	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
+			String facebookEmailAddress) {
+
+		Session fbSession = Session.getActiveSession();
+		if (fbSession == null || fbSession.isClosed()) {
+			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
+		}
+
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("provider", "Facebook"));
+		query.add(new BasicNameValuePair("userId", facebookUserId));
+		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
+		query.add(new BasicNameValuePair("email", facebookEmailAddress));
+
+		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext),
+				F_SECURE_REQUEST);
+	}
+
+	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
+			String facebookEmailAddress, String expediaPassword) {
+		Session fbSession = Session.getActiveSession();
+		if (fbSession == null || fbSession.isClosed()) {
+			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
+		}
+
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("provider", "Facebook"));
+		query.add(new BasicNameValuePair("userId", facebookUserId));
+		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
+		query.add(new BasicNameValuePair("email", facebookEmailAddress));
+		query.add(new BasicNameValuePair("password", expediaPassword));
+
+		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext),
+				F_SECURE_REQUEST);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// BazaarVoice (Reviews) API
 
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, List<String> languages) {
 		return reviews(property, sort, pageNumber, languages, REVIEWS_PER_PAGE);
@@ -996,14 +1041,11 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	//// Request code
+	// Request code
 
-	private <T extends Response> T doBazaarRequest(List<BasicNameValuePair> params, ResponseHandler<T> responseHandler) {
-		HttpGet get = NetUtils.createHttpGet(BAZAAR_VOICE_BASE_URL, params);
-
-		Log.d("Bazaar reviews request:  " + get.getURI().toString());
-
-		return doRequest(get, responseHandler, 0);
+	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
+			ResponseHandler<T> responseHandler, int flags) {
+		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
 	}
 
 	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
@@ -1025,16 +1067,19 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(base, responseHandler, flags);
 	}
 
-	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
-			ResponseHandler<T> responseHandler, int flags) {
-		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
-	}
-
 	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params,
 			ResponseHandler<T> responseHandler) {
 		HttpRequestBase base = NetUtils.createHttpGet(baseUrl, params);
 
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
+	}
+
+	private <T extends Response> T doBazaarRequest(List<BasicNameValuePair> params, ResponseHandler<T> responseHandler) {
+		HttpGet get = NetUtils.createHttpGet(BAZAAR_VOICE_BASE_URL, params);
+
+		Log.d("Bazaar reviews request:  " + get.getURI().toString());
+
+		return doRequest(get, responseHandler, 0);
 	}
 
 	private <T extends Response> T doRequest(HttpRequestBase request, ResponseHandler<T> responseHandler, int flags) {
@@ -1128,40 +1173,8 @@ public class ExpediaServices implements DownloadListener {
 		return null;
 	}
 
-	// Automatically trusts all SSL certificates.  ONLY USE IN TESTING!
-	private class TrustingSSLSocketFactory extends SSLSocketFactory {
-		SSLContext sslContext = SSLContext.getInstance("TLS");
-
-		public TrustingSSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException,
-				KeyStoreException, UnrecoverableKeyException {
-			super(truststore);
-
-			TrustManager tm = new X509TrustManager() {
-				public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-				}
-
-				public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-				}
-
-				public X509Certificate[] getAcceptedIssuers() {
-					return null;
-				}
-			};
-
-			sslContext.init(null, new TrustManager[] { tm }, null);
-		}
-
-		@Override
-		public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException,
-				UnknownHostException {
-			return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
-		}
-
-		@Override
-		public Socket createSocket() throws IOException {
-			return sslContext.getSocketFactory().createSocket();
-		}
-	}
+	//////////////////////////////////////////////////////////////////////////
+	// Endpoints
 
 	public enum EndPoint {
 		PRODUCTION,
@@ -1246,27 +1259,6 @@ public class ExpediaServices implements DownloadListener {
 		return e3url;
 	}
 
-	public static String getFacebookAppId(Context context) {
-		EndPoint endPoint = getEndPoint(context);
-		String appId = null;
-		switch (endPoint) {
-		case INTEGRATION:
-		case STABLE:
-		case DEV:
-		case TRUNK:
-		case PUBLIC_INTEGRATION:
-		case PROXY:
-			appId = context.getString(R.string.facebook_dev_app_id);
-			break;
-		case PRODUCTION:
-		default:
-			appId = context.getString(R.string.facebook_app_id);
-			break;
-		}
-		return appId;
-
-	}
-
 	public static EndPoint getEndPoint(Context context) {
 		boolean isRelease = AndroidUtils.isRelease(context);
 		if (isRelease) {
@@ -1303,7 +1295,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	//// Download listener stuff
+	// Download listener stuff
 
 	@Override
 	public void onCancel() {
@@ -1337,17 +1329,40 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	//// Deprecated API calls
-	//
-	// We need to find replacements for these calls in E3
+	// Debug/utility (not for release)
 
-	@SuppressWarnings("unused")
-	@Deprecated
-	private void addStandardRequestFields(JSONObject request, String type) throws JSONException {
-		request.put("type", type);
-		if (!AndroidUtils.isRelease(mContext)) {
-			request.put("echoRequest", true);
+	// Automatically trusts all SSL certificates.  ONLY USE IN TESTING!
+	private class TrustingSSLSocketFactory extends SSLSocketFactory {
+		SSLContext sslContext = SSLContext.getInstance("TLS");
+
+		public TrustingSSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException,
+				KeyStoreException, UnrecoverableKeyException {
+			super(truststore);
+
+			TrustManager tm = new X509TrustManager() {
+				public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+				}
+
+				public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+				}
+
+				public X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
+			};
+
+			sslContext.init(null, new TrustManager[] { tm }, null);
 		}
-		request.put("cid", 345106);
+
+		@Override
+		public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException,
+				UnknownHostException {
+			return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
+		}
+
+		@Override
+		public Socket createSocket() throws IOException {
+			return sslContext.getSocketFactory().createSocket();
+		}
 	}
 }
