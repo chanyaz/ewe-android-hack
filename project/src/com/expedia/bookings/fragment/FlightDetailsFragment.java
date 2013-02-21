@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -192,9 +191,13 @@ public class FlightDetailsFragment extends Fragment {
 						trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
 					}
 
-					Intent baggageIntent = WebViewActivity.getIntent(getActivity(), trip.getBaggageFeesUrl(),
-							R.style.FlightTheme, R.string.baggage_fees, true, trackingName);
-					getActivity().startActivity(baggageIntent);
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder.setUrl(trip.getBaggageFeesUrl());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.baggage_fees);
+					builder.setDisableSignIn(true);
+					builder.setTrackingName(trackingName);
+					getActivity().startActivity(builder.getIntent());
 				}
 			});
 		}

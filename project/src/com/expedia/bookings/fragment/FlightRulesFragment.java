@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -100,9 +99,12 @@ public class FlightRulesFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				Rule completeRule = mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
-				Intent intent = WebViewActivity.getIntent(mContext, completeRule.getUrl(), R.style.FlightTheme,
-						R.string.legal_information, false, true);
-				mContext.startActivity(intent);
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+				builder.setUrl(completeRule.getUrl());
+				builder.setTheme(R.style.FlightTheme);
+				builder.setTitle(R.string.rules_and_restrictions);
+				builder.setInjectExpediaCookies(true);
+				mContext.startActivity(builder.getIntent());
 			}
 
 		});
@@ -112,9 +114,12 @@ public class FlightRulesFragment extends SherlockFragment {
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = WebViewActivity.getIntent(mContext, pos.getTermsAndConditionsUrl(),
-						R.style.FlightTheme, R.string.legal_information, true);
-				mContext.startActivity(intent);
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+				builder.setUrl(pos.getTermsAndConditionsUrl());
+				builder.setTheme(R.style.FlightTheme);
+				builder.setTitle(R.string.terms_and_conditions);
+				builder.setDisableSignIn(true);
+				mContext.startActivity(builder.getIntent());
 			}
 		});
 
@@ -124,9 +129,12 @@ public class FlightRulesFragment extends SherlockFragment {
 			booking.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = WebViewActivity.getIntent(mContext, pos.getTermsOfBookingUrl(),
-							R.style.FlightTheme, R.string.Terms_of_Booking, true);
-					mContext.startActivity(intent);
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+					builder.setUrl(pos.getTermsOfBookingUrl());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.Terms_of_Booking);
+					builder.setDisableSignIn(true);
+					mContext.startActivity(builder.getIntent());
 				}
 			});
 		}
@@ -140,9 +148,12 @@ public class FlightRulesFragment extends SherlockFragment {
 		privacy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = WebViewActivity.getIntent(mContext, pos.getPrivacyPolicyUrl(), R.style.FlightTheme,
-						R.string.legal_information, true);
-				mContext.startActivity(intent);
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+				builder.setUrl(pos.getPrivacyPolicyUrl());
+				builder.setTheme(R.style.FlightTheme);
+				builder.setTitle(R.string.privacy_policy);
+				builder.setDisableSignIn(true);
+				mContext.startActivity(builder.getIntent());
 			}
 		});
 
@@ -207,9 +218,12 @@ public class FlightRulesFragment extends SherlockFragment {
 			textView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = WebViewActivity.getIntent(mContext, rule.getUrl(), R.style.FlightTheme,
-							R.string.legal_information);
-					mContext.startActivity(intent);
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+					builder.setUrl(rule.getUrl());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.legal_information);
+					builder.setDisableSignIn(true);
+					mContext.startActivity(builder.getIntent());
 				}
 			});
 		}

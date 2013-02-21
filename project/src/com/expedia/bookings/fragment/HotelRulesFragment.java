@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.activity.TextViewActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
@@ -55,9 +55,12 @@ public class HotelRulesFragment extends SherlockFragment {
 		terms.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = WebViewActivity.getIntent(getActivity(), pos.getTermsAndConditionsUrl(),
-						R.style.HotelWebViewTheme, 0, true);
-				startActivity(intent);
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+				builder.setUrl(pos.getTermsAndConditionsUrl());
+				builder.setTheme(R.style.HotelWebViewTheme);
+				builder.setTitle(R.string.terms_and_conditions);
+				builder.setDisableSignIn(true);
+				startActivity(builder.getIntent());
 			}
 		});
 
@@ -67,9 +70,12 @@ public class HotelRulesFragment extends SherlockFragment {
 			booking.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = WebViewActivity.getIntent(getActivity(), pos.getTermsOfBookingUrl(),
-							R.style.HotelWebViewTheme, R.string.Terms_of_Booking, true);
-					startActivity(intent);
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder.setUrl(pos.getTermsOfBookingUrl());
+					builder.setTheme(R.style.HotelWebViewTheme);
+					builder.setTitle(R.string.Terms_of_Booking);
+					builder.setDisableSignIn(true);
+					startActivity(builder.getIntent());
 				}
 			});
 		}
@@ -83,9 +89,12 @@ public class HotelRulesFragment extends SherlockFragment {
 		privacy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = WebViewActivity.getIntent(getActivity(), PointOfSale.getPointOfSale()
-						.getPrivacyPolicyUrl(), R.style.HotelWebViewTheme, 0, true);
-				startActivity(intent);
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+				builder.setUrl(PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
+				builder.setTheme(R.style.HotelWebViewTheme);
+				builder.setTitle(R.string.privacy_policy);
+				builder.setDisableSignIn(true);
+				startActivity(builder.getIntent());
 			}
 		});
 
@@ -95,9 +104,12 @@ public class HotelRulesFragment extends SherlockFragment {
 			guarantee.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = WebViewActivity.getIntent(getActivity(), PointOfSale.getPointOfSale()
-							.getBestPriceGuaranteeUrl(), R.style.HotelWebViewTheme, 0, true);
-					startActivity(intent);
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder.setUrl(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
+					builder.setTheme(R.style.HotelWebViewTheme);
+					builder.setTitle(R.string.best_price_guarantee);
+					builder.setDisableSignIn(true);
+					startActivity(builder.getIntent());
 				}
 			});
 		}
