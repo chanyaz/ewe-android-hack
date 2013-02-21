@@ -66,7 +66,7 @@ public class HotelRulesFragment extends SherlockFragment {
 				@Override
 				public void onClick(View v) {
 					Intent intent = WebViewActivity.getIntent(getActivity(), pos.getTermsOfBookingUrl(),
-							R.style.FlightTheme, R.string.Terms_of_Booking, true);
+							R.style.HotelWebViewTheme, R.string.Terms_of_Booking, true);
 					startActivity(intent);
 				}
 			});
