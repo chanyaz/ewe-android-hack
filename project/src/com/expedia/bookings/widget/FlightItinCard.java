@@ -212,9 +212,12 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				bookingInfoView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						Intent bookingInfoIntent = WebViewActivity.getIntent(getContext(), infoUrl,
-								R.style.FlightTheme, R.string.booking_info, true);
-						getContext().startActivity(bookingInfoIntent);
+						WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+						builder.setUrl(infoUrl);
+						builder.setTitle(R.string.booking_info);
+						builder.setTheme(R.style.FlightTheme);
+						builder.setDisableSignIn(true);
+						getContext().startActivity(builder.build());
 					}
 				});
 			}
@@ -300,7 +303,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			}
 			else if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
 				if (flight.mDiverted != null) {
-					topLine.setText(res.getString(R.string.flight_diverted_TEMPLATE, flight.getArrivalWaypoint().mAirportCode));
+					topLine.setText(res.getString(R.string.flight_diverted_TEMPLATE,
+							flight.getArrivalWaypoint().mAirportCode));
 				}
 				else {
 					topLine.setText(R.string.flight_diverted);
@@ -655,7 +659,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 		if (flight.isRedAlert()) {
 			TextView tv = Ui.findView(v, R.id.delay_text_view);
-			tv.setTextColor(0xffa00000);  // TODO make R.color
+			tv.setTextColor(0xffa00000); // TODO make R.color
 			tv.setText(getResources().getString(R.string.flight_canceled));
 			tv.setVisibility(View.VISIBLE);
 		}
@@ -664,8 +668,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			if (delay.mDelayType == Delay.DELAY_GATE_ACTUAL || delay.mDelayType == Delay.DELAY_GATE_ESTIMATED) {
 				if (delay.mDelay > 0) {
 					TextView tv = Ui.findView(v, R.id.delay_text_view);
-					tv.setTextColor(0xffefd766);  // TODO make R.color
-					tv.setText(getResources().getString(R.string.flight_departs_x_late_TEMPLATE, DateTimeUtils.formatDuration(getResources(), delay.mDelay)));
+					tv.setTextColor(0xffefd766); // TODO make R.color
+					tv.setText(getResources().getString(R.string.flight_departs_x_late_TEMPLATE,
+							DateTimeUtils.formatDuration(getResources(), delay.mDelay)));
 					tv.setVisibility(View.VISIBLE);
 				}
 			}

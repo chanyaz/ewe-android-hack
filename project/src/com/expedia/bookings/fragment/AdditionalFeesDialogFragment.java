@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
@@ -46,9 +45,12 @@ public class AdditionalFeesDialogFragment extends DialogFragment {
 		builder.setItems(itemNames, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Intent intent = WebViewActivity.getIntent(getActivity(), itemUrls[which],
-						R.style.FlightTheme, itemNamesResIds[which], true);
-				getActivity().startActivity(intent);
+				WebViewActivity.IntentBuilder webBuilder = new WebViewActivity.IntentBuilder(getActivity());
+				webBuilder.setUrl(itemUrls[which]);
+				webBuilder.setTheme(R.style.FlightTheme);
+				webBuilder.setTitle(itemNamesResIds[which]);
+				webBuilder.setDisableSignIn(true);
+				getActivity().startActivity(webBuilder.build());
 			}
 		});
 		return builder.create();

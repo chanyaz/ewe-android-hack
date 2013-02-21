@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -481,9 +480,12 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 					insuranceLinkView.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View arg0) {
-							Intent insuranceIntent = WebViewActivity.getIntent(getContext(),
-									insurance.getTermsUrl(), R.style.FlightTheme, R.string.insurance, true);
-							getContext().startActivity(insuranceIntent);
+							WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+							builder.setUrl(insurance.getTermsUrl());
+							builder.setTheme(R.style.FlightTheme);
+							builder.setTitle(R.string.insurance);
+							builder.setDisableSignIn(true);
+							getContext().startActivity(builder.build());
 						}
 					});
 

@@ -47,10 +47,10 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CalendarAPIUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
-import com.expedia.bookings.utils.CalendarAPIUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -380,9 +380,13 @@ public class FlightConfirmationFragment extends Fragment {
 		else {
 			url = "http://www.expedia.ca/daily/enc4105/travelinsurance/default.asp";
 		}
-		Intent insuranceIntent = WebViewActivity.getIntent(getActivity(), url, R.style.FlightTheme, R.string.insurance,
-				true);
-		startActivity(insuranceIntent);
+
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+		builder.setUrl(url);
+		builder.setTheme(R.style.FlightTheme);
+		builder.setTitle(R.string.insurance);
+		builder.setDisableSignIn(true);
+		startActivity(builder.build());
 
 		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_ADDED_INSURANCE, true);
 	}

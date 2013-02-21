@@ -81,42 +81,6 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 
 	}
 
-	public static Intent getIntent(Context context, String url, int styleResId, int titleResId) {
-		return getIntent(context, url, styleResId, titleResId, false, false);
-	}
-
-	public static Intent getIntent(Context context, String url, int styleResId, int titleResId, boolean disableSignIn) {
-		return getIntent(context, url, styleResId, titleResId, disableSignIn, false);
-	}
-
-	public static Intent getIntent(Context context, String url, int styleResId, int titleResId, boolean disableSignIn,
-			String trackingName) {
-		return getIntent(context, url, styleResId, titleResId, disableSignIn, false, trackingName);
-	}
-
-	public static Intent getIntent(Context context, String url, int styleResId, int titleResId, boolean disableSignIn,
-			boolean injectExpediaCookies) {
-		return getIntent(context, url, styleResId, titleResId, disableSignIn, injectExpediaCookies, null);
-	}
-
-	public static Intent getIntent(Context context, String url, int styleResId, int titleResId, boolean disableSignIn,
-			boolean injectExpediaCookies, String trackingName) {
-		Intent intent = new Intent(context, WebViewActivity.class);
-		intent.putExtra(ARG_URL, url);
-		if (styleResId != 0) {
-			intent.putExtra(ARG_STYLE_RES_ID, styleResId);
-		}
-		if (titleResId != 0) {
-			intent.putExtra(ARG_TITLE_RES_ID, titleResId);
-		}
-		intent.putExtra(ARG_DISABLE_SIGN_IN, disableSignIn);
-		intent.putExtra(ARG_INJECT_EXPEDIA_COOKIES, injectExpediaCookies);
-		if (trackingName != null) {
-			intent.putExtra(ARG_TRACKING_NAME, trackingName);
-		}
-		return intent;
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
