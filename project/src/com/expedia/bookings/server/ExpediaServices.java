@@ -474,7 +474,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("city", params.getQuery()));
 		}
 
-		addBasicParams(query, params);
+		addHotelSearchParams(query, params);
 
 		// These values are always the same (for now)
 		query.add(new BasicNameValuePair("resultsPerPage", HOTEL_MAX_RESULTS + ""));
@@ -519,7 +519,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 
-		addBasicParams(query, params);
+		addHotelSearchParams(query, params);
 
 		if ((flags & F_EXPENSIVE) != 0) {
 			query.add(new BasicNameValuePair("makeExpensiveRealtimeCall", "true"));
@@ -571,7 +571,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
 
-		addBasicParams(query, params);
+		addHotelSearchParams(query, params);
 
 		addBillingInfo(query, billingInfo, F_HOTELS);
 
@@ -629,7 +629,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
 		addPOSParams(query);
-		addBasicParams(query, params);
+		addHotelSearchParams(query, params);
 
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
 		query.add(new BasicNameValuePair("couponCode", couponCode));
@@ -762,7 +762,7 @@ public class ExpediaServices implements DownloadListener {
 		cookieStore.save(mContext, COOKIES_FILE);
 	}
 
-	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
+	private void addHotelSearchParams(List<BasicNameValuePair> query, SearchParams params) {
 		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
 
 		// #13586: We need a second SimpleDateFormat because on 2.2 and below.  See
