@@ -134,7 +134,7 @@
     </style>
 
     <style name="LaunchTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
-        <item name="logo">@drawable/ic_action_bar_expedia_logo</item>
+        <item name="logo">@drawable/ic_action_bar_expedia_logo_small</item>
         <item name="android:logo">@drawable/ic_action_bar_expedia_logo_small</item>
         <item name="actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>

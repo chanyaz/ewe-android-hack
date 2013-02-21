@@ -103,14 +103,15 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		});
 
 		// Tabs
-		Tab shopTab = getSupportActionBar().newTab().setText("Shop").setTabListener(mShopTabListener);
-		Tab itineraryTab = getSupportActionBar().newTab().setText("Itinerary").setTabListener(mItineraryTabListener);
+		Tab shopTab = getSupportActionBar().newTab().setText(R.string.shop).setTabListener(mShopTabListener);
+		Tab itineraryTab = getSupportActionBar().newTab().setText(R.string.itinerary)
+				.setTabListener(mItineraryTabListener);
 
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.addTab(shopTab);
-		actionBar.addTab(itineraryTab);
+		actionBar.addTab(shopTab, PAGER_POS_WATERFALL);
+		actionBar.addTab(itineraryTab, PAGER_POS_ITIN);
 
 		enableEmbeddedTabs(actionBar);
 
@@ -301,47 +302,43 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void gotoWaterfall() {
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setHomeButtonEnabled(false);
+	private synchronized void gotoWaterfall() {
+		if (mPagerPosition != PAGER_POS_WATERFALL) {
+			ActionBar actionBar = getSupportActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(false);
+			actionBar.setHomeButtonEnabled(false);
 
-		mPagerPosition = PAGER_POS_WATERFALL;
-		mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
+			mPagerPosition = PAGER_POS_WATERFALL;
+			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
+			actionBar.setSelectedNavigationItem(mPagerPosition);
 
-		Tab tab = actionBar.getTabAt(PAGER_POS_WATERFALL);
-		if (tab != null) {
-			actionBar.selectTab(tab);
-		}
+			if (mItinListFragment == null) {
+				mItinListFragment.setListMode();
+			}
 
-		if (mItinListFragment == null) {
-			mItinListFragment.setListMode();
-		}
-
-		if (mHasMenu) {
-			supportInvalidateOptionsMenu();
+			if (mHasMenu) {
+				supportInvalidateOptionsMenu();
+			}
 		}
 	}
 
-	private void gotoItineraries() {
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setHomeButtonEnabled(true);
+	private synchronized void gotoItineraries() {
+		if (mPagerPosition != PAGER_POS_ITIN) {
+			ActionBar actionBar = getSupportActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setHomeButtonEnabled(true);
 
-		if (mItinListFragment != null) {
-			mItinListFragment.enableLoadItins();
-		}
+			if (mItinListFragment != null) {
+				mItinListFragment.enableLoadItins();
+			}
 
-		mPagerPosition = PAGER_POS_ITIN;
-		mViewPager.setCurrentItem(PAGER_POS_ITIN);
+			mPagerPosition = PAGER_POS_ITIN;
+			mViewPager.setCurrentItem(PAGER_POS_ITIN);
+			actionBar.setSelectedNavigationItem(mPagerPosition);
 
-		Tab tab = actionBar.getTabAt(PAGER_POS_ITIN);
-		if (tab != null) {
-			actionBar.selectTab(tab);
-		}
-
-		if (mHasMenu) {
-			supportInvalidateOptionsMenu();
+			if (mHasMenu) {
+				supportInvalidateOptionsMenu();
+			}
 		}
 	}
 
