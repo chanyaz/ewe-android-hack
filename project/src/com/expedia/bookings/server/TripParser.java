@@ -123,8 +123,9 @@ public class TripParser {
 			// Parse with no timezone.  The current timezone code is buggy and we shouldn't
 			// be using this code anyways.
 
+			String str = (String) obj;
+
 			try {
-				String str = (String) obj;
 				Date date = FLIGHT_DATE_FORMAT.parse(str);
 				return new DateTime(date.getTime(), 0);
 			}
@@ -132,8 +133,14 @@ public class TripParser {
 			}
 
 			try {
-				String str = (String) obj;
 				Date date = HOTEL_DATE_FORMAT.parse(str);
+				return new DateTime(date.getTime(), 0);
+			}
+			catch (ParseException e) {
+			}
+
+			try {
+				Date date = DATE_FORMAT.parse(str);
 				return new DateTime(date.getTime(), 0);
 			}
 			catch (ParseException e) {
@@ -144,7 +151,8 @@ public class TripParser {
 	}
 
 	private static final DateFormat FLIGHT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-	private static final DateFormat HOTEL_DATE_FORMAT = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");
+	private static final DateFormat HOTEL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");
 
 	private BookingStatus parseBookingStatus(String status) {
 		if ("SAVED".equals(status)) {
