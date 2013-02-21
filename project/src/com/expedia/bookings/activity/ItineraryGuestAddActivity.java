@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.ItineraryGuestAddFragment;
 import com.expedia.bookings.utils.Ui;
@@ -40,5 +41,16 @@ public class ItineraryGuestAddActivity extends SherlockFragmentActivity {
 			ft.add(R.id.fragment_container, mAddGuestItinFragment, TAG_GUEST_ADD_FRAGMENT);
 			ft.commit();
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home: {
+			finish();
+			return true;
+		}
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
