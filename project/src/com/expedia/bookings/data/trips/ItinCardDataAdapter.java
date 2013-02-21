@@ -19,9 +19,10 @@ import com.expedia.bookings.widget.CruiseItinCard;
 import com.expedia.bookings.widget.FlightItinCard;
 import com.expedia.bookings.widget.HotelItinCard;
 import com.expedia.bookings.widget.ItinCard;
+import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.mobiata.android.Log;
 
-public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener {
+public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener, OnItinCardClickListener {
 
 	public enum TripComponentSortOrder {
 		START_DATE
@@ -35,6 +36,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	private ItineraryManager mItinManager;
 	private ArrayList<ItinCardData> mItinCardDatas;
 	private TripComponentSortOrder mSortOrder = TripComponentSortOrder.START_DATE;
+
+	private OnItinCardClickListener mOnItinCardClickListener;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTOR
@@ -85,22 +88,27 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			switch (cardType) {
 			case HOTEL: {
 				card = new HotelItinCard(mContext);
+				card.setOnItinCardClickListener(this);
 				break;
 			}
 			case FLIGHT: {
 				card = new FlightItinCard(mContext);
+				card.setOnItinCardClickListener(this);
 				break;
 			}
 			case CAR: {
 				card = new CarItinCard(mContext);
+				card.setOnItinCardClickListener(this);
 				break;
 			}
 			case CRUISE: {
 				card = new CruiseItinCard(mContext);
+				card.setOnItinCardClickListener(this);
 				break;
 			}
 			case ACTIVITY: {
 				card = new ActivityItinCard(mContext);
+				card.setOnItinCardClickListener(this);
 				break;
 			}
 			default:
@@ -225,6 +233,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		notifyDataSetChanged();
 	}
 
+	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
+		mOnItinCardClickListener = onItinCardClickListener;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -248,4 +260,18 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			return dataOne.getStartDate().compareTo(dataTwo.getStartDate());
 		}
 	};
+
+	@Override
+	public void onCloseButtonClicked() {
+		if (mOnItinCardClickListener != null) {
+			mOnItinCardClickListener.onCloseButtonClicked();
+		}
+	}
+
+	@Override
+	public void onShareButtonClicked(String subject, String shortMessage, String longMessage) {
+		if (mOnItinCardClickListener != null) {
+			mOnItinCardClickListener.onShareButtonClicked(subject, shortMessage, longMessage);
+		}
+	}
 }

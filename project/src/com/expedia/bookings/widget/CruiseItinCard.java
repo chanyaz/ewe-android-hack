@@ -35,7 +35,12 @@ public class CruiseItinCard extends ItinCard {
 	}
 
 	@Override
-	protected String getShareText(ItinCardData itinCardData) {
+	protected String getShareTextShort(ItinCardData itinCardData) {
+		return null;
+	}
+
+	@Override
+	protected String getShareTextLong(ItinCardData itinCardData) {
 		return null;
 	}
 

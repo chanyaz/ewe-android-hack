@@ -12,7 +12,8 @@
         android:id="@+id/itin_path_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_itin_card_path" />
+        android:background="@drawable/bg_itin_card_path"
+        android:visibility="invisible" />
 
     <com.expedia.bookings.widget.ItinListView
         android:id="@android:id/list"

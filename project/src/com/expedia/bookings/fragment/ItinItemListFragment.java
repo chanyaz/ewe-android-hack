@@ -25,7 +25,9 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
+import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.mobiata.android.util.AndroidUtils;
@@ -37,6 +39,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		ItinerarySyncListener {
 
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
+	public static final String DIALOG_SHARE = "DIALOG_SHARE";
 
 	private View mItinPathView;
 	private ItinListView mItinListView;
@@ -77,6 +80,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.setEmptyView(mEmptyView);
 		mItinListView.setOnScrollListener(mOnScrollListener);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
+		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -98,9 +102,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		updateLoginState();
-
 		syncItinManager();
 	}
 
@@ -268,6 +270,18 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			else if (mode == ItinListView.MODE_DETAIL) {
 				ObjectAnimator.ofFloat(mItinPathView, "alpha", 0f).setDuration(200).start();
 			}
+		}
+	};
+
+	private OnItinCardClickListener mOnItinCardClickListener = new OnItinCardClickListener() {
+		@Override
+		public void onCloseButtonClicked() {
+		}
+
+		@Override
+		public void onShareButtonClicked(String subject, String shortMessage, String longMessage) {
+			SocialMessageChooserDialogFragment.newInstance(subject, shortMessage, longMessage).show(
+					getFragmentManager(), DIALOG_SHARE);
 		}
 	};
 }

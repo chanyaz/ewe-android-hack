@@ -49,9 +49,23 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	}
 
 	@Override
-	protected String getShareText(ItinCardDataHotel itinCardData) {
-		// TODO Auto-generated method stub
-		return null;
+	protected String getShareTextShort(ItinCardDataHotel itinCardData) {
+		String template = getContext().getString(R.string.share_template_short_hotel);
+		String hotelName = itinCardData.getPropertyName();
+		String checkIn = itinCardData.getFormattedShareCheckInDate();
+		String checkOut = itinCardData.getFormattedShareCheckOutDate();
+		String detailsUrl = itinCardData.getDetailsUrl();
+
+		return String.format(template, hotelName, checkIn, checkOut, detailsUrl);
+	}
+
+	@Override
+	protected String getShareTextLong(ItinCardDataHotel itinCardData) {
+		String template = getContext().getString(R.string.share_template_long_hotel);
+		String hotelName = itinCardData.getPropertyName();
+		String lengthOfStay = itinCardData.getFormattedLengthOfStay(getContext());
+
+		return String.format(template, hotelName, lengthOfStay, "", "", "", "", "", "", "", "", "");
 	}
 
 	@Override
@@ -61,7 +75,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 
 	@Override
 	protected String getHeaderText(ItinCardDataHotel itinCardData) {
-		return itinCardData.getHeaderText();
+		return itinCardData.getPropertyName();
 	}
 
 	@Override
@@ -72,7 +86,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 		RatingBar hotelRatingBar = Ui.findView(view, R.id.hotel_rating_bar);
 
 		hotelNameTextView.setText(itinCardData.getPropertyName());
-		hotelRatingBar.setRating(itinCardData.getHotelRating());
+		hotelRatingBar.setRating(itinCardData.getPropertyRating());
 
 		return view;
 	}
@@ -101,8 +115,8 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 		ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
 
 		// Bind
-		checkInDateTextView.setText(itinCardData.getFormattedCheckInDate());
-		checkOutDateTextView.setText(itinCardData.getFormattedCheckOutDate());
+		checkInDateTextView.setText(itinCardData.getFormattedDetailsCheckInDate());
+		checkOutDateTextView.setText(itinCardData.getFormattedDetailsCheckOutDate());
 		guestsTextView.setText(itinCardData.getFormattedGuests());
 
 		if (itinCardData.getPropertyLocation() != null) {

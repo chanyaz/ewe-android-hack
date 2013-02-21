@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_chooser_dialog"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="22dp"
+        android:text="@string/Choose_message_style"
+        android:textColor="#35b6e5"
+        android:textSize="22dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#33b5e5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/long_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_action_bar_button"
+            android:drawableTop="@drawable/ic_share_long"
+            android:gravity="center_horizontal"
+            android:paddingBottom="30dp"
+            android:paddingTop="20dp"
+            android:singleLine="true"
+            android:text="@string/Long_message"
+            android:textColor="#000"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/short_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_action_bar_button"
+            android:drawableTop="@drawable/ic_share_short"
+            android:gravity="center_horizontal"
+            android:paddingBottom="30dp"
+            android:paddingTop="20dp"
+            android:singleLine="true"
+            android:text="@string/Short_message"
+            android:textColor="#000"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -100,7 +100,13 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	@Override
-	protected String getShareText(ItinCardDataFlight itinCardData) {
+	protected String getShareTextShort(ItinCardDataFlight itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	protected String getShareTextLong(ItinCardDataFlight itinCardData) {
 		// TODO Auto-generated method stub
 		return null;
 	}

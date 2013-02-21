@@ -49,7 +49,13 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 	}
 
 	@Override
-	protected String getShareText(ItinCardDataCar itinCardData) {
+	protected String getShareTextShort(ItinCardDataCar itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getShareTextLong(ItinCardDataCar itinCardData) {
 		// TODO Auto-generated method stub
 		return null;
 	}

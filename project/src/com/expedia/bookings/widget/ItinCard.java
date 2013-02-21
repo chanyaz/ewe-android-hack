@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,7 +25,6 @@ import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -35,7 +33,17 @@ import com.nineoldandroids.view.ViewHelper;
 @SuppressWarnings("unchecked")
 public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	//////////////////////////////////////////////////////////////////////////////////////
-	// PUBLIC ENUYMS
+	// INTERFACES
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	public interface OnItinCardClickListener {
+		public void onCloseButtonClicked();
+
+		public void onShareButtonClicked(String subject, String shortMessage, String longMessage);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PUBLIC ENUMS
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public enum DisplayState {
@@ -56,7 +64,9 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	protected abstract String getShareSubject(T itinCardData);
 
-	protected abstract String getShareText(T itinCardData);
+	protected abstract String getShareTextShort(T itinCardData);
+
+	protected abstract String getShareTextLong(T itinCardData);
 
 	// Header image
 
@@ -114,6 +124,8 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	private OnItinCardClickListener mOnItinCardClickListener;
+
 	private T mItinCardData;
 
 	private DisplayState mDisplayState = DisplayState.COLLAPSED;
@@ -137,9 +149,6 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private ViewGroup mActionButtonLayout;
 
 	private ImageView mItinTypeImageView;
-
-	private ImageButton mCloseImageButton;
-	private ImageButton mShareImageButton;
 
 	private ScrollView mScrollView;
 	private OptimizedImageView mHeaderImageView;
@@ -182,9 +191,6 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 
-		mCloseImageButton = Ui.findView(this, R.id.close_image_button);
-		mShareImageButton = Ui.findView(this, R.id.share_image_button);
-
 		mScrollView = Ui.findView(this, R.id.scroll_view);
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mHeaderOverlayImageView = Ui.findView(this, R.id.header_overlay_image_view);
@@ -193,6 +199,9 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
 		mSummaryRightButton = Ui.findView(this, R.id.summary_right_button);
+
+		Ui.findView(this, R.id.close_image_button).setOnClickListener(mOnClickListener);
+		Ui.findView(this, R.id.share_image_button).setOnClickListener(mOnClickListener);
 
 		updateHeaderImageHeight();
 		updateClickable();
@@ -214,53 +223,49 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
+		mOnItinCardClickListener = onItinCardClickListener;
+	}
+
 	public void bind(final ItinCardData itinCardData) {
 		final LayoutInflater layoutInflater = LayoutInflater.from(getContext());
 		mItinCardData = (T) itinCardData;
 
 		// Title
-		View titleView = getTitleView(layoutInflater, mTitleContentLayout, (T) itinCardData);
+		View titleView = getTitleView(layoutInflater, mTitleContentLayout, mItinCardData);
 		if (titleView != null) {
 			mTitleContentLayout.removeAllViews();
 			mTitleContentLayout.addView(titleView);
 		}
 
-		mShareImageButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SocialUtils.share(getContext(), getShareSubject((T) itinCardData), getShareText((T) itinCardData));
-			}
-		});
-
 		// Type icon
 		mItinTypeImageView.setImageResource(getTypeIconResId());
 
 		// Image
-		String headerImageUrl = getHeaderImageUrl((T) itinCardData);
+		String headerImageUrl = getHeaderImageUrl(mItinCardData);
 		if (headerImageUrl != null) {
 			UrlBitmapDrawable.loadImageView(headerImageUrl, mHeaderImageView);
 		}
 
 		// Header text
-		mHeaderTextView.setText(getHeaderText((T) itinCardData));
+		mHeaderTextView.setText(getHeaderText(mItinCardData));
 
 		// Summary text
-
-		View summaryView = getSummaryView(layoutInflater, mSummaryLayout, (T) itinCardData);
+		View summaryView = getSummaryView(layoutInflater, mSummaryLayout, mItinCardData);
 		if (summaryView != null) {
 			mSummaryLayout.removeAllViews();
 			mSummaryLayout.addView(summaryView);
 		}
 
 		// Buttons
-		SummaryButton leftButton = getSummaryLeftButton((T) itinCardData);
+		SummaryButton leftButton = getSummaryLeftButton(mItinCardData);
 		if (leftButton != null) {
 			mSummaryLeftButton.setCompoundDrawablesWithIntrinsicBounds(leftButton.getIconResId(), 0, 0, 0);
 			mSummaryLeftButton.setText(leftButton.getText());
 			mSummaryLeftButton.setOnClickListener(leftButton.getOnClickListener());
 		}
 
-		SummaryButton rightButton = getSummaryRightButton((T) itinCardData);
+		SummaryButton rightButton = getSummaryRightButton(mItinCardData);
 		if (rightButton != null) {
 			mSummaryRightButton.setCompoundDrawablesWithIntrinsicBounds(rightButton.getIconResId(), 0, 0, 0);
 			mSummaryRightButton.setText(rightButton.getText());
@@ -275,7 +280,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	public void inflateDetailsView() {
 		LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, (T) mItinCardData);
+		View detailsView = getDetailsView(layoutInflater, mDetailsLayout, mItinCardData);
 		if (detailsView != null) {
 			mDetailsLayout.removeAllViews();
 			mDetailsLayout.addView(detailsView);
@@ -555,4 +560,32 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		super.onDraw(canvas);
 		updateLayout();
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// LISTENERS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	private final OnClickListener mOnClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.close_image_button: {
+				if (mOnItinCardClickListener != null) {
+					mOnItinCardClickListener.onCloseButtonClicked();
+				}
+				break;
+			}
+			case R.id.share_image_button: {
+				if (mOnItinCardClickListener != null) {
+					String subject = getShareSubject(mItinCardData);
+					String shortMessage = getShareTextShort(mItinCardData);
+					String longMessage = getShareTextLong(mItinCardData);
+
+					mOnItinCardClickListener.onShareButtonClicked(subject, shortMessage, longMessage);
+				}
+				break;
+			}
+			}
+		}
+	};
 }

@@ -17,8 +17,9 @@ import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 
-public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener {
+public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -44,9 +45,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
+	private OnListModeChangedListener mOnListModeChangedListener;
+	private OnItinCardClickListener mOnItinCardClickListener;
 
 	private int mMode = MODE_LIST;
-	private OnListModeChangedListener mOnListModeChangedListener;
 
 	private int mScrollState = SCROLL_STATE_IDLE;
 	private int mDetailPosition = -1;
@@ -70,6 +72,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		super(context, attrs, defStyle);
 
 		mAdapter = new ItinCardDataAdapter(context);
+		mAdapter.setOnItinCardClickListener(this);
+
 		setAdapter(mAdapter);
 		setOnItemClickListener(null);
 		setOnScrollListener(null);
@@ -171,6 +175,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public void setOnListModeChangedListener(OnListModeChangedListener onListModeChangedListener) {
 		mOnListModeChangedListener = onListModeChangedListener;
+	}
+
+	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
+		mOnItinCardClickListener = onItinCardClickListener;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -323,6 +331,22 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 		if (mOnScrollListener != null) {
 			mOnScrollListener.onScrollStateChanged(view, scrollState);
+		}
+	}
+
+	@Override
+	public void onCloseButtonClicked() {
+		hideDetails();
+
+		if (mOnItinCardClickListener != null) {
+			mOnItinCardClickListener.onCloseButtonClicked();
+		}
+	}
+
+	@Override
+	public void onShareButtonClicked(String subject, String shortMessage, String longMessage) {
+		if (mOnItinCardClickListener != null) {
+			mOnItinCardClickListener.onShareButtonClicked(subject, shortMessage, longMessage);
 		}
 	}
 }

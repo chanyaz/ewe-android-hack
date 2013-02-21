@@ -51,7 +51,13 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	}
 
 	@Override
-	protected String getShareText(ItinCardDataActivity itinCardData) {
+	protected String getShareTextShort(ItinCardDataActivity itinCardData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getShareTextLong(ItinCardDataActivity itinCardData) {
 		// TODO Auto-generated method stub
 		return null;
 	}
