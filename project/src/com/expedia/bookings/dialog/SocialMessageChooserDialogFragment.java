@@ -39,6 +39,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				SocialUtils.email(getActivity(), mSubject, mLongMessage);
+				dismiss();
 			}
 		});
 
@@ -46,6 +47,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				SocialUtils.share(getActivity(), mSubject, mShortMessage);
+				dismiss();
 			}
 		});
 
