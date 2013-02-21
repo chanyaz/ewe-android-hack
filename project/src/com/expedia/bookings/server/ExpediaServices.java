@@ -270,7 +270,7 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("numberOfAdultTravelers", Integer.toString(params.getNumAdults())));
 
-		addPOSParams(query);
+		addCommonParams(query);
 
 		// Vary the max # of flights based on memory, so we don't run out.  Numbers are blind guesses.
 		//
@@ -293,7 +293,7 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		query.add(new BasicNameValuePair("productKey", productKey));
 
-		addPOSParams(query);
+		addCommonParams(query);
 
 		return doFlightsRequest("api/flight/trip/create", query, new CreateItineraryResponseHandler(mContext), flags
 				| F_SECURE_REQUEST);
@@ -336,7 +336,7 @@ public class ExpediaServices implements DownloadListener {
 					billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
 		}
 
-		addPOSParams(query);
+		addCommonParams(query);
 
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
 				+ F_SECURE_REQUEST);
@@ -357,7 +357,7 @@ public class ExpediaServices implements DownloadListener {
 		if (User.isLoggedIn(mContext)) {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 			addFlightTraveler(query, traveler, "");
-			addPOSParams(query);
+			addCommonParams(query);
 			Log.i("update-travler body:" + NetUtils.getParamsForLogging(query));
 			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
 					traveler), F_SECURE_REQUEST);
@@ -379,7 +379,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("destinationCode", destinationCode));
 		query.add(new BasicNameValuePair("imageWidth", w));
 		query.add(new BasicNameValuePair("imageHeight", h));
-		addPOSParams(query);
+		addCommonParams(query);
 		return doFlightsRequest("api/flight/image", query, new BackgroundImageResponseHandler(mContext), 0);
 	}
 
@@ -438,14 +438,17 @@ public class ExpediaServices implements DownloadListener {
 			// get based on flight number
 			FlightCode flightCode = flight.getPrimaryFlightCode();
 			Calendar departure = flight.mOrigin.getBestSearchDateTime();
-			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flightCode.mAirlineCode + "/" + flightCode.mNumber
-					+ "/dep/" + departure.get(Calendar.YEAR) + "/" + (departure.get(Calendar.MONTH) + 1) + "/" + departure.get(Calendar.DAY_OF_MONTH) + "?";
+			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flightCode.mAirlineCode + "/"
+					+ flightCode.mNumber
+					+ "/dep/" + departure.get(Calendar.YEAR) + "/" + (departure.get(Calendar.MONTH) + 1) + "/"
+					+ departure.get(Calendar.DAY_OF_MONTH) + "?";
 
 			parameters.add(new BasicNameValuePair("utc", "false"));
 			parameters.add(new BasicNameValuePair("airport", flight.mOrigin.mAirportCode));
 		}
 
-		return doFlightStatsRequest(baseUrl, parameters, new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode)).getFlight();
+		return doFlightStatsRequest(baseUrl, parameters,
+				new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode)).getFlight();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -457,8 +460,7 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("sortOrder", "ExpertPicks"));
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
-		addPOSParams(query);
+		addCommonParams(query);
 
 		if (params.hasRegionId()) {
 			Log.d("Searching by regionId...");
@@ -498,8 +500,7 @@ public class ExpediaServices implements DownloadListener {
 	public AvailabilityResponse information(Property property) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
-		addPOSParams(query);
+		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 
@@ -514,8 +515,7 @@ public class ExpediaServices implements DownloadListener {
 	public AvailabilityResponse availability(SearchParams params, Property property, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
-		addPOSParams(query);
+		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 
@@ -565,8 +565,7 @@ public class ExpediaServices implements DownloadListener {
 			String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
-		addPOSParams(query);
+		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
@@ -627,8 +626,7 @@ public class ExpediaServices implements DownloadListener {
 	public CreateTripResponse createTripWithCoupon(String couponCode, SearchParams params, Property property, Rate rate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
-		addPOSParams(query);
+		addCommonParams(query);
 		addHotelSearchParams(query, params);
 
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
@@ -641,8 +639,7 @@ public class ExpediaServices implements DownloadListener {
 	public SignInResponse signIn(String email, String password, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
-		addPOSParams(query);
+		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("email", email));
 		query.add(new BasicNameValuePair("password", password));
@@ -663,8 +660,7 @@ public class ExpediaServices implements DownloadListener {
 	public SignInResponse signIn(int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
-		addPOSParams(query);
+		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("profileOnly", "true"));
 		query.add(new BasicNameValuePair("includeFullPaymentProfile", "true"));
@@ -676,6 +672,8 @@ public class ExpediaServices implements DownloadListener {
 
 	public SignInResponse updateTraveler(Traveler traveler, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("tuid", "" + traveler.getTuid()));
 
@@ -735,16 +733,19 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public TripResponse getTrips(int flags) {
-		return doE3Request("api/trips", null, new TripResponseHandler(mContext), F_SECURE_REQUEST | F_GET);
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		addCommonParams(query);
+		return doE3Request("api/trips", query, new TripResponseHandler(mContext), F_SECURE_REQUEST | F_GET);
 	}
 
 	public TripDetailsResponse getTripDetails(Trip trip) {
-		List<BasicNameValuePair> query = null;
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addCommonParams(query);
 
 		int flags = F_SECURE_REQUEST | F_GET;
 
 		if (trip.isGuest()) {
-			query = new ArrayList<BasicNameValuePair>();
 			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
 			query.add(new BasicNameValuePair("email", trip.getGuestEmailAddress()));
 
@@ -787,7 +788,11 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("room1", guests.toString()));
 	}
 
-	private void addPOSParams(List<BasicNameValuePair> query) {
+	private void addCommonParams(List<BasicNameValuePair> query) {
+		// Source type
+		query.add(new BasicNameValuePair("sourceType", "mobileapp"));
+
+		// Point of sale information
 		int langId = PointOfSale.getPointOfSale().getDualLanguageId();
 		if (langId != 0) {
 			query.add(new BasicNameValuePair("langid", Integer.toString(langId)));
@@ -797,6 +802,9 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("siteid", Integer.toString(PointOfSale.getPointOfSale()
 					.getSiteId())));
 		}
+
+		// Client id (see https://confluence/display/POS/ewe+trips+api#ewetripsapi-apiclients)
+		query.add(new BasicNameValuePair("clientid", "expedia.phone.android:" + AndroidUtils.getAppVersion(mContext)));
 	}
 
 	private void addProfileTypes(List<BasicNameValuePair> query, int flags) {
@@ -1022,7 +1030,8 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
 	}
 
-	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler) {
+	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params,
+			ResponseHandler<T> responseHandler) {
 		HttpRequestBase base = NetUtils.createHttpGet(baseUrl, params);
 
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
