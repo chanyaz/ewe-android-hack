@@ -657,10 +657,25 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
 
+		Resources res = getResources();
 		if (flight.isRedAlert()) {
 			TextView tv = Ui.findView(v, R.id.delay_text_view);
-			tv.setTextColor(0xffa00000); // TODO make R.color
-			tv.setText(getResources().getString(R.string.flight_canceled));
+			if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
+				if (flight.mDiverted != null) {
+					tv.setText(res.getString(R.string.flight_diverted_TEMPLATE,
+							flight.getArrivalWaypoint().mAirportCode));
+				}
+				else {
+					tv.setText(R.string.flight_diverted);
+				}
+			}
+			else if (Flight.STATUS_REDIRECTED.equals(flight.mStatusCode)) {
+				tv.setText(R.string.flight_redirected);
+			}
+			else {
+				tv.setText(R.string.flight_canceled);
+			}
+			tv.setTextColor(res.getColor(R.color.itin_flight_canceled_color));
 			tv.setVisibility(View.VISIBLE);
 		}
 		else if (flight.mOrigin.getMostRelevantDateTime().after(Calendar.getInstance())) {
@@ -668,9 +683,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			if (delay.mDelayType == Delay.DELAY_GATE_ACTUAL || delay.mDelayType == Delay.DELAY_GATE_ESTIMATED) {
 				if (delay.mDelay > 0) {
 					TextView tv = Ui.findView(v, R.id.delay_text_view);
-					tv.setTextColor(0xffefd766); // TODO make R.color
-					tv.setText(getResources().getString(R.string.flight_departs_x_late_TEMPLATE,
-							DateTimeUtils.formatDuration(getResources(), delay.mDelay)));
+					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
+					tv.setText(res.getString(R.string.flight_departs_x_late_TEMPLATE,
+							DateTimeUtils.formatDuration(res, delay.mDelay)));
 					tv.setVisibility(View.VISIBLE);
 				}
 			}
