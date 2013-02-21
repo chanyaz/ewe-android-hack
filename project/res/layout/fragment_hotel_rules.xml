@@ -60,6 +60,20 @@
             android:text="@string/best_price_guarantee"
             android:textSize="18sp" />
 
+        <View
+            android:id="@+id/atol_information_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D1D1D1" />
+
+        <TextView
+            android:id="@+id/atol_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/lawyer_label_atol_information"
+            android:textSize="18sp" />
+
         <TextView
             android:id="@+id/cancellation_policy_header_text_view"
             android:layout_width="match_parent"

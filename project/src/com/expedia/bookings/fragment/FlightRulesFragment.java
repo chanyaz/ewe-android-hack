@@ -13,11 +13,13 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TextViewActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.mobiata.android.util.Ui;
 
 public class FlightRulesFragment extends SherlockFragment {
@@ -143,6 +145,23 @@ public class FlightRulesFragment extends SherlockFragment {
 				mContext.startActivity(intent);
 			}
 		});
+
+		// ATOL Information for UK pos
+		TextView atol_information = Ui.findView(v, R.id.atol_information);
+		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_KINGDOM)) {
+			atol_information.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = TextViewActivity.getIntent(getActivity(),
+							getString(R.string.lawyer_label_atol_long_message));
+					startActivity(intent);
+				}
+			});
+		}
+		else {
+			atol_information.setVisibility(View.GONE);
+			Ui.findView(v, R.id.atol_information_divider).setVisibility(View.GONE);
+		}
 	}
 
 	private void populateBody(View v) {

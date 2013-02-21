@@ -3,6 +3,8 @@ package com.expedia.bookings.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -23,9 +25,10 @@ public class TextViewActivity extends SherlockActivity {
 		super.onCreate(onSaveInstanceState);
 		setContentView(R.layout.activity_textview);
 		TextView textview = (TextView) findViewById(R.id.text);
+		textview.setMovementMethod(LinkMovementMethod.getInstance());
 
 		String content_string = getIntent().getStringExtra(Codes.CONTENT_STRING);
-		textview.setText(content_string);
+		textview.setText(Html.fromHtml(content_string));
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);

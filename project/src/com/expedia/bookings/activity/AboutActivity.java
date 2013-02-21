@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -122,6 +123,18 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 				posInfo.getPrivacyPolicyUrl(), mContext.getString(R.string.info_label_privacy_policy))));
 		privacy_policy_link.setMovementMethod(LinkMovementMethod.getInstance());
 
+		if (posInfo.getPointOfSaleId().equals(PointOfSaleId.UNITED_KINGDOM)) {
+			TextView atol_link = Ui.findView(this, R.id.atol_link);
+			atol_link.setText(Html.fromHtml(String.format("<u>%s</u>", mContext.getString(R.string.lawyer_label_atol_information))));
+			atol_link.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startActivity(TextViewActivity.getIntent(AboutActivity.this, mContext.getString(R.string.lawyer_label_atol_long_message)));
+				}
+			});
+			atol_link.setVisibility(View.VISIBLE);
+		}
+
 		TextView open_source_licenses_link = Ui.findView(this, R.id.open_source_licenses_link);
 		open_source_licenses_link.setText(Html.fromHtml(String.format("<u>%s</u>",
 				mContext.getString(R.string.view_open_source_software_licenses))));
@@ -129,7 +142,7 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			@Override
 			public void onClick(View v) {
 				String license = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(mContext);
-				startActivity(TextViewActivity.getIntent(AboutActivity.this, license));
+				startActivity(TextViewActivity.getIntent(AboutActivity.this, license.replace("\n", "<br/>")));
 			}
 		});
 	}

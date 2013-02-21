@@ -22,6 +22,10 @@
     <!-- Lawyer label for the confirmation screen on the US POS, expects a phone number -->
     <string name="lawyer_label_expedia_rewards_TEMPLATE">To ensure you receive your confirmation email, please add \&quot;no_reply@expedia.com\&quot; to your address book or email whitelist. If you have an Expedia Rewards account your points will automatically post after your stay. Please note that it may take up to 30 days for your points to appear. If you have questions about your reservation, please call Expedia.com at %s.</string>
 
+    <!-- Lawyer labels for UK ATOL information -->
+    <string name="lawyer_label_atol_information">ATOL Information</string>
+    <string name="lawyer_label_atol_long_message">Flight-Plus arrangements created on the UK Expedia mobile app are financially protected by the Civil Aviation Authority (under Expedia, Inc.’s ATOL number 5788). But ATOL protection does not apply to all flight and hotel services listed on this mobile app. Please ask us to confirm what protection may apply to your booking. If you do not receive an ATOL Certificate then your booking will not be ATOL protected. Please see our general terms and conditions for further details on ATOL or for more information about financial protection and the ATOL Certificate go to: &lt;a href="http://www.atol.org.uk/ATOLCertificate"&gt;www.atol.org.uk/ATOLCertificate&lt;/a&gt;</string>
+
     <!-- Tracking tags -->
     <string name="google_analytics_ua">UA-31534750-3</string>
     <string name="amobee_app_id">ExpediaHotelsAndroidPhone</string>

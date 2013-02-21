@@ -11,10 +11,12 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.activity.TextViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 
@@ -102,6 +104,23 @@ public class HotelRulesFragment extends SherlockFragment {
 		else {
 			guarantee.setVisibility(View.GONE);
 			Ui.findView(view, R.id.best_price_guarantee_divider).setVisibility(View.GONE);
+		}
+
+		// ATOL Information for UK pos
+		TextView atol_information = Ui.findView(view, R.id.atol_information);
+		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_KINGDOM)) {
+			atol_information.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = TextViewActivity.getIntent(getActivity(),
+							getString(R.string.lawyer_label_atol_long_message));
+					startActivity(intent);
+				}
+			});
+		}
+		else {
+			atol_information.setVisibility(View.GONE);
+			Ui.findView(view, R.id.atol_information_divider).setVisibility(View.GONE);
 		}
 	}
 }
