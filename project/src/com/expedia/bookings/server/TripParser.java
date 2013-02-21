@@ -124,35 +124,27 @@ public class TripParser {
 			// be using this code anyways.
 
 			String str = (String) obj;
-
-			try {
-				Date date = FLIGHT_DATE_FORMAT.parse(str);
-				return new DateTime(date.getTime(), 0);
-			}
-			catch (ParseException e) {
-			}
-
-			try {
-				Date date = HOTEL_DATE_FORMAT.parse(str);
-				return new DateTime(date.getTime(), 0);
-			}
-			catch (ParseException e) {
-			}
-
-			try {
-				Date date = DATE_FORMAT.parse(str);
-				return new DateTime(date.getTime(), 0);
-			}
-			catch (ParseException e) {
+			for (DateFormat df : DATE_FORMATS) {
+				try {
+					Date date = df.parse(str);
+					return new DateTime(date.getTime(), 0);
+				}
+				catch (ParseException e) {
+					// Ignore
+				}
 			}
 		}
 
 		throw new RuntimeException("Could not parse date time: " + obj);
 	}
 
-	private static final DateFormat FLIGHT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-	private static final DateFormat HOTEL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");
+	// There's not one, not two, but THREE date formats used by the API...  for parsing purposes,
+	// just run through them one by one.
+	private static final DateFormat[] DATE_FORMATS = {
+			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
+			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"),
+			new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy"),
+	};
 
 	private BookingStatus parseBookingStatus(String status) {
 		if ("SAVED".equals(status)) {
@@ -265,13 +257,15 @@ public class TripParser {
 
 		//Parse confirmations
 		JSONArray confirmationArr = obj.optJSONArray("confirmationNumbers");
-		for (int a = 0; a < confirmationArr.length(); a++) {
-			JSONObject confJson = confirmationArr.optJSONObject(a);
-			if (confJson != null) {
-				FlightConfirmation conf = new FlightConfirmation();
-				conf.setCarrier(confJson.optString("airlineName"));
-				conf.setConfirmationCode(confJson.optString("number"));
-				flight.addConfirmation(conf);
+		if (confirmationArr != null) {
+			for (int a = 0; a < confirmationArr.length(); a++) {
+				JSONObject confJson = confirmationArr.optJSONObject(a);
+				if (confJson != null) {
+					FlightConfirmation conf = new FlightConfirmation();
+					conf.setCarrier(confJson.optString("airlineName"));
+					conf.setConfirmationCode(confJson.optString("number"));
+					flight.addConfirmation(conf);
+				}
 			}
 		}
 
