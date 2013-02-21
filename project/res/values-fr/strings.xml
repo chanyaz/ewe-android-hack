@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Séjour à&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Nous ne sommes pas en mesure de nous connecter.</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Voyage</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Trouver un voyage</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">Trouver le voyage #</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Numéro de voyage</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">Départ (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Arrivée (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Code de confirmation</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passagers</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">Arrivée - Terminal %1$s, Porte %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Départ - Terminal %1$s, Porte %2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">Informations sur le terminal et la porte non disponibles.</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">En vous déconnectant de %1$s vous supprimerez tous les voyages associés à ce compte. Êtes-vous sûr de vouloir vous déconnecter ?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">Code de réservation non disponible.</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">Vol vers %1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">Ajouter événement</string>
+    <!-- Directions -->
+    <string name="directions">Indications</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">Décolle le %1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">Vol en cours.</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">Atterri le %1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">Vol en cours</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">Décolle dans %1$s et %2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s heures</item>
+        <item quantity="one">%1$s heure</item>
+        <item quantity="two">%1$s heures</item>
+        <item quantity="few">%1$s heures</item>
+        <item quantity="many">%1$s heures</item>
+        <item quantity="other">%1$s heures</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s minutes</item>
+        <item quantity="one">%1$s minute</item>
+        <item quantity="two">%1$s minutes</item>
+        <item quantity="few">%1$s minutes</item>
+        <item quantity="many">%1$s minutes</item>
+        <item quantity="other">%1$s minutes</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">2 portes</string>
+    <string name="car_type_three_door">3 portes</string>
+    <string name="car_type_four_door">4 portes</string>
+    <string name="car_type_van">Fourgon</string>
+    <string name="car_type_wagon">Break</string>
+    <string name="car_type_limousine">Limousine</string>
+    <string name="car_type_recreational_vehicle">Camping-car</string>
+    <string name="car_type_convertible">Cabriolet</string>
+    <string name="car_type_sports_car">Sportive</string>
+    <string name="car_type_suv">VUS</string>
+    <string name="car_type_pickup_regular_cab">Pick-up normal</string>
+    <string name="car_type_open_air_all_terrain">Véhicule tout terrain</string>
+    <string name="car_type_special">Spéciale</string>
+    <string name="car_type_commercial_van_truck">Fourgon utilitaire</string>
+    <string name="car_type_pickup_extended_cab">Pick-up long</string>
+    <string name="car_type_special_offer_car">Voiture offre spéciale</string>
+    <string name="car_type_coupe">Coupé</string>
+    <string name="car_type_monospace">Monospace</string>
+    <string name="car_type_motor_home">Motor-home</string>
+    <string name="car_type_two_wheel_vehicle">Deux-roues</string>
+    <string name="car_type_roadster">Roadster</string>
+    <string name="car_type_crossover">Crossover</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Rechercher un vol</string>
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">Supplément pour les bagages et les frais de réservation</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Frais supplémentaires</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Tarifs bagages</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Traitement des frais de réservation</string>
@@ -335,9 +398,6 @@
     <string name="enter_traveler_info">Informations sur le voyageur</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Si le nom du voyageur ne correspond pas à celui sur la pièce d\&apos;identité, l\&apos;embarquement pourrait être refusé.</string>
-
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">Informations sur le voyageur %d</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Assistance spéciale : %1$s</string>
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">La compagnie aérienne applique des frais de réservation %1$s et le prix de votre billet a augmenté de %2$s. Acceptez-vous de payer le nouveau total de %3$s ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">La compagnie aérienne applique des frais de réservation de %1$s, mais nous venons de trouver votre vol à %2$s de moins. Acceptez-vous de payer le nouveau total de %3$s ?</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">Le numéro de téléphone que vous avez saisi est invalide. Veuillez réessayer.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Le numéro de carte de paiement que vous avez saisi n\&apos;est pas valide, veuillez réessayer.</string>
     <!-- Error shown to user if their credit card has expired -->
@@ -650,7 +712,7 @@
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Aller :</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Retour : </string>
+    <string name="share_flight_section_return">Retour :</string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
     <plurals name="share_flight_ticket_cost_TEMPLATE">
         <item quantity="one">Prix du billet : %s</item>
@@ -732,11 +794,11 @@
     <string name="search">Rechercher</string>
     <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
     <plurals name="number_of_matching_hotels">
-        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hôtels</item>
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; hôtel</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; hôtels</item>
-        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; hôtels</item>
-        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; hôtels</item>
+        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; établissements</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; établissement</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; établissements</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; établissements</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; établissements</item>
     </plurals>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">Du %1$s au %2$s</string>
@@ -892,7 +954,7 @@
     <!-- Label for button to see all reviews as a modal dialog -->
     <string name="see_all_reviews">Voir tous les avis</string>
     <!-- Label for button that brings users to the room selection page -->
-    <string name="select_room">Sélectionner</string>
+    <string name="select_room">Choisir</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -1329,7 +1391,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Charte de confidentialité</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nTous droits réservés. </string>
+    <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nTous droits réservés.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Déconnexion réussie et données supprimées</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->

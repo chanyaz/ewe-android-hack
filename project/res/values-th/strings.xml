@@ -3,7 +3,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราพบบัญชี Expedia ของคุณ! โปรดป้อนรหัสผ่าน Expedia ของคุณด้านล่างเพื่อลิงค์บัญชี Facebook และ Expedia ของคุณ</string>
+    <string name="facebook_weve_found_your_account">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราพบบัญชี Expedia ของคุณ! โปรดป้อนรหัสผ่าน Expedia ของคุณด้านล่างเพื่อลิงก์บัญชี Facebook และ Expedia ของคุณ</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราโหลดข้อมูล Facebook ของคุณแล้ว</string>
     <!-- connect with facebook (button text) -->
@@ -21,11 +21,11 @@
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">รหัสผ่าน Expedia</string>
     <!-- Link accounts -->
-    <string name="link_accounts">ลิงค์บัญชี</string>
+    <string name="link_accounts">ลิงก์บัญชี</string>
     <!-- Failure to update the user -->
     <string name="failure_to_update_user">รับข้อมูลผู้ใช้ที่อัพเดทไม่สำเร็จ</string>
     <!-- Linking your accounts -->
-    <string name="linking_your_accounts">กำลังลิงค์บัญชีของคุณ...</string>
+    <string name="linking_your_accounts">กำลังลิงก์บัญชีของคุณ...</string>
     <!-- Sign in -->
     <string name="sign_in">ลงชื่อเข้าใช้</string>
     <!-- Sign in with Expedia -->
@@ -35,7 +35,7 @@
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
-    <string name="nav_home">บ้าน</string>
+    <string name="nav_home">หน้าแรก</string>
     <!-- Flights -->
     <string name="nav_flights">เที่ยวบิน</string>
     <!-- Hotels -->
@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;เข้าพักที่&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">ขออภัย ไม่สามารถเชื่อมต่อได้</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">แผนการเดินทาง</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">ค้นหาแผนการเดินทาง #</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">หมายเลขแผนการเดินทาง</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">ออกจาก %1$s</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">ไปยัง %1$s</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">รหัสยืนยัน</string>
     <!-- Passengers Label -->
     <string name="passengers_label">ผู้โดยสาร</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">อาคารผู้โดยสารขาเข้า %1$s ประตู %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">อาคารผู้โดยสารขาออก %1$s ประตู %2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">ไม่มีข้อมูลอาคารผู้โดยสารและประตู</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">การออกจากระบบ %1$s จะเป็นการลบข้อมูลแผนการเดินทางที่เกี่ยวข้องกับบัญชีนี้ แน่ใจว่าต้องการออกจากระบบ?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">ไม่มีรหัสการจอง</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">เที่ยวบินไปยัง %1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">เพิ่มอีเวนท์</string>
+    <!-- Directions -->
+    <string name="directions">เส้นทาง</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">เที่ยวบินออกเดินทาง %1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">เที่ยวบินกำลังเดินทาง</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">เที่ยวบินลงจอด %1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">เที่ยวบินกำลังเดินทาง</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">เที่ยวบินออกเดินทางใน %1$s%2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s ชั่วโมง</item>
+        <item quantity="one">%1$s ชั่วโมง</item>
+        <item quantity="two">%1$s ชั่วโมง</item>
+        <item quantity="few">%1$s ชั่วโมง</item>
+        <item quantity="many">%1$s ชั่วโมง</item>
+        <item quantity="other">%1$s ชั่วโมง</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s นาที</item>
+        <item quantity="one">%1$s นาที</item>
+        <item quantity="two">%1$s นาที</item>
+        <item quantity="few">%1$s นาที</item>
+        <item quantity="many">%1$s นาที</item>
+        <item quantity="other">%1$s นาที</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">สองประตู</string>
+    <string name="car_type_three_door">สามประตู</string>
+    <string name="car_type_four_door">สี่ประตู</string>
+    <string name="car_type_van">รถตู้</string>
+    <string name="car_type_wagon">รถแวกอน</string>
+    <string name="car_type_limousine">ลิมูซีน</string>
+    <string name="car_type_recreational_vehicle">รถบ้าน</string>
+    <string name="car_type_convertible">เปิดประทุน</string>
+    <string name="car_type_sports_car">รถสปอร์ต</string>
+    <string name="car_type_suv">SUV</string>
+    <string name="car_type_pickup_regular_cab">รถปิคอัพ</string>
+    <string name="car_type_open_air_all_terrain">เอทีวี</string>
+    <string name="car_type_special">พิเศษ</string>
+    <string name="car_type_commercial_van_truck">รถตู้/รถบรรทุกเพื่อการพาณิชย์</string>
+    <string name="car_type_pickup_extended_cab">รถปิคอัพแบบที่นั่งตอนครึ่ง</string>
+    <string name="car_type_special_offer_car">รถราคาพิเศษ</string>
+    <string name="car_type_coupe">คูเป้</string>
+    <string name="car_type_monospace">รถอเนกประสงค์</string>
+    <string name="car_type_motor_home">รถบ้าน</string>
+    <string name="car_type_two_wheel_vehicle">ยานพาหนะสองล้อ</string>
+    <string name="car_type_roadster">รถเปิดประทุน</string>
+    <string name="car_type_crossover">รถ Crossover</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">ค้นหาเที่ยวบิน</string>
@@ -105,11 +168,11 @@
     <!-- Error message when we find no flights -->
     <string name="error_no_flights_found">ไม่พบเที่ยวบิน</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
-    <string name="error_invalid_departure_airport">สนามบินขาออกไม่ถูกต้อง</string>
+    <string name="error_invalid_departure_airport">สนามบินต้นทางไม่ถูกต้อง</string>
     <!-- Error message when we find no flights because of an invalid arrival airport -->
-    <string name="error_invalid_arrival_airport">สนามบินขาเข้าไม่ถูกต้อง</string>
+    <string name="error_invalid_arrival_airport">สนามบินปลายทางไม่ถูกต้อง</string>
     <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
-    <string name="error_invalid_departure_arrival_airports">สนามบินขาออกและขาเข้าไม่ถูกต้อง</string>
+    <string name="error_invalid_departure_arrival_airports">สนามบินต้นทางและปลายทางไม่ถูกต้อง</string>
     <!-- "Details" button label, for seeing details of a flight -->
     <string name="details">รายละเอียด</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">อาจต้องชำระเงินและค่าธรรมเนียมสัมภาระ</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">ค่าธรรมเนียมเพิ่มเติม</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">ค่าสัมภาระ</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">ค่าธรรมเนียมการชำระเงิน</string>
@@ -320,24 +383,21 @@
     <!-- Cost Summary -->
     <string name="cost_summary">สรุปค่าใช้จ่าย</string>
     <!-- Taxes and airline fees -->
-    <string name="taxes_and_airline_fees">ภาษีและค่าธรรมเนียม </string>
+    <string name="taxes_and_airline_fees">ภาษีและค่าธรรมเนียม</string>
     <!-- Expedia booking fee -->
     <string name="expedia_booking_fee">ค่าธรรมเนียมการจองของ Expedia</string>
     <!-- Flight -->
     <string name="flight">เที่ยวบิน</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">ผู้เดินทาง%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">ผู้เดินทาง %1$d</string>
     <!-- Adult -->
-    <string name="adult">ผู้ใหญ่ </string>
+    <string name="adult">ผู้ใหญ่</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">ข้อมูลผู้เดินทาง</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">สายการบินอาจปฏิเสธการขึ้นเครื่องหากชื่อผู้เดินทางไม่ตรงกับบัตรประจำตัวที่มีรูปถ่ายที่ทางราชการออกให้</string>
-
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">ข้อมูลผู้เดินทาง %d</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">ความช่วยเหลือพิเศษ: %1$s</string>
@@ -382,7 +442,7 @@
     <!-- Set expiration date button -->
     <string name="btn_set">ตั้ง</string>
     <!-- Security code label -->
-    <string name="security_code">รหัสความปลอดภัย </string>
+    <string name="security_code">รหัสความปลอดภัย</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -514,9 +574,9 @@
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">จองเสร็จเรียบร้อยแล้ว</string>
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
-    <string name="yay_going_somewhere_TEMPLATE">คุณกำลังจะ %s</string>
+    <string name="yay_going_somewhere_TEMPLATE">คุณกำลังจะไป %s!</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">ส่งหมายเลขการเดินทาง%s ให้กับ</string>
+    <string name="itinerary_confirmation_TEMPLATE">ส่งหมายเลขการเดินทาง%s ไปยัง</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">จองห้องพัก</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -576,15 +636,17 @@
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_increased">ดูเหมือนว่าสายการบินเพิ่งขึ้นราคาตั๋วของคุณอีก %1$s  คุณต้องการที่จะชำระเงินจำนวน %2$s ซึ่งเป็นยอดรวมใหม่นี้หรือไม่</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">เราเพิ่งพบว่าเที่ยวบินที่คุณต้องการกำลังลดราคาลงอีก %1$s คุณต้องการให้เราเรียกเก็บยอดใหม่กับคุณจำนวน %2$s หรือไม่</string>
+    <string name="error_flight_price_decreased">เราเพิ่งพบว่าเที่ยวบินที่คุณต้องการกำลังลดราคาลงอีก %1$s คุณต้องการให้เราเรียกเก็บยอดใหม่กับจำนวน %2$s หรือไม่</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">ดูเหมือนว่าสายการบินจะเก็บค่าธรรมเนียมการชำระเงินคุณอีก %1$s คุณต้องการที่จะชำระเงินจำนวน %2$s ซึ่งเป็นยอดรวมใหม่นี้หรือไม่</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_increased_with_fee">ดูเหมือนว่าสายการบินจะเก็บค่าธรรมเนียมการชำระเงินคุณอีก %1$s และเพิ่งขึ้นราคาตั๋วของคุณอีก %2$s คุณต้องการที่จะชำระเงินจำนวน %3$s ซึ่งเป็นยอดรวมใหม่นี้หรือไม่</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">ดูเหมือนว่าสายการบินจะเก็บค่าธรรมเนียมการชำระเงินคุณอีก %1$s แต่เราเพิ่งพบเที่ยวบินที่คุณต้องการในราคาที่ถูกกว่า %2$s คุณต้องการที่จะชำระเงินจำนวน %3$s ซึ่งเป็นยอดรวมใหม่นี้หรือไม่</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">หมายเลขโทรศัพท์ไม่ถูกต้อง โปรดลองอีกครั้ง</string>
     <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง</string>
+    <string name="error_invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง </string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">บัตรเครดิตที่คุณจะใช้นั้นหมดอายุแล้ว โปรดใช้บัตรใบอื่น</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
@@ -619,7 +681,7 @@
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
     <string name="cvv_code_TEMPLATE">รหัส CVV สำหรับ &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
-    <string name="card_ending_TEMPLATE">บัตรหมดอายุเมื่อ %s</string>
+    <string name="card_ending_TEMPLATE">บัตรลงท้ายด้วย %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">จองให้เสร็จ</string>
 
@@ -688,7 +750,7 @@
     <!-- Label for button that starts search -->
     <string name="search_for_hotels">ค้นหาโรงแรม</string>
     <!-- Label for picking search location -->
-    <string name="where_are_you_going">&lt;b&gt;คุณอยากจะไป&lt;/b&gt;ที่ไหน</string>
+    <string name="where_are_you_going">คุณอยากจะไป&lt;b&gt;ที่ไหน&lt;/b&gt;</string>
     <!-- Label for picking checkin/checkout dates -->
     <string name="drag_to_extend_your_stay">&lt;b&gt;ลากนิ้ว&lt;/b&gt; เพื่อเลือกระยะเวลาการเข้าพัก</string>
     <!-- Label for picking guests for hotel booking -->
@@ -712,11 +774,11 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; ปี</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;น้อยกว่า 1 ปี &lt;/b&gt;</string>
+    <string name="child_age_less_than_one">&lt;b&gt;น้อยกว่า 1 ปี&lt;/b&gt;</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
-    <string name="suggestion_times_square">ไทม์แสควร์, นิวยอร์ก, NY</string>
+    <string name="suggestion_times_square">ไทม์แสควร์, นิวยอร์ก, NY </string>
     <string name="suggestion_boston">บอสตัน, MA</string>
     <string name="suggestion_los_angeles">ลอสแอนเจลิส, CA</string>
     <string name="suggestion_venice">สวนสาธารณะหาดเวนิส, เวนิส, CA</string>
@@ -778,7 +840,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">ในการใช้ตำแหน่งของฉัน คุณต้องเปิดตำแหน่งปัจจุบันในการตั้งค่าก่อน\nไปที่การตั้งค่าและเปิดใช้หรือไม่</string>
+    <string name="EnableLocationSettings">ในการใช้ตำแหน่งของฉัน คุณต้องเปิดตำแหน่งปัจจุบันในการตั้งค่าก่อน\nไปที่การตั้งค่าและเปิดใช้หรือไม่ </string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">ปิดการให้บริการข้อมูลตำแหน่งแล้ว โปรดเปิดใช้การให้บริการข้อมูลตำแหน่ง หากต้องการค้นหาตามตำแหน่ง</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -890,7 +952,7 @@
     <!-- Title for the amenities section in the hotel details fragment -->
     <string name="amenities">สิ่งอำนวยความสะดวก</string>
     <!-- Label for button to see all reviews as a modal dialog -->
-    <string name="see_all_reviews">แสดงความคิดเห็นทั้งหมด</string>
+    <string name="see_all_reviews">แสดงความคิดเห็นทั้งหมด </string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">เลือกห้อง</string>
 
@@ -972,7 +1034,7 @@
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">กำลังโหลดความคิดเห็นเพิ่มเติม…</string>
     <!-- Read more of the review -->
-    <string name="user_review_read_more">ศึกษาข้อมูลเพิ่มเติม</string>
+    <string name="user_review_read_more">ศึกษาข้อมูลเพิ่มเติม </string>
     <!--
          User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel
@@ -996,11 +1058,11 @@
     -->
     <string name="user_review_name_and_location_signature">%1$s จาก %2$s</string>
     <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">ไม่มีความคิดเห็นเชิงลบสำหรับโรงแรมนี้</string>
+    <string name="user_review_no_critical_reviews">ไม่มีความคิดเห็นเชิงลบสำหรับโรงแรมนี้ </string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">ไม่มีความคิดเห็นเชิงบวกสำหรับโรงแรมนี้</string>
+    <string name="user_review_no_favorable_reviews">ไม่มีความคิดเห็นเชิงบวกสำหรับโรงแรมนี้ </string>
     <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">ไม่มีความคิดเห็นใหม่สำหรับโรงแรมนี้</string>
+    <string name="user_review_no_recent_reviews">ไม่มีความคิดเห็นใหม่สำหรับโรงแรมนี้ </string>
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">ขออภัย ระบบแสดงความคิดเห็นขัดข้อง</string>
 
@@ -1121,13 +1183,13 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">กฏและข้อบังคับ</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">หากคุณมีบัญชี Expedia Rewards โปรดใช้อีเมลที่ระบุในบัญชีในการจอง เพื่อให้ระบบเพิ่มคะแนนให้คุณโดยอัตโนมัติ หลังการเข้าพัก หมายเหตุ: อาจใช้เวลานานกว่า 30 วัน ในการแสดงคะแนนที่เพิ่ม</string>
+    <string name="disclaimer_expedia_points">หากคุณมีบัญชี Expedia Rewards โปรดใช้อีเมลที่ระบุในบัญชีในการจอง เพื่อให้ระบบเพิ่มคะแนนให้คุณโดยอัตโนมัติ หลังการเข้าพัก หมายเหตุ: อาจใช้เวลานานกว่า 30 วัน ในการแสดงคะแนนที่เพิ่ม </string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">ยืนยันและจอง</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">ล้างข้อมูลส่วนตัว</string>
     <!-- Title for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_title">ล้างข้อมูลส่วนตัวหรือไม่</string>
+    <string name="dialog_clear_private_data_title">ล้างข้อมูลส่วนตัว?</string>
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">นี่จะเป็นการลบข้อมูลติดต่อและบัตรเครดิตที่บันทึกไว้ </string>
     <!-- Message for dialog confirming the clearing of private data -->
@@ -1139,11 +1201,11 @@
     <!-- Error message if field had data entered but was invalid -->
     <string name="invalid_field">โปรดระบุข้อมูลในช่องนี้</string>
     <!-- Error if an invalid card number was entered -->
-    <string name="invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง</string>
+    <string name="invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง </string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">ระบบไม่พบประเภทบัตรเครดิตของคุณ โปรดระบุข้อมูลใหม่</string>
     <!-- Error if an invalid month (not 1-12) was entered -->
-    <string name="invalid_month">โปรดระบุข้อมูลตั้งแต่ช่อง 1 ถึง 12</string>
+    <string name="invalid_month">โปรดระบุข้อมูลตั้งแต่ช่อง 1 ถึง 12 </string>
     <!-- Error if an invalid year was entered -->
     <string name="invalid_expiration_year">โปรดระบุปีในอนาคต</string>
     <!-- Error if an invalid security code was entered -->
@@ -1231,7 +1293,7 @@
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">ในการทำการจองนี้ คุณยอมรับข้อตกลงและเงื่อนไข ซึ่งรวมถึงนโยบายการยกเลิกและเนื้อหาข้อตกลงและเงื่อนไขต่างๆ ที่ระบุในข้อตกลงสำหรับผู้ใช้\n\nคุณตกลงที่จะชำระเงินสำหรับการจองนี้ หากคุณไม่ชำระเงินตามที่ตกลงไว้ และหากมีการเรียกเก็บหนี้สินจากบริษัทติดตามทวงหนี้ ทนายความ หรือมีการดำเนินการตามกฏหมายต่างๆ คุณตกลงที่จะชำระค่าใช้จ่ายและค่าธรรมเนียมต่างๆ ที่เกี่ยวข้อง ซึ่งรวมถึงค่าบริการทนายความและค่าศาล</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">คุณกำลังทำการจองโรงแรมที่ไม่มีส่วนลด ราคาที่แสดงเป็นราคาต่อคืน ตามจำนวนการเข้าพัก 2 คนต่อห้อง ยกเว้นระบุว่าไว้ต่างหาก โปรดอ่านรายละเอียดห้องพักและราคาอย่างละเอียด เพื่อให้แน่ใจว่าห้องที่คุณเลือกสามารถรองรับผู้ร่วมทริปทั้งหมด ราคาห้องบางอย่างอาจต้องใช้โค้ดการจองพิเศษ ทางเราไม่ได้รวมค่าธรรมเนียมในการจอง ภาษี และค่าบริการต่างๆ ที่เรียกเก็บจากโรงแรม โรงแรมอาจมีการเรียกเก็บค่าบริการสำหรับผู้เข้าพักเพิ่มเติมนอกเหนือจากจำนวนที่ระบุไว้ ไม่ว่าจะเป็นผู้ใหญ่หรือเด็ก\n\nเราจะส่งคำร้องขอสำหรับการเข้าพักมากกว่า 2 คน หรือการเข้าพักมากกว่าจำนวนที่กำหนดไว้ตามราคาไปให้โรงแรม แต่เราไม่รับรองว่าโรงแรมจะปฏิบัติตาม หากโรงแรมยินดีที่จะปฏิบัติตาม ทางโรงแรมอาจจะคิดค่าธรรมเนียมเพิ่มเติม</string>
+    <string name="PolicyExpediaAgent">คุณกำลังทำการจองโรงแรมที่ไม่มีส่วนลด ราคาที่แสดงเป็นราคาต่อคืน ตามจำนวนการเข้าพัก 2 คนต่อห้อง ยกเว้นระบุว่าไว้ต่างหาก โปรดอ่านรายละเอียดห้องพักและราคาอย่างละเอียด เพื่อให้แน่ใจว่าห้องที่คุณเลือกสามารถรองรับผู้ร่วมทริปทั้งหมด ราคาห้องบางอย่างอาจต้องใช้โค้ดการจองพิเศษ ทางเราไม่ได้รวมค่าธรรมเนียมในการจอง ภาษี และค่าบริการต่างๆ ที่เรียกเก็บจากโรงแรม โรงแรมอาจมีการเรียกเก็บค่าบริการสำหรับผู้เข้าพักเพิ่มเติมนอกเหนือจากจำนวนที่ระบุไว้ ไม่ว่าจะเป็นผู้ใหญ่หรือเด็ก\n\n เราจะส่งคำร้องขอสำหรับการเข้าพักมากกว่า 2 คน หรือการเข้าพักมากกว่าจำนวนที่กำหนดไว้ตามราคาไปให้โรงแรม แต่เราไม่รับรองว่าโรงแรมจะปฏิบัติตาม หากโรงแรมยินดีที่จะปฏิบัติตาม ทางโรงแรมอาจจะคิดค่าธรรมเนียมเพิ่มเติม</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
@@ -1323,7 +1385,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">โรงแรม Expedia</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">สวัสดี\n\nคุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง คุณสามารถค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ และฟรี ผ่านมือถือของคุณ\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">สวัสดีครับ \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง คุณสามารถค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ และฟรี ผ่านมือถือของคุณ\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข</string>
     <!-- Label for link to privacy policy -->

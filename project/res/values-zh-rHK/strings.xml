@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;逗留&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">抱歉，我們無法連線。</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">尋找行程</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">尋找行程編號</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">行程編號</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">出發 (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">抵達 (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">確認碼</string>
     <!-- Passengers Label -->
     <string name="passengers_label">旅客</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">接機大樓：%1$s，閘口：%2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">候機大樓：%1$s，閘口：%2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">沒有客運大樓和閘口資料。</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">登出 %1$s 將令所有與此帳戶相關的行程項目被移除。確定要登出嗎？</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">沒有預訂代碼。</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">航班飛往%1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">新增活動</string>
+    <!-- Directions -->
+    <string name="directions">路徑</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">航班起飛於%1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">航班正在飛行途中。</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">航班降落於%1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">航班正在飛行途中</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">航班起飛於 %1$s，%2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s 小時</item>
+        <item quantity="one">%1$s 小時</item>
+        <item quantity="two">%1$s 小時</item>
+        <item quantity="few">%1$s 小時</item>
+        <item quantity="many">%1$s 小時</item>
+        <item quantity="other">%1$s 小時</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s 分鐘</item>
+        <item quantity="one">%1$s 分鐘</item>
+        <item quantity="two">%1$s 分鐘</item>
+        <item quantity="few">%1$s 分鐘</item>
+        <item quantity="many">%1$s 分鐘</item>
+        <item quantity="other">%1$s 分鐘</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">雙門</string>
+    <string name="car_type_three_door">三門</string>
+    <string name="car_type_four_door">四門</string>
+    <string name="car_type_van">客貨車</string>
+    <string name="car_type_wagon">休旅車</string>
+    <string name="car_type_limousine">房車</string>
+    <string name="car_type_recreational_vehicle">露營車</string>
+    <string name="car_type_convertible">開篷房車</string>
+    <string name="car_type_sports_car">跑車</string>
+    <string name="car_type_suv">越野車</string>
+    <string name="car_type_pickup_regular_cab">標準小型貨車</string>
+    <string name="car_type_open_air_all_terrain">吉普車</string>
+    <string name="car_type_special">專車</string>
+    <string name="car_type_commercial_van_truck">商用客貨車/卡車</string>
+    <string name="car_type_pickup_extended_cab">加長小型貨車</string>
+    <string name="car_type_special_offer_car">特別優惠客車</string>
+    <string name="car_type_coupe">雙門房車</string>
+    <string name="car_type_monospace">Monospace 寬體旅行車</string>
+    <string name="car_type_motor_home">旅行車</string>
+    <string name="car_type_two_wheel_vehicle">雙輪車</string>
+    <string name="car_type_roadster">開篷跑車</string>
+    <string name="car_type_crossover">多用途旅行車</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">搜尋航班</string>
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">可能收取款項及行李費</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">額外費用</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">行李費</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">付款處理費</string>
@@ -335,9 +398,6 @@
     <string name="enter_traveler_info">旅客資料</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能被拒絕登機。</string>
-
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">旅客 %d 資料</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">特別協助：%1$s</string>
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">航空公司將收取付款處理費 %1$s，並剛將您的機票價格提高了%2$s。您願意支付新的總額 %3$s 嗎？</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">航空公司將收取付款處理費 %1$s，但我們剛得悉您要求的航班減價 %2$s。您願意支付新的總額 %3$s 嗎？</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">您輸入的電話號碼無效，請再試一次。</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">您輸入的信用卡號碼無效，請再試一次。</string>
     <!-- Error shown to user if their credit card has expired -->

@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Hospédate en&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Desafortunadamente, no podemos conectarnos.</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Buscar un itinerario</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">Buscar un no. de itinerario</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">No. de itinerario</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">Salida (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Llegada (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Código de confirmación</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Pasajeros</string>
@@ -83,14 +85,75 @@
     <!-- Booking info label -->
     <string name="booking_info">Información de reservación</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Puerta%2$s</string>
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, puerta%2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Terminal de llegada %1$s, Puerta%2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Terminal de llegada %1$s, puerta%2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Terminal de salida %1$s, Puerta%2$s</string>
+    <string name="departure_terminal_TEMPLATE">Terminal de salida %1$s, puerta%2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">La información de la terminal y de la puerta no está disponible.</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Cerrar la sesión en %1$seliminará cualquier elemento del itinerario asociado con esta cuenta. ¿Estás seguro de que deseas cerrar la sesión?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">El código de reservación no está disponible.</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">Vuelo a %1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">Agregar un acontecimiento</string>
+    <!-- Directions -->
+    <string name="directions">Indicaciones</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">El vuelo sale el %1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">El vuelo está actualmente en curso.</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">El vuelo aterrizó el %1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">El vuelo está actualmente en curso.</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">El vuelo sale en %1$s, %2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s horas</item>
+        <item quantity="one">%1$s hora</item>
+        <item quantity="two">%1$s horas</item>
+        <item quantity="few">%1$s horas</item>
+        <item quantity="many">%1$s horas</item>
+        <item quantity="other">%1$s horas</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s minutos</item>
+        <item quantity="one">%1$s minuto</item>
+        <item quantity="two">%1$s minutos</item>
+        <item quantity="few">%1$s minutos</item>
+        <item quantity="many">%1$s minutos</item>
+        <item quantity="other">%1$s minutos</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">Dos puertas</string>
+    <string name="car_type_three_door">Tres puertas</string>
+    <string name="car_type_four_door">Cuatro puertas</string>
+    <string name="car_type_van">Van</string>
+    <string name="car_type_wagon">Wagon familiar</string>
+    <string name="car_type_limousine">Limusina</string>
+    <string name="car_type_recreational_vehicle">Casa rodante</string>
+    <string name="car_type_convertible">Convertible</string>
+    <string name="car_type_sports_car">Auto deportivo</string>
+    <string name="car_type_suv">Camioneta</string>
+    <string name="car_type_pickup_regular_cab">Pickup</string>
+    <string name="car_type_open_air_all_terrain">Todo terreno descapotable</string>
+    <string name="car_type_special">Especial</string>
+    <string name="car_type_commercial_van_truck">Camioneta o van comercial</string>
+    <string name="car_type_pickup_extended_cab">Pickup doble cabina</string>
+    <string name="car_type_special_offer_car">Auto de oferta especial</string>
+    <string name="car_type_coupe">Coupé</string>
+    <string name="car_type_monospace">Minivan</string>
+    <string name="car_type_motor_home">Motorhome</string>
+    <string name="car_type_two_wheel_vehicle">Vehículos de dos ruedas</string>
+    <string name="car_type_roadster">Convertible para 2 pasajeros</string>
+    <string name="car_type_crossover">Crossover</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Buscar vuelos</string>
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">Es posible que apliquen cargos por equipaje y por pago</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Cargos adicionales</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Cargos por equipaje</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Cargos por procesamiento de pago</string>
@@ -336,9 +399,6 @@
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Es posible que se rechace el abordaje si el nombre del pasajero no corresponde al de la identificación oficial con foto emitida por el gobierno.</string>
 
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">Información de %d del pasajero</string>
-
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Ayuda especial: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
@@ -418,7 +478,7 @@
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">No se puede guardar la información del pasajero</string>
+    <string name="cant_save_traveler">No se puede guardar al pasajero</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Ya has guardado un pasajero con el nombre\"%1$s\".</string>
     <!-- Don't save -->
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">Parece ser que la línea aérea está cobrando un cargo por procesamiento de pago de %1$s y ha subido el precio de tu boleto de %2$s. ¿Estás de acuerdo en pagar un total nuevo de %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Parece ser que la línea aérea está cobrando un cargo por procesamiento de pago de %1$s sin embargo acabamos de encontrar los vuelos que solicitaste en oferta por %2$s menos. ¿Estás de acuerdo en pagar un total nuevo de %3$s?</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">El número de teléfono que has ingresado no es válido, favor de intentarlo de nuevo.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">El número de tarjeta de crédito que has ingresado no es válido, favor de intentarlo de nuevo.</string>
     <!-- Error shown to user if their credit card has expired -->
@@ -807,9 +869,9 @@
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
-    <string name="filter_stars_three">3+</string>
+    <string name="filter_stars_three">más de 3</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
-    <string name="filter_stars_four">4+</string>
+    <string name="filter_stars_four">más de 4</string>
     <!-- Filter option for "show 5 star hotels ."  (Should remain abbreviated) -->
     <string name="filter_stars_five">5</string>
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
@@ -950,9 +1012,9 @@
     <!-- Free airport shuttle amenity -->
     <string name="AmenityFreeAirportShuttle">Servicio de traslado al aeropuerto</string>
     <!-- Indoor pool amenity -->
-    <string name="AmenityPoolIndoor">Alberca interior</string>
+    <string name="AmenityPoolIndoor">Piscina interior</string>
     <!-- Outdoor pool amenity -->
-    <string name="AmenityPoolOutdoor">Alberca exterior</string>
+    <string name="AmenityPoolOutdoor">Piscina exterior</string>
     <!-- Extended parking amenity -->
     <string name="AmenityExtendedParking">Estacionamiento prolongado</string>
     <!-- Free parking amenity -->
@@ -1601,7 +1663,7 @@
     <string name="country_lb">Líbano</string>
     <string name="country_ls">Lesoto</string>
     <string name="country_lr">Liberia</string>
-    <string name="country_ly">Jamahiriya Arabe Libia</string>
+    <string name="country_ly">Jamahiriya Árabe Libia</string>
     <string name="country_li">Liechtenstein</string>
     <string name="country_lt">Lituania</string>
     <string name="country_lu">Luxemburgo</string>

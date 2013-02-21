@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Restez à&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Il nous est impossible d\&apos;établir la connexion.</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinéraire</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Chercher un itinéraire</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">Chercher l\&apos;itinéraire nº</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Numéro d\&apos;itinéraire</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">Départ (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Arrivée (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Code de confirmation</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passagers</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">Terminal d\&apos;arrivée %1$s, Porte %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Terminal de départ %1$s, Porte %2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">Information sur le terminal et la porte non disponible.</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">La déconnexion de %1$s éliminera tous les éléments d\&apos;itinéraire associé à ce compte. Êtes-vous sûr de vouloir vous déconnecter?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">Code de réservation non disponible.</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">Vols vers %1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">Ajouter événement</string>
+    <!-- Directions -->
+    <string name="directions">Directions</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">Vol décolle le %1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">Vol présentement en cours.</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">Vol atteri le %1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">Vol en cours</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">Vol décolle dans %1$s, %2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s heures</item>
+        <item quantity="one">%1$sheure</item>
+        <item quantity="two">%1$s heures</item>
+        <item quantity="few">%1$s heures</item>
+        <item quantity="many">%1$s heures</item>
+        <item quantity="other">%1$s heures</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$sminutes</item>
+        <item quantity="one">%1$sminute</item>
+        <item quantity="two">%1$sminutes</item>
+        <item quantity="few">%1$sminutes</item>
+        <item quantity="many">%1$sminutes</item>
+        <item quantity="other">%1$sminutes</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">Deux portes</string>
+    <string name="car_type_three_door">Trois portes</string>
+    <string name="car_type_four_door">Quatre portes</string>
+    <string name="car_type_van">Fourgonnette</string>
+    <string name="car_type_wagon">Familiale</string>
+    <string name="car_type_limousine">Limousine</string>
+    <string name="car_type_recreational_vehicle">Véhicule récréatif</string>
+    <string name="car_type_convertible">Décapotable</string>
+    <string name="car_type_sports_car">Voiture sport</string>
+    <string name="car_type_suv">VUS</string>
+    <string name="car_type_pickup_regular_cab">Camionnette cab. régulière</string>
+    <string name="car_type_open_air_all_terrain">Tout terrain ouvert</string>
+    <string name="car_type_special">Une</string>
+    <string name="car_type_commercial_van_truck">Fourgonnette/Camion comm.</string>
+    <string name="car_type_pickup_extended_cab">Camionnette cab. allongée</string>
+    <string name="car_type_special_offer_car">Voiture offre spéciale</string>
+    <string name="car_type_coupe">Coupé</string>
+    <string name="car_type_monospace">Monospace</string>
+    <string name="car_type_motor_home">Maison mobile</string>
+    <string name="car_type_two_wheel_vehicle">Véhicule deux roues</string>
+    <string name="car_type_roadster">Roadster</string>
+    <string name="car_type_crossover">Multisegment</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Rechercher des vols</string>
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">Des frais de paiement et de bagages peuvent s\&apos;appliquer</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Frais supplémentaires</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Frais de bagages</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Frais de traitement du paiement</string>
@@ -302,7 +365,7 @@
     <!-- Checkout menu item -->
     <string name="menu_checkout">Validation</string>
     <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">Garantie du plus bas prix</string>
+    <string name="best_price_guarantee">Garantie du meilleur prix</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Annulation sans frais&lt;/b&gt; avant &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Log out -->
@@ -335,9 +398,6 @@
     <string name="enter_traveler_info">Information voyageur</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">L\&apos;embarquement pourrait être refusé si le nom du voyageur ne correspond pas à celui sur la carte d\&apos;identité avec photo émise par le gouvernement.</string>
-
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">%dInformation voyageur</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Assistance particulière : %1$s</string>
@@ -394,7 +454,7 @@
     <!-- Address state hint -->
     <string name="address_state_hint">Prov.</string>
     <!-- Postal Code hint -->
-    <string name="address_postal_code_hint">CP</string>
+    <string name="address_postal_code_hint">Code postal</string>
     <!-- Billing Postal Code hint -->
     <string name="address_postal_code_hint_hotels">Code postal de facturation</string>
 
@@ -574,7 +634,7 @@
     <!-- Button label for calling -->
     <string name="call_support">Soutien</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Il semble que la compagnie aérienne a augmenté le prix de votre billet de %1$s.  Vous consentez à payer le total de %2$s?</string>
+    <string name="error_flight_price_increased">Il semble que la compagnie aérienne a augmenté le prix de votre billet de %1$s. Vous consentez à payer le total de %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Nous avons trouvé vos vols en vente pour %1$s de moins. Vous consentez à ce que l\&apos;on vous impute le total de %2$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">Il semble que la compagnie aérienne exige des frais de %1$s pour le traitement du paiement et le prix de votre billet a donc augmenté de %2$s. Consentez-vous à payer le nouveau total de %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Il semble que la compagnie aérienne exige des frais de %1$s pour le traitement du paiement, mais nous avons trouvé les mêmes vols en vente à %2$s de moins. Consentez-vous à payer le nouveau total de %3$s?</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">Le numéro de téléphone entré n\&apos;est pas valide, veuillez réessayer.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Le numéro de carte de crédit entré n\&apos;est pas valide, veuillez réessayer.</string>
     <!-- Error shown to user if their credit card has expired -->
@@ -858,7 +920,7 @@
 
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="map_snippet_price_template">De %s</string>
+    <string name="map_snippet_price_template">À partir de %s</string>
 
     <!-- Mini-details fragment -->
     <!-- Label for "see details" button on the mini details fragment -->

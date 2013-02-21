@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;に滞在&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">残念ながら、接続できません。</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">旅程を検索する</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">旅程番号を検索する</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">旅程番号</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">出発日 (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">到着日 (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">確認コード</string>
     <!-- Passengers Label -->
     <string name="passengers_label">乗客</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">到着ターミナル %1$s、ゲート %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s から出発</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">ターミナルおよびゲート情報がありません。</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s からログアウトすると、このアカウントに関連付けられている旅程項目が全て削除されます。ログアウトしてもよろしいですか ?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">予約コードがありません。</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">%1$sへのフライト</string>
+    <!-- Add event button text -->
+    <string name="add_event">イベントを追加</string>
+    <!-- Directions -->
+    <string name="directions">行き方</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">%1$sに出発のフライト</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">現在飛行中のフライト</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">%1$sに到着のフライト</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">飛行中のフライト</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">%1$s%2$s以内に出発のフライト</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s 時間</item>
+        <item quantity="one">%1$s 時間</item>
+        <item quantity="two">%1$s 時間</item>
+        <item quantity="few">%1$s 時間</item>
+        <item quantity="many">%1$s 時間</item>
+        <item quantity="other">%1$s 時間</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s 分</item>
+        <item quantity="one">%1$s 分</item>
+        <item quantity="two">%1$s 分</item>
+        <item quantity="few">%1$s 分</item>
+        <item quantity="many">%1$s 分</item>
+        <item quantity="other">%1$s 分</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">2 ドア</string>
+    <string name="car_type_three_door">3 ドア</string>
+    <string name="car_type_four_door">4 ドア</string>
+    <string name="car_type_van">バン</string>
+    <string name="car_type_wagon">ワゴン</string>
+    <string name="car_type_limousine">リムジン</string>
+    <string name="car_type_recreational_vehicle">RV</string>
+    <string name="car_type_convertible">コンバーチブル</string>
+    <string name="car_type_sports_car">スポーツカー</string>
+    <string name="car_type_suv">SUV</string>
+    <string name="car_type_pickup_regular_cab">ピックアップ レギュラー トラック</string>
+    <string name="car_type_open_air_all_terrain">全地形対応</string>
+    <string name="car_type_special">スペシャル</string>
+    <string name="car_type_commercial_van_truck">商用バン</string>
+    <string name="car_type_pickup_extended_cab">ピックアップ エクステンディッド トラック</string>
+    <string name="car_type_special_offer_car">スペシャル オファー カー</string>
+    <string name="car_type_coupe">クーペ</string>
+    <string name="car_type_monospace">モノスペース</string>
+    <string name="car_type_motor_home">キャンピングカー</string>
+    <string name="car_type_two_wheel_vehicle">2 輪車</string>
+    <string name="car_type_roadster">ロードスター</string>
+    <string name="car_type_crossover">クロスオーバー</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">フライト検索</string>
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">クレジットカード手数料および手荷物料金が加算される場合があります。</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">追加料金</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">手荷物料金</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">お支払い処理料金</string>
@@ -335,9 +398,6 @@
     <string name="enter_traveler_info">旅行者情報</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
-
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">旅行者 %d 情報</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">スペシャル サポート : %1$s</string>
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">クレジットカード手数料として %1$s が航空会社から請求され、航空券の料金が %2$s 値上げされました。新しい料金は %3$s です。この金額でよろしいですか ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">クレジットカード手数料として %1$s が航空会社から請求されましたが、%2$s 安く提供できるフライトがあります。新しい料金は %3$s です。この金額でよろしいですか ?</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">入力された電話番号は無効です。再度入力してください。</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">入力されたクレジットカード番号は無効です。再度入力してください。</string>
     <!-- Error shown to user if their credit card has expired -->

@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;숙박지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">일정</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">일정 번호 찾기</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">일정 번호</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">출발 (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">도착 (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">확인 코드</string>
     <!-- Passengers Label -->
     <string name="passengers_label">승객</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">도착 터미널 %1$s, 게이트 %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">출발 터미널 %1$s, 게이트 %2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">터미널 및 게이트 정보를 이용하실 수 없습니다.</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s에서 로그아웃하면 이 계정과 연결된 모든 일정 항목이 제거됩니다. 그래도 로그아웃하시겠어요?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">예약 코드를 이용하실 수 없습니다.</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">%1$s행 항공편</string>
+    <!-- Add event button text -->
+    <string name="add_event">이벤트 추가</string>
+    <!-- Directions -->
+    <string name="directions">길 안내</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">%1$s에 항공편 출발</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">항공편 현재 진행 중</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">%1$s에 항공편 착륙 완료</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">항공편 진행 중</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">%1$s, %2$s에 항공편 출발</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s시간</item>
+        <item quantity="one">%1$s시간</item>
+        <item quantity="two">%1$s시간</item>
+        <item quantity="few">%1$s시간</item>
+        <item quantity="many">%1$s시간</item>
+        <item quantity="other">%1$s시간</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s분</item>
+        <item quantity="one">%1$s분</item>
+        <item quantity="two">%1$s분</item>
+        <item quantity="few">%1$s분</item>
+        <item quantity="many">%1$s분</item>
+        <item quantity="other">%1$s분</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">2도어</string>
+    <string name="car_type_three_door">3도어</string>
+    <string name="car_type_four_door">4도어</string>
+    <string name="car_type_van">밴</string>
+    <string name="car_type_wagon">왜건</string>
+    <string name="car_type_limousine">리무진</string>
+    <string name="car_type_recreational_vehicle">RV</string>
+    <string name="car_type_convertible">컨버터블</string>
+    <string name="car_type_sports_car">스포츠카</string>
+    <string name="car_type_suv">SUV</string>
+    <string name="car_type_pickup_regular_cab">픽업 레귤러캡</string>
+    <string name="car_type_open_air_all_terrain">오픈에어 올터레인</string>
+    <string name="car_type_special">스페셜</string>
+    <string name="car_type_commercial_van_truck">커머셜 밴/트럭</string>
+    <string name="car_type_pickup_extended_cab">픽업 익스텐디드캡</string>
+    <string name="car_type_special_offer_car">특별 제공 차량</string>
+    <string name="car_type_coupe">쿠페</string>
+    <string name="car_type_monospace">모노스페이스</string>
+    <string name="car_type_motor_home">모터홈</string>
+    <string name="car_type_two_wheel_vehicle">이륜차</string>
+    <string name="car_type_roadster">로드스터</string>
+    <string name="car_type_crossover">크로스오버</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">항공편 검색</string>
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">지불 및 수하물 관련 요금이 적용될 수 있습니다.</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">추가 요금</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">수하물 요금</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">지불 처리 요금</string>
@@ -335,9 +398,6 @@
     <string name="enter_traveler_info">여행객 정보</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">여행객 이름이 정부가 발급한 사진이 부착된 ID와 맞지 않는 경우 탑승이 거부될 수 있습니다.</string>
-
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">여행객 %d 정보</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">특별 요청: %1$s</string>
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">해당 항공사가 %1$s의 지불 처리 요금을 부과하고 고객님의 항공권 가격을 %2$s만큼 올린 것 같습니다. 지불할 새 총액은 %3$s인데 괜찮으세요?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">해당 항공사가 %1$s의 지불 처리 요금을 부과하지만 고객님이 요청하신 항공편의 가격이 %2$s만큼 할인된 것이 방금 확인되었습니다. 지불할 새 총액은 %3$s인데 괜찮으세요?</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">입력하신 전화번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">입력하신 신용카드 번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
     <!-- Error shown to user if their credit card has expired -->

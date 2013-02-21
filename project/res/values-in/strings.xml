@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Menginap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rencana Perjalanan</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Cari Rencana Perjalanan</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">Cari No. Rencana Perjalanan</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Nomor Rencana Perjalanan</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">Berangkat (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Tiba (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Kode Konfirmasi</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Penumpang</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">Terminal Kedatangan %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Terminal Keberangkatan %1$s, Gate %2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">Informasi Terminal dan Gate tidak tersedia.</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Jika Anda keluar dari %1$s, semua rencana perjalanan yang terkait dengan akun ini akan dihapus. Yakin ingin keluar?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">Kode pemesanan tidak tersedia.</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">Penerbangan ke %1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">Tambah Acara</string>
+    <!-- Directions -->
+    <string name="directions">Arah</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">Pesawat berangkat pada %1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">Penerbangan sedang berlangsung.</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">Pesawat mendarat pada %1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">Penerbangan sedang berlangsung</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">Pesawat berangkat dalam %1$s%2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s jam</item>
+        <item quantity="one">%1$s jam</item>
+        <item quantity="two">%1$s jam</item>
+        <item quantity="few">%1$s jam</item>
+        <item quantity="many">%1$s jam</item>
+        <item quantity="other">%1$s jam</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s menit</item>
+        <item quantity="one">%1$s menit</item>
+        <item quantity="two">%1$s menit</item>
+        <item quantity="few">%1$s menit</item>
+        <item quantity="many">%1$s menit</item>
+        <item quantity="other">%1$s menit</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">Dua Pintu</string>
+    <string name="car_type_three_door">Tiga Pintu</string>
+    <string name="car_type_four_door">Empat Pintu</string>
+    <string name="car_type_van">Van</string>
+    <string name="car_type_wagon">Wagon</string>
+    <string name="car_type_limousine">Limosin</string>
+    <string name="car_type_recreational_vehicle">Kendaraan Rekreasi</string>
+    <string name="car_type_convertible">Konvertibel</string>
+    <string name="car_type_sports_car">Mobil Sport</string>
+    <string name="car_type_suv">SUV</string>
+    <string name="car_type_pickup_regular_cab">Mobil Pickup Reguler</string>
+    <string name="car_type_open_air_all_terrain">Terbuka Semua Medan</string>
+    <string name="car_type_special">Khusus</string>
+    <string name="car_type_commercial_van_truck">Van/Truk Komersil</string>
+    <string name="car_type_pickup_extended_cab">Mobil Pickup Panjang</string>
+    <string name="car_type_special_offer_car">Mobil Penawaran Khusus</string>
+    <string name="car_type_coupe">Coupe</string>
+    <string name="car_type_monospace">Monospace</string>
+    <string name="car_type_motor_home">Motor Home</string>
+    <string name="car_type_two_wheel_vehicle">Kendaraan Roda Dua</string>
+    <string name="car_type_roadster">Roadster</string>
+    <string name="car_type_crossover">Crossover</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Cari Penerbangan</string>
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">Biaya bagasi dan pembayaran mungkin berlaku</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Biaya Tambahan</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Biaya Bagasi</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Biaya Pemrosesan Pembayaran</string>
@@ -335,9 +398,6 @@
     <string name="enter_traveler_info">Informasi Pelancong</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Anda mungkin akan ditolak naik pesawat jika nama pelancong tidak sama dengan nama pada kartu identitas resmi berfoto Anda.</string>
-
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">Informasi %d Pelancong</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Bantuan Khusus: %1$s</string>
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s dan baru saja menaikkan harga tiket Anda sebesar %2$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s tapi kami baru saja menemukan penerbangan yang Anda minta sedang didiskon sebesar %2$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %3$s?</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">Nomor telepon yang Anda masukkan tidak valid. Coba lagi nanti.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Nomor kartu kredit yang Anda masukkan tidak valid. Coba lagi.</string>
     <!-- Error shown to user if their credit card has expired -->

@@ -37,7 +37,7 @@
     <!-- Home -->
     <string name="nav_home">Hjem</string>
     <!-- Flights -->
-    <string name="nav_flights"> Fly</string>
+    <string name="nav_flights">Fly</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hoteller</string>
     <!-- Account -->
@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Overnat i&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Vi beklager, men vi kan ikke oprette forbindelse.</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rejseplan</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find rejseplan</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">Find rejseplansnummer</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Rejseplansnummer</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">Afgang (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Ankomst (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Bekræftelseskode</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passagerer</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">Ankomst: terminal %1$s, gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Afgang: terminal %1$s, gate %2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">Information om terminal og gate er ikke tilgængelig.</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger af %1$s, vil det fjerne alle rejseplansoplysninger for denne konto. Er du sikker på, du vil logge af?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">Reservationskode er ikke tilgængelig.</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">Fly til %1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">Tilføj begivenhed</string>
+    <!-- Directions -->
+    <string name="directions">Rutevejledning</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">Flyet afgår den %1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">Flyet er undervejs i øjeblikket.</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">Flyet landede den %1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">Flyet er undervejs</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">Flyet afgår om %1$s, %2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s timer</item>
+        <item quantity="one">%1$s time</item>
+        <item quantity="two">%1$s timer</item>
+        <item quantity="few">%1$s timer</item>
+        <item quantity="many">%1$s timer</item>
+        <item quantity="other">%1$s timer</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s minutter</item>
+        <item quantity="one">%1$s minut</item>
+        <item quantity="two">%1$s minutter</item>
+        <item quantity="few">%1$s minutter</item>
+        <item quantity="many">%1$s minutter</item>
+        <item quantity="other">%1$s minutter</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">To døre</string>
+    <string name="car_type_three_door">Tre døre</string>
+    <string name="car_type_four_door">Fire døre</string>
+    <string name="car_type_van">Varevogn</string>
+    <string name="car_type_wagon">Wagon</string>
+    <string name="car_type_limousine">Limousine</string>
+    <string name="car_type_recreational_vehicle">Autocamper</string>
+    <string name="car_type_convertible">Cabriolet</string>
+    <string name="car_type_sports_car">Sportsvogn</string>
+    <string name="car_type_suv">SUV</string>
+    <string name="car_type_pickup_regular_cab">Pickup, almindeligt førerhus</string>
+    <string name="car_type_open_air_all_terrain">Open Air All Terrain</string>
+    <string name="car_type_special">Special</string>
+    <string name="car_type_commercial_van_truck">Varevogn/lastbil til erhvervsbrug</string>
+    <string name="car_type_pickup_extended_cab">Pickup, udvidet førerhus</string>
+    <string name="car_type_special_offer_car">Særtilbud på bil</string>
+    <string name="car_type_coupe">Coupé</string>
+    <string name="car_type_monospace">Monospace</string>
+    <string name="car_type_motor_home">Autocamper</string>
+    <string name="car_type_two_wheel_vehicle">Køretøj med to hjul</string>
+    <string name="car_type_roadster">Roadster</string>
+    <string name="car_type_crossover">Crossover</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Søg efter flybilletter</string>
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">Gebyrer for betaling og bagage kan være gældende</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Yderligere gebyrer</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Bagagegebyr</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Gebyr for betalingsadministration</string>
@@ -326,18 +389,15 @@
     <!-- Flight -->
     <string name="flight">Fly</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE"> Rejsende %1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Rejsende %1$d</string>
     <!-- Adult -->
-    <string name="adult"> voksen</string>
+    <string name="adult">Voksen</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Oplysninger om rejsende</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding kan nægtes, hvis den rejsendes navn ikke stemmer overens med det officielle billed-id.</string>
-
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">Oplysninger om rejsende %d</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Særlig assistance: %1$s</string>
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s og har lige hævet prisen på din flybillet med %2$s. Vil du gerne betale det nye samlede beløb på %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s, men vi har lige fundet dine ønskede flybilletter på udsalg, hvor du kan spare %2$s. Vil du gerne betale det nye samlede beløb på %3$s?</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">Du har indtastet et ugyldigt telefonnummer. Prøv venligst igen.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Du har indtastet et ugyldigt kortnummer. Prøv venligst igen.</string>
     <!-- Error shown to user if their credit card has expired -->

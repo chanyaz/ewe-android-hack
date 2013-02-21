@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Alójate en&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">No ha sido posible conectarse</string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary"></string>
     <!-- Find Itinerary -->
     <string name="find_itinerary"></string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">Encontrar número de itinerario</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Número de itinerario</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">Ida: (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Llegada: (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Código de confirmación</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Pasajeros</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">Llegada a la terminal %1$s, puerta %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Salida de la terminal %1$s, puerta %2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">No es posible acceder a la información sobre la terminal o la puerta de embarque.</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Si cierras tu sesión de %1$s, se borrarán todos los itinerarios asociados a esta cuenta. ¿Seguro que quieres cerrar la sesión?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">No es posible acceder al código de reserva.</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">Vuelo a %1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">Añadir evento</string>
+    <!-- Directions -->
+    <string name="directions">Cómo llegar</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">El vuelo sale el %1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">Vuelo en curso.</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">El vuelo aterrizó el %1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">Vuelo en curso</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">El vuelo sale en %1$s, %2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s horas</item>
+        <item quantity="one">%1$s hora</item>
+        <item quantity="two">%1$s horas</item>
+        <item quantity="few">%1$s horas</item>
+        <item quantity="many">%1$s horas</item>
+        <item quantity="other">%1$s horas</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s minutos</item>
+        <item quantity="one">%1$s minuto</item>
+        <item quantity="two">%1$s minutos</item>
+        <item quantity="few">%1$s minutos</item>
+        <item quantity="many">%1$s minutos</item>
+        <item quantity="other">%1$s minutos</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">Dos puertas</string>
+    <string name="car_type_three_door">Tres puertas</string>
+    <string name="car_type_four_door">Cuatro puertas</string>
+    <string name="car_type_van">Furgoneta</string>
+    <string name="car_type_wagon">Furgón</string>
+    <string name="car_type_limousine">Limusina</string>
+    <string name="car_type_recreational_vehicle">Vehículo de recreo</string>
+    <string name="car_type_convertible">Convertible</string>
+    <string name="car_type_sports_car">Vehículo deportivo</string>
+    <string name="car_type_suv">Todoterreno</string>
+    <string name="car_type_pickup_regular_cab">Taxi de recogida normal</string>
+    <string name="car_type_open_air_all_terrain">Todoterreno descapotable</string>
+    <string name="car_type_special">Vehículo especial</string>
+    <string name="car_type_commercial_van_truck">Fugoneta o camión comercial</string>
+    <string name="car_type_pickup_extended_cab">Taxi de recogida grande</string>
+    <string name="car_type_special_offer_car">Vehículo de oferta</string>
+    <string name="car_type_coupe">Cupé</string>
+    <string name="car_type_monospace">Monovolumen</string>
+    <string name="car_type_motor_home">Caravana</string>
+    <string name="car_type_two_wheel_vehicle">Vehículo de dos ruedas</string>
+    <string name="car_type_roadster">Biplaza</string>
+    <string name="car_type_crossover">Vehículo híbrido</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Buscar vuelos</string>
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">Pueden aplicarse suplementos adicionales por gastos de tramitación o equipaje facturado.</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Tasas adicionales</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Tasas de equipaje</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Tasas de tramitación</string>
@@ -336,9 +399,6 @@
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">El operador de la aerolínea puede denegar el embarque si el nombre del viajero no coincide con el de alguna identificación oficial con fotografía.</string>
 
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">Información %d del viajero</string>
-
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Necesidades especiales: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
@@ -418,7 +478,7 @@
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">No se puede guardar este viajero</string>
+    <string name="cant_save_traveler">No es posible guardar la información del viajero</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Ya existe un viajero con el nombre \"%1$s\".</string>
     <!-- Don't save -->
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">Parece que la aerolínea cobra un cargo de tramitación de %1$s y ha aumentado el precio de tu billete en %2$s. ¿Aceptas pagar el nuevo importe de %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Parece que la aerolínea cobra un cargo de tramitación de %1$s, pero hemos encontrado tu vuelo por %2$s menos. ¿Aceptas pagar el nuevo importe de %3$s?</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">El número de tarjeta de crédito introducido no es válido, vuelve a intentarlo.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">El número de tarjeta de crédito introducido no es válido, vuelve a intentarlo.</string>
     <!-- Error shown to user if their credit card has expired -->
@@ -778,7 +840,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Para poder usar &amp;quot;Mi ubicación&amp;quot; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
+    <string name="EnableLocationSettings">Para poder usar ‘Mi ubicación\&apos; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">La recepción de datos de ubicación está desactivada. Vuelve a activarla para realizar una búsqueda por ubicación.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->

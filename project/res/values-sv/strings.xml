@@ -54,12 +54,14 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Bo i&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Tyvärr kan vi inte ansluta. </string>
-    
+
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Resplan</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Hitta resplan</string>
+    <!-- Find Itinerary # -->
+    <string name="find_itinerary_pound">Hitta resplan #</string>
     <!-- Itinerary Number -->
     <string name="itinerary_number">Resplansnummer</string>
     <!-- No upcoming trips -->
@@ -74,7 +76,7 @@
     <string name="depart_tz_TEMPLATE">Avgår (%1$s)</string>
     <!-- Arrive (TZ) template -->
     <string name="arrive_tz_TEMPLATE">Ankommer (%1$s)</string>
-    <!-- Confirmation Code Label-->
+    <!-- Confirmation Code Label -->
     <string name="confirmation_code_label">Bekräftelsekod</string>
     <!-- Passengers Label -->
     <string name="passengers_label">Passagerare</string>
@@ -88,9 +90,70 @@
     <string name="arrival_terminal_TEMPLATE">Ankomstterminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
+    <!-- Itin flight terminal and gate information not available message -->
+    <string name="no_terminal_gate_information">Information om terminal och gate är otillgänglig.</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Vid utloggning från %1$s kommer samtliga resplaner som hör till det här kontot att tas bort. Är du säker på att du vill logga ut?</string>
-
+    <!-- Booking code unavailable message -->
+    <string name="missing_booking_code">Bokningskod otillgänglig.</string>
+    <!-- Flight to TEMPLATE -->
+    <string name="flight_to_TEMPLATE">Flyg till %1$s</string>
+    <!-- Add event button text -->
+    <string name="add_event">Lägg till i kalender</string>
+    <!-- Directions -->
+    <string name="directions">Vägbeskrivning</string>
+    <!-- Flight departs on {date} template -->
+    <string name="flight_departs_on_TEMPLATE">Flyg avgår %1$s</string>
+    <!-- Flight currently in progress -->
+    <string name="flight_in_progress">Flygresa pågår just nu.</string>
+    <!-- Flight landed on {date} template -->
+    <string name="flight_landed_on_TEMPLATE">Flyg landade %1$s</string>
+    <!-- Flight in progress -->
+    <string name="flight_in_progress">Flygresa pågår</string>
+    <!-- Depart in {# of hours}, {# of minutes} template -->
+    <string name="flight_departs_in_hours_minutes_TEMPLATE">Flyg avgår om %1$s, %2$s</string>
+    <!-- hours plural -->
+    <plurals name="hour_span">
+        <item quantity="zero">%1$s timmar</item>
+        <item quantity="one">%1$s timme</item>
+        <item quantity="two">%1$s timmar</item>
+        <item quantity="few">%1$s timmar</item>
+        <item quantity="many">%1$s timmar</item>
+        <item quantity="other">%1$s timmar</item>
+    </plurals>
+    <!-- minutes plural -->
+    <plurals name="minute_span">
+        <item quantity="zero">%1$s minuter</item>
+        <item quantity="one">%1$s minut</item>
+        <item quantity="two">%1$s minuter</item>
+        <item quantity="few">%1$s minuter</item>
+        <item quantity="many">%1$s minuter</item>
+        <item quantity="other">%1$s minuter</item>
+    </plurals>
+    <!-- Car types -->
+    <string name="car_type_two_door">Två dörrar</string>
+    <string name="car_type_three_door">Tre dörrar</string>
+    <string name="car_type_four_door">Fyra dörrar</string>
+    <string name="car_type_van">Skåpbil</string>
+    <string name="car_type_wagon">Kombi</string>
+    <string name="car_type_limousine">Limousine</string>
+    <string name="car_type_recreational_vehicle">Husbil</string>
+    <string name="car_type_convertible">Cabriolet</string>
+    <string name="car_type_sports_car">Sportbil</string>
+    <string name="car_type_suv">Stadsjeep</string>
+    <string name="car_type_pickup_regular_cab">Pickup, kompakt</string>
+    <string name="car_type_open_air_all_terrain">Terränghjuling (öppen)</string>
+    <string name="car_type_special">Special</string>
+    <string name="car_type_commercial_van_truck">Kommersiell skåpbil</string>
+    <string name="car_type_pickup_extended_cab">Pickup, stor</string>
+    <string name="car_type_special_offer_car">Bil på specialerbjudande</string>
+    <string name="car_type_coupe">Coupé</string>
+    <string name="car_type_monospace">Monospace</string>
+    <string name="car_type_motor_home">Husbil</string>
+    <string name="car_type_two_wheel_vehicle">Tvåhjulsfordon</string>
+    <string name="car_type_roadster">Roadster</string>
+    <string name="car_type_crossover">Crossover</string>
+    
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Sök flyg</string>
@@ -127,9 +190,9 @@
     <!-- Label for filtering flights by airline (aka, Delta) -->
     <string name="filter_flight_airline">Önskade flygbolag</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Avgår </string>
+    <string name="sort_description_departure">Avgår</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Ankommer </string>
+    <string name="sort_description_arrival">Ankommer</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Restid</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -233,7 +296,7 @@
     <string name="payment_and_baggage_fees_may_apply">Betalnings- och bagageavgifter kan gälla</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Extraavgifter</string>
-    <!-- Label to view baggage fees information-->
+    <!-- Label to view baggage fees information -->
     <string name="baggage_fees">Bagageavgifter</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Betalningsavgifter</string>
@@ -336,9 +399,6 @@
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Passagerare kan nekas ombordstigning om namnet i bokningen inte matchar namnet i den statligt utfärdade ID-handlingen</string>
 
-    <!-- Enter traveler info button text -->
-    <string name="enter_traveler_info_TEMPLATE">Resenärens uppgifter%d</string>
-
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Specialassistans: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
@@ -418,11 +478,11 @@
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">Resenär kan inte sparas</string>
+    <string name="cant_save_traveler">Resenär kunde inte sparas</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Du har redan en resenär sparad med namnet %1$s.</string>
     <!-- Don't save -->
-    <string name="dont_save">Spara inte</string>
+    <string name="dont_save">Spara ej</string>
     <!-- Overwrite -->
     <string name="overwrite">Ersätt</string>
 
@@ -583,6 +643,8 @@
     <string name="error_flight_price_increased_with_fee">Det verkar som att flygbolaget tar ut en betalningsavgift på %1$s och biljettpriset steg precis med %2$s. Är du villig att betala det nya totalbeloppet på %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Det verkar som att flygbolaget tar ut en betalningsavgift på %1$s, men vi hittade dina flyg på rea för %2$s mindre. Är du villig att betala det nya totalbeloppet på %3$s?</string>
+    <!-- Error shown to user if their phone number is invalid -->
+    <string name="error_invalid_phone_number">Telefonnumret du angav är ogiltigt, var god och försök igen.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Kreditkortsnumret som du angav är ogiltigt, försök igen.</string>
     <!-- Error shown to user if their credit card has expired -->
