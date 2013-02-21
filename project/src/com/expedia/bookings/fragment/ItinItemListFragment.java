@@ -16,7 +16,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.activity.LoginActivity;
@@ -181,15 +181,15 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	@SuppressLint("NewApi")
 	public void invalidateOptionsMenu() {
 		if (this.getActivity() != null) {
-			if (getActivity() instanceof SherlockActivity) {
-				((SherlockActivity) getActivity()).supportInvalidateOptionsMenu();
+			if (getActivity() instanceof SherlockFragmentActivity) {
+				((SherlockFragmentActivity) getActivity()).supportInvalidateOptionsMenu();
 			}
 			else if (AndroidUtils.getSdkVersion() >= 11) {
 				getActivity().invalidateOptionsMenu();
 			}
 			else {
 				throw new RuntimeException(
-						"ItinItemListFragment should be attached to a SherlockActivity if sdk version < 11");
+						"ItinItemListFragment should be attached to a SherlockFragmentActivity if sdk version < 11");
 			}
 		}
 	}
