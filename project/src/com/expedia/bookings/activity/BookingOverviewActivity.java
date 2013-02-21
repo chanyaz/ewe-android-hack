@@ -20,6 +20,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.BookingOverviewFragment;
 import com.expedia.bookings.fragment.BookingOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
@@ -55,6 +56,18 @@ public class BookingOverviewActivity extends SherlockFragmentActivity implements
 
 		mBookingOverviewFragment = (BookingOverviewFragment) getSupportFragmentManager().findFragmentById(
 				R.id.booking_overview_fragment);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override

@@ -25,7 +25,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
@@ -89,7 +88,7 @@ public class ReceiptWidget {
 
 		// Configuring the header at the top
 		if (property.getThumbnail() != null) {
-			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView);
+			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView, R.drawable.ic_image_placeholder);
 			mThumbnailImageView.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -254,7 +253,6 @@ public class ReceiptWidget {
 
 	private String formatCheckInOutDate(Calendar cal) {
 		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(mContext);
-		medDf.setTimeZone(CalendarUtils.getFormatTimeZone());
 		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
 				+ medDf.format(cal.getTime());
 	}

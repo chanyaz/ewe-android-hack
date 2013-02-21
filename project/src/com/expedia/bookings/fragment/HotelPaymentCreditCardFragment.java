@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
@@ -99,12 +97,8 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		}
 		else if (requiredFields.equals(PointOfSale.RequiredPaymentFieldsHotels.NONE)) {
 			// remove the SectionLocation/postalCode as it is not needed
-			RelativeLayout rl = Ui.findView(v, R.id.edit_creditcard_exp_date_and_zipcode_container);
-			rl.removeViewAt(1); // remove the SectionLocation
-
-			TextView tv = Ui.findView(rl, R.id.edit_creditcard_exp_text_btn);
-			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) tv.getLayoutParams();
-			lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+			ViewGroup vg = Ui.findView(v, R.id.edit_creditcard_exp_date_and_zipcode_container);
+			vg.removeView(Ui.findView(v, R.id.section_location_address));
 		}
 
 		return v;

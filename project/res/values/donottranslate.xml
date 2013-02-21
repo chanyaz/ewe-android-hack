@@ -19,6 +19,9 @@
     <string name="mapsv2_ha_key">AIzaSyDBpxfQT-N3CLCtDsfbvJRvWc0RFMIIbAA</string>
     <string name="mapsv2_prod_key">AIzaSyDyJFDB5IjNcq47xmyRgmGc8BGutqdZnI4</string>
 
+    <!-- Lawyer label for the confirmation screen on the US POS, expects a phone number -->
+    <string name="lawyer_label_expedia_rewards_TEMPLATE">To ensure you receive your confirmation email, please add \&quot;no_reply@expedia.com\&quot; to your address book or email whitelist. If you have an Expedia Rewards account your points will automatically post after your stay. Please note that it may take up to 30 days for your points to appear. If you have questions about your reservation, please call Expedia.com at %s.</string>
+
     <!-- Tracking tags -->
     <string name="google_analytics_ua">UA-31534750-3</string>
     <string name="amobee_app_id">ExpediaHotelsAndroidPhone</string>
@@ -58,6 +61,7 @@
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_flight_fake_price_change">flight_fake_price_change</string>
+    <string name="preference_flight_fake_obfees">flight_fake_obfees</string>
     <string name="preference_spoof_bookings">spoof_bookings</string>
     <string name="preference_filter_merchant_properties">filter_merchant_properties</string>
     <string name="preference_amobee_marketing_date">preference_amobee_marketing_date</string>
@@ -67,6 +71,7 @@
 
     <!-- Default values for preference keys -->
     <string name="preference_flight_fake_price_change_default">0</string>
+    <string name="preference_flight_fake_obfees_default">0</string>
 
     <!-- Country codes -->
     <string name="country_code_af">AF</string>

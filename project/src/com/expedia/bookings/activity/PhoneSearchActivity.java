@@ -47,6 +47,8 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -63,7 +65,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -122,7 +124,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
-public class PhoneSearchActivity extends SherlockFragmentMapActivity implements OnDrawStartedListener,
+public class PhoneSearchActivity extends SherlockFragmentActivity implements OnDrawStartedListener,
 		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
 		LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -135,8 +137,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		KEYBOARD(true),
 		CALENDAR(true),
 		GUEST_PICKER(true),
-		FILTER(false),
-		;
+		FILTER(false), ;
 
 		private boolean mIsSearchDisplay;
 
@@ -151,8 +152,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	private enum ActivityState {
 		NONE,
-		SEARCHING,
-		;
+		SEARCHING, ;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -175,6 +175,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	public static final long SEARCH_EXPIRATION = 1000 * 60 * 60; // 1 hour
 	private static final String SEARCH_RESULTS_VERSION_FILE = "savedsearch-version.dat";
 	private static final String SEARCH_RESULTS_FILE = "savedsearch.dat";
+
+	private static final int ANIMATION_DIMMER_FADE_DURATION = 500;//ms
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -219,6 +221,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// Progress bar stuff
 	private ViewGroup mProgressBarLayout;
 	private View mProgressBarHider;
+	private View mProgressBarDimmer;
 	private GLTagProgressBar mProgressBar;
 	private TextView mProgressText;
 
@@ -258,6 +261,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private boolean mIsActivityResumed = false;
 	private boolean mIsOptionsMenuCreated = false;
 	private boolean mIsSearchEditTextTextWatcherEnabled = false;
+	private boolean mGLProgressBarStarted = false;
 
 	// This indicates to mSearchCallback that we just loaded saved search results,
 	// and as such should behave a bit differently than if we just did a new search.
@@ -574,6 +578,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		else {
 			saveParams();
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -655,6 +661,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		mIsActivityResumed = true;
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -763,9 +771,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
 					searchParams.setSearchType(searchType);
 
-					setShowDistance(searchType == SearchType.ADDRESS);
+					setShowDistance(searchType.shouldShowDistance());
 					removeDialog(DIALOG_LOCATION_SUGGESTIONS);
 					startSearchDownloader();
+					notifySearchLocationFound();
 				}
 			});
 			builder.setNegativeButton(android.R.string.cancel, new Dialog.OnClickListener() {
@@ -949,7 +958,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 				LatLng center = mHotelMapFragment.getCameraCenter();
 				searchParams.setSearchType(SearchType.VISIBLE_MAP_AREA);
 				searchParams.setSearchLatLon(center.latitude, center.longitude);
-				setShowDistance(true);
+				setShowDistance(searchParams.getSearchType().shouldShowDistance());
 				startSearch();
 			}
 			break;
@@ -1139,6 +1148,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		mProgressBar = (GLTagProgressBar) findViewById(R.id.search_progress_bar);
 		mProgressText = (TextView) findViewById(R.id.search_progress_text_view);
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
+		mProgressBarDimmer = findViewById(R.id.search_progress_dimmer);
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.RANGE);
 
@@ -1366,7 +1376,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		case ADDRESS:
 		case POI:
 		case FREEFORM:
-			setShowDistance(searchType != SearchType.CITY);
+			setShowDistance(searchType.shouldShowDistance());
 			stopLocation();
 			startGeocode();
 			break;
@@ -1398,6 +1408,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 		if (searchParams.hasEnoughToSearch()) {
 			Log.d("User already has region id or lat/lng for freeform location, skipping geocoding.");
+			notifySearchLocationFound();
 			startSearchDownloader();
 			return;
 		}
@@ -1454,8 +1465,8 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 					setSearchEditViews();
 					searchParams.setSearchLatLon(address.getLatitude(), address.getLongitude());
 					searchParams.setSearchType(searchType);
-
-					setShowDistance(searchType == SearchType.ADDRESS);
+					notifySearchLocationFound();
+					setShowDistance(searchType.shouldShowDistance());
 					startSearchDownloader();
 				}
 			}
@@ -1466,6 +1477,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		Log.d("onLocationFound(): " + location.toString());
 		Db.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 		setShowDistance(true);
+		notifySearchLocationFound();
 		startSearchDownloader();
 	}
 
@@ -1564,6 +1576,12 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//----------------------------------
 	// BROADCAST METHODS
 	//----------------------------------
+
+	private void notifySearchLocationFound() {
+		if (mHotelMapFragment != null) {
+			mHotelMapFragment.notifySearchLocationFound();
+		}
+	}
 
 	private void broadcastSearchCompleted(SearchResponse searchResponse) {
 		Db.setSearchResponse(searchResponse);
@@ -1991,7 +2009,31 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	// Progress bar tag
 
 	private void hideLoading() {
-		mProgressBarLayout.setVisibility(View.GONE);
+		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_MAP) {
+			Animation fadeout = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+			fadeout.setDuration(ANIMATION_DIMMER_FADE_DURATION);
+			fadeout.setAnimationListener(new Animation.AnimationListener() {
+				@Override
+				public void onAnimationEnd(Animation anim) {
+					mProgressBarLayout.setVisibility(View.GONE);
+					mProgressBarDimmer.setVisibility(View.GONE);
+				}
+
+				@Override
+				public void onAnimationStart(Animation anim) {
+					//ignore
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation anim) {
+					//ignore
+				}
+			});
+			mProgressBarDimmer.startAnimation(fadeout);
+		}
+		else {
+			mProgressBarLayout.setVisibility(View.GONE);
+		}
 
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
@@ -2010,14 +2052,35 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private void showLoading(boolean showProgress, String text) {
 		mProgressBarLayout.setVisibility(View.VISIBLE);
 
-		// In the case that the user is an emulator and this isn't a release build,
-		// disable the hanging tag for speed purposes
-		if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
-			mProgressBar.setVisibility(View.GONE);
+		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_HOTEL) {
+			if (!mGLProgressBarStarted) {
+				mProgressBarHider.setVisibility(View.VISIBLE);
+			}
+
+			// In the case that the user is an emulator and this isn't a release build,
+			// disable the hanging tag for speed purposes
+			if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
+				mProgressBar.setVisibility(View.GONE);
+			}
+			else {
+				mProgressBar.setVisibility(View.VISIBLE);
+				mProgressBar.setShowProgress(showProgress);
+			}
+
+			// Dark text on light background
+			mProgressText.setTextColor(getResources().getColor(R.color.hotel_list_progress_text_color));
 		}
 		else {
-			mProgressBar.setVisibility(View.VISIBLE);
-			mProgressBar.setShowProgress(showProgress);
+			// Map
+			mProgressBarHider.setVisibility(View.GONE); // In case the hang tag never drew, we don't want to see it on the map fragment
+
+			Animation fadein = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+			fadein.setDuration(ANIMATION_DIMMER_FADE_DURATION);
+			mProgressBarDimmer.startAnimation(fadein);
+			mProgressBarDimmer.setVisibility(View.VISIBLE);
+
+			// Light text on dark background
+			mProgressText.setTextColor(getResources().getColor(R.color.hotel_map_progress_text_color));
 		}
 
 		mProgressText.setText(text);
@@ -2025,6 +2088,7 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	@Override
 	public void onDrawStarted() {
+		mGLProgressBarStarted = true;
 		mProgressBarHider.postDelayed(new Runnable() {
 			public void run() {
 				mProgressBarHider.setVisibility(View.GONE);
@@ -2313,35 +2377,14 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	private final CalendarDatePicker.OnDateChangedListener mDatesDateChangedListener = new CalendarDatePicker.OnDateChangedListener() {
 		@Override
 		public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
-			syncDatesFromPicker();
+			if (mEditedSearchParams != null) {
+				CalendarUtils.syncParamsFromDatePicker(mEditedSearchParams, mDatesCalendarDatePicker);
 
-			displayRefinementInfo();
-			setActionBarBookingInfoText();
+				displayRefinementInfo();
+				setActionBarBookingInfoText();
+			}
 		}
 	};
-
-	private void syncDatesFromPicker() {
-		Calendar startCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
-		Calendar endCalendar = Calendar.getInstance(CalendarUtils.getFormatTimeZone());
-
-		final int startYear = mDatesCalendarDatePicker.getStartYear();
-		final int startMonth = mDatesCalendarDatePicker.getStartMonth();
-		final int startDay = mDatesCalendarDatePicker.getStartDayOfMonth();
-
-		final int endYear = mDatesCalendarDatePicker.getEndYear();
-		final int endMonth = mDatesCalendarDatePicker.getEndMonth();
-		final int endDay = mDatesCalendarDatePicker.getEndDayOfMonth();
-
-		startCalendar.set(startYear, startMonth, startDay, 0, 0, 0);
-		endCalendar.set(endYear, endMonth, endDay, 0, 0, 0);
-
-		startCalendar.set(Calendar.MILLISECOND, 0);
-		endCalendar.set(Calendar.MILLISECOND, 0);
-
-		SearchParams searchParams = mEditedSearchParams;
-		searchParams.setCheckInDate(startCalendar);
-		searchParams.setCheckOutDate(endCalendar);
-	}
 
 	private final SimpleNumberPicker.OnValueChangeListener mNumberPickerChangedListener = new SimpleNumberPicker.OnValueChangeListener() {
 		@Override
@@ -2749,10 +2792,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 		}
 
 		if (tag.equals(getString(R.string.tag_hotel_list))) {
-			mContentViewPager.setCurrentItem(0);
+			mContentViewPager.setCurrentItem(VIEWPAGER_PAGE_HOTEL);
 		}
 		else {
-			mContentViewPager.setCurrentItem(1);
+			mContentViewPager.setCurrentItem(VIEWPAGER_PAGE_MAP);
 		}
 
 		mTag = tag;
@@ -2794,7 +2837,9 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 
 	@Override
 	public void onPropertyClicked(Property property) {
-		//ignore
+		if (mHotelMapFragment != null) {
+			mHotelMapFragment.focusProperty(property, true);
+		}
 	}
 
 	@Override
@@ -2834,8 +2879,13 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	//////////////////////////////////////////////////////////////////////////
 	// View pager adapter
 
+	private static final int VIEWPAGER_PAGE_HOTEL = 0;
+	private static final int VIEWPAGER_PAGE_MAP = 1;
+
 	public class ListAndMapViewPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
 		private static final int NUM_FRAGMENTS = 2;
+
+		// The page position of the fragments
 
 		public ListAndMapViewPagerAdapter() {
 			super(getSupportFragmentManager());
@@ -2852,10 +2902,10 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 			Fragment frag;
 
 			switch (position) {
-			case 0:
+			case VIEWPAGER_PAGE_HOTEL:
 				frag = HotelListFragment.newInstance();
 				break;
-			case 1:
+			case VIEWPAGER_PAGE_MAP:
 				frag = HotelMapFragment.newInstance();
 				break;
 			default:
@@ -2888,14 +2938,6 @@ public class PhoneSearchActivity extends SherlockFragmentMapActivity implements 
 	}
 
 	private ListAndMapViewPagerAdapter mListAndMapViewPagerAdapter;
-
-	//////////////////////////////////////////////////////////////////////////
-	// FragmentMapActivity
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
-	}
 
 	// Number picker formatters
 	private final SimpleNumberPicker.Formatter mAdultsNumberPickerFormatter = new SimpleNumberPicker.Formatter() {

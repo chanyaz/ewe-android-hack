@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="?android:attr/actionButtonStyle"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/actionButtonStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
     android:addStatesFromChildren="true"
     android:focusable="true"
     android:paddingLeft="4dip"
@@ -29,16 +29,14 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/guests_button"
         android:layout_alignTop="@+id/guests_button"
-        android:layout_marginTop="-5dp"
-        android:layout_marginRight="-8dp"
         android:gravity="top|right"
         android:shadowColor="#88000000"
         android:shadowDx="0"
         android:shadowDy="-1"
         android:shadowRadius="0.1"
-        android:text="1"
         android:textColor="#505966"
         android:textSize="12dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="SpUsage" />
 
 </RelativeLayout>

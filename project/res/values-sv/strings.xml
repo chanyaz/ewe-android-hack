@@ -15,7 +15,7 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">Vi har stött på ett ospecificerat fel. Försök igen senare.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Inloggning på Facebook misslyckades.</string>
+    <string name="unable_to_sign_into_facebook">Inloggningen på Facebook misslyckades.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Inloggningen misslyckades. Ange ditt lösenord och försök igen.</string>
     <!-- Facebook connect expedia password hint -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Bo i&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Tyvärr kan vi inte ansluta. </string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Resplan</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Resplansnummer</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Inga kommande resor.</string>
+    <string name="no_upcoming_trips">Inga kommande.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Eller ange ett resplansnummer</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Vi hämtar din resplan...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Logga in&lt;/b&gt; för att se dina resor</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Avgår (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Ankommer (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Bekräftelsekod</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Passagerare</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Flygbokningskvitto och regler</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Bokningsinfo</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Ankomstterminal %1$s, Gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Vid utloggning från %1$s kommer samtliga resplaner som hör till det här kontot att tas bort. Är du säker på att du vill logga ut?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Trafikeras av %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Avgifter för handbagage gäller.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Betalnings- och bagageavgifter kan gälla</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Extraavgifter</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Bagageavgifter</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Betalningsavgifter</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Expediakonto</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Utcheckningsinformation</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Godkänner du samtliga villkor ovan?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Jag godkänner villkoren</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Dra för att köpa. </string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Resenärens uppgifter</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Passagerare kan nekas ombordstigning om namnet i bokningen inte matchar namnet i den statligt utfärdade ID-handlingen</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Resenärens uppgifter%d</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">Län</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postnummer</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Faktureringsadressens postnummer</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">Nej tack</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Resenär kan inte sparas</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Du har redan en resenär sparad med namnet %1$s.</string>
@@ -532,13 +574,21 @@
     <!-- Button label for calling -->
     <string name="call_support">Support</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Flygbolaget tycks precis ha ökat priset på din biljett med %1$s.  Är du villig att betala det nya totalbeloppet på %2$s?</string>
+    <string name="error_flight_price_increased">Flygbolaget verkar precis ha höjt priset på din biljett med %1$s.  Är du villig att betala det nya totalbeloppet på %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Vi hittade flygen du sökte efter på rea för %1$s mindre. Är du villig att betala det nya totalbeloppet på %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Det verkar som att flygbolaget tar ut en betalningsavgift på %1$s. Är du villig att betala det nya totalbeloppet på %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Det verkar som att flygbolaget tar ut en betalningsavgift på %1$s och biljettpriset steg precis med %2$s. Är du villig att betala det nya totalbeloppet på %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Det verkar som att flygbolaget tar ut en betalningsavgift på %1$s, men vi hittade dina flyg på rea för %2$s mindre. Är du villig att betala det nya totalbeloppet på %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Kreditkortsnumret som du angav är ogiltigt, försök igen.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Kreditkortet du försökte använda har gått ut. Försök med ett annat kreditkort. </string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Tyvärr är bokningar för minderåriga (under 18 år) inte tillgängliga än. </string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Vi ber om ursäkt, tyvärr verkar vi inte kunna utföra bokningen just nu. Försök igen. </string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Erbjudanden</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Användarbetyg</string>
+    <string name="sort_description_rating">Betyg</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Alla</string>
@@ -1298,6 +1348,8 @@
     <string name="Like">Gilla</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Appen använder Stack Blur-algoritmen av Mario Klingemann. </string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Se softwarelicenser för öppna källor</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

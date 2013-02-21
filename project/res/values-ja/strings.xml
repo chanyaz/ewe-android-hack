@@ -15,7 +15,7 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">詳細不明なエラーが発生しました。後ほどお試しください。</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Facebook にログインできません。</string>
+    <string name="unable_to_sign_into_facebook">Facebook にサインインできません。</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">ログインに失敗しました。パスワードを再入力して、もう一度お試しください。</string>
     <!-- Facebook connect expedia password hint -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;&lt;font color="#b2b2b2"&gt;に滞在&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">残念ながら、接続できません。</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">旅程番号</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">予約された旅行はありません。</string>
+    <string name="no_upcoming_trips">次回のご予約はありません。</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">または、旅程番号を入力してください。</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">お客様の旅程を取得しています…</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;ログイン&lt;/b&gt;してご予約を確認してください。</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">出発日 (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">到着日 (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">確認コード</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">乗客</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">フライトの領収書およびポリシー</string>
+    <!-- Booking info label -->
+    <string name="booking_info">予約情報</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">ターミナル %1$s、 ゲート %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">到着ターミナル %1$s、ゲート %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s から出発</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">%1$s からログアウトすると、このアカウントに関連付けられている旅程項目が全て削除されます。ログアウトしてもよろしいですか ?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -103,7 +129,7 @@
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">出発地 </string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">到着地  </string>
+    <string name="sort_description_arrival">到着地</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">所要時間</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -118,9 +144,9 @@
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">デバック : 検索データが削除されました。エラーを報告してください。</string>
     <!-- Select a flight to (city name) -->
-    <string name="select_a_flight_to_TEMPLATE">%1$sへのフライトを選択</string>
+    <string name="select_a_flight_to_TEMPLATE">%1$s へのフライトを選択</string>
     <!-- Select a flight back to (city name) -->
-    <string name="select_a_flight_back_to_TEMPLATE">%1$sへ戻るフライトを選択</string>
+    <string name="select_a_flight_back_to_TEMPLATE">%1$s へ戻るフライトを選択</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">ページをロードできません ! エラー メッセージ : %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
@@ -196,13 +222,21 @@
     <!-- Button label for selecting flight -->
     <string name="select_flight">フライトを選択する</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
-    <string name="depart_from_TEMPLATE">%s出発</string>
+    <string name="depart_from_TEMPLATE">%s 出発</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
     <string name="arrive_at_TEMPLATE">%s 到着</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">運航会社 : %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">機内持ち込み手荷物料金が適用されます。</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">クレジットカード手数料および手荷物料金が加算される場合があります。</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">追加料金</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">手荷物料金</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">お支払い処理料金</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">エクスペディア アカウント</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">チェックアウト情報</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">上記の全条項に同意しますか ? </string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">同意する</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">スライドして購入。</string>
     <!-- Your card will be charged -->
@@ -270,7 +308,7 @@
     <!-- Log out -->
     <string name="log_out">ログアウト</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">今回の旅行で %1$s ポイント取得します ! </string>
+    <string name="youll_earn_points_TEMPLATE">今回の旅行で %1$s ポイント取得します !</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -288,13 +326,15 @@
     <!-- Flight -->
     <string name="flight">フライト</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">旅行者  名%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">旅行者名 %1$d</string>
     <!-- Adult -->
     <string name="adult">大人</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅行者情報</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">旅行者 %d 情報</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">都道府県</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">郵便番号</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">クレジットカード登録郵便番号</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">いいえ</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">旅行者を保存できません</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">\"%1$s\" という名前のトラベラーがすでに保存されています。</string>
@@ -414,7 +456,7 @@
     <!-- None -->
     <string name="none">なし</string>
     <!-- Gender name template e.g. Chris is Male -->
-    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$sは&lt;/font&gt;%2$sです</string>
+    <string name="gender_name_TEMPLATE">&lt;font color="#919191"&gt;%1$s は &lt;/font&gt;%2$s です</string>
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
@@ -464,7 +506,7 @@
     <!-- Wheelchair needed (cannot climb/descend stairs) -->
     <string name="wheelchair_no_stairs">要車椅子 (階段の昇降不可)</string>
     <!-- Wheelchair needed (can climb/descend stairs) -->
-    <string name="wheelchair_stairs_ok"> 要車椅子 (階段の昇降可)</string>
+    <string name="wheelchair_stairs_ok">要車椅子 (階段の昇降可)</string>
     <!-- Wheelchair (immobile) -->
     <string name="wheelchair_immobile">車椅子 (寝たきり)</string>
 
@@ -535,10 +577,18 @@
     <string name="error_flight_price_increased">航空会社がお客様の航空券の料金を %1$s 値上げしました。新しい料金は %2$s です。この金額でよろしいですか ?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">お客様がご希望のフライトを %1$s 安く提供できます。新しい金額は %2$s です。フライトを変更しますか ?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">クレジットカード手数料として %1$s が航空会社から請求されました。新しい料金は %2$s です。この金額でよろしいですか ?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">クレジットカード手数料として %1$s が航空会社から請求され、航空券の料金が %2$s 値上げされました。新しい料金は %3$s です。この金額でよろしいですか ?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">クレジットカード手数料として %1$s が航空会社から請求されましたが、%2$s 安く提供できるフライトがあります。新しい料金は %3$s です。この金額でよろしいですか ?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">入力されたクレジットカード番号は無効です。再度入力してください。</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">入力されたクレジットカードの有効期限が過ぎています。別のクレジットカードをご利用ください。</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">申し訳ございません。現時点では、18 歳未満のお子様のご予約には対応しておりません。</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">申し訳ありません。現在お客様のご予約を完了できません。もう一度お試しください。</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -578,15 +628,15 @@
     <string name="share_flight_title_TEMPLATE">エクスペディアの旅程 - %1$s (%2$s)</string>
     <!-- The first line of the share flight email -->
     <plurals name="share_flight_start">
-        <item quantity="one">フライト予約情報 : </item>
-        <item quantity="two">フライト予約情報 : </item>
-        <item quantity="many">フライト予約情報 : </item>
-        <item quantity="other">フライト予約情報 : </item>
+        <item quantity="one">フライト予約情報 :</item>
+        <item quantity="two">フライト予約情報 :</item>
+        <item quantity="many">フライト予約情報 :</item>
+        <item quantity="other">フライト予約情報 :</item>
     </plurals>
     <!-- One-way flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">%1$sから%2$sへの片道フライト</string>
+    <string name="share_flight_one_way_TEMPLATE">%1$s から %2$s への片道フライト</string>
     <!-- Round trip flight summary of locations.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">%1$sから%2$sへの往復フライト</string>
+    <string name="share_flight_round_trip_TEMPLATE">%1$s から %2$s への往復フライト</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">旅程番号 : %s</string>
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc... %2$s is their name -->
@@ -617,7 +667,7 @@
     <!-- Gives the user a method of getting support.  %s is a phone number -->
     <string name="share_flight_support_TEMPLATE">このご予約に関するお問い合わせは、エクスペディア (%s) までご連絡ください。</string>
     <!-- Advertisement for the app the user just used -->
-    <string name="share_flight_shill_app">エクスペディアのモバイルアプリで、フライトとホテルをどこでも簡単予約 ! http://www.expedia.com/app</string>
+    <string name="share_flight_shill_app">エクスペディアのモバイルアプリで、フライトとホテルをどこでも簡単予約 !http://www.expedia.com/app</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">プロモーション</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">ユーザー評価</string>
+    <string name="sort_description_rating">評価</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">全て</string>
@@ -944,7 +994,7 @@
         1$ is the user name
         2$ is the place they are from
     -->
-    <string name="user_review_name_and_location_signature">%1$s～%2$s</string>
+    <string name="user_review_name_and_location_signature">%1$s ～ %2$s</string>
     <!-- User review no critical reviews -->
     <string name="user_review_no_critical_reviews">このホテルのネガティブなレビューはまだありません</string>
     <!-- User review no favorable reviews -->
@@ -1298,6 +1348,8 @@
     <string name="Like">いいね</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">このアプリは Mario Klingemann 氏の Stack Blur アルゴリズムを使用しています。</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">オープン ソース ソフトウェアのライセンスを表示</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1357,11 +1409,11 @@
     <!-- Abbreviated miles (used in distance_template) -->
     <string name="unit_miles">マイル</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
-    <string name="unit_kilometers"> km</string>
+    <string name="unit_kilometers">km</string>
     <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full"> マイル</string>
+    <string name="unit_miles_full">マイル</string>
     <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full"> km</string>
+    <string name="unit_kilometers_full">km</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s距離</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->

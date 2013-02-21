@@ -3,7 +3,7 @@
     android:id="@+id/hotel_details_portrait"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fadingEdgeLength="0px"
+    android:fadingEdge="none"
     android:fillViewport="true" >
 
     <LinearLayout

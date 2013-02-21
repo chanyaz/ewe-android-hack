@@ -208,7 +208,10 @@ public class FlightTrip implements JSONable {
 
 	public Money getTotalFareWithObFees() {
 		Money money = new Money(mTotalFare);
-		money.add(mOnlineBookingFeesAmount);
+		
+		// mTotalFare already includes the OBFees. Defect #395
+		//money.add(mOnlineBookingFeesAmount);
+		
 		return money;
 	}
 

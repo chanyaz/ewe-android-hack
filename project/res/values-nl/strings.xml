@@ -15,7 +15,7 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">Er deed zich een onbekende fout voor. Probeer het later opnieuw.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Aanmelding via Facebook mislukt.</string>
+    <string name="unable_to_sign_into_facebook">Aanmelden via Facebook mislukt.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Aanmelding mislukt, voer je wachtwoord opnieuw in probeer nog een keer.</string>
     <!-- Facebook connect expedia password hint -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Overnacht in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Helaas, we kunnen geen verbinding maken</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reisplan</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Reisplannummer</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Geen toekomstige reizen</string>
+    <string name="no_upcoming_trips">Geen toekomstige reizen.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Of voer een reisplannummer in</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Reisplan aan het ophalen ...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Meld je aan&lt;/b&gt; voor je reizen</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Vertrek (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Aankomst (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Bevestigingsnummer</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Passagiers</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Vluchtbevestiging en -beleid</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Boekingsinfo</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Aankomstterminal %1$s, Gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Vertrekterminal  %1$s, Gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Wanneer je je afmeldt bij %1$s verwijder je alle reisplanitems die aan dit account gekoppeld zijn. Weet je zeker dat je je wil afmelden?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -103,7 +129,7 @@
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Vertrek</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Aankomst </string>
+    <string name="sort_description_arrival">Aankomst</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Vluchtduur</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -155,7 +181,7 @@
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">Tik om je &lt;b&gt;&lt;font color="#3b5998"&gt;vertrekdatum&lt;/font&gt;&lt;/b&gt; te kiezen. </string>
+    <string name="calendar_instructions_nothing_selected">Tik om je &lt;b&gt;&lt;font color="#3b5998"&gt;vertrekdatum&lt;/font&gt;&lt;/b&gt; te kiezen.</string>
     <!-- Start date is selected -->
     <string name="calendar_instructions_start_selected">Tik om je &lt;b&gt;&lt;font color="#3b5998"&gt;datum van terugreis &lt;/font&gt;&lt;/b&gt; te kiezen. (optioneel)</string>
     <!-- Start date and end date selected -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Verzorgd door %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Toeslagen voor handbagage zijn van toepassing.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Een hogere kost en bagagetoeslagen zijn mogelijk van toepassing</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Extra toeslagen</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Bagagetoeslagen</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Betalingstoeslag</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -214,7 +248,7 @@
     <!-- Add new card -->
     <string name="add_new_card">Nieuwe kaart toevoegen</string>
     <!-- Overview button -->
-    <string name="overview_btn">Overzicht </string>
+    <string name="overview_btn">Overzicht</string>
     <!-- Stored Payment label -->
     <string name="stored_payment_label">Kies een opgeslagen betalingsmethode</string>
     <!-- Payment Method -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Expedia account</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Betalingsinfo</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Ga je akkoord met alle bovenstaande voorwaarden?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Ik ga akkoord</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Sleep om te boeken.</string>
     <!-- Your card will be charged -->
@@ -288,13 +326,15 @@
     <!-- Flight -->
     <string name="flight">Vlucht</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE"> Reiziger %1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Reiziger %1$d</string>
     <!-- Adult -->
     <string name="adult">Volwassene</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Reizigersinformatie</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Mogelijk wordt toegang tot het vliegtuig geweigerd als de naam van de reiziger niet overeenstemt met die op het identiteitsbewijs.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Reizigers%dinformatie</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">Provincie</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Zip</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Zipcode betaling</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">Nee, bedankt</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Kan reiziger niet opslaan</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Je hebt al een opgeslagen reiziger met de naam \"%1$s\".</string>
@@ -533,13 +575,21 @@
     <!-- Button label for calling -->
     <string name="call_support">Ondersteuning</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Het lijkt erop dat de airline de prijs van je vlucht verhoogd heeft met %1$s.  Ga je akkoord met het nieuwe totaalbedrag van %2$s?</string>
+    <string name="error_flight_price_increased">Het lijkt erop dat de airline de prijs van je vlucht verhoogd heeft met %1$s  Ga je akkoord met het nieuwe totaalbedrag van %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">We hebben net je aangevraagde vluchten gevonden voor %1$s minder. Ga je akkoord met het nieuwe totaalbedrag van %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Het lijkt erop dat de airline een betalingstoeslag van %1$s in rekening brengt. Ga je akkoord met het nieuwe totaalbedrag van %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Het lijkt erop dat de airline een betalingstoeslag van %1$s in rekening brengt en net de prijs van je vlucht verhoogd heeft met %2$s. Ga je akkoord met het nieuwe totaalbedrag van %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Het lijkt erop dat de airline een betalingstoeslag van %1$s in rekening brengt maar dat je aangevraagde vluchten net worden aangeboden voor %2$s minder. Ga je akkoord met het nieuwe totaalbedrag van %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Het ingevoerde creditcardnummer is ongeldig, probeer het opnieuw.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">De creditcard die je wil gebruiken is verlopen, gebruik een nieuwe creditcard.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Helaas, boekingen voor kinderen onder 18 jaar is nog niet mogelijk.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -599,9 +649,9 @@
         <item quantity="other">Reiziger: %1$s%2$s</item>
     </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
-    <string name="share_flight_section_outbound">Heenreis: </string>
+    <string name="share_flight_section_outbound">Heenreis:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Terugreis: </string>
+    <string name="share_flight_section_return">Terugreis:</string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
     <plurals name="share_flight_ticket_cost_TEMPLATE">
         <item quantity="one">Ticketprijs: %s</item>
@@ -747,7 +797,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Aanbiedingen</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Beoordeling</string>
+    <string name="sort_description_rating">Score</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Alle</string>
@@ -929,7 +979,7 @@
         1$ represents the number of guests that recommend this hotel
         2$ represents the total number of guests
     -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; van &lt;b&gt;%2$d&lt;/b&gt; gasten bevelen dit hotel aan. </string>
+    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; van &lt;b&gt;%2$d&lt;/b&gt; gasten bevelen dit hotel aan.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">Geen beoordelingen</string>
     <!-- A number of reviews -->
@@ -967,7 +1017,7 @@
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Bezig met zoeken naar beschikbare kamers…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">Kan geen kamer- en prijsgegevens downloaden. Controleer de verbinding en probeer opnieuw. </string>
+    <string name="error_no_response_room_rates">Kan geen kamer- en prijsgegevens downloaden. Controleer de verbinding en probeer opnieuw.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">per nacht</string>
     <!-- Rate price displayed "average per night" -->
@@ -1072,7 +1122,7 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">Regels &amp; beperkingen</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Als je een Expedia Rewards-account hebt, boek dan met hetzelfde e-mailadres om je punten automatisch na je verblijf toe te voegen. Let op: het kan maximaal 30 dagen duren voordat je punten verschijnen. </string>
+    <string name="disclaimer_expedia_points">Als je een Expedia Rewards-account hebt, boek dan met hetzelfde e-mailadres om je punten automatisch na je verblijf toe te voegen. Let op: het kan maximaal 30 dagen duren voordat je punten verschijnen.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Bevestigen en boeken</string>
     <!-- Label for clearing private data -->
@@ -1108,11 +1158,11 @@
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">Fout</string>
     <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">Kon geen verbinding met de Expedia-servers maken. Controleer de verbinding en probeer opnieuw. </string>
+    <string name="error_booking_null">Kon geen verbinding met de Expedia-servers maken. Controleer de verbinding en probeer opnieuw.</string>
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">Je hotelkamer werd geboekt en gereserveerd. De volgende fouten deden zich echter voor: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
-    <string name="error_unable_to_send_email">Het is niet mogelijk om een bevestigingsmail te sturen. </string>
+    <string name="error_unable_to_send_email">Het is niet mogelijk om een bevestigingsmail te sturen.</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
     <string name="enter_booking_info">Voer boekingsinfo in</string>
     <!-- Title for action bar when the user is on the booking info screen -->
@@ -1172,7 +1222,7 @@
 
     <!-- Expedia policy strings -->
     <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Het volledige bedrag wordt onmiddellijk tijdens het boeken op je creditcard in rekening gebracht. </string>
+    <string name="PolicyImmediateChargeRequired">Het volledige bedrag wordt onmiddellijk tijdens het boeken op je creditcard in rekening gebracht.</string>
     <!-- Policy displayed to user when the room is non-refundable -->
     <string name="PolicyNonRefundable">We bieden een uitzonderlijk laag tarief op deze accommodatie. Om dit aan te kunnen bieden is het tarief niet-restitueerbaar. Als je ervoor kiest deze reservering te annuleren, ontvang je geen restitutie van de betaling.</string>
     <!-- Policy displayed to user when a deposit is required -->
@@ -1299,6 +1349,8 @@
     <string name="Like">Like</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Deze app gebruikt het Stack Blur algoritme van Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Open Source Software-licenties bekijken</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1388,7 +1440,7 @@
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
     <string name="e3_error_checkout_booking_succeeded_with_errors">Je hebt je boeking bij dit hotel succesvol afgerond! Als je onmiddellijk een reisplan nodig hebt, bel dan de Expedia klantenservice.</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia. </string>
+    <string name="e3_error_checkout_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">Corrigeer de ongeldige gegevens.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
@@ -1409,7 +1461,7 @@
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Het spijt ons! De aanbieding op deze kamer is niet langer geldig, maar we hebben nog andere aanbiedingen.</string>
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia. </string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure">Het spijt ons, maar we konden geen verbinding maken met Expedia. Probeer het opnieuw.</string>
     <!-- There are no longer any rooms for the hotel offer -->

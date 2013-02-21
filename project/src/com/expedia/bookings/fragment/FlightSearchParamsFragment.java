@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -370,6 +371,20 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		outState.putBoolean(INSTANCE_SHOW_CALENDAR, mCalendarContainer.getVisibility() == View.VISIBLE);
 		JSONUtils.putJSONable(outState, INSTANCE_PARAMS, mSearchParams);
 		JSONUtils.putJSONable(outState, INSTANCE_FIRST_LOCATION, mFirstAdapterLocation);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+
+		// EB93: There is a crazy bug in earlier versions of Android that retain the Fragment
+		// if the user opens an EditText in some circumstances.  This was causing serious memory
+		// problems; below we remove the largest issue when retaining the Fragment.  It's a
+		// serious workaround, but better than nothing.
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+			mCalendarContainer.removeAllViewsInLayout();
+			mCalendarDatePicker = null;
+		}
 	}
 
 	public boolean onBackPressed() {

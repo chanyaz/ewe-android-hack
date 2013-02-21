@@ -128,10 +128,11 @@
 
     <LinearLayout
         android:id="@+id/child_ages_layout"
-        android:layout_width="350dp"
+        android:layout_width="@dimen/child_ages_layout_width"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
         android:background="@drawable/bg_popup_dialog"
         android:clickable="true"
         android:focusable="true"
@@ -145,10 +146,9 @@
 
             <TextView
                 android:id="@+id/label_select_each_childs_age"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@plurals/select_each_childs_age"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

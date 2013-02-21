@@ -12,7 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
@@ -26,7 +26,7 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
-public class HotelMapActivity extends SherlockFragmentMapActivity implements HotelMapFragmentListener {
+public class HotelMapActivity extends SherlockFragmentActivity implements HotelMapFragmentListener {
 
 	private HotelMapFragment mHotelMapFragment;
 
@@ -88,6 +88,18 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 		if (savedInstanceState == null) {
 			OmnitureTracking.trackPageLoadHotelsInfositeMap(getApplicationContext());
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -171,11 +183,6 @@ public class HotelMapActivity extends SherlockFragmentMapActivity implements Hot
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
 		}
-	}
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

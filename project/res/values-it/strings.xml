@@ -15,7 +15,7 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">Abbiamo riscontrato un errore generico. Riprova più tardi.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Impossibile accedere a Facebook.</string>
+    <string name="unable_to_sign_into_facebook">Impossibile collegarsi a Facebook. </string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Accesso non riuscito: reinserisci la tua password e riprova.</string>
     <!-- Facebook connect expedia password hint -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Soggiorna a&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Purtroppo non è possibile effettuare la connessione.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario </string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Numero itinerario</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Nessun viaggio futuro.</string>
+    <string name="no_upcoming_trips">Nessun viaggio in previsto. </string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Oppure inserisci il numero dell\&apos;itinerario.</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Recupero itinerario in corso...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Accedi&lt;/b&gt; per consultare i tuoi viaggi</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Partenza (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Arrivo (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Codice di conferma</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Passeggeri</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Ricevuta e condizioni del volo</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Dati prenotazione</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Terminal di arrivo%1$s, Gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Terminal di partenza%1$s, Gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Con la disconnessione da %1$s tutti gli itinerari associati a questo account saranno rimossi. Sei sicuro di voler uscire?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Operato da %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Si applicano costi per bagagli da cabina.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Potrebbero essere previste commissioni sul pagamento o per bagaglio extra</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Costi aggiuntivi</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Franchigia bagagli</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Commissioni per la gestione del pagamento</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Account Expedia</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Dettagli di pagamento</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Accetti tutte le condizioni sopraindicate?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Accetto</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Vai al pagamento. </string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Dati viaggiatore</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">L\&apos;imbarco potrebbe essere negato se il nome del passeggero non coincide con quello del documento d\&apos;identità. </string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Dati viaggiatore %d</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">Prov.</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">CAP</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">CAP per la fatturazione</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">No, grazie</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Impossibile salvare il viaggiatore</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Esiste già un viaggiatore salvato con il nome \"%1$s\".</string>
@@ -532,13 +574,21 @@
     <!-- Button label for calling -->
     <string name="call_support">Assistenza</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">La compagnia aerea ha appena alzato il prezzo del biglietto di %1$s.  Acconsenti al pagamento del nuovo importo totale di %2$s?</string>
+    <string name="error_flight_price_increased">La compagnia aerea ha appena aumentato il prezzo del tuo biglietto di %1$s.  Acconsenti al pagamento del nuovo importo totale di %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Abbiamo appena trovato un\&apos;offerta per il volo che hai richiesto a %1$s in meno. Acconsenti all\&apos;addebito del nuovo importo totale di %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">La compagnia aerea applica una commissione per la gestione del pagamento di %1$s. Acconsenti al pagamento del nuovo importo totale di %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">La compagnia aerea applica una commissione per la gestione del pagamento pari a %1$s e ha aumentato il prezzo del tuo biglietto di %2$s. Acconsenti al pagamento del nuovo importo totale di %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">La compagnia aerea applica una commissione per la gestione del pagamento di %1$s, tuttavia il prezzo dei voli richiesti è diminuito di %2$s. Acconsenti al pagamento del nuovo importo totale di %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">I dati della carta di credito non sono corretti. Riprova.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">La carta di credito che hai tentato di utilizzare è scaduta: utilizza una carta di credito diversa.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Siamo spiacenti, al momento non è possibile effettuare prenotazioni per i minori di 18 anni. </string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Spiacenti, non è possibile elaborare l\&apos;ordine in questo momento. Riprova.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Offerte</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Giudizio ospiti</string>
+    <string name="sort_description_rating">Voto</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Tutti</string>
@@ -1298,6 +1348,8 @@
     <string name="Like">Mi piace</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Questa applicazione utilizza l\&apos;algoritmo Stack Blur di Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Consulta le licenze del software open source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

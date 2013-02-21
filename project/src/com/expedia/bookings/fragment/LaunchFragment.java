@@ -96,6 +96,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 	private Context mContext;
 
+	private ImageView mBgView;
 	private ViewGroup mErrorContainer;
 	private ViewGroup mScrollContainer;
 	private LaunchStreamListView mHotelsStreamListView;
@@ -127,6 +128,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_launch, container, false);
 
+		mBgView = Ui.findView(v, R.id.background_view);
 		mErrorContainer = Ui.findView(v, R.id.error_container);
 		mScrollContainer = Ui.findView(v, R.id.scroll_container);
 		mHotelsStreamListView = Ui.findView(v, R.id.hotels_stream_list_view);
@@ -134,11 +136,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		Ui.findView(v, R.id.hotels_button).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(v, R.id.flights_button).setOnClickListener(mHeaderItemOnClickListener);
-
-		// Pick background image at random
-		ImageView bgView = Ui.findView(v, R.id.background_view);
-		Random rand = new Random();
-		bgView.setImageResource(BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
 
 		FontCache.setTypeface(v, R.id.error_message_text_view, Font.ROBOTO_LIGHT);
 
@@ -168,6 +165,10 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		// Pick background image at random
+		Random rand = new Random();
+		mBgView.setImageResource(BACKGROUND_RES_IDS[rand.nextInt(BACKGROUND_RES_IDS.length)]);
 
 		// Note: We call this here to avoid reusing recycled Bitmaps. Not ideal, but a simple fix for now
 		initViews();
@@ -677,6 +678,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				return;
 			}
 
+			cleanUp();
+
 			Object item = mHotelAdapter.getItem(position);
 			if (item == null) {
 				return;
@@ -731,8 +734,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
 				mContext.startActivity(intent);
 			}
-
-			cleanUp();
 		}
 	};
 
@@ -742,6 +743,8 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			if (mLaunchingActivity) {
 				return;
 			}
+
+			cleanUp();
 
 			mLaunchingActivity = true;
 
@@ -772,8 +775,6 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				intent.putExtra(FlightSearchActivity.ARG_FROM_LAUNCH_WITH_SEARCH_PARAMS, true);
 				mContext.startActivity(intent);
 			}
-
-			cleanUp();
 		}
 	};
 
@@ -807,6 +808,10 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 		mCleanOnStop = false;
 
 		Log.d("LaunchFragment.cleanUpOnStop()");
+
+		// Clear out the bg image view, as normally this occupies a lot of memory
+		// throughout the app otherwise
+		mBgView.setImageBitmap(null);
 
 		mHotelsStreamListView.setAdapter(null);
 

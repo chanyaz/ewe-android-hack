@@ -10,7 +10,7 @@
         android:id="@+id/edit_address_postal_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/address_postal_code_hint_hotels"
+        android:hint="@string/address_postal_code_hint"
         android:inputType="number"
         android:singleLine="true" />
 

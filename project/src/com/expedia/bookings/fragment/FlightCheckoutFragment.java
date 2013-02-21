@@ -317,13 +317,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		mTravelerSections.clear();
 
 		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
-		if (numAdults == 1) {
-			constructIndividualTravelerBox(0, numAdults);
-		}
-		else {
-			for (int i = 0; i < numAdults; i++) {
-				constructIndividualTravelerBox(i, numAdults);
-			}
+		for (int i = 0; i < numAdults; i++) {
+			constructIndividualTravelerBox(i, numAdults);
 		}
 	}
 

@@ -15,7 +15,7 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">Leider ist ein unbestimmter Fehler aufgetreten. Bitte versuchen Sie es später erneut.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Die Anmeldung bei Facebook hat leider nicht geklappt.</string>
+    <string name="unable_to_sign_into_facebook">Die Anmeldung bei Facebook hat nicht geklappt.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Die Anmeldung hat leider nicht geklappt. Bitte geben Sie Ihr Passwort ein und versuchen Sie es erneut.</string>
     <!-- Facebook connect expedia password hint -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Hotels in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Leider können wir keine Verbindung aufbauen.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reiseplan</string>
     <!-- Find Itinerary -->
@@ -64,6 +66,30 @@
     <string name="no_upcoming_trips">Es stehen keine Reisen bevor.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Oder geben Sie eine Reiseplannummer ein</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Ihr Reiseplan wird geladen...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Anmelden&lt;/b&gt;, um Reisen zu sehen</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Hinflug: (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Ankunft: (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Bestätigungscode</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Reisende</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Flugbeleg und Flugbestimmungen</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Buchungsinformationen</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Ankunftsterminal %1$s, Gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Abflugsterminal %1$s, Gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Wenn Sie sich bei %1$s abmelden, werden alle Reiseplan-Artikel dieses Kontos gelöscht. Wollen Sie sich wirklich abmelden?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -93,30 +119,30 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Rückflüge nach %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Leider konnten wir keine Verbindung zu den Expedia-Servern herstellen. Bitte versuchen Sie es später erneut.</string>
+    <string name="error_server">Leider konnten wir keine Verbindung zu den Expedia-Servern herstellen.  Bitte versuchen Sie es später erneut.</string>
     <!-- Label for changing sort order on flights -->
-    <string name="filter_flight_sort">Flüge sortieren nach: </string>
+    <string name="filter_flight_sort">Flüge sortieren nach:</string>
     <!-- Label for filtering flights by time (aka, 10 AM to 3 PM) -->
     <string name="filter_flight_time">Flugzeiten</string>
     <!-- Label for filtering flights by airline (aka, Delta) -->
     <string name="filter_flight_airline">Bevorzugte Fluglinien</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Abflug </string>
+    <string name="sort_description_departure">Abflug</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Ankunft </string>
+    <string name="sort_description_arrival">Ankunft</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Dauer</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
-        <item quantity="zero">%s Tage </item>
+        <item quantity="zero">%s Tage</item>
         <item quantity="one">%s Tag</item>
-        <item quantity="two">%s Tage </item>
-        <item quantity="few">%s Tage </item>
-        <item quantity="many">%s Tage </item>
+        <item quantity="two">%s Tage</item>
+        <item quantity="few">%s Tage</item>
+        <item quantity="many">%s Tage</item>
         <item quantity="other">%s Tage</item>
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
-    <string name="error_data_expired">DEBUG: Suchdaten wurden gelöscht. Bitte Fehler an DLew weiterleiten.</string>
+    <string name="error_data_expired">DEBUG: Suchdaten wurden gelöscht.  Bitte Fehler an DLew weiterleiten.</string>
     <!-- Select a flight to (city name) -->
     <string name="select_a_flight_to_TEMPLATE">Wählen Sie einen Flug nach %1$s</string>
     <!-- Select a flight back to (city name) -->
@@ -155,7 +181,7 @@
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">Hier tippen, um das &lt;b&gt;&lt;font color="#3b5998"&gt;Datum Ihres Hinfluges&lt;/font&gt;&lt;/b&gt; auszuwählen.</string>
+    <string name="calendar_instructions_nothing_selected">Tippen Sie auf das &lt;b&gt;&lt;font color="#3b5998"&gt;Datum Ihres Hinfluges&lt;/font&gt;&lt;/b&gt;.</string>
     <!-- Start date is selected -->
     <string name="calendar_instructions_start_selected">Wählen Sie das &lt;b&gt;&lt;font color="#3b5998"&gt;Datum Ihres Rückfluges&lt;/font&gt;&lt;/b&gt;. (optional)</string>
     <!-- Start date and end date selected -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Betrieben von %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Für Handgepäck fallen Gebühren an.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Es können Zahlungs- und Gebückgebühren anfallen</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Weitere Gebühren</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Gepäckgebühren</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Zahlungsgebühren</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Expedia-Konto</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Buchungsinformationen</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Akzeptieren Sie alle oben aufgeführten Bestimmungen?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Ich akzeptiere</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Streichen, um zu buchen.</string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Angaben zum Reisenden</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Wenn der Name des Reisenden nicht mit dem Namen im Lichtbildausweis übereinstimmt, kann das Boarding verwehrt werden.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Angaben zum Reisenden %d</string>
@@ -355,12 +395,14 @@
     <string name="address_state_hint">Staat</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">PLZ</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">PLZ der Rechnungsadresse</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
     <string name="save_billing_info">Rechnungsinformationen speichern</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Möchten Sie diese Zahlungsart in Ihrem Expedia-Konto speichern, damit Sie in Zukunft schneller buchen können? </string>
+    <string name="save_billing_info_message">Möchten Sie diese Zahlungsart in Ihrem Expedia-Konto speichern, damit Sie in Zukunft schneller buchen können?</string>
     <!-- save -->
     <string name="save">Speichern</string>
     <!-- dont save -->
@@ -375,10 +417,10 @@
     <string name="no_thanks">Nein, danke</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Reisender kann nicht gespeichert werden</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Sie haben bereits einen Reisenden namens \"%1$s\" gespeichert.</string>
+    <string name="you_already_have_traveler_TEMPLATE">Sie haben bereits einen Reisenden namens \“%1$s\” gespeichert.</string>
     <!-- Don't save -->
     <string name="dont_save">Nicht speichern</string>
     <!-- Overwrite -->
@@ -408,7 +450,7 @@
     <!-- Redress number hint -->
     <string name="only_if_applicable">Regress-Nr. (falls zutreffend)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Die Daten werden in Ihrem Konto gespeichert ...</string>
+    <string name="saving_traveler">Die Daten werden in Ihrem Konto gespeichert...</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -535,16 +577,25 @@
     <string name="error_flight_price_increased">Die Fluglinie hat den Preis für Ihr Ticket leider gerade um %1$s erhöht.  Sind Sie mit dem neuen Gesamtpreis (%2$s) einverstanden?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Der Preis für Ihre gesuchten Flüge wurde gerade um %1$s gesenkt. Sind Sie mit dem neuen Gesamtpreis (%2$s) einverstanden?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Die Fluglinie berechnet eine Zahlungsgebühr in Höhe von %1$s. Sind Sie mit dem neuen Gesamtpreis von %2$s einverstanden?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Die Fluglinie berechnet eine Zahlungsgebühr in Höhe von %1$s und hat den Preis für Ihr Ticket leider gerade um %2$s erhöht. Sind Sie mit dem neuen Gesamtpreis von %3$s einverstanden?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Die Fluglinie berechnet eine Zahlungsgebühr in Höhe von %1$s, aber wir haben gerade ein Angebot für Ihren Flug gefunden, das 
+%2$s günstiger ist. Sind Sie mit dem neuen Gesamtpreis von %3$s einverstanden?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Die Kreditkartennummer ist ungültig. Bitte versuchen Sie es erneut.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Die Kreditkarte ist leider abgelaufen. Verwenden Sie bitte eine andere.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Leider ist das Buchen für Kinder unter 18 Jahren noch nicht möglich.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Leider können wir Ihre Bestellung derzeit nicht bearbeiten. Bitte versuchen Sie es erneut.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
     <string name="error_flight_unhandled_TEMPLATE">Leider können wir Ihre Bestellung derzeit nicht bearbeiten. Bitte versuchen Sie es erneut oder wenden Sie sich an den Expedia-Kundenservice. Geben Sie dabei die Reiseplannummer %s an.</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available">Leider ist Ihr Flug nicht mehr verfügbar. </string>
+    <string name="error_flight_no_longer_available">Leider ist Ihr Flug nicht mehr verfügbar.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available">Leider ist einer Ihrer Flüge nicht mehr verfügbar.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
@@ -598,9 +649,9 @@
         <item quantity="other">Reisender %1$s: %2$s</item>
     </plurals>
     <!-- Header for the outbound flight details section of the share flight email -->
-    <string name="share_flight_section_outbound">Hinflug: </string>
+    <string name="share_flight_section_outbound">Hinflug:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Rückflug:  </string>
+    <string name="share_flight_section_return">Rückflug:</string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
     <plurals name="share_flight_ticket_cost_TEMPLATE">
         <item quantity="one">Gesamtpreis: %s</item>
@@ -648,9 +699,9 @@
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Geben Sie das Alter des Kindes an</item>
-        <item quantity="two">Geben Sie das Alter jedes Kindes an </item>
-        <item quantity="many">Geben Sie das Alter jedes Kindes an </item>
-        <item quantity="other">Geben Sie das Alter jedes Kindes an </item>
+        <item quantity="two">Geben Sie das Alter jedes Kindes an</item>
+        <item quantity="many">Geben Sie das Alter jedes Kindes an</item>
+        <item quantity="other">Geben Sie das Alter jedes Kindes an</item>
     </plurals>
     <!-- Title of "select child age" spinner dialog box -->
     <string name="prompt_select_child_age">Alter des Kindes auswählen (%1$s - %2$s)</string>
@@ -697,7 +748,7 @@
     <!-- Label indicating that geolocation failed -->
     <string name="geolocation_failed">Das Ziel wurde nicht gefunden.</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
-    <string name="NoGeocodingResults">Die Lage von %s konnte nicht bestimmt werden. </string>
+    <string name="NoGeocodingResults">Die Lage von %s konnte nicht bestimmt werden.</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
     <string name="ChooseLocation">Meinten Sie…</string>
     <!-- Button label for upgrading the app -->
@@ -728,7 +779,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Um "Mein Standort" nutzen zu können, müssen Sie erst eine Standortquelle in den "Einstellungen" aktivieren. \nJetzt unter "Einstellungen" aktivieren?</string>
+    <string name="EnableLocationSettings">Um “Mein Standort” nutzen zu können, müssen Sie erst eine Standortquelle in den “Einstellungen” aktivieren.\nJetzt unter “Einstellungen” aktivieren?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Ihr Location Provider ist deaktiviert. Bitte aktivieren Sie ihn, um Ihr Ziel zu finden.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
@@ -746,7 +797,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Angebote</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Gästebewertung</string>
+    <string name="sort_description_rating">Bewertung</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Alle</string>
@@ -765,7 +816,7 @@
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
     <string name="filter_distance_miles_template">%s mi</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-    <string name="filter_distance_kilometers_template">%s km </string>
+    <string name="filter_distance_kilometers_template">%s km</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
@@ -797,7 +848,7 @@
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ohne Bewertung</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">%2.0f %% Rabatt </string>
+    <string name="percent_off_template">%2.0f %% Rabatt</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_minus_template">-%2.0f %%</string>
 
@@ -818,13 +869,13 @@
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Hotels werden geladen…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
-    <string name="widget_savings_template">%2.0f %% sparen </string>
+    <string name="widget_savings_template">%2.0f %% sparen</string>
     <!-- Indicator to user to tap the widget to cause it to refresh -->
     <string name="refresh_widget">Aktualisieren</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Keine Internetverbindung</string>
     <!-- Widget Branding title -->
-    <string name="hotel_radar">Hotel Radar</string>
+    <string name="hotel_radar">Hotel-Radar</string>
     <!-- Widget Branding description -->
     <string name="book_a_room_tonight">Buchen Sie heute ein Zimmer.</string>
 
@@ -850,7 +901,7 @@
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">Keine Annehmlichkeiten verfügbar </string>
+    <string name="AmenityNone">Keine Annehmlichkeiten verfügbar</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Businesscenter</string>
     <!-- Fitness center amenity -->
@@ -957,11 +1008,11 @@
     <!-- Room and rates list -->
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
-        <item quantity="zero">%d Übernachtungen </item>
+        <item quantity="zero">%d Übernachtungen</item>
         <item quantity="one">%d Übernachtung</item>
-        <item quantity="two">%d Übernachtungen </item>
-        <item quantity="many">%d Übernachtungen </item>
-        <item quantity="other">%d Übernachtungen </item>
+        <item quantity="two">%d Übernachtungen</item>
+        <item quantity="many">%d Übernachtungen</item>
+        <item quantity="other">%d Übernachtungen</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Suche nach verfügbaren Zimmern…</string>
@@ -983,9 +1034,9 @@
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Kein Zimmer übrig!</item>
         <item quantity="one">Nur noch 1 Zimmer frei!</item>
-        <item quantity="two">Nur noch %d Zimmer frei! </item>
-        <item quantity="many">Nur noch %d Zimmer frei! </item>
-        <item quantity="other">Nur noch %d Zimmer frei! </item>
+        <item quantity="two">Nur noch %d Zimmer frei!</item>
+        <item quantity="many">Nur noch %d Zimmer frei!</item>
+        <item quantity="other">Nur noch %d Zimmer frei!</item>
     </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Nicht erstattungsfähig</string>
@@ -1109,7 +1160,7 @@
     <!-- Error message when we couldn't get a response -->
     <string name="error_booking_null">Es besteht keine Verbindung zu den Expedia-Servern.  Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
     <!-- Error message when booking completed with errors -->
-    <string name="error_booking_succeeded_with_errors">Ihr Hotelzimmer wurde gebucht und reserviert. Trotzdem sind folgende Fehler aufgetreten: %s </string>
+    <string name="error_booking_succeeded_with_errors">Ihr Hotelzimmer wurde gebucht und reserviert. Trotzdem sind folgende Fehler aufgetreten: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Leider konnten wir keine Bestätigungs-E-Mail versenden.</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
@@ -1129,9 +1180,9 @@
     <!-- Reservation summary label -->
     <string name="reservation_summary">Zusammenfassung der Buchung</string>
     <!-- Confirmation number label -->
-    <string name="confirmation_number">Bestätigungsnr. </string>
+    <string name="confirmation_number">Bestätigungsnr.</string>
     <!-- Itinerary number label -->
-    <string name="itinerary_number">Reservierungsnr. </string>
+    <string name="itinerary_number">Reservierungsnr.</string>
     <!-- Confirmation email label -->
     <string name="confirmation_email">Bestätigungsmail an</string>
     <!-- ActionBar button for starting a new search -->
@@ -1213,7 +1264,7 @@
     <!-- Label applying a coupon -->
     <string name="apply">Einlösen</string>
     <!-- Label for new price after applying coupon -->
-    <string name="new_total">Neuer Gesamtpreis: </string>
+    <string name="new_total">Neuer Gesamtpreis:</string>
     <!-- Label for credit card selection -->
     <string name="use_card">Karte verwenden:</string>
     <!-- Label for when a user has entered an invalid coupon -->
@@ -1273,7 +1324,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hallo,\n\nvielleicht ist Expedia Hotels für iPhone und Android auch etwas für Dich. Es ist GRATIS und Du kannst ganz einfach Zimmer in über 140.000 Hotels in der ganzen Welt suchen und buchen. So einfach war es noch nie, mit dem Handy Hotelzimmer zu buchen. \n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Hallo,\n\nvielleicht ist Expedia Hotels für iPhone und Android auch etwas für Dich. Es ist GRATIS und Du kannst ganz einfach Zimmer in über 140.000 Hotels in der ganzen Welt suchen und buchen. So einfach war es noch nie, mit dem Handy Hotelzimmer zu buchen.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Allgemeine Geschäftsbedingungen</string>
     <!-- Label for link to privacy policy -->
@@ -1298,6 +1349,8 @@
     <string name="Like">Gefällt mir</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Diese App arbeitet mit dem Stack-Blurr-Algorithmus von Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Open-Source-Softwarelizenzen ansehen</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1359,9 +1412,9 @@
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
     <!-- Miles (used in distance_template) -->
-    <string name="unit_miles_full"> Meilen </string>
+    <string name="unit_miles_full"> Meilen</string>
     <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full"> Kilometer </string>
+    <string name="unit_kilometers_full"> Kilometer</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s %2$s entfernt</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
@@ -1379,42 +1432,42 @@
     <!-- Replaces "result was null" for no result search -->
     <string name="ean_error_connect_unavailable">Es konnte keine Verbindung zu dem gewählten Hotel hergestellt werden, um verfügbare Zimmer zu finden.</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
-    <string name="ean_error_invalid_phone_number">Bitte geben Sie eine gültige Telefonnummer ein. </string>
+    <string name="ean_error_invalid_phone_number">Bitte geben Sie eine gültige Telefonnummer ein.</string>
 
     <!-- Checkout API method -->
     <!-- The hotel booking failed -->
-    <string name="e3_error_checkout_booking_failed">Während Ihrer Buchung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut. </string>
+    <string name="e3_error_checkout_booking_failed">Während Ihrer Buchung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Die Buchung des Hotels war erfolgreich! Wenn Sie sofort einen Reiseplan benötigen, wenden Sie sich bitte an den Expedia-Kundensupport. </string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">Die Buchung des Hotels war erfolgreich! Wenn Sie sofort einen Reiseplan benötigen, wenden Sie sich bitte an den Expedia-Kundensupport.</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">Leider ist das gewünschte Zimmer nicht mehr verfügbar. </string>
+    <string name="e3_error_checkout_hotel_room_unavailable">Leider ist das gewünschte Zimmer nicht mehr verfügbar.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
-    <string name="e3_error_checkout_invalid_input">Bitte ändern Sie die ungültigen Daten. </string>
+    <string name="e3_error_checkout_invalid_input">Bitte ändern Sie die ungültigen Daten.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">Leider können wir Ihre Zahlung nicht bearbeiten. Bitte prüfen Sie Ihre Daten erneut. </string>
+    <string name="e3_error_checkout_payment_failed">Leider können wir Ihre Zahlung nicht bearbeiten. Bitte prüfen Sie Ihre Daten erneut.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
-    <string name="e3_error_checkout_invalid_expiration">Das Ablaufdatum der Kreditkarte ist ungültig. </string>
+    <string name="e3_error_checkout_invalid_expiration">Das Ablaufdatum der Kreditkarte ist ungültig.</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">Leider konnten wir Ihre Suche nicht durchführen. Bitte versuchen Sie es erneut. </string>
+    <string name="e3_error_search_results_hotel_service_failure">Leider konnten wir Ihre Suche nicht durchführen. Bitte versuchen Sie es erneut.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">Leider haben wir mit Ihren Suchoptionen keine Ergebnisse gefunden. Bitte versuchen Sie es erneut. </string>
+    <string name="e3_error_search_results_invalid_input">Leider haben wir mit Ihren Suchoptionen keine Ergebnisse gefunden. Bitte versuchen Sie es erneut.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">Leider haben wir mit Ihren Suchoptionen keine Ergebnisse gefunden. Bitte versuchen Sie es erneut. </string>
+    <string name="e3_error_search_results_invalid_input_unknown">Leider haben wir mit Ihren Suchoptionen keine Ergebnisse gefunden. Bitte versuchen Sie es erneut.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">Leider konnten wir Ihre Suche nicht durchführen. Bitte versuchen Sie es erneut. </string>
+    <string name="e3_error_search_results_unknown_error">Leider konnten wir Ihre Suche nicht durchführen. Bitte versuchen Sie es erneut.</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
-    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Tut uns leid! Die Werbeaktion für dieses Zimmer ist schon vorbei, aber wir haben noch andere Angebote für Sie. </string>
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">Leider ist das gewünschte Zimmer nicht mehr verfügbar. </string>
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Tut uns leid! Die Werbeaktion für dieses Zimmer ist schon vorbei, aber wir haben noch andere Angebote für Sie.</string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">Leider ist das gewünschte Zimmer nicht mehr verfügbar.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Leider konnte keine Verbindung zu Expedia hergestellt werden. Bitte versuchen Sie es erneut. </string>
+    <string name="e3_error_hotel_offers_hotel_service_failure">Leider konnte keine Verbindung zu Expedia hergestellt werden. Bitte versuchen Sie es erneut.</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_invalid_input">Tut uns leid! Die Werbeaktion für dieses Zimmer ist schon vorbei, aber wir haben noch andere Angebote für Sie. </string>
+    <string name="e3_error_hotel_offers_invalid_input">Tut uns leid! Die Werbeaktion für dieses Zimmer ist schon vorbei, aber wir haben noch andere Angebote für Sie.</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_unknown_error">Tut uns leid! Die Werbeaktion für dieses Zimmer ist schon vorbei, aber wir haben noch andere Angebote für Sie. </string>
+    <string name="e3_error_hotel_offers_unknown_error">Tut uns leid! Die Werbeaktion für dieses Zimmer ist schon vorbei, aber wir haben noch andere Angebote für Sie.</string>
 
     <!-- HotelProduct API method -->
     <string name="e3_error_hotel_product_unknown_error">Ein unbekannter Fehler ist aufgetreten.</string>

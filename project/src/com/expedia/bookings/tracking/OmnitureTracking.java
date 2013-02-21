@@ -9,11 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
+import com.adobe.adms.measurement.ADMS_ReferrerHandler;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
@@ -168,8 +171,25 @@ public class OmnitureTracking {
 	private static final String TRACK_VERSION = "tracking_version";
 
 	public static void init(Context context) {
+		Log.d(TAG, "init");
 		ADMS_Measurement s = ADMS_Measurement.sharedInstance(context);
 		s.configureMeasurement(TrackingUtils.getReportSuiteIds(context), TrackingUtils.getTrackingServer());
+		s.setVisitorID(Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
+	}
+
+	// Lifecycle tracking
+
+	public static void onResume(Activity activity) {
+		Log.d(TAG, "onResume");
+		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance(activity);
+		measurement.startActivity(activity);
+
+	}
+
+	public static void onPause() {
+		Log.d(TAG, "onPause");
+		ADMS_Measurement measurement = ADMS_Measurement.sharedInstance();
+		measurement.stopActivity();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -339,7 +359,7 @@ public class OmnitureTracking {
 		// products variable, described here: http://confluence/display/Omniture/Product+string+format
 		String airlineCode = trip.getLeg(0).getPrimaryAirlines().iterator().next();
 		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(trip.getLegCount());
-		String numTravelers = "1"; // TODO: note this hardcoded as 1 for the time being as it is always one now
+		String numTravelers = Integer.toString(Db.getFlightSearch().getSearchParams().getNumAdults());
 		String price = trip.getTotalFare().getAmount().toString();
 
 		s.setProducts("Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price);
@@ -846,7 +866,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppInstall(Context context) {
+	public static void trackAppInstallCustom(Context context) {
 		Log.d(TAG, "Tracking \"App Install\" pageLoad");
 
 		ADMS_Measurement s = getFreshTrackingObject(context);
@@ -862,6 +882,11 @@ public class OmnitureTracking {
 		s.setEvar(28, "App Install");
 
 		s.track();
+	}
+
+	public static void trackGooglePlayReferralLink(Context context, Intent intent) {
+		ADMS_ReferrerHandler handler = new ADMS_ReferrerHandler();
+		handler.processIntent(context, intent);
 	}
 
 	public static void trackAppHotelsSearch(Context context, SearchParams searchParams, SearchResponse searchResponse,

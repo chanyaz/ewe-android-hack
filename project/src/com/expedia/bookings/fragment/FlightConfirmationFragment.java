@@ -321,7 +321,7 @@ public class FlightConfirmationFragment extends Fragment {
 		else {
 			//One way trip
 			Calendar checkoutDate = Calendar.getInstance();
-			checkoutDate.setTime(checkinDate.getTime());
+			checkoutDate.setTime(checkinNormalized.getTime());
 			checkoutDate.add(Calendar.DAY_OF_MONTH, 1);
 			sp.setCheckOutDate(checkoutDate);
 		}

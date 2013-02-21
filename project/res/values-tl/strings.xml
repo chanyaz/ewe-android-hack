@@ -13,9 +13,9 @@
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Sinusubukan kayong i-login gamit ang mga detalye sa facebook...</string>
     <!-- We have encountered an error -->
-    <string name="unspecified_error">Nagkaroon kami ng hindi matukoy na error. Mangyaring saka na muling subukan.</string>
+    <string name="unspecified_error">Nagkaroon kami ng hindi matukoy na error. Mangyaring saka na lang muling subukan.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Hindi makapag-sign in sa Facebook.</string>
+    <string name="unable_to_sign_into_facebook">Hindi maka-sign in sa Facebook.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Nabigo ang pag-login, pakilagay muli ang inyong password at subukang muli.</string>
     <!-- Facebook connect expedia password hint -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">Manatili sa &lt;font color="#b2b2b2"&gt;&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Pasensiya na, hindi kami makakonekta.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerary</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Numero ng Itinerary</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Walang gaganaping biyahe.</string>
+    <string name="no_upcoming_trips">Walang kaganapang darating.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">O, ipasok ang Numero ng Itinerary</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Hinuhugot ang iyong itinerary...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Mag-log in&lt;/b&gt; para sa inyong mga biyahe</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Alis%1$s</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Dating%1$s</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Confirmation Code</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Mga Pasahero</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Resibo ng flight at mga patakaran</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Impormasyon ng Booking</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Terminal sa Pagdating %1$s, Gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Terminal sa Pag-alis%1$s, Gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Tatanggalin ng pag-logout sa %1$s ang anumang mga bagay sa itinerary na nauugnay sa account na ito. Sigurado ka bang gusto mong mag-log out?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Pinapangasiwaan ng %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">May mga babayarin sa carry-on baggage.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">May sisingilin na bayad at bayarin para sa bagahe</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Karagdagang Bayarin</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Bayarin sa Bagahe</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Bayarain sa Pagpoproseso ng Bayad</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Expedia Account</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Impormasyon sa Pag-checkout</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Tinatanggap ba ninyo ang lahat ng mga kondisyong nakasaan sa taas?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Tinatanggap ko</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">I-slide para bumili.</string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Impormasyon ng Magbibiyahe</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Hindi mapapasakay kung ang pangalan ng magbibiyahe ay hindi tumutugma sa may litratong ID na ibinigay ng pamahalaan.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Impormasyon tungkol kay%d na Magbibiyahe</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">Estado</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Zip</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Billing Zipcode</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">Huwag, Salamat na Lang.</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Hindi Mai-save ang Magbibiyahe</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Inyo nang nai-save ang magbibiyaheng may pangalan na "\%1$s"\.</string>
@@ -532,13 +574,21 @@
     <!-- Button label for calling -->
     <string name="call_support">Tulong</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Kapapataas lang ng airline ang presyo ng inyong ticket ng %1$s.  Gusto ba ninyong bayaran ang bagong kabuuang halaga na %2$s?</string>
+    <string name="error_flight_price_increased">Mukhang katataas lamang ng airline ang presyo ng inyong ticket ng %1$s.  Gusto ba ninyong bayaran ang bagong kabuuang halaga na %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Nakita naming ang inyong hinihiling na mga flight ay nakapromo nang mas mura ng %1$s. Gusto ba ninyong isingil namin sa inyo ang bagong kabuuang halaga na %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Mukhang sumisingil ang airline ng bayarin na nagkakahalaga ng %1$s para sa pagproseso ng kabayaran. OK lang ba sa inyong bayaran ang bagong kabuuan na %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Mukhang sumisingil ang airline ng bayarin na nagkakahalaga ng %1$s at kapapataas lang ang presyo ng inyong tiket ng %2$s. OK lang ba sa inyong bayaran ang bagong kabuuan na %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Mukhang sumisingil ang airline ng bayarin na nagkakahalaga ng%1$s para sa pagpoproseso ng bayad, ngunit natuklasan naming na mas mababa sa %2$s ang inyong hinihiling na nakapromong flight. OK lang ba sa inyong bayaran ang bagong kabuuan na %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Di wasto ang inilagay ninyong numero ng credit card, pakisubukang muli.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Nag-expire na ang credit card na inyong sinusubukang gamitin, mangyaring gumamit ng ibang credit card.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Pasensiya na, ang pagbo-book ng mga bata na mas bata sa edad na 18 ay hindi pa tinatanggap.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Pasensiya na, hindi namin maproseso ang inyong order sa oras na ito. Pakisubukang muli.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Mga Promo</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Rating ng User</string>
+    <string name="sort_description_rating">Rating</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Lahat</string>
@@ -1298,6 +1348,8 @@
     <string name="Like">Gustuhin</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Ginagamit ng app na ito ang algorithm ng Stack Blur ni Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Basahin ang mga Lisensiya ng Open Source Software</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -1482,7 +1534,7 @@
     <string name="country_cu">Cuba</string>
     <string name="country_cy">Cyprus</string>
     <string name="country_cz">Czech Republic</string>
-    <string name="country_ci">Côte d’Ivoire</string>
+    <string name="country_ci">Côte d\&apos;Ivoire</string>
     <string name="country_dk">Denmark</string>
     <string name="country_dj">Djibouti</string>
     <string name="country_dm">Dominica</string>
@@ -1540,11 +1592,11 @@
     <string name="country_kz">Kazakhstan</string>
     <string name="country_ke">Kenya</string>
     <string name="country_ki">Kiribati</string>
-    <string name="country_kp">Korea, Democratic People’s Republic of</string>
+    <string name="country_kp">Korea, Democratic People\&apos;s Republic of</string>
     <string name="country_kr">Korea</string>
     <string name="country_kw">Kuwait</string>
     <string name="country_kg">Kyrgyzstan</string>
-    <string name="country_la">Lao People’s Democratic Republic</string>
+    <string name="country_la">Lao People\&apos;s Democratic Republic</string>
     <string name="country_lv">Latvia</string>
     <string name="country_lb">Lebanon</string>
     <string name="country_ls">Lesotho</string>

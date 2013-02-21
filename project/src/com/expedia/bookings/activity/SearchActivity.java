@@ -66,6 +66,18 @@ public class SearchActivity extends Activity {
 		finish();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
+	}
+
 	private void trackAppLoading() {
 		// Start a background thread to do conversion tracking
 		new Thread(new Runnable() {

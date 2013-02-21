@@ -9,10 +9,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TextViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.ContactExpediaDialogFragment;
 import com.expedia.bookings.fragment.ExpediaWebsiteDialogFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobiata.android.SocialUtils;
@@ -118,6 +118,18 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -129,10 +141,10 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 	@Override
 	public String getAboutHtml() {
 		return getString(R.string.copyright)
-			+ "<br/>"
-			+ getString(R.string.open_source_names)
-			+ "<br/>"
-			+ getString(R.string.stack_blur_credit);
+				+ "<br/>"
+				+ getString(R.string.open_source_names)
+				+ "<br/>"
+				+ getString(R.string.stack_blur_credit);
 	}
 
 	@Override

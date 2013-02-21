@@ -135,6 +135,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		gpsd.startChecking();
 
 		supportInvalidateOptionsMenu();
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -144,6 +146,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		if (isFinishing() && mLaunchFragment != null) {
 			mLaunchFragment.cleanUp();
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

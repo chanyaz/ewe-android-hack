@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
 public class LoginActivity extends SherlockFragmentActivity implements TitleSettable {
@@ -87,11 +88,23 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		if (mTitle != null) {
 			outState.putString(STATE_TITLE, mTitle);
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override

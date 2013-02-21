@@ -33,7 +33,7 @@ public class SearchParams implements JSONable {
 		ADDRESS(true, true),
 		POI(true, true),
 		CITY(false, false),
-		VISIBLE_MAP_AREA(false, true),
+		VISIBLE_MAP_AREA(false, false),
 		FREEFORM(false, false),
 		;
 
@@ -275,23 +275,23 @@ public class SearchParams implements JSONable {
 	/**
 	 * Ensures that the check in date is not AFTER the check out date. Keeps the
 	 * duration of the stay the same.
-	 *
-	 * @param cal
 	 */
-	public void setCheckInDate(Calendar cal) {
-		if (mCheckInDate != null
-				&& mCheckOutDate != null
-				&& (cal.after(mCheckOutDate) || (cal.get(Calendar.YEAR) == mCheckOutDate.getYear()
-						&& cal.get(Calendar.MONTH) == mCheckOutDate.getMonth() && cal.get(Calendar.DAY_OF_MONTH) == mCheckOutDate
-						.getDayOfMonth()))) {
+	public void setCheckInDate(Date date) {
+		if (mCheckInDate != null && mCheckOutDate != null && (date.equals(mCheckOutDate) || date.after(mCheckOutDate))) {
 			int stayDuration = getStayDuration();
-			Calendar checkout = (Calendar) cal.clone();
+			Calendar checkout = (Calendar) date.getCalendar().clone();
 			checkout.add(Calendar.DAY_OF_MONTH, stayDuration);
-
 			mCheckOutDate = new Date(checkout);
 		}
 
-		mCheckInDate = new Date(cal);
+		mCheckInDate = date;
+	}
+
+	/**
+	 * It is preferable to use the Date version of this method.
+	 */
+	public void setCheckInDate(Calendar cal) {
+		setCheckInDate(new Date(cal));
 	}
 
 	public Calendar getCheckInDate() {
@@ -301,24 +301,23 @@ public class SearchParams implements JSONable {
 	/**
 	 * Ensures that the check out date is not BEFORE the check in date. Keeps
 	 * the duration of the stay the same.
-	 *
-	 * @param cal
 	 */
-	public void setCheckOutDate(Calendar cal) {
-		if (mCheckInDate != null
-				&& mCheckOutDate != null
-				&& (cal.before(mCheckInDate) || (cal.get(Calendar.YEAR) == mCheckInDate.getYear()
-						&& cal.get(Calendar.MONTH) == mCheckInDate.getMonth() && cal.get(Calendar.DAY_OF_MONTH) == mCheckInDate
-						.getDayOfMonth()))) {
-
+	public void setCheckOutDate(Date date) {
+		if (mCheckInDate != null && mCheckOutDate != null && (date.equals(mCheckInDate) || date.before(mCheckInDate))) {
 			int stayDuration = getStayDuration();
-			Calendar checkin = (Calendar) cal.clone();
+			Calendar checkin = (Calendar) date.getCalendar().clone();
 			checkin.add(Calendar.DAY_OF_MONTH, -stayDuration);
-
 			mCheckInDate = new Date(checkin);
 		}
 
-		mCheckOutDate = new Date(cal);
+		mCheckOutDate = date;
+	}
+
+	/**
+	 * It is preferable to use the Date version of this method.
+	 */
+	public void setCheckOutDate(Calendar cal) {
+		setCheckOutDate(new Date(cal));
 	}
 
 	/**

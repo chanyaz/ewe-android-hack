@@ -136,7 +136,7 @@ public class HotelReceipt extends FrameLayout {
 
 		// Configuring the header at the top
 		if (property.getThumbnail() != null) {
-			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView);
+			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView, R.drawable.ic_image_placeholder);
 			mThumbnailImageView.setVisibility(View.VISIBLE);
 		}
 		else {
@@ -246,6 +246,7 @@ public class HotelReceipt extends FrameLayout {
 			Date window = rate.getFreeCancellationWindowDate();
 			if (window != null) {
 				DateFormat df = new SimpleDateFormat("ha, MMM dd");
+				df.setTimeZone(CalendarUtils.getFormatTimeZone());
 				String formattedDate = df.format(window);
 				String formattedString = getContext()
 						.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
@@ -335,7 +336,6 @@ public class HotelReceipt extends FrameLayout {
 
 	private String formatCheckInOutDate(Calendar cal) {
 		DateFormat medDf = android.text.format.DateFormat.getMediumDateFormat(getContext());
-		medDf.setTimeZone(CalendarUtils.getFormatTimeZone());
 		return DateUtils.getDayOfWeekString(cal.get(Calendar.DAY_OF_WEEK), DateUtils.LENGTH_MEDIUM) + ", "
 				+ medDf.format(cal.getTime());
 	}

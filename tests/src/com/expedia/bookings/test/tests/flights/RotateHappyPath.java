@@ -23,24 +23,26 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	private Resources mRes;
 	DisplayMetrics mMetric;
 	private HotelsRobotHelper mDriver;
+
 	protected void setUp() throws Exception {
 		super.setUp();
 		mSolo = new Solo(getInstrumentation(), getActivity());
 		//Log.configureLogging("ExpediaBookings", true);
-		
+
 		mRes = getActivity().getBaseContext().getResources();
 		mMetric = mRes.getDisplayMetrics();
 		mDriver = new HotelsRobotHelper(mSolo, mRes);
 		mDriver.setScreenshotCount(1);
 		mDriver.setAllowOrientationChange(true);
-		
+		mDriver.setWriteEventsToFile(false);
+
 	}
-                                                      
+
 	public void testMethod() throws Exception {
 		mDriver.changePOS(mDriver.FLIGHTS_LOCALES[2]);
 		mDriver.flightsHappyPath("SFO", "LAX", false);
 	}
-	
+
 	@Override
 	protected void tearDown() throws Exception {
 		//Robotium will finish all the activities that have been opened
@@ -48,5 +50,3 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 		mSolo.finishOpenedActivities();
 	}
 }
-
-

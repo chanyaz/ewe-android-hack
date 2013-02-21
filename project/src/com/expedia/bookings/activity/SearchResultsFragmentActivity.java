@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -22,13 +21,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,9 +37,14 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SearchView.OnSuggestionListener;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Date;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.OnFilterChangedListener;
@@ -96,8 +98,14 @@ import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 
-@TargetApi(11)
-public class SearchResultsFragmentActivity extends FragmentActivity implements LocationListener,
+// This is the TABLET search results activity
+
+// Target(HONEYCOMB) because the ABS SearchView is not ready for prime time
+// (as of 2013.02.13). The dropdown suggestion code is all TODOed in ABS:SearchView.java.
+// So for now, we'll use the Honeycomb SearchView in here.
+
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+public class SearchResultsFragmentActivity extends SherlockFragmentActivity implements LocationListener,
 		OnFilterChangedListener, SortDialogFragmentListener, CalendarDialogFragmentListener,
 		GeocodeDisambiguationDialogFragmentListener, GuestsDialogFragmentListener, HotelDetailsFragmentListener,
 		OnCollageImageClickedListener, MiniDetailsFragmentListener, HotelMapFragmentListener, HotelListFragmentListener {
@@ -234,7 +242,7 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		super.onStart();
 
 		// Configure the ActionBar
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
@@ -321,11 +329,15 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		Db.getFilter().addOnFilterChangedListener(this);
 
 		invalidateOptionsMenu();
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
 	protected void onPostResume() {
 		super.onPostResume();
+
+		updateMapOffsets(mMiniDetailsFragment != null);
 
 		// #13546 - Need to put any methods that may affect Fragment state in onPostResume() instead of
 		// onResume() for the compatibility library (otherwise we get state loss errors).
@@ -381,6 +393,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 			bd.unregisterDownloadCallback(key);
 		}
 		bd.unregisterDownloadCallback(KEY_REVIEWS);
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -448,6 +462,7 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 	private boolean mSearchViewFocused = false;
 	private boolean mUseCondensedActionBar = false;
 
+	private View mGuestsActionView;
 	private TextView mGuestsTextView;
 
 	private boolean mCreatedOptionsMenu = false;
@@ -464,8 +479,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 	public boolean onCreateOptionsMenu(Menu menu) {
 		mCreatedOptionsMenu = true;
 
-		getMenuInflater().inflate(R.menu.menu_fragment_search, menu);
-		getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_fragment_search, menu);
+		getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		mGuestsMenuItem = menu.findItem(R.id.menu_guests);
 		mDatesMenuItem = menu.findItem(R.id.menu_dates);
@@ -477,16 +492,15 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		if (mUseCondensedActionBar) {
 			mFilterMenuItem.setTitle(R.string.filter);
 
-			// Configure the custom action view (which is more condensed than the normal one
-			mGuestsMenuItem.setActionView(R.layout.action_menu_item_guests);
-			View actionView = mGuestsMenuItem.getActionView();
-			View button = actionView.findViewById(R.id.guests_button);
+			// Configure the custom action view (which is more condensed than the normal one)
+			mGuestsActionView = getLayoutInflater().inflate(R.layout.action_menu_item_guests, null);
+			View button = mGuestsActionView.findViewById(R.id.guests_button);
 			button.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					showGuestsDialog();
 				}
 			});
-			mGuestsTextView = (TextView) actionView.findViewById(R.id.guests_text_view);
+			mGuestsTextView = (TextView) mGuestsActionView.findViewById(R.id.guests_text_view);
 		}
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
@@ -502,6 +516,10 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		// the preparation (it will get run on its own course later).
 		if (mSearchView == null) {
 			return super.onPrepareOptionsMenu(menu);
+		}
+
+		if (mGuestsActionView != null) {
+			mGuestsMenuItem.setActionView(mGuestsActionView);
 		}
 
 		SearchParams params = Db.getSearchParams();
@@ -646,7 +664,9 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 	private static final String MINI_DETAILS_PUSH = "mini_details_push";
 
 	public void showMiniDetailsFragment() {
-		mMiniDetailsFragment = MiniDetailsFragment.newInstance();
+		if (mMiniDetailsFragment == null) {
+			mMiniDetailsFragment = MiniDetailsFragment.newInstance();
+		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -658,7 +678,10 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		ft.addToBackStack(MINI_DETAILS_PUSH);
 		ft.commit();
 
-		mHotelMapFragment.setCenterOffsetY((float) (getResources().getDimensionPixelSize(R.dimen.mini_details_height) / 2.0f));
+		updateMapOffsets(true);
+
+		mHotelMapFragment
+				.setCenterOffsetY((float) (getResources().getDimensionPixelSize(R.dimen.mini_details_height) / 2.0f));
 	}
 
 	public void showHotelDetailsFragment() {
@@ -684,8 +707,18 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		fm.popBackStack(MINI_DETAILS_PUSH, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 		// Refocus the map pins
-		mHotelMapFragment.setCenterOffsetY(0);
+		updateMapOffsets(false);
 		mHotelMapFragment.showAll();
+	}
+
+	private void updateMapOffsets(boolean needsOffset) {
+		if (needsOffset) {
+			mHotelMapFragment.setCenterOffsetY((float) (getResources().getDimensionPixelSize(
+					R.dimen.mini_details_height) / 2.0f));
+		}
+		else {
+			mHotelMapFragment.setCenterOffsetY(0);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -764,8 +797,8 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 		invalidateOptionsMenu();
 	}
 
-	public void setDates(Calendar checkIn, Calendar checkOut) {
-		Log.d("Setting dates: " + checkIn.getTimeInMillis() + " to " + checkOut.getTimeInMillis());
+	public void setDates(Date checkIn, Date checkOut) {
+		Log.d("Setting dates: " + checkIn + " to " + checkOut);
 
 		Db.getSearchParams().setCheckInDate(checkIn);
 		Db.getSearchParams().setCheckOutDate(checkOut);
@@ -1147,14 +1180,19 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 				else {
 					Db.addAvailabilityResponse(availabilityResponse);
 
-					Db.getProperty(availabilityResponse.getProperty().getPropertyId()).updateFrom(
-							availabilityResponse.getProperty());
+					Property availabilityProperty = availabilityResponse.getProperty();
+					String propertyId = availabilityProperty.getPropertyId();
+
+					Property searchProperty = Db.getProperty(propertyId);
+					if (searchProperty != null) {
+						searchProperty.updateFrom(availabilityProperty);
+					}
 
 					notifyAvailabilityQueryComplete();
 
 					// Immediately kick off another (more expensive) request to get more data (if possible)
 					if (availabilityResponse.canRequestMoreData()) {
-						startRoomsAndRatesDownload(Db.getProperty(availabilityResponse.getProperty().getPropertyId()));
+						startRoomsAndRatesDownload(availabilityProperty);
 					}
 				}
 			}
@@ -1456,7 +1494,7 @@ public class SearchResultsFragmentActivity extends FragmentActivity implements L
 	// CalendarDialogFragmentListener
 
 	@Override
-	public void onChangeDates(Calendar start, Calendar end) {
+	public void onChangeDates(Date start, Date end) {
 		setDates(start, end);
 		startSearch();
 	}

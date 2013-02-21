@@ -15,7 +15,7 @@
     <!-- We have encountered an error -->
     <string name="unspecified_error">En uspesifert feil har oppstått. Prøv igjen senere.</string>
     <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Det er ikke mulig å logge inn på Facebook.</string>
+    <string name="unable_to_sign_into_facebook">Innlogging på Facebook ikke mulig.</string>
     <!-- Login failed try again -->
     <string name="login_failed_try_again">Login feilet. Skriv inn passordet ditt og prøv på nytt.</string>
     <!-- Facebook connect expedia password hint -->
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Bo i&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Beklager, det er ikke mulig å koble til.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reiserute</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Reiserutenummer</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Ingen forestående reiser.</string>
+    <string name="no_upcoming_trips">Ingen kommende reiser.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Eller skriv inn et reiserutenummer</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Henter reiseruten din...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Logg inn&lt;/b&gt; for å se dine reiser</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Avreise (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Ankomst (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Bekreftelseskode</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Passasjerer</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Kvittering og regler for fly</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Bestillingsinfo</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Ankomstterminal %1$s, gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Avgangsterminal %1$s, gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger ut av %1$s, vil du fjerne alle reiseruter forbundet med denne kontoen. Er du sikker på at du vil logge ut?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -101,9 +127,9 @@
     <!-- Label for filtering flights by airline (aka, Delta) -->
     <string name="filter_flight_airline">Foretrukne flyselskaper</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Avreise </string>
+    <string name="sort_description_departure">Avreise</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Ankomst </string>
+    <string name="sort_description_arrival">Ankomst</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Varighet</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -126,7 +152,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Avgang snart...</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">Beklager, flybestillinger på mobiler &lt;b&gt;ikke ennå tilgjengelig&lt;/b&gt; der du befinner deg. </string>
+    <string name="invalid_flights_pos">Beklager, flybestillinger på mobil er &lt;b&gt;ikke ennå tilgjengelig&lt;/b&gt; der du befinner deg.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Avreise og ankomstflyplass må være forskjellige</string>
 
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Ledet av %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Avvgifter for håndbagasje gjelder.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Betalings- og bagasjeavgifter kan gjelde</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Tilleggsgebyrer</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Bagasjeavgifter</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Gebyrer for betalingsbehandling</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Expedia-konto</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Betalingsinformasjon</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Godkjenner du alle betingelsene nevnt over?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Jeg godkjenner dette</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Slide for å betale.</string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Reisendes informasjon</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Du kan nektes boarding på flyet dersom navnet på billetten ikke stemmer overens med din offentlig godkjente legitimasjon.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Den reisendes %d informasjon</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">Fylke</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postnummer</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Postnummer for fakturering</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">Nei, takk</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Kan ikke lagre den reisende</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Du har allerede lagret en reisende med navnet \"%1$s\".</string>
@@ -448,7 +490,7 @@
 
     <!-- Assistance Types -->
     <!-- No assistance type -->
-    <string name="no_assistance">Det er ikke behov for spesiell assistanse </string>
+    <string name="no_assistance">Det er ikke behov for spesiell assistanse</string>
     <!-- Blind with seeing eye dog -->
     <string name="blind_with_seeing_eye_dog">Blind med førerhund</string>
     <!-- Deaf with hearing dog -->
@@ -532,13 +574,21 @@
     <!-- Button label for calling -->
     <string name="call_support">Støtte</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Det ser ut til at flyselskapet økte prisen på din billett akkurat nå, til %1$s. Er du villig til å betale det nye totalbeløpet som er %2$s?</string>
+    <string name="error_flight_price_increased">Det ser ut til at flyselskapet har satt opp prisen på billetten din med %1$s.  Er du villig til å betale det nye totalbeløpet som er %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Vi fant din ønskede reise på salg for %1$s mindre. Er du villig til å betale det nye totalbeløpet som er %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling. Er du villig til å betale det nye totalbeløpet på %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$sfor betalingsbehandling. Prisen på billetten har derfor steget med %2$s. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling, men vi har nettopp funnet dine flyvninger på salg for %2$s mindre. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Kredittkortnummeret du oppga er ugyldig. Prøv på nytt.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Kredittkortet du prøver å bruke er utgått. Vennligst prøv et annet kredittkort.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Beklager, bestilling for barn under 18 støttes ikke for øyeblikket.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Dessverre kan vi ikke behandle din bestilling akkurat nå. Prøv på nytt.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Tilbud</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Brukernes rangering</string>
+    <string name="sort_description_rating">Rangering</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Alle</string>
@@ -850,7 +900,7 @@
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">Ingen fasiliteter tilbys </string>
+    <string name="AmenityNone">Ingen fasiliteter tilbys</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Forretningssenter</string>
     <!-- Fitness center amenity -->
@@ -1259,7 +1309,7 @@
     <!-- Extra description for "Expedia website" button, when space allows -->
     <string name="expedia_website_description">Gå til nettstedet for å bestille flyvninger, leie av bil, pakker og mer.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
-    <string name="app_feedback_description">Fortell oss hva du synes om appen. </string>
+    <string name="app_feedback_description">Fortell oss hva du synes om appen.</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App-støtte</string>
     <!-- Extra description for "app support" button, when space allows -->
@@ -1298,6 +1348,8 @@
     <string name="Like">Liker</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Denne appen tar i bruk Stack Blur-algoritmen av Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Se lisenser for programvare med åpen kildekode</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

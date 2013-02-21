@@ -867,9 +867,6 @@ public class BookingFormFragment extends Fragment {
 		// Gather all the data to be saved
 		syncBillingInfo();
 
-		// Save the hashed email, just for tracking purposes
-		TrackingUtils.saveEmailForTracking(getActivity(), Db.getBillingInfo().getEmail());
-
 		return Db.getBillingInfo().save(getActivity());
 	}
 

@@ -39,7 +39,7 @@
     <!-- Flights -->
     <string name="nav_flights">Vuelos</string>
     <!-- Hotels -->
-    <string name="nav_hotels"> Hoteles</string>
+    <string name="nav_hotels">Hoteles</string>
     <!-- Account -->
     <string name="nav_account">Cuenta</string>
 
@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Alójate en&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">No ha sido posible conectarse</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary"></string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Número de itinerario</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">No hay ningún viaje pendiente</string>
+    <string name="no_upcoming_trips">No hay ninguno pendiente.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">O introduce el número del itinerario</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Recuperando tu itinerario...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Inicia sesión&lt;/b&gt; para ver tus viajes</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Ida: (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Llegada: (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Código de confirmación</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Pasajeros</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Recibo y términos y condiciones del vuelo</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Reserva</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, puerta %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Llegada a la terminal %1$s, puerta %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Salida de la terminal %1$s, puerta %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Si cierras tu sesión de %1$s, se borrarán todos los itinerarios asociados a esta cuenta. ¿Seguro que quieres cerrar la sesión?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -203,6 +229,14 @@
     <string name="operated_by_TEMPLATE">Operado por %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Puede que se apliquen tasas por el equipaje facturado.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Pueden aplicarse suplementos adicionales por gastos de tramitación o equipaje facturado.</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Tasas adicionales</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Tasas de equipaje</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Tasas de tramitación</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Cuenta de Expedia</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Información sobre la reserva</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">¿Estás de acuerdo con los términos y condiciones?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Sí, estoy de acuerdo.</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Desliza para realizar la compra</string>
     <!-- Your card will be charged -->
@@ -270,7 +308,7 @@
     <!-- Log out -->
     <string name="log_out">Cerrar sesión</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE"> ¡Con este viaje conseguirás %1$s puntos!</string>
+    <string name="youll_earn_points_TEMPLATE">¡Con este viaje conseguirás %1$s puntos!</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -288,13 +326,15 @@
     <!-- Flight -->
     <string name="flight">Vuelo</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE"> viajero%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">viajero %1$d</string>
     <!-- Adult -->
-    <string name="adult"> Adulto</string>
+    <string name="adult">adulto</string>
 
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Información del viajero</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">El operador de la aerolínea puede denegar el embarque si el nombre del viajero no coincide con el de alguna identificación oficial con fotografía.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Información %d del viajero</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">Provincia</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Código postal</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Código postal</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">No, gracias</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">No se puede guardar este viajero</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Ya existe un viajero con el nombre \"%1$s\".</string>
@@ -532,13 +574,21 @@
     <!-- Button label for calling -->
     <string name="call_support">Ayuda</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Parece que la aerolínea ha aumentado el precio en %1$s. ¿Aceptas pagar el nuevo importe, de %2$s?</string>
+    <string name="error_flight_price_increased">Parece que la aerolínea ha aumentado el precio de tu billete en %1$s. ¿Aceptas pagar el nuevo importe, de %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Hemos encontrado los vuelos solicitados por %1$s menos. ¿Aceptas pagar el nuevo importe, de %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Parece que la aerolínea cobra un cargo de tramitación de %1$s. ¿Aceptas pagar el nuevo importe de %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Parece que la aerolínea cobra un cargo de tramitación de %1$s y ha aumentado el precio de tu billete en %2$s. ¿Aceptas pagar el nuevo importe de %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Parece que la aerolínea cobra un cargo de tramitación de %1$s, pero hemos encontrado tu vuelo por %2$s menos. ¿Aceptas pagar el nuevo importe de %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">El número de tarjeta de crédito introducido no es válido, vuelve a intentarlo.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">La tarjeta de crédito que has utilizado ha caducado, utiliza una tarjeta de crédito diferente.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Lo sentimos, por el momento no es posible realizar reservas para menores de 18 años.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Lo sentimos, no podemos procesar el pedido en este momento. Vuelve a intentarlo.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -592,7 +642,7 @@
     <!-- The user's name, presented to them.  %1$s is their traveler index, i.e. Traveler 1: or Traveler 2:, etc... %2$s is their name -->
     <!-- examples: "Traveler 1: Tom Smith" "Traveler 2: David Thomas" or if only one traveler, "Traveler: Matt Long" -->
     <plurals name="share_flight_name_TEMPLATE">
-        <item quantity="one"> Viajero: %s</item>
+        <item quantity="one">Viajero: %s</item>
         <item quantity="two">Viajero %1$s: %2$s</item>
         <item quantity="many">Viajero %1$s: %2$s</item>
         <item quantity="other">Viajero %1$s: %2$s</item>
@@ -779,7 +829,7 @@
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable">No hay hoteles disponibles</string>
     <!-- Message displayed when user need to change input to correct search -->
-    <string name="please_try_a_different_location_or_date">Cambia la fecha o la ubicación. </string>
+    <string name="please_try_a_different_location_or_date">Cambia la fecha o la ubicación.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1298,6 +1348,8 @@
     <string name="Like">Me gusta</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Esta aplicación utiliza el algoritmo Stack Blur de Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Ver licencias de software de código abierto</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

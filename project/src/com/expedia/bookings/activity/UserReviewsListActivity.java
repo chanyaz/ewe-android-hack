@@ -31,6 +31,7 @@ import com.expedia.bookings.data.ReviewsStatisticsResponse;
 import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserReviewsUtils;
@@ -111,6 +112,8 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 			mBackgroundDownloader.startDownload(REVIEWS_STATISTICS_DOWNLOAD, mReviewStatisticsDownload,
 					mReviewStatisticsDownloadCallback);
 		}
+
+		OmnitureTracking.onResume(this);
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
@@ -173,6 +176,8 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	protected void onPause() {
 		super.onPause();
 		mBackgroundDownloader.unregisterDownloadCallback(REVIEWS_STATISTICS_DOWNLOAD);
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

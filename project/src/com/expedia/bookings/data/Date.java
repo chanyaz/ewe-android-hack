@@ -11,7 +11,7 @@ import com.mobiata.android.json.JSONable;
 
 // Important note: month is 1-indexed here (to match every other field in existence).
 // This means that conversion to/from Calendar requires a few +/- 1s.
-public class Date implements JSONable {
+public class Date implements JSONable, Comparable<Object> {
 	private int mYear;
 	private int mMonth;
 	private int mDayOfMonth;
@@ -84,14 +84,53 @@ public class Date implements JSONable {
 	}
 
 	@Override
+	public int compareTo(Object another) {
+		int year, month, dayOfMonth;
+		if (another instanceof Date) {
+			Date other = (Date) another;
+			year = other.mYear;
+			month = other.mMonth;
+			dayOfMonth = other.mDayOfMonth;
+		}
+		else if (another instanceof Calendar) {
+			Calendar cal = (Calendar) another;
+			year = cal.get(Calendar.YEAR);
+			month = cal.get(Calendar.MONTH) + 1;
+			dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+		}
+		else {
+			throw new IllegalArgumentException("Expected Date or Calendar, got " + another);
+		}
+
+		// Perf: We could probably do something fancier with bit shifting if we need the performance below
+		if (mYear != year) {
+			return mYear - year;
+		}
+		else if (mMonth != month) {
+			return mMonth - month;
+		}
+		else if (mDayOfMonth != dayOfMonth) {
+			return mDayOfMonth - dayOfMonth;
+		}
+
+		return 0;
+	}
+
+	public boolean after(Object o) {
+		return compareTo(o) > 0;
+	}
+
+	public boolean before(Object o) {
+		return compareTo(o) < 0;
+	}
+
+	@Override
 	public boolean equals(Object o) {
-		if (o == null || !(o instanceof Date)) {
+		if (!(o instanceof Date) && !(o instanceof Calendar)) {
 			return false;
 		}
 
-		Date other = (Date) o;
-
-		return this.mYear == other.mYear && this.mMonth == other.mMonth && this.mDayOfMonth == other.mDayOfMonth;
+		return compareTo(o) == 0;
 	}
 
 	public JSONObject toJson() {
@@ -118,12 +157,6 @@ public class Date implements JSONable {
 
 	@Override
 	public String toString() {
-		JSONObject obj = toJson();
-		try {
-			return obj.toString(2);
-		}
-		catch (JSONException e) {
-			return obj.toString();
-		}
+		return toJson().toString();
 	}
 }

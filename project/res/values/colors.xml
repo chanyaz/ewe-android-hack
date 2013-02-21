@@ -124,4 +124,9 @@
     <color name="AboutTextSelectedStateColor">#d79100</color>
     <color name="link_text_dark">#5c5cff</color>
 
+    <!-- Hotels search hangtag/mapsearch colors -->
+    <color name="hotel_list_progress_text_color">#555555</color>
+    <color name="hotel_map_progress_text_color">@color/actionbar_text</color>
+    <color name="map_dimmer">#90000000</color>
+
 </resources>

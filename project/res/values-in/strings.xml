@@ -54,6 +54,8 @@
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Menginap di&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Maaf, kami tidak dapat menghubungkan.</string>
+    
+    <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rencana Perjalanan</string>
     <!-- Find Itinerary -->
@@ -61,9 +63,33 @@
     <!-- Itinerary Number -->
     <string name="itinerary_number">Nomor Rencana Perjalanan</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">Tidak ada perjalanan akan datang.</string>
+    <string name="no_upcoming_trips">Tidak ada yang akan datang.</string>
     <!-- Or enter an itinerary number -->
     <string name="or_enter_an_itinerary_number">Atau, Masukkan Nomor Rencana Perjalanan</string>
+    <!-- Fetching your itinerary -->
+    <string name="fetching_your_itinerary">Mengambil rencana perjalanan Anda...</string>
+    <!-- Log in for your trips -->
+    <string name="log_in_for_your_trips">&lt;b&gt;Masuk&lt;/b&gt; untuk melihat perjalanan Anda</string>
+    <!-- Depart (TZ) template -->
+    <string name="depart_tz_TEMPLATE">Berangkat (%1$s)</string>
+    <!-- Arrive (TZ) template -->
+    <string name="arrive_tz_TEMPLATE">Tiba (%1$s)</string>
+    <!-- Confirmation Code Label-->
+    <string name="confirmation_code_label">Kode Konfirmasi</string>
+    <!-- Passengers Label -->
+    <string name="passengers_label">Penumpang</string>
+    <!-- Flight receipt and policies -->
+    <string name="flight_receipt_and_policies">Tanda terima dan kebijakan penerbangan</string>
+    <!-- Booking info label -->
+    <string name="booking_info">Info Pemesanan</string>
+    <!-- Itin flight generic terminal and gate template -->
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
+    <!-- Itin flight arrival terminal and gate template -->
+    <string name="arrival_terminal_TEMPLATE">Terminal Kedatangan %1$s, Gate %2$s</string>
+    <!-- Itin flight departure terminal and gate template -->
+    <string name="departure_terminal_TEMPLATE">Terminal Keberangkatan %1$s, Gate %2$s</string>
+    <!-- Itin logout confirmation message -->
+    <string name="itin_logout_confirmation_message_TEMPLATE">Jika Anda keluar dari %1$s, semua rencana perjalanan yang terkait dengan akun ini akan dihapus. Yakin ingin keluar?</string>
 
     <!-- Flights -->
     <!-- Label for flight search part of app -->
@@ -101,9 +127,9 @@
     <!-- Label for filtering flights by airline (aka, Delta) -->
     <string name="filter_flight_airline">Maskapai Pilihan</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Berangkat </string>
+    <string name="sort_description_departure">Berangkat</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Tiba </string>
+    <string name="sort_description_arrival">Tiba</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Durasi</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -196,13 +222,21 @@
     <!-- Button label for selecting flight -->
     <string name="select_flight">Pilih Penerbangan</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
-    <string name="depart_from_TEMPLATE">Berangkat dari %s </string>
+    <string name="depart_from_TEMPLATE">Berangkat dari %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
     <string name="arrive_at_TEMPLATE">Tiba di %s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Dioperasikan oleh %s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Biaya tas kabin berlaku.</string>
+    <!-- Payment and baggage fees may apply -->
+    <string name="payment_and_baggage_fees_may_apply">Biaya bagasi dan pembayaran mungkin berlaku</string>
+    <!-- Additional Flight fare fees -->
+    <string name="additional_fees">Biaya Tambahan</string>
+    <!-- Label to view baggage fees information-->
+    <string name="baggage_fees">Biaya Bagasi</string>
+    <!-- Label to view payment processing fees information -->
+    <string name="payment_processing_fees">Biaya Pemrosesan Pembayaran</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -228,7 +262,7 @@
     <!-- Trip total price label -->
     <string name="total_price_label">Harga Total</string>
     <!-- Your trip to template -->
-    <string name="your_trip_to_TEMPLATE">Perjalanan ke %1$s </string>
+    <string name="your_trip_to_TEMPLATE">Perjalanan ke %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Termasuk pajak dan biaya</string>
     <!-- Date and trip from _ to _ -->
@@ -255,6 +289,10 @@
     <string name="expedia_account">Akun Expedia</string>
     <!-- Checkout Information label -->
     <string name="checkout_information">Informasi Pembayaran</string>
+    <!-- Explicit acceptance of TOS -->
+    <string name="Do_you_accept">Apakah Anda menerima semua persyaratan yang dijelaskan di atas?</string>
+    <!-- I Accept button label -->
+    <string name="I_Accept">Saya Menerima</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Geser untuk membeli.</string>
     <!-- Your card will be charged -->
@@ -295,6 +333,8 @@
     <!-- Section display contact -->
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informasi Pelancong</string>
+    <!-- Warning shown to users when they enter their name -->
+    <string name="name_must_match_warning">Anda mungkin akan ditolak naik pesawat jika nama pelancong tidak sama dengan nama pada kartu identitas resmi berfoto Anda.</string>
 
     <!-- Enter traveler info button text -->
     <string name="enter_traveler_info_TEMPLATE">Informasi %d Pelancong</string>
@@ -355,6 +395,8 @@
     <string name="address_state_hint">Provinsi</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Kode Pos</string>
+    <!-- Billing Postal Code hint -->
+    <string name="address_postal_code_hint_hotels">Kode Pos Penagihan</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -375,7 +417,7 @@
     <string name="no_thanks">Tidak, Terima Kasih</string>
 
     <!-- Overwrite traveler dialog -->
-    <!-- Can’t Save Traveler -->
+    <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">Tidak Bisa Menyimpan Pelancong</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
     <string name="you_already_have_traveler_TEMPLATE">Anda sudah menyimpan seorang pelancong dengan nama \"%1$s\".</string>
@@ -535,10 +577,18 @@
     <string name="error_flight_price_increased">Sepertinya maskapai penerbangan baru saja menaikkan harga tiket Anda sebesar %1$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Kami baru saja mengetahui penerbangan yang Anda minta mendapat diskon sebesar %1$s. Apakah Anda tidak keberatan kami mengenakan jumlah yang baru sebesar %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
+    <string name="error_flight_added_processing_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %2$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_increased_with_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s dan baru saja menaikkan harga tiket Anda sebesar %2$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %3$s?</string>
+    <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
+    <string name="error_flight_price_decreased_with_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s tapi kami baru saja menemukan penerbangan yang Anda minta sedang didiskon sebesar %2$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Nomor kartu kredit yang Anda masukkan tidak valid. Coba lagi.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">Kartu kredit yang Anda coba gunakan sudah kedaluwarsa. Silakan gunakan kartu kredit lain.</string>
+    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
+    <string name="error_booking_with_minor">Maaf, sistem kami belum mendukung pemesanan untuk anak di bawah 18 tahun.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Maaf, sepertinya kami tidak bisa memproses pemesanan Anda sekarang. Harap coba lagi.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -569,7 +619,7 @@
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
     <string name="cvv_code_TEMPLATE">Kode CVV untuk &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
-    <string name="card_ending_TEMPLATE">kartu dengan nomor terakhir %s </string>
+    <string name="card_ending_TEMPLATE">kartu dengan nomor terakhir %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Selesaikan Pemesanan</string>
 
@@ -600,7 +650,7 @@
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Keluar:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Kembali: </string>
+    <string name="share_flight_section_return">Kembali:</string>
     <!-- Presenting the total ticket cost of a flight.  %s is a price, e.g. "$500" -->
     <plurals name="share_flight_ticket_cost_TEMPLATE">
         <item quantity="one">Biaya tiket total: %s</item>
@@ -746,7 +796,7 @@
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Tawaran</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Peringkat Pengguna</string>
+    <string name="sort_description_rating">Peringkat</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Semua</string>
@@ -1298,6 +1348,8 @@
     <string name="Like">Suka</string>
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Aplikasi ini menggunakan algoritma Stack Blur oleh Mario Klingemann.</string>
+    <!-- String where we link to the google play services open source licenses -->
+    <string name="view_open_source_software_licenses">Lihat Lisensi Perangkat Lunak Sumber Terbuka</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->

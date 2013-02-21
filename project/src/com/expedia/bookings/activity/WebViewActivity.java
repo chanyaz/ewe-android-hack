@@ -10,6 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
@@ -86,6 +87,18 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 		else {
 			mFragment = Ui.findSupportFragment(this, WebViewFragment.TAG);
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	@Override

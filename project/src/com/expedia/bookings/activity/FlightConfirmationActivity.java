@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -19,6 +20,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.BlurredBackgroundFragment;
 import com.expedia.bookings.fragment.FlightConfirmationFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -27,8 +29,6 @@ import com.mobiata.android.json.JSONUtils;
 public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 	private static final int REQUEST_CODE_SEARCH_PARAMS = 1;
-
-	private BlurredBackgroundFragment mBgFragment;
 
 	private ConfirmationState mConfState;
 
@@ -87,18 +87,13 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_flight_confirmation);
 		getWindow().setBackgroundDrawable(null);
 
-		if (savedInstanceState == null) {
-			mBgFragment = new BlurredBackgroundFragment();
-			mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
+		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
+		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
 
+		if (savedInstanceState == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.add(R.id.background_container, mBgFragment, BlurredBackgroundFragment.TAG);
 			ft.add(R.id.content_container, new FlightConfirmationFragment(), FlightConfirmationFragment.TAG);
 			ft.commit();
-		}
-		else {
-			mBgFragment = Ui.findSupportFragment(this, BlurredBackgroundFragment.TAG);
-			mBgFragment.setBitmap(Db.getBackgroundImage(this, false), Db.getBackgroundImage(this, true));
 		}
 
 		// Action bar setup
@@ -111,7 +106,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 	protected void onResume() {
 		super.onResume();
 
-		mBgFragment.setFadeEnabled(true);
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -121,13 +116,13 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		if (isFinishing()) {
 			Db.setBillingInfo(null);
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
-		mKillReceiver.onDestroy();
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();

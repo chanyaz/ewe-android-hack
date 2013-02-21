@@ -26,7 +26,19 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		boolean isAnimated;
 	}
 
+	private QueuedCameraUpdate mSavedInitCameraPosition;
 	private QueuedCameraUpdate mSavedCameraUpdate;
+
+	public void setInitialCameraPosition(CameraUpdate cameraUpdate) {
+		if (mLoaded) {
+			moveCamera(cameraUpdate);
+		}
+		else {
+			mSavedInitCameraPosition = new QueuedCameraUpdate();
+			mSavedInitCameraPosition.cameraUpdate = cameraUpdate;
+			mSavedInitCameraPosition.isAnimated = false;
+		}
+	}
 
 	public void animateCamera(CameraUpdate cameraUpdate) {
 		changeCamera(cameraUpdate, true);
@@ -73,6 +85,11 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 	protected void onMapLayout() {
 		mLoaded = true;
+		if (mSavedInitCameraPosition != null) {
+			changeCamera(mSavedInitCameraPosition.cameraUpdate, mSavedInitCameraPosition.isAnimated);
+			mSavedInitCameraPosition = null;
+		}
+
 		if (mSavedCameraUpdate != null) {
 			changeCamera(mSavedCameraUpdate.cameraUpdate, mSavedCameraUpdate.isAnimated);
 			mSavedCameraUpdate = null;

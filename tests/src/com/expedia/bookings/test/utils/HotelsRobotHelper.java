@@ -1,10 +1,13 @@
 package com.expedia.bookings.test.utils;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import junit.framework.AssertionFailedError;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Log;
@@ -19,20 +22,6 @@ public class HotelsRobotHelper {
 	////////////////////////////////////////////////////////////////
 	// Static Locale Data
 	//TODO make these a different container so cool methods can be used
-	public static final String[] LOCALES = {
-			"en_UK", "fr_CA", "en_HK",
-			"zh_HK", "es_AR", "en_AU",
-			"de_AT", "fr_BE", "nl_BE",
-			"pt_BR", "en_CA", "da_DK",
-			"fr_FR", "de_DE", "en_IN",
-			"id_ID", "en_IE", "it_IT",
-			"ja_JP", "es_MX", "en_MY",
-			"nl_NL", "en_NZ", "nb_NO",
-			"en_SG", "en_PH", "ko_KR",
-			"es_ES", "sv_SE", "zh_TW",
-			"en_US", "th_TH", "vi_VN",
-			"tl_PH", "zh_CN"
-	};
 
 	public static Locale[] AMERICAN_LOCALES = new Locale[] {
 			new Locale("es", "AR"),
@@ -136,13 +125,16 @@ public class HotelsRobotHelper {
 	private static final String TAG = "com.expedia.bookings.test";
 	private boolean mAllowScreenshots;
 	private boolean mAllowOrientationChange;
+	private boolean mWriteEventsToFile;
 	private int mScreenShotCount;
 	private Solo mSolo;
 	private Resources mRes;
 	private HotelsUserData mUser; //user info container
 	private ScreenshotUtils mScreen;
+	private EventTrackingUtils mFileWriter;
 	private int mScreenWidth;
 	private int mScreenHeight;
+	private static final String mScreenshotDirectory = "Robotium-Screenshots";
 
 	//Defaults are set, including the default user booking info
 	//which is set to the qa-ehcc@mobiata.com account's info
@@ -152,13 +144,14 @@ public class HotelsRobotHelper {
 
 	//Constructor for user created book user container
 	public HotelsRobotHelper(Solo solo, Resources res, HotelsUserData customUser) {
-		mAllowScreenshots = true;
-		mAllowOrientationChange = true;
+		mAllowScreenshots = false;
+		mAllowOrientationChange = false;
+		mWriteEventsToFile = false;
 		mScreenShotCount = 1;
 		mSolo = solo;
 		mRes = res;
 		mUser = customUser;
-		mScreen = new ScreenshotUtils("Robotium-Screenshots", mSolo);
+		mScreen = new ScreenshotUtils(mScreenshotDirectory, mSolo);
 		mScreenWidth = mRes.getDisplayMetrics().widthPixels;
 		mScreenWidth = mRes.getDisplayMetrics().heightPixels;
 
@@ -205,6 +198,10 @@ public class HotelsRobotHelper {
 		mAllowOrientationChange = allowed;
 	}
 
+	public void setWriteEventsToFile(Boolean allowed) {
+		mWriteEventsToFile = allowed;
+	}
+
 	public void setScreenshotCount(int count) {
 		mScreenShotCount = count;
 	}
@@ -238,6 +235,49 @@ public class HotelsRobotHelper {
 		int w = 479;
 		int h = 46;
 		mSolo.clickOnScreen(w, h);
+	}
+
+	public void createFileWriter() {
+		mFileWriter = new EventTrackingUtils();
+		mWriteEventsToFile = true;
+		mFileWriter.addLineToFile("Install Event within a couple of minutes",
+				true, mWriteEventsToFile);
+	}
+
+	public void closeFileWriter() {
+		mFileWriter.closeFileWriter();
+	}
+
+	public void flushFileWriter() {
+		mFileWriter.flushFileWriter();
+	}
+
+	//Can't use before instantiating mFileWriter!
+	// Reading any instructions from a text file
+	// Expected file format:
+	// Line 1: Device information
+	// Other lines: any other info
+	public void readInstructionsToOutFile(String inputFile) {
+		BufferedReader fileIn;
+		try {
+			fileIn = new BufferedReader(new FileReader(inputFile));
+			String deviceName = fileIn.readLine();
+			mFileWriter.addLineToFile("Device: " + deviceName, false, mWriteEventsToFile);
+			String fileLine;
+			while ((fileLine = fileIn.readLine()) != null) {
+				mFileWriter.addLineToFile(fileLine, false, mWriteEventsToFile);
+			}
+			fileIn.close();
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeFileWriter();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -352,12 +392,20 @@ public class HotelsRobotHelper {
 		delay(3);
 		enterLog(TAG, "Before clicking search button");
 
+		//If keeping track of events, write current locale/POS to file
+		String currentPOS = mRes.getConfiguration().locale.toString();
+		Log.d(TAG, "Current POS/Locale: " + currentPOS);
+
+		if (mWriteEventsToFile) {
+			mFileWriter.addLineToFile("POS: " + currentPOS, false, mWriteEventsToFile);
+		}
+
 		landscape();
 		portrait();
 		if (mAllowOrientationChange) {
 			mSolo.clickOnEditText(0);
 		}
-		mSolo.clickInList(2); //Selecting search suggestion results
+		mSolo.clickInList(1); //Selecting search suggestion results
 								//some countries' list don't populate ever
 								//might break stuff
 		enterLog(TAG, "After clicking search button");
@@ -606,6 +654,11 @@ public class HotelsRobotHelper {
 				mSolo.clickOnText(mRes.getString(R.string.sign_in));
 			}
 		}
+		// Log log in event for ad tracking
+		if (mWriteEventsToFile) {
+			mFileWriter.addLineToFile("Log in event at", true, mWriteEventsToFile);
+		}
+
 		delay(5);
 		mSolo.scrollToTop();
 		delay();
@@ -693,30 +746,65 @@ public class HotelsRobotHelper {
 			portrait();
 			delay(5);
 			screenshot("Credit card info.");
-			delay(1);
-			mSolo.clearEditText(0);
-			mSolo.enterText(0, mUser.mCreditCardNumber);
-			mSolo.clearEditText(1);
-			mSolo.enterText(1, mUser.mFirstName + " " + mUser.mLastName);
 
-			mSolo.clickOnText(mRes.getString(R.string.expiration_date));
-			
-			//Expiration date entry
-			mSolo.clickOnButton(1);
-
-			mSolo.clickOnText(mRes.getString(R.string.button_done));
-			mSolo.clickOnText(mRes.getString(R.string.no_thanks));
-			
+			if (mSolo.searchText(mRes.getString(R.string.billing_address))) {
+				inputBillingAddress();
+			}
+			inputCCBillingInfo();
 		}
 		catch (Error e) {
 			enterLog(TAG, e.toString());
 		}
 	}
 
+	public void inputBillingAddress() {
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_line_one),
+				mUser.mAddressLine1);
+
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_city),
+				mUser.mCityName);
+
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_state),
+				mUser.mStateCode);
+
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_address_postal_code),
+				mUser.mZIPCode);
+
+		mSolo.clickOnText(mRes.getString(R.string.next));
+
+	}
+
+	public void inputCCBillingInfo() {
+		// Enter Credit Card Number
+		mSolo.enterText((EditText) mSolo.getView(R.id.edit_creditcard_number),
+				mUser.mCreditCardNumber);
+
+		// Enter Cardholder's name
+		mSolo.typeText((EditText) mSolo.getView(R.id.edit_name_on_card),
+				mUser.mFirstName + " " + mUser.mLastName);
+
+		// Enter Postal Code
+		mSolo.typeText((EditText) mSolo.getView(R.id.edit_address_postal_code),
+				mUser.mZIPCode);
+
+		// Pick generic date
+		mSolo.clickOnText(mRes.getString(R.string.expiration_date));
+		mSolo.clickOnButton(1);
+
+		// Press done to enter this data
+		mSolo.clickOnText(mRes.getString(R.string.button_done));
+
+		// Do not save this card info
+		mSolo.clickOnText(mRes.getString(R.string.no_thanks));
+
+		mSolo.clickOnView(mSolo.getView(R.id.done_button));
+
+	}
+
 	public void confirmAndBook() throws Exception {
 		delay(5);
 		try {
-			mSolo.clickOnText(mRes.getString(R.string.I_Accept));
+			mSolo.clickOnView(mSolo.getView(R.id.i_accept_center_text));
 		}
 		catch (Error e) {
 			enterLog(TAG, "There is no 'I accept' button on this POS");
@@ -772,17 +860,22 @@ public class HotelsRobotHelper {
 				delay(1);
 				screenshot("Confirmation Screen 2");
 				mSolo.scrollToTop();
+
+				// Log booking event for ad tracking
+				if (mWriteEventsToFile) {
+					mFileWriter.addLineToFile("BOOKING EVENT", true, mWriteEventsToFile);
+				}
 			}
 			else {
 				enterLog(TAG, "Never got to confirmation screen.");
 			}
-			if (mSolo.searchText(mRes.getString(R.string.add_insurance), true)) {
+			if (mSolo.searchText(mUser.mLoginEmail, true)) {
 				delay();
 				mSolo.scrollToTop();
 				screenshot("Confirmation Screen 1");
 				mSolo.scrollDown();
 				screenshot("Confirmation Screen 2");
-				mSolo.clickOnText("Seattle");
+				mSolo.clickOnActionBarItem(R.drawable.ic_action_bar_magnifying_glass);
 			}
 			else {
 				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
@@ -809,7 +902,7 @@ public class HotelsRobotHelper {
 		selectLocation(location);
 
 		for (int i = 0; i < numberOfHotels / 4; i++) {
-			for (int j = 0; j < 4; j++) {
+			for (int j = 2; j < 6; j++) {
 				selectHotel(j);
 				checkReviews();
 				delay(3);
@@ -819,11 +912,12 @@ public class HotelsRobotHelper {
 			mSolo.scrollDown();
 		}
 		if (completeABooking) {
-			selectHotel(0);
+			selectHotel(2);
 			pressBookRoom();
 			selectRoom(0);
 			logInAndBook();
 		}
+
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -876,19 +970,13 @@ public class HotelsRobotHelper {
 
 		delay(5);
 
-		//mSolo.clickOnEditText(0);
-		mSolo.clickOnView( (View) mSolo.getView(R.id.departure_airport_edit_text));
+		mSolo.clickOnView((View) mSolo.getView(R.id.departure_airport_edit_text));
 		mSolo.enterText(0, departure);
 		delay();
-		
-		//Arrival Field
-		//mSolo.clickOnEditText(1);
-		mSolo.clickOnView( (View) mSolo.getView(R.id.arrival_airport_edit_text));
-		mSolo.enterText(1, arrival);
-		delay();
 
-		landscape();
-		portrait();
+		mSolo.clickOnView((View) mSolo.getView(R.id.arrival_airport_edit_text));
+		mSolo.enterText((EditText) mSolo.getView(R.id.arrival_airport_edit_text), arrival);
+		delay();
 
 		//Select Departure
 		try {
@@ -897,6 +985,9 @@ public class HotelsRobotHelper {
 		catch (Error e) {
 			enterLog(TAG, "Select departure text not there.");
 		}
+
+		landscape();
+		portrait();
 
 		delay();
 		screenshot("Calendar");

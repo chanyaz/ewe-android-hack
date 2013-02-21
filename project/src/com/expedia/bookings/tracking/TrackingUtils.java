@@ -11,23 +11,23 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.Location;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Filter;
 import com.expedia.bookings.data.Filter.Sort;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchParams.SearchType;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
@@ -42,9 +42,6 @@ import com.mobiata.android.util.SettingUtils;
  *
  */
 public class TrackingUtils {
-
-	private static final String EMAIL_HASH_KEY = "email_hash";
-	private static final String NO_EMAIL = "NO EMAIL PROVIDED";
 
 	/**
 	 * Most tracking events are pretty simple and can be captured by these few fields.  This method handles
@@ -142,26 +139,11 @@ public class TrackingUtils {
 		// TPID
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 
-		// hashed email
-		// Normally we store this in a setting; in 1.0 we stored this in BillingInfo, but
-		// that's really slow to retrieve so we no longer do that.
-		String emailHashed = null;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		if (!prefs.contains(EMAIL_HASH_KEY)) {
-			BillingInfo billingInfo = new BillingInfo();
-			if (billingInfo.load(context)) {
-				saveEmailForTracking(context, billingInfo.getEmail());
-			}
-		}
-		else {
-			emailHashed = prefs.getString(EMAIL_HASH_KEY, null);
-		}
-		if (emailHashed != null && !emailHashed.equals(NO_EMAIL)) {
-			s.setProp(11, emailHashed);
-		}
-
 		// Unique device id
-		s.setProp(12, Installation.id(context));
+		String id = Installation.id(context);
+		if (id != null) {
+			s.setProp(12, md5(id));
+		}
 
 		// GMT timestamp
 		s.setProp(32, gmt.getTime() + "");
@@ -175,6 +157,32 @@ public class TrackingUtils {
 
 		// Language/locale
 		s.setProp(37, Locale.getDefault().getLanguage());
+
+		String email = null;
+
+		// If the user is logged in, we want to send their email address along with request
+		if (User.isLoggedIn(context)) {
+			// Load the user into the Db if it has not been done (which will most likely be the case on app launch)
+			if (Db.getUser() == null) {
+				Db.loadUser(context);
+			}
+			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
+				email = Db.getUser().getPrimaryTraveler().getEmail();
+			}
+		}
+
+		// If the email is still null, check against the BillingInfo in Db which is populated from manual forms
+		if (TextUtils.isEmpty(email)) {
+			if (Db.loadBillingInfo(context)) {
+				if (Db.getBillingInfo() != null) {
+					email = Db.getBillingInfo().getEmail();
+				}
+			}
+		}
+
+		if (!TextUtils.isEmpty(email)) {
+			s.setProp(11, md5(email));
+		}
 
 		// Screen orientation
 		Configuration config = context.getResources().getConfiguration();
@@ -198,15 +206,6 @@ public class TrackingUtils {
 		if (bestLastLocation != null) {
 			s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
 					+ bestLastLocation.getAccuracy());
-		}
-	}
-
-	public static void saveEmailForTracking(Context context, String email) {
-		if (email != null && email.length() > 0) {
-			SettingUtils.save(context, EMAIL_HASH_KEY, md5(email));
-		}
-		else {
-			SettingUtils.save(context, EMAIL_HASH_KEY, NO_EMAIL);
 		}
 	}
 

@@ -3,18 +3,16 @@ package com.expedia.bookings.activity;
 import java.util.List;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,19 +24,22 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 
-@TargetApi(11)
-public class HotelGalleryActivity extends FragmentActivity {
+public class HotelGalleryActivity extends SherlockFragmentActivity {
 
 	private Gallery mHotelGallery;
 	private ImageAdapter mAdapter;
@@ -82,13 +83,13 @@ public class HotelGalleryActivity extends FragmentActivity {
 		}
 
 		if (AndroidUtils.isTablet(mContext)) {
-			ActionBar actionBar = getActionBar();
+			ActionBar actionBar = getSupportActionBar();
 			actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			actionBar.setDisplayUseLogoEnabled(false);
 		}
 		else if (AndroidUtils.isHoneycombVersionOrHigher()) {
-			ActionBar actionBar = getActionBar();
+			ActionBar actionBar = getSupportActionBar();
 			actionBar.hide();
 		}
 
@@ -98,9 +99,7 @@ public class HotelGalleryActivity extends FragmentActivity {
 		mHotelGallery = (Gallery) findViewById(R.id.hotel_gallery);
 		mHotelGallery.setAdapter(mAdapter);
 		mHotelGallery.setCallbackDuringFling(false);
-		if (AndroidUtils.isHoneycombVersionOrHigher()) {
-			mHotelGallery.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-		}
+		setGalleryVisibility();
 
 		int position = (mSelectedMedia == null) ? 0 : mAdapter.getPositionOfMedia(mSelectedMedia);
 		mSelectedMedia = (mSelectedMedia == null) ? (Media) mAdapter.getItem(0) : mSelectedMedia;
@@ -149,6 +148,25 @@ public class HotelGalleryActivity extends FragmentActivity {
 				mPager.setCurrentItem(0);
 			}
 		});
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setGalleryVisibility() {
+		if (AndroidUtils.isHoneycombVersionOrHigher()) {
+			mHotelGallery.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	public Media getHotelMedia(int position) {

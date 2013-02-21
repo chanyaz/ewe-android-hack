@@ -14,7 +14,7 @@ import android.text.Html;
 import android.text.TextUtils;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentMapActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
@@ -36,7 +36,6 @@ import com.expedia.bookings.fragment.BookingConfirmationFragment.BookingConfirma
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.TrackingUtils;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ConfirmationUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.NavUtils;
@@ -45,7 +44,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 
-public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity implements
+public class ConfirmationFragmentActivity extends SherlockFragmentActivity implements
 		BookingConfirmationFragmentListener {
 
 	private Context mContext;
@@ -130,6 +129,12 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 
@@ -139,6 +144,8 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 			Db.setCreateTripResponse(null);
 			Db.setCouponDiscountRate(null);
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -261,11 +268,8 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		Resources res = getResources();
 
 		DateFormat dateFormatter = new SimpleDateFormat("MM/dd");
-		dateFormatter.setTimeZone(CalendarUtils.getFormatTimeZone());
 		DateFormat fullDateFormatter = android.text.format.DateFormat.getMediumDateFormat(context);
-		fullDateFormatter.setTimeZone(CalendarUtils.getFormatTimeZone());
 		DateFormat dayFormatter = new SimpleDateFormat("EEE");
-		dayFormatter.setTimeZone(CalendarUtils.getFormatTimeZone());
 
 		Date checkIn = searchParams.getCheckInDate().getTime();
 		Date checkOut = searchParams.getCheckOutDate().getTime();
@@ -407,13 +411,5 @@ public class ConfirmationFragmentActivity extends SherlockFragmentMapActivity im
 		sb.append(label);
 		sb.append(": ");
 		sb.append(value);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// MapActivity
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
 	}
 }

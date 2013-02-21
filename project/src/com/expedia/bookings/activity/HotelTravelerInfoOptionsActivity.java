@@ -17,6 +17,7 @@ import com.expedia.bookings.fragment.HotelTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.HotelTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
 import com.expedia.bookings.model.WorkingTravelerManager;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -46,7 +47,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	private String mStartLastName = "";
 
 	//Where we want to return to after our action
-	private enum YoYoPosition {
+	public enum YoYoPosition {
 		OPTIONS, ONE
 	}
 
@@ -209,6 +210,18 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		//Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OmnitureTracking.onPause();
 	}
 
 	public boolean validate(Validatable validatable) {

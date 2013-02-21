@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -68,8 +70,8 @@ public class HotelMapFragment extends SupportMapFragment {
 	// to keep track of state because the app will maintain this data
 	private List<Property> mProperties;
 
-	private boolean mAnimationOffsetsEnabled = false;
-	private double mCenterOffsetY;
+	private double mCenterOffsetX = 0;
+	private double mCenterOffsetY = 0;
 
 	public static HotelMapFragment newInstance() {
 		HotelMapFragment frag = new HotelMapFragment();
@@ -129,7 +131,9 @@ public class HotelMapFragment extends SupportMapFragment {
 						mListener.onExactLocationClicked();
 					}
 				}
-				return false;
+
+				// We will focusProperty on our own, so we want to handle the event
+				return true;
 			}
 		});
 		mMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
@@ -139,19 +143,12 @@ public class HotelMapFragment extends SupportMapFragment {
 				}
 			}
 		});
-		mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
-			public void onCameraChange(CameraPosition position) {
-				if (mAnimationOffsetsEnabled && mCenterOffsetY != 0) {
-					animateCamera(CameraUpdateFactory.scrollBy(0, (float) mCenterOffsetY));
-					mAnimationOffsetsEnabled = false;
-				}
-			}
-		});
 
 		// Load graphics
 		mPin = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal);
 		mPinSale = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_sale);
 
+		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();
 	}
 
@@ -159,6 +156,8 @@ public class HotelMapFragment extends SupportMapFragment {
 	// But we attached and received actions to perform
 	private void runReadyActions() {
 		if (isReady()) {
+			checkIfSearchIsCurrentLocation();
+
 			if (mAddPropertiesWhenReady) {
 				addProperties();
 				mAddPropertiesWhenReady = false;
@@ -174,7 +173,10 @@ public class HotelMapFragment extends SupportMapFragment {
 		}
 	}
 
+	@Override
 	public void onSaveInstanceState(Bundle bundle) {
+		super.onSaveInstanceState(bundle);
+
 		if (mExactLocationMarker != null && mExactLocationMarker.isInfoWindowShown()) {
 			bundle.putString(INSTANCE_INFO_WINDOW_SHOWING, EXACT_LOCATION_MARKER);
 		}
@@ -188,6 +190,11 @@ public class HotelMapFragment extends SupportMapFragment {
 	}
 
 	public void onRestoreSavedInstanceState(Bundle bundle) {
+		if (bundle == null) {
+			initMapCameraToGoodSpot();
+			return;
+		}
+
 		mInstanceInfoWindowShowing = bundle.getString(INSTANCE_INFO_WINDOW_SHOWING);
 	}
 
@@ -207,6 +214,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		setSearchResponse(Db.getSearchResponse());
 		if (isReady()) {
 			showAll();
+			checkIfSearchIsCurrentLocation();
 		}
 		else {
 			mShowAllWhenReady = true;
@@ -225,6 +233,28 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	public void setCenterOffsetY(double offsetY) {
 		mCenterOffsetY = offsetY;
+	}
+
+	public void setCenterOffsetX(double offsetX) {
+		mCenterOffsetX = offsetX;
+	}
+
+	private LatLng newOffsetLatLng(LatLng oldlatlng) {
+		if (mCenterOffsetX == 0.0 && mCenterOffsetY == 0.0) {
+			// no shift
+			return oldlatlng;
+		}
+
+		Point screenpos = mMap.getProjection().toScreenLocation(oldlatlng);
+		screenpos.x += mCenterOffsetX;
+		screenpos.y += mCenterOffsetY;
+		LatLng newlatlng = mMap.getProjection().fromScreenLocation(screenpos);
+		return newlatlng;
+	}
+
+	private LatLng newOffsetLatLng(double lat, double lng) {
+		LatLng oldlatlng = new LatLng(lat, lng);
+		return newOffsetLatLng(oldlatlng);
 	}
 
 	private void showExactLocation() {
@@ -311,7 +341,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		}
 		else if (lowestRate.isOnSale()) {
 			snippet = getString(R.string.map_snippet_template, snippet,
-					getString(R.string.widget_savings_template, lowestRate.getDiscountPercent() * 100));
+					getString(R.string.widget_savings_template, lowestRate.getDiscountPercent()));
 		}
 
 		marker.snippet(snippet);
@@ -331,21 +361,24 @@ public class HotelMapFragment extends SupportMapFragment {
 	public void notifyFilterChanged() {
 		if (mProperties != null && Db.getSearchResponse() != null) {
 			List<Property> newSet = Arrays.asList(Db.getSearchResponse().getFilteredAndSortedProperties());
+
+			// Add properties we have not seen.
+			// This happens if we are already filtered,
+			// map is created, then the filter contraints are relaxed.
+			if (newSet.size() > mProperties.size()) {
+				for (Property property : newSet) {
+					if (!mProperties.contains(property)) {
+						addMarker(property);
+					}
+				}
+			}
+
+			// Toggle visibility
 			for (Property property : mProperties) {
 				boolean visibility = newSet.contains(property);
 				Marker marker = mPropertiesToMarkers.get(property);
 				marker.setVisible(visibility);
 			}
-
-			// We don't want to do this because the map animation
-			// is really choppy with the filter popup showing
-			// http://code.google.com/p/android/issues/detail?id=43425
-			//if (isReady()) {
-			//	showAll();
-			//}
-			//else {
-			//	mShowAllWhenReady = true;
-			//}
 		}
 	}
 
@@ -362,13 +395,12 @@ public class HotelMapFragment extends SupportMapFragment {
 		marker.showInfoWindow();
 		CameraUpdate camUpdate;
 
-		mAnimationOffsetsEnabled = true;
-
+		LatLng position = newOffsetLatLng(marker.getPosition());
 		if (zoom != -1.0f) {
-			camUpdate = CameraUpdateFactory.newLatLngZoom(marker.getPosition(), zoom);
+			camUpdate = CameraUpdateFactory.newLatLngZoom(position, zoom);
 		}
 		else {
-			camUpdate = CameraUpdateFactory.newLatLng(marker.getPosition());
+			camUpdate = CameraUpdateFactory.newLatLng(position);
 		}
 
 		if (animate) {
@@ -400,7 +432,7 @@ public class HotelMapFragment extends SupportMapFragment {
 			for (Property property : mProperties) {
 				Marker marker = mPropertiesToMarkers.get(property);
 				Location location = property.getLocation();
-				LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+				LatLng latLng = newOffsetLatLng(location.getLatitude(), location.getLongitude());
 				if (marker != null && marker.isVisible()) {
 					builder.include(latLng);
 					numIncluded++;
@@ -443,6 +475,24 @@ public class HotelMapFragment extends SupportMapFragment {
 	public void notifyPropertySelected() {
 		showBalloon(Db.getSelectedProperty());
 		focusProperty(Db.getSelectedProperty(), true);
+	}
+
+	private void checkIfSearchIsCurrentLocation() {
+		SearchParams params = Db.getSearchParams();
+		boolean showCurrentLocation = params.getSearchType() == SearchParams.SearchType.MY_LOCATION;
+		if (mMap != null) {
+			mMap.setMyLocationEnabled(showCurrentLocation);
+		}
+	}
+
+	private void initMapCameraToGoodSpot() {
+		LatLngBounds.Builder builder = new LatLngBounds.Builder();
+		// Right now just the top-left latlng for the US
+		// and bottom-right latlng for the US
+		builder.include(new LatLng(50.513427, -125.529297));
+		builder.include(new LatLng(25.085599, -63.984375));
+		setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(builder.build(),
+				(int) getResources().getDisplayMetrics().density * 50));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

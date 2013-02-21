@@ -401,6 +401,12 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		OmnitureTracking.onResume(this);
+	}
+
+	@Override
 	public void onPause() {
 		super.onPause();
 
@@ -408,6 +414,8 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		if (mPos.equals(YoYoPosition.SAVE)) {
 			this.closeSaveDialog();
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

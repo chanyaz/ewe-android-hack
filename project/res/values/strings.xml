@@ -497,8 +497,6 @@
     <string name="address_state_hint">State</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Zip</string>
-    <!-- Billing Postal Code hint -->
-    <string name="address_postal_code_hint_hotels">Billing Zipcode</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -689,6 +687,10 @@
     <string name="error_invalid_phone_number">The phone number you entered is invalid, please try again.</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">The credit card number you entered is invalid, please try again.</string>
+    <!-- Error shown to user if their zip code or postal code is invalid (depends on language) -->
+    <string name="error_invalid_zipcode_or_postalcode">The zip code you entered is invalid, please try again.</string>
+    <!-- Error shown to user if their state or province is invalid (depends on language) -->
+    <string name="error_invalid_state_or_province">The state you entered is invalid, please try again.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">The credit card you tried to use has expired, please use a different credit card.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->

@@ -13,6 +13,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -27,9 +28,9 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
@@ -90,9 +91,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		setContentView(R.layout.activity_flight_booking);
 
-		ViewGroup outerContainer = Ui.findView(this, R.id.outer_container);
-		BitmapDrawable bg = new BitmapDrawable(getResources(), Db.getBackgroundImage(this, true));
-		outerContainer.setBackgroundDrawable(bg);
+		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
+		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
 
 		setTitle(R.string.title_complete_booking);
 
@@ -106,12 +106,19 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			ft.commit();
 
-			// If the debug setting is made to fake a price change, then fake the current price
+			// If the debug setting is made to fake a price change, then fake the current price (by changing it)
 			if (!AndroidUtils.isRelease(mContext)) {
-				String val = SettingUtils.get(mContext,
-						getString(R.string.preference_flight_fake_price_change),
-						getString(R.string.preference_flight_fake_price_change_default));
-				Db.getFlightSearch().getSelectedFlightTrip().getTotalFare().add(new BigDecimal(val));
+				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+
+				BigDecimal fakePriceChange = getFakePriceChangeAmount();
+				BigDecimal fakeObFees = getFakeObFeesAmount();
+
+				// We change the total price we're sending to the server, so that it
+				// thinks there has been a price change.  Note that you can't have the
+				// fake price change == -fake ob fees, or else we'll end up with the
+				// correct price and it'll just book.  :P
+				trip.getTotalFare().add(fakePriceChange);
+				trip.getTotalFare().subtract(fakeObFees);
 			}
 		}
 
@@ -134,6 +141,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		if (bd.isDownloading(DOWNLOAD_KEY)) {
 			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
 		}
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -148,6 +157,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		super.onPause();
 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -264,6 +275,16 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		public void onDownload(FlightCheckoutResponse results) {
 			mProgressFragment.dismiss();
 
+			// Modify the response to fake online booking fees
+			if (!AndroidUtils.isRelease(mContext)) {
+				BigDecimal fakeObFees = getFakeObFeesAmount();
+				if (!fakeObFees.equals(BigDecimal.ZERO)) {
+					Money amount = new Money(results.getNewOffer().getTotalFare());
+					amount.setAmount(fakeObFees);
+					results.getNewOffer().setOnlineBookingFeesAmount(amount);
+				}
+			}
+
 			Db.setFlightCheckout(results);
 
 			if (results == null) {
@@ -331,6 +352,17 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		case PRICE_CHANGE:
 			FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
 			FlightTrip newOffer = response.getNewOffer();
+
+			// If the debug setting is made to fake a price change, then fake the price here too
+			// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
+			if (!AndroidUtils.isRelease(this)) {
+				String val = SettingUtils.get(this,
+						getString(R.string.preference_flight_fake_price_change),
+						getString(R.string.preference_flight_fake_price_change_default));
+				currentOffer.getTotalFare().add(new BigDecimal(val));
+				newOffer.getTotalFare().add(new BigDecimal(val));
+			}
+
 			PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
 			fragment.show(getSupportFragmentManager(), PriceChangeDialogFragment.TAG);
 
@@ -475,5 +507,22 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	public void onCancelUnhandledException() {
 		finish();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Debug code
+
+	private BigDecimal getFakePriceChangeAmount() {
+		String amount = SettingUtils.get(mContext,
+				getString(R.string.preference_flight_fake_price_change),
+				getString(R.string.preference_flight_fake_price_change_default));
+		return new BigDecimal(amount);
+	}
+
+	private BigDecimal getFakeObFeesAmount() {
+		String amount = SettingUtils.get(mContext,
+				getString(R.string.preference_flight_fake_obfees),
+				getString(R.string.preference_flight_fake_obfees_default));
+		return new BigDecimal(amount);
 	}
 }

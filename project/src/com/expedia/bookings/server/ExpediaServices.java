@@ -45,6 +45,7 @@ import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -87,7 +88,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.facebook.Session;
 import com.larvalabs.svgandroid.SVG;
@@ -272,7 +272,19 @@ public class ExpediaServices implements DownloadListener {
 
 		addPOSParams(query);
 
-		query.add(new BasicNameValuePair("maxOfferCount", Integer.toString(FLIGHT_MAX_TRIPS)));
+		// Vary the max # of flights based on memory, so we don't run out.  Numbers are blind guesses.
+		//
+		// TODO: Minimize the memory footprint so we don't have to keep doing this.
+		final int memClass = ((ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+		if (memClass <= 24) {
+			query.add(new BasicNameValuePair("maxOfferCount", "400"));
+		}
+		else if (memClass <= 32) {
+			query.add(new BasicNameValuePair("maxOfferCount", "800"));
+		}
+		else {
+			query.add(new BasicNameValuePair("maxOfferCount", Integer.toString(FLIGHT_MAX_TRIPS)));
+		}
 
 		return doFlightsRequest("api/flight/search", query, new FlightSearchResponseHandler(mContext), flags);
 	}
@@ -752,12 +764,13 @@ public class ExpediaServices implements DownloadListener {
 
 	private void addBasicParams(List<BasicNameValuePair> query, SearchParams params) {
 		DateFormat df = new SimpleDateFormat(ISO_FORMAT);
-		df.setTimeZone(CalendarUtils.getFormatTimeZone());
 
 		// #13586: We need a second SimpleDateFormat because on 2.2 and below.  See
 		// ticket for more info (bug is complex).
+		//
+		// Update: having removed the timezone portion, no longer sure if this is necessary;
+		// but I sure don't want to break anything.
 		DateFormat df2 = new SimpleDateFormat(ISO_FORMAT);
-		df2.setTimeZone(CalendarUtils.getFormatTimeZone());
 
 		query.add(new BasicNameValuePair("checkInDate", df.format(params.getCheckInDate().getTime())));
 		query.add(new BasicNameValuePair("checkOutDate", df2.format(params.getCheckOutDate().getTime())));

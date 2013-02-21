@@ -58,7 +58,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -352,7 +351,7 @@ public class LoginFragment extends Fragment {
 					bd.cancelDownload(NET_MANUAL_LOGIN);
 				}
 
-				//Do facebook things!!!
+				// Do facebook things!!!
 				doFacebookLogin();
 
 				setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
@@ -482,12 +481,12 @@ public class LoginFragment extends Fragment {
 				//goto previous state...
 				if (TextUtils.isEmpty(mExpediaUserName.getText())) {
 					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
-					setStatusText(R.string.expedia_account, true);
 				}
 				else {
 					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
-					setStatusText(R.string.expedia_account, true);
 				}
+
+				setStatusText(R.string.expedia_account, true);
 			}
 		});
 	}
@@ -863,7 +862,7 @@ public class LoginFragment extends Fragment {
 
 	@SuppressLint("NewApi")
 	private void setViewAlpha(View v, float alpha) {
-		if (AndroidUtils.getSdkVersion() >= 11) {
+		if (!AnimatorProxy.NEEDS_PROXY) {
 			v.setAlpha(alpha);
 		}
 		else {
@@ -873,7 +872,7 @@ public class LoginFragment extends Fragment {
 
 	@SuppressLint("NewApi")
 	private void setViewRotationX(View v, float rotationX) {
-		if (AndroidUtils.getSdkVersion() >= 11) {
+		if (!AnimatorProxy.NEEDS_PROXY) {
 			v.setRotationX(rotationX);
 		}
 		else {
@@ -1106,7 +1105,7 @@ public class LoginFragment extends Fragment {
 		if (session == null || state == null || exception != null || state.equals(SessionState.CLOSED)
 				|| state.equals(SessionState.CLOSED_LOGIN_FAILED)) {
 			setStatusText(R.string.unable_to_sign_into_facebook, false);
-			setIsLoading(false);
+			goBack();
 		}
 		else if (session.isOpened()) {
 			fetchFacebookUserInfo(session);

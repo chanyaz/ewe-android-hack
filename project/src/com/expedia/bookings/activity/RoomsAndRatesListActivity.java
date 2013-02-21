@@ -94,7 +94,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		SearchParams searchParams = Db.getSearchParams();
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
-			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), thumbnailView);
+			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), thumbnailView, R.drawable.ic_image_placeholder);
 		}
 		else {
 			thumbnailView.setVisibility(View.GONE);
@@ -163,6 +163,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			mRoomsAndRatesFragment.showProgress();
 			bd.registerDownloadCallback(DOWNLOAD_KEY, mCallback);
 		}
+
+		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -188,6 +190,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		else {
 			BackgroundDownloader.getInstance().cancelDownload(DOWNLOAD_KEY);
 		}
+
+		OmnitureTracking.onPause();
 	}
 
 	@Override

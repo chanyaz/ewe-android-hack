@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Tweaks for 7" tablets in portrait -->
+
+
+    <!-- SearchParamsFragment -->
+    <dimen name="child_ages_layout_width">280dp</dimen>
+
+</resources>
