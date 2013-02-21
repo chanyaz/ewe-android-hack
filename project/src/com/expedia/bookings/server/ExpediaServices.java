@@ -900,7 +900,15 @@ public class ExpediaServices implements DownloadListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Facebook Login API
+	//
+	// Note: This is the api for working with Expedia in regard to a facebook login.
+	// The calls to facebook itself are handled by the FB sdk, and currently happen in LoginFragment.java
 
+	/**
+	 * We want to user our production facebbok app id for hitting prod, otherwise use our dev one.
+	 * @param context
+	 * @return
+	 */
 	public static String getFacebookAppId(Context context) {
 		EndPoint endPoint = getEndPoint(context);
 		String appId = null;
@@ -922,6 +930,12 @@ public class ExpediaServices implements DownloadListener {
 
 	}
 
+	/**
+	 * Login to expedia using facebook credentials
+	 * @param facebookUserId
+	 * @param facebookAccessToken
+	 * @return
+	 */
 	public FacebookLinkResponse facebookAutoLogin(String facebookUserId, String facebookAccessToken) {
 		Session fbSession = Session.getActiveSession();
 		if (fbSession == null || fbSession.isClosed()) {
@@ -936,6 +950,13 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
+	/**
+	 * Create a new expedia user, and associate that user with the provided facebook account
+	 * @param facebookUserId
+	 * @param facebookAccessToken
+	 * @param facebookEmailAddress
+	 * @return
+	 */
 	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
 			String facebookEmailAddress) {
 
@@ -954,6 +975,14 @@ public class ExpediaServices implements DownloadListener {
 				F_SECURE_REQUEST);
 	}
 
+	/**
+	 * Link an existing expedia user with a facebook account
+	 * @param facebookUserId
+	 * @param facebookAccessToken
+	 * @param facebookEmailAddress
+	 * @param expediaPassword
+	 * @return
+	 */
 	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
 			String facebookEmailAddress, String expediaPassword) {
 		Session fbSession = Session.getActiveSession();
