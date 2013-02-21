@@ -18,6 +18,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.internal.app.ActionBarImpl;
 import com.actionbarsherlock.internal.app.ActionBarWrapper;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -48,6 +49,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	private PagerAdapter mPagerAdapter;
 	private ViewPager mViewPager;
 	private int mPagerPosition = PAGER_POS_WATERFALL;
+	private boolean mHasMenu = false;
 
 	private HockeyPuck mHockeyPuck;
 
@@ -101,7 +103,6 @@ public class LaunchActivity extends SherlockFragmentActivity {
 		});
 
 		// Tabs
-
 		Tab shopTab = getSupportActionBar().newTab().setText("Shop").setTabListener(mShopTabListener);
 		Tab itineraryTab = getSupportActionBar().newTab().setText("Itinerary").setTabListener(mItineraryTabListener);
 
@@ -190,8 +191,8 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		mHockeyPuck.onCreateOptionsMenu(menu);
-
-		return super.onCreateOptionsMenu(menu);
+		mHasMenu = super.onCreateOptionsMenu(menu);
+		return mHasMenu;
 	}
 
 	@Override
@@ -317,7 +318,9 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			mItinListFragment.setListMode();
 		}
 
-		supportInvalidateOptionsMenu();
+		if (mHasMenu) {
+			supportInvalidateOptionsMenu();
+		}
 	}
 
 	private void gotoItineraries() {
@@ -337,12 +340,14 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			actionBar.selectTab(tab);
 		}
 
-		supportInvalidateOptionsMenu();
+		if (mHasMenu) {
+			supportInvalidateOptionsMenu();
+		}
 	}
 
 	private void enableEmbeddedTabs(Object actionBar) {
 		try {
-			if (actionBar instanceof ActionBarWrapper) {
+			if (!(actionBar instanceof ActionBarImpl) && actionBar instanceof ActionBarWrapper) {
 				Field actionBarField = actionBar.getClass().getDeclaredField("mActionBar");
 				actionBarField.setAccessible(true);
 				actionBar = actionBarField.get(actionBar);
