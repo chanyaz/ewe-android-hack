@@ -87,7 +87,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	public synchronized View getView(final int position, View convertView, ViewGroup Parent) {
 		ItinCard card = (ItinCard) convertView;
 		if (card == null) {
-			Type cardType = Type.values()[getItemViewType(position)];
+			Type cardType = getItemViewCardType(position);
 			switch (cardType) {
 			case HOTEL: {
 				card = new HotelItinCard(mContext);
@@ -119,12 +119,14 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			}
 		}
 
-		int upcomingCardPos = getMostRelevantCardPosition();
+		boolean isPastCard = isItemInThePast(position);
+		boolean isSummaryCard = isItemASummaryCard(position);
 
+		card.setCardShaded(isPastCard);
 		card.bind(getItem(position));
-		card.setShowSummary(position == upcomingCardPos);
+		card.setShowSummary(isSummaryCard);
 
-		if (position == upcomingCardPos) {
+		if (isSummaryCard) {
 			card.updateSummaryVisibility();
 		}
 
@@ -136,13 +138,27 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	@Override
 	public int getItemViewType(int position) {
+		//Note: Our types are: 
+		//normal cards: 0 <= TYPE < Type.values().length
+		//shaded cards: Type.values().length <= TYPE < Type.values().length * 2
+		//summary cards: Type.values().length * 2 <= TYPE < Type.values().length * 3
 		Type type = getItem(position).getTripComponent().getType();
-		return type.ordinal();
+		int retVal = type.ordinal();
+		boolean isInThePast = isItemInThePast(position);
+		boolean isSumCard = isItemASummaryCard(position);
+		if (isInThePast) {
+			retVal += TripComponent.Type.values().length;
+		}
+		else if (isSumCard) {
+			retVal += (TripComponent.Type.values().length * 2);
+		}
+		return retVal;
 	}
 
 	@Override
 	public int getViewTypeCount() {
-		return TripComponent.Type.values().length;
+		//the *3 is so we have one for each type and one for each type that is shaded and one for each type in summary mode
+		return TripComponent.Type.values().length * 3;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -247,22 +263,52 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	public synchronized int getMostRelevantCardPosition() {
+		int retVal = mItinCardDatas.size() - 1;
 		Calendar now = Calendar.getInstance();
 		for (int i = 0; i < mItinCardDatas.size(); i++) {
 			ItinCardData data = mItinCardDatas.get(i);
 			if (data != null && data.getStartDate() != null && data.getStartDate().getCalendar() != null
 					&& data.getStartDate().getCalendar().compareTo(now) >= 0) {
 				// This is the first card that is after now
-				return i;
+				retVal = i;
+				break;
 			}
 		}
 		//Return the last card otherwise, because if we got here, all our itins are in the past...
-		return mItinCardDatas.size() - 1;
+		return retVal;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	private Type getItemViewCardType(int position) {
+		int typeOrd = getItemViewType(position);
+		typeOrd = typeOrd % TripComponent.Type.values().length;
+		return Type.values()[typeOrd];
+	}
+
+	private boolean isItemInThePast(int position) {
+		return position < getMostRelevantCardPosition();
+	}
+
+	private boolean isItemASummaryCard(int position) {
+		if (!isItemInThePast(position)) {
+			int[] sumCards = getSummaryCardPositions();
+			for (int i = 0; i < sumCards.length; i++) {
+				if (sumCards[i] == position) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private int[] getSummaryCardPositions() {
+		int[] summaryCards = new int[1];
+		summaryCards[0] = getMostRelevantCardPosition();
+		return summaryCards;
+	}
 
 	private void sortItems() {
 		if (mSortOrder.equals(TripComponentSortOrder.START_DATE)) {

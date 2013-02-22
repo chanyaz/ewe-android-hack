@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.actionbarsherlock.internal.nineoldandroids.view.animation.AnimatorProxy;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimation;
@@ -26,6 +28,7 @@ import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -130,6 +133,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	private DisplayState mDisplayState = DisplayState.COLLAPSED;
 	private boolean mShowSummary;
+	private boolean mShadeCard;
 
 	private int mTitleLayoutHeight;
 	private int mActionButtonLayoutHeight;
@@ -276,6 +280,18 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mSummaryRightButton.setVisibility(rightButton != null ? VISIBLE : GONE);
 		Ui.findView(this, R.id.action_button_divider).setVisibility(
 				(leftButton != null && rightButton != null) ? VISIBLE : GONE);
+
+		//Shade
+		//TODO: Make this follow the design spec
+		if (mShadeCard) {
+			float shadeAlpha = 0.5f;
+			setViewAlpha(mCardLayout, shadeAlpha);
+			setViewAlpha(mItinTypeImageView, shadeAlpha);
+		}
+		else {
+			setViewAlpha(mCardLayout, 1f);
+			setViewAlpha(mItinTypeImageView, 1f);
+		}
 	}
 
 	public void inflateDetailsView() {
@@ -317,6 +333,10 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	public void setShowExtraBottomPadding(boolean show) {
 		mBottomExtraPaddingView.setVisibility(show ? VISIBLE : GONE);
+	}
+
+	public void setCardShaded(boolean shade) {
+		mShadeCard = shade;
 	}
 
 	public void collapse() {
@@ -549,6 +569,16 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	private void updateClickable() {
 		mScrollView.setEnabled(mDisplayState == DisplayState.EXPANDED);
+	}
+
+	@SuppressLint("NewApi")
+	private void setViewAlpha(View view, float alpha) {
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			view.setAlpha(alpha);
+		}
+		else {
+			AnimatorProxy.wrap(view).setAlpha(alpha);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

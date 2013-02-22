@@ -81,7 +81,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.setOnScrollListener(mOnScrollListener);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
-		mItinListView.enableScrollToRevelentWhenDataSetChanged();
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -111,6 +110,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		if (mAllowLoadItins) {
 			mItinManager.startSync();
 			setIsLoading(true);
+			mItinListView.enableScrollToRevelentWhenDataSetChanged();
 		}
 	}
 
