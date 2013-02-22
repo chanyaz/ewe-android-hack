@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.trips;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
@@ -54,8 +55,9 @@ public class ItinCardDataCar extends ItinCardData {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final SimpleDateFormat DETAIL_TIME_FORMAT = new SimpleDateFormat("h:mm a", Locale.getDefault());
-	private static final SimpleDateFormat DETAIL_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
+	private static final Format TIME_FORMAT = new SimpleDateFormat("h:mm a", Locale.getDefault());
+	private static final Format SHORT_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
+	private static final Format LONG_DATE_FORMAT = new SimpleDateFormat("EEEE MMMM d, yyyy", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -102,15 +104,27 @@ public class ItinCardDataCar extends ItinCardData {
 	}
 
 	public String getFormattedPickUpTime() {
-		return DETAIL_TIME_FORMAT.format(getPickUpDate().getCalendar().getTime());
+		return TIME_FORMAT.format(getPickUpDate().getCalendar().getTime());
 	}
 
-	public String getFormattedPickUpDate() {
-		return DETAIL_DATE_FORMAT.format(getPickUpDate().getCalendar().getTime());
+	public String getFormattedDropOffTime() {
+		return TIME_FORMAT.format(getDropOffDate().getCalendar().getTime());
 	}
 
-	public String getFormattedDropOffDate() {
-		return DETAIL_DATE_FORMAT.format(getDropOffDate().getCalendar().getTime());
+	public String getFormattedShortPickUpDate() {
+		return SHORT_DATE_FORMAT.format(getPickUpDate().getCalendar().getTime());
+	}
+
+	public String getFormattedShortDropOffDate() {
+		return SHORT_DATE_FORMAT.format(getDropOffDate().getCalendar().getTime());
+	}
+
+	public String getFormattedLongPickUpDate() {
+		return LONG_DATE_FORMAT.format(getPickUpDate().getCalendar().getTime());
+	}
+
+	public String getFormattedLongDropOffDate() {
+		return LONG_DATE_FORMAT.format(getDropOffDate().getCalendar().getTime());
 	}
 
 	public String getFormattedDays() {
@@ -135,7 +149,7 @@ public class ItinCardDataCar extends ItinCardData {
 		return mCar.getVendor().getShortName();
 	}
 
-	public Location getRelevantLocation() {
+	public Location getRelevantVendorLocation() {
 		boolean pickup = System.currentTimeMillis() > mCar.getPickUpDateTime().getMillisFromEpoch();
 		return pickup ? mCar.getPickUpLocation() : mCar.getDropOffLocation();
 	}
@@ -149,7 +163,7 @@ public class ItinCardDataCar extends ItinCardData {
 	}
 
 	public Intent getRelevantDirectionsIntent() {
-		return createDirectionsIntent(getRelevantLocation());
+		return createDirectionsIntent(getRelevantVendorLocation());
 	}
 
 	private Intent createDirectionsIntent(Location location) {

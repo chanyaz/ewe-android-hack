@@ -151,9 +151,9 @@
     <!-- Departs {duration} late -->
     <string name="flight_departs_x_late_TEMPLATE">Departs %1$s late</string>
     <!-- Car types -->
-    <string name="car_type_two_door">Two Door</string>
-    <string name="car_type_three_door">Three Door</string>
-    <string name="car_type_four_door">Four Door</string>
+    <string name="car_type_two_door">Two Door Car</string>
+    <string name="car_type_three_door">Three Door Car</string>
+    <string name="car_type_four_door">Four Door Car</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -208,15 +208,18 @@
     <string name="share_template_subject_flight"></string>
     <string name="share_template_short_flight"></string>
     <string name="share_template_long_flight"></string>
-    <string name="share_template_subject_car"></string>
-    <string name="share_template_short_car"></string>
-    <string name="share_template_long_car"></string>
+    <!-- 1: pick up date 2: drop off date -->
+    <string name="share_template_subject_car">My car rental (%1$s – %2$s)</string>
+    <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->
+    <string name="share_template_short_car">I’ve rented a %1$s from %2$s – %3$s\n%4$s\n%5$s</string>
+    <!-- 1: vendor name 2: vehicle type 3: pick up date 4: pick up time 5: drop off date 6: drop off time 7: full address 8: phone number 9: app download link -->
+    <string name="share_template_long_car">Hi,\n\nHere are the details of my %1$s car rental. \n\n<b>Vehicle</b> %2$s\n<b>Pick Up</b> %3$s at <b>%4$s</b>\n<b>Drop Off</b> %5$s at <b>%6$s</b>\n\n<b>Location</b>\n%1$s\n%7$s\n%8$s\n\nWant to book hotels, flights and view &amp; share your itineraries? <a href="%9$s">Download</a> the free Expedia mobile app today.</string>
     <!-- 1: activity title -->
     <string name="share_template_subject_activity">My %1$s Details</string>
     <!-- 1: activity title 2: valid date 3: expiration date -->
     <string name="share_template_short_activity">I’ve purchased a %1$s\nValid: %2$s\nExpires: %3$s</string>
     <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
-    <string name="share_template_long_activity">Hi,\n\nHere are the details of my %1$s\n\n<b>Valid</b> %2$s\n<b>Expires</b> %3$s\n\n<b>Guests</b>\n%4$s\n\nWant to book hotels, flights and view &amp; share your itineraries? <a href="%11$s">Download</a> the free Expedia mobile app today.</string>
+    <string name="share_template_long_activity">Hi,\n\nHere are the details of my %1$s\n\n<b>Valid</b> %2$s\n<b>Expires</b> %3$s\n\n<b>Guests</b>\n%4$s\n\nWant to book hotels, flights and view &amp; share your itineraries? <a href="%5$s">Download</a> the free Expedia mobile app today.</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>

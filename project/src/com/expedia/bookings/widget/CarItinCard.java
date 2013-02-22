@@ -44,20 +44,39 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 
 	@Override
 	protected String getShareSubject(ItinCardDataCar itinCardData) {
-		// TODO Auto-generated method stub
-		return null;
+		String template = getContext().getString(R.string.share_template_subject_car);
+		String pickUpDate = itinCardData.getFormattedShortPickUpDate();
+		String dropOffDate = itinCardData.getFormattedShortDropOffDate();
+
+		return String.format(template, pickUpDate, dropOffDate);
 	}
 
 	@Override
 	protected String getShareTextShort(ItinCardDataCar itinCardData) {
-		// TODO Auto-generated method stub
-		return null;
+		String template = getContext().getString(R.string.share_template_short_car);
+		String carType = itinCardData.getCarTypeDescription(getContext());
+		String pickUpDate = itinCardData.getFormattedShortPickUpDate();
+		String dropOffDate = itinCardData.getFormattedShortDropOffDate();
+		String vendorName = itinCardData.getVendorName();
+		String vendorAddress = itinCardData.getRelevantVendorLocation().toFormattedString();
+
+		return String.format(template, carType, pickUpDate, dropOffDate, vendorName, vendorAddress);
 	}
 
 	@Override
 	protected String getShareTextLong(ItinCardDataCar itinCardData) {
-		// TODO Auto-generated method stub
-		return null;
+		String template = getContext().getString(R.string.share_template_long_car);
+		String vendorName = itinCardData.getVendorName();
+		String carType = itinCardData.getCarTypeDescription(getContext());
+		String pickUpDate = itinCardData.getFormattedLongPickUpDate();
+		String pickUpTime = itinCardData.getFormattedPickUpTime();
+		String dropOffDate = itinCardData.getFormattedLongDropOffDate();
+		String dropOffTime = itinCardData.getFormattedDropOffTime();
+		String vendorAddress = itinCardData.getRelevantVendorLocation().toFormattedString();
+		String vendorPhone = itinCardData.getRelevantVendorPhone();
+
+		return String.format(template, vendorName, carType, pickUpDate, pickUpTime, dropOffDate, dropOffTime,
+				vendorAddress, vendorPhone, "");
 	}
 
 	@Override
@@ -102,11 +121,11 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
 
 		// Bind
-		pickUpDateTextView.setText(itinCardData.getFormattedPickUpDate());
-		dropOffDateTextView.setText(itinCardData.getFormattedDropOffDate());
+		pickUpDateTextView.setText(itinCardData.getFormattedShortPickUpDate());
+		dropOffDateTextView.setText(itinCardData.getFormattedShortDropOffDate());
 		daysTextView.setText(itinCardData.getFormattedDays());
 
-		Location relevantLocation = itinCardData.getRelevantLocation();
+		Location relevantLocation = itinCardData.getRelevantVendorLocation();
 		if (relevantLocation != null) {
 			staticMapImageView.setCenterPoint(relevantLocation);
 			staticMapImageView.setPoiPoint(relevantLocation);
