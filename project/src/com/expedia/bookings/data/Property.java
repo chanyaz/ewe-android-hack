@@ -89,6 +89,7 @@ public class Property implements JSONable {
 	private Rate mLowestRate;
 	private boolean mIsLowestRateMobileExclusive = false;
 	private boolean mIsLowestRateTonightOnly = false;
+	private String mInfoSiteUrl;
 
 	// Hotel rating ranges from 0-5, in .5 intervals
 	private double mHotelRating;
@@ -307,6 +308,14 @@ public class Property implements JSONable {
 
 	public boolean isLowestRateTonightOnly() {
 		return mIsLowestRateTonightOnly;
+	}
+
+	public String getInfoSiteUrl() {
+		return mInfoSiteUrl;
+	}
+
+	public void setInfoSiteUrl(String infoSiteUrl) {
+		mInfoSiteUrl = infoSiteUrl;
 	}
 
 	// Updates a Property from another Property (currently, one returned via an AvailabilityResponse)

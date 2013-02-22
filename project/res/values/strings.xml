@@ -204,16 +204,19 @@
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">I’m staying at the %1$s\n%2$s – %3$s\n\n%4$s</string>
     <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
-    <string name="share_template_long_hotel">Hi,\n\nI’m staying at the %1$s for %2$s.\n\nCheck In %3$s\nCheck Out %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\nPhone\n%9$s\n\nMore Information\n%10$s\n\nWant to book hotels, flights and view &amp; share your itineraries? <a href="%11$s">Download</a> the free Expedia mobile app today.</string>
+    <string name="share_template_long_hotel">Hi,\n\nI’m staying at the %1$s for %2$s.\n\n<b>Check In</b> %3$s\n<b>Check Out</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Phone</b>\n%9$s\n\n<b>More Information</b>\n%10$s\n\nWant to book hotels, flights and view &amp; share your itineraries? <a href="%11$s">Download</a> the free Expedia mobile app today.</string>
     <string name="share_template_subject_flight"></string>
     <string name="share_template_short_flight"></string>
     <string name="share_template_long_flight"></string>
     <string name="share_template_subject_car"></string>
     <string name="share_template_short_car"></string>
     <string name="share_template_long_car"></string>
-    <string name="share_template_subject_activity"></string>
-    <string name="share_template_short_activity"></string>
-    <string name="share_template_long_activity"></string>
+    <!-- 1: activity title -->
+    <string name="share_template_subject_activity">My %1$s Details</string>
+    <!-- 1: activity title 2: valid date 3: expiration date -->
+    <string name="share_template_short_activity">I’ve purchased a %1$s\nValid: %2$s\nExpires: %3$s</string>
+    <!-- 1: activity title 2: valid date 3: expiration date 4: list of guests 5: app download link -->
+    <string name="share_template_long_activity">Hi,\n\nHere are the details of my %1$s\n\n<b>Valid</b> %2$s\n<b>Expires</b> %3$s\n\n<b>Guests</b>\n%4$s\n\nWant to book hotels, flights and view &amp; share your itineraries? <a href="%11$s">Download</a> the free Expedia mobile app today.</string>
     <string name="share_template_subject_cruise"></string>
     <string name="share_template_short_cruise"></string>
     <string name="share_template_long_cruise"></string>

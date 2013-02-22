@@ -23,6 +23,7 @@ public class ItinCardDataHotel extends ItinCardData {
 	private static final Format DETAIL_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
 	private static final Format SHARE_CHECK_IN_FORMAT = new SimpleDateFormat("EEE MMM d", Locale.getDefault());
 	private static final Format SHARE_CHECK_OUT_FORMAT = new SimpleDateFormat("EEE MMM d yyyy", Locale.getDefault());
+	private static final Format LONG_SHARE_DATE_FORMAT = new SimpleDateFormat("EEEE MMMM d, yyyy", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -59,6 +60,10 @@ public class ItinCardDataHotel extends ItinCardData {
 		return (float) mProperty.getHotelRating();
 	}
 
+	public String getPropertyInfoSiteUrl() {
+		return mProperty.getInfoSiteUrl();
+	}
+
 	public String getFormattedLengthOfStay(Context context) {
 		int nights = (int) ((getEndDate().getMillisFromEpoch() - getStartDate().getMillisFromEpoch()) / (1000 * 60 * 60 * 24));
 		return context.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
@@ -76,12 +81,20 @@ public class ItinCardDataHotel extends ItinCardData {
 		return DETAIL_DATE_FORMAT.format(getEndDate().getCalendar().getTime());
 	}
 
-	public String getFormattedShareCheckInDate() {
+	public String getFormattedShortShareCheckInDate() {
 		return SHARE_CHECK_IN_FORMAT.format(getStartDate().getCalendar().getTime());
 	}
 
-	public String getFormattedShareCheckOutDate() {
+	public String getFormattedShortShareCheckOutDate() {
 		return SHARE_CHECK_OUT_FORMAT.format(getEndDate().getCalendar().getTime());
+	}
+
+	public String getFormattedLongShareCheckInDate() {
+		return LONG_SHARE_DATE_FORMAT.format(getStartDate().getCalendar().getTime());
+	}
+
+	public String getFormattedLongShareCheckOutDate() {
+		return LONG_SHARE_DATE_FORMAT.format(getEndDate().getCalendar().getTime());
 	}
 
 	public String getFormattedGuests() {

@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.trips;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -13,8 +14,9 @@ public class ItinCardDataActivity extends ItinCardData {
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private static final SimpleDateFormat DETAIL_SHORT_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
-	private static final SimpleDateFormat DETAIL_LONG_DATE_FORMAT = new SimpleDateFormat("MMMM d", Locale.getDefault());
+	private static final Format DETAIL_SHORT_DATE_FORMAT = new SimpleDateFormat("MMM d", Locale.getDefault());
+	private static final Format DETAIL_LONG_DATE_FORMAT = new SimpleDateFormat("MMMM d", Locale.getDefault());
+	private static final Format SHARE_DATE_FORMAT = new SimpleDateFormat("EEEE MMMM d, yyyy", Locale.getDefault());
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -39,7 +41,7 @@ public class ItinCardDataActivity extends ItinCardData {
 		return mActivity.getTitle();
 	}
 
-	public DateTime getActiveDate() {
+	public DateTime getValidDate() {
 		return getTripComponent().getParentTrip().getStartDate();
 	}
 
@@ -47,12 +49,20 @@ public class ItinCardDataActivity extends ItinCardData {
 		return getTripComponent().getParentTrip().getEndDate();
 	}
 
-	public String getLongFormattedActiveDate() {
-		return DETAIL_LONG_DATE_FORMAT.format(getActiveDate().getCalendar().getTime());
+	public String getFormattedShareValidDate() {
+		return SHARE_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
 	}
 
-	public String getFormattedActiveDate() {
-		return DETAIL_SHORT_DATE_FORMAT.format(getActiveDate().getCalendar().getTime());
+	public String getFormattedShareExpiresDate() {
+		return SHARE_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+	}
+
+	public String getLongFormattedValidDate() {
+		return DETAIL_LONG_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
+	}
+
+	public String getFormattedValidDate() {
+		return DETAIL_SHORT_DATE_FORMAT.format(getValidDate().getCalendar().getTime());
 	}
 
 	public String getFormattedExpirationDate() {
@@ -66,7 +76,7 @@ public class ItinCardDataActivity extends ItinCardData {
 	public List<Traveler> getTravelers() {
 		return mActivity.getTravelers();
 	}
-	
+
 	public String getVoucherPrintUrl() {
 		return mActivity.getVoucherPrintUrl();
 	}

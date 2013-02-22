@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,6 +12,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,20 +49,37 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 
 	@Override
 	protected String getShareSubject(ItinCardDataActivity itinCardData) {
-		// TODO Auto-generated method stub
-		return null;
+		String template = getContext().getString(R.string.share_template_subject_activity);
+		String title = itinCardData.getTitle();
+
+		return String.format(template, title);
 	}
 
 	@Override
 	protected String getShareTextShort(ItinCardDataActivity itinCardData) {
-		// TODO Auto-generated method stub
-		return null;
+		String template = getContext().getString(R.string.share_template_short_activity);
+		String title = itinCardData.getTitle();
+		String validDate = itinCardData.getFormattedShareValidDate();
+		String expirationDate = itinCardData.getFormattedShareExpiresDate();
+
+		return String.format(template, title, validDate, expirationDate);
 	}
 
 	@Override
 	protected String getShareTextLong(ItinCardDataActivity itinCardData) {
-		// TODO Auto-generated method stub
-		return null;
+		String template = getContext().getString(R.string.share_template_long_activity);
+		String title = itinCardData.getTitle();
+		String validDate = itinCardData.getFormattedShareValidDate();
+		String expirationDate = itinCardData.getFormattedShareExpiresDate();
+
+		final List<Traveler> travelers = itinCardData.getTravelers();
+		final int guestCount = travelers.size();
+		final String[] guests = new String[guestCount];
+		for (int i = 0; i < guestCount; i++) {
+			guests[i] = travelers.get(i).getFullName();
+		}
+
+		return String.format(template, title, validDate, expirationDate, TextUtils.join("\n", guests), "");
 	}
 
 	@Override
@@ -82,7 +102,7 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	@Override
 	protected View getSummaryView(LayoutInflater inflater, ViewGroup container, ItinCardDataActivity itinCardData) {
 		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_summary_activity, container, false);
-		view.setText(Html.fromHtml("Valid starting <strong>" + itinCardData.getLongFormattedActiveDate() + "</strong>"));
+		view.setText(Html.fromHtml("Valid starting <strong>" + itinCardData.getLongFormattedValidDate() + "</strong>"));
 
 		return view;
 	}
@@ -101,7 +121,7 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
 
 		// Bind
-		activeDateTextView.setText(itinCardData.getFormattedActiveDate());
+		activeDateTextView.setText(itinCardData.getFormattedValidDate());
 		expirationDateTextView.setText(itinCardData.getFormattedExpirationDate());
 		guestCountTextView.setText(itinCardData.getFormattedGuestCount());
 
@@ -120,7 +140,7 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
 			}
 		});
-		
+
 		boolean hasInsurance = hasInsurance();
 		int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
 		insuranceLabel.setVisibility(insuranceVisibility);

@@ -44,17 +44,20 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 
 	@Override
 	protected String getShareSubject(ItinCardDataHotel itinCardData) {
-		// TODO Auto-generated method stub
-		return null;
+		String template = getContext().getString(R.string.share_template_subject_hotel);
+		String checkIn = itinCardData.getFormattedShortShareCheckInDate();
+		String checkOut = itinCardData.getFormattedShortShareCheckOutDate();
+
+		return String.format(template, "", checkIn, checkOut);
 	}
 
 	@Override
 	protected String getShareTextShort(ItinCardDataHotel itinCardData) {
 		String template = getContext().getString(R.string.share_template_short_hotel);
 		String hotelName = itinCardData.getPropertyName();
-		String checkIn = itinCardData.getFormattedShareCheckInDate();
-		String checkOut = itinCardData.getFormattedShareCheckOutDate();
-		String detailsUrl = itinCardData.getDetailsUrl();
+		String checkIn = itinCardData.getFormattedShortShareCheckInDate();
+		String checkOut = itinCardData.getFormattedShortShareCheckOutDate();
+		String detailsUrl = itinCardData.getPropertyInfoSiteUrl();
 
 		return String.format(template, hotelName, checkIn, checkOut, detailsUrl);
 	}
@@ -64,8 +67,14 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 		String template = getContext().getString(R.string.share_template_long_hotel);
 		String hotelName = itinCardData.getPropertyName();
 		String lengthOfStay = itinCardData.getFormattedLengthOfStay(getContext());
+		String checkIn = itinCardData.getFormattedLongShareCheckInDate();
+		String checkOut = itinCardData.getFormattedLongShareCheckOutDate();
+		String streetAddress = itinCardData.getAddressString();
+		String phone = itinCardData.getRelevantPhone();
+		String detailsUrl = itinCardData.getPropertyInfoSiteUrl();
 
-		return String.format(template, hotelName, lengthOfStay, "", "", "", "", "", "", "", "", "");
+		return String.format(template, hotelName, lengthOfStay, checkIn, checkOut, "", "", "", "", phone, detailsUrl,
+				"");
 	}
 
 	@Override
