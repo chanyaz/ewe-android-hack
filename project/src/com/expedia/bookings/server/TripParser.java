@@ -138,12 +138,10 @@ public class TripParser {
 		throw new RuntimeException("Could not parse date time: " + obj);
 	}
 
-	// There's not one, not two, but THREE date formats used by the API...  for parsing purposes,
-	// just run through them one by one.
+	// Until all date formats are normalized, we must support all of them.
 	private static final DateFormat[] DATE_FORMATS = {
 			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
-			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"),
-			new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy"),
+			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
 	};
 
 	private BookingStatus parseBookingStatus(String status) {
