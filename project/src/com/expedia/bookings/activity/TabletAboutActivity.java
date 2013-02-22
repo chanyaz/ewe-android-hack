@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.expedia.bookings.fragment.ContactExpediaDialogFragment;
 import com.expedia.bookings.fragment.ExpediaWebsiteDialogFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
+import com.expedia.bookings.utils.HtmlUtils;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.app.HoneycombAboutActivity;
@@ -91,8 +93,14 @@ public class TabletAboutActivity extends HoneycombAboutActivity {
 
 		addSimpleRow(standardSection, getString(R.string.view_open_source_software_licenses), new OnClickListener() {
 			public void onClick(View v) {
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+
 				String license = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(mContext);
-				startActivity(TextViewActivity.getIntent(TabletAboutActivity.this, license));
+				String htmlEscapedData = "<pre>" + HtmlUtils.escape(license) + "</pre>";
+				String html = HtmlUtils.wrapInHeadAndBody(htmlEscapedData);
+				builder.setHtmlData(html);
+
+				startActivity(builder.getIntent());
 			}
 		});
 

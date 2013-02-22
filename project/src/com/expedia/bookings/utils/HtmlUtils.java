@@ -11,5 +11,36 @@ public class HtmlUtils {
 		sb.append("</body>");
 		return sb.toString();
 	}
+
+	// android.text.Html.escapeHtml was not introduced until API-16
+	// So it is duplicated here.
+	public static String escape(CharSequence text) {
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+
+			if (c == '<') {
+				sb.append("&lt;");
+			} else if (c == '>') {
+				sb.append("&gt;");
+			} else if (c == '&') {
+				sb.append("&amp;");
+			} else if (c > 0x7E || c < ' ') {
+				sb.append("&#" + ((int) c) + ";");
+			} else if (c == ' ') {
+				while (i + 1 < text.length() && text.charAt(i + 1) == ' ') {
+					sb.append("&nbsp;");
+					i++;
+				}
+
+				sb.append(' ');
+			} else {
+				sb.append(c);
+			}
+		}
+
+		return sb.toString();
+	}
 }
 

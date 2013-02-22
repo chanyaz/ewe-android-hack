@@ -148,8 +148,14 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		open_source_licenses_link.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+
 				String license = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(mContext);
-				startActivity(TextViewActivity.getIntent(AboutActivity.this, license.replace("\n", "<br/>")));
+				String htmlEscapedData = "<pre>" + HtmlUtils.escape(license) + "</pre>";
+				String html = HtmlUtils.wrapInHeadAndBody(htmlEscapedData);
+				builder.setHtmlData(html);
+
+				startActivity(builder.getIntent());
 			}
 		});
 	}
