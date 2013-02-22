@@ -179,7 +179,7 @@
     <string name="itin_card_details_expires">Expires</string>
     <string name="itin_card_details_guests">Guests</string>
     <string name="itin_card_details_booking_info">Booking Info</string>
-    <string name="itin_card_details_details">View receipt and policies</string>
+    <string name="itin_card_details_details">Additional Information</string>
     <string name="itin_card_details_pick_up">Pick Up</string>
     <string name="itin_card_details_drop_off">Drop Off</string>
     <string name="itin_card_details_days">Days</string>
