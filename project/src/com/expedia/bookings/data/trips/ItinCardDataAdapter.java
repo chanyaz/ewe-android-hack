@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -116,10 +117,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			}
 		}
 
-		card.bind(getItem(position));
-		card.setShowSummary(position == 0);
+		int upcomingCardPos = getMostRelevantCardPosition();
 
-		if (position == 0) {
+		card.bind(getItem(position));
+		card.setShowSummary(position == upcomingCardPos);
+
+		if (position == upcomingCardPos) {
 			card.updateSummaryVisibility();
 		}
 
@@ -235,6 +238,20 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
 		mOnItinCardClickListener = onItinCardClickListener;
+	}
+
+	public synchronized int getMostRelevantCardPosition() {
+		Calendar now = Calendar.getInstance();
+		for (int i = 0; i < mItinCardDatas.size(); i++) {
+			ItinCardData data = mItinCardDatas.get(i);
+			if (data != null && data.getStartDate() != null && data.getStartDate().getCalendar() != null
+					&& data.getStartDate().getCalendar().compareTo(now) >= 0) {
+				// This is the first card that is after now
+				return i;
+			}
+		}
+		//Return the last card otherwise, because if we got here, all our itins are in the past...
+		return mItinCardDatas.size() - 1;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

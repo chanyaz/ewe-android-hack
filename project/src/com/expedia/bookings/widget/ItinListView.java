@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -18,6 +20,7 @@ import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.mobiata.android.util.AndroidUtils;
 
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +56,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private int mScrollState = SCROLL_STATE_IDLE;
 	private int mDetailPosition = -1;
 	private int mOriginalScrollY;
+	private boolean mScrollToReleventOnDataSetChange;
 
 	private int mExpandedCardOriginalHeight;
 
@@ -95,12 +99,14 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
+		unregisterDataSetObserver();
 		mAdapter.disableSelfManagement();
 	}
 
 	@Override
 	public void onAttachedToWindow() {
 		super.onAttachedToWindow();
+		registerDataSetObserver();
 		mAdapter.enableSelfManagement();
 	}
 
@@ -179,6 +185,13 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
 		mOnItinCardClickListener = onItinCardClickListener;
+	}
+
+	/**
+	 * Calling this function will cause the list to be scrolled to the most relevant position the next time the data set changes (and has > 0 items)
+	 */
+	public void enableScrollToRevelentWhenDataSetChanged() {
+		mScrollToReleventOnDataSetChange = true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -300,6 +313,44 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		view.startAnimation(animation);
 	}
 
+	private void registerDataSetObserver() {
+		mAdapter.registerDataSetObserver(mDataSetObserver);
+	}
+
+	private void unregisterDataSetObserver() {
+		mAdapter.unregisterDataSetObserver(mDataSetObserver);
+	}
+
+	/**
+	 * Asks the adapter for the most relevent card and scrolls to it.
+	 * @return the position scrolled to ( < 0 if invalid )
+	 */
+	private int scrollToMostRelevantCard() {
+		if (mAdapter != null) {
+			final int pos = mAdapter.getMostRelevantCardPosition();
+			if (pos >= 0) {
+				Runnable runner = new Runnable() {
+					@SuppressLint("NewApi")
+					@Override
+					public void run() {
+						if (ItinListView.this != null && ItinListView.this.mMode == MODE_LIST) {
+							if (AndroidUtils.getSdkVersion() >= 11) {
+								ItinListView.this.smoothScrollToPositionFromTop(pos, 2);
+							}
+							else {
+								ItinListView.this.smoothScrollToPosition(pos);
+							}
+
+						}
+					}
+				};
+				ItinListView.this.post(runner);
+			}
+			return pos;
+		}
+		return -1;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// IMPLEMENTATIONS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -349,4 +400,18 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mOnItinCardClickListener.onShareButtonClicked(subject, shortMessage, longMessage);
 		}
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// INNER CLASS INSTANCES
+	//////////////////////////////////////////////////////////////////////////////////////
+	private DataSetObserver mDataSetObserver = new DataSetObserver() {
+		@Override
+		public void onChanged() {
+			if (mScrollToReleventOnDataSetChange) {
+				if (scrollToMostRelevantCard() >= 0) {
+					mScrollToReleventOnDataSetChange = false;
+				}
+			}
+		}
+	};
 }
