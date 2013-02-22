@@ -16,6 +16,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
+import com.expedia.bookings.utils.HtmlUtils;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -129,7 +130,13 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 			atol_link.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					startActivity(TextViewActivity.getIntent(AboutActivity.this, mContext.getString(R.string.lawyer_label_atol_long_message)));
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
+
+					String message = mContext.getString(R.string.lawyer_label_atol_long_message);
+					String html = HtmlUtils.wrapInHeadAndBody(message);
+					builder.setHtmlData(html);
+
+					startActivity(builder.getIntent());
 				}
 			});
 			atol_link.setVisibility(View.VISIBLE);

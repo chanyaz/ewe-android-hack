@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TextViewActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.utils.HtmlUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 
@@ -124,9 +124,15 @@ public class HotelRulesFragment extends SherlockFragment {
 			atol_information.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = TextViewActivity.getIntent(getActivity(),
-							getString(R.string.lawyer_label_atol_long_message));
-					startActivity(intent);
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+
+					String message = getString(R.string.lawyer_label_atol_long_message);
+					String html = HtmlUtils.wrapInHeadAndBody(message);
+					builder.setHtmlData(html);
+
+					builder.setTitle(R.string.lawyer_label_atol_information);
+					builder.setTheme(R.style.Theme_Phone);
+					startActivity(builder.getIntent());
 				}
 			});
 		}

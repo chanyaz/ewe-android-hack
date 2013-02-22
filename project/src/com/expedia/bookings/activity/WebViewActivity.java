@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -23,6 +24,7 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 	private static final String ARG_DISABLE_SIGN_IN = "ARG_DISABLE_SIGN_IN";
 	private static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
+	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
 
 	private WebViewFragment mFragment;
 
@@ -79,6 +81,10 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 			return this;
 		}
 
+		public IntentBuilder setHtmlData(String data) {
+			mIntent.putExtra(ARG_HTML_DATA, data);
+			return this;
+		}
 	}
 
 	@Override
@@ -89,28 +95,45 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 
-		setTheme(extras.getInt(ARG_STYLE_RES_ID, R.style.FlightTheme));
+		setTheme(extras.getInt(ARG_STYLE_RES_ID, R.style.Theme_Phone_WebView));
 
 		// Title
-
-		String title = getString(R.string.app_name); // default title to "Expedia"
+		String title = null;
 		if (intent.hasExtra(ARG_TITLE_RES_ID)) {
 			title = getString(extras.getInt(ARG_TITLE_RES_ID));
 		}
 		if (intent.hasExtra(ARG_TITLE)) {
 			title = extras.getString(ARG_TITLE);
 		}
-		setTitle(title);
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if (!TextUtils.isEmpty(title)) {
+			setTitle(title);
+		}
+		else {
+			if (getSupportActionBar() != null) {
+				getSupportActionBar().setDisplayShowTitleEnabled(false);
+			}
+		}
+
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 
 		if (savedInstanceState == null) {
-			String url = extras.getString(ARG_URL);
-			Log.v("WebView url: " + url);
 			boolean disableSignIn = extras.getBoolean(ARG_DISABLE_SIGN_IN, false);
 			boolean injectExpediaCookies = extras.getBoolean(ARG_INJECT_EXPEDIA_COOKIES, false);
 			String name = extras.getString(ARG_TRACKING_NAME);
-			mFragment = WebViewFragment.newInstance(url, disableSignIn, injectExpediaCookies, name);
+
+			if (extras.containsKey(ARG_HTML_DATA)) {
+				String htmlData = extras.getString(ARG_HTML_DATA);
+				Log.v("WebView html data: " + htmlData);
+				mFragment = WebViewFragment.newInstance(htmlData);
+			}
+			else {
+				String url = extras.getString(ARG_URL);
+				Log.v("WebView url: " + url);
+				mFragment = WebViewFragment.newInstance(url, disableSignIn, injectExpediaCookies, name);
+			}
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.replace(android.R.id.content, mFragment, WebViewFragment.TAG);

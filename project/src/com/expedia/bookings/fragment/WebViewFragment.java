@@ -36,6 +36,7 @@ public class WebViewFragment extends Fragment {
 	public static final String TAG = WebViewFragment.class.toString();
 
 	private static final String ARG_URL = "ARG_URL";
+	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
 	private static final String ARG_DISABLE_SIGN_IN = "ARG_DISABLE_SIGN_IN";
 	private static final String ARG_LOAD_EXPEDIA_COOKIES = "ARG_LOAD_EXPEDIA_COOKIES";
 
@@ -51,6 +52,7 @@ public class WebViewFragment extends Fragment {
 	private boolean mWebViewLoaded = false;
 
 	private String mUrl;
+	private String mHtmlData;
 	private boolean mDisableSignIn;
 	private boolean mLoadCookies;
 	private TrackingName mTrackingName;
@@ -71,13 +73,29 @@ public class WebViewFragment extends Fragment {
 		return frag;
 	}
 
+	public static WebViewFragment newInstance(String htmlData) {
+		WebViewFragment frag = new WebViewFragment();
+
+		Bundle args = new Bundle();
+		args.putString(ARG_HTML_DATA, htmlData);
+		frag.setArguments(args);
+		frag.setRetainInstance(true);
+
+		return frag;
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = getActivity();
 
 		Bundle args = getArguments();
-		mUrl = args.getString(ARG_URL);
+		if (args.containsKey(ARG_HTML_DATA)) {
+			mHtmlData = args.getString(ARG_HTML_DATA);
+		}
+		else {
+			mUrl = args.getString(ARG_URL);
+		}
 		mDisableSignIn = args.getBoolean(ARG_DISABLE_SIGN_IN, false);
 
 		String name = args.getString(ARG_TRACKING_NAME);
@@ -172,7 +190,12 @@ public class WebViewFragment extends Fragment {
 
 		if (!mWebViewLoaded) {
 			mListener.setLoading(true);
-			mWebView.loadUrl(mUrl);
+			if (!TextUtils.isEmpty(mHtmlData)) {
+				mWebView.loadData(mHtmlData, "text/html", "UTF-8");
+			}
+			else {
+				mWebView.loadUrl(mUrl);
+			}
 		}
 		else {
 			mListener.setLoading(false);
