@@ -25,6 +25,8 @@ import com.mobiata.android.Log;
 
 public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener, OnItinCardClickListener {
 
+	private static final int CUTOFF_HOURS = 48;
+
 	public enum TripComponentSortOrder {
 		START_DATE
 	}
@@ -186,15 +188,19 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		//Add Items
 		mItinCardDatas.clear();
 		Collection<Trip> trips = mItinManager.getTrips();
+		Calendar pastCutoffCal = Calendar.getInstance();
+		pastCutoffCal.add(Calendar.HOUR_OF_DAY, -CUTOFF_HOURS);
 		if (trips != null) {
 			for (Trip trip : trips) {
 				if (trip.getTripComponents() != null) {
 					List<TripComponent> components = trip.getTripComponents();
 					for (TripComponent comp : components) {
-						//mItinCardDatas.add(comp);
 						List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
-						if (items != null) {
-							this.mItinCardDatas.addAll(items);
+						for (ItinCardData item : items) {
+							if (item.getEndDate() != null && item.getEndDate().getCalendar() != null
+									&& item.getEndDate().getCalendar().compareTo(pastCutoffCal) >= 0) {
+								this.mItinCardDatas.add(item);
+							}
 						}
 					}
 				}
