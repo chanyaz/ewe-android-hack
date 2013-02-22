@@ -55,6 +55,9 @@ public class ItinCardDataFactory {
 	}
 
 	private static List<ItinCardData> generateHotelCardData(TripHotel tc) {
+		if (tc.getProperty() == null) {
+			return null;
+		}
 		return Arrays.asList((ItinCardData) new ItinCardDataHotel(tc));
 	}
 
