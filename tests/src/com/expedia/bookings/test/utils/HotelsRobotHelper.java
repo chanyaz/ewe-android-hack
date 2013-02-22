@@ -402,6 +402,7 @@ public class HotelsRobotHelper {
 
 		landscape();
 		portrait();
+		delay();
 		if (mAllowOrientationChange) {
 			mSolo.clickOnEditText(0);
 		}
@@ -429,9 +430,14 @@ public class HotelsRobotHelper {
 				&& mRes.getConfiguration().locale != APAC_LOCALES[12]
 				&& mRes.getConfiguration().locale != APAC_LOCALES[15]) {
 			enterLog(TAG, "Clicking on label: " + filter);
-			mSolo.clickOnButton(1);
+			mSolo.clickOnText(filter);
 			landscape();
 			portrait();
+			delay();
+			if (mAllowOrientationChange) {
+				mSolo.clickOnText(filter);
+			}
+
 			delay(5);
 			mSolo.enterText(0, filterText);
 			delay(1);
@@ -446,12 +452,13 @@ public class HotelsRobotHelper {
 		String sortText = mRes.getString(R.string.sort);
 		enterLog(TAG, "Clicking on label: " + sortText);
 
-		mSolo.clickOnButton(0);
+		mSolo.clickOnText(sortText);
 		landscape();
 		portrait();
+		delay();
 
 		if (mAllowOrientationChange) {
-			mSolo.clickOnButton(0);
+			mSolo.clickOnText(sortText);
 		}
 
 		delay(1);
@@ -459,18 +466,18 @@ public class HotelsRobotHelper {
 		screenshot("Sort fragment");
 		delay(1);
 
-		mSolo.clickOnButton(0);
+		mSolo.clickOnText(sortText);
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_price));
 		delay(1);
 
-		mSolo.clickOnButton(0);
+		mSolo.clickOnText(sortText);
 		delay(1);
 		mSolo.clickOnText(mRes.getString(R.string.sort_description_rating));
 		delay(1);
 
 		try {
-			mSolo.clickOnButton(0);
+			mSolo.clickOnText(sortText);
 			delay(1);
 			mSolo.clickOnText(mRes.getString(R.string.sort_description_deals));
 			delay(1);
@@ -803,12 +810,6 @@ public class HotelsRobotHelper {
 
 	public void confirmAndBook() throws Exception {
 		delay(5);
-		try {
-			mSolo.clickOnView(mSolo.getView(R.id.i_accept_center_text));
-		}
-		catch (Error e) {
-			enterLog(TAG, "There is no 'I accept' button on this POS");
-		}
 		screenshot("Slide to checkout.");
 		delay();
 		try {
@@ -817,9 +818,19 @@ public class HotelsRobotHelper {
 		catch (Error e) {
 			enterLog(TAG, "Checkout button not there. Try to move on without it.");
 		}
+		
+		try {
+			mSolo.clickOnText(mRes.getString(R.string.I_Accept));
+		}
+		catch (Error e) {
+			enterLog(TAG, "There is no 'I accept' button on this POS");
+		}
+		
 		delay();
 		landscape();
 		portrait();
+		delay();
+		mSolo.scrollToBottom();
 
 		View sliderStart = mSolo.getView(R.id.slider_image);
 		int[] startLocation = new int[2];
@@ -869,7 +880,7 @@ public class HotelsRobotHelper {
 			else {
 				enterLog(TAG, "Never got to confirmation screen.");
 			}
-			if (mSolo.searchText(mUser.mLoginEmail, true)) {
+			if (!mSolo.searchText(mRes.getString(R.string.total_cost), true)) {
 				delay();
 				mSolo.scrollToTop();
 				screenshot("Confirmation Screen 1");
@@ -880,6 +891,7 @@ public class HotelsRobotHelper {
 			else {
 				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
 				enterLog(TAG, "Going back to launcher.");
+				mSolo.goBack();
 			}
 		}
 	}
