@@ -2,14 +2,15 @@ package com.expedia.bookings.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.widget.TextView;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -17,147 +18,118 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.HtmlUtils;
+import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.Ui;
-import com.mobiata.android.util.ViewUtils;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
+import com.mobiata.android.dialog.MailChimpDialogFragment;
+import com.mobiata.android.dialog.MailChimpDialogFragment.OnSubscribeEmailClickedListener;
+import com.mobiata.android.dialog.MailChimpFailureDialogFragment;
+import com.mobiata.android.dialog.MailChimpSuccessDialogFragment;
+import com.mobiata.android.fragment.CopyrightFragment;
+import com.mobiata.android.fragment.AboutSectionFragment;
+import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentListener;
+import com.mobiata.android.util.MailChimpUtils;
+import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
 
-public class AboutActivity extends com.mobiata.android.app.AboutActivity {
+public class AboutActivity extends SherlockFragmentActivity implements AboutSectionFragmentListener, OnSubscribeEmailClickedListener {
+	private static final String TAG_CONTACT_US = "TAG_CONTACT_US";
+	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
+	private static final String TAG_LEGAL = "TAG_LEGAL";
+	private static final String TAG_COPYRIGHT = "TAG_COPYRIGHT";
 
-	private static final int DIALOG_CONTACT_EXPEDIA = 100;
-	private static final int DIALOG_EXPEDIA_WEBSITE = 200;
+	private static final String DOWNLOAD_MAILCHIMP = "DOWNLOAD_MAILCHIMP";
 
-	// For tracking - tells you when a user paused the Activity but came back to it
+	private static final String TAG_MAILCHIMP_DIALOG = "TAG_MAILCHIMP_DIALOG";
+	private static final String TAG_MAILCHIMP_SUCCESS_DIALOG = "TAG_MAILCHIMP_SUCCESS_DIALOG";
+	private static final String TAG_MAILCHIMP_FAILURE_DIALOG = "TAG_MAILCHIMP_FAILURE_DIALOG";
+
+	private static final int ROW_CONTACT_EXPEDIA = 1;
+	private static final int ROW_APP_SUPPORT = 2;
+	private static final int ROW_APP_FEEDBACK = 3;
+	private static final int ROW_WERE_HIRING = 4;
+	private static final int ROW_PRIVACY_POLICY = 5;
+	private static final int ROW_TERMS_AND_CONDITIONS = 6;
+	private static final int ROW_ATOL_INFO = 7;
+	private static final int ROW_OPEN_SOURCE_LICENSES = 8;
+
+	private AboutUtils mAboutUtils;
+
 	private boolean mWasStopped;
 
-	private AboutUtils mUtils;
-
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mUtils = new AboutUtils(this);
+		mAboutUtils = new AboutUtils(this);
 
-		ViewGroup firstSection = addSection();
-		firstSection.setBackgroundDrawable((Drawable) null);
-		addSimpleRow(firstSection, getString(R.string.contact_expedia), new OnClickListener() {
-			public void onClick(View v) {
-				showDialog(DIALOG_CONTACT_EXPEDIA);
-			}
-		});
-		addSimpleRow(firstSection, getString(R.string.app_support), new OnClickListener() {
-			public void onClick(View v) {
-				mUtils.openAppSupport();
-			}
-		});
-		addSimpleRow(firstSection, getString(R.string.app_feedback), new OnClickListener() {
-			public void onClick(View v) {
-				mUtils.openAppFeedback();
-			}
-		});
-		addHiringPitch(firstSection, new OnClickListener() {
-			public void onClick(View v) {
-				mUtils.trackHiringLink();
-			}
-		});
+		setContentView(R.layout.activity_about);
 
-		// Section about some of our other apps
-		ViewGroup otherAppsSection = addSection(getString(R.string.ALSO_BY_MOBIATA));
-		if (AndroidUtils.getSdkVersion() >= 9) {
-			addAppAbout(otherAppsSection, APP_FLIGHTTRACKFREE, 0, new OnClickListener() {
-				public void onClick(View v) {
-					mUtils.trackFlightTrackFreeLink();
-				}
-			});
-		}
-		addAppAbout(otherAppsSection, APP_FLIGHTTRACK, 0, new OnClickListener() {
-			public void onClick(View v) {
-				mUtils.trackFlightTrackLink();
-			}
-		});
-		addAppAbout(otherAppsSection, APP_FLIGHTBOARD, 0, new OnClickListener() {
-			public void onClick(View v) {
-				mUtils.trackFlightBoardLink();
-			}
-		});
+		ActionBar ab = getSupportActionBar();
+		ab.setDisplayShowTitleEnabled(false);
+		ab.setDisplayHomeAsUpEnabled(true);
 
-		View upButton = Ui.findView(this, R.id.action_bar_up_button);
-		if (upButton != null) {
-			upButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					finish();
-				}
-			});
+		AboutSectionFragment.Builder builder;
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+		// Contact Us
+		AboutSectionFragment contactUsFragment = Ui.findSupportFragment(this, TAG_CONTACT_US);
+		if (contactUsFragment == null) {
+			builder = new AboutSectionFragment.Builder(this);
+			builder.addRow(R.string.contact_expedia, ROW_CONTACT_EXPEDIA);
+			builder.addRow(R.string.app_support, ROW_APP_SUPPORT);
+			builder.addRow(R.string.app_feedback, ROW_APP_FEEDBACK);
+			builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
+			contactUsFragment = builder.build();
+			ft.add(R.id.section_contact_us, contactUsFragment, TAG_CONTACT_US);
 		}
 
-		ViewGroup emailButton = Ui.findView(this, R.id.follow_email_button);
-		emailButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				showDialog(DIALOG_MAILCHIMP);
+		// Apps also by us
+		AboutSectionFragment alsoByFragment = Ui.findSupportFragment(this, TAG_ALSO_BY_US);
+		if (alsoByFragment == null) {
+			alsoByFragment = AboutSectionFragment.buildOtherAppsSection(this);
+			ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US);
+		}
+
+		// T&C, privacy, etc
+		AboutSectionFragment legalFragment = Ui.findSupportFragment(this, TAG_LEGAL);
+		if (legalFragment == null) {
+			builder = new AboutSectionFragment.Builder(this);
+			builder.setTitle(R.string.legal_information);
+			builder.addRow(R.string.info_label_privacy_policy, ROW_PRIVACY_POLICY);
+			builder.addRow(R.string.info_label_terms_conditions, ROW_TERMS_AND_CONDITIONS);
+			if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_KINGDOM)) {
+				builder.addRow(R.string.lawyer_label_atol_information, ROW_ATOL_INFO);
 			}
-		});
-		ViewUtils.setAllCaps(emailButton);
+			builder.addRow(R.string.open_source_software_licenses, ROW_OPEN_SOURCE_LICENSES);
+			legalFragment = builder.build();
+			ft.add(R.id.section_legal, legalFragment, TAG_LEGAL);
+		}
 
-		ViewGroup twitterButton = Ui.findView(this, R.id.follow_twitter_button);
-		twitterButton.setOnClickListener(getTwitterButtonClickedListener());
-		ViewUtils.setAllCaps(twitterButton);
+		// Copyright
+		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
+		if (copyrightFragment == null) {
+			copyrightFragment = CopyrightFragment.newInstance(getString(R.string.app_name), getString(R.string.copyright));
+			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
+		}
 
-		ViewGroup facebookButton = Ui.findView(this, R.id.follow_facebook_button);
-		facebookButton.setOnClickListener(getFacebookButtonClickedListener());
-		ViewUtils.setAllCaps(facebookButton);
+		// All done
+		ft.commit();
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(getString(R.string.this_app_makes_use_of_the_following));
+		sb.append(" ");
+		sb.append(getString(R.string.open_source_names));
+		sb.append("\n\n");
+		sb.append(getString(R.string.stack_blur_credit));
+		TextView openSourceCredits = Ui.findView(this, R.id.open_source_credits_textview);
+		openSourceCredits.setText(sb.toString());
 
 		// Tracking
 		if (savedInstanceState == null) {
-			mUtils.trackAboutActivityPageLoad();
+			mAboutUtils.trackAboutActivityPageLoad();
 		}
-
-		PointOfSale posInfo = PointOfSale.getPointOfSale();
-
-		TextView tac_link = Ui.findView(this, R.id.terms_and_conditions_link);
-		tac_link.setText(Html.fromHtml(String.format("<a href=\"%s\">%s</a>",
-				posInfo.getTermsAndConditionsUrl(), mContext.getString(R.string.info_label_terms_conditions))));
-		tac_link.setMovementMethod(LinkMovementMethod.getInstance());
-
-		TextView privacy_policy_link = Ui.findView(this, R.id.privacy_policy_link);
-		privacy_policy_link.setText(Html.fromHtml(String.format("<a href=\"%s\">%s</a>",
-				posInfo.getPrivacyPolicyUrl(), mContext.getString(R.string.info_label_privacy_policy))));
-		privacy_policy_link.setMovementMethod(LinkMovementMethod.getInstance());
-
-		if (posInfo.getPointOfSaleId().equals(PointOfSaleId.UNITED_KINGDOM)) {
-			TextView atol_link = Ui.findView(this, R.id.atol_link);
-			atol_link.setText(Html.fromHtml(String.format("<u>%s</u>", mContext.getString(R.string.lawyer_label_atol_information))));
-			atol_link.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
-
-					String message = mContext.getString(R.string.lawyer_label_atol_long_message);
-					String html = HtmlUtils.wrapInHeadAndBody(message);
-					builder.setHtmlData(html);
-
-					startActivity(builder.getIntent());
-				}
-			});
-			atol_link.setVisibility(View.VISIBLE);
-		}
-
-		TextView open_source_licenses_link = Ui.findView(this, R.id.open_source_licenses_link);
-		open_source_licenses_link.setText(Html.fromHtml(String.format("<u>%s</u>",
-				mContext.getString(R.string.view_open_source_software_licenses))));
-		open_source_licenses_link.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
-
-				String license = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(mContext);
-				String htmlEscapedData = "<pre>" + HtmlUtils.escape(license) + "</pre>";
-				String html = HtmlUtils.wrapInHeadAndBody(htmlEscapedData);
-				builder.setHtmlData(html);
-
-				startActivity(builder.getIntent());
-			}
-		});
 	}
 
 	@Override
@@ -175,16 +147,14 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-
 		mWasStopped = true;
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-
 		if (mWasStopped) {
-			mUtils.trackAboutActivityPageLoad();
+			mAboutUtils.trackAboutActivityPageLoad();
 			mWasStopped = false;
 		}
 	}
@@ -194,40 +164,166 @@ public class AboutActivity extends com.mobiata.android.app.AboutActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == AboutUtils.REQUEST_CODE_FEEDBACK && resultCode == RESULT_OK) {
-			mUtils.trackFeedbackSubmitted();
+			mAboutUtils.trackFeedbackSubmitted();
 		}
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) {
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_about, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		case R.id.about_subscribe:
+			MailChimpDialogFragment dialogFrag = new MailChimpDialogFragment();
+			dialogFrag.show(getSupportFragmentManager(), MailChimpDialogFragment.class.toString());
+			return true;
+		case R.id.about_follow:
+			SocialUtils.openSite(this, "https://twitter.com/intent/user?screen_name=mobiata");
+			return true;
+		case R.id.about_like:
+			SocialUtils.openSite(this, "http://www.facebook.com/pages/Mobiata/95307070557");
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private static final int DIALOG_CONTACT_EXPEDIA = 100;
+
+	@Override
+	public Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_CONTACT_EXPEDIA: {
-			return mUtils.createContactExpediaDialog(new Runnable() {
+			return mAboutUtils.createContactExpediaDialog(new Runnable() {
+				@Override
 				public void run() {
 					removeDialog(DIALOG_CONTACT_EXPEDIA);
 				}
 			});
 		}
-		case DIALOG_EXPEDIA_WEBSITE: {
-			return mUtils.createExpediaWebsiteDialog(new Runnable() {
-				@Override
-				public void run() {
-					removeDialog(DIALOG_EXPEDIA_WEBSITE);
+		default:
+			return super.onCreateDialog(id);
+		}
+	}
+
+	@Override
+	public boolean onAboutRowClicked(int id) {
+		boolean handled = false;
+		switch (id) {
+		case ROW_CONTACT_EXPEDIA: {
+			showDialog(DIALOG_CONTACT_EXPEDIA);
+			handled =  true;
+			break;
+		}
+		case ROW_APP_SUPPORT: {
+			mAboutUtils.openAppSupport();
+			handled = true;
+			break;
+		}
+		case ROW_APP_FEEDBACK: {
+			mAboutUtils.openAppFeedback();
+			handled = true;
+			break;
+		}
+		case ROW_WERE_HIRING: {
+			SocialUtils.openSite(this, "http://www.mobiata.com/careers");
+			mAboutUtils.trackHiringLink();
+			handled = true;
+			break;
+		}
+
+		// Legal section
+		case ROW_TERMS_AND_CONDITIONS: {
+			PointOfSale posInfo = PointOfSale.getPointOfSale();
+			SocialUtils.openSite(this, posInfo.getTermsAndConditionsUrl());
+			handled = true;
+			break;
+		}
+		case ROW_PRIVACY_POLICY: {
+			PointOfSale posInfo = PointOfSale.getPointOfSale();
+			SocialUtils.openSite(this, posInfo.getPrivacyPolicyUrl());
+			handled = true;
+			break;
+		}
+		case ROW_ATOL_INFO: {
+			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(this);
+
+			String message = getString(R.string.lawyer_label_atol_long_message);
+			String html = HtmlUtils.wrapInHeadAndBody(message);
+			builder.setHtmlData(html);
+
+			startActivity(builder.getIntent());
+
+			handled = true;
+			break;
+		}
+		case ROW_OPEN_SOURCE_LICENSES: {
+			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(this);
+
+			String license = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(this);
+			String htmlEscapedData = "<pre>" + HtmlUtils.escape(license) + "</pre>";
+			String html = HtmlUtils.wrapInHeadAndBody(htmlEscapedData);
+			builder.setHtmlData(html);
+
+			startActivity(builder.getIntent());
+
+			handled = true;
+			break;
+		}
+
+		// Track app row clicks - return false, because we want the default behaviour
+		case AboutSectionFragment.ROW_FLIGHT_TRACK_FREE: {
+			mAboutUtils.trackFlightTrackFreeLink();
+			break;
+		}
+		case AboutSectionFragment.ROW_FLIGHT_TRACK: {
+			mAboutUtils.trackFlightTrackLink();
+			break;
+		}
+		case AboutSectionFragment.ROW_FLIGHT_BOARD: {
+			mAboutUtils.trackFlightBoardLink();
+			break;
+		}
+
+		default:
+			handled = false;
+		}
+		return handled;
+	}
+
+	private final OnDownloadComplete<MailChimpResult> mMailChimpCallback = new OnDownloadComplete<MailChimpResult>() {
+		@Override
+		public void onDownload(MailChimpResult result) {
+			if (result == null || result.mSuccess == false) {
+				MailChimpFailureDialogFragment dialogFragment = new MailChimpFailureDialogFragment();
+				Bundle args = new Bundle();
+				if (!TextUtils.isEmpty(result.mErrorMessage)) {
+					args.putString("message", result.mErrorMessage);
 				}
-			});
+				else {
+					args.putString("message", getString(com.mobiata.android.R.string.MailChimpFailure));
+				}
+				dialogFragment.setArguments(args);
+				dialogFragment.show(getSupportFragmentManager(), MailChimpFailureDialogFragment.class.toString());
+			}
+			else {
+				MailChimpSuccessDialogFragment dialogFragment = new MailChimpSuccessDialogFragment();
+				dialogFragment.show(getSupportFragmentManager(), MailChimpSuccessDialogFragment.class.toString());
+			}
+			return;
 		}
-		}
-
-		return super.onCreateDialog(id);
-	}
+	};
 
 	@Override
-	public String getAboutHtml() {
-		return getString(R.string.copyright);
-	}
-
-	@Override
-	public boolean useDefaultBehavior() {
-		return false;
+	public void onSubscribeEmail(String email) {
+		MailChimpUtils.subscribeEmail(this, DOWNLOAD_MAILCHIMP, email, mMailChimpCallback);
 	}
 }
+
