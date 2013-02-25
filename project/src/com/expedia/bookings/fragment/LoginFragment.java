@@ -149,7 +149,8 @@ public class LoginFragment extends Fragment {
 	}
 
 	public enum PathMode {
-		HOTELS, FLIGHTS
+		HOTELS,
+		FLIGHTS
 	}
 
 	public static LoginFragment newInstance(PathMode mode) {
