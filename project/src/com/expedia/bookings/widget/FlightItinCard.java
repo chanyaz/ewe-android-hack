@@ -319,13 +319,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				topLine.setText(R.string.flight_canceled);
 			}
 			else if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
-				if (flight.mDiverted != null) {
-					topLine.setText(res.getString(R.string.flight_diverted_TEMPLATE,
-							flight.getArrivalWaypoint().mAirportCode));
-				}
-				else {
-					topLine.setText(R.string.flight_diverted);
-				}
+				topLine.setText(R.string.flight_diverted);
 			}
 			else if (Flight.STATUS_REDIRECTED.equals(flight.mStatusCode)) {
 				topLine.setText(R.string.flight_redirected);
