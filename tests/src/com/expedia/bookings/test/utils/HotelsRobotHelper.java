@@ -178,7 +178,7 @@ public class HotelsRobotHelper {
 	}
 
 	public void enterLog(String TAG, String logText) {
-		Log.d(TAG, "Robotium: " + logText);
+		Log.v(TAG, "Robotium: " + logText);
 	}
 
 	public void delay(int time) { //Enter time in seconds
