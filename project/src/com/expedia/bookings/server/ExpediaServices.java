@@ -685,13 +685,24 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/trip.html
 
-	public TripResponse getTrips(int flags) {
+	public TripResponse getTrips(boolean getCachedDetails, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 		addCommonParams(query);
+		query.add(new BasicNameValuePair("filterBookingStatus", "PENDING"));
+		query.add(new BasicNameValuePair("filterBookingStatus", "BOOKED"));
+		query.add(new BasicNameValuePair("filterTimePeriod", "UPCOMING"));
+		query.add(new BasicNameValuePair("filterTimePeriod", "INPROGRESS"));
+		query.add(new BasicNameValuePair("filterTimePeriod", "RECENTLY_COMPLETED"));
+		query.add(new BasicNameValuePair("sort", "SORT_STARTDATE_ASCENDING"));
+
+		if (getCachedDetails) {
+			query.add(new BasicNameValuePair("getCachedDetails", "5"));
+		}
+
 		return doE3Request("api/trips", query, new TripResponseHandler(mContext), F_SECURE_REQUEST | F_GET);
 	}
 
-	public TripDetailsResponse getTripDetails(Trip trip) {
+	public TripDetailsResponse getTripDetails(Trip trip, boolean useCache) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -704,6 +715,8 @@ public class ExpediaServices implements DownloadListener {
 
 			flags |= F_IGNORE_COOKIES;
 		}
+
+		query.add(new BasicNameValuePair("useCache", useCache ? "1" : "0"));
 
 		return doE3Request("api/trips/" + trip.getTripId(), query, new TripDetailsResponseHandler(mContext), flags);
 	}

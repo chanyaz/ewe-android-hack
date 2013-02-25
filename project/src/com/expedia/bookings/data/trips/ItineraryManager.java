@@ -266,7 +266,7 @@ public class ItineraryManager implements JSONable {
 					// If the user is logged in, retrieve a listing of current trips for logged in user
 					if (User.isLoggedIn(mContext)) {
 						ExpediaServices services = new ExpediaServices(mContext);
-						TripResponse response = services.getTrips(0);
+						TripResponse response = services.getTrips(false, 0);
 
 						// TODO: ERROR HANDLING
 
@@ -311,7 +311,7 @@ public class ItineraryManager implements JSONable {
 						// TODO: Figure out algorithm for when to do a cached update vs. full update (assumes cached atm)
 
 						ExpediaServices services = new ExpediaServices(mContext);
-						TripDetailsResponse response = services.getTripDetails(trip);
+						TripDetailsResponse response = services.getTripDetails(trip, true);
 
 						if (response == null || response.hasErrors()) {
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
