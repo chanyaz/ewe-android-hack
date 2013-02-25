@@ -116,6 +116,14 @@
                             android:textColor="#FFFFFF"
                             android:textSize="18dp"
                             android:textStyle="bold" />
+                        
+                        <View 
+                            android:id="@+id/header_mask"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentTop="true"
+                            android:background="#66000000"
+                            android:visibility="gone"/>
                     </RelativeLayout>
 
                     <!-- ###################################################################### -->

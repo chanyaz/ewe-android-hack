@@ -158,6 +158,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	private OptimizedImageView mHeaderImageView;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
+	private View mHeaderShadeView;
 	private View mSummaryDividerView;
 
 	private TextView mSummaryLeftButton;
@@ -199,6 +200,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
 		mHeaderOverlayImageView = Ui.findView(this, R.id.header_overlay_image_view);
 		mHeaderTextView = Ui.findView(this, R.id.header_text_view);
+		mHeaderShadeView = Ui.findView(this, R.id.header_mask);
 		mSummaryDividerView = Ui.findView(this, R.id.summary_divider_view);
 
 		mSummaryLeftButton = Ui.findView(this, R.id.summary_left_button);
@@ -282,14 +284,13 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 				(leftButton != null && rightButton != null) ? VISIBLE : GONE);
 
 		//Shade
-		//TODO: Make this follow the design spec
 		if (mShadeCard) {
 			float shadeAlpha = 0.5f;
-			setViewAlpha(mCardLayout, shadeAlpha);
+			mHeaderShadeView.setVisibility(View.VISIBLE);
 			setViewAlpha(mItinTypeImageView, shadeAlpha);
 		}
 		else {
-			setViewAlpha(mCardLayout, 1f);
+			mHeaderShadeView.setVisibility(View.GONE);
 			setViewAlpha(mItinTypeImageView, 1f);
 		}
 	}
