@@ -277,11 +277,20 @@ public class ItineraryManager implements JSONable {
 							for (Trip trip : response.getTrips()) {
 								String tripId = trip.getTripId();
 
-								// TODO: Determine if we got full details and update if possible
+								boolean hasFullDetails = trip.getLevelOfDetail() == LevelOfDetail.FULL;
 								if (!mTrips.containsKey(tripId)) {
 									mTrips.put(tripId, trip);
 
 									publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
+								}
+								else if (hasFullDetails) {
+									mTrips.get(tripId).updateFrom(trip);
+								}
+
+								// If we have full details, mark this as recently updated so we don't
+								// refresh it below
+								if (hasFullDetails) {
+									trip.markUpdated(false);
 								}
 
 								currentTrips.remove(tripId);
@@ -306,6 +315,7 @@ public class ItineraryManager implements JSONable {
 						// Determine if we should sync or not
 						long now = Calendar.getInstance().getTimeInMillis();
 						if (now - UPDATE_TRIP_CACHED_CUTOFF < trip.getLastCachedUpdateMillis()) {
+							Log.d("Not querying trip, recently updated: " + trip.getTripId());
 							continue;
 						}
 
