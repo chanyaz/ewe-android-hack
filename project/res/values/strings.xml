@@ -152,6 +152,8 @@
     <string name="flight_departs_x_late_TEMPLATE">Departs %1$s late</string>
     <!-- Refresh -->
     <string name="refresh">Refresh</string>
+    <!-- Try Again -->
+    <string name="try_again">Try Again</string>
     <!-- Car types -->
     <string name="car_type_two_door">Two Door Car</string>
     <string name="car_type_three_door">Three Door Car</string>

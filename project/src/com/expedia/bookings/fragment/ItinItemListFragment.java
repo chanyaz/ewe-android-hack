@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
@@ -41,6 +42,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
 	public static final String DIALOG_SHARE = "DIALOG_SHARE";
 
+	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
+
 	private View mItinPathView;
 	private ItinListView mItinListView;
 	private View mEmptyView;
@@ -50,7 +53,13 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private ViewGroup mEmptyListContent;
 	private Button mLoginButton;
 	private Button mNoTripsRefreshButton;
+	private Button mNoTripsTryAgainButton;
+	private ViewGroup mErrorContainer;
+	private TextView mErrorTv;
+	private View mErrorMask;
 
+	private String mErrorMessage;
+	private boolean mShowError = false;
 	private boolean mAllowLoadItins = false;
 
 	public static ItinItemListFragment newInstance() {
@@ -78,6 +87,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mLoginButton = Ui.findView(view, R.id.login_button);
 		mLoginButton.setText(Html.fromHtml(getString(R.string.log_in_for_your_trips)));
 		mNoTripsRefreshButton = Ui.findView(view, R.id.no_trips_refresh_button);
+		mNoTripsTryAgainButton = Ui.findView(view, R.id.no_trips_try_again_button);
+		mErrorTv = Ui.findView(view, R.id.no_trips_error_message);
+		mErrorMask = Ui.findView(view, R.id.empty_list_error_mask);
+		mErrorContainer = Ui.findView(view, R.id.error_container);
 
 		mItinListView.setEmptyView(mEmptyView);
 		mItinListView.setOnScrollListener(mOnScrollListener);
@@ -98,12 +111,21 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			}
 		});
 
-		mNoTripsRefreshButton.setOnClickListener(new OnClickListener() {
+		OnClickListener syncManagerClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				syncItinManager();
 			}
-		});
+		};
+
+		mNoTripsRefreshButton.setOnClickListener(syncManagerClickListener);
+		mNoTripsTryAgainButton.setOnClickListener(syncManagerClickListener);
+
+		if (savedInstanceState != null) {
+			if (savedInstanceState.containsKey(STATE_ERROR_MESSAGE)) {
+				setErrorMessage(savedInstanceState.getString(STATE_ERROR_MESSAGE), true);
+			}
+		}
 
 		return view;
 	}
@@ -113,6 +135,14 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		super.onResume();
 		updateLoginState();
 		syncItinManager();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		if (mShowError && mErrorMessage != null) {
+			outState.putString(STATE_ERROR_MESSAGE, mErrorMessage);
+		}
+		super.onSaveInstanceState(outState);
 	}
 
 	public void syncItinManager() {
@@ -155,10 +185,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private void updateLoginState() {
 		if (User.isLoggedIn(getActivity()) && Db.getUser() != null) {
 			mLoginButton.setVisibility(View.GONE);
-			mNoTripsRefreshButton.setVisibility(View.VISIBLE);
+			mNoTripsRefreshButton.setVisibility(mShowError ? View.GONE : View.VISIBLE);
 		}
 		else {
-			mLoginButton.setVisibility(View.VISIBLE);
+			mLoginButton.setVisibility(mShowError ? View.GONE : View.VISIBLE);
 			mNoTripsRefreshButton.setVisibility(View.GONE);
 		}
 	}
@@ -175,6 +205,21 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		String logoutMessage = getResources().getString(R.string.itin_logout_confirmation_message_TEMPLATE, email);
 		ConfirmLogoutDialogFragment df = ConfirmLogoutDialogFragment.getInstance(this, logoutMessage);
 		df.show(getFragmentManager(), ConfirmLogoutDialogFragment.TAG);
+	}
+
+	public void setErrorMessage(int messageId, boolean showError) {
+		setErrorMessage(getString(messageId), showError);
+	}
+
+	public void setErrorMessage(String message, boolean showError) {
+		mShowError = showError;
+		mErrorMessage = message;
+
+		mErrorTv.setText(mErrorMessage != null ? mErrorMessage : "");
+		mErrorContainer.setVisibility(mShowError ? View.VISIBLE : View.GONE);
+		mErrorMask.setVisibility(mShowError ? View.VISIBLE : View.GONE);
+
+		updateLoginState();
 	}
 
 	@Override
@@ -241,6 +286,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
 		setIsLoading(false);
+
+		//TODO: Check for itin error and call setErrorMessage() if needed
 	}
 
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {

@@ -35,19 +35,17 @@
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/empty_list_content"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
             android:visibility="visible" >
 
             <LinearLayout
                 android:id="@+id/centered_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_centerInParent="true"
                 android:gravity="center"
                 android:orientation="vertical" >
 
@@ -56,7 +54,6 @@
                     android:layout_width="96dp"
                     android:layout_height="64dp"
                     android:layout_marginBottom="0dp"
-                    android:layout_marginTop="64dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_suitcase_small" />
 
@@ -76,7 +73,8 @@
                     android:background="@drawable/btn_cancel"
                     android:bufferType="spannable"
                     android:gravity="center"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/no_trips_refresh_button"
@@ -94,8 +92,9 @@
                 android:id="@+id/or_enter_itin_number_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="0"
                 android:drawableLeft="@drawable/ratingbar_star_white_full"
                 android:drawablePadding="4dp"
                 android:gravity="center_horizontal"
@@ -104,7 +103,48 @@
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-        </LinearLayout>
+
+            <View
+                android:id="@+id/empty_list_error_mask"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:background="#99000000"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/error_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_above="@id/or_enter_itin_number_tv"
+                android:layout_below="@id/centered_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/no_trips_error_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp" />
+
+                <Button
+                    android:id="@+id/no_trips_try_again_button"
+                    style="@style/LoginFormButton"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/btn_cancel"
+                    android:bufferType="spannable"
+                    android:gravity="center"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:text="@string/try_again"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/empty_list_loading_container"
