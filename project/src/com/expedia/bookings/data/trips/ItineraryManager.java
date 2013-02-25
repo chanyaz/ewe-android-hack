@@ -250,7 +250,7 @@ public class ItineraryManager implements JSONable {
 	private AsyncTask<Void, ProgressUpdate, Collection<Trip>> mSyncTask;
 
 	// TODO: Figure out better values for this
-	private static final long UPDATE_TRIP_QUICK_CUTOFF = 1000 * 60 * 60 * 24; // 1 day
+	private static final long UPDATE_TRIP_CACHED_CUTOFF = 1000 * 60 * 60 * 24; // 1 day
 
 	/**
 	 * Start a sync operation.
@@ -305,7 +305,7 @@ public class ItineraryManager implements JSONable {
 
 						// Determine if we should sync or not
 						long now = Calendar.getInstance().getTimeInMillis();
-						if (now - UPDATE_TRIP_QUICK_CUTOFF < trip.getLastQuickUpdateMillis()) {
+						if (now - UPDATE_TRIP_CACHED_CUTOFF < trip.getLastCachedUpdateMillis()) {
 							continue;
 						}
 

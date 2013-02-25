@@ -52,7 +52,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 	// There are two levels of details - a quick, cached copy from the API and
 	// a full, up-to-date copy.  Thus, two possible update times.
-	private long mLastQuickUpdate;
+	private long mLastCachedUpdate;
 	private long mLastFullUpdate;
 
 	public Trip() {
@@ -176,15 +176,15 @@ public class Trip implements JSONable, Comparable<Trip> {
 		}
 	}
 
-	public long getLastQuickUpdateMillis() {
-		return mLastQuickUpdate;
+	public long getLastCachedUpdateMillis() {
+		return mLastCachedUpdate;
 	}
 
 	public long getLastFullUpdateMillis() {
 		return mLastFullUpdate;
 	}
 
-	public void updateFrom(Trip other, boolean isFullUpdate) {
+	public void updateFrom(Trip other) {
 		// For now, we assume that updateFrom() will always have more details than
 		// we have now, so we blow away most current data.  This may not be true
 		// once the API is fully fleshed otu.
@@ -204,13 +204,17 @@ public class Trip implements JSONable, Comparable<Trip> {
 		associateTripWithComponents();
 
 		mTripInsurance = other.getTripInsurance();
+	}
 
+	public void markUpdated(boolean isFullUpdate) {
 		long updateTime = Calendar.getInstance().getTimeInMillis();
+
+		// A full update also counts as a cached update (since it has
+		// more data)
+		mLastCachedUpdate = updateTime;
+
 		if (isFullUpdate) {
 			mLastFullUpdate = updateTime;
-		}
-		else {
-			mLastQuickUpdate = updateTime;
 		}
 	}
 
@@ -242,7 +246,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 			JSONUtils.putJSONableList(obj, "tripComponents", mTripComponents);
 			JSONUtils.putJSONableList(obj, "insurance", mTripInsurance);
 
-			obj.putOpt("lastQuickUpdate", mLastQuickUpdate);
+			obj.putOpt("lastCachedUpdate", mLastCachedUpdate);
 			obj.putOpt("lastFullUpdate", mLastFullUpdate);
 
 			return obj;
@@ -278,7 +282,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 			mTripInsurance = JSONUtils.getJSONableList(obj, "insurance", Insurance.class);
 		}
 
-		mLastQuickUpdate = obj.optLong("lastQuickUpdate");
+		mLastCachedUpdate = obj.optLong("lastCachedUpdate");
 		mLastFullUpdate = obj.optLong("lastFullUpdate");
 
 		return true;
