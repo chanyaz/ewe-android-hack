@@ -19,6 +19,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
@@ -320,9 +321,10 @@ public class ItineraryManager implements JSONable {
 
 							Trip updatedTrip = response.getTrip();
 
-							// Look for flight images
+							// Look for images
 							TripFlight tripFlight;
 							FlightTrip flightTrip;
+							TripCar tripCar;
 							Waypoint waypoint;
 							String destinationCode;
 
@@ -346,12 +348,27 @@ public class ItineraryManager implements JSONable {
 										}
 
 										for (Flight segment : fl.getSegments()) {
-											if (Math.abs(segment.mOrigin.getMostRelevantDateTime().getTimeInMillis() - now) <= (60 * 60 * 24 * 1000)) {
+											if (Math.abs(segment.mOrigin.getMostRelevantDateTime().getTimeInMillis()
+													- now) <= (60 * 60 * 24 * 1000)) {
 												segment.updateFrom(services.getUpdatedFlight(segment));
 											}
-											else if (segment.getArrivalWaypoint().getMostRelevantDateTime().getTimeInMillis() < now) {
+											else if (segment.getArrivalWaypoint().getMostRelevantDateTime()
+													.getTimeInMillis() < now) {
 												segment.mStatusCode = Flight.STATUS_LANDED;
 											}
+										}
+									}
+								}
+								else if (tripComponent.getType().equals(TripComponent.Type.CAR)) {
+									tripCar = (TripCar) tripComponent;
+									Car.Category category = tripCar.getCar().getCategory();
+
+									if (category != null) {
+										BackgroundImageResponse imageResponse = services.getCarsBackgroundImage(tripCar
+												.getCar().getCategory(), 0, 0);
+
+										if (imageResponse != null) {
+											tripCar.setCarCategoryImageUrl(imageResponse.getImageUrl());
 										}
 									}
 								}

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -137,7 +138,12 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		detailsTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+				builder.setUrl(itinCardData.getDetailsUrl());
+				builder.setTitle(R.string.booking_info);
+				builder.setTheme(R.style.FlightTheme);
+				builder.setDisableSignIn(true);
+				getContext().startActivity(builder.getIntent());
 			}
 		});
 

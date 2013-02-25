@@ -3,6 +3,7 @@ package com.expedia.bookings.data.trips;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Set;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -119,6 +120,15 @@ public class ItinCardDataHotel extends ItinCardData {
 
 	public String getRoomDescription() {
 		return mProperty.getDescriptionText();
+	}
+
+	public String getFormattedConfirmationNumbers() {
+		Set<String> confirmationNumbers = ((TripHotel) getTripComponent()).getConfirmationNumbers();
+		if (confirmationNumbers != null) {
+			return TextUtils.join(",  ", confirmationNumbers.toArray());
+		}
+
+		return null;
 	}
 
 	public Intent getDirectionsIntent() {

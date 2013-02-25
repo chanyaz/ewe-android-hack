@@ -87,6 +87,10 @@ public class ItinCardDataCar extends ItinCardData {
 		return null;
 	}
 
+	public String getCarCategoryImageUrl() {
+		return ((TripCar) getTripComponent()).getCarCategoryImageUrl();
+	}
+
 	public DateTime getPickUpDate() {
 		return getTripComponent().getParentTrip().getStartDate();
 	}
@@ -152,6 +156,10 @@ public class ItinCardDataCar extends ItinCardData {
 	public Location getRelevantVendorLocation() {
 		boolean pickup = System.currentTimeMillis() > mCar.getPickUpDateTime().getMillisFromEpoch();
 		return pickup ? mCar.getPickUpLocation() : mCar.getDropOffLocation();
+	}
+
+	public String getConfirmationNumber() {
+		return mCar.getConfNumber();
 	}
 
 	public Intent getPikcupDirectionsIntent() {

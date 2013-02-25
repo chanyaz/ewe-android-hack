@@ -148,7 +148,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/itin_card_details_confirmation_number" />
+        android:text="@string/itin_card_details_confirmation_code" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/confirmation_number_text_view"
@@ -201,6 +201,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/list_selector_holo_dark"
+        android:drawableLeft="@drawable/ic_info_small"
+        android:drawablePadding="8dp"
         android:padding="8dp"
         android:text="@string/itin_card_details_details" />
 

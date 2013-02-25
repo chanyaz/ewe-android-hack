@@ -1,5 +1,8 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +14,7 @@ public class TripHotel extends TripComponent {
 	private Property mProperty;
 	private String mCheckInTime;
 	private int mGuests;
+	private Set<String> mConfirmationNumbers;
 
 	public TripHotel() {
 		super(Type.HOTEL);
@@ -38,6 +42,22 @@ public class TripHotel extends TripComponent {
 
 	public void setGuests(int guests) {
 		mGuests = guests;
+	}
+
+	public Set<String> getConfirmationNumbers() {
+		return mConfirmationNumbers;
+	}
+
+	public void addConfirmationNumber(String confirmationNumber) {
+		if (mConfirmationNumbers == null) {
+			mConfirmationNumbers = new HashSet<String>();
+		}
+
+		mConfirmationNumbers.add(confirmationNumber);
+	}
+
+	public void setConfirmationNumbers(Set<String> confirmationNumbers) {
+		mConfirmationNumbers = confirmationNumbers;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

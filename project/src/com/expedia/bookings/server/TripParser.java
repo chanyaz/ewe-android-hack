@@ -220,6 +220,7 @@ public class TripParser {
 		if (roomsJson != null) {
 			for (int i = 0; i < roomsJson.length(); i++) {
 				JSONObject room = roomsJson.optJSONObject(i);
+				hotel.addConfirmationNumber(room.optString("hotelConfirmationNumber"));
 				property.setDescriptionText(room.optString("roomRatePlanDescription"));
 
 				JSONObject roomPreferences = room.optJSONObject("roomPreferences");
@@ -337,6 +338,9 @@ public class TripParser {
 
 		parseTripCommon(obj, tripCar);
 
+		tripCar.setStartDate(parseDateTime(obj.optJSONObject("pickupTime")));
+		tripCar.setEndDate(parseDateTime(obj.optJSONObject("dropOffTime")));
+
 		if (obj.has("uniqueID")) {
 			Car car = new Car();
 
@@ -379,6 +383,9 @@ public class TripParser {
 
 		parseTripCommon(obj, tripCruise);
 
+		tripCruise.setStartDate(parseDateTime(obj.optJSONObject("startTime")));
+		tripCruise.setEndDate(parseDateTime(obj.optJSONObject("endTime")));
+
 		return tripCruise;
 	}
 
@@ -386,6 +393,9 @@ public class TripParser {
 		TripActivity tripActivity = new TripActivity();
 
 		parseTripCommon(obj, tripActivity);
+
+		tripActivity.setStartDate(parseDateTime(obj.optJSONObject("startTime")));
+		tripActivity.setEndDate(parseDateTime(obj.optJSONObject("endTime")));
 
 		if (obj.has("uniqueID")) {
 			Activity activity = new Activity();

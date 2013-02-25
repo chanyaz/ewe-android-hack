@@ -58,6 +58,7 @@ import com.expedia.bookings.data.AvailabilityResponse;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
@@ -364,6 +365,10 @@ public class ExpediaServices implements DownloadListener {
 				&& SettingUtils.get(context, context.getString(R.string.preference_suppress_bookings), true);
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Images API
+	//
+
 	/**
 	 * Get the url for a background image, based on a destination code
 	 * @param destinationCode
@@ -391,6 +396,23 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Exception downloading Bitmap", ex);
 		}
 		return null;
+	}
+
+	/**
+	 * Get the url for a background image, based on a destination code
+	 * @param destinationCode
+	 * @return
+	 */
+	public BackgroundImageResponse getCarsBackgroundImage(Car.Category category, Integer width, Integer height) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("imageType", "CAR"));
+		query.add(new BasicNameValuePair("imageCode", category.toString().toLowerCase()));
+		query.add(new BasicNameValuePair("imageWidth", width.toString()));
+		query.add(new BasicNameValuePair("imageHeight", height.toString()));
+
+		addCommonParams(query);
+
+		return doFlightsRequest("api/mobile/image", query, new BackgroundImageResponseHandler(mContext), 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////

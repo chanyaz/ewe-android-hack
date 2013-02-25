@@ -181,7 +181,7 @@
     <string name="itin_card_details_expires">Expires</string>
     <string name="itin_card_details_guests">Guests</string>
     <string name="itin_card_details_booking_info">Booking Info</string>
-    <string name="itin_card_details_confirmation_number">Confirmation Number</string>
+    <string name="itin_card_details_confirmation_code">Confirmation Code</string>
     <string name="itin_card_details_details">Additional Information</string>
     <string name="itin_card_details_pick_up">Pick Up</string>
     <string name="itin_card_details_drop_off">Drop Off</string>

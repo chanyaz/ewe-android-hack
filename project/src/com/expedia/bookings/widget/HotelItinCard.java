@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
 
@@ -119,6 +122,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 		TextView addressTextView = Ui.findView(view, R.id.address_text_view);
 		TextView phoneNumberTextView = Ui.findView(view, R.id.phone_number_text_view);
 		TextView roomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
+		TextView confirmationNumberTextView = Ui.findView(view, R.id.confirmation_number_text_view);
 		TextView detailsTextView = Ui.findView(view, R.id.details_text_view);
 		TextView insuranceLabel = Ui.findView(view, R.id.insurance_label);
 		ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
@@ -144,10 +148,25 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 			}
 		});
 
+		final String confirmationNumbers = itinCardData.getFormattedConfirmationNumbers();
+		confirmationNumberTextView.setText(confirmationNumbers);
+		confirmationNumberTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ClipboardUtils.setText(getContext(), confirmationNumbers);
+				Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
+			}
+		});
+
 		detailsTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.openSite(getContext(), itinCardData.getDetailsUrl());
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+				builder.setUrl(itinCardData.getDetailsUrl());
+				builder.setTitle(R.string.booking_info);
+				builder.setTheme(R.style.FlightTheme);
+				builder.setDisableSignIn(true);
+				getContext().startActivity(builder.getIntent());
 			}
 		});
 
