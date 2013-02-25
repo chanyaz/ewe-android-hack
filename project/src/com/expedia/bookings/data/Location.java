@@ -187,8 +187,8 @@ public class Location implements JSONable {
 		mStateCode = obj.optString("stateCode", null);
 		mCountryCode = LocaleUtils.convertCountryCode(obj.optString("countryCode", null));
 		mPostalCode = obj.optString("postalCode", null);
-		mLatitude = obj.optDouble("latitude");
-		mLongitude = obj.optDouble("longitude");
+		mLatitude = obj.optDouble("latitude", 0);
+		mLongitude = obj.optDouble("longitude", 0);
 		mDestinationId = obj.optString("destinationId", null);
 		return true;
 	}

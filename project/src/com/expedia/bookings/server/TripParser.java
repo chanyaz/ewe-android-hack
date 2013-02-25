@@ -597,8 +597,8 @@ public class TripParser {
 	private Location parseLocation(JSONObject obj) {
 		if (obj != null) {
 			Location location = new Location();
-			location.setLatitude(obj.optDouble("latitude"));
-			location.setLongitude(obj.optDouble("longitude"));
+			location.setLatitude(obj.optDouble("latitude", 0));
+			location.setLongitude(obj.optDouble("longitude", 0));
 			location.addStreetAddressLine(obj.optString("addressLine1"));
 			location.addStreetAddressLine(obj.optString("addressLine2"));
 			location.setCity(obj.optString("cityName", obj.optString("addressLine3")));
