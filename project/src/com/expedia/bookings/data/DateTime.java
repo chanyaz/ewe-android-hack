@@ -22,6 +22,10 @@ public class DateTime implements JSONable, Comparable<DateTime> {
 	// Cached for speed
 	private Calendar mCal;
 
+	public DateTime() {
+		// Empty constructor for JSONable
+	}
+	
 	public DateTime(long millisFromEpoch, int tzOffsetMillis) {
 		mMillisFromEpoch = millisFromEpoch;
 		mTzOffsetMillis = tzOffsetMillis;

@@ -31,6 +31,10 @@ public class TripComponent implements JSONable {
 	// that should be set by the parent.
 	private Trip mParent;
 
+	public TripComponent() {
+		// Empty constructor for JSONable
+	}
+
 	public TripComponent(Type type) {
 		mType = type;
 	}
