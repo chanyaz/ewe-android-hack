@@ -33,6 +33,8 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 
 // Make sure to call init() before using in the app!
+//
+// In addition, make sure to call startSync() before manipulating data.
 public class ItineraryManager implements JSONable {
 
 	private static final ItineraryManager sManager = new ItineraryManager();
@@ -94,7 +96,11 @@ public class ItineraryManager implements JSONable {
 	 * behavior.
 	 */
 	public Collection<Trip> getTrips() {
-		return mTrips.values();
+		if (mTrips != null) {
+			return mTrips.values();
+		}
+
+		return null;
 	}
 
 	/**
@@ -102,6 +108,13 @@ public class ItineraryManager implements JSONable {
 	 * ALL trips (even guest trips) in this situation.
 	 */
 	public void onSignOut() {
+		if (mTrips == null) {
+			// Delete the file, so it can't be reloaded later
+			File file = mContext.getFileStreamPath(MANAGER_PATH);
+			file.delete();
+			return;
+		}
+
 		// TODO: Handle when sync is in progress
 
 		for (Trip trip : mTrips.values()) {
@@ -126,24 +139,6 @@ public class ItineraryManager implements JSONable {
 	 */
 	public void init(Context context) {
 		mContext = context;
-
-		mTrips = null;
-
-		File file = context.getFileStreamPath(MANAGER_PATH);
-		if (file.exists()) {
-			try {
-				JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_PATH, context));
-				fromJson(obj);
-			}
-			catch (Exception e) {
-				Log.w("Could not load ItineraryManager data, starting from scratch again...", e);
-				file.delete();
-			}
-		}
-
-		if (mTrips == null) {
-			mTrips = new HashMap<String, Trip>();
-		}
 	}
 
 	private void save() {
@@ -264,6 +259,25 @@ public class ItineraryManager implements JSONable {
 			mSyncTask = new AsyncTask<Void, ProgressUpdate, Collection<Trip>>() {
 				@Override
 				protected Collection<Trip> doInBackground(Void... params) {
+					// We first try to load the itin man data on sync
+					if (mTrips == null) {
+						File file = mContext.getFileStreamPath(MANAGER_PATH);
+						if (file.exists()) {
+							try {
+								JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_PATH, mContext));
+								fromJson(obj);
+							}
+							catch (Exception e) {
+								Log.w("Could not load ItineraryManager data, starting from scratch again...", e);
+								file.delete();
+							}
+						}
+					}
+
+					if (mTrips == null) {
+						mTrips = new HashMap<String, Trip>();
+					}
+
 					// If the user is logged in, retrieve a listing of current trips for logged in user
 					if (User.isLoggedIn(mContext)) {
 						ExpediaServices services = new ExpediaServices(mContext);
