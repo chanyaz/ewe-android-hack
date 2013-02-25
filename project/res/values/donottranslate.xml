@@ -64,6 +64,7 @@
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
+    <string name="preference_stubconfig_page">preference_stubconfig_page</string>
     <string name="preference_flight_fake_price_change">flight_fake_price_change</string>
     <string name="preference_flight_fake_obfees">flight_fake_obfees</string>
     <string name="preference_spoof_bookings">spoof_bookings</string>

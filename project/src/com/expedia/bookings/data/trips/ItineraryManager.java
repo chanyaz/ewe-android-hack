@@ -481,6 +481,8 @@ public class ItineraryManager implements JSONable {
 			// Now that we have set of fresh trips, refresh each one
 			mTripSyncQueue.addAll(mTrips.values());
 
+			Log.i("Updating " + mTripSyncQueue.size() + " trips...");
+
 			while (mTripSyncQueue.size() > 0) {
 				Trip trip = mTripSyncQueue.poll();
 

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -109,10 +110,16 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+		String key = preference.getKey();
+
 		// This is not a foolproof way to determine if preferences were changed, but
 		// it's close enough.
-		if (!preference.getKey().equals(getString(R.string.preference_clear_private_data_key))) {
+		if (!key.equals(getString(R.string.preference_clear_private_data_key))) {
 			setResult(RESULT_OK);
+		}
+
+		if (key.equals(getString(R.string.preference_stubconfig_page))) {
+			startActivity(new Intent(this, StubConfigActivity.class));
 		}
 
 		return super.onPreferenceTreeClick(preferenceScreen, preference);

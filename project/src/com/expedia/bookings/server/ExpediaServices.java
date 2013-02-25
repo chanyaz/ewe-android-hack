@@ -75,6 +75,9 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.ReviewsStatisticsResponse;
+import com.expedia.bookings.data.Scenario;
+import com.expedia.bookings.data.ScenarioResponse;
+import com.expedia.bookings.data.ScenarioSetResponse;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
 import com.expedia.bookings.data.ServerError;
@@ -469,7 +472,7 @@ public class ExpediaServices implements DownloadListener {
 
 		FlightStatsFlightResponse response = doFlightStatsRequest(baseUrl, parameters,
 				new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode));
-		
+
 		if (response == null) {
 			return null;
 		}
@@ -1366,6 +1369,11 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
+	public static String getStubConfigUrl(Context context) {
+		ExpediaServices services = new ExpediaServices(context);
+		return services.getE3EndpointUrl(0) + "stubConfiguration/list";
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Download listener stuff
 
@@ -1402,6 +1410,19 @@ public class ExpediaServices implements DownloadListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Debug/utility (not for release)
+
+	public ScenarioResponse getScenarios() {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+		query.add(new BasicNameValuePair("json", "true"));
+		return doE3Request("stubConfiguration/list", query, new ScenarioResponseHandler(), 0);
+	}
+
+	public ScenarioSetResponse setScenario(Scenario config) {
+		String serverUrl = getE3EndpointUrl(0) + config.getUrl();
+		Log.d("Hitting scenario: " + serverUrl);
+		HttpGet get = new HttpGet(serverUrl);
+		return doRequest(get, new ScenarioSetResponseHandler(), 0);
+	}
 
 	// Automatically trusts all SSL certificates.  ONLY USE IN TESTING!
 	private class TrustingSSLSocketFactory extends SSLSocketFactory {
