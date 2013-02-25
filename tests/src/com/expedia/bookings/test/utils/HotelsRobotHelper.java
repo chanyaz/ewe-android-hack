@@ -429,12 +429,22 @@ public class HotelsRobotHelper {
 				&& mRes.getConfiguration().locale != APAC_LOCALES[12]
 				&& mRes.getConfiguration().locale != APAC_LOCALES[15]) {
 			enterLog(TAG, "Clicking on Filter label");
-			mSolo.clickOnView(filterButton);
+			try {
+				mSolo.clickOnView(filterButton);
+			}
+			catch(Error e) {
+				mSolo.clickOnText(mRes.getString(R.string.filter));
+			}
 			landscape();
 			portrait();
 			delay();
 			if (mAllowOrientationChange) {
-				mSolo.clickOnView(filterButton);
+				try {
+					mSolo.clickOnView(filterButton);
+				}
+				catch(Error e) {
+					mSolo.clickOnText(mRes.getString(R.string.filter));
+				}
 			}
 
 			delay(5);
@@ -450,12 +460,18 @@ public class HotelsRobotHelper {
 		delay(1);
 		View sortButton = mSolo.getView(R.id.menu_select_sort);
 		enterLog(TAG, "Clicking on sort label: ");
+		delay();
+		try {
+			mSolo.clickOnView(sortButton);
+		}
+		catch (Error e) {
+			mSolo.clickOnText(mRes.getString(R.string.sort));
+		}
 		landscape();
 		portrait();
-		delay();
-
-		mSolo.clickOnView(sortButton);
-
+		if(!mAllowOrientationChange) {
+			mSolo.goBack();
+		}
 	}
 
 	public void pressCalendar() {
@@ -523,20 +539,7 @@ public class HotelsRobotHelper {
 		landscape();
 		portrait();
 		delay();
-
-		enterLog(TAG, "Before pressing favorable");
-		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_favorable));
-		delay(1);
-		screenshot("Favorable Reviews.");
-		delay(1);
-
-		mSolo.clickOnText(mRes.getString(R.string.user_review_sort_button_critical));
-		screenshot("Critical Reviews.");
-		delay(1);
-
-		landscape();
-		portrait();
-		delay();
+		
 		mSolo.goBack();
 	}
 
