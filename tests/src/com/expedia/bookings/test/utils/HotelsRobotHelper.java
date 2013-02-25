@@ -420,8 +420,7 @@ public class HotelsRobotHelper {
 
 	public void filterFor(String filterText) { //filter currently does not work.
 		//solo.clickOnText(getStringFromR(R.string.filter_hotels));
-
-		String filter = mRes.getString(R.string.filter);
+		View filterButton = mSolo.getView(R.id.menu_select_filter);
 		//Korea and Japan do not support filtering because 
 		//most hotel names are in their respective languages' characters
 		if (mRes.getConfiguration().locale != APAC_LOCALES[4]
@@ -429,13 +428,13 @@ public class HotelsRobotHelper {
 				&& mRes.getConfiguration().locale != APAC_LOCALES[1]
 				&& mRes.getConfiguration().locale != APAC_LOCALES[12]
 				&& mRes.getConfiguration().locale != APAC_LOCALES[15]) {
-			enterLog(TAG, "Clicking on label: " + filter);
-			mSolo.clickOnText(filter);
+			enterLog(TAG, "Clicking on Filter label");
+			mSolo.clickOnView(filterButton);
 			landscape();
 			portrait();
 			delay();
 			if (mAllowOrientationChange) {
-				mSolo.clickOnText(filter);
+				mSolo.clickOnView(filterButton);
 			}
 
 			delay(5);
@@ -449,43 +448,13 @@ public class HotelsRobotHelper {
 
 	public void pressSort() {
 		delay(1);
-		String sortText = mRes.getString(R.string.sort);
-		enterLog(TAG, "Clicking on label: " + sortText);
-
-		mSolo.clickOnText(sortText);
+		View sortButton = mSolo.getView(R.id.menu_select_sort);
+		enterLog(TAG, "Clicking on sort label: ");
 		landscape();
 		portrait();
 		delay();
 
-		if (mAllowOrientationChange) {
-			mSolo.clickOnText(sortText);
-		}
-
-		delay(1);
-		mSolo.clickOnText(mRes.getString(R.string.sort_description_popular));
-		screenshot("Sort fragment");
-		delay(1);
-
-		mSolo.clickOnText(sortText);
-		delay(1);
-		mSolo.clickOnText(mRes.getString(R.string.sort_description_price));
-		delay(1);
-
-		mSolo.clickOnText(sortText);
-		delay(1);
-		mSolo.clickOnText(mRes.getString(R.string.sort_description_rating));
-		delay(1);
-
-		try {
-			mSolo.clickOnText(sortText);
-			delay(1);
-			mSolo.clickOnText(mRes.getString(R.string.sort_description_deals));
-			delay(1);
-		}
-		catch (Exception e) {
-			enterLog(TAG, "Deals sort not presented. Moving on.");
-			mSolo.goBack();
-		}
+		mSolo.clickOnView(sortButton);
 
 	}
 
@@ -818,14 +787,14 @@ public class HotelsRobotHelper {
 		catch (Error e) {
 			enterLog(TAG, "Checkout button not there. Try to move on without it.");
 		}
-		
+
 		try {
 			mSolo.clickOnText(mRes.getString(R.string.I_Accept));
 		}
 		catch (Error e) {
 			enterLog(TAG, "There is no 'I accept' button on this POS");
 		}
-		
+
 		delay();
 		landscape();
 		portrait();
