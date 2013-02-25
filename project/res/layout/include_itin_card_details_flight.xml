@@ -84,9 +84,12 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/confirmation_code_label"
-        style="@style/TextView.Itin.SectionHeader.Padded"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/confirmation_code_label" />
 
     <com.expedia.bookings.widget.TextView
@@ -94,10 +97,10 @@
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:textIsSelectable="true" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/list_selector_holo_dark"
+        android:padding="8dp" />
 
     <!-- Passengers -->
 
@@ -121,9 +124,12 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/booking_info_label"
-        style="@style/TextView.Itin.SectionHeader.Padded"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/booking_info" />
 
     <com.expedia.bookings.widget.TextView
@@ -131,14 +137,14 @@
         style="@style/TextView.Itin.SectionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/list_selector_holo_dark"
         android:drawableLeft="@drawable/ic_info_small"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:text="@string/flight_receipt_and_policies"
-        android:textColor="@color/itin_white_text" />
+        android:padding="8dp"
+        android:text="@string/flight_receipt_and_policies" />
 
     <!-- Insurance -->
 

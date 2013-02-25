@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
@@ -44,6 +45,7 @@ import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.CalendarAPIUtils;
+import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.GoogleMap;
@@ -104,7 +106,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	protected String getShareTextLong(ItinCardDataFlight itinCardData) {
 		// TODO Auto-generated method stub
@@ -238,6 +240,15 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 					}
 				}
 				confirmationCodeListTv.setText(confirmationString);
+
+				final String clipboardText = confirmationString;
+				confirmationCodeListTv.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						ClipboardUtils.setText(getContext(), clipboardText);
+						Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
+					}
+				});
 			}
 			else {
 				confirmationCodeListTv.setText(R.string.missing_booking_code);
