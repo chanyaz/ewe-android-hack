@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -78,7 +79,7 @@ public class ItineraryManager implements JSONable {
 			mTrips.remove(tripId);
 
 			// Do not inform of removal if it was never valid (since we never informed of adding in the first place)
-			if (trip.isValidTrip()) {
+			if (trip.getLevelOfDetail() != LevelOfDetail.NONE) {
 				onTripRemoved(trip);
 			}
 		}
@@ -317,7 +318,7 @@ public class ItineraryManager implements JSONable {
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
 						}
 						else {
-							boolean isValidTrip = trip.isValidTrip();
+							LevelOfDetail initialLevelOfDetail = trip.getLevelOfDetail();
 
 							Trip updatedTrip = response.getTrip();
 
@@ -375,10 +376,11 @@ public class ItineraryManager implements JSONable {
 							}
 
 							// Update trip
-							trip.updateFrom(updatedTrip, false);
+							trip.updateFrom(updatedTrip);
+							trip.markUpdated(false);
 
 							// We only consider a guest trip added once it has some meaningful info
-							if (!isValidTrip && trip.isGuest()) {
+							if (initialLevelOfDetail == LevelOfDetail.NONE && trip.isGuest()) {
 								publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
 							}
 

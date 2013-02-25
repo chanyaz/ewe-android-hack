@@ -21,6 +21,14 @@ public class Trip implements JSONable, Comparable<Trip> {
 		COMPLETED
 	}
 
+	public static enum LevelOfDetail {
+		NONE, // Not loaded by API yet
+		SUMMARY, // Loaded by API, only summary
+		FULL, // Received full details at some point
+	}
+
+	private LevelOfDetail mLevelOfDetail = LevelOfDetail.NONE;
+
 	// This is only filled when this is a guest trip; if it was acquired through
 	// the logged in user, it will be null/empty.
 	private String mGuestEmailAddress;
@@ -54,6 +62,14 @@ public class Trip implements JSONable, Comparable<Trip> {
 	public Trip(String guestEmailAddress, String tripId) {
 		mGuestEmailAddress = guestEmailAddress;
 		mTripId = tripId;
+	}
+
+	public void setLevelOfDetail(LevelOfDetail levelOfDetail) {
+		mLevelOfDetail = levelOfDetail;
+	}
+
+	public LevelOfDetail getLevelOfDetail() {
+		return mLevelOfDetail;
 	}
 
 	public String getGuestEmailAddress() {
@@ -168,12 +184,6 @@ public class Trip implements JSONable, Comparable<Trip> {
 		return mLastFullUpdate;
 	}
 
-	// A trip is not valid until it's at least had some data loaded;
-	// you can add an invalid guest trip.
-	public boolean isValidTrip() {
-		return mStartDate != null;
-	}
-
 	public void updateFrom(Trip other, boolean isFullUpdate) {
 		// For now, we assume that updateFrom() will always have more details than
 		// we have now, so we blow away most current data.  This may not be true
@@ -212,6 +222,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 		try {
 			JSONObject obj = new JSONObject();
 
+			JSONUtils.putEnum(obj, "levelOfDetail", mLevelOfDetail);
+
 			obj.putOpt("guestEmailAddress", mGuestEmailAddress);
 
 			obj.putOpt("tripId", mTripId);
@@ -242,6 +254,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
+		mLevelOfDetail = JSONUtils.getEnum(obj, "levelOfDetail", LevelOfDetail.class);
+
 		mGuestEmailAddress = obj.optString("guestEmailAddress", null);
 
 		mTripId = obj.optString("tripId");

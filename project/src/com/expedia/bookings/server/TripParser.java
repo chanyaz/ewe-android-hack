@@ -27,6 +27,7 @@ import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.Trip.TimePeriod;
 import com.expedia.bookings.data.trips.TripActivity;
 import com.expedia.bookings.data.trips.TripCar;
@@ -47,6 +48,14 @@ import com.mobiata.flightlib.data.Waypoint;
 public class TripParser {
 	public Trip parseTrip(JSONObject tripJson) {
 		Trip trip = new Trip();
+		String levelOfDetail = tripJson.optString("levelOfDetail", null);
+		if ("FULL".equals(levelOfDetail)) {
+			trip.setLevelOfDetail(LevelOfDetail.FULL);
+		}
+		else {
+			trip.setLevelOfDetail(LevelOfDetail.SUMMARY);
+		}
+
 		trip.setTripId(tripJson.optString("tripId"));
 		trip.setTripNumber(tripJson.optString("tripNumber"));
 		trip.setTitle(tripJson.optString("title"));
