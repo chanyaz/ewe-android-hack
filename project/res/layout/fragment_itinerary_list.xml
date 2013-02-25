@@ -77,6 +77,17 @@
                     android:bufferType="spannable"
                     android:gravity="center"
                     android:textStyle="normal" />
+
+                <Button
+                    android:id="@+id/no_trips_refresh_button"
+                    style="@style/LoginFormButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/btn_cancel"
+                    android:bufferType="spannable"
+                    android:gravity="center"
+                    android:text="@string/refresh"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <TextView

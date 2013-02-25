@@ -49,6 +49,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private ViewGroup mEmptyListLoadingContainer;
 	private ViewGroup mEmptyListContent;
 	private Button mLoginButton;
+	private Button mNoTripsRefreshButton;
 
 	private boolean mAllowLoadItins = false;
 
@@ -76,6 +77,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mEmptyListContent = Ui.findView(view, R.id.empty_list_content);
 		mLoginButton = Ui.findView(view, R.id.login_button);
 		mLoginButton.setText(Html.fromHtml(getString(R.string.log_in_for_your_trips)));
+		mNoTripsRefreshButton = Ui.findView(view, R.id.no_trips_refresh_button);
 
 		mItinListView.setEmptyView(mEmptyView);
 		mItinListView.setOnScrollListener(mOnScrollListener);
@@ -93,6 +95,13 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 			@Override
 			public void onClick(View arg0) {
 				startAddGuestItinActivity();
+			}
+		});
+
+		mNoTripsRefreshButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				syncItinManager();
 			}
 		});
 
@@ -146,9 +155,11 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private void updateLoginState() {
 		if (User.isLoggedIn(getActivity()) && Db.getUser() != null) {
 			mLoginButton.setVisibility(View.GONE);
+			mNoTripsRefreshButton.setVisibility(View.VISIBLE);
 		}
 		else {
 			mLoginButton.setVisibility(View.VISIBLE);
+			mNoTripsRefreshButton.setVisibility(View.GONE);
 		}
 	}
 

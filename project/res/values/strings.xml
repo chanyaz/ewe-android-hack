@@ -150,6 +150,8 @@
     <string name="flight_departs_on_time_TEMPLATE">Departs on time %1$s</string>
     <!-- Departs {duration} late -->
     <string name="flight_departs_x_late_TEMPLATE">Departs %1$s late</string>
+    <!-- Refresh -->
+    <string name="refresh">Refresh</string>
     <!-- Car types -->
     <string name="car_type_two_door">Two Door Car</string>
     <string name="car_type_three_door">Three Door Car</string>
