@@ -212,10 +212,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 					List<TripComponent> components = trip.getTripComponents();
 					for (TripComponent comp : components) {
 						List<ItinCardData> items = ItinCardDataFactory.generateCardData(comp);
-						for (ItinCardData item : items) {
-							if (item.getEndDate() != null && item.getEndDate().getCalendar() != null
-									&& item.getEndDate().getCalendar().compareTo(pastCutoffCal) >= 0) {
-								this.mItinCardDatas.add(item);
+						if (items != null) {
+							for (ItinCardData item : items) {
+								if (item.getEndDate() != null && item.getEndDate().getCalendar() != null
+										&& item.getEndDate().getCalendar().compareTo(pastCutoffCal) >= 0) {
+									this.mItinCardDatas.add(item);
+								}
 							}
 						}
 					}
