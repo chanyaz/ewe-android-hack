@@ -241,7 +241,7 @@ public class HotelsRobotHelper {
 		mFileWriter = new EventTrackingUtils();
 		mWriteEventsToFile = true;
 		mFileWriter.addLineToFile("Install Event within a couple of minutes",
-				true, mWriteEventsToFile);
+				true);
 	}
 
 	public void closeFileWriter() {
@@ -262,10 +262,10 @@ public class HotelsRobotHelper {
 		try {
 			fileIn = new BufferedReader(new FileReader(inputFile));
 			String deviceName = fileIn.readLine();
-			mFileWriter.addLineToFile("Device: " + deviceName, false, mWriteEventsToFile);
+			mFileWriter.addLineToFile("Device: " + deviceName, false);
 			String fileLine;
 			while ((fileLine = fileIn.readLine()) != null) {
-				mFileWriter.addLineToFile(fileLine, false, mWriteEventsToFile);
+				mFileWriter.addLineToFile(fileLine, false);
 			}
 			fileIn.close();
 		}
@@ -397,7 +397,7 @@ public class HotelsRobotHelper {
 		Log.d(TAG, "Current POS/Locale: " + currentPOS);
 
 		if (mWriteEventsToFile) {
-			mFileWriter.addLineToFile("POS: " + currentPOS, false, mWriteEventsToFile);
+			mFileWriter.addLineToFile("POS: " + currentPOS, false);
 		}
 
 		landscape();
@@ -663,7 +663,7 @@ public class HotelsRobotHelper {
 		}
 		// Log log in event for ad tracking
 		if (mWriteEventsToFile) {
-			mFileWriter.addLineToFile("Log in event at", true, mWriteEventsToFile);
+			mFileWriter.addLineToFile("Log in event at", true);
 		}
 
 		delay(5);
@@ -874,7 +874,7 @@ public class HotelsRobotHelper {
 
 				// Log booking event for ad tracking
 				if (mWriteEventsToFile) {
-					mFileWriter.addLineToFile("BOOKING EVENT", true, mWriteEventsToFile);
+					mFileWriter.addLineToFile("BOOKING EVENT", true);
 				}
 			}
 			else {

@@ -34,22 +34,21 @@ public class EventTrackingUtils {
 		return mFileName;
 	}
 
-	public void addLineToFile(String line, boolean includeTimestamp,
-			boolean permission) {
-		if (permission) {
-			String timestamp = "";
-			if (includeTimestamp) {
-				Date time = new Date();
-				timestamp = ": " + time.toString();
-			}
-			mFileWriter.println(line + timestamp);
+	public void addLineToFile(String line, boolean includeTimestamp) {
+
+		String timestamp = "";
+		if (includeTimestamp) {
+			Date time = new Date();
+			timestamp = ": " + time.toString();
 		}
+		mFileWriter.println(line + timestamp);
+
 	}
-	
+
 	public void flushFileWriter() {
 		mFileWriter.flush();
 	}
-	
+
 	public void closeFileWriter() {
 		mFileWriter.close();
 	}
