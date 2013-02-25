@@ -1496,6 +1496,8 @@
     <string name="stack_blur_credit">This app makes use of the Stack Blur algorithm by Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="view_open_source_software_licenses">View Open Source Software Licenses</string>
+    <!-- String for acrediting the open source libraries we use -->
+    <string name="this_app_makes_use_of_the_following">This app make use of the following open-source libraries:</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
