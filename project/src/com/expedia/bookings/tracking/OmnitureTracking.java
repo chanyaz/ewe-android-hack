@@ -64,6 +64,19 @@ public class OmnitureTracking {
 	// Launcher
 	private static final String LAUNCH_SCREEN = "App.LaunchScreen";
 
+	// Itineraries
+	private static final String ITIN_EMPTY = "App.Itinerary.Empty";
+	private static final String ITIN_LOGIN_SUCCESS = "App.Itinerary.Login.Success";
+	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
+	private static final String ITIN = "App.Itinerary";
+	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
+	private static final String ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions";
+	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
+	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
+	private static final String ITIN_CAR = "App.Itinerary.Car";
+	private static final String ITIN_CAR_DIRECTIONS = "App.Itinerary.Car.Directions";
+	private static final String ITIN_CAR_CALL = "App.Itinerary.Car.Call";
+
 	// Flights
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
 	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
@@ -323,6 +336,60 @@ public class OmnitureTracking {
 
 	public static void trackErrorPageLoadFlightSearchExpired(Context context) {
 		internalTrackPageLoadEventStandard(context, FLIGHT_ERROR_SEARCH_EXPIRED, LOB.FLIGHTS);
+	}
+
+	// Itin
+
+	public static void trackItinEmpty(Context context) {
+		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, ITIN_EMPTY);
+	}
+
+	public static void trackItinLoginSuccess(Context context) {
+		Log.d(TAG, "Tracking \"" + ITIN_LOGIN_SUCCESS + "\" linkClick");
+
+		ADMS_Measurement s = createTrackLinkEvent(context, ITIN_LOGIN_SUCCESS);
+
+		s.setEvents("event26");
+
+		s.trackLink(null, "o", s.getEvar(28), null, null);
+	}
+
+	public static void trackItinAdd(Context context) {
+		internalTrackLink(context, ITIN_ADD_SUCCESS);
+	}
+
+	public static void trackItin(Context context) {
+		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
+
+		// TODO implement the tracking logic
+	}
+
+	public static void trackItinHotel(Context context) {
+		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, ITIN_HOTEL);
+	}
+
+	public static void trackItinHotelDirections(Context context) {
+		internalTrackLink(context, ITIN_HOTEL_DIRECTIONS);
+	}
+
+	public static void trackItinHotelCall(Context context) {
+		internalTrackLink(context, ITIN_HOTEL_CALL);
+	}
+
+	public static void trackItinFlight(Context context) {
+		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, ITIN_FLIGHT);
+	}
+
+	public static void trackItinCar(Context context) {
+		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, ITIN_CAR);
+	}
+
+	public static void trackItinCarDirections(Context context) {
+		internalTrackLink(context, ITIN_CAR_DIRECTIONS);
+	}
+
+	public static void trackItinCarCall(Context context) {
+		internalTrackLink(context, ITIN_CAR_CALL);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +14,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
@@ -191,6 +191,8 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 				final Intent intent = itinCardData.getRelevantDirectionsIntent();
 				if (intent != null) {
 					getContext().startActivity(intent);
+
+					OmnitureTracking.trackItinCarDirections(getContext());
 				}
 			}
 		});
@@ -202,6 +204,8 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 			@Override
 			public void onClick(View v) {
 				SocialUtils.call(getContext(), itinCardData.getRelevantVendorPhone());
+
+				OmnitureTracking.trackItinCarCall(getContext());
 			}
 		});
 	}

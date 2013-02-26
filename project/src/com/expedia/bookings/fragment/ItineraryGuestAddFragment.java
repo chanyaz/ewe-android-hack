@@ -4,14 +4,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;
@@ -66,6 +67,8 @@ public class ItineraryGuestAddFragment extends Fragment {
 				//waiting for the newly added guest itin to fetch information (or determine validity). To be continued...
 				getActivity().finish();
 
+				// TODO: move this to the listener
+				OmnitureTracking.trackItinAdd(getActivity());
 			}
 
 		});

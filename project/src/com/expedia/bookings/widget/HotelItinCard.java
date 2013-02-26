@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
@@ -189,6 +190,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 				final Intent intent = itinCardData.getDirectionsIntent();
 				if (intent != null) {
 					getContext().startActivity(intent);
+					OmnitureTracking.trackItinHotelDirections(getContext());
 				}
 			}
 		});
@@ -202,6 +204,7 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 				String phone = itinCardData.getRelevantPhone();
 				if (phone != null) {
 					SocialUtils.call(getContext(), phone);
+					OmnitureTracking.trackItinHotelCall(getContext());
 				}
 			}
 		});

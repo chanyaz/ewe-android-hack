@@ -150,7 +150,8 @@ public class LoginFragment extends Fragment {
 
 	public enum PathMode {
 		HOTELS,
-		FLIGHTS
+		FLIGHTS,
+		ITIN
 	}
 
 	public static LoginFragment newInstance(PathMode mode) {
@@ -932,11 +933,16 @@ public class LoginFragment extends Fragment {
 				user.save(mContext);
 				finishLoginActivity();
 
-				if (mPathMode.equals(PathMode.FLIGHTS)) {
-					OmnitureTracking.trackLinkFlightCheckoutLoginSuccess(mContext);
-				}
-				else {
+				switch (mPathMode) {
+				case HOTELS:
 					OmnitureTracking.trackLinkHotelsCheckoutLoginSuccess(mContext);
+					break;
+				case FLIGHTS:
+					OmnitureTracking.trackLinkFlightCheckoutLoginSuccess(mContext);
+					break;
+				case ITIN:
+					OmnitureTracking.trackItinLoginSuccess(mContext);
+					break;
 				}
 			}
 		}

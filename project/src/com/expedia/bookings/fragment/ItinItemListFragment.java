@@ -28,6 +28,7 @@ import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
 import com.expedia.bookings.fragment.LoginFragment.PathMode;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
@@ -178,7 +179,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	public synchronized void startLoginActivity() {
 		Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.HOTELS.name());
+		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.ITIN.name());
 		startActivity(loginIntent);
 	}
 
@@ -288,6 +289,15 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		setIsLoading(false);
 
 		//TODO: Check for itin error and call setErrorMessage() if needed
+
+		// TODO: make sure these calls are fired the correct number of times, will probably need extra bookkeeping
+		if (trips != null && trips.size() > 1) {
+			OmnitureTracking.trackItin(getActivity());
+		}
+		else {
+			OmnitureTracking.trackItinEmpty(getActivity());
+		}
+
 	}
 
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
