@@ -91,7 +91,23 @@
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Terminal di partenza%1$s, Gate %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Le informazioni su terminal e gate non sono disponibili.</string>
+    <string name="no_terminal_gate_information">Terminal e Gate non disponibili</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Terminal e Gate di arrivo non disponibili</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Terminal e Gate di partenza non disponibili</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Gate%1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Gate di arrivo%1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Gate di partenza%1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate non disponibile</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal di arrivo%1$s, Gate non disponibile</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal di partenza%1$s, Gate non disponibile</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Con la disconnessione da %1$s tutti gli itinerari associati a questo account saranno rimossi. Sei sicuro di voler uscire?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Aggiungi evento</string>
     <!-- Directions -->
     <string name="directions">Indicazioni</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Mappe del terminal</string>
+    <!-- Legend -->
+    <string name="legend">Legenda</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Il volo parte in data %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Veicoli su due ruote</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Attiva</string>
+    <string name="itin_card_details_expires">Scade il</string>
+    <string name="itin_card_details_guests">Ospiti</string>
+    <string name="itin_card_details_booking_info">Dati prenotazione</string>
+    <string name="itin_card_details_details">Visualizza ricevuta e condizioni</string>
+    <string name="itin_card_details_pick_up">Prelievo</string>
+    <string name="itin_card_details_drop_off">Riconsegna</string>
+    <string name="itin_card_details_days">Giorni</string>
+    <string name="itin_card_details_pick_up">Prelievo</string>
+    <string name="itin_card_details_drop_off">Riconsegna</string>
+    <string name="itin_card_details_agency_phone">Numero di telefono dell\&apos;agenzia</string>
+    <string name="itin_card_details_check_in">Arrivo</string>
+    <string name="itin_card_details_check_out">Partenza</string>
+    <string name="itin_card_details_address">Indirizzo</string>
+    <string name="itin_card_details_phone">Telefono</string>
+    <string name="itin_card_details_room_type">Tipologia camera</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Indicazioni</string>
+    <string name="itin_action_call_hotel">Chiama hotel</string>
+    <string name="itin_action_redeem">Riscatta</string>
+    <string name="itin_action_support">Assistenza</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Cerca voli</string>

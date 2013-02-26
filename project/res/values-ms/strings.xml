@@ -91,7 +91,23 @@
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Terminal Berlepas %1$s, Pintu %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Maklumat Terminal dan Pintu tidak tersedia.</string>
+    <string name="no_terminal_gate_information">Terminal &amp; Pintu Tidak Tersedia</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Terminal Ketibaan &amp; Pintu Tidak Tersedia</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Terminal Berlepas &amp; Pintu Tidak Tersedia</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Pintu %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Pintu Ketibaan %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Pintu Berlepas %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Pintu Tidak Tersedia</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal Ketibaan %1$s, Pintu Tidak Tersedia</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal Berlepas %1$s, Pintu Tidak Tersedia</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Mengelog keluar daripada %1$s akan mengeluarkan mana-mana item jadual perjalanan yang berkaitan dengan akaun ini. Adakah anda pasti anda ingin mengelog keluar?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Tambah Acara</string>
     <!-- Directions -->
     <string name="directions">Arah</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Peta Terminal</string>
+    <!-- Legend -->
+    <string name="legend">Petunjuk</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Penerbangan berlepas pada %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Kenderaan Dua Tayar</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Aktif</string>
+    <string name="itin_card_details_expires">Tamat Tempoh</string>
+    <string name="itin_card_details_guests">Tetamu</string>
+    <string name="itin_card_details_booking_info">Maklumat Tempahan</string>
+    <string name="itin_card_details_details">Lihat resit dan dasar</string>
+    <string name="itin_card_details_pick_up">Pengambilan</string>
+    <string name="itin_card_details_drop_off">Penghantaran</string>
+    <string name="itin_card_details_days">Hari</string>
+    <string name="itin_card_details_pick_up">Pengambilan</string>
+    <string name="itin_card_details_drop_off">Penghantaran</string>
+    <string name="itin_card_details_agency_phone">Telefon Agensi</string>
+    <string name="itin_card_details_check_in">Daftar Masuk</string>
+    <string name="itin_card_details_check_out">Daftar Keluar</string>
+    <string name="itin_card_details_address">Alamat</string>
+    <string name="itin_card_details_phone">Telefon</string>
+    <string name="itin_card_details_room_type">Jenis Bilik</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Arah</string>
+    <string name="itin_action_call_hotel">Hubungi Hotel</string>
+    <string name="itin_action_redeem">Tebus</string>
+    <string name="itin_action_support">Sokongan</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Cari Penerbangan</string>

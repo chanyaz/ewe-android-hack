@@ -92,6 +92,22 @@
     <string name="departure_terminal_TEMPLATE">อาคารผู้โดยสารขาออก %1$s ประตู %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
     <string name="no_terminal_gate_information">ไม่มีข้อมูลอาคารผู้โดยสารและประตู</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">ไม่มีข้อมูลอาคารผู้โดยสารขาเข้าและประตู</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">ไม่มีข้อมูลอาคารผู้โดยสารขาออกและประตู</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">ประตู %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">ประตูผู้โดยสารขาเข้า %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">ประตูผู้โดยสารขาออก %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">ไม่มีข้อมูลอาคารผู้โดยสาร %1$s และประตู</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">ไม่มีข้อมูลอาคารผู้โดยสารขาเข้า %1$s และประตู</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">ไม่มีข้อมูลอาคารผู้โดยสารขาออก %1$s และประตู</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">การออกจากระบบ %1$s จะเป็นการลบข้อมูลแผนการเดินทางที่เกี่ยวข้องกับบัญชีนี้ แน่ใจว่าต้องการออกจากระบบ?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">เพิ่มอีเวนท์</string>
     <!-- Directions -->
     <string name="directions">เส้นทาง</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">แผนที่อาคารผู้โดยสาร</string>
+    <!-- Legend -->
+    <string name="legend">คำอธิบายเครื่องหมายแผนที่</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">เที่ยวบินออกเดินทาง %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">ยานพาหนะสองล้อ</string>
     <string name="car_type_roadster">รถเปิดประทุน</string>
     <string name="car_type_crossover">รถ Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">มีการใช้งาน</string>
+    <string name="itin_card_details_expires">หมดอายุ</string>
+    <string name="itin_card_details_guests">ผู้เข้าพัก</string>
+    <string name="itin_card_details_booking_info">ข้อมูลการจอง</string>
+    <string name="itin_card_details_details">ใบเสร็จเที่ยวบินและนโยบาย</string>
+    <string name="itin_card_details_pick_up">รับรถ</string>
+    <string name="itin_card_details_drop_off">ส่งคืนรถ</string>
+    <string name="itin_card_details_days">วัน</string>
+    <string name="itin_card_details_pick_up">รับรถ</string>
+    <string name="itin_card_details_drop_off">ส่งคืนรถ</string>
+    <string name="itin_card_details_agency_phone">เบอร์โทรศัพท์บริษัทตัวแทน</string>
+    <string name="itin_card_details_check_in">เช็คอิน</string>
+    <string name="itin_card_details_check_out">เช็คเอาท์</string>
+    <string name="itin_card_details_address">ที่อยู่</string>
+    <string name="itin_card_details_phone">โทรศัพท์</string>
+    <string name="itin_card_details_room_type">ประเภทห้อง</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">เส้นทาง</string>
+    <string name="itin_action_call_hotel">โทรหาโรงแรม</string>
+    <string name="itin_action_redeem">แลกรับ</string>
+    <string name="itin_action_support">ทีมงานบริการ</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">ค้นหาเที่ยวบิน</string>
@@ -1183,7 +1227,7 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">กฏและข้อบังคับ</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">หากคุณมีบัญชี Expedia Rewards โปรดใช้อีเมลที่ระบุในบัญชีในการจอง เพื่อให้ระบบเพิ่มคะแนนให้คุณโดยอัตโนมัติ หลังการเข้าพัก หมายเหตุ: อาจใช้เวลานานกว่า 30 วัน ในการแสดงคะแนนที่เพิ่ม </string>
+    <string name="disclaimer_expedia_points">หากคุณมีบัญชี Expedia Rewards โปรดใช้อีเมลที่ระบุในบัญชีในการจอง เพื่อให้ระบบเพิ่มคะแนนให้คุณโดยอัตโนมัติ หลังการเข้าพัก หมายเหตุ: อาจใช้เวลานานกว่า 30 วัน ในการแสดงคะแนนที่เพิ่ม</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">ยืนยันและจอง</string>
     <!-- Label for clearing private data -->
@@ -1191,7 +1235,7 @@
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">ล้างข้อมูลส่วนตัว?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">นี่จะเป็นการลบข้อมูลติดต่อและบัตรเครดิตที่บันทึกไว้ </string>
+    <string name="dialog_clear_private_data_msg">นี่จะเป็นการลบข้อมูลติดต่อและบัตรเครดิตที่บันทึกไว้</string>
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_log_out_and_clear_private_data_msg">ระบบจะให้คุณออกจากระบบและล้างข้อมูลบัตรเครดิตและติดต่อทั้งหมด</string>
     <!-- Title for dialog after private data has been cleared -->
@@ -1201,11 +1245,11 @@
     <!-- Error message if field had data entered but was invalid -->
     <string name="invalid_field">โปรดระบุข้อมูลในช่องนี้</string>
     <!-- Error if an invalid card number was entered -->
-    <string name="invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง </string>
+    <string name="invalid_card_number">ข้อมูลบัตรเครดิตไม่ถูกต้อง โปรดลองอีกครั้ง</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">ระบบไม่พบประเภทบัตรเครดิตของคุณ โปรดระบุข้อมูลใหม่</string>
     <!-- Error if an invalid month (not 1-12) was entered -->
-    <string name="invalid_month">โปรดระบุข้อมูลตั้งแต่ช่อง 1 ถึง 12 </string>
+    <string name="invalid_month">โปรดระบุข้อมูลตั้งแต่ช่อง 1 ถึง 12</string>
     <!-- Error if an invalid year was entered -->
     <string name="invalid_expiration_year">โปรดระบุปีในอนาคต</string>
     <!-- Error if an invalid security code was entered -->
@@ -1219,9 +1263,9 @@
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">เกิดข้อผิดพลาด</string>
     <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ของ Expedia โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
+    <string name="error_booking_null">ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ของ Expedia  โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
     <!-- Error message when booking completed with errors -->
-    <string name="error_booking_succeeded_with_errors">ระบบทำการจองห้องให้คุณแล้ว แต่เกิดข้อผิดพลาดต่อไปนี้: %s</string>
+    <string name="error_booking_succeeded_with_errors">ระบบจองห้องให้คุณแล้ว แต่เกิดข้อผิดพลาดต่อไปนี้: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">ระบบไม่สามารถส่งอีเมลยืนยันข้อมูล</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
@@ -1385,7 +1429,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">โรงแรม Expedia</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">สวัสดีครับ \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง คุณสามารถค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ และฟรี ผ่านมือถือของคุณ\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">สวัสดี \n\n คุณลองดาวน์โหลดแอพพลิเคชัน Expedia Hotels สำหรับ iPhone และ Android แล้วหรือยัง แอพฟรีนี้ช่วยให้คุณค้นหาและจองห้องโรงแรมกว่า 140,000 โรงแรมทั่วโลกได้ง่ายๆ ผ่านมือถือของคุณ\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข</string>
     <!-- Label for link to privacy policy -->
@@ -1401,7 +1445,7 @@
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">ลบข้อมูลรายชื่อและใบแจ้งหนี้ที่บันทึกไว้แล้ว</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ Expedia หรือไม่</string>
+    <string name="dialog_message_launch_expedia_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ Expedia?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">สมัครรับข่าวสาร</string>
     <!-- Action button label to follow on twitter -->
@@ -1505,7 +1549,7 @@
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">โปรดแก้ไขข้อมูลที่ไม่ถูกต้อง</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">ขออภัย ระบบไม่สามารถดำเนินการชำระเงินได้ โปรดตรวจสอบว่าคุณป้อนข้อมูลที่ถูกต้อง </string>
+    <string name="e3_error_checkout_payment_failed">ขออภัย ระบบไม่สามารถดำเนินการชำระเงินได้ โปรดตรวจสอบว่าคุณป้อนข้อมูลที่ถูกต้อง</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">วันหมดอายุของบัตรเครดิตไม่ถูกต้อง</string>
 
@@ -1513,7 +1557,7 @@
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_search_results_hotel_service_failure">ขออภัย ระบบไม่พบข้อมูลที่คุณต้องการ โปรดลองใหม่อีกครั้ง</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">ขออภัย เราไม่สามารถแสดงผลการค้นหาตามที่คุณระบุ โปรดลองใหม่อีกครั้ง </string>
+    <string name="e3_error_search_results_invalid_input">ขออภัย เราไม่สามารถแสดงผลการค้นหาตามที่คุณระบุ โปรดลองใหม่อีกครั้ง</string>
     <!-- There were no results matching the input -->
     <string name="e3_error_search_results_invalid_input_unknown">ขออภัย เราไม่สามารถแสดงผลการค้นหาตามที่คุณระบุ โปรดลองใหม่อีกครั้ง</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -1552,7 +1596,7 @@
     <string name="country_ar">อาร์เจนตินา</string>
     <string name="country_am">อาร์เมเนีย</string>
     <string name="country_aw">อารูบา</string>
-    <string name="country_au">ออสเตรเลีย </string>
+    <string name="country_au">ออสเตรเลีย</string>
     <string name="country_at">ออสเตรีย</string>
     <string name="country_az">อาเซอร์ไบจาน</string>
     <string name="country_bs">บาฮามาส</string>
@@ -1565,7 +1609,7 @@
     <string name="country_bj">เบนิน</string>
     <string name="country_bm">เบอร์มิวดา</string>
     <string name="country_bt">ภูฏาน</string>
-    <string name="country_bo">รัฐพหุชนชาติแห่งโบลิเวีย[</string>
+    <string name="country_bo">รัฐพหุชนชาติแห่งโบลิเวีย</string>
     <string name="country_ba">บอสเนียและเฮอร์เซโกวีนา</string>
     <string name="country_bw">บอตสวานา</string>
     <string name="country_bv">เกาะบูแว</string>
@@ -1750,7 +1794,7 @@
     <string name="country_sr">ซูรินาเม</string>
     <string name="country_sj">สฟาลบาร์และยานไมเอน</string>
     <string name="country_sz">สวาซิแลนด์</string>
-    <string name="country_se">สวีเดน </string>
+    <string name="country_se">สวีเดน</string>
     <string name="country_ch">สวิตเซอร์แลนด์</string>
     <string name="country_sy">ซีเรีย</string>
     <string name="country_tw">ไต้หวัน</string>

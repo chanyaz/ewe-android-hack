@@ -87,11 +87,27 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Ankomstterminal %1$s, Gate %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Information om terminal och gate är otillgänglig.</string>
+    <string name="no_terminal_gate_information">Terminal och gate otillgängliga</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Ankomstterminal och gate otillgängliga</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Avgångsterminal och gate otillgängliga</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Ankomstgate %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Avgångsgate %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate otillgänglig</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankomstterminal %1$s. Gate otillgänglig</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Avgångsterminal %1$s, Gate otillgänglig</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Vid utloggning från %1$s kommer samtliga resplaner som hör till det här kontot att tas bort. Är du säker på att du vill logga ut?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Lägg till i kalender</string>
     <!-- Directions -->
     <string name="directions">Vägbeskrivning</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Terminalkartor</string>
+    <!-- Legend -->
+    <string name="legend">Bildtext</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Flyg avgår %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Tvåhjulsfordon</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Aktiv</string>
+    <string name="itin_card_details_expires">Förfaller</string>
+    <string name="itin_card_details_guests">Gäster</string>
+    <string name="itin_card_details_booking_info">Bokningsinfo</string>
+    <string name="itin_card_details_details">Se kvitto och regler</string>
+    <string name="itin_card_details_pick_up">Hämtning</string>
+    <string name="itin_card_details_drop_off">Avlämning</string>
+    <string name="itin_card_details_days">Dagar</string>
+    <string name="itin_card_details_pick_up">Hämtning</string>
+    <string name="itin_card_details_drop_off">Avlämning</string>
+    <string name="itin_card_details_agency_phone">Telefon</string>
+    <string name="itin_card_details_check_in">Incheckning</string>
+    <string name="itin_card_details_check_out">Utcheckning</string>
+    <string name="itin_card_details_address">Adress</string>
+    <string name="itin_card_details_phone">Telefon</string>
+    <string name="itin_card_details_room_type">Rumstyp</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Vägbeskrivning</string>
+    <string name="itin_action_call_hotel">Ring hotell</string>
+    <string name="itin_action_redeem">Lös in</string>
+    <string name="itin_action_support">Support</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Sök flyg</string>

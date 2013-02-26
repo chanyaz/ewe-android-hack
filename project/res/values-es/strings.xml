@@ -87,11 +87,27 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, puerta %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Llegada a la terminal %1$s, puerta %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Llega a la terminal %1$s, puerta %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Salida de la terminal %1$s, puerta %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">No es posible acceder a la información sobre la terminal o la puerta de embarque.</string>
+    <string name="no_terminal_gate_information">Terminal o puerta no disponibles</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Terminal o puerta de llegada no disponibles</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Terminal o puerta de salida no disponibles</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Puerta%1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Puerta de llegada %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Puerta de salida %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, puerta no disponible</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal de llegada %1$s, puerta no disponible</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Salida de la terminal %1$s, puerta </string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Si cierras tu sesión de %1$s, se borrarán todos los itinerarios asociados a esta cuenta. ¿Seguro que quieres cerrar la sesión?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Añadir evento</string>
     <!-- Directions -->
     <string name="directions">Cómo llegar</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Mapas de la terminal</string>
+    <!-- Legend -->
+    <string name="legend">Leyenda</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">El vuelo sale el %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Vehículo de dos ruedas</string>
     <string name="car_type_roadster">Biplaza</string>
     <string name="car_type_crossover">Vehículo híbrido</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Activa</string>
+    <string name="itin_card_details_expires">Caduca</string>
+    <string name="itin_card_details_guests">Personas</string>
+    <string name="itin_card_details_booking_info">Reserva</string>
+    <string name="itin_card_details_details">Recibo y términos y condiciones del vuelo</string>
+    <string name="itin_card_details_pick_up">Recogida</string>
+    <string name="itin_card_details_drop_off">Entrega</string>
+    <string name="itin_card_details_days"> días</string>
+    <string name="itin_card_details_pick_up">Recogida</string>
+    <string name="itin_card_details_drop_off">Entrega</string>
+    <string name="itin_card_details_agency_phone">Teléfono de la agencia</string>
+    <string name="itin_card_details_check_in">Entrada</string>
+    <string name="itin_card_details_check_out">Salida</string>
+    <string name="itin_card_details_address">Dirección</string>
+    <string name="itin_card_details_phone">Teléfono</string>
+    <string name="itin_card_details_room_type">Tipo de habitación</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Cómo llegar</string>
+    <string name="itin_action_call_hotel">Llamar al hotel</string>
+    <string name="itin_action_redeem">Canjear</string>
+    <string name="itin_action_support">Ayuda</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Buscar vuelos</string>
@@ -190,9 +234,9 @@
     <!-- Label for filtering flights by airline (aka, Delta) -->
     <string name="filter_flight_airline">Aerolínea</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Salida:</string>
+    <string name="sort_description_departure">Salida</string>
     <!-- Sort by arrival time label -->
-    <string name="sort_description_arrival">Llegada: </string>
+    <string name="sort_description_arrival">Llegada</string>
     <!-- Sort by duration label -->
     <string name="sort_description_duration">Duración</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
@@ -840,7 +884,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Para poder usar ‘Mi ubicación\&apos; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
+    <string name="EnableLocationSettings">Para poder usar &amp;quot;Mi ubicación&amp;quot; debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n}¿Quieres ir a Ajustes ahora para activarla?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">La recepción de datos de ubicación está desactivada. Vuelve a activarla para realizar una búsqueda por ubicación.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->

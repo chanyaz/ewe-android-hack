@@ -47,7 +47,7 @@
     <!-- Label for launch screen hotel button secondary text -->
     <string name="launch_hotel_secondary_text">Boek een kamer.</string>
     <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">Trek erop uit.</string>
+    <string name="launch_flight_secondary_text">Trek eropuit.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
     <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Vlieg naar&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
@@ -89,9 +89,25 @@
     <!-- Itin flight arrival terminal and gate template -->
     <string name="arrival_terminal_TEMPLATE">Aankomstterminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Vertrekterminal  %1$s, Gate %2$s</string>
+    <string name="departure_terminal_TEMPLATE">Vertrekterminal %1$s, Gate %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Terminal- en Gateinformatie niet beschikbaar</string>
+    <string name="no_terminal_gate_information">Terminal &amp; Gate niet beschikbaar</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Aankomstterminal &amp; Gate niet beschikbaar</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Vertrekterminal &amp; Gate niet beschikbaar</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Aankomst Gate %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Vertrek Gate %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate niet beschikbaar</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Aankomstterminal %1$s, Gate niet beschikbaar</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Vertrekterminal %1$s, Gate niet beschikbaar</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Wanneer je je afmeldt bij %1$s verwijder je alle reisplanitems die aan dit account gekoppeld zijn. Weet je zeker dat je je wil afmelden?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Activiteit toevoegen</string>
     <!-- Directions -->
     <string name="directions">Richtingaanwijzingen</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Terminal Maps</string>
+    <!-- Legend -->
+    <string name="legend">Legende</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Vlucht vertrekt op %1$s</string>
     <!-- Flight currently in progress -->
@@ -135,7 +155,7 @@
     <string name="car_type_three_door">3-deurs</string>
     <string name="car_type_four_door">4-deurs</string>
     <string name="car_type_van">MPV</string>
-    <string name="car_type_wagon">Stationwagen</string>
+    <string name="car_type_wagon">Stationswagen</string>
     <string name="car_type_limousine">Limousine</string>
     <string name="car_type_recreational_vehicle">Vrijetijdswagen</string>
     <string name="car_type_convertible">Cabriolet</string>
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Tweewieler</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Geldig</string>
+    <string name="itin_card_details_expires">Vervalt </string>
+    <string name="itin_card_details_guests">Gasten</string>
+    <string name="itin_card_details_booking_info">Boekingsinfo</string>
+    <string name="itin_card_details_details">Bekijk bevestiging en beleid</string>
+    <string name="itin_card_details_pick_up">Ophalen</string>
+    <string name="itin_card_details_drop_off">Terugbrengen</string>
+    <string name="itin_card_details_days">Dagen</string>
+    <string name="itin_card_details_pick_up">Ophalen</string>
+    <string name="itin_card_details_drop_off">Terugbrengen</string>
+    <string name="itin_card_details_agency_phone">Telefoonnr. bureau</string>
+    <string name="itin_card_details_check_in">Inchecken</string>
+    <string name="itin_card_details_check_out">Uitchecken</string>
+    <string name="itin_card_details_address">Adres</string>
+    <string name="itin_card_details_phone">Telefoon</string>
+    <string name="itin_card_details_room_type">Kamertype</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Richtingaanwijzingen</string>
+    <string name="itin_action_call_hotel">Bel het hotel</string>
+    <string name="itin_action_redeem">Inwisselen</string>
+    <string name="itin_action_support">Ondersteuning</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Zoeken naar een vlucht</string>

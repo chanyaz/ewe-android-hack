@@ -87,11 +87,27 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">도착 터미널 %1$s, 게이트 %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s 도착</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">출발 터미널 %1$s, 게이트 %2$s</string>
+    <string name="departure_terminal_TEMPLATE">터미널 %1$s, 게이트 %2$s 출발</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">터미널 및 게이트 정보를 이용하실 수 없습니다.</string>
+    <string name="no_terminal_gate_information">터미널 및 게이트 정보 없음</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">도착 터미널 및 게이트 정보 없음</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">출발 터미널 및 게이트 정보 없음</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">게이트 %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">게이트 %1$s 도착</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">게이트 %1$s 출발</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">터미널 %1$s, 게이트 정보 없음</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">터미널 %1$s 도착, 게이트 정보 없음</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">터미널 %1$s 출발, 게이트 정보 없음</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s에서 로그아웃하면 이 계정과 연결된 모든 일정 항목이 제거됩니다. 그래도 로그아웃하시겠어요?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">이벤트 추가</string>
     <!-- Directions -->
     <string name="directions">길 안내</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">터미널 지도</string>
+    <!-- Legend -->
+    <string name="legend">기호 설명</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">%1$s에 항공편 출발</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">이륜차</string>
     <string name="car_type_roadster">로드스터</string>
     <string name="car_type_crossover">크로스오버</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">활성</string>
+    <string name="itin_card_details_expires">만료</string>
+    <string name="itin_card_details_guests">숙박객 수</string>
+    <string name="itin_card_details_booking_info">예약 정보</string>
+    <string name="itin_card_details_details">영수증 및 정책 보기</string>
+    <string name="itin_card_details_pick_up">차량 인수</string>
+    <string name="itin_card_details_drop_off">차량 반납</string>
+    <string name="itin_card_details_days">기간(일)</string>
+    <string name="itin_card_details_pick_up">차량 인수</string>
+    <string name="itin_card_details_drop_off">차량 반납</string>
+    <string name="itin_card_details_agency_phone">대행 업체 전화번호</string>
+    <string name="itin_card_details_check_in">체크인</string>
+    <string name="itin_card_details_check_out">체크아웃</string>
+    <string name="itin_card_details_address">주소</string>
+    <string name="itin_card_details_phone">전화</string>
+    <string name="itin_card_details_room_type">객실 유형</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">길 안내</string>
+    <string name="itin_action_call_hotel">호텔에 전화하기</string>
+    <string name="itin_action_redeem">사용하기</string>
+    <string name="itin_action_support">고객 지원</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">항공편 검색</string>

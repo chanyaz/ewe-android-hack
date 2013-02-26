@@ -87,11 +87,27 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Terminal sa Pagdating %1$s, Gate %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Terminal %1$s, Gate %2$s sa Pagdating</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Terminal sa Pag-alis%1$s, Gate %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Hindi available ang impormasyon ng Terminal at Gate.</string>
+    <string name="no_terminal_gate_information">Hindi Available ang Terminal at Gate</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Hindi Available ang Terminal at Gate sa Pagdating</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Hindi Available ang Terminal at Gate sa Pag-alis</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Gate sa Pagdating %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Gate %1$s sa Pag-alis</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Hindi Available ang Gate</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal sa Pagdating %1$s, Hindi Available ang Gate</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal sa Pag-alis %1$s, Hindi Available ang Gate</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Tatanggalin ng pag-logout sa %1$s ang anumang mga bagay sa itinerary na nauugnay sa account na ito. Sigurado ka bang gusto mong mag-log out?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Magdagdag ng Kaganapan</string>
     <!-- Directions -->
     <string name="directions">Mga Direksyon</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Mga Mapa ng Terminal</string>
+    <!-- Legend -->
+    <string name="legend">Legend</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Aalis ang flight sa %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Two Wheel Vehicle</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Aktibo</string>
+    <string name="itin_card_details_expires">Mag-e-expire sa</string>
+    <string name="itin_card_details_guests">Mga Bisita</string>
+    <string name="itin_card_details_booking_info">Impormasyon ng Pag-book</string>
+    <string name="itin_card_details_details">Tingnan ang resibo at mga patakaran</string>
+    <string name="itin_card_details_pick_up">Pick Up</string>
+    <string name="itin_card_details_drop_off">Drop Off</string>
+    <string name="itin_card_details_days">Mga Araw</string>
+    <string name="itin_card_details_pick_up">Pick Up</string>
+    <string name="itin_card_details_drop_off">Drop Off</string>
+    <string name="itin_card_details_agency_phone">Telepono ng Ahensya</string>
+    <string name="itin_card_details_check_in">Check In</string>
+    <string name="itin_card_details_check_out">Check Out</string>
+    <string name="itin_card_details_address">Address</string>
+    <string name="itin_card_details_phone">Telepono</string>
+    <string name="itin_card_details_room_type">Uri ng Kuwarto</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Mga Direksyon</string>
+    <string name="itin_action_call_hotel">Tumawag sa Hotel</string>
+    <string name="itin_action_redeem">Kunin</string>
+    <string name="itin_action_support">Tulong</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Maghanap ng mga Flight</string>

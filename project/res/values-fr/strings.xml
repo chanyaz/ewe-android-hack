@@ -91,7 +91,23 @@
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Départ - Terminal %1$s, Porte %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Informations sur le terminal et la porte non disponibles.</string>
+    <string name="no_terminal_gate_information">Porte et terminal non disponibles</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Porte et terminal d\&apos;arrivée non disponibles</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Porte et terminal de départ non disponibles</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Porte %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Porte d\&apos;arrivée %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Porte de départ %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, porte non disponible</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal d\&apos;arrivée %1$s, porte non disponible</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal de départ %1$s, porte non disponible</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">En vous déconnectant de %1$s vous supprimerez tous les voyages associés à ce compte. Êtes-vous sûr de vouloir vous déconnecter ?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Ajouter événement</string>
     <!-- Directions -->
     <string name="directions">Indications</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Plans des terminaux</string>
+    <!-- Legend -->
+    <string name="legend">Légende</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Décolle le %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Deux-roues</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Actif</string>
+    <string name="itin_card_details_expires">Expire à fin</string>
+    <string name="itin_card_details_guests">Personnes</string>
+    <string name="itin_card_details_booking_info">Infos réservation</string>
+    <string name="itin_card_details_details">Voir le reçu et les conditions</string>
+    <string name="itin_card_details_pick_up">Prise en charge</string>
+    <string name="itin_card_details_drop_off">Retour</string>
+    <string name="itin_card_details_days">Jours</string>
+    <string name="itin_card_details_pick_up">Prise en charge</string>
+    <string name="itin_card_details_drop_off">Retour</string>
+    <string name="itin_card_details_agency_phone">Téléphone de l\&apos;agence</string>
+    <string name="itin_card_details_check_in">Arrivée</string>
+    <string name="itin_card_details_check_out">Départ</string>
+    <string name="itin_card_details_address">Adresse</string>
+    <string name="itin_card_details_phone">Téléphone</string>
+    <string name="itin_card_details_room_type">Type de chambre</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Indications</string>
+    <string name="itin_action_call_hotel">Appeler l\&apos;hôtel</string>
+    <string name="itin_action_redeem">Utiliser</string>
+    <string name="itin_action_support">Assistance</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Rechercher un vol</string>
@@ -805,7 +849,7 @@
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filtrer par nom d\&apos;hôtel</string>
     <!-- Label indicating that there are no results matching their current filter -->
-    <string name="no_filter_results">Aucun hôtel disponible sur Expedia.</string>
+    <string name="no_filter_results">Aucun hôtel disponible sur notre app.</string>
     <!-- Label indicating that geolocation failed -->
     <string name="geolocation_failed">Impossible de déterminer la position de recherche.</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
@@ -833,10 +877,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">Il reste %d chambre sur Expedia !</item>
-        <item quantity="two">Il reste %d chambres sur Expedia</item>
-        <item quantity="many">Il reste %d chambres sur Expedia</item>
-        <item quantity="other">Il reste %d chambres sur Expedia</item>
+        <item quantity="one">Il reste %d chambre sur notre app !</item>
+        <item quantity="two">Il reste %d chambres sur notre app</item>
+        <item quantity="many">Il reste %d chambres sur notre app</item>
+        <item quantity="other">Il reste %d chambres sur notre app</item>
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
@@ -885,11 +929,11 @@
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels">Recherche d\&apos;hôtels en cours…</string>
     <!-- Message displayed when search comes up with zero results -->
-    <string name="progress_search_failed">Aucun hôtel trouvé sur Expedia</string>
+    <string name="progress_search_failed">Aucun hôtel trouvé sur notre app</string>
     <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable_tonight">Aucun hôtel disponible sur Expedia pour ce soir</string>
+    <string name="no_hotels_availiable_tonight">Aucun hôtel disponible sur notre app pour ce soir</string>
     <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable">Aucun hôtel disponible sur Expedia</string>
+    <string name="no_hotels_availiable">Aucun hôtel disponible sur notre app</string>
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">Veuillez saisir une destination ou des dates différentes.</string>
 
@@ -1076,7 +1120,7 @@
         <item quantity="other">Séjour de %d nuits</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
-    <string name="room_rates_loading">Recherche de chambres disponibles sur Expedia…</string>
+    <string name="room_rates_loading">Recherche de chambres disponibles sur notre app…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
     <string name="error_no_response_room_rates">Impossible de télécharger les informations sur les chambres et les tarifs. Veuillez vérifier votre connexion et réessayer plus tard.</string>
     <!-- Rate price displayed "per night" -->
@@ -1093,11 +1137,11 @@
     <string name="prices_avg_per_night_short">Prix moyen/nuit.</string>
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
-        <item quantity="zero">Plus de chambres disponibles sur Expedia !</item>
-        <item quantity="one">Il reste 1 chambre disponible sur Expedia !</item>
-        <item quantity="two">Il reste %d chambres disponibles sur Expedia !</item>
-        <item quantity="many">Il reste %d chambres disponibles sur Expedia !</item>
-        <item quantity="other">Il reste %d chambres disponibles sur Expedia !</item>
+        <item quantity="zero">Plus de chambres disponibles sur notre app !</item>
+        <item quantity="one">Il reste 1 chambre disponible sur notre app !</item>
+        <item quantity="two">Il reste %d chambres disponibles sur notre app !</item>
+        <item quantity="many">Il reste %d chambres disponibles sur notre app !</item>
+        <item quantity="other">Il reste %d chambres disponibles sur notre app !</item>
     </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Non remboursable</string>
@@ -1489,9 +1533,9 @@
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_no_results">Aucun hôtel trouvé sur Expedia. Veuillez insérer des dates différentes ou une autre destination.</string>
+    <string name="ean_error_no_results">Aucun hôtel trouvé sur notre app. Veuillez insérer des dates différentes ou une autre destination.</string>
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_connect_unavailable">Impossible de se connecter à l\&apos;hôtel sélectionné pour trouver des chambres disponibles sur Expedia.</string>
+    <string name="ean_error_connect_unavailable">Impossible de se connecter à l\&apos;hôtel sélectionné pour trouver des chambres disponibles sur notre app.</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
     <string name="ean_error_invalid_phone_number">Veuillez saisir un numéro de téléphone valide</string>
 

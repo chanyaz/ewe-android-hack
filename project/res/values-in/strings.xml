@@ -87,11 +87,27 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Terminal Kedatangan %1$s, Gate %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Tiba di Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Terminal Keberangkatan %1$s, Gate %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Informasi Terminal dan Gate tidak tersedia.</string>
+    <string name="no_terminal_gate_information">Info Terminal &amp; Gate Tidak Tersedia</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Info Terminal &amp; Gate Kedatangan Tidak Tersedia</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Info Terminal &amp; Gate Keberangkatan Tidak Tersedia</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Tiba di Gate %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Berangkat di Gate %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate Tidak Tersedia</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Tiba di Terminal %1$s, Gate Tidak Tersedia</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Berangkat di Terminal %1$s, Gate Tidak Tersedia</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Jika Anda keluar dari %1$s, semua rencana perjalanan yang terkait dengan akun ini akan dihapus. Yakin ingin keluar?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Tambah Acara</string>
     <!-- Directions -->
     <string name="directions">Arah</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Peta Terminal</string>
+    <!-- Legend -->
+    <string name="legend">Legenda</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Pesawat berangkat pada %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Kendaraan Roda Dua</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Aktif</string>
+    <string name="itin_card_details_expires">Kedaluwarsa </string>
+    <string name="itin_card_details_guests">Tamu</string>
+    <string name="itin_card_details_booking_info">Info Pemesanan</string>
+    <string name="itin_card_details_details">Lihat tanda terima dan kebijakan</string>
+    <string name="itin_card_details_pick_up">Pengambilan</string>
+    <string name="itin_card_details_drop_off">Pengembalian</string>
+    <string name="itin_card_details_days">Hari</string>
+    <string name="itin_card_details_pick_up">Pengambilan</string>
+    <string name="itin_card_details_drop_off">Pengembalian</string>
+    <string name="itin_card_details_agency_phone">Telepon Agen</string>
+    <string name="itin_card_details_check_in">Check-In</string>
+    <string name="itin_card_details_check_out">Check-Out</string>
+    <string name="itin_card_details_address">Alamat</string>
+    <string name="itin_card_details_phone">Telepon</string>
+    <string name="itin_card_details_room_type">Jenis Kamar</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Arah</string>
+    <string name="itin_action_call_hotel">Telepon Hotel</string>
+    <string name="itin_action_redeem">Tukarkan</string>
+    <string name="itin_action_support">Dukungan</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Cari Penerbangan</string>

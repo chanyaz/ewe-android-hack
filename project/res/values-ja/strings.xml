@@ -87,11 +87,27 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">ターミナル %1$s、 ゲート %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">到着ターミナル %1$s、ゲート %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s に到着</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">ターミナル %1$s、ゲート %2$s から出発</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">ターミナルおよびゲート情報がありません。</string>
+    <string name="no_terminal_gate_information">ターミナル &amp; ゲート情報がありません</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">到着ターミナル &amp; ゲート情報がありません</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">出発ターミナル &amp; ゲート情報がありません</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">ゲート%1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">ゲート %1$s に到着</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">ゲート %1$s から出発</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">ターミナル %1$s、ゲート情報はありません</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">ターミナル %1$s に到着、ゲート情報はありません</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">ターミナル %1$s から出発、ゲート情報はありません</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">%1$s からログアウトすると、このアカウントに関連付けられている旅程項目が全て削除されます。ログアウトしてもよろしいですか ?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">イベントを追加</string>
     <!-- Directions -->
     <string name="directions">行き方</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">ターミナルマップ</string>
+    <!-- Legend -->
+    <string name="legend">凡例</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">%1$sに出発のフライト</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">2 輪車</string>
     <string name="car_type_roadster">ロードスター</string>
     <string name="car_type_crossover">クロスオーバー</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">アクティブ</string>
+    <string name="itin_card_details_expires">有効期限</string>
+    <string name="itin_card_details_guests">宿泊者</string>
+    <string name="itin_card_details_booking_info">予約情報</string>
+    <string name="itin_card_details_details">領収書およびポリシーを表示</string>
+    <string name="itin_card_details_pick_up">ピックアップ</string>
+    <string name="itin_card_details_drop_off">返却</string>
+    <string name="itin_card_details_days">日</string>
+    <string name="itin_card_details_pick_up">ピックアップ</string>
+    <string name="itin_card_details_drop_off">返却</string>
+    <string name="itin_card_details_agency_phone">エージェンシー電話番号</string>
+    <string name="itin_card_details_check_in">チェックイン</string>
+    <string name="itin_card_details_check_out">チェックアウト</string>
+    <string name="itin_card_details_address">住所</string>
+    <string name="itin_card_details_phone">電話</string>
+    <string name="itin_card_details_room_type">部屋タイプ</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">行き方</string>
+    <string name="itin_action_call_hotel">ホテルに電話</string>
+    <string name="itin_action_redeem">特典利用</string>
+    <string name="itin_action_support">サポート</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">フライト検索</string>
@@ -190,7 +234,7 @@
     <!-- Label for filtering flights by airline (aka, Delta) -->
     <string name="filter_flight_airline">ご希望の航空会社</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">出発地 </string>
+    <string name="sort_description_departure">出発地</string>
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">到着地</string>
     <!-- Sort by duration label -->

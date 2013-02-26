@@ -91,7 +91,23 @@
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Afgang: terminal %1$s, gate %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Information om terminal og gate er ikke tilgængelig.</string>
+    <string name="no_terminal_gate_information">Terminal og gate ikke tilgængelig</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Ankomstterminal og -gate ikke tilgængelig</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Afgangsterminal og -gate ikke tilgængelig</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Ankomstgate %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Afgangsgate %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, gate ikke tilgængelig</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankomstterminal %1$s. gate ikke tilgængelig</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Afgangsterminal %1$s. gate ikke tilgængelig</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Hvis du logger af %1$s, vil det fjerne alle rejseplansoplysninger for denne konto. Er du sikker på, du vil logge af?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Tilføj begivenhed</string>
     <!-- Directions -->
     <string name="directions">Rutevejledning</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Terminalkort</string>
+    <!-- Legend -->
+    <string name="legend">Oversigt</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Flyet afgår den %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Køretøj med to hjul</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Aktiv</string>
+    <string name="itin_card_details_expires">Udløber</string>
+    <string name="itin_card_details_guests">Gæster</string>
+    <string name="itin_card_details_booking_info">Reservationsinfo</string>
+    <string name="itin_card_details_details">Se kvittering og politikker</string>
+    <string name="itin_card_details_pick_up">Afhentning</string>
+    <string name="itin_card_details_drop_off">Opsamling</string>
+    <string name="itin_card_details_days">Dage</string>
+    <string name="itin_card_details_pick_up">Afhentning</string>
+    <string name="itin_card_details_drop_off">Opsamling</string>
+    <string name="itin_card_details_agency_phone">Bureauets telefonnr.</string>
+    <string name="itin_card_details_check_in">Indtjekning</string>
+    <string name="itin_card_details_check_out">Udtjekning</string>
+    <string name="itin_card_details_address">Adresse</string>
+    <string name="itin_card_details_phone">Telefon</string>
+    <string name="itin_card_details_room_type">Værelsestype</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Rutevejledning</string>
+    <string name="itin_action_call_hotel">Ring til hotellet</string>
+    <string name="itin_action_redeem">Indløs</string>
+    <string name="itin_action_support">Support</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Søg efter flybilletter</string>

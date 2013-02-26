@@ -87,11 +87,27 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="generic_terminal_TEMPLATE">Terminal %1$s, Portão %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Terminal Chegada %1$s, Portão %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Terminal de Chegada %1$s, Portão %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Terminal Partida %1$s, Portão %2$s</string>
+    <string name="departure_terminal_TEMPLATE">Terminal de Partida %1$s, Portão %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Informações sobre terminal e portão não estão disponíveis.</string>
+    <string name="no_terminal_gate_information">Terminal e Portão indisponíveis</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Terminal de Chegada e Portão indisponíveis</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Terminal de Partida e Portão indisponíveis</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Portão %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Portão de Chegada %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Portão de Partida %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Portão indisponível</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal de Chegada %1$s, Portão indisponível</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal de Partida %1$s, Portão indisponível</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">A desconexão do %1$s removerá todos os itens de itinerário associados a Tem certeza de que deseja se desconectar?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Adicionar evento</string>
     <!-- Directions -->
     <string name="directions">Direções</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Mapas do terminal</string>
+    <!-- Legend -->
+    <string name="legend">Legenda</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Voo parte em %1$s</string>
     <!-- Flight currently in progress -->
@@ -114,7 +134,7 @@
     <string name="flight_departs_in_hours_minutes_TEMPLATE">Voo parte em %1$s,%2$s</string>
     <!-- hours plural -->
     <plurals name="hour_span">
-        <item quantity="zero">%1$s horas</item>
+        <item quantity="zero">%1$s hora</item>
         <item quantity="one">%1$s hora</item>
         <item quantity="two">%1$s horas</item>
         <item quantity="few">%1$s horas</item>
@@ -123,7 +143,7 @@
     </plurals>
     <!-- minutes plural -->
     <plurals name="minute_span">
-        <item quantity="zero">%1$s minutos</item>
+        <item quantity="zero">%1$s minuto</item>
         <item quantity="one">%1$s minuto</item>
         <item quantity="two">%1$s minutos</item>
         <item quantity="few">%1$s minutos</item>
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Veículo de duas rodas</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Ativo</string>
+    <string name="itin_card_details_expires">Expira</string>
+    <string name="itin_card_details_guests">Hóspedes</string>
+    <string name="itin_card_details_booking_info">Info da reserva</string>
+    <string name="itin_card_details_details">Visualizar recibo e políticas</string>
+    <string name="itin_card_details_pick_up">Retirada</string>
+    <string name="itin_card_details_drop_off">Entrega</string>
+    <string name="itin_card_details_days">Dias</string>
+    <string name="itin_card_details_pick_up">Retirada</string>
+    <string name="itin_card_details_drop_off">Entrega</string>
+    <string name="itin_card_details_agency_phone">Telefone da agência</string>
+    <string name="itin_card_details_check_in">Check-in</string>
+    <string name="itin_card_details_check_out">Check-out</string>
+    <string name="itin_card_details_address">Endereço</string>
+    <string name="itin_card_details_phone">Telefone</string>
+    <string name="itin_card_details_room_type">Tipo de quarto</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Direções</string>
+    <string name="itin_action_call_hotel">Ligar para o hotel</string>
+    <string name="itin_action_redeem">Utilizar</string>
+    <string name="itin_action_support">Assistência</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Procurar voos</string>
@@ -1365,11 +1409,11 @@
     <!-- Contact Expedia via email subject -->
     <string name="contact_expedia_email_subject">Atendimento para reservas da Expedia</string>
     <!-- Contact Expedia via website -->
-    <string name="contact_expedia_website">Website</string>
+    <string name="contact_expedia_website">Site</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">Website da Expedia</string>
+    <string name="expedia_website">Site da Expedia</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">Visite o website para reservar voos, carros, pacotes e muito mais.</string>
+    <string name="expedia_website_description">Visite o site para reservar voos, carros, pacotes e muito mais.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">Dê sua opinião sobre o app.</string>
     <!-- Label for "app support" button in info page -->
@@ -1445,7 +1489,7 @@
     <!-- A number of children -->
     <plurals name="number_of_children">
         <item quantity="zero">%d criança</item>
-        <item quantity="one">%d Criança</item>
+        <item quantity="one">%d criança</item>
         <item quantity="two">%d crianças</item>
         <item quantity="many">%d crianças</item>
         <item quantity="other">%d crianças</item>

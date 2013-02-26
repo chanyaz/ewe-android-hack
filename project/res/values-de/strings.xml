@@ -91,7 +91,23 @@
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Abflugsterminal %1$s, Gate %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Die Terminal- und Gateinformationen sind derzeit nicht verfügbar.</string>
+    <string name="no_terminal_gate_information">Terminal- &amp; Gateinformationen nicht verfügbar</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Ankunftsterminal- &amp; Gateinformationen nicht verfügbar</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Abflugterminal- &amp; Gateinformationen nicht verfügbar</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Ankunftsterminal %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Abflugterminal %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gateinformationen nicht verfügbar</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ankunftsterminal %1$s, Gateinformationen nicht verfügbar</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Abflugterminal %1$s, Gateinformationen nicht verfügbar</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Wenn Sie sich bei %1$s abmelden, werden alle Reiseplan-Artikel dieses Kontos gelöscht. Wollen Sie sich wirklich abmelden?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Event hinzufügen</string>
     <!-- Directions -->
     <string name="directions">Wegbeschreibung</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Terminalkarten</string>
+    <!-- Legend -->
+    <string name="legend">Legende</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Der Flug startet am %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,14 +173,38 @@
     <string name="car_type_two_wheel_vehicle">Zweirad</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">aktiv</string>
+    <string name="itin_card_details_expires">Gültig bis</string>
+    <string name="itin_card_details_guests">Gäste</string>
+    <string name="itin_card_details_booking_info">Buchungsinformationen</string>
+    <string name="itin_card_details_details">Flugbeleg und Flugbestimmungen ansehen</string>
+    <string name="itin_card_details_pick_up">Abholung</string>
+    <string name="itin_card_details_drop_off">Rückgabe</string>
+    <string name="itin_card_details_days">Tage</string>
+    <string name="itin_card_details_pick_up">Abholung</string>
+    <string name="itin_card_details_drop_off">Rückgabe</string>
+    <string name="itin_card_details_agency_phone">Telefonnr. der Filiale</string>
+    <string name="itin_card_details_check_in">Check-in</string>
+    <string name="itin_card_details_check_out">Check-out</string>
+    <string name="itin_card_details_address">Adresse</string>
+    <string name="itin_card_details_phone">Telefon</string>
+    <string name="itin_card_details_room_type">Zimmertyp</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Wegbeschreibung</string>
+    <string name="itin_action_call_hotel">Hotel anrufen</string>
+    <string name="itin_action_redeem">Einlösen</string>
+    <string name="itin_action_support">Support</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Flüge suchen</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
-    <string name="hint_departure_airport">Abflug Flughafen</string>
+    <string name="hint_departure_airport">Von</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
-    <string name="hint_arrival_airport">Ankunftsflughafen</string>
+    <string name="hint_arrival_airport">Nach</string>
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Flüge werden geladen...</string>
     <!-- Label for screen that is doing searches -->
@@ -207,9 +251,9 @@
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DEBUG: Suchdaten wurden gelöscht.  Bitte Fehler an DLew weiterleiten.</string>
     <!-- Select a flight to (city name) -->
-    <string name="select_a_flight_to_TEMPLATE">Wählen Sie einen Flug nach %1$s</string>
+    <string name="select_a_flight_to_TEMPLATE">Ihr Hinflug nach %1$s</string>
     <!-- Select a flight back to (city name) -->
-    <string name="select_a_flight_back_to_TEMPLATE">Wählen Sie einen Rückflug nach %1$s</string>
+    <string name="select_a_flight_back_to_TEMPLATE">Ihr Rückflug nach %1$s</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Fehler beim Laden der Seite! Fehlermeldung: %1$s</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
@@ -221,7 +265,7 @@
 
     <!-- Flight search params fragment -->
     <!-- Hint when no dates are selected for a flight trip -->
-    <string name="hint_select_departure">Geben Sie ein Anreisedatum an</string>
+    <string name="hint_select_departure">Reisezeitraum</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
     <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (nur Hinflug)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
@@ -269,9 +313,9 @@
         <item quantity="other">%1$s übrig für &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">INFORMATIONEN ZU GEPÄCKPREISEN</string>
+    <string name="baggage_fee_info">INFORMATIONEN ZU GEPÄCKGEBÜHREN</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
-    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$sZwischenstopp&lt;/b&gt; in %2$s</string>
+    <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s Zwischenstopp&lt;/b&gt; in %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m, Economy (K) on a Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Label for "coach" cabin code -->
@@ -293,7 +337,7 @@
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Für Handgepäck fallen Gebühren an.</string>
     <!-- Payment and baggage fees may apply -->
-    <string name="payment_and_baggage_fees_may_apply">Es können Zahlungs- und Gebückgebühren anfallen</string>
+    <string name="payment_and_baggage_fees_may_apply">Es können Zahlungs- und Gepäckgebühren anfallen</string>
     <!-- Additional Flight fare fees -->
     <string name="additional_fees">Weitere Gebühren</string>
     <!-- Label to view baggage fees information -->
@@ -357,7 +401,7 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Ich akzeptiere</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Streichen, um zu buchen.</string>
+    <string name="slide_to_purchase">Ziehen, um zu buchen.</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Ihre Kreditkarte wird mit %1$s belastet</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
@@ -440,7 +484,7 @@
     <!-- Expiration date label -->
     <string name="expiration_date">Ablaufdatum</string>
     <!-- Set expiration date button -->
-    <string name="btn_set">Konfigurieren</string>
+    <string name="btn_set">OK</string>
     <!-- Security code label -->
     <string name="security_code">Prüfnummer</string>
 
@@ -528,9 +572,9 @@
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Daten der Reisenden ändern</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">Bevorzugt diesen Sitzplatz: %1$s</string>
+    <string name="prefers_seat_TEMPLATE">Bevorzugter Sitzplatz: %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Bevorzugt diesen Sitzplatz:&lt;/font&gt; %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Bevorzugter Sitzplatz:&lt;/font&gt; %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Informationen zum Reisenden werden geladen...</string>
     <!-- Traveler Information -->

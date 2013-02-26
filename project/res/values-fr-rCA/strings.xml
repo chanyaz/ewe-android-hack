@@ -3,13 +3,13 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Bonjour &lt;b&gt;%1$s&lt;/b&gt;, il semble qu\&apos;on a trouvé votre compte Expedia! Veuillez entrer votre mot de passe Expedia ci-dessous pour vous connecter à vos comptes Facebook et Expedia.</string>
+    <string name="facebook_weve_found_your_account">Bonjour &lt;b&gt;%1$s&lt;/b&gt;, nous avons bien trouvé votre compte Expedia! Veuillez entrer votre mot de passe Expedia ci-dessous pour vous connecter à vos comptes Facebook et Expedia.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Bonjour &lt;b&gt;%1$s&lt;/b&gt;, nous avons chargé votre information Facebook!</string>
     <!-- connect with facebook (button text) -->
     <string name="connect_with_facebook">Se connecter à Facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Recherche d\&apos;information de Facebook...</string>
+    <string name="fetching_facebook_info">Recherche d\&apos;information sur Facebook...</string>
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Tentative d\&apos;ouverture de session avec vos coordonnées Facebook ...</string>
     <!-- We have encountered an error -->
@@ -85,13 +85,29 @@
     <!-- Booking info label -->
     <string name="booking_info">Information de réservation</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="generic_terminal_TEMPLATE">Terminal %1$s, Porte %2$s</string>
+    <string name="generic_terminal_TEMPLATE">Terminal %1$s, porte %2$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="arrival_terminal_TEMPLATE">Terminal d\&apos;arrivée %1$s, Porte %2$s</string>
+    <string name="arrival_terminal_TEMPLATE">Terminal d\&apos;arrivée %1$s, porte %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="departure_terminal_TEMPLATE">Terminal de départ %1$s, Porte %2$s</string>
+    <string name="departure_terminal_TEMPLATE">Terminal de départ %1$s, porte %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Information sur le terminal et la porte non disponible.</string>
+    <string name="no_terminal_gate_information">Terminal et porte non disponibles</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Terminal et porte d\&apos;arrivée non disponibles</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Terminal et porte de départ non disponibles</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Porte %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Porte d\&apos;arrivée %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Porte de départ %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, porte non disponible</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Terminal d\&apos;arrivée %1$s, porte non disponible</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Terminal de départ %1$s, porte non disponible</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">La déconnexion de %1$s éliminera tous les éléments d\&apos;itinéraire associé à ce compte. Êtes-vous sûr de vouloir vous déconnecter?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Ajouter événement</string>
     <!-- Directions -->
     <string name="directions">Directions</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Cartes de terminal</string>
+    <!-- Legend -->
+    <string name="legend">Légende</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Vol décolle le %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Véhicule deux roues</string>
     <string name="car_type_roadster">Roadster</string>
     <string name="car_type_crossover">Multisegment</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Actif</string>
+    <string name="itin_card_details_expires">Expire</string>
+    <string name="itin_card_details_guests">Personnes</string>
+    <string name="itin_card_details_booking_info">Info. de réservation</string>
+    <string name="itin_card_details_details">Afficher le reçu et les politiques</string>
+    <string name="itin_card_details_pick_up">Prise en charge</string>
+    <string name="itin_card_details_drop_off">Remise</string>
+    <string name="itin_card_details_days">Jours</string>
+    <string name="itin_card_details_pick_up">Prise en charge</string>
+    <string name="itin_card_details_drop_off">Remise</string>
+    <string name="itin_card_details_agency_phone">Tél. agence</string>
+    <string name="itin_card_details_check_in">Arrivée</string>
+    <string name="itin_card_details_check_out">Départ</string>
+    <string name="itin_card_details_address">Adresse</string>
+    <string name="itin_card_details_phone">Téléphone</string>
+    <string name="itin_card_details_room_type">Type de chambre</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Directions</string>
+    <string name="itin_action_call_hotel">Appeler l\&apos;hôtel</string>
+    <string name="itin_action_redeem">Échanger</string>
+    <string name="itin_action_support">Soutien</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Rechercher des vols</string>
@@ -854,7 +898,7 @@
     <!-- Sort by popularity label -->
     <string name="sort_description_popular">Popularité</string>
     <!-- Sort by price label -->
-    <string name="sort_description_price">Prix</string>
+    <string name="sort_description_price">Tarif</string>
     <!-- Sort by deals label -->
     <string name="sort_description_deals">Aubaines</string>
     <!-- Sort by user rating label -->

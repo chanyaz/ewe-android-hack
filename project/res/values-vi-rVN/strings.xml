@@ -91,7 +91,23 @@
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Ga khởi hành %1$s, Cổng %2$s</string>
     <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Không có thông tin Ga và Cổng.</string>
+    <string name="no_terminal_gate_information">Không có thông tin Ga &amp; Cổng</string>
+    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
+    <string name="no_arrival_terminal_gate_information">Không có thông tin Ga &amp; Cổng đến</string>
+    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
+    <string name="no_departure_terminal_gate_information">Không có thông tin Ga &amp; Cổng khởi hành</string>
+    <!-- Itin flight gate only template -->
+    <string name="gate_number_only_TEMPLATE">Cổng %1$s</string>
+    <!-- Itin flight arrive gate only template -->
+    <string name="arrive_gate_number_only_TEMPLATE">Cổng đến %1$s</string>
+    <!-- Itin flight depart gate only template -->
+    <string name="depart_gate_number_only_TEMPLATE">Cổng khởi hành %1$s</string>
+    <!-- Itin flight terminal only template -->
+    <string name="terminal_but_no_gate_TEMPLATE">Ga %1$s, Không có thông tin Cổng</string>
+    <!-- Itin flight terminal only template -->
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Ga đến %1$s, Không có thông tin Cổng</string>
+    <!-- Itin flight terminal only template -->
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Ga khởi hành %1$s, Không có thông tin Cổng</string>
     <!-- Itin logout confirmation message -->
     <string name="itin_logout_confirmation_message_TEMPLATE">Thoát %1$s sẽ đồng thời gỡ mọi lịch trình liên kết với tài khoản này. Quý vị có chắc chắn muốn thoát không?</string>
     <!-- Booking code unavailable message -->
@@ -102,6 +118,10 @@
     <string name="add_event">Thêm sự kiện</string>
     <!-- Directions -->
     <string name="directions">Hướng dẫn đường đi</string>
+    <!-- Terminal Maps -->
+    <string name="terminal_maps">Bản đồ ga</string>
+    <!-- Legend -->
+    <string name="legend">Chú thích</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">Chuyến bay khởi hành vào %1$s</string>
     <!-- Flight currently in progress -->
@@ -153,7 +173,31 @@
     <string name="car_type_two_wheel_vehicle">Xe 2 cầu</string>
     <string name="car_type_roadster">Xe thể thao 2 chỗ</string>
     <string name="car_type_crossover">Xe Crossover</string>
+   
+    <!-- Itin card details -->
+    <string name="itin_card_details_active">Hoạt động</string>
+    <string name="itin_card_details_expires">Hết hạn </string>
+    <string name="itin_card_details_guests">Khách</string>
+    <string name="itin_card_details_booking_info">Thông tin đặt chỗ</string>
+    <string name="itin_card_details_details">Xem biên nhận và chính sách</string>
+    <string name="itin_card_details_pick_up">Nhận</string>
+    <string name="itin_card_details_drop_off">Trả</string>
+    <string name="itin_card_details_days">Ngày</string>
+    <string name="itin_card_details_pick_up">Nhận</string>
+    <string name="itin_card_details_drop_off">Trả</string>
+    <string name="itin_card_details_agency_phone">Số điện thoại đại lý</string>
+    <string name="itin_card_details_check_in">Nhận phòng</string>
+    <string name="itin_card_details_check_out">Trả phòng</string>
+    <string name="itin_card_details_address">Địa chỉ</string>
+    <string name="itin_card_details_phone">Điện thoại</string>
+    <string name="itin_card_details_room_type">Loại phòng</string>
     
+    <!-- Action Buttons -->
+    <string name="itin_action_directions">Hướng dẫn đường đi</string>
+    <string name="itin_action_call_hotel">Gọi khách sạn</string>
+    <string name="itin_action_redeem">Đổi thưởng</string>
+    <string name="itin_action_support">Hỗ trợ</string>
+
     <!-- Flights -->
     <!-- Label for flight search part of app -->
     <string name="search_flights">Tìm chuyến bay</string>
