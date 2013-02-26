@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -298,13 +299,15 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		//TODO: Check for itin error and call setErrorMessage() if needed
 
 		// TODO: make sure these calls are fired the correct number of times, will probably need extra bookkeeping
-		if (trips != null && trips.size() > 1) {
-			OmnitureTracking.trackItin(getActivity());
+		Context context = getActivity();
+		if (context != null) {
+			if (trips != null && trips.size() > 1) {
+				OmnitureTracking.trackItin(getActivity());
+			}
+			else {
+				OmnitureTracking.trackItinEmpty(getActivity());
+			}
 		}
-		else {
-			OmnitureTracking.trackItinEmpty(getActivity());
-		}
-
 	}
 
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
