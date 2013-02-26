@@ -98,6 +98,8 @@
     <string name="no_arrival_terminal_gate_information">Arrival Terminal &amp; Gate Unavailable</string>
     <!-- Itin flight layover departure terminal and gate information not avaialble message -->
     <string name="no_departure_terminal_gate_information">Departure Terminal &amp; Gate Unavailable</string>
+    <!-- To be determined abbrev.-->
+    <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
     <string name="gate_number_only_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
@@ -237,9 +239,16 @@
     <string name="share_template_short_hotel">I’m staying at the %1$s\n%2$s – %3$s\n\n%4$s</string>
     <!-- 1: hotel Name 2: formatted length of stay 4: check in date 5: check out date 6: street address 7: city 8: state 9: postal code 10: phone 11: hotel web url 12: app download link -->
     <string name="share_template_long_hotel">Hi,\n\nI’m staying at the %1$s for %2$s.\n\n<b>Check In</b> %3$s\n<b>Check Out</b> %4$s\n\n%1$s\n%5$s\n%6$s, %7$s %8$s\n\n<b>Phone</b>\n%9$s\n\n<b>More Information</b>\n%10$s\n\nWant to book hotels, flights and view &amp; share your itineraries? <a href="%11$s">Download</a> the free Expedia mobile app today.</string>
-    <string name="share_template_subject_flight"></string>
-    <string name="share_template_short_flight"></string>
-    <string name="share_template_long_flight"></string>
+    <!-- 1: city 2: date string -->
+    <string name="share_template_subject_flight">My flight to %1$s on %2$s</string>
+    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
+    <string name="share_template_short_flight_sameday">I’m on flight %1$s to %2$s on %3$s.\nDeparts %4$s at %5$s\nArrives %6$s at %7$s, %8$s</string>
+     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
+    <string name="share_template_short_flight_multiday">I’m on flight %1$s to %2$s.\nDeparts %3$s at %4$s\nArrives %5$s at %6$s, %7$s</string>
+    <!-- 1: Origin city 2: Destination city 3: Flight Carrier and number 4: Departure date 5: Departure airport code 6: Departure Time 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival terminal gate 11: Traveler list -->
+    <string name="share_template_long_flight_sameday">Hi,\n\nHere are the details of my flight from %1$s to %2$s.\n\n%3$s - %4$s\n\nDeparts %5$s at %6$s from %7$s.\nArrives %8$s at %9$s at %10$s.\n\nTravelers\n%11$s</string>
+    <!-- 1: Origin city 2: Desitination city 3: Flight carrier and number 4: Departure airport code 5: Departure time 6: Departure date 7: Departure Terminal and gate 8: Arrival airport code 9: Arrival time 10:arrival date 11: Arrival terminal gate 12: Traveler list -->
+    <string name="share_template_long_flight_multiday">Hi,\n\nHere are the details of my flight from %1$s to %2$s.\n\n%3$s\n\nDeparts %4$s at %5$s on %6$s from %7$s.\nArrives %8$s at %9$s on %10$s at %11$s\n\nTravelers\n%12$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">My car rental (%1$s – %2$s)</string>
     <!-- 1: vehicle type 2: pick up date 3: drop off date 4: vendor name 5: full address -->

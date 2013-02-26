@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -37,6 +38,7 @@ import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
@@ -97,19 +99,155 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	@Override
 	protected String getShareSubject(ItinCardDataFlight itinCardData) {
-		// TODO Auto-generated method stub
+		if (itinCardData != null && itinCardData.getFlightLeg() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null) {
+			String template = getContext().getString(R.string.share_template_subject_flight);
+			String destination = itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
+			Calendar startDate = itinCardData.getFlightLeg().getFirstWaypoint().getMostRelevantDateTime();
+			String deparuteDate = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(startDate.getTime());
+
+			return String.format(template, destination, deparuteDate);
+		}
 		return null;
 	}
 
 	@Override
 	protected String getShareTextShort(ItinCardDataFlight itinCardData) {
-		// TODO Auto-generated method stub
+		if (itinCardData != null && itinCardData.getFlightLeg() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null) {
+
+			FlightLeg leg = itinCardData.getFlightLeg();
+			String airlineAndFlightNumber = FormatUtils.formatFlightNumberShort(
+					leg.getSegment(leg.getSegmentCount() - 1), getContext());
+			String destinationCity = leg.getLastWaypoint().getAirport().mCity;
+			String destinationAirportCode = leg.getLastWaypoint().getAirport().mAirportCode;
+			String originAirportCode = leg.getFirstWaypoint().getAirport().mAirportCode;
+			String destinationGateTerminal = getTerminalGateString(leg.getLastWaypoint());
+
+			Calendar departureCal = leg.getFirstWaypoint().getMostRelevantDateTime();
+			Calendar arrivalCal = leg.getLastWaypoint().getMostRelevantDateTime();
+
+			//The story contains format strings, but we don't want to bone our international customers
+			DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
+			DateFormat timeFormat = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM);
+			DateFormat dateTimeFormat = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
+
+			if (PointOfSale.getPointOfSale().getThreeLetterCountryCode().equalsIgnoreCase("USA")) {
+				String dateFormatStr = "M/dd/yy";
+				String timeFormatStr = "h:mma zz";
+				String dateTimeFormatStr = timeFormatStr + " " + dateFormatStr;
+
+				((SimpleDateFormat) dateFormat).applyPattern(dateFormatStr);
+				((SimpleDateFormat) timeFormat).applyPattern(timeFormatStr);
+				((SimpleDateFormat) dateTimeFormat).applyPattern(dateTimeFormatStr);
+			}
+
+			dateFormat.setTimeZone(departureCal.getTimeZone());
+			timeFormat.setTimeZone(departureCal.getTimeZone());
+			dateTimeFormat.setTimeZone(departureCal.getTimeZone());
+			String departureDate = dateFormat.format(departureCal.getTime());
+			String departureTime = timeFormat.format(departureCal.getTime());
+			String departureDateTime = dateTimeFormat.format(departureCal.getTime());
+
+			dateFormat.setTimeZone(arrivalCal.getTimeZone());
+			timeFormat.setTimeZone(arrivalCal.getTimeZone());
+			dateTimeFormat.setTimeZone(arrivalCal.getTimeZone());
+			String arrivalTime = timeFormat.format(arrivalCal.getTime());
+			String arrivalDateTime = dateTimeFormat.format(arrivalCal.getTime());
+
+			//single day
+			if (leg.getDaySpan() == 0) {
+				String template = getContext().getString(R.string.share_template_short_flight_sameday);
+
+				return String.format(template, airlineAndFlightNumber, destinationCity, departureDate,
+						originAirportCode,
+						departureTime, destinationAirportCode, arrivalTime, destinationGateTerminal);
+			}
+			//multi day
+			else {
+				String template = getContext().getString(R.string.share_template_short_flight_multiday);
+
+				return String.format(template, airlineAndFlightNumber, destinationCity, originAirportCode,
+						departureDateTime, destinationAirportCode, arrivalDateTime, destinationGateTerminal);
+			}
+		}
 		return null;
 	}
 
 	@Override
 	protected String getShareTextLong(ItinCardDataFlight itinCardData) {
-		// TODO Auto-generated method stub
+		if (itinCardData != null && itinCardData.getFlightLeg() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null) {
+
+			FlightLeg leg = itinCardData.getFlightLeg();
+			TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
+
+			String airlineAndFlightNumber = FormatUtils.formatFlightNumberFull(
+					leg.getSegment(leg.getSegmentCount() - 1), getContext());
+
+			String originCity = leg.getFirstWaypoint().getAirport().mCity;
+			String destinationCity = leg.getLastWaypoint().getAirport().mCity;
+			String originAirportCode = leg.getFirstWaypoint().getAirport().mCity;
+			String destinationAirportCode = leg.getLastWaypoint().getAirport().mAirportCode;
+			String originTerminalGate = getTerminalGateString(leg.getFirstWaypoint());
+			String destinationTerminalGate = getTerminalGateString(leg.getLastWaypoint());
+
+			Calendar departureCal = leg.getFirstWaypoint().getMostRelevantDateTime();
+			Calendar arrivalCal = leg.getLastWaypoint().getMostRelevantDateTime();
+
+			//The story contains format strings, but we don't want to bone our international customers
+			DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.LONG);
+			DateFormat timeFormat = SimpleDateFormat.getTimeInstance(DateFormat.MEDIUM);
+
+			if (PointOfSale.getPointOfSale().getThreeLetterCountryCode().equalsIgnoreCase("USA")) {
+				String dateFormatStr = "EEEE MMMM dd, yyyy";
+				String timeFormatStr = "h:mm a zz";
+
+				((SimpleDateFormat) dateFormat).applyPattern(dateFormatStr);
+				((SimpleDateFormat) timeFormat).applyPattern(timeFormatStr);
+			}
+
+			dateFormat.setTimeZone(departureCal.getTimeZone());
+			timeFormat.setTimeZone(departureCal.getTimeZone());
+			String departureDate = dateFormat.format(departureCal.getTime());
+			String departureTime = timeFormat.format(departureCal.getTime());
+
+			dateFormat.setTimeZone(arrivalCal.getTimeZone());
+			timeFormat.setTimeZone(arrivalCal.getTimeZone());
+			String arrivalDate = dateFormat.format(arrivalCal.getTime());
+			String arrivalTime = timeFormat.format(arrivalCal.getTime());
+
+			//Traveler names
+			StringBuilder travelerSb = new StringBuilder();
+			for (Traveler trav : tripFlight.getTravelers()) {
+				if (travelerSb.length() > 0) {
+					travelerSb.append("\n");
+				}
+				travelerSb.append(trav.getFullName());
+			}
+			String travString = travelerSb.toString();
+
+			//single day
+			if (leg.getDaySpan() == 0) {
+				String template = getContext().getString(R.string.share_template_long_flight_sameday);
+
+				return String.format(template, originCity, destinationCity, airlineAndFlightNumber, departureDate,
+						originAirportCode, departureTime, originTerminalGate, destinationAirportCode, arrivalTime,
+						destinationTerminalGate, travString);
+
+			}
+			//multi day
+			else {
+				String template = getContext().getString(R.string.share_template_long_flight_multiday);
+
+				return String.format(template, originCity, destinationCity, airlineAndFlightNumber,
+						originAirportCode, departureTime, departureDate, originTerminalGate, destinationAirportCode,
+						arrivalTime, arrivalDate, destinationTerminalGate, travString);
+			}
+		}
 		return null;
 	}
 
@@ -197,21 +335,13 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			//Traveler names
 			StringBuilder travelerSb = new StringBuilder();
 			for (Traveler trav : tripFlight.getTravelers()) {
-				travelerSb.append(",");
-				travelerSb.append(" ");
-				if (!TextUtils.isEmpty(trav.getFirstName())) {
-					travelerSb.append(trav.getFirstName().trim());
+				if (travelerSb.length() > 0) {
+					travelerSb.append(",");
 					travelerSb.append(" ");
 				}
-				if (!TextUtils.isEmpty(trav.getMiddleName())) {
-					travelerSb.append(trav.getMiddleName().trim());
-					travelerSb.append(" ");
-				}
-				if (!TextUtils.isEmpty(trav.getLastName())) {
-					travelerSb.append(trav.getLastName().trim());
-				}
+				travelerSb.append(trav.getFullName());
 			}
-			String travString = travelerSb.toString().replaceFirst(",", "").trim();
+			String travString = travelerSb.toString().trim();
 			passengerNameListTv.setText(travString);
 
 			//Booking info (View receipt and polocies)
@@ -802,6 +932,26 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		}
 		else {
 			return 0;
+		}
+	}
+
+	private String getTerminalGateString(Waypoint waypoint) {
+		Resources res = getResources();
+		if (TextUtils.isEmpty(waypoint.getGate()) && TextUtils.isEmpty(waypoint.getTerminal())) {
+			//no gate or terminal info
+			return res.getString(R.string.gate_number_only_TEMPLATE, res.getString(R.string.to_be_determined_abbrev));
+		}
+		else if (!TextUtils.isEmpty(waypoint.getGate())) {
+			//gate only
+			return res.getString(R.string.gate_number_only_TEMPLATE, waypoint.getGate());
+		}
+		else if (!TextUtils.isEmpty(waypoint.getTerminal())) {
+			//terminal only
+			return res.getString(R.string.terminal_but_no_gate_TEMPLATE, waypoint.getTerminal());
+		}
+		else {
+			//We have gate and terminal info
+			return res.getString(R.string.generic_terminal_TEMPLATE, waypoint.getTerminal(), waypoint.getGate());
 		}
 	}
 
