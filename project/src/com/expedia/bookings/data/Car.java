@@ -208,9 +208,9 @@ public class Car implements JSONable {
 		mVendor = JSONUtils.getJSONable(obj, "vendor", CarVendor.class);
 
 		mCategory = JSONUtils.getEnum(obj, "category", Category.class);
-		mCategoryImage = JSONUtils.getJSONable(obj, "type", Media.class);
+		mCategoryImage = JSONUtils.getJSONable(obj, "categoryImage", Media.class);
 
-		mType = JSONUtils.getEnum(obj, "category", Type.class);
+		mType = JSONUtils.getEnum(obj, "type", Type.class);
 
 		return true;
 	}
