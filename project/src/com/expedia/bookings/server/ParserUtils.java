@@ -8,7 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
@@ -26,6 +28,22 @@ public class ParserUtils {
 		money.setAmount(amount);
 		money.setCurrency(currencyCode);
 		return money;
+	}
+
+	/**
+	 * Often times when parsing URLs are not prefixed with the Expedia URL,
+	 * which is good but we need to fix it.
+	 */
+	public static Media parseUrl(String url) {
+		if (TextUtils.isEmpty(url)) {
+			return null;
+		}
+
+		if (!TextUtils.isEmpty(url) && !url.startsWith("http://")) {
+			url = "http://media.expedia.com" + url;
+		}
+
+		return new Media(url);
 	}
 
 	/**
@@ -110,7 +128,7 @@ public class ParserUtils {
 			// This is for when we fail a SignIn due to bad credentials
 			// We don't get a MobileError returned to us, we get these fields
 			String status = response.optString("detailedStatus", null);
-			if (! status.equals("Success")) {
+			if (!status.equals("Success")) {
 				ServerError fakeError = new ServerError(apiMethod);
 				fakeError.setCode("SIMULATED");
 				fakeError.setMessage(response.optString("detailedStatusMsg", null));

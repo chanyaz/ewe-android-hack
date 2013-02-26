@@ -199,7 +199,7 @@ public class TripParser {
 		JSONObject propertyJson = obj.optJSONObject("hotelPropertyInfo");
 		if (propertyJson != null) {
 			property.setName(propertyJson.optString("name", null));
-			property.setThumbnail(new Media(propertyJson.optString("photoThumbnailURL", null)));
+			property.setThumbnail(ParserUtils.parseUrl(propertyJson.optString("photoThumbnailURL")));
 
 			JSONObject addressJson = propertyJson.optJSONObject("address");
 			if (addressJson != null) {
@@ -371,12 +371,12 @@ public class TripParser {
 			vendor.setCode(vendorJson.optString("code", null));
 			vendor.setShortName(vendorJson.optString("shortName", null));
 			vendor.setLongName(vendorJson.optString("longName", null));
-			vendor.setLogo(new Media(vendorJson.optString("logoURL", null)));
+			vendor.setLogo(ParserUtils.parseUrl(vendorJson.optString("logoURL")));
 			vendor.setTollFreePhone(vendorJson.optString("phoneNumber"));
 			vendor.setLocalPhone(vendorJson.optString("localPhoneNumber"));
 			car.setVendor(vendor);
 
-			car.setCategoryImage(new Media(obj.optString("carCategoryImageURL")));
+			car.setCategoryImage(ParserUtils.parseUrl(obj.optString("carCategoryImageURL")));
 			car.setCategory(parseCarCategory(obj.optString("carCategory")));
 
 			car.setType(parseCarType(obj.optString("carType")));

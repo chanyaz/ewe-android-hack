@@ -170,11 +170,7 @@ public class SearchResponseHandler implements ResponseHandler<SearchResponse> {
 			}
 			else if (name.equals("largeThumbnailUrl")) {
 				// The thumbnail url can sometimes assume a prefix
-				String url = parser.getText();
-				if (!url.startsWith("http://")) {
-					url = "http://media.expedia.com" + url;
-				}
-				property.setThumbnail(new Media(url));
+				property.setThumbnail(ParserUtils.parseUrl(parser.getText()));
 			}
 			else if (name.equals("supplierType")) {
 				property.setSupplierType(parser.getText());

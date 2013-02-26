@@ -69,13 +69,7 @@ public class AvailabilityResponseHandler extends JsonResponseHandler<Availabilit
 				len = photos.length();
 				for (int a = 0; a < len; a++) {
 					JSONObject photo = photos.optJSONObject(a);
-					String url = photo.optString("url");
-					if (!url.startsWith("http://")) {
-						// No need to worry about POS here.
-						url = "http://media.expedia.com" + url;
-					}
-
-					Media media = new Media(url);
+					Media media = ParserUtils.parseUrl(photo.optString("url"));
 					property.addMedia(media);
 				}
 			}
