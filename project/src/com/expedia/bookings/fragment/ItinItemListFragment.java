@@ -22,6 +22,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
@@ -280,6 +281,12 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void onTripRemoved(Trip trip) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSyncFailed(ServerError error) {
 		// TODO Auto-generated method stub
 
 	}

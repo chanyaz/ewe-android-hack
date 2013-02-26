@@ -22,6 +22,7 @@ import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.server.ExpediaServices;
@@ -191,6 +192,13 @@ public class ItineraryManager implements JSONable {
 		public void onTripRemoved(Trip trip);
 
 		/**
+		 * Notification if sync itself failed for some reason.  The data may
+		 * be stale, it may only be half-updated (in the case of losing network
+		 * connection midway through, or server going down).
+		 */
+		public void onSyncFailed(ServerError error);
+
+		/**
 		 * Once the sync process is done it returns the list of Trips as
 		 * it thinks exists.  Returns all trips currently in the ItineraryManager.
 		 */
@@ -228,6 +236,12 @@ public class ItineraryManager implements JSONable {
 	private void onTripRemoved(Trip trip) {
 		for (ItinerarySyncListener listener : mSyncListeners) {
 			listener.onTripRemoved(trip);
+		}
+	}
+
+	private void onSyncFailed(ServerError error) {
+		for (ItinerarySyncListener listener : mSyncListeners) {
+			listener.onSyncFailed(error);
 		}
 	}
 
