@@ -161,7 +161,11 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 			}
 
 			// Background image
-			loadImageForLaunchStream(property.getThumbnail().getUrl(THUMBNAIL_SIZE), vh.mContainer, vh.mBackgroundView);
+			Media thumbnail = property.getThumbnail();
+			if (thumbnail != null) {
+				String url = thumbnail.getUrl(THUMBNAIL_SIZE);
+				loadImageForLaunchStream(url, vh.mContainer, vh.mBackgroundView);
+			}
 		}
 		else if (item instanceof HotelDestination) {
 			HotelDestination destination = (HotelDestination) item;
