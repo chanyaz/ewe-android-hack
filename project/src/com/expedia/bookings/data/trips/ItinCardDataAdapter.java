@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
+import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.ActivityItinCard;
 import com.expedia.bookings.widget.CarItinCard;
@@ -187,7 +187,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	@Override
-	public void onSyncFailed(ServerError error) {
+	public void onSyncFailure(SyncError error) {
 		Log.d("ItinCardDataAdapter - ItinerarayManager - onSyncFailed");
 	}
 

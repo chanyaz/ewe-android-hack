@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.server.ExpediaServices;
@@ -30,6 +31,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 
@@ -154,6 +156,11 @@ public class ItineraryManager implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Sync listener
 
+	public enum SyncError {
+		OFFLINE,
+		USER_LIST_REFRESH_FAILURE,
+	}
+
 	public interface ItinerarySyncListener {
 
 		/**
@@ -192,11 +199,11 @@ public class ItineraryManager implements JSONable {
 		public void onTripRemoved(Trip trip);
 
 		/**
-		 * Notification if sync itself failed for some reason.  The data may
-		 * be stale, it may only be half-updated (in the case of losing network
-		 * connection midway through, or server going down).
+		 * Notification if sync itself has a failure.  There can be multiple
+		 * failures during the sync process.  onSyncFinished() will still
+		 * be called at the end.
 		 */
-		public void onSyncFailed(ServerError error);
+		public void onSyncFailure(SyncError error);
 
 		/**
 		 * Once the sync process is done it returns the list of Trips as
@@ -239,9 +246,9 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	private void onSyncFailed(ServerError error) {
+	private void onSyncFailure(SyncError error) {
 		for (ItinerarySyncListener listener : mSyncListeners) {
-			listener.onSyncFailed(error);
+			listener.onSyncFailure(error);
 		}
 	}
 
@@ -292,14 +299,26 @@ public class ItineraryManager implements JSONable {
 						mTrips = new HashMap<String, Trip>();
 					}
 
+					// Check if we're online; quickly fail if not 
+					if (!NetUtils.isOnline(mContext)) {
+						publishProgress(new ProgressUpdate(SyncError.OFFLINE));
+						save();
+						return mTrips.values();
+					}
+
 					// If the user is logged in, retrieve a listing of current trips for logged in user
 					if (User.isLoggedIn(mContext)) {
 						ExpediaServices services = new ExpediaServices(mContext);
 						TripResponse response = services.getTrips(false, 0);
 
-						// TODO: ERROR HANDLING
+						if (response == null || response.hasErrors()) {
+							if (response != null && response.hasErrors()) {
+								Log.w("Error updating trips: " + response.gatherErrorMessage(mContext));
+							}
 
-						if (response != null && !response.hasErrors()) {
+							publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
+						}
+						else {
 							Set<String> currentTrips = new HashSet<String>(mTrips.keySet());
 
 							for (Trip trip : response.getTrips()) {
@@ -347,12 +366,15 @@ public class ItineraryManager implements JSONable {
 							continue;
 						}
 
-						// TODO: Figure out algorithm for when to do a cached update vs. full update (assumes cached atm)
-
 						ExpediaServices services = new ExpediaServices(mContext);
 						TripDetailsResponse response = services.getTripDetails(trip, true);
 
 						if (response == null || response.hasErrors()) {
+							if (response != null && response.hasErrors()) {
+								Log.w("Error updating trip " + trip.getTripId() + ": "
+										+ response.gatherErrorMessage(mContext));
+							}
+
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
 						}
 						else {
@@ -452,6 +474,9 @@ public class ItineraryManager implements JSONable {
 					case REMOVED:
 						onTripRemoved(update.mTrip);
 						break;
+					case SYNC_ERROR:
+						onSyncFailure(update.mError);
+						break;
 					}
 				}
 
@@ -480,14 +505,22 @@ public class ItineraryManager implements JSONable {
 			UPDATED,
 			UPDATE_FAILED,
 			REMOVED,
+			SYNC_ERROR,
 		}
 
 		public Type mType;
 		public Trip mTrip;
 
+		public SyncError mError;
+
 		public ProgressUpdate(Type type, Trip trip) {
 			mType = type;
 			mTrip = trip;
+		}
+
+		public ProgressUpdate(SyncError error) {
+			mType = Type.SYNC_ERROR;
+			mError = error;
 		}
 	}
 
