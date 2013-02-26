@@ -19,7 +19,6 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 
 	private static final String ARG_URL = "ARG_URL";
 	private static final String ARG_STYLE_RES_ID = "ARG_STYLE_RES_ID";
-	private static final String ARG_TITLE_RES_ID = "ARG_TITLE_RES_ID";
 	private static final String ARG_TITLE = "ARG_TITLE";
 	private static final String ARG_DISABLE_SIGN_IN = "ARG_DISABLE_SIGN_IN";
 	private static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
@@ -30,9 +29,11 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 
 	public static class IntentBuilder {
 
+		private Context mContext;
 		private Intent mIntent;
 
 		public IntentBuilder(Context context) {
+			mContext = context;
 			mIntent = new Intent(context, WebViewActivity.class);
 		}
 
@@ -51,18 +52,12 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 		}
 
 		public IntentBuilder setTitle(String title) {
-			if (mIntent.hasExtra(ARG_TITLE_RES_ID)) {
-				throw new RuntimeException("Title has been set via res id and string. Cannot use both. Choose one.");
-			}
 			mIntent.putExtra(ARG_TITLE, title);
 			return this;
 		}
 
 		public IntentBuilder setTitle(int titleResId) {
-			if (mIntent.hasExtra(ARG_TITLE)) {
-				throw new RuntimeException("Title has been set via res id and string. Cannot use both. Choose one.");
-			}
-			mIntent.putExtra(ARG_TITLE_RES_ID, titleResId);
+			mIntent.putExtra(ARG_TITLE, mContext.getString(titleResId));
 			return this;
 		}
 
@@ -99,9 +94,6 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 
 		// Title
 		String title = null;
-		if (intent.hasExtra(ARG_TITLE_RES_ID)) {
-			title = getString(extras.getInt(ARG_TITLE_RES_ID));
-		}
 		if (intent.hasExtra(ARG_TITLE)) {
 			title = extras.getString(ARG_TITLE);
 		}
