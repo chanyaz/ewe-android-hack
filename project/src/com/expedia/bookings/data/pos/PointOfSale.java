@@ -17,7 +17,9 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.text.Html;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -127,28 +129,13 @@ public class PointOfSale {
 		// The rules & restrictions disclaimer for every flight booking
 		private String mFlightBookingStatement;
 
-		// The text in mRulesRestrictionsConfirmation that should be linked for rules and restrictions
-		private String mRulesAndRestrictionsLinkText;
-
-		// The text in mRulesRestrictionsConfirmation that should be linked for terms and conditions
-		private String mTermsAndConditionsLinkText;
-
-		// The url to link to in mTermsAndConditionsLinkText
+		// The URL for Terms and Conditions for this POS
 		private String mTermsAndConditionsUrl;
 
-		// The Terms of Booking disclaimer for bookings on some POSes (UK, IT)
-		private String mTermsOfBookingLinkText;
-
-		// The url to link to in mTermsOfBookingLinkText
+		// The URL for Terms of Booking for this POS (see GB)
 		private String mTermsOfBookingUrl;
 
-		// The text in mRulesRestrictionsConfirmation that should be linked for the fare information
-		private String mFareInformationLinkText;
-
-		// The text in mRulesRestrictionsConfirmation that should be linked for the privacy policy
-		private String mPrivacyPolicyLinkText;
-
-		// The url to link to in mPrivacyPolicyLinkText
+		// The URL for Privacy Policy for this POS
 		private String mPrivacyPolicyUrl;
 
 		// The language code that this locale associates with
@@ -247,20 +234,12 @@ public class PointOfSale {
 		return getPosLocale().mBestPriceGuaranteePolicyUrl;
 	}
 
-	public String getTermsAndConditionsLinkText() {
-		return getPosLocale().mTermsAndConditionsLinkText;
-	}
-
 	public String getTermsAndConditionsUrl() {
 		return getPosLocale().mTermsAndConditionsUrl;
 	}
 
 	public String getTermsOfBookingUrl() {
 		return getPosLocale().mTermsOfBookingUrl;
-	}
-
-	public String getPrivacyPolicyUrlLinkText() {
-		return getPosLocale().mPrivacyPolicyLinkText;
 	}
 
 	public String getPrivacyPolicyUrl() {
@@ -272,37 +251,9 @@ public class PointOfSale {
 	}
 
 	/**
-	 * On tablet, we'll underline "Terms and Conditions", "Privacy Policy"
-	 * and "Terms of Booking" only, and they'll link directly to the
-	 * appropriate URLs.
-	 * @return Linkified CharSequence
-	 */
-	public CharSequence getLinkifiedHotelBookingStatement() {
-		PointOfSaleLocale posLocale = getPosLocale();
-		String statement = posLocale.mHotelBookingStatement;
-		SpannableStringBuilder text = new SpannableStringBuilder(statement);
-		linkifyText(text, statement, posLocale.mTermsAndConditionsLinkText, posLocale.mTermsAndConditionsUrl);
-		linkifyText(text, statement, posLocale.mTermsOfBookingLinkText, posLocale.mTermsOfBookingUrl);
-		linkifyText(text, statement, posLocale.mPrivacyPolicyLinkText, posLocale.mPrivacyPolicyUrl);
-		return text;
-	}
-
-	private void linkifyText(SpannableStringBuilder text, String origText, String linkText, String url) {
-		if (TextUtils.isEmpty(linkText)) {
-			return;
-		}
-		int linkStart = origText.indexOf(linkText);
-
-		if (linkStart < 0) {
-			return;
-		}
-
-		text.setSpan(new URLSpan(url), linkStart, linkStart + linkText.length(), 0);
-	}
-
-	/**
-	 * On phone, we'll underline and bold "Rules and Restrictions",
-	 * "Terms and Conditions", "Privacy Policy", and "Terms of Booking"
+	 * On phone, we'll underline and bold the entire second half of the statement,
+	 * which includes "Rules and Restrictions", "Terms and Conditions",
+	 * "Privacy Policy", and "Terms of Booking"
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedHotelBookingStatement() {
@@ -310,8 +261,9 @@ public class PointOfSale {
 	}
 
 	/**
-	 * On phone, we'll underline and bold "Rules and Restrictions",
-	 * "Terms and Conditions", "Privacy Policy", and "Terms of Booking"
+	 * On phone, we'll underline and bold the entire second half of the statement,
+	 * which includes "Rules and Restrictions", "Terms and Conditions",
+	 * "Privacy Policy", and "Terms of Booking"
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedFlightBookingStatement() {
@@ -319,28 +271,21 @@ public class PointOfSale {
 	}
 
 	private CharSequence getStylizedStatement(String statement) {
-		PointOfSaleLocale posLocale = getPosLocale();
-		SpannableStringBuilder text = new SpannableStringBuilder(statement);
-		stylizeText(text, statement, posLocale.mRulesAndRestrictionsLinkText);
-		stylizeText(text, statement, posLocale.mTermsAndConditionsLinkText);
-		stylizeText(text, statement, posLocale.mTermsOfBookingLinkText);
-		stylizeText(text, statement, posLocale.mPrivacyPolicyLinkText);
-		stylizeText(text, statement, posLocale.mFareInformationLinkText);
+		SpannableStringBuilder text = new SpannableStringBuilder(Html.fromHtml(statement));
+
+		// Replace <a> spans with our own version: bold and underlined.
+		// Partially stylistic, but also we don't want them to be clickable
+		// since the whole View displaying this stylized string is clickable.
+		URLSpan[] spans = text.getSpans(0, statement.length(), URLSpan.class);
+		for (URLSpan o : spans) {
+			int start = text.getSpanStart(o);
+			int end = text.getSpanEnd(o);
+			text.removeSpan(o);
+			text.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+			text.setSpan(new UnderlineSpan(), start, end, 0);
+		}
+
 		return text;
-	}
-
-	private void stylizeText(SpannableStringBuilder text, String origText, String linkText) {
-		if (TextUtils.isEmpty(linkText)) {
-			return;
-		}
-		int linkStart = origText.indexOf(linkText);
-
-		if (linkStart < 0) {
-			return;
-		}
-
-		text.setSpan(new StyleSpan(Typeface.BOLD), linkStart, linkStart + linkText.length(), 0);
-		text.setSpan(new UnderlineSpan(), linkStart, linkStart + linkText.length(), 0);
 	}
 
 	public int getDualLanguageId() {
@@ -671,11 +616,6 @@ public class PointOfSale {
 		// All fields for rules & restrictions disclaimer
 		locale.mHotelBookingStatement = data.optString("hotelBookingStatement", null);
 		locale.mFlightBookingStatement = data.optString("flightBookingStatement", null);
-		locale.mRulesAndRestrictionsLinkText = data.optString("rulesAndRestrictionsLinkText", null);
-		locale.mTermsAndConditionsLinkText = data.optString("termsAndConditionsLinkText", null);
-		locale.mTermsOfBookingLinkText = data.optString("termsOfBookingLinkText", null);
-		locale.mPrivacyPolicyLinkText = data.optString("privacyPolicyLinkText", null);
-		locale.mFareInformationLinkText = data.optString("fareInformationLinkText", null);
 		locale.mTermsAndConditionsUrl = data.optString("termsAndConditionsURL", null);
 		locale.mTermsOfBookingUrl = data.optString("termsOfBookingURL", null);
 		locale.mPrivacyPolicyUrl = data.optString("privacyPolicyURL", null);
