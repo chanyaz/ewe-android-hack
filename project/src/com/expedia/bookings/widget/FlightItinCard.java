@@ -335,18 +335,45 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 			if (arrival.before(now)) {
 				//flight complete
-				String dateStr = DateUtils.formatDateTime(getContext(), DateTimeUtils.getTimeInLocalTimeZone(arrival)
-						.getTime(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
-				topLine.setText(res.getString(R.string.flight_landed_on_TEMPLATE, dateStr));
-				bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+				String timeString = formatTime(arrival);
+				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
+				if (delay > 0) {
+					topLine.setText(res.getString(R.string.flight_arrived_late_at_TEMPLATE, timeString));
+					bulb.setImageResource(R.drawable.ic_flight_status_delayed);
+				}
+				else if (delay < 0) {
+					topLine.setText(res.getString(R.string.flight_arrived_early_at_TEMPLATE, timeString));
+					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+				}
+				else {
+					topLine.setText(res.getString(R.string.flight_arrived_on_time_at_TEMPLATE, timeString));
+					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+				}
 
 				summaryWaypoint = flight.getArrivalWaypoint();
 				bottomLineTextId = R.string.at_airport_TEMPLATE;
 			}
 			else if (departure.before(now)) {
-				//flight in progress
-				topLine.setText(res.getString(R.string.flight_in_progress));
-				bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+				//flight in progress, show arrival info
+				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
+				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString(arrival.getTimeInMillis(),
+						now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
+
+				if (delay > 0) {
+					topLine.setText(res.getString(R.string.flight_arrives_late_TEMPLATE, timeSpanString));
+					bulb.setImageResource(R.drawable.ic_flight_status_delayed);
+				}
+				else if (delay < 0) {
+					topLine.setText(res.getString(R.string.flight_arrives_early_TEMPLATE, timeSpanString));
+					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+				}
+				else {
+					topLine.setText(res.getString(R.string.flight_arrives_on_time_TEMPLATE, timeSpanString));
+					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+				}
+
+				summaryWaypoint = flight.getArrivalWaypoint();
+				bottomLineTextId = R.string.at_airport_TEMPLATE;
 			}
 			else if (departure.getTimeInMillis() - now.getTimeInMillis() > DateUtils.DAY_IN_MILLIS) {
 				//More than 24 hours away
@@ -360,26 +387,22 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			}
 			else {
 				//Less than 24 hours in the future...
-				boolean stringHasBeenSet = false;
+				int delay = getDelayForWaypoint(flight.mOrigin);
+				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString(departure.getTimeInMillis(),
+						now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
 
-				int flightStatusDrawableId = R.drawable.ic_flight_status_on_time;
-				Delay delay = flight.mOrigin.getDelay();
-				if (delay.mDelayType == Delay.DELAY_GATE_ACTUAL || delay.mDelayType == Delay.DELAY_GATE_ESTIMATED) {
-					if (delay.mDelay > 0) {
-						topLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, DateUtils
-								.getRelativeTimeSpanString(departure.getTimeInMillis(), now.getTimeInMillis(),
-										DateUtils.MINUTE_IN_MILLIS, 0)));
-						stringHasBeenSet = true;
-						flightStatusDrawableId = R.drawable.ic_flight_status_delayed;
-					}
+				if (delay > 0) {
+					topLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, timeSpanString));
+					bulb.setImageResource(R.drawable.ic_flight_status_delayed);
 				}
-
-				if (!stringHasBeenSet) {
-					topLine.setText(res.getString(R.string.flight_departs_on_time_TEMPLATE, DateUtils
-							.getRelativeTimeSpanString(departure.getTimeInMillis(), now.getTimeInMillis(),
-									DateUtils.MINUTE_IN_MILLIS, 0)));
+				else if (delay < 0) {
+					topLine.setText(res.getString(R.string.flight_departs_early_TEMPLATE, timeSpanString));
+					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
 				}
-				bulb.setImageResource(flightStatusDrawableId);
+				else {
+					topLine.setText(res.getString(R.string.flight_departs_on_time_TEMPLATE, timeSpanString));
+					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+				}
 
 				summaryWaypoint = flight.mOrigin;
 				bottomLineTextId = R.string.from_airport_TEMPLATE;
@@ -668,9 +691,11 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
 
+		Calendar now = Calendar.getInstance();
+		TextView tv = Ui.findView(v, R.id.delay_text_view);
 		Resources res = getResources();
+
 		if (flight.isRedAlert()) {
-			TextView tv = Ui.findView(v, R.id.delay_text_view);
 			if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
 				if (flight.mDiverted != null) {
 					tv.setText(res.getString(R.string.flight_diverted_TEMPLATE,
@@ -689,17 +714,67 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			tv.setTextColor(res.getColor(R.color.itin_flight_canceled_color));
 			tv.setVisibility(View.VISIBLE);
 		}
-		else if (flight.mOrigin.getMostRelevantDateTime().after(Calendar.getInstance())) {
-			Delay delay = flight.mOrigin.getDelay();
-			if (delay.mDelayType == Delay.DELAY_GATE_ACTUAL || delay.mDelayType == Delay.DELAY_GATE_ESTIMATED) {
-				if (delay.mDelay > 0) {
-					TextView tv = Ui.findView(v, R.id.delay_text_view);
+		else if (flight.mFlightHistoryId != -1) {
+			// only make the delay view visible if we've got data from FS
+			if (now.before(flight.mOrigin.getMostRelevantDateTime())) {
+				int delay = getDelayForWaypoint(flight.mOrigin);
+				if (delay > 0) {
 					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
 					tv.setText(res.getString(R.string.flight_departs_x_late_TEMPLATE,
-							DateTimeUtils.formatDuration(res, delay.mDelay)));
-					tv.setVisibility(View.VISIBLE);
+							DateTimeUtils.formatDuration(res, delay)));
+				}
+				else if (delay < 0) {
+					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setText(res.getString(R.string.flight_departs_x_early_TEMPLATE,
+							DateTimeUtils.formatDuration(res, delay)));
+				}
+				else {
+					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setText(R.string.flight_departs_on_time);
 				}
 			}
+			else if (now.before(flight.getArrivalWaypoint().getMostRelevantDateTime())) {
+				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
+				if (delay > 0) {
+					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
+					tv.setText(res.getString(R.string.flight_arrives_x_late_TEMPLATE,
+							DateTimeUtils.formatDuration(res, delay)));
+				}
+				else if (delay < 0) {
+					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setText(res.getString(R.string.flight_arrives_x_early_TEMPLATE,
+							DateTimeUtils.formatDuration(res, delay)));
+				}
+				else {
+					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setText(R.string.flight_arrives_on_time);
+				}
+			}
+			else {
+				// flight has arrived
+				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
+				if (delay > 0) {
+					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
+					tv.setText(res.getString(R.string.flight_arrived_x_late_TEMPLATE,
+							DateTimeUtils.formatDuration(res, delay)));
+				}
+				else if (delay < 0) {
+					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setText(res.getString(R.string.flight_arrived_x_early_TEMPLATE,
+							DateTimeUtils.formatDuration(res, delay)));
+				}
+				else {
+					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setText(R.string.flight_arrived_on_time);
+				}
+			}
+			tv.setVisibility(View.VISIBLE);
+		}
+		else if (now.after(flight.getArrivalWaypoint().getMostRelevantDateTime())) {
+			// last chance: we don't have FS data, but it seems like this flight should have landed already
+			tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+			tv.setText(R.string.flight_arrived);
+			tv.setVisibility(View.VISIBLE);
 		}
 
 		return v;
@@ -718,6 +793,16 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			setLayerType(layerType, null);
 			Ui.findView(this, R.id.card_layout).setLayerType(layerType, null);
 			Ui.findView(this, R.id.itin_type_image_view).setLayerType(layerType, null);
+		}
+	}
+	
+	private int getDelayForWaypoint(Waypoint wp) {
+		Delay delay = wp.getDelay();
+		if (delay.mDelayType == Delay.DELAY_GATE_ACTUAL || delay.mDelayType == Delay.DELAY_GATE_ESTIMATED) {
+			return delay.mDelay;
+		}
+		else {
+			return 0;
 		}
 	}
 

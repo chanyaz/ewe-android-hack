@@ -137,19 +137,45 @@
     <!-- Flight has been diverted to {airport} template -->
     <string name="flight_diverted_TEMPLATE">Flight diverted to %1$s</string>
     <!-- Flight departs on {date} template -->
-    <string name="flight_departs_on_TEMPLATE">Flight departs on %1$s</string>
-    <!-- Flight currently in progress -->
-    <string name="flight_in_progress">Flight currently in progress.</string>
-    <!-- Flight landed on {date} template -->
-    <string name="flight_landed_on_TEMPLATE">Flight landed on %1$s</string>
-    <!-- Flight in progress -->
-    <string name="flight_in_progress">Flight in progress</string>
+    <string name="flight_departs_on_TEMPLATE">Departs %1$s</string>
+    <!-- Departs early {duration from now} -->
+    <string name="flight_departs_early_TEMPLATE">Departs early %1$s</string>
     <!-- Departs late {duration from now} -->
     <string name="flight_departs_late_TEMPLATE">Departs late %1$s</string>
     <!-- Departs on time {duration from now} -->
     <string name="flight_departs_on_time_TEMPLATE">Departs on time %1$s</string>
+    <!-- Departs {duration} early -->
+    <string name="flight_departs_x_early_TEMPLATE">Departs %1$s early</string>
     <!-- Departs {duration} late -->
     <string name="flight_departs_x_late_TEMPLATE">Departs %1$s late</string>
+    <!-- Flight departs on time -->
+    <string name="flight_departs_on_time">Departs on time</string>
+    <!-- Arrives early {duration from now} -->
+    <string name="flight_arrives_early_TEMPLATE">Arrives early %1$s</string>
+    <!-- Arrives late {duration from now} -->
+    <string name="flight_arrives_late_TEMPLATE">Arrives late %1$s</string>
+    <!-- Arrives on time {duration from now} -->
+    <string name="flight_arrives_on_time_TEMPLATE">Arrives on time %1$s</string>
+    <!-- Arrives {duration} early -->
+    <string name="flight_arrives_x_early_TEMPLATE">Arrives %1$s early</string>
+    <!-- Arrives {duration} late -->
+    <string name="flight_arrives_x_late_TEMPLATE">Arrives %1$s late</string>
+    <!-- Flight arrives on time -->
+    <string name="flight_arrives_on_time">Arrives on time</string>
+    <!-- Arrived early {duration from now} -->
+    <string name="flight_arrived_early_at_TEMPLATE">Arrived early at %1$s</string>
+    <!-- Arrived late {duration from now} -->
+    <string name="flight_arrived_late_at_TEMPLATE">Arrived late at %1$s</string>
+    <!-- Arrived on time {duration from now} -->
+    <string name="flight_arrived_on_time_at_TEMPLATE">Arrived on time at %1$s</string>
+    <!-- Arrived {duration} early -->
+    <string name="flight_arrived_x_early_TEMPLATE">Arrived %1$s early</string>
+    <!-- Arrived {duration} late -->
+    <string name="flight_arrived_x_late_TEMPLATE">Arrived %1$s late</string>
+    <!-- Flight arrived on time -->
+    <string name="flight_arrived_on_time">Arrived on time</string>
+    <!-- Flight arrived (fallback when we have very little information about arrival available) -->
+    <string name="flight_arrived">Arrived</string>
     <!-- Refresh -->
     <string name="refresh">Refresh</string>
     <!-- Try Again -->
