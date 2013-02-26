@@ -166,7 +166,6 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 				builder.setUrl(itinCardData.getDetailsUrl());
 				builder.setTitle(R.string.booking_info);
 				builder.setTheme(R.style.FlightTheme);
-				builder.setDisableSignIn(true);
 				getContext().startActivity(builder.getIntent());
 			}
 		});

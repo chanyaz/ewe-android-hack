@@ -142,7 +142,6 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 				builder.setUrl(itinCardData.getDetailsUrl());
 				builder.setTitle(R.string.booking_info);
 				builder.setTheme(R.style.FlightTheme);
-				builder.setDisableSignIn(true);
 				getContext().startActivity(builder.getIntent());
 			}
 		});

@@ -37,7 +37,7 @@ public class WebViewFragment extends Fragment {
 
 	private static final String ARG_URL = "ARG_URL";
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
-	private static final String ARG_DISABLE_SIGN_IN = "ARG_DISABLE_SIGN_IN";
+	private static final String ARG_ENABLE_SIGN_IN = "ARG_ENABLE_SIGN_IN";
 	private static final String ARG_LOAD_EXPEDIA_COOKIES = "ARG_LOAD_EXPEDIA_COOKIES";
 
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
@@ -53,18 +53,18 @@ public class WebViewFragment extends Fragment {
 
 	private String mUrl;
 	private String mHtmlData;
-	private boolean mDisableSignIn;
+	private boolean enableSignIn;
 	private boolean mLoadCookies;
 	private TrackingName mTrackingName;
 
 	private Context mContext;
 
-	public static WebViewFragment newInstance(String url, boolean disableSignIn, boolean loadCookies, String name) {
+	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies, String name) {
 		WebViewFragment frag = new WebViewFragment();
 
 		Bundle args = new Bundle();
 		args.putString(ARG_URL, url);
-		args.putBoolean(ARG_DISABLE_SIGN_IN, disableSignIn);
+		args.putBoolean(ARG_ENABLE_SIGN_IN, enableSignIn);
 		args.putBoolean(ARG_LOAD_EXPEDIA_COOKIES, loadCookies);
 		args.putString(ARG_TRACKING_NAME, name);
 		frag.setArguments(args);
@@ -96,7 +96,7 @@ public class WebViewFragment extends Fragment {
 		else {
 			mUrl = args.getString(ARG_URL);
 		}
-		mDisableSignIn = args.getBoolean(ARG_DISABLE_SIGN_IN, false);
+		enableSignIn = args.getBoolean(ARG_ENABLE_SIGN_IN, false);
 
 		String name = args.getString(ARG_TRACKING_NAME);
 		if (!TextUtils.isEmpty(name)) {
@@ -156,7 +156,7 @@ public class WebViewFragment extends Fragment {
 					mWebViewLoaded = true;
 					mListener.setLoading(false);
 
-					if (mDisableSignIn) {
+					if (!enableSignIn) {
 						// Insert javascript to remove the signin button
 						webview.loadUrl("javascript:(function() { " +
 								"document.getElementsByClassName('sign_link')[0].style.visibility='hidden'; " +

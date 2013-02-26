@@ -195,7 +195,6 @@ public class FlightDetailsFragment extends Fragment {
 					builder.setUrl(trip.getBaggageFeesUrl());
 					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.baggage_fees);
-					builder.setDisableSignIn(true);
 					builder.setTrackingName(trackingName);
 					getActivity().startActivity(builder.getIntent());
 				}

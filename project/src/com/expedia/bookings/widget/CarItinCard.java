@@ -167,7 +167,6 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 				builder.setUrl(itinCardData.getDetailsUrl());
 				builder.setTitle(R.string.booking_info);
 				builder.setTheme(R.style.FlightTheme);
-				builder.setDisableSignIn(true);
 				getContext().startActivity(builder.getIntent());
 			}
 		});

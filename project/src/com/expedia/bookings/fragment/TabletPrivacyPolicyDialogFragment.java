@@ -46,7 +46,6 @@ public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
 				builder.setUrl(itemUrls[which]);
 				builder.setTheme(R.style.Theme_Tablet);
 				builder.setTitle(itemNames[which]);
-				builder.setDisableSignIn(true);
 				builder.setInjectExpediaCookies(true);
 
 				getActivity().startActivity(builder.getIntent());

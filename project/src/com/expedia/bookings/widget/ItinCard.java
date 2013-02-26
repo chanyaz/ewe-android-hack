@@ -510,7 +510,6 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 							builder.setUrl(insurance.getTermsUrl());
 							builder.setTheme(R.style.FlightTheme);
 							builder.setTitle(R.string.insurance);
-							builder.setDisableSignIn(true);
 							getContext().startActivity(builder.getIntent());
 						}
 					});

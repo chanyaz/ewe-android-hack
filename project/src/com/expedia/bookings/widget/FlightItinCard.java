@@ -224,7 +224,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 						builder.setUrl(infoUrl);
 						builder.setTitle(R.string.booking_info);
 						builder.setTheme(R.style.FlightTheme);
-						builder.setDisableSignIn(true);
 						getContext().startActivity(builder.getIntent());
 					}
 				});

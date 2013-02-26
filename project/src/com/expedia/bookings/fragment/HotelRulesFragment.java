@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -59,7 +58,6 @@ public class HotelRulesFragment extends SherlockFragment {
 				builder.setUrl(pos.getTermsAndConditionsUrl());
 				builder.setTheme(R.style.HotelWebViewTheme);
 				builder.setTitle(R.string.terms_and_conditions);
-				builder.setDisableSignIn(true);
 				startActivity(builder.getIntent());
 			}
 		});
@@ -74,7 +72,6 @@ public class HotelRulesFragment extends SherlockFragment {
 					builder.setUrl(pos.getTermsOfBookingUrl());
 					builder.setTheme(R.style.HotelWebViewTheme);
 					builder.setTitle(R.string.Terms_of_Booking);
-					builder.setDisableSignIn(true);
 					startActivity(builder.getIntent());
 				}
 			});
@@ -93,7 +90,6 @@ public class HotelRulesFragment extends SherlockFragment {
 				builder.setUrl(PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
 				builder.setTheme(R.style.HotelWebViewTheme);
 				builder.setTitle(R.string.privacy_policy);
-				builder.setDisableSignIn(true);
 				startActivity(builder.getIntent());
 			}
 		});
@@ -108,7 +104,6 @@ public class HotelRulesFragment extends SherlockFragment {
 					builder.setUrl(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
 					builder.setTheme(R.style.HotelWebViewTheme);
 					builder.setTitle(R.string.best_price_guarantee);
-					builder.setDisableSignIn(true);
 					startActivity(builder.getIntent());
 				}
 			});

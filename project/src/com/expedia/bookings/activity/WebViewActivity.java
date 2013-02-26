@@ -20,7 +20,7 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 	private static final String ARG_URL = "ARG_URL";
 	private static final String ARG_STYLE_RES_ID = "ARG_STYLE_RES_ID";
 	private static final String ARG_TITLE = "ARG_TITLE";
-	private static final String ARG_DISABLE_SIGN_IN = "ARG_DISABLE_SIGN_IN";
+	private static final String ARG_ENABLE_SIGN_IN = "ARG_ENABLE_SIGN_IN";
 	private static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
@@ -61,8 +61,8 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 			return this;
 		}
 
-		public IntentBuilder setDisableSignIn(boolean disableSignIn) {
-			mIntent.putExtra(ARG_DISABLE_SIGN_IN, disableSignIn);
+		public IntentBuilder setSignInEnabled(boolean enableSignIn) {
+			mIntent.putExtra(ARG_ENABLE_SIGN_IN, enableSignIn);
 			return this;
 		}
 
@@ -112,7 +112,7 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 		}
 
 		if (savedInstanceState == null) {
-			boolean disableSignIn = extras.getBoolean(ARG_DISABLE_SIGN_IN, false);
+			boolean enableSignIn = extras.getBoolean(ARG_ENABLE_SIGN_IN, false);
 			boolean injectExpediaCookies = extras.getBoolean(ARG_INJECT_EXPEDIA_COOKIES, false);
 			String name = extras.getString(ARG_TRACKING_NAME);
 
@@ -124,7 +124,7 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 			else {
 				String url = extras.getString(ARG_URL);
 				Log.v("WebView url: " + url);
-				mFragment = WebViewFragment.newInstance(url, disableSignIn, injectExpediaCookies, name);
+				mFragment = WebViewFragment.newInstance(url, enableSignIn, injectExpediaCookies, name);
 			}
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

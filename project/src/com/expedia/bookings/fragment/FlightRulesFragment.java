@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -105,6 +104,7 @@ public class FlightRulesFragment extends SherlockFragment {
 				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.rules_and_restrictions);
 				builder.setInjectExpediaCookies(true);
+				builder.setSignInEnabled(true);
 				mContext.startActivity(builder.getIntent());
 			}
 
@@ -119,7 +119,6 @@ public class FlightRulesFragment extends SherlockFragment {
 				builder.setUrl(pos.getTermsAndConditionsUrl());
 				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.terms_and_conditions);
-				builder.setDisableSignIn(true);
 				mContext.startActivity(builder.getIntent());
 			}
 		});
@@ -134,7 +133,6 @@ public class FlightRulesFragment extends SherlockFragment {
 					builder.setUrl(pos.getTermsOfBookingUrl());
 					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.Terms_of_Booking);
-					builder.setDisableSignIn(true);
 					mContext.startActivity(builder.getIntent());
 				}
 			});
@@ -153,7 +151,6 @@ public class FlightRulesFragment extends SherlockFragment {
 				builder.setUrl(pos.getPrivacyPolicyUrl());
 				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.privacy_policy);
-				builder.setDisableSignIn(true);
 				mContext.startActivity(builder.getIntent());
 			}
 		});
@@ -229,7 +226,6 @@ public class FlightRulesFragment extends SherlockFragment {
 					builder.setUrl(rule.getUrl());
 					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.legal_information);
-					builder.setDisableSignIn(true);
 					mContext.startActivity(builder.getIntent());
 				}
 			});

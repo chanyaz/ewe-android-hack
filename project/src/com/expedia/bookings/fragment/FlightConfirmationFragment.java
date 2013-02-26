@@ -385,7 +385,6 @@ public class FlightConfirmationFragment extends Fragment {
 		builder.setUrl(url);
 		builder.setTheme(R.style.FlightTheme);
 		builder.setTitle(R.string.insurance);
-		builder.setDisableSignIn(true);
 		startActivity(builder.getIntent());
 
 		SettingUtils.save(mContext, ConfirmationState.PREF_HAS_ADDED_INSURANCE, true);

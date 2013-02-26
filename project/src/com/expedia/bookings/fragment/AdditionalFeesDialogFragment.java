@@ -49,7 +49,6 @@ public class AdditionalFeesDialogFragment extends DialogFragment {
 				webBuilder.setUrl(itemUrls[which]);
 				webBuilder.setTheme(R.style.FlightTheme);
 				webBuilder.setTitle(itemNamesResIds[which]);
-				webBuilder.setDisableSignIn(true);
 				getActivity().startActivity(webBuilder.getIntent());
 			}
 		});
