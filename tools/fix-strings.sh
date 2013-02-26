@@ -22,6 +22,8 @@ for i in $path/values*/strings.xml ; do
     gsed -i "$fix_comment" $i
     gsed -i "$fix_string" $i
     gsed -i "$fix_item" $i
+    gsed -i "s/^\t/    /" $i
+    gsed -i 's/\\\\/\\/g' $i
 done
 
 # TESTING
