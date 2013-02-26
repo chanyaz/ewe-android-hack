@@ -23,7 +23,6 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 	private HotelsRobotHelper mDriver;
 	private Activity mActivity;
 	private Resources mRes;
-	private List<Pair<String, Integer>> mVisaList = new ArrayList<Pair<String, Integer>>();
 
 	public CreditCardInfoEditTest() {
 		super("com.expedia.bookings", HotelPaymentOptionsActivity.class);
