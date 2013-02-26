@@ -84,6 +84,7 @@ public class TripFlight extends TripComponent {
 		try {
 			JSONUtils.putJSONable(obj, "flightTrip", mFlightTrip);
 			JSONUtils.putJSONableList(obj, "travelers", mTravelers);
+			JSONUtils.putStringList(obj, "destinationImageUrls", mDestinationImageUrls);
 			JSONUtils.putJSONableList(obj, "confirmationNumbers", mConfirmations);
 			return obj;
 		}
@@ -97,6 +98,7 @@ public class TripFlight extends TripComponent {
 		super.fromJson(obj);
 		mFlightTrip = JSONUtils.getJSONable(obj, "flightTrip", FlightTrip.class);
 		mTravelers = JSONUtils.getJSONableList(obj, "travelers", Traveler.class);
+		mDestinationImageUrls = JSONUtils.getStringList(obj, "destinationImageUrls");
 		mConfirmations = JSONUtils.getJSONableList(obj, "confirmationNumbers", FlightConfirmation.class);
 		return true;
 	}
