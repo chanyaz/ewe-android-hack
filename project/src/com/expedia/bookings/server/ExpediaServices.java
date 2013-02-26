@@ -66,6 +66,7 @@ import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Location;
@@ -466,8 +467,15 @@ public class ExpediaServices implements DownloadListener {
 			parameters.add(new BasicNameValuePair("airport", flight.mOrigin.mAirportCode));
 		}
 
-		return doFlightStatsRequest(baseUrl, parameters,
-				new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode)).getFlight();
+		FlightStatsFlightResponse response = doFlightStatsRequest(baseUrl, parameters,
+				new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode));
+		
+		if (response == null) {
+			return null;
+		}
+		else {
+			return response.getFlight();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
