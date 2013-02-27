@@ -324,6 +324,10 @@ public class HotelsRobotHelper {
 
 	public void clearPrivateData() {
 		mSolo.pressMenuItem(0);
+		delay();
+		if (!mSolo.searchText("Select API")) {
+			mSolo.pressMenuItem(0);
+		}
 		landscape();
 		portrait();
 		String clearPrivateData = mRes.getString(R.string.clear_private_data);
@@ -405,10 +409,13 @@ public class HotelsRobotHelper {
 		delay();
 		if (mAllowOrientationChange) {
 			mSolo.clickOnEditText(0);
+			delay();
+			mSolo.clickInList(2);
 		}
-		mSolo.clickInList(1); //Selecting search suggestion results
-								//some countries' list don't populate ever
-								//might break stuff
+		else {
+			mSolo.clickInList(1); //Selecting search suggestion results
+		} 						  //some countries' list don't populate ever
+								  //might break stuff
 		enterLog(TAG, "After clicking search button");
 
 		mSolo.waitForActivity("ExpediaBookingApp"); // Add another wait if this causes instability
@@ -474,8 +481,8 @@ public class HotelsRobotHelper {
 		delay(1);
 		landscape();
 		portrait();
+		delay();
 		screenshot("Calendar");
-		mSolo.goBack();
 	}
 
 	public void pressGuestPicker() {
@@ -483,6 +490,10 @@ public class HotelsRobotHelper {
 		delay(2);
 		landscape();
 		portrait();
+		delay(1);
+		if (mAllowOrientationChange) {
+			mSolo.clickOnImageButton(0);
+		}
 		screenshot("Guest Picker");
 		mSolo.clickOnImageButton(2); // Adult +1
 		delay(1);

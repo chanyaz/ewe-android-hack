@@ -42,13 +42,15 @@ public class RotateHappyPath extends ActivityInstrumentationTestCase2<SearchActi
 	// Test Driver 
 
 	public void testMethod() throws Exception {
+		mDriver.delay();
 		mDriver.setAllowOrientationChange(true); //sets Driver to do the rotates
 		mDriver.setAllowScreenshots(false); //no screenshots.
+		mSolo.clickOnScreen(50, 50);
 		mDriver.clearPrivateData();
 		mDriver.delay(2);
 
 		mDriver.launchHotels();
-		
+
 		mDriver.pressCalendar();
 		mDriver.pressGuestPicker();
 
