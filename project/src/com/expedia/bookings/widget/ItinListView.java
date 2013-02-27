@@ -59,6 +59,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private int mOriginalScrollY;
 	private boolean mScrollToReleventOnDataSetChange;
 
+	private int mExpandedCardHeight = -1;
 	private int mExpandedCardOriginalHeight;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -91,10 +92,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onRestoreInstanceState(Parcelable state) {
 		super.onRestoreInstanceState(state);
-
-		if (mMode == MODE_DETAIL) {
-			showDetails();
-		}
 	}
 
 	@Override
@@ -161,6 +158,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	public void setExpandedHeight(int height) {
+		mExpandedCardHeight = height;
+	}
 
 	public int getMode() {
 		return mMode;
@@ -275,13 +276,14 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mOnListModeChangedListener.onListModeChanged(mMode);
 		}
 
+		mExpandedCardHeight = mExpandedCardHeight > -1 ? mExpandedCardHeight : getHeight();
 		mExpandedCardOriginalHeight = view.getHeight();
 		mOriginalScrollY = getScrollY();
 
 		final int startY = getScrollY();
 		final int stopY = view.getTop();
 
-		final ResizeAnimation animation = new ResizeAnimation(view, getHeight());
+		final ResizeAnimation animation = new ResizeAnimation(view, mExpandedCardHeight);
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -420,6 +422,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INNER CLASS INSTANCES
 	//////////////////////////////////////////////////////////////////////////////////////
+
 	private DataSetObserver mDataSetObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {

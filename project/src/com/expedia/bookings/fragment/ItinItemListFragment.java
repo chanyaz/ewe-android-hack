@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
 
+	private SherlockFragmentActivity mActivity;
+
 	private View mItinPathView;
 	private ItinListView mItinListView;
 	private View mEmptyView;
@@ -74,6 +77,12 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
+		if (!(activity instanceof SherlockFragmentActivity)) {
+			throw new RuntimeException("ItinItemListFragment Activity must be instance of SherlockFragmentActivity.");
+		}
+
+		mActivity = (SherlockFragmentActivity) activity;
+
 		mItinManager = ItineraryManager.getInstance();
 		mItinManager.addSyncListener(this);
 	}
@@ -97,6 +106,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mErrorContainer = Ui.findView(view, R.id.error_container);
 
 		mItinListView.setEmptyView(mEmptyView);
+		mItinListView.setExpandedHeight(getActivity().getWindow().getDecorView().getHeight());
 		mItinListView.setOnScrollListener(mOnScrollListener);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
@@ -345,9 +355,11 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		@Override
 		public void onListModeChanged(int mode) {
 			if (mode == ItinListView.MODE_LIST) {
+				mActivity.getSupportActionBar().show();
 				ObjectAnimator.ofFloat(mItinPathView, "alpha", 1f).setDuration(200).start();
 			}
 			else if (mode == ItinListView.MODE_DETAIL) {
+				mActivity.getSupportActionBar().hide();
 				ObjectAnimator.ofFloat(mItinPathView, "alpha", 0f).setDuration(200).start();
 			}
 		}
