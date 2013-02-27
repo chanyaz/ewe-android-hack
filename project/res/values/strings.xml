@@ -94,12 +94,6 @@
     <string name="arrival_terminal_TEMPLATE">Arrive Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure terminal and gate template -->
     <string name="departure_terminal_TEMPLATE">Depart Terminal %1$s, Gate %2$s</string>
-    <!-- Itin flight terminal and gate information not available message -->
-    <string name="no_terminal_gate_information">Terminal &amp; Gate Unavailable</string>
-    <!-- Itin flight layover arrival terminal and gate information not avaialble message -->
-    <string name="no_arrival_terminal_gate_information">Arrival Terminal &amp; Gate Unavailable</string>
-    <!-- Itin flight layover departure terminal and gate information not avaialble message -->
-    <string name="no_departure_terminal_gate_information">Departure Terminal &amp; Gate Unavailable</string>
     <!-- To be determined abbrev.-->
     <string name="to_be_determined_abbrev">TBD</string>
     <!-- Itin flight gate only template -->
@@ -109,11 +103,11 @@
     <!-- Itin flight depart gate only template -->
     <string name="depart_gate_number_only_TEMPLATE">Depart Gate %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s, Gate Unavailable</string>
+    <string name="terminal_but_no_gate_TEMPLATE">Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrive Terminal %1$s, Gate Unavailable</string>
+    <string name="arrive_terminal_but_no_gate_TEMPLATE">Arrive Terminal %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="depart_terminal_but_no_gate_TEMPLATE">Depart Terminal %1$s, Gate Unavailable</string>
+    <string name="depart_terminal_but_no_gate_TEMPLATE">Depart Terminal %1$s</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
     <string name="at_airport_TEMPLATE">&lt;b&gt;At %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->

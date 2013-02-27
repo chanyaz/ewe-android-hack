@@ -516,7 +516,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				String dateStr = DateUtils.formatDateTime(getContext(), DateTimeUtils.getTimeInLocalTimeZone(departure)
 						.getTime(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
 				topLine.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
-				bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+				bulb.setImageResource(R.drawable.ic_departure_details);
 
 				summaryWaypoint = flight.mOrigin;
 				bottomLineTextId = R.string.from_airport_TEMPLATE;
@@ -764,9 +764,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			else if (primaryWaypointHasGate) {
 				primaryText = res.getString(R.string.arrive_gate_number_only_TEMPLATE, primaryWaypoint.getGate());
 			}
-			else {
-				primaryText = res.getString(R.string.no_arrival_terminal_gate_information);
-			}
 
 			String secondaryText = null;
 			if (secondaryWaypointHasAll) {
@@ -780,12 +777,20 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			else if (secondaryWaypointHasGate) {
 				secondaryText = res.getString(R.string.depart_gate_number_only_TEMPLATE, secondaryWaypoint.getGate());
 			}
-			else {
-				secondaryText = res.getString(R.string.no_departure_terminal_gate_information);
-			}
 
-			firstRowText.setText(primaryText);
-			secondRowText.setText(secondaryText);
+			if (primaryText != null) {
+				firstRowText.setText(primaryText);
+			}
+			else {
+				firstRowText.setVisibility(View.GONE);
+			}
+			
+			if (secondaryText != null) {
+				secondRowText.setText(secondaryText);
+			}
+			else {
+				secondRowText.setVisibility(View.GONE);
+			}
 
 		}
 		else {
@@ -802,11 +807,13 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			else if (primaryWaypointHasGate) {
 				primaryText = res.getString(R.string.gate_number_only_TEMPLATE, primaryWaypoint.getGate());
 			}
-			else {
-				primaryText = res.getString(R.string.no_terminal_gate_information);
-			}
 
-			firstRowText.setText(primaryText);
+			if (primaryText != null) {
+				firstRowText.setText(primaryText);
+			}
+			else {
+				firstRowText.setVisibility(View.GONE);
+			}
 		}
 
 		terminalMapDirectionsBtn.setOnClickListener(new OnClickListener() {
