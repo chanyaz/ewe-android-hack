@@ -288,15 +288,13 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void onSyncFailure(SyncError error) {
-		// TODO Auto-generated method stub
-
+		setIsLoading(false);
+		setErrorMessage(R.string.itinerary_fetch_error, true);
 	}
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
 		setIsLoading(false);
-
-		//TODO: Check for itin error and call setErrorMessage() if needed
 
 		// TODO: make sure these calls are fired the correct number of times, will probably need extra bookkeeping
 		Context context = getActivity();
