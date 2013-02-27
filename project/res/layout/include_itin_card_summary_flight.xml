@@ -21,13 +21,16 @@
         android:layout_toRightOf="@id/flight_status_bulb"
         android:orientation="vertical" >
 
-        <com.expedia.bookings.widget.TextView
+        <com.mobiata.android.widget.AutoResizeTextView
             android:id="@+id/flight_status_top_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
             android:textColor="@color/itin_white_text"
             android:textSize="16sp"
-            app:textStyle="bold|light" />
+            app:minTextSize="15sp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_status_bottom_line"

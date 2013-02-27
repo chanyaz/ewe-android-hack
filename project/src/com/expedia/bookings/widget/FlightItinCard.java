@@ -48,6 +48,7 @@ import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.CalendarAPIUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.GoogleMap;
@@ -439,6 +440,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 		View view = inflater.inflate(R.layout.include_itin_card_summary_flight, container, false);
 		TextView topLine = Ui.findView(view, R.id.flight_status_top_line);
+		FontCache.setTypeface(topLine, FontCache.Font.ROBOTO_REGULAR);
 		TextView bottomLine = Ui.findView(view, R.id.flight_status_bottom_line);
 		ImageView bulb = Ui.findView(view, R.id.flight_status_bulb);
 
