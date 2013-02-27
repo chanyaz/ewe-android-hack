@@ -233,6 +233,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		// Update UI
 		updateLoginState();
 
+		setErrorMessage(null,false);
+		
 		invalidateOptionsMenu();
 
 		syncItinManager();
@@ -289,13 +291,14 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	@Override
 	public void onSyncFailure(SyncError error) {
 		setIsLoading(false);
-		setErrorMessage(R.string.itinerary_fetch_error, true);
+		setErrorMessage(R.string.itinerary_fetch_error, User.isLoggedIn(getActivity()));
 	}
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
 		setIsLoading(false);
-
+		setErrorMessage(null,false);
+		
 		// TODO: make sure these calls are fired the correct number of times, will probably need extra bookkeeping
 		Context context = getActivity();
 		if (context != null) {
