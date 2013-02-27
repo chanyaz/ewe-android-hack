@@ -270,7 +270,10 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	@Override
 	protected String getHeaderText(ItinCardDataFlight itinCardData) {
-		if (itinCardData != null) {
+		if (itinCardData != null && itinCardData.getFlightLeg() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null
+				&& !TextUtils.isEmpty(itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity)) {
 			return itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
 		}
 
@@ -924,7 +927,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			Ui.findView(this, R.id.itin_type_image_view).setLayerType(layerType, null);
 		}
 	}
-	
+
 	private int getDelayForWaypoint(Waypoint wp) {
 		Delay delay = wp.getDelay();
 		if (delay.mDelayType == Delay.DELAY_GATE_ACTUAL || delay.mDelayType == Delay.DELAY_GATE_ESTIMATED) {

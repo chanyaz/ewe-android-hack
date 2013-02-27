@@ -646,7 +646,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 		View focused = this.getActivity().getCurrentFocus();
 		if (focused instanceof EditText) {
 			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
 			imm.hideSoftInputFromWindow(focused.getWindowToken(), 0);
 		}
 	}

@@ -71,6 +71,12 @@
             android:background="@drawable/btn_cancel"
             android:gravity="center"
             android:text="@string/find_itinerary" />
+
+        <LinearLayout
+            android:id="@+id/login_extender_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
     </LinearLayout>
 
 </ScrollView>

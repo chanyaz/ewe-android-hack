@@ -5,7 +5,6 @@ import java.util.Collection;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
@@ -142,7 +140,7 @@ public class ItineraryLoaderLoginExtender implements LoginExtender, ItinerarySyn
 			public void run() {
 				mProgress.setVisibility(View.GONE);
 				mErrorContainer.setVisibility(View.VISIBLE);
-				mErrorMessage.setText(error.name());
+				mErrorMessage.setText(R.string.itinerary_fetch_error);
 			}
 		};
 		mView.post(runner);

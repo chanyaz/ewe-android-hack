@@ -72,6 +72,8 @@
     <string name="or_enter_an_itinerary_number">Or, Enter an Itinerary Number</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Fetching your itinerary...</string>
+    <!-- Error fetching itinerary -->
+    <string name="itinerary_fetch_error">Error fetching itinerary</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
     <!-- Depart (TZ) template -->

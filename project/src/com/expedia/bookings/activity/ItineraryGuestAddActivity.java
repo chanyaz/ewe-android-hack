@@ -9,6 +9,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.ItineraryGuestAddFragment;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 
 public class ItineraryGuestAddActivity extends SherlockFragmentActivity {
 
@@ -37,7 +38,7 @@ public class ItineraryGuestAddActivity extends SherlockFragmentActivity {
 		mAddGuestItinFragment = Ui.findSupportFragment(this, TAG_GUEST_ADD_FRAGMENT);
 		if (mAddGuestItinFragment == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			mAddGuestItinFragment = ItineraryGuestAddFragment.newInstance();
+			mAddGuestItinFragment = ItineraryGuestAddFragment.newInstance(new ItineraryLoaderLoginExtender());
 			ft.add(R.id.fragment_container, mAddGuestItinFragment, TAG_GUEST_ADD_FRAGMENT);
 			ft.commit();
 		}
