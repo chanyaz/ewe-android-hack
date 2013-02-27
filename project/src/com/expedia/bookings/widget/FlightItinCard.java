@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -812,16 +813,11 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			@Override
 			public void onClick(View arg0) {
 				Airport airport = primaryWaypoint.getAirport();
-				if (primaryWaypoint.getAirport().hasAirportMaps()) {
-					TerminalMapsOrDirectionsDialogFragment fragment = TerminalMapsOrDirectionsDialogFragment
-							.newInstance(airport);
-					FragmentManager fragManager = ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
-					fragment.show(fragManager, FRAG_TAG_AIRPORT_ACTION_CHOOSER);
-				}
-				else {
-					Intent intent = FlightItinCard.getAirportDirectionsIntent(airport);
-					getContext().startActivity(intent);
-				}
+
+				TerminalMapsOrDirectionsDialogFragment fragment = TerminalMapsOrDirectionsDialogFragment
+						.newInstance(airport);
+				FragmentManager fragManager = ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
+				fragment.show(fragManager, FRAG_TAG_AIRPORT_ACTION_CHOOSER);
 			}
 		});
 
@@ -988,20 +984,27 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
-
 			final CharSequence directions = getString(R.string.directions);
 			final CharSequence terminalMaps = getString(R.string.terminal_maps);
-			final CharSequence[] options = { directions, terminalMaps };
+
+			ArrayList<CharSequence> optionsList = new ArrayList<CharSequence>();
+			optionsList.add(directions);
+			if (mAirport.hasAirportMaps()) {
+				optionsList.add(terminalMaps);
+			}
+
+			final CharSequence[] finalOptions = new CharSequence[optionsList.size()];
+			optionsList.toArray(finalOptions);
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setItems(options, new DialogInterface.OnClickListener() {
+			builder.setItems(finalOptions, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					if (options[which].equals(directions)) {
+					if (finalOptions[which].equals(directions)) {
 						Intent intent = FlightItinCard.getAirportDirectionsIntent(mAirport);
 						getActivity().startActivity(intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
 					}
-					else if (options[which].equals(terminalMaps)) {
+					else if (finalOptions[which].equals(terminalMaps)) {
 						Intent intent = new Intent(getActivity(), TerminalMapActivity.class);
 						intent.putExtra(TerminalMapActivity.ARG_AIRPORT_CODE, mAirport.mAirportCode);
 						getActivity().startActivity(intent);
