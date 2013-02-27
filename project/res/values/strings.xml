@@ -1507,6 +1507,8 @@
     <string name="travel_smart">Travel smart</string>
     <!-- Section Header for other apps by Mobiata -->
     <string name="ALSO_BY_MOBIATA">ALSO BY MOBIATA</string>
+    <!-- Section Header for other apps by Mobiata -->
+    <string name="also_by_mobiata">Also By Mobiata</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -1539,6 +1541,8 @@
     <string name="view_open_source_software_licenses">View Open Source Software Licenses</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">This app make use of the following open-source libraries:</string>
+    <!-- Header text for open source section -->
+    <string name="open_source">Open-Source</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
