@@ -107,7 +107,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 	private FrameLayout mSlideToPurchaseFragmentLayout;
 
 	private boolean mShowSlideToWidget;
-	private String mTotalPriceString;
+	private String mSlideToPurchasePriceString;
 	private SlideToPurchaseFragment mSlideToPurchaseFragment;
 
 	private boolean mRefreshedUser;
@@ -174,7 +174,7 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 			FragmentManager manager = getChildFragmentManager();
 			mSlideToPurchaseFragment = (SlideToPurchaseFragment) manager.findFragmentByTag(TAG_SLIDE_TO_PURCHASE_FRAG);
 			if (mSlideToPurchaseFragment == null) {
-				mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(mTotalPriceString);
+				mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(mSlideToPurchasePriceString);
 			}
 
 			if (!mSlideToPurchaseFragment.isAdded()) {
@@ -498,14 +498,14 @@ public class BookingOverviewFragment extends Fragment implements AccountButtonCl
 		}
 
 		if (Db.getSelectedProperty().isMerchant()) {
-			mTotalPriceString = getString(R.string.your_card_will_be_charged_TEMPLATE,
+			mSlideToPurchasePriceString = getString(R.string.your_card_will_be_charged_TEMPLATE,
 					displayedTotal.getFormattedMoney());
 		}
 		else {
 			mCouponCodeLayout.setVisibility(View.GONE);
-			mTotalPriceString = getString(R.string.collected_by_the_hotel_TEMPLATE, displayedTotal.getFormattedMoney());
+			mSlideToPurchasePriceString = getString(R.string.collected_by_the_hotel_TEMPLATE, displayedTotal.getFormattedMoney());
 		}
-		mSlideToPurchaseFragment.setTotalPriceString(mTotalPriceString);
+		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
 		mHotelReceipt.updateData(Db.getSelectedProperty(), Db.getSearchParams(), Db.getSelectedRate(), discountRate);
 	}
