@@ -448,7 +448,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 		if (flight.isRedAlert()) {
 			if (Flight.STATUS_CANCELLED.equals(flight.mStatusCode)) {
-				topLine.setText(res.getString(R.string.flight_to_city_canceled_TEMPLATE, FormatUtils.getCityName(flight.getArrivalWaypoint(), getContext())));
+				topLine.setText(res.getString(R.string.flight_to_city_canceled_TEMPLATE,
+						FormatUtils.getCityName(flight.getArrivalWaypoint(), getContext())));
 			}
 			else if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
 				topLine.setText(R.string.flight_diverted);
@@ -808,10 +809,17 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		terminalMapDirectionsBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				TerminalMapsOrDirectionsDialogFragment fragment = TerminalMapsOrDirectionsDialogFragment
-						.newInstance(primaryWaypoint.getAirport());
-				FragmentManager fragManager = ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
-				fragment.show(fragManager, FRAG_TAG_AIRPORT_ACTION_CHOOSER);
+				Airport airport = primaryWaypoint.getAirport();
+				if (primaryWaypoint.getAirport().hasAirportMaps()) {
+					TerminalMapsOrDirectionsDialogFragment fragment = TerminalMapsOrDirectionsDialogFragment
+							.newInstance(airport);
+					FragmentManager fragManager = ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
+					fragment.show(fragManager, FRAG_TAG_AIRPORT_ACTION_CHOOSER);
+				}
+				else {
+					Intent intent = FlightItinCard.getAirportDirectionsIntent(airport);
+					getContext().startActivity(intent);
+				}
 			}
 		});
 
