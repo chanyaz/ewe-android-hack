@@ -429,26 +429,21 @@ public class HotelsRobotHelper {
 				&& mRes.getConfiguration().locale != APAC_LOCALES[12]
 				&& mRes.getConfiguration().locale != APAC_LOCALES[15]) {
 			enterLog(TAG, "Clicking on Filter label");
+
 			try {
 				mSolo.clickOnView(filterButton);
 			}
-			catch(Error e) {
+			catch (Error e) {
 				mSolo.clickOnText(mRes.getString(R.string.filter));
 			}
+
 			landscape();
 			portrait();
 			delay();
-			if (mAllowOrientationChange) {
-				try {
-					mSolo.clickOnView(filterButton);
-				}
-				catch(Error e) {
-					mSolo.clickOnText(mRes.getString(R.string.filter));
-				}
-			}
 
 			delay(5);
 			mSolo.enterText(0, filterText);
+
 			delay(1);
 			screenshot("Filtering for " + filterText);
 			delay(1);
@@ -469,7 +464,7 @@ public class HotelsRobotHelper {
 		}
 		landscape();
 		portrait();
-		if(!mAllowOrientationChange) {
+		if (!mAllowOrientationChange) {
 			mSolo.goBack();
 		}
 	}
@@ -539,7 +534,7 @@ public class HotelsRobotHelper {
 		landscape();
 		portrait();
 		delay();
-		
+
 		mSolo.goBack();
 	}
 
