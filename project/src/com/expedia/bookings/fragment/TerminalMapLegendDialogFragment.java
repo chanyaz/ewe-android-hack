@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -50,6 +51,7 @@ public class TerminalMapLegendDialogFragment extends DialogFragment {
 			legendDrawableId = R.drawable.terminal_map_legend_3cols;
 		}
 		legend.setImageResource(legendDrawableId);
+		legend.setBackgroundColor(Color.WHITE);
 
 		AlertDialog.Builder builder = new Builder(getActivity());
 		builder.setView(legend)
