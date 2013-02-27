@@ -2,6 +2,7 @@ package com.expedia.bookings.data.trips;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import android.os.AsyncTask;
 
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
+import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
@@ -52,6 +54,10 @@ public class ItineraryManager implements JSONable {
 	private Context mContext;
 
 	private Map<String, Trip> mTrips;
+
+	// This is a list of all trip start times; unlike mTrips, it will be loaded at app startup, so you can use it to
+	// determine whether you should launch in itin or not.
+	private List<DateTime> mStartTimes = new ArrayList<DateTime>();
 
 	/**
 	 * Adds a guest trip to the itinerary list.
@@ -142,6 +148,8 @@ public class ItineraryManager implements JSONable {
 
 	private static final String MANAGER_PATH = "itin-manager.dat";
 
+	private static final String MANAGER_START_TIMES_PATH = "itin-starts.dat";
+
 	/**
 	 * Must be called before using ItineraryManager for the first time.
 	 * 
@@ -149,15 +157,89 @@ public class ItineraryManager implements JSONable {
 	 * context won't leak.
 	 */
 	public void init(Context context) {
+		long start = System.nanoTime();
+
 		mContext = context;
+
+		loadStartTimes();
+
+		Log.d("Initialized ItineraryManager in " + ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 
 	private void save() {
+		saveStartTimes();
+
 		try {
 			IoUtils.writeStringToFile(MANAGER_PATH, toJson().toString(), mContext);
 		}
 		catch (IOException e) {
 			Log.w("Could not save ItineraryManager data", e);
+		}
+	}
+
+	private void load() {
+		if (mTrips == null) {
+			File file = mContext.getFileStreamPath(MANAGER_PATH);
+			if (file.exists()) {
+				try {
+					JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_PATH, mContext));
+					fromJson(obj);
+				}
+				catch (Exception e) {
+					Log.w("Could not load ItineraryManager data, starting from scratch again...", e);
+					file.delete();
+				}
+			}
+		}
+
+		if (mTrips == null) {
+			mTrips = new HashMap<String, Trip>();
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Start times data
+
+	public List<DateTime> getStartTimes() {
+		return mStartTimes;
+	}
+
+	private void saveStartTimes() {
+		Log.d("Syncing/saving start times...");
+
+		// Sync start times whenever we save to disk
+		mStartTimes.clear();
+		for (Trip trip : mTrips.values()) {
+			DateTime startDate = trip.getStartDate();
+			if (startDate != null) {
+				mStartTimes.add(startDate);
+			}
+		}
+
+		try {
+			// Save to disk
+			JSONObject obj = new JSONObject();
+			JSONUtils.putJSONableList(obj, "startTimes", mStartTimes);
+			IoUtils.writeStringToFile(MANAGER_START_TIMES_PATH, obj.toString(), mContext);
+		}
+		catch (Exception e) {
+			Log.w("Could not save start times", e);
+		}
+	}
+
+	private void loadStartTimes() {
+		Log.d("Loading start times...");
+
+		File file = mContext.getFileStreamPath(MANAGER_START_TIMES_PATH);
+		if (file.exists()) {
+			try {
+				JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_START_TIMES_PATH, mContext));
+				mStartTimes = JSONUtils.getJSONableList(obj, "startTimes", DateTime.class);
+			}
+			catch (Exception e) {
+				Log.w("Could not load start times", e);
+				file.delete();
+			}
 		}
 	}
 
@@ -315,23 +397,7 @@ public class ItineraryManager implements JSONable {
 		@Override
 		protected Collection<Trip> doInBackground(Void... params) {
 			// We first try to load the itin man data on sync
-			if (mTrips == null) {
-				File file = mContext.getFileStreamPath(MANAGER_PATH);
-				if (file.exists()) {
-					try {
-						JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_PATH, mContext));
-						fromJson(obj);
-					}
-					catch (Exception e) {
-						Log.w("Could not load ItineraryManager data, starting from scratch again...", e);
-						file.delete();
-					}
-				}
-			}
-
-			if (mTrips == null) {
-				mTrips = new HashMap<String, Trip>();
-			}
+			load();
 
 			if (isCancelled()) {
 				return null;
