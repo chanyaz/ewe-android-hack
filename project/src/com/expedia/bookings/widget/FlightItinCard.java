@@ -445,7 +445,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 		if (flight.isRedAlert()) {
 			if (Flight.STATUS_CANCELLED.equals(flight.mStatusCode)) {
-				topLine.setText(R.string.flight_canceled);
+				topLine.setText(res.getString(R.string.flight_to_city_canceled_TEMPLATE, FormatUtils.getCityName(flight.getArrivalWaypoint(), getContext())));
 			}
 			else if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
 				topLine.setText(R.string.flight_diverted);

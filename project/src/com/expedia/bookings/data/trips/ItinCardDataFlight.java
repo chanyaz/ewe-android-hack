@@ -29,16 +29,29 @@ public class ItinCardDataFlight extends ItinCardData {
 
 	// the most relevant flight segment is the currently-active segment if it has not yet landed,
 	// otherwise, it is the next segment to take off
+	// UNLESS there is a later flight that has been canceled
 	public Flight getMostRelevantFlightSegment() {
 		Calendar now = Calendar.getInstance();
 		List<Flight> segments = getFlightLeg().getSegments();
+		Flight relevantSegment = null;
 		for (Flight segment : segments) {
-			if (segment.mOrigin.getMostRelevantDateTime().after(now)
-					|| segment.getArrivalWaypoint().getMostRelevantDateTime().after(now)) {
+			if (relevantSegment == null) {
+				if (segment.mOrigin.getMostRelevantDateTime().after(now)
+						|| segment.getArrivalWaypoint().getMostRelevantDateTime().after(now)) {
+					relevantSegment = segment;
+				}
+			}
+			else if (Flight.STATUS_CANCELLED.equals(segment.mStatusCode)) {
 				return segment;
 			}
 		}
-		return segments.get(segments.size() - 1);
+		
+		if (relevantSegment != null) {
+			return relevantSegment;
+		}
+		else {
+			return segments.get(segments.size() - 1);
+		}
 	}
 
 	@Override

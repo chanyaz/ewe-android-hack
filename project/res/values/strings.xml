@@ -132,6 +132,8 @@
     <string name="legend">Legend</string>
     <!-- Flight has been canceled -->
     <string name="flight_canceled">Flight canceled</string>
+    <!-- Flight has been canceled; parameter is the destination city for the canceled flight -->
+    <string name="flight_to_city_canceled_TEMPLATE">Flight to %1$s canceled</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">Flight redirected</string>
     <!-- Flight has been diverted (location unknown) -->
