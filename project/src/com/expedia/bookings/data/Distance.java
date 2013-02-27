@@ -120,6 +120,11 @@ public class Distance implements JSONable, Comparable<Distance> {
 		double distance = getDistance(distanceUnit);
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(1);
+
+		// This skirts the pluralization problem, while also being more precise.
+		// We will display "1.0 miles away" instead of "1 miles away".
+		nf.setMinimumFractionDigits(abbreviated ? 0 : 1);
+
 		int unitStrId;
 		if (distanceUnit == DistanceUnit.KILOMETERS) {
 			unitStrId = abbreviated ? R.string.unit_kilometers : R.string.unit_kilometers_full;
