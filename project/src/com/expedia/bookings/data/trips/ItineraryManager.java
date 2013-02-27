@@ -346,7 +346,17 @@ public class ItineraryManager implements JSONable {
 
 			// If the user is logged in, retrieve a listing of current trips for logged in user
 			if (User.isLoggedIn(mContext)) {
-				TripResponse response = mServices.getTrips(false, 0);
+				// First, determine if we've ever loaded trips for this user; if not, then we
+				// should do a cached call for the first 5 detailed trips (for speedz).
+				boolean getCachedDetails = true;
+				for (Trip trip : mTrips.values()) {
+					if (!trip.isGuest()) {
+						getCachedDetails = false;
+						break;
+					}
+				}
+
+				TripResponse response = mServices.getTrips(getCachedDetails, 0);
 
 				if (isCancelled()) {
 					return null;
