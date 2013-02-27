@@ -34,6 +34,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
+import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -180,9 +181,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	public synchronized void startLoginActivity() {
-		Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
-		loginIntent.putExtra(LoginActivity.ARG_PATH_MODE, PathMode.ITIN.name());
-		startActivity(loginIntent);
+		Intent intent = LoginActivity.createIntent(getActivity(), PathMode.ITIN, new ItineraryLoaderLoginExtender());
+		startActivity(intent);
 	}
 
 	private void updateLoginState() {

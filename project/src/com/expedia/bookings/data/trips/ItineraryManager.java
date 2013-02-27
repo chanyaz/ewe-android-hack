@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -304,7 +306,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<ItineraryManager.ItinerarySyncListener>();
-
+	
 	public void addSyncListener(ItinerarySyncListener listener) {
 		mSyncListeners.add(listener);
 	}
@@ -314,37 +316,43 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private void onTripAdded(Trip trip) {
-		for (ItinerarySyncListener listener : mSyncListeners) {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripAdded(trip);
 		}
 	}
 
 	private void onTripUpdated(Trip trip) {
-		for (ItinerarySyncListener listener : mSyncListeners) {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripUpdated(trip);
 		}
 	}
 
 	private void onTripUpdateFailed(Trip trip) {
-		for (ItinerarySyncListener listener : mSyncListeners) {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripUpateFailed(trip);
 		}
 	}
 
 	private void onTripRemoved(Trip trip) {
-		for (ItinerarySyncListener listener : mSyncListeners) {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripRemoved(trip);
 		}
 	}
 
-	private void onSyncFailure(SyncError error) {
-		for (ItinerarySyncListener listener : mSyncListeners) {
+	private void onSyncFailed(SyncError error) {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFailure(error);
 		}
 	}
 
 	private void onSyncFinished(Collection<Trip> trips) {
-		for (ItinerarySyncListener listener : mSyncListeners) {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFinished(trips);
 		}
 	}
@@ -607,7 +615,7 @@ public class ItineraryManager implements JSONable {
 				onTripRemoved(update.mTrip);
 				break;
 			case SYNC_ERROR:
-				onSyncFailure(update.mError);
+				onSyncFailed(update.mError);
 				break;
 			}
 		}
@@ -619,6 +627,7 @@ public class ItineraryManager implements JSONable {
 			onSyncFinished(trips);
 		}
 
+		@SuppressLint("NewApi")
 		@Override
 		protected void onCancelled(Collection<Trip> result) {
 			super.onCancelled(result);
@@ -628,7 +637,7 @@ public class ItineraryManager implements JSONable {
 			// the signout in that case.
 			doSignOut();
 
-			onSyncFailure(SyncError.CANCELLED);
+			onSyncFailed(SyncError.CANCELLED);
 
 			onSyncFinished(null);
 		}

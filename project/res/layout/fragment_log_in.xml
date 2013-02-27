@@ -214,6 +214,17 @@
                 android:gravity="center"
                 android:text="@string/cancel" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/login_extension_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/login_side_margin_small"
+            android:layout_marginRight="@dimen/login_side_margin_small"
+            android:layout_marginTop="@dimen/login_fb_buttons_top_spacing"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" />
     </LinearLayout>
 
 </ScrollView>

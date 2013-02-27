@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -21,6 +22,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -49,6 +52,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.ItineraryLoaderLoginExtender.LoginExtenderListener;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -82,8 +86,9 @@ import com.nineoldandroids.view.animation.AnimatorProxy;
  * ---- If associating fails we let them try again, however since our api response is mostly worthless we sort of just get stuck here.
  * 
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginExtenderListener {
 	private static final String ARG_PATH_MODE = "ARG_PATH_MODE";
+	private static final String ARG_EXTENDER_OBJECT = "ARG_EXTENDER_OBJECT";
 
 	private static final String NET_MANUAL_LOGIN = "NET_MANUAL_SIGNIN";
 	private static final String NET_AUTO_LOGIN = "NET_AUTO_LOGIN";
@@ -101,11 +106,14 @@ public class LoginFragment extends Fragment {
 	private static final String STATE_PATH_MODE = "STATE_PATH_MODE";
 	private static final String STATE_EMPTY_EXP_USERNAME = "STATE_EMPTY_EXP_USERNAME";
 	private static final String STATE_EMPTY_EXP_PASSWORD = "STATE_EMPTY_EXP_PASSWORD";
+	private static final String STATE_DO_LOGIN_EXTENDER_WORK = "STATE_DO_LOGIN_EXTENDER_WORK";
+	private static final String STATE_LOGIN_EXTENDER = "STATE_LOGIN_EXTENDER";
 
 	private static final int ANIM_BUTTON_FLIP_DURATION = 200;
 
 	private Activity mContext;
 	private TitleSettable mTitleSetter;
+	private LoginExtender mLoginExtender;
 
 	//UI ELEMENTS
 	private ViewGroup mExpediaSigninContainer;
@@ -113,6 +121,8 @@ public class LoginFragment extends Fragment {
 	private ViewGroup mSigninWithExpediaButtonContainer;
 	private ViewGroup mFacebookSigninContainer;
 	private ViewGroup mFacebookButtonContainer;
+	private ViewGroup mLoginExtenderContainer;
+	private LinearLayout mOuterContainer;
 
 	private TextView mStatusMessageTv;
 	private Button mConnectWithFacebookBtn;
@@ -141,6 +151,7 @@ public class LoginFragment extends Fragment {
 	private boolean mIsLoading = false;
 	private boolean mEmptyUsername = true;
 	private boolean mEmptyPassword = true;
+	private boolean mDoLoginExtenderWork = false;
 	private VisibilityState mVisibilityState = VisibilityState.EXPEDIA_WTIH_FB_BUTTON;
 	private PathMode mPathMode = PathMode.HOTELS;
 
@@ -162,6 +173,15 @@ public class LoginFragment extends Fragment {
 		return frag;
 	}
 
+	public static LoginFragment newInstance(PathMode mode, LoginExtender extender) {
+		LoginFragment frag = new LoginFragment();
+		Bundle args = new Bundle();
+		args.putString(ARG_PATH_MODE, mode.name());
+		args.putParcelable(ARG_EXTENDER_OBJECT, extender);
+		frag.setArguments(args);
+		return frag;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_log_in, container, false);
@@ -169,12 +189,19 @@ public class LoginFragment extends Fragment {
 		if (this.getArguments() != null && this.getArguments().containsKey(ARG_PATH_MODE)) {
 			mPathMode = PathMode.valueOf(this.getArguments().getString(ARG_PATH_MODE));
 		}
+		if (this.getArguments() != null && this.getArguments().containsKey(ARG_EXTENDER_OBJECT)) {
+			mLoginExtender = this.getArguments().getParcelable(ARG_EXTENDER_OBJECT);
+			//We now control this from saved state...
+			this.getArguments().remove(ARG_EXTENDER_OBJECT);
+		}
 
+		mOuterContainer = Ui.findView(v, R.id.outer_container);
 		mExpediaSigninContainer = Ui.findView(v, R.id.expedia_signin_container);
 		mOrFacebookContainer = Ui.findView(v, R.id.or_facebook_container);
 		mSigninWithExpediaButtonContainer = Ui.findView(v, R.id.sign_in_with_expedia_button_container);
 		mFacebookSigninContainer = Ui.findView(v, R.id.facebook_signin_container);
 		mFacebookButtonContainer = Ui.findView(v, R.id.facebook_button_container);
+		mLoginExtenderContainer = Ui.findView(v, R.id.login_extension_container);
 
 		mStatusMessageTv = Ui.findView(v, R.id.login_status_textview);
 		mConnectWithFacebookBtn = Ui.findView(v, R.id.connect_with_facebook_btn);
@@ -237,9 +264,14 @@ public class LoginFragment extends Fragment {
 		if (this.mPathMode != null) {
 			outState.putString(STATE_PATH_MODE, mPathMode.name());
 		}
+		if (mLoginExtender != null) {
+			outState.putParcelable(STATE_LOGIN_EXTENDER, mLoginExtender);
+		}
+
 		outState.putBoolean(STATE_IS_LOADING, mIsLoading);
 		outState.putBoolean(STATE_EMPTY_EXP_USERNAME, mEmptyUsername);
 		outState.putBoolean(STATE_EMPTY_EXP_PASSWORD, mEmptyPassword);
+		outState.putBoolean(STATE_DO_LOGIN_EXTENDER_WORK, mDoLoginExtenderWork);
 	}
 
 	@Override
@@ -263,6 +295,10 @@ public class LoginFragment extends Fragment {
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(NET_LINK_EXISTING_USER);
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(NET_LINK_NEW_USER);
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(NET_SIGN_IN);
+		}
+
+		if (mLoginExtender != null) {
+			mLoginExtender.cleanUp();
 		}
 	}
 
@@ -291,6 +327,10 @@ public class LoginFragment extends Fragment {
 			bd.registerDownloadCallback(NET_SIGN_IN, mLoginHandler);
 		}
 
+		if (mDoLoginExtenderWork) {
+			doLoginExtenderWork();
+		}
+
 	}
 
 	@Override
@@ -307,7 +347,35 @@ public class LoginFragment extends Fragment {
 		Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
 	}
 
-	private void finishLoginActivity() {
+	private void loginWorkComplete() {
+		if (mLoginExtender != null) {
+			doLoginExtenderWork();
+		}
+		else {
+			finishParentWithResult();
+		}
+	}
+
+	public void doLoginExtenderWork() {
+		mDoLoginExtenderWork = true;
+		setEditTextsEnabled(false);
+		setLoginExtenderEnabled(true, false);
+		mLoginExtenderContainer.setVisibility(View.VISIBLE);
+		if (User.isLoggedIn(mContext) && Db.getUser() != null) {
+			mLoginExtender.onLoginComplete(getActivity(), this, mLoginExtenderContainer);
+		}
+		else {
+			//If we arent logged in, then our extender is considered complete
+			loginExtenderWorkComplete(mLoginExtender);
+		}
+	}
+
+	@Override
+	public void loginExtenderWorkComplete(LoginExtender extender) {
+		finishParentWithResult();
+	}
+
+	private void finishParentWithResult() {
 		if (mContext != null) {
 			if (User.isLoggedIn(mContext) && Db.getUser() != null) {
 				mContext.setResult(Activity.RESULT_OK);
@@ -342,8 +410,13 @@ public class LoginFragment extends Fragment {
 			if (savedInstanceState.containsKey(STATE_LOADING_TEXT)) {
 				mLoadingText = savedInstanceState.getString(STATE_LOADING_TEXT);
 			}
+			if (savedInstanceState.containsKey(STATE_LOGIN_EXTENDER)) {
+				mLoginExtender = savedInstanceState.getParcelable(STATE_LOGIN_EXTENDER);
+			}
+
 			mEmptyUsername = savedInstanceState.getBoolean(STATE_EMPTY_EXP_USERNAME, true);
 			mEmptyPassword = savedInstanceState.getBoolean(STATE_EMPTY_EXP_PASSWORD, true);
+			mDoLoginExtenderWork = savedInstanceState.getBoolean(STATE_DO_LOGIN_EXTENDER_WORK, false);
 		}
 	}
 
@@ -555,6 +628,35 @@ public class LoginFragment extends Fragment {
 		updateButtonState();
 	}
 
+	public void setLoginExtenderEnabled(boolean enabled, boolean animate) {
+		if (enabled) {
+			mSigninWithExpediaButtonContainer.setVisibility(View.GONE);
+			mFacebookButtonContainer.setVisibility(View.GONE);
+			mTitleSetter.setActionBarTitle(getResources().getString(R.string.link_accounts));
+			hideKeyboard();
+			mOuterContainer.setGravity(Gravity.CENTER);
+		}
+		else {
+			mOuterContainer.setGravity(Gravity.CENTER_HORIZONTAL);
+			setVisibilityState(mVisibilityState, animate);
+		}
+	}
+
+	public void hideKeyboard() {
+		View focused = this.getActivity().getCurrentFocus();
+		if (focused instanceof EditText) {
+			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+			imm.hideSoftInputFromWindow(focused.getWindowToken(), 0);
+		}
+	}
+
+	public void setEditTextsEnabled(boolean enabled) {
+		mExpediaUserName.setEnabled(enabled);
+		mExpediaPassword.setEnabled(enabled);
+		mLinkPassword.setEnabled(enabled);
+	}
+
 	public void goBack() {
 		//Cancel all the current downloads....
 		BackgroundDownloader.getInstance().cancelDownload(NET_MANUAL_LOGIN);
@@ -579,7 +681,7 @@ public class LoginFragment extends Fragment {
 			}
 			break;
 		default:
-			finishLoginActivity();
+			finishParentWithResult();
 			break;
 		}
 	}
@@ -607,7 +709,7 @@ public class LoginFragment extends Fragment {
 				ldf.setCancelListener(new CancelListener() {
 					@Override
 					public void onCancel() {
-						finishLoginActivity();
+						loginWorkComplete();
 					}
 				});
 			}
@@ -931,7 +1033,7 @@ public class LoginFragment extends Fragment {
 				Db.setUser(user);
 				AdTracker.trackLogin();
 				user.save(mContext);
-				finishLoginActivity();
+				loginWorkComplete();
 
 				switch (mPathMode) {
 				case HOTELS:
@@ -1115,7 +1217,7 @@ public class LoginFragment extends Fragment {
 				//TODO: set better error
 				Ui.showToast(mContext, R.string.failure_to_update_user);
 				setIsLoading(false);
-				finishLoginActivity();
+				loginWorkComplete();
 			}
 			else {
 				User user = response.getUser();
@@ -1126,7 +1228,7 @@ public class LoginFragment extends Fragment {
 				//TODO: Omniture Tracking...
 
 				setIsLoading(false);
-				finishLoginActivity();
+				loginWorkComplete();
 			}
 
 		}
@@ -1319,4 +1421,23 @@ public class LoginFragment extends Fragment {
 		public void onLoginFailed();
 	}
 
+	/**
+	 * This interface is for classes that want to do something after login. It was developed for itin so we can wait for itins on the login screen.
+	 * NOTE: This is not a view, and it does not have to contain a gui component (although if it is long running it should display an indicator at the very least)
+	 */
+	public interface LoginExtender extends Parcelable {
+		/**
+		 * The login has finished successfully, now is your time to do some stuff. If we have gui components add them to the extenderContainer
+		 * @param fragment - the login fragment
+		 * @param extenderContainer - a container set aside for views if the extender has a gui component
+		 */
+		public void onLoginComplete(Context context, LoginExtenderListener listener, ViewGroup extenderContainer);
+
+		/**
+		 * We dont want to leak memory so we give you a chance to cleanup when the login fragment thinks cleaning is smart to do.
+		 * At the time of this writting this gets called in onPause
+		 */
+		public void cleanUp();
+
+	}
 }
