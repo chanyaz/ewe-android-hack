@@ -144,16 +144,21 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		guestsLayout.removeAllViews();
 
 		final List<Traveler> travelers = itinCardData.getTravelers();
-		final int size = travelers.size();
-		for (int i = 0; i < size; i++) {
-			final TextView guestView = (TextView) inflate(getContext(), R.layout.include_itin_card_guest, null);
-			final Traveler traveler = travelers.get(i);
-			final int resId = GUEST_ICONS[i % GUEST_ICONS.length];
+		final int size = travelers == null ? 0 : travelers.size();
+		if (size > 0) {
+			for (int i = 0; i < size; i++) {
+				final TextView guestView = (TextView) inflate(getContext(), R.layout.include_itin_card_guest, null);
+				final Traveler traveler = travelers.get(i);
+				final int resId = GUEST_ICONS[i % GUEST_ICONS.length];
 
-			guestView.setText(traveler.getFullName());
-			guestView.setCompoundDrawables(createGuestIcon(traveler, resId), null, null, null);
+				guestView.setText(traveler.getFullName());
+				guestView.setCompoundDrawables(createGuestIcon(traveler, resId), null, null, null);
 
-			guestsLayout.addView(guestView);
+				guestsLayout.addView(guestView);
+			}
+		}
+		else {
+			Ui.findView(view, R.id.guests_header).setVisibility(View.GONE);
 		}
 
 		detailsTextView.setOnClickListener(new OnClickListener() {
