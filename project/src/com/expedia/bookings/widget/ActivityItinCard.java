@@ -85,6 +85,11 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	}
 
 	@Override
+	protected int getHeaderImagePlaceholderResId() {
+		return R.drawable.itin_header_placeholder_activities;
+	}
+
+	@Override
 	protected String getHeaderImageUrl(ItinCardDataActivity itinCardData) {
 		return null;
 	}

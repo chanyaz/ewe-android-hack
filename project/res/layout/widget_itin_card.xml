@@ -96,8 +96,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_centerInParent="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/default_flights_background" />
+                            android:scaleType="centerCrop" />
 
                         <ImageView
                             android:id="@+id/header_overlay_image_view"
@@ -116,14 +115,14 @@
                             android:textColor="#FFFFFF"
                             android:textSize="18dp"
                             android:textStyle="bold" />
-                        
-                        <View 
+
+                        <View
                             android:id="@+id/header_mask"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_alignParentTop="true"
                             android:background="#66000000"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
                     </RelativeLayout>
 
                     <!-- ###################################################################### -->

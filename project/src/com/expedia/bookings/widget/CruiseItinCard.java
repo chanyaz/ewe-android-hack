@@ -45,6 +45,11 @@ public class CruiseItinCard extends ItinCard {
 	}
 
 	@Override
+	protected int getHeaderImagePlaceholderResId() {
+		return R.drawable.itin_header_placeholder_cruises;
+	}
+
+	@Override
 	protected String getHeaderImageUrl(ItinCardData itinCardData) {
 		return null;
 	}

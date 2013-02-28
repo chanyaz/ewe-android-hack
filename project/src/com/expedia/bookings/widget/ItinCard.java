@@ -76,6 +76,8 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 
 	// Header image
 
+	protected abstract int getHeaderImagePlaceholderResId();
+
 	protected abstract String getHeaderImageUrl(T itinCardData);
 
 	protected abstract String getHeaderText(T itinCardData);
@@ -254,6 +256,9 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		String headerImageUrl = getHeaderImageUrl(mItinCardData);
 		if (headerImageUrl != null) {
 			UrlBitmapDrawable.loadImageView(headerImageUrl, mHeaderImageView);
+		}
+		else {
+			mHeaderImageView.setImageResource(getHeaderImagePlaceholderResId());
 		}
 
 		// Header text

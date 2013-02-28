@@ -83,6 +83,12 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 				vendorAddress, vendorPhone, "");
 	}
 
+
+	@Override
+	protected int getHeaderImagePlaceholderResId() {
+		return R.drawable.default_flights_background;
+	}
+
 	@Override
 	protected String getHeaderImageUrl(ItinCardDataCar itinCardData) {
 		return itinCardData.getCarCategoryImageUrl();

@@ -260,6 +260,11 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	}
 
 	@Override
+	protected int getHeaderImagePlaceholderResId() {
+		return R.drawable.default_flights_background;
+	}
+
+	@Override
 	protected String getHeaderImageUrl(ItinCardDataFlight itinCardData) {
 		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
 		if (tripFlight != null && itinCardData != null
@@ -789,7 +794,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			else {
 				firstRowText.setVisibility(View.GONE);
 			}
-			
+
 			if (secondaryText != null) {
 				secondRowText.setText(secondaryText);
 			}

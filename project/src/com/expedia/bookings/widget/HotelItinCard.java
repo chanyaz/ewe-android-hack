@@ -82,6 +82,11 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 	}
 
 	@Override
+	protected int getHeaderImagePlaceholderResId() {
+		return R.drawable.default_flights_background;
+	}
+
+	@Override
 	protected String getHeaderImageUrl(ItinCardDataHotel itinCardData) {
 		return itinCardData.getHeaderImageUrl();
 	}
