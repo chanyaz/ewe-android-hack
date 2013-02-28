@@ -173,32 +173,32 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 
 	@Override
 	public void onTripAdded(Trip trip) {
-		Log.d("ItinCardDataAdapter - ItinerarayManager - onTripAdded");
+		Log.d("ItinCardDataAdapter - ItineraryManager - onTripAdded");
 	}
 
 	@Override
 	public void onTripUpdated(Trip trip) {
-		Log.d("ItinCardDataAdapter - ItinerarayManager - onTripUpdated");
+		Log.d("ItinCardDataAdapter - ItineraryManager - onTripUpdated");
 	}
 
 	@Override
 	public void onTripUpateFailed(Trip trip) {
-		Log.d("ItinCardDataAdapter - ItinerarayManager - onTripUpateFailed");
+		Log.d("ItinCardDataAdapter - ItineraryManager - onTripUpateFailed");
 	}
 
 	@Override
 	public void onTripRemoved(Trip trip) {
-		Log.d("ItinCardDataAdapter - ItinerarayManager - onTripRemoved");
+		Log.d("ItinCardDataAdapter - ItineraryManager - onTripRemoved");
 	}
 
 	@Override
 	public void onSyncFailure(SyncError error) {
-		Log.d("ItinCardDataAdapter - ItinerarayManager - onSyncFailed");
+		Log.d("ItinCardDataAdapter - ItineraryManager - onSyncFailed");
 	}
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
-		Log.d("ItinCardDataAdapter - ItinerarayManager - onSyncFinished");
+		Log.d("ItinCardDataAdapter - ItineraryManager - onSyncFinished");
 		syncWithManager();
 	}
 
