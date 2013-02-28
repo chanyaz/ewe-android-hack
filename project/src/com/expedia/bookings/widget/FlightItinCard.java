@@ -47,6 +47,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarAPIUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FontCache;
@@ -360,6 +361,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 						builder.setTitle(R.string.booking_info);
 						builder.setTheme(R.style.FlightTheme);
 						getContext().startActivity(builder.getIntent());
+
+						OmnitureTracking.trackItinFlightInfo(getContext());
 					}
 				});
 			}
@@ -381,6 +384,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 					public void onClick(View v) {
 						ClipboardUtils.setText(getContext(), clipboardText);
 						Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
+
+						OmnitureTracking.trackItinFlightCopyPNR(getContext());
 					}
 				});
 			}
@@ -1010,12 +1015,16 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 						Intent intent = FlightItinCard.getAirportDirectionsIntent(mAirport);
 						getActivity().startActivity(intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
+
+						OmnitureTracking.trackItinFlightDirections(getActivity());
 					}
 					else if (finalOptions[which].equals(terminalMaps)) {
 						Intent intent = new Intent(getActivity(), TerminalMapActivity.class);
 						intent.putExtra(TerminalMapActivity.ARG_AIRPORT_CODE, mAirport.mAirportCode);
 						getActivity().startActivity(intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
+
+						OmnitureTracking.trackItinFlightTerminalMaps(getActivity());
 					}
 					else {
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();

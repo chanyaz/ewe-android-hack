@@ -312,6 +312,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				case HOTEL:
 					OmnitureTracking.trackItinHotel(getContext());
 					break;
+				case ACTIVITY:
+					OmnitureTracking.trackItinActivity(getContext());
+					break;
 				}
 			}
 		});

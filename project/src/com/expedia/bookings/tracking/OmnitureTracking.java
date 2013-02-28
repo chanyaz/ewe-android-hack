@@ -38,6 +38,7 @@ import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
@@ -72,10 +73,28 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
 	private static final String ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotel.Directions";
 	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
+	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
+	private static final String ITIN_HOTEL_RELOAD = "App.Itinerary.Hotel.Info.Reload";
+	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Info.Share.";
 	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
+	private static final String ITIN_FLIGHT_DIRECTIONS = "App.Itinerary.Flight.Airport.Directions";
+	private static final String ITIN_FLIGHT_TERMINAL_MAPS = "App.Itinerary.Flight.Airport.TerminalMaps";
+	private static final String ITIN_FLIGHT_INFO = "App.Itinerary.Flight.Info.Additional";
+	private static final String ITIN_FLIGHT_RELOAD = "App.Itinerary.Flight.Info.Reload";
+	private static final String ITIN_FLIGHT_SHARE_PREFIX = "App.Itinerary.Flight.Share.";
+	private static final String ITIN_FLIGHT_COPY_PNR = "App.Itinerary.Flight.CopyPNR";
 	private static final String ITIN_CAR = "App.Itinerary.Car";
 	private static final String ITIN_CAR_DIRECTIONS = "App.Itinerary.Car.Directions";
 	private static final String ITIN_CAR_CALL = "App.Itinerary.Car.Call";
+	private static final String ITIN_CAR_INFO = "App.Itinerary.Car.Info.Additional";
+	private static final String ITIN_CAR_RELOAD = "App.Itinerary.Car.Info.Reload";
+	private static final String ITIN_CAR_SHARE_PREFIX = "App.Itinerary.Car.Share.";
+	private static final String ITIN_ACTIVITY = "App.Itinerary.Activity";
+	private static final String ITIN_ACTIVITY_REDEEM = "App.Itinerary.Activity.Redeem";
+	private static final String ITIN_ACTIVITY_SUPPORT = "App.Itinerary.Activity.Support";
+	private static final String ITIN_ACTIVITY_INFO = "App.Itinerary.Activity.Info.Additional";
+	private static final String ITIN_ACTIVITY_RELOAD = "App.Itinerary.Activity.Info.Reload";
+	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 
 	// Flights
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
@@ -360,12 +379,16 @@ public class OmnitureTracking {
 
 	public static void trackItin(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
-
-		// TODO implement the tracking logic
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN);
+		addEvent15And16Maybe(context, s);
+		s.track();
 	}
 
 	public static void trackItinHotel(Context context) {
-		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, ITIN_HOTEL);
+		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_HOTEL);
+		addEvent15And16Maybe(context, s);
+		s.track();
 	}
 
 	public static void trackItinHotelDirections(Context context) {
@@ -376,12 +399,56 @@ public class OmnitureTracking {
 		internalTrackLink(context, ITIN_HOTEL_CALL);
 	}
 
+	public static void trackItinHotelInfo(Context context) {
+		internalTrackLink(context, ITIN_HOTEL_INFO);
+	}
+
+	public static void trackItinHotelReload(Context context) {
+		internalTrackLink(context, ITIN_HOTEL_RELOAD);
+	}
+
+	public static void trackItinHotelShare(Context context) {
+		// TODO: specify long vs. short share
+		internalTrackLink(context, ITIN_HOTEL_SHARE_PREFIX);
+	}
+
 	public static void trackItinFlight(Context context) {
-		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, ITIN_FLIGHT);
+		Log.d(TAG, "Tracking \"" + ITIN_FLIGHT + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_FLIGHT);
+		addEvent15And16Maybe(context, s);
+		s.track();
+	}
+
+	public static void trackItinFlightDirections(Context context) {
+		internalTrackLink(context, ITIN_FLIGHT_DIRECTIONS);
+	}
+
+	public static void trackItinFlightTerminalMaps(Context context) {
+		internalTrackLink(context, ITIN_FLIGHT_TERMINAL_MAPS);
+	}
+
+	public static void trackItinFlightInfo(Context context) {
+		internalTrackLink(context, ITIN_FLIGHT_INFO);
+	}
+
+	public static void trackItinFlightReload(Context context) {
+		internalTrackLink(context, ITIN_FLIGHT_RELOAD);
+	}
+
+	public static void trackItinFlightShare(Context context) {
+		// TODO: specify long vs. short share
+		internalTrackLink(context, ITIN_FLIGHT_SHARE_PREFIX);
+	}
+
+	public static void trackItinFlightCopyPNR(Context context) {
+		internalTrackLink(context, ITIN_FLIGHT_COPY_PNR);
 	}
 
 	public static void trackItinCar(Context context) {
-		internalTrackPageLoadEventStandardNoVars25And25LobShopper(context, ITIN_CAR);
+		Log.d(TAG, "Tracking \"" + ITIN_CAR + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_CAR);
+		addEvent15And16Maybe(context, s);
+		s.track();
 	}
 
 	public static void trackItinCarDirections(Context context) {
@@ -390,6 +457,55 @@ public class OmnitureTracking {
 
 	public static void trackItinCarCall(Context context) {
 		internalTrackLink(context, ITIN_CAR_CALL);
+	}
+
+	public static void trackItinCarInfo(Context context) {
+		internalTrackLink(context, ITIN_CAR_INFO);
+	}
+
+	public static void trackItinCarReload(Context context) {
+		internalTrackLink(context, ITIN_CAR_RELOAD);
+	}
+
+	public static void trackItinCarShare(Context context) {
+		// TODO: specify long vs. short share
+		internalTrackLink(context, ITIN_CAR_SHARE_PREFIX);
+	}
+
+	public static void trackItinActivity(Context context) {
+		Log.d(TAG, "Tracking \"" + ITIN_ACTIVITY + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(context, ITIN_ACTIVITY);
+		addEvent15And16Maybe(context, s);
+		s.track();
+	}
+
+	public static void trackItinActivityRedeem(Context context) {
+		internalTrackLink(context, ITIN_ACTIVITY_REDEEM);
+	}
+
+	public static void trackItinActivitySupport(Context context) {
+		internalTrackLink(context, ITIN_ACTIVITY_SUPPORT);
+	}
+
+	public static void trackItinActivityInfo(Context context) {
+		internalTrackLink(context, ITIN_ACTIVITY_INFO);
+	}
+
+	public static void trackItinActivityReload(Context context) {
+		internalTrackLink(context, ITIN_ACTIVITY_RELOAD);
+	}
+
+	public static void trackItinActivityShare(Context context) {
+		// TODO: specify long vs. short share
+		internalTrackLink(context, ITIN_ACTIVITY_SHARE_PREFIX);
+	}
+
+	private static void addEvent15And16Maybe(Context context, ADMS_Measurement s) {
+		String event = "event15";
+		if (!NetUtils.isOnline(context)) {
+			event += ",event16";
+		}
+		s.setEvents(event);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -27,6 +27,7 @@ import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -612,6 +613,21 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 					String longMessage = getShareTextLong(mItinCardData);
 
 					mOnItinCardClickListener.onShareButtonClicked(subject, shortMessage, longMessage);
+
+					switch (getType()) {
+					case FLIGHT:
+						OmnitureTracking.trackItinFlightShare(getContext());
+						break;
+					case HOTEL:
+						OmnitureTracking.trackItinHotelShare(getContext());
+						break;
+					case CAR:
+						OmnitureTracking.trackItinCarShare(getContext());
+						break;
+					case ACTIVITY:
+						OmnitureTracking.trackItinActivityShare(getContext());
+						break;
+					}
 				}
 				break;
 			}

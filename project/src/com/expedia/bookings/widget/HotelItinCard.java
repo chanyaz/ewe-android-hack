@@ -167,6 +167,8 @@ public class HotelItinCard extends ItinCard<ItinCardDataHotel> {
 				builder.setTitle(R.string.booking_info);
 				builder.setTheme(R.style.FlightTheme);
 				getContext().startActivity(builder.getIntent());
+
+				OmnitureTracking.trackItinHotelInfo(getContext());
 			}
 		});
 

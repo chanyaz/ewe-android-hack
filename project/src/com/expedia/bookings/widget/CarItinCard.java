@@ -168,6 +168,8 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 				builder.setTitle(R.string.booking_info);
 				builder.setTheme(R.style.FlightTheme);
 				getContext().startActivity(builder.getIntent());
+
+				OmnitureTracking.trackItinCarInfo(getContext());
 			}
 		});
 

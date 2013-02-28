@@ -24,6 +24,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
@@ -143,6 +144,8 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 				builder.setTitle(R.string.booking_info);
 				builder.setTheme(R.style.FlightTheme);
 				getContext().startActivity(builder.getIntent());
+
+				OmnitureTracking.trackItinActivityInfo(getContext());
 			}
 		});
 
@@ -163,6 +166,8 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 			@Override
 			public void onClick(View v) {
 				SocialUtils.openSite(getContext(), itinCardData.getVoucherPrintUrl());
+
+				OmnitureTracking.trackItinActivityRedeem(getContext());
 			}
 		});
 	}
@@ -172,6 +177,7 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		return new SummaryButton(R.drawable.ic_phone, R.string.itin_action_support, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				OmnitureTracking.trackItinActivitySupport(getContext());
 			}
 		});
 	}
