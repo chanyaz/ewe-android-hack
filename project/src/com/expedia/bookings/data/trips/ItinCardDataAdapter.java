@@ -26,7 +26,7 @@ import com.mobiata.android.Log;
 
 public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncListener, OnItinCardClickListener {
 
-	private static final int CUTOFF_HOURS = 48;
+	private static final int CUTOFF_HOURS = 8760000;// 48;
 
 	public enum TripComponentSortOrder {
 		START_DATE

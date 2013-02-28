@@ -31,6 +31,16 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
 
 public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
+	private static final int[] GUEST_ICONS = new int[] {
+			R.drawable.bg_activities_guest_cirlce_blue,
+			R.drawable.bg_activities_guest_cirlce_orange,
+			R.drawable.bg_activities_guest_cirlce_green,
+			R.drawable.bg_activities_guest_cirlce_turquoise,
+			R.drawable.bg_activities_guest_cirlce_red,
+			R.drawable.bg_activities_guest_cirlce_purple,
+			R.drawable.bg_activities_guest_cirlce_yellow
+	};
+
 	public ActivityItinCard(Context context) {
 		this(context, null);
 	}
@@ -133,10 +143,16 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		guestCountTextView.setText(itinCardData.getFormattedGuestCount());
 
 		guestsLayout.removeAllViews();
-		for (Traveler travler : itinCardData.getTravelers()) {
-			TextView guestView = (TextView) inflate(getContext(), R.layout.include_itin_card_guest, null);
-			guestView.setText(travler.getFullName());
-			guestView.setCompoundDrawables(createGuestIcon(travler, R.drawable.ic_activity_guest), null, null, null);
+
+		final List<Traveler> travelers = itinCardData.getTravelers();
+		final int size = travelers.size();
+		for (int i = 0; i < size; i++) {
+			final TextView guestView = (TextView) inflate(getContext(), R.layout.include_itin_card_guest, null);
+			final Traveler traveler = travelers.get(i);
+			final int resId = GUEST_ICONS[i % GUEST_ICONS.length];
+
+			guestView.setText(traveler.getFullName());
+			guestView.setCompoundDrawables(createGuestIcon(traveler, resId), null, null, null);
 
 			guestsLayout.addView(guestView);
 		}
@@ -188,7 +204,7 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	}
 
 	private Drawable createGuestIcon(Traveler travler, int iconResId) {
-		final String text = travler.getFullName().substring(0, 1).toUpperCase();
+		final String text = travler.getFirstName().substring(0, 1).toUpperCase();
 		final Resources res = getResources();
 
 		final Bitmap bitmap = BitmapFactory.decodeResource(res, iconResId).copy(Bitmap.Config.ARGB_8888, true);
@@ -196,8 +212,8 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		final int height = bitmap.getHeight();
 
 		final Paint paint = new Paint();
-		paint.setColor(0xFFFFFFFF);
-		paint.setTextSize(height * 0.6f);
+		paint.setColor(res.getColor(R.color.itin_white_text));
+		paint.setTextSize(height * 0.8f);
 		paint.setTypeface(FontCache.getTypeface(Font.ROBOTO_BOLD));
 		paint.setAntiAlias(true);
 
