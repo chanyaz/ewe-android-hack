@@ -31,6 +31,8 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -390,7 +392,9 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		// Alpha
 		ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400).start();
 		ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 1).setDuration(400).start();
-		ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 1).setDuration(400).start();
+
+		mItinTypeImageView.setVisibility(View.VISIBLE);
+		ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 0, 1).setDuration(400).start();
 
 		// TranslationY
 		ObjectAnimator.ofFloat(mHeaderTextView, "translationY", 0).setDuration(400).start();
@@ -421,7 +425,26 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		// Alpha
 		ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 0).setDuration(200).start();
 		ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 0).setDuration(200).start();
-		ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 0).setDuration(200).start();
+		ObjectAnimator itinTypeImageAlphaAnimator = ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 0);
+		itinTypeImageAlphaAnimator.addListener(new AnimatorListener() {
+			@Override
+			public void onAnimationStart(Animator animator) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animator) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				mItinTypeImageView.setVisibility(View.INVISIBLE);
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animator) {
+			}
+		});
+		itinTypeImageAlphaAnimator.setDuration(200).start();
 
 		// TranslationY
 		ObjectAnimator.ofFloat(mHeaderTextView, "translationY", -50).setDuration(400).start();
