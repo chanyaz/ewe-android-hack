@@ -275,14 +275,17 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		mOnItinCardClickListener = onItinCardClickListener;
 	}
 
+	/**
+	 * The first (and usually only) summary view card position
+	 * @return
+	 */
 	public synchronized int getMostRelevantCardPosition() {
 		int retVal = mItinCardDatas.size() - 1;
 		Calendar now = Calendar.getInstance();
 		for (int i = 0; i < mItinCardDatas.size(); i++) {
 			ItinCardData data = mItinCardDatas.get(i);
-			if (data != null && data.getStartDate() != null && data.getStartDate().getCalendar() != null
-					&& data.getStartDate().getCalendar().compareTo(now) >= 0) {
-				// This is the first card that is after now
+			if (doesCardStartAfterCal(data, now)) {
+				//The card with the next startTime
 				retVal = i;
 				break;
 			}
@@ -294,6 +297,61 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	//are both start and end dates before cal
+	private boolean isCardBeforeCal(ItinCardData data, Calendar cal) {
+		if (data == null || data.getEndDate() == null || data.getStartDate() == null) {
+			return false;
+		}
+		else {
+			long calTime = cal.getTimeInMillis();
+			long start = data.getStartDate().getCalendar().getTimeInMillis();
+			long end = data.getEndDate().getCalendar().getTimeInMillis();
+
+			if (start < calTime && end < calTime) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+
+	// start after cal
+	private boolean doesCardStartAfterCal(ItinCardData data, Calendar cal) {
+		if (data == null || data.getStartDate() == null) {
+			return false;
+		}
+		else {
+			long calTime = cal.getTimeInMillis();
+			long start = data.getStartDate().getCalendar().getTimeInMillis();
+
+			if (start > calTime) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+
+	//start date is before cal
+	private boolean doesCardStartBeforeCal(ItinCardData data, Calendar cal) {
+		if (data == null || data.getEndDate() == null || data.getStartDate() == null) {
+			return false;
+		}
+		else {
+			long calTime = cal.getTimeInMillis();
+			long start = data.getStartDate().getCalendar().getTimeInMillis();
+
+			if (start < calTime) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
 
 	private Type getItemViewCardType(int position) {
 		int typeOrd = getItemViewType(position);
@@ -316,25 +374,49 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	private boolean isItemInThePast(int position) {
-		return position < getMostRelevantCardPosition();
+		if (mItinCardDatas.size() <= position) {
+			return false;
+		}
+		else {
+			ItinCardData data = mItinCardDatas.get(position);
+			return isCardBeforeCal(data, Calendar.getInstance());
+		}
 	}
 
 	private boolean isItemASummaryCard(int position) {
+		return isItemASummaryCard(position, getSummaryCardPositions());
+	}
+
+	private boolean isItemASummaryCard(int position, List<Integer> summaryCardPositions) {
 		if (!isItemInThePast(position)) {
-			int[] sumCards = getSummaryCardPositions();
-			for (int i = 0; i < sumCards.length; i++) {
-				if (sumCards[i] == position) {
-					return true;
-				}
-			}
+			return summaryCardPositions.contains(Integer.valueOf(position));
 		}
 		return false;
 	}
 
-	private int[] getSummaryCardPositions() {
-		int[] summaryCards = new int[1];
-		summaryCards[0] = getMostRelevantCardPosition();
-		return summaryCards;
+	private List<Integer> getSummaryCardPositions() {
+		ArrayList<Integer> sumCardPositions = new ArrayList<Integer>();
+
+		Calendar now = Calendar.getInstance();
+		Calendar futureThreshold = Calendar.getInstance();
+		futureThreshold.add(Calendar.HOUR, 2);
+
+		int firstCardPos = getMostRelevantCardPosition();
+		sumCardPositions.add(firstCardPos);
+		for (int i = firstCardPos + 1; i < mItinCardDatas.size(); i++) {
+			ItinCardData data = mItinCardDatas.get(i);
+			boolean afterNow = doesCardStartAfterCal(data, now);
+			boolean startsBeforeThresh = doesCardStartBeforeCal(data, futureThreshold);
+			if (afterNow && startsBeforeThresh) {
+				sumCardPositions.add(i);
+				continue;
+			}
+			if (doesCardStartAfterCal(data, futureThreshold)) {
+				//They are in order so if we get to this point lets just be done
+				break;
+			}
+		}
+		return sumCardPositions;
 	}
 
 	private void sortItems() {
@@ -344,7 +426,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	}
 
 	Comparator<ItinCardData> mItinCardDataStartDateComparator = new Comparator<ItinCardData>() {
-
 		@Override
 		public int compare(ItinCardData dataOne, ItinCardData dataTwo) {
 			if (dataOne.getStartDate() == null) {
