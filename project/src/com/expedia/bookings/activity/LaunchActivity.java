@@ -26,6 +26,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.ItinItemListFragment;
@@ -464,5 +465,10 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			mItinListFragment.enableLoadItins();
 		}
 
+	}
+
+	@Override
+	public void onItinCardClicked(ItinCardData data) {
+		// Do nothing (let fragment handle it)
 	}
 }

@@ -52,6 +52,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
 	private static final String STATE_ALLOW_LOAD_ITINS = "STATE_ALLOW_LOAD_ITINS";
 
+	private ItinItemListFragmentListener mListener;
+
 	private View mItinPathView;
 	private ItinListView mItinListView;
 	private View mEmptyView;
@@ -81,8 +83,11 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinManager = ItineraryManager.getInstance();
 		mItinManager.addSyncListener(this);
 
+		// Not a strict requirement
 		if (activity instanceof ItinItemListFragmentListener) {
-			((ItinItemListFragmentListener) activity).onItinItemListFragmentAttached(this);
+			mListener = (ItinItemListFragmentListener) activity;
+
+			mListener.onItinItemListFragmentAttached(this);
 		}
 	}
 
@@ -172,6 +177,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 		mItinManager.removeSyncListener(this);
 		mItinManager = null;
+	}
+
+	public void setSimpleMode(boolean enabled) {
+		mItinListView.setSimpleMode(true);
 	}
 
 	public void syncItinManager() {
@@ -349,6 +358,10 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 				return;
 			}
 
+			if (mListener != null) {
+				mListener.onItinCardClicked(mItinListView.getItinCardData(position));
+			}
+
 			// If there's no detail data (if this is a fallback card or for whatever other reason)
 			// then at least we can open the details url for this trip.
 			ItinCardData data = (ItinCardData) parent.getAdapter().getItem(position);
@@ -427,5 +440,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	 */
 	public interface ItinItemListFragmentListener {
 		public void onItinItemListFragmentAttached(ItinItemListFragment frag);
+
+		public void onItinCardClicked(ItinCardData data);
 	}
 }

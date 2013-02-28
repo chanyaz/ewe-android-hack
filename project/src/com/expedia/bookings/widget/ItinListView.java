@@ -84,6 +84,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private Semaphore mModeSwitchSemaphore = new Semaphore(1);
 
+	// If true, there's a second pane which handles showing card details.  Don't expand cards when clicked.
+	private boolean mSimpleMode = false;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -258,6 +261,15 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mScrollToReleventOnDataSetChange = true;
 	}
 
+	public void setSimpleMode(boolean enabled) {
+		mSimpleMode = enabled;
+		mAdapter.setSimpleMode(enabled);
+	}
+
+	public ItinCardData getItinCardData(int position) {
+		return mAdapter.getItem(position);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -375,6 +387,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@SuppressLint("NewApi")
 	private boolean showDetails(int position) {
+		if (mSimpleMode) {
+			return false;
+		}
+
 		boolean releaseSemHere = true;
 		boolean semGot = false;
 		try {

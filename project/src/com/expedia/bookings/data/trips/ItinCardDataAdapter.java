@@ -43,6 +43,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	private ArrayList<ItinCardData> mItinCardDatas;
 	private TripComponentSortOrder mSortOrder = TripComponentSortOrder.START_DATE;
 	private int mDetailPosition = -1;
+
+	private boolean mSimpleMode = false;
+
 	private OnItinCardClickListener mOnItinCardClickListener;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +130,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		else if (isInThePast) {
 			retVal += TripComponent.Type.values().length;
 		}
-		else if (isSumCard) {
+		else if (isSumCard && !mSimpleMode) {
 			retVal += (TripComponent.Type.values().length * 2);
 		}
 		return retVal;
@@ -247,6 +250,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		mSortOrder = order;
 		sortItems();
 		notifyDataSetChanged();
+	}
+
+	public void setSimpleMode(boolean enabled) {
+		mSimpleMode = enabled;
 	}
 
 	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
