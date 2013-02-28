@@ -21,6 +21,7 @@ import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -106,6 +107,15 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		super.onAttachedToWindow();
 		registerDataSetObserver();
 		mAdapter.enableSelfManagement();
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasWindowFocus) {
+		final int scrollY = getScrollY();
+
+		super.onWindowFocusChanged(hasWindowFocus);
+
+		scrollTo(0, scrollY);
 	}
 
 	@Override
