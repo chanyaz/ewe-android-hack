@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <fragment
+        android:id="@+id/itin_list_container"
+        android:name="com.expedia.bookings.fragment.ItinItemListFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:tag="@string/tag_itinerary_list" />
+
+    <fragment
+        android:id="@+id/map_fragment"
+        android:name="com.expedia.bookings.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:tag="@string/tag_itinerary_map" />
+
+</LinearLayout>

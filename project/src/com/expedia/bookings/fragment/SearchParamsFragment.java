@@ -54,6 +54,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.content.AutocompleteProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
@@ -66,6 +67,7 @@ import com.expedia.bookings.widget.NumberPicker;
 import com.expedia.bookings.widget.NumberPicker.OnValueChangeListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 @TargetApi(11)
@@ -269,6 +271,15 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		};
 		mChildAgesLayout.findViewById(R.id.done_button).setOnClickListener(hideChildAgesListener);
 		mChildAgesLayout.findViewById(R.id.button_x).setOnClickListener(hideChildAgesListener);
+
+		// Temporary code until design figures out how we're actually doing it;
+		// Clicking Expedia logo launches the Itinerary activity
+		Ui.setOnClickListener(view, R.id.expedia_logo_image_view, new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getActivity(), ItineraryActivity.class));
+			}
+		});
 
 		return view;
 	}

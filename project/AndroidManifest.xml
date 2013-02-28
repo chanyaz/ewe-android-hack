@@ -216,6 +216,9 @@
 
         <!-- Itineraries -->
         <activity
+            android:name="com.expedia.bookings.activity.ItineraryActivity"
+            android:theme="@style/Theme.Tablet" />
+        <activity
             android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="adjustPan" >

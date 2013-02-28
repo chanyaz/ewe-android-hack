@@ -121,6 +121,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/expedia_logo_image_view"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="@integer/search_params_image_weight"

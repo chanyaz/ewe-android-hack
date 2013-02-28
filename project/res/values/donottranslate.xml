@@ -52,6 +52,9 @@
     <string name="tag_guests_dialog">GUESTS_DIALOG</string>
     <string name="tag_simple_dialog">SIMPLE_DIALOG</string>
     <string name="tag_signin">SIGNIN</string>
+    <string name="tag_itinerary_list">ITINERARY_LIST</string>
+    <string name="tag_itinerary_map">ITINERARY_MAP</string>
+
     <string name="map_snippet_template">%1$s · %2$s</string>
 
     <!-- An alternative way to modify text, if you don't want to set the typeface of the TextView -->
