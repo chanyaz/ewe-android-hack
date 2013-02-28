@@ -28,7 +28,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.SocialUtils;
 
 public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 	private static final int[] GUEST_ICONS = new int[] {
@@ -186,7 +185,11 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		return new SummaryButton(R.drawable.ic_printer_redeem, R.string.itin_action_redeem, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.openSite(getContext(), itinCardData.getVoucherPrintUrl());
+				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+				builder.setUrl(itinCardData.getVoucherPrintUrl());
+				builder.setTitle(R.string.webview_title_print_vouchers);
+				builder.setTheme(R.style.FlightTheme);
+				getContext().startActivity(builder.getIntent());
 
 				OmnitureTracking.trackItinActivityRedeem(getContext());
 			}

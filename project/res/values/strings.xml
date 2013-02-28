@@ -233,6 +233,9 @@
     <string name="itin_action_call_hotel">Call Hotel</string>
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
+    
+    <!-- Itin webview titles -->
+    <string name="webview_title_print_vouchers">Print Vouchers</string>
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
