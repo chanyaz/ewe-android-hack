@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Intent;
@@ -24,8 +25,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.LaunchFragment;
@@ -35,6 +38,7 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class LaunchActivity extends SherlockFragmentActivity {
 
@@ -115,6 +119,28 @@ public class LaunchActivity extends SherlockFragmentActivity {
 
 		enableEmbeddedTabs(actionBar);
 
+		//Switch to itin mode if we have an inprogress or upcoming trip
+		List<DateTime> startTimes = ItineraryManager.getInstance().getStartTimes();
+		List<DateTime> endTimes = ItineraryManager.getInstance().getEndTimes();
+		if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
+			boolean startInItin = false;
+			Calendar now = Calendar.getInstance();
+			Calendar oneWeek = Calendar.getInstance();
+			oneWeek.add(Calendar.DATE, 7);
+			for (int i = 0; i < startTimes.size(); i++) {
+				DateTime start = startTimes.get(i);
+				DateTime end = endTimes.get(i);
+				if (DateTimeUtils.getTimeInCurrentTimeZone(now).getTime() < end.getMillisFromEpoch()
+						&& DateTimeUtils.getTimeInCurrentTimeZone(oneWeek).getTime() > start.getMillisFromEpoch()) {
+					startInItin = true;
+					break;
+				}
+			}
+			if (startInItin) {
+				gotoItineraries();
+			}
+		}
+
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, Codes.HOCKEY_APP_ID, !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
@@ -124,6 +150,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 	public void onStart() {
 		super.onStart();
 		OmnitureTracking.trackPageLoadLaunchScreen(this);
+
 	}
 
 	@Override

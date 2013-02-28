@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -57,9 +56,10 @@ public class ItineraryManager implements JSONable {
 
 	private Map<String, Trip> mTrips;
 
-	// This is a list of all trip start times; unlike mTrips, it will be loaded at app startup, so you can use it to
+	// These are lists of all trip start and end times; unlike mTrips, they will be loaded at app startup, so you can use them to
 	// determine whether you should launch in itin or not.
 	private List<DateTime> mStartTimes = new ArrayList<DateTime>();
+	private List<DateTime> mEndTimes = new ArrayList<DateTime>();
 
 	/**
 	 * Adds a guest trip to the itinerary list.
@@ -150,7 +150,7 @@ public class ItineraryManager implements JSONable {
 
 	private static final String MANAGER_PATH = "itin-manager.dat";
 
-	private static final String MANAGER_START_TIMES_PATH = "itin-starts.dat";
+	private static final String MANAGER_START_END_TIMES_PATH = "itin-starts-and-ends.dat";
 
 	/**
 	 * Must be called before using ItineraryManager for the first time.
@@ -163,13 +163,13 @@ public class ItineraryManager implements JSONable {
 
 		mContext = context;
 
-		loadStartTimes();
+		loadStartAndEndTimes();
 
 		Log.d("Initialized ItineraryManager in " + ((System.nanoTime() - start) / 1000000) + " ms");
 	}
 
 	private void save() {
-		saveStartTimes();
+		saveStartAndEndTimes();
 
 		try {
 			IoUtils.writeStringToFile(MANAGER_PATH, toJson().toString(), mContext);
@@ -206,15 +206,29 @@ public class ItineraryManager implements JSONable {
 		return mStartTimes;
 	}
 
-	private void saveStartTimes() {
+	public List<DateTime> getEndTimes() {
+		return mEndTimes;
+	}
+
+	private void saveStartAndEndTimes() {
 		Log.d("Syncing/saving start times...");
 
 		// Sync start times whenever we save to disk
 		mStartTimes.clear();
+		mEndTimes.clear();
 		for (Trip trip : mTrips.values()) {
 			DateTime startDate = trip.getStartDate();
+			DateTime endDate = trip.getEndDate();
 			if (startDate != null) {
 				mStartTimes.add(startDate);
+				if (endDate != null) {
+					mEndTimes.add(endDate);
+				}
+				else {
+					//We want a valid date object even if it is bunk
+					DateTime fakeEnd = new DateTime(0, 0);
+					mEndTimes.add(fakeEnd);
+				}
 			}
 		}
 
@@ -222,21 +236,23 @@ public class ItineraryManager implements JSONable {
 			// Save to disk
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONableList(obj, "startTimes", mStartTimes);
-			IoUtils.writeStringToFile(MANAGER_START_TIMES_PATH, obj.toString(), mContext);
+			JSONUtils.putJSONableList(obj, "endTimes", mEndTimes);
+			IoUtils.writeStringToFile(MANAGER_START_END_TIMES_PATH, obj.toString(), mContext);
 		}
 		catch (Exception e) {
-			Log.w("Could not save start times", e);
+			Log.w("Could not save start and end times", e);
 		}
 	}
 
-	private void loadStartTimes() {
-		Log.d("Loading start times...");
+	private void loadStartAndEndTimes() {
+		Log.d("Loading start and end times...");
 
-		File file = mContext.getFileStreamPath(MANAGER_START_TIMES_PATH);
+		File file = mContext.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
 		if (file.exists()) {
 			try {
-				JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_START_TIMES_PATH, mContext));
+				JSONObject obj = new JSONObject(IoUtils.readStringFromFile(MANAGER_START_END_TIMES_PATH, mContext));
 				mStartTimes = JSONUtils.getJSONableList(obj, "startTimes", DateTime.class);
+				mEndTimes = JSONUtils.getJSONableList(obj, "endTimes", DateTime.class);
 			}
 			catch (Exception e) {
 				Log.w("Could not load start times", e);
@@ -306,7 +322,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<ItineraryManager.ItinerarySyncListener>();
-	
+
 	public void addSyncListener(ItinerarySyncListener listener) {
 		mSyncListeners.add(listener);
 	}
