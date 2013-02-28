@@ -29,6 +29,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -447,27 +449,39 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		FontCache.setTypeface(topLine, FontCache.Font.ROBOTO_REGULAR);
 		TextView bottomLine = Ui.findView(view, R.id.flight_status_bottom_line);
 		ImageView bulb = Ui.findView(view, R.id.flight_status_bulb);
+		ImageView glowBulb = Ui.findView(view, R.id.flight_status_bulb_glow);
 
 		Resources res = getResources();
 		Calendar now = Calendar.getInstance();
 		Flight flight = itinCardData.getMostRelevantFlightSegment();
+		Calendar departure = flight.mOrigin.getMostRelevantDateTime();
 
 		if (flight.isRedAlert()) {
+			boolean shouldPulseBulb = false;
 			if (Flight.STATUS_CANCELLED.equals(flight.mStatusCode)) {
 				topLine.setText(res.getString(R.string.flight_to_city_canceled_TEMPLATE,
 						FormatUtils.getCityName(flight.getArrivalWaypoint(), getContext())));
+				if ((departure.getTimeInMillis() + (12 * DateUtils.HOUR_IN_MILLIS)) > now.getTimeInMillis()) {
+					shouldPulseBulb = true;
+				}
 			}
 			else if (Flight.STATUS_DIVERTED.equals(flight.mStatusCode)) {
 				topLine.setText(R.string.flight_diverted);
 			}
 			else if (Flight.STATUS_REDIRECTED.equals(flight.mStatusCode)) {
 				topLine.setText(R.string.flight_redirected);
+				shouldPulseBulb = true;
 			}
 			bottomLine.setText(FormatUtils.formatFlightNumber(flight, getContext()));
 			bulb.setImageResource(R.drawable.ic_flight_status_cancelled);
+
+			if (shouldPulseBulb) {
+				glowBulb.setImageResource(R.drawable.ic_flight_status_cancelled_glow);
+				glowBulb.setVisibility(View.VISIBLE);
+				glowBulb.startAnimation(getGlowAnimation());
+			}
 		}
 		else {
-			Calendar departure = flight.mOrigin.getMostRelevantDateTime();
 			Calendar arrival = flight.getArrivalWaypoint().getMostRelevantDateTime();
 			Waypoint summaryWaypoint = null;
 			int bottomLineTextId = -1;
@@ -501,14 +515,23 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				if (delay > 0) {
 					topLine.setText(res.getString(R.string.flight_arrives_late_TEMPLATE, timeSpanString));
 					bulb.setImageResource(R.drawable.ic_flight_status_delayed);
+					glowBulb.setImageResource(R.drawable.ic_flight_status_delayed_glow);
 				}
 				else if (delay < 0) {
 					topLine.setText(res.getString(R.string.flight_arrives_early_TEMPLATE, timeSpanString));
 					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 				else {
 					topLine.setText(res.getString(R.string.flight_arrives_on_time_TEMPLATE, timeSpanString));
 					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
+				}
+
+				if (flight.mFlightHistoryId != -1) {
+					// only make the bulb glow if we actually have FlightStats data
+					glowBulb.setVisibility(View.VISIBLE);
+					glowBulb.startAnimation(getGlowAnimation());
 				}
 
 				summaryWaypoint = flight.getArrivalWaypoint();
@@ -533,14 +556,23 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				if (delay > 0) {
 					topLine.setText(res.getString(R.string.flight_departs_late_TEMPLATE, timeSpanString));
 					bulb.setImageResource(R.drawable.ic_flight_status_delayed);
+					glowBulb.setImageResource(R.drawable.ic_flight_status_delayed_glow);
 				}
 				else if (delay < 0) {
 					topLine.setText(res.getString(R.string.flight_departs_early_TEMPLATE, timeSpanString));
 					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
 				}
 				else {
 					topLine.setText(res.getString(R.string.flight_departs_on_time_TEMPLATE, timeSpanString));
 					bulb.setImageResource(R.drawable.ic_flight_status_on_time);
+					glowBulb.setImageResource(R.drawable.ic_flight_status_on_time_glow);
+				}
+
+				if (flight.mFlightHistoryId != -1) {
+					// only make the bulb glow if we actually have FlightStats data
+					glowBulb.setVisibility(View.VISIBLE);
+					glowBulb.startAnimation(getGlowAnimation());
 				}
 
 				summaryWaypoint = flight.mOrigin;
@@ -1001,6 +1033,14 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			Ui.findView(this, R.id.card_layout).setLayerType(layerType, null);
 			Ui.findView(this, R.id.itin_type_image_view).setLayerType(layerType, null);
 		}
+	}
+
+	private Animation getGlowAnimation() {
+		Animation anim = new AlphaAnimation(0, 1);
+		anim.setDuration(800);
+		anim.setRepeatMode(Animation.REVERSE);
+		anim.setRepeatCount(Animation.INFINITE);
+		return anim;
 	}
 
 	private int getDelayForWaypoint(Waypoint wp) {
