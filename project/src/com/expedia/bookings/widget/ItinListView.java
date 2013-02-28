@@ -59,7 +59,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	private int mOriginalScrollY;
 	private boolean mScrollToReleventOnDataSetChange;
 
-	private int mExpandedCardHeight = -1;
+	private int mExpandedCardHeight;
 	private int mExpandedCardOriginalHeight;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +159,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public void setExpandedHeight(int height) {
+	public void setExpandedCardHeight(int height) {
 		mExpandedCardHeight = height;
 	}
 
@@ -276,7 +276,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mOnListModeChangedListener.onListModeChanged(mMode);
 		}
 
-		mExpandedCardHeight = mExpandedCardHeight > -1 ? mExpandedCardHeight : getHeight();
+		mExpandedCardHeight = mExpandedCardHeight > getHeight() ? mExpandedCardHeight : getHeight();
 		mExpandedCardOriginalHeight = view.getHeight();
 		mOriginalScrollY = getScrollY();
 

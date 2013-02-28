@@ -36,6 +36,7 @@ import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -89,7 +90,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
+		final View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
 
 		mItinPathView = Ui.findView(view, R.id.itin_path_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
@@ -106,10 +107,15 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mErrorContainer = Ui.findView(view, R.id.error_container);
 
 		mItinListView.setEmptyView(mEmptyView);
-		mItinListView.setExpandedHeight(getActivity().getWindow().getDecorView().getHeight());
 		mItinListView.setOnScrollListener(mOnScrollListener);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
+		mItinListView.post(new Runnable() {
+			@Override
+			public void run() {
+				mItinListView.setExpandedCardHeight(view.getHeight() + mActivity.getSupportActionBar().getHeight());
+			}
+		});
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -243,8 +249,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		// Update UI
 		updateLoginState();
 
-		setErrorMessage(null,false);
-		
+		setErrorMessage(null, false);
+
 		invalidateOptionsMenu();
 
 		syncItinManager();
@@ -307,8 +313,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
 		setIsLoading(false);
-		setErrorMessage(null,false);
-		
+		setErrorMessage(null, false);
+
 		// TODO: make sure these calls are fired the correct number of times, will probably need extra bookkeeping
 		Context context = getActivity();
 		if (context != null) {
