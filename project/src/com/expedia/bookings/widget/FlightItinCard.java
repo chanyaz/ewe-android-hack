@@ -373,14 +373,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			}
 
 			//Confirmation code list
-			if (tripFlight.getConfirmations() != null && tripFlight.getConfirmations().size() > 0) {
-				List<FlightConfirmation> confirmations = tripFlight.getConfirmations();
-				String confirmationString = confirmations.get(0).getConfirmationCode();
-				for (int i = 1; i < confirmations.size(); i++) {
-					if (!TextUtils.isEmpty(confirmations.get(i).getConfirmationCode())) {
-						confirmationString += ", " + confirmations.get(i).getConfirmationCode();
-					}
-				}
+			String confirmationString = getConfirmationCodeListString(tripFlight);
+			if (!TextUtils.isEmpty(confirmationString)) {
 				confirmationCodeListTv.setText(confirmationString);
 
 				final String clipboardText = confirmationString;
@@ -389,7 +383,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 					public void onClick(View v) {
 						ClipboardUtils.setText(getContext(), clipboardText);
 						Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
-
 						OmnitureTracking.trackItinFlightCopyPNR(getContext());
 					}
 				});
@@ -592,7 +585,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						//TODO: Investigate compatibility
 						Airport airport = itinCardData.getFlightLeg().getFirstWaypoint().getAirport();
 						Intent intent = getAirportDirectionsIntent(airport);
 						getContext().startActivity(intent);
@@ -603,30 +595,69 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	@SuppressLint("DefaultLocale")
 	@Override
 	protected SummaryButton getSummaryRightButton(final ItinCardDataFlight itinCardData) {
-		if (!CalendarAPIUtils.deviceSupportsCalendarAPI(getContext())) {
-			return null;
-		}
-		else {
-			return new SummaryButton(R.drawable.ic_add_event, R.string.add_event, new OnClickListener() {
-				@SuppressLint("NewApi")
+		final String confCodes = getConfirmationCodeListString((TripFlight) itinCardData.getTripComponent());
+		if (!TextUtils.isEmpty(confCodes)) {
+			return new SummaryButton(R.drawable.ic_confirmation_checkmark_light, confCodes, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Resources res = getResources();
-					Calendar startCal = itinCardData.getStartDate().getCalendar();
-					Calendar endCal = itinCardData.getEndDate().getCalendar();
-					Waypoint origin = itinCardData.getFlightLeg().getFirstWaypoint();
-					Waypoint destination = itinCardData.getFlightLeg().getLastWaypoint();
-					Intent intent = new Intent(Intent.ACTION_INSERT);
-					intent.setData(Events.CONTENT_URI);
-					intent.putExtra(Events.TITLE,
-							res.getString(R.string.flight_to_TEMPLATE, StrUtils.getWaypointCityOrCode(destination)));
-					intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
-					intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
-					intent.putExtra(Events.EVENT_LOCATION, res.getString(R.string.calendar_flight_location_TEMPLATE,
-							origin.getAirport().mName, StrUtils.getWaypointCityOrCode(origin)));
-					getContext().startActivity(intent);
+					ClipboardUtils.setText(getContext(), confCodes);
+					Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
+					OmnitureTracking.trackItinFlightCopyPNR(getContext());
 				}
 			});
+		}
+		else {
+			if (!CalendarAPIUtils.deviceSupportsCalendarAPI(getContext())) {
+				return null;
+			}
+			else {
+				return new SummaryButton(R.drawable.ic_clock_small, R.string.set_alert, new OnClickListener() {
+					//NOTE: CalendarAPIUtils.deviceSupportsCalendarAPI(getContext()) will block old phones, so NewApi is ok here
+					@SuppressLint("NewApi")
+					@Override
+					public void onClick(View v) {
+						Resources res = getResources();
+						FlightLeg leg = itinCardData.getFlightLeg();
+						Calendar startCal = itinCardData.getStartDate().getCalendar();
+						Calendar endCal = itinCardData.getEndDate().getCalendar();
+						Waypoint origin = itinCardData.getFlightLeg().getFirstWaypoint();
+						Waypoint destination = itinCardData.getFlightLeg().getLastWaypoint();
+						Intent intent = new Intent(Intent.ACTION_INSERT);
+						intent.setData(Events.CONTENT_URI);
+						intent.putExtra(
+								Events.TITLE,
+								res.getString(R.string.flight_calendar_event_title_TEMPLATE,
+										StrUtils.getWaypointCityOrCode(origin),
+										StrUtils.getWaypointCityOrCode(destination)));
+						intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startCal.getTimeInMillis());
+						intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endCal.getTimeInMillis());
+
+						if (leg != null && leg.getSegmentCount() > 0) {
+							// Don't lie to me!
+							Flight firstFlight = leg.getSegment(0);
+							boolean isIndividualFlight = true;
+							if (isIndividualFlight && leg.getSegmentCount() != 1) {
+								isIndividualFlight = false;
+							}
+
+							if (isIndividualFlight) {
+								intent.putExtra(Events.EVENT_LOCATION,
+										FormatUtils.formatFlightNumber(firstFlight, FlightItinCard.this.getContext()));
+							}
+							else {
+								intent.putExtra(Events.EVENT_LOCATION, leg.getAirlinesFormatted());
+							}
+
+						}
+						else {
+							intent.putExtra(Events.EVENT_LOCATION,
+									res.getString(R.string.calendar_flight_location_TEMPLATE,
+											origin.getAirport().mName, StrUtils.getWaypointCityOrCode(origin)));
+						}
+						getContext().startActivity(intent);
+					}
+				});
+			}
 		}
 	}
 
@@ -933,6 +964,27 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		}
 
 		return v;
+	}
+
+	/**
+	 * Get the confirmation code(s) in a comma separated list or empty string if we dont have any confirmation codes
+	 * @param tripFlight
+	 * @return 
+	 */
+	private String getConfirmationCodeListString(TripFlight tripFlight) {
+		//Confirmation code list
+		String retStr = "";
+		if (tripFlight.getConfirmations() != null && tripFlight.getConfirmations().size() > 0) {
+			List<FlightConfirmation> confirmations = tripFlight.getConfirmations();
+			String confirmationString = confirmations.get(0).getConfirmationCode();
+			for (int i = 1; i < confirmations.size(); i++) {
+				if (!TextUtils.isEmpty(confirmations.get(i).getConfirmationCode())) {
+					confirmationString += ", " + confirmations.get(i).getConfirmationCode();
+				}
+			}
+			retStr = confirmationString;
+		}
+		return retStr;
 	}
 
 	private String formatTime(Calendar cal) {

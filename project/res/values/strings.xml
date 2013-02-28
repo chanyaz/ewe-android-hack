@@ -118,8 +118,12 @@
     <string name="missing_booking_code">Booking code unavailable.</string>
     <!-- Flight to TEMPLATE -->
     <string name="flight_to_TEMPLATE">Flight to %1$s</string>
+    <!-- Flight Calendar event TEMPLATE -->
+    <string name="flight_calendar_event_title_TEMPLATE">Flight: %1$s to %2$s</string>
     <!-- Add event button text -->
     <string name="add_event">Add Event</string>
+    <!-- Set Alert button text -->
+    <string name="set_alert">Set Alert</string>
     <!-- Directions -->
     <string name="directions">Directions</string>
     <!-- Terminal Maps -->
