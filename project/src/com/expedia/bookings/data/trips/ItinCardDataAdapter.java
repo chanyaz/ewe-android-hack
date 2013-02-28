@@ -32,6 +32,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		START_DATE
 	}
 
+	private enum State {
+		PAST,
+		SUMMARY,
+		NORMAL,
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -120,14 +126,13 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			}
 		}
 
-		boolean isPastCard = isItemInThePast(position);
-		boolean isSummaryCard = isItemASummaryCard(position);
+		State state = getItemViewCardState(position);
 
-		card.setCardShaded(isPastCard);
+		card.setCardShaded(state == State.PAST);
 		card.bind(getItem(position));
-		card.setShowSummary(isSummaryCard);
+		card.setShowSummary(state == State.SUMMARY);
 
-		if (isSummaryCard) {
+		if (state == State.SUMMARY) {
 			card.updateSummaryVisibility();
 		}
 
@@ -294,6 +299,20 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		int typeOrd = getItemViewType(position);
 		typeOrd = typeOrd % TripComponent.Type.values().length;
 		return Type.values()[typeOrd];
+	}
+
+	private State getItemViewCardState(int position) {
+		int typeOrd = getItemViewType(position) / TripComponent.Type.values().length;
+		switch (typeOrd) {
+		case 0:
+			return State.NORMAL;
+		case 1:
+			return State.PAST;
+		case 2:
+			return State.SUMMARY;
+		default:
+			return State.NORMAL;
+		}
 	}
 
 	private boolean isItemInThePast(int position) {
