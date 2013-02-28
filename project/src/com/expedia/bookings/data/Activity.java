@@ -111,6 +111,10 @@ public class Activity implements JSONable {
 			obj.putOpt("id", mId);
 			JSONUtils.putJSONable(obj, "price", mPrice);
 			obj.putOpt("title", mTitle);
+			obj.put("detailsUrl", mDetailsUrl);
+			obj.put("guestCount", mGuestsCount);
+			JSONUtils.putJSONableList(obj, "travelers", mTravelers);
+			obj.put("voucherPrintUrl", mVoucherPrintUrl);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -123,6 +127,10 @@ public class Activity implements JSONable {
 		mId = obj.optString("id", null);
 		mPrice = JSONUtils.getJSONable(obj, "price", Money.class);
 		mTitle = obj.optString("title", mTitle);
+		mDetailsUrl = obj.optString("detailsUrl");
+		mGuestsCount = obj.optInt("guestCount");
+		mTravelers = JSONUtils.getJSONableList(obj, "travelers", Traveler.class);
+		mVoucherPrintUrl = obj.optString("voucherPrintUrl");
 		return true;
 	}
 }
