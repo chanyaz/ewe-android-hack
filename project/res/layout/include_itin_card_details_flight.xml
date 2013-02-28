@@ -144,7 +144,7 @@
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:text="@string/flight_receipt_and_policies" />
+        android:text="@string/itin_card_details_details" />
 
     <!-- Insurance -->
 
