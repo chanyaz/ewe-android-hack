@@ -62,7 +62,12 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	//These names should be consistance with valid api values
 	public enum AssistanceType {
-		NONE, BLIND_WITH_SEEING_EYE_DOG, DEAF_WITH_HEARING_DOG, WHEELCHAIR_CAN_CLIMB_STAIRS, WHEELCHAIR_CANNOT_CLIMB_STAIRS, WHEELCHAIR_IMMOBILE
+		NONE,
+		BLIND_WITH_SEEING_EYE_DOG,
+		DEAF_WITH_HEARING_DOG,
+		WHEELCHAIR_CAN_CLIMB_STAIRS,
+		WHEELCHAIR_CANNOT_CLIMB_STAIRS,
+		WHEELCHAIR_IMMOBILE
 	}
 
 	public Traveler() {
@@ -122,7 +127,25 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mLastName;
 	}
 
+	/**
+	 * If we have called setFullName() any time in the past, we return the value supplied then.
+	 * If we have never called setFullName() then we return first + middle + last with proper spacing.
+	 * @return
+	 */
 	public String getFullName() {
+		if (TextUtils.isEmpty(mFullName)) {
+			String fullName = "";
+			if (!TextUtils.isEmpty(mFirstName)) {
+				fullName += mFirstName;
+			}
+			if (!TextUtils.isEmpty(mMiddleName)) {
+				fullName += " " + mMiddleName;
+			}
+			if (!TextUtils.isEmpty(mLastName)) {
+				fullName += " " + mLastName;
+			}
+			return fullName.trim();
+		}
 		return mFullName;
 	}
 
@@ -304,6 +327,13 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mLastName = lastName;
 	}
 
+	/**
+	 * Note that setFullName was added for Itins where we get fullname back from the server.
+	 * Calling setFullName WILL NOT change the values of first/middle/last name.
+	 * However, calling getFullName() will return the value supplied here.
+	 * If this method is never called, calling getFullName() will return first + middle + last with proper spacing.
+	 * @param fullName
+	 */
 	public void setFullName(String fullName) {
 		mFullName = fullName;
 	}
@@ -433,6 +463,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("middleName", mMiddleName);
 			obj.putOpt("lastName", mLastName);
+			obj.putOpt("fullName", mFullName);
 			JSONUtils.putJSONable(obj, "homeAddress", mHomeAddress);
 			JSONUtils.putJSONableList(obj, "phoneNumbers", mPhoneNumbers);
 			obj.putOpt("email", mEmail);
@@ -469,6 +500,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);
 		mLastName = obj.optString("lastName", null);
+		mFullName = obj.optString("fullName", null);
 		mHomeAddress = JSONUtils.getJSONable(obj, "homeAddress", Location.class);
 		mPhoneNumbers = JSONUtils.getJSONableList(obj, "phoneNumbers", Phone.class);
 		mEmail = obj.optString("email", null);
