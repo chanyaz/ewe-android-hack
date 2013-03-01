@@ -743,8 +743,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		}
 
 		boolean primaryWaypointExists = primaryWaypoint != null;
-		boolean primaryWaypointHasGate = primaryWaypointExists && !TextUtils.isEmpty(primaryWaypoint.getGate());
-		boolean primaryWaypointHasTerm = primaryWaypointExists && !TextUtils.isEmpty(primaryWaypoint.getTerminal());
+		boolean primaryWaypointHasGate = primaryWaypointExists && primaryWaypoint.hasGate();
+		boolean primaryWaypointHasTerm = primaryWaypointExists && primaryWaypoint.hasTerminal();
 		boolean primaryWaypointHasAll = primaryWaypointExists && primaryWaypointHasGate && primaryWaypointHasTerm;
 
 		String airportName = primaryWaypoint.getAirport().mName;
@@ -755,9 +755,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 			boolean secondaryWaypointExists = secondaryWaypoint != null;
 			boolean secondaryWaypointHasGate = secondaryWaypointExists
-					&& !TextUtils.isEmpty(secondaryWaypoint.getGate());
+					&& secondaryWaypoint.hasGate();
 			boolean secondaryWaypointHasTerm = secondaryWaypointExists
-					&& !TextUtils.isEmpty(secondaryWaypoint.getTerminal());
+					&& secondaryWaypoint.hasTerminal();
 			boolean secondaryWaypointHasAll = secondaryWaypointExists && secondaryWaypointHasGate
 					&& secondaryWaypointHasTerm;
 
@@ -991,15 +991,15 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 	private String getTerminalGateString(Waypoint waypoint) {
 		Resources res = getResources();
-		if (TextUtils.isEmpty(waypoint.getGate()) && TextUtils.isEmpty(waypoint.getTerminal())) {
+		if (!waypoint.hasGate() && !waypoint.hasTerminal()) {
 			//no gate or terminal info
 			return res.getString(R.string.gate_number_only_TEMPLATE, res.getString(R.string.to_be_determined_abbrev));
 		}
-		else if (!TextUtils.isEmpty(waypoint.getGate())) {
+		else if (waypoint.hasGate()) {
 			//gate only
 			return res.getString(R.string.gate_number_only_TEMPLATE, waypoint.getGate());
 		}
-		else if (!TextUtils.isEmpty(waypoint.getTerminal())) {
+		else if (waypoint.hasTerminal()) {
 			//terminal only
 			return res.getString(R.string.terminal_but_no_gate_TEMPLATE, waypoint.getTerminal());
 		}
