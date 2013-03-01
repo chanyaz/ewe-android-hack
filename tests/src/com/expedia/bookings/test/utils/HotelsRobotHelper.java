@@ -414,8 +414,8 @@ public class HotelsRobotHelper {
 		}
 		else {
 			mSolo.clickInList(1); //Selecting search suggestion results
-		} 						  //some countries' list don't populate ever
-								  //might break stuff
+		} //some countries' list don't populate ever
+			//might break stuff
 		enterLog(TAG, "After clicking search button");
 
 		mSolo.waitForActivity("ExpediaBookingApp"); // Add another wait if this causes instability
@@ -907,6 +907,40 @@ public class HotelsRobotHelper {
 			selectRoom(0);
 			logInAndBook();
 		}
+
+	}
+
+	public void checkItin() {
+		mSolo.clickOnText(mRes.getString(R.string.itinerary));
+		delay(5);
+		if (mSolo.searchText(mRes.getString(R.string.refresh), true)) {
+			screenshot("Itinerary screen post-login");
+			mSolo.clickOnMenuItem(mRes.getString(R.string.log_out));
+			mSolo.clickOnText(mRes.getString(R.string.log_out));
+			delay(5);
+			screenshot("Itinerary screen pre-login");
+		}
+		else {
+			screenshot("Itinerary screen pre-login");
+			mSolo.clickOnButton(0);
+			mSolo.typeText(0, mUser.mLoginEmail);
+
+			delay();
+
+			mSolo.typeText((EditText) mSolo.getView(R.id.password_edit_text), mUser.mLoginPassword);
+
+			landscape();
+			delay();
+			portrait();
+			delay(5);
+
+			mSolo.clickOnButton(0);
+			delay(5);
+
+			screenshot("Itinerary screen post-login");
+		}
+		mSolo.clickOnImageButton(0);
+		delay(5);
 
 	}
 
