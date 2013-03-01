@@ -37,17 +37,17 @@ public class TerminalMapActivity extends SherlockFragmentActivity implements OnN
 	private SpinnerAdapter mMapSelectorAdapter;
 	private int mSpinnerPosition = 0;
 
-	public static Intent createIntent(Context context, String airportCode){
+	public static Intent createIntent(Context context, String airportCode) {
 		Intent intent = new Intent(context, TerminalMapActivity.class);
 		intent.putExtra(ARG_AIRPORT_CODE, airportCode);
 		return intent;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_terminal_map);
-		
+
 		// Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setIcon(R.drawable.ic_expedia_white_logo_small);

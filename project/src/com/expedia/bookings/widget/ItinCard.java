@@ -583,7 +583,8 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	protected View getHorizontalDividerView(int margin) {
 		View v = new View(this.getContext());
 		v.setBackgroundColor(getResources().getColor(R.color.itin_divider_color));
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 1);
+		int divHeight = getResources().getDimensionPixelSize(R.dimen.one_px_hdpi_two_px_xhdpi);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, divHeight);
 		lp.leftMargin = margin;
 		lp.rightMargin = margin;
 		lp.topMargin = margin;

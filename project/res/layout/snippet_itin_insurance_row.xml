@@ -17,7 +17,7 @@
         app:textStyle="light" />
 
     <View
-        android:layout_width="1dp"
+        android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
         android:layout_height="20dp"
         android:layout_margin="12dp"
         android:layout_weight="0"
