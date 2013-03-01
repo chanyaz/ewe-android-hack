@@ -18,8 +18,6 @@ import com.mobiata.android.Log;
 public class CalendarAPIUtils {
 	/**
 	 * Does this device support the calendar api?
-	 * @param context
-	 * @return
 	 */
 	public static boolean deviceSupportsCalendarAPI(Context context) {
 		Uri data = null;
@@ -33,20 +31,23 @@ public class CalendarAPIUtils {
 			}
 		}
 		catch (Exception e) {
-			Log.d("Reflection error trying to look for calendar support", e);
-		}
-		finally {
-			if (data == null) {
-				Log.d("Device does not support calendaring.");
-				return false;
-			}
+			// The particular exception doesn't matter, just that we can't grab it.
 		}
 
-		Intent dummy = new Intent(Intent.ACTION_INSERT);
-		dummy.setData(data);
+		boolean supportsCalendar;
+		if (data != null) {
+			Intent dummy = new Intent(Intent.ACTION_INSERT);
+			dummy.setData(data);
 
-		PackageManager packageManager = context.getPackageManager();
-		List<ResolveInfo> list = packageManager.queryIntentActivities(dummy, PackageManager.MATCH_DEFAULT_ONLY);
-		return list.size() > 0;
+			PackageManager packageManager = context.getPackageManager();
+			List<ResolveInfo> list = packageManager.queryIntentActivities(dummy, PackageManager.MATCH_DEFAULT_ONLY);
+			supportsCalendar = list.size() > 0;
+		}
+		else {
+			supportsCalendar = false;
+		}
+
+		Log.v("Device supports calendaring: " + supportsCalendar);
+		return supportsCalendar;
 	}
 }
