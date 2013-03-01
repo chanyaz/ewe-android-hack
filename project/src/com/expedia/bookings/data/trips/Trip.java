@@ -347,4 +347,13 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 		return mTripId.compareTo(another.mTripId);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Trip)) {
+			return false;
+		}
+
+		return compareTo((Trip) o) == 0;
+	}
 }

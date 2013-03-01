@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
@@ -32,9 +33,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.data.Waypoint;
 
 // Make sure to call init() before using in the app!
 //
@@ -69,7 +68,7 @@ public class ItineraryManager implements JSONable {
 		mTrips.put(tripId, trip);
 
 		if (isSyncing()) {
-			mTripSyncQueue.add(trip);
+			mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
 		}
 		else if (startSyncIfNotInProgress) {
 			startSync();
@@ -375,13 +374,105 @@ public class ItineraryManager implements JSONable {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data syncing
+	//
+	// Syncing is implemented as an operation queue.  Operations are added
+	// to the queue, then sorted in priority order.  There is a sync looper
+	// which executes each in order.
+	//
+	// There are a few advantages to this setup:
+	//
+	// 1. It allows anyone to enqueue operations while a sync is in progress.
+	//    No matter where you are in the sync, new operations can be added
+	//    safely and will get executed.
+	//
+	// 2. It allows for flexible updates.  If you just need to do a deep
+	//    refresh of a single trip, that's possible using the same code that
+	//    refreshes all data.
+	//
+	// 3. It makes updating routes easier.  For example, getting cached
+	//    details in the user list update can still get images/flight status
+	//    updates without wonky sync code.
 
-	private Queue<Trip> mTripSyncQueue = new PriorityQueue<Trip>();
+	// The order of operations in this enum determines the priorities of each item;
+	// the looper will pick the highest order operation to execute next.
+	private enum Operation {
+		LOAD_FROM_DISK, // Loads saved trips from disk, if we're just starting up
+		REFRESH_USER, // If logged in, refreshes the trip list of the user
+		GATHER_TRIPS, // Enqueues all trips for later operation
+
+		// Refresh ancillary parts of a trip; these are higher priority so that they're
+		// completed after each trip is refreshed (for lazy loading purposes)
+		REFRESH_TRIP_IMAGES, // Refreshes images related to a trip
+		REFRESH_TRIP_FLIGHT_STATUS, // Refreshes trip statuses on trip
+		PUBLISH_TRIP_UPDATE, // Publishes that we've updated a trip
+
+		// Refreshes trip
+		DEEP_REFRESH_TRIP, // Refreshes a trip (deep)
+		REFRESH_TRIP, // Refreshes a trip
+
+		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
+	}
+
+	private class Task implements Comparable<Task> {
+		Operation mOp;
+
+		Trip mTrip;
+
+		public Task(Operation op) {
+			this(op, null);
+		}
+
+		public Task(Operation op, Trip trip) {
+			mOp = op;
+			mTrip = trip;
+		}
+
+		@Override
+		public int compareTo(Task another) {
+			if (mOp != another.mOp) {
+				return mOp.ordinal() - another.mOp.ordinal();
+			}
+
+			// We can safely assume that if the ops are the same, they will both have a Trip associated
+			if (mTrip != null) {
+				return mTrip.compareTo(another.mTrip);
+			}
+
+			return 0;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (!(o instanceof Task)) {
+				return false;
+			}
+
+			return compareTo((Task) o) == 0;
+		}
+	}
+
+	// Priority queue that doesn't allow duplicates to be added
+	@SuppressWarnings("serial")
+	private static class TaskPriorityQueue extends PriorityQueue<Task> {
+		@Override
+		public boolean add(Task o) {
+			if (!contains(o)) {
+				return super.add(o);
+			}
+
+			return false;
+		}
+	}
+
+	private Queue<Task> mSyncOpQueue = new TaskPriorityQueue();
 
 	private SyncTask mSyncTask;
 
 	// TODO: Figure out better values for this
 	private static final long UPDATE_TRIP_CACHED_CUTOFF = 1000 * 60 * 60 * 24; // 1 day
+
+	private static final long MINUTE = 1000 * 60;
+	private static final long HOUR = MINUTE * 60;
 
 	/**
 	 * Start a sync operation.
@@ -390,7 +481,14 @@ public class ItineraryManager implements JSONable {
 	 */
 	public void startSync() {
 		if (!isSyncing()) {
-			mTripSyncQueue.clear();
+			mSyncOpQueue.clear();
+
+			// Add default sync operations
+			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
+			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
+			mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
+			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+
 			mSyncTask = new SyncTask();
 			mSyncTask.execute();
 		}
@@ -405,12 +503,6 @@ public class ItineraryManager implements JSONable {
 
 	private class SyncTask extends AsyncTask<Void, ProgressUpdate, Collection<Trip>> {
 
-		private ExpediaServices mServices;
-
-		public SyncTask() {
-			mServices = new ExpediaServices(mContext);
-		}
-
 		/*
 		 * Implementation note - we regularly check if the sync has been 
 		 * cancelled (after every service call).  If it has been cancelled,
@@ -418,198 +510,58 @@ public class ItineraryManager implements JSONable {
 		 * check afterwards (since the service calls are where the app
 		 * will get hung up during a cancel).
 		 */
+		private ExpediaServices mServices;
+
+		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
+		private Set<String> mGuestTripsNotYetLoaded = new HashSet<String>();
+
+		public SyncTask() {
+			mServices = new ExpediaServices(mContext);
+		}
+
 		@Override
 		protected Collection<Trip> doInBackground(Void... params) {
-			// We first try to load the itin man data on sync
-			load();
+			while (!mSyncOpQueue.isEmpty()) {
+				Task nextTask = mSyncOpQueue.remove();
 
-			if (isCancelled()) {
-				return null;
-			}
-
-			// Check if we're online; quickly fail if not 
-			if (!NetUtils.isOnline(mContext)) {
-				publishProgress(new ProgressUpdate(SyncError.OFFLINE));
-				save();
-				return mTrips.values();
-			}
-
-			// If the user is logged in, retrieve a listing of current trips for logged in user
-			if (User.isLoggedIn(mContext)) {
-				// First, determine if we've ever loaded trips for this user; if not, then we
-				// should do a cached call for the first 5 detailed trips (for speedz).
-				boolean getCachedDetails = true;
-				for (Trip trip : mTrips.values()) {
-					if (!trip.isGuest()) {
-						getCachedDetails = false;
-						break;
-					}
+				switch (nextTask.mOp) {
+				case LOAD_FROM_DISK:
+					load();
+					break;
+				case REFRESH_USER:
+					refreshUserList();
+					break;
+				case GATHER_TRIPS:
+					gatherTrips();
+					break;
+				case REFRESH_TRIP_IMAGES:
+					updateTripImages(nextTask.mTrip);
+					break;
+				case REFRESH_TRIP_FLIGHT_STATUS:
+					updateFlightStatuses(nextTask.mTrip);
+					break;
+				case PUBLISH_TRIP_UPDATE:
+					publishTripUpdate(nextTask.mTrip);
+					break;
+				case DEEP_REFRESH_TRIP:
+					refreshTrip(nextTask.mTrip, true);
+					break;
+				case REFRESH_TRIP:
+					refreshTrip(nextTask.mTrip, false);
+					break;
+				case SAVE_TO_DISK:
+					save();
+					break;
 				}
 
-				TripResponse response = mServices.getTrips(getCachedDetails, 0);
-
+				// After each task, check if we've been cancelled
 				if (isCancelled()) {
 					return null;
 				}
-
-				if (response == null || response.hasErrors()) {
-					if (response != null && response.hasErrors()) {
-						Log.w("Error updating trips: " + response.gatherErrorMessage(mContext));
-					}
-
-					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
-				}
-				else {
-					Set<String> currentTrips = new HashSet<String>(mTrips.keySet());
-
-					for (Trip trip : response.getTrips()) {
-						String tripId = trip.getTripId();
-
-						boolean hasFullDetails = trip.getLevelOfDetail() == LevelOfDetail.FULL;
-						if (!mTrips.containsKey(tripId)) {
-							mTrips.put(tripId, trip);
-
-							publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
-						}
-						else if (hasFullDetails) {
-							mTrips.get(tripId).updateFrom(trip);
-						}
-
-						// If we have full details, mark this as recently updated so we don't
-						// refresh it below
-						if (hasFullDetails) {
-							trip.markUpdated(false);
-						}
-
-						currentTrips.remove(tripId);
-					}
-
-					// Remove all trips that were not returned by the server (not including guest trips)
-					for (String tripId : currentTrips) {
-						if (!mTrips.get(tripId).isGuest()) {
-							Trip trip = mTrips.remove(tripId);
-							publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
-						}
-					}
-				}
 			}
 
-			// Now that we have set of fresh trips, refresh each one
-			mTripSyncQueue.addAll(mTrips.values());
-
-			Log.i("Updating " + mTripSyncQueue.size() + " trips...");
-
-			while (mTripSyncQueue.size() > 0) {
-				Trip trip = mTripSyncQueue.poll();
-
-				// Determine if we should sync or not
-				long now = Calendar.getInstance().getTimeInMillis();
-				if (now - UPDATE_TRIP_CACHED_CUTOFF < trip.getLastCachedUpdateMillis()) {
-					Log.d("Not querying trip, recently updated: " + trip.getTripId());
-					continue;
-				}
-
-				TripDetailsResponse response = mServices.getTripDetails(trip, true);
-
-				if (isCancelled()) {
-					return null;
-				}
-
-				if (response == null || response.hasErrors()) {
-					if (response != null && response.hasErrors()) {
-						Log.w("Error updating trip " + trip.getTripId() + ": "
-								+ response.gatherErrorMessage(mContext));
-					}
-
-					publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
-				}
-				else {
-					LevelOfDetail initialLevelOfDetail = trip.getLevelOfDetail();
-
-					Trip updatedTrip = response.getTrip();
-
-					// Look for images
-					TripFlight tripFlight;
-					FlightTrip flightTrip;
-					TripCar tripCar;
-					Waypoint waypoint;
-					String destinationCode;
-
-					for (TripComponent tripComponent : updatedTrip.getTripComponents()) {
-						if (tripComponent.getType().equals(TripComponent.Type.FLIGHT)) {
-							tripFlight = (TripFlight) tripComponent;
-							flightTrip = tripFlight.getFlightTrip();
-							for (int i = 0; i < flightTrip.getLegCount(); i++) {
-								FlightLeg fl = flightTrip.getLeg(i);
-								waypoint = fl.getLastWaypoint();
-								destinationCode = waypoint.mAirportCode;
-
-								BackgroundImageResponse imageResponse = mServices.getFlightsBackgroundImage(
-										destinationCode, 0, 0);
-
-								if (isCancelled()) {
-									return null;
-								}
-
-								if (imageResponse != null) {
-									tripFlight.setLegDestinationImageUrl(i, imageResponse.getImageUrl());
-								}
-								else {
-									tripFlight.setLegDestinationImageUrl(i, "");
-								}
-
-								for (Flight segment : fl.getSegments()) {
-									if (Math.abs(segment.mOrigin.getMostRelevantDateTime().getTimeInMillis()
-											- now) <= (60 * 60 * 24 * 1000)) {
-										segment.updateFrom(mServices.getUpdatedFlight(segment));
-
-										if (isCancelled()) {
-											return null;
-										}
-									}
-									else if (segment.getArrivalWaypoint().getMostRelevantDateTime()
-											.getTimeInMillis() < now) {
-										segment.mStatusCode = Flight.STATUS_LANDED;
-									}
-								}
-							}
-						}
-						else if (tripComponent.getType().equals(TripComponent.Type.CAR)) {
-							tripCar = (TripCar) tripComponent;
-							Car.Category category = tripCar.getCar().getCategory();
-
-							if (category != null) {
-								BackgroundImageResponse imageResponse = mServices.getCarsBackgroundImage(tripCar
-										.getCar().getCategory(), 0, 0);
-
-								if (isCancelled()) {
-									return null;
-								}
-
-								if (imageResponse != null) {
-									tripCar.setCarCategoryImageUrl(imageResponse.getImageUrl());
-								}
-							}
-						}
-					}
-
-					// Update trip
-					trip.updateFrom(updatedTrip);
-					trip.markUpdated(false);
-
-					// We only consider a guest trip added once it has some meaningful info
-					if (initialLevelOfDetail == LevelOfDetail.NONE && trip.isGuest()) {
-						publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
-					}
-
-					publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATED, trip));
-
-					// POSSIBLE TODO: Only call tripUpated() when it's actually changed
-				}
-			}
-
-			save();
-
+			// If we get down to here, we can assume that the operation queue is finished
+			// and we return a list of the existing Trips.
 			return mTrips.values();
 		}
 
@@ -664,6 +616,221 @@ public class ItineraryManager implements JSONable {
 		// to cancel the update mid-download
 		public void cancelDownloads() {
 			mServices.onCancel();
+		}
+
+		//////////////////////////////////////////////////////////////////////
+		// Operations
+
+		private void updateTripImages(Trip trip) {
+			// Look for images.  For now, do not update if we already have images (they will remain static)
+			for (TripComponent tripComponent : trip.getTripComponents()) {
+				if (tripComponent.getType().equals(TripComponent.Type.FLIGHT)) {
+					TripFlight tripFlight = (TripFlight) tripComponent;
+					FlightTrip flightTrip = tripFlight.getFlightTrip();
+					for (int i = 0; i < flightTrip.getLegCount(); i++) {
+						if (tripFlight.getLegDestinationImageUrl(i) == null) {
+							BackgroundImageResponse imageResponse = mServices.getFlightsBackgroundImage(
+									flightTrip.getLeg(i).getLastWaypoint().mAirportCode, 0, 0);
+
+							if (isCancelled()) {
+								return;
+							}
+
+							if (imageResponse != null) {
+								tripFlight.setLegDestinationImageUrl(i, imageResponse.getImageUrl());
+							}
+							else {
+								tripFlight.setLegDestinationImageUrl(i, "");
+							}
+						}
+					}
+				}
+				else if (tripComponent.getType().equals(TripComponent.Type.CAR)) {
+					TripCar tripCar = (TripCar) tripComponent;
+					Car.Category category = tripCar.getCar().getCategory();
+
+					if (category != null && TextUtils.isEmpty(tripCar.getCarCategoryImageUrl())) {
+						BackgroundImageResponse imageResponse = mServices.getCarsBackgroundImage(tripCar
+								.getCar().getCategory(), 0, 0);
+
+						if (isCancelled()) {
+							return;
+						}
+
+						if (imageResponse != null) {
+							tripCar.setCarCategoryImageUrl(imageResponse.getImageUrl());
+						}
+					}
+				}
+			}
+		}
+
+		private void updateFlightStatuses(Trip trip) {
+			long now = Calendar.getInstance().getTimeInMillis();
+
+			for (TripComponent tripComponent : trip.getTripComponents()) {
+				if (tripComponent.getType().equals(TripComponent.Type.FLIGHT)) {
+					TripFlight tripFlight = (TripFlight) tripComponent;
+					FlightTrip flightTrip = tripFlight.getFlightTrip();
+					for (int i = 0; i < flightTrip.getLegCount(); i++) {
+						FlightLeg fl = flightTrip.getLeg(i);
+
+						for (Flight segment : fl.getSegments()) {
+							long takeOff = segment.mOrigin.getMostRelevantDateTime().getTimeInMillis();
+							long landing = segment.mDestination.getMostRelevantDateTime().getTimeInMillis();
+							long timeToTakeOff = takeOff - now;
+							long timeSinceLastUpdate = now - segment.mLastUpdated;
+
+							// Logic for whether to update; this could be compacted, but I've left it
+							// somewhat unwound so that it can actually be understood.
+							boolean update = false;
+							if (timeToTakeOff > 0) {
+								if ((timeToTakeOff < HOUR * 12 && timeSinceLastUpdate > 5 * MINUTE)
+										|| (timeToTakeOff < HOUR * 24 && timeSinceLastUpdate > HOUR)
+										|| (timeToTakeOff < HOUR * 72 && timeSinceLastUpdate > 12 * HOUR)) {
+									update = true;
+								}
+							}
+							else if (now < landing && timeSinceLastUpdate > 5 * MINUTE) {
+								update = true;
+							}
+							else {
+								segment.mStatusCode = Flight.STATUS_LANDED;
+							}
+
+							if (update) {
+								Flight updatedFlight = mServices.getUpdatedFlight(segment);
+
+								if (isCancelled()) {
+									return;
+								}
+
+								segment.updateFrom(updatedFlight);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		private void publishTripUpdate(Trip trip) {
+			// We only consider a guest trip added once it has some meaningful info
+			if (trip.isGuest() && mGuestTripsNotYetLoaded.contains(trip.getTripId())) {
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
+			}
+			else {
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATED, trip));
+			}
+
+			// POSSIBLE TODO: Only call tripUpated() when it's actually changed
+		}
+
+		private void refreshTrip(Trip trip, boolean deepRefresh) {
+			boolean gatherAncillaryData = true;
+
+			// Only update if we are outside the cutoff
+			long now = Calendar.getInstance().getTimeInMillis();
+			if (now - UPDATE_TRIP_CACHED_CUTOFF > trip.getLastCachedUpdateMillis() || deepRefresh) {
+				TripDetailsResponse response = mServices.getTripDetails(trip, !deepRefresh);
+
+				if (response == null || response.hasErrors()) {
+					if (response != null && response.hasErrors()) {
+						Log.w("Error updating trip " + trip.getTripId() + ": "
+								+ response.gatherErrorMessage(mContext));
+					}
+
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
+
+					gatherAncillaryData = false;
+				}
+				else {
+					Trip updatedTrip = response.getTrip();
+
+					// Update trip
+					trip.updateFrom(updatedTrip);
+					trip.markUpdated(deepRefresh);
+				}
+			}
+
+			if (gatherAncillaryData) {
+				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_IMAGES, trip));
+				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, trip));
+				mSyncOpQueue.add(new Task(Operation.PUBLISH_TRIP_UPDATE, trip));
+			}
+		}
+
+		// If the user is logged in, retrieve a listing of current trips for logged in user
+		private void refreshUserList() {
+			if (User.isLoggedIn(mContext)) {
+				// First, determine if we've ever loaded trips for this user; if not, then we
+				// should do a cached call for the first 5 detailed trips (for speedz).
+				boolean getCachedDetails = true;
+				for (Trip trip : mTrips.values()) {
+					if (!trip.isGuest()) {
+						getCachedDetails = false;
+						break;
+					}
+				}
+
+				TripResponse response = mServices.getTrips(getCachedDetails, 0);
+
+				if (isCancelled()) {
+					return;
+				}
+
+				if (response == null || response.hasErrors()) {
+					if (response != null && response.hasErrors()) {
+						Log.w("Error updating trips: " + response.gatherErrorMessage(mContext));
+					}
+
+					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
+				}
+				else {
+					Set<String> currentTrips = new HashSet<String>(mTrips.keySet());
+
+					for (Trip trip : response.getTrips()) {
+						String tripId = trip.getTripId();
+
+						boolean hasFullDetails = trip.getLevelOfDetail() == LevelOfDetail.FULL;
+						if (!mTrips.containsKey(tripId)) {
+							mTrips.put(tripId, trip);
+
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
+						}
+						else if (hasFullDetails) {
+							mTrips.get(tripId).updateFrom(trip);
+						}
+
+						if (hasFullDetails) {
+							// If we have full details, mark this as recently updated so we don't
+							// refresh it below
+							trip.markUpdated(false);
+						}
+
+						currentTrips.remove(tripId);
+					}
+
+					// Remove all trips that were not returned by the server (not including guest trips)
+					for (String tripId : currentTrips) {
+						if (!mTrips.get(tripId).isGuest()) {
+							Trip trip = mTrips.remove(tripId);
+							publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+						}
+					}
+				}
+			}
+		}
+
+		// Add all trips to be updated, even ones that may not need to be refreshed
+		// (so we can see if any of the ancillary data needs to be refreshed).
+		private void gatherTrips() {
+			for (Trip trip : mTrips.values()) {
+				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
+
+				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
+					mGuestTripsNotYetLoaded.add(trip.getTripId());
+				}
+			}
 		}
 	}
 
