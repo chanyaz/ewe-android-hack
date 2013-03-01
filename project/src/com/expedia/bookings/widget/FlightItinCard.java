@@ -484,7 +484,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		else {
 			Calendar arrival = flight.getArrivalWaypoint().getMostRelevantDateTime();
 			Waypoint summaryWaypoint = null;
-			int bottomLineTextId = -1;
+			int bottomLineTextId = 0;
+			int bottomLineFallbackId = 0;
 
 			if (arrival.before(now)) {
 				//flight complete
@@ -504,7 +505,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				}
 
 				summaryWaypoint = flight.getArrivalWaypoint();
-				bottomLineTextId = R.string.at_airport_TEMPLATE;
+				bottomLineTextId = R.string.at_airport_terminal_gate_TEMPLATE;
+				bottomLineFallbackId = R.string.at_airport_TEMPLATE;
 			}
 			else if (departure.before(now)) {
 				//flight in progress, show arrival info
@@ -535,20 +537,22 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				}
 
 				summaryWaypoint = flight.getArrivalWaypoint();
-				bottomLineTextId = R.string.at_airport_TEMPLATE;
+				bottomLineTextId = R.string.at_airport_terminal_gate_TEMPLATE;
+				bottomLineFallbackId = R.string.at_airport_TEMPLATE;
 			}
-			else if (departure.getTimeInMillis() - now.getTimeInMillis() > DateUtils.DAY_IN_MILLIS) {
-				//More than 24 hours away
+			else if ((departure.getTimeInMillis() - now.getTimeInMillis() > (3 * DateUtils.DAY_IN_MILLIS))
+					|| (flight.mFlightHistoryId == -1)) {
+				//More than 72 hours away or no FS data yet
 				String dateStr = DateUtils.formatDateTime(getContext(), DateTimeUtils.getTimeInLocalTimeZone(departure)
 						.getTime(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
 				topLine.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
 				bulb.setImageResource(R.drawable.ic_departure_details);
-
-				summaryWaypoint = flight.mOrigin;
-				bottomLineTextId = R.string.from_airport_TEMPLATE;
+				bottomLine.setText(Html.fromHtml(res.getString(R.string.from_airport_time_TEMPLATE,
+						flight.mOrigin.mAirportCode,
+						formatTime(flight.mOrigin.getMostRelevantDateTime()))));
 			}
 			else {
-				//Less than 24 hours in the future...
+				//Less than 72 hours in the future and has FS data
 				int delay = getDelayForWaypoint(flight.mOrigin);
 				CharSequence timeSpanString = DateUtils.getRelativeTimeSpanString(departure.getTimeInMillis(),
 						now.getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS, 0);
@@ -576,7 +580,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				}
 
 				summaryWaypoint = flight.mOrigin;
-				bottomLineTextId = R.string.from_airport_TEMPLATE;
+				bottomLineTextId = R.string.from_airport_terminal_gate_TEMPLATE;
+				bottomLineFallbackId = R.string.from_airport_TEMPLATE;
 			}
 
 			if (summaryWaypoint != null) {
@@ -600,11 +605,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 							res.getString(R.string.gate_number_only_TEMPLATE, summaryWaypoint.getGate()))));
 				}
 				else {
-					bottomLine.setVisibility(View.GONE);
+					bottomLine
+							.setText(Html.fromHtml(res.getString(bottomLineFallbackId, summaryWaypoint.mAirportCode)));
 				}
-			}
-			else {
-				bottomLine.setVisibility(View.GONE);
 			}
 		}
 		return view;
