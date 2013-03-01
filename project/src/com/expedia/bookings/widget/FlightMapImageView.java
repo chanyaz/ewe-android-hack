@@ -9,8 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-
-import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -69,7 +67,7 @@ public class FlightMapImageView extends ImageView {
 		}
 
 		int width = getWidth();
-		int height = getResources().getDimensionPixelSize(R.dimen.hotel_details_map_visible_size) * 2;
+		int height = getHeight();
 		if (width == 0 || height == 0) {
 			// It would be a useless image anyways
 			return;
@@ -80,7 +78,7 @@ public class FlightMapImageView extends ImageView {
 		mStaticMapUri = GoogleServices.getStaticPathMapUrl(width / DENSITY_SCALE_FACTOR, height
 				/ DENSITY_SCALE_FACTOR, MapType.SATELLITE,
 				buildStaticMapPathValueString(Color.WHITE, 4, true, mFlights),
-				buildStaticMapMarkerStrings(mFlights));
+				buildStaticMapMarkerStrings(mFlights)) + "&scale=" + DENSITY_SCALE_FACTOR;
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 
 		if (!mStaticMapUri.equals(oldUri)) {
@@ -123,8 +121,8 @@ public class FlightMapImageView extends ImageView {
 
 		return builder.toString();
 	}
-	
-	public List<String> buildStaticMapMarkerStrings(List<Flight> flights){
+
+	public List<String> buildStaticMapMarkerStrings(List<Flight> flights) {
 		ArrayList<String> markers = new ArrayList<String>();
 		markers.add(flightListToCoordinateListString(flights));
 		return markers;
