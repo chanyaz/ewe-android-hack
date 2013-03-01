@@ -124,12 +124,50 @@ public class FlightMapImageView extends ImageView {
 
 	public List<String> buildStaticMapMarkerStrings(List<Flight> flights) {
 		ArrayList<String> markers = new ArrayList<String>();
-		markers.add(flightListToCoordinateListString(flights));
+
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < flights.size(); i++) {
+			Flight flight = flights.get(i);
+			if (i == 0) {
+				//Origin
+				builder.append(getOriginMarkerStyleString());
+				builder.append("|");
+				builder.append(waypointToCoords(flight.mOrigin));
+				markers.add(builder.toString());
+				builder = new StringBuilder();
+			}
+
+			if (i == (flights.size() - 1)) {
+				//destination
+				builder.append(getDestinationMarkerStyleString());
+			}
+			else {
+				//waypoint
+				builder.append(getWaypointMarkerStyleString());
+			}
+			builder.append("|");
+			builder.append(waypointToCoords(flight.mDestination));
+
+			markers.add(builder.toString());
+			builder = new StringBuilder();
+		}
 		return markers;
 	}
 
 	private String colorToHexString(int color) {
 		return String.format("0x%06X", (0xFFFFFF & color));
+	}
+
+	private String getOriginMarkerStyleString() {
+		return "color:blue|label:O";
+	}
+
+	private String getWaypointMarkerStyleString() {
+		return "color:green|label:W";
+	}
+
+	private String getDestinationMarkerStyleString() {
+		return "color:red|label:D";
 	}
 
 	private String flightListToCoordinateListString(List<Flight> flights) {
