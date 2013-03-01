@@ -21,7 +21,6 @@ import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -47,7 +46,6 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
-import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarAPIUtils;
@@ -55,21 +53,17 @@ import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.google.android.gms.maps.GoogleMap;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
-import com.mobiata.flightlib.maps.FlightMarkerManager;
-import com.mobiata.flightlib.maps.MapCameraManager;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
 public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
-	private static final String FRAG_TAG_FLIGHT_MAP = "FRAG_TAG_FLIGHT_MAP";
 	private static final String FRAG_TAG_AIRPORT_ACTION_CHOOSER = "FRAG_TAG_AIRPORT_ACTION_CHOOSER";
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -308,6 +302,8 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			Resources res = getResources();
 			FlightLeg leg = data.getFlightLeg();
 
+			FlightMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
+			
 			TextView confirmationCodeLabel = Ui.findView(view, R.id.confirmation_code_label);
 			TextView passengersLabel = Ui.findView(view, R.id.passengers_label);
 			TextView bookingInfoLabel = Ui.findView(view, R.id.booking_info_label);
@@ -329,6 +325,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			ViewUtils.setAllCaps(bookingInfoLabel);
 			ViewUtils.setAllCaps(insuranceLabel);
 
+			//Map
+			staticMapImageView.setFlights(data.getFlightLeg().getSegments());
+			
 			//Arrival / Departure times
 			Calendar departureTimeCal = leg.getFirstWaypoint().getMostRelevantDateTime();
 			Calendar arrivalTimeCal = leg.getLastWaypoint().getMostRelevantDateTime();
@@ -699,72 +698,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	public void attachFlightMap() {
-		final ItinCardDataFlight cardData = getItinCardData();
-		if (cardData != null && getContext() instanceof SherlockFragmentActivity) {
-			FragmentManager fragManager = ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
-
-			setHardwareAccelerationEnabled(false);
-			ViewGroup mapContainer = Ui.findView(this, R.id.flight_map_container);
-			mapContainer.setId(R.id.itin_flight_map_container_active);
-
-			SupportMapFragment mapFrag = new SupportMapFragment() {
-				@Override
-				public View onCreateView(LayoutInflater inflater, ViewGroup root, Bundle data) {
-					View view = super.onCreateView(inflater, root, data);
-					GoogleMap map = getMap();
-					if (map != null) {
-						map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-						map.setMyLocationEnabled(false);
-						map.getUiSettings().setAllGesturesEnabled(false);
-						map.getUiSettings().setZoomControlsEnabled(false);
-						map.getUiSettings().setZoomGesturesEnabled(false);
-						map.getUiSettings().setMyLocationButtonEnabled(false);
-
-						FlightMarkerManager flightMarkerManager = new FlightMarkerManager(map,
-								R.drawable.map_pin_normal, R.drawable.map_pin_normal, R.drawable.map_pin_sale);
-
-						MapCameraManager mapCameraManager = new MapCameraManager(map);
-						flightMarkerManager.setFlights(cardData.getFlightLeg().getSegments());
-						mapCameraManager.showFlight(cardData.getFlightLeg().getSegment(0),
-								FlightItinCard.this.getWidth(),
-								getResources().getDimensionPixelSize(R.dimen.itin_map_total_size), 40);
-
-					}
-					return view;
-				}
-			};
-
-			FragmentTransaction transaction = fragManager.beginTransaction();
-			if (!mapFrag.isAdded()) {
-				transaction.add(R.id.itin_flight_map_container_active, mapFrag, FRAG_TAG_FLIGHT_MAP);
-				transaction.commit();
-			}
-		}
-	}
-
-	@SuppressLint("NewApi")
-	public void removeFlightMap() {
-		setHardwareAccelerationEnabled(true);
-		if (getContext() instanceof SherlockFragmentActivity) {
-			FragmentManager fragManager = ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
-			SupportMapFragment mapFrag = (SupportMapFragment) fragManager.findFragmentByTag(FRAG_TAG_FLIGHT_MAP);
-			if (mapFrag != null) {
-				FragmentTransaction transaction = fragManager.beginTransaction();
-				transaction.remove(mapFrag);
-				transaction.commitAllowingStateLoss();
-				fragManager.executePendingTransactions();
-			}
-
-			ViewGroup mapContainer = Ui.findView(this, R.id.itin_flight_map_container_active);
-
-			if (mapContainer != null) {
-				mapContainer.setId(R.id.flight_map_container);
-				mapContainer.removeAllViews();
-			}
-		}
-	}
 
 	public static Intent getAirportDirectionsIntent(Airport airport) {
 		String format = "geo:0,0?q=%f,%f (%s)";

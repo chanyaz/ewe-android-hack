@@ -18,10 +18,8 @@ import android.widget.ListView;
 import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
-import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -252,9 +250,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				invalidateViews();
 				scrollTo(0, stopY);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				if (view.getType().equals(Type.FLIGHT)) {
-					((FlightItinCard) view).removeFlightMap();
-				}
 			}
 		});
 		animation.setAnimationStepListener(new AnimationStepListener() {
@@ -310,9 +305,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			public void onAnimationEnd(Animation animation) {
 				scrollTo(0, stopY);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				if (view.getType().equals(Type.FLIGHT)) {
-					((FlightItinCard) view).attachFlightMap();
-				}
 
 				switch (view.getType()) {
 				case CAR:

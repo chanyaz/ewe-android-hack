@@ -63,11 +63,14 @@
     </RelativeLayout>
 
     <!-- MAP -->
-
-    <FrameLayout
-        android:id="@+id/flight_map_container"
+    
+    <com.expedia.bookings.widget.FlightMapImageView
+        android:id="@+id/mini_map"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/itin_map_total_size" />
+        android:layout_height="@dimen/itin_map_total_size"
+        android:background="#aaaaaa"
+        android:focusable="false"
+        android:scaleType="centerCrop" />
 
     <!-- Flight legs -->
 
