@@ -21,6 +21,12 @@
             android:title="Stub Configuration Page"
             android:summary="Only works while connected to VPN (or using E3MockProxy)" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_cookie_logging"
+            android:summary="Log sent/received cookies in logcat.  Very verbose, so usually you want it off."
+            android:title="Enable Cookie Logging" />
+
         <EditTextPreference
             android:defaultValue="@string/preference_flight_fake_price_change_default"
             android:inputType="numberDecimal|numberSigned"

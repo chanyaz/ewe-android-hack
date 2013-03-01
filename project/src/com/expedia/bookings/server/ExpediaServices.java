@@ -1181,6 +1181,8 @@ public class ExpediaServices implements DownloadListener {
 		HttpConnectionParams.setSoTimeout(httpParameters, 100000);
 
 		boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
+		boolean logCookies = !AndroidUtils.isRelease(mContext)
+				&& SettingUtils.get(mContext, mContext.getString(R.string.preference_cookie_logging), false);
 
 		HttpContext httpContext = new BasicHttpContext();
 		PersistantCookieStore cookieStore = null;
@@ -1192,8 +1194,10 @@ public class ExpediaServices implements DownloadListener {
 			cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory(mContext));
 			httpContext.setAttribute(ClientContext.COOKIESPEC_REGISTRY, cookieSpecRegistry);
 
-			Log.v("Sending cookies:");
-			cookieStore.log();
+			if (logCookies) {
+				Log.v("Sending cookies:");
+				cookieStore.log();
+			}
 
 			HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");
 		}
@@ -1236,8 +1240,10 @@ public class ExpediaServices implements DownloadListener {
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 
 			if (!ignoreCookies) {
-				Log.v("Received cookies: ");
-				cookieStore.log();
+				if (logCookies) {
+					Log.v("Received cookies: ");
+					cookieStore.log();
+				}
 
 				cookieStore.save(mContext, COOKIES_FILE);
 			}
