@@ -530,8 +530,19 @@ public class ItineraryManager implements JSONable {
 		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
 		private Set<String> mGuestTripsNotYetLoaded = new HashSet<String>();
 
+		// These variables are used for stat tracking
+		private Map<Operation, Integer> mOpCount = new HashMap<ItineraryManager.Operation, Integer>();
+		private int mRefreshedTrips = 0;
+		private int mFailedTripRefreshes = 0;
+		private int mImagesGrabbed = 0;
+		private int mFlightsUpdated = 0;
+
 		public SyncTask() {
 			mServices = new ExpediaServices(mContext);
+
+			for (Operation op : Operation.values()) {
+				mOpCount.put(op, 0);
+			}
 		}
 
 		@Override
@@ -568,6 +579,9 @@ public class ItineraryManager implements JSONable {
 					save();
 					break;
 				}
+
+				// Update stats
+				mOpCount.put(nextTask.mOp, mOpCount.get(nextTask.mOp) + 1);
 
 				// After each task, check if we've been cancelled
 				if (isCancelled()) {
@@ -610,6 +624,8 @@ public class ItineraryManager implements JSONable {
 			super.onPostExecute(trips);
 
 			onSyncFinished(trips);
+
+			logStats();
 		}
 
 		@SuppressLint("NewApi")
@@ -625,12 +641,24 @@ public class ItineraryManager implements JSONable {
 			onSyncFailed(SyncError.CANCELLED);
 
 			onSyncFinished(null);
+
+			logStats();
 		}
 
 		// Should be called in addition to cancel(boolean), in order
 		// to cancel the update mid-download
 		public void cancelDownloads() {
 			mServices.onCancel();
+		}
+
+		private void logStats() {
+			Log.i("Sync Finished; stats below.");
+			for (Operation op : Operation.values()) {
+				Log.i(op.name() + ": " + mOpCount.get(op));
+			}
+
+			Log.i("Refreshed trips=" + mRefreshedTrips + " failed trip refreshes=" + mFailedTripRefreshes
+					+ " image urls grabbed=" + mImagesGrabbed + " flightstats updates=" + mFlightsUpdated);
 		}
 
 		//////////////////////////////////////////////////////////////////////
@@ -653,6 +681,8 @@ public class ItineraryManager implements JSONable {
 
 							if (imageResponse != null) {
 								tripFlight.setLegDestinationImageUrl(i, imageResponse.getImageUrl());
+
+								mImagesGrabbed++;
 							}
 							else {
 								tripFlight.setLegDestinationImageUrl(i, "");
@@ -674,6 +704,8 @@ public class ItineraryManager implements JSONable {
 
 						if (imageResponse != null) {
 							tripCar.setCarCategoryImageUrl(imageResponse.getImageUrl());
+
+							mImagesGrabbed++;
 						}
 					}
 				}
@@ -721,6 +753,8 @@ public class ItineraryManager implements JSONable {
 								}
 
 								segment.updateFrom(updatedFlight);
+
+								mFlightsUpdated++;
 							}
 						}
 					}
@@ -757,6 +791,8 @@ public class ItineraryManager implements JSONable {
 					publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
 
 					gatherAncillaryData = false;
+
+					mFailedTripRefreshes++;
 				}
 				else {
 					Trip updatedTrip = response.getTrip();
@@ -764,6 +800,8 @@ public class ItineraryManager implements JSONable {
 					// Update trip
 					trip.updateFrom(updatedTrip);
 					trip.markUpdated(deepRefresh);
+
+					mRefreshedTrips++;
 				}
 			}
 
@@ -820,6 +858,8 @@ public class ItineraryManager implements JSONable {
 							// If we have full details, mark this as recently updated so we don't
 							// refresh it below
 							trip.markUpdated(false);
+
+							mRefreshedTrips++;
 						}
 
 						currentTrips.remove(tripId);
