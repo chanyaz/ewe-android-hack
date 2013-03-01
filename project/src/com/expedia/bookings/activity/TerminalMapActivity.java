@@ -2,6 +2,8 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.ArrayAdapter;
@@ -35,11 +37,17 @@ public class TerminalMapActivity extends SherlockFragmentActivity implements OnN
 	private SpinnerAdapter mMapSelectorAdapter;
 	private int mSpinnerPosition = 0;
 
+	public static Intent createIntent(Context context, String airportCode){
+		Intent intent = new Intent(context, TerminalMapActivity.class);
+		intent.putExtra(ARG_AIRPORT_CODE, airportCode);
+		return intent;
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_terminal_map);
-
+		
 		// Actionbar
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setIcon(R.drawable.ic_expedia_white_logo_small);

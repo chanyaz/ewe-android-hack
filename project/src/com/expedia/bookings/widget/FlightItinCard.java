@@ -303,7 +303,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			FlightLeg leg = data.getFlightLeg();
 
 			FlightMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
-			
+
 			TextView confirmationCodeLabel = Ui.findView(view, R.id.confirmation_code_label);
 			TextView passengersLabel = Ui.findView(view, R.id.passengers_label);
 			TextView bookingInfoLabel = Ui.findView(view, R.id.booking_info_label);
@@ -327,7 +327,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 			//Map
 			staticMapImageView.setFlights(data.getFlightLeg().getSegments());
-			
+
 			//Arrival / Departure times
 			Calendar departureTimeCal = leg.getFirstWaypoint().getMostRelevantDateTime();
 			Calendar arrivalTimeCal = leg.getLastWaypoint().getMostRelevantDateTime();
@@ -1052,8 +1052,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 						OmnitureTracking.trackItinFlightDirections(getActivity());
 					}
 					else if (finalOptions[which].equals(terminalMaps)) {
-						Intent intent = new Intent(getActivity(), TerminalMapActivity.class);
-						intent.putExtra(TerminalMapActivity.ARG_AIRPORT_CODE, mAirport.mAirportCode);
+						Intent intent = TerminalMapActivity.createIntent(getActivity(), mAirport.mAirportCode);
 						getActivity().startActivity(intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
 
