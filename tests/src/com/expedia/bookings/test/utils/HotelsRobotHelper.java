@@ -408,7 +408,6 @@ public class HotelsRobotHelper {
 		portrait();
 		delay();
 		if (mAllowOrientationChange) {
-			mSolo.clickOnEditText(0);
 			delay();
 			mSolo.clickInList(2);
 		}
@@ -495,14 +494,7 @@ public class HotelsRobotHelper {
 			mSolo.clickOnImageButton(0);
 		}
 		screenshot("Guest Picker");
-		mSolo.clickOnImageButton(2); // Adult +1
-		delay(1);
-		screenshot("GuestPicker Add Adult");
-		delay(1);
-		mSolo.clickOnImageButton(5); // Child +1
-		delay(1);
-		screenshot("GuestPicker Add Child");
-		mSolo.goBack();
+
 	}
 
 	public void selectHotel(int hotelIndex) throws Exception {
@@ -571,6 +563,7 @@ public class HotelsRobotHelper {
 		delay();
 		landscape();
 		portrait();
+		mSolo.waitForDialogToClose(10000);
 		screenshot("Rooms and Rates Screen");
 		mSolo.clickInList(roomIndex);
 		delay();
@@ -910,7 +903,24 @@ public class HotelsRobotHelper {
 
 	}
 
-	public void checkItin() {
+	public void checkItin(boolean useMockProxy) {
+
+		clearPrivateData();
+		if (useMockProxy) {
+			mSolo.clickOnMenuItem(mRes.getString(R.string.Settings));
+			mSolo.clickOnText("Select API");
+			mSolo.clickOnText("Proxy");
+			mSolo.clickOnText("Server/Proxy Address");
+			mSolo.clearEditText(0);
+			mSolo.enterText(0, "192.168.1.60:3000");
+			mSolo.clickOnText("OK");
+			mSolo.clickOnText("Stub Configuration Page");
+			mSolo.waitForDialogToClose(15000);
+			mSolo.clickInList(2);
+			mSolo.waitForDialogToClose(15000);
+			mSolo.goBack();
+		}
+
 		mSolo.clickOnText(mRes.getString(R.string.itinerary));
 		delay(5);
 		if (mSolo.searchText(mRes.getString(R.string.refresh), true)) {
@@ -935,12 +945,30 @@ public class HotelsRobotHelper {
 			delay(5);
 
 			mSolo.clickOnButton(0);
-			delay(5);
+			mSolo.waitForDialogToClose(30000);
+			delay();
+			screenshot("Itinerary screen with cards.");
+			delay();
+			mSolo.clickInList(1);
+			delay();
+			screenshot("Hotel card 1");
+			mSolo.scrollToBottom();
+			delay();
+			screenshot("Hotel card 2");
+			mSolo.goBack();
 
-			screenshot("Itinerary screen post-login");
+			delay();
+			mSolo.clickInList(2);
+			delay();
+			screenshot("Flight card 1");
+			delay();
+			mSolo.scrollToBottom();
+			screenshot("Flight card 2");
+			delay();
+
+			mSolo.goBack();
+			mSolo.goBack();
 		}
-		mSolo.clickOnImageButton(0);
-		delay(5);
 
 	}
 
