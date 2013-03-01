@@ -51,6 +51,9 @@ public class TripParser {
 		if ("FULL".equals(levelOfDetail)) {
 			trip.setLevelOfDetail(LevelOfDetail.FULL);
 		}
+		else if ("SUMMARY_FALLBACK".equals(levelOfDetail)) {
+			trip.setLevelOfDetail(LevelOfDetail.SUMMARY_FALLBACK);
+		}
 		else {
 			trip.setLevelOfDetail(LevelOfDetail.SUMMARY);
 		}

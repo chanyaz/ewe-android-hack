@@ -26,6 +26,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 	public static enum LevelOfDetail {
 		NONE, // Not loaded by API yet
 		SUMMARY, // Loaded by API, only summary
+		SUMMARY_FALLBACK, // Got summary, but for some reason can't get full details
 		FULL, // Received full details at some point
 	}
 
