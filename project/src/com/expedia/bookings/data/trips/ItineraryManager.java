@@ -481,8 +481,6 @@ public class ItineraryManager implements JSONable {
 	 */
 	public void startSync() {
 		if (!isSyncing()) {
-			mSyncOpQueue.clear();
-
 			// Add default sync operations
 			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
 			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
@@ -494,6 +492,23 @@ public class ItineraryManager implements JSONable {
 		}
 		else {
 			Log.i("Tried to start a sync while one is already in progress.");
+		}
+	}
+
+	public void deepRefreshTrip(Trip trip) {
+		trip = mTrips.get(trip.getTripId());
+
+		if (trip == null) {
+			Log.w("Tried to deep refresh a trip which doesn't exist.");
+		}
+		else {
+			mSyncOpQueue.add(new Task(Operation.DEEP_REFRESH_TRIP, trip));
+			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+
+			if (!isSyncing()) {
+				mSyncTask = new SyncTask();
+				mSyncTask.execute();
+			}
 		}
 	}
 
