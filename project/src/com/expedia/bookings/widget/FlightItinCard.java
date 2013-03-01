@@ -459,7 +459,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 		if (flight.isRedAlert()) {
 			boolean shouldPulseBulb = false;
 			if (Flight.STATUS_CANCELLED.equals(flight.mStatusCode)) {
-				topLine.setText(res.getString(R.string.flight_to_city_canceled_TEMPLATE,
+				topLine.setText(res.getString(R.string.flight_to_city_cancelled_TEMPLATE,
 						FormatUtils.getCityName(flight.getArrivalWaypoint(), getContext())));
 				if ((departure.getTimeInMillis() + (12 * DateUtils.HOUR_IN_MILLIS)) > now.getTimeInMillis()) {
 					shouldPulseBulb = true;
@@ -930,7 +930,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				tv.setText(R.string.flight_redirected);
 			}
 			else {
-				tv.setText(R.string.flight_canceled);
+				tv.setText(R.string.flight_cancelled);
 			}
 			tv.setTextColor(res.getColor(R.color.itin_flight_canceled_color));
 			tv.setVisibility(View.VISIBLE);
