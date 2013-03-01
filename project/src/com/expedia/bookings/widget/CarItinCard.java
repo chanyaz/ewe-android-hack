@@ -76,13 +76,12 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		String pickUpTime = itinCardData.getFormattedPickUpTime();
 		String dropOffDate = itinCardData.getFormattedLongDropOffDate();
 		String dropOffTime = itinCardData.getFormattedDropOffTime();
-		String vendorAddress = itinCardData.getRelevantVendorLocation().toFormattedString();
+		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
 		String vendorPhone = itinCardData.getRelevantVendorPhone();
 
 		return String.format(template, vendorName, carType, pickUpDate, pickUpTime, dropOffDate, dropOffTime,
 				vendorAddress, vendorPhone, "");
 	}
-
 
 	@Override
 	protected int getHeaderImagePlaceholderResId() {

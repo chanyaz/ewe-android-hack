@@ -19,7 +19,6 @@ import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
@@ -623,6 +622,7 @@ public class TripParser {
 			location.setCity(obj.optString("cityName", obj.optString("addressLine3")));
 			location.setStateCode(obj.optString("provinceStateName"));
 			location.setPostalCode(obj.optString("postalCode"));
+			location.setCountryCode(obj.optString("countryCode"));
 
 			return location;
 		}

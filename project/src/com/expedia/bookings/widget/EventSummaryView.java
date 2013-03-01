@@ -59,7 +59,7 @@ public class EventSummaryView extends LinearLayout {
 	public void bind(Date date, final Location location, final boolean directions) {
 		mTimeTextView.setText(TIME_FORMAT.format(date));
 		mDateTextView.setText(DATE_FORMAT.format(date));
-		mLocationtextView.setText(location.toFormattedString());
+		mLocationtextView.setText(location.toLongFormattedString());
 		mLocationMapImageButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -246,4 +246,12 @@ public class Location implements JSONable {
 
 		return formattedString;
 	}
+
+	public String toLongFormattedString() {
+		if (TextUtils.isDigitsOnly(getStreetAddressString()) && TextUtils.isEmpty(toFormattedString())) {
+			return null;
+		}
+
+		return TextUtils.join(", ", new String[] { getStreetAddressString(), toFormattedString() });
+	}
 }
