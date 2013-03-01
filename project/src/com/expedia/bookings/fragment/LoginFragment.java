@@ -939,8 +939,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener {
 	 * @param percentage
 	 */
 	private void setButtonFlipPercentage(float percentage) {
-		Log.d("FLIP: setButtonFlipPercentage():" + percentage);
-
 		if (percentage > 1f) {
 			percentage = 1f;
 		}
