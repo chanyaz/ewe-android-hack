@@ -857,6 +857,7 @@ public class HotelsRobotHelper {
 			else {
 				mSolo.clickOnText(mRes.getString(R.string.NEW_SEARCH));
 				enterLog(TAG, "Going back to launcher.");
+				delay();
 				mSolo.goBack();
 			}
 		}
@@ -972,7 +973,15 @@ public class HotelsRobotHelper {
 
 	public void captureInfoScreen() {
 		delay();
+		try {
 		mSolo.clickOnMenuItem(mRes.getString(R.string.About));
+		}
+		catch (Error e) {
+			enterLog(TAG, "Not at the launch screen. Trying to go back.");
+			mSolo.goBack();
+			delay();
+			mSolo.clickOnMenuItem(mRes.getString(R.string.About));
+		}
 		landscape();
 		delay(2);
 		portrait();
