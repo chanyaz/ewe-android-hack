@@ -977,7 +977,7 @@ public class HotelsRobotHelper {
 
 	public void captureInfoScreen() {
 		delay();
-		mSolo.pressMenuItem(1);
+		mSolo.clickOnMenuItem(mRes.getString(R.string.About));
 		landscape();
 		delay(2);
 		portrait();
