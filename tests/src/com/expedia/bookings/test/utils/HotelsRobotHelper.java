@@ -974,7 +974,7 @@ public class HotelsRobotHelper {
 	public void captureInfoScreen() {
 		delay();
 		try {
-		mSolo.clickOnMenuItem(mRes.getString(R.string.About));
+			mSolo.clickOnMenuItem(mRes.getString(R.string.About));
 		}
 		catch (Error e) {
 			enterLog(TAG, "Not at the launch screen. Trying to go back.");
@@ -1070,7 +1070,12 @@ public class HotelsRobotHelper {
 		delay();
 		mSolo.scrollToTop();
 		delay();
-		mSolo.clickOnText(mRes.getString(R.string.sort_flights));
+		try {
+			mSolo.clickOnText(mRes.getString(R.string.sort_flights).toUpperCase());
+		}
+		catch (Error e) {
+			mSolo.clickOnText(mRes.getString(R.string.sort_flights).toUpperCase());
+		}
 		screenshot("Sort fragment");
 		mSolo.goBack();
 		delay();
