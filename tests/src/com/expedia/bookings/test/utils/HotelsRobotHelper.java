@@ -351,13 +351,8 @@ public class HotelsRobotHelper {
 
 	public void setSpoofBookings() {
 		try {
-			if (!mSolo.isCheckBoxChecked(0)) {
-				mSolo.clickOnCheckBox(0);
-			}
-			if (!mSolo.isCheckBoxChecked(2)) {
-				mSolo.clickOnCheckBox(2);
-			}
-
+			mSolo.clickOnText("Spoof hotel bookings");
+			mSolo.clickOnText("Suppress Flight Bookings");
 		}
 		catch (Exception E) {
 			enterLog(TAG, "Spoof bookings not there. Moving on.");
