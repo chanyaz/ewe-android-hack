@@ -22,6 +22,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.mobiata.android.util.AndroidUtils;
 
+@SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
@@ -45,6 +46,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private ItinCardDataAdapter mAdapter;
+
+	private ItinCard mDetailsView;
 
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
@@ -132,23 +135,25 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (mMode == MODE_DETAIL) {
-			getChildAt(mDetailPosition - getFirstVisiblePosition()).dispatchTouchEvent(event);
+		if (mMode == MODE_DETAIL && mDetailsView != null) {
+			mDetailsView.dispatchTouchEvent(event);
 			return true;
 		}
 
 		final int position = findMotionPosition((int) event.getY());
 		if (position != INVALID_POSITION) {
 			View child = getChildAt(position - getFirstVisiblePosition());
-			MotionEvent childEvent = MotionEvent.obtain(event);
-			childEvent.offsetLocation(0, -child.getTop());
+			if (child != null) {
+				MotionEvent childEvent = MotionEvent.obtain(event);
+				childEvent.offsetLocation(0, -child.getTop());
 
-			if (child.dispatchTouchEvent(childEvent)) {
+				if (child.dispatchTouchEvent(childEvent)) {
+					childEvent.recycle();
+					return true;
+				}
+
 				childEvent.recycle();
-				return true;
 			}
-
-			childEvent.recycle();
 		}
 
 		return super.onTouchEvent(event);
@@ -208,7 +213,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	int findMotionPosition(int y) {
+	private int findMotionPosition(int y) {
 		int childCount = getChildCount();
 		for (int i = 0; i < childCount; i++) {
 			View v = getChildAt(i);
@@ -221,7 +226,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	private void hideDetails() {
-		if (mDetailPosition < 0) {
+		if (mDetailPosition < 0 || mDetailsView == null) {
 			return;
 		}
 
@@ -230,15 +235,14 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			mOnListModeChangedListener.onListModeChanged(mMode);
 		}
 
-		final ItinCard view = (ItinCard) getChildAt(mDetailPosition - getFirstVisiblePosition());
 		final int startY = getScrollY();
 		final int stopY = mOriginalScrollY;
 
-		final ResizeAnimation animation = new ResizeAnimation(view, mExpandedCardOriginalHeight);
+		final ResizeAnimation animation = new ResizeAnimation(mDetailsView, mExpandedCardOriginalHeight);
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
-				view.collapse();
+				mDetailsView.collapse();
 			}
 
 			@Override
@@ -250,6 +254,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				invalidateViews();
 				scrollTo(0, stopY);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+				mDetailsView = null;
 			}
 		});
 		animation.setAnimationStepListener(new AnimationStepListener() {
@@ -260,8 +265,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		});
 
-		view.startAnimation(animation);
-
+		mDetailsView.startAnimation(animation);
 		mDetailPosition = -1;
 	}
 
@@ -270,8 +274,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	private void showDetails(int position) {
-		final ItinCard view = (ItinCard) getChildAt(position - getFirstVisiblePosition());
-		if (!view.hasDetails()) {
+		mDetailsView = (ItinCard) getChildAt(position - getFirstVisiblePosition());
+		if (mDetailsView == null || !mDetailsView.hasDetails()) {
 			return;
 		}
 
@@ -282,17 +286,17 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 
 		mExpandedCardHeight = mExpandedCardHeight > getHeight() ? mExpandedCardHeight : getHeight();
-		mExpandedCardOriginalHeight = view.getHeight();
+		mExpandedCardOriginalHeight = mDetailsView.getHeight();
 		mOriginalScrollY = getScrollY();
 
 		final int startY = getScrollY();
-		final int stopY = view.getTop();
+		final int stopY = mDetailsView.getTop();
 
-		final ResizeAnimation animation = new ResizeAnimation(view, mExpandedCardHeight);
+		final ResizeAnimation animation = new ResizeAnimation(mDetailsView, mExpandedCardHeight);
 		animation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
-				view.expand();
+				mDetailsView.expand();
 
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
@@ -306,7 +310,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				scrollTo(0, stopY);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 
-				switch (view.getType()) {
+				switch (mDetailsView.getType()) {
 				case CAR:
 					OmnitureTracking.trackItinCar(getContext());
 					break;
@@ -330,7 +334,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		});
 
-		view.startAnimation(animation);
+		mDetailsView.startAnimation(animation);
 	}
 
 	private void registerDataSetObserver() {
