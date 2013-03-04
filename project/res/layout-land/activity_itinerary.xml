@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/map_fragment"
-        android:name="com.expedia.bookings.maps.SupportMapFragment"
+        android:name="com.expedia.bookings.fragment.ItineraryMapFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"

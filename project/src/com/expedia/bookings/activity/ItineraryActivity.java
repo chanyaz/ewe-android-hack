@@ -10,7 +10,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
-import com.expedia.bookings.maps.SupportMapFragment;
+import com.expedia.bookings.fragment.ItineraryMapFragment;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -21,7 +21,7 @@ import com.mobiata.android.Log;
 public class ItineraryActivity extends SherlockFragmentActivity implements ItinItemListFragmentListener {
 
 	private ItinItemListFragment mItinListFragment;
-	private SupportMapFragment mMapFragment;
+	private ItineraryMapFragment mMapFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public void onItinCardClicked(ItinCardData data) {
-		Log.i("Clicked on card data: " + data.getTripComponent().toJson().toString());
+		mMapFragment.showItinItem(data);
 	}
 }
