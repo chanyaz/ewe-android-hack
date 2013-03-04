@@ -101,7 +101,7 @@ public class TripParser {
 			}
 		}
 
-		// TODO: Parse cruises (once those are available to be parsed)
+		// Parse cruises
 		JSONArray cruises = tripJson.optJSONArray("cruises");
 		if (cruises != null) {
 			for (int b = 0; b < cruises.length(); b++) {
