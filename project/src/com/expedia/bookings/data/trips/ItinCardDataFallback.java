@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.text.format.DateUtils;
 
@@ -29,12 +31,16 @@ public class ItinCardDataFallback extends ItinCardData {
 		long now = System.currentTimeMillis();
 		long duration = Math.abs(now - time);
 
+		CharSequence ret;
 		if (duration < DateUtils.WEEK_IN_MILLIS) {
-			return DateUtils.getRelativeTimeSpanString(time, now, DateUtils.DAY_IN_MILLIS, 0);
+			ret = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.DAY_IN_MILLIS, 0);
 		}
 		else {
-			return DateUtils.getRelativeTimeSpanString(context, time, false);
+			ret = DateUtils.getRelativeTimeSpanString(context, time, false);
 		}
+
+		ret = ret.subSequence(0, 1).toString().toUpperCase(Locale.getDefault()) + ret.subSequence(1, ret.length());
+		return ret;
 	}
 
 	public Type getType() {
