@@ -1,14 +1,14 @@
 package com.expedia.bookings.widget;
 
+import java.util.concurrent.Semaphore;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -68,6 +68,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private int mExpandedCardHeight;
 	private int mExpandedCardOriginalHeight;
+
+	private Semaphore mModeSwitchSemaphore = new Semaphore(1);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -251,62 +253,77 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		mAdapter.setDetailPosition(-1);
 	}
 
-	private void hideDetails() {
-		if (mDetailPosition < 0 || mDetailsCard == null) {
-			return;
+	private boolean hideDetails() {
+		boolean releaseSemHere = true;
+		boolean semGot = false;
+		try {
+			if (mModeSwitchSemaphore.tryAcquire()) {
+				semGot = true;
+				if (mDetailPosition < 0 || mDetailsCard == null) {
+					return false;
+				}
+
+				mMode = MODE_LIST;
+				if (mOnListModeChangedListener != null) {
+					mOnListModeChangedListener.onListModeChanged(mMode);
+				}
+
+				final int startY = getScrollY();
+				final int stopY = mOriginalScrollY;
+
+				ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard,
+						mExpandedCardOriginalHeight);
+				resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
+					@Override
+					public void onAnimationUpdate(ValueAnimator arg0) {
+						scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
+						onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+					}
+				});
+
+				AnimatorSet detailExpandAnim = mDetailsCard.collapse(false);
+				AnimatorSet set = new AnimatorSet();
+				set.playTogether(resizeAnimator, detailExpandAnim);
+
+				set.addListener(new AnimatorListener() {
+
+					@Override
+					public void onAnimationCancel(Animator arg0) {
+					}
+
+					@Override
+					public void onAnimationEnd(Animator arg0) {
+						scrollTo(0, stopY);
+						onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+						mDetailsCard.getLayoutParams().height = mExpandedCardOriginalHeight;
+						mDetailsCard.requestLayout();
+
+						clearDetailView();
+						invalidateViews();
+					}
+
+					@Override
+					public void onAnimationRepeat(Animator arg0) {
+					}
+
+					@Override
+					public void onAnimationStart(Animator arg0) {
+					}
+
+				});
+
+				set.addListener(mModeSwitchSemListener);
+				set.start();
+				releaseSemHere = false;
+				return true;
+			}
 		}
-
-		mMode = MODE_LIST;
-		if (mOnListModeChangedListener != null) {
-			mOnListModeChangedListener.onListModeChanged(mMode);
+		finally {
+			if (releaseSemHere && semGot) {
+				mModeSwitchSemaphore.release();
+			}
 		}
-
-		final int startY = getScrollY();
-		final int stopY = mOriginalScrollY;
-
-		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardOriginalHeight);
-		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator arg0) {
-				scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-			}
-		});
-
-		AnimatorSet detailExpandAnim = mDetailsCard.collapse(false);
-		AnimatorSet set = new AnimatorSet();
-		set.playTogether(resizeAnimator, detailExpandAnim);
-
-		set.addListener(new AnimatorListener() {
-
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				scrollTo(0, stopY);
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				mDetailsCard.getLayoutParams().height = mExpandedCardOriginalHeight;
-				mDetailsCard.requestLayout();
-
-				clearDetailView();
-				invalidateViews();
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator arg0) {
-			}
-
-			@Override
-			public void onAnimationStart(Animator arg0) {
-			}
-
-		});
-
-		set.start();
-
-		mDetailPosition = -1;
+		return false;
 	}
 
 	private void showDetails() {
@@ -314,93 +331,109 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	@SuppressLint("NewApi")
-	private void showDetails(int position) {
-		Log.d("ITIN: showDetails");
-		mDetailsCard = (ItinCard) getFreshDetailView(position);
-		if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
-			Log.d("ITIN: showDetails - mDetailsCard == null || !mDetailsCard.hasDetails()");
-			return;
-		}
-
-		mDetailPosition = position;
-		Log.d("ITIN: showDetails - mDetailPosition:" + mDetailPosition);
-		mMode = MODE_DETAIL;
-		if (mOnListModeChangedListener != null) {
-			mOnListModeChangedListener.onListModeChanged(mMode);
-		}
-
-		mExpandedCardHeight = mExpandedCardHeight > getHeight() ? mExpandedCardHeight : getHeight();
-		mExpandedCardOriginalHeight = mDetailsCard.getHeight();
-		mOriginalScrollY = getScrollY();
-
-		final int startY = getScrollY();
-		final int stopY = mDetailsCard.getTop();
-
-		Log.d("ITIN: mDetailPosition:" + mDetailPosition + " getFirstVisiblePosition:" + getFirstVisiblePosition()
-				+ " mExpandedCardHeight:" + mExpandedCardHeight
-				+ " mExpandedCardOriginalHeight:" + mExpandedCardOriginalHeight + " mOriginalScrollY:"
-				+ mOriginalScrollY + " startY:" + startY + " stopY" + stopY);
-
-		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardHeight);
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator arg0) {
-					scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
-					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+	private boolean showDetails(int position) {
+		boolean releaseSemHere = true;
+		boolean semGot = false;
+		try {
+			if (mModeSwitchSemaphore.tryAcquire()) {
+				semGot = true;
+				Log.d("ITIN: showDetails");
+				mDetailsCard = (ItinCard) getFreshDetailView(position);
+				if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
+					Log.d("ITIN: showDetails - mDetailsCard == null || !mDetailsCard.hasDetails()");
+					return false;
 				}
 
-			});
-		}
-		else {
-			this.setSelectionFromTop(mDetailPosition, 0);
-		}
+				mDetailPosition = position;
+				Log.d("ITIN: showDetails - mDetailPosition:" + mDetailPosition);
+				mMode = MODE_DETAIL;
+				if (mOnListModeChangedListener != null) {
+					mOnListModeChangedListener.onListModeChanged(mMode);
+				}
 
-		AnimatorSet set = new AnimatorSet();
-		AnimatorSet detailExpandAnim = mDetailsCard.expand(false);
-		set.playTogether(resizeAnimator, detailExpandAnim);
-		set.addListener(new AnimatorListener() {
+				mExpandedCardHeight = mExpandedCardHeight > getHeight() ? mExpandedCardHeight : getHeight();
+				mExpandedCardOriginalHeight = mDetailsCard.getHeight();
+				mOriginalScrollY = getScrollY();
 
-			@Override
-			public void onAnimationCancel(Animator arg0) {
-			}
+				final int startY = getScrollY();
+				final int stopY = mDetailsCard.getTop();
 
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				mDetailsCard.getLayoutParams().height = mExpandedCardHeight;
-				mDetailsCard.requestLayout();
+				Log.d("ITIN: mDetailPosition:" + mDetailPosition + " getFirstVisiblePosition:"
+						+ getFirstVisiblePosition()
+						+ " mExpandedCardHeight:" + mExpandedCardHeight
+						+ " mExpandedCardOriginalHeight:" + mExpandedCardOriginalHeight + " mOriginalScrollY:"
+						+ mOriginalScrollY + " startY:" + startY + " stopY" + stopY);
 
-				if (mDetailsCard != null) {
-					switch (mDetailsCard.getType()) {
-					case CAR:
-						OmnitureTracking.trackItinCar(getContext());
-						break;
-					case FLIGHT:
-						OmnitureTracking.trackItinFlight(getContext());
-						break;
-					case HOTEL:
-						OmnitureTracking.trackItinHotel(getContext());
-						break;
-					case ACTIVITY:
-						OmnitureTracking.trackItinActivity(getContext());
-						break;
+				ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardHeight);
+				if (AndroidUtils.getSdkVersion() >= 11) {
+					resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
+						@Override
+						public void onAnimationUpdate(ValueAnimator arg0) {
+							scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
+							onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+						}
+
+					});
+				}
+				else {
+					this.setSelectionFromTop(mDetailPosition, 0);
+				}
+
+				AnimatorSet set = new AnimatorSet();
+				AnimatorSet detailExpandAnim = mDetailsCard.expand(false);
+				set.playTogether(resizeAnimator, detailExpandAnim);
+				set.addListener(new AnimatorListener() {
+
+					@Override
+					public void onAnimationCancel(Animator arg0) {
 					}
-				}
+
+					@Override
+					public void onAnimationEnd(Animator arg0) {
+						mDetailsCard.getLayoutParams().height = mExpandedCardHeight;
+						mDetailsCard.requestLayout();
+
+						if (mDetailsCard != null) {
+							switch (mDetailsCard.getType()) {
+							case CAR:
+								OmnitureTracking.trackItinCar(getContext());
+								break;
+							case FLIGHT:
+								OmnitureTracking.trackItinFlight(getContext());
+								break;
+							case HOTEL:
+								OmnitureTracking.trackItinHotel(getContext());
+								break;
+							case ACTIVITY:
+								OmnitureTracking.trackItinActivity(getContext());
+								break;
+							}
+						}
+					}
+
+					@Override
+					public void onAnimationRepeat(Animator arg0) {
+					}
+
+					@Override
+					public void onAnimationStart(Animator arg0) {
+						onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+					}
+
+				});
+
+				set.addListener(mModeSwitchSemListener);
+				set.start();
+				releaseSemHere = false;
+				return true;
 			}
-
-			@Override
-			public void onAnimationRepeat(Animator arg0) {
+		}
+		finally {
+			if (releaseSemHere && semGot) {
+				mModeSwitchSemaphore.release();
 			}
-
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-			}
-
-		});
-
-		set.start();
-
+		}
+		return false;
 	}
 
 	private void registerDataSetObserver() {
@@ -447,10 +480,11 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		showDetails(position);
+		if (showDetails(position)) {
 
-		if (mOnItemClickListener != null) {
-			mOnItemClickListener.onItemClick(parent, view, position, id);
+			if (mOnItemClickListener != null) {
+				mOnItemClickListener.onItemClick(parent, view, position, id);
+			}
 		}
 	}
 
@@ -504,5 +538,27 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				}
 			}
 		}
+	};
+
+	private AnimatorListener mModeSwitchSemListener = new AnimatorListener() {
+
+		@Override
+		public void onAnimationCancel(Animator arg0) {
+			mModeSwitchSemaphore.release();
+		}
+
+		@Override
+		public void onAnimationEnd(Animator arg0) {
+			mModeSwitchSemaphore.release();
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator arg0) {
+		}
+
+		@Override
+		public void onAnimationStart(Animator arg0) {
+		}
+
 	};
 }
