@@ -7,6 +7,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
@@ -20,6 +21,8 @@ public class ClearPrivateDataUtil {
 		if (signedIn) {
 			User.signOut(context);
 		}
+
+		ItineraryManager.getInstance().clear();
 
 		Db.deleteCachedFlightData(context);
 		Db.deleteTravelers(context);

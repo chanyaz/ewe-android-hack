@@ -114,10 +114,10 @@ public class ItineraryManager implements JSONable {
 	}
 
 	/**
-	 * Indicates that the user has logged out.  We remove
-	 * ALL trips (even guest trips) in this situation.
+	 * Clear all data from the itinerary manager.  Used on sign out or
+	 * when private data is cleared.
 	 */
-	public void onSignOut() {
+	public void clear() {
 		if (isSyncing()) {
 			// If we're syncing, cancel the sync (then let the canceled task
 			// do the sign out once it's finished).
@@ -125,15 +125,21 @@ public class ItineraryManager implements JSONable {
 			mSyncTask.cancelDownloads();
 		}
 		else {
-			doSignOut();
+			doClearData();
 		}
 	}
 
-	private void doSignOut() {
-		if (mTrips == null) {
-			// Delete the file, so it can't be reloaded later
-			File file = mContext.getFileStreamPath(MANAGER_PATH);
+	private void doClearData() {
+		// Delete the file, so it can't be reloaded later
+		File file = mContext.getFileStreamPath(MANAGER_PATH);
+		if (file.exists()) {
 			file.delete();
+		}
+
+		mStartTimes.clear();
+		mEndTimes.clear();
+
+		if (mTrips == null) {
 			return;
 		}
 
@@ -142,8 +148,6 @@ public class ItineraryManager implements JSONable {
 		}
 
 		mTrips.clear();
-
-		save();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -638,7 +642,7 @@ public class ItineraryManager implements JSONable {
 			// Currently, the only reason we are canceled is if
 			// the user signs out mid-update.  So continue
 			// the signout in that case.
-			doSignOut();
+			doClearData();
 
 			onSyncFailed(SyncError.CANCELLED);
 

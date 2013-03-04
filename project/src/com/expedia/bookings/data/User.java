@@ -108,7 +108,7 @@ public class User implements JSONable {
 			Session.getActiveSession().closeAndClearTokenInformation();
 		}
 
-		ItineraryManager.getInstance().onSignOut();
+		ItineraryManager.getInstance().clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
