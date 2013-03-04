@@ -26,6 +26,7 @@ import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
@@ -756,13 +757,15 @@ public class ItineraryManager implements JSONable {
 							}
 
 							if (update) {
-								Flight updatedFlight = mServices.getUpdatedFlight(segment);
+								FlightStatsFlightResponse updatedFlightResponse = mServices.getUpdatedFlight(segment);
 
 								if (isCancelled()) {
 									return;
 								}
 
-								segment.updateFrom(updatedFlight);
+								if (updatedFlightResponse != null) {
+									segment.updateFrom(updatedFlightResponse.getFlight());
+								}
 
 								mFlightsUpdated++;
 							}

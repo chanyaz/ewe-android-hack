@@ -446,7 +446,7 @@ public class ExpediaServices implements DownloadListener {
 		return null;
 	}
 
-	public Flight getUpdatedFlight(Flight flight) {
+	public FlightStatsFlightResponse getUpdatedFlight(Flight flight) {
 		ArrayList<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
 		parameters.add(new BasicNameValuePair("appId", FS_FLEX_APP_ID));
 		parameters.add(new BasicNameValuePair("appKey", FS_FLEX_APP_KEY));
@@ -470,15 +470,8 @@ public class ExpediaServices implements DownloadListener {
 			parameters.add(new BasicNameValuePair("airport", flight.mOrigin.mAirportCode));
 		}
 
-		FlightStatsFlightResponse response = doFlightStatsRequest(baseUrl, parameters,
+		return doFlightStatsRequest(baseUrl, parameters,
 				new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode));
-
-		if (response == null) {
-			return null;
-		}
-		else {
-			return response.getFlight();
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
