@@ -235,8 +235,14 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		int start = getFirstVisiblePosition();
 		View view = getChildAt(position - start);
 		if (view != null) {
-			//NOTE: So we do this so the adapter thinks the detail is a different row type
-			mAdapter.setDetailPosition(position);
+			if (AndroidUtils.getSdkVersion() < 11) {
+				//This could use some more investigation and possibly a more all around solution
+				// 2.x needs this because otherwise all of the listview rows use the same view and they all expand which bones our animation
+				// 4.x breaks from this because the adapter decides that it should call measure mid animation - the last details card was collapsed
+				//	   after we used it, so it thinks that the height of the thing should be non-expanded height our animation gets boned
+				mAdapter.setDetailPosition(position);
+			}
+
 			return mAdapter.getView(position, view, this);
 		}
 		return null;
