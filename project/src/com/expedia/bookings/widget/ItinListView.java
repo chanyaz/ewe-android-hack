@@ -7,20 +7,23 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.expedia.bookings.animation.ResizeAnimation;
-import com.expedia.bookings.animation.ResizeAnimation.AnimationStepListener;
+import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 @SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -47,7 +50,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private ItinCardDataAdapter mAdapter;
 
-	private ItinCard mDetailsView;
+	private ItinCard mDetailsCard;
 
 	private OnItemClickListener mOnItemClickListener;
 	private OnScrollListener mOnScrollListener;
@@ -132,28 +135,33 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	// Touch overrides
-
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (mMode == MODE_DETAIL && mDetailsView != null) {
-			mDetailsView.dispatchTouchEvent(event);
-			return true;
+		Log.d("ITIN: onTouchEvent");
+		if (mMode == MODE_DETAIL) {
+			Log.d("ITIN: onTouchEvent - MODE_DETAIL");
+			if (mDetailsCard != null) {
+				boolean retVal = mDetailsCard.dispatchTouchEvent(event);
+				Log.d("ITIN: onTouchEvent - MODE_DETAIL mDetailsCard != null retVal:" + retVal);
+				return retVal;
+			}
+			else {
+				Log.d("ITIN: onTouchEvent - MODE_DETAIL mDetailsCard == null");
+				return super.onTouchEvent(event);
+			}
 		}
 
-		final int position = findMotionPosition((int) event.getY());
-		if (position != INVALID_POSITION) {
-			View child = getChildAt(position - getFirstVisiblePosition());
-			if (child != null) {
-				MotionEvent childEvent = MotionEvent.obtain(event);
-				childEvent.offsetLocation(0, -child.getTop());
+		View child = findMotionView((int) event.getY());
+		if (child != null) {
+			MotionEvent childEvent = MotionEvent.obtain(event);
+			childEvent.offsetLocation(0, -child.getTop());
 
-				if (child.dispatchTouchEvent(childEvent)) {
-					childEvent.recycle();
-					return true;
-				}
-
+			if (child.dispatchTouchEvent(childEvent)) {
 				childEvent.recycle();
+				return true;
 			}
+
+			childEvent.recycle();
 		}
 
 		return super.onTouchEvent(event);
@@ -213,20 +221,19 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	private int findMotionPosition(int y) {
+	private View findMotionView(int y) {
 		int childCount = getChildCount();
 		for (int i = 0; i < childCount; i++) {
 			View v = getChildAt(i);
 			if (y <= v.getBottom()) {
-				return getFirstVisiblePosition() + i;
+				return v;
 			}
 		}
-
-		return INVALID_POSITION;
+		return null;
 	}
 
 	private void hideDetails() {
-		if (mDetailPosition < 0 || mDetailsView == null) {
+		if (mDetailPosition < 0 || mDetailsCard == null) {
 			return;
 		}
 
@@ -238,34 +245,47 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		final int startY = getScrollY();
 		final int stopY = mOriginalScrollY;
 
-		final ResizeAnimation animation = new ResizeAnimation(mDetailsView, mExpandedCardOriginalHeight);
-		animation.setAnimationListener(new AnimationListener() {
+		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardOriginalHeight);
+		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
-			public void onAnimationStart(Animation animation) {
-				mDetailsView.collapse();
+			public void onAnimationUpdate(ValueAnimator arg0) {
+				scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
+				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+			}
+		});
+
+		AnimatorSet detailExpandAnim = mDetailsCard.collapse(false);
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(resizeAnimator, detailExpandAnim);
+
+		set.addListener(new AnimatorListener() {
+
+			@Override
+			public void onAnimationCancel(Animator arg0) {
 			}
 
 			@Override
-			public void onAnimationRepeat(Animation animation) {
-			}
-
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				invalidateViews();
+			public void onAnimationEnd(Animator arg0) {
 				scrollTo(0, stopY);
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-				mDetailsView = null;
+				mDetailsCard.getLayoutParams().height = mExpandedCardOriginalHeight;
+				mDetailsCard.requestLayout();
+				mDetailsCard = null;
+				invalidateViews();
 			}
-		});
-		animation.setAnimationStepListener(new AnimationStepListener() {
+
 			@Override
-			public void onAnimationStep(Animation animation, float interpolatedTime) {
-				scrollTo(0, (int) (((stopY - startY) * interpolatedTime) + startY));
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+			public void onAnimationRepeat(Animator arg0) {
 			}
+
+			@Override
+			public void onAnimationStart(Animator arg0) {
+			}
+
 		});
 
-		mDetailsView.startAnimation(animation);
+		set.start();
+
 		mDetailPosition = -1;
 	}
 
@@ -273,68 +293,96 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		showDetails(mDetailPosition);
 	}
 
+	@SuppressLint("NewApi")
 	private void showDetails(int position) {
-		mDetailsView = (ItinCard) getChildAt(position - getFirstVisiblePosition());
-		if (mDetailsView == null || !mDetailsView.hasDetails()) {
+		Log.d("ITIN: showDetails");
+		mDetailsCard = (ItinCard) getChildAt(position - getFirstVisiblePosition());
+		if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
+			Log.d("ITIN: showDetails - mDetailsCard == null || !mDetailsCard.hasDetails()");
 			return;
 		}
 
 		mDetailPosition = position;
+		Log.d("ITIN: showDetails - mDetailPosition:" + mDetailPosition);
 		mMode = MODE_DETAIL;
 		if (mOnListModeChangedListener != null) {
 			mOnListModeChangedListener.onListModeChanged(mMode);
 		}
 
 		mExpandedCardHeight = mExpandedCardHeight > getHeight() ? mExpandedCardHeight : getHeight();
-		mExpandedCardOriginalHeight = mDetailsView.getHeight();
+		mExpandedCardOriginalHeight = mDetailsCard.getHeight();
 		mOriginalScrollY = getScrollY();
 
 		final int startY = getScrollY();
-		final int stopY = mDetailsView.getTop();
+		final int stopY = mDetailsCard.getTop();
 
-		final ResizeAnimation animation = new ResizeAnimation(mDetailsView, mExpandedCardHeight);
-		animation.setAnimationListener(new AnimationListener() {
+		Log.d("ITIN: mDetailPosition:" + mDetailPosition + " getFirstVisiblePosition:" + getFirstVisiblePosition()
+				+ " mExpandedCardHeight:" + mExpandedCardHeight
+				+ " mExpandedCardOriginalHeight:" + mExpandedCardOriginalHeight + " mOriginalScrollY:"
+				+ mOriginalScrollY + " startY:" + startY + " stopY" + stopY);
+
+		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardHeight);
+		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
-			public void onAnimationStart(Animation animation) {
-				mDetailsView.expand();
-
+			public void onAnimationUpdate(ValueAnimator arg0) {
+				scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
 
+		});
+
+		AnimatorSet set = new AnimatorSet();
+		AnimatorSet detailExpandAnim = mDetailsCard.expand(false);
+		set.playTogether(resizeAnimator, detailExpandAnim);
+		set.addListener(new AnimatorListener() {
+
 			@Override
-			public void onAnimationRepeat(Animation animation) {
+			public void onAnimationCancel(Animator arg0) {
 			}
 
 			@Override
-			public void onAnimationEnd(Animation animation) {
-				scrollTo(0, stopY);
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+			public void onAnimationEnd(Animator arg0) {
+				Runnable scrollRunner = new Runnable() {
 
-				switch (mDetailsView.getType()) {
-				case CAR:
-					OmnitureTracking.trackItinCar(getContext());
-					break;
-				case FLIGHT:
-					OmnitureTracking.trackItinFlight(getContext());
-					break;
-				case HOTEL:
-					OmnitureTracking.trackItinHotel(getContext());
-					break;
-				case ACTIVITY:
-					OmnitureTracking.trackItinActivity(getContext());
-					break;
+					@Override
+					public void run() {
+						ItinListView.this.scrollTo(0, mDetailsCard.getTop());
+						onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+					}
+
+				};
+
+				ItinListView.this.postDelayed(scrollRunner, 200);
+				if (mDetailsCard != null) {
+					switch (mDetailsCard.getType()) {
+					case CAR:
+						OmnitureTracking.trackItinCar(getContext());
+						break;
+					case FLIGHT:
+						OmnitureTracking.trackItinFlight(getContext());
+						break;
+					case HOTEL:
+						OmnitureTracking.trackItinHotel(getContext());
+						break;
+					case ACTIVITY:
+						OmnitureTracking.trackItinActivity(getContext());
+						break;
+					}
 				}
 			}
-		});
-		animation.setAnimationStepListener(new AnimationStepListener() {
+
 			@Override
-			public void onAnimationStep(Animation animation, float interpolatedTime) {
-				scrollTo(0, (int) (((stopY - startY) * interpolatedTime) + startY));
+			public void onAnimationRepeat(Animator arg0) {
+			}
+
+			@Override
+			public void onAnimationStart(Animator arg0) {
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 			}
+
 		});
 
-		mDetailsView.startAnimation(animation);
+		set.start();
 	}
 
 	private void registerDataSetObserver() {
