@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.animation.ResizeAnimation;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
@@ -447,15 +446,19 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);
 
-		mTitleLayout.startAnimation(new ResizeAnimation(mTitleLayout, 0, mTitleLayoutHeight));
-
+		ArrayList<Animator> animators = new ArrayList<Animator>();
+		Animator titleLayoutResizeAnimator = ResizeAnimator.buildResizeAnimator(mTitleLayout, 0, mTitleLayoutHeight);
+		animators.add(titleLayoutResizeAnimator);
 		if (mActionButtonLayout.getVisibility() != VISIBLE) {
 			mSummaryLayout.setVisibility(VISIBLE);
 			mActionButtonLayout.setVisibility(VISIBLE);
-			mActionButtonLayout.startAnimation(new ResizeAnimation(mActionButtonLayout, mActionButtonLayoutHeight));
+			Animator actionButtonResizeAnimator = ResizeAnimator.buildResizeAnimator(mActionButtonLayout,
+					mActionButtonLayoutHeight);
+			animators.add(actionButtonResizeAnimator);
 		}
-
-		AnimatorSet animSet = getExpandAnimatorSet();
+		animators.add(getExpandAnimatorSet());
+		AnimatorSet animSet = new AnimatorSet();
+		animSet.playTogether(animators);
 		if (startAnimation) {
 			animSet.start();
 		}
@@ -702,7 +705,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			}
 		}
 	};
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		Log.d("ITIN: ItinCard.onTouchEvent");
