@@ -154,9 +154,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		boolean isInThePast = isItemInThePast(position);
 		boolean isSumCard = isItemASummaryCard(position);
 		boolean isDetailCard = isItemDetailCard(position);
-		if(isDetailCard){
+		if (isDetailCard) {
 			retVal += (TripComponent.Type.values().length * 3);
-		}else if (isInThePast) {
+		}
+		else if (isInThePast) {
 			retVal += TripComponent.Type.values().length;
 		}
 		else if (isSumCard) {
@@ -205,11 +206,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public void setDetailPosition(int position){
+	public void setDetailPosition(int position) {
 		mDetailPosition = position;
 	}
-	
-	
+
 	/**
 	 * Sync the adapter data with the ItineraryManager
 	 * 
@@ -372,6 +372,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			return State.PAST;
 		case 2:
 			return State.SUMMARY;
+		case 3:
+			return State.DETAIL;
 		default:
 			return State.NORMAL;
 		}
@@ -397,8 +399,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		}
 		return false;
 	}
-	
-	private boolean isItemDetailCard(int position){
+
+	private boolean isItemDetailCard(int position) {
 		return (position == mDetailPosition);
 	}
 
