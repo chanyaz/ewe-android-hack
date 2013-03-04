@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
@@ -471,8 +472,8 @@ public class ItineraryManager implements JSONable {
 	// TODO: Figure out better values for this
 	private static final long UPDATE_TRIP_CACHED_CUTOFF = 1000 * 60 * 60 * 24; // 1 day
 
-	private static final long MINUTE = 1000 * 60;
-	private static final long HOUR = MINUTE * 60;
+	private static final long MINUTE = DateUtils.MINUTE_IN_MILLIS;
+	private static final long HOUR = DateUtils.HOUR_IN_MILLIS;
 
 	/**
 	 * Start a sync operation.
@@ -724,9 +725,13 @@ public class ItineraryManager implements JSONable {
 
 						for (Flight segment : fl.getSegments()) {
 							long takeOff = segment.mOrigin.getMostRelevantDateTime().getTimeInMillis();
-							long landing = segment.mDestination.getMostRelevantDateTime().getTimeInMillis();
+							long landing = segment.getArrivalWaypoint().getMostRelevantDateTime().getTimeInMillis();
 							long timeToTakeOff = takeOff - now;
 							long timeSinceLastUpdate = now - segment.mLastUpdated;
+							if (segment.mFlightHistoryId == -1) {
+								// we have never got data from FS, so segment.mLastUpdated is unreliable at best
+								timeSinceLastUpdate = Long.MAX_VALUE;
+							}
 
 							// Logic for whether to update; this could be compacted, but I've left it
 							// somewhat unwound so that it can actually be understood.
@@ -741,8 +746,13 @@ public class ItineraryManager implements JSONable {
 							else if (now < landing && timeSinceLastUpdate > 5 * MINUTE) {
 								update = true;
 							}
-							else {
-								segment.mStatusCode = Flight.STATUS_LANDED;
+							else if (now > landing) {
+								if (now < (landing + (7 * DateUtils.DAY_IN_MILLIS)) && timeSinceLastUpdate > (now - landing)) {
+									update = true;
+								}
+								else {
+									segment.mStatusCode = Flight.STATUS_LANDED;
+								}
 							}
 
 							if (update) {
