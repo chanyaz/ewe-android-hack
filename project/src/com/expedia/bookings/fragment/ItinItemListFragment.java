@@ -165,6 +165,13 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		super.onSaveInstanceState(outState);
 	}
 
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		mItinManager.removeSyncListener(this);
+	}
+
 	public void syncItinManager() {
 		if (mAllowLoadItins && mItinManager != null) {
 			mItinManager.startSync();
