@@ -2,13 +2,11 @@ package com.expedia.bookings.fragment;
 
 import java.util.Collection;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +34,6 @@ import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
-import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -159,10 +155,11 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 		if (mShowError && mErrorMessage != null) {
 			outState.putString(STATE_ERROR_MESSAGE, mErrorMessage);
 		}
-		super.onSaveInstanceState(outState);
+
 	}
 
 	@Override
@@ -170,6 +167,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		super.onDetach();
 
 		mItinManager.removeSyncListener(this);
+		mItinManager = null;
 	}
 
 	public void syncItinManager() {
@@ -263,22 +261,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		syncItinManager();
 	}
 
-	@SuppressLint("NewApi")
-	public void invalidateOptionsMenu() {
-		if (this.getActivity() != null) {
-			if (getActivity() instanceof SherlockFragmentActivity) {
-				((SherlockFragmentActivity) getActivity()).supportInvalidateOptionsMenu();
-			}
-			else if (AndroidUtils.getSdkVersion() >= 11) {
-				getActivity().invalidateOptionsMenu();
-			}
-			else {
-				throw new RuntimeException(
-						"ItinItemListFragment should be attached to a SherlockFragmentActivity if sdk version < 11");
-			}
-		}
-	}
-
 	public void onLoginCompleted() {
 		updateLoginState();
 
@@ -287,50 +269,9 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		invalidateOptionsMenu();
 	}
 
-	@Override
-	public void onTripAdded(Trip trip) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onTripUpdated(Trip trip) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onTripUpateFailed(Trip trip) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onTripRemoved(Trip trip) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSyncFailure(SyncError error) {
-		setIsLoading(false);
-		setErrorMessage(R.string.itinerary_fetch_error, User.isLoggedIn(getActivity()));
-	}
-
-	@Override
-	public void onSyncFinished(Collection<Trip> trips) {
-		setIsLoading(false);
-		setErrorMessage(null, false);
-
-		// TODO: make sure these calls are fired the correct number of times, will probably need extra bookkeeping
-		Context context = getActivity();
-		if (context != null) {
-			if (trips != null && trips.size() > 1) {
-				OmnitureTracking.trackItin(context);
-			}
-			else {
-				OmnitureTracking.trackItinEmpty(context);
-			}
+	public void invalidateOptionsMenu() {
+		if (getActivity() != null) {
+			((SherlockFragmentActivity) getActivity()).supportInvalidateOptionsMenu();
 		}
 	}
 
@@ -389,4 +330,50 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 					getFragmentManager(), DIALOG_SHARE);
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// ItinerarySyncListener
+
+	@Override
+	public void onTripAdded(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onTripUpdated(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onTripUpateFailed(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onTripRemoved(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onSyncFailure(SyncError error) {
+		setIsLoading(false);
+		setErrorMessage(R.string.itinerary_fetch_error, User.isLoggedIn(getActivity()));
+	}
+
+	@Override
+	public void onSyncFinished(Collection<Trip> trips) {
+		setIsLoading(false);
+		setErrorMessage(null, false);
+
+		// TODO: make sure these calls are fired the correct number of times, will probably need extra bookkeeping
+		Context context = getActivity();
+		if (context != null) {
+			if (trips != null && trips.size() > 1) {
+				OmnitureTracking.trackItin(context);
+			}
+			else {
+				OmnitureTracking.trackItinEmpty(context);
+			}
+		}
+	}
 }
