@@ -545,7 +545,7 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 				String dateStr = DateUtils.formatDateTime(getContext(), DateTimeUtils.getTimeInLocalTimeZone(departure)
 						.getTime(), DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR);
 				topLine.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
-				bulb.setImageResource(R.drawable.ic_departure_details);
+				bulb.setImageResource(R.drawable.ic_flight_status_on_time);
 				bottomLine.setText(Html.fromHtml(res.getString(R.string.from_airport_time_TEMPLATE,
 						flight.mOrigin.mAirportCode,
 						formatTime(flight.mOrigin.getMostRelevantDateTime()))));
