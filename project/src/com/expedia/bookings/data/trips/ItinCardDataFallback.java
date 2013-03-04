@@ -47,4 +47,14 @@ public class ItinCardDataFallback extends ItinCardData {
 		return getTripComponent().getType();
 	}
 
+	@Override
+	public boolean hasSummaryData() {
+		return false;
+	}
+
+	@Override
+	public boolean hasDetailData() {
+		return false;
+	}
+
 }

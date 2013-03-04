@@ -418,9 +418,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		futureThreshold.add(Calendar.HOUR, 2);
 
 		int firstCardPos = getMostRelevantCardPosition();
-		sumCardPositions.add(firstCardPos);
-		for (int i = firstCardPos + 1; i < mItinCardDatas.size(); i++) {
+		for (int i = firstCardPos; i < mItinCardDatas.size(); i++) {
 			ItinCardData data = mItinCardDatas.get(i);
+			if (!data.hasSummaryData()) {
+				continue;
+			}
+			if (i == firstCardPos) {
+				sumCardPositions.add(i);
+				continue;
+			}
 			boolean afterNow = doesCardStartAfterCal(data, now);
 			boolean startsBeforeThresh = doesCardStartBeforeCal(data, futureThreshold);
 			if (afterNow && startsBeforeThresh) {

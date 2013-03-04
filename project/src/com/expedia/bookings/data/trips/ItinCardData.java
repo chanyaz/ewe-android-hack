@@ -33,14 +33,21 @@ public class ItinCardData {
 	public String getDetailsUrl() {
 		return mTripComponent.getParentTrip().getDetailsUrl();
 	}
-	
+
+	public boolean hasSummaryData() {
+		return true;
+	}
+
+	public boolean hasDetailData() {
+		return true;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// interfaces
 
 	public interface ConfirmationNumberable {
 		public boolean hasConfirmationNumber();
-		
+
 		public String getFormattedConfirmationNumbers();
 	}
 }
