@@ -17,6 +17,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
@@ -46,8 +47,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
 
-	private SherlockFragmentActivity mActivity;
-
 	private View mItinPathView;
 	private ItinListView mItinListView;
 	private View mEmptyView;
@@ -73,12 +72,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		if (!(activity instanceof SherlockFragmentActivity)) {
-			throw new RuntimeException("ItinItemListFragment Activity must be instance of SherlockFragmentActivity.");
-		}
-
-		mActivity = (SherlockFragmentActivity) activity;
 
 		mItinManager = ItineraryManager.getInstance();
 		mItinManager.addSyncListener(this);
@@ -109,7 +102,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.post(new Runnable() {
 			@Override
 			public void run() {
-				mItinListView.setExpandedCardHeight(view.getHeight() + mActivity.getSupportActionBar().getHeight());
+				mItinListView.setExpandedCardHeight(view.getHeight() + getSupportActionBar().getHeight());
 			}
 		});
 
@@ -269,12 +262,6 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		invalidateOptionsMenu();
 	}
 
-	public void invalidateOptionsMenu() {
-		if (getActivity() != null) {
-			((SherlockFragmentActivity) getActivity()).supportInvalidateOptionsMenu();
-		}
-	}
-
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -309,11 +296,11 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		@Override
 		public void onListModeChanged(int mode) {
 			if (mode == ItinListView.MODE_LIST) {
-				mActivity.getSupportActionBar().show();
+				getSupportActionBar().show();
 				ObjectAnimator.ofFloat(mItinPathView, "alpha", 1f).setDuration(200).start();
 			}
 			else if (mode == ItinListView.MODE_DETAIL) {
-				mActivity.getSupportActionBar().hide();
+				getSupportActionBar().hide();
 				ObjectAnimator.ofFloat(mItinPathView, "alpha", 0f).setDuration(200).start();
 			}
 		}
@@ -330,6 +317,19 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 					getFragmentManager(), DIALOG_SHARE);
 		}
 	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// Access into SherlockFragmentActivity
+
+	private void invalidateOptionsMenu() {
+		if (getActivity() != null) {
+			((SherlockFragmentActivity) getActivity()).supportInvalidateOptionsMenu();
+		}
+	}
+
+	private ActionBar getSupportActionBar() {
+		return ((SherlockFragmentActivity) getActivity()).getSupportActionBar();
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// ItinerarySyncListener
