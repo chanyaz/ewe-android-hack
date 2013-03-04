@@ -10,7 +10,6 @@ import android.graphics.Rect;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,7 +24,6 @@ import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
@@ -708,10 +706,4 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			}
 		}
 	};
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		Log.d("ITIN: ItinCard.onTouchEvent");
-		return super.onTouchEvent(event);
-	}
 }

@@ -19,7 +19,6 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
@@ -141,16 +140,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// Touch overrides
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		Log.d("ITIN: onTouchEvent");
 		if (mMode == MODE_DETAIL) {
-			Log.d("ITIN: onTouchEvent - MODE_DETAIL");
 			if (mDetailsCard != null) {
 				boolean retVal = mDetailsCard.dispatchTouchEvent(event);
-				Log.d("ITIN: onTouchEvent - MODE_DETAIL mDetailsCard != null retVal:" + retVal);
 				return retVal;
 			}
 			else {
-				Log.d("ITIN: onTouchEvent - MODE_DETAIL mDetailsCard == null");
 				return super.onTouchEvent(event);
 			}
 		}
@@ -337,15 +332,12 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		try {
 			if (mModeSwitchSemaphore.tryAcquire()) {
 				semGot = true;
-				Log.d("ITIN: showDetails");
 				mDetailsCard = (ItinCard) getFreshDetailView(position);
 				if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
-					Log.d("ITIN: showDetails - mDetailsCard == null || !mDetailsCard.hasDetails()");
 					return false;
 				}
 
 				mDetailPosition = position;
-				Log.d("ITIN: showDetails - mDetailPosition:" + mDetailPosition);
 				mMode = MODE_DETAIL;
 				if (mOnListModeChangedListener != null) {
 					mOnListModeChangedListener.onListModeChanged(mMode);
@@ -357,12 +349,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 				final int startY = getScrollY();
 				final int stopY = mDetailsCard.getTop();
-
-				Log.d("ITIN: mDetailPosition:" + mDetailPosition + " getFirstVisiblePosition:"
-						+ getFirstVisiblePosition()
-						+ " mExpandedCardHeight:" + mExpandedCardHeight
-						+ " mExpandedCardOriginalHeight:" + mExpandedCardOriginalHeight + " mOriginalScrollY:"
-						+ mOriginalScrollY + " startY:" + startY + " stopY" + stopY);
 
 				ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardHeight);
 				if (AndroidUtils.getSdkVersion() >= 11) {
