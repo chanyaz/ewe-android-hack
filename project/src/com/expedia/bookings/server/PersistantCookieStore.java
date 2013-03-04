@@ -165,7 +165,7 @@ public class PersistantCookieStore extends BasicCookieStore {
 				addCookie(cookie);
 			}
 
-			Log.d("Loaded " + len + " cookies");
+			Log.v("Loaded " + len + " cookies");
 		}
 		catch (Exception e) {
 			Log.e("Could not load cookies.", e);
@@ -204,7 +204,7 @@ public class PersistantCookieStore extends BasicCookieStore {
 
 			IoUtils.writeStringToFile(fileName, arr.toString(), context);
 
-			Log.d("Saved " + getCookies().size() + " cookies");
+			Log.v("Saved " + getCookies().size() + " cookies");
 		}
 		catch (Exception e) {
 			Log.e("Could not save cookies.", e);

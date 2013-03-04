@@ -1336,7 +1336,6 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		String e3url = builder.toString();
-		Log.d("e3 url: " + e3url);
 		return e3url;
 	}
 
