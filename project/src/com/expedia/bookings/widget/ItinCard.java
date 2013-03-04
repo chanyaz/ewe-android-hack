@@ -295,11 +295,15 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		if (mShadeCard) {
 			float shadeAlpha = 0.5f;
 			mHeaderShadeView.setVisibility(View.VISIBLE);
-			ViewHelper.setAlpha(mItinTypeImageView, shadeAlpha);
+			if (mDisplayState.equals(DisplayState.COLLAPSED)) {
+				ViewHelper.setAlpha(mItinTypeImageView, shadeAlpha);
+			}
 		}
 		else {
 			mHeaderShadeView.setVisibility(View.GONE);
-			ViewHelper.setAlpha(mItinTypeImageView, 1f);
+			if (mDisplayState.equals(DisplayState.COLLAPSED)) {
+				ViewHelper.setAlpha(mItinTypeImageView, 1f);
+			}
 		}
 	}
 
@@ -420,7 +424,6 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		animators.add(ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 1).setDuration(400));
 
 		mItinTypeImageView.setVisibility(View.VISIBLE);
-
 		animators.add(ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 0, 1).setDuration(400));
 
 		// TranslationY
@@ -472,7 +475,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		// Alpha
 		ObjectAnimator headerOverlayAlphaAnimator = ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 0)
 				.setDuration(200);
-		ObjectAnimator headerTextAlphaAnimator = ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 0).setDuration(200);//.start();
+		ObjectAnimator headerTextAlphaAnimator = ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 0).setDuration(200);
 		ObjectAnimator itinTypeImageAlphaAnimator = ObjectAnimator.ofFloat(mItinTypeImageView, "alpha", 0);
 		itinTypeImageAlphaAnimator.addListener(new AnimatorListener() {
 			@Override
@@ -513,7 +516,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		return set;
 	}
 
-	// Type icon position and siz
+	// Type icon position and size
 	public void updateLayout() {
 		int typeImageHeight = mItinTypeImageView.getHeight();
 		int typeImageHalfHeight = typeImageHeight / 2;

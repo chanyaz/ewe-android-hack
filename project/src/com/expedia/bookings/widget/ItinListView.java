@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -232,6 +234,23 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		return null;
 	}
 
+	private View getFreshDetailView(int position) {
+		int start = getFirstVisiblePosition();
+		View view = getChildAt(position - start);
+		if (view != null) {
+			//NOTE: So we do this so the adapter thinks the detail is a different row type
+			mAdapter.setDetailPosition(position);
+			return mAdapter.getView(position, view, this);
+		}
+		return null;
+	}
+
+	private void clearDetailView() {
+		mDetailPosition = -1;
+		mDetailsCard = null;
+		mAdapter.setDetailPosition(-1);
+	}
+
 	private void hideDetails() {
 		if (mDetailPosition < 0 || mDetailsCard == null) {
 			return;
@@ -270,7 +289,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
 				mDetailsCard.getLayoutParams().height = mExpandedCardOriginalHeight;
 				mDetailsCard.requestLayout();
-				mDetailsCard = null;
+
+				clearDetailView();
 				invalidateViews();
 			}
 
@@ -296,7 +316,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@SuppressLint("NewApi")
 	private void showDetails(int position) {
 		Log.d("ITIN: showDetails");
-		mDetailsCard = (ItinCard) getChildAt(position - getFirstVisiblePosition());
+		mDetailsCard = (ItinCard) getFreshDetailView(position);
 		if (mDetailsCard == null || !mDetailsCard.hasDetails()) {
 			Log.d("ITIN: showDetails - mDetailsCard == null || !mDetailsCard.hasDetails()");
 			return;
@@ -322,14 +342,19 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				+ mOriginalScrollY + " startY:" + startY + " stopY" + stopY);
 
 		ValueAnimator resizeAnimator = ResizeAnimator.buildResizeAnimator(mDetailsCard, mExpandedCardHeight);
-		resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator arg0) {
-				scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
-				onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-			}
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			resizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator arg0) {
+					scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
+					onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
+				}
 
-		});
+			});
+		}
+		else {
+			this.setSelectionFromTop(mDetailPosition, 0);
+		}
 
 		AnimatorSet set = new AnimatorSet();
 		AnimatorSet detailExpandAnim = mDetailsCard.expand(false);
@@ -342,17 +367,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				Runnable scrollRunner = new Runnable() {
+				mDetailsCard.getLayoutParams().height = mExpandedCardHeight;
+				mDetailsCard.requestLayout();
 
-					@Override
-					public void run() {
-						ItinListView.this.scrollTo(0, mDetailsCard.getTop());
-						onScroll(ItinListView.this, getFirstVisiblePosition(), getChildCount(), mAdapter.getCount());
-					}
-
-				};
-
-				ItinListView.this.postDelayed(scrollRunner, 200);
 				if (mDetailsCard != null) {
 					switch (mDetailsCard.getType()) {
 					case CAR:
@@ -383,6 +400,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		});
 
 		set.start();
+
 	}
 
 	private void registerDataSetObserver() {

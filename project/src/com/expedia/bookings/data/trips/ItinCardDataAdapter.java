@@ -36,6 +36,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		PAST,
 		SUMMARY,
 		NORMAL,
+		DETAIL
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +47,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	private ItineraryManager mItinManager;
 	private ArrayList<ItinCardData> mItinCardDatas;
 	private TripComponentSortOrder mSortOrder = TripComponentSortOrder.START_DATE;
-
+	private int mDetailPosition = -1;
 	private OnItinCardClickListener mOnItinCardClickListener;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +153,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		int retVal = type.ordinal();
 		boolean isInThePast = isItemInThePast(position);
 		boolean isSumCard = isItemASummaryCard(position);
-		if (isInThePast) {
+		boolean isDetailCard = isItemDetailCard(position);
+		if(isDetailCard){
+			retVal += (TripComponent.Type.values().length * 3);
+		}else if (isInThePast) {
 			retVal += TripComponent.Type.values().length;
 		}
 		else if (isSumCard) {
@@ -164,7 +168,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	@Override
 	public int getViewTypeCount() {
 		//the *3 is so we have one for each type and one for each type that is shaded and one for each type in summary mode
-		return TripComponent.Type.values().length * 3;
+		return TripComponent.Type.values().length * State.values().length;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -201,6 +205,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
+	public void setDetailPosition(int position){
+		mDetailPosition = position;
+	}
+	
+	
 	/**
 	 * Sync the adapter data with the ItineraryManager
 	 * 
@@ -387,6 +396,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 			return summaryCardPositions.contains(Integer.valueOf(position));
 		}
 		return false;
+	}
+	
+	private boolean isItemDetailCard(int position){
+		return (position == mDetailPosition);
 	}
 
 	private List<Integer> getSummaryCardPositions() {
