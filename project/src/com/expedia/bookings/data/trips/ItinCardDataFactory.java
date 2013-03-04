@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.mobiata.android.Log;
 
 /**
  * Factory for converting TripComponent objects to (Multiple) ItinCardData Objects
@@ -22,23 +24,28 @@ public class ItinCardDataFactory {
 	}
 
 	public static List<ItinCardData> generateCardData(TripComponent tc) {
-		Type type = tc.getType();
-		switch (type) {
-		case FLIGHT: {
-			return generateFlightCardData((TripFlight) tc);
+		if (tc.getParentTrip().getLevelOfDetail() == LevelOfDetail.SUMMARY_FALLBACK) {
+			return generateFallbackCardData(tc);
 		}
-		case HOTEL: {
-			return generateHotelCardData((TripHotel) tc);
-		}
-		case CAR: {
-			return generateCarCardData((TripCar) tc);
-		}
-		case ACTIVITY: {
-			return generateActivityCardData((TripActivity) tc);
-		}
-		default: {
-			return generateGenericCardData(tc);
-		}
+		else {
+			Type type = tc.getType();
+			switch (type) {
+			case FLIGHT: {
+				return generateFlightCardData((TripFlight) tc);
+			}
+			case HOTEL: {
+				return generateHotelCardData((TripHotel) tc);
+			}
+			case CAR: {
+				return generateCarCardData((TripCar) tc);
+			}
+			case ACTIVITY: {
+				return generateActivityCardData((TripActivity) tc);
+			}
+			default: {
+				return generateGenericCardData(tc);
+			}
+			}
 		}
 	}
 
@@ -68,5 +75,9 @@ public class ItinCardDataFactory {
 
 	private static List<ItinCardData> generateGenericCardData(TripComponent tc) {
 		return Arrays.asList((ItinCardData) new ItinCardData(tc));
+	}
+
+	private static List<ItinCardData> generateFallbackCardData(TripComponent tc) {
+		return Arrays.asList((ItinCardData) new ItinCardDataFallback(tc));
 	}
 }

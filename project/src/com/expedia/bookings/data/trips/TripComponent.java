@@ -17,7 +17,8 @@ public class TripComponent implements JSONable {
 		HOTEL,
 		CAR,
 		CRUISE,
-		ACTIVITY;
+		ACTIVITY,
+		FALLBACK;
 	}
 
 	private Type mType;

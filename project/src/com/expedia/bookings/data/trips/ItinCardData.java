@@ -18,6 +18,10 @@ public class ItinCardData {
 		return mTripComponent;
 	}
 
+	public TripComponent.Type getTripComponentType() {
+		return mTripComponent.getType();
+	}
+
 	public DateTime getStartDate() {
 		return mTripComponent.getStartDate();
 	}

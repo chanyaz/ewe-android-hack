@@ -18,6 +18,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.widget.ActivityItinCard;
 import com.expedia.bookings.widget.CarItinCard;
 import com.expedia.bookings.widget.CruiseItinCard;
+import com.expedia.bookings.widget.FallbackItinCard;
 import com.expedia.bookings.widget.FlightItinCard;
 import com.expedia.bookings.widget.HotelItinCard;
 import com.expedia.bookings.widget.ItinCard;
@@ -122,6 +123,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 				card.setOnItinCardClickListener(this);
 				break;
 			}
+			case FALLBACK: {
+				card = new FallbackItinCard(mContext);
+				card.setOnItinCardClickListener(this);
+				break;
+			}
 			default:
 				throw new RuntimeException("The card type doesn't match any of our predefined types.");
 			}
@@ -149,7 +155,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements ItinerarySyncLis
 		//normal cards: 0 <= TYPE < Type.values().length
 		//shaded cards: Type.values().length <= TYPE < Type.values().length * 2
 		//summary cards: Type.values().length * 2 <= TYPE < Type.values().length * 3
-		Type type = getItem(position).getTripComponent().getType();
+		Type type = getItem(position).getTripComponentType();
 		int retVal = type.ordinal();
 		boolean isInThePast = isItemInThePast(position);
 		boolean isSumCard = isItemASummaryCard(position);
