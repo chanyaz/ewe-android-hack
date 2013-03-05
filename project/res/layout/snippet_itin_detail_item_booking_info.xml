@@ -27,7 +27,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/list_selector_holo_dark"
-        android:drawableLeft="@drawable/ic_info_small"
+        android:drawableLeft="@drawable/ic_info"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:padding="8dp"
