@@ -813,9 +813,6 @@ public class ItineraryManager implements JSONable {
 						for (ServerError error : response.getErrors()) {
 							if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT) {
 								mTrips.remove(trip.getTripNumber());
-								publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
-								mFailedTripRefreshes++;
-								return;
 							}
 						}
 					}
