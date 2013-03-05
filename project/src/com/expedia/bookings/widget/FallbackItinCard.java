@@ -79,14 +79,31 @@ public class FallbackItinCard extends ItinCard<ItinCardDataFallback> {
 
 	@Override
 	protected String getHeaderText(ItinCardDataFallback itinCardData) {
-		return itinCardData.getType().name() + " - " + itinCardData.getRelativeDetailsStartDate(getContext());
+		int resId = 0;
+		switch (this.getItinCardData().getType()) {
+		case FLIGHT:
+			resId = R.string.Flight_TEMPLATE;
+			break;
+		case HOTEL:
+			resId = R.string.Hotel_TEMPLATE;
+			break;
+		case CAR:
+			resId = R.string.Car_TEMPLATE;
+			break;
+		case CRUISE:
+			resId = R.string.Cruise_TEMPLATE;
+			break;
+		default:
+			resId = R.string.Activity_TEMPLATE;
+			break;
+		}
+
+		return getContext().getString(resId, itinCardData.getRelativeDetailsStartDate(getContext()));
 	}
 
 	@Override
 	protected View getTitleView(LayoutInflater inflater, ViewGroup container, ItinCardDataFallback itinCardData) {
-		TextView view = (TextView) inflater.inflate(R.layout.include_itin_card_title_generic, container, false);
-		view.setText(getHeaderText(itinCardData));
-		return view;
+		return null;
 	}
 
 	@Override
@@ -108,5 +125,5 @@ public class FallbackItinCard extends ItinCard<ItinCardDataFallback> {
 	protected SummaryButton getSummaryRightButton(final ItinCardDataFallback itinCardData) {
 		return null;
 	}
-	
+
 }

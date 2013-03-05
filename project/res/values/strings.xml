@@ -76,6 +76,16 @@
     <string name="itinerary_fetch_error">Error fetching itinerary</string>
     <!-- Log in for your trips -->
     <string name="log_in_for_your_trips">&lt;b&gt;Log in&lt;/b&gt; for your trips</string>
+    <!-- Default (fallback) itin card title for FLIGHT, i.e. "Car - Tomorrow" -->
+    <string name="Flight_TEMPLATE">Flight — %s</string>
+    <!-- Default (fallback) itin card title for HOTEL, i.e. "Hotel - Mar 5" -->
+    <string name="Hotel_TEMPLATE">Hotel — %s</string>
+    <!-- Default (fallback) itin card title for CAR, i.e. "Car - 5/23/2013" -->
+    <string name="Car_TEMPLATE">Car — %s</string>
+    <!-- Default (fallback) itin card title for CRUISE, i.e. "Cruise - Tomorrow" -->
+    <string name="Cruise_TEMPLATE">Cruise — %s</string>
+    <!-- Default (fallback) itin card title for ACTIVITY, i.e. "Activity - Apr 1" -->
+    <string name="Activity_TEMPLATE">Activity — %s</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">Depart (%1$s)</string>
     <!-- Arrive (TZ) template -->
