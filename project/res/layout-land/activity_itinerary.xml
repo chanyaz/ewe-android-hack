@@ -32,8 +32,7 @@
         android:layout_alignRight="@+id/itin_map_fragment"
         android:layout_alignTop="@+id/itin_map_fragment"
         android:layout_margin="48dp"
-        android:layout_toRightOf="@+id/itin_list_container"
-        android:paddingBottom="@dimen/itin_map_marker_bottom_padding" >
+        android:layout_toRightOf="@+id/itin_list_container" >
 
         <fragment
             android:id="@+id/itin_card_fragment"

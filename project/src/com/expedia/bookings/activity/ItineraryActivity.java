@@ -111,6 +111,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	public void onItinCardClicked(ItinCardData data) {
 		if (mTwoPaneMode) {
 			mMapFragment.showItinItem(data);
+			mItinCardFragment.showItinDetails(data);
 		}
 	}
 }
