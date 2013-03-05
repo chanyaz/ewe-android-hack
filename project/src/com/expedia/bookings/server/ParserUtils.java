@@ -151,6 +151,8 @@ public class ParserUtils {
 				// Server error
 				error.setCode("UNKNOWN_ERROR");
 				break;
+			default:
+				error.setCode("UNKNOWN_ERROR");
 			}
 
 			error.setMessage(response.optString("message", null));
