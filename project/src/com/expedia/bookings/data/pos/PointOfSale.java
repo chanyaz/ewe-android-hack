@@ -19,7 +19,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -211,6 +210,11 @@ public class PointOfSale {
 
 	public boolean useSomoTracking() {
 		return mUseSomoTracking;
+	}
+
+	public boolean showAtolInfo() {
+		// Possible TODO: Transfer this data into ExpediaPointOfSaleConfig
+		return mPointOfSale == PointOfSaleId.UNITED_KINGDOM;
 	}
 
 	public String[] getReviewLanguages() {

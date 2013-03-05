@@ -17,7 +17,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.utils.HtmlUtils;
 import com.mobiata.android.util.Ui;
 
@@ -156,9 +155,9 @@ public class FlightRulesFragment extends SherlockFragment {
 		});
 
 		// ATOL Information for UK pos
-		TextView atol_information = Ui.findView(v, R.id.atol_information);
-		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_KINGDOM)) {
-			atol_information.setOnClickListener(new View.OnClickListener() {
+		TextView atolInformation = Ui.findView(v, R.id.atol_information);
+		if (PointOfSale.getPointOfSale().showAtolInfo()) {
+			atolInformation.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mContext);
@@ -174,7 +173,7 @@ public class FlightRulesFragment extends SherlockFragment {
 			});
 		}
 		else {
-			atol_information.setVisibility(View.GONE);
+			atolInformation.setVisibility(View.GONE);
 			Ui.findView(v, R.id.atol_information_divider).setVisibility(View.GONE);
 		}
 	}
