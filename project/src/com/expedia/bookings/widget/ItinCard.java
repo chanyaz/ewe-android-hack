@@ -419,9 +419,6 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		});
 		animators.add(titleResizeAnimator);
 
-		animators.add(ResizeAnimator.buildResizeAnimator(mActionButtonLayout, 0).setDuration(
-				300));
-
 		// Alpha
 		animators.add(ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400));
 		animators.add(ObjectAnimator.ofFloat(mHeaderTextView, "alpha", 1).setDuration(400));
@@ -435,6 +432,8 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 		if (!mShowSummary) {
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mMiniCardHeaderImageHeight));
 			animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mMiniCardHeaderImageHeight));
+			animators.add(ResizeAnimator.buildResizeAnimator(mActionButtonLayout, 0).setDuration(
+					300));
 		}
 
 		AnimatorSet set = new AnimatorSet();
@@ -618,7 +617,8 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	}
 
 	//helper
-	private View getClickToCopyItinDetailItem(LayoutInflater inflater, int headerResId, final String text, final boolean isConfNumber) {
+	private View getClickToCopyItinDetailItem(LayoutInflater inflater, int headerResId, final String text,
+			final boolean isConfNumber) {
 		View item = inflater.inflate(R.layout.snippet_itin_detail_item_generic, null);
 		TextView headingTv = Ui.findView(item, R.id.item_label);
 		TextView textTv = Ui.findView(item, R.id.item_text);
@@ -631,7 +631,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			public void onClick(View v) {
 				ClipboardUtils.setText(getContext(), text);
 				Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
-				if(isConfNumber && getItinCardData().getTripComponent().getType() == Type.FLIGHT){
+				if (isConfNumber && getItinCardData().getTripComponent().getType() == Type.FLIGHT) {
 					OmnitureTracking.trackItinFlightCopyPNR(getContext());
 				}
 			}
@@ -653,7 +653,7 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 					builder.setTitle(R.string.booking_info);
 					builder.setTheme(R.style.FlightTheme);
 					getContext().startActivity(builder.getIntent());
-					
+
 					OmnitureTracking.trackItinInfoClicked(getContext(), getItinCardData().getTripComponent().getType());
 				}
 
