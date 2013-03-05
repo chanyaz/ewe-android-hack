@@ -28,6 +28,7 @@ import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.server.ExpediaServices;
@@ -803,6 +804,15 @@ public class ItineraryManager implements JSONable {
 					if (response != null && response.hasErrors()) {
 						Log.w("Error updating trip " + trip.getTripId() + ": "
 								+ response.gatherErrorMessage(mContext));
+
+						for (ServerError error : response.getErrors()) {
+							if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT) {
+								mTrips.remove(trip.getTripId());
+								publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+								mFailedTripRefreshes++;
+								return;
+							}
+						}
 					}
 
 					publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));

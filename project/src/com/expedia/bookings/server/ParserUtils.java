@@ -138,6 +138,20 @@ public class ParserUtils {
 
 			return errors;
 		}
+		else if (response.has("errorCode")) {
+			List<ServerError> errors = new ArrayList<ServerError>();
+
+			ServerError error = new ServerError(apiMethod);
+			int code = response.getInt("errorCode");
+			if (code == 400) {
+				error.setCode("INVALID_INPUT");
+			}
+			error.setMessage(response.optString("message", null));
+
+			errors.add(error);
+
+			return errors;
+		}
 
 		return null;
 	}
