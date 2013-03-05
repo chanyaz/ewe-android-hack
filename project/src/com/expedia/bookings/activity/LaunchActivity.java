@@ -339,7 +339,7 @@ public class LaunchActivity extends SherlockFragmentActivity {
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
 			actionBar.setSelectedNavigationItem(mPagerPosition);
 
-			if (mItinListFragment == null) {
+			if (mItinListFragment != null) {
 				mItinListFragment.setListMode();
 			}
 
