@@ -3,11 +3,14 @@ package com.expedia.bookings.data.trips;
 import java.util.Calendar;
 import java.util.List;
 
+import android.text.TextUtils;
+
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.mobiata.flightlib.data.Flight;
 
-public class ItinCardDataFlight extends ItinCardData {
+public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumberable {
 
 	private int mLegNumber;
 	private DateTime mEndDate;
@@ -45,7 +48,7 @@ public class ItinCardDataFlight extends ItinCardData {
 				return segment;
 			}
 		}
-		
+
 		if (relevantSegment != null) {
 			return relevantSegment;
 		}
@@ -70,6 +73,24 @@ public class ItinCardDataFlight extends ItinCardData {
 			mEndDate = new DateTime(cal.getTimeInMillis(), cal.getTimeZone().getOffset(cal.getTimeInMillis()));
 		}
 		return mEndDate;
+	}
+
+	@Override
+	public boolean hasConfirmationNumber() {
+		if (getTripComponent() != null && ((TripFlight) getTripComponent()).getConfirmations() != null
+				&& ((TripFlight) getTripComponent()).getConfirmations().size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String getFormattedConfirmationNumbers() {
+		List<FlightConfirmation> confirmationNumbers = ((TripFlight) getTripComponent()).getConfirmations();
+		if (confirmationNumbers != null) {
+			return TextUtils.join(",  ", confirmationNumbers.toArray());
+		}
+		return null;
 	}
 
 }

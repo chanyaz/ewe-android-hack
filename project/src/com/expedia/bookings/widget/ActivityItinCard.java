@@ -132,9 +132,7 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 		TextView expirationDateTextView = Ui.findView(view, R.id.expiration_date_text_view);
 		TextView guestCountTextView = Ui.findView(view, R.id.guest_count_text_view);
 		ViewGroup guestsLayout = Ui.findView(view, R.id.guests_layout);
-		TextView detailsTextView = Ui.findView(view, R.id.details_text_view);
-		TextView insuranceLabel = Ui.findView(view, R.id.insurance_label);
-		ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
+		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
 		activeDateTextView.setText(itinCardData.getFormattedValidDate());
@@ -161,26 +159,8 @@ public class ActivityItinCard extends ItinCard<ItinCardDataActivity> {
 			Ui.findView(view, R.id.guests_header).setVisibility(View.GONE);
 		}
 
-		detailsTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-				builder.setUrl(itinCardData.getDetailsUrl());
-				builder.setTitle(R.string.booking_info);
-				builder.setTheme(R.style.FlightTheme);
-				getContext().startActivity(builder.getIntent());
-
-				OmnitureTracking.trackItinActivityInfo(getContext());
-			}
-		});
-
-		boolean hasInsurance = hasInsurance();
-		int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
-		insuranceLabel.setVisibility(insuranceVisibility);
-		insuranceContainer.setVisibility(insuranceVisibility);
-		if (hasInsurance) {
-			addInsuranceRows(inflater, insuranceContainer);
-		}
+		//Add shared data
+		addSharedGuiElements(inflater, commonItinDataContainer);
 
 		return view;
 	}

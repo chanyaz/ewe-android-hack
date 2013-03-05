@@ -105,4 +105,5 @@ public class TripComponent implements JSONable {
 		mEndDate = JSONUtils.getJSONable(obj, "endDate", DateTime.class);
 		return true;
 	}
+
 }

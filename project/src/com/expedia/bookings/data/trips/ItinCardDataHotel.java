@@ -15,8 +15,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 
-public class ItinCardDataHotel extends ItinCardData {
+public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumberable {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +123,17 @@ public class ItinCardDataHotel extends ItinCardData {
 		return mProperty.getDescriptionText();
 	}
 
+	public Intent getDirectionsIntent() {
+		final String address = mProperty.getLocation().getStreetAddressString();
+		final Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + address);
+
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		intent.setComponent(new ComponentName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity"));
+
+		return intent;
+	}
+
+	@Override
 	public String getFormattedConfirmationNumbers() {
 		Set<String> confirmationNumbers = ((TripHotel) getTripComponent()).getConfirmationNumbers();
 		if (confirmationNumbers != null) {
@@ -131,13 +143,12 @@ public class ItinCardDataHotel extends ItinCardData {
 		return null;
 	}
 
-	public Intent getDirectionsIntent() {
-		final String address = mProperty.getLocation().getStreetAddressString();
-		final Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + address);
-
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		intent.setComponent(new ComponentName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity"));
-
-		return intent;
+	@Override
+	public boolean hasConfirmationNumber() {
+		if (getTripComponent() != null && ((TripHotel) getTripComponent()).getConfirmationNumbers() != null
+				&& ((TripHotel) getTripComponent()).getConfirmationNumbers().size() > 0) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
@@ -22,8 +24,11 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ClipboardUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
@@ -561,13 +566,114 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 	}
 
 	/**
+	 * Itin cards share a lot of gui elements. They don't share layouts, but a container can be passed here and filled with said shared elements.
+	 * 
+	 * Currently supported shared elemenets (in this order)
+	 * - Confirmation Code (selectable)
+	 * - Itinerary number
+	 * - Booking Info (additional information link)
+	 * - Insurance
+	 * 
+	 * These get added to the viewgroup only if they exist (or have fallback behavior defined)
+	 * 
+	 * @param infalter
+	 * @param container
+	 */
+	protected void addSharedGuiElements(LayoutInflater inflater, ViewGroup container) {
+		boolean addedConfNumber = addConfirmationNumber(inflater, container);
+		boolean addedItinNumber = addItineraryNumber(inflater, container);
+		boolean addedBookingInfo = addBookingInfo(inflater, container);
+		boolean addedInsurance = addInsurance(inflater, container);
+		Log.d("ITIN: ItinCard.addSharedGuiElements - addedConfNumber:" + addedConfNumber + " addedItinNumber:"
+				+ addedItinNumber + " addedBookingInfo:" + addedBookingInfo + " addedInsurance:" + addedInsurance);
+	}
+
+	protected boolean addConfirmationNumber(LayoutInflater inflater, ViewGroup container) {
+		Log.d("ITIN: addConfirmationNumber");
+		if (hasConfirmationNumber()) {
+			String confirmationText = ((ConfirmationNumberable) this.getItinCardData())
+					.getFormattedConfirmationNumbers();
+			View view = getClickToCopyItinDetailItem(inflater, R.string.confirmation_code_label, confirmationText, true);
+			if (view != null) {
+				Log.d("ITIN: addConfirmationNumber to container");
+				container.addView(view);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean addItineraryNumber(LayoutInflater inflater, ViewGroup container) {
+		Log.d("ITIN: addItineraryNumber");
+		if (hasItinNumber()) {
+			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
+			View view = getClickToCopyItinDetailItem(inflater, R.string.itinerary_number, itineraryNumber, false);
+			if (view != null) {
+				Log.d("ITIN: addItineraryNumber to container");
+				container.addView(view);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	//helper
+	private View getClickToCopyItinDetailItem(LayoutInflater inflater, int headerResId, final String text, final boolean isConfNumber) {
+		View item = inflater.inflate(R.layout.snippet_itin_detail_item_generic, null);
+		TextView headingTv = Ui.findView(item, R.id.item_label);
+		TextView textTv = Ui.findView(item, R.id.item_text);
+
+		headingTv.setText(headerResId);
+		textTv.setText(text);
+
+		item.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ClipboardUtils.setText(getContext(), text);
+				Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
+				if(isConfNumber && getItinCardData().getTripComponent().getType() == Type.FLIGHT){
+					OmnitureTracking.trackItinFlightCopyPNR(getContext());
+				}
+			}
+		});
+		return item;
+	}
+
+	protected boolean addBookingInfo(LayoutInflater inflater, ViewGroup container) {
+		Log.d("ITIN: addBookingInfo");
+		if (this.getItinCardData() != null && !TextUtils.isEmpty(this.getItinCardData().getDetailsUrl())) {
+			View item = inflater.inflate(R.layout.snippet_itin_detail_item_booking_info, null);
+			TextView bookingInfoTv = Ui.findView(item, R.id.booking_info);
+			bookingInfoTv.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+					builder.setUrl(getItinCardData().getDetailsUrl());
+					builder.setTitle(R.string.booking_info);
+					builder.setTheme(R.style.FlightTheme);
+					getContext().startActivity(builder.getIntent());
+					
+					OmnitureTracking.trackItinInfoClicked(getContext(), getItinCardData().getTripComponent().getType());
+				}
+
+			});
+			Log.d("ITIN: addBookingInfo to container");
+			container.addView(item);
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Add this trip's insurance to the passed in container
 	 * @param inflater
 	 * @param insuranceContainer
 	 */
-	protected void addInsuranceRows(LayoutInflater inflater, ViewGroup insuranceContainer) {
+	protected boolean addInsurance(LayoutInflater inflater, ViewGroup container) {
 		if (hasInsurance()) {
-			insuranceContainer.removeAllViews();
+			View item = inflater.inflate(R.layout.snippet_itin_detail_item_insurance, null);
+			ViewGroup insuranceContainer = Ui.findView(item, R.id.insurance_container);
 
 			int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
 			int viewAddedCount = 0;
@@ -600,7 +706,10 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 					viewAddedCount++;
 				}
 			}
+			container.addView(item);
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -627,6 +736,22 @@ public abstract class ItinCard<T extends ItinCardData> extends RelativeLayout {
 			}
 		}
 		return hasInsurance;
+	}
+
+	protected boolean hasItinNumber() {
+		boolean hasItinNum = false;
+		if (this.getItinCardData() != null && this.getItinCardData().getTripComponent() != null
+				&& this.getItinCardData().getTripComponent().getParentTrip() != null) {
+			hasItinNum = !TextUtils.isEmpty(this.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
+		}
+		return hasItinNum;
+	}
+
+	protected boolean hasConfirmationNumber() {
+		if (this.getItinCardData() != null && this.getItinCardData() instanceof ConfirmationNumberable) {
+			return ((ConfirmationNumberable) this.getItinCardData()).hasConfirmationNumber();
+		}
+		return false;
 	}
 
 	/**

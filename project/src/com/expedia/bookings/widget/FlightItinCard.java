@@ -37,7 +37,6 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
-import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -53,8 +52,6 @@ import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
@@ -304,26 +301,14 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 			FlightMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 
-			TextView confirmationCodeLabel = Ui.findView(view, R.id.confirmation_code_label);
-			TextView passengersLabel = Ui.findView(view, R.id.passengers_label);
-			TextView bookingInfoLabel = Ui.findView(view, R.id.booking_info_label);
-			TextView insuranceLabel = Ui.findView(view, R.id.insurance_label);
-
 			TextView departureTimeTv = Ui.findView(view, R.id.departure_time);
 			TextView departureTimeTzTv = Ui.findView(view, R.id.departure_time_tz);
 			TextView arrivalTimeTv = Ui.findView(view, R.id.arrival_time);
 			TextView arrivalTimeTzTv = Ui.findView(view, R.id.arrival_time_tz);
 			TextView passengerNameListTv = Ui.findView(view, R.id.passenger_name_list);
-			TextView confirmationCodeListTv = Ui.findView(view, R.id.confirmation_code);
 
-			View bookingInfoView = Ui.findView(view, R.id.booking_info);
-			ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
 			ViewGroup flightLegContainer = Ui.findView(view, R.id.flight_leg_container);
-
-			ViewUtils.setAllCaps(confirmationCodeLabel);
-			ViewUtils.setAllCaps(passengersLabel);
-			ViewUtils.setAllCaps(bookingInfoLabel);
-			ViewUtils.setAllCaps(insuranceLabel);
+			ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 			//Map
 			staticMapImageView.setFlights(data.getFlightLeg().getSegments());
@@ -356,51 +341,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 			String travString = travelerSb.toString().trim();
 			passengerNameListTv.setText(travString);
 
-			//Booking info (View receipt and polocies)
-			final String infoUrl = tripFlight.getParentTrip().getDetailsUrl();
-			if (!TextUtils.isEmpty(infoUrl)) {
-				bookingInfoView.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View arg0) {
-						WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-						builder.setUrl(infoUrl);
-						builder.setTitle(R.string.booking_info);
-						builder.setTheme(R.style.FlightTheme);
-						getContext().startActivity(builder.getIntent());
-
-						OmnitureTracking.trackItinFlightInfo(getContext());
-					}
-				});
-			}
-
-			//Confirmation code list
-			String confirmationString = getConfirmationCodeListString(tripFlight);
-			if (!TextUtils.isEmpty(confirmationString)) {
-				confirmationCodeListTv.setText(confirmationString);
-
-				final String clipboardText = confirmationString;
-				confirmationCodeListTv.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						ClipboardUtils.setText(getContext(), clipboardText);
-						Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
-						OmnitureTracking.trackItinFlightCopyPNR(getContext());
-					}
-				});
-			}
-			else {
-				confirmationCodeListTv.setText(R.string.missing_booking_code);
-			}
-
-			//Insurance
-			boolean hasInsurance = hasInsurance();
-			int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
-			insuranceLabel.setVisibility(insuranceVisibility);
-			insuranceContainer.setVisibility(insuranceVisibility);
-			if (hasInsurance) {
-				addInsuranceRows(inflater, insuranceContainer);
-			}
-
 			//Add the flight stuff
 			Flight prevSegment = null;
 			int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
@@ -430,6 +370,9 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 
 				prevSegment = segment;
 			}
+
+			//Add shared data
+			addSharedGuiElements(inflater, commonItinDataContainer);
 		}
 
 		return view;
@@ -958,17 +901,6 @@ public class FlightItinCard extends ItinCard<ItinCardDataFlight> {
 	private String formatTime(Calendar cal) {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());
 		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
-	}
-
-	@SuppressLint("NewApi")
-	private void setHardwareAccelerationEnabled(boolean enabled) {
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-
-			setLayerType(layerType, null);
-			Ui.findView(this, R.id.card_layout).setLayerType(layerType, null);
-			Ui.findView(this, R.id.itin_type_image_view).setLayerType(layerType, null);
-		}
 	}
 
 	private Animation getGlowAnimation() {

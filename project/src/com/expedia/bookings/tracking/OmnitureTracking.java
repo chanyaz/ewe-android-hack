@@ -34,6 +34,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SearchResponse;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.fragment.BookingInfoValidation;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.mobiata.android.Log;
@@ -410,6 +411,28 @@ public class OmnitureTracking {
 	public static void trackItinHotelShare(Context context) {
 		// TODO: specify long vs. short share
 		internalTrackLink(context, ITIN_HOTEL_SHARE_PREFIX);
+	}
+
+	public static void trackItinInfoClicked(Context context, Type type) {
+		switch (type) {
+		case ACTIVITY:
+			trackItinActivityInfo(context);
+			break;
+		case CAR:
+			trackItinCarInfo(context);
+			break;
+		case FLIGHT:
+			trackItinFlightInfo(context);
+			break;
+		case HOTEL:
+			trackItinHotelInfo(context);
+			break;
+		case CRUISE:
+			//TODO:track cruise info
+			break;
+		default:
+			break;
+		}
 	}
 
 	public static void trackItinFlight(Context context) {

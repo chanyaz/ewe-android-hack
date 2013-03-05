@@ -29,4 +29,14 @@ public class ItinCardData {
 	public String getDetailsUrl() {
 		return mTripComponent.getParentTrip().getDetailsUrl();
 	}
+	
+
+	//////////////////////////////////////////////////////////////////////////
+	// interfaces
+
+	public interface ConfirmationNumberable {
+		public boolean hasConfirmationNumber();
+		
+		public String getFormattedConfirmationNumbers();
+	}
 }

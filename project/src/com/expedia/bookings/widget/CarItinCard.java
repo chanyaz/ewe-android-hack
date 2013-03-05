@@ -7,15 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
 
@@ -125,10 +122,7 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		EventSummaryView pickUpEventSummaryView = Ui.findView(view, R.id.pick_up_event_summary_view);
 		EventSummaryView dropOffEventSummaryView = Ui.findView(view, R.id.drop_off_event_summary_view);
 		TextView vendorPhoneTextView = Ui.findView(view, R.id.vendor_phone_text_view);
-		TextView confirmationNumberTextView = Ui.findView(view, R.id.confirmation_number_text_view);
-		TextView detailsTextView = Ui.findView(view, R.id.details_text_view);
-		TextView insuranceLabel = Ui.findView(view, R.id.insurance_label);
-		ViewGroup insuranceContainer = Ui.findView(view, R.id.insurance_container);
+		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
 		pickUpDateTextView.setText(itinCardData.getFormattedShortPickUpDate());
@@ -147,16 +141,6 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 		dropOffEventSummaryView.bind(itinCardData.getDropOffDate().getCalendar().getTime(),
 				itinCardData.getDropOffLocation(), true);
 
-		final String confirmationNumber = itinCardData.getConfirmationNumber();
-		confirmationNumberTextView.setText(confirmationNumber);
-		confirmationNumberTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ClipboardUtils.setText(getContext(), confirmationNumber);
-				Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
-			}
-		});
-
 		vendorPhoneTextView.setText(itinCardData.getRelevantVendorPhone());
 		vendorPhoneTextView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -165,26 +149,8 @@ public class CarItinCard extends ItinCard<ItinCardDataCar> {
 			}
 		});
 
-		detailsTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-				builder.setUrl(itinCardData.getDetailsUrl());
-				builder.setTitle(R.string.booking_info);
-				builder.setTheme(R.style.FlightTheme);
-				getContext().startActivity(builder.getIntent());
-
-				OmnitureTracking.trackItinCarInfo(getContext());
-			}
-		});
-
-		boolean hasInsurance = hasInsurance();
-		int insuranceVisibility = hasInsurance ? View.VISIBLE : View.GONE;
-		insuranceLabel.setVisibility(insuranceVisibility);
-		insuranceContainer.setVisibility(insuranceVisibility);
-		if (hasInsurance) {
-			addInsuranceRows(inflater, insuranceContainer);
-		}
+		//Add shared data
+		addSharedGuiElements(inflater, commonItinDataContainer);
 
 		return view;
 	}

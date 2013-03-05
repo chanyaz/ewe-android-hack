@@ -30,6 +30,11 @@ public class FlightConfirmation implements JSONable {
 	}
 
 	@Override
+	public String toString() {
+		return mConfirmationCode;
+	}
+
+	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
 		try {

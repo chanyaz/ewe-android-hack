@@ -15,10 +15,11 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Car.Type;
+import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.DateTime;
 import com.expedia.bookings.data.Location;
 
-public class ItinCardDataCar extends ItinCardData {
+public class ItinCardDataCar extends ItinCardData implements ConfirmationNumberable {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -180,5 +181,22 @@ public class ItinCardDataCar extends ItinCardData {
 		intent.setComponent(new ComponentName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity"));
 
 		return intent;
+	}
+
+	@Override
+	public boolean hasConfirmationNumber() {
+		if (getTripComponent() != null && ((TripCar) getTripComponent()).getCar() != null
+				&& !TextUtils.isEmpty(((TripCar) getTripComponent()).getCar().getConfNumber())) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String getFormattedConfirmationNumbers() {
+		if (hasConfirmationNumber()) {
+			return ((TripCar) getTripComponent()).getCar().getConfNumber();
+		}
+		return null;
 	}
 }

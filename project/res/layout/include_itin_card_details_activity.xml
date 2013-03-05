@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -106,8 +107,8 @@
     <!-- GUESTS -->
 
     <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader.Padded"
         android:id="@+id/guests_header"
+        style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -123,49 +124,12 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
 
-    <!-- BOOKING INFO -->
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/itin_card_details_booking_info" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/details_text_view"
-        style="@style/TextView.Itin.SectionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/list_selector_holo_dark"
-        android:drawableLeft="@drawable/ic_info_small"
-        android:drawablePadding="8dp"
-        android:padding="8dp"
-        android:text="@string/itin_card_details_details" />
-
-    <!-- Insurance -->
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/insurance_label"
-        style="@style/TextView.Itin.SectionHeader.Padded"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/insurance"
-        android:visibility="gone" />
+    <!-- COMMON ITIN DATA -->
 
     <LinearLayout
-        android:id="@+id/insurance_container"
+        android:id="@+id/itin_shared_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="vertical"
-        android:visibility="gone" >
-    </LinearLayout>
+        android:orientation="vertical" />
 
 </LinearLayout>
