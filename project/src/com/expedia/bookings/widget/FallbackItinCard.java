@@ -60,15 +60,15 @@ public class FallbackItinCard extends ItinCard<ItinCardDataFallback> {
 	protected int getHeaderImagePlaceholderResId() {
 		switch (this.getItinCardData().getType()) {
 		case FLIGHT:
-			return R.drawable.itin_header_placeholder_activities; //TODO: fix this
+			return R.drawable.bg_itin_fallback_flight;
 		case HOTEL:
-			return R.drawable.itin_header_placeholder_activities; //TODO: fix this
+			return R.drawable.bg_itin_fallback_hotel;
 		case CAR:
-			return R.drawable.itin_header_placeholder_cruises; //TODO: fix this
+			return R.drawable.bg_itin_fallback_car;
 		case CRUISE:
-			return R.drawable.itin_header_placeholder_cruises;
+			return R.drawable.bg_itin_fallback_cruise;
 		default:
-			return R.drawable.itin_header_placeholder_activities;
+			return R.drawable.bg_itin_fallback_activity;
 		}
 	}
 
