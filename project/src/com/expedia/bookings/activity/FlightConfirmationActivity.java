@@ -13,12 +13,11 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ConfirmationState;
 import com.expedia.bookings.data.ConfirmationState.Type;
-import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.fragment.BlurredBackgroundFragment;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.FlightConfirmationFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
@@ -67,7 +66,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 				if (!User.isLoggedIn(this)) {
 					String email = Db.getBillingInfo().getEmail();
 					String tripId = Db.getItinerary(itinNum).getTripId();
-					ItineraryManager.getInstance().addGuestTrip(email, tripId, true);
+					ItineraryManager.getInstance().addGuestTrip(email, tripId);
 				}
 
 				// Start a background thread to save this data to the disk

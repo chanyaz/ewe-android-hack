@@ -83,7 +83,7 @@ public class ConfirmationFragmentActivity extends SherlockFragmentActivity imple
 				if (Db.getCreateTripResponse() != null && Db.getBillingInfo() != null && !User.isLoggedIn(this)) {
 					String email = Db.getBillingInfo().getEmail();
 					String tripId = Db.getCreateTripResponse().getTripId();
-					ItineraryManager.getInstance().addGuestTrip(email, tripId, true);
+					ItineraryManager.getInstance().addGuestTrip(email, tripId);
 				}
 
 				// Start a background thread to save this data to the disk

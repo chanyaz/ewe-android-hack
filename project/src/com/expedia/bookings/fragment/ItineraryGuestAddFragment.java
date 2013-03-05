@@ -120,7 +120,7 @@ public class ItineraryGuestAddFragment extends Fragment implements LoginExtender
 					mListener.onFindItinClicked(emailAddr, itinNumber);
 				}
 
-				ItineraryManager.getInstance().addGuestTrip(emailAddr, itinNumber, true);
+				ItineraryManager.getInstance().addGuestTrip(emailAddr, itinNumber);
 				runExtenderOrFinish();
 
 				// TODO: move this to the listener

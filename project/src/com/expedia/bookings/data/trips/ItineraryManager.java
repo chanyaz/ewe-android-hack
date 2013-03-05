@@ -65,16 +65,21 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Adds a guest trip to the itinerary list.
+	 * 
+	 * Automatically starts to try to get info on the trip from the server.  If a sync is already
+	 * in progress it will queue the guest trip for refresh; otherwise it will only refresh this
+	 * single guest trip.
 	 */
-	public void addGuestTrip(String email, String tripNumber, boolean startSyncIfNotInProgress) {
+	public void addGuestTrip(String email, String tripNumber) {
 		Trip trip = new Trip(email, tripNumber);
 		mTrips.put(tripNumber, trip);
 
-		if (isSyncing()) {
-			mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
-		}
-		else if (startSyncIfNotInProgress) {
-			startSync();
+		mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
+		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+
+		if (!isSyncing()) {
+			mSyncTask = new SyncTask();
+			mSyncTask.execute();
 		}
 	}
 
