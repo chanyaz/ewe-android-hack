@@ -472,7 +472,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		showDetails(position);
+		if (mAdapter.getItem(position).hasDetailData()) {
+			showDetails(position);
+		}
 
 		if (mOnItemClickListener != null) {
 			mOnItemClickListener.onItemClick(parent, view, position, id);

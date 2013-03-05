@@ -14,6 +14,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,8 +24,10 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
@@ -99,6 +103,7 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mItinListView.setOnScrollListener(mOnScrollListener);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItinCardClickListener(mOnItinCardClickListener);
+		mItinListView.setOnItemClickListener(mOnItemClickListener);
 		mItinListView.post(new Runnable() {
 			@Override
 			public void run() {
@@ -315,6 +320,23 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		public void onShareButtonClicked(String subject, String shortMessage, String longMessage) {
 			SocialMessageChooserDialogFragment.newInstance(subject, shortMessage, longMessage).show(
 					getFragmentManager(), DIALOG_SHARE);
+		}
+	};
+
+	private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			if (!(parent.getAdapter().getItem(position) instanceof ItinCardData)) {
+				return;
+			}
+
+			// If there's no detail data (if this is a fallback card or for whatever other reason)
+			// then at least we can open the details url for this trip.
+			ItinCardData data = (ItinCardData) parent.getAdapter().getItem(position);
+			if (!data.hasDetailData()) {
+				String url = data.getDetailsUrl();
+				startActivity(new WebViewActivity.IntentBuilder(getActivity()).setUrl(url).getIntent());
+			}
 		}
 	};
 
