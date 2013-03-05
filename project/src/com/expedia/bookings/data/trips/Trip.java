@@ -36,6 +36,14 @@ public class Trip implements JSONable, Comparable<Trip> {
 	// the logged in user, it will be null/empty.
 	private String mGuestEmailAddress;
 
+	/*
+	 * For reference:
+	 * tripId == Huge GUID (e.g. 1af310ef-cfa9-442a-96ca-669d67a2fb1d)
+	 * tripNumber == Customer facing number (e.g. 11239187496)
+	 * 
+	 * A trip is not valid until it has a tripId (e.g., if it's an invalid guest itin
+	 * then it'll have a trip number but the trip id will never get filled in). 
+	 */
 	private String mTripId;
 	private String mTripNumber;
 
@@ -62,9 +70,9 @@ public class Trip implements JSONable, Comparable<Trip> {
 		// Default constructor
 	}
 
-	public Trip(String guestEmailAddress, String tripId) {
+	public Trip(String guestEmailAddress, String tripNumber) {
 		mGuestEmailAddress = guestEmailAddress;
-		mTripId = tripId;
+		mTripNumber = tripNumber;
 	}
 
 	public void setLevelOfDetail(LevelOfDetail levelOfDetail) {
@@ -97,6 +105,17 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 	public void setTripNumber(String tripNumber) {
 		mTripNumber = tripNumber;
+	}
+
+	/**
+	 * The API can use either tripNumber or tripId.  It is preferable to use tripId,
+	 * as it is easier on the server.
+	 */
+	public String getTripIdentifierForApi() {
+		if (!TextUtils.isEmpty(mTripId)) {
+			return mTripId;
+		}
+		return mTripNumber;
 	}
 
 	public String getTitle() {
@@ -192,6 +211,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 		// we have now, so we blow away most current data.  This may not be true
 		// once the API is fully fleshed otu.
 
+		mTripId = other.mTripId;
 		mTripNumber = other.mTripNumber;
 
 		mTitle = other.mTitle;
@@ -346,7 +366,24 @@ public class Trip implements JSONable, Comparable<Trip> {
 			}
 		}
 
-		return mTripId.compareTo(another.mTripId);
+		// Compare tripId, then tripNumber if lacking that
+		if (!TextUtils.equals(mTripId, another.mTripId)) {
+			if (mTripId == null) {
+				return -1;
+			}
+
+			return mTripId.compareTo(another.mTripId);
+		}
+
+		if (!TextUtils.equals(mTripNumber, another.mTripNumber)) {
+			if (mTripNumber == null) {
+				return -1;
+			}
+
+			return mTripNumber.compareTo(another.mTripNumber);
+		}
+
+		return 0;
 	}
 
 	@Override

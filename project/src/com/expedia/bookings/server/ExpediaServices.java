@@ -722,7 +722,8 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("useCache", useCache ? "1" : "0"));
 
-		return doE3Request("api/trips/" + trip.getTripId(), query, new TripDetailsResponseHandler(mContext), flags);
+		return doE3Request("api/trips/" + trip.getTripIdentifierForApi(), query, new TripDetailsResponseHandler(
+				mContext), flags);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

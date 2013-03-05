@@ -66,9 +66,9 @@ public class ItineraryManager implements JSONable {
 	/**
 	 * Adds a guest trip to the itinerary list.
 	 */
-	public void addGuestTrip(String email, String tripId, boolean startSyncIfNotInProgress) {
-		Trip trip = new Trip(email, tripId);
-		mTrips.put(tripId, trip);
+	public void addGuestTrip(String email, String tripNumber, boolean startSyncIfNotInProgress) {
+		Trip trip = new Trip(email, tripNumber);
+		mTrips.put(tripNumber, trip);
 
 		if (isSyncing()) {
 			mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
@@ -78,18 +78,18 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	public void removeGuestTrip(String tripId) {
-		Trip trip = mTrips.get(tripId);
+	public void removeGuestTrip(String tripNumber) {
+		Trip trip = mTrips.get(tripNumber);
 
 		if (trip == null) {
-			Log.w("Tried to remove a guest tripId that doesn't exist: " + tripId);
+			Log.w("Tried to remove a guest tripNumber that doesn't exist: " + tripNumber);
 		}
 		else if (!trip.isGuest()) {
 			Log.w("Tried to remove a non-guest trip, DENIED because only the ItinManager is allowed to do that: "
-					+ tripId);
+					+ tripNumber);
 		}
 		else {
-			mTrips.remove(tripId);
+			mTrips.remove(tripNumber);
 
 			// Do not inform of removal if it was never valid (since we never informed of adding in the first place)
 			if (trip.getLevelOfDetail() != LevelOfDetail.NONE) {
@@ -503,7 +503,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	public void deepRefreshTrip(Trip trip) {
-		trip = mTrips.get(trip.getTripId());
+		trip = mTrips.get(trip.getTripNumber());
 
 		if (trip == null) {
 			Log.w("Tried to deep refresh a trip which doesn't exist.");
@@ -782,7 +782,7 @@ public class ItineraryManager implements JSONable {
 
 		private void publishTripUpdate(Trip trip) {
 			// We only consider a guest trip added once it has some meaningful info
-			if (trip.isGuest() && mGuestTripsNotYetLoaded.contains(trip.getTripId())) {
+			if (trip.isGuest() && mGuestTripsNotYetLoaded.contains(trip.getTripNumber())) {
 				publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
 			}
 			else {
@@ -802,12 +802,12 @@ public class ItineraryManager implements JSONable {
 
 				if (response == null || response.hasErrors()) {
 					if (response != null && response.hasErrors()) {
-						Log.w("Error updating trip " + trip.getTripId() + ": "
+						Log.w("Error updating trip " + trip.getTripNumber() + ": "
 								+ response.gatherErrorMessage(mContext));
 
 						for (ServerError error : response.getErrors()) {
 							if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT) {
-								mTrips.remove(trip.getTripId());
+								mTrips.remove(trip.getTripNumber());
 								publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
 								mFailedTripRefreshes++;
 								return;
@@ -869,16 +869,16 @@ public class ItineraryManager implements JSONable {
 					Set<String> currentTrips = new HashSet<String>(mTrips.keySet());
 
 					for (Trip trip : response.getTrips()) {
-						String tripId = trip.getTripId();
+						String tripNumber = trip.getTripNumber();
 
 						boolean hasFullDetails = trip.getLevelOfDetail() == LevelOfDetail.FULL;
-						if (!mTrips.containsKey(tripId)) {
-							mTrips.put(tripId, trip);
+						if (!mTrips.containsKey(tripNumber)) {
+							mTrips.put(tripNumber, trip);
 
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, trip));
 						}
 						else if (hasFullDetails) {
-							mTrips.get(tripId).updateFrom(trip);
+							mTrips.get(tripNumber).updateFrom(trip);
 						}
 
 						if (hasFullDetails) {
@@ -889,13 +889,13 @@ public class ItineraryManager implements JSONable {
 							mRefreshedTrips++;
 						}
 
-						currentTrips.remove(tripId);
+						currentTrips.remove(tripNumber);
 					}
 
 					// Remove all trips that were not returned by the server (not including guest trips)
-					for (String tripId : currentTrips) {
-						if (!mTrips.get(tripId).isGuest()) {
-							Trip trip = mTrips.remove(tripId);
+					for (String tripNumber : currentTrips) {
+						if (!mTrips.get(tripNumber).isGuest()) {
+							Trip trip = mTrips.remove(tripNumber);
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
 						}
 					}
@@ -910,7 +910,7 @@ public class ItineraryManager implements JSONable {
 				mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP, trip));
 
 				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
-					mGuestTripsNotYetLoaded.add(trip.getTripId());
+					mGuestTripsNotYetLoaded.add(trip.getTripNumber());
 				}
 			}
 		}
@@ -966,7 +966,7 @@ public class ItineraryManager implements JSONable {
 		mTrips = new HashMap<String, Trip>();
 		List<Trip> trips = JSONUtils.getJSONableList(obj, "trips", Trip.class);
 		for (Trip trip : trips) {
-			mTrips.put(trip.getTripId(), trip);
+			mTrips.put(trip.getTripNumber(), trip);
 		}
 
 		return true;
